@@ -1,0 +1,23 @@
+{
+    "_comment": "Groups",
+    "itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
+    "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",
+    
+    "_comment": "Blocks",
+    "block.kingdomkeys.normal_blox": "Normal Blox",
+    "block.kingdomkeys.hard_blox": "Hard Blox",
+    "block.kingdomkeys.metal_blox": "Metal Blox",
+    "block.kingdomkeys.danger_blox": "Danger Blox",
+    "block.kingdomkeys.bounce_blox": "Bounce Blox",
+    "block.kingdomkeys.blast_blox": "Blast Blox",
+    "block.kingdomkeys.ghost_blox": "Ghost Blox",
+    "block.kingdomkeys.prize_blox": "Prize Blox",
+    "block.kingdomkeys.rare_prize_blox": "Rare Prize Blox",
+
+    "_comment": "Items",
+    "item.kingdomkeys.kingdom_key": "Kingdom Key",
+    "item.kingdomkeys.kingdom_key_d": "Kingdom Key D",
+
+    "_comment": "Entities",
+    "entities.kingdomkeys.blast_blox_primed": "Primed Blast Blox"
+}

@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"visible=true": { "model": "kingdomkeys:block/ghost_blox_visible" },
+		"visible=false": { "model":  "kingdomkeys:block/ghost_blox_invisible" }
+	}
+}
