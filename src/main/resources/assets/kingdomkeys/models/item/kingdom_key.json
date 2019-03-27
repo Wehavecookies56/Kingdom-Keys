@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "kingdomkeys:item/kingdom_key"
+    "layer0": "kingdomkeys:item/keyblades/kingdom_key"
   }
 }
