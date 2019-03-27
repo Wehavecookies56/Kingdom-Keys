@@ -10,6 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.proxy.ClientProxy;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ServerProxy;
@@ -29,21 +30,21 @@ public class KingdomKeys {
     public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
     //No organization weapons yet
-    public static ItemGroup orgWeaponsGroup;/* = new ItemGroup("kingdomkeys_org_weapons") {
+    public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
             @Override
             public ItemStack createIcon() {
-                return new ItemStack(Blocks.SAND);
+                return new ItemStack(ModItems.kingdomKeyD);
             }
-        };*/
+        };
     //Group for keyblades
-    public static ItemGroup keybladesGroup = new ItemGroup("kingdomkeys_keyblades") {
+    public static ItemGroup keybladesGroup = new ItemGroup(Strings.keybladesGroup) {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(ModItems.kingdomKey);
         }
     };
     //Group for most of the items/blocks in the mod
-    public static ItemGroup miscGroup = new ItemGroup("kingdomkeys_misc") {
+    public static ItemGroup miscGroup = new ItemGroup(Strings.miscGroup) {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(ModBlocks.normalBlox);
