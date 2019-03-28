@@ -1,6 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/keyblades/vulpeus_foretellers_keyblade"
-  }
-}

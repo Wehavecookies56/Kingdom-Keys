@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/crown_of_guilt_chain"
+  }
+}

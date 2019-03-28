@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/total_eclipse_chain"
+  }
+}

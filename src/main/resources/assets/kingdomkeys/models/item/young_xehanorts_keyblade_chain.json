@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/young_xehanorts_keyblade_chain"
+  }
+}
