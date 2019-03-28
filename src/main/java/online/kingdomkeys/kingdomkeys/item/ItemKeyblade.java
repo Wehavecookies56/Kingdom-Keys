@@ -63,9 +63,11 @@ public class ItemKeyblade extends ItemSword {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         //TODO make better tooltip (translations and looks)
-        tooltip.add(new TextComponentTranslation("Level %s", getKeybladeLevel()));
-        tooltip.add(new TextComponentTranslation("Strength %s", getStrength(getKeybladeLevel())));
-        tooltip.add(new TextComponentTranslation("Magic %s", getMagic(getKeybladeLevel())));
-        tooltip.add(new TextComponentTranslation(TextFormatting.ITALIC + getDescription()));
+        if (data != null) {
+            tooltip.add(new TextComponentTranslation("Level %s", getKeybladeLevel()));
+            tooltip.add(new TextComponentTranslation("Strength %s", getStrength(getKeybladeLevel())));
+            tooltip.add(new TextComponentTranslation("Magic %s", getMagic(getKeybladeLevel())));
+            tooltip.add(new TextComponentTranslation(TextFormatting.ITALIC + getDescription()));
+        }
     }
 }
