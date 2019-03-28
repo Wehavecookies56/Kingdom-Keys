@@ -56,7 +56,7 @@ public class EntityBlastBloxPrimed extends Entity {
 
     @Override
     public boolean canBeCollidedWith() {
-        return !this.removed;
+        return this.isAlive();
     }
 
     @Override
