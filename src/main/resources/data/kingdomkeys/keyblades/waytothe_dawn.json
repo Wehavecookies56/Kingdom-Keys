@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:waytothe_dawn_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 7,
+		"mag": 3
 	},
 	"levels": [
 		{ 

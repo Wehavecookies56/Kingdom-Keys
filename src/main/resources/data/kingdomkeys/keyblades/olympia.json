@@ -1,7 +1,7 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:olympia_chain",
 	"base_stats": {
-		"str": 3,
+		"str": 9,
 		"mag": 0
 	},
 	"levels": [

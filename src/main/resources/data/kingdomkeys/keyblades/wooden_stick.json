@@ -1,7 +1,7 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:wooden_stick_chain",
 	"base_stats": {
-		"str": 3,
+		"str": 0,
 		"mag": 0
 	},
 	"levels": [

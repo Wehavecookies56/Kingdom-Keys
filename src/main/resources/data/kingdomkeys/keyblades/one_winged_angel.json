@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:one_winged_angel_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 7,
+		"mag": -4
 	},
 	"levels": [
 		{ 

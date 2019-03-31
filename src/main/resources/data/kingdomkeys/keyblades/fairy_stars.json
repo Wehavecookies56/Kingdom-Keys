@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:fairy_stars_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 2,
+		"mag": 2
 	},
 	"levels": [
 		{ 

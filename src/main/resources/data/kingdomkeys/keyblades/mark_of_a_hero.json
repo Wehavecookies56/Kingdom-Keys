@@ -1,7 +1,7 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:mark_of_a_hero_chain",
 	"base_stats": {
-		"str": 3,
+		"str": 7,
 		"mag": 0
 	},
 	"levels": [

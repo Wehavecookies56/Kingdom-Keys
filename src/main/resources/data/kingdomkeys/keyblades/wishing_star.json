@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:wishing_star_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 5,
+		"mag": 2
 	},
 	"levels": [
 		{ 

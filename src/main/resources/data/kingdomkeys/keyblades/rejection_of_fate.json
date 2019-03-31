@@ -1,7 +1,7 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:rejection_of_fate_chain",
 	"base_stats": {
-		"str": 3,
+		"str": 4,
 		"mag": 0
 	},
 	"levels": [

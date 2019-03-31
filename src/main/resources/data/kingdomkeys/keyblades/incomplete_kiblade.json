@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:incomplete_kiblade_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 10,
+		"mag": 5
 	},
 	"levels": [
 		{ 

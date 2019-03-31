@@ -1,7 +1,7 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:divine_rose_chain",
 	"base_stats": {
-		"str": 3,
+		"str": 11,
 		"mag": 0
 	},
 	"levels": [

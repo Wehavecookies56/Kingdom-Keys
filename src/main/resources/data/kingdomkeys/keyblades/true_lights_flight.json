@@ -1,7 +1,7 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:true_lights_flight_chain",
 	"base_stats": {
-		"str": 3,
+		"str": 5,
 		"mag": 0
 	},
 	"levels": [

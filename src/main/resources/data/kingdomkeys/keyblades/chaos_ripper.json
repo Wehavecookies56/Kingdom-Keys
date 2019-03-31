@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:chaos_ripper_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 18,
+		"mag": -4
 	},
 	"levels": [
 		{ 

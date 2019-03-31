@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:aceds_keyblade_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 10,
+		"mag": 8
 	},
 	"levels": [
 		{ 

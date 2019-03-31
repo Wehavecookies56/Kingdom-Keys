@@ -1,8 +1,8 @@
 {
-	"keychain": "kingdomkeys:kingdom_key_chain",
+	"keychain": "kingdomkeys:masters_defender_chain",
 	"base_stats": {
-		"str": 3,
-		"mag": 0
+		"str": 12,
+		"mag": 10
 	},
 	"levels": [
 		{ 
