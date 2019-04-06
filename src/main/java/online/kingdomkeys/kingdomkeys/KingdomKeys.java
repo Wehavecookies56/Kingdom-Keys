@@ -24,6 +24,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ItemKeyblade;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.proxy.ClientProxy;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
@@ -48,7 +49,7 @@ public class KingdomKeys {
     public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
             @Override
             public ItemStack createIcon() {
-                return new ItemStack(ModItems.kingdomKeyD);
+                return new ItemStack(ModItems.eternalFlames);
             }
         };
     //Group for keyblades
@@ -78,12 +79,16 @@ public class KingdomKeys {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        this.registerResoucreLoader(event.getServer().getResourceManager());
+        this.registerResourceLoader(event.getServer().getResourceManager());
     }
 
-    private void registerResoucreLoader(final IReloadableResourceManager resourceManager) {
+    private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
         resourceManager.addReloadListener(manager -> {
             KeybladeDataLoader.loadData(manager);
+        });
+
+        resourceManager.addReloadListener(manager -> {
+            OrganizationDataLoader.loadData(manager);
         });
     }
 
