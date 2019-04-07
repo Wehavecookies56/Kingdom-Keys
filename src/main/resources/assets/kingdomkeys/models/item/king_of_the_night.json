@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/organization/king_of_the_night"
+  }
+}

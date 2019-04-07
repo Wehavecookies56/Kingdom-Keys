@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/organization/queen_of_the_night"
+  }
+}

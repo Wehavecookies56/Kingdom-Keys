@@ -1,0 +1,46 @@
+package online.kingdomkeys.kingdomkeys.handler;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import java.util.List;
+
+public class EntityEvents {
+
+    public static boolean isBoss = false;
+    public static boolean isHostiles = false;
+
+    @SubscribeEvent
+    public void onPlayerTick(TickEvent.PlayerTickEvent event){
+        List<Entity> entities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(16.0D, 10.0D, 16.0D).offset(-8.0D, -5.0D, -8.0D));
+        List<Entity> bossEntities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(150.0D, 100.0D, 150.0D).offset(-75.0D, -50.0D, -75.0D));
+        if (!bossEntities.isEmpty()) {
+            for (int i = 0; i < bossEntities.size(); i++) {
+                if (bossEntities.get(i) instanceof EntityDragon || bossEntities.get(i) instanceof EntityWither) {
+                    isBoss = true;
+                    break;
+                } else {
+                    isBoss = false;
+                }
+            }
+        } else {
+            isBoss = false;
+        }
+        if (!entities.isEmpty()) {
+            for (Entity entity : entities) {
+                if (entity instanceof EntityMob) {
+                    isHostiles = true;
+                    break;
+                } else {
+                    isHostiles = false;
+                }
+            }
+        } else {
+            isHostiles = false;
+        }
+    }
+}

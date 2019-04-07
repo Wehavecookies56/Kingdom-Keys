@@ -7,6 +7,126 @@ public class Strings {
             organizationGroup = "kingdomkeys_org_weapons",
             miscGroup = "kingdomkeys_misc";
 
+    //Spells
+    public static final String
+            Spell_Fire = "spell.fire",
+            Spell_Fira = "spell.fira",
+            Spell_Firaga = "spell.firaga",
+
+            Spell_Blizzard = "spell.blizzard",
+            Spell_Blizzara = "spell.blizzara",
+            Spell_Blizzaga = "spell.blizzaga",
+
+            Spell_Thunder = "spell.thunder",
+            Spell_Thundara = "spell.thundara",
+            Spell_Thundaga = "spell.thundaga",
+
+            Spell_Cure = "spell.cure",
+            Spell_Cura = "spell.cura",
+            Spell_Curaga = "spell.curaga",
+
+            Spell_Gravity = "spell.gravity",
+            Spell_Gravira = "spell.gravira",
+            Spell_Graviga = "spell.graviga",
+
+            Spell_Aero = "spell.aero",
+            Spell_Aerora = "spell.aerora",
+            Spell_Aeroga = "spell.aeroga",
+
+            Spell_Stop = "spell.stop",
+            Spell_Stopra = "spell.stopra",
+            Spell_Stopga = "spell.stopga"
+                    ;
+
+    //Forms
+    public static final String
+            Form_Valor = "form.valor",
+            Form_Wisdom = "form.wisdom",
+            Form_Limit = "form.limit",
+            Form_Master = "form.master",
+            Form_Final = "form.final",
+            Form_Anti = "form.anti"
+                    ;
+
+    // Gui
+    public static final String
+            // Command Menu
+            Gui_CommandMenu = "gui.commandmenu",
+            Gui_CommandMenu_Command = Gui_CommandMenu + ".command",
+            Gui_CommandMenu_Attack = Gui_CommandMenu + ".attack",
+            Gui_CommandMenu_Portal = Gui_CommandMenu + ".portal",
+            Gui_CommandMenu_Magic = Gui_CommandMenu + ".magic",
+            Gui_CommandMenu_Items = Gui_CommandMenu + ".items",
+            Gui_CommandMenu_Drive = Gui_CommandMenu + ".drive",
+            Gui_CommandMenu_Limit = Gui_CommandMenu + ".limit",
+            Gui_CommandMenu_Drive_Revert = Gui_CommandMenu_Drive + ".revert",
+            Gui_CommandMenu_Magic_Title = Gui_CommandMenu_Magic + ".title",
+            Gui_CommandMenu_Portals_Title = Gui_CommandMenu_Portal + ".title",
+
+            Gui_CommandMenu_Drive_Title = Gui_CommandMenu_Drive + ".title",
+
+            // Menu
+            Gui_Menu = "gui.menu",
+            Gui_Menu_Main = Gui_Menu + ".main",
+            Gui_Menu_Main_Title = Gui_Menu_Main + ".title",
+            Gui_Menu_Main_Button = Gui_Menu_Main + ".button",
+            Gui_Menu_Main_Button_Items = Gui_Menu_Main_Button + ".items",
+            Gui_Menu_Main_Button_Abilities = Gui_Menu_Main_Button + ".abilities",
+            Gui_Menu_Main_Button_Customize = Gui_Menu_Main_Button + ".customize",
+            Gui_Menu_Main_Button_Party = Gui_Menu_Main_Button + ".party",
+            Gui_Menu_Main_Button_Status = Gui_Menu_Main_Button + ".status",
+            Gui_Menu_Main_Button_Journal = Gui_Menu_Main_Button + ".journal",
+            Gui_Menu_Main_Button_Config = Gui_Menu_Main_Button + ".config",
+            Gui_Menu_Main_Time = Gui_Menu_Main + ".time",
+            Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",
+            Gui_Menu_Items = Gui_Menu + ".items",
+            Gui_Menu_Items_Title = Gui_Menu_Items + ".title",
+            Gui_Menu_Items_Button_Keychain = Gui_Menu_Items + ".keychain",
+            Gui_Menu_Items_Button_OrgWeapon = Gui_Menu_Items + ".orgweapon",
+            Gui_Menu_Items_Button_Potions = Gui_Menu_Items + ".potions",
+            Gui_Menu_Items_Button_Spells = Gui_Menu_Items + ".spells",
+            Gui_Menu_Items_Button_Drive = Gui_Menu_Items + ".drives",
+            Gui_Menu_Items_Button = Gui_Menu_Items + ".button",
+            Gui_Menu_Items_Button_Stock = Gui_Menu_Items_Button + ".stock",
+            Gui_Menu_Items_Button_Back = Gui_Menu_Items_Button + ".back",
+            Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
+            Gui_Menu_Config = Gui_Menu + ".config",
+            Gui_Menu_Config_Title = Gui_Menu_Config + ".title",
+            Gui_Menu_Config_Colour = Gui_Menu_Config + ".colour",
+            Gui_Menu_Config_Colour_Desc = Gui_Menu_Config_Colour + ".desc",
+            Gui_Menu_Config_Hearts = Gui_Menu_Config + ".hearts",
+            Gui_Menu_Config_Music = Gui_Menu_Config + ".music",
+            Gui_Menu_Config_Fire = Gui_Menu_Config + ".fire",
+
+            // Shop
+            Gui_Shop = "gui.shop",
+            Gui_Shop_Main = Gui_Shop + ".main",
+            Gui_Shop_Main_Title = Gui_Shop_Main + ".title",
+            Gui_Shop_Main_Buy = Gui_Shop_Main + ".buy",
+            Gui_Shop_Main_Sell = Gui_Shop_Main + ".sell",
+            Gui_Shop_Buy = Gui_Shop + ".buy",
+            Gui_Shop_Buy_Cost = Gui_Shop_Buy + ".cost",
+            Gui_Shop_Buy_Quantity = Gui_Shop_Buy + ".quantity",
+            Gui_Shop_Sell = Gui_Shop + ".sell",
+            Gui_Shop_Sell_Price = Gui_Shop_Sell + ".price",
+
+            // Synthesis
+            Gui_Synthesis = "gui.synthesis",
+            Gui_Synthesis_Main = Gui_Synthesis + ".main",
+            Gui_Synthesis_Main_Title = Gui_Synthesis_Main + ".title",
+            Gui_Synthesis_Main_Recipes = Gui_Synthesis_Main + ".recipes",
+            Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",
+            Gui_Synthesis_Main_Materials = Gui_Synthesis_Main + ".materials",
+            Gui_Synthesis_Main_Materials_Deposit = Gui_Synthesis_Main_Materials + ".deposit",
+            Gui_Synthesis_Main_Materials_Deposit_Inv = Gui_Synthesis_Main_Materials_Deposit + ".inventory",
+            Gui_Synthesis_Main_Materials_Deposit_Bag = Gui_Synthesis_Main_Materials_Deposit + ".bag",
+            Gui_Synthesis_Main_Materials_TakeOne = Gui_Synthesis_Main_Materials + ".takeone",
+            Gui_Synthesis_Main_Materials_TakeHalfStack = Gui_Synthesis_Main_Materials + ".takehalfstack",
+            Gui_Synthesis_Main_Materials_TakeStack = Gui_Synthesis_Main_Materials + ".takestack",
+            Gui_Synthesis_Main_Materials_TakeAll = Gui_Synthesis_Main_Materials + ".takeall",
+            Gui_Synthesis_Main_Recipes_ReqMaterials = Gui_Synthesis_Main_Recipes + ".requiredmaterials",
+            Gui_Synthesis_Main_Recipes_Create = Gui_Synthesis_Main_Recipes + ".create";
+
     //Keyblades
     public static final String
         abaddonPlasma = "abaddon_plasma",
@@ -468,30 +588,30 @@ public class Strings {
             conformers = "conformers";
     //Demyx
     public static final String
-        basicModel = "basic_model",
-        tuneUp = "tune_up",
-        quartet = "quartet",
-        quintet = "quintet",
-        overture = "overture",
-        oldHand = "old_hand",
-        daCapo = "da_capo",
-        powerChord = "power_chord",
-        fermata = "fermata",
-        interlude = "interlude",
-        serenade = "serenade",
-        songbird = "songbird",
-        riseToFame = "rise_to_fame",
-        rockStar = "rock_star",
-        eightFinger = "eight_finger",
-        concerto = "concerto",
-        harmonics = "harmonics",
-        millionBucks = "million_bucks",
-        fortissimo = "fortissimo",
-        upToEleven = "up_to_eleven",
-        sanctuary = "sanctuary",
-        arpeggio = "arpeggio",
-        princeOfAwesome = "prince_of_awesome",
-        afterSchool = "after_school";
+            basicModel = "basic_model",
+            tuneUp = "tune_up",
+            quartet = "quartet",
+            quintet = "quintet",
+            overture = "overture",
+            oldHand = "old_hand",
+            daCapo = "da_capo",
+            powerChord = "power_chord",
+            fermata = "fermata",
+            interlude = "interlude",
+            serenade = "serenade",
+            songbird = "songbird",
+            riseToFame = "rise_to_fame",
+            rockStar = "rock_star",
+            eightFinger = "eight_finger",
+            concerto = "concerto",
+            harmonics = "harmonics",
+            millionBucks = "million_bucks",
+            fortissimo = "fortissimo",
+            upToEleven = "up_to_eleven",
+            sanctuary = "sanctuary",
+            arpeggio = "arpeggio",
+            princeOfAwesome = "prince_of_awesome",
+            afterSchool = "after_school";
     //Luxord
     public static final String
             theFool = "the_fool",

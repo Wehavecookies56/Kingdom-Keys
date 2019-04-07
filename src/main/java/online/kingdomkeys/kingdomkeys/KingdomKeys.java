@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -22,6 +23,9 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiCommandMenu;
+import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ItemKeyblade;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
@@ -45,21 +49,18 @@ public class KingdomKeys {
     @SuppressWarnings("Convert2MethodRef")
     public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
-    //No organization weapons yet
     public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
             @Override
             public ItemStack createIcon() {
                 return new ItemStack(ModItems.eternalFlames);
             }
         };
-    //Group for keyblades
     public static ItemGroup keybladesGroup = new ItemGroup(Strings.keybladesGroup) {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(ModItems.kingdomKey);
         }
     };
-    //Group for most of the items/blocks in the mod
     public static ItemGroup miscGroup = new ItemGroup(Strings.miscGroup) {
         @Override
         public ItemStack createIcon() {
@@ -70,6 +71,15 @@ public class KingdomKeys {
     public KingdomKeys() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
+        //Client
+        MinecraftForge.EVENT_BUS.register(new GuiCommandMenu());
+        MinecraftForge.EVENT_BUS.register(new InputHandler());
+        for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
+            ClientRegistry.registerKeyBinding(key.getKeybind());
+
+
+        //Server
+        MinecraftForge.EVENT_BUS.register(new EntityEvents());
     }
 
     private void setup(final FMLCommonSetupEvent event) {
