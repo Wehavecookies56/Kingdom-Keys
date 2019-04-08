@@ -25,6 +25,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiCommandMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHP;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiMP;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiPlayerPortrait;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
@@ -77,7 +78,7 @@ public class KingdomKeys {
         MinecraftForge.EVENT_BUS.register(new GuiCommandMenu());
         MinecraftForge.EVENT_BUS.register(new GuiPlayerPortrait());
         MinecraftForge.EVENT_BUS.register(new GuiHP());
-        //MinecraftForge.EVENT_BUS.register(new GuiMP());
+        MinecraftForge.EVENT_BUS.register(new GuiMP());
         MinecraftForge.EVENT_BUS.register(new InputHandler());
         for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
             ClientRegistry.registerKeyBinding(key.getKeybind());
