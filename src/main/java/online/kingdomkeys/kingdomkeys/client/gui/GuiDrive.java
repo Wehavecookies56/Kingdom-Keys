@@ -24,7 +24,8 @@ public class GuiDrive extends GuiScreen {
     double currDrive;
     double currForm;
 
-    int r = 255, g = 255, b = 255;
+    static final int R = 0, G = 1, B = 2;
+    int[] colors = {255, 255, 255};
     String nextColor = "r";
     static final int CONS = 5;
 
@@ -36,6 +37,12 @@ public class GuiDrive extends GuiScreen {
         return level * 100;
     }
 
+    /**
+     * Gets the bar currently in
+     * @param dp drive points
+     * @param level max level unlocked (the one which increases when leveling the drive forms up to level 7
+     * @return
+     */
     public int getCurrBar(double dp, int level) {
         int bar = (int) dp / 100;
         if (bar > level)
@@ -43,11 +50,9 @@ public class GuiDrive extends GuiScreen {
         return bar;
     }
 
-   // long counter = Minecraft.getSystemTime();
-
     private boolean doChange = false;
 
-    //private int timeLastChange = (int) Minecraft.getSystemTime();
+    private int timeLastChange = (int) System.currentTimeMillis();
 
     @SubscribeEvent
     public void onRenderOverlayPost(RenderGameOverlayEvent event) {
@@ -150,99 +155,85 @@ public class GuiDrive extends GuiScreen {
                 }
                 GL11.glPopMatrix();
 
-                //MAX Meter
-                /*if (STATE.getDP() >= getMaxBars(STATE.getDriveGaugeLevel()) && !STATE.getInDrive()) {
+                //MAX Icon
+                //if (STATE.getDP() >= getMaxBars(STATE.getDriveGaugeLevel()) && !STATE.getInDrive()) {
+                if(true){
                     GL11.glPushMatrix();
                     {
                         if (doChange) {
                             switch (nextColor) {
                                 case "r":
-                                    if (r <= 255 - CONS) {
-                                        r += CONS;
-                                    }
-                                    if (g - CONS >= 0) {
-                                        g -= CONS;
-                                    }
-
-                                    if (b - CONS >= 0) {
-                                        b -= CONS;
-                                    }
-
-                                    if (r >= 255 && g <= 0 && b <= 0) {
+                                    add(R);
+                                    sub(G);
+                                    sub(B);
+                                    if (colors[R] >= 255 && colors[G] <= 0 && colors[B] <= 0) {
                                         nextColor = "g";
                                     }
                                     break;
                                 case "g":
-                                    if (r - CONS >= 0) {
-                                        r -= CONS;
-                                    }
-                                    if (g <= 255 - CONS) {
-                                        g += CONS;
-                                    }
-
-                                    if (b - CONS >= 0) {
-                                        b -= CONS;
-                                    }
-
-                                    if (r <= 0 && g >= 255 && b <= 0) {
+                                    sub(R);
+                                    add(G);
+                                    sub(B);
+                                    if (colors[R] <= 0 && colors[G] >= 255 && colors[B] <= 0) {
                                         nextColor = "b";
                                     }
                                     break;
                                 case "b":
-                                    if (r - CONS >= 0) {
-                                        r -= CONS;
-                                    }
-                                    if (g - CONS >= 0) {
-                                        g -= CONS;
-                                    }
-
-                                    if (b <= 255 - CONS) {
-                                        b += CONS;
-                                    }
-
-                                    if (r <= 0 && g <= 0 && b >= 255) {
+                                    sub(R);
+                                    sub(G);
+                                    add(B);
+                                    if (colors[R] <= 0 && colors[G] <= 0 && colors[B] >= 255) {
                                         nextColor = "w";
                                     }
                                     break;
                                 case "w":
-                                    if (r <= 255 - CONS) {
-                                        r += CONS;
-                                    }
-                                    if (g <= 255 - CONS) {
-                                        g += CONS;
-                                    }
-
-                                    if (b <= 255 - CONS) {
-                                        b += CONS;
-                                    }
-
-                                    if (r >= 255 && g >= 255 && b >= 255) {
+                                    add(R);
+                                    add(G);
+                                    add(B);
+                                    if (colors[R] >= 255 && colors[G] >= 255 && colors[B] >= 255) {
                                         nextColor = "r";
                                     }
                                     break;
                             }
+                            GL11.glColor3ub((byte) colors[R], (byte) colors[G], (byte) colors[B]);
 
-                            // System.out.println(r+" "+g+" "+b);
-
-                            GL11.glColor3ub((byte) r, (byte) g, (byte) b);
-
-                            timeLastChange = (int) Minecraft.getSystemTime();
+                            timeLastChange = (int) System.currentTimeMillis();
                             doChange = false;
                         } else {
-                            if (timeLastChange + 1 < (int) Minecraft.world.getGameTime()) {
+                            if (timeLastChange + 1 < (int) System.currentTimeMillis()) {
                                 doChange = true;
                             }
                         }
 
-                        GL11.glTranslatef(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (12 * scale)), 0);
+                        GL11.glTranslatef(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (10 * scale)), 0);
                         GL11.glScalef(scale, scale, scale);
                         drawTexturedModalRect(0, -3, 0, 57, 30, guiHeight);
                         GL11.glColor3ub((byte) 255, (byte) 255, (byte) 255);
                     }
                 GL11.glPopMatrix();
-                }*/
+                }
             }
             GL11.glPopMatrix();
+        }
+    }
+
+    /**
+     * Add to color based on the letter
+     * @param color R, G or B (position of the colors array)
+     */
+    private void add(int color){
+        if (colors[color] <= 255 - CONS) {
+            colors[color] += CONS;
+        }
+    }
+
+    /**
+     * Substract to color based on the letter
+     * @param color R, G or B (position of the colors array)
+     */
+    private void sub(int color){
+        if (colors[color] - CONS >= 0) {
+            colors[color] -= CONS;
         }
     }
 }
