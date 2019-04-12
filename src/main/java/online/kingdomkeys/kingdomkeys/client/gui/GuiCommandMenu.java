@@ -46,7 +46,7 @@ public class GuiCommandMenu extends GuiScreen {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onRenderOverlayPost(RenderGameOverlayEvent event) {
         //if (mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode()) {
-            if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT ){//&& !mc.ingameGUI.getChatGUI().getChatOpen()) {
+            if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT){// && !mc.ingameGUI.getChatGUI().getChatOpen()) {
                 GL11.glPushMatrix();
                 {
                     drawCommandMenu(mc.mainWindow.getScaledWidth(),mc.mainWindow.getScaledHeight());
@@ -62,7 +62,7 @@ public class GuiCommandMenu extends GuiScreen {
     byte[] attackMenuColor = { (byte) 255, (byte) 200, (byte) 60 };
     byte[] portalMenuColor = { (byte) 100, (byte) 100, (byte) 100 };
     byte[] combatModeColor = { (byte) 255, (byte) 0, (byte) 0 };
-    byte[] normalModeColor = { (byte) 30, (byte) 30, (byte) 255 };
+    byte[] normalModeColor = { (byte)10, (byte)60, (byte)255 };
     byte[] magicMenuColor = { (byte) 100, (byte) 0, (byte) 255 };
     byte[] itemsMenuColor = { (byte) 70, (byte) 255, (byte) 80 };
     byte[] driveMenuColor = { (byte) 0, (byte) 255, (byte) 255 };
@@ -75,7 +75,7 @@ public class GuiCommandMenu extends GuiScreen {
       /*  if (Minecraft.getMinecraft().player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE && array == normalModeColor) {
             GL11.glColor4ub(orgColor[0], orgColor[1], orgColor[2], (byte) alpha);
         } else {*/
-            GL11.glColor4ub(array[0], array[1], array[2], (byte) alpha);
+            GL11.glColor4ub(normalModeColor[0],normalModeColor[1],normalModeColor[2], (byte) alpha);
             // }
         }
 
