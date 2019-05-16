@@ -43,7 +43,7 @@ public class KingdomKeys {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static String MODID = "kingdomkeys";
+    public static final String MODID = "kingdomkeys";
 
     //The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
     @SuppressWarnings("Convert2MethodRef")

@@ -1,0 +1,622 @@
+{
+    "kupo": {
+    	"category": "master", 
+    	"sounds": [
+    		{"name": "kk:kupo", "stream": false}
+    	]
+    },
+	 "kupoliving": {
+    	"category": "master", 
+    	"sounds": [
+    		{"name": "kk:kupoliving", "stream": false}
+    	]
+    },
+	
+	"levelup": {
+    	"category": "master", 
+    	"sounds": [
+    		{"name": "kk:levelup", "stream": false}
+    	]
+    },
+	
+	"lockon": {
+    	"category": "master", 
+    	"sounds": [
+    		{"name": "kk:lockon", "stream": false}
+    	]
+    },
+	
+	"itemget": {
+    	"category": "master", 
+    	"sounds": [
+    		{"name": "kk:itemget", "stream": false}
+    	]
+    },
+
+    "summon": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:summon", "stream": false}
+    	]
+    },
+
+	"alarm": {
+		"category": "player",
+		"sounds": [
+			{"name": "kk:alarm", "stream": false}
+		]
+	},
+
+    "unsummon": {
+    	"category": "player", 
+    	"sounds": [
+    		{"name": "kk:unsummon", "stream": false}
+    	]
+    },
+
+    "sharpshooterbullet": {
+    	"category": "player", 
+    	"sounds": [
+    		{"name": "kk:sharpshooterbullet", "stream": false}
+    	]
+    },
+
+    "error": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:error", "stream": false}
+    	]
+    },
+
+    "select": {
+        "category": "player",
+        "sounds": [
+            {"name": "kk:select", "stream": false}
+        ]
+    },
+
+    "cancel": {
+        "category": "player",
+        "sounds": [
+            {"name": "kk:cancel", "stream": false}
+        ]
+    },
+
+    "move": {
+        "category": "player",
+        "sounds": [
+            {"name": "kk:move", "stream": false}
+        ]
+    },
+	
+	"drive": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:drive", "stream": false}
+    	]
+    },
+	
+	"antidrive": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:antidrive", "stream": false}
+    	]
+    },
+	
+	"potion": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:potion", "stream": false}
+    	]
+    },
+	
+	"savepoint": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:savepoint", "stream": false}
+    	]
+    },
+	
+	"savespawn": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:savespawn", "stream": false}
+    	]
+    },
+	
+	"menuin": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:menuin", "stream": false}
+    	]
+    },
+	
+	"menuout": {
+    	"category": "player",
+    	"sounds": [
+    		{"name": "kk:menuout", "stream": false}
+    	]
+    },
+
+    "records.birth by sleep a link to the future": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/birth by sleep a link to the future", "stream": true}
+    	]
+    },
+
+    "records.dream drop distance the next awakening": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/dream drop distance the next awakening", "stream": true}
+    	]
+    },
+
+    "records.hikari kingdom instrumental version": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/hikari kingdom instrumental version", "stream": true}
+    	]
+    },
+    "records.musique pour la tristesse de xion": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/musique pour la tristesse de xion", "stream": true}
+    	]
+    },
+
+    "records.no more bugs bug version": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/no more bugs bug version", "stream": true}
+    	]
+    },
+
+    "records.organization xiii": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/organization xiii", "stream": true}
+    	]
+    },
+
+    "records.sanctuary": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/sanctuary", "stream": true}
+    	]
+    },
+
+    "records.simple and clean planitb remix": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/simple and clean planitb remix", "stream": true}
+    	]
+    },
+
+    "records.sinister sundown": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/sinister sundown", "stream": true}
+    	]
+    },
+
+    "records.the 13th anthology": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/the 13th anthology", "stream": true}
+    	]
+    },
+
+    "records.dearly beloved symphony version": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/dearly beloved symphony version", "stream": true}
+    	]
+    },
+
+    "records.l'oscurita dell'ignoto": {
+    	"category": "record", 
+    	"sounds": [
+    		{"name": "kk:records/l'oscurita dell'ignoto", "stream": true}
+    	]
+    },
+
+    "records.darkness of the unknown": {
+    	"category": "record", 
+    	"sounds": [
+			{"name": "kk:records/darkness of the unknown", "stream": true}
+		]
+	},
+
+    "music.lazy afternoons": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/lazy afternoons", "stream": true}
+        ]
+    },
+
+    "music.dearly beloved (ddd)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (ddd)", "stream": true}
+        ]
+    },
+
+    "music.Dearly Beloved (bbs)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (bbs)", "stream": true}
+        ]
+    },
+	
+	 "music.dearly beloved (chi)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (chi)", "stream": true}
+        ]
+    },
+
+    "music.dearly beloved (kh1)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (kh1)", "stream": true}
+        ]
+    },
+
+    "music.dearly beloved (kh2)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (kh2)", "stream": true}
+        ]
+    },
+
+    "music.dearly beloved (com)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (com)", "stream": true}
+        ]
+    },
+
+    "music.dearly beloved (days)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (days)", "stream": true}
+        ]
+    },
+
+    "music.dearly beloved (coded)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (coded)", "stream": true}
+        ]
+    },
+
+    "music.dearly beloved (recom)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dearly beloved (recom)", "stream": true}
+        ]
+    },
+
+    "music.sinister sundown": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/sinister sundown", "stream": true}
+        ]
+    },
+
+    "music.a day in agrabah": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/a day in agrabah", "stream": true}
+        ]
+    },
+
+    "music.a fight to the death": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/a fight to the death", "stream": true}
+        ]
+    },
+
+    "music.a very small wish": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/a very small wish", "stream": true}
+        ]
+    },
+
+    "music.adventures in the savannah": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/adventures in the savannah", "stream": true}
+        ]
+    },
+
+    "music.arabian dream": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/arabian dream", "stream": true}
+        ]
+    },
+
+    "music.beneath the ground": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/beneath the ground", "stream": true}
+        ]
+    },
+
+    "music.critical drive": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/critical drive", "stream": true}
+        ]
+    },
+
+    "music.dark impetus": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/dark impetus", "stream": true}
+        ]
+    },
+
+    "music.deep drive": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/deep drive", "stream": true}
+        ]
+    },
+
+    "music.deep drop": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/deep drop", "stream": true}
+        ]
+    },
+
+    "music.deep jungle": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/deep jungle", "stream": true}
+        ]
+    },
+
+    "music.destiny islands": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/destiny islands", "stream": true}
+        ]
+    },
+
+    "music.dive into the heart destati": {
+    	"category": "music",
+    	"sounds": [
+    		{"name": "kk:music/dive into the heart destati", "stream": true}
+    	]
+    },
+
+    "music.hand in hand": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/hand in hand", "stream": true}
+        ]
+    },
+
+    "music.happy holidays!": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/happy holidays!", "stream": true}
+        ]
+    },
+
+    "music.having a wild time": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/having a wild time", "stream": true}
+        ]
+    },
+
+    "music.keyblade graveyard horizon": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/keyblade graveyard horizon", "stream": true}
+        ]
+    },
+
+    "music.l'impeto oscuro": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/l'impeto oscuro", "stream": true}
+        ]
+    },
+
+    "music.l'oscurita dell'ignoto": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/l'oscurita dell'ignoto", "stream": true}
+        ]
+    },
+
+    "music.monstrous monstro": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/monstrous monstro", "stream": true}
+        ]
+    },
+
+    "music.mystic moon": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/mystic moon", "stream": true}
+        ]
+    },
+
+    "music.night in the dark dream": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/night in the dark dream", "stream": true}
+        ]
+    },
+
+    "music.night of fate": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/night of fate", "stream": true}
+        ]
+    },
+
+    "music.night of tragedy": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/night of tragedy", "stream": true}
+        ]
+    },
+
+    "music.rage awakened": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/rage awakened", "stream": true}
+        ]
+    },
+
+    "music.risky romp": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/Risky Romp", "stream": true}
+        ]
+    },
+
+    "music.sacred distance": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/sacred distance", "stream": true}
+        ]
+    },
+
+    "music.sacred moon (days)": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/sacred moon (days)", "stream": true}
+        ]
+    },
+
+    "music.sacred moon": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/sacred moon", "stream": true}
+        ]
+    },
+
+    "music.savannah pride": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/savannah pride", "stream": true}
+        ]
+    },
+
+    "music.spooks of halloween town": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/spooks of halloween town", "stream": true}
+        ]
+    },
+
+    "music.tension rising": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/tension rising", "stream": true}
+        ]
+    },
+
+    "music.the dread of night": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/the dread of night", "stream": true}
+        ]
+    },
+
+    "music.the rustling forest": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/the rustling forest", "stream": true}
+        ]
+    },
+
+    "music.the secret whispers": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/the secret whispers", "stream": true}
+        ]
+    },
+
+    "music.the silent forest": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/the silent forest", "stream": true}
+        ]
+    },
+
+    "music.the underworld": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/the underworld", "stream": true}
+        ]
+    },
+
+    "music.this is halloween": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/this is halloween", "stream": true}
+        ]
+    },
+
+    "music.to our surprise": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/to our surprise", "stream": true}
+        ]
+    },
+
+    "music.traverse in trance": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/traverse in trance", "stream": true}
+        ]
+    },
+
+    "music.traverse town": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/traverse town", "stream": true}
+        ]
+    },
+
+    "music.welcome to wonderland": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/welcome to wonderland", "stream": true}
+        ]
+    },
+
+    "music.what a surprise": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/what a surprise!", "stream": true}
+        ]
+    },
+
+    "music.what lies beneath": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/what lies beneath", "stream": true}
+        ]
+    },
+
+    "music.working together": {
+        "category": "music",
+        "sounds": [
+            {"name": "kk:music/working together", "stream": true}
+        ]
+    }
+}

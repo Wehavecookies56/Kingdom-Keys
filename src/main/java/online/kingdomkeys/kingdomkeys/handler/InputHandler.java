@@ -6,9 +6,11 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiCommandMenu;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import org.lwjgl.glfw.GLFW;
 
 public class InputHandler {
@@ -139,7 +141,7 @@ public class InputHandler {
        /* if (player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive()) {
             Minecraft.getMinecraft().gameSettings.keyBindSwapHands.isPressed();
         }*/
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+       // System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
         Keybinds key = getPressedKey();
         if (key != null)
@@ -157,14 +159,14 @@ public class InputHandler {
                    // if (!MainConfig.displayGUI())
                      //   break;
                     commandUp();
-                  //  world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
                     break;
 
                 case SCROLL_DOWN:
                   //  if (!MainConfig.displayGUI())
                    //     break;
                     commandDown();
-                  //  world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
                     break;
 
                /* case ENTER:
@@ -226,12 +228,13 @@ public class InputHandler {
                 return key;
         return null;
     }
-   /* @SubscribeEvent
-    public void OnMouseWheelScroll(MouseEvent event) {
-        Minecraft mc = Minecraft.getMinecraft();
+    @SubscribeEvent
+    public void OnMouseWheelScroll(InputEvent.MouseInputEvent event) {
+        System.out.println(event.getButton());
+        Minecraft mc = Minecraft.getInstance();
         EntityPlayer player = mc.player;
         World world = mc.world;
-        if (!mc.inGameHasFocus && !KeyboardHelper.isScrollActivatorDown()) {
+        if (!mc.isGameFocused() && !KeyboardHelper.isScrollActivatorDown()) {
             event.setCanceled(false);
             return;
         }
@@ -241,35 +244,44 @@ public class InputHandler {
          * if (player.getCapability(ModCapabilities.DRIVE_STATE,
          * null).getActiveDriveName().equals(Strings.Form_Wisdom)) {
          * event.setCanceled(true); } else { event.setCanceled(false); } }
+*/
 
-
-        if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.isButtonstate()) {
-            commandEnter();
+       /* if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown()) {
+           // commandEnter();
             event.setCanceled(true);
         }
 
-        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.isButtonstate()) {
-            commandBack();
+        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown()) {
+          //  commandBack();
             event.setCanceled(true);
-        }
+        }*/
 
-        if (event.getDwheel() <= Constants.WHEEL_DOWN && KeyboardHelper.isScrollActivatorDown() && event.getDwheel() != 0) {
+        /*if (event.getButton() <= Constants.WHEEL_DOWN && KeyboardHelper.isScrollActivatorDown()) {
             commandDown();
             event.setCanceled(true);
-            world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
+           // world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
         }
-        if (event.getDwheel() >= Constants.WHEEL_UP && KeyboardHelper.isScrollActivatorDown() && event.getDwheel() != 0) {
+        if (event.getButton() >= Constants.WHEEL_UP && KeyboardHelper.isScrollActivatorDown()) {
             commandUp();
             event.setCanceled(true);
-            world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
-        }
+          //  world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
+        }*/
 
-    }*/
+    }
 
-    public static enum Keybinds {
-        OPENMENU("key.kingdomkeys.openmenu", GLFW.GLFW_KEY_M), SCROLL_UP("key.kingdomkeys.scrollup",GLFW.GLFW_KEY_UP), SCROLL_DOWN("key.kingdomkeys.scrolldown", GLFW.GLFW_KEY_DOWN), ENTER("key.kingdomkeys.enter",GLFW.GLFW_KEY_RIGHT), BACK("key.kingdomkeys.back", GLFW.GLFW_KEY_LEFT), SCROLL_ACTIVATOR("key.kingdomkeys.scrollactivator",GLFW.GLFW_KEY_LEFT_ALT), SUMMON_KEYBLADE("key.kingdomkeys.summonkeyblade", GLFW.GLFW_KEY_G), LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z), SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O), ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X);
+    public enum Keybinds {
+        OPENMENU("key.kingdomkeys.openmenu", GLFW.GLFW_KEY_M),
+        SCROLL_UP("key.kingdomkeys.scrollup",GLFW.GLFW_KEY_UP),
+        SCROLL_DOWN("key.kingdomkeys.scrolldown", GLFW.GLFW_KEY_DOWN),
+        ENTER("key.kingdomkeys.enter",GLFW.GLFW_KEY_RIGHT),
+        BACK("key.kingdomkeys.back", GLFW.GLFW_KEY_LEFT),
+        SCROLL_ACTIVATOR("key.kingdomkeys.scrollactivator",GLFW.GLFW_KEY_LEFT_ALT),
+        SUMMON_KEYBLADE("key.kingdomkeys.summonkeyblade", GLFW.GLFW_KEY_G),
+        LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z),
+        SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
+        ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X);
+
         private final KeyBinding keybinding;
-
         Keybinds(String name, int defaultKey) {
             keybinding = new KeyBinding(name, defaultKey, "key.categories.kingdomkeys");
         }
@@ -281,6 +293,5 @@ public class InputHandler {
         public boolean isPressed() {
             return keybinding.isPressed();
         }
-
     }
 }
