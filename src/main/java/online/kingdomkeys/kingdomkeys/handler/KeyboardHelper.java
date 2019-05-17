@@ -22,10 +22,11 @@ public class KeyboardHelper {
 
     public static boolean isScrollActivatorDown () {
 
-        if(InputMappings.getInputByName("key.kingdomkeys.scrollactivator") != null)
+        /*if(InputMappings.getInputByName("key.kingdomkeys.scrollactivator") != null)
             return InputMappings.isKeyDown(InputMappings.getInputByName("key.kingdomkeys.scrollactivator").getKeyCode());
         else
-            return false;
+            return false;*/
+        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_ALT);
     }
 
 }

@@ -12,12 +12,14 @@ import net.minecraftforge.fml.common.Mod;
 
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.render.RenderEntityBlastBloxPrimed;
+import online.kingdomkeys.kingdomkeys.entity.mobs.heartless.EntityShadow;
 
 import java.util.function.Function;
 
 public class ModEntities {
 
     public static EntityType<EntityBlastBloxPrimed> TYPE_BLAST_BLOX = createEntityType(EntityBlastBloxPrimed.class, EntityBlastBloxPrimed::new, "blast_blox_primed");
+   // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -46,6 +48,7 @@ public class ModEntities {
         @SubscribeEvent
         public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
             event.getRegistry().register(TYPE_BLAST_BLOX);
+          //  event.getRegistry().register(TYPE_HEARTLESS_SHADOW);
         }
 
     }

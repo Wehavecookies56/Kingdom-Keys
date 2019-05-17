@@ -11,6 +11,8 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+
 public class GuiDrive extends GuiScreen {
     Minecraft mc = Minecraft.getInstance();
 
@@ -26,8 +28,10 @@ public class GuiDrive extends GuiScreen {
 
     static final int R = 0, G = 1, B = 2;
     int[] colors = {255, 255, 255};
-    String nextColor = "r";
-    static final int CONS = 5;
+    //String nextColor = "r";
+    static final float CONS = 0.005F;
+    float decimalColor = 0F;
+
 
     public GuiDrive() {
 
@@ -157,45 +161,15 @@ public class GuiDrive extends GuiScreen {
 
                 //MAX Icon
                 //if (STATE.getDP() >= getMaxBars(STATE.getDriveGaugeLevel()) && !STATE.getInDrive()) {
-                if(true){
+                if(true){//TODO change for MAX getter (above)
                     GL11.glPushMatrix();
                     {
                         if (doChange) {
-                            switch (nextColor) {
-                                case "r":
-                                    add(R);
-                                    sub(G);
-                                    sub(B);
-                                    if (colors[R] >= 255 && colors[G] <= 0 && colors[B] <= 0) {
-                                        nextColor = "g";
-                                    }
-                                    break;
-                                case "g":
-                                    sub(R);
-                                    add(G);
-                                    sub(B);
-                                    if (colors[R] <= 0 && colors[G] >= 255 && colors[B] <= 0) {
-                                        nextColor = "b";
-                                    }
-                                    break;
-                                case "b":
-                                    sub(R);
-                                    sub(G);
-                                    add(B);
-                                    if (colors[R] <= 0 && colors[G] <= 0 && colors[B] >= 255) {
-                                        nextColor = "w";
-                                    }
-                                    break;
-                                case "w":
-                                    add(R);
-                                    add(G);
-                                    add(B);
-                                    if (colors[R] >= 255 && colors[G] >= 255 && colors[B] >= 255) {
-                                        nextColor = "r";
-                                    }
-                                    break;
-                            }
-                            GL11.glColor3ub((byte) colors[R], (byte) colors[G], (byte) colors[B]);
+                            decimalColor+=CONS;
+                            if(decimalColor >= 1)
+                                decimalColor = 0;
+                            Color c = Color.getHSBColor(decimalColor,1F,1F);
+                            GL11.glColor3ub((byte) c.getRed(), (byte) c.getGreen(), (byte) c.getBlue());
 
                             timeLastChange = (int) System.currentTimeMillis();
                             doChange = false;

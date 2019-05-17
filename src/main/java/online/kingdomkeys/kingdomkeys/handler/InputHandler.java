@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHelper;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
@@ -169,18 +170,22 @@ public class InputHandler {
                     world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
                     break;
 
-               /* case ENTER:
-                    if (!MainConfig.displayGUI())
+                case ENTER:
+                   /* if (!MainConfig.displayGUI())
                         break;
-                    commandEnter();
+                    commandEnter();*/
+                    world.playSound(player, player.getPosition(), ModSounds.menuin, SoundCategory.MASTER, 1.0f, 1.0f);
+
                     break;
 
                 case BACK:
-                    if (!MainConfig.displayGUI())
-                        break;
-                    commandBack();
+                  //  if (!MainConfig.displayGUI())
+                  //      break;
+                    //commandBack();
+                    world.playSound(player, player.getPosition(), ModSounds.menuout, SoundCategory.MASTER, 1.0f, 1.0f);
+
                     break;
-                case SUMMON_KEYBLADE:
+               /* case SUMMON_KEYBLADE:
                     if (!player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive())
                         Utils.summonWeapon(player, EnumHand.MAIN_HAND, 0);
                     break;
@@ -228,16 +233,17 @@ public class InputHandler {
                 return key;
         return null;
     }
-    @SubscribeEvent
-    public void OnMouseWheelScroll(InputEvent.MouseInputEvent event) {
-        System.out.println(event.getButton());
-        Minecraft mc = Minecraft.getInstance();
+
+    /*@SubscribeEvent
+    public void OnMouseWheelScroll(MouseHelper event) {
+        System.out.println(event);
+       /* Minecraft mc = Minecraft.getInstance();
         EntityPlayer player = mc.player;
         World world = mc.world;
         if (!mc.isGameFocused() && !KeyboardHelper.isScrollActivatorDown()) {
-            event.setCanceled(false);
+            //event.setCanceled(false);
             return;
-        }
+        }*/
 
         /*
          * if (player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive()) {
@@ -265,9 +271,9 @@ public class InputHandler {
             commandUp();
             event.setCanceled(true);
           //  world.playSound(player, player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
-        }*/
+        }//
 
-    }
+    }*/
 
     public enum Keybinds {
         OPENMENU("key.kingdomkeys.openmenu", GLFW.GLFW_KEY_M),

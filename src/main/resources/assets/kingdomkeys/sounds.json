@@ -1,622 +1,623 @@
 {
-    "kupo": {
-    	"category": "master", 
-    	"sounds": [
-    		{"name": "kk:kupo", "stream": false}
-    	]
-    },
-	 "kupoliving": {
-    	"category": "master", 
-    	"sounds": [
-    		{"name": "kk:kupoliving", "stream": false}
-    	]
-    },
-	
-	"levelup": {
-    	"category": "master", 
-    	"sounds": [
-    		{"name": "kk:levelup", "stream": false}
-    	]
-    },
-	
-	"lockon": {
-    	"category": "master", 
-    	"sounds": [
-    		{"name": "kk:lockon", "stream": false}
-    	]
-    },
-	
-	"itemget": {
-    	"category": "master", 
-    	"sounds": [
-    		{"name": "kk:itemget", "stream": false}
-    	]
-    },
+	"move": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:move", "stream": false }
+		]
+	},
+	"summon": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:summon", "stream": false }
+		]
+	},
 
-    "summon": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:summon", "stream": false}
-    	]
-    },
+	"cancel": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:cancel", "stream": false }
+		]
+	},
+
+	"music.what_a_surprise": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/what_a_surprise", "stream": true }
+		]
+	},
+
+	"records.simple_and_clean_planitb_remix": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/simple_and_clean_planitb_remix", "stream": true }
+		]
+	},
+
+	"unsummon": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:unsummon", "stream": false }
+		]
+	},
+
+	"select": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:select", "stream": false }
+		]
+	},
+
+	"records.dream_drop_distance_the_next_awakening": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/dream_drop_distance_the_next_awakening", "stream": true }
+		]
+	},
+
+	"music.dearly_beloved_kh1": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_kh1", "stream": true }
+		]
+	},
+
+	"music.working_together": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/working_together", "stream": true }
+		]
+	},
+
+	"records.the_13th_anthology": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/the_13th_anthology", "stream": true }
+		]
+	},
+
+	"music.dark_impetus": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dark_impetus", "stream": true }
+		]
+	},
+
+	"menuin": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:menuin", "stream": false }
+		]
+	},
+
+	"music.deep_drop": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/deep_drop", "stream": true }
+		]
+	},
+
+	"music.the_secret_whispers": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/the_secret_whispers", "stream": true }
+		]
+	},
+
+	"records.darkness_of_the_unknown": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/darkness_of_the_unknown", "stream": true }
+		]
+	},
+
+	"music.night_of_fate": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/night_of_fate", "stream": true }
+		]
+	},
+
+	"music.keyblade_graveyard_horizon": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/keyblade_graveyard_horizon", "stream": true }
+		]
+	},
+
+	"antidrive": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:antidrive", "stream": false }
+		]
+	},
+
+	"savespawn": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:savespawn", "stream": false }
+		]
+	},
+
+	"music.dearly_beloved_coded": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_coded", "stream": true }
+		]
+	},
+
+	"records.sanctuary": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/sanctuary", "stream": true }
+		]
+	},
+
+	"music.sinister_sundown": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/sinister_sundown", "stream": true }
+		]
+	},
+
+	"music.a_fight_to_the_death": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/a_fight_to_the_death", "stream": true }
+		]
+	},
+
+	"music.deep_jungle": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/deep_jungle", "stream": true }
+		]
+	},
+
+	"music.happy_holidays": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/happy_holidays", "stream": true }
+		]
+	},
+
+	"music.to_our_surprise": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/to_our_surprise", "stream": true }
+		]
+	},
+
+	"records.l_oscurita_dell_ignoto": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/l_oscurita_dell_ignoto", "stream": true }
+		]
+	},
+
+	"music.mystic_moon": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/mystic_moon", "stream": true }
+		]
+	},
+
+	"records.hikari_kingdom_instrumental_version": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/hikari_kingdom_instrumental_version", "stream": true }
+		]
+	},
+
+	"music.deep_drive": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/deep_drive", "stream": true }
+		]
+	},
+
+	"records.dearly_beloved_symphony_version": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/dearly_beloved_symphony_version", "stream": true }
+		]
+	},
+
+	"music.dearly_beloved_kh2": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_kh2", "stream": true }
+		]
+	},
+
+	"music.the_rustling_forest": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/the_rustling_forest", "stream": true }
+		]
+	},
+
+	"music.dearly_beloved_com": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_com", "stream": true }
+		]
+	},
+
+	"music.beneath_the_ground": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/beneath_the_ground", "stream": true }
+		]
+	},
+
+	"menuout": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:menuout", "stream": false }
+		]
+	},
+
+	"music.dearly_beloved_ddd": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_ddd", "stream": true }
+		]
+	},
+
+	"music.lazy_afternoons": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/lazy_afternoons", "stream": true }
+		]
+	},
+
+	"music.dearly_beloved_recom": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_recom", "stream": true }
+		]
+	},
+
+	"music.adventures_in_the_savannah": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/adventures_in_the_savannah", "stream": true }
+		]
+	},
+
+	"music.destiny_islands": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/destiny_islands", "stream": true }
+		]
+	},
+
+	"music.spooks_of_halloween_town": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/spooks_of_halloween_town", "stream": true }
+		]
+	},
+
+	"levelup": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:levelup", "stream": false }
+		]
+	},
+
+	"sharpshooterbullet": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:sharpshooterbullet", "stream": false }
+		]
+	},
+
+	"records.musique_pour_la_tristesse_de_xion": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/musique_pour_la_tristesse_de_xion", "stream": true }
+		]
+	},
+
+	"records.sinister_sundown": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/sinister_sundown", "stream": true }
+		]
+	},
+
+	"drive": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:drive", "stream": false }
+		]
+	},
+
+	"music.this_is_halloween": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/this_is_halloween", "stream": true }
+		]
+	},
+
+	"itemget": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:itemget", "stream": false }
+		]
+	},
+
+	"music.l_impeto_oscuro": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/l_impeto_oscuro", "stream": true }
+		]
+	},
+
+	"music.night_of_tragedy": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/night_of_tragedy", "stream": true }
+		]
+	},
+
+	"music.what_lies_beneath": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/what_lies_beneath", "stream": true }
+		]
+	},
+
+	"music.dearly_beloved_bbs": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_bbs", "stream": true }
+		]
+	},
+
+	"kupoliving": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:kupoliving", "stream": false }
+		]
+	},
+
+	"music.l_oscurita_dell_ignoto": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/l_oscurita_dell_ignoto", "stream": true }
+		]
+	},
+
+	"error": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:error", "stream": false }
+		]
+	},
+
+	"music.tension_rising": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/tension_rising", "stream": true }
+		]
+	},
+
+	"records.no_more_bugs_bug_version": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/no_more_bugs_bug_version", "stream": true }
+		]
+	},
+
+	"savepoint": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:savepoint", "stream": false }
+		]
+	},
 
 	"alarm": {
 		"category": "player",
 		"sounds": [
-			{"name": "kk:alarm", "stream": false}
+			{"name": "kingdomkeys:alarm", "stream": false }
 		]
 	},
 
-    "unsummon": {
-    	"category": "player", 
-    	"sounds": [
-    		{"name": "kk:unsummon", "stream": false}
-    	]
-    },
+	"music.sacred_distance": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/sacred_distance", "stream": true }
+		]
+	},
 
-    "sharpshooterbullet": {
-    	"category": "player", 
-    	"sounds": [
-    		{"name": "kk:sharpshooterbullet", "stream": false}
-    	]
-    },
+	"music.welcome_to_wonderland": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/welcome_to_wonderland", "stream": true }
+		]
+	},
 
-    "error": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:error", "stream": false}
-    	]
-    },
+	"records.organization_xiii": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/organization_xiii", "stream": true }
+		]
+	},
 
-    "select": {
-        "category": "player",
-        "sounds": [
-            {"name": "kk:select", "stream": false}
-        ]
-    },
+	"music.dive_into_the_heart_destati": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dive_into_the_heart_destati", "stream": true }
+		]
+	},
 
-    "cancel": {
-        "category": "player",
-        "sounds": [
-            {"name": "kk:cancel", "stream": false}
-        ]
-    },
+	"kupo": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:kupo", "stream": false }
+		]
+	},
 
-    "move": {
-        "category": "player",
-        "sounds": [
-            {"name": "kk:move", "stream": false}
-        ]
-    },
-	
-	"drive": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:drive", "stream": false}
-    	]
-    },
-	
-	"antidrive": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:antidrive", "stream": false}
-    	]
-    },
-	
+	"lockon": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:lockon", "stream": false }
+		]
+	},
+
 	"potion": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:potion", "stream": false}
-    	]
-    },
-	
-	"savepoint": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:savepoint", "stream": false}
-    	]
-    },
-	
-	"savespawn": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:savespawn", "stream": false}
-    	]
-    },
-	
-	"menuin": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:menuin", "stream": false}
-    	]
-    },
-	
-	"menuout": {
-    	"category": "player",
-    	"sounds": [
-    		{"name": "kk:menuout", "stream": false}
-    	]
-    },
-
-    "records.birth by sleep a link to the future": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/birth by sleep a link to the future", "stream": true}
-    	]
-    },
-
-    "records.dream drop distance the next awakening": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/dream drop distance the next awakening", "stream": true}
-    	]
-    },
-
-    "records.hikari kingdom instrumental version": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/hikari kingdom instrumental version", "stream": true}
-    	]
-    },
-    "records.musique pour la tristesse de xion": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/musique pour la tristesse de xion", "stream": true}
-    	]
-    },
-
-    "records.no more bugs bug version": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/no more bugs bug version", "stream": true}
-    	]
-    },
-
-    "records.organization xiii": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/organization xiii", "stream": true}
-    	]
-    },
-
-    "records.sanctuary": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/sanctuary", "stream": true}
-    	]
-    },
-
-    "records.simple and clean planitb remix": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/simple and clean planitb remix", "stream": true}
-    	]
-    },
-
-    "records.sinister sundown": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/sinister sundown", "stream": true}
-    	]
-    },
-
-    "records.the 13th anthology": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/the 13th anthology", "stream": true}
-    	]
-    },
-
-    "records.dearly beloved symphony version": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/dearly beloved symphony version", "stream": true}
-    	]
-    },
-
-    "records.l'oscurita dell'ignoto": {
-    	"category": "record", 
-    	"sounds": [
-    		{"name": "kk:records/l'oscurita dell'ignoto", "stream": true}
-    	]
-    },
-
-    "records.darkness of the unknown": {
-    	"category": "record", 
-    	"sounds": [
-			{"name": "kk:records/darkness of the unknown", "stream": true}
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:potion", "stream": false }
 		]
 	},
 
-    "music.lazy afternoons": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/lazy afternoons", "stream": true}
-        ]
-    },
+	"music.a_day_in_agrabah": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/a_day_in_agrabah", "stream": true }
+		]
+	},
 
-    "music.dearly beloved (ddd)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (ddd)", "stream": true}
-        ]
-    },
+	"music.night_in_the_dark_dream": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/night_in_the_dark_dream", "stream": true }
+		]
+	},
 
-    "music.Dearly Beloved (bbs)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (bbs)", "stream": true}
-        ]
-    },
-	
-	 "music.dearly beloved (chi)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (chi)", "stream": true}
-        ]
-    },
+	"records.birth_by_sleep_a_link_to_the_future": {
+		"category": "record",
+		"sounds": [
+			{"name": "kingdomkeys:records/birth_by_sleep_a_link_to_the_future", "stream": true }
+		]
+	},
 
-    "music.dearly beloved (kh1)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (kh1)", "stream": true}
-        ]
-    },
+	"music.rage_awakened": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/rage_awakened", "stream": true }
+		]
+	},
 
-    "music.dearly beloved (kh2)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (kh2)", "stream": true}
-        ]
-    },
+	"music.sacred_moon": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/sacred_moon", "stream": true }
+		]
+	},
 
-    "music.dearly beloved (com)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (com)", "stream": true}
-        ]
-    },
+	"music.traverse_town": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/traverse_town", "stream": true }
+		]
+	},
 
-    "music.dearly beloved (days)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (days)", "stream": true}
-        ]
-    },
+	"music.the_silent_forest": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/the_silent_forest", "stream": true }
+		]
+	},
 
-    "music.dearly beloved (coded)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (coded)", "stream": true}
-        ]
-    },
+	"music.a_very_small_wish": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/a_very_small_wish", "stream": true }
+		]
+	},
 
-    "music.dearly beloved (recom)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dearly beloved (recom)", "stream": true}
-        ]
-    },
+	"music.arabian_dream": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/arabian_dream", "stream": true }
+		]
+	},
 
-    "music.sinister sundown": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/sinister sundown", "stream": true}
-        ]
-    },
+	"music.dearly_beloved_chi": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_chi", "stream": true }
+		]
+	},
 
-    "music.a day in agrabah": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/a day in agrabah", "stream": true}
-        ]
-    },
+	"music.hand_in_hand": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/hand_in_hand", "stream": true }
+		]
+	},
 
-    "music.a fight to the death": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/a fight to the death", "stream": true}
-        ]
-    },
+	"music.traverse_in_trance": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/traverse_in_trance", "stream": true }
+		]
+	},
 
-    "music.a very small wish": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/a very small wish", "stream": true}
-        ]
-    },
+	"music.sacred_moon_days": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/sacred_moon_days", "stream": true }
+		]
+	},
 
-    "music.adventures in the savannah": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/adventures in the savannah", "stream": true}
-        ]
-    },
+	"music.the_dread_of_night": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/the_dread_of_night", "stream": true }
+		]
+	},
 
-    "music.arabian dream": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/arabian dream", "stream": true}
-        ]
-    },
+	"music.dearly_beloved_days": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/dearly_beloved_days", "stream": true }
+		]
+	},
 
-    "music.beneath the ground": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/beneath the ground", "stream": true}
-        ]
-    },
+	"music.the_underworld": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/the_underworld", "stream": true }
+		]
+	},
 
-    "music.critical drive": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/critical drive", "stream": true}
-        ]
-    },
+	"music.risky_romp": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/risky_romp", "stream": true }
+		]
+	},
 
-    "music.dark impetus": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/dark impetus", "stream": true}
-        ]
-    },
+	"music.critical_drive": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/critical_drive", "stream": true }
+		]
+	},
 
-    "music.deep drive": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/deep drive", "stream": true}
-        ]
-    },
+	"music.savannah_pride": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/savannah_pride", "stream": true }
+		]
+	},
 
-    "music.deep drop": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/deep drop", "stream": true}
-        ]
-    },
+	"music.having_a_wild_time": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/having_a_wild_time", "stream": true }
+		]
+	},
 
-    "music.deep jungle": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/deep jungle", "stream": true}
-        ]
-    },
-
-    "music.destiny islands": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/destiny islands", "stream": true}
-        ]
-    },
-
-    "music.dive into the heart destati": {
-    	"category": "music",
-    	"sounds": [
-    		{"name": "kk:music/dive into the heart destati", "stream": true}
-    	]
-    },
-
-    "music.hand in hand": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/hand in hand", "stream": true}
-        ]
-    },
-
-    "music.happy holidays!": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/happy holidays!", "stream": true}
-        ]
-    },
-
-    "music.having a wild time": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/having a wild time", "stream": true}
-        ]
-    },
-
-    "music.keyblade graveyard horizon": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/keyblade graveyard horizon", "stream": true}
-        ]
-    },
-
-    "music.l'impeto oscuro": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/l'impeto oscuro", "stream": true}
-        ]
-    },
-
-    "music.l'oscurita dell'ignoto": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/l'oscurita dell'ignoto", "stream": true}
-        ]
-    },
-
-    "music.monstrous monstro": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/monstrous monstro", "stream": true}
-        ]
-    },
-
-    "music.mystic moon": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/mystic moon", "stream": true}
-        ]
-    },
-
-    "music.night in the dark dream": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/night in the dark dream", "stream": true}
-        ]
-    },
-
-    "music.night of fate": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/night of fate", "stream": true}
-        ]
-    },
-
-    "music.night of tragedy": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/night of tragedy", "stream": true}
-        ]
-    },
-
-    "music.rage awakened": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/rage awakened", "stream": true}
-        ]
-    },
-
-    "music.risky romp": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/Risky Romp", "stream": true}
-        ]
-    },
-
-    "music.sacred distance": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/sacred distance", "stream": true}
-        ]
-    },
-
-    "music.sacred moon (days)": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/sacred moon (days)", "stream": true}
-        ]
-    },
-
-    "music.sacred moon": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/sacred moon", "stream": true}
-        ]
-    },
-
-    "music.savannah pride": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/savannah pride", "stream": true}
-        ]
-    },
-
-    "music.spooks of halloween town": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/spooks of halloween town", "stream": true}
-        ]
-    },
-
-    "music.tension rising": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/tension rising", "stream": true}
-        ]
-    },
-
-    "music.the dread of night": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/the dread of night", "stream": true}
-        ]
-    },
-
-    "music.the rustling forest": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/the rustling forest", "stream": true}
-        ]
-    },
-
-    "music.the secret whispers": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/the secret whispers", "stream": true}
-        ]
-    },
-
-    "music.the silent forest": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/the silent forest", "stream": true}
-        ]
-    },
-
-    "music.the underworld": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/the underworld", "stream": true}
-        ]
-    },
-
-    "music.this is halloween": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/this is halloween", "stream": true}
-        ]
-    },
-
-    "music.to our surprise": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/to our surprise", "stream": true}
-        ]
-    },
-
-    "music.traverse in trance": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/traverse in trance", "stream": true}
-        ]
-    },
-
-    "music.traverse town": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/traverse town", "stream": true}
-        ]
-    },
-
-    "music.welcome to wonderland": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/welcome to wonderland", "stream": true}
-        ]
-    },
-
-    "music.what a surprise": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/what a surprise!", "stream": true}
-        ]
-    },
-
-    "music.what lies beneath": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/what lies beneath", "stream": true}
-        ]
-    },
-
-    "music.working together": {
-        "category": "music",
-        "sounds": [
-            {"name": "kk:music/working together", "stream": true}
-        ]
-    }
+	"music.monstrous_monstro": {
+		"category": "music",
+		"sounds": [
+			{"name": "kingdomkeys:music/monstrous_monstro", "stream": true }
+		]
+	}
 }

@@ -45,6 +45,8 @@ public class KingdomKeys {
 
     public static final String MODID = "kingdomkeys";
 
+    public static KingdomKeys instance;
+
     //The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
     @SuppressWarnings("Convert2MethodRef")
     public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
