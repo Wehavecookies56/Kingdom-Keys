@@ -191,6 +191,7 @@ public class InputHandler {
 
         switch (GuiCommandMenu.selected) {
             case GuiCommandMenu.ATTACK: //Accessing ATTACK / PORTAL submenu
+                System.out.println("attack");
                 /*if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
                     // Submenu of the portals
                     if (GuiCommandMenu.submenu == GuiCommandMenu.SUB_MAIN) {
@@ -225,6 +226,7 @@ public class InputHandler {
                 break;
             case GuiCommandMenu.MAGIC: //Accessing MAGIC submenu
                 if (GuiCommandMenu.submenu == GuiCommandMenu.SUB_MAIN) {
+                    System.out.println("magic");
                     /*if (!STATS.getRecharge() && (!this.magicCommands.isEmpty() && (!DRIVE.getActiveDriveName().equals(Strings.Form_Valor) && !DRIVE.getActiveDriveName().equals(Strings.Form_Anti)))) {
                         GuiCommandMenu.magicselected = 0;
                         GuiCommandMenu.submenu = GuiCommandMenu.SUB_MAGIC;
@@ -239,7 +241,8 @@ public class InputHandler {
 
             case GuiCommandMenu.ITEMS: //Accessing ITEMS submenu
                 if (GuiCommandMenu.submenu == GuiCommandMenu.SUB_MAIN) {
-                    if (!this.itemsCommands.isEmpty()) {
+                    System.out.println("items");
+                    /*if (!this.itemsCommands.isEmpty()) {
                         GuiCommandMenu.submenu = GuiCommandMenu.SUB_ITEMS;
                         GuiCommandMenu.potionselected = 0;
                         world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
@@ -247,12 +250,13 @@ public class InputHandler {
                         GuiCommandMenu.selected = GuiCommandMenu.ATTACK;
                         world.playSound(player, player.getPosition(), ModSounds.error, SoundCategory.MASTER, 1.0f, 1.0f);
                     }
-                    return;
+                    return;*/
                 }
                 break;
 
             case GuiCommandMenu.DRIVE: //Accessing DRIVE submenu
                 if (GuiCommandMenu.submenu == GuiCommandMenu.SUB_MAIN) {
+                    System.out.println("drive");
                    /* if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
                         // TODO Use Limit
                         player.sendMessage(new TextComponentString("Limits are not available yet"));
