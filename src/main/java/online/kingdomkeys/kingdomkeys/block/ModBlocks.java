@@ -6,9 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ItemBlockWrapper;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 
 public class ModBlocks {
 
@@ -34,7 +34,7 @@ public class ModBlocks {
      * @return The created block
      */
     private static Block createNewBlock(String name, Block.Properties properties) {
-        return new Block(properties).setRegistryName(KingdomKeys.MODID, name);
+        return new Block(properties).setRegistryName(Reference.MODID, name);
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

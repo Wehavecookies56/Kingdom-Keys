@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -20,8 +22,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.EntityBlastBloxPrimed;
 import online.kingdomkeys.kingdomkeys.utils.SetBlockStateFlags;
-
-import javax.annotation.Nullable;
 
 /**
  * Some parts copied from {@link net.minecraft.block.BlockTNT}

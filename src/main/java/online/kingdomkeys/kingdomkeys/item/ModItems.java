@@ -1,13 +1,23 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.item.Item;
-
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.organization.*;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemArrowguns;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemAxeSword;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemCard;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemChakram;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemClaymore;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemEtherealBlade;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemKnife;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemLances;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemLexicon;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemOrgShield;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemScythe;
+import online.kingdomkeys.kingdomkeys.item.organization.ItemSitar;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModItems {
@@ -572,7 +582,7 @@ public class ModItems {
 
         //Helper method to create item with the properties and registry name
         public static Item createNewItem(String name, Item.Properties properties) {
-            return new Item(properties).setRegistryName(KingdomKeys.MODID, name);
+            return new Item(properties).setRegistryName(Reference.MODID, name);
         }
 
     }

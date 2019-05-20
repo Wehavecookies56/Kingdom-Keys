@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -9,15 +11,11 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.EntityBlastBloxPrimed;
-
-import javax.annotation.Nullable;
 
 /**
  * Mostly a copy of {@link net.minecraft.client.renderer.entity.RenderTNTPrimed} with some small changes

@@ -1,29 +1,26 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
+import java.util.List;
+
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.MouseHelper;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.capability.DriveStateCapability.IDriveState;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.PlayerStatsCapability;
+import online.kingdomkeys.kingdomkeys.capability.PlayerStatsCapability.IPlayerStats;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiCommandMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
-import org.lwjgl.glfw.GLFW;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InputHandler {
 
@@ -62,7 +59,7 @@ public class InputHandler {
         Minecraft mc = Minecraft.getInstance();
         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
 
-        // loadLists();
+        loadLists();
 
         // Mainmenu
         if (GuiCommandMenu.submenu == GuiCommandMenu.SUB_MAIN) {
@@ -120,8 +117,7 @@ public class InputHandler {
     public void commandDown() {
         Minecraft mc = Minecraft.getInstance();
         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
-        // loadLists();
-        System.out.println("down");
+        loadLists();
 
         // Mainmenu
         if (GuiCommandMenu.submenu == GuiCommandMenu.SUB_MAIN) {
@@ -181,13 +177,14 @@ public class InputHandler {
     }
 
     public void commandEnter() {
-        Minecraft mc = Minecraft.getInstance();
+    	Minecraft mc = Minecraft.getInstance();
+        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuin, SoundCategory.MASTER, 1.0f, 1.0f);
         EntityPlayer player = mc.player;
         World world = mc.world;
-       /* PlayerStatsCapability.IPlayerStats STATS = player.getCapability(ModCapabilities.PLAYER_STATS, null);
-        IDriveState DRIVE = player.getCapability(ModCapabilities.DRIVE_STATE, null);
+        PlayerStatsCapability.IPlayerStats STATS = (IPlayerStats) player.getCapability(ModCapabilities.PLAYER_STATS, null);
+        IDriveState DRIVE = (IDriveState) player.getCapability(ModCapabilities.DRIVE_STATE, null);
 
-        loadLists();*/
+        loadLists();
 
         switch (GuiCommandMenu.selected) {
             case GuiCommandMenu.ATTACK: //Accessing ATTACK / PORTAL submenu
@@ -370,7 +367,8 @@ public class InputHandler {
     }
 
     public void commandBack() {
-        Minecraft mc = Minecraft.getInstance();
+    	Minecraft mc = Minecraft.getInstance();
+        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuout, SoundCategory.MASTER, 1.0f, 1.0f);
         EntityPlayer player = mc.player;
         World world = mc.world;
 
@@ -436,17 +434,16 @@ public class InputHandler {
 
                 case ENTER:
                    /* if (!MainConfig.displayGUI())
-                        break;
-                    commandEnter();*/
-                    world.playSound(player, player.getPosition(), ModSounds.menuin, SoundCategory.MASTER, 1.0f, 1.0f);
+                        break;*/
+                    commandEnter();
 
                     break;
 
                 case BACK:
                   //  if (!MainConfig.displayGUI())
                   //      break;
-                    //commandBack();
-                    world.playSound(player, player.getPosition(), ModSounds.menuout, SoundCategory.MASTER, 1.0f, 1.0f);
+                    commandBack();
+                    
 
                     break;
                /* case SUMMON_KEYBLADE:
@@ -509,7 +506,7 @@ public class InputHandler {
 
         if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown()) {
             commandEnter();
-            event.setCanceled(true);
+            //event.setCanceled(true);
         }
 
         if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown()) {

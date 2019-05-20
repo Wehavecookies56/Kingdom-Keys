@@ -13,8 +13,8 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.entity.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.IKHMob;
 
 public class EntityShadow extends BaseEntityHeartless implements IKHMob {
     // ENTITY_STATE : 1 - Invisible

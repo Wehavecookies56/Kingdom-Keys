@@ -7,26 +7,22 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+import net.minecraftforge.fml.network.PacketDispatcher;
 import net.minecraftforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import uk.co.wehavecookies56.kk.client.sound.ModSounds;
 import uk.co.wehavecookies56.kk.common.ability.ModAbilities;
-import uk.co.wehavecookies56.kk.common.capability.AbilitiesCapability.IAbilities;
 import uk.co.wehavecookies56.kk.common.container.inventory.InventoryEquipmentMenu;
 import uk.co.wehavecookies56.kk.common.container.inventory.InventoryPotionsMenu;
-import uk.co.wehavecookies56.kk.common.lib.Strings;
-import uk.co.wehavecookies56.kk.common.network.packet.PacketDispatcher;
 import uk.co.wehavecookies56.kk.common.network.packet.client.ShowOverlayPacket;
-import uk.co.wehavecookies56.kk.common.network.packet.client.SyncUnlockedAbilities;
 import uk.co.wehavecookies56.kk.common.network.packet.client.SyncLevelData;
 import uk.co.wehavecookies56.kk.common.network.packet.client.SyncOrgXIIIData;
-import uk.co.wehavecookies56.kk.common.util.Utils;
+import uk.co.wehavecookies56.kk.common.network.packet.client.SyncUnlockedAbilities;
 
 public class PlayerStatsCapability {
 

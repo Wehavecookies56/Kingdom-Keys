@@ -1,19 +1,21 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.apache.commons.io.IOUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ItemKeyblade;
-import org.apache.commons.io.IOUtils;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class KeybladeDataLoader {
 

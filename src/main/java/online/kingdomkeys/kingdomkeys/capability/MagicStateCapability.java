@@ -7,7 +7,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.items.ItemStackHandler;
 import uk.co.wehavecookies56.kk.common.container.inventory.InventorySpells;
-import uk.co.wehavecookies56.kk.common.lib.Strings;
 
 public class MagicStateCapability {
 

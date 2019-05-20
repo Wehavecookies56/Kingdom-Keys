@@ -1,17 +1,15 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.util.List;
 
 public class EntityHelper {
 
@@ -27,11 +25,11 @@ public class EntityHelper {
     public static double percentage(double i, double j) {return (i * 100) / j;}
 
     public static void registerEntity(String name, Class<? extends Entity> entity) {
-       // EntityRegistry.registerModEntity(new ResourceLocation(KingdomKeys.MODID, name), entity, name, entityID++, KingdomKeys.instance, 64, 3, true);
+       // EntityRegistry.registerModEntity(new ResourceLocation(Reference.MODID, name), entity, name, entityID++, KingdomKeys.instance, 64, 3, true);
     }
 
     public static void registerEntity(String name, Class<? extends Entity> entity, int color1, int color2) {
-     //   EntityRegistry.registerModEntity(new ResourceLocation(KingdomKeys.MODID, name), entity, name, entityID++, KingdomKeys.instance, 64, 3, true, color1, color2);
+     //   EntityRegistry.registerModEntity(new ResourceLocation(Reference.MODID, name), entity, name, entityID++, KingdomKeys.instance, 64, 3, true, color1, color2);
     }
 
     public static List<EntityLivingBase> getEntitiesNear(Entity e, double radius)

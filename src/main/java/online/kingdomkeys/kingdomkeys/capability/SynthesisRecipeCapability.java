@@ -10,10 +10,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.util.Constants;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import uk.co.wehavecookies56.kk.api.recipes.FreeDevRecipeRegistry;
 import uk.co.wehavecookies56.kk.api.recipes.Recipe;
 import uk.co.wehavecookies56.kk.api.recipes.RecipeRegistry;
-import uk.co.wehavecookies56.kk.common.KingdomKeys;
 
 public class SynthesisRecipeCapability {
 

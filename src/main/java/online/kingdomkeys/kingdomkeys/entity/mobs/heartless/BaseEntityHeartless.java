@@ -1,12 +1,9 @@
 package online.kingdomkeys.kingdomkeys.entity.mobs.heartless;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 

@@ -1,11 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import net.minecraft.item.Item;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
 /**
  * Stores the data loaded from the keyblades datapack
  */

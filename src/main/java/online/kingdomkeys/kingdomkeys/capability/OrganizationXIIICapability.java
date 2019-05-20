@@ -49,7 +49,7 @@ public class OrganizationXIIICapability {
         void addPoints(int points);
     }
 
-    private static class Storage implements Capability.IStorage<IOrganizationXIII> {
+    public static class Storage implements Capability.IStorage<IOrganizationXIII> {
         @Override
         public INBTBase writeNBT(Capability<IOrganizationXIII> capability, IOrganizationXIII instance, EnumFacing side) {
             NBTTagCompound properties = new NBTTagCompound();

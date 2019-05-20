@@ -7,7 +7,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 
 public class ModMaterials {
 
@@ -20,7 +20,7 @@ public class ModMaterials {
         @SubscribeEvent
         public static void registerMaterialRegistry(RegistryEvent.NewRegistry event) {
             //Create material registry
-            registry = new RegistryBuilder<Material>().setName(new ResourceLocation(KingdomKeys.MODID, "materials")).setType(Material.class).create();
+            registry = new RegistryBuilder<Material>().setName(new ResourceLocation(Reference.MODID, "materials")).setType(Material.class).create();
         }
 
         @SubscribeEvent

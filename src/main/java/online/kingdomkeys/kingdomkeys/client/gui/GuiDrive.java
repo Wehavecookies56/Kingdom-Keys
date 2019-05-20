@@ -1,22 +1,22 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import java.awt.Color;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 
 public class GuiDrive extends GuiScreen {
     Minecraft mc = Minecraft.getInstance();
 
-    ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
+    ResourceLocation texture = new ResourceLocation(Reference.MODID, "textures/gui/drivebar.png");
 
     int maxDrive = 1000;
     int maxLength = 100;

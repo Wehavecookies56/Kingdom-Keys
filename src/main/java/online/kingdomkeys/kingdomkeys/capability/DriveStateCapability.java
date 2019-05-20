@@ -11,14 +11,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+import net.minecraftforge.fml.network.PacketDispatcher;
 import net.minecraftforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import uk.co.wehavecookies56.kk.api.driveforms.DriveForm;
-import uk.co.wehavecookies56.kk.client.sound.ModSounds;
-import uk.co.wehavecookies56.kk.common.lib.Strings;
-import uk.co.wehavecookies56.kk.common.network.packet.PacketDispatcher;
 import uk.co.wehavecookies56.kk.common.network.packet.client.ShowOverlayPacket;
 import uk.co.wehavecookies56.kk.common.network.packet.client.SyncDriveData;
-import uk.co.wehavecookies56.kk.common.util.Utils;
 
 public class DriveStateCapability {
 
@@ -262,23 +260,23 @@ public class DriveStateCapability {
             switch (driveForm) {
             
             case Strings.Form_Valor:
-                messages.add(Utils.translateToLocal(Strings.Stats_LevelUp_FormGauge));
+                messages.add(CorsairUtils.translateToLocal(Strings.Stats_LevelUp_FormGauge));
                 System.out.println(this.getDriveLevel(driveForm));
             	switch (this.getDriveLevel(driveForm)) {
             	case 2:
                     break;
                 case 3:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_HighJump, "2"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_HighJump, "2"));
                     break;
                 case 4:
                     break;
                 case 5:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_HighJump, "3"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_HighJump, "3"));
                     break;
                 case 6:
                     break;
                 case 7:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_HighJump, "MAX"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_HighJump, "MAX"));
                     break;
             	}
             	break;
@@ -289,17 +287,17 @@ public class DriveStateCapability {
             	case 2:
                     break;
                 case 3:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_QuickRun, "2"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_QuickRun, "2"));
                     break;
                 case 4:
                     break;
                 case 5:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_QuickRun, "3"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_QuickRun, "3"));
                     break;
                 case 6:
                     break;
                 case 7:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_QuickRun, "MAX"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_QuickRun, "MAX"));
                     break;
             	}
             	break;
@@ -310,17 +308,17 @@ public class DriveStateCapability {
             	case 2:
                     break;
                 case 3:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_DodgeRoll, "2"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_DodgeRoll, "2"));
                     break;
                 case 4:
                     break;
                 case 5:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_DodgeRoll, "3"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_DodgeRoll, "3"));
                     break;
                 case 6:
                     break;
                 case 7:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_DodgeRoll, "MAX"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_DodgeRoll, "MAX"));
                     break;
             	}
             	break;
@@ -331,17 +329,17 @@ public class DriveStateCapability {
             	case 2:
                     break;
                 case 3:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_AerialDodge, "2"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_AerialDodge, "2"));
                     break;
                 case 4:
                     break;
                 case 5:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_AerialDodge, "3"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_AerialDodge, "3"));
                     break;
                 case 6:
                     break;
                 case 7:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_AerialDodge, "MAX"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_AerialDodge, "MAX"));
                     break;
             	}
             	break;
@@ -352,17 +350,17 @@ public class DriveStateCapability {
             	case 2:
                     break;
                 case 3:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_Glide, "2"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_Glide, "2"));
                     break;
                 case 4:
                     break;
                 case 5:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_Glide, "3"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_Glide, "3"));
                     break;
                 case 6:
                     break;
                 case 7:
-                    messages.add(Utils.translateToLocalFormatted(Strings.Stats_LevelUp_Glide, "MAX"));
+                    messages.add(CorsairUtils.translateToLocalFormatted(Strings.Stats_LevelUp_Glide, "MAX"));
                     break;
             	}
             	break;

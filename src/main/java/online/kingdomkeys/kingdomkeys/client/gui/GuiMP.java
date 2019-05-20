@@ -1,14 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
-import org.lwjgl.opengl.GL11;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 
 public class GuiMP extends GuiScreen {
     int guiWidth = 173;
@@ -31,7 +32,7 @@ public class GuiMP extends GuiScreen {
            // event.setCanceled(true);
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-            mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+            mc.textureManager.bindTexture(new ResourceLocation(Reference.MODID, "textures/gui/mpbar.png"));
 
             int screenWidth = mc.mainWindow.getScaledWidth();
             int screenHeight = mc.mainWindow.getScaledHeight();
@@ -66,7 +67,7 @@ public class GuiMP extends GuiScreen {
     }
 
     public void drawMPBarBack(int posX, int posY, int width, float scale) {
-        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(Reference.MODID, "textures/gui/mpbar.png"));
         GL11.glPushMatrix();
         {
             //Left Margin
@@ -116,7 +117,7 @@ public class GuiMP extends GuiScreen {
     }
 
     public void drawMPBarTop(int posX, int posY, int width, float scale) {
-        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(Reference.MODID, "textures/gui/mpbar.png"));
         GL11.glPushMatrix();
         {
             GL11.glTranslatef((posX + 2) * scale, (posY + 2) * scale, 0);

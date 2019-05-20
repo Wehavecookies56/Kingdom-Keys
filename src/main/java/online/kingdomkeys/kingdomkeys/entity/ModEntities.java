@@ -1,20 +1,17 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import java.util.function.Function;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.World;
-
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.render.RenderEntityBlastBloxPrimed;
-import online.kingdomkeys.kingdomkeys.entity.mobs.heartless.EntityShadow;
-
-import java.util.function.Function;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 
 public class ModEntities {
 
@@ -31,7 +28,7 @@ public class ModEntities {
      */
     public static <T extends Entity>EntityType<T> createEntityType(Class<? extends T> entityClassIn, Function<? super World, ? extends T> factoryIn, String name) {
         EntityType<T> type = EntityType.Builder.create(entityClassIn, factoryIn).tracker(100, 1, true).build(name);
-        type.setRegistryName(KingdomKeys.MODID, name);
+        type.setRegistryName(Reference.MODID, name);
         return type;
     }
 

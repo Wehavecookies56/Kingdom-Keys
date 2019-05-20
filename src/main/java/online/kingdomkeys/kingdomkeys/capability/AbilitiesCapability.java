@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,9 +12,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import uk.co.wehavecookies56.kk.api.abilities.Ability;
-import uk.co.wehavecookies56.kk.common.KingdomKeys;
-import uk.co.wehavecookies56.kk.common.lib.Reference;
+import online.kingdomkeys.kingdomkeys.api.Ability;
 
 public class AbilitiesCapability {
 

@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.capability;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -11,10 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.util.Constants;
-import uk.co.wehavecookies56.kk.api.recipes.RecipeRegistry;
-import uk.co.wehavecookies56.kk.common.KingdomKeys;
-import uk.co.wehavecookies56.kk.common.network.packet.PacketDispatcher;
-import uk.co.wehavecookies56.kk.common.network.packet.client.SyncLevelData;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class TutorialsCapability {
 

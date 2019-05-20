@@ -1,18 +1,16 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.item.organization.ItemArrowguns;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
-import org.lwjgl.opengl.GL11;
 
 public class GuiCommandMenu extends GuiScreen {
     Minecraft mc = Minecraft.getInstance();
@@ -41,7 +39,7 @@ public class GuiCommandMenu extends GuiScreen {
     public static int selected = ATTACK;
     public static int submenu = 0, magicselected = 0, potionselected = 0, driveselected = 0, portalSelected = 0, attackSelected = 0;
 
-    ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
+    ResourceLocation texture = new ResourceLocation(Reference.MODID, "textures/gui/commandmenu.png");
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onRenderOverlayPost(RenderGameOverlayEvent event) {

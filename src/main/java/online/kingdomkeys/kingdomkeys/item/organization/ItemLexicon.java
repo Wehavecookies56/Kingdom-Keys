@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,11 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Reference;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
-
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ItemLexicon extends ItemSword implements IOrgWeapon {
     private OrganizationData data;
@@ -23,7 +24,7 @@ public class ItemLexicon extends ItemSword implements IOrgWeapon {
     //TODO remove attack damage
     public ItemLexicon(String name, int attackDamageIn, float attackSpeedIn) {
         super(new ItemTierOrganization(attackDamageIn), attackDamageIn, attackSpeedIn, new Item.Properties().group(KingdomKeys.orgWeaponsGroup).maxStackSize(1));
-        setRegistryName(KingdomKeys.MODID, name);
+        setRegistryName(Reference.MODID, name);
     }
 
     //Get strength from the data based on level

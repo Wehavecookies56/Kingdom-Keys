@@ -1,15 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import org.lwjgl.opengl.GL11;
 
 public class GuiPlayerPortrait extends GuiScreen {
     @SubscribeEvent
@@ -170,7 +168,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 GL11.glColor4f(100.0F, 1.0F, 1.0F, 1.0F);
 
                 /*if (DS.isDriveForm) {
-                    ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/"+ds.getActiveDriveform()+".png");
+                    ResourceLocation texture = new ResourceLocation(Reference.MODID, "textures/armour/"+ds.getActiveDriveform()+".png");
                     mc.textureManager.bindTexture(texture);
 
                     GL11.glPushMatrix();

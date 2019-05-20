@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
@@ -9,8 +11,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 /**
  * Mostly a copy of {@link net.minecraft.entity.item.EntityTNTPrimed} with some small changes
