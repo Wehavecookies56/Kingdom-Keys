@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.corsair;
 
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -27,6 +26,7 @@ public class CorsairTickHandler {
 			// this.keyboardManager.showLogo();
 			keyboardManager.updateKeys();
 		}
+		
 		if (EntityEvents.isHostiles) {
 			keyboardManager.setDefaultColor(new int[] { 255, 0, 0 });
 		} else {

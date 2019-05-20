@@ -23,7 +23,7 @@ public class KeyboardManager {
 
 	public KeyboardManager() {
 		this.updateThread.setDaemon(true);
-		this.updateThread.setPriority(4);
+		this.updateThread.setPriority(3);
 		this.updateThread.start();
 		try {
 			Field cueSDKField = CueSDK.class.getDeclaredField("instance");
@@ -53,6 +53,45 @@ public class KeyboardManager {
 			resetKeyboard();
 		}
 	}
+	
+	/* public void setDefaultColor(int[] colors, boolean trans) {
+ 		if (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB, colors)) {
+			System.out.println("Setting default color");
+			if (trans) {
+				Thread t = new Thread(new Runnable() {
+					public void run() {
+						int r=CorsairUtils.defaultRGB[0],g=CorsairUtils.defaultRGB[1],b=CorsairUtils.defaultRGB[2];
+						while (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB, colors)) {
+							if (CorsairUtils.defaultRGB[0] < colors[0]) {
+								r++;
+							} else if (CorsairUtils.defaultRGB[0] > colors[0]) {
+								r--;
+							}
+							
+							if (CorsairUtils.defaultRGB[1] < colors[1]) {
+								g++;
+							} else if (CorsairUtils.defaultRGB[1] > colors[1]) {
+								g--;
+							}
+							
+							if (CorsairUtils.defaultRGB[2] < colors[2]) {
+								b++;
+							} else if (CorsairUtils.defaultRGB[2] > colors[2]) {
+								b--;
+							}
+							
+							CorsairUtils.defaultRGB = new int[] {r,g,b};
+							resetKeyboard();
+						}
+					};
+				});
+				t.start();
+			} else {
+				CorsairUtils.defaultRGB = colors;
+				resetKeyboard();
+			}
+		}
+	}*/
 
 	public void showLogo() {
 		for (KeyEnum key : getKeyEnums()) {
