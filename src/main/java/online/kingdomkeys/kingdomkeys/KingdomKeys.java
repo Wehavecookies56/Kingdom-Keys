@@ -38,90 +38,91 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader
 @Mod("kingdomkeys")
 public class KingdomKeys {
 
-    public static final Logger LOGGER = LogManager.getLogger();
+	public static final Logger LOGGER = LogManager.getLogger();
 
-    public static KingdomKeys instance;
+	public static KingdomKeys instance;
 	public KeyboardManager keyboardManager;
 
-    //The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
-    @SuppressWarnings("Convert2MethodRef")
-    public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+	// The proxy instance created for the current dist double lambda prevents class
+	// being loaded on the other dist
+	@SuppressWarnings("Convert2MethodRef")
+	public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
-    public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
-            @Override
-            public ItemStack createIcon() {
-                return new ItemStack(ModItems.eternalFlames);
-            }
-        };
-    public static ItemGroup keybladesGroup = new ItemGroup(Strings.keybladesGroup) {
-        @Override
-        public ItemStack createIcon() {
-            return new ItemStack(ModItems.kingdomKey);
-        }
-    };
-    public static ItemGroup miscGroup = new ItemGroup(Strings.miscGroup) {
-        @Override
-        public ItemStack createIcon() {
-            return new ItemStack(ModBlocks.normalBlox);
-        }
-    };
+	public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
+		@Override
+		public ItemStack createIcon() {
+			return new ItemStack(ModItems.eternalFlames);
+		}
+	};
+	public static ItemGroup keybladesGroup = new ItemGroup(Strings.keybladesGroup) {
+		@Override
+		public ItemStack createIcon() {
+			return new ItemStack(ModItems.kingdomKey);
+		}
+	};
+	public static ItemGroup miscGroup = new ItemGroup(Strings.miscGroup) {
+		@Override
+		public ItemStack createIcon() {
+			return new ItemStack(ModBlocks.normalBlox);
+		}
+	};
 
-    public KingdomKeys() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+	public KingdomKeys() {
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		this.keyboardManager = new KeyboardManager();
 
-        MinecraftForge.EVENT_BUS.register(this);
-        //Client
-        MinecraftForge.EVENT_BUS.register(new GuiCommandMenu());
-        MinecraftForge.EVENT_BUS.register(new GuiPlayerPortrait());
-        MinecraftForge.EVENT_BUS.register(new GuiHP());
-        MinecraftForge.EVENT_BUS.register(new GuiMP());
-        MinecraftForge.EVENT_BUS.register(new GuiDrive());
-        MinecraftForge.EVENT_BUS.register(new InputHandler());
-        MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
+		MinecraftForge.EVENT_BUS.register(this);
+		// Client
+		MinecraftForge.EVENT_BUS.register(new GuiCommandMenu());
+		MinecraftForge.EVENT_BUS.register(new GuiPlayerPortrait());
+		MinecraftForge.EVENT_BUS.register(new GuiHP());
+		MinecraftForge.EVENT_BUS.register(new GuiMP());
+		MinecraftForge.EVENT_BUS.register(new GuiDrive());
+		MinecraftForge.EVENT_BUS.register(new InputHandler());
+		MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
 		this.keyboardManager.showLogo();
 
-        for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
-            ClientRegistry.registerKeyBinding(key.getKeybind());
+		for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
+			ClientRegistry.registerKeyBinding(key.getKeybind());
 
-        //Server
-        MinecraftForge.EVENT_BUS.register(new EntityEvents());
-    }
+		// Server
+		MinecraftForge.EVENT_BUS.register(new EntityEvents());
+	}
 
-    private void setup(final FMLCommonSetupEvent event) {
-        //Run setup on proxies
-        proxy.setup(event);
-    }
+	private void setup(final FMLCommonSetupEvent event) {
+		// Run setup on proxies
+		proxy.setup(event);
+	}
 
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        this.registerResourceLoader(event.getServer().getResourceManager());
-    }
+	@SubscribeEvent
+	public void onServerStarting(FMLServerStartingEvent event) {
+		this.registerResourceLoader(event.getServer().getResourceManager());
+	}
 
-    private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
-        resourceManager.addReloadListener(manager -> {
-            KeybladeDataLoader.loadData(manager);
-        });
+	private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
+		resourceManager.addReloadListener(manager -> {
+			KeybladeDataLoader.loadData(manager);
+		});
 
-        resourceManager.addReloadListener(manager -> {
-            OrganizationDataLoader.loadData(manager);
-        });
-    }
+		resourceManager.addReloadListener(manager -> {
+			OrganizationDataLoader.loadData(manager);
+		});
+	}
 
-    @SubscribeEvent
-    public void hitEntity(LivingHurtEvent event) {
-        if (event.getSource().getTrueSource() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
-            if (player.getHeldItemMainhand().getItem() instanceof ItemKeyblade) {
-                ItemKeyblade heldKeyblade = (ItemKeyblade) player.getHeldItemMainhand().getItem();
-                //TODO add player's strength stat
-                //TODO improved damage calculation
-                event.setAmount(heldKeyblade.getStrength(heldKeyblade.getKeybladeLevel()));
-            }
-        }
-    }
+	@SubscribeEvent
+	public void hitEntity(LivingHurtEvent event) {
+		if (event.getSource().getTrueSource() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+			if (player.getHeldItemMainhand().getItem() instanceof ItemKeyblade) {
+				ItemKeyblade heldKeyblade = (ItemKeyblade) player.getHeldItemMainhand().getItem();
+				// TODO add player's strength stat
+				// TODO improved damage calculation
+				event.setAmount(heldKeyblade.getStrength(heldKeyblade.getKeybladeLevel()));
+			}
+		}
+	}
 
-    public KeyboardManager getKeyboardManager() {
+	public KeyboardManager getKeyboardManager() {
 		return this.keyboardManager;
 	}
 }

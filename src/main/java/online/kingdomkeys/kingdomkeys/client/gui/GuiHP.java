@@ -12,10 +12,8 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Reference;
 
 public class GuiHP extends GuiScreen {
-    int guiWidth = 173;
     int hpBarWidth;
     int guiHeight = 10;
-    int noborderguiwidth = 171;
 
     int counter = 0;
 
