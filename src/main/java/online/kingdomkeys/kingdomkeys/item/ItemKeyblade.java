@@ -7,18 +7,17 @@ import javax.annotation.Nullable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.SwordItem;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.lib.Reference;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 
-public class ItemKeyblade extends ItemSword {
+public class ItemKeyblade extends SwordItem {
 
     //Level 0 = no upgrades, will use base stats in the data file
     private int level = 0;
@@ -27,7 +26,7 @@ public class ItemKeyblade extends ItemSword {
     //TODO remove attack damage
     public ItemKeyblade(String name, int attackDamageIn, float attackSpeedIn) {
         super(new ItemTierKeyblade(attackDamageIn), attackDamageIn, attackSpeedIn, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1));
-        setRegistryName(Reference.MODID, name);
+        setRegistryName(KingdomKeys.MODID, name);
     }
 
     //Get strength from the data based on level
@@ -61,10 +60,10 @@ public class ItemKeyblade extends ItemSword {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         //TODO make better tooltip (translations and looks)
         if (data != null) {
-            tooltip.add(new TextComponentTranslation("Level %s", getKeybladeLevel()));
-            tooltip.add(new TextComponentTranslation("Strength %s", getStrength(getKeybladeLevel())));
-            tooltip.add(new TextComponentTranslation("Magic %s", getMagic(getKeybladeLevel())));
-            tooltip.add(new TextComponentTranslation(TextFormatting.ITALIC + getDescription()));
+            tooltip.add(new TranslationTextComponent("Level %s", getKeybladeLevel()));
+            tooltip.add(new TranslationTextComponent("Strength %s", getStrength(getKeybladeLevel())));
+            tooltip.add(new TranslationTextComponent("Magic %s", getMagic(getKeybladeLevel())));
+            tooltip.add(new TranslationTextComponent(TextFormatting.ITALIC + getDescription()));
         }
     }
 }

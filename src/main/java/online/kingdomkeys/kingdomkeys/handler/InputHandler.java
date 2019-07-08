@@ -3,36 +3,33 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.capability.DriveStateCapability.IDriveState;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.PlayerStatsCapability;
-import online.kingdomkeys.kingdomkeys.capability.PlayerStatsCapability.IPlayerStats;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiCommandMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 
+//TODO cleanup
 public class InputHandler {
 
     List<String> magicCommands, itemsCommands, driveCommands;
     List<PortalCoords> portalCommands;
     //List<Ability> attackCommands;
 
-    public static EntityLivingBase lockOn = null;
+    public static LivingEntity lockOn = null;
 
     public boolean antiFormCheck() {
         Minecraft mc = Minecraft.getInstance();
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         World world = mc.world;
         double random = Math.random();
         int ap = 0;//TODO player.getCapability(ModCapabilities.DRIVE_STATE, null).getAntiPoints();
@@ -179,10 +176,10 @@ public class InputHandler {
     public void commandEnter() {
     	Minecraft mc = Minecraft.getInstance();
         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuin, SoundCategory.MASTER, 1.0f, 1.0f);
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         World world = mc.world;
-        PlayerStatsCapability.IPlayerStats STATS = (IPlayerStats) player.getCapability(ModCapabilities.PLAYER_STATS, null);
-        IDriveState DRIVE = (IDriveState) player.getCapability(ModCapabilities.DRIVE_STATE, null);
+        //PlayerStatsCapability.IPlayerStats STATS = (IPlayerStats) player.getCapability(ModCapabilities.PLAYER_STATS, null);
+        //IDriveState DRIVE = (IDriveState) player.getCapability(ModCapabilities.DRIVE_STATE, null);
 
         loadLists();
 
@@ -369,7 +366,7 @@ public class InputHandler {
     public void commandBack() {
     	Minecraft mc = Minecraft.getInstance();
         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuout, SoundCategory.MASTER, 1.0f, 1.0f);
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         World world = mc.world;
 
         if (GuiCommandMenu.submenu == GuiCommandMenu.SUB_MAIN)
@@ -400,7 +397,7 @@ public class InputHandler {
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getInstance();
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         World world = mc.world;
       //  SummonKeybladeCapability.ISummonKeyblade SUMMON = player.getCapability(ModCapabilities.SUMMON_KEYBLADE, null);
 
@@ -518,7 +515,7 @@ public class InputHandler {
     @SubscribeEvent
     public void OnMouseWheelScroll(online.kingdomkeys.kingdomkeys.handler.ScrollCallbackWrapper.MouseScrolledEvent event) {
         Minecraft mc = Minecraft.getInstance();
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         World world = mc.world;
 
         if (!mc.isGameFocused() && !KeyboardHelper.isScrollActivatorDown()) {
@@ -565,7 +562,7 @@ public class InputHandler {
 
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
         /*PlayerStatsCapability.IPlayerStats STATS = player.getCapability(ModCapabilities.PLAYER_STATS, null);
         IDriveState DS = player.getCapability(ModCapabilities.DRIVE_STATE, null);
         this.magicCommands = new ArrayList<String>();

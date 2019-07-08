@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.capability;
 
 
@@ -51,3 +52,4 @@ public class ModCapabilities {
     }
 
 }
+*/

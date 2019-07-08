@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.util.text.TextComponentTranslation;
-
 
 /**
  * Created by Toby on 19/07/2016.
@@ -63,21 +61,15 @@ public class Utils {
 		return (float) (Math.random() * range) + (min <= max ? min : max);
 	}
 
-
-	public static String translateToLocalFormatted(String name, Object... format) {
-		TextComponentTranslation translation = new TextComponentTranslation(name, format);
-		return translation.getFormattedText();
-	}
-
-
-	public static String translateToLocal(String name) {
-		TextComponentTranslation translation = new TextComponentTranslation(name);
-		return translation.getFormattedText();
-	}
-
 	public static enum OrgMember {
 		XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS, NONE
 	}
+
+	/**
+	 *
+	 * MOST OF THIS WON'T BE HERE ANYMORE
+	 *
+	 */
 
 	/*public static boolean summonWeapon(EntityPlayer player, EnumHand hand, int keychainSlot) {
 		SummonKeybladeCapability.ISummonKeyblade summonCap = player.getCapability(ModCapabilities.SUMMON_KEYBLADE, null);

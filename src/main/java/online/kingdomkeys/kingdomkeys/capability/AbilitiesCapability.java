@@ -1,11 +1,13 @@
+//TODO redo pretty much all of the capabilities
+/*
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
 
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
@@ -53,50 +55,50 @@ public class AbilitiesCapability {
 	public static class Storage implements IStorage<IAbilities> {
 
 		@Override
-		public INBTBase writeNBT(Capability<IAbilities> capability, IAbilities instance, EnumFacing side) {
-			NBTTagCompound properties = new NBTTagCompound();
+		public INBT writeNBT(Capability<IAbilities> capability, IAbilities instance, Direction side) {
+			CompoundNBT properties = new CompoundNBT();
 
-			NBTTagList uTagList = new NBTTagList();
+			ListNBT uTagList = new ListNBT();
 			for (int i = 0; i < instance.getUnlockedAbilities().size(); i++) {
 				Ability a = instance.getUnlockedAbilities().get(i);
 				String s = a.getName();
-				NBTTagCompound abilities = new NBTTagCompound();
-				abilities.setString("UAbilities" + i, s);
-				uTagList.appendTag(abilities);
+				CompoundNBT abilities = new CompoundNBT();
+				abilities.putString("UAbilities" + i, s);
+				uTagList.add(abilities);
 			}
-			properties.setTag("UAbilitiesList", uTagList);
+			properties.put("UAbilitiesList", uTagList);
 
-			NBTTagList eTagList = new NBTTagList();
+			ListNBT eTagList = new ListNBT();
 			for (int i = 0; i < instance.getEquippedAbilities().size(); i++) {
 				Ability a = instance.getEquippedAbilities().get(i);
 				String s = a.getName();
-				NBTTagCompound abilities = new NBTTagCompound();
-				abilities.setString("EAbilities" + i, s);
-				eTagList.appendTag(abilities);
+				CompoundNBT abilities = new CompoundNBT();
+				abilities.putString("EAbilities" + i, s);
+				eTagList.add(abilities);
 			}
-			properties.setTag("EAbilitiesList", eTagList);
+			properties.put("EAbilitiesList", eTagList);
 			return properties;
 
 		}
 
 		@Override
-		public void readNBT(Capability<IAbilities> capability, IAbilities instance, EnumFacing side, INBTBase nbt) {
-			NBTTagCompound properties = (NBTTagCompound) nbt;
+		public void readNBT(Capability<IAbilities> capability, IAbilities instance, Direction side, INBT nbt) {
+			CompoundNBT properties = (CompoundNBT) nbt;
 
-			NBTTagList uTagList = properties.getList("UAbilitiesList", Constants.NBT.TAG_COMPOUND);
+			ListNBT uTagList = properties.getList("UAbilitiesList", Constants.NBT.TAG_COMPOUND);
 			for (int i = 0; i < uTagList.size(); i++) {
-				NBTTagCompound abilities = uTagList.getCompound(i);
-				Ability ability = GameRegistry.findRegistry(Ability.class).getValue(new ResourceLocation(Reference.MODID + ":" + abilities.getString("UAbilities" + i)));
+				CompoundNBT abilities = uTagList.getCompound(i);
+				Ability ability = GameRegistry.findRegistry(Ability.class).getValue(new ResourceLocation(KingdomKeys.MODID + ":" + abilities.getString("UAbilities" + i)));
 				instance.getUnlockedAbilities().add(i, ability);
 				KingdomKeys.LOGGER.info("Loaded unlocked ability: " + abilities.getString("UAbilities" + i) + " " + i);
 			}
 
-			NBTTagList eTagList = properties.getTagList("EAbilitiesList", Constants.NBT.TAG_COMPOUND);
-			for (int i = 0; i < eTagList.tagCount(); i++) {
-				NBTTagCompound abilities = eTagList.getCompoundTagAt(i);
-				Ability ability = GameRegistry.findRegistry(Ability.class).getValue(new ResourceLocation(Reference.MODID + ":" + abilities.getString("EAbilities" + i)));
+			ListNBT eTagList = properties.getList("EAbilitiesList", Constants.NBT.TAG_COMPOUND);
+			for (int i = 0; i < eTagList.size(); i++) {
+				CompoundNBT abilities = eTagList.getCompound(i);
+				Ability ability = GameRegistry.findRegistry(Ability.class).getValue(new ResourceLocation(KingdomKeys.MODID + ":" + abilities.getString("EAbilities" + i)));
 				instance.getEquippedAbilities().add(i, ability);
-				KingdomKeys.logger.info("Loaded equipped ability: " + abilities.getString("EAbilities" + i) + " " + i);
+				KingdomKeys.LOGGER.info("Loaded equipped ability: " + abilities.getString("EAbilities" + i) + " " + i);
 			}
 		}
 	}
@@ -206,3 +208,4 @@ public class AbilitiesCapability {
 		}
 	}
 }
+*/

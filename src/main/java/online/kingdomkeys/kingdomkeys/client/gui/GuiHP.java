@@ -1,28 +1,35 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
-import online.kingdomkeys.kingdomkeys.lib.Reference;
 
-public class GuiHP extends GuiScreen {
+//TODO cleanup + comments
+public class GuiHP extends Screen {
     int hpBarWidth;
     int guiHeight = 10;
 
     int counter = 0;
+
+    public GuiHP() {
+        super(new TranslationTextComponent(""));
+    }
 
     @SubscribeEvent
     public void onRenderOverlayPost(RenderGameOverlayEvent event) {
        // if (!MainConfig.displayGUI())
         //    return;
         Minecraft mc = Minecraft.getInstance();
-        EntityPlayer player = mc.player;
+        PlayerEntity player = mc.player;
        //if (!player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
         //    return;
         if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
@@ -30,7 +37,7 @@ public class GuiHP extends GuiScreen {
            // event.setCanceled(true);
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-            mc.textureManager.bindTexture(new ResourceLocation(Reference.MODID, "textures/gui/hpbar.png"));
+            mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
             int screenWidth = mc.mainWindow.getScaledWidth();
             int screenHeight = mc.mainWindow.getScaledHeight();
@@ -68,7 +75,7 @@ public class GuiHP extends GuiScreen {
     }
 
     public void drawHPBarBack(int posX, int posY, int width, float scale) {
-        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(Reference.MODID, "textures/gui/hpbar.png"));
+        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
         GL11.glPushMatrix();
         {
             //Left
@@ -76,7 +83,7 @@ public class GuiHP extends GuiScreen {
             {
                 GL11.glTranslatef(scale * posX, scale * posY, 0);
                 GL11.glScalef(scale, scale, 0);
-                drawTexturedModalRect(0, 0, 0, 0, 2, 12);
+                blit(0, 0, 0, 0, 2, 12);
             }
             GL11.glPopMatrix();
 
@@ -85,7 +92,7 @@ public class GuiHP extends GuiScreen {
             {
                 GL11.glTranslatef((posX + 2) * scale, posY * scale, 0);
                 GL11.glScalef(width, scale, 0);
-                drawTexturedModalRect(0, 0, 2, 0, 1, 12);
+                blit(0, 0, 2, 0, 1, 12);
             }
             GL11.glPopMatrix();
 
@@ -94,7 +101,7 @@ public class GuiHP extends GuiScreen {
             {
                 GL11.glTranslatef((posX + 2) * scale + width, scale * posY, 0);
                 GL11.glScalef(scale, scale, 0);
-                drawTexturedModalRect(0, 0, 3, 0, 2, 12);
+                blit(0, 0, 3, 0, 2, 12);
             }
             GL11.glPopMatrix();
         }
@@ -102,14 +109,14 @@ public class GuiHP extends GuiScreen {
 
     }
 
-    public void drawHPBarTop(int posX, int posY, int width, float scale, EntityPlayer player) {
-        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(Reference.MODID, "textures/gui/hpbar.png"));
+    public void drawHPBarTop(int posX, int posY, int width, float scale, PlayerEntity player) {
+        Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
         GL11.glPushMatrix();
         {
             GL11.glTranslatef((posX + 2) * scale, (posY + 2) * scale, 0);
             GL11.glScalef(width, scale, 0);
             int v = player.getHealth() >= player.getMaxHealth() / 4 ? 12 : 22;
-            drawTexturedModalRect(0, -1, 2, v, 1, 8);
+            blit(0, -1, 2, v, 1, 8);
         }
         GL11.glPopMatrix();
 

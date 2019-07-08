@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
@@ -70,9 +71,7 @@ public class TutorialsCapability {
 			if (watched) {
 				if (!list.contains(id)) {
 					list.add(id);
-				}/* else {
-					System.out.println("Tutorial already watched");
-				}*/
+				}
 			} else {
 				if (list.contains(id)) {
 					for (int i = 0; i < list.size(); i++) {
@@ -80,9 +79,7 @@ public class TutorialsCapability {
 							list.remove(i);
 						}
 					}
-				}/* else {
-					System.out.println("Tutorial was not watched");
-				}*/
+				}
 			}
 		}
 
@@ -99,3 +96,4 @@ public class TutorialsCapability {
 		}
 	}
 }
+*/

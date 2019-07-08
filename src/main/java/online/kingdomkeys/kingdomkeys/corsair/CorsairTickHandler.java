@@ -17,20 +17,22 @@ public class CorsairTickHandler {
 
 	@SubscribeEvent
 	public void worldTick(TickEvent.ClientTickEvent event) {
-		if (!loadedLayout) {
-			keyboardManager.resetKeyboard();
-			loadedLayout = true;
-		}
+		if (keyboardManager != null) {
+			if (!loadedLayout) {
+				keyboardManager.resetKeyboard();
+				loadedLayout = true;
+			}
 
-		if (event.side == LogicalSide.CLIENT) {
-			// this.keyboardManager.showLogo();
-			keyboardManager.updateKeys();
-		}
-		
-		if (EntityEvents.isHostiles) {
-			keyboardManager.setDefaultColor(new int[] { 255, 0, 0 });
-		} else {
-			keyboardManager.setDefaultColor(new int[] { 0, 0, 255 });
+			if (event.side == LogicalSide.CLIENT) {
+				// this.keyboardManager.showLogo();
+				keyboardManager.updateKeys();
+			}
+
+			if (EntityEvents.isHostiles) {
+				keyboardManager.setDefaultColor(new int[]{255, 0, 0});
+			} else {
+				keyboardManager.setDefaultColor(new int[]{0, 0, 255});
+			}
 		}
 	}
 }

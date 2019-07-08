@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.capability;
 
 import net.minecraft.nbt.NBTBase;
@@ -46,5 +47,5 @@ public class MunnyCapability {
 
     }
 }
-
+*/
 

@@ -2,7 +2,7 @@ package online.kingdomkeys.kingdomkeys.corsair.functions;
 
 import java.awt.Color;
 
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
 public class BaseKeyboardFunctions {
@@ -23,7 +23,7 @@ public class BaseKeyboardFunctions {
 		return new int[] { red, green, blue };
 	}
 
-	protected static float getAir(EntityPlayerSP player) {
+	protected static float getAir(ClientPlayerEntity player) {
 		return player.getAir();
 	}
 
@@ -31,7 +31,7 @@ public class BaseKeyboardFunctions {
 		return maxAir;
 	}
 
-	protected static float getFood(EntityPlayerSP player) {
+	protected static float getFood(ClientPlayerEntity player) {
 		return player.getFoodStats().getFoodLevel();
 	}
 
@@ -39,14 +39,14 @@ public class BaseKeyboardFunctions {
 		return maxFood;
 	}
 
-	protected static float getHealth(EntityPlayerSP player) {
+	protected static float getHealth(ClientPlayerEntity player) {
 		return player.getHealth();
 	}
 
-	protected static float getMaxHealth(EntityPlayerSP player) {
+	protected static float getMaxHealth(ClientPlayerEntity player) {
 		return player.getMaxHealth();
 	}
-	protected static float getAbsorption(EntityPlayerSP player) {
+	protected static float getAbsorption(ClientPlayerEntity player) {
 		return player.getAbsorptionAmount();
 	}
 

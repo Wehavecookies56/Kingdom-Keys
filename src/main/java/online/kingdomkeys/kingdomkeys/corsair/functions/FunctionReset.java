@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.corsair.functions;
 
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import online.kingdomkeys.kingdomkeys.corsair.lib.CorsairUtils;
 
 public class FunctionReset extends BaseKeyboardFunctions {
@@ -11,7 +11,7 @@ public class FunctionReset extends BaseKeyboardFunctions {
 	 * @param player
 	 * @return
 	 */
-	static int[] getRGBKeyColor(EntityPlayerSP player) {
+	static int[] getRGBKeyColor(ClientPlayerEntity player) {
 			return CorsairUtils.defaultRGB;
 		
 	}

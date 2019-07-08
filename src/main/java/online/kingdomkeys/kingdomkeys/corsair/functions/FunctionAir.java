@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.corsair.functions;
 
-import net.minecraft.client.entity.EntityPlayerSP;
+
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 
 public class FunctionAir extends BaseKeyboardFunctions {
 
@@ -11,7 +12,7 @@ public class FunctionAir extends BaseKeyboardFunctions {
 	 * @param key
 	 * @return
 	 */
-	static int[] getRGBKeyColor(EntityPlayerSP player, int key) {
+	static int[] getRGBKeyColor(ClientPlayerEntity player, int key) {
 		int[] color = { 0, 0, 0 };
 
 		if (player == null) {
@@ -39,7 +40,7 @@ public class FunctionAir extends BaseKeyboardFunctions {
 	 * @param player
 	 * @return
 	 */
-	static int[] getRGBKeyColor(EntityPlayerSP player) {
+	static int[] getRGBKeyColor(ClientPlayerEntity player) {
 		if (player == null) {
 			return decimalToRGB(0);
 		}

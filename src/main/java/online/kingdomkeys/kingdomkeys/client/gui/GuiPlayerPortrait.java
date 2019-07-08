@@ -1,15 +1,23 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
-public class GuiPlayerPortrait extends GuiScreen {
+//TODO cleanup + comments
+public class GuiPlayerPortrait extends Screen {
+
+    public GuiPlayerPortrait() {
+        super(new TranslationTextComponent(""));
+    }
+
     @SubscribeEvent
     public void onRenderOverlayPost(RenderGameOverlayEvent event) {
 //        if (!MainConfig.displayGUI())
@@ -56,7 +64,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 32, 32, headWidth, headHeight);
+                    this.blit(0, 0, 32, 32, headWidth, headHeight);
                 }
                 GL11.glPopMatrix();
 
@@ -72,7 +80,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 160, 32, hatWidth, hatHeight);
+                    this.blit(0, 0, 160, 32, hatWidth, hatHeight);
                 }
                 GL11.glPopMatrix();
 
@@ -88,7 +96,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 80, 80, bodyWidth, bodyHeight);
+                    this.blit(0, 0, 80, 80, bodyWidth, bodyHeight);
                 }
                 GL11.glPopMatrix();
 
@@ -104,7 +112,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 80, 148, bodyWidth, bodyHeight);
+                    this.blit(0, 0, 80, 148, bodyWidth, bodyHeight);
                 }
                 GL11.glPopMatrix();
 
@@ -124,7 +132,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 176, 80, armWidth, armHeight);
+                    this.blit(0, 0, 176, 80, armWidth, armHeight);
                 }
                 GL11.glPopMatrix();
 
@@ -132,7 +140,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 176, 80, armWidth, armHeight);
+                    this.blit(0, 0, 176, 80, armWidth, armHeight);
                 }
                 GL11.glPopMatrix();
                 GL11.glColor4f(100.0F, 1.0F, 1.0F, 1.0F);
@@ -153,7 +161,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 176, 150, gloveWidth, gloveHeight);
+                    this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
                 }
                 GL11.glPopMatrix();
 
@@ -161,7 +169,7 @@ public class GuiPlayerPortrait extends GuiScreen {
                 {
                     GL11.glTranslatef((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
                     GL11.glScalef(scale, scale, scale);
-                    this.drawTexturedModalRect(0, 0, 176, 150, gloveWidth, gloveHeight);
+                    this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
                 }
                 GL11.glPopMatrix();
 

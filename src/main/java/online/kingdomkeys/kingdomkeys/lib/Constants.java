@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.lib;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO cleanup
+
 public class Constants {
 
     public static final int

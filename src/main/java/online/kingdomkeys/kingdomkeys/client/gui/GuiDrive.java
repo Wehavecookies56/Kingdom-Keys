@@ -2,21 +2,24 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
-import online.kingdomkeys.kingdomkeys.lib.Reference;
 
-public class GuiDrive extends GuiScreen {
+//TODO cleanup + comments
+public class GuiDrive extends Screen {
     Minecraft mc = Minecraft.getInstance();
 
-    ResourceLocation texture = new ResourceLocation(Reference.MODID, "textures/gui/drivebar.png");
+    ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
 
     int maxDrive = 1000;
     int maxLength = 100;
@@ -34,7 +37,7 @@ public class GuiDrive extends GuiScreen {
 
 
     public GuiDrive() {
-
+        super(new TranslationTextComponent(""));
     }
 
     public int getMaxBars(int level) {
@@ -97,7 +100,7 @@ public class GuiDrive extends GuiScreen {
             int guiHeight = 18;
             int screenWidth = mc.mainWindow.getScaledWidth();
             int screenHeight = mc.mainWindow.getScaledHeight();
-            EntityPlayer player = mc.player;
+            PlayerEntity player = mc.player;
 
             mc.textureManager.bindTexture(texture);
 
@@ -127,7 +130,7 @@ public class GuiDrive extends GuiScreen {
                     GL11.glScalef(scale, scale, scale);
 
                     //  if (!STATE.getInDrive()) {
-                    this.drawTexturedModalRect(15, 6, 0, 0, guiWidth, guiHeight);
+                    this.blit(15, 6, 0, 0, guiWidth, guiHeight);
                     //  } else {
                     //     this.drawTexturedModalRect(15, 6, 98, 0, guiWidth, guiHeight);
                     //  }
@@ -140,7 +143,7 @@ public class GuiDrive extends GuiScreen {
                     GL11.glTranslatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
                     GL11.glScalef(scale, scale, scale);
                     // if (STATE.getActiveDriveName().equals("none")) {
-                    this.drawTexturedModalRect(14, 6, 0, 18, (int) currDrive, guiHeight);
+                    this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
                     //} else {
                     //  this.drawTexturedModalRect(16, 6, 98, 18, (int) currForm, guiHeight);
                     //}
@@ -155,7 +158,7 @@ public class GuiDrive extends GuiScreen {
 
                     // int numPos = STATE.getActiveDriveName().equals("none") ? getCurrBar(dp, STATE.getDriveGaugeLevel()) * 10 : 97 + (getCurrBar(fp, STATE.getFormGaugeLevel(STATE.getActiveDriveName())) * 10);
                     int numPos = getCurrBar(dp, 9) * 10;
-                    this.drawTexturedModalRect(14, 6, numPos, 38, 8, guiHeight);
+                    this.blit(14, 6, numPos, 38, 8, guiHeight);
                 }
                 GL11.glPopMatrix();
 
@@ -181,7 +184,7 @@ public class GuiDrive extends GuiScreen {
 
                         GL11.glTranslatef(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (10 * scale)), 0);
                         GL11.glScalef(scale, scale, scale);
-                        drawTexturedModalRect(0, -3, 0, 57, 30, guiHeight);
+                        blit(0, -3, 0, 57, 30, guiHeight);
                         GL11.glColor3ub((byte) 255, (byte) 255, (byte) 255);
                     }
                 GL11.glPopMatrix();

@@ -2,18 +2,20 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.MoverType;
-import net.minecraft.init.Particles;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.*;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.play.server.SSpawnObjectPacket;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 /**
- * Mostly a copy of {@link net.minecraft.entity.item.EntityTNTPrimed} with some small changes
+ * Mostly a copy of {@link net.minecraft.entity.item.TNTEntity} with some small changes
  */
 public class EntityBlastBloxPrimed extends Entity {
 
@@ -21,22 +23,18 @@ public class EntityBlastBloxPrimed extends Entity {
     private int fuse = 40;
 
     @Nullable
-    private EntityLivingBase placedBy;
+    private LivingEntity placedBy;
 
-    public EntityBlastBloxPrimed(World world) {
-        super(ModEntities.TYPE_BLAST_BLOX, world);
+    public EntityBlastBloxPrimed(EntityType<? extends Entity> type, World world) {
+        super(type, world);
         this.preventEntitySpawning = true;
-        this.isImmuneToFire = true;
-        this.setSize(0.98F, 0.98F);
     }
 
-    public EntityBlastBloxPrimed(World world, double x, double y, double z, @Nullable EntityLivingBase igniter) {
-        this(world);
+    public EntityBlastBloxPrimed(EntityType type, World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+        this(type, world);
         this.setPosition(x, y, z);
-        float f = (float)(Math.random() * (double)((float)Math.PI * 2F));
-        this.motionX = (double)(-((float)Math.sin((double)f)) * 0.02F);
-        this.motionY = (double)0.2F;
-        this.motionZ = (double)(-((float)Math.cos((double)f)) * 0.02F);
+        double random = world.rand.nextDouble() * 6.2831854820251465D;
+        this.setMotion(-Math.sin(random) * 0.02D, 0.20000000298023224D, -Math.cos(random) * 0.02D);
         this.setFuse(40);
         this.prevPosX = x;
         this.prevPosY = y;
@@ -65,17 +63,13 @@ public class EntityBlastBloxPrimed extends Entity {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         if (!this.hasNoGravity()) {
-            this.motionY -= (double)0.04F;
+            this.setMotion(this.getMotion().add(0.0D, -0.04D, 0.0D));
         }
 
-        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-        this.motionX *= (double)0.98F;
-        this.motionY *= (double)0.98F;
-        this.motionZ *= (double)0.98F;
+        this.move(MoverType.SELF, this.getMotion());
+        this.setMotion(this.getMotion().scale(0.98D));
         if (this.onGround) {
-            this.motionX *= (double)0.7F;
-            this.motionZ *= (double)0.7F;
-            this.motionY *= -0.5D;
+            this.setMotion(this.getMotion().mul(0.7D, -0.5D, 0.7D));
         }
 
         --this.fuse;
@@ -86,32 +80,32 @@ public class EntityBlastBloxPrimed extends Entity {
             }
         } else {
             this.handleWaterMovement();
-            this.world.spawnParticle(Particles.FLAME, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.world.addParticle(ParticleTypes.FLAME, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
     }
 
     private void explode() {
         float explosionSize = 8.0F;
-        this.world.createExplosion(this, this.posX, this.posY + (double)(this.height / 16.0F), this.posZ, explosionSize, true);
+        this.world.createExplosion(this, this.posX, this.posY + (double)(this.getHeight() / 16.0F), this.posZ, explosionSize, true, Explosion.Mode.BREAK);
     }
 
     @Override
-    protected void writeAdditional(NBTTagCompound compound) {
-        compound.setShort("Fuse", (short)this.getFuse());
+    protected void writeAdditional(CompoundNBT compound) {
+        compound.putShort("Fuse", (short)this.getFuse());
     }
 
     @Override
-    protected void readAdditional(NBTTagCompound compound) {
+    protected void readAdditional(CompoundNBT compound) {
         this.setFuse(compound.getShort("Fuse"));
     }
 
     @Nullable
-    public EntityLivingBase getPlacedBy() {
+    public LivingEntity getPlacedBy() {
         return this.placedBy;
     }
 
     @Override
-    public float getEyeHeight() {
+    protected float getEyeHeight(Pose pose, EntitySize entitySize) {
         return 0.0F;
     }
 
@@ -133,5 +127,10 @@ public class EntityBlastBloxPrimed extends Entity {
 
     public int getFuse() {
         return this.fuse;
+    }
+
+    @Override
+    public IPacket<?> createSpawnPacket() {
+        return new SSpawnObjectPacket(this);
     }
 }

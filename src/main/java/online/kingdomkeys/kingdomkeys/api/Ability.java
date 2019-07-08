@@ -1,30 +1,40 @@
 package online.kingdomkeys.kingdomkeys.api;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import javax.annotation.Nullable;
 
 
-public class Ability extends IForgeRegistryEntry.Impl<Ability> {
+public class Ability implements IForgeRegistryEntry<Ability> {
 
     int apCost;
-    String name;
+    ResourceLocation name;
     Category category;
     
     public Ability (int apCost, String name, Category cat) {
         this.apCost = apCost;
-        this.name = name;
+        setRegistryName(new ResourceLocation(KingdomKeys.MODID+":"+name));
         this.category = cat;
-        
-        setRegistryName(Reference.MODID+":"+name);
     }
 
     public int getApCost() {
         return apCost;
     }
 
-    public String getName() {
+    @Nullable
+    @Override
+    public ResourceLocation getRegistryName() {
         return name;
     }
-    
+
+    @Override
+    public Ability setRegistryName(ResourceLocation resourceLocation) {
+        name = resourceLocation;
+        return this;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -34,5 +44,10 @@ public class Ability extends IForgeRegistryEntry.Impl<Ability> {
     	GROWTH,
     	SUPPORT,
     	WEAPONS
+    }
+
+    @Override
+    public Class<Ability> getRegistryType() {
+        return Ability.class;
     }
 }

@@ -5,7 +5,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import online.kingdomkeys.kingdomkeys.lib.Reference;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ModSounds {
 
@@ -102,10 +102,10 @@ public class ModSounds {
                     ;
 
     public static SoundEvent registerSound(String name) {
-        final ResourceLocation soundID = new ResourceLocation(Reference.MODID, name);
+        final ResourceLocation soundID = new ResourceLocation(KingdomKeys.MODID, name);
         return new SoundEvent(soundID).setRegistryName(soundID);
     }
-    @Mod.EventBusSubscriber(modid = Reference.MODID)
+    @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
     public static class register {
 
         @SubscribeEvent

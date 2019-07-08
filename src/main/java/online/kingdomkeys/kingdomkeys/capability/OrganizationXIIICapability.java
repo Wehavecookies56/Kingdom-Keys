@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
@@ -17,9 +18,6 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
-/**
- * Created by Toby on 08/02/2017.
- */
 public class OrganizationXIIICapability {
 
     List<Item> unlockedWeapons = new ArrayList<>();
@@ -219,3 +217,4 @@ public class OrganizationXIIICapability {
     }
 
 }
+*/

@@ -11,7 +11,7 @@ import dk.allanmc.cuesdk.jna.CorsairLedPosition;
 import dk.allanmc.cuesdk.jna.CorsairLedPositions;
 import dk.allanmc.cuesdk.jna.CueSDKLibrary;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import online.kingdomkeys.kingdomkeys.corsair.functions.KeyFunction;
 import online.kingdomkeys.kingdomkeys.corsair.lib.KeyEnum;
 import online.kingdomkeys.kingdomkeys.corsair.lib.CorsairUtils;
@@ -132,7 +132,7 @@ public class KeyboardManager {
 	boolean fadingOut = false;
 
 	void updateKeys() {
-		final EntityPlayerSP player = Minecraft.getInstance().player;
+		final ClientPlayerEntity player = Minecraft.getInstance().player;
 
 		/*
 		 * if (player != null) { if (player.motionY > 0) { lightKeys(new KeyEnum[] {

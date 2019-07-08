@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.util.InputMappings;
@@ -10,7 +11,7 @@ public class KeyboardHelper {
     // same format.
 
     public static boolean isShiftDown () {
-        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
+        return isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
         /*    return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
         else return false;*/
     }
@@ -27,7 +28,16 @@ public class KeyboardHelper {
             return InputMappings.isKeyDown(InputMappings.getInputByName("key.kingdomkeys.scrollactivator").getKeyCode());
         else
             return false;*/
-        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_ALT);
+        return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT);
+    }
+
+    /**
+     * Wrapper function so the the MC window handle doesn't need to passed every time
+     * @param key the key to check if being pressed
+     * @return whether the key is being pressed
+     */
+    public static boolean isKeyDown(int key) {
+        return InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), key);
     }
 
 }

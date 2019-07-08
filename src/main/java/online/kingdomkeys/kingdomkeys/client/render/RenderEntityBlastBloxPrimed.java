@@ -2,13 +2,13 @@ package online.kingdomkeys.kingdomkeys.client.render;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.state.IBlockState;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,14 +18,14 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.EntityBlastBloxPrimed;
 
 /**
- * Mostly a copy of {@link net.minecraft.client.renderer.entity.RenderTNTPrimed} with some small changes
+ * Mostly a copy of {@link net.minecraft.client.renderer.entity.TNTRenderer} with some small changes
  */
 @OnlyIn(Dist.CLIENT)
-public class RenderEntityBlastBloxPrimed extends Render<EntityBlastBloxPrimed> {
+public class RenderEntityBlastBloxPrimed extends EntityRenderer<EntityBlastBloxPrimed> {
 
     public static final Factory FACTORY = new RenderEntityBlastBloxPrimed.Factory();
 
-    public RenderEntityBlastBloxPrimed(RenderManager renderManager) {
+    public RenderEntityBlastBloxPrimed(EntityRendererManager renderManager) {
         super(renderManager);
         this.shadowSize = 0.5F;
     }
@@ -33,7 +33,7 @@ public class RenderEntityBlastBloxPrimed extends Render<EntityBlastBloxPrimed> {
     @Override
     public void doRender(EntityBlastBloxPrimed entity, double x, double y, double z, float entityYaw, float partialTicks) {
         BlockRendererDispatcher brd = Minecraft.getInstance().getBlockRendererDispatcher();
-        IBlockState blastBloxState = ModBlocks.blastBlox.getDefaultState();
+        BlockState blastBloxState = ModBlocks.blastBlox.getDefaultState();
         GlStateManager.pushMatrix();
         GlStateManager.translatef((float)x, (float)y + 0.5f, (float)z);
         float f2;
@@ -54,12 +54,12 @@ public class RenderEntityBlastBloxPrimed extends Render<EntityBlastBloxPrimed> {
         GlStateManager.translatef(0.0F, 0.0F, 1.0F);
         if (this.renderOutlines) {
             GlStateManager.enableColorMaterial();
-            GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+            GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
             brd.renderBlockBrightness(blastBloxState, 1.0F);
-            GlStateManager.disableOutlineMode();
+            GlStateManager.tearDownSolidRenderingTextureCombine();
             GlStateManager.disableColorMaterial();
         } else if (entity.getFuse() / 5 % 2 == 0) {
-            GlStateManager.disableTexture2D();
+            GlStateManager.disableTexture();
             GlStateManager.disableLighting();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.DST_ALPHA);
@@ -72,7 +72,7 @@ public class RenderEntityBlastBloxPrimed extends Render<EntityBlastBloxPrimed> {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.disableBlend();
             GlStateManager.enableLighting();
-            GlStateManager.enableTexture2D();
+            GlStateManager.enableTexture();
         }
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
@@ -81,13 +81,13 @@ public class RenderEntityBlastBloxPrimed extends Render<EntityBlastBloxPrimed> {
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(EntityBlastBloxPrimed entity) {
-        return TextureMap.LOCATION_BLOCKS_TEXTURE;
+        return AtlasTexture.LOCATION_BLOCKS_TEXTURE;
     }
 
     public static class Factory implements IRenderFactory<EntityBlastBloxPrimed> {
         @Override
-        public Render<? super EntityBlastBloxPrimed> createRenderFor(RenderManager manager) {
-            return new RenderEntityBlastBloxPrimed(manager);
+        public EntityRenderer<? super EntityBlastBloxPrimed> createRenderFor(EntityRendererManager entityRendererManager) {
+            return new RenderEntityBlastBloxPrimed(entityRendererManager);
         }
     }
 }

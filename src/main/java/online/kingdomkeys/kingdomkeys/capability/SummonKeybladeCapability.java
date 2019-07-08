@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.HashMap;
@@ -84,5 +85,5 @@ public class SummonKeybladeCapability {
         }
     }
 }
-
+*/
 

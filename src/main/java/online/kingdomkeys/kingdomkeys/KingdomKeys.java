@@ -1,9 +1,20 @@
 package online.kingdomkeys.kingdomkeys;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.profiler.IProfiler;
+import net.minecraft.resources.IFutureReloadListener;
+import net.minecraft.resources.IResourceManager;
+import net.minecraft.resources.IResourceManagerReloadListener;
+import net.minecraft.util.text.TextComponent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.resource.IResourceType;
+import net.minecraftforge.resource.ISelectiveResourceReloadListener;
+import net.minecraftforge.resource.VanillaResourceType;
+import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
+import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -35,12 +46,22 @@ import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ServerProxy;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.function.Predicate;
+
 @Mod("kingdomkeys")
 public class KingdomKeys {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public static KingdomKeys instance;
+
+	public static final String MODID = "kingdomkeys";
+	public static final String MODNAME = "Kingdom Keys";
+	public static final String MODVER = "2.0";
+	public static final String MCVER = "1.14.3";
+
 	public KeyboardManager keyboardManager;
 
 	// The proxy instance created for the current dist double lambda prevents class
@@ -69,7 +90,7 @@ public class KingdomKeys {
 
 	public KingdomKeys() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		this.keyboardManager = new KeyboardManager();
+		//this.keyboardManager = new KeyboardManager();
 
 		MinecraftForge.EVENT_BUS.register(this);
 		// Client
@@ -80,7 +101,7 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(new GuiDrive());
 		MinecraftForge.EVENT_BUS.register(new InputHandler());
 		MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
-		this.keyboardManager.showLogo();
+		//this.keyboardManager.showLogo();
 
 		for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
 			ClientRegistry.registerKeyBinding(key.getKeybind());
@@ -95,24 +116,21 @@ public class KingdomKeys {
 	}
 
 	@SubscribeEvent
-	public void onServerStarting(FMLServerStartingEvent event) {
+	public void onServerStarting(FMLServerAboutToStartEvent event) {
 		this.registerResourceLoader(event.getServer().getResourceManager());
 	}
 
 	private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
-		resourceManager.addReloadListener(manager -> {
-			KeybladeDataLoader.loadData(manager);
-		});
-
-		resourceManager.addReloadListener(manager -> {
-			OrganizationDataLoader.loadData(manager);
+		resourceManager.addReloadListener((IResourceManagerReloadListener)manager -> {
+			KeybladeDataLoader.loadData(resourceManager);
+			//OrganizationDataLoader.loadData(resourceManager);
 		});
 	}
 
 	@SubscribeEvent
 	public void hitEntity(LivingHurtEvent event) {
-		if (event.getSource().getTrueSource() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 			if (player.getHeldItemMainhand().getItem() instanceof ItemKeyblade) {
 				ItemKeyblade heldKeyblade = (ItemKeyblade) player.getHeldItemMainhand().getItem();
 				// TODO add player's strength stat

@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -24,7 +24,7 @@ public class EntityEvents {
 				event.player.getBoundingBox().grow(150.0D, 100.0D, 150.0D).offset(-75.0D, -50.0D, -75.0D));
 		if (!bossEntities.isEmpty()) {
 			for (int i = 0; i < bossEntities.size(); i++) {
-				if (bossEntities.get(i) instanceof EntityDragon || bossEntities.get(i) instanceof EntityWither) {
+				if (bossEntities.get(i) instanceof EnderDragonEntity || bossEntities.get(i) instanceof WitherEntity) {
 					isBoss = true;
 					break;
 				} else {
@@ -36,7 +36,7 @@ public class EntityEvents {
 		}
 		if (!entities.isEmpty()) {
 			for (Entity entity : entities) {
-				if (entity instanceof EntityMob) {
+				if (entity instanceof MobEntity) {
 					isHostiles = true;
 					break;
 				} else {

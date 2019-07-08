@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.corsair.functions;
 
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import online.kingdomkeys.kingdomkeys.corsair.lib.CorsairUtils;
 
 public class FunctionFood extends BaseKeyboardFunctions {
@@ -12,7 +12,7 @@ public class FunctionFood extends BaseKeyboardFunctions {
 	 * @param key
 	 * @return
 	 */
-	static int[] getRGBKeyColor(EntityPlayerSP player, int key) {
+	static int[] getRGBKeyColor(ClientPlayerEntity player, int key) {
 		int[] color = { 0, 0, 0 };
 
 		if (player == null) {
@@ -40,7 +40,7 @@ public class FunctionFood extends BaseKeyboardFunctions {
 	 * @param player
 	 * @return
 	 */
-	static int[] getRGBKeyColor(EntityPlayerSP player) {
+	static int[] getRGBKeyColor(ClientPlayerEntity player) {
 		if (player == null) {
 			return CorsairUtils.defaultRGB;
 		}

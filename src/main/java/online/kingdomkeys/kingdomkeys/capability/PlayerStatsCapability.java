@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
@@ -838,3 +839,4 @@ public class PlayerStatsCapability {
         }
     }
 }
+*/

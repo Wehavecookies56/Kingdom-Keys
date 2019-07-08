@@ -1,18 +1,27 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.lib.Reference;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
-public class GuiCommandMenu extends GuiScreen {
+//TODO cleanup
+public class GuiCommandMenu extends Screen {
+
+    public GuiCommandMenu() {
+        super(new TranslationTextComponent(""));
+    }
+
     Minecraft mc = Minecraft.getInstance();
 
     public static final int TOP = 5, ATTACK = 4, MAGIC = 3, ITEMS = 2, DRIVE = 1;
@@ -39,7 +48,7 @@ public class GuiCommandMenu extends GuiScreen {
     public static int selected = ATTACK;
     public static int submenu = 0, magicselected = 0, potionselected = 0, driveselected = 0, portalSelected = 0, attackSelected = 0;
 
-    ResourceLocation texture = new ResourceLocation(Reference.MODID, "textures/gui/commandmenu.png");
+    ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onRenderOverlayPost(RenderGameOverlayEvent event) {
@@ -99,9 +108,9 @@ public class GuiCommandMenu extends GuiScreen {
 
             textX = 0;
             paintWithColorArray(normalModeColor, (byte) alpha);
-            drawTexturedModalRect(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+            blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
             if (this.submenu == 0) {
-                drawString(mc.fontRenderer, Utils.translateToLocal("COMMANDS"), 6, 4, 0xFFFFFF);
+                drawString(mc.fontRenderer, I18n.format("COMMANDS"), 6, 4, 0xFFFFFF);
             }
         }
         GL11.glPopMatrix();
@@ -128,7 +137,7 @@ public class GuiCommandMenu extends GuiScreen {
                 paintWithColorArray(normalModeColor, (byte) alpha);
 
                 // Draw slot
-                drawTexturedModalRect(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 
                 GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
 
@@ -136,17 +145,17 @@ public class GuiCommandMenu extends GuiScreen {
               //  if (organization) {
                 //    drawTexturedModalRect(60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
                 //} else {
-                    drawTexturedModalRect(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+                    blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
                 //}
 
             } else { // Not selected
                 textX = 0;
                 paintWithColorArray(normalModeColor, (byte) alpha);
-                drawTexturedModalRect(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
             }
 
             if (this.submenu == 0) {
-                drawString(mc.fontRenderer, Utils.translateToLocal("Attack"), 6 + textX, 4, 0xFFFFFF);
+                drawString(mc.fontRenderer, I18n.format("Attack"), 6 + textX, 4, 0xFFFFFF);
 
                 /*if(Minecraft.getInstance().player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() == Utils.OrgMember.XIGBAR) {
                     if(player.getHeldItemMainhand() != null) {
@@ -188,18 +197,18 @@ public class GuiCommandMenu extends GuiScreen {
                 textX = 5;
                 paintWithColorArray(normalModeColor, (byte) alpha);
                 // Draw slot
-                drawTexturedModalRect(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
                 GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
-                drawTexturedModalRect(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+                blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 
             } else { // Not selected
                 textX = 0;
                 paintWithColorArray(normalModeColor, (byte) alpha);
-                drawTexturedModalRect(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
             }
 
             if (this.submenu == 0) {
-                drawString(mc.fontRenderer, Utils.translateToLocal("Magic"), 6 + textX, 4, 0xFFFFFF);
+                drawString(mc.fontRenderer, I18n.format("Magic"), 6 + textX, 4, 0xFFFFFF);
             }
 
         }
@@ -226,18 +235,18 @@ public class GuiCommandMenu extends GuiScreen {
                 textX = 5;
                 paintWithColorArray(normalModeColor, (byte) alpha);
                 // Draw slot
-                drawTexturedModalRect(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
                 GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
-                drawTexturedModalRect(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+                blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 
             } else { // Not selected
                 textX = 0;
                 paintWithColorArray(normalModeColor, (byte) alpha);
-                drawTexturedModalRect(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
             }
 
             if (this.submenu == 0) {
-                drawString(mc.fontRenderer, Utils.translateToLocal("Items"), 6 + textX, 4, 0xFFFFFF);
+                drawString(mc.fontRenderer, I18n.format("Items"), 6 + textX, 4, 0xFFFFFF);
             }
 
         }
@@ -264,18 +273,18 @@ public class GuiCommandMenu extends GuiScreen {
                 textX = 5;
                 paintWithColorArray(normalModeColor, (byte) alpha);
                 // Draw slot
-                drawTexturedModalRect(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
                 GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
-                drawTexturedModalRect(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+                blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 
             } else { // Not selected
                 textX = 0;
                 paintWithColorArray(normalModeColor, (byte) alpha);
-                drawTexturedModalRect(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+                blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
             }
 
             if (this.submenu == 0) {
-                drawString(mc.fontRenderer, Utils.translateToLocal("Drive"), 6 + textX, 4, 0xFFFFFF);
+                drawString(mc.fontRenderer, I18n.format("Drive"), 6 + textX, 4, 0xFFFFFF);
             }
 
         }

@@ -17,7 +17,6 @@ import online.kingdomkeys.kingdomkeys.item.organization.ItemLexicon;
 import online.kingdomkeys.kingdomkeys.item.organization.ItemOrgShield;
 import online.kingdomkeys.kingdomkeys.item.organization.ItemScythe;
 import online.kingdomkeys.kingdomkeys.item.organization.ItemSitar;
-import online.kingdomkeys.kingdomkeys.lib.Reference;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModItems {
@@ -286,8 +285,8 @@ public class ModItems {
                     woodenKeybladeChain = new ItemKeychain(Strings.woodenKeybladeChain),
                     woodenStickChain = new ItemKeychain(Strings.woodenStickChain),
                     youngXehanortsKeybladeChain = new ItemKeychain(Strings.youngXehanortsKeybladeChain),
-                    zeroOneChain = new ItemKeychain(Strings.zeroOneChain),
-
+                    zeroOneChain = new ItemKeychain(Strings.zeroOneChain)
+/*
                     //Organization XIII
                     malice = new ItemEtherealBlade(Strings.malice, 3, 1.0F),
                     sanction = new ItemEtherealBlade(Strings.sanction, 3, 1.0F),
@@ -577,12 +576,14 @@ public class ModItems {
                     foudre = new ItemKnife(Strings.foudre, 3, 1.0F),
                     demoiselle = new ItemKnife(Strings.demoiselle, 3, 1.0F),
                     ampoule = new ItemKnife(Strings.ampoule, 3, 1.0F)
+                    */
                     );
+
         }
 
         //Helper method to create item with the properties and registry name
         public static Item createNewItem(String name, Item.Properties properties) {
-            return new Item(properties).setRegistryName(Reference.MODID, name);
+            return new Item(properties).setRegistryName(KingdomKeys.MODID, name);
         }
 
     }
