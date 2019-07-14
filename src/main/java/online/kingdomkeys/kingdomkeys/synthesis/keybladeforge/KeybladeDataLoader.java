@@ -3,13 +3,7 @@ package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IFutureReloadListener;
-import net.minecraft.resources.IResourceManagerReloadListener;
-import net.minecraftforge.resource.IResourceType;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
@@ -21,9 +15,7 @@ import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.ItemKeyblade;
-
-import javax.annotation.Nullable;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
 public class KeybladeDataLoader {
 
@@ -41,7 +33,7 @@ public class KeybladeDataLoader {
         for (ResourceLocation file : manager.getAllResourceLocations(folder, n -> n.endsWith(extension))) {
             ResourceLocation keybladeDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             KingdomKeys.LOGGER.info("Found keyblade data file {}, ID {}", file, keybladeDataID);
-            ItemKeyblade keyblade = (ItemKeyblade) ForgeRegistries.ITEMS.getValue(keybladeDataID);
+            KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
             try {
                 for (IResource resource : manager.getAllResources(file)) {
                     KeybladeData result;

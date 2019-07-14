@@ -1,22 +1,20 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import java.util.function.Function;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.render.RenderEntityBlastBloxPrimed;
+import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
 
-    public static EntityType<EntityBlastBloxPrimed> TYPE_BLAST_BLOX = createEntityType(EntityBlastBloxPrimed.class, EntityBlastBloxPrimed::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
+    public static EntityType<BlastBloxEntity> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity.class, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
    // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
 
     /**
@@ -37,10 +35,10 @@ public class ModEntities {
     }
 
     /**
-     * Register the render classes for the entities, called in {@link online.kingdomkeys.kingdomkeys.proxy.ClientProxy#registerModels(ModelRegistryEvent)}  }
+     * Register the render classes for the entities, called in {@link ProxyClient#registerModels(ModelRegistryEvent)}  }
      */
     public static void registerModels() {
-        RenderingRegistry.registerEntityRenderingHandler(EntityBlastBloxPrimed.class, RenderEntityBlastBloxPrimed.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(BlastBloxEntity.class, BlastBloxRenderer.FACTORY);
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

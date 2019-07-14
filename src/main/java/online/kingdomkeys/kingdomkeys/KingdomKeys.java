@@ -1,17 +1,10 @@
 package online.kingdomkeys.kingdomkeys;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IFutureReloadListener;
-import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
-import net.minecraft.util.text.TextComponent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.ISelectiveResourceReloadListener;
-import net.minecraftforge.resource.VanillaResourceType;
-import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
+import online.kingdomkeys.kingdomkeys.client.gui.*;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,30 +18,19 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiCommandMenu;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiDrive;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHP;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiMP;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiPlayerPortrait;
+import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.corsair.CorsairTickHandler;
 import online.kingdomkeys.kingdomkeys.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.item.ItemKeyblade;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.proxy.ClientProxy;
+import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
-import online.kingdomkeys.kingdomkeys.proxy.ServerProxy;
+import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.function.Predicate;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -67,7 +49,7 @@ public class KingdomKeys {
 	// The proxy instance created for the current dist double lambda prevents class
 	// being loaded on the other dist
 	@SuppressWarnings("Convert2MethodRef")
-	public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+	public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ProxyClient(), () -> () -> new ProxyServer());
 
 	public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
 		@Override
@@ -94,13 +76,14 @@ public class KingdomKeys {
 
 		MinecraftForge.EVENT_BUS.register(this);
 		// Client
-		MinecraftForge.EVENT_BUS.register(new GuiCommandMenu());
-		MinecraftForge.EVENT_BUS.register(new GuiPlayerPortrait());
-		MinecraftForge.EVENT_BUS.register(new GuiHP());
-		MinecraftForge.EVENT_BUS.register(new GuiMP());
-		MinecraftForge.EVENT_BUS.register(new GuiDrive());
+		MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
+		MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());
+		MinecraftForge.EVENT_BUS.register(new HPGui());
+		MinecraftForge.EVENT_BUS.register(new MPGui());
+		MinecraftForge.EVENT_BUS.register(new DriveGui());
 		MinecraftForge.EVENT_BUS.register(new InputHandler());
 		MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
+		MinecraftForge.EVENT_BUS.register(new ProxyClient());
 		//this.keyboardManager.showLogo();
 
 		for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
@@ -131,8 +114,8 @@ public class KingdomKeys {
 	public void hitEntity(LivingHurtEvent event) {
 		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-			if (player.getHeldItemMainhand().getItem() instanceof ItemKeyblade) {
-				ItemKeyblade heldKeyblade = (ItemKeyblade) player.getHeldItemMainhand().getItem();
+			if (player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+				KeybladeItem heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
 				// TODO add player's strength stat
 				// TODO improved damage calculation
 				event.setAmount(heldKeyblade.getStrength(heldKeyblade.getKeybladeLevel()));

@@ -7,7 +7,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.ItemBlockWrapper;
+import online.kingdomkeys.kingdomkeys.item.BlockItemWrapper;
 
 public class ModBlocks {
 
@@ -18,10 +18,10 @@ public class ModBlocks {
             normalBlox = createNewBlock("normal_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             hardBlox = createNewBlock("hard_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(5.0F, 20.0F)),
             metalBlox = createNewBlock("metal_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(10.0F, 60.0F)),
-            dangerBlox = new BlockDangerBlox("danger_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F)),
-            bounceBlox = new BlockBounceBlox("bounce_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
-            blastBlox = new BlockBlastBlox("blast_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
-            ghostBlox = new BlockGhostBlox("ghost_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
+            dangerBlox = new DangerBloxBlock("danger_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F)),
+            bounceBlox = new BounceBloxBlock("bounce_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
+            blastBlox = new BlastBloxBlock("blast_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
+            ghostBlox = new GhostBloxBlock("ghost_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             prizeBlox = createNewBlock("prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             rarePrizeBlox = createNewBlock("rare_prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F))
     };
@@ -48,7 +48,7 @@ public class ModBlocks {
         @SubscribeEvent
         public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
             for (Block b : BLOCKS) {
-                event.getRegistry().register(new ItemBlockWrapper(b, KingdomKeys.miscGroup));
+                event.getRegistry().register(new BlockItemWrapper(b, KingdomKeys.miscGroup));
             }
         }
 

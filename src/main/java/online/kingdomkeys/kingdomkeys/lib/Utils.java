@@ -80,11 +80,11 @@ public class Utils {
 				player.sendMessage(new TextComponentTranslation(TextFormatting.RED + "Missing keychain to summon"));
 				return false;
 			}
-			if (!summonCap.getIsKeybladeSummoned(hand) && ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) && summonCap.getInventoryKeychain().getStackInSlot(0).getItem() instanceof ItemKeychain) {
+			if (!summonCap.getIsKeybladeSummoned(hand) && ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) && summonCap.getInventoryKeychain().getStackInSlot(0).getItem() instanceof KeychainItem) {
 				summonCap.setActiveSlot(player.inventory.currentItem);
 
 				ItemStack keychain = summonCap.getInventoryKeychain().getStackInSlot(keychainSlot);
-				ItemStack keyblade = new ItemStack(((ItemKeychain) (keychain.getItem())).getKeyblade());
+				ItemStack keyblade = new ItemStack(((KeychainItem) (keychain.getItem())).getKeyblade());
 
 				if (hand == EnumHand.MAIN_HAND) {
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);
@@ -115,7 +115,7 @@ public class Utils {
 					player.inventory.offHandInventory.set(0, new ItemStack(organizationXIIICap.currentWeapon()));
 				organizationXIIICap.setWeaponSummoned(hand, true);
 				return true;
-			} else if (!ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) && player.getHeldItem(hand).getItem() instanceof IOrgWeapon || (organizationXIIICap.getMember() == Utils.OrgMember.ROXAS && !ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) && player.getHeldItem(hand).getItem() instanceof ItemKeyblade)) {
+			} else if (!ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) && player.getHeldItem(hand).getItem() instanceof IOrgWeapon || (organizationXIIICap.getMember() == Utils.OrgMember.ROXAS && !ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) && player.getHeldItem(hand).getItem() instanceof KeybladeItem)) {
 				if (player.world.isRemote) {
 					PacketDispatcher.sendToServer(new DeSummonOrgWeapon(hand));
 				}
