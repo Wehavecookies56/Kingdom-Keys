@@ -6,35 +6,52 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dk.allanmc.cuesdk.CueSDK;
+import dk.allanmc.cuesdk.DeviceInfo;
+import dk.allanmc.cuesdk.enums.DeviceType;
 import dk.allanmc.cuesdk.jna.CorsairLedColor;
 import dk.allanmc.cuesdk.jna.CorsairLedPosition;
 import dk.allanmc.cuesdk.jna.CorsairLedPositions;
 import dk.allanmc.cuesdk.jna.CueSDKLibrary;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.corsair.functions.KeyFunction;
-import online.kingdomkeys.kingdomkeys.corsair.lib.KeyEnum;
 import online.kingdomkeys.kingdomkeys.corsair.lib.CorsairUtils;
+import online.kingdomkeys.kingdomkeys.corsair.lib.KeyEnum;
 
 public class KeyboardManager {
 	private final Thread updateThread = new Thread(this::updateKeys);
 	private CueSDK cue = new CueSDK(false);
 	private CueSDKLibrary cueSDK;
+	public static boolean corsairKeyboard = false;
 
 	public KeyboardManager() {
-		this.updateThread.setDaemon(true);
-		this.updateThread.setPriority(3);
-		this.updateThread.start();
-		try {
-			Field cueSDKField = CueSDK.class.getDeclaredField("instance");
-			cueSDKField.setAccessible(true);
-			this.cueSDK = (CueSDKLibrary) cueSDKField.get(this.cue);
-		} catch (ReflectiveOperationException e) {
-			throw new RuntimeException("Failed to reflect CueSDK", e);
+		for (int i = 0; i < cue.getDeviceCount(); i++) {
+			DeviceInfo info = cue.getDeviceInfo(i);
+			System.out.println(info.getType());
+			if (info.getType() == DeviceType.CDT_Keyboard) {
+				corsairKeyboard = true;
+			}
+		}
+
+		if (corsairKeyboard) {
+			this.updateThread.setDaemon(true);
+			this.updateThread.setPriority(3);
+			this.updateThread.start();
+			try {
+				Field cueSDKField = CueSDK.class.getDeclaredField("instance");
+				cueSDKField.setAccessible(true);
+				this.cueSDK = (CueSDKLibrary) cueSDKField.get(this.cue);
+			} catch (ReflectiveOperationException e) {
+				throw new RuntimeException("Failed to reflect CueSDK", e);
+			}
 		}
 	}
 
 	public void resetKeyboard() {
+		if (!corsairKeyboard)
+			return;
+		
 		for (KeyEnum key : getKeyEnums()) {
 			key.setShouldUpdate(true);
 			CorsairLedColor color = new CorsairLedColor();
@@ -47,53 +64,40 @@ public class KeyboardManager {
 	}
 
 	public void setDefaultColor(int[] colors) {
-		if(!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB,colors)) {
-			System.out.println("Setting default color");
+		if (!corsairKeyboard)
+			return;
+		
+		if (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB, colors)) {
+			// System.out.println("Setting default color");
 			CorsairUtils.defaultRGB = colors;
 			resetKeyboard();
 		}
 	}
-	
-	/* public void setDefaultColor(int[] colors, boolean trans) {
- 		if (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB, colors)) {
-			System.out.println("Setting default color");
-			if (trans) {
-				Thread t = new Thread(new Runnable() {
-					public void run() {
-						int r=CorsairUtils.defaultRGB[0],g=CorsairUtils.defaultRGB[1],b=CorsairUtils.defaultRGB[2];
-						while (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB, colors)) {
-							if (CorsairUtils.defaultRGB[0] < colors[0]) {
-								r++;
-							} else if (CorsairUtils.defaultRGB[0] > colors[0]) {
-								r--;
-							}
-							
-							if (CorsairUtils.defaultRGB[1] < colors[1]) {
-								g++;
-							} else if (CorsairUtils.defaultRGB[1] > colors[1]) {
-								g--;
-							}
-							
-							if (CorsairUtils.defaultRGB[2] < colors[2]) {
-								b++;
-							} else if (CorsairUtils.defaultRGB[2] > colors[2]) {
-								b--;
-							}
-							
-							CorsairUtils.defaultRGB = new int[] {r,g,b};
-							resetKeyboard();
-						}
-					};
-				});
-				t.start();
-			} else {
-				CorsairUtils.defaultRGB = colors;
-				resetKeyboard();
-			}
-		}
-	}*/
+
+	/*
+	 * public void setDefaultColor(int[] colors, boolean trans) { if
+	 * (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB, colors)) {
+	 * System.out.println("Setting default color"); if (trans) { Thread t = new
+	 * Thread(new Runnable() { public void run() { int
+	 * r=CorsairUtils.defaultRGB[0],g=CorsairUtils.defaultRGB[1],b=CorsairUtils.
+	 * defaultRGB[2]; while (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB,
+	 * colors)) { if (CorsairUtils.defaultRGB[0] < colors[0]) { r++; } else if
+	 * (CorsairUtils.defaultRGB[0] > colors[0]) { r--; }
+	 * 
+	 * if (CorsairUtils.defaultRGB[1] < colors[1]) { g++; } else if
+	 * (CorsairUtils.defaultRGB[1] > colors[1]) { g--; }
+	 * 
+	 * if (CorsairUtils.defaultRGB[2] < colors[2]) { b++; } else if
+	 * (CorsairUtils.defaultRGB[2] > colors[2]) { b--; }
+	 * 
+	 * CorsairUtils.defaultRGB = new int[] {r,g,b}; resetKeyboard(); } }; });
+	 * t.start(); } else { CorsairUtils.defaultRGB = colors; resetKeyboard(); } } }
+	 */
 
 	public void showLogo() {
+		if (!corsairKeyboard)
+			return;
+
 		for (KeyEnum key : getKeyEnums()) {
 			CorsairLedColor color = new CorsairLedColor();
 			if (CorsairUtils.orange.contains(key)) {
@@ -132,6 +136,8 @@ public class KeyboardManager {
 	boolean fadingOut = false;
 
 	void updateKeys() {
+		if (!corsairKeyboard)
+			return;
 		final ClientPlayerEntity player = Minecraft.getInstance().player;
 
 		/*
@@ -154,19 +160,21 @@ public class KeyboardManager {
 		 * lightFunction(KeyFunction.SLOT_DAMAGE_OFF, KeyEnum.KEY_0);
 		 */
 
-		/*lightFunction(KeyFunction.HEALTH_0, KeyEnum.KEY_Q);
-		lightFunction(KeyFunction.HEALTH_1, KeyEnum.KEY_W);
-		lightFunction(KeyFunction.HEALTH_2, KeyEnum.KEY_E);
-		lightFunction(KeyFunction.HEALTH_3, KeyEnum.KEY_R);
-		lightFunction(KeyFunction.HEALTH_4, KeyEnum.KEY_T);
-		lightFunction(KeyFunction.HEALTH_5, KeyEnum.KEY_Y);
-		lightFunction(KeyFunction.HEALTH_6, KeyEnum.KEY_U);
-		lightFunction(KeyFunction.HEALTH_7, KeyEnum.KEY_I);
-		lightFunction(KeyFunction.HEALTH_8, KeyEnum.KEY_O);
-		lightFunction(KeyFunction.HEALTH_9, KeyEnum.KEY_P);
-
-		lightFunction(KeyFunction.AIR, KeyEnum.KEY_Z);
-		lightFunction(KeyFunction.FOOD, KeyEnum.KEY_X);*/
+		/*
+		 * lightFunction(KeyFunction.HEALTH_0, KeyEnum.KEY_Q);
+		 * lightFunction(KeyFunction.HEALTH_1, KeyEnum.KEY_W);
+		 * lightFunction(KeyFunction.HEALTH_2, KeyEnum.KEY_E);
+		 * lightFunction(KeyFunction.HEALTH_3, KeyEnum.KEY_R);
+		 * lightFunction(KeyFunction.HEALTH_4, KeyEnum.KEY_T);
+		 * lightFunction(KeyFunction.HEALTH_5, KeyEnum.KEY_Y);
+		 * lightFunction(KeyFunction.HEALTH_6, KeyEnum.KEY_U);
+		 * lightFunction(KeyFunction.HEALTH_7, KeyEnum.KEY_I);
+		 * lightFunction(KeyFunction.HEALTH_8, KeyEnum.KEY_O);
+		 * lightFunction(KeyFunction.HEALTH_9, KeyEnum.KEY_P);
+		 * 
+		 * lightFunction(KeyFunction.AIR, KeyEnum.KEY_Z);
+		 * lightFunction(KeyFunction.FOOD, KeyEnum.KEY_X);
+		 */
 
 		// lightFunction(KeyFunction.RESET,KeyEnum.KEY_Z);
 
@@ -188,6 +196,8 @@ public class KeyboardManager {
 	 * @param key
 	 */
 	private void lightFunction(KeyFunction keyFunction, KeyEnum key) {
+		if (!corsairKeyboard)
+			return;
 		final Minecraft minecraft = Minecraft.getInstance();
 
 		final int[] rgbValue = keyFunction.getCallback().invoke(key, minecraft, minecraft.world, minecraft.player);
@@ -207,6 +217,8 @@ public class KeyboardManager {
 	}
 
 	private void lightKey(KeyEnum key, int[] colors) {
+		if (!corsairKeyboard)
+			return;
 		lightKey(key, colors[0], colors[1], colors[2]);
 	}
 
@@ -225,10 +237,14 @@ public class KeyboardManager {
 	}
 
 	private void lightKeys(KeyEnum[] keys, int[] colors) {
+		if (!corsairKeyboard)
+			return;
 		lightKeys(keys, colors[0], colors[1], colors[2]);
 	}
 
 	private void lightKeys(KeyEnum[] keys, int r, int g, int b) {
+		if (!corsairKeyboard)
+			return;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				for (KeyEnum key : keys) {
@@ -246,6 +262,8 @@ public class KeyboardManager {
 	}
 
 	private void lightKeyAndReturn(KeyEnum key, int r, int g, int b, int time) {
+		if (!corsairKeyboard)
+			return;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				CorsairLedColor color = new CorsairLedColor();
@@ -272,6 +290,8 @@ public class KeyboardManager {
 	}
 
 	private void lightKeysAndReturn(KeyEnum[] keys, int r, int g, int b, int time) {
+		if (!corsairKeyboard)
+			return;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				CorsairLedColor color;

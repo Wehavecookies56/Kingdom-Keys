@@ -72,7 +72,7 @@ public class KingdomKeys {
 
 	public KingdomKeys() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		//this.keyboardManager = new KeyboardManager();
+		this.keyboardManager = new KeyboardManager();
 
 		MinecraftForge.EVENT_BUS.register(this);
 		// Client
@@ -84,7 +84,7 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(new InputHandler());
 		MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
 		MinecraftForge.EVENT_BUS.register(new ProxyClient());
-		//this.keyboardManager.showLogo();
+		this.keyboardManager.showLogo();
 
 		for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
 			ClientRegistry.registerKeyBinding(key.getKeybind());
