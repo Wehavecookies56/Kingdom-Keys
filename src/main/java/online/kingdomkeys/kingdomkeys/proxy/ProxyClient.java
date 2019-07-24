@@ -25,12 +25,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.KeybladeModel;
+import online.kingdomkeys.kingdomkeys.client.render.KeybladeRenderer;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.corsair.CorsairTickHandler;
 import online.kingdomkeys.kingdomkeys.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.handler.ScrollCallbackWrapper;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -40,7 +42,9 @@ public class ProxyClient implements IProxy {
 
     @Override
     public void setup(FMLCommonSetupEvent event) {
-        KingdomKeys.LOGGER.info("WHAT THE FUCK IS THIS CONFIG VALUE? " + ClientConfig.CORSAIR_KEYBOARD_LIGHTING);
+
+        ((KeybladeItem)ModItems.kingdomKey).getProperties().setTEISR(()->()->new KeybladeRenderer());
+
         if (ClientConfig.CORSAIR_KEYBOARD_LIGHTING) {
             keyboardManager = new KeyboardManager();
             MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
@@ -71,11 +75,12 @@ public class ProxyClient implements IProxy {
     public static void onModelBakeEvent(ModelBakeEvent event) {
         //TODO make this simpler for doing this for every model
         try {
-            ResourceLocation modelLoc = ModelLoaderRegistry.getActualLocation(new ResourceLocation("kingdomkeys:item/kingdom_key.obj"));
-            IUnbakedModel model = new OBJModel.Parser(Minecraft.getInstance().getResourceManager().getResource(modelLoc), Minecraft.getInstance().getResourceManager()).parse();
-            IBakedModel bakedModel = model.bake(event.getModelLoader(), ModelLoader.defaultTextureGetter(), new BasicState(model.getDefaultState(), false), DefaultVertexFormats.ITEM);
-            KeybladeModel keybladeModel = new KeybladeModel(bakedModel);
-            event.getModelRegistry().put(new ModelResourceLocation(ModItems.kingdomKey.getRegistryName(), "inventory"), keybladeModel);
+            IUnbakedModel model = ModelLoaderRegistry.getModelOrMissing(new ResourceLocation(KingdomKeys.MODID + ":item/kingdom_key.obj"));
+
+            if (model instanceof OBJModel) {
+                IBakedModel bakedModel = model.bake(event.getModelLoader(), ModelLoader.defaultTextureGetter(), new BasicState(model.getDefaultState(), false), DefaultVertexFormats.ITEM);
+                event.getModelRegistry().put(new ModelResourceLocation(KingdomKeys.MODID + ":kingdom_key", "inventory"), bakedModel);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

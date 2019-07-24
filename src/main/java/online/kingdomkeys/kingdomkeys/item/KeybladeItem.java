@@ -27,10 +27,13 @@ public class KeybladeItem extends SwordItem {
     private int level = 0;
     private KeybladeData data;
 
+    private Item.Properties properties;
+
     //TODO remove attack damage
     public KeybladeItem(String name, Item.Properties properties) {
         super(new KeybladeItemTier(0), 0, 1, properties);
         setRegistryName(KingdomKeys.MODID, name);
+        this.properties = properties;
     }
 
     //Get strength from the data based on level
@@ -57,6 +60,10 @@ public class KeybladeItem extends SwordItem {
 
     public void setKeybladeLevel(int level) {
         this.level = level;
+    }
+
+    public Item.Properties getProperties() {
+        return properties;
     }
 
     @OnlyIn(Dist.CLIENT)

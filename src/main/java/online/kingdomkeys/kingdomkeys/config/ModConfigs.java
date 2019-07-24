@@ -40,6 +40,12 @@ public class ModConfigs {
 
     }
 
+    /**
+     * Method to update config value during runtime
+     * @param config the config being changed
+     * @param path the path of the config value
+     * @param value the value to change to
+     */
     public static void setValueAndSave(ModConfig config, String path, Object value) {
         config.getConfigData().set(path, value);
         config.save();

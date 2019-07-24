@@ -579,7 +579,7 @@ public class ModItems {
         }
 
         public static KeybladeItem createKeybladeItem(String name) {
-            return new KeybladeItem(name, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1).setTEISR(()->KeybladeRenderer::new));
+            return new KeybladeItem(name, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1));
         }
 
     }
