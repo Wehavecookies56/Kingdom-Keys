@@ -2,8 +2,16 @@ package online.kingdomkeys.kingdomkeys;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.IResourceManagerReloadListener;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.*;
+import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.config.ClientConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.entity.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,8 +52,6 @@ public class KingdomKeys {
 	public static final String MODVER = "2.0";
 	public static final String MCVER = "1.14.3";
 
-	public KeyboardManager keyboardManager;
-
 	// The proxy instance created for the current dist double lambda prevents class
 	// being loaded on the other dist
 	@SuppressWarnings("Convert2MethodRef")
@@ -72,7 +78,11 @@ public class KingdomKeys {
 
 	public KingdomKeys() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		this.keyboardManager = new KeyboardManager();
+
+		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
+		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
+		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
+
 
 		MinecraftForge.EVENT_BUS.register(this);
 		// Client
@@ -82,12 +92,7 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(new MPGui());
 		MinecraftForge.EVENT_BUS.register(new DriveGui());
 		MinecraftForge.EVENT_BUS.register(new InputHandler());
-		MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
 		MinecraftForge.EVENT_BUS.register(new ProxyClient());
-		this.keyboardManager.showLogo();
-
-		for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
-			ClientRegistry.registerKeyBinding(key.getKeybind());
 
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
@@ -121,9 +126,5 @@ public class KingdomKeys {
 				event.setAmount(heldKeyblade.getStrength(heldKeyblade.getKeybladeLevel()));
 			}
 		}
-	}
-
-	public KeyboardManager getKeyboardManager() {
-		return this.keyboardManager;
 	}
 }

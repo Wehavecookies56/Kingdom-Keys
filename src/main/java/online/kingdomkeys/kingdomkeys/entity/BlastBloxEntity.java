@@ -12,6 +12,10 @@ import net.minecraft.network.play.server.SSpawnObjectPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fml.network.NetworkHooks;
+
+import java.util.function.BiFunction;
 
 /**
  * Mostly a copy of {@link net.minecraft.entity.item.TNTEntity} with some small changes
@@ -27,6 +31,10 @@ public class BlastBloxEntity extends Entity {
     public BlastBloxEntity(EntityType<? extends Entity> type, World world) {
         super(type, world);
         this.preventEntitySpawning = true;
+    }
+
+    public BlastBloxEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        super(ModEntities.TYPE_BLAST_BLOX, world);
     }
 
     public BlastBloxEntity(EntityType type, World world, double x, double y, double z, @Nullable LivingEntity igniter) {
@@ -130,6 +138,6 @@ public class BlastBloxEntity extends Entity {
 
     @Override
     public IPacket<?> createSpawnPacket() {
-        return new SSpawnObjectPacket(this);
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 }
