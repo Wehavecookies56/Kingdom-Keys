@@ -1,42 +1,38 @@
 package online.kingdomkeys.kingdomkeys;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.resources.IResourceManagerReloadListener;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import online.kingdomkeys.kingdomkeys.client.gui.*;
-import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
-import online.kingdomkeys.kingdomkeys.config.ClientConfig;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.entity.BlastBloxEntity;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.corsair.CorsairTickHandler;
-import online.kingdomkeys.kingdomkeys.corsair.KeyboardManager;
+import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
+import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.handler.CapabilityEventsHandler;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
+import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 
@@ -96,6 +92,8 @@ public class KingdomKeys {
 
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
+		MinecraftForge.EVENT_BUS.register(new CapabilityEventsHandler());
+
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {

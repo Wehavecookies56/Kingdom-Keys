@@ -8,6 +8,8 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class EntityEvents {
 
@@ -16,6 +18,9 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+       // ILevelCapabilities props = ModCapabilities.get(event.player);
+        //System.out.println(props);
+
 		// event.player.setHealth(120);
 		// System.out.println(event.player.getHealth());
 		List<Entity> entities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player,

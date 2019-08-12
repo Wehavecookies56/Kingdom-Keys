@@ -1,3 +1,4 @@
+package online.kingdomkeys.kingdomkeys.capability.old;
 //TODO redo pretty much all of the capabilities
 /*
 package online.kingdomkeys.kingdomkeys.capability;

@@ -3,17 +3,18 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
@@ -408,12 +409,12 @@ public class InputHandler {
         Keybinds key = getPressedKey();
         if (key != null)
             switch (key) {
-               /* case OPENMENU:
+                case OPENMENU:
                     GuiHelper.openMenu();
-                    PacketDispatcher.sendToServer(new OpenMenu());
+                   //PacketDispatcher.sendToServer(new OpenMenu());
                     break;
 
-                case SHOW_GUI:
+               /* case SHOW_GUI:
                     MainConfig.toggleShowGUI();
                     break;*/
 
