@@ -18,6 +18,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
+import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
+import online.kingdomkeys.kingdomkeys.packets.PacketSyncAllClientData;
 
 //TODO cleanup
 public class InputHandler {
@@ -410,8 +412,8 @@ public class InputHandler {
         if (key != null)
             switch (key) {
                 case OPENMENU:
+    				PacketHandler.sendToServer(new PacketSyncAllClientData());
                     GuiHelper.openMenu();
-                   //PacketDispatcher.sendToServer(new OpenMenu());
                     break;
 
                /* case SHOW_GUI:

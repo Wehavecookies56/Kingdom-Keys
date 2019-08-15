@@ -24,12 +24,12 @@ public class CapabilityEventsHandler {
 		}
 	}
 	
-	@SubscribeEvent
-	public void onPlayerJoin(EntityJoinWorldEvent event) { //I used this to sync to the client the other players skins in RayCraftm idk if it's gonna be useful for drive forms
+	/*@SubscribeEvent
+	public void onPlayerJoin(EntityJoinWorldEvent event) { //I used this to sync to the client the other players skins in RayCraft idk if it's gonna be useful for drive forms
 		if (!event.getEntity().world.isRemote && event.getEntity() instanceof PlayerEntity) {
 			ILevelCapabilities props = ModCapabilities.get((PlayerEntity) event.getEntity());
 			PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) event.getEntity());
 		}
-	}
+	}*/
 
 }

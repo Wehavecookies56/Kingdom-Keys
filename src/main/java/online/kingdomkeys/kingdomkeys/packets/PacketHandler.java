@@ -27,6 +27,7 @@ public class PacketHandler {
 		//HANDLER.registerMessage(packetID++, PacketShoot.class, PacketShoot::encode, PacketShoot::decode, PacketShoot::handle);
 		HANDLER.registerMessage(packetID++, PacketSyncCapabilityToAllFromClient.class, PacketSyncCapabilityToAllFromClient::encode, PacketSyncCapabilityToAllFromClient::decode, PacketSyncCapabilityToAllFromClient::handle);
 		//HANDLER.registerMessage(packetID++, PacketPlaySound.class, PacketPlaySound::encode, PacketPlaySound::decode, PacketPlaySound::handle);
+		HANDLER.registerMessage(packetID++, PacketSyncAllClientData.class, PacketSyncAllClientData::encode, PacketSyncAllClientData::decode, PacketSyncAllClientData::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

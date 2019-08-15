@@ -4,12 +4,18 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
+import online.kingdomkeys.kingdomkeys.packets.PacketSyncCapability;
 
 public class EntityEvents {
 
@@ -17,9 +23,9 @@ public class EntityEvents {
 	public static boolean isHostiles = false;
 
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+	public void onPlayerTick(PlayerTickEvent event) {
        // ILevelCapabilities props = ModCapabilities.get(event.player);
-        //System.out.println(props);
+        //System.out.println(props.getExperience());
 
 		// event.player.setHealth(120);
 		// System.out.println(event.player.getHealth());
@@ -50,6 +56,37 @@ public class EntityEvents {
 			}
 		} else {
 			isHostiles = false;
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingDeathEvent(LivingDeathEvent event) {
+		/*if (event.getEntity() instanceof EntityDragon) {
+			WorldSavedDataKingdomKeys.get(DimensionManager.getWorld(DimensionType.OVERWORLD.getId())).setSpawnHeartless(true);
+		}*/
+		
+		if (!event.getEntity().world.isRemote) {
+			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+
+				if (event.getEntity() instanceof MobEntity) {
+					ILevelCapabilities props = ModCapabilities.get(player);
+
+					MobEntity mob = (MobEntity) event.getEntity();
+
+					//if (!player.getCapability(ModCapabilities.ABILITIES, null).getEquippedAbility(ModAbilities.zeroEXP)) {
+						//Old way
+							//player.getCapability(ModCapabilities.PLAYER_STATS, null).addExperience(player, (int) ((mob.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue() / 2) * MainConfig.entities.xpMultiplier));
+						//New way
+						props.addExperience(player,(int) ((mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2) /* * MainConfig.entities.xpMultiplier */));
+						if (event.getEntity() instanceof WitherEntity) {
+							props.addExperience(player,1500);
+						}
+				//	}
+						
+					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) player);
+				}
+			}
 		}
 	}
 

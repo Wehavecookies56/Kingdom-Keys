@@ -1,10 +1,20 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
+import online.kingdomkeys.kingdomkeys.packets.PacketSyncCapability;
 
 public class LevelCapabilities implements ILevelCapabilities {
 
@@ -33,12 +43,22 @@ public class LevelCapabilities implements ILevelCapabilities {
 		}
 	}
 
-	private int level = 0,
-		exp = 0,
-		expGiven = 0,
-		strength = 0,
-		magic = 0,
-		defense = 0;
+	private int
+	level = 0,
+	exp = 0,
+	expGiven = 0, 
+	maxEXP=1000000,
+	strength = 0,
+	magic = 0,
+	defense = 0, 
+	remainingExp = 0,
+	ap,
+	maxAP,
+	hp,
+	mp,
+	maxMP;
+
+	private List<String> messages = new ArrayList<String>();
 
 	@Override
 	public int getLevel() {
@@ -47,9 +67,9 @@ public class LevelCapabilities implements ILevelCapabilities {
 
 	@Override
 	public void setLevel(int level) {
-		this.level = level;		
+		this.level = level;
 	}
-	
+
 	@Override
 	public int getExperience() {
 		return exp;
@@ -59,6 +79,26 @@ public class LevelCapabilities implements ILevelCapabilities {
 	public void setExperience(int exp) {
 		this.exp = exp;
 	}
+	
+	@Override
+	public void addExperience(PlayerEntity player, int exp) {
+		 if(player != null) {
+             ILevelCapabilities props = ModCapabilities.get(player);
+             if (this.exp + exp <= this.maxEXP){
+                 this.exp += exp;
+                 while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
+                     this.setLevel(this.getLevel() + 1);
+                     this.levelUpStatsAndDisplayMessage(player);
+                     //PacketDispatcher.sendTo(new ShowOverlayPacket("levelup"),(ServerPlayerEntity)player);
+                 }
+             }else {
+                 this.exp = this.maxEXP;
+             }
+             System.out.println(getExpNeeded(this.getLevel(), this.exp));
+
+            // PacketDispatcher.sendTo(new ShowOverlayPacket("exp"),(EntityPlayerMP)player);
+         }
+	}
 
 	@Override
 	public int getExperienceGiven() {
@@ -67,7 +107,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 
 	@Override
 	public void setExperienceGiven(int exp) {
-		this.expGiven = exp;		
+		this.expGiven = exp;
 	}
 
 	@Override
@@ -88,7 +128,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 	@Override
 	public void setMagic(int level) {
 		this.magic = level;
-		
+
 	}
 
 	@Override
@@ -99,5 +139,486 @@ public class LevelCapabilities implements ILevelCapabilities {
 	@Override
 	public void setDefense(int level) {
 		this.defense = level;
+	}
+
+	@Override
+	public int getExpNeeded(int level, int currentExp) {
+		if (level == 100)
+			return 0;
+		double nextLevel = (double) (((level + 1.0) + 300.0 * (Math.pow(2.0, ((level + 1.0) / 7.0)))) * ((level + 1.0) * 0.25));
+		int needed = ((int) nextLevel - currentExp);
+		this.remainingExp = needed;
+		return remainingExp;
+	}
+
+	@Override
+	public void levelUpStatsAndDisplayMessage(PlayerEntity player) {
+		// IAbilities ABILITIES = player.getCapability(ModCapabilities.ABILITIES, null);
+		this.getMessages().clear();
+		switch (this.level) {
+		case 2:
+			this.addDefense(1);
+			// ABILITIES.unlockAbility(ModAbilities.scan);
+			break;
+		case 3:
+			this.addStrength(1);
+			break;
+		case 4:
+			this.addDefense(1);
+			break;
+		case 5:
+			this.addStrength(1);
+			this.addHP(5);
+			// ABILITIES.unlockAbility(ModAbilities.guard);
+			break;
+		case 6:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 7:
+			this.addStrength(1);
+			break;
+		case 8:
+			this.addMagic(1);
+			break;
+		case 9:
+			this.addStrength(1);
+			break;
+		case 10:
+			this.addMagic(1);
+			this.addDefense(1);
+			this.addHP(5);
+			// ABILITIES.unlockAbility(ModAbilities.mpHaste);
+			break;
+		case 11:
+			this.addStrength(1);
+			break;
+		case 12:
+			this.addMagic(1);
+			break;
+		case 13:
+			this.addStrength(1);
+			break;
+		case 14:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 15:
+			this.addStrength(1);
+			this.addHP(5);
+			// ABILITIES.unlockAbility(ModAbilities.formBoost);
+			break;
+		case 16:
+			this.addMagic(1);
+			break;
+		case 17:
+			this.addStrength(1);
+			break;
+		case 18:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 19:
+			this.addStrength(1);
+			break;
+		case 20:
+			this.addMagic(1);
+			this.addHP(5);
+			// ABILITIES.unlockAbility(ModAbilities.mpHastera);
+			break;
+		case 21:
+			this.addStrength(1);
+			break;
+		case 22:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 23:
+			this.addStrength(1);
+			break;
+		case 24:
+			this.addMagic(1);
+			break;
+		case 25:
+			this.addStrength(1);
+			this.addHP(5);
+			// ABILITIES.unlockAbility(ModAbilities.damageDrive);
+			break;
+		case 26:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 27:
+			this.addStrength(1);
+			this.addMagic(1);
+			break;
+		case 28:
+			this.addMagic(1);
+			break;
+		case 29:
+			this.addStrength(1);
+			break;
+		case 30:
+			this.addMagic(1);
+			this.addDefense(1);
+			this.addHP(5);
+			break;
+		case 31:
+			this.addStrength(1);
+			break;
+		case 32:
+			this.addStrength(1);
+			this.addMagic(1);
+			break;
+		case 33:
+			this.addStrength(1);
+			// ABILITIES.unlockAbility(ModAbilities.driveConverter);
+			break;
+		case 34:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 35:
+			this.addStrength(1);
+			this.addHP(5);
+			break;
+		case 36:
+			this.addMagic(1);
+			break;
+		case 37:
+			this.addStrength(1);
+			break;
+		case 38:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 39:
+			this.addStrength(1);
+			break;
+		case 40:
+			this.addMagic(1);
+			this.addHP(5);
+			break;
+		case 41:
+			this.addStrength(1);
+			break;
+		case 42:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 43:
+			this.addStrength(1);
+			this.addMagic(1);
+			break;
+		case 44:
+			this.addMagic(1);
+			break;
+		case 45:
+			this.addStrength(1);
+			this.addHP(5);
+			break;
+		case 46:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 47:
+			this.addStrength(1);
+			break;
+		case 48:
+			this.addStrength(1);
+			this.addMagic(1);
+			// ABILITIES.unlockAbility(ModAbilities.sonicBlade);
+			break;
+		case 49:
+			this.addStrength(1);
+			break;
+		case 50:
+			this.addMagic(1);
+			this.addDefense(1);
+			this.addHP(5);
+			// ABILITIES.unlockAbility(ModAbilities.mpHastega);
+			break;
+		case 51:
+			this.addStrength(1);
+			break;
+		case 52:
+			this.addMagic(1);
+			break;
+		case 53:
+			this.addStrength(1);
+			break;
+		case 54:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 55:
+			this.addStrength(1);
+			this.addHP(5);
+			// ABILITIES.unlockAbility(ModAbilities.strikeRaid);
+			break;
+		case 56:
+			this.addMagic(1);
+			break;
+		case 57:
+			this.addStrength(1);
+			break;
+		case 58:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 59:
+			this.addStrength(1);
+			break;
+		case 60:
+			this.addMagic(1);
+			this.addHP(5);
+			break;
+		case 61:
+			this.addStrength(1);
+			break;
+		case 62:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 63:
+			this.addStrength(1);
+			break;
+		case 64:
+			this.addMagic(1);
+			break;
+		case 65:
+			this.addStrength(1);
+			this.addHP(5);
+			break;
+		case 66:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 67:
+			this.addStrength(1);
+			break;
+		case 68:
+			this.addMagic(1);
+			break;
+		case 69:
+			this.addStrength(1);
+			break;
+		case 70:
+			this.addMagic(1);
+			this.addDefense(1);
+			this.addHP(5);
+			break;
+		case 71:
+			this.addStrength(1);
+			break;
+		case 72:
+			this.addMagic(1);
+			break;
+		case 73:
+			this.addStrength(1);
+			break;
+		case 74:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 75:
+			this.addStrength(1);
+			this.addHP(5);
+			break;
+		case 76:
+			this.addMagic(1);
+			break;
+		case 77:
+			this.addStrength(1);
+			break;
+		case 78:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 79:
+			this.addStrength(1);
+			break;
+		case 80:
+			this.addMagic(1);
+			this.addHP(5);
+			break;
+		case 81:
+			this.addStrength(1);
+			break;
+		case 82:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 83:
+			this.addStrength(1);
+			break;
+		case 84:
+			this.addMagic(1);
+			break;
+		case 85:
+			this.addStrength(1);
+			this.addHP(5);
+			break;
+		case 86:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 87:
+			this.addStrength(1);
+			break;
+		case 88:
+			this.addMagic(1);
+			break;
+		case 89:
+			this.addStrength(1);
+			break;
+		case 90:
+			this.addMagic(1);
+			this.addDefense(1);
+			this.addHP(5);
+			break;
+		case 91:
+			this.addStrength(1);
+			break;
+		case 92:
+			this.addMagic(1);
+			break;
+		case 93:
+			this.addStrength(1);
+			break;
+		case 94:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 95:
+			this.addStrength(1);
+			this.addHP(5);
+			break;
+		case 96:
+			this.addMagic(1);
+			break;
+		case 97:
+			this.addStrength(1);
+			break;
+		case 98:
+			this.addMagic(1);
+			this.addDefense(1);
+			break;
+		case 99:
+			this.addStrength(1);
+			break;
+		case 100:
+			this.addStrength(10);
+			this.addDefense(10);
+			this.addMagic(10);
+			this.addHP(5);
+			break;
+		}
+		if (this.level % 5 == 0) {
+			player.setHealth(getHP());
+			player.getFoodStats().addStats(20, 0);
+			// player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).addPoints(1);
+			this.addMaxMP(5);
+			this.setMP(this.getMaxMP());
+			// PacketDispatcher.sendTo(new
+			// SyncOrgXIIIData(player.getCapability(ModCapabilities.ORGANIZATION_XIII,
+			// null)), (EntityPlayerMP) player);
+		}
+
+		if (this.level % 2 == 0) {
+			this.addMaxAP(1);
+		}
+
+		// PacketDispatcher.sendTo(new SyncUnlockedAbilities(ABILITIES),
+		// (EntityPlayerMP) player);
+
+		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup, SoundCategory.MASTER, 0.5f, 1.0f);
+		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getHP());
+		PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+	}
+
+	@Override
+	public List<String> getMessages() {
+		return this.messages;
+	}
+
+	@Override
+	public void clearMessages() {
+		this.getMessages().clear();
+	}
+
+	@Override
+	public void addStrength(int str) {
+		this.strength += str;
+	}
+
+	@Override
+	public void addMagic(int mag) {
+		this.magic += mag;
+	}
+
+	@Override
+	public void addDefense(int def) {
+		this.defense += def;
+	}
+
+	@Override
+	public int getHP() {
+		return hp;
+	}
+
+	@Override
+	public void setHP(int hp) {
+		this.hp=hp;
+	}
+
+	@Override
+	public void addHP(int hp) {
+		this.hp+=hp;
+	}
+
+	@Override
+	public int getMP() {
+		return mp;
+	}
+
+	@Override
+	public void setMP(int mp) {
+		this.mp=mp;
+	}
+
+	@Override
+	public void addMP(int mp) {
+		this.mp+=mp;
+	}
+
+	@Override
+	public int getMaxMP() {
+		return maxMP;
+	}
+
+	@Override
+	public void setMaxMP(int mp) {
+		this.maxMP=mp;
+	}
+
+	@Override
+	public void addMaxMP(int mp) {
+		this.maxMP+=mp;
+	}
+
+	@Override
+	public int getMaxAP() {
+		return maxAP;
+	}
+
+	@Override
+	public void setMaxAP(int ap) {
+		this.maxAP=ap;
+	}
+
+	@Override
+	public void addMaxAP(int ap) {
+		this.maxAP+=ap;
 	}
 }

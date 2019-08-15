@@ -11,6 +11,7 @@ import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
 import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
@@ -31,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
@@ -93,12 +96,16 @@ public class KingdomKeys {
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
 		MinecraftForge.EVENT_BUS.register(new CapabilityEventsHandler());
-
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
 		// Run setup on proxies
 		proxy.setup(event);
+		ModCapabilities.register();
+		DeferredWorkQueue.runLater(() -> {
+			PacketHandler.register();
+		});
+
 	}
 
 	@SubscribeEvent
