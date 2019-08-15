@@ -13,8 +13,10 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
 import online.kingdomkeys.kingdomkeys.packets.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.packets.ShowOverlayPacket;
 
 public class LevelCapabilities implements ILevelCapabilities {
 
@@ -28,6 +30,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			props.putInt("strength", instance.getStrength());
 			props.putInt("magic", instance.getMagic());
 			props.putInt("defense", instance.getDefense());
+			//TODO save and load the rest of things
 			return props;
 		}
 
@@ -47,14 +50,16 @@ public class LevelCapabilities implements ILevelCapabilities {
 	level = 0,
 	exp = 0,
 	expGiven = 0, 
-	maxEXP=1000000,
+	maxEXP = 1000000,
 	strength = 0,
 	magic = 0,
 	defense = 0, 
 	remainingExp = 0,
 	ap,
 	maxAP,
-	hp,
+	hp;
+	
+	private double
 	mp,
 	maxMP;
 
@@ -83,20 +88,19 @@ public class LevelCapabilities implements ILevelCapabilities {
 	@Override
 	public void addExperience(PlayerEntity player, int exp) {
 		 if(player != null) {
-             ILevelCapabilities props = ModCapabilities.get(player);
              if (this.exp + exp <= this.maxEXP){
                  this.exp += exp;
                  while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
                      this.setLevel(this.getLevel() + 1);
                      this.levelUpStatsAndDisplayMessage(player);
-                     //PacketDispatcher.sendTo(new ShowOverlayPacket("levelup"),(ServerPlayerEntity)player);
+                     PacketHandler.sendTo(new ShowOverlayPacket("levelup"), (ServerPlayerEntity)player);
                  }
-             }else {
+             } else {
                  this.exp = this.maxEXP;
              }
-             System.out.println(getExpNeeded(this.getLevel(), this.exp));
+             //System.out.println(getExpNeeded(this.getLevel(), this.exp));
 
-            // PacketDispatcher.sendTo(new ShowOverlayPacket("exp"),(EntityPlayerMP)player);
+             PacketHandler.sendTo(new ShowOverlayPacket("exp"), (ServerPlayerEntity)player);
          }
 	}
 
@@ -151,6 +155,97 @@ public class LevelCapabilities implements ILevelCapabilities {
 		return remainingExp;
 	}
 
+	@Override
+	public List<String> getMessages() {
+		return this.messages;
+	}
+
+	@Override
+	public void clearMessages() {
+		this.getMessages().clear();
+	}
+
+	@Override
+	public void addStrength(int str) {
+		this.strength += str;
+        messages.add(Strings.Stats_LevelUp_Str);
+	}
+
+	@Override
+	public void addMagic(int mag) {
+		this.magic += mag;
+        messages.add(Strings.Stats_LevelUp_Magic);
+	}
+
+	@Override
+	public void addDefense(int def) {
+		this.defense += def;
+        messages.add(Strings.Stats_LevelUp_Def);
+	}
+
+	@Override
+	public int getHP() {
+		return hp;
+	}
+
+	@Override
+	public void setHP(int hp) {
+		this.hp=hp;
+	}
+
+	@Override
+	public void addHP(int hp) {
+		this.hp+=hp;
+        messages.add(Strings.Stats_LevelUp_HP);
+	}
+
+	@Override
+	public double getMP() {
+		return mp;
+	}
+
+	@Override
+	public void setMP(double mp) {
+		this.mp=mp;
+	}
+
+	@Override
+	public void addMP(double mp) {
+		this.mp+=mp;
+	}
+
+	@Override
+	public double getMaxMP() {
+		return maxMP;
+	}
+
+	@Override
+	public void setMaxMP(double mp) {
+		this.maxMP=mp;
+	}
+
+	@Override
+	public void addMaxMP(double mp) {
+		this.maxMP+=mp;
+        messages.add(Strings.Stats_LevelUp_MP);
+	}
+
+	@Override
+	public int getMaxAP() {
+		return maxAP;
+	}
+
+	@Override
+	public void setMaxAP(int ap) {
+		this.maxAP=ap;
+	}
+
+	@Override
+	public void addMaxAP(int ap) {
+		this.maxAP+=ap;
+        messages.add(Strings.Stats_LevelUp_AP);
+	}
+	
 	@Override
 	public void levelUpStatsAndDisplayMessage(PlayerEntity player) {
 		// IAbilities ABILITIES = player.getCapability(ModCapabilities.ABILITIES, null);
@@ -537,88 +632,24 @@ public class LevelCapabilities implements ILevelCapabilities {
 		PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 	}
 
+	
 	@Override
-	public List<String> getMessages() {
-		return this.messages;
+	public int getConsumedAP() {
+		return ap;
 	}
 
 	@Override
-	public void clearMessages() {
-		this.getMessages().clear();
+	public void setConsumedAP(int ap) {
+		this.ap = ap;
 	}
 
 	@Override
-	public void addStrength(int str) {
-		this.strength += str;
+	public void addConsumedAP(int ap) {
+		this.ap += ap;
 	}
 
 	@Override
-	public void addMagic(int mag) {
-		this.magic += mag;
-	}
-
-	@Override
-	public void addDefense(int def) {
-		this.defense += def;
-	}
-
-	@Override
-	public int getHP() {
-		return hp;
-	}
-
-	@Override
-	public void setHP(int hp) {
-		this.hp=hp;
-	}
-
-	@Override
-	public void addHP(int hp) {
-		this.hp+=hp;
-	}
-
-	@Override
-	public int getMP() {
-		return mp;
-	}
-
-	@Override
-	public void setMP(int mp) {
-		this.mp=mp;
-	}
-
-	@Override
-	public void addMP(int mp) {
-		this.mp+=mp;
-	}
-
-	@Override
-	public int getMaxMP() {
-		return maxMP;
-	}
-
-	@Override
-	public void setMaxMP(int mp) {
-		this.maxMP=mp;
-	}
-
-	@Override
-	public void addMaxMP(int mp) {
-		this.maxMP+=mp;
-	}
-
-	@Override
-	public int getMaxAP() {
-		return maxAP;
-	}
-
-	@Override
-	public void setMaxAP(int ap) {
-		this.maxAP=ap;
-	}
-
-	@Override
-	public void addMaxAP(int ap) {
-		this.maxAP+=ap;
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
 	}
 }

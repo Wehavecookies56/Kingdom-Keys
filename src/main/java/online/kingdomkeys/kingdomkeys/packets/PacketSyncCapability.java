@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.packets;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
@@ -17,6 +19,11 @@ public class PacketSyncCapability {
 	private int strength = 0;
 	private int magic = 0;
 	private int defense = 0;
+	private int hp, ap, maxAP;
+
+	private double MP, maxMP;
+
+	List<String> messages;
 
 	public PacketSyncCapability() {
 	}
@@ -28,6 +35,14 @@ public class PacketSyncCapability {
 		this.strength = capability.getStrength();
 		this.magic = capability.getMagic();
 		this.defense = capability.getDefense();
+		
+		this.MP = capability.getMP();
+		this.maxMP = capability.getMaxMP();
+		this.hp = capability.getHP();
+		// this.choice1 = capability.getChoice1();
+		this.ap = capability.getConsumedAP();
+		this.maxAP = capability.getMaxAP();
+		this.messages = capability.getMessages();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -37,18 +52,38 @@ public class PacketSyncCapability {
 		buffer.writeInt(this.strength);
 		buffer.writeInt(this.magic);
 		buffer.writeInt(this.defense);
+
+		buffer.writeDouble(this.MP);
+		buffer.writeDouble(this.maxMP);
+		buffer.writeInt(this.hp);
+		// buffer.writeString(this.choice1);
+		buffer.writeInt(this.ap);
+		buffer.writeInt(this.maxAP);
+		for (int i = 0; i < this.messages.size(); i++) {
+			buffer.writeString(this.messages.get(i));
+		}
 	}
 
 	public static PacketSyncCapability decode(PacketBuffer buffer) {
 		PacketSyncCapability msg = new PacketSyncCapability();
-		
+
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
 		msg.expGiven = buffer.readInt();
 		msg.strength = buffer.readInt();
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
-		
+
+		msg.MP = buffer.readDouble();
+		msg.maxMP = buffer.readDouble();
+		msg.hp = buffer.readInt();
+		// msg.choice1 = buffer.readString(40);
+		msg.ap = buffer.readInt();
+		msg.maxAP = buffer.readInt();
+		msg.messages = new ArrayList<String>();
+		while (buffer.isReadable()) {
+			msg.messages.add(buffer.readString(100));
+		}
 		return msg;
 	}
 
@@ -61,6 +96,12 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setStrength(message.strength));
 			props.ifPresent(cap -> cap.setMagic(message.magic));
 			props.ifPresent(cap -> cap.setDefense(message.defense));
+			props.ifPresent(cap -> cap.setMP(message.MP));
+			props.ifPresent(cap -> cap.setMaxMP(message.maxMP));
+			props.ifPresent(cap -> cap.setHP(message.hp));
+			props.ifPresent(cap -> cap.setConsumedAP(message.ap));
+			props.ifPresent(cap -> cap.setMaxAP(message.maxAP));
+			props.ifPresent(cap -> cap.setMessages(message.messages));
 		});
 		ctx.get().setPacketHandled(true);
 	}

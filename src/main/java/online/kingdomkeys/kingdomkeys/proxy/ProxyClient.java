@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
 import online.kingdomkeys.kingdomkeys.client.model.KeybladeModel;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeRenderer;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
@@ -69,6 +70,9 @@ public class ProxyClient implements IProxy {
     public static void setupClient(FMLClientSetupEvent event) {
         for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
             ClientRegistry.registerKeyBinding(key.getKeybind());
+        
+		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
+
     }
 
     @SubscribeEvent

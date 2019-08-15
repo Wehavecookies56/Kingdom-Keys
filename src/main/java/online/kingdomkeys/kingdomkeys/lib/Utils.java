@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import net.minecraft.util.text.TranslationTextComponent;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -59,6 +60,34 @@ public class Utils {
 	public static float randomWithRange(float min, float max) {
 		float range = Math.abs(max - min) + 1;
 		return (float) (Math.random() * range) + (min <= max ? min : max);
+	}
+	
+	/**
+	 * Replacement for
+	 * {@link net.minecraft.util.text.translation.I18n#translateToLocalFormatted(String, Object...)}
+	 * 
+	 * @param name
+	 *            the unlocalized string to translate
+	 * @param format
+	 *            the format of the string
+	 * @return the translated string
+	 */
+	public static String translateToLocalFormatted(String name, Object... format) {
+		TranslationTextComponent translation = new TranslationTextComponent(name, format);
+		return translation.getFormattedText();
+	}
+
+	/**
+	 * Replacement for
+	 * {@link net.minecraft.util.text.translation.I18n#translateToLocal(String)}
+	 * 
+	 * @param name
+	 *            the unlocalized string to translate
+	 * @return the translated string
+	 */
+	public static String translateToLocal(String name) {
+		TranslationTextComponent translation = new TranslationTextComponent(name);
+		return translation.getFormattedText();
 	}
 
 	public static enum OrgMember {

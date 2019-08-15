@@ -35,9 +35,23 @@ public class Strings {
 
             Spell_Stop = "spell.stop",
             Spell_Stopra = "spell.stopra",
-            Spell_Stopga = "spell.stopga"
-                    ;
-
+            Spell_Stopga = "spell.stopga";
+    
+    //Level up messages
+    public static final String
+		    Stats_LevelUp_Str = "stats.levelUpStr",
+		    Stats_LevelUp_Def = "stats.levelUpDef",
+		    Stats_LevelUp_Magic = "stats.levelUpMag",
+		    Stats_LevelUp_HP = "stats.levelUpHP",
+		    Stats_LevelUp_MP = "stats.levelUpMP",
+		    Stats_LevelUp_AP = "stats.levelUpAP",
+		    Stats_LevelUp_FormGauge = "stats.levelUpFG",
+			Stats_LevelUp_HighJump = "stats.levelUpHighJump",
+			Stats_LevelUp_QuickRun = "stats.levelUpQuickRun",
+			Stats_LevelUp_DodgeRoll = "stats.levelUpDodgeRoll",
+			Stats_LevelUp_AerialDodge = "stats.levelUpAerialDodge",
+			Stats_LevelUp_Glide = "stats.levelUpGlide";
+    
     //Forms
     public static final String
             Form_Valor = "form.valor",
@@ -45,8 +59,7 @@ public class Strings {
             Form_Limit = "form.limit",
             Form_Master = "form.master",
             Form_Final = "form.final",
-            Form_Anti = "form.anti"
-                    ;
+            Form_Anti = "form.anti";
 
     // Gui
     public static final String

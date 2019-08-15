@@ -31,13 +31,17 @@ public interface ILevelCapabilities {
 	void setHP(int hp);
 	void addHP(int hp);
 	
-	int getMP();
-	void setMP(int mp);
-	void addMP(int mp);
+	double getMP();
+	void setMP(double mP);
+	void addMP(double mp);
 	
-	int getMaxMP();
-	void setMaxMP(int mp);
-	void addMaxMP(int mp);
+	double getMaxMP();
+	void setMaxMP(double maxMP);
+	void addMaxMP(double mp);
+	
+	int getConsumedAP();
+	void setConsumedAP(int ap);
+	void addConsumedAP(int ap);
 	
 	int getMaxAP();
 	void setMaxAP(int ap);
@@ -45,6 +49,7 @@ public interface ILevelCapabilities {
 	
     void levelUpStatsAndDisplayMessage(PlayerEntity player);
     void clearMessages();
+	void setMessages(List<String> messages);
     List<String> getMessages();
     
 	int getExpNeeded(int level, int currentExp);
