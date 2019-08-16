@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
 
 public class KeyboardHelper {

@@ -14,7 +14,6 @@ import dk.allanmc.cuesdk.jna.CorsairLedPositions;
 import dk.allanmc.cuesdk.jna.CueSDKLibrary;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.corsair.functions.KeyFunction;
 import online.kingdomkeys.kingdomkeys.corsair.lib.CorsairUtils;
 import online.kingdomkeys.kingdomkeys.corsair.lib.KeyEnum;

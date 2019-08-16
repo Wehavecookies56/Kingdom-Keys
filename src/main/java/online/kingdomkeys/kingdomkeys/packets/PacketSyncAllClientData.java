@@ -2,11 +2,9 @@ package online.kingdomkeys.kingdomkeys.packets;
 
 import java.util.function.Supplier;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;

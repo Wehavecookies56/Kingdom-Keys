@@ -2,17 +2,11 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CapabilitiesProvider;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
-import online.kingdomkeys.kingdomkeys.packets.PacketSyncCapability;
 
 public class CapabilityEventsHandler {
 

@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.corsair;
 
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.event.TickEvent;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 
 public class CorsairTickHandler {

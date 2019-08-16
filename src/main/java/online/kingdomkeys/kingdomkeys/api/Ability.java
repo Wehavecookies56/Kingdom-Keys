@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.api;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import javax.annotation.Nullable;
 
 
 public class Ability implements IForgeRegistryEntry<Ability> {

@@ -3,11 +3,6 @@ package online.kingdomkeys.kingdomkeys.config;
 import net.minecraftforge.common.ForgeConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Config file for client only config options
  */

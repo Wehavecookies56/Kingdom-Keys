@@ -1,11 +1,12 @@
 package online.kingdomkeys.kingdomkeys.config;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import org.apache.commons.lang3.tuple.Pair;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfigs {

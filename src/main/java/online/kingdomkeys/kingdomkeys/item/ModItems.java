@@ -1,14 +1,10 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.FMLLoader;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.render.KeybladeRenderer;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModItems {

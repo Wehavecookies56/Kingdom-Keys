@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -13,11 +17,6 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class ModEntities {
 
