@@ -652,4 +652,13 @@ public class LevelCapabilities implements ILevelCapabilities {
 	public void setMessages(List<String> messages) {
 		this.messages = messages;
 	}
+
+	@Override
+	public void remMP(double cost) {
+		//TODO CHEAT MODE
+		 if (this.mp - mp < 0)
+             this.mp = 0;
+         else
+             this.mp -= mp;	
+	}
 }

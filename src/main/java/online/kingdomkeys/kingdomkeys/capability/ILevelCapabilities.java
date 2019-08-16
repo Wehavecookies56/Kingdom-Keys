@@ -34,6 +34,7 @@ public interface ILevelCapabilities {
 	double getMP();
 	void setMP(double mP);
 	void addMP(double mp);
+	void remMP(double cost);
 	
 	double getMaxMP();
 	void setMaxMP(double maxMP);
