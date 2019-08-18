@@ -28,8 +28,8 @@ public class BounceBloxBlock extends BaseBlock {
      * @param entity The entity bouncing
      */
     private void bounce(Entity entity) {
-        double boundFactor = 1;
-        entity.setMotion(new Vec3d(entity.getMotion().getX(), boundFactor, entity.getMotion().getZ()));
+        double bounceFactor = 1;
+        entity.setMotion(new Vec3d(entity.getMotion().getX(), bounceFactor, entity.getMotion().getZ()));
         entity.move(MoverType.SELF, entity.getMotion());
         entity.fallDistance = 0;
     }
