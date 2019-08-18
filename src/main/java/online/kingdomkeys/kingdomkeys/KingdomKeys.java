@@ -21,19 +21,13 @@ import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
-import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.CapabilityEventsHandler;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
@@ -49,7 +43,7 @@ public class KingdomKeys {
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
 	public static final String MODVER = "2.0";
-	public static final String MCVER = "1.14.3";
+	public static final String MCVER = "1.14.4";
 
 	// The proxy instance created for the current dist double lambda prevents class
 	// being loaded on the other dist
@@ -85,12 +79,6 @@ public class KingdomKeys {
 
 		MinecraftForge.EVENT_BUS.register(this);
 		// Client
-		MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
-		MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());
-		MinecraftForge.EVENT_BUS.register(new HPGui());
-		MinecraftForge.EVENT_BUS.register(new MPGui());
-		MinecraftForge.EVENT_BUS.register(new DriveGui());
-		MinecraftForge.EVENT_BUS.register(new InputHandler());
 		MinecraftForge.EVENT_BUS.register(new ProxyClient());
 
 		// Server

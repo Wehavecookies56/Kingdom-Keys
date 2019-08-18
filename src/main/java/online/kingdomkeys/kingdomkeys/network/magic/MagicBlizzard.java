@@ -1,3 +1,4 @@
+/*
 package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
 
 import java.io.IOException;
@@ -74,3 +75,4 @@ public class MagicBlizzard extends AbstractMessage.AbstractServerMessage<MagicBl
     }
 
 }
+*/

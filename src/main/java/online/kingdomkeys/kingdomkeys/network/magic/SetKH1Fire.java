@@ -1,3 +1,4 @@
+/*
 package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
 
 import java.io.IOException;
@@ -38,3 +39,4 @@ public class SetKH1Fire extends AbstractServerMessage<SetKH1Fire> {
         PacketDispatcher.sendTo(new SyncKH1Magic(player.getCapability(ModCapabilities.MAGIC_STATE, null), kh1fire), (EntityPlayerMP)player);
     }
 }
+*/

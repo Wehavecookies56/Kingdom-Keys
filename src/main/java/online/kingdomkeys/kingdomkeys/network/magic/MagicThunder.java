@@ -1,3 +1,4 @@
+/*
 package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
 
 import java.io.IOException;
@@ -50,3 +51,4 @@ public class MagicThunder extends AbstractServerMessage<MagicThunder> {
         PacketDispatcher.sendTo(new SyncMagicData(player.getCapability(ModCapabilities.MAGIC_STATE, null), player.getCapability(ModCapabilities.PLAYER_STATS, null)), (EntityPlayerMP) player);
     }
 }
+*/

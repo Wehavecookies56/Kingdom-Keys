@@ -23,7 +23,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.utils.SetBlockStateFlags;
+import online.kingdomkeys.kingdomkeys.util.SetBlockStateFlags;
 
 /**
  * Some parts copied from {@link net.minecraft.block.TNTBlock}

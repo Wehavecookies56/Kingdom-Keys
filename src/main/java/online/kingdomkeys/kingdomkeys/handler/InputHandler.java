@@ -18,8 +18,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
-import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
-import online.kingdomkeys.kingdomkeys.packets.PacketSyncAllClientData;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
 
 //TODO cleanup
 public class InputHandler {

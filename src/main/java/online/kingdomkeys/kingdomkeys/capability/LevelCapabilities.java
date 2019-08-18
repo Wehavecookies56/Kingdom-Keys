@@ -14,9 +14,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
-import online.kingdomkeys.kingdomkeys.packets.PacketSyncCapability;
-import online.kingdomkeys.kingdomkeys.packets.ShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.ShowOverlayPacket;
 
 public class LevelCapabilities implements ILevelCapabilities {
 

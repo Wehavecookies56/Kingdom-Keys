@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.packets.magics;
 
 import java.io.IOException;
@@ -89,3 +90,4 @@ public class LevelUpMagic extends AbstractServerMessage<LevelUpMagic> {
         }		
 	}
 }
+ */

@@ -1,3 +1,4 @@
+/*
 package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
 
 import java.io.IOException;
@@ -34,3 +35,4 @@ public class MagicWisdomShot extends AbstractMessage.AbstractServerMessage<Magic
         PacketDispatcher.sendToAllAround(new SpawnWisdomShotParticles(new EntityWisdomShot(world)), player, 64.0D);
     }
 }
+*/

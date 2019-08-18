@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.utils;
+package online.kingdomkeys.kingdomkeys.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;

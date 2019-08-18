@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.packets.magics;
 
 import java.io.IOException;
@@ -56,3 +57,4 @@ public class MagicAero extends AbstractServerMessage<MagicAero> {
     }
 
 }
+ */

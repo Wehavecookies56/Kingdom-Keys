@@ -1,3 +1,4 @@
+/*
 package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
 
 import java.io.IOException;
@@ -54,3 +55,4 @@ public class MagicStop extends AbstractMessage.AbstractServerMessage<MagicStop> 
     }
 
 }
+*/

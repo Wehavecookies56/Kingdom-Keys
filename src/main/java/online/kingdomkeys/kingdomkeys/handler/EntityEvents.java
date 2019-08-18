@@ -14,8 +14,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
-import online.kingdomkeys.kingdomkeys.packets.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 
 public class EntityEvents {
 

@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -73,3 +74,4 @@ public class Magic {
         world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1, 1, false);
     }
 }
+ */
