@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -27,9 +28,8 @@ public class BounceBloxBlock extends BaseBlock {
      * @param entity The entity bouncing
      */
     private void bounce(Entity entity) {
-        double d0 = 0.4D + Math.abs(entity.getMotion().getY()) * 0.2D;
-        entity.getMotion().mul(d0, 1, d0);
-        entity.getMotion().add(0, entity.getMotion().getY(), 0);
+        double boundFactor = 1;
+        entity.setMotion(new Vec3d(entity.getMotion().getX(), boundFactor, entity.getMotion().getZ()));
         entity.move(MoverType.SELF, entity.getMotion());
         entity.fallDistance = 0;
     }
