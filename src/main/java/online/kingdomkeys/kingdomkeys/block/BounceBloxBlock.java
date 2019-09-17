@@ -60,32 +60,32 @@ public class BounceBloxBlock extends BaseBlock {
 		super.onEntityWalk(worldIn, pos, entityIn);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		return collisionShape;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		double x = entity.getMotion().x;
 		double z = entity.getMotion().z;
-		float multiplier = 1;
+		float force = 1;
 		
 		if(entity instanceof LivingEntity && ((LivingEntity)entity).onGround) {
-			multiplier = 3;
+			force = 3;
 		}
 
 		if (pos.south().equals(entity.getPosition()) || pos.south().down().equals(entity.getPosition())) {
-			z = multiplier;
+			z = force;
 		} else if (pos.north().equals(entity.getPosition()) || pos.north().down().equals(entity.getPosition())) {
-			z = -multiplier;
+			z = -force;
 		}
 		
 		if (pos.east().equals(entity.getPosition()) || pos.east().down().equals(entity.getPosition())) {
-			x = multiplier;
+			x = force;
 		} else if (pos.west().equals(entity.getPosition()) || pos.west().down().equals(entity.getPosition())) {
-			x = -multiplier;
+			x = -force;
 		}
 		
 		entity.setMotion(new Vec3d(x, entity.getMotion().getY(), z));
