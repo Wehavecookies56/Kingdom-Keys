@@ -11,6 +11,6 @@ public class GuiHelper {
 	public static void openMenu() {
 		Minecraft mc = Minecraft.getInstance();
 		mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuin, SoundCategory.MASTER, 1.0f, 1.0f);
-		mc.displayGuiScreen(new GUIMenu());
+		mc.displayGuiScreen(new GUIMenuO());
 	}
 }
