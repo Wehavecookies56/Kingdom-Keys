@@ -32,7 +32,7 @@ public class KeybladeDataLoader {
         String extension = ".json";
         for (ResourceLocation file : manager.getAllResourceLocations(folder, n -> n.endsWith(extension))) {
             ResourceLocation keybladeDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            KingdomKeys.LOGGER.info("Found keyblade data file {}, ID {}", file, keybladeDataID);
+          //  KingdomKeys.LOGGER.info("Found keyblade data file {}, ID {}", file, keybladeDataID);
             KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
             try {
                 for (IResource resource : manager.getAllResources(file)) {
