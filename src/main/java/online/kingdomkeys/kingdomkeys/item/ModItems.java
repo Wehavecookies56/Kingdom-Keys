@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -277,6 +279,13 @@ public class ModItems {
                     woodenStickChain = new KeychainItem(Strings.woodenStickChain),
                     youngXehanortsKeybladeChain = new KeychainItem(Strings.youngXehanortsKeybladeChain),
                     zeroOneChain = new KeychainItem(Strings.zeroOneChain),
+                    
+                    //recipe = new RecipeItem(Strings.recipe),
+					organizationRobe_Helmet = new BaseArmorItem(Strings.organizationHood, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					organizationRobe_Chestplate = new BaseArmorItem(Strings.organizationChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					organizationRobe_Leggings = new BaseArmorItem(Strings.organizationLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					organizationRobe_Boots = new BaseArmorItem(Strings.organizationBoots, new KKArmorMaterial(), EquipmentSlotType.FEET)
+
 
 /*
                     //Organization XIII
@@ -570,7 +579,6 @@ public class ModItems {
                     ampoule = new KnifeItem(Strings.ampoule)
                     */
                     
-                    recipe = new RecipeItem(Strings.recipe)
                     );
         }
 

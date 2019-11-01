@@ -513,10 +513,10 @@ public class Lists {
         recipes.add(youngXehanortsKeyblade.getTranslationKey());
         recipes.add(zeroOne.getTranslationKey());
         
-        for(String keyblade : MainConfig.items.bannedKeyblades) {
+       /* TODO for(String keyblade : MainConfig.items.bannedKeyblades) {
         	if(recipes.indexOf("item."+keyblade) >= 0)
         		recipes.remove(recipes.indexOf("item."+keyblade));
-        }
+        }*/
     }
 
 }

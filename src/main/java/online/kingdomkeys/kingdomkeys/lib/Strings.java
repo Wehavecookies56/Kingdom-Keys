@@ -7,6 +7,13 @@ public class Strings {
             organizationGroup = "kingdomkeys_org_weapons",
             miscGroup = "kingdomkeys_misc";
 
+    //Armors
+    public static final String
+    		organizationHood = "organization_hood",
+		    organizationChestplate = "organization_chestplate",
+		    organizationLeggings = "organization_leggings",
+		    organizationBoots = "organization_boots";
+    
     //Spells
     public static final String
             Spell_Fire = "spell.fire",
