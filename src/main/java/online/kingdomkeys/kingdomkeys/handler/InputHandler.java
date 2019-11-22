@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
@@ -515,8 +516,9 @@ public class InputHandler {
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void OnMouseWheelScroll(online.kingdomkeys.kingdomkeys.handler.ScrollCallbackWrapper.MouseScrolledEvent event) {
+    
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity player = mc.player;
         World world = mc.world;
@@ -535,6 +537,20 @@ public class InputHandler {
             event.setCanceled(true);
         }
 
+    }*/
+    
+    @SubscribeEvent
+    public void OnMouseWheelScroll(MouseScrollEvent event) {
+    	Minecraft mc = Minecraft.getInstance();
+        if (mc.isGameFocused() && KeyboardHelper.isScrollActivatorDown()) {
+        	event.setCanceled(true);
+        	if(event.getScrollDelta() == Constants.WHEEL_DOWN) {
+                commandDown();
+        	}else if(event.getScrollDelta() == Constants.WHEEL_UP) {
+                commandUp();
+        	}
+        	return;
+        }
     }
 
     public enum Keybinds {

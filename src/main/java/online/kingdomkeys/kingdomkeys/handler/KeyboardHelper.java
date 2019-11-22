@@ -28,7 +28,7 @@ public class KeyboardHelper {
             return InputMappings.isKeyDown(InputMappings.getInputByName("key.kingdomkeys.scrollactivator").getKeyCode());
         else
             return false;*/
-        return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT);
+        return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT); //TODO change to detect the mapped key
     }
 
     /**

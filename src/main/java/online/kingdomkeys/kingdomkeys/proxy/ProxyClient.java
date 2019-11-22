@@ -29,7 +29,6 @@ import online.kingdomkeys.kingdomkeys.corsair.CorsairTickHandler;
 import online.kingdomkeys.kingdomkeys.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.handler.ScrollCallbackWrapper;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
@@ -53,7 +52,7 @@ public class ProxyClient implements IProxy {
         OBJLoader.INSTANCE.addDomain(KingdomKeys.MODID);
         //TODO convert B3D models to OBJ so we don't need this
         B3DLoader.INSTANCE.addDomain(KingdomKeys.MODID);
-        new ScrollCallbackWrapper().setup(Minecraft.getInstance());
+       // new ScrollCallbackWrapper().setup(Minecraft.getInstance());
         MinecraftForge.EVENT_BUS.register(new HUDElementHandler());
         //MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
         MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());
