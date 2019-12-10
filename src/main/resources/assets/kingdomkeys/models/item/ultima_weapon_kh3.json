@@ -1,12 +1,12 @@
 {
   "parent": "forge:item/default",
   "loader": "forge:obj",
-  "model": "kingdomkeys:models/item/aubade.obj",
+  "model": "kingdomkeys:models/item/ultimaweaponkh3.obj",
   "textures": {
-   
+    
   },
   "display": {
-  "gui": {
+	"gui": {
       "rotation": [ 30, 45, 0 ],
       "translation": [ 0, 0, 0 ],
       "scale": [ 0.01, 0.01, 0.01 ]
@@ -22,7 +22,7 @@
       "scale": [ 0.02, 0.02, 0.02 ]
     },
     "thirdperson_righthand": {
-      "rotation": [ 0, -180, 0 ],
+      "rotation": [ 0, 180, 0 ],
       "translation": [ 0, 0, 0 ],
       "scale": [ 0.02, 0.02, 0.02 ]
     },

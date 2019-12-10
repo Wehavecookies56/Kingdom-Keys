@@ -40,13 +40,13 @@ public class ProxyClient implements IProxy {
     @Override
     public void setup(FMLCommonSetupEvent event) {
 
-        ((KeybladeItem)ModItems.kingdomKey).getProperties().setTEISR(()->()->new KeybladeRenderer());
+       // ((KeybladeItem)ModItems.kingdomKey).getProperties().setTEISR(()->()->new KeybladeRenderer());
 
-        if (ClientConfig.CORSAIR_KEYBOARD_LIGHTING) {
+        /*if (ClientConfig.CORSAIR_KEYBOARD_LIGHTING) {
             keyboardManager = new KeyboardManager();
             MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
             keyboardManager.showLogo();
-        }
+        }*/
 
         //OBJLoader and B3DLoader currently aren't hooked up however, this is here for when they are
         OBJLoader.INSTANCE.addDomain(KingdomKeys.MODID);

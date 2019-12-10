@@ -34,7 +34,7 @@ public class RecipeItem extends Item {
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		if (hand == Hand.MAIN_HAND) {
 			String[] recipes = null;
-			if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+			/*if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
 				//PacketDispatcher.sendToServer(new UseRecipe(player.getHeldItemMainhand().getTagCompound().getString("recipe1"), player.getHeldItemMainhand().getTagCompound().getString("recipe2"), player.getHeldItemMainhand().getTagCompound().getString("recipe3")));
 				return ActionResult.newResult(ActionResultType.SUCCESS, player.getHeldItemMainhand());
 			} else if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
@@ -49,19 +49,19 @@ public class RecipeItem extends Item {
 				if (RecipeRegistry.get(recipe) != null && !RecipeRegistry.isRecipeKnown(RECIPES.getKnownRecipes(), recipe)) {
 					consume = true;
 				}
-			}
+			}*/
 
-			if (consume) {
+			/*if (consume) {
 				player.getHeldItemMainhand().setCount(player.getHeldItemMainhand().getCount() - 1);
 			} else {
 				shuffleRecipes(player.getHeldItemMainhand(), player);
-			}
+			}*/
 		}
 		return super.onItemRightClick(world, player, hand);
 	}
 
 	public void shuffleRecipes(ItemStack stack, PlayerEntity player) {
-		SynthesisRecipeCapability.ISynthesisRecipe RECIPES = player.getCapability(ModCapabilities.SYNTHESIS_RECIPES, null);
+		//SynthesisRecipeCapability.ISynthesisRecipe RECIPES = player.getCapability(ModCapabilities.SYNTHESIS_RECIPES, null);
 
 		long seed = System.nanoTime();
 		// Shuffles the list of recipe to increase randomness
@@ -71,23 +71,23 @@ public class RecipeItem extends Item {
 		
 		Recipe1 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 		
-		if (RECIPES.getKnownRecipes().size() < Lists.recipes.size() - 2) {
+		/*if (RECIPES.getKnownRecipes().size() < Lists.recipes.size() - 2) {
 			while (RecipeRegistry.isRecipeKnown(RECIPES.getKnownRecipes(), Recipe1)) {
 				Recipe1 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 			}
-		}
+		}*/
 		Recipe2 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
-		if (RECIPES.getKnownRecipes().size() < Lists.recipes.size() - 1) {
+		/*if (RECIPES.getKnownRecipes().size() < Lists.recipes.size() - 1) {
 			while (Recipe2.equals(Recipe1) || RecipeRegistry.isRecipeKnown(RECIPES.getKnownRecipes(), Recipe2)) {
 				Recipe2 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 			}
-		}
+		}*/
 		Recipe3 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
-		if (RECIPES.getKnownRecipes().size() < Lists.recipes.size()) {
+		/*if (RECIPES.getKnownRecipes().size() < Lists.recipes.size()) {
 			while ((Recipe3.equals(Recipe2) || Recipe3.equals(Recipe1)) || RecipeRegistry.isRecipeKnown(RECIPES.getKnownRecipes(), Recipe3)) {
 				Recipe3 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 			}
-		}
+		}*/
 
 		stack.setTag(new CompoundNBT());
 		stack.getTag().putString("recipe1", Recipe1);
@@ -95,14 +95,14 @@ public class RecipeItem extends Item {
 		stack.getTag().putString("recipe3", Recipe3);
 	}
 
-	@Override
+	//@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (!stack.hasTag()) {
 			shuffleRecipes(stack, (PlayerEntity) entityIn);
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		if (stack.hasTagCompound()) {
 			String recipe1 = stack.getTagCompound().getString("recipe1");
@@ -113,5 +113,5 @@ public class RecipeItem extends Item {
 			tooltip.add(Utils.translateToLocal(recipe2 + ".name"));
 			tooltip.add(Utils.translateToLocal(recipe3 + ".name"));
 		}
-	}
+	}*/
 }

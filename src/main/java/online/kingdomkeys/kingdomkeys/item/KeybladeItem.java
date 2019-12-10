@@ -28,7 +28,8 @@ public class KeybladeItem extends SwordItem {
     //TODO remove attack damage
     public KeybladeItem(String name, Item.Properties properties) {
         super(new KeybladeItemTier(0), 0, 1, properties);
-        setRegistryName(KingdomKeys.MODID, name);
+        setRegistryName(name);
+        //setRegistryName(KingdomKeys.MODID, name);
         this.properties = properties;
     }
 

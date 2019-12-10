@@ -1,6 +1,51 @@
 {
-  "parent": "item/handheld",
+  "parent": "forge:item/default",
+  "loader": "forge:obj",
+  "model": "kingdomkeys:models/item/kingdom_key.obj",
   "textures": {
-    "layer0": "kingdomkeys:item/keyblades/kingdom_key"
+    
+  },
+  "display": {
+   "gui": {
+      "rotation": [ 30, 45, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.01, 0.01, 0.01 ]
+    },
+    "fixed": {
+      "rotation": [ 0, 180, 0 ],
+      "translation": [ 0, 0, 0],
+      "scale": [ 0.02, 0.02, 0.02 ]
+    },
+    "ground": {
+      "rotation": [ 0, 0, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.02, 0.02, 0.02 ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [ 0, -180, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.02, 0.02, 0.02 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ 0, 0, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.02, 0.02, 0.02 ]
+    },
+    "firstperson_righthand": {
+      "rotation": [ 0, 180, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.02, 0.02, 0.02 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ 0, 0, 0 ],
+      "translation": [ 0, 0, 0 ],
+      "scale": [ 0.02, 0.02, 0.02 ]
+    }
+    
+  },
+  "visibility": {
+    "object_1": "hide",
+    "object_2": "default",
+    "object_3": "show"
   }
 }

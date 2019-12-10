@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 
+import net.minecraftforge.client.event.GuiScreenEvent;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -12,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
@@ -540,7 +540,7 @@ public class InputHandler {
     }*/
     
     @SubscribeEvent
-    public void OnMouseWheelScroll(MouseScrollEvent event) {
+    public void OnMouseWheelScroll(GuiScreenEvent.MouseScrollEvent event) {
     	Minecraft mc = Minecraft.getInstance();
         if (mc.isGameFocused() && KeyboardHelper.isScrollActivatorDown()) {
         	event.setCanceled(true);

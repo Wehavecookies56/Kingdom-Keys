@@ -13,18 +13,16 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.redesign.GuiMenuButton;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
 
-public class GuiMenu extends Screen {
+
+class GuiMenu extends Screen {
 
 	private Minecraft mc;
 
 	public GuiMenu() {
 		super(new TranslationTextComponent(""));
 
-		background = new GuiMenu_Bars(Strings.Gui_Menu);
+		//background = new GuiMenu_Bars(Strings.Gui_Menu);
 		mc = Minecraft.getInstance();
 	}
 
@@ -33,7 +31,7 @@ public class GuiMenu extends Screen {
 
 	Button items, abilities, customize, party, status, journal, config;
 
-	GuiMenu_Bars background;
+	//GuiMenu_Bars background;
 
 	static int munny;
 
@@ -59,9 +57,9 @@ public class GuiMenu extends Screen {
 	@Override
 	public void init() {
 		super.init();
-		background.width = width;
-		background.height = height;
-		background.init();
+		//background.width = width;
+		//background.height = height;
+		//background.init();
 		float topBarHeight = (float) height * 0.17F;
 		int button_itemsY = (int) topBarHeight + 5;
 		int button_abilitiesY = button_itemsY + 19;
@@ -73,15 +71,15 @@ public class GuiMenu extends Screen {
 		float buttonPosX = (float) width * 0.1526F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 
-		buttons.add(items = new GuiMenuButton(ITEMS, (int) buttonPosX, button_itemsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Items)));
-		buttons.add(abilities = new GuiMenuButton(ABILITIES, (int) buttonPosX, button_abilitiesY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Abilities)));
-		buttons.add(customize = new GuiMenuButton(CUSTOMIZE, (int) buttonPosX, button_customizeY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Customize)));
-		buttons.add(party = new GuiMenuButton(PARTY, (int) buttonPosX, button_partyY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Party)));
-		buttons.add(status = new GuiMenuButton(STATUS, (int) buttonPosX, button_statusY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Status)));
-		buttons.add(journal = new GuiMenuButton(JOURNAL, (int) buttonPosX, button_journalY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Journal)));
-		buttons.add(config = new GuiMenuButton(CONFIG, (int) buttonPosX, button_configY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Config)));
+		/*buttons.add(items = new GuiMenuButton(ITEMS, (int) buttonPosX, button_itemsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Items)));
+        buttons.add(abilities = new GuiMenuButton(ABILITIES, (int) buttonPosX, button_abilitiesY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Abilities)));
+        buttons.add(customize = new GuiMenuButton(CUSTOMIZE, (int) buttonPosX, button_customizeY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Customize)));
+        buttons.add(party = new GuiMenuButton(PARTY, (int) buttonPosX, button_partyY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Party)));
+        buttons.add(status = new GuiMenuButton(STATUS, (int) buttonPosX, button_statusY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Status)));
+        buttons.add(journal = new GuiMenuButton(JOURNAL, (int) buttonPosX, button_journalY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Journal)));
+        buttons.add(config = new GuiMenuButton(CONFIG, (int) buttonPosX, button_configY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Config)));
 
-		updateButtons();
+		*/updateButtons();
 	}
 
 	private void updateButtons() {
@@ -112,9 +110,9 @@ public class GuiMenu extends Screen {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		background.drawBars();
+		/*background.drawBars();
 		background.drawMunnyTime();
-		background.drawBiomeDim();
+		background.drawBiomeDim();*/
 		drawPlayer();
 		super.render(mouseX, mouseY, partialTicks);
 	}
@@ -129,7 +127,7 @@ public class GuiMenu extends Screen {
 			PlayerEntity player = mc.player;
 			// player.getSwingProgress(1);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GuiInventory.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+			//GuiInventory.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			// GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 		}
 		GlStateManager.popMatrix();
@@ -142,7 +140,7 @@ public class GuiMenu extends Screen {
 		float infoBoxWidth = ((float) width * 0.1385F) - 14;
 		float infoBoxPosX = (float) width * 0.4354F;
 		float infoBoxPosY = (float) height * 0.624F;
-		drawTexturedModalRect(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
+		/*drawTexturedModalRect(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
 		for (int i = 0; i < infoBoxWidth; i++) {
 			drawTexturedModalRect(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
 		}
@@ -151,7 +149,7 @@ public class GuiMenu extends Screen {
 		for (int i = 0; i < infoBoxWidth + 8; i++) {
 			drawTexturedModalRect(infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 47);
 		}
-		drawTexturedModalRect(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 47);
+		drawTexturedModalRect(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 47);*/
 		GlStateManager.popMatrix();
 		GlStateManager.pushMatrix();
 		{

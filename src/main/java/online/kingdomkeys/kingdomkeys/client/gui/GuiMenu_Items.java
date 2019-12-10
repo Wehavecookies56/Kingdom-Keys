@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.TranslationTextComponent;
-import online.kingdomkeys.kingdomkeys.client.gui.redesign.GuiMenuButton;
+
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
@@ -39,12 +39,12 @@ public class GuiMenu_Items extends Screen {
                 mc.displayGuiScreen(new GuiStock());
                 break;*/
         }
-        updateButtons();
+        //updateButtons();
     }
 
-    private void updateButtons () {
+    /*private void updateButtons () {
         updateScreen();
-    }
+    }*/
 
     @Override
     public void init () {
@@ -61,12 +61,12 @@ public class GuiMenu_Items extends Screen {
         int button_items_stockY = button_items_playerY + 22;
         int button_items_backY = button_items_stockY + 22;
 
-        buttons.add(items_player = new GuiMenuButton(ITEMS_PLAYER, (int)buttonPosX, button_items_playerY, (int)buttonWidth, mc.player.getDisplayNameString()));
+        /*buttons.add(items_player = new GuiMenuButton(ITEMS_PLAYER, (int)buttonPosX, button_items_playerY, (int)buttonWidth, mc.player.getDisplayNameString()));
         buttons.add(items_stock = new GuiMenuButton(ITEMS_STOCK, (int)buttonPosX, button_items_stockY, (int)buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Items_Button_Stock)));
         buttons.add(items_back = new GuiMenuButton(ITEMS_BACK, (int)buttonPosX, button_items_backY, (int)buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Items_Button_Back)));
 
-        updateButtons();
-    }
+    updateButtons();*/
+}
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
@@ -76,7 +76,7 @@ public class GuiMenu_Items extends Screen {
         super.render(mouseX, mouseY, partialTicks);
     }
     
-    @Override
+    //@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		if (mouseButton == 1) {
 			GuiHelper.openMenu();
