@@ -123,28 +123,28 @@ public abstract class HUDElement extends Widget {
                 setPosition(this.x + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case TOP_CENTER:
-                setPosition(this.x + (mcInstance.mainWindow.getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(this.x + (mcInstance.func_228018_at_().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case TOP_RIGHT:
-                setPosition(mcInstance.mainWindow.getScaledWidth() - getWidth() + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(mcInstance.func_228018_at_().getScaledWidth() - getWidth() + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case BOTTOM_LEFT:
-                setPosition(this.x + anchoredPositionX, mcInstance.mainWindow.getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.x + anchoredPositionX, mcInstance.func_228018_at_().getScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_CENTER:
-                setPosition(this.x + (mcInstance.mainWindow.getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.mainWindow.getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.x + (mcInstance.func_228018_at_().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.func_228018_at_().getScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_RIGHT:
-                setPosition(mcInstance.mainWindow.getScaledWidth() - getWidth() + anchoredPositionX, mcInstance.mainWindow.getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(mcInstance.func_228018_at_().getScaledWidth() - getWidth() + anchoredPositionX, mcInstance.func_228018_at_().getScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case CENTER_LEFT:
-                setPosition(this.x + anchoredPositionX, this.y + (mcInstance.mainWindow.getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.x + anchoredPositionX, this.y + (mcInstance.func_228018_at_().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER:
-                setPosition(this.x + (mcInstance.mainWindow.getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + (mcInstance.mainWindow.getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.x + (mcInstance.func_228018_at_().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + (mcInstance.func_228018_at_().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER_RIGHT:
-                setPosition(mcInstance.mainWindow.getScaledWidth() - getWidth() + anchoredPositionX, this.y + (mcInstance.mainWindow.getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(mcInstance.func_228018_at_().getScaledWidth() - getWidth() + anchoredPositionX, this.y + (mcInstance.func_228018_at_().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
         }
     }

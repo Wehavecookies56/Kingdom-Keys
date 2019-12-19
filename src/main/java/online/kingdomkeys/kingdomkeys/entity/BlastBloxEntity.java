@@ -68,9 +68,9 @@ public class BlastBloxEntity extends Entity {
 
     @Override
     public void tick() {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        this.prevPosX = this.getPosition().getX();
+        this.prevPosY = this.getPosition().getY();
+        this.prevPosZ = this.getPosition().getZ();
         if (!this.hasNoGravity()) {
             this.setMotion(this.getMotion().add(0.0D, -0.04D, 0.0D));
         }
@@ -89,13 +89,13 @@ public class BlastBloxEntity extends Entity {
             }
         } else {
             this.handleWaterMovement();
-            this.world.addParticle(ParticleTypes.FLAME, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.world.addParticle(ParticleTypes.FLAME, this.getPosition().getX(), this.getPosition().getY() + 0.5D, this.getPosition().getZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     private void explode() {
         float explosionSize = 8.0F;
-        this.world.createExplosion(this, this.posX, this.posY + (double)(this.getHeight() / 16.0F), this.posZ, explosionSize, true, Explosion.Mode.BREAK);
+        this.world.createExplosion(this, this.getPosition().getX(), this.getPosition().getY() + (double)(this.getHeight() / 16.0F), this.getPosition().getZ(), explosionSize, true, Explosion.Mode.BREAK);
     }
 
     @Override

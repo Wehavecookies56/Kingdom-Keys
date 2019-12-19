@@ -38,8 +38,8 @@ public class HPGui extends Screen {
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
-            int screenWidth = mc.mainWindow.getScaledWidth();
-            int screenHeight = mc.mainWindow.getScaledHeight();
+            int screenWidth = width;// mc.mainWindow.getScaledWidth();
+            int screenHeight = height;//mc.mainWindow.getScaledHeight();
 
             float scale = 1f;
             switch(mc.gameSettings.guiScale){

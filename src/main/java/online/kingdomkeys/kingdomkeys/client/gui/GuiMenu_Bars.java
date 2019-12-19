@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 
@@ -49,7 +51,7 @@ public class GuiMenu_Bars extends Screen {
 		renderBackground();
 		/*ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		for (int i = 0; i < sr.getScaledHeight(); i += 3) {
-			GlStateManager.pushMatrix();
+			GL11.glPushMatrix();
 			GlStateManager.color(1, 1, 1);
 			GlStateManager.enableAlpha();
 			GlStateManager.enableBlend();
@@ -57,7 +59,7 @@ public class GuiMenu_Bars extends Screen {
 			GlStateManager.translate(0, i, 0);
 			GlStateManager.scale(sr.getScaledWidth(), 1, 1);
 			drawTexturedModalRect(0, 0, 77, 92, 1, 1);
-			GlStateManager.popMatrix();
+			GL11.glPopMatrix();
 		}
 		topLeftBar.draw();
 		topRightBar.draw();
@@ -66,7 +68,7 @@ public class GuiMenu_Bars extends Screen {
 	}
 
 	public void drawBiomeDim() {
-		GlStateManager.pushMatrix();
+		GL11.glPushMatrix();
 		{
             
 			/*String text = mc.player.world.provider.getDimensionType().getName().toUpperCase()+ " | "+mc.player.world.getBiome(mc.player.getPosition()).getBiomeName();
@@ -85,11 +87,11 @@ public class GuiMenu_Bars extends Screen {
             drawString(mc.fontRenderer, text, width - mc.fontRenderer.getStringWidth(text) - 5, 25, 0xF58B33);
 */
 		}
-		GlStateManager.popMatrix();
+		GL11.glPopMatrix();
 	}
 
 	public void drawMunnyTime() {
-		GlStateManager.pushMatrix();
+		GL11.glPushMatrix();
 		{
 			/*GlStateManager.scale(1.1,1.1,1);
 			drawString(mc.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(mc.world) + ":" + getWorldMinutes(mc.world), 5, (int) (topBarHeight + middleHeight) + mc.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
@@ -106,7 +108,7 @@ public class GuiMenu_Bars extends Screen {
 			String time = hou + ":" + min + ":" + sec;
 			drawString(mc.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (mc.fontRenderer.FONT_HEIGHT * 2), 0x42ceff);
 		*/}
-		GlStateManager.popMatrix();
+		GL11.glPopMatrix();
 	}
 
 	public static final ResourceLocation optionsBackground = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menubg.png");

@@ -94,7 +94,7 @@ public class BlastBloxBlock extends BaseBlock {
         if (!world.isRemote) {
             BlastBloxEntity entity = new BlastBloxEntity(ModEntities.TYPE_BLAST_BLOX, world, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), igniter);
             world.addEntity(entity);
-            world.playSound((PlayerEntity) null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound((PlayerEntity) null, entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
     }
 
