@@ -1,14 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.model;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-import javax.vecmath.Matrix4f;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.BakedQuad;
@@ -20,7 +11,11 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
+
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class KeybladeModel implements IBakedModel {
@@ -66,9 +61,9 @@ public class KeybladeModel implements IBakedModel {
         return ItemOverrideList.EMPTY;
     }
 
-    @Override
+   /* @Override
     public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
         transformType = cameraTransformType;
         return ForgeHooksClient.handlePerspective(obj, cameraTransformType);
-    }
+    }*/
 }

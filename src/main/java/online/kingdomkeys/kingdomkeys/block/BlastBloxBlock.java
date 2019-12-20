@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -114,11 +115,11 @@ public class BlastBloxBlock extends BaseBlock {
     //Ignited by flint and steel or fire charges otherwise doesn't ignite when right clicked
     @SuppressWarnings("deprecation")
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack stack = player.getHeldItem(hand);
         Item item = stack.getItem();
         if (item != Items.FLINT_AND_STEEL && item != Items.FIRE_CHARGE) {
-            return super.onBlockActivated(state, worldIn, pos, player, hand, hit);
+            return super.func_225533_a_(state, worldIn, pos, player, hand, hit);
         } else {
             this.explode(worldIn, pos, player);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), SetBlockStateFlags.BLOCK_UPDATE.getValue() | SetBlockStateFlags.SEND_TO_CLIENT.getValue() | SetBlockStateFlags.RERENDER_ON_MAIN.getValue());
@@ -130,7 +131,7 @@ public class BlastBloxBlock extends BaseBlock {
                 stack.shrink(1);
             }
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     //Explode when collided with an entity

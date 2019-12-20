@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -9,13 +7,14 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class GhostBloxBlock extends BaseBlock {
 
@@ -47,11 +46,11 @@ public class GhostBloxBlock extends BaseBlock {
     }
 
 
-    @SuppressWarnings("deprecation")
-    @Override
+    //@SuppressWarnings("deprecation")
+    /*@Override
     public boolean isSolid(BlockState state) {
         return state.get(VISIBLE);
-    }
+    }*/
 
     @SuppressWarnings("deprecation")
     @Override
@@ -59,10 +58,10 @@ public class GhostBloxBlock extends BaseBlock {
         return  (state.get(VISIBLE)) ? super.getOpacity(state, worldIn, pos) : 0;
     }
 
-    @Override
+   /* @Override
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
-    }
+    }*/
 
     @SuppressWarnings("deprecation")
     @Override

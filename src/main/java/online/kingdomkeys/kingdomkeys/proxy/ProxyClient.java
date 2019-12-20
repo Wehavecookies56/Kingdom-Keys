@@ -1,36 +1,17 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.IUnbakedModel;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.BasicState;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.b3d.B3DLoader;
-import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.*;
 import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDElementHandler;
-import online.kingdomkeys.kingdomkeys.client.render.KeybladeRenderer;
-import online.kingdomkeys.kingdomkeys.config.ClientConfig;
-import online.kingdomkeys.kingdomkeys.corsair.CorsairTickHandler;
 import online.kingdomkeys.kingdomkeys.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
@@ -49,9 +30,9 @@ public class ProxyClient implements IProxy {
         }*/
 
         //OBJLoader and B3DLoader currently aren't hooked up however, this is here for when they are
-        OBJLoader.INSTANCE.addDomain(KingdomKeys.MODID);
+        //OBJLoader.INSTANCE.addDomain(KingdomKeys.MODID);
         //TODO convert B3D models to OBJ so we don't need this
-        B3DLoader.INSTANCE.addDomain(KingdomKeys.MODID);
+        //B3DLoader.INSTANCE.addDomain(KingdomKeys.MODID);
        // new ScrollCallbackWrapper().setup(Minecraft.getInstance());
         MinecraftForge.EVENT_BUS.register(new HUDElementHandler());
         //MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
@@ -79,7 +60,7 @@ public class ProxyClient implements IProxy {
 
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onModelBakeEvent(ModelBakeEvent event) {
         //TODO make this simpler for doing this for every model
         try {
@@ -92,6 +73,6 @@ public class ProxyClient implements IProxy {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }
