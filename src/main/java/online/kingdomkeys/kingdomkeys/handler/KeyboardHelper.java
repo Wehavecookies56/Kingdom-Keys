@@ -37,7 +37,7 @@ public class KeyboardHelper {
      * @return whether the key is being pressed
      */
     public static boolean isKeyDown(int key) {
-        return InputMappings.isKeyDown(Minecraft.getInstance().func_228018_at_().getHandle(), key);
+        return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), key);
     }
 
 }

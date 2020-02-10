@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.corsair;
+package online.kingdomkeys.kingdomkeys.integration.corsair;
 
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

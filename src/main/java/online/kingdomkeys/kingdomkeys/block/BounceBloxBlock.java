@@ -22,10 +22,10 @@ public class BounceBloxBlock extends BaseBlock {
 	// Negate fall damage when fallen on if the entity is not sneaking
 	@Override
 	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-		if (entityIn.func_226272_bl_()) {
+		if (entityIn.isCrouching()) {
 			super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
 		} else {
-			entityIn.func_225503_b_(fallDistance, 0.0F);
+			entityIn.onLivingFall(fallDistance, 0.0F);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class BounceBloxBlock extends BaseBlock {
 	// Bounce when landed on if the entity is not sneaking
 	@Override
 	public void onLanded(IBlockReader worldIn, Entity entityIn) {
-		if (Math.abs(entityIn.getMotion().getY()) < 0.1D && !entityIn.func_226272_bl_()) {
+		if (Math.abs(entityIn.getMotion().getY()) < 0.1D && !entityIn.isCrouching()) {
 			bounce(entityIn);
 		} else {
 			super.onLanded(worldIn, entityIn);
@@ -54,7 +54,7 @@ public class BounceBloxBlock extends BaseBlock {
 	// Bounce when walked on if the entity is not sneaking
 	@Override
 	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-		if (Math.abs(entityIn.getMotion().getY()) < 0.1D && !entityIn.func_226272_bl_()) {
+		if (Math.abs(entityIn.getMotion().getY()) < 0.1D && !entityIn.isCrouching()) {
 			bounce(entityIn);
 		}
 		super.onEntityWalk(worldIn, pos, entityIn);

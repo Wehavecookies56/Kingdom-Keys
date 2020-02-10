@@ -51,8 +51,8 @@ public class GuiOverlay extends Screen {
 		if (event.getType() == ElementType.TEXT) {
 			mc = Minecraft.getInstance();
 
-			width = mc.func_228018_at_().getScaledWidth();
-			sHeight = mc.func_228018_at_().getScaledHeight();
+			width = mc.getMainWindow().getScaledWidth();
+			sHeight = mc.getMainWindow().getScaledHeight();
 
 			STATS = ModCapabilities.get(mc.player);
 			//DRIVE = mc.player.getCapability(ModCapabilities.DRIVE_STATE, null);

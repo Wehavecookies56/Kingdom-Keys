@@ -47,6 +47,7 @@ public class KingdomKeys {
 
 	// The proxy instance created for the current dist double lambda prevents class
 	// being loaded on the other dist
+	@SuppressWarnings("Convert2MethodRef")
 	public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ProxyClient(), () -> () -> new ProxyServer());
 
 	public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
@@ -100,6 +101,7 @@ public class KingdomKeys {
 		this.registerResourceLoader(event.getServer().getResourceManager());
 	}
 
+	//TODO do this with non deprecated stuff, works for now
 	private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
 		resourceManager.addReloadListener((IResourceManagerReloadListener)manager -> {
 			KeybladeDataLoader.loadData(resourceManager);

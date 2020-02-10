@@ -54,7 +54,7 @@ public class CommandMenuGui extends Screen {
             if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT){// && !mc.ingameGUI.getChatGUI().getChatOpen()) {
                 GL11.glPushMatrix();
                 {
-                    drawCommandMenu(mc.func_228018_at_().getScaledWidth(), mc.func_228018_at_().getScaledHeight());
+                    drawCommandMenu(mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight());
                 }
                 GL11.glPopMatrix();
             }

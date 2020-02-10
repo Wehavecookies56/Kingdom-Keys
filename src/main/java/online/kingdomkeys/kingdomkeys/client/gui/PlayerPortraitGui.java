@@ -23,8 +23,8 @@ public class PlayerPortraitGui extends Screen {
         //          return;
         Minecraft mc = Minecraft.getInstance();
         //if(!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode()) return;
-        int screenWidth = mc.func_228018_at_().getScaledWidth();
-        int screenHeight = mc.func_228018_at_().getScaledHeight();
+        int screenWidth = mc.getMainWindow().getScaledWidth();
+        int screenHeight = mc.getMainWindow().getScaledHeight();
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             GL11.glColor3f(1, 1, 1);
             ResourceLocation skin = mc.player.getLocationSkin();

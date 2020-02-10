@@ -30,19 +30,27 @@ public class CommandMenuHUDElement extends HUDElement {
     }
 
     public void moveUp() {
-
+        if (currentItem - 1 == 0) {
+            currentItem = menuItems.get(currentPage).menuItems.size()-1;
+        } else currentItem--;
     }
 
     public void moveDown() {
-
+        if (currentItem + 1 == menuItems.get(currentPage).menuItems.size()) {
+            currentItem = 0;
+        } else currentItem++;
     }
 
     public void enter() {
-
+        menuItems.get(currentPage).menuItems.get(currentItem).onUse();
     }
 
     public void cancel() {
+        currentPage = 0;
+    }
 
+    public void changePage(int subMenu) {
+        currentPage = subMenu;
     }
 
     @Override
@@ -57,27 +65,33 @@ public class CommandMenuHUDElement extends HUDElement {
                 new MenuItem("Magic", menuColour) {
                     @Override
                     public void onUse() {
-                        //OPEN MAGIC SUB MENU
+                        changePage(1);
                     }
                 },
                 new MenuItem("Items", menuColour) {
                     @Override
                     public void onUse() {
-                        //OPEN ITEMS SUB MENU
+                        changePage(2);
                     }
                 },
                 new MenuItem("Drive", menuColour) {
                     @Override
                     public void onUse() {
-                        //OPEN DRIVE SUB MENU
+                        changePage(3);
                     }
-                });
+                }
+        );
+        //Gonna need to populate these dynamically
         Menu magic = new Menu(1, new MenuItem("Fire", magicColour) {
             @Override
             public void onUse() {
                 //FIRE!
+                changePage(0);
             }
         });
+
+        Menu items = new Menu(2, (MenuItem) null);
+        Menu drive = new Menu(3, (MenuItem) null);
 
         Menu main2 = new Menu(0,
                 new MenuItem("Attack", menuColour) {
@@ -103,7 +117,9 @@ public class CommandMenuHUDElement extends HUDElement {
                     public void onUse() {
 
                     }
-                });
+                }
+        );
+
         menuItems.put(0, main);
         menuItems.put(1, main2);
 
@@ -113,10 +129,19 @@ public class CommandMenuHUDElement extends HUDElement {
     }
 
     @Override
-    public void drawElement() {
-        drawString("COMMANDS", 0, 0, Color.WHITE);
+    public void tick() {
+        if (currentTickPos > 200) currentTickPos = 0;
+        previousTickPos = currentTickPos;
+        currentTickPos += 2;
+    }
+
+    @Override
+    public void drawElement(float partialTicks) {
         mcInstance.getTextureManager().bindTexture(TEXTURE);
         blit(0, 0, 0, 0, MENU_WIDTH, MENU_HEIGHT);
+        drawString("COMMANDS", 0, 0, Color.WHITE);
+        float lerpedPos = previousTickPos + (currentTickPos - previousTickPos) * partialTicks;
+        drawString("TEST", Math.round(lerpedPos), 0, Color.RED);
     }
 
     //Class for the menus e.g. the main one, submenus, 2nd page, etc.
@@ -124,8 +149,6 @@ public class CommandMenuHUDElement extends HUDElement {
 
         //Which submenu it is in, 0 = no submenu
         int subMenuIndex;
-
-        int itemSelected = 0;
 
         List<MenuItem> menuItems;
 
@@ -161,6 +184,10 @@ public class CommandMenuHUDElement extends HUDElement {
          * Do something when entering the menu item
          */
         public abstract void onUse();
+
+        public void draw(float partialTicks) {
+
+        }
 
     }
 }

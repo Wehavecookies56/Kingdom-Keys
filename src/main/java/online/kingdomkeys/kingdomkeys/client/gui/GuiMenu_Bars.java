@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -68,7 +69,7 @@ public class GuiMenu_Bars extends Screen {
 	}
 
 	public void drawBiomeDim() {
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
             
 			/*String text = mc.player.world.provider.getDimensionType().getName().toUpperCase()+ " | "+mc.player.world.getBiome(mc.player.getPosition()).getBiomeName();
@@ -87,11 +88,11 @@ public class GuiMenu_Bars extends Screen {
             drawString(mc.fontRenderer, text, width - mc.fontRenderer.getStringWidth(text) - 5, 25, 0xF58B33);
 */
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public void drawMunnyTime() {
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			/*GlStateManager.scale(1.1,1.1,1);
 			drawString(mc.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(mc.world) + ":" + getWorldMinutes(mc.world), 5, (int) (topBarHeight + middleHeight) + mc.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
@@ -108,7 +109,7 @@ public class GuiMenu_Bars extends Screen {
 			String time = hou + ":" + min + ":" + sec;
 			drawString(mc.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (mc.fontRenderer.FONT_HEIGHT * 2), 0x42ceff);
 		*/}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public static final ResourceLocation optionsBackground = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menubg.png");

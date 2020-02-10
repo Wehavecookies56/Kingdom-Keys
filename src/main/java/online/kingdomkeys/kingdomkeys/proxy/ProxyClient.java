@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -7,9 +9,10 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.*;
 import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDElementHandler;
-import online.kingdomkeys.kingdomkeys.corsair.KeyboardManager;
+import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 
@@ -57,7 +60,7 @@ public class ProxyClient implements IProxy {
             ClientRegistry.registerKeyBinding(key.getKeybind());
         
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
-
+        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox, RenderType.translucent());
     }
 
     /*@SubscribeEvent

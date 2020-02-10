@@ -1,3 +1,4 @@
+/*
 package online.kingdomkeys.kingdomkeys.client.model;
 
 import net.minecraft.block.BlockState;
@@ -47,6 +48,11 @@ public class KeybladeModel implements IBakedModel {
     }
 
     @Override
+    public boolean func_230044_c_() {
+        return false;
+    }
+
+    @Override
     public boolean isBuiltInRenderer() {
         return true;
     }
@@ -61,9 +67,10 @@ public class KeybladeModel implements IBakedModel {
         return ItemOverrideList.EMPTY;
     }
 
-   /* @Override
+   @Override
     public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
         transformType = cameraTransformType;
         return ForgeHooksClient.handlePerspective(obj, cameraTransformType);
-    }*/
+    }
 }
+*/

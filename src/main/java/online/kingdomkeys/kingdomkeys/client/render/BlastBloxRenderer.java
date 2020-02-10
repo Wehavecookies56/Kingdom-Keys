@@ -2,14 +2,18 @@ package online.kingdomkeys.kingdomkeys.client.render;
 
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,56 +36,39 @@ public class BlastBloxRenderer extends EntityRenderer<BlastBloxEntity> {
     }
 
     @Override
-    public void doRender(BlastBloxEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        BlockRendererDispatcher brd = Minecraft.getInstance().getBlockRendererDispatcher();
-        BlockState blastBloxState = ModBlocks.blastBlox.getDefaultState();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef((float)x, (float)y + 0.5f, (float)z);
-        float f2;
+    public void render(BlastBloxEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {
+        matrixStack.push();
+        matrixStack.translate(0.0D, 0.5D, 0.0D);
         if ((float)entity.getFuse() - partialTicks + 1.0F < 10.0F) {
-            f2 = 1.0F - ((float)entity.getFuse() - partialTicks + 1.0F) / 10.0F;
-            f2 = MathHelper.clamp(f2, 0.0F, 1.0F);
-            f2 *= f2;
-            f2 *= f2;
-            float f1 = 1.0F + f2 * 0.3F;
-            GlStateManager.scalef(f1, f1, f1);
+            float f = 1.0F - ((float)entity.getFuse() - partialTicks + 1.0F) / 10.0F;
+            f = MathHelper.clamp(f, 0.0F, 1.0F);
+            f *= f;
+            f *= f;
+            float f1 = 1.0F + f * 0.3F;
+            matrixStack.scale(f1, f1, f1);
+        }
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(-90.0F));
+        matrixStack.translate(-0.5D, -0.5D, 0.5D);
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
+        renderFlash(ModBlocks.blastBlox.getDefaultState(), matrixStack, buffer, packedLight, entity.getFuse() / 5 % 2 == 0);
+        matrixStack.pop();
+        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+    }
+
+    public static void renderFlash(BlockState blockStateIn, MatrixStack matrixStackIn, IRenderTypeBuffer renderTypeBuffer, int combinedLight, boolean doFullBright) {
+        int i;
+        if (doFullBright) {
+            i = OverlayTexture.packLight(OverlayTexture.lightToInt(1.0F), 10);
+        } else {
+            i = OverlayTexture.DEFAULT_LIGHT;
         }
 
-        f2 = (1.0F - ((float)entity.getFuse() - partialTicks + 1.0F) / 100.0F) * 0.8F;
-        this.bindEntityTexture(entity);
-        GlStateManager.rotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.translatef(-0.5F, -0.5F, 0.5F);
-        brd.renderBlockBrightness(blastBloxState, entity.getBrightness());
-        GlStateManager.translatef(0.0F, 0.0F, 1.0F);
-        if (this.renderOutlines) {
-            GlStateManager.enableColorMaterial();
-            GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
-            brd.renderBlockBrightness(blastBloxState, 1.0F);
-            GlStateManager.tearDownSolidRenderingTextureCombine();
-            GlStateManager.disableColorMaterial();
-        } else if (entity.getFuse() / 5 % 2 == 0) {
-            GlStateManager.disableTexture();
-            GlStateManager.disableLighting();
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.DST_ALPHA);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, f2);
-            GlStateManager.polygonOffset(-3.0F, -3.0F);
-            GlStateManager.enablePolygonOffset();
-            brd.renderBlockBrightness(blastBloxState, 1.0F);
-            GlStateManager.polygonOffset(0.0F, 0.0F);
-            GlStateManager.disablePolygonOffset();
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.disableBlend();
-            GlStateManager.enableLighting();
-            GlStateManager.enableTexture();
-        }
-        GlStateManager.popMatrix();
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(blockStateIn, matrixStackIn, renderTypeBuffer, combinedLight, i);
     }
 
     @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(BlastBloxEntity entity) {
+    public ResourceLocation getEntityTexture(BlastBloxEntity entity) {
         return AtlasTexture.LOCATION_BLOCKS_TEXTURE;
     }
 

@@ -115,11 +115,11 @@ public class BlastBloxBlock extends BaseBlock {
     //Ignited by flint and steel or fire charges otherwise doesn't ignite when right clicked
     @SuppressWarnings("deprecation")
     @Override
-    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack stack = player.getHeldItem(hand);
         Item item = stack.getItem();
         if (item != Items.FLINT_AND_STEEL && item != Items.FIRE_CHARGE) {
-            return super.func_225533_a_(state, worldIn, pos, player, hand, hit);
+            return super.onBlockActivated(state, worldIn, pos, player, hand, hit);
         } else {
             this.explode(worldIn, pos, player);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), SetBlockStateFlags.BLOCK_UPDATE.getValue() | SetBlockStateFlags.SEND_TO_CLIENT.getValue() | SetBlockStateFlags.RERENDER_ON_MAIN.getValue());

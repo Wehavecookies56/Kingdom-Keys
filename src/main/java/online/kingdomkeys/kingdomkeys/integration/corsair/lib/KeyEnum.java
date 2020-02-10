@@ -1,4 +1,4 @@
- package online.kingdomkeys.kingdomkeys.corsair.lib;
+ package online.kingdomkeys.kingdomkeys.integration.corsair.lib;
  
  public enum KeyEnum {
    KEY_INVALD("INVALID"),

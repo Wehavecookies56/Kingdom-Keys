@@ -40,8 +40,8 @@ public class MPGui extends Screen {
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 
-            int screenWidth = mc.func_228018_at_().getScaledWidth();
-            int screenHeight = mc.func_228018_at_().getScaledHeight();
+            int screenWidth = mc.getMainWindow().getScaledWidth();
+            int screenHeight = mc.getMainWindow().getScaledHeight();
 
             float scale = 1f;
             switch(mc.gameSettings.guiScale){

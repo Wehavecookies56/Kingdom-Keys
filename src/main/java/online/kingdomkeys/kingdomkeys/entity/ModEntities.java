@@ -53,7 +53,7 @@ public class ModEntities {
      * Register the render classes for the entities, called in {@link ProxyClient#registerModels(ModelRegistryEvent)}  }
      */
     public static void registerModels() {
-        RenderingRegistry.registerEntityRenderingHandler(BlastBloxEntity.class, BlastBloxRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX, BlastBloxRenderer.FACTORY);
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

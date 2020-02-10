@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.corsair.functions;
+package online.kingdomkeys.kingdomkeys.integration.corsair.functions;
 
 import java.awt.Color;
 

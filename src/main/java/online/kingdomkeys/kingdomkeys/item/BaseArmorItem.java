@@ -19,7 +19,7 @@ public class BaseArmorItem extends ArmorItem {
 	
 	@Override
 	public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
-		return (A) new ZombieModel();
+		return null;//(A) new ZombieModel();
 		// TODO Auto-generated method stub
 		//return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
 	}

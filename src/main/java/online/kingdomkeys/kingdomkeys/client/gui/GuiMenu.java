@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -122,7 +124,7 @@ class GuiMenu extends Screen {
 		float playerHeight = height * 0.4481F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7518F;
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			PlayerEntity player = mc.player;
 			// player.getSwingProgress(1);
@@ -130,11 +132,11 @@ class GuiMenu extends Screen {
 			//GuiInventory.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			// GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 		}
-		GL11.glPopMatrix();
-		GL11.glPushMatrix();
+		RenderSystem.popMatrix();
+		RenderSystem.pushMatrix();
 		
-		GL11.glColor3f(1, 1, 1);
-		GL11.glTranslatef(1, 1, 100);
+		RenderSystem.color3f(1, 1, 1);
+		RenderSystem.translatef(1, 1, 100);
 		//GL11.glEnableAlphaTest();
 	//	GL11.glEnableBlend();
 		mc.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
@@ -151,26 +153,26 @@ class GuiMenu extends Screen {
 			drawTexturedModalRect(infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 47);
 		}
 		drawTexturedModalRect(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 47);*/
-		
-		GL11.glPopMatrix();
-		GL11.glPushMatrix();
+
+		RenderSystem.popMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GL11.glTranslatef(1, 1, 100);
+			RenderSystem.translatef(1, 1, 100);
 			ILevelCapabilities props = ModCapabilities.get(mc.player);
 			if (props != null) {
 				GL11.glPushMatrix();
 				{
-					GL11.glTranslatef((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (mc.fontRenderer.FONT_HEIGHT / 2)), 1);
+					RenderSystem.translatef((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (mc.fontRenderer.FONT_HEIGHT / 2)), 1);
 					// GL11.glscale(0.75F, 0.75F, 1);
 					drawString(mc.fontRenderer, mc.player.getDisplayName().toString(), 0, 0, 0xFFFFFF);
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 				drawString(mc.fontRenderer, "LV: " + props.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
 				drawString(mc.fontRenderer, "HP: " + (int) mc.player.getHealth() + "/" + (int) mc.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + mc.fontRenderer.FONT_HEIGHT, 0x00FF00);
 				drawString(mc.fontRenderer, "MP: " + (int) props.getMP() + "/" + (int) props.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (mc.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
 			}
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 	}
 
 }

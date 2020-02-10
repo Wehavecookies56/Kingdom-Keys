@@ -7,12 +7,17 @@ public class HPBarHUDElement extends HUDElement {
     }
 
     @Override
-    public void drawElement() {
+    public void drawElement(float partialTicks) {
 
     }
 
     @Override
     public void initElement() {
+
+    }
+
+    @Override
+    public void tick() {
 
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.hud.CommandMenuHUDElement;
 import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDAnchorPosition;
@@ -41,11 +42,15 @@ public class HUDElementHandler extends AbstractGui {
         elements.forEach(HUDElement::anchorElement);
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             elements.forEach(element -> {
-                element.render(0, 0, event.getPartialTicks());
+                element.render(event.getPartialTicks());
             });
         }
     }
 
-
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        elements.forEach(HUDElement::tick);
+    }
 
 }

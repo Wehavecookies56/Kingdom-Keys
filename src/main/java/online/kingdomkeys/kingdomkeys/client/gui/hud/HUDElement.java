@@ -4,6 +4,7 @@ import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 
@@ -19,6 +20,8 @@ public abstract class HUDElement extends Widget {
     protected HUDAnchorPosition anchor;
     //Use these values to offset the element from the anchor
     protected int anchoredPositionX, anchoredPositionY;
+    //Values stored for anything timed based like animations
+    protected float currentTickPos, previousTickPos;
 
     public HUDElement(int anchoredPositionX, int anchoredPositionY, int elementWidth, int elementHeight, HUDAnchorPosition anchor, String name) {
         //Constructed with 0s as the position is later changed, the dimensions should be set manually
@@ -34,7 +37,7 @@ public abstract class HUDElement extends Widget {
     /**
      * Use this to draw the element
      */
-    public abstract void drawElement();
+    public abstract void drawElement(float partialTicks);
 
     /**
      * Use this for the initialisation of the element
@@ -112,6 +115,21 @@ public abstract class HUDElement extends Widget {
     }
 
     /**
+     * Wrapper method to bind a texture and draw using {@link HUDElement#blit(int, int, int, int, int, int)}
+     * @param texture the texture resource location
+     * @param posX X position to draw to
+     * @param posY Y position to draw to
+     * @param texU texture U position
+     * @param texV texture V position
+     * @param texWidth texture width
+     * @param texHeight texture height
+     */
+    public void bindAndBlit(ResourceLocation texture, int posX, int posY, int texU, int texV, int texWidth, int texHeight) {
+        mcInstance.getTextureManager().bindTexture(texture);
+        blit(posX, posY, texU, texV, texWidth, texHeight);
+    }
+
+    /**
      * Positions the element using the {@link HUDElement#anchor} using {@link MainWindow#getScaledHeight()} and {@link MainWindow#getScaledWidth()} for positioning relative to screen size
      * The anchored positions are added to the position
      * The element width and height are taken into account
@@ -123,34 +141,39 @@ public abstract class HUDElement extends Widget {
                 setPosition(this.x + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case TOP_CENTER:
-                setPosition(this.x + (mcInstance.func_228018_at_().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(this.x + (mcInstance.getMainWindow().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case TOP_RIGHT:
-                setPosition(mcInstance.func_228018_at_().getScaledWidth() - getWidth() + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(mcInstance.getMainWindow().getScaledWidth() - getWidth() + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case BOTTOM_LEFT:
-                setPosition(this.x + anchoredPositionX, mcInstance.func_228018_at_().getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.x + anchoredPositionX, mcInstance.getMainWindow().getScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_CENTER:
-                setPosition(this.x + (mcInstance.func_228018_at_().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.func_228018_at_().getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.x + (mcInstance.getMainWindow().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.getMainWindow().getScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_RIGHT:
-                setPosition(mcInstance.func_228018_at_().getScaledWidth() - getWidth() + anchoredPositionX, mcInstance.func_228018_at_().getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(mcInstance.getMainWindow().getScaledWidth() - getWidth() + anchoredPositionX, mcInstance.getMainWindow().getScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case CENTER_LEFT:
-                setPosition(this.x + anchoredPositionX, this.y + (mcInstance.func_228018_at_().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.x + anchoredPositionX, this.y + (mcInstance.getMainWindow().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER:
-                setPosition(this.x + (mcInstance.func_228018_at_().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + (mcInstance.func_228018_at_().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.x + (mcInstance.getMainWindow().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + (mcInstance.getMainWindow().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER_RIGHT:
-                setPosition(mcInstance.func_228018_at_().getScaledWidth() - getWidth() + anchoredPositionX, this.y + (mcInstance.func_228018_at_().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(mcInstance.getMainWindow().getScaledWidth() - getWidth() + anchoredPositionX, this.y + (mcInstance.getMainWindow().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
         }
     }
 
-    @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        drawElement();
+    /**
+     * Render the hud element here, might be redundant as drawElement can currently be called instead
+     * @param partialTicks the partial ticks from the render event
+     */
+    public void render(float partialTicks) {
+        drawElement(partialTicks);
     }
+    public abstract void tick();
+
 }

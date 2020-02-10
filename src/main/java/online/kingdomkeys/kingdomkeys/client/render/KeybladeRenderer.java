@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render;
+/*package online.kingdomkeys.kingdomkeys.client.render;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,3 +93,4 @@ public class KeybladeRenderer extends ItemStackTileEntityRenderer {
 
 
 }
+*/

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.corsair.functions;
+package online.kingdomkeys.kingdomkeys.integration.corsair.functions;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -7,7 +7,7 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import online.kingdomkeys.kingdomkeys.corsair.lib.CorsairUtils;
+import online.kingdomkeys.kingdomkeys.integration.corsair.lib.CorsairUtils;
 
 public class FunctionItemDamage extends BaseKeyboardFunctions {
 	static int[] getRGBKeyColor(ClientPlayerEntity player, int slot) {

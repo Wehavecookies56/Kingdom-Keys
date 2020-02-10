@@ -97,8 +97,8 @@ public class DriveGui extends Screen {
             int guiWidth = 95;
             int guiBarWidth = 83;
             int guiHeight = 18;
-            int screenWidth = mc.func_228018_at_().getScaledWidth();
-            int screenHeight = mc.func_228018_at_().getScaledHeight();
+            int screenWidth = mc.getMainWindow().getScaledWidth();
+            int screenHeight = mc.getMainWindow().getScaledHeight();
             PlayerEntity player = mc.player;
 
             mc.textureManager.bindTexture(texture);

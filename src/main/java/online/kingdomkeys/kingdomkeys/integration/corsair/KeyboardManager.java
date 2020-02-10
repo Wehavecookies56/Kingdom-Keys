@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.corsair;
+package online.kingdomkeys.kingdomkeys.integration.corsair;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -14,9 +14,9 @@ import dk.allanmc.cuesdk.jna.CorsairLedPositions;
 import dk.allanmc.cuesdk.jna.CueSDKLibrary;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import online.kingdomkeys.kingdomkeys.corsair.functions.KeyFunction;
-import online.kingdomkeys.kingdomkeys.corsair.lib.CorsairUtils;
-import online.kingdomkeys.kingdomkeys.corsair.lib.KeyEnum;
+import online.kingdomkeys.kingdomkeys.integration.corsair.functions.KeyFunction;
+import online.kingdomkeys.kingdomkeys.integration.corsair.lib.CorsairUtils;
+import online.kingdomkeys.kingdomkeys.integration.corsair.lib.KeyEnum;
 
 public class KeyboardManager {
 	private final Thread updateThread = new Thread(this::updateKeys);
