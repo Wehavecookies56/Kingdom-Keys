@@ -49,11 +49,11 @@ public class HPGui extends Screen {
             }
             float scaleFactor = 1.5F;
 
-           // hpBarWidth = (int) ((int) player.getHealth() * scaleFactor);
-           // int hpBarMaxWidth = (int) ((int) player.getMaxHealth() * scaleFactor);
+            hpBarWidth = (int) ((int) player.getHealth() * scaleFactor);
+           	int hpBarMaxWidth = (int) ((int) player.getMaxHealth() * scaleFactor);
 
-            hpBarWidth = (int) (60 * scaleFactor);
-            int hpBarMaxWidth = (int)(120 * scaleFactor);
+           // hpBarWidth = (int) (60 * scaleFactor);
+            //int hpBarMaxWidth = (int)(120 * scaleFactor);
 
             GL11.glPushMatrix();
             {

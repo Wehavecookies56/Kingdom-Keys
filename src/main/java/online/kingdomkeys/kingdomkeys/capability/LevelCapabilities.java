@@ -30,6 +30,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			props.putInt("strength", instance.getStrength());
 			props.putInt("magic", instance.getMagic());
 			props.putInt("defense", instance.getDefense());
+			props.putInt("max_hp", instance.getMaxHP());
 			//TODO save and load the rest of things
 			return props;
 		}
@@ -43,6 +44,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			instance.setStrength(properties.getInt("strength"));
 			instance.setMagic(properties.getInt("magic"));
 			instance.setDefense(properties.getInt("defense"));
+			instance.setMaxHP(properties.getInt("max_hp"));
 		}
 	}
 
@@ -57,7 +59,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 	remainingExp = 0,
 	ap,
 	maxAP,
-	hp;
+	maxHp = 20;
 	
 	private double
 	mp,
@@ -184,18 +186,18 @@ public class LevelCapabilities implements ILevelCapabilities {
 	}
 
 	@Override
-	public int getHP() {
-		return hp;
+	public int getMaxHP() {
+		return maxHp;
 	}
 
 	@Override
-	public void setHP(int hp) {
-		this.hp=hp;
+	public void setMaxHP(int hp) {
+		this.maxHp=hp;
 	}
 
 	@Override
-	public void addHP(int hp) {
-		this.hp+=hp;
+	public void addMaxHP(int hp) {
+		this.maxHp+=hp;
         messages.add(Strings.Stats_LevelUp_HP);
 	}
 
@@ -263,7 +265,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 5:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			// ABILITIES.unlockAbility(ModAbilities.guard);
 			break;
 		case 6:
@@ -282,7 +284,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 		case 10:
 			this.addMagic(1);
 			this.addDefense(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			// ABILITIES.unlockAbility(ModAbilities.mpHaste);
 			break;
 		case 11:
@@ -300,7 +302,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 15:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			// ABILITIES.unlockAbility(ModAbilities.formBoost);
 			break;
 		case 16:
@@ -318,7 +320,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 20:
 			this.addMagic(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			// ABILITIES.unlockAbility(ModAbilities.mpHastera);
 			break;
 		case 21:
@@ -336,7 +338,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 25:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			// ABILITIES.unlockAbility(ModAbilities.damageDrive);
 			break;
 		case 26:
@@ -356,7 +358,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 		case 30:
 			this.addMagic(1);
 			this.addDefense(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 31:
 			this.addStrength(1);
@@ -375,7 +377,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 35:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 36:
 			this.addMagic(1);
@@ -392,7 +394,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 40:
 			this.addMagic(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 41:
 			this.addStrength(1);
@@ -410,7 +412,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 45:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 46:
 			this.addMagic(1);
@@ -430,7 +432,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 		case 50:
 			this.addMagic(1);
 			this.addDefense(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			// ABILITIES.unlockAbility(ModAbilities.mpHastega);
 			break;
 		case 51:
@@ -448,7 +450,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 55:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			// ABILITIES.unlockAbility(ModAbilities.strikeRaid);
 			break;
 		case 56:
@@ -466,7 +468,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 60:
 			this.addMagic(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 61:
 			this.addStrength(1);
@@ -483,7 +485,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 65:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 66:
 			this.addMagic(1);
@@ -501,7 +503,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 		case 70:
 			this.addMagic(1);
 			this.addDefense(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 71:
 			this.addStrength(1);
@@ -518,7 +520,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 75:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 76:
 			this.addMagic(1);
@@ -535,7 +537,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 80:
 			this.addMagic(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 81:
 			this.addStrength(1);
@@ -552,7 +554,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 85:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 86:
 			this.addMagic(1);
@@ -570,7 +572,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 		case 90:
 			this.addMagic(1);
 			this.addDefense(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 91:
 			this.addStrength(1);
@@ -587,7 +589,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			break;
 		case 95:
 			this.addStrength(1);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		case 96:
 			this.addMagic(1);
@@ -606,11 +608,11 @@ public class LevelCapabilities implements ILevelCapabilities {
 			this.addStrength(10);
 			this.addDefense(10);
 			this.addMagic(10);
-			this.addHP(5);
+			this.addMaxHP(5);
 			break;
 		}
 		if (this.level % 5 == 0) {
-			player.setHealth(getHP());
+			player.setHealth(getMaxHP());
 			player.getFoodStats().addStats(20, 0);
 			// player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).addPoints(1);
 			this.addMaxMP(5);
@@ -628,7 +630,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 		// (EntityPlayerMP) player);
 
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup, SoundCategory.MASTER, 0.5f, 1.0f);
-		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getHP());
+		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 	}
 

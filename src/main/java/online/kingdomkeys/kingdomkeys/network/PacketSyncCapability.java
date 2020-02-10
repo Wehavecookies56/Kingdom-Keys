@@ -38,7 +38,7 @@ public class PacketSyncCapability {
 		
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
-		this.hp = capability.getHP();
+		this.hp = capability.getMaxHP();
 		// this.choice1 = capability.getChoice1();
 		this.ap = capability.getConsumedAP();
 		this.maxAP = capability.getMaxAP();
@@ -98,7 +98,7 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setDefense(message.defense));
 			props.ifPresent(cap -> cap.setMP(message.MP));
 			props.ifPresent(cap -> cap.setMaxMP(message.maxMP));
-			props.ifPresent(cap -> cap.setHP(message.hp));
+			props.ifPresent(cap -> cap.setMaxHP(message.hp));
 			props.ifPresent(cap -> cap.setConsumedAP(message.ap));
 			props.ifPresent(cap -> cap.setMaxAP(message.maxAP));
 			props.ifPresent(cap -> cap.setMessages(message.messages));

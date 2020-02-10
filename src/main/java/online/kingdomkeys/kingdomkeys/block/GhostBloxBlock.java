@@ -61,12 +61,12 @@ public class GhostBloxBlock extends BaseBlock {
     @SuppressWarnings("deprecation")
     @Override
     public boolean canProvidePower(BlockState state) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, @Nullable Direction side) {
-        return true;
+        return false;
     }
 
     @SuppressWarnings("deprecation")

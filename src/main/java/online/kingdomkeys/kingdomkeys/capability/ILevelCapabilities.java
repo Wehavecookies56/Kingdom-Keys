@@ -27,9 +27,9 @@ public interface ILevelCapabilities {
 	void setDefense(int def);
 	void addDefense(int def);
 	
-	int getHP();
-	void setHP(int hp);
-	void addHP(int hp);
+	int getMaxHP();
+	void setMaxHP(int hp);
+	void addMaxHP(int hp);
 	
 	double getMP();
 	void setMP(double mP);
