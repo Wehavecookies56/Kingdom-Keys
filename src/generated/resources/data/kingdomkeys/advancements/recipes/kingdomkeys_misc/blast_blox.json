@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "kingdomkeys:normal_blox"
+      "kingdomkeys:blast_blox"
     ]
   },
   "criteria": {
-    "stone": {
+    "normalblox": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:stone"
+            "item": "kingdomkeys:normal_blox"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "kingdomkeys:normal_blox"
+        "recipe": "kingdomkeys:blast_blox"
       }
     }
   },
   "requirements": [
     [
-      "stone",
+      "normalblox",
       "has_the_recipe"
     ]
   ]

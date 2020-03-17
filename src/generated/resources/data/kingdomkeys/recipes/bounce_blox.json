@@ -2,18 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
   "pattern": [
-    "NS",
-    "SN"
+    "NNN",
+    "NSN",
+    "NNN"
   ],
   "key": {
     "S": {
-      "tag": "forge:stone"
+      "item": "minecraft:slime_block"
     },
     "N": {
-      "item": "minecraft:dirt"
+      "item": "kingdomkeys:normal_blox"
     }
   },
   "result": {
-    "item": "kingdomkeys:normal_blox"
+    "item": "kingdomkeys:bounce_blox"
   }
 }

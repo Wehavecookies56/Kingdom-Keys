@@ -13,7 +13,7 @@ public class ModBlocks {
 
     public static Block normalBlox, hardBlox, metalBlox, dangerBlox, bounceBlox, blastBlox, ghostBlox, prizeBlox, rarePrizeBlox;
 	public static Block blazingOre, blazingOreN, brightOre, darkOre, darkOreN, darkOreE, denseOre, energyOre, energyOreN, frostOre, lucidOre, lightningOre, powerOre, powerOreE, remembranceOre, serenityOre, stormyOre, tranquilOre, twilightOre, twilightOreN;
-
+    public static Block kkChest, orgPortal, pedestal;
     //Array of all blocks to reduce registry code
     private static final Block[] BLOCKS = {
             normalBlox = createNewBlock("normal_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),

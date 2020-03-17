@@ -10,10 +10,10 @@
       "tag": "forge:stone"
     },
     "N": {
-      "item": "minecraft:dirt"
+      "item": "kingdomkeys:normal_blox"
     }
   },
   "result": {
-    "item": "kingdomkeys:normal_blox"
+    "item": "kingdomkeys:hard_blox"
   }
 }
