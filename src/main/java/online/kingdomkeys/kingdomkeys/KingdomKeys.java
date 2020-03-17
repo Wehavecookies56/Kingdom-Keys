@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys;
 
+import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,6 +81,7 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(this);
 		// Client
 		MinecraftForge.EVENT_BUS.register(new ProxyClient());
+		MinecraftForge.EVENT_BUS.register(new DataGeneration());
 
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
