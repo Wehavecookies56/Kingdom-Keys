@@ -60,7 +60,7 @@ public class ProxyClient implements IProxy {
             ClientRegistry.registerKeyBinding(key.getKeybind());
         
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
-        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox, RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox, RenderType.getTranslucent());
     }
 
     /*@SubscribeEvent

@@ -21,8 +21,14 @@ public class Recipes extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.normalBlox).key('x', Tags.Items.STONE)
-                .key('#', Items.DIRT).patternLine("#x").patternLine("x#").build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.normalBlox)
+                .key('x', Tags.Items.STONE).key('#', Items.DIRT)
+                .patternLine("#x").patternLine("x#")
+                .addCriterion("has_stone", hasItem(Tags.Items.STONE))
+                .addCriterion("has_dirt", hasItem(Items.DIRT))
+                .build(consumer);
+        //Commented out for quick testing, need to add
+        /*
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.hardBlox).patternLine("#x").patternLine("x#")
                 .key('x', Tags.Items.STONE).key('#', ModBlocks.normalBlox).build(consumer);
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.metalBlox).patternLine("#x").patternLine("x#")
@@ -35,5 +41,6 @@ public class Recipes extends RecipeProvider {
                 .key('L', Items.LAVA_BUCKET).build(consumer);
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.ghostBlox).patternLine("NNN").patternLine("NSN").patternLine("NNN")
                 .key('S', Blocks.SLIME_BLOCK).key('N', ModBlocks.normalBlox).build(consumer);
+         */
     }
 }

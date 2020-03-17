@@ -12,6 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
+def mcver = "1.15.2"
 version = '2.0'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'kingdomkeys'
@@ -19,7 +20,7 @@ archivesBaseName = 'kingdomkeys'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200205-1.15.1'
+    mappings channel: 'snapshot', version: '20200317-1.15.1'
 
     runs {
         client {
@@ -30,7 +31,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                kingdomkeys {
                     source sourceSets.main
                 }
             }
@@ -44,7 +45,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                kingdomkeys {
                     source sourceSets.main
                 }
             }
@@ -57,12 +58,14 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'),
+            property 'fml.earlyprogresswindow', 'false'
+
+            args '--mod', 'kingdomkeys', '--all', '--output', file('src/generated/resources/'),
             '--existing', file('src/main/resources/')
 
             environment 'target', 'fmluserdevdata'
             mods {
-                examplemod {
+                kingdomkeys {
                     source sourceSets.main
                 }
             }
@@ -71,8 +74,12 @@ minecraft {
 
 }
 
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.1.0'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.1.25'
 }
 
 jar {
@@ -87,6 +94,8 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    archiveName = "${baseName} ${mcver}-${version}.${extension}"
 }
 
 def reobfFile = file("$buildDir/reobfJar/output.jar")
