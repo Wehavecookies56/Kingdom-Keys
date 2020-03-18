@@ -4,6 +4,8 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import online.kingdomkeys.kingdomkeys.datagen.BlockModels;
+import online.kingdomkeys.kingdomkeys.datagen.BlockStates;
 import online.kingdomkeys.kingdomkeys.datagen.ItemModels;
 import online.kingdomkeys.kingdomkeys.datagen.Recipes;
 
@@ -16,5 +18,7 @@ public class DataGeneration {
         DataGenerator generator = event.getGenerator();
         generator.addProvider(new Recipes(generator));
         generator.addProvider(new ItemModels(generator, event.getExistingFileHelper()));
+        generator.addProvider(new BlockModels(generator, event.getExistingFileHelper()));
+        generator.addProvider(new BlockStates(generator, event.getExistingFileHelper()));
     }
 }

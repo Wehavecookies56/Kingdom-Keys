@@ -6,7 +6,6 @@ import net.minecraft.data.*;
 import net.minecraft.item.Items;
 import net.minecraftforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.util.function.Consumer;
@@ -26,6 +25,10 @@ public class Recipes extends RecipeProvider {
                 .key('N', Items.DIRT).patternLine("NS").patternLine("SN").setGroup("kingdomkeys")
                 .addCriterion("stone", InventoryChangeTrigger.Instance.forItems(Blocks.STONE)).build(consumer);
 
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.dangerBlox).patternLine("NC").patternLine("CN")
+                .key('C', Blocks.CACTUS).key('N', ModBlocks.normalBlox).setGroup("kingdomkeys")
+                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox))
+                .build(consumer);
 
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.hardBlox).patternLine("NS").patternLine("SN")
                 .key('S', Tags.Items.STONE).key('N', ModBlocks.normalBlox).setGroup("kingdomkeys")

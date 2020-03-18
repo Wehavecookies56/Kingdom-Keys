@@ -33,6 +33,7 @@ public class GhostBloxBlock extends BaseBlock {
         builder.add(VISIBLE);
     }
 
+
     @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
@@ -107,5 +108,6 @@ public class GhostBloxBlock extends BaseBlock {
     public boolean isNormalCube(BlockState state, IBlockReader reader, BlockPos pos) {
         return state.get(VISIBLE);
     }
+
 
 }

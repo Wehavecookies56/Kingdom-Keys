@@ -36,7 +36,6 @@ public class ItemModels extends ItemModelProvider {
     }
 
     private void keychains() {
-        getBuilder(Strings.moogleOGloryChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.moogleOGloryChain);
         getBuilder(Strings.abaddonPlasmaChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.abaddonPlasmaChain);
         getBuilder(Strings.abyssalTideChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.abyssalTideChain);
         getBuilder(Strings.acedsKeybladeChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.acedsKeybladeChain);
@@ -101,6 +100,7 @@ public class ItemModels extends ItemModelProvider {
         getBuilder(Strings.mirageSplitChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.mirageSplitChain);
         getBuilder(Strings.missingAcheChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.missingAcheChain);
         getBuilder(Strings.monochromeChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.monochromeChain);
+        getBuilder(Strings.moogleOGloryChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.moogleOGloryChain);
         getBuilder(Strings.mysteriousAbyssChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.mysteriousAbyssChain);
         getBuilder(Strings.nightmaresEndAndMirageSplitChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.nightmaresEndAndMirageSplitChain);
         getBuilder(Strings.nightmaresEndChain).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/keychains/" + Strings.nightmaresEndChain);
