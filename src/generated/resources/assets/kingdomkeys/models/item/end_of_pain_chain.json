@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/end_of_pain_chain"
+  }
+}

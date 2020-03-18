@@ -1,6 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/keychains/ends_of_the_earth_chain"
-  }
-}

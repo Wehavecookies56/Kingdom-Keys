@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:empty_bottle"
+    ]
+  },
+  "criteria": {
+    "bag": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:glass_bottle"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:empty_bottle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "bag",
+      "has_the_recipe"
+    ]
+  ]
+}

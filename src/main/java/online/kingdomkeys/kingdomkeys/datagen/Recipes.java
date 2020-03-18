@@ -53,7 +53,7 @@ public class Recipes extends RecipeProvider {
                 .key('S', Blocks.SLIME_BLOCK).key('N', ModBlocks.normalBlox).setGroup("kingdomkeys")
                 .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox))
                 .build(consumer);
-/*
+
         //hearts
         ShapedRecipeBuilder.shapedRecipe(ModItems.pureHeart).patternLine(" H ").patternLine("HSH").patternLine(" H ")
                 .key('S', Blocks.SOUL_SAND).key('H', ModItems.heart).setGroup("kingdomkeys")
@@ -65,12 +65,22 @@ public class Recipes extends RecipeProvider {
                 .addCriterion("darkheart", InventoryChangeTrigger.Instance.forItems(ModItems.darkHeart))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModItems.pureHeart).patternLine(" H ").patternLine("HSH").patternLine(" H ")
+        ShapedRecipeBuilder.shapedRecipe(ModItems.kingdomHearts).patternLine(" H ").patternLine("HSH").patternLine(" H ")
                 .key('S', Blocks.SOUL_SAND).key('H', ModItems.pureHeart).setGroup("kingdomkeys")
                 .addCriterion("pureheart", InventoryChangeTrigger.Instance.forItems(ModItems.pureHeart))
                 .build(consumer);
 
-        // bags
+        //items
+        ShapelessRecipeBuilder.shapelessRecipe(ModItems.iceCream).addIngredient(Tags.Items.RODS_WOODEN).addIngredient(Items.SUGAR)
+                .addIngredient(Items.WATER_BUCKET).addIngredient(Blocks.ICE)
+                .addCriterion("ice", InventoryChangeTrigger.Instance.forItems(Blocks.ICE)).build(consumer);
+
+        ShapedRecipeBuilder.shapedRecipe(ModItems.emptyBottle).patternLine("G G").patternLine("GBG").patternLine("GGG")
+                .key('G', Tags.Items.GLASS).key('B', Items.GLASS_BOTTLE)
+                .setGroup("kingdomkeys").addCriterion("bag", InventoryChangeTrigger.Instance.forItems(Items.GLASS_BOTTLE))
+                .build(consumer);
+
+        /*// bags
         ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBagS).patternLine("LSL").patternLine("L L").patternLine("LLL")
                 .key('S', Items.STRING).key('L', Items.LEATHER).setGroup("kingdomkeys")
                 .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.LEATHER))
@@ -83,16 +93,6 @@ public class Recipes extends RecipeProvider {
 
         ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBagL).patternLine("LSL").patternLine("LBL").patternLine("LLL")
                 .key('S', Items.STRING).key('L', Items.LEATHER).key('B', ModItems.synthesisBagM)
-                .setGroup("kingdomkeys").addCriterion("bag", InventoryChangeTrigger.Instance.forItems(ModItems.synthesisBagM))
-                .build(consumer);
-
-        //items
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.iceCream).addIngredient(Tags.Items.RODS).addIngredient(Items.SUGAR)
-                .addIngredient(Items.WATER_BUCKET).addIngredient(Blocks.ICE)
-                .addCriterion("ice", InventoryChangeTrigger.Instance.forItems(Blocks.ICE)).build(consumer);
-
-        ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBagL).patternLine("G G").patternLine("GBG").patternLine("GGG")
-                .key('G', Tags.Items.GLASS).key('B', Items.GLASS_BOTTLE)
                 .setGroup("kingdomkeys").addCriterion("bag", InventoryChangeTrigger.Instance.forItems(ModItems.synthesisBagM))
                 .build(consumer);
 
@@ -111,6 +111,5 @@ public class Recipes extends RecipeProvider {
                 .key('B', ModBlocks.metalBlox).key('H', ModItems.heart)
                 .setGroup("kingdomkeys").addCriterion("metalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.metalBlox))
                 .build(consumer);*/
-
     }
 }

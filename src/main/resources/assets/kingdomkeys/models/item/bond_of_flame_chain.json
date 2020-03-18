@@ -1,6 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/keychains/bond_of_flame_chain"
-  }
-}

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -284,7 +285,7 @@ public class ModItems {
 					organizationRobe_Helmet = new BaseArmorItem(Strings.organizationHood, new KKArmorMaterial(), EquipmentSlotType.HEAD),
 					organizationRobe_Chestplate = new BaseArmorItem(Strings.organizationChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
 					organizationRobe_Leggings = new BaseArmorItem(Strings.organizationLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					organizationRobe_Boots = new BaseArmorItem(Strings.organizationBoots, new KKArmorMaterial(), EquipmentSlotType.FEET)
+					organizationRobe_Boots = new BaseArmorItem(Strings.organizationBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
 
 
 /*
@@ -578,8 +579,16 @@ public class ModItems {
                     demoiselle = new KnifeItem(Strings.demoiselle),
                     ampoule = new KnifeItem(Strings.ampoule)
                     */
-                    
-                    );
+
+                    heart = createNewItem(Strings.heart, new Item.Properties().group(KingdomKeys.miscGroup)),
+                    darkHeart = createNewItem(Strings.darkHeart, new Item.Properties().group(KingdomKeys.miscGroup)),
+                    pureHeart = createNewItem(Strings.pureHeart, new Item.Properties().group(KingdomKeys.miscGroup)),
+                    kingdomHearts = createNewItem(Strings.kingdom_hearts, new Item.Properties().group(KingdomKeys.miscGroup)),
+                    iceCream = createNewItem(Strings.iceCream, new Item.Properties().group(KingdomKeys.miscGroup)
+                            .food(new Food.Builder().fastToEat().saturation(2.0f).hunger(2).build())),
+                    emptyBottle = createNewItem(Strings.emptyBottle, new Item.Properties().group(KingdomKeys.miscGroup))
+            );
+
         }
 
         //Helper method to create item with the properties and registry name

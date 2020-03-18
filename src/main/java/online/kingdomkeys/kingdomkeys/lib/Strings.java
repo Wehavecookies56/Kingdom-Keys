@@ -147,6 +147,16 @@ public class Strings {
             Gui_Synthesis_Main_Recipes_ReqMaterials = Gui_Synthesis_Main_Recipes + ".requiredmaterials",
             Gui_Synthesis_Main_Recipes_Create = Gui_Synthesis_Main_Recipes + ".create";
 
+    //Items
+
+    public static final String
+        heart = "heart",
+        darkHeart = "dark_heart",
+        pureHeart =  "pure_heart",
+        kingdom_hearts =  "kingdom_hearts",
+        iceCream =  "ice_cream",
+        emptyBottle =  "empty_bottle";
+
     //Keyblades
     public static final String
         abaddonPlasma = "abaddon_plasma",
