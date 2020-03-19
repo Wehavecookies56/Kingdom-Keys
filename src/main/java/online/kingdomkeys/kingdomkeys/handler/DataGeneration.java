@@ -20,5 +20,6 @@ public class DataGeneration {
         generator.addProvider(new ItemModels(generator, event.getExistingFileHelper()));
         generator.addProvider(new BlockModels(generator, event.getExistingFileHelper()));
         generator.addProvider(new BlockStates(generator, event.getExistingFileHelper()));
+
     }
 }

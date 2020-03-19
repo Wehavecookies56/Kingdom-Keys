@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
+import java.util.List;
 import java.util.Map;
 
+import javafx.util.Pair;
+import online.kingdomkeys.kingdomkeys.datagen.KeyBladeProvider;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 /**
@@ -10,10 +13,11 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 public class KeybladeLevel {
 
     //The stats when upgraded to this level
-    int strength;
-    int magic;
+    private int strength;
+    private int magic;
     //The materials required to upgrade to this level, key is the material, value is the quantity
     Map<Material, Integer> materials;
+    private List<Pair<Material, Integer>> materialsList;
     //The ability gained when upgrading to this level
     //TODO ability system and potentially multiple abilities here
     String ability;
@@ -21,7 +25,16 @@ public class KeybladeLevel {
     public KeybladeLevel() {
 
     }
+    public KeybladeLevel(KeybladeLevelBuilder keybladeLevelBuilder)
+    {
+        if(keybladeLevelBuilder.ability != null)
+            this.ability = keybladeLevelBuilder.ability;
+        this.magic = keybladeLevelBuilder.magic;
+        this.strength = keybladeLevelBuilder.strength;
+        this.materialsList = keybladeLevelBuilder.materials;
+    }
 
+    
     public void setAbility(String ability) {
         this.ability = ability;
     }
@@ -38,6 +51,8 @@ public class KeybladeLevel {
         this.strength = strength;
     }
 
+    public String getAbility() { return this.ability; }
+
     public int getMagic() {
         return magic;
     }
@@ -46,6 +61,12 @@ public class KeybladeLevel {
         return strength;
     }
 
+
+
+    public List<Pair<Material, Integer>> getMaterialList() { return materialsList;}
+
+
+    
     public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String ability) {
         this.strength = strength;
         this.magic = magic;
@@ -57,4 +78,43 @@ public class KeybladeLevel {
     public String toString() {
         return String.format("KeybladeLevel[strength:%d, magic:%d, materials[%d], ability:%s]", strength, magic, materials.size(), ability);
     }
+
+    public static class KeybladeLevelBuilder{
+        private int strength;
+        private int magic;
+        private List<Pair<Material, Integer>> materials;
+        private String ability;
+
+        public KeybladeLevelBuilder() { }
+
+        public KeybladeLevelBuilder withStr(int str)
+        {
+            this.strength = str;
+            return this;
+        }
+
+        public KeybladeLevelBuilder withMag(int mag)
+        {
+            this.magic = mag;
+            return this;
+        }
+
+        public KeybladeLevelBuilder withAbilty(String ability)
+        {
+            this.ability = ability;
+            return this;
+        }
+
+        public KeybladeLevelBuilder withMaterials(List<Pair<Material, Integer>> materials)
+        {
+            this.materials = materials;
+            return this;
+        }
+
+        public KeybladeLevel build()
+        {
+            return new KeybladeLevel(this);
+        }
+    }
 }
+
