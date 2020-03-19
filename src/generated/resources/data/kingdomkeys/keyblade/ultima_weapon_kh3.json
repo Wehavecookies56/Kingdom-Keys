@@ -1,0 +1,21 @@
+{
+  "keychain": "kingdomkeys:kingdom_key_chain",
+  "base_stats": {
+    "str": 2,
+    "mag": 4
+  },
+  "levels": [
+    {
+      "str": 5,
+      "mag": 4,
+      "recipe": [],
+      "ability": "Test_Abiltity"
+    },
+    {
+      "str": 6,
+      "mag": 5,
+      "recipe": []
+    }
+  ],
+  "description": "test"
+}

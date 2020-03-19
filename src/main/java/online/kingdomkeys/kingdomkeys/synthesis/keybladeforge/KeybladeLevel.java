@@ -22,9 +22,8 @@ public class KeybladeLevel {
     //TODO ability system and potentially multiple abilities here
     String ability;
 
-    public KeybladeLevel() {
+    public KeybladeLevel() { }
 
-    }
     public KeybladeLevel(KeybladeLevelBuilder keybladeLevelBuilder)
     {
         if(keybladeLevelBuilder.ability != null)
@@ -33,7 +32,6 @@ public class KeybladeLevel {
         this.strength = keybladeLevelBuilder.strength;
         this.materialsList = keybladeLevelBuilder.materials;
     }
-
     
     public void setAbility(String ability) {
         this.ability = ability;
@@ -61,12 +59,8 @@ public class KeybladeLevel {
         return strength;
     }
 
-
-
     public List<Pair<Material, Integer>> getMaterialList() { return materialsList;}
 
-
-    
     public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String ability) {
         this.strength = strength;
         this.magic = magic;

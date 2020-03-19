@@ -10,23 +10,21 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class KeybladeStats extends  KeyBladeProvider{
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, KingdomKeys.MODID, KeybladeBuilder::new, existingFileHelper);
+        super(generator, KingdomKeys.MODID, KEYBLADE_FOLDER, KeybladeBuilder::new, existingFileHelper);
     }
-
-    @Override
-    public String getName() {
-        return "keyblade json";
-    }
-
 
     @Override
     protected void registerKeyblades() {
         getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.kingdomKeyChain).baseStats(2,4).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(5).withMag(4).withMaterials(new ArrayList<Pair<Material, Integer>>() {}).build());
+                .withStr(5).withMag(4).withAbilty("Test_Abiltity").build()).level( new KeybladeLevel.KeybladeLevelBuilder()
+                .withStr(6).withMag(5).build()).desc("test");
+    }
+
+    @Override
+    public String getName() {
+        return "Keyblade json";
     }
 }

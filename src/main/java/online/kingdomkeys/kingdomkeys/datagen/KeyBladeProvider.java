@@ -17,24 +17,11 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public abstract class KeyBladeProvider <T extends KeybladeBuilder<T>> implements IDataProvider {
-    private class ExistingFileHelperIncludingGenerated extends ExistingFileHelper {
-        private final ExistingFileHelper delegate;
-        public ExistingFileHelperIncludingGenerated(ExistingFileHelper delegate) {
-            super(Collections.emptyList(), true);
-            this.delegate = delegate;
-        }
 
-        @Override
-        public boolean exists(ResourceLocation loc, ResourcePackType type, String pathSuffix, String pathPrefix) {
-            if (generatedModels.containsKey(loc)) {
-                return true;
-            }
-            return delegate.exists(loc, type, pathSuffix, pathPrefix);
-        }
-    }
     public static final String KEYBLADE_FOLDER = "keyblade";
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
@@ -47,40 +34,21 @@ public abstract class KeyBladeProvider <T extends KeybladeBuilder<T>> implements
     @VisibleForTesting
     public final ExistingFileHelper existingFileHelper;
 
-
-    public KeyBladeProvider(DataGenerator generator,String modid,Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
+    public KeyBladeProvider(DataGenerator generator,String modid, String folder, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
         this.generator = generator;
         this.modid = modid;
         this.existingFileHelper = existingFileHelper;
         this.factory = factory;
     }
+    public KeyBladeProvider(DataGenerator generator, String modid, String folder, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
+        this(generator, modid, folder, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
+    }
     protected abstract void registerKeyblades();
 
     public T getBuilder(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
-        ResourceLocation outputLoc = extendWithFolder(path.contains(":") ? new ResourceLocation(path) : new ResourceLocation(modid, path));
+        ResourceLocation outputLoc = path.contains(":") ? new ResourceLocation(path) : new ResourceLocation(modid, path);
         return generatedModels.computeIfAbsent(outputLoc, factory);
-    }
-
-    private ResourceLocation extendWithFolder(ResourceLocation rl) {
-        if (rl.getPath().contains("/")) {
-            return rl;
-        }
-        return new ResourceLocation(rl.getNamespace(), folder + "/" + rl.getPath());
-    }
-
-    public ResourceLocation modLoc(String name) {
-        return new ResourceLocation(modid, name);
-    }
-
-    public ResourceLocation mcLoc(String name) {
-        return new ResourceLocation(name);
-    }
-
-    public ModelFile.ExistingModelFile getExistingFile(ResourceLocation path) {
-        ModelFile.ExistingModelFile ret = new ModelFile.ExistingModelFile(extendWithFolder(path), existingFileHelper);
-        ret.assertExistence();
-        return ret;
     }
 
     protected void clear() {
@@ -108,6 +76,6 @@ public abstract class KeyBladeProvider <T extends KeybladeBuilder<T>> implements
 
     private Path getPath(T model) {
         ResourceLocation loc = model.getLocation();
-        return generator.getOutputFolder().resolve("assets/" + loc.getNamespace() + "/models/" + loc.getPath() + ".json");
+        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblade/" + loc.getPath() + ".json");
     }
 }
