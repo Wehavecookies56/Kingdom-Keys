@@ -38,7 +38,7 @@ public abstract class BaseLootTables extends LootTableProvider {
     protected LootTable.Builder createStandardTable(String name, Block block) {
         LootPool.Builder builder = LootPool.builder()
                 .rolls(ConstantRange.of(1))
-                .addEntry(ItemLootEntry.builder(block).weight(1).quality(23).acceptFunction(C));
+                .addEntry(ItemLootEntry.builder(block));
         return LootTable.builder().addLootPool(builder);
     }
 

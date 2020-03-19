@@ -1,7 +1,11 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.functions.SetCount;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class LootTables extends BaseLootTables {
@@ -12,6 +16,18 @@ public class LootTables extends BaseLootTables {
 
     @Override
     protected void addTables() {
-        lootTables.put(ModBlocks.rarePrizeBlox, createStandardTable("rare_prize_blox", ModBlocks.prizeBlox));
+        // blox
+        lootTables.put(ModBlocks.normalBlox, createStandardTable("normal_blox", ModBlocks.normalBlox));
+        lootTables.put(ModBlocks.hardBlox, createStandardTable("hard_blox", ModBlocks.hardBlox));
+        lootTables.put(ModBlocks.metalBlox, createStandardTable("metal_blox", ModBlocks.metalBlox));
+        lootTables.put(ModBlocks.bounceBlox, createStandardTable("bounce_blox", ModBlocks.bounceBlox));
+        lootTables.put(ModBlocks.dangerBlox, createStandardTable("danger_blox", ModBlocks.dangerBlox));
+        lootTables.put(ModBlocks.blastBlox, createStandardTable("blast_blox", ModBlocks.blastBlox));
+        lootTables.put(ModBlocks.ghostBlox, createStandardTable("ghost_blox", ModBlocks.ghostBlox));
+        lootTables.put(ModBlocks.rarePrizeBlox, LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(Blocks.STONE).weight(1)).addEntry(ItemLootEntry.builder(Blocks.SAND)
+                .weight(1).acceptFunction(SetCount.builder(new RandomValueRange(0,4))))));
+
+        // ore
     }
 }

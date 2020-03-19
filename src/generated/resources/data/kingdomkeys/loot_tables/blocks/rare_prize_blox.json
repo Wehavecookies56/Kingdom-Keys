@@ -6,18 +6,21 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "quality": 23,
-          "name": "kingdomkeys:prize_blox"
+          "name": "minecraft:stone"
         },
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 0.0,
+                "max": 4.0,
+                "type": "minecraft:uniform"
+              }
             }
           ],
-          "name": "kingdomkeys:prize_blox"
+          "name": "minecraft:sand"
         }
       ]
     }
