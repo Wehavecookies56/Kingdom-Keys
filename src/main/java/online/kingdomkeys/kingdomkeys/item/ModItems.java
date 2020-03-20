@@ -17,6 +17,7 @@ public class ModItems {
     public static Item abaddonPlasma, abyssalTide, acedsKeyblade, allForOne, astralBlast, aubade, avasKeyblade, bondOfFlame, brightcrest, chaosRipper, circleOfLife, counterpoint, crabclaw, crownOfGuilt, darkerThanDark, darkgnaw, decisivePumpkin, destinysEmbrace, diamondDust, divewing, divineRose, dualDisc, earthshaker, endOfPain, endsOfTheEarth, fairyHarp, fairyStars, fatalCrest, fenrir, ferrisGear, flameLiberator, followtheWind, frolicFlame, glimpseOfDarkness, guardianBell, guardianSoul, gulasKeyblade, gullWing, herosCrest, hiddenDragon, hyperdrive, incompleteKiblade, invisKeyblade, irasKeyblade, jungleKing, keybladeOfPeoplesHearts, kiblade, kingdomKey, kingdomKeyD, knockoutPunch, ladyLuck, leviathan, lionheart, lostMemory, lunarEclipse, markOfAHero, mastersDefender, maverickFlare, metalChocobo, midnightRoar, mirageSplit, missingAche, monochrome, moogleOGlory, mysteriousAbyss, nightmaresEnd, nightmaresEndAndMirageSplit, noName, noNameBBS, oathkeeper, oblivion, oceansRage, olympia, omegaWeapon, ominousBlight, oneWingedAngel, painOfSolitude, photonDebugger, pixiePetal, pumpkinhead, rainfell, rejectionOfFate, royalRadiance, rumblingRose, shootingStar, signOfInnocence, silentDirge, skullNoise, sleepingLion, soulEater, spellbinder, starSeeker, starlight, stormfall, strokeOfMidnight, sweetDreams, sweetMemories, sweetstack, threeWishes, totalEclipse, treasureTrove, trueLightsFlight, twilightBlaze, twoBecomeOne, ultimaWeaponBBS, ultimaWeaponDDD, ultimaWeaponKH1, ultimaWeaponKH2, ultimaWeaponKH3, umbrella, unbound, victoryLine, voidGear, waytotheDawn, waywardWind, winnersProof, wishingLamp, wishingStar, woodenKeyblade, woodenStick, youngXehanortsKeyblade, zeroOne;
     //Keychains
     public static Item abaddonPlasmaChain, abyssalTideChain, acedsKeybladeChain, allForOneChain, astralBlastChain, aubadeChain, avasKeybladeChain, bondOfFlameChain, brightcrestChain, chaosRipperChain, circleOfLifeChain, counterpointChain, crabclawChain, crownOfGuiltChain, darkerThanDarkChain, darkgnawChain, decisivePumpkinChain, destinysEmbraceChain, diamondDustChain, divewingChain, divineRoseChain, dualDiscChain, earthshakerChain, endOfPainChain, endsOfTheEarthChain, fairyHarpChain, fairyStarsChain, fatalCrestChain, fenrirChain, ferrisGearChain, flameLiberatorChain, followtheWindChain, frolicFlameChain, glimpseOfDarknessChain, guardianBellChain, guardianSoulChain, gulasKeybladeChain, gullWingChain, herosCrestChain, hiddenDragonChain, hyperdriveChain, incompleteKibladeChain, invisKeybladeChain, irasKeybladeChain, jungleKingChain, keybladeOfPeoplesHeartsChain, kibladeChain, kingdomKeyChain, kingdomKeyDChain, knockoutPunchChain, ladyLuckChain, leviathanChain, lionheartChain, lostMemoryChain, lunarEclipseChain, markOfAHeroChain, mastersDefenderChain, maverickFlareChain, metalChocoboChain, midnightRoarChain, mirageSplitChain, missingAcheChain, monochromeChain, moogleOGloryChain, mysteriousAbyssChain, nightmaresEndChain, nightmaresEndAndMirageSplitChain, noNameChain, noNameBBSChain, oathkeeperChain, oblivionChain, oceansRageChain, olympiaChain, omegaWeaponChain, ominousBlightChain, oneWingedAngelChain, painOfSolitudeChain, photonDebuggerChain, pixiePetalChain, pumpkinheadChain, rainfellChain, rejectionOfFateChain, royalRadianceChain, rumblingRoseChain, shootingStarChain, signOfInnocenceChain, silentDirgeChain, skullNoiseChain, sleepingLionChain, soulEaterChain, spellbinderChain, starSeekerChain, starlightChain, stormfallChain, strokeOfMidnightChain, sweetDreamsChain, sweetMemoriesChain, sweetstackChain, threeWishesChain, totalEclipseChain, treasureTroveChain, trueLightsFlightChain, twilightBlazeChain, twoBecomeOneChain, ultimaWeaponBBSChain, ultimaWeaponDDDChain, ultimaWeaponKH1Chain, ultimaWeaponKH2Chain, ultimaWeaponKH3Chain, umbrellaChain, unboundChain, victoryLineChain, voidGearChain, waytotheDawnChain, waywardWindChain, winnersProofChain, wishingLampChain, wishingStarChain, youngXehanortsKeybladeChain, zeroOneChain;    //Music discs
+    //Music
     public static Item disc_Birth_by_Sleep_A_Link_to_the_Future, disc_Darkness_of_the_Unknown, disc_Dearly_Beloved_Symphony_Version, disc_Dream_Drop_Distance_The_Next_Awakening, disc_Hikari_KINGDOM_Instrumental_Version, disc_L_Oscurita_Dell_Ignoto, disc_Musique_pour_la_tristesse_de_Xion, disc_No_More_Bugs_Bug_Version, disc_Organization_XIII, disc_Sanctuary, disc_Simple_And_Clean_PLANITb_Remix, disc_Sinister_Sundown, disc_The_13th_Anthology;
     //Armor
     public static Item organizationRobe_Helmet, organizationRobe_Chestplate, organizationRobe_Leggings, organizationRobe_Boots, xemnas_Helmet, xemnas_Chestplate, xemnas_Leggings, xemnas_Boots, terra_Helmet, terra_Chestplate, terra_Leggings, terra_Boots, aqua_Helmet, aqua_Chestplate, aqua_Leggings, aqua_Boots, ventus_Helmet, ventus_Chestplate, ventus_Leggings, ventus_Boots, eraqus_Helmet, eraqus_Chestplate, eraqus_Leggings, eraqus_Boots, nightmareVentus_Helmet, nightmareVentus_Chestplate, nightmareVentus_Leggings, nightmareVentus_Boots, antiCoat_Helmet, antiCoat_Chestplate, antiCoat_Leggings, antiCoat_Boots, vanitas_Helmet, vanitas_Chestplate, vanitas_Leggings, vanitas_Boots;
@@ -284,6 +285,46 @@ public class ModItems {
 					organizationRobe_Chestplate = new BaseArmorItem(Strings.organizationChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
 					organizationRobe_Leggings = new BaseArmorItem(Strings.organizationLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
 					organizationRobe_Boots = new BaseArmorItem(Strings.organizationBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					terra_Helmet = new BaseArmorItem(Strings.terraHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					terra_Chestplate = new BaseArmorItem(Strings.terraChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					terra_Leggings = new BaseArmorItem(Strings.terraLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					terra_Boots = new BaseArmorItem(Strings.terraBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					ventus_Helmet = new BaseArmorItem(Strings.ventusHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					ventus_Chestplate = new BaseArmorItem(Strings.ventusChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					ventus_Leggings = new BaseArmorItem(Strings.ventusLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					ventus_Boots = new BaseArmorItem(Strings.ventusBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					aqua_Helmet = new BaseArmorItem(Strings.aquaHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					aqua_Chestplate = new BaseArmorItem(Strings.aquaChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					aqua_Leggings = new BaseArmorItem(Strings.aquaLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					aqua_Boots = new BaseArmorItem(Strings.aquaBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					eraqus_Helmet = new BaseArmorItem(Strings.eraqusHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					eraqus_Chestplate = new BaseArmorItem(Strings.eraqusChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					eraqus_Leggings = new BaseArmorItem(Strings.eraqusLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					eraqus_Boots = new BaseArmorItem(Strings.eraqusBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					vanitas_Helmet = new BaseArmorItem(Strings.vanitasHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					vanitas_Chestplate = new BaseArmorItem(Strings.vanitasChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					vanitas_Leggings = new BaseArmorItem(Strings.vanitasLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					vanitas_Boots = new BaseArmorItem(Strings.vanitasBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					nightmareVentus_Helmet = new BaseArmorItem(Strings.nightmareVentusHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					nightmareVentus_Chestplate = new BaseArmorItem(Strings.nightmareVentusChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					nightmareVentus_Leggings = new BaseArmorItem(Strings.nightmareVentusLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					nightmareVentus_Boots = new BaseArmorItem(Strings.nightmareVentusBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					antiCoat_Helmet = new BaseArmorItem(Strings.antiCoatHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					antiCoat_Chestplate = new BaseArmorItem(Strings.antiCoatChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					antiCoat_Leggings = new BaseArmorItem(Strings.antiCoatLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					antiCoat_Boots = new BaseArmorItem(Strings.antiCoatBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+
+					xemnas_Helmet = new BaseArmorItem(Strings.xemnasHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
+					xemnas_Chestplate = new BaseArmorItem(Strings.xemnasChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
+					xemnas_Leggings = new BaseArmorItem(Strings.xemnasLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
+					xemnas_Boots = new BaseArmorItem(Strings.xemnasBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
 
 
 /*

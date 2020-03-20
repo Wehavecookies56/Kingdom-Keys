@@ -22,8 +22,6 @@ public class BlockStates extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        
-
         simpleBlock(ModBlocks.blastBlox);
         simpleBlock(ModBlocks.blazingOre);
         simpleBlock(ModBlocks.blazingOreN);

@@ -18,7 +18,48 @@ public class ItemModels extends ItemModelProvider {
     protected void registerModels() {
         items();
         keychains();
+        armor();
     }
+
+    private void armor()
+    {
+        getBuilder(Strings.organizationHood).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/organizationrobe_helmet");
+        getBuilder(Strings.organizationChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/organizationrobe_chestplate");
+        getBuilder(Strings.organizationLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/organizationrobe_leggings");
+        getBuilder(Strings.terraHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.terraHelmet);
+        getBuilder(Strings.terraChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.terraChestplate);
+        getBuilder(Strings.terraLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.terraLeggings);
+        getBuilder(Strings.terraBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.terraBoots);
+        getBuilder(Strings.aquaHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.aquaHelmet);
+        getBuilder(Strings.aquaChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.aquaChestplate);
+        getBuilder(Strings.aquaLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.aquaLeggings);
+        getBuilder(Strings.aquaBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.aquaBoots);
+        getBuilder(Strings.ventusHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.ventusHelmet);
+        getBuilder(Strings.ventusChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.ventusChestplate);
+        getBuilder(Strings.ventusLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.ventusLeggings);
+        getBuilder(Strings.ventusBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.ventusBoots);
+        getBuilder(Strings.eraqusHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.eraqusHelmet);
+        getBuilder(Strings.eraqusChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.eraqusChestplate);
+        getBuilder(Strings.eraqusLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.eraqusLeggings);
+        getBuilder(Strings.eraqusBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.eraqusBoots);
+        getBuilder(Strings.xemnasHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.xemnasHelmet);
+        getBuilder(Strings.xemnasChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.xemnasChestplate);
+        getBuilder(Strings.xemnasLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.xemnasLeggings);
+        getBuilder(Strings.xemnasBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.xemnasBoots);
+        getBuilder(Strings.nightmareVentusHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.nightmareVentusHelmet);
+        getBuilder(Strings.nightmareVentusChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.nightmareVentusChestplate);
+        getBuilder(Strings.nightmareVentusLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.nightmareVentusLeggings);
+        getBuilder(Strings.nightmareVentusBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.nightmareVentusBoots);
+        getBuilder(Strings.vanitasHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.vanitasHelmet);
+        getBuilder(Strings.vanitasChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.vanitasChestplate);
+        getBuilder(Strings.vanitasLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.vanitasLeggings);
+        getBuilder(Strings.vanitasBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.vanitasBoots);
+        getBuilder(Strings.antiCoatHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.antiCoatHelmet);
+        getBuilder(Strings.antiCoatChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.antiCoatChestplate);
+        getBuilder(Strings.antiCoatLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.antiCoatLeggings);
+        getBuilder(Strings.antiCoatBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.antiCoatBoots);
+    }
+
     private void items()
     {
         getBuilder(Strings.iceCream).parent(new ModelFile.UncheckedModelFile("item/generated"))

@@ -12,8 +12,48 @@ public class Strings {
     		organizationHood = "organization_hood",
 		    organizationChestplate = "organization_chestplate",
 		    organizationLeggings = "organization_leggings",
-		    organizationBoots = "organization_boots";
-    
+		    organizationBoots = "organization_boots",
+
+            xemnasHelmet = "xemnas_helmet",
+            xemnasChestplate = "xemnas_chestplate",
+            xemnasLeggings = "xemnas_leggings",
+            xemnasBoots = "xemnas_boots",
+
+            antiCoatHelmet = "anticoat_helmet",
+            antiCoatChestplate = "anticoat_chestplate",
+            antiCoatLeggings = "anticoat_leggings",
+            antiCoatBoots = "anticoat_boots",
+
+            terraHelmet = "terra_helmet",
+            terraChestplate = "terra_chestplate",
+            terraLeggings = "terra_leggings",
+            terraBoots = "terra_boots",
+
+            aquaHelmet = "aqua_helmet",
+            aquaChestplate = "aqua_chestplate",
+            aquaLeggings = "aqua_leggings",
+            aquaBoots = "aqua_boots",
+
+            ventusHelmet = "ventus_helmet",
+            ventusChestplate = "ventus_chestplate",
+            ventusLeggings = "ventus_leggings",
+            ventusBoots = "ventus_boots",
+
+            nightmareVentusHelmet = "nightmareventus_helmet",
+            nightmareVentusChestplate = "nightmareventus_chestplate",
+            nightmareVentusLeggings = "nightmareventus_leggings",
+            nightmareVentusBoots = "nightmareventus_boots",
+
+            eraqusHelmet = "eraqus_helmet",
+            eraqusChestplate = "eraqus_chestplate",
+            eraqusLeggings = "eraqus_leggings",
+            eraqusBoots = "eraqus_boots",
+
+            vanitasHelmet = "vanitas_helmet",
+            vanitasChestplate = "vanitas_chestplate",
+            vanitasLeggings = "vanitas_leggings",
+            vanitasBoots = "vanitas_boots";
+
     //Spells
     public static final String
             Spell_Fire = "spell.fire",
@@ -43,7 +83,7 @@ public class Strings {
             Spell_Stop = "spell.stop",
             Spell_Stopra = "spell.stopra",
             Spell_Stopga = "spell.stopga";
-    
+
     //Level up messages
     public static final String
 		    Stats_LevelUp_Str = "stats.levelUpStr",
@@ -58,7 +98,7 @@ public class Strings {
 			Stats_LevelUp_DodgeRoll = "stats.levelUpDodgeRoll",
 			Stats_LevelUp_AerialDodge = "stats.levelUpAerialDodge",
 			Stats_LevelUp_Glide = "stats.levelUpGlide";
-    
+
     //Forms
     public static final String
             Form_Valor = "form.valor",
@@ -410,11 +450,11 @@ public class Strings {
         woodenStickChain = "wooden_stick_chain",
         youngXehanortsKeybladeChain = "young_xehanorts_keyblade_chain",
         zeroOneChain = "zero_one_chain";
-    
+
     //Misc
     public static final String
     	recipe = "recipe";
-    
+
     //Organization
     //Xemnas
     public static final String
