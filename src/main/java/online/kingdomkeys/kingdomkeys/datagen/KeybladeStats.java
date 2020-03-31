@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class KeybladeStats extends  KeyBladeProvider{
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, KingdomKeys.MODID, KEYBLADE_FOLDER, KeybladeBuilder::new, existingFileHelper);
+        super(generator, KingdomKeys.MODID, KeybladeBuilder::new, existingFileHelper);
     }
 
     @Override

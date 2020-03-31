@@ -22,27 +22,26 @@ import java.util.function.Function;
 
 public abstract class KeyBladeProvider <T extends KeybladeBuilder<T>> implements IDataProvider {
 
-    public static final String KEYBLADE_FOLDER = "keyblade";
-
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     protected final DataGenerator generator;
     protected final String modid;
-    protected final String folder = KEYBLADE_FOLDER;
     protected final Function<ResourceLocation, T> factory;
     @VisibleForTesting
     public final Map<ResourceLocation, T> generatedModels = new HashMap<>();
     @VisibleForTesting
     public final ExistingFileHelper existingFileHelper;
 
-    public KeyBladeProvider(DataGenerator generator,String modid, String folder, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
+    public KeyBladeProvider(DataGenerator generator,String modid, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
         this.generator = generator;
         this.modid = modid;
         this.existingFileHelper = existingFileHelper;
         this.factory = factory;
     }
-    public KeyBladeProvider(DataGenerator generator, String modid, String folder, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
-        this(generator, modid, folder, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
+
+    public KeyBladeProvider(DataGenerator generator, String modid,  BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
+        this(generator, modid, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
     }
+    
     protected abstract void registerKeyblades();
 
     public T getBuilder(String path) {
@@ -76,6 +75,6 @@ public abstract class KeyBladeProvider <T extends KeybladeBuilder<T>> implements
 
     private Path getPath(T model) {
         ResourceLocation loc = model.getLocation();
-        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblade/" + loc.getPath() + ".json");
+        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblades/" + loc.getPath() + ".json");
     }
 }

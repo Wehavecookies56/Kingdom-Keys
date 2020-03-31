@@ -31,7 +31,6 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
     }
 
     public T keychain(String keyChain) {
-        Preconditions.checkNotNull(keyChain, "Texture must not be null");
         ResourceLocation asLoc;
         if (keyChain.contains(":")) {
             asLoc = new ResourceLocation(keyChain);
