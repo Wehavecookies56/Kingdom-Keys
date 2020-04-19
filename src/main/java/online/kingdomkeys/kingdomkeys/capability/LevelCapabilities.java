@@ -31,6 +31,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			props.putInt("magic", instance.getMagic());
 			props.putInt("defense", instance.getDefense());
 			props.putInt("max_hp", instance.getMaxHP());
+			props.putString("drive_form", instance.getDriveForm());
 			//TODO save and load the rest of things
 			return props;
 		}
@@ -45,6 +46,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			instance.setMagic(properties.getInt("magic"));
 			instance.setDefense(properties.getInt("defense"));
 			instance.setMaxHP(properties.getInt("max_hp"));
+			instance.setDriveForm(properties.getString("drive_form"));
 		}
 	}
 
@@ -60,6 +62,9 @@ public class LevelCapabilities implements ILevelCapabilities {
 	ap,
 	maxAP,
 	maxHp = 20;
+	
+	private String
+	driveForm = "";
 	
 	private double
 	mp,
@@ -662,5 +667,15 @@ public class LevelCapabilities implements ILevelCapabilities {
              this.mp = 0;
          else
              this.mp -= mp;	
+	}
+
+	@Override
+	public void setDriveForm(String form) {
+		driveForm = form;
+	}
+
+	@Override
+	public String getDriveForm() {
+		return driveForm;
 	}
 }

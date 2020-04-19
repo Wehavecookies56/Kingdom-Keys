@@ -55,5 +55,6 @@ public interface ILevelCapabilities {
     
 	int getExpNeeded(int level, int currentExp);
 	
-
+	void setDriveForm(String form);
+	String getDriveForm();
 }

@@ -22,7 +22,6 @@ public class EntityFireRenderer extends EntityRenderer<EntityFire> {
 
 	public static final Factory FACTORY = new EntityFireRenderer.Factory();
 	ModelFire shot;
-	int test;
 
 	public EntityFireRenderer(EntityRendererManager renderManager, ModelFire fist) {
 		super(renderManager);
@@ -32,9 +31,9 @@ public class EntityFireRenderer extends EntityRenderer<EntityFire> {
 
 	@Override
 	public void render(EntityFire entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		matrixStackIn.push();
+		/*matrixStackIn.push();
 		{
-			float r = 0, g = 1, b = 0;
+			float r = 1, g = 0, b = 0;
 				
 			matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
 			matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
@@ -43,14 +42,14 @@ public class EntityFireRenderer extends EntityRenderer<EntityFire> {
 				shot.render(matrixStackIn, bufferIn.getBuffer(shot.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, r, g, b, 1F);
 
 		}
-		matrixStackIn.pop();
+		matrixStackIn.pop();*/
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
 	@Nullable
 	@Override
 	public ResourceLocation getEntityTexture(EntityFire entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/models/fist.png");
+		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
 	public static class Factory implements IRenderFactory<EntityFire> {

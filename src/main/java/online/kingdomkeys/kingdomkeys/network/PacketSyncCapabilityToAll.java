@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncCapabilityToAll {
 
-	private String name;
+	private String name, driveForm;
 	private int level = 0,
 			exp = 0,
 			expGiven = 0,
@@ -33,26 +33,30 @@ public class PacketSyncCapabilityToAll {
 		this.strength = capability.getStrength();
 		this.magic = capability.getMagic();
 		this.defense = capability.getDefense();
+		this.driveForm = capability.getDriveForm();
 	}
 
 	public void encode(PacketBuffer buffer) {
+		buffer.writeString(name);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.exp);
 		buffer.writeInt(this.expGiven);
 		buffer.writeInt(this.strength);
 		buffer.writeInt(this.magic);
 		buffer.writeInt(this.defense);
+		buffer.writeString(driveForm);
 	}
 
 	public static PacketSyncCapabilityToAll decode(PacketBuffer buffer) {
 		PacketSyncCapabilityToAll msg = new PacketSyncCapabilityToAll();
-		
+		msg.name = buffer.readString(40);
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
 		msg.expGiven = buffer.readInt();
 		msg.strength = buffer.readInt();
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
+		msg.driveForm = buffer.readString(10);
 		
 		return msg;
 	}
@@ -75,6 +79,7 @@ public class PacketSyncCapabilityToAll {
 				props.ifPresent(cap -> cap.setStrength(message.strength));
 				props.ifPresent(cap -> cap.setMagic(message.magic));
 				props.ifPresent(cap -> cap.setDefense(message.defense));
+				props.ifPresent(cap -> cap.setDriveForm(message.driveForm));
 
 			}
 		});

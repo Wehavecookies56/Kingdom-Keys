@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.magic;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -12,6 +13,8 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 
 public class PacketMagicFire {
 
@@ -35,7 +38,11 @@ public class PacketMagicFire {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			 ILevelCapabilities props = ModCapabilities.get(player);
-			//if (props.getMagic() > FIRE_MAGIC_COST) {
+			// props.setMP(100);
+			 System.out.println(props.getMP());
+			if (props.getMP() > FIRE_MAGIC_COST) {
+				props.remMP(FIRE_MAGIC_COST);
+				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
 				ThrowableEntity shot = new EntityFire(player.world, player);
 				if (shot != null) {
 					player.world.addEntity(shot);
@@ -44,7 +51,7 @@ public class PacketMagicFire {
 					//player.world.playSound(null, player.getPosition(), Utils.getShootSound(player, message.charged), SoundCategory.MASTER, 1F, 1F);
 					player.swingArm(Hand.MAIN_HAND);
 				}
-			//}
+			}
 		});
 		ctx.get().setPacketHandled(true);
 	}

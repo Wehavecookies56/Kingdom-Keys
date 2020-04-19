@@ -10,6 +10,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
@@ -50,9 +52,10 @@ public class MPGui extends Screen {
                     break;
             }
             float scaleFactor = 0.9F;
-
-            mpBarWidth = (int) ((int) 40 * scaleFactor);
-            int mpBarMaxWidth = (int) (120 * scaleFactor);
+            ILevelCapabilities props = ModCapabilities.get(player);
+            //System.out.println("Client: "+props.getMP());
+            mpBarWidth = (int) ((int) props.getMP() * scaleFactor);
+            int mpBarMaxWidth = (int) (props.getMaxMP() * scaleFactor);
 
             GL11.glPushMatrix();
             {

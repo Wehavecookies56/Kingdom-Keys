@@ -1,12 +1,33 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.client.model.ModModels;
+import online.kingdomkeys.kingdomkeys.client.render.IKKRender;
 
 /**
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
 
+	public static IKKRender getRender(ILevelCapabilities props) {
+		if (props != null) {
+			if (props.getDriveForm().equals("valor")) {
+				return ModModels.renderValor;
+			}
+			/*if (props.getPlayerType().equals("rayman")) {
+				return ModModels.renderRayman;
+			}
+			if(props.getPlayerType().equals("globox")) {
+				return ModModels.renderGlobox;
+			}
+			if(props.getPlayerType().equals("hoodlum")) {
+				return ModModels.renderHoodlum;
+			}*/
+		}
+		return null;
+	}
+	
 	public static int getInt(String num) {
 		int number;
 		try {

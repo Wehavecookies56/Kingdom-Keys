@@ -16,7 +16,9 @@ import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDElementHandler;
+import online.kingdomkeys.kingdomkeys.client.model.ModModels;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
 
@@ -48,6 +50,9 @@ public class ProxyClient implements IProxy {
         MinecraftForge.EVENT_BUS.register(new MPGui());
         MinecraftForge.EVENT_BUS.register(new DriveGui());
         MinecraftForge.EVENT_BUS.register(new InputHandler());
+		ModModels.register();
+		MinecraftForge.EVENT_BUS.register(new ClientEvents());
+
 
     }
 

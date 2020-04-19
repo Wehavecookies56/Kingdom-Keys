@@ -29,6 +29,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, PacketSyncCapabilityToAllFromClient.class, PacketSyncCapabilityToAllFromClient::encode, PacketSyncCapabilityToAllFromClient::decode, PacketSyncCapabilityToAllFromClient::handle);
 		HANDLER.registerMessage(packetID++, PacketSyncAllClientData.class, PacketSyncAllClientData::encode, PacketSyncAllClientData::decode, PacketSyncAllClientData::handle);
 		HANDLER.registerMessage(packetID++, PacketMagicFire.class, PacketMagicFire::encode, PacketMagicFire::decode, PacketMagicFire::handle);
+		HANDLER.registerMessage(packetID++, PacketSetDriveForm.class, PacketSetDriveForm::encode, PacketSetDriveForm::decode, PacketSetDriveForm::handle);
+
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

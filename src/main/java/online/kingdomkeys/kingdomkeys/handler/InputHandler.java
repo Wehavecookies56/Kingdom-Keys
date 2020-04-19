@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +15,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.GUISelectDriveFormTemp;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
@@ -188,6 +192,9 @@ public class InputHandler {
 
         loadLists();
         PacketHandler.sendToServer(new PacketMagicFire());
+        ILevelCapabilities props = ModCapabilities.get(player);
+        
+        System.out.println(props.getDriveForm());
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
                 System.out.println("attack");
@@ -445,8 +452,11 @@ public class InputHandler {
                   //      break;
                     commandBack();
                     
-
                     break;
+                    
+                case TEST:
+    				mc.displayGuiScreen(new GUISelectDriveFormTemp());
+                	break;
                /* case SUMMON_KEYBLADE:
                     if (!player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive())
                         Utils.summonWeapon(player, EnumHand.MAIN_HAND, 0);
@@ -563,7 +573,8 @@ public class InputHandler {
         SUMMON_KEYBLADE("key.kingdomkeys.summonkeyblade", GLFW.GLFW_KEY_G),
         LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z),
         SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
-        ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X);
+        ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X),
+        TEST("key.kingdomkeys.test",GLFW.GLFW_KEY_K);
 
         private final KeyBinding keybinding;
         Keybinds(String name, int defaultKey) {
