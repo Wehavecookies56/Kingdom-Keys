@@ -1,17 +1,18 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import javafx.util.Pair;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-
-import java.util.ArrayList;
 
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 
@@ -31,6 +32,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
     }
 
     public T keychain(String keyChain) {
+        Preconditions.checkNotNull(keyChain, "Texture must not be null");
         ResourceLocation asLoc;
         if (keyChain.contains(":")) {
             asLoc = new ResourceLocation(keyChain);
@@ -74,8 +76,8 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         JsonArray levels = new JsonArray();
         if (this.keychain != null) {
             root.addProperty("keychain", this.keychain.toString());
-
         }
+        
         // base stat
         baseStat.addProperty("str", baseStr);
         baseStat.addProperty("mag", baseMag);
@@ -88,7 +90,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
             obj1.addProperty("mag", k.getMagic());
             JsonArray recipe = new JsonArray();
             if (k.getMaterialList() != null)
-                for (Pair<Material, Integer> m : k.getMaterialList()) {
+                for (Map.Entry<Material, Integer> m : k.getMaterialList()) {
                     JsonObject matObj = new JsonObject();
                     matObj.addProperty("material", m.getKey().toString());
                     matObj.addProperty("quantity", m.getValue());

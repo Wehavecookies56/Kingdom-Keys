@@ -1,25 +1,17 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
-import javafx.geometry.Side;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 

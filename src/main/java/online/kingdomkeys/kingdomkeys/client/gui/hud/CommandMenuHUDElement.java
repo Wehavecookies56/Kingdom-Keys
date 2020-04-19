@@ -1,13 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.hud;
 
-import net.minecraft.client.Minecraft;
+import java.awt.Color;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.awt.Color;
-import java.util.*;
 
 public class CommandMenuHUDElement extends HUDElement {
 

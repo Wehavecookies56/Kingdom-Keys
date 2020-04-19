@@ -1,19 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.gui.hud;
 
-import net.minecraft.client.Minecraft;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.client.gui.hud.CommandMenuHUDElement;
-import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDAnchorPosition;
-import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to initialise and render all the HUD elements

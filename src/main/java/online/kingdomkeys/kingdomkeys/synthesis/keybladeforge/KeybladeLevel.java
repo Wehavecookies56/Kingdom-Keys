@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 import java.util.List;
 import java.util.Map;
 
-import javafx.util.Pair;
-import online.kingdomkeys.kingdomkeys.datagen.KeyBladeProvider;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 /**
@@ -17,7 +15,7 @@ public class KeybladeLevel {
     private int magic;
     //The materials required to upgrade to this level, key is the material, value is the quantity
     Map<Material, Integer> materials;
-    private List<Pair<Material, Integer>> materialsList;
+    private List<Map.Entry<Material, Integer>> materialsList;
     //The ability gained when upgrading to this level
     //TODO ability system and potentially multiple abilities here
     String ability;
@@ -59,7 +57,7 @@ public class KeybladeLevel {
         return strength;
     }
 
-    public List<Pair<Material, Integer>> getMaterialList() { return materialsList;}
+    public List<Map.Entry<Material, Integer>> getMaterialList() { return materialsList;}
 
     public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String ability) {
         this.strength = strength;
@@ -76,7 +74,7 @@ public class KeybladeLevel {
     public static class KeybladeLevelBuilder{
         private int strength;
         private int magic;
-        private List<Pair<Material, Integer>> materials;
+        private List<Map.Entry<Material, Integer>> materials;
         private String ability;
 
         public KeybladeLevelBuilder() { }
@@ -99,7 +97,7 @@ public class KeybladeLevel {
             return this;
         }
 
-        public KeybladeLevelBuilder withMaterials(List<Pair<Material, Integer>> materials)
+        public KeybladeLevelBuilder withMaterials(List<Map.Entry<Material, Integer>> materials)
         {
             this.materials = materials;
             return this;

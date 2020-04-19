@@ -1,3 +1,4 @@
+package online.kingdomkeys.kingdomkeys.network.magic.old;
 /*
 package online.kingdomkeys.kingdomkeys.packets.magics;
 

@@ -1,3 +1,4 @@
+package online.kingdomkeys.kingdomkeys.network.magic.old;
 /*
 package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
 

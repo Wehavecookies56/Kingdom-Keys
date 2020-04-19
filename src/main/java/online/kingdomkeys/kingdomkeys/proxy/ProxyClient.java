@@ -10,11 +10,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.*;
+import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
+import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDElementHandler;
-import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {

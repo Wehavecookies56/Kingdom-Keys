@@ -1,14 +1,18 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
+import java.util.function.Consumer;
+
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.*;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.IFinishedRecipe;
+import net.minecraft.data.RecipeProvider;
+import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.Items;
 import net.minecraftforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import java.util.function.Consumer;
 
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;

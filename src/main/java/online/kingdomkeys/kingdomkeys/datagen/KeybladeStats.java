@@ -1,19 +1,14 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
-import javafx.util.Pair;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
-
-import java.util.ArrayList;
 
 public class KeybladeStats extends  KeyBladeProvider{
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, KingdomKeys.MODID, KeybladeBuilder::new, existingFileHelper);
+        super(generator, KingdomKeys.MODID, KEYBLADE_FOLDER, KeybladeBuilder::new, existingFileHelper);
     }
 
     @Override

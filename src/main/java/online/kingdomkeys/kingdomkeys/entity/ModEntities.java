@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.EntityFireRenderer;
+import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
@@ -23,7 +25,11 @@ public class ModEntities {
     private static List<EntityType> ENTITIES = new ArrayList<>();
 
     public static EntityType<BlastBloxEntity> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
-   // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
+    
+    //Magic
+    public static EntityType<EntityFire> TYPE_FIRE = createEntityType(EntityFire::new, EntityFire::new, EntityClassification.MISC,"entity_fire", 0.5F, 0.5F);
+ 
+    // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -54,6 +60,7 @@ public class ModEntities {
      */
     public static void registerModels() {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX, BlastBloxRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE, EntityFireRenderer.FACTORY);
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

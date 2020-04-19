@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.gui.hud;
 
+import java.awt.Color;
+
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
-
-import java.awt.*;
 
 /**
  * Widget Class for elements to display on the HUD e.g. Command Menu, HP bar, etc.

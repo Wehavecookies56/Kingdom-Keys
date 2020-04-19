@@ -2,11 +2,13 @@ package online.kingdomkeys.kingdomkeys.datagen;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.ConstantRange;
+import net.minecraft.world.storage.loot.ItemLootEntry;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTable;
+import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class LootTables extends BaseLootTables {
 

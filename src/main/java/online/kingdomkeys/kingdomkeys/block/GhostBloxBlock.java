@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -15,8 +17,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class GhostBloxBlock extends BaseBlock {
 

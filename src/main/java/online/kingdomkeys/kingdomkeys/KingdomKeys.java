@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys;
 
-import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.CapabilityEventsHandler;
+import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;

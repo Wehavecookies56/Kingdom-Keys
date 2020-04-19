@@ -1,10 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -12,9 +8,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class GuiMenu_Bars extends Screen {
 

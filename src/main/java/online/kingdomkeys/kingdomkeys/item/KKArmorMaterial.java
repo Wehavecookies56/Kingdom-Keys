@@ -4,7 +4,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.SoundEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class KKArmorMaterial implements IArmorMaterial{
 

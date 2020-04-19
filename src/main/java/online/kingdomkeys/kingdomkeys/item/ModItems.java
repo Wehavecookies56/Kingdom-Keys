@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;

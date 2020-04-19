@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 
-import net.minecraftforge.client.event.GuiScreenEvent;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -12,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
+import online.kingdomkeys.kingdomkeys.network.magic.PacketMagicFire;
 
 //TODO cleanup
 public class InputHandler {
@@ -186,7 +187,7 @@ public class InputHandler {
         //IDriveState DRIVE = (IDriveState) player.getCapability(ModCapabilities.DRIVE_STATE, null);
 
         loadLists();
-
+        PacketHandler.sendToServer(new PacketMagicFire());
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
                 System.out.println("attack");
@@ -224,7 +225,6 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    System.out.println("magic");
                     /*if (!STATS.getRecharge() && (!this.magicCommands.isEmpty() && (!DRIVE.getActiveDriveName().equals(Strings.Form_Valor) && !DRIVE.getActiveDriveName().equals(Strings.Form_Anti)))) {
                         CommandMenuGui.magicselected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
@@ -505,12 +505,12 @@ public class InputHandler {
          * event.setCanceled(true); } else { event.setCanceled(false); } }
          */
 
-        if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown()) {
+        if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
             commandEnter();
             //event.setCanceled(true);
         }
 
-        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown()) {
+        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
             commandBack();
            // event.setCanceled(true);
         }
