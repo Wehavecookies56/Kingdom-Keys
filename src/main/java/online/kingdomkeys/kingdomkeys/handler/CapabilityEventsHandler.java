@@ -1,20 +1,24 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.CapabilitiesProvider;
+import online.kingdomkeys.kingdomkeys.capability.GlobalCapabilitiesProvider;
+import online.kingdomkeys.kingdomkeys.capability.PlayerCapabilitiesProvider;
 
 public class CapabilityEventsHandler {
 
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof PlayerEntity) {
-			event.addCapability(new ResourceLocation(KingdomKeys.MODID, "level_capability"), new CapabilitiesProvider());
-		//	event.addCapability(new ResourceLocation(Reference.MODID, "test"), new TestCapabilityProvider());
+			event.addCapability(new ResourceLocation(KingdomKeys.MODID, "player_capabilities"), new PlayerCapabilitiesProvider());
+		}
+		if (event.getObject() instanceof LivingEntity) {
+			event.addCapability(new ResourceLocation(KingdomKeys.MODID, "global_capabilities"), new GlobalCapabilitiesProvider());
 		}
 	}
 	

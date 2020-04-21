@@ -12,7 +12,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
@@ -22,7 +22,7 @@ public class MPGui extends Screen {
 	int mpBarWidth;
 	int guiHeight = 10;
 	int noborderguiwidth = 171;
-	ILevelCapabilities props;
+	IPlayerCapabilities props;
 	int counter = 0;
 
 	public MPGui() {
@@ -96,11 +96,9 @@ public class MPGui extends Screen {
 			{
 				GL11.glTranslatef((posX + 2) * scale, posY * scale, 0);
 				GL11.glScalef(width, scale, 0);
-				if (props != null) {
-					int v = props.getRecharge() ? 8 : 2;
-					// int v = 2;
-					blit(0, 0, v, 0, 1, 12);
-				}
+				int v = props.getRecharge() ? 8 : 2;
+				blit(0, 0, v, 0, 1, 12);
+
 			}
 			GL11.glPopMatrix();
 
@@ -116,13 +114,10 @@ public class MPGui extends Screen {
 			// MP Icon
 			GL11.glPushMatrix();
 			{
-				if (props != null) {
-					int v = props.getRecharge() ? 45 : 32;
-					// int v = 32;
-					GL11.glTranslatef((posX + 2) * scale + width + 1, scale * posY, 0);
-					GL11.glScalef(scale * 0.8F, scale, 1);
-					blit(0, 0, 0, v, 23, 12);
-				}
+				int v = props.getRecharge() ? 45 : 32;
+				GL11.glTranslatef((posX + 2) * scale + width + 1, scale * posY, 0);
+				GL11.glScalef(scale * 0.8F, scale, 1);
+				blit(0, 0, 0, v, 23, 12);
 			}
 			GL11.glPopMatrix();
 		}
@@ -134,14 +129,11 @@ public class MPGui extends Screen {
 		Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 		GL11.glPushMatrix();
 		{
-			if (props != null) {
-				GL11.glTranslatef((posX + 2) * scale, (posY + 2) * scale, 0);
-				GL11.glScalef(width, scale, 0);
-				int v = props.getRecharge() ? 22 : 12;
-				int h = props.getRecharge() ? 8 : 7;
-				// int v = 12, h = 7;
-				blit(0, 0, 2, v, 1, h);
-			}
+			GL11.glTranslatef((posX + 2) * scale, (posY + 2) * scale, 0);
+			GL11.glScalef(width, scale, 0);
+			int v = props.getRecharge() ? 22 : 12;
+			int h = props.getRecharge() ? 8 : 7;
+			blit(0, 0, 2, v, 1, h);
 		}
 		GL11.glPopMatrix();
 

@@ -14,7 +14,7 @@ import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
@@ -43,7 +43,7 @@ public class ModelValor extends BipedModel {
 	@Override
 	public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, 1, entityIn);
-		ILevelCapabilities props = ModCapabilities.get((PlayerEntity) entityIn);
+		IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) entityIn);
 
 		driveForm = props.getDriveForm();
 

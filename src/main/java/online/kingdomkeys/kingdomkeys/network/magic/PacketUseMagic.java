@@ -10,7 +10,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
 import online.kingdomkeys.kingdomkeys.entity.magic.Magics;
@@ -37,13 +37,13 @@ public class PacketUseMagic {
 	public static void handle(PacketUseMagic message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			 ILevelCapabilities props = ModCapabilities.get(player);
+			 IPlayerCapabilities props = ModCapabilities.get(player);
 			// props.setMaxMP(120);
 			// props.setMP(props.getMaxMP());
 			if (props.getMP() >= 0 && !props.getRecharge()) {
 				props.remMP(FIRE_MAGIC_COST);
 				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
-				Magics.blizzard(player);
+				Magics.stop(player);
 			}
 			 System.out.println(props.getMP());
 

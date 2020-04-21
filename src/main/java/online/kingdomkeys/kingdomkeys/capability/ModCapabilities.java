@@ -8,16 +8,23 @@ import net.minecraftforge.common.util.LazyOptional;
 
 public class ModCapabilities {
 
-	@CapabilityInject(ILevelCapabilities.class)
-	public static final Capability<ILevelCapabilities> LEVEL_CAPABILITIES = null;
+	@CapabilityInject(IPlayerCapabilities.class)
+	public static final Capability<IPlayerCapabilities> PLAYER_CAPABILITIES = null;
+	public static final Capability<IGlobalCapabilities> GLOBAL_CAPABILITIES = null;
 
-	public static ILevelCapabilities get(PlayerEntity player) {
-		LazyOptional<ILevelCapabilities> props = player.getCapability(ModCapabilities.LEVEL_CAPABILITIES, null);
+	public static IPlayerCapabilities get(PlayerEntity player) {
+		LazyOptional<IPlayerCapabilities> props = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES, null);
+		return props.orElse(null);
+	}
+	
+	public static IGlobalCapabilities getGlobal(PlayerEntity player) {
+		LazyOptional<IGlobalCapabilities> props = player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES, null);
 		return props.orElse(null);
 	}
 
 	public static void register() {
-		CapabilityManager.INSTANCE.register(ILevelCapabilities.class, new LevelCapabilities.Storage(), () -> new LevelCapabilities());
+		CapabilityManager.INSTANCE.register(IPlayerCapabilities.class, new PlayerCapabilities.Storage(), () -> new PlayerCapabilities());
+		CapabilityManager.INSTANCE.register(IGlobalCapabilities.class, new GlobalCapabilities.Storage(), () -> new GlobalCapabilities());
 	}
 
 }

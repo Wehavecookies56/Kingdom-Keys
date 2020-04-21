@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSetDriveForm {
@@ -34,7 +34,7 @@ public class PacketSetDriveForm {
 	public static void handle(PacketSetDriveForm message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			ILevelCapabilities props = ModCapabilities.get(player);
+			IPlayerCapabilities props = ModCapabilities.get(player);
 			props.setDriveForm(message.form);
 
 			System.out.println(props.getDriveForm());

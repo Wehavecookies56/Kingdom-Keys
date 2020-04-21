@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.TranslationTextComponent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class GUIMenuO extends Screen{
@@ -31,7 +31,7 @@ public class GUIMenuO extends Screen{
 	public void render(int mouseX, int mouseY, float partialTicks) {
         renderBackground();
         Minecraft mc = Minecraft.getInstance();
-        ILevelCapabilities props = ModCapabilities.get(mc.player);
+        IPlayerCapabilities props = ModCapabilities.get(mc.player);
         if(props != null) {
         String text = "Level: "+props.getLevel();
 		drawCenteredString(Minecraft.getInstance().fontRenderer, text, this.width / 2 - text.length()/2, 100, 0xFFFFFF);

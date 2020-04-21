@@ -18,8 +18,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magics.EntityBlizzardRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magics.EntityFireRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magics.EntityStopRenderer;
 import online.kingdomkeys.kingdomkeys.entity.magic.EntityBlizzard;
 import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
+import online.kingdomkeys.kingdomkeys.entity.magic.EntityStop;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
@@ -31,12 +33,12 @@ public class ModEntities {
     //Magic
     public static EntityType<EntityFire> TYPE_FIRE = createEntityType(EntityFire::new, EntityFire::new, EntityClassification.MISC,"entity_fire", 0.5F, 0.5F);
     public static EntityType<EntityBlizzard> TYPE_BLIZZARD = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
-   /* public static EntityType<EntityBlizzard> TYPE_THUNDER = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
-    public static EntityType<EntityBlizzard> TYPE_CURE = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
-    public static EntityType<EntityBlizzard> TYPE_MAGNET = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
-    public static EntityType<EntityBlizzard> TYPE_REFLECT = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
-    public static EntityType<EntityBlizzard> TYPE_GRAVITY = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
-    public static EntityType<EntityBlizzard> TYPE_STOP = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);*/
+  //  public static EntityType<EntityBlizzard> TYPE_THUNDER = createEntityType(EntityThunder::new, EntityThunderR::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
+  //  public static EntityType<EntityBlizzard> TYPE_CURE = createEntityType(EntityCure::new, EntityCure::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
+  //  public static EntityType<EntityBlizzard> TYPE_MAGNET = createEntityType(EntityMagnet::new, EntityMagnet::new, EntityClassification.MISC,"entity_magnet", 0.5F, 0.5F);
+  //  public static EntityType<EntityBlizzard> TYPE_REFLECT = createEntityType(EntityReflect::new, EntityReflect::new, EntityClassification.MISC,"entity_reflect", 0.5F, 0.5F);
+   // public static EntityType<EntityBlizzard> TYPE_GRAVITY = createEntityType(EntityGravity::new, EntityGravity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
+    public static EntityType<EntityStop> TYPE_STOP = createEntityType(EntityStop::new, EntityStop::new, EntityClassification.MISC,"entity_stop", 0.5F, 0.5F);
     
     
     // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
@@ -72,6 +74,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX, BlastBloxRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE, EntityFireRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD, EntityBlizzardRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_STOP, EntityStopRenderer.FACTORY);
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncCapability {
@@ -30,7 +30,7 @@ public class PacketSyncCapability {
 	public PacketSyncCapability() {
 	}
 
-	public PacketSyncCapability(ILevelCapabilities capability) {
+	public PacketSyncCapability(IPlayerCapabilities capability) {
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
 		this.expGiven = capability.getExperienceGiven();
@@ -63,6 +63,7 @@ public class PacketSyncCapability {
 		// buffer.writeString(this.choice1);
 		buffer.writeInt(this.ap);
 		buffer.writeInt(this.maxAP);
+		
 		for (int i = 0; i < this.messages.size(); i++) {
 			buffer.writeString(this.messages.get(i));
 		}
@@ -86,6 +87,7 @@ public class PacketSyncCapability {
 		msg.ap = buffer.readInt();
 		msg.maxAP = buffer.readInt();
 		msg.messages = new ArrayList<String>();
+		
 		while (buffer.isReadable()) {
 			msg.messages.add(buffer.readString(100));
 		}
@@ -94,7 +96,7 @@ public class PacketSyncCapability {
 
 	public static void handle(final PacketSyncCapability message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			LazyOptional<ILevelCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.LEVEL_CAPABILITIES);
+			LazyOptional<IPlayerCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
 			props.ifPresent(cap -> cap.setLevel(message.level));
 			props.ifPresent(cap -> cap.setExperience(message.exp));
 			props.ifPresent(cap -> cap.setExperienceGiven(message.expGiven));

@@ -18,11 +18,11 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.ShowOverlayPacket;
 
-public class LevelCapabilities implements ILevelCapabilities {
+public class PlayerCapabilities implements IPlayerCapabilities {
 
-	public static class Storage implements IStorage<ILevelCapabilities> {
+	public static class Storage implements IStorage<IPlayerCapabilities> {
 		@Override
-		public INBT writeNBT(Capability<ILevelCapabilities> capability, ILevelCapabilities instance, Direction side) {
+		public INBT writeNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side) {
 			CompoundNBT props = new CompoundNBT();
 			props.putInt("level", instance.getLevel());
 			props.putInt("experience", instance.getExperience());
@@ -40,7 +40,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 		}
 
 		@Override
-		public void readNBT(Capability<ILevelCapabilities> capability, ILevelCapabilities instance, Direction side, INBT nbt) {
+		public void readNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side, INBT nbt) {
 			CompoundNBT properties = (CompoundNBT) nbt;
 			instance.setLevel(properties.getInt("level"));
 			instance.setExperience(properties.getInt("experience"));

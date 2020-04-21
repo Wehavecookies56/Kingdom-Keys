@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncCapabilityToAll {
@@ -25,7 +25,7 @@ public class PacketSyncCapabilityToAll {
 	public PacketSyncCapabilityToAll() {
 	}
 
-	public PacketSyncCapabilityToAll(String name, ILevelCapabilities capability) {
+	public PacketSyncCapabilityToAll(String name, IPlayerCapabilities capability) {
 		this.name = name;
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
@@ -72,7 +72,7 @@ public class PacketSyncCapabilityToAll {
 				}
 			}
 			if (player != null) {
-				LazyOptional<ILevelCapabilities> props = player.getCapability(ModCapabilities.LEVEL_CAPABILITIES);
+				LazyOptional<IPlayerCapabilities> props = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
 				props.ifPresent(cap -> cap.setLevel(message.level));
 				props.ifPresent(cap -> cap.setExperience(message.exp));
 				props.ifPresent(cap -> cap.setExperienceGiven(message.expGiven));

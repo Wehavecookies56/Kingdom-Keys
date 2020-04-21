@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-public interface ILevelCapabilities {
+public interface IPlayerCapabilities {
 	int getLevel();
 	void setLevel(int level);
 	

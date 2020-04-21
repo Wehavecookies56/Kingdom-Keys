@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GUISelectDriveFormTemp;
@@ -192,7 +192,7 @@ public class InputHandler {
 
         loadLists();
         PacketHandler.sendToServer(new PacketUseMagic());
-        ILevelCapabilities props = ModCapabilities.get(player);
+        IPlayerCapabilities props = ModCapabilities.get(player);
         
         System.out.println(props.getDriveForm());
         switch (CommandMenuGui.selected) {

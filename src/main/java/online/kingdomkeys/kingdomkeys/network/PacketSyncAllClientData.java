@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncAllClientData {
@@ -27,7 +27,7 @@ public class PacketSyncAllClientData {
 	public static void handle(final PacketSyncAllClientData message, Supplier<NetworkEvent.Context> ctx) {
 		PlayerEntity player = ctx.get().getSender();
 
-		ILevelCapabilities props = ModCapabilities.get(player);
+		IPlayerCapabilities props = ModCapabilities.get(player);
 		PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) player);
 
 		ctx.get().setPacketHandled(true);

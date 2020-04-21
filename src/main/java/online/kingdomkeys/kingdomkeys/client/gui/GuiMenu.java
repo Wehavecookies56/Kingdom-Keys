@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 
@@ -156,7 +156,7 @@ class GuiMenu extends Screen {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.translatef(1, 1, 100);
-			ILevelCapabilities props = ModCapabilities.get(mc.player);
+			IPlayerCapabilities props = ModCapabilities.get(mc.player);
 			if (props != null) {
 				GL11.glPushMatrix();
 				{

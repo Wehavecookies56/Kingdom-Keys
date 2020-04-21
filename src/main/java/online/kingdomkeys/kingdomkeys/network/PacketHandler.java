@@ -8,7 +8,7 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.network.magic.PacketUseMagic;
 
 public class PacketHandler {
@@ -43,7 +43,7 @@ public class PacketHandler {
 		}
 	}
 
-	public static void syncToAllAround(PlayerEntity player, ILevelCapabilities props) {
+	public static void syncToAllAround(PlayerEntity player, IPlayerCapabilities props) {
 		if (!player.world.isRemote) {
 			for (PlayerEntity playerFromList : player.world.getPlayers()) {
 				sendTo(new PacketSyncCapabilityToAll(player.getDisplayName().getString(), props), (ServerPlayerEntity) playerFromList);

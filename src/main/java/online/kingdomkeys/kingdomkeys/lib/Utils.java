@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.util.text.TranslationTextComponent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.client.model.ModModels;
 import online.kingdomkeys.kingdomkeys.client.render.IKKRender;
 
@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.client.render.IKKRender;
  */
 public class Utils {
 
-	public static IKKRender getRender(ILevelCapabilities props) {
+	public static IKKRender getRender(IPlayerCapabilities props) {
 		if (props != null) {
 			if (props.getDriveForm().equals("valor")) {
 				return ModModels.renderValor;

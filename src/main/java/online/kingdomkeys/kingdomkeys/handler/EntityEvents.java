@@ -13,7 +13,7 @@ import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
@@ -25,16 +25,17 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
-		ILevelCapabilities props = ModCapabilities.get(event.player);
+		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		
 		//MP Recharge system
 		if(props.getRecharge()) {
 			if(props.getMP() >= props.getMaxMP()) {
 				props.setRecharge(false);
 				props.setMP(props.getMaxMP());
-				System.out.println(props.getMP());
-				if(!event.player.world.isRemote)
+			//	System.out.println(props.getMP());
+				if(!event.player.world.isRemote) {
 					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)event.player);
+				}
 			} else {
 				if(event.player.ticksExisted%5==0)
 				props.addMP(1);
@@ -42,8 +43,9 @@ public class EntityEvents {
 		} else { //Not on recharge
 			if(props.getMP() <= 0) {
 				props.setRecharge(true);
-				if(!event.player.world.isRemote)
+				if(!event.player.world.isRemote) {
 					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)event.player);
+				}
 			}
 		}
 		
@@ -92,7 +94,7 @@ public class EntityEvents {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 
 				if (event.getEntity() instanceof MobEntity) {
-					ILevelCapabilities props = ModCapabilities.get(player);
+					IPlayerCapabilities props = ModCapabilities.get(player);
 
 					MobEntity mob = (MobEntity) event.getEntity();
 
@@ -118,7 +120,7 @@ public class EntityEvents {
 		if (e.getTarget() instanceof PlayerEntity) {
 			System.out.println(e.getTarget());
 			PlayerEntity targetPlayer = (PlayerEntity) e.getTarget();
-			ILevelCapabilities props = ModCapabilities.get(targetPlayer);
+			IPlayerCapabilities props = ModCapabilities.get(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, props);
 		}
 	}

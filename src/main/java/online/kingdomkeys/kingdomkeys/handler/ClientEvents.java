@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.render.IKKRender;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
@@ -16,7 +16,7 @@ public class ClientEvents {
 		if (event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 
-			ILevelCapabilities props = ModCapabilities.get((PlayerEntity) player);
+			IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) player);
 			IKKRender render = Utils.getRender(props);
 			
 			if (render != null) {
