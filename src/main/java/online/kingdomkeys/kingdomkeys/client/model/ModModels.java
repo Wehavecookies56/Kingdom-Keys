@@ -12,7 +12,7 @@ public class ModModels {
 	public static RenderHoodlum renderHoodlum;*/
 	
 	public static void register() {
-		renderValor = new RenderValor(Minecraft.getInstance().getRenderManager(), new ModelValor(0.8F), 1);
+		renderValor = new RenderValor(Minecraft.getInstance().getRenderManager(), new ModelValor(1F), 1);
 		/*renderRayman = new RenderRayman(Minecraft.getInstance().getRenderManager(), new ModelRayman(1), 1);
 		renderGlobox = new RenderGlobox(Minecraft.getInstance().getRenderManager(), new ModelGlobox(1), 1);
 		renderHoodlum = new RenderHoodlum(Minecraft.getInstance().getRenderManager(), new ModelHoodlum(1), 1);*/

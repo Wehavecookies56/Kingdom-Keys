@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -19,13 +20,11 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class ModelValor extends BipedModel {
 
-
-
 	public ModelValor(float size) {
 		super(size);
 		this.textureWidth = 64;
         this.textureHeight = 32;
-       
+        Minecraft.getInstance().getModelManager()
 	}
 
 	boolean isSwimming = false;
@@ -75,7 +74,7 @@ public class ModelValor extends BipedModel {
 			matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180));
 			matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(180));
 
-
+			
 			this.bipedHead.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 			this.bipedBody.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 			this.bipedLeftArm.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
@@ -84,8 +83,8 @@ public class ModelValor extends BipedModel {
 			this.bipedRightLeg.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 
 			
-			/*this.rightArm.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F,1F,1F, 1F);
-			this.leftArm.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F,1F,1F, 1F);
+//			this.rightArm.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F,1F,1F, 1F);
+			/*this.leftArm.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F,1F,1F, 1F);
 			this.body.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 			this.leftLeg.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 			this.rightLeg.render(matrixStackIn, builderIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);*/

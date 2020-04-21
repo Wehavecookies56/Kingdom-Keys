@@ -88,18 +88,17 @@ public class RenderValor extends EntityRenderer<LivingEntity> implements IKKRend
 		//RenderHelper.enableStandardItemLighting();
 		matrixStackIn.push();
 		{
-			matrixStackIn.translate(1, -1, -0.6);
-			matrixStackIn.rotate(Vector3f.XN.rotationDegrees(20));
-			matrixStackIn.rotate(Vector3f.YP.rotationDegrees(150));
-			matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(50));
+			//matrixStackIn.translate(1, -1, -0.6);
+			//matrixStackIn.rotate(Vector3f.XN.rotationDegrees(20));
+			//matrixStackIn.rotate(Vector3f.YP.rotationDegrees(150));
+			//matrixStackIn.rotate(Vector3f.ZN.rotationDegrees(50));
 
 			if (mc.gameSettings.thirdPersonView == 0 && !mc.gameSettings.hideGUI && !player.isSleeping()) {
 				model.swingProgress = 0.0F;
 				model.isSneak = false;
 				model.swimAnimation = 0.0F;
 				model.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, player);
-				model.bipedRightArm.rotateAngleX = 0.0F;
-				
+				model.bipedRightArm.rotateAngleX = 0.0F;				
 			}
 		}
 		matrixStackIn.pop();
