@@ -57,4 +57,7 @@ public interface ILevelCapabilities {
 	
 	void setDriveForm(String form);
 	String getDriveForm();
+	
+	void setRecharge(boolean b);
+	boolean getRecharge();
 }

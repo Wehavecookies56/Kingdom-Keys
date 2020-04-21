@@ -22,6 +22,8 @@ public class PacketSyncCapability {
 	private int hp, ap, maxAP;
 
 	private double MP, maxMP;
+	
+	private boolean recharge;
 
 	List<String> messages;
 
@@ -38,6 +40,7 @@ public class PacketSyncCapability {
 		
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
+		this.recharge = capability.getRecharge();
 		this.hp = capability.getMaxHP();
 		// this.choice1 = capability.getChoice1();
 		this.ap = capability.getConsumedAP();
@@ -55,6 +58,7 @@ public class PacketSyncCapability {
 
 		buffer.writeDouble(this.MP);
 		buffer.writeDouble(this.maxMP);
+		buffer.writeBoolean(this.recharge);
 		buffer.writeInt(this.hp);
 		// buffer.writeString(this.choice1);
 		buffer.writeInt(this.ap);
@@ -76,6 +80,7 @@ public class PacketSyncCapability {
 
 		msg.MP = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();
+		msg.recharge = buffer.readBoolean();
 		msg.hp = buffer.readInt();
 		// msg.choice1 = buffer.readString(40);
 		msg.ap = buffer.readInt();
@@ -98,6 +103,7 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setDefense(message.defense));
 			props.ifPresent(cap -> cap.setMP(message.MP));
 			props.ifPresent(cap -> cap.setMaxMP(message.maxMP));
+			props.ifPresent(cap -> cap.setRecharge(message.recharge));
 			props.ifPresent(cap -> cap.setMaxHP(message.hp));
 			props.ifPresent(cap -> cap.setConsumedAP(message.ap));
 			props.ifPresent(cap -> cap.setMaxAP(message.maxAP));

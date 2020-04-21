@@ -33,6 +33,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			props.putInt("max_hp", instance.getMaxHP());
 			props.putDouble("mp", instance.getMP());
 			props.putDouble("max_mp", instance.getMaxMP());
+			props.putBoolean("recharge", instance.getRecharge());
 			props.putString("drive_form", instance.getDriveForm());
 			//TODO save and load the rest of things
 			return props;
@@ -50,6 +51,7 @@ public class LevelCapabilities implements ILevelCapabilities {
 			instance.setMaxHP(properties.getInt("max_hp"));
 			instance.setMP(properties.getDouble("mp"));
 			instance.setMaxMP(properties.getDouble("max_mp"));
+			instance.setRecharge(properties.getBoolean("recharge"));
 			instance.setDriveForm(properties.getString("drive_form"));
 		}
 	}
@@ -62,10 +64,10 @@ public class LevelCapabilities implements ILevelCapabilities {
 	strength = 0,
 	magic = 0,
 	defense = 0, 
+	maxHp = 20,
 	remainingExp = 0,
 	ap,
-	maxAP,
-	maxHp = 20;
+	maxAP;
 	
 	private String
 	driveForm = "";
@@ -73,6 +75,9 @@ public class LevelCapabilities implements ILevelCapabilities {
 	private double
 	mp,
 	maxMP;
+	
+	private boolean
+	recharge;
 
 	private List<String> messages = new ArrayList<String>();
 
@@ -681,5 +686,15 @@ public class LevelCapabilities implements ILevelCapabilities {
 	@Override
 	public String getDriveForm() {
 		return driveForm;
+	}
+
+	@Override
+	public void setRecharge(boolean b) {
+		this.recharge = b;
+	}
+
+	@Override
+	public boolean getRecharge() {
+		return this.recharge;
 	}
 }

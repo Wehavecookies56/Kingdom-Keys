@@ -38,13 +38,15 @@ public class PacketUseMagic {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			 ILevelCapabilities props = ModCapabilities.get(player);
-			 props.setMP(100);
-			 System.out.println(props.getMP());
-			if (props.getMP() >= FIRE_MAGIC_COST) {
+			// props.setMaxMP(120);
+			// props.setMP(props.getMaxMP());
+			if (props.getMP() >= 0 && !props.getRecharge()) {
 				props.remMP(FIRE_MAGIC_COST);
 				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
 				Magics.blizzard(player);
 			}
+			 System.out.println(props.getMP());
+
 		});
 		ctx.get().setPacketHandled(true);
 	}
