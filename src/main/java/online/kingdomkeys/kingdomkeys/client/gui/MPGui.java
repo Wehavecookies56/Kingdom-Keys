@@ -56,6 +56,8 @@ public class MPGui extends Screen {
 			}
 			float scaleFactor = 0.9F;
 			props = ModCapabilities.get(player);
+			if(props == null)
+				return;
 			// System.out.println("Client: "+props.getMP());
 			mpBarWidth = (int) ((int) props.getMP() * scaleFactor);
 			int mpBarMaxWidth = (int) (props.getMaxMP() * scaleFactor);

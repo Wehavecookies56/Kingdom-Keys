@@ -9,6 +9,8 @@ import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class Magics {
 	public static void fire(PlayerEntity player) {
@@ -65,7 +67,6 @@ public class Magics {
 	public static void stop(PlayerEntity player) {
 		System.out.println("a");
 		
-
 		//player.world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		player.world.addParticle(ParticleTypes.SMOKE, player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0, 0);
         //int rotation = 0;
@@ -87,7 +88,9 @@ public class Magics {
                 if (e instanceof LivingEntity) {
                 	((LivingEntity) e).setMotion(new Vec3d(0, 0, 0));
                 	//TODO
-                	
+                	IGlobalCapabilities props = ModCapabilities.getGlobal((LivingEntity) e);
+                	props.setStopped(true);
+                	props.setStoppedTicks(100);
                 }
 
                 /*if (!world.isRemote) {

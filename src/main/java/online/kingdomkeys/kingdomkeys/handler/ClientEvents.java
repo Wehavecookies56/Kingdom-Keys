@@ -15,7 +15,6 @@ public class ClientEvents {
 	public void RenderEntity(RenderPlayerEvent.Pre event) {
 		if (event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-
 			IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) player);
 			IKKRender render = Utils.getRender(props);
 			
