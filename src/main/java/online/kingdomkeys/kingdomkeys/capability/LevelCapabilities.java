@@ -31,6 +31,8 @@ public class LevelCapabilities implements ILevelCapabilities {
 			props.putInt("magic", instance.getMagic());
 			props.putInt("defense", instance.getDefense());
 			props.putInt("max_hp", instance.getMaxHP());
+			props.putDouble("mp", instance.getMP());
+			props.putDouble("max_mp", instance.getMaxMP());
 			props.putString("drive_form", instance.getDriveForm());
 			//TODO save and load the rest of things
 			return props;
@@ -46,6 +48,8 @@ public class LevelCapabilities implements ILevelCapabilities {
 			instance.setMagic(properties.getInt("magic"));
 			instance.setDefense(properties.getInt("defense"));
 			instance.setMaxHP(properties.getInt("max_hp"));
+			instance.setMP(properties.getDouble("mp"));
+			instance.setMaxMP(properties.getDouble("max_mp"));
 			instance.setDriveForm(properties.getString("drive_form"));
 		}
 	}
@@ -661,12 +665,12 @@ public class LevelCapabilities implements ILevelCapabilities {
 	}
 
 	@Override
-	public void remMP(double cost) {
+	public void remMP(double amount) {
 		//TODO CHEAT MODE
-		 if (this.mp - mp < 0)
+		 if (this.mp - amount < 0)
              this.mp = 0;
          else
-             this.mp -= mp;	
+             this.mp -= amount;	
 	}
 
 	@Override

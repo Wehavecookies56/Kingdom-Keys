@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
-import online.kingdomkeys.kingdomkeys.network.magic.PacketMagicFire;
+import online.kingdomkeys.kingdomkeys.network.magic.PacketUseMagic;
 
 //TODO cleanup
 public class InputHandler {
@@ -191,7 +191,7 @@ public class InputHandler {
         //IDriveState DRIVE = (IDriveState) player.getCapability(ModCapabilities.DRIVE_STATE, null);
 
         loadLists();
-        PacketHandler.sendToServer(new PacketMagicFire());
+        PacketHandler.sendToServer(new PacketUseMagic());
         ILevelCapabilities props = ModCapabilities.get(player);
         
         System.out.println(props.getDriveForm());

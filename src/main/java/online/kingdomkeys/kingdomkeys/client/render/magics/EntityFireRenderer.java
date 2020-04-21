@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render;
+package online.kingdomkeys.kingdomkeys.client.render.magics;
 
 import javax.annotation.Nullable;
 
@@ -14,8 +14,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.model.ModelFire;
 import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
-import online.kingdomkeys.kingdomkeys.models.ModelFire;
 
 @OnlyIn(Dist.CLIENT)
 public class EntityFireRenderer extends EntityRenderer<EntityFire> {

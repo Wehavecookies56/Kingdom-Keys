@@ -13,15 +13,15 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
+import online.kingdomkeys.kingdomkeys.entity.magic.Magics;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 
-public class PacketMagicFire {
-
+public class PacketUseMagic {
 
 	private static final int FIRE_MAGIC_COST = 10;
 
-	public PacketMagicFire() {
+	public PacketUseMagic() {
 
 	}
 
@@ -29,28 +29,21 @@ public class PacketMagicFire {
 
 	}
 
-	public static PacketMagicFire decode(PacketBuffer buffer) {
-		PacketMagicFire msg = new PacketMagicFire();
+	public static PacketUseMagic decode(PacketBuffer buffer) {
+		PacketUseMagic msg = new PacketUseMagic();
 		return msg;
 	}
 
-	public static void handle(PacketMagicFire message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(PacketUseMagic message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			 ILevelCapabilities props = ModCapabilities.get(player);
-			// props.setMP(100);
+			 props.setMP(100);
 			 System.out.println(props.getMP());
-			if (props.getMP() > FIRE_MAGIC_COST) {
+			if (props.getMP() >= FIRE_MAGIC_COST) {
 				props.remMP(FIRE_MAGIC_COST);
 				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
-				ThrowableEntity shot = new EntityFire(player.world, player);
-				if (shot != null) {
-					player.world.addEntity(shot);
-					shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
-					//player.world.playSound(null, player.getPosition(), ModSounds.fistShot0, SoundCategory.MASTER, 1F, 1F);
-					//player.world.playSound(null, player.getPosition(), Utils.getShootSound(player, message.charged), SoundCategory.MASTER, 1F, 1F);
-					player.swingArm(Hand.MAIN_HAND);
-				}
+				Magics.blizzard(player);
 			}
 		});
 		ctx.get().setPacketHandled(true);

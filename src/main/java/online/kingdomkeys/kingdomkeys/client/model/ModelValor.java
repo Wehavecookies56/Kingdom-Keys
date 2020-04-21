@@ -24,7 +24,6 @@ public class ModelValor extends BipedModel {
 		super(size);
 		this.textureWidth = 64;
         this.textureHeight = 32;
-        Minecraft.getInstance().getModelManager()
 	}
 
 	boolean isSwimming = false;

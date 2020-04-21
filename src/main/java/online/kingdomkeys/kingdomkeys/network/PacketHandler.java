@@ -9,7 +9,7 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ILevelCapabilities;
-import online.kingdomkeys.kingdomkeys.network.magic.PacketMagicFire;
+import online.kingdomkeys.kingdomkeys.network.magic.PacketUseMagic;
 
 public class PacketHandler {
 	private static final String PROTOCOL_VERSION = Integer.toString(1);
@@ -28,7 +28,7 @@ public class PacketHandler {
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, PacketSyncCapabilityToAllFromClient.class, PacketSyncCapabilityToAllFromClient::encode, PacketSyncCapabilityToAllFromClient::decode, PacketSyncCapabilityToAllFromClient::handle);
 		HANDLER.registerMessage(packetID++, PacketSyncAllClientData.class, PacketSyncAllClientData::encode, PacketSyncAllClientData::decode, PacketSyncAllClientData::handle);
-		HANDLER.registerMessage(packetID++, PacketMagicFire.class, PacketMagicFire::encode, PacketMagicFire::decode, PacketMagicFire::handle);
+		HANDLER.registerMessage(packetID++, PacketUseMagic.class, PacketUseMagic::encode, PacketUseMagic::decode, PacketUseMagic::handle);
 		HANDLER.registerMessage(packetID++, PacketSetDriveForm.class, PacketSetDriveForm::encode, PacketSetDriveForm::decode, PacketSetDriveForm::handle);
 
 	}

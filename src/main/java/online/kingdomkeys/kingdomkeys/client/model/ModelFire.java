@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.models;
+package online.kingdomkeys.kingdomkeys.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
