@@ -23,6 +23,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, ShowOverlayPacket.class, ShowOverlayPacket::encode, ShowOverlayPacket::decode, ShowOverlayPacket::handle);
 		HANDLER.registerMessage(packetID++, PacketSyncCapability.class, PacketSyncCapability::encode, PacketSyncCapability::decode, PacketSyncCapability::handle);
 		HANDLER.registerMessage(packetID++, PacketSyncCapabilityToAll.class, PacketSyncCapabilityToAll::encode, PacketSyncCapabilityToAll::decode, PacketSyncCapabilityToAll::handle);
+		HANDLER.registerMessage(packetID++, PacketSyncGlobalCapability.class, PacketSyncGlobalCapability::encode, PacketSyncGlobalCapability::decode, PacketSyncGlobalCapability::handle);
 		
 		
 		//ClientToServer

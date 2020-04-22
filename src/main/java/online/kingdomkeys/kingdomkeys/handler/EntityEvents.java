@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
 
 public class EntityEvents {
 
@@ -85,14 +86,21 @@ public class EntityEvents {
 	public void onLivingUpdate(LivingUpdateEvent event) {
 		IGlobalCapabilities gProps = ModCapabilities.getGlobal(event.getEntityLiving());
 
-		if (gProps != null && gProps.getStopped()) {
+		if (gProps != null && gProps.getStoppedTicks() > 0) {
 			gProps.subStoppedTicks(1);
-			//event.getEntityLiving().setMotion(0, 0, 0);
-			event.getEntityLiving().setPosition(event.getEntityLiving().prevPosX, event.getEntityLiving().prevPosY, event.getEntityLiving().prevPosZ);
+            //event.getEntityLiving().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0D);
+
+			event.getEntityLiving().setMotion(0, 0, 0);
+			//System.out.println(event.getEntityLiving().getMotion());
+			//event.getEntityLiving().setPosition(event.getEntityLiving().prevPosX, event.getEntityLiving().prevPosY, event.getEntityLiving().prevPosZ);
+
+        	event.getEntityLiving().velocityChanged = true;
 
 			System.out.println(gProps.getStoppedTicks());
 			if (gProps.getStoppedTicks() <= 0) {
-				gProps.setStopped(false);
+				gProps.setStoppedTicks(0); //Just in case it goes below (shouldn't happen)
+            	if(event.getEntityLiving() instanceof ServerPlayerEntity)
+            		PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
 			}
 		}
 	}
