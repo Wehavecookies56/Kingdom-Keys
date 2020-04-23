@@ -36,7 +36,7 @@ public class EntityThunder extends ThrowableEntity {
 	}
 
 	public EntityThunder(World world, PlayerEntity player, double x, double y, double z) {
-		super(ModEntities.TYPE_THUNDER, world);
+		super(ModEntities.TYPE_THUNDER, player, world);
 		setPosition(x, y + 30, z);
 		this.player = player;
 		/*
