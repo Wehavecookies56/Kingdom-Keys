@@ -43,7 +43,9 @@ public class ClientEvents {
 				// event.getEntityLiving().setPosition(event.getEntityLiving().prevPosX,
 				// event.getEntityLiving().prevPosY, event.getEntityLiving().prevPosZ);
 			//	event.getEntityLiving().setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY(), event.getEntityLiving().getPosZ());
-
+				//event.getEntityLiving().setMotion(0, 0, 0);
+	        //	event.getEntityLiving().velocityChanged = true;
+	        	event.setCanceled(true);
 			} else {
 				yaw = event.getEntityLiving().rotationYaw;
 				pitch = event.getEntityLiving().rotationPitch;

@@ -3,13 +3,17 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -88,19 +92,43 @@ public class EntityEvents {
 
 		if (gProps != null && gProps.getStoppedTicks() > 0) {
 			gProps.subStoppedTicks(1);
-            //event.getEntityLiving().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0D);
+			// event.getEntityLiving().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0D);
+
+			// System.out.println(event.getEntityLiving().getMotion());
+			// event.getEntityLiving().setPosition(event.getEntityLiving().prevPosX,
+			// event.getEntityLiving().prevPosY, event.getEntityLiving().prevPosZ);
 
 			event.getEntityLiving().setMotion(0, 0, 0);
-			//System.out.println(event.getEntityLiving().getMotion());
-			//event.getEntityLiving().setPosition(event.getEntityLiving().prevPosX, event.getEntityLiving().prevPosY, event.getEntityLiving().prevPosZ);
+			event.getEntityLiving().velocityChanged = true;
+			//System.out.println(gProps.getStoppedTicks());
 
-        	event.getEntityLiving().velocityChanged = true;
-
-			System.out.println(gProps.getStoppedTicks());
 			if (gProps.getStoppedTicks() <= 0) {
-				gProps.setStoppedTicks(0); //Just in case it goes below (shouldn't happen)
-            	if(event.getEntityLiving() instanceof ServerPlayerEntity)
-            		PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
+				gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
+				event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
+				if (event.getEntityLiving() instanceof ServerPlayerEntity)
+					PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
+				gProps.setDamage(0);
+
+			}
+
+		}
+	}
+
+	// Prevent attack when stopped
+	@SubscribeEvent
+	public void onLivingAttack(LivingAttackEvent event) {
+		if (event.getSource().getTrueSource() instanceof LivingEntity) { //If attacker is a LivingEntity
+			//LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
+			LivingEntity target = event.getEntityLiving();
+			//System.out.println(target);
+			IGlobalCapabilities gProps = ModCapabilities.getGlobal(target);
+
+			if (gProps != null) {
+				if (gProps.getStoppedTicks() > 0) {
+					gProps.addDamage((int) event.getAmount());
+					//System.out.println(gProps.getDamage());
+					event.setCanceled(true);
+				}
 			}
 		}
 	}

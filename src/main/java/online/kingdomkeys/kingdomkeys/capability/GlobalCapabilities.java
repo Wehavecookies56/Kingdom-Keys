@@ -13,6 +13,7 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		public INBT writeNBT(Capability<IGlobalCapabilities> capability, IGlobalCapabilities instance, Direction side) {
 			CompoundNBT props = new CompoundNBT();
 			props.putInt("ticks_stopped", instance.getStoppedTicks());
+			props.putInt("stop_dmg", instance.getDamage());
 			return props;
 		}
 
@@ -20,10 +21,11 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		public void readNBT(Capability<IGlobalCapabilities> capability, IGlobalCapabilities instance, Direction side, INBT nbt) {
 			CompoundNBT properties = (CompoundNBT) nbt;
 			instance.setStoppedTicks(properties.getInt("ticks_stopped"));
+			instance.setDamage(properties.getInt("stop_dmg"));
 		}
 	}
 
-	private int timeStopped;
+	private int timeStopped, stopDmg;
 
 	@Override
 	public void setStoppedTicks(int time) {
@@ -38,5 +40,21 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public void subStoppedTicks(int time) {
 		this.timeStopped -= time;
+	}
+
+	@Override
+	public int getDamage() {
+		return stopDmg;
+	}
+
+	@Override
+	public void setDamage(int dmg) {
+		this.stopDmg = dmg;
+		
+	}
+
+	@Override
+	public void addDamage(int dmg) {
+		this.stopDmg+=dmg;
 	}
 }

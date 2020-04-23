@@ -11,22 +11,25 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncGlobalCapability {
 
-	private int stoppedTicks;
+	private int stoppedTicks, stopDmg;
 
 	public PacketSyncGlobalCapability() {
 	}
 
 	public PacketSyncGlobalCapability(IGlobalCapabilities capability) {
 		this.stoppedTicks = capability.getStoppedTicks();
+		this.stopDmg = capability.getDamage();
 	}
 
 	public void encode(PacketBuffer buffer) {
 		buffer.writeInt(this.stoppedTicks);
+		buffer.writeInt(this.stopDmg);
 	}
 
 	public static PacketSyncGlobalCapability decode(PacketBuffer buffer) {
 		PacketSyncGlobalCapability msg = new PacketSyncGlobalCapability();
 		msg.stoppedTicks = buffer.readInt();
+		msg.stopDmg = buffer.readInt();
 		return msg;
 	}
 
@@ -34,6 +37,7 @@ public class PacketSyncGlobalCapability {
 		ctx.get().enqueueWork(() -> {
 			LazyOptional<IGlobalCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 			props.ifPresent(cap -> cap.setStoppedTicks(message.stoppedTicks));
+			props.ifPresent(cap -> cap.setDamage(message.stopDmg));
 		});
 		ctx.get().setPacketHandled(true);
 	}
