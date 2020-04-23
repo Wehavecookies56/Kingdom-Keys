@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -11,7 +9,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.Hand;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
@@ -34,9 +31,17 @@ public class Magics {
 	}
 	
 	public static void thunder(PlayerEntity player) {
-		ThrowableEntity shot = new EntityBlizzard(player.world, player);
-		player.world.addEntity(shot);
-		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+                Entity e = (Entity) list.get(i);
+                if (e instanceof LivingEntity) {
+            		ThrowableEntity shot = new EntityThunder(player.world, player, e.getPosX(),e.getPosY(),e.getPosZ());
+            		shot.shoot(player, 90, player.rotationYaw, 0, 3F, 0);
+            		player.world.addEntity(shot);
+                }
+            }
+        }
 		player.swingArm(Hand.MAIN_HAND);
 	}
 	
@@ -83,7 +88,7 @@ public class Magics {
 	public static void stop(PlayerEntity player) {
         //	PacketDispatcher.sendToAllAround(new SpawnStopParticles(this, 1), player, 64.0D);
 
-        List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(16.0D, 10.0D, 16.0D).offset(-8.0D, -5.0D, -8.0D));
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 Entity e = (Entity) list.get(i);
