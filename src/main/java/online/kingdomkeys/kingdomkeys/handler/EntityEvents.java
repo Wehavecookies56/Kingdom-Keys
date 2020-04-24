@@ -109,9 +109,7 @@ public class EntityEvents {
 				if (event.getEntityLiving() instanceof ServerPlayerEntity)
 					PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
 				gProps.setDamage(0);
-
 			}
-
 		}
 	}
 

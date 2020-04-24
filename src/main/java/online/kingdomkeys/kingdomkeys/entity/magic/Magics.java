@@ -72,9 +72,8 @@ public class Magics {
 	}
 	
 	public static void reflect(PlayerEntity player) {
-		ThrowableEntity shot = new EntityBlizzard(player.world, player);
+		Entity shot = new EntityReflect(player.world, player, player.getPosX(), player.getPosY(), player.getPosZ());
 		player.world.addEntity(shot);
-		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 	
