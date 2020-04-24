@@ -104,7 +104,8 @@ public class EntityEvents {
 
 			if (gProps.getStoppedTicks() <= 0) {
 				gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
-				event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
+				if(gProps.getDamage() > 0) 
+					event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
 				if (event.getEntityLiving() instanceof ServerPlayerEntity)
 					PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
 				gProps.setDamage(0);
@@ -120,7 +121,7 @@ public class EntityEvents {
 		if (event.getSource().getTrueSource() instanceof LivingEntity) { //If attacker is a LivingEntity
 			//LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 			LivingEntity target = event.getEntityLiving();
-			//System.out.println(target);
+			System.out.println(target);
 			IGlobalCapabilities gProps = ModCapabilities.getGlobal(target);
 
 			if (gProps != null) {

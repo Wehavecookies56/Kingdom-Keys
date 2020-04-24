@@ -37,19 +37,8 @@ public class EntityThunder extends ThrowableEntity {
 
 	public EntityThunder(World world, PlayerEntity player, double x, double y, double z) {
 		super(ModEntities.TYPE_THUNDER, player, world);
-		setPosition(x, y + 30, z);
+		setPosition(x, y + 10, z);
 		this.player = player;
-		/*
-		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
-        if (!list.isEmpty()) {
-            for (int i = 0; i < list.size(); i++) {
-                Entity e = (Entity) list.get(i);
-                if (e instanceof LivingEntity) {
-            		Entity shot = new EntityThunder(player.world, player, e.getPosition());
-            		player.world.addEntity(shot);
-                }
-            }
-        }*/
 	}
 
 	@Override
@@ -115,11 +104,11 @@ public class EntityThunder extends ThrowableEntity {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 5);
 					remove();
 				}
 			} else { // Block (not ERTR)
-				remove();
+				//remove();
 			}
 		}
 
