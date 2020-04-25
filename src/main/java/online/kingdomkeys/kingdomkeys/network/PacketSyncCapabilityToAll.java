@@ -20,7 +20,8 @@ public class PacketSyncCapabilityToAll {
 			expGiven = 0,
 			strength = 0,
 			magic = 0,
-			defense = 0;
+			defense = 0,
+			reflectTicks = 0;
 
 	public PacketSyncCapabilityToAll() {
 	}
@@ -34,6 +35,7 @@ public class PacketSyncCapabilityToAll {
 		this.magic = capability.getMagic();
 		this.defense = capability.getDefense();
 		this.driveForm = capability.getDriveForm();
+		this.reflectTicks = capability.getReflectTicks();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -45,6 +47,7 @@ public class PacketSyncCapabilityToAll {
 		buffer.writeInt(this.magic);
 		buffer.writeInt(this.defense);
 		buffer.writeString(driveForm);
+		buffer.writeInt(this.reflectTicks);
 	}
 
 	public static PacketSyncCapabilityToAll decode(PacketBuffer buffer) {
@@ -57,6 +60,7 @@ public class PacketSyncCapabilityToAll {
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
 		msg.driveForm = buffer.readString(10);
+		msg.reflectTicks = buffer.readInt();
 		
 		return msg;
 	}
@@ -80,7 +84,7 @@ public class PacketSyncCapabilityToAll {
 				props.ifPresent(cap -> cap.setMagic(message.magic));
 				props.ifPresent(cap -> cap.setDefense(message.defense));
 				props.ifPresent(cap -> cap.setDriveForm(message.driveForm));
-
+				props.ifPresent(cap -> cap.setReflectTicks(message.reflectTicks));
 			}
 		});
 		ctx.get().setPacketHandled(true);

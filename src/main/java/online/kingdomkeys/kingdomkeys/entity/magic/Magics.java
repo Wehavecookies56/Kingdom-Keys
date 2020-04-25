@@ -9,6 +9,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.Hand;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
@@ -72,9 +73,9 @@ public class Magics {
 	}
 	
 	public static void reflect(PlayerEntity player) {
-		Entity shot = new EntityReflect(player.world, player, player.getPosX(), player.getPosY(), player.getPosZ());
-		player.world.addEntity(shot);
-		player.swingArm(Hand.MAIN_HAND);
+		IPlayerCapabilities props = ModCapabilities.get(player);
+		props.setReflectTicks(40);
+		PacketHandler.syncToAllAround(player, props);
 	}
 	
 	public static void gravity(PlayerEntity player) {

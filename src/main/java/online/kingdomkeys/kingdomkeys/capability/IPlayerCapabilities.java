@@ -58,6 +58,12 @@ public interface IPlayerCapabilities {
 	void setDriveForm(String form);
 	String getDriveForm();
 	
+	void setReflectTicks(int ticks);
+	void remReflectTicks(int ticks);
+	int getReflectTicks();
+	void setReflectActive(boolean active);
+	boolean getReflectActive();
+	
 	void setRecharge(boolean b);
 	boolean getRecharge();
 }

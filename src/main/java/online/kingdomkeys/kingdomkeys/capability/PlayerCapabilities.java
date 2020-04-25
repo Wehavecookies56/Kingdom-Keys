@@ -35,7 +35,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putDouble("max_mp", instance.getMaxMP());
 			props.putBoolean("recharge", instance.getRecharge());
 			props.putString("drive_form", instance.getDriveForm());
-			//TODO save and load the rest of things
+			props.putInt("reflect_ticks", instance.getReflectTicks());
+			props.putBoolean("reflect_active", instance.getReflectActive());
+			// TODO save and load the rest of things
 			return props;
 		}
 
@@ -53,31 +55,18 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setMaxMP(properties.getDouble("max_mp"));
 			instance.setRecharge(properties.getBoolean("recharge"));
 			instance.setDriveForm(properties.getString("drive_form"));
+			instance.setReflectTicks(properties.getInt("reflect_ticks"));
+			instance.setReflectActive(properties.getBoolean("reflect_active"));
 		}
 	}
 
-	private int
-	level = 0,
-	exp = 0,
-	expGiven = 0, 
-	maxEXP = 1000000,
-	strength = 0,
-	magic = 0,
-	defense = 0, 
-	maxHp = 20,
-	remainingExp = 0,
-	ap,
-	maxAP;
-	
-	private String
-	driveForm = "";
-	
-	private double
-	mp,
-	maxMP;
-	
-	private boolean
-	recharge;
+	private int level = 0, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0;
+
+	private String driveForm = "";
+
+	private double mp, maxMP;
+
+	private boolean recharge, reflectActive;
 
 	private List<String> messages = new ArrayList<String>();
 
@@ -100,24 +89,24 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setExperience(int exp) {
 		this.exp = exp;
 	}
-	
+
 	@Override
 	public void addExperience(PlayerEntity player, int exp) {
-		 if(player != null) {
-             if (this.exp + exp <= this.maxEXP){
-                 this.exp += exp;
-                 while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
-                     this.setLevel(this.getLevel() + 1);
-                     this.levelUpStatsAndDisplayMessage(player);
-                     PacketHandler.sendTo(new ShowOverlayPacket("levelup"), (ServerPlayerEntity)player);
-                 }
-             } else {
-                 this.exp = this.maxEXP;
-             }
-             //System.out.println(getExpNeeded(this.getLevel(), this.exp));
+		if (player != null) {
+			if (this.exp + exp <= this.maxEXP) {
+				this.exp += exp;
+				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
+					this.setLevel(this.getLevel() + 1);
+					this.levelUpStatsAndDisplayMessage(player);
+					PacketHandler.sendTo(new ShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
+				}
+			} else {
+				this.exp = this.maxEXP;
+			}
+			// System.out.println(getExpNeeded(this.getLevel(), this.exp));
 
-             PacketHandler.sendTo(new ShowOverlayPacket("exp"), (ServerPlayerEntity)player);
-         }
+			PacketHandler.sendTo(new ShowOverlayPacket("exp"), (ServerPlayerEntity) player);
+		}
 	}
 
 	@Override
@@ -184,19 +173,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void addStrength(int str) {
 		this.strength += str;
-        messages.add(Strings.Stats_LevelUp_Str);
+		messages.add(Strings.Stats_LevelUp_Str);
 	}
 
 	@Override
 	public void addMagic(int mag) {
 		this.magic += mag;
-        messages.add(Strings.Stats_LevelUp_Magic);
+		messages.add(Strings.Stats_LevelUp_Magic);
 	}
 
 	@Override
 	public void addDefense(int def) {
 		this.defense += def;
-        messages.add(Strings.Stats_LevelUp_Def);
+		messages.add(Strings.Stats_LevelUp_Def);
 	}
 
 	@Override
@@ -206,13 +195,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxHP(int hp) {
-		this.maxHp=hp;
+		this.maxHp = hp;
 	}
 
 	@Override
 	public void addMaxHP(int hp) {
-		this.maxHp+=hp;
-        messages.add(Strings.Stats_LevelUp_HP);
+		this.maxHp += hp;
+		messages.add(Strings.Stats_LevelUp_HP);
 	}
 
 	@Override
@@ -222,12 +211,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMP(double mp) {
-		this.mp=mp;
+		this.mp = mp;
 	}
 
 	@Override
 	public void addMP(double mp) {
-		this.mp+=mp;
+		this.mp += mp;
 	}
 
 	@Override
@@ -237,13 +226,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxMP(double mp) {
-		this.maxMP=mp;
+		this.maxMP = mp;
 	}
 
 	@Override
 	public void addMaxMP(double mp) {
-		this.maxMP+=mp;
-        messages.add(Strings.Stats_LevelUp_MP);
+		this.maxMP += mp;
+		messages.add(Strings.Stats_LevelUp_MP);
 	}
 
 	@Override
@@ -253,15 +242,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxAP(int ap) {
-		this.maxAP=ap;
+		this.maxAP = ap;
 	}
 
 	@Override
 	public void addMaxAP(int ap) {
-		this.maxAP+=ap;
-        messages.add(Strings.Stats_LevelUp_AP);
+		this.maxAP += ap;
+		messages.add(Strings.Stats_LevelUp_AP);
 	}
-	
+
 	@Override
 	public void levelUpStatsAndDisplayMessage(PlayerEntity player) {
 		// IAbilities ABILITIES = player.getCapability(ModCapabilities.ABILITIES, null);
@@ -648,7 +637,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 	}
 
-	
 	@Override
 	public int getConsumedAP() {
 		return ap;
@@ -671,11 +659,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void remMP(double amount) {
-		//TODO CHEAT MODE
-		 if (this.mp - amount < 0)
-             this.mp = 0;
-         else
-             this.mp -= amount;	
+		// TODO CHEAT MODE
+		if (this.mp - amount < 0)
+			this.mp = 0;
+		else
+			this.mp -= amount;
 	}
 
 	@Override
@@ -696,5 +684,30 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean getRecharge() {
 		return this.recharge;
+	}
+
+	@Override
+	public void setReflectTicks(int ticks) {
+		reflectTicks = ticks;
+	}
+
+	@Override
+	public void remReflectTicks(int ticks) {
+		reflectTicks -= ticks;
+	}
+
+	@Override
+	public int getReflectTicks() {
+		return reflectTicks;
+	}
+
+	@Override
+	public void setReflectActive(boolean active) {
+		reflectActive = active;
+	}
+
+	@Override
+	public boolean getReflectActive() {
+		return reflectActive;
 	}
 }

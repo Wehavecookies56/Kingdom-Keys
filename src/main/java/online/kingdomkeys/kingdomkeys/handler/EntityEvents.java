@@ -10,6 +10,7 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -89,48 +90,100 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
 		IGlobalCapabilities gProps = ModCapabilities.getGlobal(event.getEntityLiving());
+		IPlayerCapabilities props = null;
+		PlayerEntity player = null;
+		if (event.getEntityLiving() instanceof PlayerEntity) {
+			player = (PlayerEntity) event.getEntityLiving();
+			props = ModCapabilities.get((PlayerEntity) event.getEntityLiving());
+		}
+			
+		
+		if (gProps != null) {
+			if (gProps.getStoppedTicks() > 0) {
+				gProps.subStoppedTicks(1);
 
-		if (gProps != null && gProps.getStoppedTicks() > 0) {
-			gProps.subStoppedTicks(1);
-			// event.getEntityLiving().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0D);
+				event.getEntityLiving().setMotion(0, 0, 0);
+				event.getEntityLiving().velocityChanged = true;
 
-			// System.out.println(event.getEntityLiving().getMotion());
-			// event.getEntityLiving().setPosition(event.getEntityLiving().prevPosX,
-			// event.getEntityLiving().prevPosY, event.getEntityLiving().prevPosZ);
-
-			event.getEntityLiving().setMotion(0, 0, 0);
-			event.getEntityLiving().velocityChanged = true;
-			//System.out.println(gProps.getStoppedTicks());
-
-			if (gProps.getStoppedTicks() <= 0) {
-				gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
-				if(gProps.getDamage() > 0) 
-					event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
-				if (event.getEntityLiving() instanceof ServerPlayerEntity)
-					PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
-				gProps.setDamage(0);
+				if (gProps.getStoppedTicks() <= 0) {
+					gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
+					if (gProps.getDamage() > 0)
+						event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
+					if (event.getEntityLiving() instanceof ServerPlayerEntity)
+						PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
+					gProps.setDamage(0);
+				}
 			}
 		}
+
+		if (props != null) {
+			if (props.getReflectTicks() > 0) {
+				props.remReflectTicks(1);
+				
+				//Spawn particles
+				for (double y = 0; y < 3; y += 0.1) {
+					for (int a = 1; a <= 360; a += 15) {
+						double ra = (1 + Math.abs(y - 1.5));
+						double x = event.getEntityLiving().getPosX() + ra * Math.cos(Math.toRadians(a));
+						double z = event.getEntityLiving().getPosZ() + ra * Math.sin(Math.toRadians(a));
+						event.getEntityLiving().world.addParticle(ParticleTypes.HAPPY_VILLAGER, x, event.getEntityLiving().getPosY() + y, z, 0, 0, 0);
+					}
+				}
+			} else { //When it finishes
+				if(props.getReflectActive()) {//If has been hit
+					//SPAWN ENTITY and apply damage
+					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+			        if (!list.isEmpty()) {
+			            for (int i = 0; i < list.size(); i++) {
+			                Entity e = (Entity) list.get(i);
+			                if (e instanceof LivingEntity) {
+			                	e.attackEntityFrom(DamageSource.MAGIC, 10);
+			                }
+			            }
+			        }
+					props.setReflectActive(false); //Restart reflect
+				}
+			}
+		}
+
 	}
 
 	// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
-		if (event.getSource().getTrueSource() instanceof LivingEntity) { //If attacker is a LivingEntity
-			//LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
+		if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
+			// LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 			LivingEntity target = event.getEntityLiving();
-			System.out.println(target);
 			IGlobalCapabilities gProps = ModCapabilities.getGlobal(target);
+			if (target instanceof PlayerEntity) {
+				IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) target);
+
+				if (props.getReflectTicks() > 0) { // If is casting reflect
+					if(!props.getReflectActive()) // If has been hit while casting reflect
+						props.setReflectActive(true);
+					event.setCanceled(true);
+				}
+			}
 
 			if (gProps != null) {
 				if (gProps.getStoppedTicks() > 0) {
 					gProps.addDamage((int) event.getAmount());
-					//System.out.println(gProps.getDamage());
 					event.setCanceled(true);
 				}
 			}
 		}
 	}
+
+	/*@SubscribeEvent
+	public void onLivingDamaged(LivingDamageEvent event) {
+		if (event.getEntityLiving() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+			IPlayerCapabilities props = ModCapabilities.get(player);
+			if (props.getReflectTicks() > 0) {
+				event.setCanceled(true);
+			}
+		}
+	}*/
 
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
