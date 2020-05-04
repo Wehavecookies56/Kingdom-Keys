@@ -66,9 +66,9 @@ public class Magics {
 	}
 	
 	public static void magnet(PlayerEntity player) {
-		ThrowableEntity shot = new EntityBlizzard(player.world, player);
+		ThrowableEntity shot = new EntityMagnet(player.world, player);
 		player.world.addEntity(shot);
-		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
+		shot.shoot(player, -90, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 	

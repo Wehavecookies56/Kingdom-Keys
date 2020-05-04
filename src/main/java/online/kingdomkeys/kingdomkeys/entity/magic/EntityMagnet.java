@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 public class EntityMagnet extends ThrowableEntity {
 
 	int maxTicks = 100;
+	PlayerEntity player;
 
 	public EntityMagnet(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -26,16 +30,17 @@ public class EntityMagnet extends ThrowableEntity {
 	}
 
 	public EntityMagnet(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_FIRE, world);
+		super(ModEntities.TYPE_MAGNET, world);
 	}
 
 	public EntityMagnet(World world) {
-		super(ModEntities.TYPE_FIRE, world);
+		super(ModEntities.TYPE_MAGNET, world);
 		this.preventEntitySpawning = true;
 	}
 
 	public EntityMagnet(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_FIRE, player, world);
+		super(ModEntities.TYPE_MAGNET, player, world);
+		this.player = player;
 	}
 
 	@Override
@@ -56,52 +61,37 @@ public class EntityMagnet extends ThrowableEntity {
 
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(ticksExisted > 2)
-			world.addParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		
+		if(ticksExisted >= 5) {
+			this.setMotion(0, 0, 0);
+			this.velocityChanged = true;
+			
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(player, this.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+			//System.out.println(world.isRemote+" "+player);
+	        if (!list.isEmpty()) {
+	            for (int i = 0; i < list.size(); i++) {
+	                Entity e = (Entity) list.get(i);
+	                if (e instanceof LivingEntity) {
+	            		//e.setMotion(motionIn);
+	                	double d = e.getPosX() - getPosX();
+						double d1 = e.getPosZ() - getPosZ();
+						((LivingEntity) e).knockBack(e, 1, d, d1);
+						if(e.getPosY() < this.getPosY()-0.5) {
+							e.setMotion(0, 0.5F, 0);
+						}
+	                }
+	            }
+	        }
+			
+		}
 		
 		super.tick();
 	}
 
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
-
-			EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
-
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
-
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getThrower()) {
-					target.setFire(10);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
-					remove();
-				}
-			} else { // Block (not ERTR)
-				/*
-				 * if (brtResult != null && rtRes.getType() == Type.BLOCK) {
-				 * 
-				 * } else { world.playSound(null, getPosition(), ModSounds.fistBounce,
-				 * SoundCategory.MASTER, 1F, 1F);
-				 * 
-				 * bounces++; if (brtResult.getFace() == Direction.NORTH || brtResult.getFace()
-				 * == Direction.SOUTH) { this.setMotion(getMotion().x, getMotion().y,
-				 * -getMotion().z); } else if (brtResult.getFace() == Direction.EAST ||
-				 * brtResult.getFace() == Direction.WEST) { this.setMotion(-getMotion().x,
-				 * getMotion().y, getMotion().z); } else if (brtResult.getFace() == Direction.UP
-				 * || brtResult.getFace() == Direction.DOWN) { this.setMotion(getMotion().x,
-				 * -getMotion().y, getMotion().z); } } } else { remove(); }
-				 */
-				remove();
-			}
-		}
+		
 	}
 
 	public int getMaxTicks() {
