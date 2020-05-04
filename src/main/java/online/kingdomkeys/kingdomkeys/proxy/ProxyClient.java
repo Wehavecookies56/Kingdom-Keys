@@ -1,7 +1,11 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDElementHandler;
-import online.kingdomkeys.kingdomkeys.client.model.ModModels;
+import online.kingdomkeys.kingdomkeys.client.render.LayerRendererDrive;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
@@ -50,8 +54,8 @@ public class ProxyClient implements IProxy {
         MinecraftForge.EVENT_BUS.register(new MPGui());
         MinecraftForge.EVENT_BUS.register(new DriveGui());
         MinecraftForge.EVENT_BUS.register(new InputHandler());
-		ModModels.register();
-		MinecraftForge.EVENT_BUS.register(new ClientEvents());
+		//ModModels.register();
+        
 
 
     }
@@ -63,6 +67,7 @@ public class ProxyClient implements IProxy {
 		//ModelLoader.setCustomModelResourceLocation(ModItems.kingdomKey, 0, new ModelResourceLocation("", "inventory"));
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
         for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
@@ -70,6 +75,12 @@ public class ProxyClient implements IProxy {
         
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
         RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox, RenderType.getTranslucent());
+        
+        PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
+		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
+		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
+		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
+		MinecraftForge.EVENT_BUS.register(new ClientEvents());
     }
 
     /*@SubscribeEvent

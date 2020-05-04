@@ -48,7 +48,6 @@ public class KingdomKeys {
 
 	// The proxy instance created for the current dist double lambda prevents class
 	// being loaded on the other dist
-	@SuppressWarnings("Convert2MethodRef")
 	public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ProxyClient(), () -> () -> new ProxyServer());
 
 	public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {

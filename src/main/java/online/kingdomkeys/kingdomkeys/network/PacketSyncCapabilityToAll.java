@@ -59,7 +59,7 @@ public class PacketSyncCapabilityToAll {
 		msg.strength = buffer.readInt();
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
-		msg.driveForm = buffer.readString(10);
+		msg.driveForm = buffer.readString(15);
 		msg.reflectTicks = buffer.readInt();
 		
 		return msg;
