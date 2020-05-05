@@ -50,8 +50,6 @@ public class LayerRendererDrive<T extends LivingEntity, M extends BipedModel<T>,
 		case Strings.Form_Anti:
 			texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/anti.png");
 			break;
-		case "":
-			break;
 		}
 
 		if (texture != null) {

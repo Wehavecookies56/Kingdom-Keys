@@ -60,10 +60,9 @@ public class EntityMagnet extends ThrowableEntity {
 		}
 
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
-		if(ticksExisted > 2)
 			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		
-		if(ticksExisted >= 5) {
+		if(ticksExisted >= 3 && !world.isRemote) {
 			this.setMotion(0, 0, 0);
 			this.velocityChanged = true;
 			
