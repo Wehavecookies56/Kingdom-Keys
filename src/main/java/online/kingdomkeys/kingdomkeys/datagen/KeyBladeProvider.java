@@ -74,6 +74,6 @@ public abstract class KeyBladeProvider <T extends KeybladeBuilder<T>> implements
 
     private Path getPath(T model) {
         ResourceLocation loc = model.getLocation();
-        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblade/" + loc.getPath() + ".json");
+        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblades/" + loc.getPath() + ".json");
     }
 }
