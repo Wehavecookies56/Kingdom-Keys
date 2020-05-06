@@ -26,6 +26,7 @@ public class ItemModels extends ItemModelProvider {
         getBuilder(Strings.organizationHood).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/organizationrobe_helmet");
         getBuilder(Strings.organizationChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/organizationrobe_chestplate");
         getBuilder(Strings.organizationLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/organizationrobe_leggings");
+        getBuilder(Strings.organizationBoots).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/organizationrobe_boots");
         getBuilder(Strings.terraHelmet).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.terraHelmet);
         getBuilder(Strings.terraChestplate).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.terraChestplate);
         getBuilder(Strings.terraLeggings).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/armor/"+ Strings.terraLeggings);

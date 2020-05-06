@@ -10,11 +10,11 @@
       "mag": 4,
       "recipe": [
         {
-          "material": "kingdomkeys:material_apple",
+          "material": "kingdomkeys:oricalcum",
           "quantity": 4
         },
         {
-          "material": "kingdomkeys:oricalcum",
+          "material": "kingdomkeys:material_apple",
           "quantity": 4
         }
       ],
@@ -25,12 +25,12 @@
       "mag": 5,
       "recipe": [
         {
-          "material": "kingdomkeys:material_apple",
-          "quantity": 4
-        },
-        {
           "material": "kingdomkeys:oricalcum",
           "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:material_apple",
+          "quantity": 4
         }
       ]
     }
