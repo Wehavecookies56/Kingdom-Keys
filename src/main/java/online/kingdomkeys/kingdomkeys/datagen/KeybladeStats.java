@@ -4,6 +4,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.synthesis.KeybladeSynthLevelMap;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
 public class KeybladeStats extends  KeyBladeProvider{
@@ -13,9 +14,15 @@ public class KeybladeStats extends  KeyBladeProvider{
 
     @Override
     protected void registerKeyblades() {
-        getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.kingdomKeyChain).baseStats(2,4).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(5).withMag(4).withAbilty("Test_Abiltity").build()).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(6).withMag(5).build()).desc("test");
+        KeybladeSynthLevelMap kslm = new KeybladeSynthLevelMap();
+        kslm.init();
+
+        getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.ultimaWeaponKH3Chain).baseStats(2,4).level( new KeybladeLevel.KeybladeLevelBuilder()
+                .withStr(5).withMag(4).withAbilty("Test_Abiltity")
+                .withMaterials(kslm.getMap("kh3ultLvl1")).build()).level( new KeybladeLevel.KeybladeLevelBuilder()
+                .withStr(6).withMag(5).withMaterials(kslm.getMap("kh3ultLvl2")).build()).desc("test");
+
+
     }
 
     @Override

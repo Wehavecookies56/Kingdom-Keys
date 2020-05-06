@@ -14,8 +14,8 @@ public class KeybladeLevel {
     private int strength;
     private int magic;
     //The materials required to upgrade to this level, key is the material, value is the quantity
-    Map<Material, Integer> materials;
-    private List<Map.Entry<Material, Integer>> materialsList;
+    private Map<Material, Integer> materials;
+    //private Map<Material, Integer> materialsList;
     //The ability gained when upgrading to this level
     //TODO ability system and potentially multiple abilities here
     String ability;
@@ -28,9 +28,10 @@ public class KeybladeLevel {
             this.ability = keybladeLevelBuilder.ability;
         this.magic = keybladeLevelBuilder.magic;
         this.strength = keybladeLevelBuilder.strength;
-        this.materialsList = keybladeLevelBuilder.materials;
+        this.materials = keybladeLevelBuilder.materials;
     }
-    
+
+
     public void setAbility(String ability) {
         this.ability = ability;
     }
@@ -57,7 +58,7 @@ public class KeybladeLevel {
         return strength;
     }
 
-    public List<Map.Entry<Material, Integer>> getMaterialList() { return materialsList;}
+    public Map<Material, Integer> getMaterialList() { return materials;}
 
     public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String ability) {
         this.strength = strength;
@@ -74,7 +75,7 @@ public class KeybladeLevel {
     public static class KeybladeLevelBuilder{
         private int strength;
         private int magic;
-        private List<Map.Entry<Material, Integer>> materials;
+        private Map<Material, Integer> materials;
         private String ability;
 
         public KeybladeLevelBuilder() { }
@@ -97,7 +98,7 @@ public class KeybladeLevel {
             return this;
         }
 
-        public KeybladeLevelBuilder withMaterials(List<Map.Entry<Material, Integer>> materials)
+        public KeybladeLevelBuilder withMaterials(Map<Material, Integer> materials)
         {
             this.materials = materials;
             return this;

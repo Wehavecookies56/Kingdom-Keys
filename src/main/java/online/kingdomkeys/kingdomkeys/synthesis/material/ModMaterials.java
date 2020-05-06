@@ -26,7 +26,8 @@ public class ModMaterials {
         @SubscribeEvent
         public static void registerMaterials(RegistryEvent.Register<Material> event) {
             //PLACEHOLDER MATERIAL
-            event.getRegistry().register(new Material("kingdomkeys:material_apple", Items.APPLE));
+            event.getRegistry().registerAll(new Material("kingdomkeys:material_apple", Items.APPLE),
+                    new Material("kingdomkeys:oricalcum", Items.DAMAGED_ANVIL));
         }
 
     }

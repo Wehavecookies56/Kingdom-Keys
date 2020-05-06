@@ -90,12 +90,11 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
             obj1.addProperty("mag", k.getMagic());
             JsonArray recipe = new JsonArray();
             if (k.getMaterialList() != null)
-                for (Map.Entry<Material, Integer> m : k.getMaterialList()) {
-                    JsonObject matObj = new JsonObject();
-                    matObj.addProperty("material", m.getKey().toString());
-                    matObj.addProperty("quantity", m.getValue());
-                    recipe.add(matObj);
-                }
+               k.getMaterialList().forEach((key, value) -> {
+                   JsonObject matObj = new JsonObject();
+                   matObj.addProperty("material", key.getRegistryName().toString());
+                   matObj.addProperty("quantity", value);
+                   recipe.add(matObj); });
             obj1.add("recipe", recipe);
             if (k.getAbility() != null)
                 obj1.addProperty("ability", k.getAbility());
