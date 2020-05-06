@@ -60,11 +60,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
-	private int level = 0, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0;
+	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0;
 
 	private String driveForm = "";
 
-	private double mp, maxMP;
+	private double mp=0, maxMP=10;
 
 	private boolean recharge, reflectActive;
 
