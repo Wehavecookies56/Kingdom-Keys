@@ -281,50 +281,50 @@ public class ModItems {
                     zeroOneChain = new KeychainItem(Strings.zeroOneChain),
                     
                     //recipe = new RecipeItem(Strings.recipe),
-					organizationRobe_Helmet = new BaseArmorItem(Strings.organizationHood, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					organizationRobe_Chestplate = new BaseArmorItem(Strings.organizationChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					organizationRobe_Leggings = new BaseArmorItem(Strings.organizationLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					organizationRobe_Boots = new BaseArmorItem(Strings.organizationBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					organizationRobe_Helmet = createArmorItem(Strings.organizationHood, KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
+					organizationRobe_Chestplate = createArmorItem(Strings.organizationChestplate, EquipmentSlotType.CHEST),
+					organizationRobe_Leggings = createArmorItem(Strings.organizationLeggings, EquipmentSlotType.LEGS),
+					organizationRobe_Boots = createArmorItem(Strings.organizationBoots, EquipmentSlotType.FEET),
 
-					terra_Helmet = new BaseArmorItem(Strings.terraHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					terra_Chestplate = new BaseArmorItem(Strings.terraChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					terra_Leggings = new BaseArmorItem(Strings.terraLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					terra_Boots = new BaseArmorItem(Strings.terraBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					terra_Helmet = createArmorItem(Strings.terraHelmet, EquipmentSlotType.HEAD),
+					terra_Chestplate = createArmorItem(Strings.terraChestplate, EquipmentSlotType.CHEST),
+					terra_Leggings = createArmorItem(Strings.terraLeggings, EquipmentSlotType.LEGS),
+					terra_Boots = createArmorItem(Strings.terraBoots, EquipmentSlotType.FEET),
 
-					ventus_Helmet = new BaseArmorItem(Strings.ventusHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					ventus_Chestplate = new BaseArmorItem(Strings.ventusChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					ventus_Leggings = new BaseArmorItem(Strings.ventusLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					ventus_Boots = new BaseArmorItem(Strings.ventusBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					ventus_Helmet = createArmorItem(Strings.ventusHelmet, EquipmentSlotType.HEAD),
+					ventus_Chestplate = createArmorItem(Strings.ventusChestplate, EquipmentSlotType.CHEST),
+					ventus_Leggings = createArmorItem(Strings.ventusLeggings, EquipmentSlotType.LEGS),
+					ventus_Boots = createArmorItem(Strings.ventusBoots, EquipmentSlotType.FEET),
 
-					aqua_Helmet = new BaseArmorItem(Strings.aquaHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					aqua_Chestplate = new BaseArmorItem(Strings.aquaChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					aqua_Leggings = new BaseArmorItem(Strings.aquaLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					aqua_Boots = new BaseArmorItem(Strings.aquaBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					aqua_Helmet = createArmorItem(Strings.aquaHelmet, EquipmentSlotType.HEAD),
+					aqua_Chestplate = createArmorItem(Strings.aquaChestplate, EquipmentSlotType.CHEST),
+					aqua_Leggings = createArmorItem(Strings.aquaLeggings, EquipmentSlotType.LEGS),
+					aqua_Boots = createArmorItem(Strings.aquaBoots, EquipmentSlotType.FEET),
 
-					eraqus_Helmet = new BaseArmorItem(Strings.eraqusHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					eraqus_Chestplate = new BaseArmorItem(Strings.eraqusChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					eraqus_Leggings = new BaseArmorItem(Strings.eraqusLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					eraqus_Boots = new BaseArmorItem(Strings.eraqusBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					eraqus_Helmet = createArmorItem(Strings.eraqusHelmet, EquipmentSlotType.HEAD),
+					eraqus_Chestplate = createArmorItem(Strings.eraqusChestplate, EquipmentSlotType.CHEST),
+					eraqus_Leggings = createArmorItem(Strings.eraqusLeggings, EquipmentSlotType.LEGS),
+					eraqus_Boots = createArmorItem(Strings.eraqusBoots, EquipmentSlotType.FEET),
 
-					vanitas_Helmet = new BaseArmorItem(Strings.vanitasHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					vanitas_Chestplate = new BaseArmorItem(Strings.vanitasChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					vanitas_Leggings = new BaseArmorItem(Strings.vanitasLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					vanitas_Boots = new BaseArmorItem(Strings.vanitasBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					vanitas_Helmet = createArmorItem(Strings.vanitasHelmet, EquipmentSlotType.HEAD),
+					vanitas_Chestplate = createArmorItem(Strings.vanitasChestplate, EquipmentSlotType.CHEST),
+					vanitas_Leggings = createArmorItem(Strings.vanitasLeggings, EquipmentSlotType.LEGS),
+					vanitas_Boots = createArmorItem(Strings.vanitasBoots, EquipmentSlotType.FEET),
 
-					nightmareVentus_Helmet = new BaseArmorItem(Strings.nightmareVentusHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					nightmareVentus_Chestplate = new BaseArmorItem(Strings.nightmareVentusChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					nightmareVentus_Leggings = new BaseArmorItem(Strings.nightmareVentusLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					nightmareVentus_Boots = new BaseArmorItem(Strings.nightmareVentusBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					nightmareVentus_Helmet = createArmorItem(Strings.nightmareVentusHelmet, EquipmentSlotType.HEAD),
+					nightmareVentus_Chestplate = createArmorItem(Strings.nightmareVentusChestplate, EquipmentSlotType.CHEST),
+					nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentusLeggings, EquipmentSlotType.LEGS),
+					nightmareVentus_Boots = createArmorItem(Strings.nightmareVentusBoots, EquipmentSlotType.FEET),
 
-					antiCoat_Helmet = new BaseArmorItem(Strings.antiCoatHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					antiCoat_Chestplate = new BaseArmorItem(Strings.antiCoatChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					antiCoat_Leggings = new BaseArmorItem(Strings.antiCoatLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					antiCoat_Boots = new BaseArmorItem(Strings.antiCoatBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					antiCoat_Helmet = createArmorItem(Strings.antiCoatHelmet, EquipmentSlotType.HEAD),
+					antiCoat_Chestplate = createArmorItem(Strings.antiCoatChestplate, EquipmentSlotType.CHEST),
+					antiCoat_Leggings = createArmorItem(Strings.antiCoatLeggings, EquipmentSlotType.LEGS),
+					antiCoat_Boots = createArmorItem(Strings.antiCoatBoots, EquipmentSlotType.FEET),
 
-					xemnas_Helmet = new BaseArmorItem(Strings.xemnasHelmet, new KKArmorMaterial(), EquipmentSlotType.HEAD),
-					xemnas_Chestplate = new BaseArmorItem(Strings.xemnasChestplate, new KKArmorMaterial(), EquipmentSlotType.CHEST),
-					xemnas_Leggings = new BaseArmorItem(Strings.xemnasLeggings, new KKArmorMaterial(), EquipmentSlotType.LEGS),
-					xemnas_Boots = new BaseArmorItem(Strings.xemnasBoots, new KKArmorMaterial(), EquipmentSlotType.FEET),
+					xemnas_Helmet = createArmorItem(Strings.xemnasHelmet, EquipmentSlotType.HEAD),
+					xemnas_Chestplate = createArmorItem(Strings.xemnasChestplate, EquipmentSlotType.CHEST),
+					xemnas_Leggings = createArmorItem(Strings.xemnasLeggings, EquipmentSlotType.LEGS),
+					xemnas_Boots = createArmorItem(Strings.xemnasBoots, EquipmentSlotType.FEET),
 
 
 /*
@@ -642,7 +642,11 @@ public class ModItems {
             );
         }
 
-        //Helper method to create item with the properties and registry name
+        private static Item createArmorItem(String name, KKArmorMaterial organization, EquipmentSlotType slot) {
+        	return new BaseArmorItem(name, organization, slot);
+		}
+
+		//Helper method to create item with the properties and registry name
         public static Item createNewItem(String name, Item.Properties properties) {
             return new Item(properties).setRegistryName(KingdomKeys.MODID, name);
         }
