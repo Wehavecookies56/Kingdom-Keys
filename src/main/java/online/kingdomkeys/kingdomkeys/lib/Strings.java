@@ -6,6 +6,11 @@ public class Strings {
             keybladesGroup = "kingdomkeys_keyblades",
             organizationGroup = "kingdomkeys_org_weapons",
             miscGroup = "kingdomkeys_misc";
+    
+    // Records
+    public static final String
+		    Disc_Duration_Desc = "disc.duration.desc",
+		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
 
     //Armors
     public static final String
@@ -192,10 +197,27 @@ public class Strings {
     public static final String
         heart = "heart",
         darkHeart = "dark_heart",
-        pureHeart =  "pure_heart",
-        kingdom_hearts =  "kingdom_hearts",
-        iceCream =  "ice_cream",
-        emptyBottle =  "empty_bottle";
+        pureHeart = "pure_heart",
+        kingdom_hearts = "kingdom_hearts",
+        iceCream = "ice_cream",
+        emptyBottle = "empty_bottle";
+    
+    // Music Discs
+    public static final String
+	    Disc_Birth_by_Sleep_A_Link_to_the_Future = "birthbysleep-alinktothefuture-",
+	    Disc_Darkness_of_the_Unknown = "darknessoftheunknown",
+	    Disc_Dearly_Beloved_Symphony_Version = "dearlybeloved-symphonyversion-",
+	    Disc_Dream_Drop_Distance_The_Next_Awakening = "dreamdropdistance-thenextawakening-",
+	    Disc_Hikari_KINGDOM_Instrumental_Version = "hikari-kingdominstrumentalversion-",
+	    Disc_L_Oscurita_Dell_Ignoto = "loscuritadellignoto",
+	    Disc_Musique_pour_la_tristesse_de_Xion = "musiquepourlatristessedexion",
+	    Disc_No_More_Bugs_Bug_Version = "nomorebugs-bugversion-",
+	    Disc_Organization_XIII = "organizationxiii",
+	    Disc_Sanctuary = "sanctuary",
+	    Disc_Simple_And_Clean_PLANITb_Remix = "simpleandcleanplanitbremix",
+	    Disc_Sinister_Sundown = "sinistersundown",
+	    Disc_The_13th_Anthology = "the13thanthology"
+    ;
 
     //Keyblades
     public static final String

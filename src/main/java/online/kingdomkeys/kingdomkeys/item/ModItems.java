@@ -7,6 +7,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModItems {
@@ -622,11 +623,23 @@ public class ModItems {
                     darkHeart = createNewItem(Strings.darkHeart, new Item.Properties().group(KingdomKeys.miscGroup)),
                     pureHeart = createNewItem(Strings.pureHeart, new Item.Properties().group(KingdomKeys.miscGroup)),
                     kingdomHearts = createNewItem(Strings.kingdom_hearts, new Item.Properties().group(KingdomKeys.miscGroup)),
-                    iceCream = createNewItem(Strings.iceCream, new Item.Properties().group(KingdomKeys.miscGroup)
-                            .food(new Food.Builder().fastToEat().saturation(2.0f).hunger(2).build())),
-                    emptyBottle = createNewItem(Strings.emptyBottle, new Item.Properties().group(KingdomKeys.miscGroup))
+                    iceCream = createNewItem(Strings.iceCream, new Item.Properties().group(KingdomKeys.miscGroup).food(new Food.Builder().fastToEat().saturation(2.0f).hunger(2).build())),
+                    emptyBottle = createNewItem(Strings.emptyBottle, new Item.Properties().group(KingdomKeys.miscGroup)),
+                    
+                    disc_Birth_by_Sleep_A_Link_to_the_Future = new KKRecordItem(1, ModSounds.Record_Birth_by_Sleep_A_Link_to_the_Future, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future, 7.29F),
+                    disc_Darkness_of_the_Unknown = new KKRecordItem(1, ModSounds.Record_Darkness_of_the_Unknown, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Darkness_of_the_Unknown, 7.50F), 
+                    disc_Dearly_Beloved_Symphony_Version = new KKRecordItem(1, ModSounds.Record_Dearly_Beloved_Symphony_Version, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Dearly_Beloved_Symphony_Version, 2.33F),
+                    disc_Dream_Drop_Distance_The_Next_Awakening = new KKRecordItem(1, ModSounds.Record_Dream_Drop_Distance_The_Next_Awakening, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Dream_Drop_Distance_The_Next_Awakening, 8.56F),
+                    disc_Hikari_KINGDOM_Instrumental_Version = new KKRecordItem(1, ModSounds.Record_Hikari_KINGDOM_Instrumental_Version, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Hikari_KINGDOM_Instrumental_Version, 3.42F),
+                    disc_L_Oscurita_Dell_Ignoto = new KKRecordItem(1, ModSounds.Record_L_Oscurita_Dell_Ignoto, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_L_Oscurita_Dell_Ignoto, 4.33F),
+                    disc_Musique_pour_la_tristesse_de_Xion = new KKRecordItem(1, ModSounds.Record_Musique_pour_la_tristesse_de_Xion, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Musique_pour_la_tristesse_de_Xion, 3.57F), 
+                    disc_No_More_Bugs_Bug_Version = new KKRecordItem(1, ModSounds.Record_No_More_Bugs_Bug_Version, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_No_More_Bugs_Bug_Version, 3.17F),
+                    disc_Organization_XIII = new KKRecordItem(1, ModSounds.Record_Organization_XIII, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Organization_XIII, 2.32F),
+                    disc_Sanctuary = new KKRecordItem(1, ModSounds.Record_Sanctuary, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Sanctuary, 4.25F),
+                    disc_Simple_And_Clean_PLANITb_Remix = new KKRecordItem(1, ModSounds.Record_Simple_And_Clean_PLANITb_Remix, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Simple_And_Clean_PLANITb_Remix, 2.37F),
+                    disc_Sinister_Sundown = new KKRecordItem(1, ModSounds.Record_Sinister_Sundown, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Sinister_Sundown, 2.13F), 
+                    disc_The_13th_Anthology = new KKRecordItem(1, ModSounds.Record_The_13th_Anthology, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_The_13th_Anthology, 6.38F)
             );
-
         }
 
         //Helper method to create item with the properties and registry name
