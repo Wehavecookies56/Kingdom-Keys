@@ -119,14 +119,30 @@ public class EntityEvents {
 		if (props != null) {
 			if (props.getReflectTicks() > 0) {
 				props.remReflectTicks(1);
-				
+
+				event.getEntityLiving().setMotion(0, 0, 0);
+				event.getEntityLiving().velocityChanged = true;
+
 				//Spawn particles
-				for (double y = 0; y < 3; y += 0.1) {
+				/*for (double y = 0; y < 2.5; y += 0.1) {
 					for (int a = 1; a <= 360; a += 15) {
-						double ra = (1 + Math.abs(y - 1.5));
+						double ra = (1.4 - Math.abs(y - 1.2));
 						double x = event.getEntityLiving().getPosX() + ra * Math.cos(Math.toRadians(a));
 						double z = event.getEntityLiving().getPosZ() + ra * Math.sin(Math.toRadians(a));
-						event.getEntityLiving().world.addParticle(ParticleTypes.HAPPY_VILLAGER, x, event.getEntityLiving().getPosY() + y, z, 0, 0, 0);
+						event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, x, event.getEntityLiving().getPosY() + y, z, 0, 0, 0);
+					}
+				}*/
+				
+				float radius = 1.5F;
+
+				float r2 = radius * radius;
+				for (float X = -radius; X <= radius; X += 0.4) {
+					float x2 = X * X;
+					for (float Y = -radius; Y <= radius; Y += 0.4) {
+						float y2 = Y * Y;
+						for (float Z = -radius; Z <= radius; Z += 0.4)
+							if (x2 + y2 + (Z * Z) <= r2)
+								event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, event.getEntityLiving().getPosX() + X, event.getEntityLiving().getPosY() + Y+1, event.getEntityLiving().getPosZ() + Z, 0, 0, 0);
 					}
 				}
 			} else { //When it finishes

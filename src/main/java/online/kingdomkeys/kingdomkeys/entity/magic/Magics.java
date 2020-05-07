@@ -31,6 +31,13 @@ public class Magics {
 		player.swingArm(Hand.MAIN_HAND);
 	}
 	
+	public static void water(PlayerEntity player) {
+		ThrowableEntity shot = new EntityWater(player.world, player);
+		player.world.addEntity(shot);
+		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
+		player.swingArm(Hand.MAIN_HAND);
+	}
+
 	public static void thunder(PlayerEntity player) {
 		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
         if (!list.isEmpty()) {
@@ -62,6 +69,12 @@ public class Magics {
                 }
             }
         }*/
+		player.swingArm(Hand.MAIN_HAND);
+	}
+	
+	public static void aero(PlayerEntity player) {
+		//TODO Equip aero shield
+		
 		player.swingArm(Hand.MAIN_HAND);
 	}
 	

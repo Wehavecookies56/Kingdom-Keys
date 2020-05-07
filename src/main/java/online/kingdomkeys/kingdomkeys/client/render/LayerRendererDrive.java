@@ -33,22 +33,22 @@ public class LayerRendererDrive<T extends LivingEntity, M extends BipedModel<T>,
 
 		switch (drive) {
 		case Strings.Form_Valor:
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/valor.png");
+			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/valor.png");
 			break;
 		case Strings.Form_Wisdom:
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/wisdom.png");
+			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/wisdom.png");
 			break;
 		case Strings.Form_Limit:
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/limit.png");
+			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/limit.png");
 			break;
 		case Strings.Form_Master:
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/master.png");
+			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/master.png");
 			break;
 		case Strings.Form_Final:
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/final.png");
+			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/final.png");
 			break;
 		case Strings.Form_Anti:
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/armour/anti.png");
+			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/anti.png");
 			break;
 		}
 
