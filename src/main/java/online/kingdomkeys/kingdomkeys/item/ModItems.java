@@ -286,7 +286,6 @@ public class ModItems {
 					organizationRobe_Leggings = createArmorItem(Strings.organizationLeggings, KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
 					organizationRobe_Boots = createArmorItem(Strings.organizationBoots, KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
 
-
 					terra_Helmet = createArmorItem(Strings.terraHelmet,KKArmorMaterial.TERRA, EquipmentSlotType.HEAD),
 					terra_Chestplate = createArmorItem(Strings.terraChestplate, KKArmorMaterial.TERRA, EquipmentSlotType.CHEST),
 					terra_Leggings = createArmorItem(Strings.terraLeggings, KKArmorMaterial.TERRA, EquipmentSlotType.LEGS),
@@ -321,47 +320,6 @@ public class ModItems {
 					antiCoat_Chestplate = createArmorItem(Strings.antiCoatChestplate, KKArmorMaterial.ANTICOAT, EquipmentSlotType.CHEST),
 					antiCoat_Leggings = createArmorItem(Strings.antiCoatLeggings, KKArmorMaterial.ANTICOAT, EquipmentSlotType.LEGS),
 					antiCoat_Boots = createArmorItem(Strings.antiCoatBoots, KKArmorMaterial.ANTICOAT, EquipmentSlotType.FEET),
-
-					terra_Helmet = createArmorItem(Strings.terraHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					terra_Chestplate = createArmorItem(Strings.terraChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					terra_Leggings = createArmorItem(Strings.terraLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					terra_Boots = createArmorItem(Strings.terraBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
-					ventus_Helmet = createArmorItem(Strings.ventusHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					ventus_Chestplate = createArmorItem(Strings.ventusChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					ventus_Leggings = createArmorItem(Strings.ventusLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					ventus_Boots = createArmorItem(Strings.ventusBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
-					aqua_Helmet = createArmorItem(Strings.aquaHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					aqua_Chestplate = createArmorItem(Strings.aquaChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					aqua_Leggings = createArmorItem(Strings.aquaLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					aqua_Boots = createArmorItem(Strings.aquaBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
-					eraqus_Helmet = createArmorItem(Strings.eraqusHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					eraqus_Chestplate = createArmorItem(Strings.eraqusChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					eraqus_Leggings = createArmorItem(Strings.eraqusLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					eraqus_Boots = createArmorItem(Strings.eraqusBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
-					vanitas_Helmet = createArmorItem(Strings.vanitasHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					vanitas_Chestplate = createArmorItem(Strings.vanitasChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					vanitas_Leggings = createArmorItem(Strings.vanitasLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					vanitas_Boots = createArmorItem(Strings.vanitasBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
-					nightmareVentus_Helmet = createArmorItem(Strings.nightmareVentusHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					nightmareVentus_Chestplate = createArmorItem(Strings.nightmareVentusChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentusLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					nightmareVentus_Boots = createArmorItem(Strings.nightmareVentusBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
-					antiCoat_Helmet = createArmorItem(Strings.antiCoatHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					antiCoat_Chestplate = createArmorItem(Strings.antiCoatChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					antiCoat_Leggings = createArmorItem(Strings.antiCoatLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					antiCoat_Boots = createArmorItem(Strings.antiCoatBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
-					xemnas_Helmet = createArmorItem(Strings.xemnasHelmet,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.HEAD),
-					xemnas_Chestplate = createArmorItem(Strings.xemnasChestplate,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.CHEST),
-					xemnas_Leggings = createArmorItem(Strings.xemnasLeggings,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.LEGS),
-					xemnas_Boots = createArmorItem(Strings.xemnasBoots,KKArmorMaterial.ORGANIZATION, EquipmentSlotType.FEET),
-
 
 					xemnas_Helmet = createArmorItem(Strings.xemnasHelmet, KKArmorMaterial.XEMNAS, EquipmentSlotType.HEAD),
 					xemnas_Chestplate = createArmorItem(Strings.xemnasChestplate, KKArmorMaterial.XEMNAS, EquipmentSlotType.CHEST),
@@ -683,8 +641,8 @@ public class ModItems {
             );
         }
 
-        private static Item createArmorItem(String name, KKArmorMaterial organization, EquipmentSlotType slot) {
-        	return new BaseArmorItem(name, organization, slot);
+        private static Item createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot) {
+        	return new BaseArmorItem(name, material, slot);
 		}
 
 		//Helper method to create item with the properties and registry name

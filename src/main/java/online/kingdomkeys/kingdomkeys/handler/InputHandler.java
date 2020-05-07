@@ -5,15 +5,14 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -550,7 +549,7 @@ public class InputHandler {
     }*/
     
     @SubscribeEvent
-    public void OnMouseWheelScroll(GuiScreenEvent.MouseScrollEvent event) {
+    public void OnMouseWheelScroll(MouseScrollEvent event) {
     	Minecraft mc = Minecraft.getInstance();
         if (mc.isGameFocused() && KeyboardHelper.isScrollActivatorDown()) {
         	event.setCanceled(true);

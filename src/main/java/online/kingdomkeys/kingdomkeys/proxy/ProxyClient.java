@@ -14,12 +14,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
 import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
-import online.kingdomkeys.kingdomkeys.client.gui.hud.HUDElementHandler;
 import online.kingdomkeys.kingdomkeys.client.render.LayerRendererDrive;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -47,8 +47,8 @@ public class ProxyClient implements IProxy {
         //TODO convert B3D models to OBJ so we don't need this
         //B3DLoader.INSTANCE.addDomain(KingdomKeys.MODID);
        // new ScrollCallbackWrapper().setup(Minecraft.getInstance());
-        MinecraftForge.EVENT_BUS.register(new HUDElementHandler());
-        //MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
+        //MinecraftForge.EVENT_BUS.register(new HUDElementHandler());
+        MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
         MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());
         MinecraftForge.EVENT_BUS.register(new HPGui());
         MinecraftForge.EVENT_BUS.register(new MPGui());
