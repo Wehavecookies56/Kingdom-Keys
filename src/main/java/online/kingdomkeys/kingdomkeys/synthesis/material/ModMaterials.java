@@ -29,6 +29,10 @@ public class ModMaterials {
         public static void registerMaterials(RegistryEvent.Register<Material> event) {
             //PLACEHOLDER MATERIAL
             event.getRegistry().registerAll(
+                    new Material(KingdomKeys.MODID+":mat_" + Strings.SM_BlazingCrystal, ModItems.blazingCrystal),
+                    new Material(KingdomKeys.MODID+":mat_" + Strings.SM_BlazingGem, ModItems.blazingGem),
+                    new Material(KingdomKeys.MODID+":mat_" + Strings.SM_BlazingShard, ModItems.blazingShard),
+                    new Material(KingdomKeys.MODID+":mat_" + Strings.SM_BlazingStone, ModItems.blazingStone),
                     new Material(KingdomKeys.MODID+":mat_" + Strings.SM_LightningCrystal, ModItems.lightningCrystal),
                     new Material(KingdomKeys.MODID+":mat_" + Strings.SM_LightningGem, ModItems.lightningGem),
                     new Material(KingdomKeys.MODID+":mat_" + Strings.SM_LightningShard, ModItems.lightningShard),

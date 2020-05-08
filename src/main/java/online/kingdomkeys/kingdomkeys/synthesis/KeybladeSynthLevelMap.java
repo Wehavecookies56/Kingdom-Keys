@@ -18,9 +18,12 @@ public class KeybladeSynthLevelMap {
     public void init()
     {
         Map<Material, Integer> ultimaKH3Lvl1 = new HashMap<>();
+        ultimaKH3Lvl1.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation("kingdomkeys:mat_" + Strings.SM_BlazingCrystal)), 4);
+        ultimaKH3Lvl1.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation("kingdomkeys:mat_" + Strings.SM_Orichalcum)), 6);
         masterMap.put("kh3ultLvl1",ultimaKH3Lvl1);
-
         Map<Material, Integer> ultimaKH3Lvl2 = new HashMap<>();
+        ultimaKH3Lvl2.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation("kingdomkeys:mat_" + Strings.SM_BrightCrystal)), 4);
+        ultimaKH3Lvl2.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation("kingdomkeys:mat_" + Strings.SM_OrichalcumPlus)), 6);
         masterMap.put("kh3ultLvl2",ultimaKH3Lvl2);
     }
 
