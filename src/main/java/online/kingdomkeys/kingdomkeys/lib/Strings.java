@@ -11,7 +11,94 @@ public class Strings {
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
 		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
+    // Synthesis Materials
+    public static final String
+            SM_Rank = "sm.rank",
+            SM_Rank_C = SM_Rank + ".c",
+            SM_Rank_B = SM_Rank + ".b",
+            SM_Rank_A = SM_Rank + ".a",
+            SM_Rank_S = SM_Rank + ".s",
 
+            SM_BlazingShard = "blazingshard",
+            SM_BlazingStone = "blazingstone",
+            SM_BlazingGem = "blazinggem",
+            SM_BlazingCrystal = "blazingcrystal",
+
+            SM_BrightShard = "brightshard",
+            SM_BrightStone = "brightstone",
+            SM_BrightGem = "brightgem",
+            SM_BrightCrystal = "brightcrystal",
+
+            SM_DarkShard = "darkshard",
+            SM_DarkStone = "darkstone",
+            SM_DarkGem = "darkgem",
+            SM_DarkCrystal = "darkcrystal",
+
+            SM_DenseShard = "denseshard",
+            SM_DenseStone = "densestone",
+            SM_DenseGem = "densegem",
+            SM_DenseCrystal = "densecrystal",
+
+            SM_EnergyShard = "energyshard",
+            SM_EnergyStone = "energystone",
+            SM_EnergyGem = "energygem",
+            SM_EnergyCrystal = "energycrystal",
+
+            SM_FrostShard = "frostshard",
+            SM_FrostStone = "froststone",
+            SM_FrostGem = "frostgem",
+            SM_FrostCrystal = "frostcrystal",
+
+            SM_LightningShard = "lightningshard",
+            SM_LightningStone = "lightningstone",
+            SM_LightningGem = "lightninggem",
+            SM_LightningCrystal = "lightningcrystal",
+
+            SM_LucidShard = "lucidshard",
+            SM_LucidStone = "lucidstone",
+            SM_LucidGem = "lucidgem",
+            SM_LucidCrystal = "lucidcrystal",
+
+            SM_PowerShard = "powershard",
+            SM_PowerStone = "powerstone",
+            SM_PowerGem = "powergem",
+            SM_PowerCrystal = "powercrystal",
+
+            SM_MythrilShard = "mythrilshard",
+            SM_MythrilStone = "mythrilstone",
+            SM_MythrilGem = "mythrilgem",
+            SM_MythrilCrystal = "mythrilcrystal",
+
+            SM_RemembranceShard = "remembranceshard",
+            SM_RemembranceStone = "remembrancestone",
+            SM_RemembranceGem = "remembrancegem",
+            SM_RemembranceCrystal = "remembrancecrystal",
+
+            SM_SerenityShard = "serenityshard",
+            SM_SerenityStone = "serenitystone",
+            SM_SerenityGem = "serenitygem",
+            SM_SerenityCrystal = "serenitycrystal",
+
+            SM_TranquilShard = "tranquilshard",
+            SM_TranquilStone = "tranquilstone",
+            SM_TranquilGem = "tranquilgem",
+            SM_TranquilCrystal = "tranquilcrystal",
+
+            SM_TwilightShard = "twilightshard",
+            SM_TwilightStone = "twilightstone",
+            SM_TwilightGem = "twilightgem",
+            SM_TwilightCrystal = "twilightcrystal",
+
+            SM_Orichalcum = "orichalcum",
+            SM_OrichalcumPlus = "orichalcumplus",
+            SM_ManifestIllusion = "manifestillusion",
+            SM_LostIllusion = "lostillusion",
+
+            SM_StormyShard = "stormyshard",
+            SM_StormyStone = "stormystone",
+            SM_StormyGem = "stormygem",
+            SM_StormyCrystal = "stormycrystal"
+                    ;
     //Armors
     public static final String
     		organizationHood = "organization_hood",

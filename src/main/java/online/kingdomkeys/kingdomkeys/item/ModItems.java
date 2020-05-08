@@ -3,12 +3,15 @@ package online.kingdomkeys.kingdomkeys.item;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.util.IItemProvider;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
 
 public class ModItems {
     //Organization
@@ -22,9 +25,11 @@ public class ModItems {
     //Armor
     public static Item organizationRobe_Helmet, organizationRobe_Chestplate, organizationRobe_Leggings, organizationRobe_Boots, xemnas_Helmet, xemnas_Chestplate, xemnas_Leggings, xemnas_Boots, terra_Helmet, terra_Chestplate, terra_Leggings, terra_Boots, aqua_Helmet, aqua_Chestplate, aqua_Leggings, aqua_Boots, ventus_Helmet, ventus_Chestplate, ventus_Leggings, ventus_Boots, eraqus_Helmet, eraqus_Chestplate, eraqus_Leggings, eraqus_Boots, nightmareVentus_Helmet, nightmareVentus_Chestplate, nightmareVentus_Leggings, nightmareVentus_Boots, antiCoat_Helmet, antiCoat_Chestplate, antiCoat_Leggings, antiCoat_Boots, vanitas_Helmet, vanitas_Chestplate, vanitas_Leggings, vanitas_Boots;
     //Misc
-    public static Item blazingInfusedCoal, frostInfusedSnowBall, stormyInfusedIron, mythrilInfusedDiamond, lightningInfusedGold, brightInfusedGlowStone, darkInfusedIron, abandonedKnowledge, dreamShield, dreamStaff, dreamSword, gummiShip, panacaea, defenseBoost, magicBoost, powerBoost, aPBoost, driveRecovery, highDriveRecovery, munny, emptyBottle, potion, hiPotion, megaPotion, ether, megaEther, elixir, megalixir, hpOrb, driveOrb, magicOrb, heart, darkHeart, pureHeart, kingdomHearts, darkLeather, synthesisMaterial, recipe, iceCream, winnerStick, levelUpMagicFire, levelUpMagicBlizzard, levelUpMagicThunder, levelUpMagicCure, levelUpMagicAero, levelUpMagicStop, levelUpValor, levelUpWisdom, levelUpLimit, levelUpMaster, levelUpFinal, synthesisBagS, synthesisBagM, synthesisBagL;
-    
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static Item  frostInfusedSnowBall, stormyInfusedIron, mythrilInfusedDiamond, lightningInfusedGold, brightInfusedGlowStone, darkInfusedIron, abandonedKnowledge, dreamShield, dreamStaff, dreamSword, gummiShip, panacaea, defenseBoost, magicBoost, powerBoost, aPBoost, driveRecovery, highDriveRecovery, munny, emptyBottle, potion, hiPotion, megaPotion, ether, megaEther, elixir, megalixir, hpOrb, driveOrb, magicOrb, heart, darkHeart, pureHeart, kingdomHearts, darkLeather, synthesisMaterial, recipe, iceCream, winnerStick, levelUpMagicFire, levelUpMagicBlizzard, levelUpMagicThunder, levelUpMagicCure, levelUpMagicAero, levelUpMagicStop, levelUpValor, levelUpWisdom, levelUpLimit, levelUpMaster, levelUpFinal, synthesisBagS, synthesisBagM, synthesisBagL;
+	public static Item SynthesisMaterial;
+	public static Item blazingCrystal, blazingGem, blazingShard, blazingStone, brightCrystal, brightGem, brightShard, brightStone, frostShard, frostStone, frostGem, frostCrystal, lightningShard, lightningStone, lightningGem, lightningCrystal, lucidShard, lucidStone, lucidGem, lucidCrystal, powerShard, powerStone, powerGem, powerCrystal, darkShard, darkStone, darkGem, darkCrystal, denseShard, denseStone, denseGem, denseCrystal, twilightShard, twilightStone, twilightGem, twilightCrystal, mythrilShard, mythrilStone, mythrilGem, mythrilCrystal, stormyShard, stormyStone, stormyGem, stormyCrystal, remembranceShard,remembranceStone, remembranceGem, remembranceCrystal, energyShard, energyStone, energyGem, energyCrystal,serenityShard, serenityStone, serenityGem, serenityCrystal, orichalcum, orichalcumPlus, manifestIllusion, lostIllusion, tranquilCrystal, tranquilGem, tranquilShard, tranquilStone;
+
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class Registry {
 
         @SubscribeEvent
@@ -637,8 +642,74 @@ public class ModItems {
                     disc_Sanctuary = new KKRecordItem(1, ModSounds.Record_Sanctuary, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Sanctuary, 4.25F),
                     disc_Simple_And_Clean_PLANITb_Remix = new KKRecordItem(1, ModSounds.Record_Simple_And_Clean_PLANITb_Remix, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Simple_And_Clean_PLANITb_Remix, 2.37F),
                     disc_Sinister_Sundown = new KKRecordItem(1, ModSounds.Record_Sinister_Sundown, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_Sinister_Sundown, 2.13F), 
-                    disc_The_13th_Anthology = new KKRecordItem(1, ModSounds.Record_The_13th_Anthology, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_The_13th_Anthology, 6.38F)
+                    disc_The_13th_Anthology = new KKRecordItem(1, ModSounds.Record_The_13th_Anthology, new Item.Properties().group(KingdomKeys.miscGroup), Strings.Disc_The_13th_Anthology, 6.38F),
+
+					blazingCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BlazingCrystal, "S"),
+					blazingGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BlazingGem, "A"),
+					blazingStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BlazingShard, "B"),
+					blazingShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BlazingStone, "C"),
+					brightCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BrightCrystal, "S"),
+					brightGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BrightGem, "A"),
+					brightStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BrightShard, "B"),
+					brightShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_BrightStone, "C"),
+					darkCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DarkCrystal, "S"),
+					darkGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DarkGem, "A"),
+					darkStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DarkShard, "B"),
+					darkShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DarkStone, "C"),
+					denseCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DenseCrystal, "S"),
+					denseGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DenseGem, "A"),
+					denseStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DenseShard, "B"),
+					denseShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_DenseStone, "C"),
+					energyCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_EnergyCrystal, "S"),
+					energyGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_EnergyGem, "A"),
+					energyStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_EnergyShard, "B"),
+					energyShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_EnergyStone, "C"),
+					frostCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_FrostCrystal, "S"),
+					frostGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_FrostGem, "A"),
+					frostStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_FrostShard, "B"),
+					frostShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_FrostStone, "C"),
+					lightningCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LightningCrystal, "S"),
+					lightningGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LightningGem, "A"),
+					lightningStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LightningShard, "B"),
+					lightningShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LightningStone, "C"),
+					lucidCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LucidCrystal, "S"),
+					lucidGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LucidGem, "A"),
+					lucidStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LucidShard, "B"),
+					lucidShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LucidStone, "C"),
+					serenityCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_SerenityCrystal, "S"),
+					serenityGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_SerenityGem, "A"),
+					serenityStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_SerenityShard, "B"),
+					serenityShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_SerenityStone, "C"),
+					twilightCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TwilightCrystal, "S"),
+					twilightGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TwilightGem, "A"),
+					twilightStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TwilightShard, "B"),
+					twilightShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TwilightStone, "C"),
+					mythrilCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_MythrilCrystal, "S"),
+					mythrilGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_MythrilGem, "A"),
+					mythrilStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_MythrilShard, "B"),
+					mythrilShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_MythrilStone, "C"),
+					tranquilCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TranquilCrystal, "S"),
+					tranquilGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TranquilGem, "A"),
+					tranquilStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TranquilShard, "B"),
+					tranquilShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_TranquilStone, "C"),
+					stormyCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_StormyCrystal, "S"),
+					stormyGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_StormyGem, "A"),
+					stormyStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_StormyShard, "B"),
+					stormyShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_StormyStone, "C"),
+					remembranceCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_RemembranceCrystal, "S"),
+					remembranceGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_RemembranceGem, "A"),
+					remembranceStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_RemembranceShard, "B"),
+					remembranceShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_RemembranceStone, "C"),
+					powerCrystal = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_PowerCrystal, "S"),
+					powerGem = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_PowerGem, "A"),
+					powerStone = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_PowerShard, "B"),
+					powerShard = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_PowerStone, "C"),
+					orichalcumPlus = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_OrichalcumPlus, "S"),
+					orichalcum = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Orichalcum, "A"),
+			 		manifestIllusion = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_ManifestIllusion, "S"),
+					lostIllusion = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LostIllusion, "A")
             );
+
         }
 
         private static Item createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot) {
