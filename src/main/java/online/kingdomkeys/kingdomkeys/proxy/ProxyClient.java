@@ -1,9 +1,13 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
+import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -14,7 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import online.kingdomkeys.kingdomkeys.OreGen;
+
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
@@ -27,6 +31,12 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
+import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
+import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
@@ -44,10 +54,6 @@ public class ProxyClient implements IProxy {
             keyboardManager.showLogo();
         }*/
 
-        //OBJLoader and B3DLoader currently aren't hooked up however, this is here for when they are
-        //OBJLoader.INSTANCE.addDomain(KingdomKeys.MODID);
-        //TODO convert B3D models to OBJ so we don't need this
-        //B3DLoader.INSTANCE.addDomain(KingdomKeys.MODID);
        // new ScrollCallbackWrapper().setup(Minecraft.getInstance());
         //MinecraftForge.EVENT_BUS.register(new HUDElementHandler());
         MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
@@ -83,6 +89,8 @@ public class ProxyClient implements IProxy {
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
 		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
+
+
     }
 
     @SubscribeEvent

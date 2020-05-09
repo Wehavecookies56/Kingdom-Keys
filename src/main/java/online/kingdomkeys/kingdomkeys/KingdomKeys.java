@@ -1,5 +1,10 @@
 package online.kingdomkeys.kingdomkeys;
 
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
+import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
+import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +38,10 @@ import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -93,8 +102,25 @@ public class KingdomKeys {
 		ModCapabilities.register();
 		DeferredWorkQueue.runLater(() -> {
 			PacketHandler.register();
-		});
 
+		});
+		List injectList = new ArrayList();
+		injectList.add("village/plains/houses");
+		injectList.add("village/desert/houses");
+		injectList.add("village/savanna/houses");
+		injectList.add("village/taiga/houses");
+		injectList.add("village/snowy/houses");
+		List v = new ArrayList();
+		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house"),10)));
+		for (int i = 0; i < injectList.size(); i++) {
+			JigsawJank.create().append(new ResourceLocation("minecraft", (String) injectList.get(i)), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+				@Override
+				public List<Pair<JigsawPiece, Integer>> get() {
+					return v;
+				}
+			});
+		}
+		System.out.println("houses");
 	}
 
 	@SubscribeEvent
