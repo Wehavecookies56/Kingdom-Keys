@@ -17,10 +17,10 @@ public class KeybladeStats extends  KeyBladeProvider{
         KeybladeSynthLevelMap kslm = new KeybladeSynthLevelMap();
         kslm.init();
 
-        getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.ultimaWeaponKH3Chain).baseStats(2,4).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(5).withMag(4).withAbilty("Test_Abiltity")
+        getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.ultimaWeaponKH3Chain).baseStats(10,8).level( new KeybladeLevel.KeybladeLevelBuilder()
+                .withStr(13).withMag(10).withAbilty("Test_Abiltity")
                 .withMaterials(kslm.getMap("kh3ultLvl1")).build()).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(6).withMag(5).withMaterials(kslm.getMap("kh3ultLvl2")).build()).desc("test");
+                .withStr(16).withMag(12).withMaterials(kslm.getMap("kh3ultLvl2")).build()).desc("test");
 
 
     }

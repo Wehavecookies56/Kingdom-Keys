@@ -13,6 +13,8 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import online.kingdomkeys.kingdomkeys.OreGen;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
@@ -81,6 +83,12 @@ public class ProxyClient implements IProxy {
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
 		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
+    }
+
+    @SubscribeEvent
+    public static void LoadCompleteEvent(FMLLoadCompleteEvent event)
+    {
+        OreGen.generateOre();
     }
 
     /*@SubscribeEvent
