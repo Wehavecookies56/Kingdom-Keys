@@ -104,23 +104,44 @@ public class KingdomKeys {
 			PacketHandler.register();
 
 		});
-		List injectList = new ArrayList();
-		injectList.add("village/plains/houses");
-		injectList.add("village/desert/houses");
-		injectList.add("village/savanna/houses");
-		injectList.add("village/taiga/houses");
-		injectList.add("village/snowy/houses");
+
 		List v = new ArrayList();
 		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house"),10)));
-		for (int i = 0; i < injectList.size(); i++) {
-			JigsawJank.create().append(new ResourceLocation("minecraft", (String) injectList.get(i)), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-				@Override
-				public List<Pair<JigsawPiece, Integer>> get() {
-					return v;
-				}
-			});
-		}
-		System.out.println("houses");
+		List s = new ArrayList();
+		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_snowy"),10)));
+		List t = new ArrayList();
+		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_taiga"),10)));
+		List sa = new ArrayList();
+		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_savanna"),10)));
+		List d = new ArrayList();
+		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),10)));
+
+		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+			@Override
+			public List<Pair<JigsawPiece, Integer>> get() {
+				return v;
+			}
+		});
+		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+			@Override
+			public List<Pair<JigsawPiece, Integer>> get() {
+				return d;
+			}
+		});
+		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+			@Override
+			public List<Pair<JigsawPiece, Integer>> get() {
+				return sa;
+			}
+		});
+		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/taiga/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+			@Override
+			public List<Pair<JigsawPiece, Integer>> get() { return t; }
+		});
+		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/snowy/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+			@Override
+			public List<Pair<JigsawPiece, Integer>> get() { return s; }
+		});
 	}
 
 	@SubscribeEvent
