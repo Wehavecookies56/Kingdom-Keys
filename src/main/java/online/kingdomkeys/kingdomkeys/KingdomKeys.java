@@ -106,27 +106,23 @@ public class KingdomKeys {
 		});
 
 		List v = new ArrayList();
-		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house"),1)));
+		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house"),2)));
 		List s = new ArrayList();
-		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_snowy"),1)));
+		s.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_snowy"),2)));
 		List t = new ArrayList();
-		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_taiga"),1)));
+		t.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_taiga"),2)));
 		List sa = new ArrayList();
-		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_savanna"),1)));
+		sa.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_savanna"),2)));
 		List d = new ArrayList();
-		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),1)));
+		d.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),2)));
 
 		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
-			public List<Pair<JigsawPiece, Integer>> get() {
-				return v;
-			}
+			public List<Pair<JigsawPiece, Integer>> get() { return v; }
 		});
 		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
-			public List<Pair<JigsawPiece, Integer>> get() {
-				return d;
-			}
+			public List<Pair<JigsawPiece, Integer>> get() { return d; }
 		});
 		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
