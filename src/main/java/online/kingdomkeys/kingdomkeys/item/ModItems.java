@@ -1,15 +1,23 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiSynthesisBag;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.container.ContainerSynthesisBag;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
 
@@ -24,9 +32,8 @@ public class ModItems {
     public static Item disc_Birth_by_Sleep_A_Link_to_the_Future, disc_Darkness_of_the_Unknown, disc_Dearly_Beloved_Symphony_Version, disc_Dream_Drop_Distance_The_Next_Awakening, disc_Hikari_KINGDOM_Instrumental_Version, disc_L_Oscurita_Dell_Ignoto, disc_Musique_pour_la_tristesse_de_Xion, disc_No_More_Bugs_Bug_Version, disc_Organization_XIII, disc_Sanctuary, disc_Simple_And_Clean_PLANITb_Remix, disc_Sinister_Sundown, disc_The_13th_Anthology;
     //Armor
     public static Item organizationRobe_Helmet, organizationRobe_Chestplate, organizationRobe_Leggings, organizationRobe_Boots, xemnas_Helmet, xemnas_Chestplate, xemnas_Leggings, xemnas_Boots, terra_Helmet, terra_Chestplate, terra_Leggings, terra_Boots, aqua_Helmet, aqua_Chestplate, aqua_Leggings, aqua_Boots, ventus_Helmet, ventus_Chestplate, ventus_Leggings, ventus_Boots, eraqus_Helmet, eraqus_Chestplate, eraqus_Leggings, eraqus_Boots, nightmareVentus_Helmet, nightmareVentus_Chestplate, nightmareVentus_Leggings, nightmareVentus_Boots, antiCoat_Helmet, antiCoat_Chestplate, antiCoat_Leggings, antiCoat_Boots, vanitas_Helmet, vanitas_Chestplate, vanitas_Leggings, vanitas_Boots;
-    //Misc
-    public static Item  frostInfusedSnowBall, stormyInfusedIron, mythrilInfusedDiamond, lightningInfusedGold, brightInfusedGlowStone, darkInfusedIron, abandonedKnowledge, dreamShield, dreamStaff, dreamSword, gummiShip, panacaea, defenseBoost, magicBoost, powerBoost, aPBoost, driveRecovery, highDriveRecovery, munny, emptyBottle, potion, hiPotion, megaPotion, ether, megaEther, elixir, megalixir, hpOrb, driveOrb, magicOrb, heart, darkHeart, pureHeart, kingdomHearts, darkLeather, synthesisMaterial, recipe, iceCream, winnerStick, levelUpMagicFire, levelUpMagicBlizzard, levelUpMagicThunder, levelUpMagicCure, levelUpMagicAero, levelUpMagicStop, levelUpValor, levelUpWisdom, levelUpLimit, levelUpMaster, levelUpFinal, synthesisBagS, synthesisBagM, synthesisBagL;
-	public static Item SynthesisMaterial;
+    //Misc (Some of those won't be used) 
+    public static Item  frostInfusedSnowBall, stormyInfusedIron, mythrilInfusedDiamond, lightningInfusedGold, brightInfusedGlowStone, darkInfusedIron, abandonedKnowledge, dreamShield, dreamStaff, dreamSword, gummiShip, panacaea, defenseBoost, magicBoost, powerBoost, aPBoost, driveRecovery, highDriveRecovery, munny, emptyBottle, potion, hiPotion, megaPotion, ether, megaEther, elixir, megalixir, hpOrb, driveOrb, magicOrb, heart, darkHeart, pureHeart, kingdomHearts, darkLeather, synthesisMaterial, recipe, iceCream, winnerStick, levelUpMagicFire, levelUpMagicBlizzard, levelUpMagicThunder, levelUpMagicCure, levelUpMagicAero, levelUpMagicStop, levelUpValor, levelUpWisdom, levelUpLimit, levelUpMaster, levelUpFinal, synthesisBag, synthesisBagM, synthesisBagL;
 	public static Item blazingCrystal, blazingGem, blazingShard, blazingStone, brightCrystal, brightGem, brightShard, brightStone, frostShard, frostStone, frostGem, frostCrystal, lightningShard, lightningStone, lightningGem, lightningCrystal, lucidShard, lucidStone, lucidGem, lucidCrystal, powerShard, powerStone, powerGem, powerCrystal, darkShard, darkStone, darkGem, darkCrystal, denseShard, denseStone, denseGem, denseCrystal, twilightShard, twilightStone, twilightGem, twilightCrystal, mythrilShard, mythrilStone, mythrilGem, mythrilCrystal, stormyShard, stormyStone, stormyGem, stormyCrystal, remembranceShard,remembranceStone, remembranceGem, remembranceCrystal, energyShard, energyStone, energyGem, energyCrystal,serenityShard, serenityStone, serenityGem, serenityCrystal, orichalcum, orichalcumPlus, manifestIllusion, lostIllusion, tranquilCrystal, tranquilGem, tranquilShard, tranquilStone;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -707,10 +714,32 @@ public class ModItems {
 					orichalcumPlus = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_OrichalcumPlus, "S"),
 					orichalcum = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Orichalcum, "A"),
 			 		manifestIllusion = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_ManifestIllusion, "S"),
-					lostIllusion = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LostIllusion, "A")
+					lostIllusion = new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_LostIllusion, "A"),
+					
+					synthesisBag = new ItemSynthesisBag(new Item.Properties().group(KingdomKeys.miscGroup), "synthesis_bag")
             );
-
         }
+        
+        @SubscribeEvent
+    	public static void registerContainers(RegistryEvent.Register<ContainerType<?>> evt) {
+    		IForgeRegistry<ContainerType<?>> r = evt.getRegistry();
+
+    		ContainerType<ContainerSynthesisBag> bag = IForgeContainerType.create(ContainerSynthesisBag::fromNetwork);
+    		register(r, bag, synthesisBag.getRegistryName());
+
+    		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+    			ScreenManager.registerFactory(bag, GuiSynthesisBag::new);
+    		});
+    	}
+        
+
+    	public static <V extends IForgeRegistryEntry<V>> void register(IForgeRegistry<V> reg, IForgeRegistryEntry<V> thing, ResourceLocation name) {
+    		reg.register(thing.setRegistryName(name));
+    	}
+
+    	public static <V extends IForgeRegistryEntry<V>> void register(IForgeRegistry<V> reg, IForgeRegistryEntry<V> thing, String name) {
+    		register(reg, thing, new ResourceLocation(KingdomKeys.MODID, name));
+    	}
 
         private static Item createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot) {
         	return new BaseArmorItem(name, material, slot);
