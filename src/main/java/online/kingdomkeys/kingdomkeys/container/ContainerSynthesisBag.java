@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -51,18 +50,18 @@ public class ContainerSynthesisBag extends Container {
 		for (i = 0; i < 2*(bagLevel+1); ++i) {
 			for (j = 0; j < 9; ++j) {
 				int k = j + i * 9;
-				addSlot(new SlotSynthesisBag(bagInv, k, 8 + j * 18,1+i * 18));
+				addSlot(new SlotSynthesisBag(bagInv, k, 8 + j * 18,18+i * 18));
 			}
 		}
 
 		for (i = 0; i < 3; ++i) {
 			for (j = 0; j < 9; ++j) {
-				addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 41 + (i+invStart) * 18));
+				addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 41 + 17 + (i+invStart) * 18));
 			}
 		}
 
 		for (i = 0; i < 9; ++i) {
-			addSlot(new Slot(playerInv, i, 8 + i * 18, 45 + (3+invStart) * 18));
+			addSlot(new Slot(playerInv, i, 8 + i * 18, 45 + 17 + (3+invStart) * 18));
 		}
 
      }

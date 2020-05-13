@@ -14,12 +14,21 @@ import online.kingdomkeys.kingdomkeys.container.ContainerSynthesisBag;
 
 public class GuiSynthesisBag extends ContainerScreen<ContainerSynthesisBag> {
 
-	private static final ResourceLocation textureS = new ResourceLocation(KingdomKeys.MODID+":textures/gui/synthesis_bag_s.png");
-	private static final ResourceLocation textureM = new ResourceLocation(KingdomKeys.MODID+":textures/gui/synthesis_bag_m.png");
-	private static final ResourceLocation textureL = new ResourceLocation(KingdomKeys.MODID+":textures/gui/synthesis_bag_l.png");
+	private static final String textureBase = KingdomKeys.MODID+":textures/gui/synthesis_bag_";
+	int[] texHeight = {140, 176, 212};
+	int bagLevel = 0;
 
 	public GuiSynthesisBag(ContainerSynthesisBag container, PlayerInventory playerInv, ITextComponent title) {
 		super(container, playerInv, title);
+	}
+
+	@Override
+	protected void init() {
+		CompoundNBT nbt = playerInventory.getCurrentItem().getOrCreateTag();
+		bagLevel = nbt.getInt("level");
+		Minecraft.getInstance().getMainWindow().getHeight();
+		this.ySize = texHeight[bagLevel];
+		super.init();
 	}
 
 	@Override
@@ -32,7 +41,7 @@ public class GuiSynthesisBag extends ContainerScreen<ContainerSynthesisBag> {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = I18n.format("Synthesis Bag");
-		font.drawString(s, xSize / 2 - font.getStringWidth(s) / 2, -11, 4210752);
+		font.drawString(s, xSize / 2 - font.getStringWidth(s) / 2, 5, 4210752);
 		//font.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 
@@ -40,13 +49,11 @@ public class GuiSynthesisBag extends ContainerScreen<ContainerSynthesisBag> {
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		Minecraft mc = Minecraft.getInstance();
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		CompoundNBT nbt = playerInventory.getCurrentItem().getOrCreateTag();
-		int bagLevel = nbt.getInt("level");
-		mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID+":textures/gui/synthesis_bag_"+bagLevel+".png"));
+		mc.getTextureManager().bindTexture(new ResourceLocation(textureBase+bagLevel+".png"));
 
-		int k = (width - xSize) / 2;
-		int l = (height - 200) / 2;
-		blit(k, l, 0, 0, xSize, 250);
+		int xPos = (width - xSize) / 2;
+		int yPos = (height / 2) - (ySize / 2);
+		blit(xPos, yPos, 0, 0, xSize, ySize);
 
 		/*for (Slot slot : container.inventorySlots) {
 			if (slot instanceof SlotItemHandler && !slot.getHasStack()) {
