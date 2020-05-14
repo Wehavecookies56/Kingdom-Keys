@@ -82,7 +82,7 @@ public class EntityWater extends ThrowableEntity {
 			double x2 = cx + (r * Math.cos(Math.toRadians(-a)));
 			double z2 = cz + (r * Math.sin(Math.toRadians(-a)));
 
-			System.out.println(a / 180 / 2);
+		//	System.out.println(a / 180 / 2);
 			world.addParticle(ParticleTypes.DRIPPING_WATER, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
 			world.addParticle(ParticleTypes.DRIPPING_WATER, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
 

@@ -66,7 +66,7 @@ public class EntityMagnet extends ThrowableEntity {
 			this.setMotion(0, 0, 0);
 			this.velocityChanged = true;
 			
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(player, this.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(player, getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
 			//System.out.println(world.isRemote+" "+player);
 	        if (!list.isEmpty()) {
 	            for (int i = 0; i < list.size(); i++) {

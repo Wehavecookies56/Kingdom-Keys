@@ -121,7 +121,7 @@ public class EntityEvents {
 			if (gProps.getFlatTicks() > 0) {
 				gProps.subFlatTicks(1);
 
-				event.getEntityLiving().setMotion(0, -1, 0);
+				event.getEntityLiving().setMotion(0, -4, 0);
 				event.getEntityLiving().velocityChanged = true;
 
 				if (gProps.getFlatTicks() <= 0) {
