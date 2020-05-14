@@ -100,6 +100,7 @@ public class EntityEvents {
 			
 		
 		if (gProps != null) {
+			//Stop
 			if (gProps.getStoppedTicks() > 0) {
 				gProps.subStoppedTicks(1);
 
@@ -110,9 +111,25 @@ public class EntityEvents {
 					gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
 					if (gProps.getDamage() > 0)
 						event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
-					if (event.getEntityLiving() instanceof ServerPlayerEntity)
+					
+					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
 						PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
 					gProps.setDamage(0);
+				}
+			}
+			
+			//Gravity
+			if (gProps.getFlatTicks() > 0) {
+				gProps.subFlatTicks(1);
+
+				event.getEntityLiving().setMotion(0, 0, 0);
+				event.getEntityLiving().velocityChanged = true;
+
+				if (gProps.getFlatTicks() <= 0) {
+					gProps.setFlatTicks(0); // Just in case it goes below (shouldn't happen)
+					
+					if (event.getEntityLiving() instanceof LivingEntity) //This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
+						PacketHandler.syncToAllAround(event.getEntityLiving(), gProps);
 				}
 			}
 		}

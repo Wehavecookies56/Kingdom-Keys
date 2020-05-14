@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
@@ -11,12 +13,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.container.ContainerSynthesisBag;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketUpgradeSynthesisBag;
 
 public class GuiSynthesisBag extends ContainerScreen<ContainerSynthesisBag> {
 
 	private static final String textureBase = KingdomKeys.MODID+":textures/gui/synthesis_bag_";
 	int[] texHeight = {140, 176, 212};
 	int bagLevel = 0;
+	Button upgrade;
 
 	public GuiSynthesisBag(ContainerSynthesisBag container, PlayerInventory playerInv, ITextComponent title) {
 		super(container, playerInv, title);
@@ -28,7 +33,21 @@ public class GuiSynthesisBag extends ContainerScreen<ContainerSynthesisBag> {
 		bagLevel = nbt.getInt("level");
 		Minecraft.getInstance().getMainWindow().getHeight();
 		this.ySize = texHeight[bagLevel];
+		addButton(upgrade = new Button(20, 20, 60, 20, "Upgrade", (e) -> { upgrade(); }));
 		super.init();
+	}
+
+	private void upgrade() {
+		if(bagLevel < 2) {
+			PacketHandler.sendToServer(new PacketUpgradeSynthesisBag());
+		    this.minecraft.displayGuiScreen((Screen)null);
+		}
+	}
+	
+	@Override
+	public void onClose() {
+		// TODO Auto-generated method stub
+		super.onClose();
 	}
 
 	@Override
@@ -36,11 +55,13 @@ public class GuiSynthesisBag extends ContainerScreen<ContainerSynthesisBag> {
 		this.renderBackground();
 		super.render(mouseX, mouseY, partialTicks);
 		this.renderHoveredToolTip(mouseX, mouseY);
+		
+		upgrade.active = bagLevel < 2;
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		String s = I18n.format("Synthesis Bag");
+		String s = I18n.format("Synthesis Bag LV."+(bagLevel+1));
 		font.drawString(s, xSize / 2 - font.getStringWidth(s) / 2, 5, 4210752);
 		//font.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}

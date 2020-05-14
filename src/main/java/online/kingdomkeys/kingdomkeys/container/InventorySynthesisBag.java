@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.container;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -16,7 +15,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
 
-public class InventorySynthesisBagS implements ICapabilityProvider, INBTSerializable<INBT> {
+public class InventorySynthesisBag implements ICapabilityProvider, INBTSerializable<INBT> {
 
 	private final IItemHandler inv = new ItemStackHandler(54) {
 		@Override

@@ -14,6 +14,7 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 			CompoundNBT props = new CompoundNBT();
 			props.putInt("ticks_stopped", instance.getStoppedTicks());
 			props.putInt("stop_dmg", instance.getDamage());
+			props.putInt("ticks_flat", instance.getFlatTicks());
 			return props;
 		}
 
@@ -22,10 +23,11 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 			CompoundNBT properties = (CompoundNBT) nbt;
 			instance.setStoppedTicks(properties.getInt("ticks_stopped"));
 			instance.setDamage(properties.getInt("stop_dmg"));
+			instance.setFlatTicks(properties.getInt("ticks_flat"));
 		}
 	}
 
-	private int timeStopped, stopDmg;
+	private int timeStopped, stopDmg, flatTicks;
 
 	@Override
 	public void setStoppedTicks(int time) {
@@ -56,5 +58,20 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public void addDamage(int dmg) {
 		this.stopDmg+=dmg;
+	}
+
+	@Override
+	public int getFlatTicks() {
+		return flatTicks;
+	}
+
+	@Override
+	public void setFlatTicks(int time) {
+		this.flatTicks = time;
+	}
+
+	@Override
+	public void subFlatTicks(int time) {
+		this.flatTicks -= time;
 	}
 }

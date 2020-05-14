@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -14,7 +15,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class EntityGravity extends ThrowableEntity {
 
@@ -26,16 +30,16 @@ public class EntityGravity extends ThrowableEntity {
 	}
 
 	public EntityGravity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_FIRE, world);
+		super(ModEntities.TYPE_GRAVITY, world);
 	}
 
 	public EntityGravity(World world) {
-		super(ModEntities.TYPE_FIRE, world);
+		super(ModEntities.TYPE_GRAVITY, world);
 		this.preventEntitySpawning = true;
 	}
 
 	public EntityGravity(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_FIRE, player, world);
+		super(ModEntities.TYPE_GRAVITY, player, world);
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class EntityGravity extends ThrowableEntity {
 
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(ticksExisted > 2)
-			world.addParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		
 		super.tick();
 	}
@@ -80,8 +84,14 @@ public class EntityGravity extends ThrowableEntity {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
-					target.setFire(10);
+					IGlobalCapabilities gProps = ModCapabilities.getGlobal(target);
+					gProps.setFlatTicks(100); // Just in case it goes below (shouldn't happen)
+					
+					if (target instanceof LivingEntity) //This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
+						PacketHandler.syncToAllAround(target, gProps);
+					
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+					
 					remove();
 				}
 			} else { // Block (not ERTR)
