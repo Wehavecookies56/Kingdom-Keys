@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -14,7 +12,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -26,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
+
+import java.util.List;
 
 public class EntityEvents {
 
@@ -122,7 +121,7 @@ public class EntityEvents {
 			if (gProps.getFlatTicks() > 0) {
 				gProps.subFlatTicks(1);
 
-				event.getEntityLiving().setMotion(0, 0, 0);
+				event.getEntityLiving().setMotion(0, -1, 0);
 				event.getEntityLiving().velocityChanged = true;
 
 				if (gProps.getFlatTicks() <= 0) {

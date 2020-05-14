@@ -1,10 +1,5 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -24,17 +19,6 @@ public class ClientEvents {
 	 * event.getBuffers(), event.getLight(), OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 	 * } } }
 	 */
-
-	@SubscribeEvent
-	public void RenderEntity(RenderLivingEvent.Pre event) {
-		IGlobalCapabilities gProps = ModCapabilities.getGlobal(event.getEntity());
-		if (gProps != null) {
-			if (gProps.getFlatTicks() > 0) {
-				MatrixStack mat = event.getMatrixStack();
-				mat.scale(1.5F, 0.01F, 1.5F);
-			}
-		}
-	}
 
 	float yaw = 0, pitch = 0;
 

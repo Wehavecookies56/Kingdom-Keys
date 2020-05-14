@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -25,6 +23,8 @@ import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.util.SetBlockStateFlags;
+
+import javax.annotation.Nullable;
 
 /**
  * Some parts copied from {@link net.minecraft.block.TNTBlock}
@@ -65,7 +65,7 @@ public class BlastBloxBlock extends BaseBlock {
     //Explode when broken by the player
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!worldIn.isRemote() && !player.isCreative()) {
+        if (!worldIn.isRemote() && !player.isCreative() && player.getHeldItemMainhand().getItem() != Items.FEATHER) {
             this.explode(worldIn, pos);
         }
         super.onBlockHarvested(worldIn, pos, state, player);
@@ -107,7 +107,6 @@ public class BlastBloxBlock extends BaseBlock {
         Item item = held.getItem();
         if (item != Items.FEATHER) {
             this.explode(worldIn, pos, player);
-            //
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), SetBlockStateFlags.BLOCK_UPDATE.getValue() | SetBlockStateFlags.SEND_TO_CLIENT.getValue() | SetBlockStateFlags.RERENDER_ON_MAIN.getValue());
         }
     }
