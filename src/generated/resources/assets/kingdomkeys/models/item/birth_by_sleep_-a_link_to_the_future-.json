@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/discs/birth_by_sleep_-a_link_to_the_future-"
+  }
+}

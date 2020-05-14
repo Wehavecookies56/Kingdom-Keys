@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/discs/simple_and_clean_planitb_remix"
+  }
+}

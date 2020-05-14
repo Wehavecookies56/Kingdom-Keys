@@ -25,12 +25,12 @@
       "mag": 12,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_orichalcumplus",
-          "quantity": 6
-        },
-        {
           "material": "kingdomkeys:mat_brightcrystal",
           "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:mat_orichalcumplus",
+          "quantity": 6
         }
       ]
     }

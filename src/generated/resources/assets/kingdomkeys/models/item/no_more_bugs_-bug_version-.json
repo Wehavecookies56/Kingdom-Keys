@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/discs/no_more_bugs_-bug_version-"
+  }
+}

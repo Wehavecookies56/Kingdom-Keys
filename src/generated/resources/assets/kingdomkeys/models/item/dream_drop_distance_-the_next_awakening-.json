@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/discs/dream_drop_distance_-the_next_awakening-"
+  }
+}

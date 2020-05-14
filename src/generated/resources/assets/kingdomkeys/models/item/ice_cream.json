@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/icecream"
+    "layer0": "kingdomkeys:item/ice_cream"
   }
 }

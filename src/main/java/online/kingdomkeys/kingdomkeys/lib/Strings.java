@@ -101,7 +101,7 @@ public class Strings {
                     ;
     //Armors
     public static final String
-    		organizationHood = "organization_hood",
+    		organizationHood = "organization_helmet",
 		    organizationChestplate = "organization_chestplate",
 		    organizationLeggings = "organization_leggings",
 		    organizationBoots = "organization_boots",
@@ -291,19 +291,19 @@ public class Strings {
     
     // Music Discs
     public static final String
-	    Disc_Birth_by_Sleep_A_Link_to_the_Future = "birthbysleep-alinktothefuture-",
-	    Disc_Darkness_of_the_Unknown = "darknessoftheunknown",
-	    Disc_Dearly_Beloved_Symphony_Version = "dearlybeloved-symphonyversion-",
-	    Disc_Dream_Drop_Distance_The_Next_Awakening = "dreamdropdistance-thenextawakening-",
-	    Disc_Hikari_KINGDOM_Instrumental_Version = "hikari-kingdominstrumentalversion-",
-	    Disc_L_Oscurita_Dell_Ignoto = "loscuritadellignoto",
-	    Disc_Musique_pour_la_tristesse_de_Xion = "musiquepourlatristessedexion",
-	    Disc_No_More_Bugs_Bug_Version = "nomorebugs-bugversion-",
-	    Disc_Organization_XIII = "organizationxiii",
+	    Disc_Birth_by_Sleep_A_Link_to_the_Future = "birth_by_sleep_-a_link_to_the_future-",
+	    Disc_Darkness_of_the_Unknown = "darkness_of_the_unknown",
+	    Disc_Dearly_Beloved_Symphony_Version = "dearly_beloved_-symphony_version-",
+	    Disc_Dream_Drop_Distance_The_Next_Awakening = "dream_drop_distance_-the_next_awakening-",
+	    Disc_Hikari_KINGDOM_Instrumental_Version = "hikari_-kingdom_instrumental_version-",
+	    Disc_L_Oscurita_Dell_Ignoto = "l_oscurita_dell_ignoto",
+	    Disc_Musique_pour_la_tristesse_de_Xion = "musique_pour_la_tristesse_de_xion",
+	    Disc_No_More_Bugs_Bug_Version = "no_more_bugs_-bug_version-",
+	    Disc_Organization_XIII = "organization_xiii",
 	    Disc_Sanctuary = "sanctuary",
-	    Disc_Simple_And_Clean_PLANITb_Remix = "simpleandcleanplanitbremix",
-	    Disc_Sinister_Sundown = "sinistersundown",
-	    Disc_The_13th_Anthology = "the13thanthology"
+	    Disc_Simple_And_Clean_PLANITb_Remix = "simple_and_clean_planitb_remix",
+	    Disc_Sinister_Sundown = "sinister_sundown",
+	    Disc_The_13th_Anthology = "the_13th_anthology"
     ;
 
     //Keyblades

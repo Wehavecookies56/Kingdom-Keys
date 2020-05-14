@@ -1,20 +1,13 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
-import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.storage.loot.ConstantRange;
-import net.minecraft.world.storage.loot.ItemLootEntry;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTable;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.MatchTool;
+import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.conditions.RandomChanceWithLooting;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import java.nio.channels.FileChannel;
 
 public class LootTables extends BaseLootTables {
 
@@ -25,13 +18,13 @@ public class LootTables extends BaseLootTables {
     @Override
     protected void addTables() {
         // blox
-        lootTables.put(ModBlocks.normalBlox, createStandardTable("normal_blox", ModBlocks.normalBlox));
-        lootTables.put(ModBlocks.hardBlox, createStandardTable("hard_blox", ModBlocks.hardBlox));
-        lootTables.put(ModBlocks.metalBlox, createStandardTable("metal_blox", ModBlocks.metalBlox));
-        lootTables.put(ModBlocks.bounceBlox, createStandardTable("bounce_blox", ModBlocks.bounceBlox));
-        lootTables.put(ModBlocks.dangerBlox, createStandardTable("danger_blox", ModBlocks.dangerBlox));
-        lootTables.put(ModBlocks.blastBlox, createStandardTable("blast_blox", ModBlocks.blastBlox));
-        lootTables.put(ModBlocks.ghostBlox, createStandardTable("ghost_blox", ModBlocks.ghostBlox));
+        standardBlockLoot(ModBlocks.normalBlox);
+        standardBlockLoot(ModBlocks.hardBlox);
+        standardBlockLoot(ModBlocks.metalBlox);
+        standardBlockLoot(ModBlocks.bounceBlox);
+        standardBlockLoot(ModBlocks.dangerBlox);
+        standardBlockLoot(ModBlocks.blastBlox);
+        standardBlockLoot(ModBlocks.ghostBlox);
         lootTables.put(ModBlocks.rarePrizeBlox, LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(Blocks.STONE).weight(1)).addEntry(ItemLootEntry.builder(Blocks.SAND)
                 .weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3))))));
@@ -251,8 +244,7 @@ public class LootTables extends BaseLootTables {
         );
 
         lootTables.put(ModBlocks.remembranceOre, LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
-                .addEntry(ItemLootEntry.builder(ModItems.remembranceCrystal).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
-                        .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(ModItems.remembranceCrystal).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3))).acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.remembranceGem).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
                         .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.remembranceShard).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
@@ -260,12 +252,9 @@ public class LootTables extends BaseLootTables {
                 .addEntry(ItemLootEntry.builder(ModItems.remembranceStone).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
                         .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f))))
         );
+    }
 
-
-
-
-
-
-
+    void standardBlockLoot(Block block){
+        lootTables.put(block, createStandardTable(block.getTranslationKey(), block));
     }
 }
