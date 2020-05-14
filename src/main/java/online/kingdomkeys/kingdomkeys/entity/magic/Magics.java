@@ -92,7 +92,7 @@ public class Magics {
 	}
 	
 	public static void gravity(PlayerEntity player) {
-		ThrowableEntity shot = new EntityBlizzard(player.world, player);
+		ThrowableEntity shot = new EntityGravity(player.world, player);
 		player.world.addEntity(shot);
 		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
