@@ -25,14 +25,14 @@ public class ContainerSynthesisBag extends Container {
 		return new ContainerSynthesisBag(windowId, inv, inv.player.getHeldItem(hand));
 	}
 	
-	private final ItemStack bag;
+	//private final ItemStack bag;
 
 	public ContainerSynthesisBag(int windowId, PlayerInventory playerInv, ItemStack bag) {
 		super(TYPE, windowId);
 		int i;
 		int j;
 
-		this.bag = bag;
+		//this.bag = bag;
 		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
 
 		CompoundNBT nbt = playerInv.getCurrentItem().getOrCreateTag();
@@ -46,20 +46,22 @@ public class ContainerSynthesisBag extends Container {
 			invStart = 4;
 		}
 		
-
+		//Bag inventory slots
 		for (i = 0; i < 2*(bagLevel+1); ++i) {
 			for (j = 0; j < 9; ++j) {
 				int k = j + i * 9;
 				addSlot(new SlotSynthesisBag(bagInv, k, 8 + j * 18,18+i * 18));
 			}
 		}
-
+		
+		//Player Inventory slots	
 		for (i = 0; i < 3; ++i) {
 			for (j = 0; j < 9; ++j) {
 				addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 41 + 17 + (i+invStart) * 18));
 			}
 		}
-
+		
+		//Player hotbar slots
 		for (i = 0; i < 9; ++i) {
 			addSlot(new Slot(playerInv, i, 8 + i * 18, 45 + 17 + (3+invStart) * 18));
 		}

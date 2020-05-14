@@ -31,6 +31,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, PacketSyncAllClientData.class, PacketSyncAllClientData::encode, PacketSyncAllClientData::decode, PacketSyncAllClientData::handle);
 		HANDLER.registerMessage(packetID++, PacketUseMagic.class, PacketUseMagic::encode, PacketUseMagic::decode, PacketUseMagic::handle);
 		HANDLER.registerMessage(packetID++, PacketSetDriveForm.class, PacketSetDriveForm::encode, PacketSetDriveForm::decode, PacketSetDriveForm::handle);
+		HANDLER.registerMessage(packetID++, PacketUpgradeSynthesisBag.class, PacketUpgradeSynthesisBag::encode, PacketUpgradeSynthesisBag::decode, PacketUpgradeSynthesisBag::handle);
 
 	}
 
