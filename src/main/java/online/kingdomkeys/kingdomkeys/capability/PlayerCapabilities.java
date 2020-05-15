@@ -218,7 +218,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addMP(double mp) {
-		this.mp += mp;
+		if(this.mp + mp > this.maxMP) {
+			this.mp = this.maxMP;
+		} else {
+			this.mp += mp;
+		}
 	}
 
 	@Override

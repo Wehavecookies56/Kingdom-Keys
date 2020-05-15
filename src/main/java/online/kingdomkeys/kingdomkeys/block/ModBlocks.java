@@ -13,8 +13,7 @@ public class ModBlocks {
 
     public static Block normalBlox, hardBlox, metalBlox, dangerBlox, bounceBlox, blastBlox, ghostBlox, prizeBlox, rarePrizeBlox, magnetBlox;
 	public static Block blazingOre, blazingOreN, brightOre, darkOre, darkOreN, darkOreE, denseOre, energyOre, energyOreN, frostOre, lucidOre, lightningOre, powerOre, powerOreE, remembranceOre, serenityOre, stormyOre, tranquilOre, twilightOre, twilightOreN;
-    public static Block kkChest, orgPortal, pedestal;
-
+    public static Block kkChest, orgPortal, pedestal, savepoint;
     //Array of all blocks to reduce registry code
     private static final Block[] BLOCKS = {
             normalBlox = createNewBlock("normal_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
@@ -47,7 +46,9 @@ public class ModBlocks {
             stormyOre = createNewBlock("stormy_ore", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             tranquilOre = createNewBlock("tranquil_ore", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             twilightOre = createNewBlock("twilight_ore", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
-            twilightOreN = createNewBlock("twilight_ore_n", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))
+            twilightOreN = createNewBlock("twilight_ore_n", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
+            
+            savepoint = new SavePointBlock("savepoint", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))
     };
 
     /**
