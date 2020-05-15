@@ -80,7 +80,7 @@ public class EntityGravity extends ThrowableEntity {
 		double Z = getPosZ();
 		
 		 for (double x = X - radius; x <= X + radius; x+=freq) {
-            for (double y = Y - radius; y <= Y + radius; y+=freq) {
+            for (double y = Y; y <= Y + radius; y+=freq) {
                 for (double z = Z - radius; z <= Z + radius; z+=freq) {
                     if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
                     	world.addParticle(ParticleTypes.DRAGON_BREATH, x, y+1, z, 0, 0, 0);
@@ -107,35 +107,7 @@ public class EntityGravity extends ThrowableEntity {
 	        
 	        remove();
 	        
-			/*EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
-
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
-
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getThrower()) {
-					IGlobalCapabilities gProps = ModCapabilities.getGlobal(target);
-					gProps.setFlatTicks(100); // Just in case it goes below (shouldn't happen)
-					
-					if (target instanceof LivingEntity) //This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
-						PacketHandler.syncToAllAround(target, gProps);
-					
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 1);
-					
-					remove();
-				}
-			} else { // Block (not ERTR)
 			
-				remove();
-			}*/
 		}
 	}
 

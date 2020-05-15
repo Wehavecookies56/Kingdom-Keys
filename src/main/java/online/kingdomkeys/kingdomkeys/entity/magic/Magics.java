@@ -79,7 +79,8 @@ public class Magics {
 	}
 	
 	public static void magnet(PlayerEntity player) {
-		ThrowableEntity shot = new EntityMagnet(player.world, player);
+		EntityMagnet shot = new EntityMagnet(player.world, player);
+		shot.setCaster(player.getDisplayName().getFormattedText());
 		player.world.addEntity(shot);
 		shot.shoot(player, -90, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
