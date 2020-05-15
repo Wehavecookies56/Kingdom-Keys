@@ -11,9 +11,10 @@ import online.kingdomkeys.kingdomkeys.item.BlockItemWrapper;
 
 public class ModBlocks {
 
-    public static Block normalBlox, hardBlox, metalBlox, dangerBlox, bounceBlox, blastBlox, ghostBlox, prizeBlox, rarePrizeBlox;
+    public static Block normalBlox, hardBlox, metalBlox, dangerBlox, bounceBlox, blastBlox, ghostBlox, prizeBlox, rarePrizeBlox, magnetBlox;
 	public static Block blazingOre, blazingOreN, brightOre, darkOre, darkOreN, darkOreE, denseOre, energyOre, energyOreN, frostOre, lucidOre, lightningOre, powerOre, powerOreE, remembranceOre, serenityOre, stormyOre, tranquilOre, twilightOre, twilightOreN;
     public static Block kkChest, orgPortal, pedestal;
+
     //Array of all blocks to reduce registry code
     private static final Block[] BLOCKS = {
             normalBlox = createNewBlock("normal_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
@@ -25,6 +26,8 @@ public class ModBlocks {
             ghostBlox = new GhostBloxBlock("ghost_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             prizeBlox = createNewBlock("prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             rarePrizeBlox = createNewBlock("rare_prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
+            magnetBlox = new MagnetBloxBlock("magnet_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 1.0F)),
+
             blazingOre = createNewBlock("blazing_ore", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             blazingOreN = createNewBlock("blazing_ore_n", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             brightOre = createNewBlock("bright_ore", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),

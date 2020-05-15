@@ -13,31 +13,31 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public enum KKArmorMaterial implements IArmorMaterial {
-	ORGANIZATION(KingdomKeys.MODID + ":organization", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	ORGANIZATION(KingdomKeys.MODID + ":organization", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	TERRA(KingdomKeys.MODID + ":terra", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	TERRA(KingdomKeys.MODID + ":terra", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	Aqua(KingdomKeys.MODID + ":aqua", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	AQUA(KingdomKeys.MODID + ":aqua", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	VENTUS(KingdomKeys.MODID + ":ventus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	VENTUS(KingdomKeys.MODID + ":ventus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	ERAQUS(KingdomKeys.MODID + ":eraqus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	ERAQUS(KingdomKeys.MODID + ":eraqus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	NIGHTMAREVEN(KingdomKeys.MODID + ":nightmareventus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	NIGHTMAREVEN(KingdomKeys.MODID + ":nightmareventus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	ANTICOAT(KingdomKeys.MODID + ":anticoat", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	ANTICOAT(KingdomKeys.MODID + ":anticoat", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	}),
-	XEMNAS(KingdomKeys.MODID + ":xemnas", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.field_226124_Y_, 6.9F, () -> {
+	XEMNAS(KingdomKeys.MODID + ":xemnas", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future);
 	});
 	private static final int[] MAX_DAMAGE_ARRAY = new int[] { 16, 16, 16, 16 };

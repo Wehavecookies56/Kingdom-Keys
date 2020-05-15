@@ -308,10 +308,10 @@ public class ModItems {
 					ventus_Leggings = createArmorItem(Strings.ventusLeggings, KKArmorMaterial.VENTUS, EquipmentSlotType.LEGS),
 					ventus_Boots = createArmorItem(Strings.ventusBoots, KKArmorMaterial.VENTUS, EquipmentSlotType.FEET),
 
-					aqua_Helmet = createArmorItem(Strings.aquaHelmet, KKArmorMaterial.Aqua, EquipmentSlotType.HEAD),
-					aqua_Chestplate = createArmorItem(Strings.aquaChestplate, KKArmorMaterial.Aqua, EquipmentSlotType.CHEST),
-					aqua_Leggings = createArmorItem(Strings.aquaLeggings, KKArmorMaterial.Aqua, EquipmentSlotType.LEGS),
-					aqua_Boots = createArmorItem(Strings.aquaBoots, KKArmorMaterial.Aqua, EquipmentSlotType.FEET),
+					aqua_Helmet = createArmorItem(Strings.aquaHelmet, KKArmorMaterial.AQUA, EquipmentSlotType.HEAD),
+					aqua_Chestplate = createArmorItem(Strings.aquaChestplate, KKArmorMaterial.AQUA, EquipmentSlotType.CHEST),
+					aqua_Leggings = createArmorItem(Strings.aquaLeggings, KKArmorMaterial.AQUA, EquipmentSlotType.LEGS),
+					aqua_Boots = createArmorItem(Strings.aquaBoots, KKArmorMaterial.AQUA, EquipmentSlotType.FEET),
 
 					eraqus_Helmet = createArmorItem(Strings.eraqusHelmet, KKArmorMaterial.ERAQUS, EquipmentSlotType.HEAD),
 					eraqus_Chestplate = createArmorItem(Strings.eraqusChestplate, KKArmorMaterial.ERAQUS, EquipmentSlotType.CHEST),

@@ -13,11 +13,17 @@
     "block.kingdomkeys.ghost_blox": "Ghost Blox",
     "block.kingdomkeys.prize_blox": "Prize Blox",
     "block.kingdomkeys.rare_prize_blox": "Rare Prize Blox",
+    "block.kingdomkeys.magnet_blox": "Magnet Blox",
 
     "_comment": "Items",
     "item.kingdomkeys.kingdom_key": "Kingdom Key",
     "item.kingdomkeys.kingdom_key_d": "Kingdom Key D",
 
     "_comment": "Entities",
-    "entities.kingdomkeys.blast_blox_primed": "Primed Blast Blox"
+    "entities.kingdomkeys.blast_blox_primed": "Primed Blast Blox",
+
+    "_comment": "Messages",
+    "message.magnet_blox.attract": "Attract Mode",
+    "message.magnet_blox.repel": "Repel Mode",
+    "message.magnet_blox.range": "Range is now: %s"
 }

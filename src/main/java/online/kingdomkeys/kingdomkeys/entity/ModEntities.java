@@ -1,12 +1,11 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
-
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -15,21 +14,19 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.EntityMunnyRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magics.EntityBlizzardRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magics.EntityFireRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magics.EntityGravityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magics.EntityMagnetRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magics.EntityThunderRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magics.EntityWaterRenderer;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityGravity;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityMagnet;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityThunder;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityWater;
+import online.kingdomkeys.kingdomkeys.client.render.magics.*;
+import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.*;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class ModEntities {
 
@@ -44,13 +41,13 @@ public class ModEntities {
     public static EntityType<EntityBlizzard> TYPE_BLIZZARD = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static EntityType<EntityWater> TYPE_WATER = createEntityType(EntityWater::new, EntityWater::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static EntityType<EntityThunder> TYPE_THUNDER = createEntityType(EntityThunder::new, EntityThunder::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
-  //  public static EntityType<EntityBlizzard> TYPE_CURE = createEntityType(EntityCure::new, EntityCure::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
+    //public static EntityType<EntityBlizzard> TYPE_CURE = createEntityType(EntityCure::new, EntityCure::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
     public static EntityType<EntityMagnet> TYPE_MAGNET = createEntityType(EntityMagnet::new, EntityMagnet::new, EntityClassification.MISC,"entity_magnet", 0.5F, 0.5F);
-  //  public static EntityType<EntityReflect> TYPE_REFLECT = createEntityType(EntityReflect::new, EntityReflect::new, EntityClassification.MISC,"entity_reflect", 4F, 3F);
+    //public static EntityType<EntityReflect> TYPE_REFLECT = createEntityType(EntityReflect::new, EntityReflect::new, EntityClassification.MISC,"entity_reflect", 4F, 3F);
     public static EntityType<EntityGravity> TYPE_GRAVITY = createEntityType(EntityGravity::new, EntityGravity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
-   // public static EntityType<EntityStop> TYPE_STOP = createEntityType(EntityStop::new, EntityStop::new, EntityClassification.MISC,"entity_stop", 0.5F, 0.5F);
+    //public static EntityType<EntityStop> TYPE_STOP = createEntityType(EntityStop::new, EntityStop::new, EntityClassification.MISC,"entity_stop", 0.5F, 0.5F);
     
-    
+    //Mobs
     // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
 
     /**
@@ -93,12 +90,28 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY, EntityGravityRenderer.FACTORY);
     }
 
+    private static List<TileEntityType> TILE_ENTITIES = new ArrayList<>();
+
+    public static TileEntityType<MagnetBloxTileEntity> TYPE_MAGNET_BLOX = createTileEntityType("magnet_blox", MagnetBloxTileEntity::new, ModBlocks.magnetBlox);
+
+    public static <T extends TileEntity>TileEntityType<T> createTileEntityType(String registryName, Supplier<T> factory, Block... blocks) {
+        TileEntityType<T> type = TileEntityType.Builder.create(factory, blocks).build(null);
+        type.setRegistryName(KingdomKeys.MODID, registryName);
+        TILE_ENTITIES.add(type);
+        return type;
+    }
+
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class Registry {
 
         @SubscribeEvent
         public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
             ENTITIES.forEach((entityType)->event.getRegistry().register(entityType));
+        }
+
+        @SubscribeEvent
+        public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
+            TILE_ENTITIES.forEach((tileEntityType->event.getRegistry().register(tileEntityType)));
         }
 
     }

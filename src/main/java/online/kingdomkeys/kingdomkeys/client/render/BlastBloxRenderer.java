@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.entity.BlastBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 
 /**
  * Mostly a copy of {@link net.minecraft.client.renderer.entity.TNTRenderer} with some small changes

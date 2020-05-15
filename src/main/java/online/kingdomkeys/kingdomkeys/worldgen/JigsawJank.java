@@ -54,10 +54,10 @@ public final class JigsawJank {
     }
 
     private JigsawPattern appendPool(final JigsawPattern pool, final List<Pair<JigsawPiece, Integer>> additionalElements) {
-        final ResourceLocation fallback = pool.func_214948_a();
+        final ResourceLocation fallback = pool.getFallback();
         final ImmutableList<Pair<JigsawPiece, Integer>> elements = Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(JigsawPattern.class, pool, "field_214952_d"), "elements");
         final JigsawPattern.PlacementBehaviour placement = Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(JigsawPattern.class, pool, "field_214955_g"), "placement");
-        return new JigsawPattern(pool.func_214947_b(), fallback, Stream.concat(elements.stream(), additionalElements.stream()).collect(Collectors.toList()), placement);
+        return new JigsawPattern(pool.getName(), fallback, Stream.concat(elements.stream(), additionalElements.stream()).collect(Collectors.toList()), placement);
     }
 
     public static JigsawJank create() {
@@ -91,7 +91,7 @@ public final class JigsawJank {
         @Override
         public void register(final JigsawPattern pattern) {
             if (pattern != JigsawPattern.EMPTY) {
-                this.delegate.register(this.functions.getOrDefault(pattern.func_214947_b(), UnaryOperator.identity()).apply(pattern));
+                this.delegate.register(this.functions.getOrDefault(pattern.getName(), UnaryOperator.identity()).apply(pattern));
             }
         }
 
