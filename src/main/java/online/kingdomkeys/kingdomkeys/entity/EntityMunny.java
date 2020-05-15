@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleType;
@@ -20,8 +19,6 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 
 public class EntityMunny extends Entity {
 	public int xpColor;
@@ -184,13 +181,12 @@ public class EntityMunny extends Entity {
 	 */
 	public void onCollideWithPlayer(PlayerEntity entityIn) {
 		if (!this.world.isRemote) {
-			if (this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0) {
+			if (this.delayBeforeCanPickup == 0) {
 				entityIn.xpCooldown = 2;
 				//entityIn.onItemPickup(this, 1); //1 = quantity
 				//TODO add munny to the player
 				IPlayerCapabilities props = ModCapabilities.get(entityIn);
 				props.setMunny(props.getMunny()+1);
-				//PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)entityIn);
 				this.remove();
 			}
 
