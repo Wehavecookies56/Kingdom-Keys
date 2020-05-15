@@ -62,9 +62,8 @@ public class EntityGravityRenderer extends EntityRenderer<EntityGravity> {
 		}
 	}
 
-	@Mod.EventBusSubscriber
+	@Mod.EventBusSubscriber(value = Dist.CLIENT)
 	public static class Events {
-		@OnlyIn(Dist.CLIENT)
 		@SubscribeEvent
 		public static void RenderEntity(RenderLivingEvent.Pre event) {
 			IGlobalCapabilities gProps = ModCapabilities.getGlobal(event.getEntity());

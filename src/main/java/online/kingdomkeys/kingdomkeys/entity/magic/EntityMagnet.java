@@ -87,8 +87,6 @@ public class EntityMagnet extends ThrowableEntity {
 					}
 				}
 			}
-			
-			//System.out.println(world.isRemote+": "+caster);
 
 			this.setMotion(0, 0, 0);
 			this.velocityChanged = true;
@@ -115,8 +113,6 @@ public class EntityMagnet extends ThrowableEntity {
 					}
 				}
 			}
-		
-
 		}
 
 		super.tick();
