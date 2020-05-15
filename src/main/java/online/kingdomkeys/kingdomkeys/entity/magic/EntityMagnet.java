@@ -103,7 +103,6 @@ public class EntityMagnet extends ThrowableEntity {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
-						// e.setMotion(motionIn);
 						double d = e.getPosX() - getPosX();
 						double d1 = e.getPosZ() - getPosZ();
 						((LivingEntity) e).knockBack(e, 1, d, d1);

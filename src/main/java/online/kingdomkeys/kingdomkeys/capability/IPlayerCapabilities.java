@@ -66,4 +66,7 @@ public interface IPlayerCapabilities {
 	
 	void setRecharge(boolean b);
 	boolean getRecharge();
+	
+	void setMunny(int amount);
+	int getMunny();
 }

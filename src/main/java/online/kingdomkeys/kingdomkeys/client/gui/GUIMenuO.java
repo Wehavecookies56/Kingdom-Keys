@@ -45,6 +45,8 @@ public class GUIMenuO extends Screen{
 		drawCenteredString(Minecraft.getInstance().fontRenderer, text, this.width / 2 - text.length()/2, 140, 0xFFFFFF);
 		text = "MP: "+props.getMP()+"/"+props.getMaxMP();
 		drawCenteredString(Minecraft.getInstance().fontRenderer, text, this.width / 2 - text.length()/2, 150, 0xFFFFFF);
+		text = "Munny: "+props.getMunny();
+		drawCenteredString(Minecraft.getInstance().fontRenderer, text, this.width / 2 - text.length()/2, 160, 0xFFFFFF);
 
         }
 		super.render(mouseX, mouseY, partialTicks);

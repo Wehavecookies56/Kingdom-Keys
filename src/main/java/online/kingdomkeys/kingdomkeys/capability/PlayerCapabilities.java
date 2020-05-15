@@ -37,6 +37,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putString("drive_form", instance.getDriveForm());
 			props.putInt("reflect_ticks", instance.getReflectTicks());
 			props.putBoolean("reflect_active", instance.getReflectActive());
+			props.putInt("munny", instance.getMunny());
 			// TODO save and load the rest of things
 			return props;
 		}
@@ -57,10 +58,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setDriveForm(properties.getString("drive_form"));
 			instance.setReflectTicks(properties.getInt("reflect_ticks"));
 			instance.setReflectActive(properties.getBoolean("reflect_active"));
+			instance.setMunny(properties.getInt("munny"));
 		}
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0;
+	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0, munny = 0;
 
 	private String driveForm = "";
 
@@ -709,5 +711,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean getReflectActive() {
 		return reflectActive;
+	}
+
+	@Override
+	public void setMunny(int amount) {
+		this.munny = amount;
+	}
+
+	@Override
+	public int getMunny() {
+		return munny;
 	}
 }

@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.EntityMunnyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magics.EntityBlizzardRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magics.EntityFireRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magics.EntityGravityRenderer;
@@ -36,6 +37,8 @@ public class ModEntities {
 
     public static EntityType<BlastBloxEntity> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
     
+    public static EntityType<EntityMunny> TYPE_MUNNY = createEntityType(EntityMunny::new, EntityMunny::new, EntityClassification.MISC,"entity_munny", 0.5F, 0.5F);
+
     //Magic
     public static EntityType<EntityFire> TYPE_FIRE = createEntityType(EntityFire::new, EntityFire::new, EntityClassification.MISC,"entity_fire", 0.5F, 0.5F);
     public static EntityType<EntityBlizzard> TYPE_BLIZZARD = createEntityType(EntityBlizzard::new, EntityBlizzard::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
@@ -79,6 +82,8 @@ public class ModEntities {
      */
     public static void registerModels() {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX, BlastBloxRenderer.FACTORY);
+        
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_MUNNY, EntityMunnyRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE, EntityFireRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD, EntityBlizzardRenderer.FACTORY);

@@ -20,6 +20,7 @@ public class PacketSyncCapability {
 	private int magic = 0;
 	private int defense = 0;
 	private int hp, ap, maxAP;
+	private int munny = 0;
 
 	private double MP, maxMP;
 	
@@ -45,6 +46,7 @@ public class PacketSyncCapability {
 		// this.choice1 = capability.getChoice1();
 		this.ap = capability.getConsumedAP();
 		this.maxAP = capability.getMaxAP();
+		this.munny = capability.getMunny();
 		this.messages = capability.getMessages();
 	}
 
@@ -63,6 +65,7 @@ public class PacketSyncCapability {
 		// buffer.writeString(this.choice1);
 		buffer.writeInt(this.ap);
 		buffer.writeInt(this.maxAP);
+		buffer.writeInt(this.munny);
 		
 		for (int i = 0; i < this.messages.size(); i++) {
 			buffer.writeString(this.messages.get(i));
@@ -86,6 +89,8 @@ public class PacketSyncCapability {
 		// msg.choice1 = buffer.readString(40);
 		msg.ap = buffer.readInt();
 		msg.maxAP = buffer.readInt();
+		msg.munny = buffer.readInt();
+		
 		msg.messages = new ArrayList<String>();
 		
 		while (buffer.isReadable()) {
@@ -109,6 +114,7 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setMaxHP(message.hp));
 			props.ifPresent(cap -> cap.setConsumedAP(message.ap));
 			props.ifPresent(cap -> cap.setMaxAP(message.maxAP));
+			props.ifPresent(cap -> cap.setMunny(message.munny));
 			props.ifPresent(cap -> cap.setMessages(message.messages));
 		});
 		ctx.get().setPacketHandled(true);
