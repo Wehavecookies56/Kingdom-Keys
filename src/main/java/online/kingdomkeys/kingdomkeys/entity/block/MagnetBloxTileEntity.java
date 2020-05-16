@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
+import java.util.List;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -9,12 +11,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
-
-import java.util.List;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEntity {
     public MagnetBloxTileEntity() {
-        super(null/*ModEntities.TYPE_MAGNET_BLOX.get()*/);
+        super(ModEntities.TYPE_MAGNET_BLOX.get());
     }
 
     int ticks = 0;

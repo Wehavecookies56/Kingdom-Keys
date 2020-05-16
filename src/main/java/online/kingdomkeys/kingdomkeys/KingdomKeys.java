@@ -160,8 +160,7 @@ public class KingdomKeys {
 		this.registerResourceLoader(event.getServer().getResourceManager());
 	}
 
-    public void oreGen(FMLLoadCompleteEvent event)
-    {
+    public void oreGen(FMLLoadCompleteEvent event) {
         OreGen.generateOre();
     }
 

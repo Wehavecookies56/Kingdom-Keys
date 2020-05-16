@@ -13,11 +13,11 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 public class EntityHPOrb extends EntityItemDrop {
 
 	public EntityHPOrb(World worldIn, double x, double y, double z, int expValue) {
-		super(ModEntities.TYPE_HPORB, worldIn, x, y, z, expValue);
+		super(ModEntities.TYPE_HPORB.get(), worldIn, x, y, z, expValue);
 	}
 
 	public EntityHPOrb(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_HPORB, world);
+		super(ModEntities.TYPE_HPORB.get(), world);
 	}
 
 	public EntityHPOrb(EntityType<? extends Entity> type, World world) {
@@ -32,6 +32,6 @@ public class EntityHPOrb extends EntityItemDrop {
 
 	@Override
 	SoundEvent getPickupSound() {
-		return ModSounds.potion;
+		return ModSounds.hp_orb.get();
 	}
 }

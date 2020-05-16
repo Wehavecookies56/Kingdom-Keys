@@ -1,8 +1,8 @@
 {
-	"move": {
+	"menu_move": {
 		"category": "player",
 		"sounds": [
-			{"name": "kingdomkeys:move", "stream": false }
+			{"name": "kingdomkeys:menu_move", "stream": false }
 		]
 	},
 	"summon": {
@@ -12,10 +12,24 @@
 		]
 	},
 
-	"cancel": {
+	"menu_back": {
 		"category": "player",
 		"sounds": [
-			{"name": "kingdomkeys:cancel", "stream": false }
+			{"name": "kingdomkeys:menu_back", "stream": false }
+		]
+	},
+	
+	"itemget": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:itemget", "stream": false }
+		]
+	},
+	
+	"hp_orb": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:hp_orb", "stream": false }
 		]
 	},
 
@@ -40,10 +54,24 @@
 		]
 	},
 
-	"select": {
+	"menu_in": {
 		"category": "player",
 		"sounds": [
-			{"name": "kingdomkeys:select", "stream": false }
+			{"name": "kingdomkeys:menu_in", "stream": false }
+		]
+	},
+	
+	"menu_select": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:menu_select", "stream": false }
+		]
+	},
+	
+	"munny": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:munny", "stream": false }
 		]
 	},
 
@@ -338,13 +366,6 @@
 		"category": "music",
 		"sounds": [
 			{"name": "kingdomkeys:music/this_is_halloween", "stream": true }
-		]
-	},
-
-	"itemget": {
-		"category": "master",
-		"sounds": [
-			{"name": "kingdomkeys:itemget", "stream": false }
 		]
 	},
 

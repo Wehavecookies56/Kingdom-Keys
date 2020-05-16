@@ -31,7 +31,7 @@ public abstract class EntityItemDrop extends Entity {
 	private PlayerEntity closestPlayer;
 	private int xpTargetColor;
 
-	public EntityItemDrop(EntityType<EntityItemDrop> type, World worldIn, double x, double y, double z, int expValue) {
+	public EntityItemDrop(EntityType<? extends Entity> type, World worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
 		this.setPosition(x, y, z);
 		this.rotationYaw = (float) (this.rand.nextDouble() * 360.0D);

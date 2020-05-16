@@ -32,6 +32,6 @@ public class EntityMunny extends EntityItemDrop {
 
 	@Override
 	SoundEvent getPickupSound() {
-		return ModSounds.error;
+		return ModSounds.munny.get();
 	}
 }
