@@ -20,6 +20,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.entity.EntityHPOrb;
+import online.kingdomkeys.kingdomkeys.entity.EntityMunny;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
@@ -248,7 +250,15 @@ public class EntityEvents {
 					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) player);
 				}
 			}
+			
 		}
+		Entity entity = event.getEntity();
+		double x = entity.getPosX();
+		double y = entity.getPosY();
+		double z = entity.getPosZ();
+		event.getEntity().world.addEntity(new EntityMunny(event.getEntity().world,x,y,z,10));
+		event.getEntity().world.addEntity(new EntityHPOrb(event.getEntity().world,x,y,z,10));
+
 	}
 
 	// Sync drive form on Start Tracking

@@ -34,7 +34,8 @@ public class ModEntities {
 
     public static EntityType<BlastBloxEntity> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
     
-    public static EntityType<EntityMunny> TYPE_MUNNY = createEntityType(EntityMunny::new, EntityMunny::new, EntityClassification.MISC,"entity_munny", 0.5F, 0.5F);
+    public static EntityType<EntityItemDrop> TYPE_MUNNY = createEntityType(EntityMunny::new, EntityMunny::new, EntityClassification.MISC,"entity_munny", 0.5F, 0.5F);
+    public static EntityType<EntityItemDrop> TYPE_HPORB = createEntityType(EntityHPOrb::new, EntityHPOrb::new, EntityClassification.MISC,"entity_hp_orb", 0.5F, 0.5F);
 
     //Magic
     public static EntityType<EntityFire> TYPE_FIRE = createEntityType(EntityFire::new, EntityFire::new, EntityClassification.MISC,"entity_fire", 0.5F, 0.5F);
@@ -81,6 +82,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX, BlastBloxRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MUNNY, EntityMunnyRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_HPORB, EntityMunnyRenderer.FACTORY);
+
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE, EntityFireRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD, EntityBlizzardRenderer.FACTORY);

@@ -10,28 +10,28 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
-public class EntityMunny extends EntityItemDrop {
+public class EntityHPOrb extends EntityItemDrop {
 
-	public EntityMunny(World worldIn, double x, double y, double z, int expValue) {
-		super(ModEntities.TYPE_MUNNY, worldIn, x, y, z, expValue);
+	public EntityHPOrb(World worldIn, double x, double y, double z, int expValue) {
+		super(ModEntities.TYPE_HPORB, worldIn, x, y, z, expValue);
 	}
 
-	public EntityMunny(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_MUNNY, world);
+	public EntityHPOrb(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_HPORB, world);
 	}
 
-	public EntityMunny(EntityType<? extends Entity> type, World world) {
+	public EntityHPOrb(EntityType<? extends Entity> type, World world) {
 		super(type, world);
 	}
+	
 
 	@Override
 	void onPickup(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.setMunny(props.getMunny() + 1);
+		player.heal(this.value);
 	}
 
 	@Override
 	SoundEvent getPickupSound() {
-		return ModSounds.error;
+		return ModSounds.potion;
 	}
 }
