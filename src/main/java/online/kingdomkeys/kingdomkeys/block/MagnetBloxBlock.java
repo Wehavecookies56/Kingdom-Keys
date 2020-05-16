@@ -24,6 +24,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import javax.annotation.Nullable;
 
@@ -107,6 +108,6 @@ public class MagnetBloxBlock extends BaseBlock{
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return null;//ModEntities.TYPE_MAGNET_BLOX.get().create();
+        return ModEntities.TYPE_MAGNET_BLOX.get().create();
     }
 }
