@@ -24,6 +24,8 @@ public class BlockModels extends BlockModelProvider {
         standardCube("prize_blox");
         standardCube("rare_prize_blox");
         standardCube("blast_blox");
+        standardCube("magnet_blox_on");
+        standardCube("magnet_blox_off");
 
         //ore
         standardCube("blazing_ore");

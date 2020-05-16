@@ -49,7 +49,7 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
                     //No reason to do anymore if there are no entities in range
                     if (!entities.isEmpty()) {
                         boolean attract = getBlockState().get(MagnetBloxBlock.ATTRACT);
-                        double strength = 1.0;
+                        double strength = 0.8;
                         for (Entity e : entities) {
                             Vec3d ePos = e.getPositionVec();
                             Vec3d blockPos = new Vec3d(getPos().getX() + 0.5, getPos().getY() + 0.5, getPos().getZ() + 0.5);
