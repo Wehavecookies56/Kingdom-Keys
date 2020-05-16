@@ -1,13 +1,13 @@
 {
-  "keychain": "kingdomkeys:ultima_weapon_kh3_chain",
+  "keychain": "kingdomkeys:oblivion_chain",
   "base_stats": {
-    "str": 12,
-    "mag": 8
+    "str": 10,
+    "mag": -1
   },
   "levels": [
     {
-      "str": 13,
-      "mag": 10,
+      "str": 3,
+      "mag": 3,
       "recipe": [
         {
           "material": "kingdomkeys:mat_blazingcrystal",
@@ -21,8 +21,8 @@
       "ability": "Test_Abiltity"
     },
     {
-      "str": 16,
-      "mag": 12,
+      "str": 4,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:mat_brightcrystal",

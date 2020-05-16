@@ -1,0 +1,21 @@
+{
+  "keychain": "kingdomkeys:wishing_star_chain",
+  "base_stats": {
+    "str": 5,
+    "mag": 2
+  },
+  "levels": [
+    {
+      "str": 3,
+      "mag": 3,
+      "recipe": [],
+      "ability": "Test_Abiltity"
+    },
+    {
+      "str": 4,
+      "mag": 4,
+      "recipe": []
+    }
+  ],
+  "description": "test"
+}

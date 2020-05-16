@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"active=true,attract=true": { "model": "kingdomkeys:block/magnet_blox_on" },
+		"active=false": { "model":  "kingdomkeys:block/magnet_blox_off" }
+	}
+}
