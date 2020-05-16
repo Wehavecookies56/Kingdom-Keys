@@ -31,7 +31,15 @@ public class LootTables extends BaseLootTables {
 
 
         ores();
+        structures();
     }
+    private void structures(){
+        lootTables.put(Blocks.CHEST, LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(Blocks.STONE).weight(1)).addEntry(ItemLootEntry.builder(Blocks.SAND)
+                        .weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3))))));
+
+    }
+
 
     private void ores(){
         lootTables.put(ModBlocks.blazingOre, LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
