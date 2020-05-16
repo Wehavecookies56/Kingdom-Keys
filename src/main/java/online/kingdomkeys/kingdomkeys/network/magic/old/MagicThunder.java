@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.magic.old;
 /*
-package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
+package uk.co.wehavecookies56.kk.common.network.packet.server.magic;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import uk.co.wehavecookies56.kk.common.capability.ModCapabilities;
 import uk.co.wehavecookies56.kk.common.entity.magic.EntityThundaga;
 import uk.co.wehavecookies56.kk.common.entity.magic.EntityThundara;
-import uk.co.wehavecookies56.kk.common.entity.magic.EntityThunder;
+import uk.co.wehavecookies56.kk.common.entity.magic.ThunderEntity;
 import uk.co.wehavecookies56.kk.common.lib.Constants;
 import uk.co.wehavecookies56.kk.common.lib.Strings;
 import uk.co.wehavecookies56.kk.common.network.packet.AbstractMessage.AbstractServerMessage;
@@ -37,7 +37,7 @@ public class MagicThunder extends AbstractServerMessage<MagicThunder> {
 
         if (!world.isRemote) switch (player.getCapability(ModCapabilities.MAGIC_STATE, null).getMagicLevel(Strings.Spell_Thunder)) {
             case 1:
-                world.spawnEntity(new EntityThunder(world, player, player.posX, player.posY, player.posZ));
+                world.spawnEntity(new ThunderEntity(world, player, player.posX, player.posY, player.posZ));
                 PacketDispatcher.sendToAllAround(new SpawnThunderParticles(player,1), player, 64.0D);
                 break;
             case 2:

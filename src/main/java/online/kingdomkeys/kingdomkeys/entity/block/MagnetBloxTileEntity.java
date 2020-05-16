@@ -9,16 +9,15 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import java.util.List;
 
 public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEntity {
     public MagnetBloxTileEntity() {
-        super(ModEntities.TYPE_MAGNET_BLOX);
+        super(null/*ModEntities.TYPE_MAGNET_BLOX.get()*/);
     }
 
-    //int ticks = 0;
+    int ticks = 0;
 
     //Loop through each block in the direction facing for a given range and returns the nunmber of blocks it goes without hitting one
     //Returns the original range if nothing is hit
@@ -36,7 +35,7 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 
     @Override
     public void tick() {
-        //ticks++;
+        ticks++;
         //if (ticks % 20 == 0) {
             //Don't do anything unless it's active
             if (getBlockState().get(MagnetBloxBlock.ACTIVE)) {
@@ -49,7 +48,7 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
                     //No reason to do anymore if there are no entities in range
                     if (!entities.isEmpty()) {
                         boolean attract = getBlockState().get(MagnetBloxBlock.ATTRACT);
-                        double strength = 1.0;
+                        double strength = 0.3D;
                         for (Entity e : entities) {
                             Vec3d ePos = e.getPositionVec();
                             Vec3d blockPos = new Vec3d(getPos().getX() + 0.5, getPos().getY() + 0.5, getPos().getZ() + 0.5);

@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,9 +12,11 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
 
-public class Magics {
+import java.util.List;
+
+public class Magic {
 	public static void fire(PlayerEntity player) {
-		ThrowableEntity shot = new EntityFire(player.world, player);
+		ThrowableEntity shot = new FireEntity(player.world, player);
 		player.world.addEntity(shot);
 		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		//player.world.playSound(null, player.getPosition(), ModSounds.fistShot0, SoundCategory.MASTER, 1F, 1F);
@@ -25,14 +25,14 @@ public class Magics {
 	}
 	
 	public static void blizzard(PlayerEntity player) {
-		ThrowableEntity shot = new EntityBlizzard(player.world, player);
+		ThrowableEntity shot = new BlizzardEntity(player.world, player);
 		player.world.addEntity(shot);
 		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 	
 	public static void water(PlayerEntity player) {
-		ThrowableEntity shot = new EntityWater(player.world, player);
+		ThrowableEntity shot = new WaterEntity(player.world, player);
 		player.world.addEntity(shot);
 		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
@@ -44,7 +44,7 @@ public class Magics {
             for (int i = 0; i < list.size(); i++) {
                 Entity e = (Entity) list.get(i);
                 if (e instanceof LivingEntity) {
-            		ThrowableEntity shot = new EntityThunder(player.world, player, e.getPosX(),e.getPosY(),e.getPosZ());
+            		ThrowableEntity shot = new ThunderEntity(player.world, player, e.getPosX(),e.getPosY(),e.getPosZ());
             		shot.shoot(player, 90, player.rotationYaw, 0, 3F, 0);
             		player.world.addEntity(shot);
                 }
@@ -79,7 +79,7 @@ public class Magics {
 	}
 	
 	public static void magnet(PlayerEntity player) {
-		EntityMagnet shot = new EntityMagnet(player.world, player);
+		MagnetEntity shot = new MagnetEntity(player.world, player);
 		shot.setCaster(player.getDisplayName().getFormattedText());
 		player.world.addEntity(shot);
 		shot.shoot(player, -90, player.rotationYaw, 0, 1F, 0);
@@ -93,7 +93,7 @@ public class Magics {
 	}
 	
 	public static void gravity(PlayerEntity player) {
-		ThrowableEntity shot = new EntityGravity(player.world, player);
+		ThrowableEntity shot = new GravityEntity(player.world, player);
 		player.world.addEntity(shot);
 		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);

@@ -34,8 +34,8 @@ public class BlastBloxBlock extends BaseBlock {
     /** Smaller collision box otherwise {@link #onEntityCollision(BlockState, World, BlockPos, Entity)} doesn't trigger */
     private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 
-    public BlastBloxBlock(String name, Properties properties) {
-        super(name, properties);
+    public BlastBloxBlock(Properties properties) {
+        super(properties);
     }
 
     //TODO change boolean parameter name once finding out what it's for
@@ -93,7 +93,7 @@ public class BlastBloxBlock extends BaseBlock {
      */
     private void explode(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isRemote) {
-            BlastBloxEntity entity = new BlastBloxEntity(ModEntities.TYPE_BLAST_BLOX, world, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), igniter);
+            BlastBloxEntity entity = new BlastBloxEntity(ModEntities.TYPE_BLAST_BLOX.get(), world, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), igniter);
             world.addEntity(entity);
             world.playSound((PlayerEntity) null, entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }

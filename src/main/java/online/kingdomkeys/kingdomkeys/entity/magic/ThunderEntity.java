@@ -16,27 +16,27 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class EntityThunder extends ThrowableEntity {
+public class ThunderEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 	PlayerEntity player;
 
-	public EntityThunder(EntityType<? extends ThrowableEntity> type, World world) {
+	public ThunderEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityThunder(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_THUNDER, world);
+	public ThunderEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_THUNDER.get(), world);
 	}
 
-	public EntityThunder(World world) {
-		super(ModEntities.TYPE_THUNDER, world);
+	public ThunderEntity(World world) {
+		super(ModEntities.TYPE_THUNDER.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityThunder(World world, PlayerEntity player, double x, double y, double z) {
-		super(ModEntities.TYPE_THUNDER, player, world);
+	public ThunderEntity(World world, PlayerEntity player, double x, double y, double z) {
+		super(ModEntities.TYPE_THUNDER.get(), player, world);
 		setPosition(x, y + 10, z);
 		this.player = player;
 	}

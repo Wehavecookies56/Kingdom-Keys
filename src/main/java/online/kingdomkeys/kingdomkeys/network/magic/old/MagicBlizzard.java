@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.magic.old;
 /*
-package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
+package uk.co.wehavecookies56.kk.common.network.packet.server.magic;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import uk.co.wehavecookies56.kk.common.capability.ModCapabilities;
 import uk.co.wehavecookies56.kk.common.entity.magic.EntityBlizzaga;
 import uk.co.wehavecookies56.kk.common.entity.magic.EntityBlizzara;
-import uk.co.wehavecookies56.kk.common.entity.magic.EntityBlizzard;
+import uk.co.wehavecookies56.kk.common.entity.magic.BlizzardEntity;
 import uk.co.wehavecookies56.kk.common.lib.Constants;
 import uk.co.wehavecookies56.kk.common.lib.Strings;
 import uk.co.wehavecookies56.kk.common.network.packet.AbstractMessage;
@@ -44,7 +44,7 @@ public class MagicBlizzard extends AbstractMessage.AbstractServerMessage<MagicBl
         int distance = 5;
         switch (player.getCapability(ModCapabilities.MAGIC_STATE, null).getMagicLevel(Strings.Spell_Blizzard)) {
             case 1:
-                EntityBlizzard entityBlizzard = new EntityBlizzard(world, player);
+                BlizzardEntity entityBlizzard = new BlizzardEntity(world, player);
                 world.spawnEntity(entityBlizzard);
                 entityBlizzard.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1, 0);
                 break;

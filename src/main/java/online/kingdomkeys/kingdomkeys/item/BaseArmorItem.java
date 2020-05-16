@@ -10,9 +10,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class BaseArmorItem extends ArmorItem {
 
-	public BaseArmorItem(String name, KKArmorMaterial materialIn, EquipmentSlotType slot) {
+	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlotType slot) {
 		super(materialIn, slot, new Item.Properties().group(KingdomKeys.miscGroup));
-        setRegistryName(KingdomKeys.MODID, name);
 	}
 	
 	@Override

@@ -9,40 +9,35 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class EntityWater extends ThrowableEntity {
+public class WaterEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 	Vec3d motion;
 	PlayerEntity player;
 
-	public EntityWater(EntityType<? extends ThrowableEntity> type, World world) {
+	public WaterEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityWater(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_WATER, world);
+	public WaterEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_WATER.get(), world);
 	}
 
-	public EntityWater(World world) {
-		super(ModEntities.TYPE_WATER, world);
+	public WaterEntity(World world) {
+		super(ModEntities.TYPE_WATER.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityWater(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_WATER, player, world);
+	public WaterEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_WATER.get(), player, world);
 		this.player = player;
 	}
 

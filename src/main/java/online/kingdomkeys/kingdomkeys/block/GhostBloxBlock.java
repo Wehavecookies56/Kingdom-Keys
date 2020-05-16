@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -18,12 +16,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class GhostBloxBlock extends BaseBlock {
 
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
 
-    public GhostBloxBlock(String name, Properties properties) {
-        super(name, properties);
+    public GhostBloxBlock(Properties properties) {
+        super(properties);
         this.setDefaultState(this.getDefaultState().with(VISIBLE, true));
     }
 
@@ -37,7 +37,7 @@ public class GhostBloxBlock extends BaseBlock {
     @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
-        if (worldIn.getBlockState(fromPos).getBlock() == ModBlocks.ghostBlox) {
+        if (worldIn.getBlockState(fromPos).getBlock() == ModBlocks.ghostBlox.get()) {
             worldIn.setBlockState(pos, worldIn.getBlockState(fromPos));
             //Check for block power so block updates don't make them visible if there is still a powered block
             if (worldIn.isBlockPowered(pos)) {

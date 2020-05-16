@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -19,6 +16,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
+
+import javax.annotation.Nullable;
 
 /**
  * Mostly a copy of {@link net.minecraft.client.renderer.entity.TNTRenderer} with some small changes
@@ -48,7 +47,7 @@ public class BlastBloxRenderer extends EntityRenderer<BlastBloxEntity> {
         matrixStack.rotate(Vector3f.YP.rotationDegrees(-90.0F));
         matrixStack.translate(-0.5D, -0.5D, 0.5D);
         matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
-        renderFlash(ModBlocks.blastBlox.getDefaultState(), matrixStack, buffer, packedLight, entity.getFuse() / 5 % 2 == 0);
+        renderFlash(ModBlocks.blastBlox.get().getDefaultState(), matrixStack, buffer, packedLight, entity.getFuse() / 5 % 2 == 0);
         matrixStack.pop();
         super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
     }

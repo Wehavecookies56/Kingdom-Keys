@@ -14,36 +14,36 @@ public class BlockStates extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(ModBlocks.blastBlox);
-        simpleBlock(ModBlocks.blazingOre);
-        simpleBlock(ModBlocks.blazingOreN);
-        simpleBlock(ModBlocks.bounceBlox);
-        simpleBlock(ModBlocks.brightOre);
-        simpleBlock(ModBlocks.dangerBlox);
-        simpleBlock(ModBlocks.darkOre);
-        simpleBlock(ModBlocks.darkOreE);
-        simpleBlock(ModBlocks.darkOreN);
-        simpleBlock(ModBlocks.denseOre);
-        simpleBlock(ModBlocks.energyOre);
-        simpleBlock(ModBlocks.energyOreN);
-        simpleBlock(ModBlocks.frostOre);
+        simpleBlock(ModBlocks.blastBlox.get());
+        simpleBlock(ModBlocks.blazingOre.get());
+        simpleBlock(ModBlocks.blazingOreN.get());
+        simpleBlock(ModBlocks.bounceBlox.get());
+        simpleBlock(ModBlocks.brightOre.get());
+        simpleBlock(ModBlocks.dangerBlox.get());
+        simpleBlock(ModBlocks.darkOre.get());
+        simpleBlock(ModBlocks.darkOreE.get());
+        simpleBlock(ModBlocks.darkOreN.get());
+        simpleBlock(ModBlocks.denseOre.get());
+        simpleBlock(ModBlocks.energyOre.get());
+        simpleBlock(ModBlocks.energyOreN.get());
+        simpleBlock(ModBlocks.frostOre.get());
         //TODO ghostblox
         //getVariantBuilder(ModBlocks.ghostBlox).forAllStates(blockState -> ConfiguredModel.builder().modelFile(blockState.get(GhostBloxBlock.VISIBLE) ? ));
-        simpleBlock(ModBlocks.hardBlox);
-        simpleBlock(ModBlocks.lightningOre);
-        simpleBlock(ModBlocks.lucidOre);
-        simpleBlock(ModBlocks.metalBlox);
-        simpleBlock(ModBlocks.normalBlox);
-        simpleBlock(ModBlocks.powerOre);
-        simpleBlock(ModBlocks.powerOreE);
-        simpleBlock(ModBlocks.prizeBlox);
-        simpleBlock(ModBlocks.rarePrizeBlox);
-        simpleBlock(ModBlocks.remembranceOre);
-        simpleBlock(ModBlocks.serenityOre);
-        simpleBlock(ModBlocks.stormyOre);
-        simpleBlock(ModBlocks.tranquilOre);
-        simpleBlock(ModBlocks.twilightOre);
-        simpleBlock(ModBlocks.twilightOreN);
+        simpleBlock(ModBlocks.hardBlox.get());
+        simpleBlock(ModBlocks.lightningOre.get());
+        simpleBlock(ModBlocks.lucidOre.get());
+        simpleBlock(ModBlocks.metalBlox.get());
+        simpleBlock(ModBlocks.normalBlox.get());
+        simpleBlock(ModBlocks.powerOre.get());
+        simpleBlock(ModBlocks.powerOreE.get());
+        simpleBlock(ModBlocks.prizeBlox.get());
+        simpleBlock(ModBlocks.rarePrizeBlox.get());
+        simpleBlock(ModBlocks.remembranceOre.get());
+        simpleBlock(ModBlocks.serenityOre.get());
+        simpleBlock(ModBlocks.stormyOre.get());
+        simpleBlock(ModBlocks.tranquilOre.get());
+        simpleBlock(ModBlocks.twilightOre.get());
+        simpleBlock(ModBlocks.twilightOreN.get());
 
     }
 }

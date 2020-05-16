@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magics;
+package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import javax.annotation.Nullable;
 
@@ -13,12 +13,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.client.model.ModelFire;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
+import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityBlizzardRenderer extends EntityRenderer<EntityBlizzard> {
+public class EntityBlizzardRenderer extends EntityRenderer<BlizzardEntity> {
 
 	public static final Factory FACTORY = new EntityBlizzardRenderer.Factory();
 	ModelBlizzard shot;
@@ -30,7 +28,7 @@ public class EntityBlizzardRenderer extends EntityRenderer<EntityBlizzard> {
 	}
 
 	@Override
-	public void render(EntityBlizzard entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(BlizzardEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -48,13 +46,13 @@ public class EntityBlizzardRenderer extends EntityRenderer<EntityBlizzard> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(EntityBlizzard entity) {
+	public ResourceLocation getEntityTexture(BlizzardEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<EntityBlizzard> {
+	public static class Factory implements IRenderFactory<BlizzardEntity> {
 		@Override
-		public EntityRenderer<? super EntityBlizzard> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super BlizzardEntity> createRenderFor(EntityRendererManager manager) {
 			return new EntityBlizzardRenderer(manager, new ModelBlizzard());
 		}
 	}

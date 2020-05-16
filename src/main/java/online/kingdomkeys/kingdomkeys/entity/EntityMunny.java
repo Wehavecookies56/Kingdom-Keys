@@ -30,7 +30,7 @@ public class EntityMunny extends Entity {
 	private int xpTargetColor;
 
 	public EntityMunny(World worldIn, double x, double y, double z, int expValue) {
-		this(ModEntities.TYPE_MUNNY, worldIn);
+		this(ModEntities.TYPE_MUNNY.get(), worldIn);
 		this.setPosition(x, y, z);
 		this.rotationYaw = (float) (this.rand.nextDouble() * 360.0D);
 		this.setMotion((this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.rand.nextDouble() * 0.2D * 2.0D, (this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
@@ -38,7 +38,7 @@ public class EntityMunny extends Entity {
 	}
 
 	public EntityMunny(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_MUNNY, world);
+		super(ModEntities.TYPE_MUNNY.get(), world);
 	}
 	
 	public EntityMunny(EntityType<? extends Entity> p_i50382_1_, World p_i50382_2_) {

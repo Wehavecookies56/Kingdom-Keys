@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magics;
+package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -15,13 +15,13 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityGravity;
+import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 import javax.annotation.Nullable;
 import java.util.Base64;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityGravityRenderer extends EntityRenderer<EntityGravity> {
+public class EntityGravityRenderer extends EntityRenderer<GravityEntity> {
 
 	public static final Factory FACTORY = new EntityGravityRenderer.Factory();
 	ModelBlizzard shot;
@@ -33,7 +33,7 @@ public class EntityGravityRenderer extends EntityRenderer<EntityGravity> {
 	}
 
 	@Override
-	public void render(EntityGravity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(GravityEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -51,13 +51,13 @@ public class EntityGravityRenderer extends EntityRenderer<EntityGravity> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(EntityGravity entity) {
+	public ResourceLocation getEntityTexture(GravityEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<EntityGravity> {
+	public static class Factory implements IRenderFactory<GravityEntity> {
 		@Override
-		public EntityRenderer<? super EntityGravity> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super GravityEntity> createRenderFor(EntityRendererManager manager) {
 			return new EntityGravityRenderer(manager, new ModelBlizzard());
 		}
 	}

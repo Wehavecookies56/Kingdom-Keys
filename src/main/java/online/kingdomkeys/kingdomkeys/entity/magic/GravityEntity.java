@@ -1,19 +1,14 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -22,29 +17,30 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
 
-public class EntityGravity extends ThrowableEntity {
+import java.util.List;
+
+public class GravityEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 	PlayerEntity player;
 
-	public EntityGravity(EntityType<? extends ThrowableEntity> type, World world) {
+	public GravityEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityGravity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_GRAVITY, world);
+	public GravityEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_GRAVITY.get(), world);
 	}
 
-	public EntityGravity(World world) {
-		super(ModEntities.TYPE_GRAVITY, world);
+	public GravityEntity(World world) {
+		super(ModEntities.TYPE_GRAVITY.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityGravity(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_GRAVITY, player, world);
+	public GravityEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_GRAVITY.get(), player, world);
 		this.player = player;
 	}
 

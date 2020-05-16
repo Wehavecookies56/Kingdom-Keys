@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 public class BounceBloxBlock extends BaseBlock {
 	private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 
-	public BounceBloxBlock(String name, Properties properties) {
-		super(name, properties);
+	public BounceBloxBlock(Properties properties) {
+		super(properties);
 	}
 
 	// Negate fall damage when fallen on if the entity is not sneaking

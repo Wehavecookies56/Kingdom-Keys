@@ -16,26 +16,26 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class EntityFire extends ThrowableEntity {
+public class CureEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 
-	public EntityFire(EntityType<? extends ThrowableEntity> type, World world) {
+	public CureEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityFire(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_FIRE, world);
+	public CureEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_FIRE.get(), world);
 	}
 
-	public EntityFire(World world) {
-		super(ModEntities.TYPE_FIRE, world);
+	public CureEntity(World world) {
+		super(ModEntities.TYPE_FIRE.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public EntityFire(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_FIRE, player, world);
+	public CureEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_FIRE.get(), player, world);
 	}
 
 	@Override

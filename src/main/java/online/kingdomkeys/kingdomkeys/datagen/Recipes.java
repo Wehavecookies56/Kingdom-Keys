@@ -1,18 +1,14 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
-import java.util.function.Consumer;
-
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.data.ShapelessRecipeBuilder;
+import net.minecraft.data.*;
 import net.minecraft.item.Items;
 import net.minecraftforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import java.util.function.Consumer;
 
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
@@ -25,64 +21,64 @@ public class Recipes extends RecipeProvider {
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 
         // blox
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.normalBlox).key('S', Tags.Items.STONE)
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.normalBlox.get()).key('S', Tags.Items.STONE)
                 .key('N', Items.DIRT).patternLine("NS").patternLine("SN").setGroup("kingdomkeys")
                 .addCriterion("stone", InventoryChangeTrigger.Instance.forItems(Blocks.STONE)).build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.dangerBlox).patternLine("NC").patternLine("CN")
-                .key('C', Blocks.CACTUS).key('N', ModBlocks.normalBlox).setGroup("kingdomkeys")
-                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox))
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.dangerBlox.get()).patternLine("NC").patternLine("CN")
+                .key('C', Blocks.CACTUS).key('N', ModBlocks.normalBlox.get()).setGroup("kingdomkeys")
+                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.hardBlox).patternLine("NS").patternLine("SN")
-                .key('S', Tags.Items.STONE).key('N', ModBlocks.normalBlox).setGroup("kingdomkeys")
-                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox))
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.hardBlox.get()).patternLine("NS").patternLine("SN")
+                .key('S', Tags.Items.STONE).key('N', ModBlocks.normalBlox.get()).setGroup("kingdomkeys")
+                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.metalBlox).patternLine("HI").patternLine("IH")
-                .key('I', Tags.Items.INGOTS_IRON).key('H', ModBlocks.hardBlox).setGroup("kingdomkeys")
-                .addCriterion("hardblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.hardBlox))
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.metalBlox.get()).patternLine("HI").patternLine("IH")
+                .key('I', Tags.Items.INGOTS_IRON).key('H', ModBlocks.hardBlox.get()).setGroup("kingdomkeys")
+                .addCriterion("hardblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.hardBlox.get()))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.ghostBlox).patternLine("GNG").patternLine("GRG").patternLine("GNG")
-                .key('G', Tags.Items.GLASS).key('N', ModBlocks.normalBlox)
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.ghostBlox.get()).patternLine("GNG").patternLine("GRG").patternLine("GNG")
+                .key('G', Tags.Items.GLASS).key('N', ModBlocks.normalBlox.get())
                 .key('R', Blocks.REDSTONE_BLOCK).setGroup("kingdomkeys")
-                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox))
+                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.blastBlox).patternLine("NLN").patternLine("NTN").patternLine("NTN")
-                .key('T', Blocks.TNT).key('N', ModBlocks.normalBlox)
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.blastBlox.get()).patternLine("NLN").patternLine("NTN").patternLine("NTN")
+                .key('T', Blocks.TNT).key('N', ModBlocks.normalBlox.get())
                 .key('L', Items.LAVA_BUCKET).setGroup("kingdomkeys")
-                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox))
+                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.bounceBlox).patternLine("NNN").patternLine("NSN").patternLine("NNN")
-                .key('S', Blocks.SLIME_BLOCK).key('N', ModBlocks.normalBlox).setGroup("kingdomkeys")
-                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox))
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.bounceBlox.get()).patternLine("NNN").patternLine("NSN").patternLine("NNN")
+                .key('S', Blocks.SLIME_BLOCK).key('N', ModBlocks.normalBlox.get()).setGroup("kingdomkeys")
+                .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
 
         //hearts
-        ShapedRecipeBuilder.shapedRecipe(ModItems.pureHeart).patternLine(" H ").patternLine("HSH").patternLine(" H ")
-                .key('S', Blocks.SOUL_SAND).key('H', ModItems.heart).setGroup("kingdomkeys")
-                .addCriterion("heart", InventoryChangeTrigger.Instance.forItems(ModItems.heart))
+        ShapedRecipeBuilder.shapedRecipe(ModItems.pureHeart.get()).patternLine(" H ").patternLine("HSH").patternLine(" H ")
+                .key('S', Blocks.SOUL_SAND).key('H', ModItems.heart.get()).setGroup("kingdomkeys")
+                .addCriterion("heart", InventoryChangeTrigger.Instance.forItems(ModItems.heart.get()))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModItems.heart).patternLine(" D ").patternLine("DSD").patternLine(" D ")
-                .key('S', Blocks.SOUL_SAND).key('D', ModItems.darkHeart).setGroup("kingdomkeys")
-                .addCriterion("darkheart", InventoryChangeTrigger.Instance.forItems(ModItems.darkHeart))
+        ShapedRecipeBuilder.shapedRecipe(ModItems.heart.get()).patternLine(" D ").patternLine("DSD").patternLine(" D ")
+                .key('S', Blocks.SOUL_SAND).key('D', ModItems.darkHeart.get()).setGroup("kingdomkeys")
+                .addCriterion("darkheart", InventoryChangeTrigger.Instance.forItems(ModItems.darkHeart.get()))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModItems.kingdomHearts).patternLine(" H ").patternLine("HSH").patternLine(" H ")
-                .key('S', Blocks.SOUL_SAND).key('H', ModItems.pureHeart).setGroup("kingdomkeys")
-                .addCriterion("pureheart", InventoryChangeTrigger.Instance.forItems(ModItems.pureHeart))
+        ShapedRecipeBuilder.shapedRecipe(ModItems.kingdomHearts.get()).patternLine(" H ").patternLine("HSH").patternLine(" H ")
+                .key('S', Blocks.SOUL_SAND).key('H', ModItems.pureHeart.get()).setGroup("kingdomkeys")
+                .addCriterion("pureheart", InventoryChangeTrigger.Instance.forItems(ModItems.pureHeart.get()))
                 .build(consumer);
 
         //items
-        ShapelessRecipeBuilder.shapelessRecipe(ModItems.iceCream).addIngredient(Tags.Items.RODS_WOODEN).addIngredient(Items.SUGAR)
+        ShapelessRecipeBuilder.shapelessRecipe(ModItems.iceCream.get()).addIngredient(Tags.Items.RODS_WOODEN).addIngredient(Items.SUGAR)
                 .addIngredient(Items.WATER_BUCKET).addIngredient(Blocks.ICE)
                 .addCriterion("ice", InventoryChangeTrigger.Instance.forItems(Blocks.ICE)).build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModItems.emptyBottle).patternLine("G G").patternLine("GBG").patternLine("GGG")
+        ShapedRecipeBuilder.shapedRecipe(ModItems.emptyBottle.get()).patternLine("G G").patternLine("GBG").patternLine("GGG")
                 .key('G', Tags.Items.GLASS).key('B', Items.GLASS_BOTTLE)
                 .setGroup("kingdomkeys").addCriterion("bag", InventoryChangeTrigger.Instance.forItems(Items.GLASS_BOTTLE))
                 .build(consumer);

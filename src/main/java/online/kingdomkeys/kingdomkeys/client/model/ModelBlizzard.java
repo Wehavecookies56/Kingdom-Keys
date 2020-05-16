@@ -5,10 +5,9 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
+import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 
-public class ModelBlizzard extends EntityModel<EntityBlizzard> {
+public class ModelBlizzard extends EntityModel<BlizzardEntity> {
 	public ModelRenderer fist;
 
 	public ModelBlizzard() {
@@ -29,7 +28,7 @@ public class ModelBlizzard extends EntityModel<EntityBlizzard> {
 	}
 	
 	@Override
-	public void setRotationAngles(EntityBlizzard entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setRotationAngles(BlizzardEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		// TODO Auto-generated method stub
 		
 	}

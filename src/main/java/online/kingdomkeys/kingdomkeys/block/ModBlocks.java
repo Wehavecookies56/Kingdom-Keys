@@ -2,30 +2,32 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.BlockItemWrapper;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class ModBlocks {
 
-    public static Block normalBlox, hardBlox, metalBlox, dangerBlox, bounceBlox, blastBlox, ghostBlox, prizeBlox, rarePrizeBlox, magnetBlox;
-	public static Block blazingOre, blazingOreN, brightOre, darkOre, darkOreN, darkOreE, denseOre, energyOre, energyOreN, frostOre, lucidOre, lightningOre, powerOre, powerOreE, remembranceOre, serenityOre, stormyOre, tranquilOre, twilightOre, twilightOreN;
-    public static Block kkChest, orgPortal, pedestal, savepoint;
-    //Array of all blocks to reduce registry code
-    private static final Block[] BLOCKS = {
+    public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, KingdomKeys.MODID);
+
+    public static final RegistryObject<Block>
             normalBlox = createNewBlock("normal_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             hardBlox = createNewBlock("hard_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(5.0F, 20.0F)),
             metalBlox = createNewBlock("metal_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(10.0F, 60.0F)),
-            dangerBlox = new DangerBloxBlock("danger_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F)),
-            bounceBlox = new BounceBloxBlock("bounce_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
-            blastBlox = new BlastBloxBlock("blast_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
-            ghostBlox = new GhostBloxBlock("ghost_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
+            dangerBlox = createNewBlock("danger_blox", () -> new DangerBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F))),
+            bounceBlox = createNewBlock("bounce_blox", () -> new BounceBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F))),
+            blastBlox = createNewBlock("blast_blox", () -> new BlastBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F))),
+            ghostBlox = createNewBlock("ghost_blox", () -> new GhostBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F))),
             prizeBlox = createNewBlock("prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             rarePrizeBlox = createNewBlock("rare_prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
-            magnetBlox = new MagnetBloxBlock("magnet_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 1.0F)),
+            magnetBlox = createNewBlock("magnet_blox", () -> new MagnetBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 1.0F))),
 
             blazingOre = createNewBlock("blazing_ore", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             blazingOreN = createNewBlock("blazing_ore_n", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
@@ -47,9 +49,8 @@ public class ModBlocks {
             tranquilOre = createNewBlock("tranquil_ore", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             twilightOre = createNewBlock("twilight_ore", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             twilightOreN = createNewBlock("twilight_ore_n", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
-            
-            savepoint = new SavePointBlock("savepoint", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))
-    };
+
+            savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)));
 
     /**
      * Helper method to create basic blocks
@@ -57,26 +58,20 @@ public class ModBlocks {
      * @param properties The properties
      * @return The created block
      */
-    private static Block createNewBlock(String name, Block.Properties properties) {
-        return new Block(properties).setRegistryName(KingdomKeys.MODID, name);
+    private static RegistryObject<Block> createNewBlock(String name, Block.Properties properties) {
+        RegistryObject<Block> newBlock = BLOCKS.register(name, () -> new Block(properties));
+        createNewBlockItem(name, newBlock);
+        return newBlock;
+    };
+
+    private static <T extends Block> RegistryObject<T> createNewBlock(String name, Supplier<? extends T> block) {
+        RegistryObject<T> newBlock = BLOCKS.register(name, block);
+        createNewBlockItem(name, newBlock);
+        return newBlock;
     }
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class Registry {
-        //Register every block from the blocks array
-        @SubscribeEvent
-        public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-            event.getRegistry().registerAll(BLOCKS);
-        }
-
-        //Create and register the ItemBlock for each block in the blocks array
-        @SubscribeEvent
-        public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
-            for (Block b : BLOCKS) {
-                event.getRegistry().register(new BlockItemWrapper(b, KingdomKeys.miscGroup));
-            }
-        }
-
+    private static <T extends Block> void createNewBlockItem(String name, Supplier<? extends T> block) {
+        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties().group(KingdomKeys.miscGroup));
+        ModItems.ITEMS.register(name, item);
     }
-
 }
