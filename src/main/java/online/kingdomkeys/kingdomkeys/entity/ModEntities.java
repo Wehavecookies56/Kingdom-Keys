@@ -28,7 +28,6 @@ import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import java.util.function.BiFunction;
 
 public class ModEntities {
-
     public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
 
     public static final RegistryObject<EntityType<BlastBloxEntity>> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
