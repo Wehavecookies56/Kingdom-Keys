@@ -32,7 +32,7 @@ public class BlastBloxEntity extends Entity {
     }
 
     public BlastBloxEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-        super(ModEntities.TYPE_BLAST_BLOX, world);
+        super(ModEntities.TYPE_BLAST_BLOX.get(), world);
     }
 
     public BlastBloxEntity(EntityType type, World world, double x, double y, double z, @Nullable LivingEntity igniter) {

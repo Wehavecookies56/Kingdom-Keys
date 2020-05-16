@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -15,11 +13,13 @@ import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
+import java.util.Random;
+
 public class SavePointBlock extends BaseBlock {
 	private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
 
-	public SavePointBlock(String name, Properties properties) {
-		super(name, properties);
+	public SavePointBlock(Properties properties) {
+		super(properties);
 	}
 
 	@Override

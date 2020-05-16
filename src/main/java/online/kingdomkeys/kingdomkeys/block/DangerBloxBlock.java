@@ -20,8 +20,8 @@ public class DangerBloxBlock extends BaseBlock {
     private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
     private float damage = 3.0F;
 
-    public DangerBloxBlock(String name, Properties properties) {
-        super(name, properties);
+    public DangerBloxBlock(Properties properties) {
+        super(properties);
     }
 
     @SuppressWarnings("deprecation")

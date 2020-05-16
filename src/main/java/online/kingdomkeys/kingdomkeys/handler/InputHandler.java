@@ -1,10 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
-import java.util.List;
-
-import org.lwjgl.glfw.GLFW;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.LivingEntity;
@@ -25,6 +21,9 @@ import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
 import online.kingdomkeys.kingdomkeys.network.magic.PacketUseMagic;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.List;
 
 //TODO cleanup
 public class InputHandler {
@@ -54,7 +53,7 @@ public class InputHandler {
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             //PacketDispatcher.sendToServer(new AntiPoints(-4));
-            world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.getPosition(), ModSounds.select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
             return true;
         } else
             return false;
@@ -62,7 +61,7 @@ public class InputHandler {
 
     public void commandUp() {
         Minecraft mc = Minecraft.getInstance();
-        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
+        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 
         loadLists();
 
@@ -121,7 +120,7 @@ public class InputHandler {
 
     public void commandDown() {
         Minecraft mc = Minecraft.getInstance();
-        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.move, SoundCategory.MASTER, 1.0f, 1.0f);
+        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         loadLists();
 
         // Mainmenu
@@ -183,7 +182,7 @@ public class InputHandler {
 
     public void commandEnter() {
     	Minecraft mc = Minecraft.getInstance();
-        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuin, SoundCategory.MASTER, 1.0f, 1.0f);
+        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuin.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         PlayerEntity player = mc.player;
         World world = mc.world;
         //PlayerStatsCapability.IPlayerStats STATS = (IPlayerStats) player.getCapability(ModCapabilities.PLAYER_STATS, null);
@@ -375,7 +374,7 @@ public class InputHandler {
 
     public void commandBack() {
     	Minecraft mc = Minecraft.getInstance();
-        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuout, SoundCategory.MASTER, 1.0f, 1.0f);
+        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menuout.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         PlayerEntity player = mc.player;
         World world = mc.world;
 
@@ -383,19 +382,19 @@ public class InputHandler {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.cancel, SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.getPosition(), ModSounds.cancel.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.cancel, SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.getPosition(), ModSounds.cancel.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.cancel, SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.getPosition(), ModSounds.cancel.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.cancel, SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.getPosition(), ModSounds.cancel.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.cancel, SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.getPosition(), ModSounds.cancel.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         }
         CommandMenuGui.magicselected = 0;
         CommandMenuGui.driveselected = 0;

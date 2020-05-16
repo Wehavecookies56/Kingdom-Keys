@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MusicDiscItem;
@@ -13,14 +10,17 @@ import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.function.Supplier;
+
 public class KKRecordItem extends MusicDiscItem{
 
 	float length;
 	
-	protected KKRecordItem(int comparatorValueIn, SoundEvent soundIn, Properties builder, String name, float length) {
+	protected KKRecordItem(int comparatorValueIn, Supplier<SoundEvent> soundIn, Properties builder, float length) {
 		super(comparatorValueIn, soundIn, builder);
 		this.length = length;
-        setRegistryName(name);
 	}
 	
 	@Override

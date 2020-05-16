@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.magic.old;
 /*
-package uk.co.wehavecookies56.kk.common.network.packet.server.magics;
+package uk.co.wehavecookies56.kk.common.network.packet.server.magic;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import uk.co.wehavecookies56.kk.common.capability.ModCapabilities;
 import uk.co.wehavecookies56.kk.common.entity.magic.EntityCura;
 import uk.co.wehavecookies56.kk.common.entity.magic.EntityCuraga;
-import uk.co.wehavecookies56.kk.common.entity.magic.EntityCure;
+import uk.co.wehavecookies56.kk.common.entity.magic.CureEntity;
 import uk.co.wehavecookies56.kk.common.lib.Strings;
 import uk.co.wehavecookies56.kk.common.network.packet.AbstractMessage;
 import uk.co.wehavecookies56.kk.common.network.packet.PacketDispatcher;
@@ -43,7 +43,7 @@ public class MagicCure extends AbstractMessage.AbstractServerMessage<MagicCure> 
                     player.heal(player.getCapability(ModCapabilities.PLAYER_STATS, null).getHP() - player.getHealth());
                 else
                     player.heal(player.getCapability(ModCapabilities.PLAYER_STATS, null).getHP() / 3);
-                world.spawnEntity(new EntityCure(world, player, player.posX, player.posY, player.posZ));
+                world.spawnEntity(new CureEntity(world, player, player.posX, player.posY, player.posZ));
                 break;
             case 2:
                 if (player.getCapability(ModCapabilities.PLAYER_STATS, null).getHP() / 3 * 2 + player.getHealth() > player.getCapability(ModCapabilities.PLAYER_STATS, null).getHP())

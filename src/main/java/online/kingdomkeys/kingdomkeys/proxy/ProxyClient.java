@@ -13,22 +13,16 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
-import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
+import online.kingdomkeys.kingdomkeys.client.gui.*;
 import online.kingdomkeys.kingdomkeys.client.render.LayerRendererDrive;
+import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
-import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
 
-@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
 
     public static KeyboardManager keyboardManager;
@@ -70,23 +64,16 @@ public class ProxyClient implements IProxy {
     public static void setupClient(FMLClientSetupEvent event) {
         for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
             ClientRegistry.registerKeyBinding(key.getKeybind());
-        
+
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
-        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox, RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getTranslucent());
         
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
 		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
 		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
-
-
-    }
-
-    @SubscribeEvent
-    public static void LoadCompleteEvent(FMLLoadCompleteEvent event)
-    {
-        OreGen.generateOre();
+        ModContainers.registerGUIFactories();
     }
 
     /*@SubscribeEvent

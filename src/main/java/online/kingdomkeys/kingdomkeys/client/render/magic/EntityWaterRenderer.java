@@ -1,36 +1,34 @@
-package online.kingdomkeys.kingdomkeys.client.render.magics;
+package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.ModelFire;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
+import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
+import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityFireRenderer extends EntityRenderer<EntityFire> {
+public class EntityWaterRenderer extends EntityRenderer<WaterEntity> {
 
-	public static final Factory FACTORY = new EntityFireRenderer.Factory();
-	ModelFire shot;
+	public static final Factory FACTORY = new EntityWaterRenderer.Factory();
+	ModelBlizzard shot;
 
-	public EntityFireRenderer(EntityRendererManager renderManager, ModelFire fist) {
+	public EntityWaterRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(EntityFire entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(WaterEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -48,14 +46,14 @@ public class EntityFireRenderer extends EntityRenderer<EntityFire> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(EntityFire entity) {
+	public ResourceLocation getEntityTexture(WaterEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<EntityFire> {
+	public static class Factory implements IRenderFactory<WaterEntity> {
 		@Override
-		public EntityRenderer<? super EntityFire> createRenderFor(EntityRendererManager manager) {
-			return new EntityFireRenderer(manager, new ModelFire());
+		public EntityRenderer<? super WaterEntity> createRenderFor(EntityRendererManager manager) {
+			return new EntityWaterRenderer(manager, new ModelBlizzard());
 		}
 	}
 }

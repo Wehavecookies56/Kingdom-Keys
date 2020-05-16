@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magics;
+package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import javax.annotation.Nullable;
 
@@ -12,23 +12,23 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityThunder;
+import online.kingdomkeys.kingdomkeys.client.model.ModelFire;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityThunderRenderer extends EntityRenderer<EntityThunder> {
+public class EntityFireRenderer extends EntityRenderer<FireEntity> {
 
-	public static final Factory FACTORY = new EntityThunderRenderer.Factory();
-	ModelBlizzard shot;
+	public static final Factory FACTORY = new EntityFireRenderer.Factory();
+	ModelFire shot;
 
-	public EntityThunderRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	public EntityFireRenderer(EntityRendererManager renderManager, ModelFire fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(EntityThunder entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(FireEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -46,14 +46,14 @@ public class EntityThunderRenderer extends EntityRenderer<EntityThunder> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(EntityThunder entity) {
+	public ResourceLocation getEntityTexture(FireEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<EntityThunder> {
+	public static class Factory implements IRenderFactory<FireEntity> {
 		@Override
-		public EntityRenderer<? super EntityThunder> createRenderFor(EntityRendererManager manager) {
-			return new EntityThunderRenderer(manager, new ModelBlizzard());
+		public EntityRenderer<? super FireEntity> createRenderFor(EntityRendererManager manager) {
+			return new EntityFireRenderer(manager, new ModelFire());
 		}
 	}
 }

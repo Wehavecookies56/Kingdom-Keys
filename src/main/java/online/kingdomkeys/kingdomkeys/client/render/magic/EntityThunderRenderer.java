@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magics;
+package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import javax.annotation.Nullable;
 
@@ -13,23 +13,22 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityMagnet;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityThunder;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityMagnetRenderer extends EntityRenderer<EntityMagnet> {
+public class EntityThunderRenderer extends EntityRenderer<ThunderEntity> {
 
-	public static final Factory FACTORY = new EntityMagnetRenderer.Factory();
+	public static final Factory FACTORY = new EntityThunderRenderer.Factory();
 	ModelBlizzard shot;
 
-	public EntityMagnetRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	public EntityThunderRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(EntityMagnet entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(ThunderEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -47,14 +46,14 @@ public class EntityMagnetRenderer extends EntityRenderer<EntityMagnet> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(EntityMagnet entity) {
+	public ResourceLocation getEntityTexture(ThunderEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<EntityMagnet> {
+	public static class Factory implements IRenderFactory<ThunderEntity> {
 		@Override
-		public EntityRenderer<? super EntityMagnet> createRenderFor(EntityRendererManager manager) {
-			return new EntityMagnetRenderer(manager, new ModelBlizzard());
+		public EntityRenderer<? super ThunderEntity> createRenderFor(EntityRendererManager manager) {
+			return new EntityThunderRenderer(manager, new ModelBlizzard());
 		}
 	}
 }

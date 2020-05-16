@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +12,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class KeybladeItem extends SwordItem {
 
     //Level 0 = no upgrades, will use base stats in the data file
@@ -25,10 +24,8 @@ public class KeybladeItem extends SwordItem {
     private Item.Properties properties;
 
     //TODO remove attack damage
-    public KeybladeItem(String name, Item.Properties properties) {
+    public KeybladeItem(Item.Properties properties) {
         super(new KeybladeItemTier(0), 0, 1, properties);
-        setRegistryName(name);
-        //setRegistryName(KingdomKeys.MODID, name);
         this.properties = properties;
     }
 

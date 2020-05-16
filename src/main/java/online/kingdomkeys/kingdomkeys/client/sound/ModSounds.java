@@ -2,14 +2,16 @@ package online.kingdomkeys.kingdomkeys.client.sound;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ModSounds {
 
-    public static final SoundEvent
+    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, KingdomKeys.MODID);
+
+    public static final RegistryObject<SoundEvent>
             kupo = registerSound("kupo"),
             kupoliving = registerSound("kupoliving"),
             lockon = registerSound("lockon"),
@@ -101,107 +103,8 @@ public class ModSounds {
             Music_Working_Together = registerSound("music.working_together")
                     ;
 
-    public static SoundEvent registerSound(String name) {
+    public static RegistryObject<SoundEvent> registerSound(String name) {
         final ResourceLocation soundID = new ResourceLocation(KingdomKeys.MODID, name);
-        return new SoundEvent(soundID).setRegistryName(soundID);
-    }
-    @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
-    public static class register {
-
-        @SubscribeEvent
-        public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-            event.getRegistry().registerAll(
-                    kupo,
-                    kupoliving,
-                    lockon,
-                    itemget,
-                    levelup,
-                    summon,
-                    alarm,
-                    unsummon,
-                    sharpshooterbullet,
-                    error,
-                    select,
-                    cancel,
-                    move,
-                    drive,
-                    antidrive,
-                    potion,
-                    savepoint,
-                    menuin,
-                    menuout,
-                    savespawn,
-                    Record_Birth_by_Sleep_A_Link_to_the_Future,
-                    Record_Darkness_of_the_Unknown,
-                    Record_Dearly_Beloved_Symphony_Version,
-                    Record_Dream_Drop_Distance_The_Next_Awakening,
-                    Record_Hikari_KINGDOM_Instrumental_Version,
-                    Record_L_Oscurita_Dell_Ignoto,
-                    Record_Musique_pour_la_tristesse_de_Xion,
-                    Record_No_More_Bugs_Bug_Version,
-                    Record_Organization_XIII,
-                    Record_Sanctuary,
-                    Record_Simple_And_Clean_PLANITb_Remix,
-                    Record_Sinister_Sundown,
-                    Record_The_13th_Anthology,
-                    Music_A_Day_In_Agrabah,
-                    Music_A_Fight_To_The_Death,
-                    Music_A_Very_Small_Wish,
-                    Music_Adventures_In_The_Savannah,
-                    Music_Arabian_Dream,
-                    Music_Beneath_The_Ground,
-                    Music_Critical_Drive,
-                    Music_Dark_Impetus,
-                    Music_Dearly_Beloved_BBS,
-                    Music_Dearly_Beloved_CHI,
-                    Music_Dearly_Beloved_Coded,
-                    Music_Dearly_Beloved_CoM,
-                    Music_Dearly_Beloved_Days,
-                    Music_Dearly_Beloved_DDD,
-                    Music_Dearly_Beloved_KH1,
-                    Music_Dearly_Beloved_KH2,
-                    Music_Dearly_Beloved_ReCoM,
-                    Music_Deep_Drive,
-                    Music_Deep_Drop,
-                    Music_Deep_Jungle,
-                    Music_Destiny_Islands,
-                    Music_Dive_Into_The_Heart_Destati,
-                    Music_Hand_In_Hand,
-                    Music_Happy_Holidays,
-                    Music_Having_A_Wild_Time,
-                    Music_Keyblade_Graveyard_Horizon,
-                    Music_Lazy_Afternoons,
-                    Music_L_Impeto_Oscuro,
-                    Music_L_Oscurita_Dell_Ignoto,
-                    Music_Monstrous_Monstro,
-                    Music_Mystic_Moon,
-                    Music_Night_In_The_Dark_Dream,
-                    Music_Night_Of_Fate,
-                    Music_Night_Of_Tragedy,
-                    Music_Rage_Awakened,
-                    Music_Risky_Romp,
-                    Music_Sacred_Distance,
-                    Music_Sacred_Moon_Days,
-                    Music_Sacred_Moon,
-                    Music_Savannah_Pride,
-                    Music_Sinister_Sundown,
-                    Music_Spooks_Of_Halloween_Town,
-                    Music_Tension_Rising,
-                    Music_The_Dread_Of_Night,
-                    Music_The_Rustling_Forest,
-                    Music_The_Secret_Whispers,
-                    Music_The_Silent_Forest,
-                    Music_The_Underworld,
-                    Music_This_Is_Halloween,
-                    Music_To_Our_Surprise,
-                    Music_Traverse_In_Trance,
-                    Music_Traverse_Town,
-                    Music_Welcome_To_Wonderland,
-                    Music_What_A_Surprise,
-                    Music_What_Lies_Beneath,
-                    Music_Working_Together
-            );
-        }
-
+        return SOUNDS.register(name, () -> new SoundEvent(soundID));
     }
 }

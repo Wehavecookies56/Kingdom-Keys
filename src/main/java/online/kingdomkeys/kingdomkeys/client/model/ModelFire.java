@@ -5,9 +5,9 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityFire;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
-public class ModelFire extends EntityModel<EntityFire> {
+public class ModelFire extends EntityModel<FireEntity> {
 	public ModelRenderer fist;
 
 	public ModelFire() {
@@ -28,7 +28,7 @@ public class ModelFire extends EntityModel<EntityFire> {
 	}
 	
 	@Override
-	public void setRotationAngles(EntityFire entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setRotationAngles(FireEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		// TODO Auto-generated method stub
 		
 	}

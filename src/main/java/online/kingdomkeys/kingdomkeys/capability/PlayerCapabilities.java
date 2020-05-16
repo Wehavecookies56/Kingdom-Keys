@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -17,6 +14,9 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.ShowOverlayPacket;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -638,7 +638,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// PacketDispatcher.sendTo(new SyncUnlockedAbilities(ABILITIES),
 		// (EntityPlayerMP) player);
 
-		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup, SoundCategory.MASTER, 0.5f, 1.0f);
+		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
 		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 	}

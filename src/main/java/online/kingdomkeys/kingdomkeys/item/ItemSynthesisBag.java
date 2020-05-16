@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -20,16 +18,16 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.container.ContainerSynthesisBag;
 import online.kingdomkeys.kingdomkeys.container.InventorySynthesisBag;
 import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
 
+import java.util.List;
+
 public class ItemSynthesisBag extends Item {
 
-	public ItemSynthesisBag(Properties properties, String name) {
+	public ItemSynthesisBag(Properties properties) {
 		super(properties);
-		setRegistryName(KingdomKeys.MODID, name);
 	}
 
 	@Override

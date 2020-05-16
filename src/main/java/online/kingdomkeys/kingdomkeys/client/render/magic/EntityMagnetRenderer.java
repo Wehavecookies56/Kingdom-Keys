@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magics;
+package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import javax.annotation.Nullable;
 
@@ -13,22 +13,22 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.EntityWater;
+import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityWaterRenderer extends EntityRenderer<EntityWater> {
+public class EntityMagnetRenderer extends EntityRenderer<MagnetEntity> {
 
-	public static final Factory FACTORY = new EntityWaterRenderer.Factory();
+	public static final Factory FACTORY = new EntityMagnetRenderer.Factory();
 	ModelBlizzard shot;
 
-	public EntityWaterRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	public EntityMagnetRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(EntityWater entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(MagnetEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -46,14 +46,14 @@ public class EntityWaterRenderer extends EntityRenderer<EntityWater> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(EntityWater entity) {
+	public ResourceLocation getEntityTexture(MagnetEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<EntityWater> {
+	public static class Factory implements IRenderFactory<MagnetEntity> {
 		@Override
-		public EntityRenderer<? super EntityWater> createRenderFor(EntityRendererManager manager) {
-			return new EntityWaterRenderer(manager, new ModelBlizzard());
+		public EntityRenderer<? super MagnetEntity> createRenderFor(EntityRendererManager manager) {
+			return new EntityMagnetRenderer(manager, new ModelBlizzard());
 		}
 	}
 }

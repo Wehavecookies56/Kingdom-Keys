@@ -13,11 +13,11 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 public class EntityMunny extends EntityItemDrop {
 
 	public EntityMunny(World worldIn, double x, double y, double z, int expValue) {
-		super(ModEntities.TYPE_MUNNY, worldIn, x, y, z, expValue);
+		super(ModEntities.TYPE_MUNNY.get(), worldIn, x, y, z, expValue);
 	}
 
 	public EntityMunny(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_MUNNY, world);
+		super(ModEntities.TYPE_MUNNY.get(), world);
 	}
 
 	public EntityMunny(EntityType<? extends Entity> type, World world) {

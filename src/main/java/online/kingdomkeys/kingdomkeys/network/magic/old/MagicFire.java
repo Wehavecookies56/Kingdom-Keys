@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.magic.old;
 /*
-package online.kingdomkeys.kingdomkeys.packets.magics;
+package online.kingdomkeys.kingdomkeys.packets.magic;
 
 import java.util.function.Supplier;
 
@@ -13,11 +13,11 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.packets.PacketHandler;
-import uk.co.wehavecookies56.kk.common.network.packet.server.magics.EntityFira;
-import uk.co.wehavecookies56.kk.common.network.packet.server.magics.EntityFiraga;
-import uk.co.wehavecookies56.kk.common.network.packet.server.magics.EntityFire;
-import uk.co.wehavecookies56.kk.common.network.packet.server.magics.EntityPlayerMP;
-import uk.co.wehavecookies56.kk.common.network.packet.server.magics.SyncMagicData;
+import uk.co.wehavecookies56.kk.common.network.packet.server.magic.EntityFira;
+import uk.co.wehavecookies56.kk.common.network.packet.server.magic.EntityFiraga;
+import uk.co.wehavecookies56.kk.common.network.packet.server.magic.FireEntity;
+import uk.co.wehavecookies56.kk.common.network.packet.server.magic.EntityPlayerMP;
+import uk.co.wehavecookies56.kk.common.network.packet.server.magic.SyncMagicData;
 
 public class MagicFire {
 
@@ -43,7 +43,7 @@ public class MagicFire {
 	        World world = player.world;
 	        switch (player.getCapability(ModCapabilities.MAGIC_STATE, null).getMagicLevel(Strings.Spell_Fire)) {
 	            case 1:
-	                world.spawnEntity(new EntityFire(world, player, player.posX, player.posY, player.posZ));
+	                world.spawnEntity(new FireEntity(world, player, player.posX, player.posY, player.posZ));
 	                break;
 	            case 2:
 	                world.spawnEntity(new EntityFira(world, player, player.posX, player.posY, player.posZ));

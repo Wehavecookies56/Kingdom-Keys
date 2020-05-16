@@ -24,7 +24,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import javax.annotation.Nullable;
 
@@ -37,8 +36,8 @@ public class MagnetBloxBlock extends BaseBlock{
     public static final BooleanProperty ATTRACT = BooleanProperty.create("attract");
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
-    public MagnetBloxBlock(String name, Properties properties) {
-        super(name, properties);
+    public MagnetBloxBlock(Properties properties) {
+        super(properties);
         this.setDefaultState(this.getDefaultState().with(FACING, Direction.NORTH).with(RANGE, min).with(ATTRACT, true).with(ACTIVE, false));
     }
 
@@ -108,6 +107,6 @@ public class MagnetBloxBlock extends BaseBlock{
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModEntities.TYPE_MAGNET_BLOX.create();
+        return null;//ModEntities.TYPE_MAGNET_BLOX.get().create();
     }
 }
