@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
@@ -18,9 +18,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 
 public abstract class EntityItemDrop extends Entity {
 	public int xpColor;
@@ -182,6 +182,7 @@ public abstract class EntityItemDrop extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1);
 				this.remove();
+				PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(entityIn)), (ServerPlayerEntity)entityIn);
 			}
 
 		}

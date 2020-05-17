@@ -40,6 +40,15 @@ public interface IPlayerCapabilities {
 	void setMaxMP(double maxMP);
 	void addMaxMP(double mp);
 	
+	double getDP();
+	void setDP(double dP);
+	void addDP(double dp);
+	void remDP(double cost);
+	
+	
+	double getMaxDP();
+	void setMaxDP(double dP);
+	
 	int getConsumedAP();
 	void setConsumedAP(int ap);
 	void addConsumedAP(int ap);

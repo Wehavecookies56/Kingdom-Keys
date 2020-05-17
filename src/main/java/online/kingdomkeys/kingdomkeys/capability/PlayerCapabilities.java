@@ -34,6 +34,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putDouble("mp", instance.getMP());
 			props.putDouble("max_mp", instance.getMaxMP());
 			props.putBoolean("recharge", instance.getRecharge());
+			props.putDouble("dp", instance.getDP());
+			props.putDouble("max_dp", instance.getMaxDP());
 			props.putString("drive_form", instance.getDriveForm());
 			props.putInt("reflect_ticks", instance.getReflectTicks());
 			props.putBoolean("reflect_active", instance.getReflectActive());
@@ -55,6 +57,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setMP(properties.getDouble("mp"));
 			instance.setMaxMP(properties.getDouble("max_mp"));
 			instance.setRecharge(properties.getBoolean("recharge"));
+			instance.setDP(properties.getDouble("dp"));
+			instance.setMaxDP(properties.getDouble("max_dp"));
 			instance.setDriveForm(properties.getString("drive_form"));
 			instance.setReflectTicks(properties.getInt("reflect_ticks"));
 			instance.setReflectActive(properties.getBoolean("reflect_active"));
@@ -66,7 +70,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private String driveForm = "";
 
-	private double mp=0, maxMP=10;
+	private double mp=0, maxMP=10, dp = 0, maxDP = 300;
 
 	private boolean recharge, reflectActive;
 
@@ -673,6 +677,40 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
+	public double getDP() {
+		return dp;
+	}
+
+	@Override
+	public void setDP(double dp) {
+		this.dp = dp;
+	}
+
+	@Override
+	public void addDP(double dp) {
+		if(this.dp + dp > this.maxDP) {
+			this.dp = this.maxDP;
+		} else {
+			this.dp += dp;
+		}
+	}
+
+	@Override
+	public void remDP(double dp) {
+		this.dp -= dp;
+	}
+
+	@Override
+	public double getMaxDP() {
+		return maxDP;
+	}
+
+	@Override
+	public void setMaxDP(double dp) {
+		this.maxDP = dp;		
+	}
+	
+	@Override
 	public void setDriveForm(String form) {
 		driveForm = form;
 	}
@@ -726,4 +764,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public int getMunny() {
 		return munny;
 	}
+
+	
 }
