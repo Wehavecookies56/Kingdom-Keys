@@ -18,7 +18,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MoogleRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.HPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MPOrbRenderer;
@@ -37,17 +39,19 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
 
     public static final RegistryObject<EntityType<BlastBloxEntity>> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
-    public static final RegistryObject<EntityType<EntityMunny>> TYPE_MUNNY = createEntityType(EntityMunny::new, EntityMunny::new, EntityClassification.MISC,"entity_munny", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<EntityHPOrb>> TYPE_HPORB = createEntityType(EntityHPOrb::new, EntityHPOrb::new, EntityClassification.MISC,"entity_hp_orb", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<EntityMPOrb>> TYPE_MPORB = createEntityType(EntityMPOrb::new, EntityMPOrb::new, EntityClassification.MISC,"entity_mp_orb", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<EntityDriveOrb>> TYPE_DRIVEORB = createEntityType(EntityDriveOrb::new, EntityDriveOrb::new, EntityClassification.MISC,"entity_drive_orb", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<EntityMunny>> TYPE_MUNNY = createEntityType(EntityMunny::new, EntityMunny::new, EntityClassification.MISC,"entity_munny", 0.25F, 0.25F);
+    public static final RegistryObject<EntityType<EntityHPOrb>> TYPE_HPORB = createEntityType(EntityHPOrb::new, EntityHPOrb::new, EntityClassification.MISC,"entity_hp_orb", 0.25F, 0.25F);
+    public static final RegistryObject<EntityType<EntityMPOrb>> TYPE_MPORB = createEntityType(EntityMPOrb::new, EntityMPOrb::new, EntityClassification.MISC,"entity_mp_orb", 0.25F, 0.25F);
+    public static final RegistryObject<EntityType<EntityDriveOrb>> TYPE_DRIVEORB = createEntityType(EntityDriveOrb::new, EntityDriveOrb::new, EntityClassification.MISC,"entity_drive_orb", 0.25F, 0.25F);
     
     public static final RegistryObject<EntityType<FireEntity>> TYPE_FIRE = createEntityType(FireEntity::new, FireEntity::new, EntityClassification.MISC,"entity_fire", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
@@ -62,6 +66,9 @@ public class ModEntities {
     //Mobs
     // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.CREATURE, "moogle", 0.6F, 1.5F);
+    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "shadow", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.CREATURE, "large_body", 2.5F, 3.5F);
+    
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -102,7 +109,10 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNET.get(), EntityMagnetRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_WATER.get(), EntityWaterRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), EntityGravityRenderer.FACTORY);
+        
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MOOGLE.get(), MoogleRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW.get(), ShadowRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_LARGE_BODY.get(), LargeBodyRenderer.FACTORY);
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);

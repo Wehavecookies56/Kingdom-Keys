@@ -2,7 +2,7 @@
   "parent": "block/orientable",
   "textures": {
 	"top": "kingdomkeys:block/magnet_blox_off",
-    "front": "kingdomkeys:block/magnet_blox_on",
+    "front": "kingdomkeys:block/magnet_blox_r_on",
     "side": "kingdomkeys:block/magnet_blox_off"
   }
 }

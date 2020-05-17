@@ -1,6 +1,23 @@
 {
 	"variants": {
-		"active=true,attract=true": { "model": "kingdomkeys:block/magnet_blox_on" },
+		"active=true,attract=true,facing=north": { "model": "kingdomkeys:block/magnet_blox_a_on","y":0, "uvlock": true},
+		"active=true,attract=false,facing=north": { "model": "kingdomkeys:block/magnet_blox_r_on","y":0, "uvlock": true},
+		
+		"active=true,attract=true,facing=east": { "model": "kingdomkeys:block/magnet_blox_a_on","y":90, "uvlock": true},
+		"active=true,attract=false,facing=east": { "model": "kingdomkeys:block/magnet_blox_r_on","y":90, "uvlock": true},
+		
+		"active=true,attract=true,facing=south": { "model": "kingdomkeys:block/magnet_blox_a_on","y":180, "uvlock": true},
+		"active=true,attract=false,facing=south": { "model": "kingdomkeys:block/magnet_blox_r_on","y":180, "uvlock": true},
+		
+		"active=true,attract=true,facing=west": { "model": "kingdomkeys:block/magnet_blox_a_on","y":270, "uvlock": true},
+		"active=true,attract=false,facing=west": { "model": "kingdomkeys:block/magnet_blox_r_on","y":270, "uvlock": true},
+		
+		"active=true,attract=true,facing=up": { "model": "kingdomkeys:block/magnet_blox_a_on","x":270, "uvlock": true},
+		"active=true,attract=false,facing=up": { "model": "kingdomkeys:block/magnet_blox_r_on","x":270, "uvlock": true},
+		
+		"active=true,attract=true,facing=down": { "model": "kingdomkeys:block/magnet_blox_a_on","x":90, "uvlock": true},
+		"active=true,attract=false,facing=down": { "model": "kingdomkeys:block/magnet_blox_r_on","x":90, "uvlock": true},
+		
 		"active=false": { "model":  "kingdomkeys:block/magnet_blox_off" }
 	}
 }
