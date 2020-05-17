@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -54,13 +55,14 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 						colors[1] = 0;
 						colors[2] = 1;
 					}
+					
 					for (double i = 0.7; i < range; i += 0.3) {
 						if (facing == Direction.NORTH) {
 							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.EAST) {
 							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.SOUTH) {
-							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
+							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.WEST) {
 							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.UP) {
@@ -78,7 +80,12 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 					double strength = 0.75;
 					for (Entity e : entities) {
 						Vec3d ePos = e.getPositionVec();
-						Vec3d blockPos = new Vec3d(getPos().getX() + 0.5, getPos().getY() + 0.5, getPos().getZ() + 0.5);
+						Vec3d blockPos;
+						if(e instanceof LivingEntity) {
+							blockPos = new Vec3d(getPos().getX() + 0.5, getPos().getY(), getPos().getZ() + 0.5);
+						} else {
+							blockPos = new Vec3d(getPos().getX() + 0.5, getPos().getY()+0.5, getPos().getZ() + 0.5);
+						}
 						// Attract
 						if (attract) {
 							Vec3d blockDir = blockPos.subtract(ePos);

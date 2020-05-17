@@ -17,14 +17,14 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.ai.EntityAIShadow;
 
-public class LargeBodyEntity extends CreatureEntity {
+public class GigaShadowEntity extends CreatureEntity {
 
-    public LargeBodyEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public GigaShadowEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
-    public LargeBodyEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-        super(ModEntities.TYPE_SHADOW.get(), world);
+    public GigaShadowEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        super(ModEntities.TYPE_GIGA_SHADOW.get(), world);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class LargeBodyEntity extends CreatureEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, AgeableEntity.class, true));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
-		//this.targetSelector.addGoal(4, new EntityAIShadow(this));
+		this.targetSelector.addGoal(4, new EntityAIShadow(this));
     }
 
     @Override
@@ -47,20 +47,20 @@ public class LargeBodyEntity extends CreatureEntity {
     }
 
     @Override
-    public float getRenderScale() {
-    	return 2;
-    }
-    @Override
     public int getMaxSpawnedInChunk() {
         return 4;
     }
-    
+
     @Override
-	protected void registerData()
-	{
-		super.registerData();
-		this.dataManager.register(EntityHelper.STATE, 0);
+    protected void registerData() {
+    	super.registerData();
+    	this.dataManager.register(EntityHelper.STATE, 0);
 		this.dataManager.register(EntityHelper.ANIMATION, 0);
-	}
+    }
+   /* @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.kupoliving.get();
+    }*/
 
 }

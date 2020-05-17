@@ -188,9 +188,6 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
     }
 
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) { 
-		matrixStackIn.push();
-		matrixStackIn.scale(1.75F, 1.75F, 1.75F);
-		matrixStackIn.translate(0,-0.65,0);
 		 this.neck3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
 		 this.neck2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
 		 this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
@@ -199,7 +196,6 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
 		 this.neck1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
 		 this.head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
 		 this.neck4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-		 matrixStackIn.pop();
     }
 
 	public void setRotationAngles(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
