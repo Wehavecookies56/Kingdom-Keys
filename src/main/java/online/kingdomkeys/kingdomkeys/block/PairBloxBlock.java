@@ -1,10 +1,9 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.Block.Properties;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,6 +20,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -28,40 +31,49 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper.Dir;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 
-public class MagnetBloxBlock extends BaseBlock{
+import javax.annotation.Nullable;
 
-    private static int min = 1, max = 10;
+public class PairBloxBlock extends BaseBlock {
 
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final IntegerProperty RANGE = IntegerProperty.create("range", min, max);
-    public static final BooleanProperty ATTRACT = BooleanProperty.create("attract");
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    public static final BooleanProperty PAIR = BooleanProperty.create("pair");
 
-    public MagnetBloxBlock(Properties properties) {
+    public PairBloxBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState().with(FACING, Direction.NORTH).with(RANGE, min).with(ATTRACT, true).with(ACTIVE, false));
+        this.setDefaultState(this.getDefaultState().with(PAIR, true));
     }
-
+    
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         super.fillStateContainer(builder);
-        builder.add(FACING, RANGE, ATTRACT, ACTIVE);
+        builder.add(PAIR);
     }
     
     @Override
     public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
-    	System.out.println("a");
     	worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-    	worldIn.addEntity(new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), true));
+    	PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), true);
+    	float velocity = 0.5F;
+		switch (MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) {
+		case 0:
+	    	pairEntity.setMotion(0, -velocity, velocity);
+	    	break;
+		case 1:
+			pairEntity.setMotion(-velocity, -velocity, 0);
+	    	break;
+		case 2:
+			pairEntity.setMotion(0, -velocity, -velocity);
+	    	break;
+		case 3:
+			pairEntity.setMotion(velocity, -velocity, 0);
+	    	break;
+    		
+    	}
+    	worldIn.addEntity(pairEntity);
     	super.onBlockClicked(state, worldIn, pos, player);
-    }
-
-    @Override
-    public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, @Nullable Direction side) {
-        return side != state.get(FACING);
-    }
+    } 
 
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
@@ -73,15 +85,15 @@ public class MagnetBloxBlock extends BaseBlock{
 
     }
 
-    @Override
+   /* @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         worldIn.setBlockState(pos, state.with(ACTIVE, worldIn.isBlockPowered(pos)));
-    }
+    }*/
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite()).with(ATTRACT, true).with(RANGE, min).with(ACTIVE, context.getWorld().isBlockPowered(context.getPos()));
+        return this.getDefaultState().with(PAIR, true);
     }
 
     @Override
@@ -89,7 +101,7 @@ public class MagnetBloxBlock extends BaseBlock{
         return true;
     }
 
-    @Override
+   /* @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (player.isCrouching()) {
             worldIn.setBlockState(pos, state.with(ATTRACT, !state.get(ATTRACT)));
@@ -108,9 +120,9 @@ public class MagnetBloxBlock extends BaseBlock{
             player.sendStatusMessage(new TranslationTextComponent("message.magnet_blox.range", newRange), true);
         }
         return ActionResultType.SUCCESS;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
     }
@@ -119,5 +131,6 @@ public class MagnetBloxBlock extends BaseBlock{
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return ModEntities.TYPE_MAGNET_BLOX.get().create();
-    }
+    }*/
+
 }

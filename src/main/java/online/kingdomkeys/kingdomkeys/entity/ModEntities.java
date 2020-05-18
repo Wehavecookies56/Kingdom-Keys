@@ -18,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.PairBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DarkballRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.GigaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
@@ -37,6 +38,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.EntityThunderRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.EntityWaterRenderer;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
@@ -56,6 +58,7 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
 
     public static final RegistryObject<EntityType<BlastBloxEntity>> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
+    public static final RegistryObject<EntityType<PairBloxEntity>> TYPE_PAIR_BLOX = createEntityType(PairBloxEntity::new, PairBloxEntity::new, EntityClassification.MISC,"pair_blox", 1F, 1F);
     public static final RegistryObject<EntityType<EntityMunny>> TYPE_MUNNY = createEntityType(EntityMunny::new, EntityMunny::new, EntityClassification.MISC,"entity_munny", 0.25F, 0.25F);
     public static final RegistryObject<EntityType<EntityHPOrb>> TYPE_HPORB = createEntityType(EntityHPOrb::new, EntityHPOrb::new, EntityClassification.MISC,"entity_hp_orb", 0.25F, 0.25F);
     public static final RegistryObject<EntityType<EntityMPOrb>> TYPE_MPORB = createEntityType(EntityMPOrb::new, EntityMPOrb::new, EntityClassification.MISC,"entity_mp_orb", 0.25F, 0.25F);
@@ -126,6 +129,7 @@ public class ModEntities {
     @OnlyIn(Dist.CLIENT)
     public static void registerModels() {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX.get(), BlastBloxRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_PAIR_BLOX.get(), PairBloxRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MUNNY.get(), MunnyRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_HPORB.get(), HPOrbRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MPORB.get(), MPOrbRenderer.FACTORY);

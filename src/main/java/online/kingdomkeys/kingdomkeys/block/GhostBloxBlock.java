@@ -34,7 +34,6 @@ public class GhostBloxBlock extends BaseBlock {
     }
 
 
-    @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
         if (worldIn.getBlockState(fromPos).getBlock() == ModBlocks.ghostBlox.get()) {
@@ -59,7 +58,6 @@ public class GhostBloxBlock extends BaseBlock {
         return (state.get(VISIBLE)) ? super.getOpacity(state, worldIn, pos) : 0;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean canProvidePower(BlockState state) {
         return false;
@@ -82,7 +80,6 @@ public class GhostBloxBlock extends BaseBlock {
         return (state.get(VISIBLE)) ? super.getShape(state, worldIn, pos, context) : VoxelShapes.empty();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
         if (oldState.getBlock() != state.getBlock()) {
