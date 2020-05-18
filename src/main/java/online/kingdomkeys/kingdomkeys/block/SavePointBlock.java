@@ -41,31 +41,32 @@ public class SavePointBlock extends BaseBlock {
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (entity instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entity;
-			if(player.isCrouching()) {
-				//TODO set spawn point
-			}
-
 			IPlayerCapabilities props = ModCapabilities.get(player);
-			if(props.getMP() < props.getMaxMP() || player.getHealth() < props.getMaxHP()) { //TODO add the rest of things that you get back
-				double r = 0.7D;
-				double cx = pos.getX() + 0.5;
-				double cy = pos.getY() + 0.5;
-				double cz = pos.getZ() + 0.5;
+			double r = 0.7D;
+			double cx = pos.getX() + 0.5;
+			double cy = pos.getY() + 0.5;
+			double cz = pos.getZ() + 0.5;
 
-				a -= 5; // Speed and distance between particles
-				double x = cx + (r * Math.cos(Math.toRadians(a)));
-				double z = cz + (r * Math.sin(Math.toRadians(a)));
+			a -= 5; // Speed and distance between particles
+			double x = cx + (r * Math.cos(Math.toRadians(a)));
+			double z = cz + (r * Math.sin(Math.toRadians(a)));
 
-				double x2 = cx + (r * Math.cos(Math.toRadians(-a)));
-				double z2 = cz + (r * Math.sin(Math.toRadians(-a)));
+			double x2 = cx + (r * Math.cos(Math.toRadians(-a)));
+			double z2 = cz + (r * Math.sin(Math.toRadians(-a)));
 
-				world.addParticle(ParticleTypes.HAPPY_VILLAGER, x, (cy + 1.3) - (a / 1800), z, 0.0D, 0.0D, 0.0D);
-				world.addParticle(ParticleTypes.HAPPY_VILLAGER, x2, (cy + 0.5) - (a / 1800), z2, 0.0D, 0.0D, 0.0D);
+			world.addParticle(ParticleTypes.HAPPY_VILLAGER, x, (cy + 1.3) - (a / 1800), z, 0.0D, 0.0D, 0.0D);
+			world.addParticle(ParticleTypes.HAPPY_VILLAGER, x2, (cy + 0.5) - (a / 1800), z2, 0.0D, 0.0D, 0.0D);
 
-				// if(a > 1800) a = 0;
-				if (a < 0)
-					a = 1800;
+			// if(a > 1800) a = 0;
+			if (a < 0)
+				a = 1800;
 				
+			if (props.getMP() < props.getMaxMP() || player.getHealth() < props.getMaxHP()) { // TODO add the rest of things that you get back
+				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.2, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
+				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.2, 0.0D, 0.0D, 0.0D);
+				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.8, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
+				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.8, 0.0D, 0.0D, 0.0D);
+
 				props.addMP(1);
 				player.heal(1);
 			}
