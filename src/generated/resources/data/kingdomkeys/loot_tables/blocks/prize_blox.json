@@ -26,107 +26,107 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:brightgem"
+          "name": "kingdomkeys:brightshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:blazinggem"
+          "name": "kingdomkeys:blazingshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:serenitygem"
+          "name": "kingdomkeys:serenityshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:twilightgem"
+          "name": "kingdomkeys:twilightshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:tranquilgem"
+          "name": "kingdomkeys:tranquilshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:stormygem"
+          "name": "kingdomkeys:stormyshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:remembrancegem"
+          "name": "kingdomkeys:remembranceshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:lucidgem"
+          "name": "kingdomkeys:lucidshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:powergem"
+          "name": "kingdomkeys:powershard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:darkgem"
+          "name": "kingdomkeys:darkshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:densegem"
+          "name": "kingdomkeys:denseshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:frostgem"
+          "name": "kingdomkeys:frostshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:energygem"
+          "name": "kingdomkeys:energyshard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:brightcrystal"
+          "name": "kingdomkeys:brightstone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:blazingcrystal"
+          "name": "kingdomkeys:blazingstone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:serenitycrystal"
+          "name": "kingdomkeys:serenitystone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:twilightcrystal"
+          "name": "kingdomkeys:twilightstone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:tranquilcrystal"
+          "name": "kingdomkeys:tranquilstone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:stormycrystal"
+          "name": "kingdomkeys:stormystone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:remembrancecrystal"
+          "name": "kingdomkeys:remembrancestone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:lucidcrystal"
+          "name": "kingdomkeys:lucidstone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:powercrystal"
+          "name": "kingdomkeys:powerstone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:darkcrystal"
+          "name": "kingdomkeys:darkstone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:densecrystal"
+          "name": "kingdomkeys:densestone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:frostcrystal"
+          "name": "kingdomkeys:froststone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:energycrystal"
+          "name": "kingdomkeys:energystone"
         },
         {
           "type": "minecraft:item",

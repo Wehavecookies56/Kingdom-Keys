@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.item;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -396,8 +397,13 @@ public class ModItems {
 			manifestIllusion = createNewItem(Strings.SM_ManifestIllusion, () -> new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
 			lostIllusion = createNewItem(Strings.SM_LostIllusion, () -> new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Rank_A)),
 
-			synthesisBag = createNewItem("synthesis_bag", () -> new ItemSynthesisBag(new Item.Properties().group(KingdomKeys.miscGroup)))
-					;
+			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
+			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
+			valorOrb = createNewItem(Strings.LevelUpValor, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
+			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
+			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
+			synthesisBag = createNewItem("synthesis_bag", () -> new ItemSynthesisBag(new Item.Properties().group(KingdomKeys.miscGroup)));
+
 
 	//Helper method to create item with the properties and registry name
 	public static RegistryObject<Item> createNewItem(String name, Item.Properties properties) {

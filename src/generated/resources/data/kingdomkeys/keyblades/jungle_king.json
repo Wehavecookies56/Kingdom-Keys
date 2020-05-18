@@ -10,12 +10,12 @@
       "mag": 3,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_blazingcrystal",
-          "quantity": 4
-        },
-        {
           "material": "kingdomkeys:mat_orichalcum",
           "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:mat_blazingcrystal",
+          "quantity": 4
         }
       ],
       "ability": "Test_Abiltity"
@@ -25,12 +25,12 @@
       "mag": 4,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_brightcrystal",
-          "quantity": 4
-        },
-        {
           "material": "kingdomkeys:mat_orichalcumplus",
           "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:mat_brightcrystal",
+          "quantity": 4
         }
       ]
     }

@@ -15,7 +15,7 @@ public class KeybladeSynthLevelMap {
         init();
 
     }
-    public void init()
+    private void init()
     {
         kh1Keyblades();
         kh2Keyblades();
@@ -26,7 +26,7 @@ public class KeybladeSynthLevelMap {
         uxKeyblades();
     }
 
-    public void kh1Keyblades()
+    private void kh1Keyblades()
     {
         Map<Material, Integer> kingdomkeyLvl1 = new HashMap<>();
         kingdomkeyLvl1.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation("kingdomkeys:mat_" + Strings.SM_BlazingCrystal)), 4);
@@ -129,12 +129,12 @@ public class KeybladeSynthLevelMap {
 
     }
 
-    public void kh2Keyblades()
+    private void kh2Keyblades()
     {
 
     }
 
-    public void kh3Keyblades()
+    private void kh3Keyblades()
     {
         Map<Material, Integer> ultimaKH3Lvl1 = new HashMap<>();
         ultimaKH3Lvl1.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation("kingdomkeys:mat_" + Strings.SM_BlazingCrystal)), 4);
@@ -146,22 +146,22 @@ public class KeybladeSynthLevelMap {
         masterMap.put("kh3ultLvl2",ultimaKH3Lvl2);
     }
 
-    public void bbsKeyblades()
+    private void bbsKeyblades()
     {
 
     }
 
-    public void dddKeyblades()
+    private void dddKeyblades()
     {
 
     }
 
-    public void uxKeyblades()
+    private void uxKeyblades()
     {
 
     }
 
-    public void khdKeyblades()
+    private void khdKeyblades()
     {
 
     }

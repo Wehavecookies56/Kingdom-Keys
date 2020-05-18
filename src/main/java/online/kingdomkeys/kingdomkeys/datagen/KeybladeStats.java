@@ -15,7 +15,6 @@ public class KeybladeStats extends  KeyBladeProvider{
     @Override
     protected void registerKeyblades() {
         KeybladeSynthLevelMap kslm = new KeybladeSynthLevelMap();
-        kslm.init();
         kh3Keyblades(kslm);
         kh1Keyblades(kslm);
         kh2Keyblades(kslm);

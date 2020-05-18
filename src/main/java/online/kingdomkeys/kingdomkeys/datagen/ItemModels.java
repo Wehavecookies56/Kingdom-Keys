@@ -82,6 +82,12 @@ public class ItemModels extends ItemModelProvider {
 		standardDisc(Strings.Disc_Sinister_Sundown);
 		standardDisc(Strings.Disc_The_13th_Anthology);
 
+		standardItem(Strings.LevelUpFinal);
+		standardItem(Strings.LevelUpLimit);
+		standardItem(Strings.LevelUpMaster);
+		standardItem(Strings.LevelUpWisdom);
+		standardItem(Strings.LevelUpValor);
+
     }
 
 	private void keychains() {
