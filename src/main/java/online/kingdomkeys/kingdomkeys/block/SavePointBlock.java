@@ -12,6 +12,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 import java.util.Random;
 
@@ -40,6 +41,10 @@ public class SavePointBlock extends BaseBlock {
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (entity instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entity;
+			if(player.isCrouching()) {
+				//TODO set spawn point
+			}
+
 			IPlayerCapabilities props = ModCapabilities.get(player);
 			if(props.getMP() < props.getMaxMP() || player.getHealth() < props.getMaxHP()) { //TODO add the rest of things that you get back
 				double r = 0.7D;

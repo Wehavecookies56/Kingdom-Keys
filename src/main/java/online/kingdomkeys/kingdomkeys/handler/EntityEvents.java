@@ -216,17 +216,6 @@ public class EntityEvents {
 		}
 	}
 
-	/*@SubscribeEvent
-	public void onLivingDamaged(LivingDamageEvent event) {
-		if (event.getEntityLiving() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			if (props.getReflectTicks() > 0) {
-				event.setCanceled(true);
-			}
-		}
-	}*/
-
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		/*
@@ -259,10 +248,10 @@ public class EntityEvents {
 		double x = entity.getPosX();
 		double y = entity.getPosY();
 		double z = entity.getPosZ();
-		event.getEntity().world.addEntity(new EntityMunny(event.getEntity().world,x,y,z,2000));
-		event.getEntity().world.addEntity(new EntityHPOrb(event.getEntity().world,x,y,z,10));
-		event.getEntity().world.addEntity(new EntityMPOrb(event.getEntity().world,x,y,z,10));
-		event.getEntity().world.addEntity(new EntityDriveOrb(event.getEntity().world,x,y,z,10));
+		event.getEntity().world.addEntity(new EntityMunny(event.getEntity().world, x, y, z, 1000));
+		event.getEntity().world.addEntity(new EntityHPOrb(event.getEntity().world, x, y, z, 10));
+		event.getEntity().world.addEntity(new EntityMPOrb(event.getEntity().world, x, y, z, 10));
+		event.getEntity().world.addEntity(new EntityDriveOrb(event.getEntity().world, x, y, z, 10));
 	}
 	
 	@SubscribeEvent

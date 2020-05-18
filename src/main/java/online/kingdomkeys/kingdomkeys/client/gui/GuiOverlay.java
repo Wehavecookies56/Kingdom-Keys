@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
@@ -105,16 +107,17 @@ public class GuiOverlay extends Screen {
 
 	private void showMunny() {
 		if (!showExp) { // If no exp is being display print it at the top
-			GL11.glPushMatrix();
-			GL11.glTranslatef(1, 1, 0);
+			RenderSystem.pushMatrix();{
+			RenderSystem.translatef(1, 1, 0);
 			mc.fontRenderer.drawString("Munny Get!", 5, 5, 0xFFFFFF);
 			mc.fontRenderer.drawString(munnyGet + "", 5, 5 + mc.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
-			GL11.glPopMatrix();
+			}
+			RenderSystem.popMatrix();
 		} else { // If exp is being displayed print it below it
 			mc.fontRenderer.drawString("Munny Get!", 5, 5 + mc.fontRenderer.FONT_HEIGHT + 10, 0xFFFFFF);
 			mc.fontRenderer.drawString(munnyGet + "", 5, 5 + (mc.fontRenderer.FONT_HEIGHT * 2) + 10, 0xFFFFFF);
 		}
-		if (timeMunny + 4 <= (int) mc.world.getGameTime() / 1000)
+		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;
 	}
 

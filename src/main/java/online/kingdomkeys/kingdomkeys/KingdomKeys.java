@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
@@ -176,11 +177,17 @@ public class KingdomKeys {
 	public void hitEntity(LivingHurtEvent event) {
 		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+			KeybladeItem heldKeyblade = null;
+			
 			if (player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-				KeybladeItem heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
-				// TODO add player's strength stat
-				// TODO improved damage calculation
-				event.setAmount(heldKeyblade.getStrength(heldKeyblade.getKeybladeLevel()));
+				heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
+			} else if(player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+				heldKeyblade = (KeybladeItem) player.getHeldItemOffhand().getItem();
+			}
+			
+			if(heldKeyblade != null) {
+				float dmg = DamageCalculation.getStrengthDamage(player, heldKeyblade);
+				event.setAmount(dmg);
 			}
 		}
 	}

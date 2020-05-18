@@ -22,7 +22,7 @@ public class LargeBodyRenderer extends MobRenderer<LargeBodyEntity, LargeBodyMod
 
     @Override
     public ResourceLocation getEntityTexture(LargeBodyEntity entity) {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/largebody.png");
+        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/large_body.png");
     }    
     
     @Override

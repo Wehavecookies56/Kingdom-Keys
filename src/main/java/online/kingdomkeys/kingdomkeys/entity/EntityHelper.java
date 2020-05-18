@@ -13,9 +13,9 @@ public class EntityHelper {
 	public static final DataParameter<Integer> STATE = EntityDataManager.<Integer>createKey(MobEntity.class, DataSerializers.VARINT);
 
 	public static void setState(Entity e, int i) {
-		e.getDataManager().set(STATE, i); 
+		e.getDataManager().set(STATE, i);
 	}
-	
+
 	public static int getState(Entity e) {
 		return e.getDataManager().get(STATE);
 	}
@@ -56,5 +56,50 @@ public class EntityHelper {
 			return Dir.SOUTH_EAST;
 		}
 		return null;
+	}
+
+	public static double[] generateAnimationArray(double startPos, double minPos, double maxPos, double frameSkip, int framesPerSlot) {
+		int framesCount = 0;
+		double currentFrame = startPos;
+		boolean hasReachedMaxPos = false;
+		boolean hasReachedMinPos = false;
+
+		for (double i = startPos; i <= maxPos; i += frameSkip)
+			framesCount++;
+
+		for (double i = maxPos; i > minPos; i -= frameSkip)
+			framesCount++;
+
+		for (double i = minPos; i <= startPos; i += frameSkip)
+			framesCount++;
+
+		framesCount *= framesPerSlot;
+
+		framesCount -= 1 * framesPerSlot;
+
+		double[] animation = new double[framesCount];
+
+		for (int j = 0; j < framesCount; j++) {
+			for (int i = 0; i < framesPerSlot; i++) {
+				if (j + 1 < framesCount) {
+					if (i > 0)
+						j++;
+					animation[j] = currentFrame;
+				}
+			}
+			if (!hasReachedMaxPos && currentFrame < maxPos)
+				currentFrame += frameSkip;
+			else if (!hasReachedMinPos && hasReachedMaxPos && currentFrame > minPos)
+				currentFrame -= frameSkip;
+			else if (hasReachedMinPos && currentFrame < startPos)
+				currentFrame += frameSkip;
+
+			if (currentFrame >= maxPos)
+				hasReachedMaxPos = true;
+			if (currentFrame <= minPos)
+				hasReachedMinPos = true;
+		}
+
+		return animation;
 	}
 }

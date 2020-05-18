@@ -18,10 +18,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.DarkballRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.GigaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MegaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MoogleRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowGlobRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.HPOrbRenderer;
@@ -41,11 +43,13 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.DarkballEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.GigaShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
@@ -72,11 +76,11 @@ public class ModEntities {
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.CREATURE, "moogle", 0.6F, 1.5F);
     
     //Pureblood
-    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "shadow", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MegaShadowEntity::new, EntityClassification.CREATURE, "mega_shadow", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<GigaShadowEntity>> TYPE_GIGA_SHADOW = createEntityType(GigaShadowEntity::new, GigaShadowEntity::new, EntityClassification.CREATURE, "giga_shadow", 0.5F, 0.5F);
-    //public static final RegistryObject<EntityType<DarkballEntity>> TYPE_DARKBALL = createEntityType(DarkballEntity::new, DarkballEntity::new, EntityClassification.CREATURE, "darkball", 0.5F, 0.5F);
-    //public static final RegistryObject<EntityType<ShadowGlobEntity>> TYPE_SHADOW_GLOB = createEntityType(ShadowGlobEntity::new, ShadowGlobEntity::new, EntityClassification.CREATURE, "shadow_glob", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "shadow", 0.5F, 0.7F);
+    public static final RegistryObject<EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MegaShadowEntity::new, EntityClassification.CREATURE, "mega_shadow", 1.5F, 1.7F);
+    public static final RegistryObject<EntityType<GigaShadowEntity>> TYPE_GIGA_SHADOW = createEntityType(GigaShadowEntity::new, GigaShadowEntity::new, EntityClassification.CREATURE, "giga_shadow", 2.5F, 2.7F);
+    public static final RegistryObject<EntityType<DarkballEntity>> TYPE_DARKBALL = createEntityType(DarkballEntity::new, DarkballEntity::new, EntityClassification.CREATURE, "darkball", 1.3F, 1.7F);
+    public static final RegistryObject<EntityType<ShadowGlobEntity>> TYPE_SHADOW_GLOB = createEntityType(ShadowGlobEntity::new, ShadowGlobEntity::new, EntityClassification.CREATURE, "shadow_glob", 1.5F, 1F);
     
     //Emblems
    /* public static final RegistryObject<EntityType<ShadowEntity>> TYPE_RED_NOCTURNE = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "red_nocturne", 0.5F, 0.5F);
@@ -138,6 +142,9 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW.get(), ShadowRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MEGA_SHADOW.get(), MegaShadowRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GIGA_SHADOW.get(), GigaShadowRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_DARKBALL.get(), DarkballRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW_GLOB.get(), ShadowGlobRenderer.FACTORY);
+        
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LARGE_BODY.get(), LargeBodyRenderer.FACTORY);
     }
 
