@@ -12,19 +12,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 
 /**
@@ -44,7 +43,7 @@ public class PairBloxRenderer extends EntityRenderer<PairBloxEntity> {
 	@Override
 	public void render(PairBloxEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 
-		BlockState blockstate = ModBlocks.pairBlox.get().getDefaultState();
+		BlockState blockstate = ModBlocks.pairBlox.get().getDefaultState().with(PairBloxBlock.PAIR, entityIn.getPair());
 		if (blockstate.getRenderType() == BlockRenderType.MODEL) {
 			World world = entityIn.world;
 			if (blockstate != world.getBlockState(new BlockPos(entityIn)) && blockstate.getRenderType() != BlockRenderType.INVISIBLE) {

@@ -49,14 +49,6 @@ public class MagnetBloxBlock extends BaseBlock{
         super.fillStateContainer(builder);
         builder.add(FACING, RANGE, ATTRACT, ACTIVE);
     }
-    
-    @Override
-    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
-    	System.out.println("a");
-    	worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-    	worldIn.addEntity(new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), true));
-    	super.onBlockClicked(state, worldIn, pos, player);
-    }
 
     @Override
     public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, @Nullable Direction side) {

@@ -14,10 +14,12 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 /**
@@ -26,8 +28,9 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
  */
 public class PairBloxEntity extends Entity {
 
-	private static final DataParameter<Boolean> PAIR = EntityDataManager.createKey(PairBloxEntity.class, DataSerializers.BOOLEAN);
-	private boolean pair = false;
+	private static final DataParameter<Integer> PAIR = EntityDataManager.createKey(PairBloxEntity.class, DataSerializers.VARINT);
+
+	private int pair = 0;
 	
 	@Nullable
 	private LivingEntity placedBy;
@@ -41,19 +44,20 @@ public class PairBloxEntity extends Entity {
 		super(ModEntities.TYPE_PAIR_BLOX.get(), world);
 	}
 
-	public PairBloxEntity(World world, double x, double y, double z, boolean pair) {
+	public PairBloxEntity(World world, double x, double y, double z, int pair) {
 		this(ModEntities.TYPE_PAIR_BLOX.get(), world);
 		this.setPosition(x+0.5, y, z+0.5);
 		this.setPair(pair);
 		this.prevPosX = x+0.5;
 		this.prevPosY = y;
 		this.prevPosZ = z+0.5;
+	//	System.out.println("Pair: "+getPair());
 		//this.placedBy = igniter;
 	}
 
 	@Override
 	protected void registerData() {
-		this.dataManager.register(PAIR, false);
+		this.dataManager.register(PAIR, 0);
 	}
 
 	@Override
@@ -78,20 +82,20 @@ public class PairBloxEntity extends Entity {
 		this.world.addParticle(ParticleTypes.FLAME, this.getPosition().getX(), this.getPosition().getY() + 0.5D, this.getPosition().getZ(), 0.0D, 0.0D, 0.0D);
 		
 		if(ticksExisted >= 5) {
-			this.setMotion(0, -1, 0);
-			this.world.setBlockState(this.getPosition(), ModBlocks.pairBlox.get().getDefaultState());
+			this.setMotion(0, -10, 0);
+			this.world.setBlockState(this.getPosition(), ModBlocks.pairBlox.get().getDefaultState().with(PairBloxBlock.PAIR, getPair()));
 			this.remove();
 		}
 	}
 
 	@Override
 	protected void writeAdditional(CompoundNBT compound) {
-		compound.putBoolean("Pair", this.getPair());
+		compound.putInt("Pair", this.getPair());
 	}
 
 	@Override
 	protected void readAdditional(CompoundNBT compound) {
-		this.setPair(compound.getBoolean("Pair"));
+		this.setPair(compound.getInt("Pair"));
 	}
 
 	/*@Nullable
@@ -104,7 +108,7 @@ public class PairBloxEntity extends Entity {
 		return 0.0F;
 	}
 
-	public void setPair(boolean pair) {
+	public void setPair(int pair) {
 		this.dataManager.set(PAIR, pair);
 		this.pair = pair;
 	}
@@ -116,11 +120,11 @@ public class PairBloxEntity extends Entity {
 		}
 	}
 
-	public boolean getPairDataManager() {
+	public int getPairDataManager() {
 		return this.dataManager.get(PAIR);
 	}
 
-	public boolean getPair() {
+	public int getPair() {
 		return this.pair;
 	}
 

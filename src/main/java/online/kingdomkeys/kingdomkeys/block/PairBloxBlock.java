@@ -38,99 +38,103 @@ import javax.annotation.Nullable;
 
 public class PairBloxBlock extends BaseBlock {
 
-    public static final BooleanProperty PAIR = BooleanProperty.create("pair");
+	public static final IntegerProperty PAIR = IntegerProperty.create("pair", 0, 2);
 
-    public PairBloxBlock(Properties properties) {
-        super(properties);
-        this.setDefaultState(this.getDefaultState().with(PAIR, true));
-    }
-    
-    @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
-        builder.add(PAIR);
-    }
-    
-    @Override
-    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
-    	worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-    	PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), true);
-    	float velocity = 0.5F;
-		switch (MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) {
+	public PairBloxBlock(Properties properties) {
+		super(properties);
+		this.setDefaultState(this.getDefaultState().with(PAIR, 0));
+	}
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		super.fillStateContainer(builder);
+		builder.add(PAIR);
+	}
+
+	@Override
+	public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+		PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.get(PAIR));
+		float velocity = 0.5F;
+		switch (MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) { // Get direction
 		case 0:
-	    	pairEntity.setMotion(0, -velocity, velocity);
-	    	break;
+			pairEntity.setMotion(0, -velocity, velocity);
+			break;
 		case 1:
 			pairEntity.setMotion(-velocity, -velocity, 0);
-	    	break;
+			break;
 		case 2:
 			pairEntity.setMotion(0, -velocity, -velocity);
-	    	break;
+			break;
 		case 3:
 			pairEntity.setMotion(velocity, -velocity, 0);
-	    	break;
-    		
-    	}
-    	worldIn.addEntity(pairEntity);
-    	super.onBlockClicked(state, worldIn, pos, player);
-    } 
+			break;
 
-    @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+		}
 
-    }
+		// System.out.println(getDefaultState().get(PAIR));
+		worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+		worldIn.addEntity(pairEntity);
+		super.onBlockClicked(state, worldIn, pos, player);
+	}
 
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+	@Override
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+		BlockState other = null;
+		BlockPos[] positions = { pos.north(), pos.east(), pos.south(), pos.west() };
+		int i = 0;
+		for (i = 0; i < positions.length; i++) {
+			if (world.getBlockState(positions[i]).getBlock() == ModBlocks.pairBlox.get().getDefaultState().getBlock()) {
+				other = world.getBlockState(positions[i]);
+				break;
+			}
+		}
+		
+		//Check if both blox are different but not the final result one
+		if (other != null && state.get(PAIR) < 2 && other.get(PAIR) < 2 && state.get(PAIR) != other.get(PAIR)) {
+			System.out.println("MERGE");
+			world.setBlockState(pos, Blocks.AIR.getDefaultState());
+			world.setBlockState(positions[i], Blocks.AIR.getDefaultState());
+			world.setBlockState(positions[i], ModBlocks.pairBlox.get().getDefaultState().with(PAIR, 2));
+		}
 
-    }
+	}
 
-   /* @Override
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        worldIn.setBlockState(pos, state.with(ACTIVE, worldIn.isBlockPowered(pos)));
-    }*/
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(PAIR, true);
-    }
+	}
 
-    @Override
-    public boolean shouldCheckWeakPower(BlockState state, IWorldReader world, BlockPos pos, Direction side) {
-        return true;
-    }
+	/*
+	 * @Override public void neighborChanged(BlockState state, World worldIn,
+	 * BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+	 * worldIn.setBlockState(pos, state.with(ACTIVE, worldIn.isBlockPowered(pos)));
+	 * }
+	 */
 
-   /* @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (player.isCrouching()) {
-            worldIn.setBlockState(pos, state.with(ATTRACT, !state.get(ATTRACT)));
-            String message = state.get(ATTRACT) ? "message.magnet_blox.repel" : "message.magnet_blox.attract";
-            message = I18n.format(message);
-            TextFormatting formatting = state.get(ATTRACT) ? TextFormatting.BLUE : TextFormatting.RED;
-            message = formatting + message;
-            player.sendStatusMessage(new StringTextComponent(message), true);
-        } else {
-            int newRange = state.get(RANGE) + 1;
-            if (state.get(RANGE) == max) {
-                newRange = min;
-            }
-            worldIn.setBlockState(pos, state.with(RANGE, newRange));
-            //TODO translate
-            player.sendStatusMessage(new TranslationTextComponent("message.magnet_blox.range", newRange), true);
-        }
-        return ActionResultType.SUCCESS;
-    }*/
+	@Nullable
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(PAIR, 0);
+	}
 
-   /* @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if (state.get(PAIR) < 2) {
+			int newState = state.get(PAIR) == 0 ? 1 : 0;
+			worldIn.setBlockState(pos, state.with(PAIR, newState));
+			return ActionResultType.SUCCESS;
+		} else {
+			return ActionResultType.FAIL;
+		}
+	}
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModEntities.TYPE_MAGNET_BLOX.get().create();
-    }*/
+	/*
+	 * @Override public boolean hasTileEntity(BlockState state) { return true; }
+	 * 
+	 * @Nullable
+	 * 
+	 * @Override public TileEntity createTileEntity(BlockState state, IBlockReader
+	 * world) { return ModEntities.TYPE_MAGNET_BLOX.get().create(); }
+	 */
 
 }
