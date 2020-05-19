@@ -1,40 +1,30 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.Block.Properties;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.Block.Properties;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper.Dir;
+import net.minecraft.world.server.ServerWorld;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
-
-import javax.annotation.Nullable;
 
 public class PairBloxBlock extends BaseBlock {
 
@@ -53,28 +43,59 @@ public class PairBloxBlock extends BaseBlock {
 
 	@Override
 	public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
-		PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.get(PAIR));
-		float velocity = 0.5F;
-		switch (MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) { // Get direction
-		case 0:
-			pairEntity.setMotion(0, -velocity, velocity);
-			break;
-		case 1:
-			pairEntity.setMotion(-velocity, -velocity, 0);
-			break;
-		case 2:
-			pairEntity.setMotion(0, -velocity, -velocity);
-			break;
-		case 3:
-			pairEntity.setMotion(velocity, -velocity, 0);
-			break;
+		if (!worldIn.isRemote) {
+			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.get(PAIR));
+			float velocity = 0.5F;
+			switch (MathHelper.floor(player.rotationYaw * 8.0F / 360.0F + 0.5D) & 7) { // Get direction
+			case 0:// S
+				pairEntity.setMotion(0, 0, velocity);
+				break;
+			case 1:// SW
+				pairEntity.setMotion(-velocity, 0, velocity);
+				break;
+			case 2:// W
+				pairEntity.setMotion(-velocity, 0, 0);
+				break;
+			case 3:// NW
+				pairEntity.setMotion(-velocity, 0, -velocity);
+				break;
+			case 4:// N
+				pairEntity.setMotion(0, 0, -velocity);
+				break;
+			case 5:// NE
+				pairEntity.setMotion(velocity, 0, -velocity);
+				break;
+			case 6:// E
+				pairEntity.setMotion(velocity, 0, 0);
+				break;
+			case 7:// SE
+				pairEntity.setMotion(velocity, 0, velocity);
+				break;
 
+			}
+
+			// System.out.println(getDefaultState().get(PAIR));
+			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+			worldIn.addEntity(pairEntity);
 		}
-
-		// System.out.println(getDefaultState().get(PAIR));
-		worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-		worldIn.addEntity(pairEntity);
 		super.onBlockClicked(state, worldIn, pos, player);
+	}
+
+	@Override
+	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+		System.out.println("a");
+		if (worldIn.isAirBlock(pos.down()) || canFallThrough(worldIn.getBlockState(pos.down())) && pos.getY() >= 0) {
+			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.get(PAIR));
+			pairEntity.setMotion(0, -1, 0);
+			worldIn.addEntity(pairEntity);
+		}
+	}
+
+	public static boolean canFallThrough(BlockState state) {
+		Block block = state.getBlock();
+		Material material = state.getMaterial();
+		return state.isAir() || block == Blocks.FIRE || material.isLiquid() || material.isReplaceable();
 	}
 
 	@Override
@@ -88,8 +109,8 @@ public class PairBloxBlock extends BaseBlock {
 				break;
 			}
 		}
-		
-		//Check if both blox are different but not the final result one
+
+		// Check if both blox are different but not the final result one
 		if (other != null && state.get(PAIR) < 2 && other.get(PAIR) < 2 && state.get(PAIR) != other.get(PAIR)) {
 			System.out.println("MERGE");
 			world.setBlockState(pos, Blocks.AIR.getDefaultState());
@@ -103,13 +124,6 @@ public class PairBloxBlock extends BaseBlock {
 	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 
 	}
-
-	/*
-	 * @Override public void neighborChanged(BlockState state, World worldIn,
-	 * BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-	 * worldIn.setBlockState(pos, state.with(ACTIVE, worldIn.isBlockPowered(pos)));
-	 * }
-	 */
 
 	@Nullable
 	@Override
