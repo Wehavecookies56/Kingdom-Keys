@@ -1,11 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
 import net.minecraft.nbt.CompoundNBT;
@@ -13,8 +10,6 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -22,18 +17,11 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-/**
- * Mostly a copy of {@link net.minecraft.entity.item.TNTEntity} with some small
- * changes
- */
 public class PairBloxEntity extends Entity {
 
 	private static final DataParameter<Integer> PAIR = EntityDataManager.createKey(PairBloxEntity.class, DataSerializers.VARINT);
-
 	private int pair = 0;
 	
-	@Nullable
-	private LivingEntity placedBy;
 
 	public PairBloxEntity(EntityType<? extends Entity> type, World world) {
 		super(type, world);
@@ -51,8 +39,6 @@ public class PairBloxEntity extends Entity {
 		this.prevPosX = x+0.5;
 		this.prevPosY = y;
 		this.prevPosZ = z+0.5;
-	//	System.out.println("Pair: "+getPair());
-		//this.placedBy = igniter;
 	}
 
 	@Override
@@ -76,8 +62,7 @@ public class PairBloxEntity extends Entity {
 		this.prevPosY = this.getPosition().getY();
 		this.prevPosZ = this.getPosition().getZ();
 		
-		setMotion(getMotion().add(0, -1, 0));
-		this.move(MoverType.SELF, this.getMotion());
+		this.move(MoverType.SELF, this.getMotion().add(0, -1, 0));
 		this.handleWaterMovement();
 		if(ticksExisted >= 5) {
 			this.world.setBlockState(this.getPosition(), ModBlocks.pairBlox.get().getDefaultState().with(PairBloxBlock.PAIR, getPair()));
@@ -94,11 +79,6 @@ public class PairBloxEntity extends Entity {
 	protected void readAdditional(CompoundNBT compound) {
 		this.setPair(compound.getInt("Pair"));
 	}
-
-	/*@Nullable
-	public LivingEntity getPlacedBy() {
-		return this.placedBy;
-	}*/
 
 	@Override
 	protected float getEyeHeight(Pose pose, EntitySize entitySize) {
