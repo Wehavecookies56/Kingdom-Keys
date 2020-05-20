@@ -1,10 +1,11 @@
 {
 	"parent": "forge:block/default",
 	"loader": "forge:obj",
-	"model": "kingdomkeys:models/block/kk_chest.obj",
+	"model": "kingdomkeys:models/block/pedestal.obj",
 	"transform":{
 		"translation": [ -0.5, -1, -0.5 ],
-		"scale": [ 0.015, 0.015, 0.015 ]
+		"scale": [ 0.01, 0.01, 0.01 ],
+		"rotation":[0,45,0]
 	},
 	"textures": {
 	},

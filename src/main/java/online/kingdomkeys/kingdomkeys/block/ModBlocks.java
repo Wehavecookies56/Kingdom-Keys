@@ -52,7 +52,9 @@ public class ModBlocks {
             twilightOreN = createNewBlock("twilight_ore_n", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
 
             savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
-    		kkChest = createNewBlock("kk_chest", () -> new KKChestBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)))
+    		kkChest = createNewBlock("kk_chest", () -> new KKChestBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
+    		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
+    		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)))
     		;
 
     /**

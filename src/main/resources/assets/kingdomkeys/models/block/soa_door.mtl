@@ -1,0 +1,20 @@
+# Blender MTL File: 'stationofawakeningdoor.blend'
+# Material Count: 3
+
+newmtl Mat012
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+d 1.000000
+map_Kd kingdomkeys:block/soa_door_1
+
+newmtl Mat013
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+d 1.000000
+map_Kd kingdomkeys:block/soa_door_2
+
+newmtl Mat015
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+d 1.000000
+map_Kd kingdomkeys:block/soa_door_3

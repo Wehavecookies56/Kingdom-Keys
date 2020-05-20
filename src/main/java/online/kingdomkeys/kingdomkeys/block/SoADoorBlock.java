@@ -23,28 +23,28 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class KKChestBlock extends BaseBlock {
+public class SoADoorBlock extends BaseBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final BooleanProperty BIG = BooleanProperty.create("big");
 
-	private static final VoxelShape collisionShapeEW = Block.makeCuboidShape(2.0D, 0.0D, 1.0D, 14.0D, 12.0D, 15.0D);
-	private static final VoxelShape collisionShapeNS = Block.makeCuboidShape(1.0D, 0.0D, 2.0D, 15.0D, 12.0D, 14.0D);
+	private static final VoxelShape collisionShapeEW = Block.makeCuboidShape(5.0D, 0.0D, -8.0D, 11.0D, 32.0D, 24.0D);
+	private static final VoxelShape collisionShapeNS = Block.makeCuboidShape(-8.0D, 0.0D, 5.0D, 24.0D, 32.0D, 11.0D);
 
-	public KKChestBlock(Properties properties) {
+	public SoADoorBlock(Properties properties) {
 		super(properties);
-        this.setDefaultState(this.getDefaultState().with(BIG, false));
+		this.setDefaultState(this.getDefaultState().with(FACING, Direction.NORTH));
 	}
 	
 	@Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite()).with(BIG, false);
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 	
 	@Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         super.fillStateContainer(builder);
-        builder.add(FACING, BIG);
+        //builder.add(FACING, BIG);
+        builder.add(FACING);
     }
 
 	@Override
@@ -60,7 +60,7 @@ public class KKChestBlock extends BaseBlock {
 	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		setDefaultState(state.with(BIG, true));
+		//setDefaultState(state.with(BIG, true));
 		return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
 	}
 	

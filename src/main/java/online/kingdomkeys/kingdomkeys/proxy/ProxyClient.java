@@ -65,8 +65,11 @@ public class ProxyClient implements IProxy {
             ClientRegistry.registerKeyBinding(key.getKeybind());
 
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
+		
         RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.kkChest.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
         
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));

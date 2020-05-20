@@ -22,14 +22,14 @@ public class KeybladeStats extends KeybladeProvider {
 
     @Override
     protected void registerKeyblades() {
-        kh3Keyblades();
+    	uxKeyblades();
+    	bbsKeyblades();
         kh1Keyblades();
         kh2Keyblades();
-        bbsKeyblades();
+        kh358Keyblades();
+        khReCodedKeyblade();
         dddKeyblades();
-        uxKeyblades();
-
-
+        kh3Keyblades();
     }
 
     public static class Recipe {
@@ -49,8 +49,7 @@ public class KeybladeStats extends KeybladeProvider {
         }
     }
 
-    public void kh3Keyblades()
-    {
+    public void kh3Keyblades() {
         getBuilder(Strings.ultimaWeaponKH3)
                 .keychain(Strings.ultimaWeaponKH3Chain)
                 .baseStats(8,3)
@@ -145,8 +144,7 @@ public class KeybladeStats extends KeybladeProvider {
 
     //TODO the rest of the keyblades
 
-    public void kh1Keyblades()
-    {
+    public void kh1Keyblades() {
         /*
         getBuilder(Strings.kingdomKey).keychain(Strings.kingdomKeyChain).baseStats(3,0)
                 .level( new KeybladeLevel.KeybladeLevelBuilder().withStr(3).withMag(3).withAbilty("Test_Abiltity")
@@ -209,30 +207,29 @@ public class KeybladeStats extends KeybladeProvider {
 
     }
 
-    public void kh2Keyblades()
-    {
+    public void kh2Keyblades() {
 
 
     }
 
-    public void bbsKeyblades()
-    {
+    public void bbsKeyblades() {
 
     }
 
-    public void dddKeyblades()
-    {
+    public void dddKeyblades() {
 
     }
 
-    public void uxKeyblades()
-    {
+    public void uxKeyblades() {
 
     }
 
-    public void khdKeyblades()
-    {
+    public void kh358Keyblades() {
 
+    }
+    
+    public void khReCodedKeyblade() {
+    	
     }
 
     @Override
