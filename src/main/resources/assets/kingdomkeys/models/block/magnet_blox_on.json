@@ -1,6 +1,8 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/orientable",
   "textures": {
-    "all": "kingdomkeys:block/magnet_blox_on"
+	"top": "kingdomkeys:block/magnet_blox_off",
+    "front": "kingdomkeys:block/magnet_blox_on",
+    "side": "kingdomkeys:block/magnet_blox_off"
   }
 }

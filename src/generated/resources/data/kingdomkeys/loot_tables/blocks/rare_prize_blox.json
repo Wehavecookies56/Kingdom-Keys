@@ -6,21 +6,143 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:stone"
+          "name": "kingdomkeys:levelupdrivevalor"
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "minecraft:sand"
+          "name": "kingdomkeys:levelupdrivewisdom"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:levelupdrivemaster"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:levelupdrivefinal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:levelupdrivelimit"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:soothing_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:blazing_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:hungry_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:twilight_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:tranquility_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:stormy_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:remembrance_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:lucid_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:pulsing_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:writhing_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:betwixt_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:frost_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:wellspring_gem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:soothing_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:blazing_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:hungry_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:twilight_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:tranquility_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:stormy_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:remembrance_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:lucid_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:pulsing_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:writhing_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:betwixt_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:frost_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:wellspring_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:orichalcum"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:orichalcumplus"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:manifest_illusion"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:lost_illusion"
         }
       ]
     }

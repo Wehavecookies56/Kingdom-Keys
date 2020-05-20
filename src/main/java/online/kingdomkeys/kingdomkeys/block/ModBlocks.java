@@ -28,6 +28,7 @@ public class ModBlocks {
             prizeBlox = createNewBlock("prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             rarePrizeBlox = createNewBlock("rare_prize_blox", Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F)),
             magnetBlox = createNewBlock("magnet_blox", () -> new MagnetBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 1.0F))),
+            pairBlox = createNewBlock("pair_blox", () -> new PairBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F))),
 
             blazingOre = createNewBlock("blazing_ore", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             blazingOreN = createNewBlock("blazing_ore_n", Block.Properties.create(Material.IRON).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
@@ -50,7 +51,9 @@ public class ModBlocks {
             twilightOre = createNewBlock("twilight_ore", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             twilightOreN = createNewBlock("twilight_ore_n", Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
 
-            savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)));
+            savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
+    		kkChest = createNewBlock("kk_chest", () -> new KKChestBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)))
+    		;
 
     /**
      * Helper method to create basic blocks

@@ -38,7 +38,7 @@ public class PacketUseMagic {
 			if (props.getMP() >= 0 && !props.getRecharge()) {
 				props.remMP(FIRE_MAGIC_COST);
 				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
-				Magic.magnet(player);
+				Magic.reflect(player);
 			}
 			 System.out.println(props.getMP());
 

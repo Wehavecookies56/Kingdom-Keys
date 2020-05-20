@@ -1,0 +1,15 @@
+{
+	"variants": {
+		"big=false,facing=north": { "model": "kingdomkeys:block/kk_chest","y":0, "uvlock": true},
+		"big=true,facing=north": { "model": "kingdomkeys:block/kk_chest_big","y":0, "uvlock": true},
+		
+		"big=false,facing=east": { "model": "kingdomkeys:block/kk_chest","y":90, "uvlock": true},
+		"big=true,facing=east": { "model": "kingdomkeys:block/kk_chest_big","y":90, "uvlock": true},
+		
+		"big=false,facing=south": { "model": "kingdomkeys:block/kk_chest","y":180, "uvlock": true},
+		"big=true,facing=south": { "model": "kingdomkeys:block/kk_chest_big","y":180, "uvlock": true},
+		
+		"big=false,facing=west": { "model": "kingdomkeys:block/kk_chest","y":270, "uvlock": true},
+		"big=true,facing=west": { "model": "kingdomkeys:block/kk_chest_big","y":270, "uvlock": true}
+	}
+}

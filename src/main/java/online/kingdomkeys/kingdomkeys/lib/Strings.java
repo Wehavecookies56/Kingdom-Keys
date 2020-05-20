@@ -340,7 +340,18 @@ public class Strings {
         pureHeart = "pure_heart",
         kingdom_hearts = "kingdom_hearts",
         iceCream = "ice_cream",
-        emptyBottle = "empty_bottle";
+        emptyBottle = "empty_bottle",
+        LevelUpMagicFire = "levelupmagicfire",
+        LevelUpMagicBlizzard = "levelupmagicblizzard",
+        LevelUpMagicThunder = "levelupmagicthunder",
+        LevelUpMagicCure = "levelupmagiccure",
+        LevelUpMagicAero = "levelupmagicaero",
+        LevelUpMagicStop = "levelupmagicstop",
+        LevelUpValor = "levelupdrivevalor",
+        LevelUpWisdom = "levelupdrivewisdom",
+        LevelUpLimit = "levelupdrivelimit",
+        LevelUpMaster = "levelupdrivemaster",
+        LevelUpFinal = "levelupdrivefinal";
     
     // Music Discs
     public static final String

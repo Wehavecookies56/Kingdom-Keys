@@ -18,7 +18,7 @@ public class ModCapabilities {
 		LazyOptional<IPlayerCapabilities> props = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES, null);
 		return props.orElse(null);
 	}
-	
+
 	public static IGlobalCapabilities getGlobal(LivingEntity e) {
 		LazyOptional<IGlobalCapabilities> props = e.getCapability(ModCapabilities.GLOBAL_CAPABILITIES, null);
 		return props.orElse(null);

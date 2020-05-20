@@ -19,7 +19,7 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
 
     @Override
     public ResourceLocation getEntityTexture(MoogleEntity entity) {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/moogle.png");
+        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/moogle.png");
     }
 
     public static class Factory implements IRenderFactory<MoogleEntity> {

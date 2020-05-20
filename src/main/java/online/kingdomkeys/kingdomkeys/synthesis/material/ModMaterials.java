@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.synthesis.material;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -31,8 +32,9 @@ public class ModMaterials {
 
         @SubscribeEvent
         public static void registerMaterials(RegistryEvent.Register<Material> event) {
-            //PLACEHOLDER MATERIAL
             event.getRegistry().registerAll(
+                    //PLACEHOLDER
+                    new Material("kingdomkeys:material_apple", Items.APPLE),
                     createMaterial(ModItems.soothing_crystal.get(), Strings.SM_SoothingCrystal),
                     createMaterial(ModItems.soothing_gem.get(), Strings.SM_SoothingGem),
                     createMaterial(ModItems.soothing_stone.get(), Strings.SM_SoothingStone),

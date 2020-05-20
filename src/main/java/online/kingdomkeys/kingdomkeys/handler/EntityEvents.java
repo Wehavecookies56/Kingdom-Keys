@@ -20,6 +20,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -214,17 +216,6 @@ public class EntityEvents {
 		}
 	}
 
-	/*@SubscribeEvent
-	public void onLivingDamaged(LivingDamageEvent event) {
-		if (event.getEntityLiving() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			if (props.getReflectTicks() > 0) {
-				event.setCanceled(true);
-			}
-		}
-	}*/
-
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		/*
@@ -252,13 +243,26 @@ public class EntityEvents {
 			}
 			
 		}
+		
 		Entity entity = event.getEntity();
 		double x = entity.getPosX();
 		double y = entity.getPosY();
 		double z = entity.getPosZ();
-		event.getEntity().world.addEntity(new MunnyEntity(event.getEntity().world,x,y,z,10));
+		event.getEntity().world.addEntity(new MunnyEntity(event.getEntity().world,x,y,z,1000));
 		event.getEntity().world.addEntity(new HPOrbEntity(event.getEntity().world,x,y,z,10));
-
+		event.getEntity().world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
+		event.getEntity().world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
+	}
+	
+	@SubscribeEvent
+	public void onPlayerClone(PlayerEvent.Clone event) {
+		if(event.isWasDeath()) {
+			PlayerEntity oPlayer = event.getOriginal();
+			PlayerEntity nPlayer = event.getPlayer();
+			IPlayerCapabilities oProps = ModCapabilities.get(oPlayer);
+			IPlayerCapabilities nProps = ModCapabilities.get(nPlayer);
+			//TODO sync stuff
+		}
 	}
 
 	// Sync drive form on Start Tracking
