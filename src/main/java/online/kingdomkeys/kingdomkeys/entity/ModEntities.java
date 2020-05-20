@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.MunnyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.PairBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.TESRPedestal;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DarkballRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.GigaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
@@ -39,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.EntityWaterRenderer;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
@@ -152,11 +155,13 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW_GLOB.get(), ShadowGlobRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LARGE_BODY.get(), LargeBodyRenderer.FACTORY);
+        
+        ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), TESRPedestal::new);
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);
 
     //public static final RegistryObject<TileEntityType<MagnetBloxTileEntity>> TYPE_MAGNET_BLOX = createTileEntityType("magnet_blox", MagnetBloxTileEntity::new, ModBlocks.magnetBlox);
     public static final RegistryObject<TileEntityType<MagnetBloxTileEntity>> TYPE_MAGNET_BLOX = TILE_ENTITIES.register("magnet_blox", () -> TileEntityType.Builder.create(MagnetBloxTileEntity::new, ModBlocks.magnetBlox.get()).build(null));
-
+    public static final RegistryObject<TileEntityType<PedestalTileEntity>> TYPE_PEDESTAL = TILE_ENTITIES.register("pedestal", () -> TileEntityType.Builder.create(PedestalTileEntity::new, ModBlocks.pedestal.get()).build(null));
 }
