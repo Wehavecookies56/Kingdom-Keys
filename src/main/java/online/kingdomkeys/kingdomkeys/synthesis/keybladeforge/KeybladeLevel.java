@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
-import java.util.List;
-import java.util.Map;
-
+import online.kingdomkeys.kingdomkeys.datagen.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+
+import java.util.Map;
 
 /**
  * Class to contain keyblade level information
@@ -60,7 +60,7 @@ public class KeybladeLevel {
 
     public Map<Material, Integer> getMaterialList() { return materials;}
 
-    public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String ability) {
+    public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String... abilities) {
         this.strength = strength;
         this.magic = magic;
         this.materials = materials;
@@ -69,7 +69,7 @@ public class KeybladeLevel {
 
     @Override
     public String toString() {
-        return String.format("KeybladeLevel[strength:%d, magic:%d, materials[%d], ability:%s]", strength, magic, materials.size(), ability);
+        return String.format("KeybladeLevel[strength:%d, magic:%d, materials[%d]]", strength, magic, materials.size());
     }
 
     public static class KeybladeLevelBuilder{
@@ -80,27 +80,22 @@ public class KeybladeLevel {
 
         public KeybladeLevelBuilder() { }
 
-        public KeybladeLevelBuilder withStr(int str)
+        public KeybladeLevelBuilder withStats(int str, int mag)
         {
             this.strength = str;
-            return this;
-        }
-
-        public KeybladeLevelBuilder withMag(int mag)
-        {
             this.magic = mag;
             return this;
         }
 
-        public KeybladeLevelBuilder withAbilty(String ability)
+        public KeybladeLevelBuilder withAbilties(String... abilities)
         {
-            this.ability = ability;
+            this.ability = abilities[0];
             return this;
         }
 
-        public KeybladeLevelBuilder withMaterials(Map<Material, Integer> materials)
+        public KeybladeLevelBuilder withMaterials(KeybladeStats.Recipe recipe)
         {
-            this.materials = materials;
+            this.materials = recipe.asMap();
             return this;
         }
 

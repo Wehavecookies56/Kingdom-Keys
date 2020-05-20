@@ -12,18 +12,18 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.container.ContainerSynthesisBag;
+import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketUpgradeSynthesisBag;
 
-public class GuiSynthesisBag extends ContainerScreen<ContainerSynthesisBag> {
+public class GuiSynthesisBag extends ContainerScreen<SynthesisBagContainer> {
 
 	private static final String textureBase = KingdomKeys.MODID+":textures/gui/synthesis_bag_";
 	int[] texHeight = {140, 176, 212};
 	int bagLevel = 0;
 	Button upgrade;
 
-	public GuiSynthesisBag(ContainerSynthesisBag container, PlayerInventory playerInv, ITextComponent title) {
+	public GuiSynthesisBag(SynthesisBagContainer container, PlayerInventory playerInv, ITextComponent title) {
 		super(container, playerInv, title);
 	}
 

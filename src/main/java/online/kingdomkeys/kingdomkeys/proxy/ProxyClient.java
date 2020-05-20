@@ -15,7 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.*;
-import online.kingdomkeys.kingdomkeys.client.render.LayerRendererDrive;
+import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -56,7 +56,6 @@ public class ProxyClient implements IProxy {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         ModEntities.registerModels();
-		//ModelLoader.setCustomModelResourceLocation(ModItems.kingdomKey, 0, new ModelResourceLocation("", "inventory"));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -69,26 +68,11 @@ public class ProxyClient implements IProxy {
         RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getTranslucent());
         
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
-		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
+		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
-		renderPlayer.addLayer(new LayerRendererDrive(renderPlayer));
+		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
         ModContainers.registerGUIFactories();
     }
-
-    /*@SubscribeEvent
-    public static void onModelBakeEvent(ModelBakeEvent event) {
-        //TODO make this simpler for doing this for every model
-        try {
-            IUnbakedModel model = ModelLoaderRegistry.getModelOrMissing(new ResourceLocation(KingdomKeys.MODID + ":item/kingdom_key.obj"));
-
-            if (model instanceof OBJModel) {
-                IBakedModel bakedModel = model.bake(event.getModelLoader(), ModelLoader.defaultTextureGetter(), new BasicState(model.getDefaultState(), false), DefaultVertexFormats.ITEM);
-                event.getModelRegistry().put(new ModelResourceLocation(KingdomKeys.MODID + ":kingdom_key", "inventory"), bakedModel);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
 }

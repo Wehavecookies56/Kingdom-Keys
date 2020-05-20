@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:remembrancecrystal"
+          "name": "kingdomkeys:remembrance_crystal"
         }
       ]
     },
@@ -49,7 +49,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:remembrancegem"
+          "name": "kingdomkeys:remembrance_gem"
         }
       ]
     },
@@ -75,7 +75,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:remembrancestone"
+          "name": "kingdomkeys:remembrance_shard"
         }
       ]
     },
@@ -101,7 +101,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:remembranceshard"
+          "name": "kingdomkeys:remembrance_stone"
         }
       ]
     }

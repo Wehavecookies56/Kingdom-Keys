@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:stormycrystal"
+          "name": "kingdomkeys:stormy_crystal"
         }
       ]
     },
@@ -49,7 +49,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:stormygem"
+          "name": "kingdomkeys:stormy_gem"
         }
       ]
     },
@@ -75,7 +75,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:stormystone"
+          "name": "kingdomkeys:stormy_shard"
         }
       ]
     },
@@ -101,7 +101,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:stormyshard"
+          "name": "kingdomkeys:stormy_stone"
         }
       ]
     }

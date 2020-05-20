@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:frostcrystal"
+          "name": "kingdomkeys:frost_crystal"
         }
       ]
     },
@@ -49,7 +49,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:frostgem"
+          "name": "kingdomkeys:frost_gem"
         }
       ]
     },
@@ -75,7 +75,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:froststone"
+          "name": "kingdomkeys:frost_shard"
         }
       ]
     },
@@ -101,7 +101,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:frostshard"
+          "name": "kingdomkeys:frost_stone"
         }
       ]
     }

@@ -1,45 +1,156 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
+import javafx.util.Pair;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.synthesis.KeybladeSynthLevelMap;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
+import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
-public class KeybladeStats extends  KeyBladeProvider{
+import java.util.*;
+
+public class KeybladeStats extends KeybladeProvider {
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, KingdomKeys.MODID, KEYBLADE_FOLDER, KeybladeBuilder::new, existingFileHelper);
     }
 
     @Override
     protected void registerKeyblades() {
-        KeybladeSynthLevelMap kslm = new KeybladeSynthLevelMap();
-        kslm.init();
-        kh3Keyblades(kslm);
-        kh1Keyblades(kslm);
-        kh2Keyblades(kslm);
-        bbsKeyblades(kslm);
-        dddKeyblades(kslm);
-        uxKeyblades(kslm);
+        kh3Keyblades();
+        kh1Keyblades();
+        kh2Keyblades();
+        bbsKeyblades();
+        dddKeyblades();
+        uxKeyblades();
 
 
     }
 
-    public void kh3Keyblades(KeybladeSynthLevelMap kslm)
-    {
-        getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.ultimaWeaponKH3Chain).baseStats(12,8).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(13).withMag(10).withAbilty("Test_Abiltity")
-                .withMaterials(kslm.getMap("kh3ultLvl1")).build()).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(16).withMag(12).withMaterials(kslm.getMap("kh3ultLvl2")).build()).desc("test");
+    public static class Recipe {
+        private List<Pair<String, Integer>> recipe = new ArrayList<>();
+
+        public Recipe() { }
+
+        public Recipe addMaterial(String mat, int quantity) {
+            recipe.add(new Pair<>(mat, quantity));
+            return this;
+        }
+
+        public Map<Material, Integer> asMap() {
+            Map<Material, Integer> matMap = new HashMap<>();
+            recipe.forEach(p -> matMap.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + p.getKey())), p.getValue()));
+            return matMap;
+        }
     }
 
-    public void kh1Keyblades(KeybladeSynthLevelMap kslm)
+    public void kh3Keyblades()
     {
-        getBuilder(Strings.kingdomKey).keychain(Strings.kingdomKeyChain).baseStats(3,0).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(3).withMag(3).withAbilty("Test_Abiltity")
-                .withMaterials(kslm.getMap(Strings.kingdomKey + "_Lvl1")).build()).level( new KeybladeLevel.KeybladeLevelBuilder()
-                .withStr(4).withMag(4).withMaterials(kslm.getMap(Strings.kingdomKey + "_Lvl2")).build()).desc("test");
+        getBuilder(Strings.ultimaWeaponKH3)
+                .keychain(Strings.ultimaWeaponKH3Chain)
+                .baseStats(8,3)
+                .abilities("Combo Boost", "Air Combo Boost", "Situation Boost")
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(9, 4)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Fluorite, 1)
+                                .addMaterial(Strings.SM_WellspringShard, 3)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(9, 5)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Fluorite, 1)
+                                .addMaterial(Strings.SM_WellspringShard, 4)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(10, 6)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Fluorite, 1)
+                                .addMaterial(Strings.SM_WellspringStone, 1)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(10, 7)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Damascus, 1)
+                                .addMaterial(Strings.SM_WellspringStone, 2)
+                                .addMaterial(Strings.SM_HungryStone, 1)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(11, 8)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Damascus, 1)
+                                .addMaterial(Strings.SM_WellspringStone, 3)
+                                .addMaterial(Strings.SM_HungryStone, 2)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(11, 9)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Damascus, 1)
+                                .addMaterial(Strings.SM_WellspringGem, 1)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(12, 10)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Adamantite, 1)
+                                .addMaterial(Strings.SM_WellspringGem, 2)
+                                .addMaterial(Strings.SM_HungryGem, 1)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(12, 11)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Adamantite, 1)
+                                .addMaterial(Strings.SM_WellspringGem, 3)
+                                .addMaterial(Strings.SM_HungryGem, 2)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(13, 12)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Adamantite, 1)
+                                .addMaterial(Strings.SM_WellspringCrystal, 1)
+                        )
+                        .build()
+                )
+                .level( new KeybladeLevel.KeybladeLevelBuilder()
+                        .withStats(13, 13)
+                        .withMaterials(new Recipe()
+                                .addMaterial(Strings.SM_Electrum, 1)
+                                .addMaterial(Strings.SM_WellspringCrystal, 2)
+                                .addMaterial(Strings.SM_HungryCrystal, 1)
+                        )
+                        .build()
+                )
+                .desc("test");
+    }
+
+    //TODO the rest of the keyblades
+
+    public void kh1Keyblades()
+    {
+        /*
+        getBuilder(Strings.kingdomKey).keychain(Strings.kingdomKeyChain).baseStats(3,0)
+                .level( new KeybladeLevel.KeybladeLevelBuilder().withStr(3).withMag(3).withAbilty("Test_Abiltity")
+                        .withMaterials(kslm.getMap(Strings.kingdomKey + "_Lvl1")).build())
+                .level( new KeybladeLevel.KeybladeLevelBuilder().withStr(4).withMag(4)
+                        .withMaterials(kslm.getMap(Strings.kingdomKey + "_Lvl2")).build())
+                .desc("test");
 
         getBuilder(Strings.kingdomKeyD).keychain(Strings.kingdomKeyDChain).baseStats(3,0).level( new KeybladeLevel.KeybladeLevelBuilder()
                 .withStr(3).withMag(3).withAbilty("Test_Abiltity")
@@ -91,32 +202,32 @@ public class KeybladeStats extends  KeyBladeProvider{
                 .withMaterials(kslm.getMap(Strings.threeWishes + "Lvl1")).build()).level( new KeybladeLevel.KeybladeLevelBuilder()
                 .withStr(4).withMag(4).withMaterials(kslm.getMap(Strings.threeWishes + "Lvl2")).build()).desc("test");
 
-
+        */
 
     }
 
-    public void kh2Keyblades(KeybladeSynthLevelMap kslm)
+    public void kh2Keyblades()
     {
 
 
     }
 
-    public void bbsKeyblades(KeybladeSynthLevelMap kslm)
+    public void bbsKeyblades()
     {
 
     }
 
-    public void dddKeyblades(KeybladeSynthLevelMap kslm)
+    public void dddKeyblades()
     {
 
     }
 
-    public void uxKeyblades(KeybladeSynthLevelMap kslm)
+    public void uxKeyblades()
     {
 
     }
 
-    public void khdKeyblades(KeybladeSynthLevelMap kslm)
+    public void khdKeyblades()
     {
 
     }

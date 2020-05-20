@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:twilightcrystal"
+          "name": "kingdomkeys:twilight_crystal"
         }
       ]
     },
@@ -49,7 +49,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:twilightgem"
+          "name": "kingdomkeys:twilight_gem"
         }
       ]
     },
@@ -75,7 +75,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:twilightstone"
+          "name": "kingdomkeys:twilight_stone"
         }
       ]
     },
@@ -101,7 +101,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:twilightshard"
+          "name": "kingdomkeys:twilight_shard"
         }
       ]
     }

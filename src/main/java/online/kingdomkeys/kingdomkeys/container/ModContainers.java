@@ -20,7 +20,7 @@ public class ModContainers {
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, KingdomKeys.MODID);
 
     public static final RegistryObject<ContainerType<?>>
-        SYNTHESIS_BAG = createContainer("synthesis_bag", ContainerSynthesisBag::fromNetwork);
+        SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork);
 
     public static <M extends Container> RegistryObject<ContainerType<?>> createContainer(String name, IContainerFactory<M> container) {
         ContainerType<M> newContainer = IForgeContainerType.create(container);
@@ -35,7 +35,7 @@ public class ModContainers {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerGUIFactories() {
-        registerGUIFactory((ContainerType<ContainerSynthesisBag>) (ModContainers.SYNTHESIS_BAG.get()), GuiSynthesisBag::new);
+        registerGUIFactory((ContainerType<SynthesisBagContainer>) (ModContainers.SYNTHESIS_BAG.get()), GuiSynthesisBag::new);
 
     }
 

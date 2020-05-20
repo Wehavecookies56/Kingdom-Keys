@@ -30,22 +30,22 @@ public class BlockModels extends BlockModelProvider {
         //ore
         standardCube("blazing_ore");
         standardCube("blazing_ore_n");
-        standardCube("bright_ore");
-        standardCube("dark_ore");
-        standardCube("dark_ore_e");
-        standardCube("dark_ore_n");
-        standardCube("dense_ore");
-        standardCube("energy_ore");
-        standardCube("energy_ore_n");
+        standardCube("soothing_ore");
+        standardCube("writhing_ore");
+        standardCube("writhing_ore_e");
+        standardCube("writhing_ore_n");
+        standardCube("betwixt_ore");
+        standardCube("wellspring_ore");
+        standardCube("wellspring_ore_n");
         standardCube("frost_ore");
         standardCube("lightning_ore");
         standardCube("lucid_ore");
-        standardCube("power_ore");
-        standardCube("power_ore_e");
+        standardCube("pulsing_ore");
+        standardCube("pulsing_ore_e");
         standardCube("remembrance_ore");
-        standardCube("serenity_ore");
+        standardCube("hungry_ore");
         standardCube("stormy_ore");
-        standardCube("tranquil_ore");
+        standardCube("tranquility_ore");
         standardCube("twilight_ore");
         standardCube("twilight_ore_n");
     }

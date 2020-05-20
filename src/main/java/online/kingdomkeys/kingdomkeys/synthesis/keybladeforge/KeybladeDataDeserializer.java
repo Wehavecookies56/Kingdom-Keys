@@ -1,24 +1,18 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-
+import com.google.gson.*;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
@@ -29,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
  * Description can be empty
  */
 public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> {
+
+    //TODO read the ability array
 
     @Override
     public KeybladeData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

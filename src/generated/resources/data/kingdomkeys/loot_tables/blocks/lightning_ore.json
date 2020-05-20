@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lightningcrystal"
+          "name": "kingdomkeys:lightning_crystal"
         }
       ]
     },
@@ -49,7 +49,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lightninggem"
+          "name": "kingdomkeys:lightning_gem"
         }
       ]
     },
@@ -75,7 +75,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lightningstone"
+          "name": "kingdomkeys:lightning_shard"
         }
       ]
     },
@@ -101,7 +101,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lightningshard"
+          "name": "kingdomkeys:lightning_stone"
         }
       ]
     }

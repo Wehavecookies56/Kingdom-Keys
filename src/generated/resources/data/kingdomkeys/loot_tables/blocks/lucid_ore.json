@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lucidcrystal"
+          "name": "kingdomkeys:lucid_crystal"
         }
       ]
     },
@@ -49,7 +49,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lucidgem"
+          "name": "kingdomkeys:lucid_gem"
         }
       ]
     },
@@ -75,7 +75,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lucidstone"
+          "name": "kingdomkeys:lucid_shard"
         }
       ]
     },
@@ -101,7 +101,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:lucidshard"
+          "name": "kingdomkeys:lucid_stone"
         }
       ]
     }

@@ -13,91 +13,144 @@ public class Strings {
 		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
     // Synthesis Materials
     public static final String
+            SM_Prefix = "mat_",
+
             SM_Rank = "sm.rank",
             SM_Rank_C = SM_Rank + ".c",
             SM_Rank_B = SM_Rank + ".b",
             SM_Rank_A = SM_Rank + ".a",
             SM_Rank_S = SM_Rank + ".s",
 
-            SM_BlazingShard = "blazingshard",
-            SM_BlazingStone = "blazingstone",
-            SM_BlazingGem = "blazinggem",
-            SM_BlazingCrystal = "blazingcrystal",
+            SM_Shard = "_shard",
+            SM_Stone = "_stone",
+            SM_Gem = "_gem",
+            SM_Crystal = "_crystal",
 
-            SM_BrightShard = "brightshard",
-            SM_BrightStone = "brightstone",
-            SM_BrightGem = "brightgem",
-            SM_BrightCrystal = "brightcrystal",
+            SM_Blazing = "blazing",
 
-            SM_DarkShard = "darkshard",
-            SM_DarkStone = "darkstone",
-            SM_DarkGem = "darkgem",
-            SM_DarkCrystal = "darkcrystal",
+            SM_BlazingShard = SM_Blazing + SM_Shard,
+            SM_BlazingStone = SM_Blazing + SM_Stone,
+            SM_BlazingGem = SM_Blazing + SM_Gem,
+            SM_BlazingCrystal = SM_Blazing + SM_Crystal,
 
-            SM_DenseShard = "denseshard",
-            SM_DenseStone = "densestone",
-            SM_DenseGem = "densegem",
-            SM_DenseCrystal = "densecrystal",
+            SM_Soothing = "soothing",
 
-            SM_EnergyShard = "energyshard",
-            SM_EnergyStone = "energystone",
-            SM_EnergyGem = "energygem",
-            SM_EnergyCrystal = "energycrystal",
+            SM_SoothingShard = SM_Soothing + SM_Shard,
+            SM_SoothingStone = SM_Soothing + SM_Stone,
+            SM_SoothingGem = SM_Soothing + SM_Gem,
+            SM_SoothingCrystal = SM_Soothing + SM_Crystal,
 
-            SM_FrostShard = "frostshard",
-            SM_FrostStone = "froststone",
-            SM_FrostGem = "frostgem",
-            SM_FrostCrystal = "frostcrystal",
+            SM_Writhing = "writhing",
 
-            SM_LightningShard = "lightningshard",
-            SM_LightningStone = "lightningstone",
-            SM_LightningGem = "lightninggem",
-            SM_LightningCrystal = "lightningcrystal",
+            SM_WrithingShard = SM_Writhing + SM_Shard,
+            SM_WrithingStone = SM_Writhing + SM_Stone,
+            SM_WrithingGem = SM_Writhing + SM_Gem,
+            SM_WrithingCrystal = SM_Writhing + SM_Crystal,
 
-            SM_LucidShard = "lucidshard",
-            SM_LucidStone = "lucidstone",
-            SM_LucidGem = "lucidgem",
-            SM_LucidCrystal = "lucidcrystal",
+            SM_Betwixt = "betwixt",
 
-            SM_PowerShard = "powershard",
-            SM_PowerStone = "powerstone",
-            SM_PowerGem = "powergem",
-            SM_PowerCrystal = "powercrystal",
+            SM_BetwixtShard = SM_Betwixt + SM_Shard,
+            SM_BetwixtStone = SM_Betwixt + SM_Stone,
+            SM_BetwixtGem = SM_Betwixt + SM_Gem,
+            SM_BetwixtCrystal = SM_Betwixt + SM_Crystal,
 
-            SM_MythrilShard = "mythrilshard",
-            SM_MythrilStone = "mythrilstone",
-            SM_MythrilGem = "mythrilgem",
-            SM_MythrilCrystal = "mythrilcrystal",
+            SM_Wellspring = "wellspring",
 
-            SM_RemembranceShard = "remembranceshard",
-            SM_RemembranceStone = "remembrancestone",
-            SM_RemembranceGem = "remembrancegem",
-            SM_RemembranceCrystal = "remembrancecrystal",
+            SM_WellspringShard = SM_Wellspring + SM_Shard,
+            SM_WellspringStone = SM_Wellspring + SM_Stone,
+            SM_WellspringGem = SM_Wellspring + SM_Gem,
+            SM_WellspringCrystal = SM_Wellspring + SM_Crystal,
 
-            SM_SerenityShard = "serenityshard",
-            SM_SerenityStone = "serenitystone",
-            SM_SerenityGem = "serenitygem",
-            SM_SerenityCrystal = "serenitycrystal",
+            SM_Frost = "frost",
 
-            SM_TranquilShard = "tranquilshard",
-            SM_TranquilStone = "tranquilstone",
-            SM_TranquilGem = "tranquilgem",
-            SM_TranquilCrystal = "tranquilcrystal",
+            SM_FrostShard = SM_Frost + SM_Shard,
+            SM_FrostStone = SM_Frost + SM_Stone,
+            SM_FrostGem = SM_Frost + SM_Gem,
+            SM_FrostCrystal = SM_Frost + SM_Crystal,
 
-            SM_TwilightShard = "twilightshard",
-            SM_TwilightStone = "twilightstone",
-            SM_TwilightGem = "twilightgem",
-            SM_TwilightCrystal = "twilightcrystal",
+            SM_Lightning = "lightning",
+
+            SM_LightningShard = SM_Lightning + SM_Shard,
+            SM_LightningStone = SM_Lightning + SM_Stone,
+            SM_LightningGem = SM_Lightning + SM_Gem,
+            SM_LightningCrystal = SM_Lightning + SM_Crystal,
+
+            SM_Lucid = "lucid",
+
+            SM_LucidShard = SM_Lucid + SM_Shard,
+            SM_LucidStone = SM_Lucid + SM_Stone,
+            SM_LucidGem = SM_Lucid + SM_Gem,
+            SM_LucidCrystal = SM_Lucid + SM_Crystal,
+
+            SM_Pulsing = "pulsing",
+
+            SM_PulsingShard = SM_Pulsing + SM_Shard,
+            SM_PulsingStone = SM_Pulsing + SM_Stone,
+            SM_PulsingGem = SM_Pulsing + SM_Gem,
+            SM_PulsingCrystal = SM_Pulsing + SM_Crystal,
+
+            SM_Mythril = "mythril",
+
+            SM_MythrilShard = SM_Mythril + SM_Shard,
+            SM_MythrilStone = SM_Mythril + SM_Stone,
+            SM_MythrilGem = SM_Mythril + SM_Gem,
+            SM_MythrilCrystal = SM_Mythril + SM_Crystal,
+
+            SM_Remembrance = "remembrance",
+
+            SM_RemembranceShard = SM_Remembrance + SM_Shard,
+            SM_RemembranceStone = SM_Remembrance + SM_Stone,
+            SM_RemembranceGem = SM_Remembrance + SM_Gem,
+            SM_RemembranceCrystal = SM_Remembrance + SM_Crystal,
+
+            SM_Hungry = "hungry",
+
+            SM_HungryShard = SM_Hungry + SM_Shard,
+            SM_HungryStone = SM_Hungry + SM_Stone,
+            SM_HungryGem = SM_Hungry + SM_Gem,
+            SM_HungryCrystal = SM_Hungry + SM_Crystal,
+
+            SM_Tranquility = "tranquility",
+
+            SM_TranquilityShard = SM_Tranquility + SM_Shard,
+            SM_TranquilityStone = SM_Tranquility + SM_Stone,
+            SM_TranquilityGem = SM_Tranquility + SM_Gem,
+            SM_TranquilityCrystal = SM_Tranquility + SM_Crystal,
+
+            SM_Twilight = "twilight",
+
+            SM_TwilightShard = SM_Twilight + SM_Shard,
+            SM_TwilightStone = SM_Twilight + SM_Stone,
+            SM_TwilightGem = SM_Twilight + SM_Gem,
+            SM_TwilightCrystal = SM_Twilight + SM_Crystal,
+
+            SM_Stormy = "stormy",
+
+            SM_StormyShard = SM_Stormy + SM_Shard,
+            SM_StormyStone = SM_Stormy + SM_Stone,
+            SM_StormyGem = SM_Stormy + SM_Gem,
+            SM_StormyCrystal = SM_Stormy + SM_Crystal,
+
+            SM_Sinister = "sinister",
+
+            SM_SinisterShard = SM_Sinister + SM_Shard,
+            SM_SinisterStone = SM_Sinister + SM_Stone,
+            SM_SinisterGem = SM_Sinister + SM_Gem,
+            SM_SinisterCrystal = SM_Sinister + SM_Crystal,
 
             SM_Orichalcum = "orichalcum",
             SM_OrichalcumPlus = "orichalcumplus",
-            SM_ManifestIllusion = "manifestillusion",
-            SM_LostIllusion = "lostillusion",
+            SM_ManifestIllusion = "manifest_illusion",
+            SM_LostIllusion = "lost_illusion",
 
-            SM_StormyShard = "stormyshard",
-            SM_StormyStone = "stormystone",
-            SM_StormyGem = "stormygem",
-            SM_StormyCrystal = "stormycrystal"
+            SM_Fluorite = "fluorite",
+            SM_Damascus = "damascus",
+            SM_Adamantite = "adamantite",
+            SM_Electrum = "electrum",
+
+            SM_EvanescentCrystal = "evanescent" + SM_Crystal,
+            SM_IllusoryCrystal = "illusory" + SM_Crystal
+
                     ;
     //Armors
     public static final String

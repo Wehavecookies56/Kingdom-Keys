@@ -18,14 +18,14 @@ public class BlockStates extends BlockStateProvider {
         simpleBlock(ModBlocks.blazingOre.get());
         simpleBlock(ModBlocks.blazingOreN.get());
         simpleBlock(ModBlocks.bounceBlox.get());
-        simpleBlock(ModBlocks.brightOre.get());
+        simpleBlock(ModBlocks.soothingOre.get());
         simpleBlock(ModBlocks.dangerBlox.get());
-        simpleBlock(ModBlocks.darkOre.get());
-        simpleBlock(ModBlocks.darkOreE.get());
-        simpleBlock(ModBlocks.darkOreN.get());
-        simpleBlock(ModBlocks.denseOre.get());
-        simpleBlock(ModBlocks.energyOre.get());
-        simpleBlock(ModBlocks.energyOreN.get());
+        simpleBlock(ModBlocks.writhingOre.get());
+        simpleBlock(ModBlocks.writhingOreE.get());
+        simpleBlock(ModBlocks.writhingOreN.get());
+        simpleBlock(ModBlocks.betwixtOre.get());
+        simpleBlock(ModBlocks.wellspringOre.get());
+        simpleBlock(ModBlocks.wellspringOreN.get());
         simpleBlock(ModBlocks.frostOre.get());
         //TODO ghostblox
         //getVariantBuilder(ModBlocks.ghostBlox).forAllStates(blockState -> ConfiguredModel.builder().modelFile(blockState.get(GhostBloxBlock.VISIBLE) ? ));
@@ -34,14 +34,14 @@ public class BlockStates extends BlockStateProvider {
         simpleBlock(ModBlocks.lucidOre.get());
         simpleBlock(ModBlocks.metalBlox.get());
         simpleBlock(ModBlocks.normalBlox.get());
-        simpleBlock(ModBlocks.powerOre.get());
-        simpleBlock(ModBlocks.powerOreE.get());
+        simpleBlock(ModBlocks.pulsingOre.get());
+        simpleBlock(ModBlocks.pulsingOreE.get());
         simpleBlock(ModBlocks.prizeBlox.get());
         simpleBlock(ModBlocks.rarePrizeBlox.get());
         simpleBlock(ModBlocks.remembranceOre.get());
-        simpleBlock(ModBlocks.serenityOre.get());
+        simpleBlock(ModBlocks.hungryOre.get());
         simpleBlock(ModBlocks.stormyOre.get());
-        simpleBlock(ModBlocks.tranquilOre.get());
+        simpleBlock(ModBlocks.tranquilityOre.get());
         simpleBlock(ModBlocks.twilightOre.get());
         simpleBlock(ModBlocks.twilightOreN.get());
 

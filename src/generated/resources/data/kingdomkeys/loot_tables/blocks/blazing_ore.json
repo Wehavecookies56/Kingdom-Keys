@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:blazingcrystal"
+          "name": "kingdomkeys:blazing_crystal"
         }
       ]
     },
@@ -49,7 +49,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:blazinggem"
+          "name": "kingdomkeys:blazing_gem"
         }
       ]
     },
@@ -75,7 +75,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:blazingstone"
+          "name": "kingdomkeys:blazing_shard"
         }
       ]
     },
@@ -101,7 +101,7 @@
               }
             }
           ],
-          "name": "kingdomkeys:blazingshard"
+          "name": "kingdomkeys:blazing_stone"
         }
       ]
     }

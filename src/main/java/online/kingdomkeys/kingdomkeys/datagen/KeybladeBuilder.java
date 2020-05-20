@@ -1,18 +1,16 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 
@@ -20,6 +18,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
     private ResourceLocation keychain;
     private int baseStr, baseMag;
     private String desc;
+    private String[] baseAbilities;
     private ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
 
     public KeybladeBuilder(Object o, Object o1) {
@@ -64,6 +63,11 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         return self();
     }
 
+    public T abilities(String... abilities) {
+        this.baseAbilities = abilities;
+        return self();
+    }
+
     @Override
     protected boolean exists() {
         return true;
@@ -74,6 +78,10 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         JsonObject root = new JsonObject();
         JsonObject baseStat = new JsonObject();
         JsonArray levels = new JsonArray();
+        JsonArray abilities = new JsonArray();
+        Arrays.stream(baseAbilities).forEach(abilities::add);
+        root.add("abilities", abilities);
+
         if (this.keychain != null) {
             root.addProperty("keychain", this.keychain.toString());
         }

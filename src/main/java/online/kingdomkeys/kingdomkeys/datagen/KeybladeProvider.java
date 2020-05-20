@@ -1,0 +1,79 @@
+package online.kingdomkeys.kingdomkeys.datagen;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DirectoryCache;
+import net.minecraft.data.IDataProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.generators.ExistingFileHelper;
+
+public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements IDataProvider {
+
+    public static final String KEYBLADE_FOLDER = "keyblade";
+
+    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
+    protected final DataGenerator generator;
+    protected final String modid;
+    protected final String folder = KEYBLADE_FOLDER;
+    protected final Function<ResourceLocation, T> factory;
+    @VisibleForTesting
+    public final Map<ResourceLocation, T> generatedModels = new HashMap<>();
+    @VisibleForTesting
+    public final ExistingFileHelper existingFileHelper;
+
+    public KeybladeProvider(DataGenerator generator, String modid, String folder, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
+        this.generator = generator;
+        this.modid = modid;
+        this.existingFileHelper = existingFileHelper;
+        this.factory = factory;
+    }
+    public KeybladeProvider(DataGenerator generator, String modid, String folder, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
+        this(generator, modid, folder, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
+    }
+    protected abstract void registerKeyblades();
+
+    public T getBuilder(String path) {
+        Preconditions.checkNotNull(path, "Path must not be null");
+        ResourceLocation outputLoc = path.contains(":") ? new ResourceLocation(path) : new ResourceLocation(modid, path);
+        return generatedModels.computeIfAbsent(outputLoc, factory);
+    }
+
+    protected void clear() {
+        generatedModels.clear();
+    }
+
+    @Override
+    public void act(DirectoryCache cache) throws IOException {
+        clear();
+        registerKeyblades();
+        generateAll(cache);
+    }
+
+    protected void generateAll(DirectoryCache cache) {
+        for (T
+                model : generatedModels.values()) {
+            Path target = getPath(model);
+            try {
+                IDataProvider.save(GSON, cache, model.toJson(), target);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private Path getPath(T model) {
+        ResourceLocation loc = model.getLocation();
+        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblades/" + loc.getPath() + ".json");
+    }
+}
