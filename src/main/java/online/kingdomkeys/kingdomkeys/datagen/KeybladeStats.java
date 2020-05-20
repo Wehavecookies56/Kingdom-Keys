@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
-import javafx.util.Pair;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
@@ -9,8 +8,12 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KeybladeStats extends KeybladeProvider {
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -30,12 +33,12 @@ public class KeybladeStats extends KeybladeProvider {
     }
 
     public static class Recipe {
-        private List<Pair<String, Integer>> recipe = new ArrayList<>();
+        private List<Map.Entry<String, Integer>> recipe = new ArrayList<>();
 
         public Recipe() { }
 
         public Recipe addMaterial(String mat, int quantity) {
-            recipe.add(new Pair<>(mat, quantity));
+            recipe.add(Pair.of(mat, quantity));
             return this;
         }
 
