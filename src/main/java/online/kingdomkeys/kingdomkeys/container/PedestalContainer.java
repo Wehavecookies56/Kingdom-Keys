@@ -1,16 +1,16 @@
 package online.kingdomkeys.kingdomkeys.container;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
 public class PedestalContainer extends Container {
 
@@ -72,36 +72,27 @@ public class PedestalContainer extends Container {
 		// Not actually necessary - can use Slot(playerInventory) instead of
 		// SlotItemHandler(playerInventoryForge)
 		this.chestContents = chestContents;
+		int i,j;
+		addSlot(new Slot(chestContents, 0, 80, 56) {
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+		        return stack.getItem() instanceof KeybladeItem;
+			}
+			
+			@Override
+		    public void onSlotChanged() {
+				chestContents.markDirty();
+		    }
+		});
 
-		final int SLOT_X_SPACING = 18;
-		final int SLOT_Y_SPACING = 18;
-		final int HOTBAR_XPOS = 8;
-		final int HOTBAR_YPOS = 109;
-		// Add the players hotbar to the gui - the [xpos, ypos] location of each item
-		for (int x = 0; x < HOTBAR_SLOT_COUNT; x++) {
-			int slotNumber = x;
-			addSlot(new SlotItemHandler(playerInventoryForge, slotNumber, HOTBAR_XPOS + SLOT_X_SPACING * x, HOTBAR_YPOS));
-		}
-
-		final int PLAYER_INVENTORY_XPOS = 8;
-		// Add the rest of the player's inventory to the gui
-		for (int y = 0; y < PLAYER_INVENTORY_ROW_COUNT; y++) {
-			for (int x = 0; x < PLAYER_INVENTORY_COLUMN_COUNT; x++) {
-				int slotNumber = HOTBAR_SLOT_COUNT + y * PLAYER_INVENTORY_COLUMN_COUNT + x;
-				int xpos = PLAYER_INVENTORY_XPOS + x * SLOT_X_SPACING;
-				int ypos = PLAYER_INVENTORY_YPOS + y * SLOT_Y_SPACING;
-				addSlot(new SlotItemHandler(playerInventoryForge, slotNumber, xpos, ypos));
+		for (i = 0; i < 3; ++i) {
+			for (j = 0; j < 9; ++j) {
+				addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 105 + i * 18));
 			}
 		}
 
-		if (TE_INVENTORY_SLOT_COUNT != chestContents.getSizeInventory()) {
-			LOGGER.warn("Mismatched slot count in ContainerBasic(" + TE_INVENTORY_SLOT_COUNT + ") and TileInventory (" + chestContents.getSizeInventory() + ")");
-		}
-		final int TILE_INVENTORY_XPOS = 8;
-		// Add the tile inventory container to the gui
-		for (int x = 0; x < TE_INVENTORY_SLOT_COUNT; x++) {
-			int slotNumber = x;
-			addSlot(new Slot(chestContents, slotNumber, TILE_INVENTORY_XPOS + SLOT_X_SPACING * x, TILE_INVENTORY_YPOS));
+		for (i = 0; i < 9; ++i) {
+			addSlot(new Slot(playerInventory, i, 8 + i * 18, 163));
 		}
 	}
 

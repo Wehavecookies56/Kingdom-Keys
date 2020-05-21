@@ -44,6 +44,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	private static final String CHESTCONTENTS_INVENTORY_TAG = "contents";
 
+
 	// This is where you save any data that you don't want to lose when the tile
 	// entity unloads
 	// In this case, it saves the chestContents, which contains the ItemStacks
@@ -64,6 +65,10 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		inv.deserializeNBT(inventoryNBT);
 		if (inv.getSizeInventory() != NUMBER_OF_SLOTS)
 			throw new IllegalArgumentException("Corrupted NBT: Number of inventory slots did not match expected.");
+	}
+	
+	public PedestalInventory getInv() {
+		return inv;
 	}
 
 	// When the world loads from disk, the server needs to send the TileEntity
