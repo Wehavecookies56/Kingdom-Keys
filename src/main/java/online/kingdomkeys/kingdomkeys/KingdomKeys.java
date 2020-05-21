@@ -93,7 +93,6 @@ public class KingdomKeys {
 		ModSounds.SOUNDS.register(modEventBus);
 		ModEntities.TILE_ENTITIES.register(modEventBus);
         ModContainers.CONTAINERS.register(modEventBus);
-		MinecraftForge.EVENT_BUS.register(new ModContainers());
 
         ModEntities.ENTITIES.register(modEventBus);
 

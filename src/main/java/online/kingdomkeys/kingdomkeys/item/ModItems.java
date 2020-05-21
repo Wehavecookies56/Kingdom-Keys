@@ -730,7 +730,7 @@ public class ModItems {
     		register(r, bag, synthesisBag.get().getRegistryName());
 
     		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-    			ScreenManager.registerFactory(bag, GuiSynthesisBag::new);
+    			ScreenManager.registerFactory(bag, SynthesisBagGui::new);
     		});
     	}
         

@@ -66,9 +66,7 @@ public class PedestalContainer extends Container {
 	 * @param chestContents   the inventory stored in the chest
 	 */
 	private PedestalContainer(int windowID, PlayerInventory playerInventory, PedestalInventory chestContents) {
-		super(ModContainers.pedestalContainer, windowID);
-		if (ModContainers.pedestalContainer == null)
-			throw new IllegalStateException("Must initialise containerBasicContainerType before constructing a ContainerBasic!");
+		super(ModContainers.PEDESTAL.get(), windowID);
 
 		PlayerInvWrapper playerInventoryForge = new PlayerInvWrapper(playerInventory); // wrap the IInventory in a Forge IItemHandler.
 		// Not actually necessary - can use Slot(playerInventory) instead of

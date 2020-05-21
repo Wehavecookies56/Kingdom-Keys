@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui;
+package online.kingdomkeys.kingdomkeys.client.gui.container;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -16,14 +16,14 @@ import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketUpgradeSynthesisBag;
 
-public class GuiSynthesisBag extends ContainerScreen<SynthesisBagContainer> {
+public class SynthesisBagGui extends ContainerScreen<SynthesisBagContainer> {
 
 	private static final String textureBase = KingdomKeys.MODID+":textures/gui/synthesis_bag_";
 	int[] texHeight = {140, 176, 212};
 	int bagLevel = 0;
 	Button upgrade;
 
-	public GuiSynthesisBag(SynthesisBagContainer container, PlayerInventory playerInv, ITextComponent title) {
+	public SynthesisBagGui(SynthesisBagContainer container, PlayerInventory playerInv, ITextComponent title) {
 		super(container, playerInv, title);
 	}
 

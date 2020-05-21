@@ -19,6 +19,7 @@ public class ItemModels extends ItemModelProvider {
         keychains();
         armor();
         synthesis();
+        blocks();
     }
 
     private void armor() {
@@ -289,6 +290,45 @@ public class ItemModels extends ItemModelProvider {
 		//standardMaterial(Strings.SM_EvanescentCrystal);
 		//standardMaterial(Strings.SM_IllusoryCrystal);
     }
+    
+    private void blocks() {
+		standardBlockItem("bounce_blox");
+		standardBlockItem("hard_blox");
+		standardBlockItem("metal_blox");
+		standardBlockItem("ghost_blox_invisible");
+		standardBlockItem("ghost_blox_visible");
+		standardBlockItem("danger_blox");
+		standardBlockItem("normal_blox");
+		standardBlockItem("prize_blox");
+		standardBlockItem("rare_prize_blox");
+		standardBlockItem("blast_blox");
+		standardBlockItem("magnet_blox_on");
+		standardBlockItem("magnet_blox_off");
+
+		//ore
+		standardBlockItem("blazing_ore");
+		standardBlockItem("blazing_ore_n");
+		standardBlockItem("soothing_ore");
+		standardBlockItem("writhing_ore");
+		standardBlockItem("writhing_ore_e");
+		standardBlockItem("writhing_ore_n");
+		standardBlockItem("betwixt_ore");
+		standardBlockItem("wellspring_ore");
+		standardBlockItem("wellspring_ore_n");
+		standardBlockItem("frost_ore");
+		standardBlockItem("lightning_ore");
+		standardBlockItem("lucid_ore");
+		standardBlockItem("pulsing_ore");
+		standardBlockItem("pulsing_ore_e");
+		standardBlockItem("remembrance_ore");
+		standardBlockItem("hungry_ore");
+		standardBlockItem("stormy_ore");
+		standardBlockItem("tranquility_ore");
+		standardBlockItem("twilight_ore");
+		standardBlockItem("twilight_ore_n");
+
+		standardBlockItem("mosaic_stained_glass");
+	}
 
     void standardMaterial(String name) {
 		standardItem(name, "synthesis/");
@@ -304,6 +344,10 @@ public class ItemModels extends ItemModelProvider {
 
     void standardKeychain(String name) {
 		standardItem(name, "keychains/");
+	}
+
+	void standardBlockItem(String name) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + name));
 	}
 
     void standardItem(String name) {

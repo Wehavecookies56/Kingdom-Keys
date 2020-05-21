@@ -8,22 +8,21 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiSynthesisBag;
+import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalGui;
+import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagGui;
 
 public class ModContainers {
-	  public static ContainerType<PedestalContainer> pedestalContainer;
-
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, KingdomKeys.MODID);
 
     public static final RegistryObject<ContainerType<?>>
-        SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork);
+        SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork),
+        PEDESTAL = createContainer("pedestal_container", PedestalContainer::createContainerClientSide);
+    ;
 
     public static <M extends Container> RegistryObject<ContainerType<?>> createContainer(String name, IContainerFactory<M> container) {
         ContainerType<M> newContainer = IForgeContainerType.create(container);
@@ -38,14 +37,8 @@ public class ModContainers {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerGUIFactories() {
-        registerGUIFactory((ContainerType<SynthesisBagContainer>) (ModContainers.SYNTHESIS_BAG.get()), GuiSynthesisBag::new);
-    }
-    
-    @SubscribeEvent
-    public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event)  {
-      pedestalContainer = IForgeContainerType.create(PedestalContainer::createContainerClientSide);
-      pedestalContainer.setRegistryName("pedestal_container");
-      event.getRegistry().register(pedestalContainer);
+        registerGUIFactory((ContainerType<SynthesisBagContainer>) (ModContainers.SYNTHESIS_BAG.get()), SynthesisBagGui::new);
+        registerGUIFactory((ContainerType<PedestalContainer>) (ModContainers.PEDESTAL.get()), PedestalGui::new);
     }
 
 }
