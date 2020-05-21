@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -21,20 +23,27 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
-import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
-
-import java.util.List;
 
 public class EntityEvents {
 
 	public static boolean isBoss = false;
 	public static boolean isHostiles = false;
 
+	@SubscribeEvent
+	public void onPlayerJoin(PlayerLoggedInEvent e) {
+		PlayerEntity player = e.getPlayer();
+		if(!e.getPlayer().world.isRemote) { //Sync from server to client
+			PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+		}
+		PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
+	}
+	
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
@@ -276,9 +285,5 @@ public class EntityEvents {
 		}
 	}
 	
-	@SubscribeEvent
-	public void onPlayerJoin(PlayerLoggedInEvent e) {
-		PlayerEntity player = e.getPlayer();
-		PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
-	}
+	
 }

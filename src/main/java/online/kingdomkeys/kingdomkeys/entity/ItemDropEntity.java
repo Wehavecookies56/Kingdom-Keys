@@ -23,13 +23,9 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 
 public abstract class ItemDropEntity extends Entity {
-	public int xpColor;
-	public int xpOrbAge;
 	public int delayBeforeCanPickup;
-	private int xpOrbHealth = 5;
 	public int value;
 	private PlayerEntity closestPlayer;
-	private int xpTargetColor;
 
 	public ItemDropEntity(EntityType<? extends Entity> type, World worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
@@ -37,6 +33,7 @@ public abstract class ItemDropEntity extends Entity {
 		this.rotationYaw = (float) (this.rand.nextDouble() * 360.0D);
 		this.setMotion((this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.rand.nextDouble() * 0.2D * 2.0D, (this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
 		this.value = expValue;
+		this.delayBeforeCanPickup = 10;
 	}
 
 	public ItemDropEntity(EntityType<ItemDropEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
@@ -54,9 +51,6 @@ public abstract class ItemDropEntity extends Entity {
 	protected void registerData() {
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void tick() {
 		super.tick();
 		if (this.delayBeforeCanPickup > 0) {
@@ -82,12 +76,8 @@ public abstract class ItemDropEntity extends Entity {
 		}
 
 		double d0 = 8.0D;
-		if (this.xpTargetColor < this.xpColor - 20 + this.getEntityId() % 100) {
-			if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > 64.0D) {
-				this.closestPlayer = this.world.getClosestPlayer(this, 8.0D);
-			}
-
-			this.xpTargetColor = this.xpColor;
+		if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > 64.0D) {
+			this.closestPlayer = this.world.getClosestPlayer(this, 8.0D);
 		}
 
 		if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
@@ -115,12 +105,6 @@ public abstract class ItemDropEntity extends Entity {
 			this.setMotion(this.getMotion().mul(1.0D, -0.9D, 1.0D));
 		}
 
-		++this.xpColor;
-		++this.xpOrbAge;
-		if (this.xpOrbAge >= 6000) {
-			this.remove();
-		}
-
 	}
 
 	private void applyFloatMotion() {
@@ -146,28 +130,20 @@ public abstract class ItemDropEntity extends Entity {
 			return false;
 		} else {
 			this.markVelocityChanged();
-			this.xpOrbHealth = (int) ((float) this.xpOrbHealth - amount);
-			if (this.xpOrbHealth <= 0) {
-				this.remove();
-			}
 
 			return false;
 		}
 	}
 
 	public void writeAdditional(CompoundNBT compound) {
-		compound.putShort("Health", (short) this.xpOrbHealth);
-		compound.putShort("Age", (short) this.xpOrbAge);
-		compound.putShort("Value", (short) this.value);
+		compound.putInt("Value", this.value);
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	public void readAdditional(CompoundNBT compound) {
-		this.xpOrbHealth = compound.getShort("Health");
-		this.xpOrbAge = compound.getShort("Age");
-		this.value = compound.getShort("Value");
+		this.value = compound.getInt("Value");
 	}
 
 	/**
@@ -177,8 +153,6 @@ public abstract class ItemDropEntity extends Entity {
 		if (!this.world.isRemote) {
 			if (this.delayBeforeCanPickup == 0) {
 				entityIn.xpCooldown = 2;
-				//entityIn.onItemPickup(this, 1); //1 = quantity
-				//TODO add munny to the player
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1);
 				this.remove();
