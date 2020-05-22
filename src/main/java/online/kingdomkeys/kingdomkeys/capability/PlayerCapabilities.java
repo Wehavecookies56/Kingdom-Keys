@@ -1,5 +1,12 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -14,9 +21,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.ShowOverlayPacket;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -40,7 +44,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putInt("reflect_ticks", instance.getReflectTicks());
 			props.putBoolean("reflect_active", instance.getReflectActive());
 			props.putInt("munny", instance.getMunny());
-			// TODO save and load the rest of things
+			//props.getCompound("forms").keySet();
+
+			CompoundNBT forms = new CompoundNBT();
+			Iterator<Map.Entry<String, Integer>> it = instance.getDriveFormsMap().entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) it.next();
+				System.out.println("Write: "+pair.getKey()+" "+pair.getValue());
+				forms.putInt(pair.getKey().toString(), pair.getValue());
+			}
+			props.put("drive_forms", forms);
+
 			return props;
 		}
 
@@ -63,14 +77,25 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setReflectTicks(properties.getInt("reflect_ticks"));
 			instance.setReflectActive(properties.getBoolean("reflect_active"));
 			instance.setMunny(properties.getInt("munny"));
+
+			
+			Iterator<String> it = properties.getCompound("drive_forms").keySet().iterator();
+			while (it.hasNext()) {
+				String key = (String) it.next();
+				System.out.println("Read: "+key);
+				instance.getDriveFormsMap().put(key.toString(), properties.getCompound("drive_forms").getInt(key));
+				if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
+					instance.getDriveFormsMap().remove(key.toString());
+			}
 		}
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0, munny = 0;
 
 	private String driveForm = "";
+	Map<String, Integer> driveForms = new HashMap<String, Integer>();
 
-	private double mp=0, maxMP=10, dp = 0, maxDP = 300;
+	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300;
 
 	private boolean recharge, reflectActive;
 
@@ -222,7 +247,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addMP(double mp) {
-		if(this.mp + mp > this.maxMP) {
+		if (this.mp + mp > this.maxMP) {
 			this.mp = this.maxMP;
 		} else {
 			this.mp += mp;
@@ -688,7 +713,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addDP(double dp) {
-		if(this.dp + dp > this.maxDP) {
+		if (this.dp + dp > this.maxDP) {
 			this.dp = this.maxDP;
 		} else {
 			this.dp += dp;
@@ -707,9 +732,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxDP(double dp) {
-		this.maxDP = dp;		
+		this.maxDP = dp;
 	}
-	
+
 	@Override
 	public void setDriveForm(String form) {
 		driveForm = form;
@@ -765,5 +790,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		return munny;
 	}
 
-	
+	@Override
+	public Map<String, Integer> getDriveFormsMap() {
+		return driveForms;
+	}
+
+	@Override
+	public void setDriveFormLevel(String name, int level) {
+		driveForms.put(name, level);
+	}
+
+	@Override
+	public void setDriveFormsMap(Map<String, Integer> map) {
+		this.driveForms = map;
+	}
+
 }

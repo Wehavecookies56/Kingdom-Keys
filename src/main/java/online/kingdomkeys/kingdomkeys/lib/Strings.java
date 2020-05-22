@@ -11,6 +11,10 @@ public class Strings {
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
 		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
+    // Drive Forms
+    public static final String
+    		DF_Prefix = "form_";
+    
     // Synthesis Materials
     public static final String
             SM_Prefix = "mat_",
@@ -150,8 +154,7 @@ public class Strings {
 
             SM_EvanescentCrystal = "evanescent" + SM_Crystal,
             SM_IllusoryCrystal = "illusory" + SM_Crystal
-
-                    ;
+            ;
     //Armors
     public static final String
     		organizationHood = "organization_helmet",

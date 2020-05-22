@@ -189,7 +189,7 @@ public class InputHandler {
         //IDriveState DRIVE = (IDriveState) player.getCapability(ModCapabilities.DRIVE_STATE, null);
 
         loadLists();
-        PacketHandler.sendToServer(new PacketUseMagic());
+       // PacketHandler.sendToServer(new PacketUseMagic());
         IPlayerCapabilities props = ModCapabilities.get(player);
         
         System.out.println(props.getDriveForm());
@@ -260,6 +260,8 @@ public class InputHandler {
             case CommandMenuGui.DRIVE: //Accessing DRIVE submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                     System.out.println("drive");
+                    CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
+
                    /* if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
                         // TODO Use Limit
                         player.sendMessage(new TextComponentString("Limits are not available yet"));

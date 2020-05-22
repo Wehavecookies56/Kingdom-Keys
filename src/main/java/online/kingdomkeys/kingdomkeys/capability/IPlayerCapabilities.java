@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -78,4 +79,9 @@ public interface IPlayerCapabilities {
 	
 	void setMunny(int amount);
 	int getMunny();
+	
+	Map<String,Integer> getDriveFormsMap();
+	void setDriveFormsMap(Map<String,Integer> map);
+	
+	void setDriveFormLevel(String name, int level);
 }

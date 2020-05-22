@@ -405,13 +405,13 @@ public class ModItems {
 			electrum = createNewItem(Strings.SM_Electrum, () -> new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
 			evanescent_crystal = createNewItem(Strings.SM_EvanescentCrystal, () -> new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
 			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
-			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
-			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
-			valorOrb = createNewItem(Strings.LevelUpValor, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
-			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
-			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new Item(new Item.Properties().group(KingdomKeys.miscGroup))),
-			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().group(KingdomKeys.miscGroup)));
 
+			valorOrb = createNewItem(Strings.LevelUpValor, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_valor")),
+			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_wisdom")),			
+			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_limit")),
+			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_master")),
+			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_finalr")),
+			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().group(KingdomKeys.miscGroup)));
 
 	//Helper method to create item with the properties and registry name
 	public static RegistryObject<Item> createNewItem(String name, Item.Properties properties) {

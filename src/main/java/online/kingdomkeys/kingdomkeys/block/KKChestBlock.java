@@ -27,6 +27,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.KKChestTileEntity;
 
@@ -67,11 +69,13 @@ public class KKChestBlock extends BaseBlock {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		ModCapabilities.get(player).setDriveFormLevel("form_valor", 1);
+
 		if (!worldIn.isRemote) {
 //			setDefaultState(state.with(BIG, true));
 			if (worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof KKChestTileEntity) {
 				KKChestTileEntity te = (KKChestTileEntity) worldIn.getTileEntity(pos);
-				if (te.getKeyblade() == null || ItemStack.areItemStacksEqual(te.getKeyblade(), ItemStack.EMPTY)) {
+				if (te.getKeyblade() == null || ItemStack.areItemStacksEqual(te.getKeyblade(), ItemStack.EMPTY)) { // No lock, lock it
 					te.setKeyblade(player.getHeldItemMainhand());
 					te.markDirty();
 
@@ -80,11 +84,11 @@ public class KKChestBlock extends BaseBlock {
 					// player.openGui(KingdomKeys.instance, GuiIDs.GUI_KKCHEST_INV, world,
 					// pos.getX(), pos.getY(), pos.getZ());
 					return ActionResultType.SUCCESS;
-				} else if (te.getKeyblade() != null && !ItemStack.areItemStacksEqual(te.getKeyblade(), ItemStack.EMPTY) && te.getKeyblade().getItem() == player.getHeldItemMainhand().getItem()) {
+				} else if (te.getKeyblade() != null && !ItemStack.areItemStacksEqual(te.getKeyblade(), ItemStack.EMPTY) && te.getKeyblade().getItem() == player.getHeldItemMainhand().getItem()) { // Locked but you have th right keyblade
 					// player.openGui(KingdomKeys.instance, GuiIDs.GUI_KKCHEST_INV, world,
 					// pos.getX(), pos.getY(), pos.getZ());
 					return ActionResultType.SUCCESS;
-				} else {
+				} else { // F
 					player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "This chest is locked"));
 					return ActionResultType.FAIL;
 				}

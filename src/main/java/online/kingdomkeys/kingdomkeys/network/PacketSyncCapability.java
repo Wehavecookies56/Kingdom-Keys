@@ -1,10 +1,13 @@
 package online.kingdomkeys.kingdomkeys.network;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -27,6 +30,8 @@ public class PacketSyncCapability {
 	private boolean recharge;
 
 	List<String> messages;
+	
+	Map<String,Integer> driveFormsMap;
 
 	public PacketSyncCapability() {
 	}
@@ -49,6 +54,9 @@ public class PacketSyncCapability {
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
 		this.munny = capability.getMunny();
+		
+		this.driveFormsMap = capability.getDriveFormsMap();
+		
 		this.messages = capability.getMessages();
 	}
 
@@ -70,6 +78,16 @@ public class PacketSyncCapability {
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.maxDP);
 		buffer.writeInt(this.munny);
+		
+		CompoundNBT forms = new CompoundNBT();
+		Iterator<Map.Entry<String, Integer>> it = driveFormsMap.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) it.next();
+			System.out.println("WritePacket: "+pair.getKey()+" "+pair.getValue());
+			forms.putInt(pair.getKey().toString(), pair.getValue());
+		}
+		buffer.writeCompoundTag(forms);
+
 		
 		for (int i = 0; i < this.messages.size(); i++) {
 			buffer.writeString(this.messages.get(i));
@@ -96,6 +114,15 @@ public class PacketSyncCapability {
 		msg.dp = buffer.readDouble();
 		msg.maxDP = buffer.readDouble();
 		msg.munny = buffer.readInt();
+		
+		Iterator<String> it = buffer.readCompoundTag().keySet().iterator();
+		while (it.hasNext()) {
+			String key = (String) it.next();
+			System.out.println("ReadPacket: "+key);
+			msg.driveFormsMap.put(key.toString(), 1);
+			/*if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
+				instance.getDriveFormsMap().remove(key.toString());*/
+		}
 		
 		msg.messages = new ArrayList<String>();
 		
@@ -124,6 +151,7 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setMaxDP(message.maxDP));
 			props.ifPresent(cap -> cap.setMunny(message.munny));
 			props.ifPresent(cap -> cap.setMessages(message.messages));
+			props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
 		});
 		ctx.get().setPacketHandled(true);
 	}
