@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
 public class Strings {
     //Item groups
     public static final String
@@ -254,12 +256,12 @@ public class Strings {
 
     //Forms
     public static final String
-            Form_Valor = "form.valor",
-            Form_Wisdom = "form.wisdom",
-            Form_Limit = "form.limit",
-            Form_Master = "form.master",
-            Form_Final = "form.final",
-            Form_Anti = "form.anti";
+            Form_Valor = KingdomKeys.MODID+":form_valor",
+            Form_Wisdom = KingdomKeys.MODID+":form_wisdom",
+            Form_Limit = KingdomKeys.MODID+":form_limit",
+            Form_Master = KingdomKeys.MODID+":form_master",
+            Form_Final = KingdomKeys.MODID+":form_final",
+            Form_Anti = KingdomKeys.MODID+":form_anti";
 
     // Gui
     public static final String

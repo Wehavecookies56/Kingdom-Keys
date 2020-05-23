@@ -22,12 +22,15 @@ import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GUISelectDriveFormTemp;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
-import online.kingdomkeys.kingdomkeys.magic.ModMagics;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSetDriveForm;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
-import online.kingdomkeys.kingdomkeys.network.magic.PacketUseMagic;
+import online.kingdomkeys.kingdomkeys.network.PacketUseMagic;
 
 //TODO cleanup
 public class InputHandler {
@@ -187,17 +190,11 @@ public class InputHandler {
 
     public void commandEnter() {
     	Minecraft mc = Minecraft.getInstance();
-        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         PlayerEntity player = mc.player;
         World world = mc.world;
-        //PlayerStatsCapability.IPlayerStats STATS = (IPlayerStats) player.getCapability(ModCapabilities.PLAYER_STATS, null);
-        //IDriveState DRIVE = (IDriveState) player.getCapability(ModCapabilities.DRIVE_STATE, null);
-
         loadLists();
-       // PacketHandler.sendToServer(new PacketUseMagic());
+
         IPlayerCapabilities props = ModCapabilities.get(player);
-        
-        System.out.println(props.getDriveForm());
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
                 System.out.println("attack");
@@ -235,16 +232,15 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-                    /*if (!STATS.getRecharge() && (!this.magicCommands.isEmpty() && (!DRIVE.getActiveDriveName().equals(Strings.Form_Valor) && !DRIVE.getActiveDriveName().equals(Strings.Form_Anti)))) {
+                    if (!props.getRecharge() && (!this.magicsList.isEmpty() && (!props.getDriveForm().equals("valor") && !props.getDriveForm().equals("anti")))) {
                         CommandMenuGui.magicselected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-                        world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
+                        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         return;
                     } else {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                        world.playSound(player, player.getPosition(), ModSounds.error, SoundCategory.MASTER, 1.0f, 1.0f);
-                    }*/
+                        world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    }
                 }
                 break;
 
@@ -265,8 +261,21 @@ public class InputHandler {
 
             case CommandMenuGui.DRIVE: //Accessing DRIVE submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    System.out.println("drive");
-                    CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
+                	if(props.getDriveForm().equals("")) {//DRIVE
+                        System.out.println("drive submenu");
+                        if (props.getDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
+                        
+                        } else { //If is in a drive form other than antiform
+                        	if(!driveFormsMap.isEmpty()) {
+                                CommandMenuGui.driveselected = 0;
+                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
+                                return;
+                        	}
+                        }
+                	} else {//REVERT
+                		System.out.println("REVERT");
+	                	PacketHandler.sendToServer(new PacketSetDriveForm(""));
+                	}
 
                    /* if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
                         // TODO Use Limit
@@ -364,19 +373,24 @@ public class InputHandler {
         }
 
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
-            /*if (this.driveCommands.isEmpty()) {
-            } else if ((DRIVE.getDP() >= Constants.getCost((String) this.driveCommands.get(CommandMenuGui.driveselected)))) {
-                if (this.driveCommands.get(CommandMenuGui.driveselected).equals(Strings.Form_Final)) {
-                    ModDriveForms.driveIntoForm(player, world, (String) this.driveCommands.get(CommandMenuGui.driveselected));
-                } else {
-                    if (!antiFormCheck()) {
-                        ModDriveForms.driveIntoForm(player, world, (String) this.driveCommands.get(CommandMenuGui.driveselected));
-                    }
-                }
-                CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
-            }*/
+            if (this.driveFormsMap.isEmpty()) {
+            } else {
+            	String formName = (String) props.getDriveFormsMap().keySet().toArray()[CommandMenuGui.driveselected];
+            	DriveForm driveForm = ModDriveForms.registry.getValue(new ResourceLocation(formName));
+            	if (props.getDP() >= driveForm.getCost()) {
+	                if (formName.equals(Strings.Form_Final)) {
+	                    //driveForm.initDrive(player);
+	                	PacketHandler.sendToServer(new PacketSetDriveForm(formName));
+	                } else {
+	                    if (!antiFormCheck()) {
+		                	PacketHandler.sendToServer(new PacketSetDriveForm(formName));
+	                    }
+	                }
+	                CommandMenuGui.selected = CommandMenuGui.ATTACK;
+	                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	            }
+            }
         }
 
     }
@@ -599,9 +613,8 @@ public class InputHandler {
 
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
         this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
-        this.magicsList =ModCapabilities.get(mc.player).getMagicsList();
+        this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
 
         /*PlayerStatsCapability.IPlayerStats STATS = player.getCapability(ModCapabilities.PLAYER_STATS, null);
         IDriveState DS = player.getCapability(ModCapabilities.DRIVE_STATE, null);

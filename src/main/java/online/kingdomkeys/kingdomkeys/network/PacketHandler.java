@@ -11,7 +11,6 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.network.magic.PacketUseMagic;
 
 public class PacketHandler {
 	private static final String PROTOCOL_VERSION = Integer.toString(1);

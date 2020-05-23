@@ -91,8 +91,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					instance.getMagicsList().remove(key.toString());*/
 			}
 			
-			System.out.println("aaa "+instance.getMagicsList());
-			
 			Iterator<String> driveFormsIt = properties.getCompound("drive_forms").keySet().iterator();
 			while (driveFormsIt.hasNext()) {
 				String key = (String) driveFormsIt.next();

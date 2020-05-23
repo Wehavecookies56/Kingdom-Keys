@@ -369,8 +369,9 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			if (submenu == 0) {
-				drawString(mc.fontRenderer, I18n.format("Drive"), 6 + textX, 4, 0xFFFFFF);
+			if (submenu == 0 && ModCapabilities.get(mc.player) != null) {
+				String text = ModCapabilities.get(mc.player).getDriveForm().equals("")?"Drive":"Revert";
+				drawString(mc.fontRenderer, I18n.format(text), 6 + textX, 4, 0xFFFFFF);
 			}
 		}
 		GL11.glPopMatrix();

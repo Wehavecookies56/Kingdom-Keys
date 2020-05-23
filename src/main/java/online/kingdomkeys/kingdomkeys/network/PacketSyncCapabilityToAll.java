@@ -46,20 +46,20 @@ public class PacketSyncCapabilityToAll {
 		buffer.writeInt(this.strength);
 		buffer.writeInt(this.magic);
 		buffer.writeInt(this.defense);
-		buffer.writeString(driveForm);
+		buffer.writeString(this.driveForm);
 		buffer.writeInt(this.reflectTicks);
 	}
 
 	public static PacketSyncCapabilityToAll decode(PacketBuffer buffer) {
 		PacketSyncCapabilityToAll msg = new PacketSyncCapabilityToAll();
-		msg.name = buffer.readString(40);
+		msg.name = buffer.readString();
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
 		msg.expGiven = buffer.readInt();
 		msg.strength = buffer.readInt();
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
-		msg.driveForm = buffer.readString(15);
+		msg.driveForm = buffer.readString();
 		msg.reflectTicks = buffer.readInt();
 		
 		return msg;
