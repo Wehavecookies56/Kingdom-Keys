@@ -46,7 +46,6 @@ public interface IPlayerCapabilities {
 	void addDP(double dp);
 	void remDP(double cost);
 	
-	
 	double getMaxDP();
 	void setMaxDP(double dP);
 	
@@ -84,4 +83,9 @@ public interface IPlayerCapabilities {
 	void setDriveFormsMap(Map<String,Integer> map);
 	
 	void setDriveFormLevel(String name, int level);
+	
+	List<String> getMagicsList();
+	void setMagicsList(List<String> list);
+	void addMagicToList(String magic);
+	void removeMagicFromList(String magic);
 }

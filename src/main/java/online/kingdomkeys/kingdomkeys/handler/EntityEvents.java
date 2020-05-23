@@ -47,6 +47,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
+		//System.out.println(props.getMagicsList());
 		// MP Recharge system
 		if (props != null) {
 			if (props.getRecharge()) {

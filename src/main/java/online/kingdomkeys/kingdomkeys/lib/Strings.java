@@ -11,6 +11,11 @@ public class Strings {
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
 		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
+
+    // Magics
+    public static final String
+    		Mag_Prefix = "magic_";
+    
     // Drive Forms
     public static final String
     		DF_Prefix = "form_";

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,8 @@ public class PacketSyncCapability {
 
 	List<String> messages;
 	
-	Map<String,Integer> driveFormsMap;
+	List<String> magicList = new ArrayList<String>();
+	Map<String,Integer> driveFormsMap = new HashMap<String,Integer>();
 
 	public PacketSyncCapability() {
 	}
@@ -55,6 +57,7 @@ public class PacketSyncCapability {
 		this.maxDP = capability.getMaxDP();
 		this.munny = capability.getMunny();
 		
+		this.magicList = capability.getMagicsList();
 		this.driveFormsMap = capability.getDriveFormsMap();
 		
 		this.messages = capability.getMessages();
@@ -79,11 +82,22 @@ public class PacketSyncCapability {
 		buffer.writeDouble(this.maxDP);
 		buffer.writeInt(this.munny);
 		
+
+		CompoundNBT magics = new CompoundNBT();
+		Iterator<String> magicsIt = magicList.iterator();
+		while (magicsIt.hasNext()) {
+			String m = magicsIt.next();
+			//System.out.println("WritePacket: "+m);
+			magics.putInt(m, 1);
+		}
+		buffer.writeCompoundTag(magics);
+
+		
 		CompoundNBT forms = new CompoundNBT();
-		Iterator<Map.Entry<String, Integer>> it = driveFormsMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) it.next();
-			System.out.println("WritePacket: "+pair.getKey()+" "+pair.getValue());
+		Iterator<Map.Entry<String, Integer>> driveFormsIt = driveFormsMap.entrySet().iterator();
+		while (driveFormsIt.hasNext()) {
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) driveFormsIt.next();
+			//System.out.println("WritePacket: "+pair.getKey()+" "+pair.getValue());
 			forms.putInt(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(forms);
@@ -114,16 +128,30 @@ public class PacketSyncCapability {
 		msg.dp = buffer.readDouble();
 		msg.maxDP = buffer.readDouble();
 		msg.munny = buffer.readInt();
-		
-		Iterator<String> it = buffer.readCompoundTag().keySet().iterator();
+
+		CompoundNBT magicsTag = buffer.readCompoundTag();
+		Iterator<String> it = magicsTag.keySet().iterator();
 		while (it.hasNext()) {
+			//System.out.println(it);
 			String key = (String) it.next();
-			System.out.println("ReadPacket: "+key);
-			msg.driveFormsMap.put(key.toString(), 1);
+//			System.out.println("ReadPacket: "+key+" value: "+value);
+			msg.magicList.add(key);
 			/*if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
 				instance.getDriveFormsMap().remove(key.toString());*/
 		}
 		
+		CompoundNBT driveFormsTag = buffer.readCompoundTag();
+		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
+		while (driveFormsIt.hasNext()) {
+			//System.out.println(it);
+			String key = (String) driveFormsIt.next();
+			int value = driveFormsTag.getInt(key);
+//			System.out.println("ReadPacket: "+key+" value: "+value);
+			msg.driveFormsMap.put(key, value);
+			/*if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
+				instance.getDriveFormsMap().remove(key.toString());*/
+		}
+		//System.out.println(msg.driveFormsMap);
 		msg.messages = new ArrayList<String>();
 		
 		while (buffer.isReadable()) {
@@ -151,6 +179,7 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setMaxDP(message.maxDP));
 			props.ifPresent(cap -> cap.setMunny(message.munny));
 			props.ifPresent(cap -> cap.setMessages(message.messages));
+			props.ifPresent(cap -> cap.setMagicsList(message.magicList));
 			props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
 		});
 		ctx.get().setPacketHandled(true);

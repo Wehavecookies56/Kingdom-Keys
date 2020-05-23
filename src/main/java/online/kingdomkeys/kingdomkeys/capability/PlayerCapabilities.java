@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,13 +43,18 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putInt("reflect_ticks", instance.getReflectTicks());
 			props.putBoolean("reflect_active", instance.getReflectActive());
 			props.putInt("munny", instance.getMunny());
-			//props.getCompound("forms").keySet();
+
+			CompoundNBT magics = new CompoundNBT();
+			for(String magic : instance.getMagicsList()) {
+				magics.putInt(magic, 0);
+			}
+			props.put("magics", magics);
 
 			CompoundNBT forms = new CompoundNBT();
 			Iterator<Map.Entry<String, Integer>> it = instance.getDriveFormsMap().entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) it.next();
-				System.out.println("Write: "+pair.getKey()+" "+pair.getValue());
+			//	System.out.println("Write: "+pair.getKey()+" "+pair.getValue());
 				forms.putInt(pair.getKey().toString(), pair.getValue());
 			}
 			props.put("drive_forms", forms);
@@ -78,10 +82,20 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setReflectActive(properties.getBoolean("reflect_active"));
 			instance.setMunny(properties.getInt("munny"));
 
+			Iterator<String> magicIt = properties.getCompound("magics").keySet().iterator();
+			while (magicIt.hasNext()) {
+				String key = (String) magicIt.next();
+				System.out.println("Read: "+key);
+				instance.getMagicsList().add(key.toString());
+				/*if (properties.getCompound("magics").getInt(key) == 0 && key.toString() != null)
+					instance.getMagicsList().remove(key.toString());*/
+			}
 			
-			Iterator<String> it = properties.getCompound("drive_forms").keySet().iterator();
-			while (it.hasNext()) {
-				String key = (String) it.next();
+			System.out.println("aaa "+instance.getMagicsList());
+			
+			Iterator<String> driveFormsIt = properties.getCompound("drive_forms").keySet().iterator();
+			while (driveFormsIt.hasNext()) {
+				String key = (String) driveFormsIt.next();
 				System.out.println("Read: "+key);
 				instance.getDriveFormsMap().put(key.toString(), properties.getCompound("drive_forms").getInt(key));
 				if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
@@ -94,6 +108,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private String driveForm = "";
 	Map<String, Integer> driveForms = new HashMap<String, Integer>();
+	List<String> magicList = new ArrayList<String>();
 
 	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300;
 
@@ -803,6 +818,30 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setDriveFormsMap(Map<String, Integer> map) {
 		this.driveForms = map;
+	}
+
+	@Override
+	public List<String> getMagicsList() {
+		return magicList;
+	}
+
+	@Override
+	public void setMagicsList(List<String> list) {
+		this.magicList = list;
+	}
+
+	@Override
+	public void addMagicToList(String magic) {
+		if(!magicList.contains(magic)) {
+			magicList.add(magic);
+		}
+	}
+	
+	@Override
+	public void removeMagicFromList(String magic) {
+		if(magicList.contains(magic)) {
+			magicList.remove(magic);
+		}
 	}
 
 }

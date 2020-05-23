@@ -26,7 +26,7 @@ public class ModDriveForms {
 		}
 
 		@SubscribeEvent
-		public static void registerMaterials(RegistryEvent.Register<DriveForm> event) {
+		public static void registerDriveForms(RegistryEvent.Register<DriveForm> event) {
 			event.getRegistry().registerAll(
 				createForm("valor", 300), 
 				createForm("wisdom", 300),

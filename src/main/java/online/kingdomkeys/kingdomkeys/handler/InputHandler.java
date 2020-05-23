@@ -1,10 +1,16 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
+import java.util.List;
+import java.util.Map;
+
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
@@ -18,19 +24,18 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
+import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
 import online.kingdomkeys.kingdomkeys.network.magic.PacketUseMagic;
-import org.lwjgl.glfw.GLFW;
-
-import java.util.List;
 
 //TODO cleanup
 public class InputHandler {
 
-    List<String> magicCommands, itemsCommands, driveCommands;
     List<PortalCoords> portalCommands;
     //List<Ability> attackCommands;
+    Map<String, Integer> driveFormsMap;
+    List<String> magicsList;
 
     public static LivingEntity lockOn = null;
 
@@ -73,33 +78,33 @@ public class InputHandler {
                 CommandMenuGui.selected++;
         }
         // InsideMagic
-       /* else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
             if (CommandMenuGui.magicselected > 0) {
                 CommandMenuGui.magicselected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
             } else if (CommandMenuGui.magicselected <= 1)
-                CommandMenuGui.magicselected = this.magicCommands.size() - 1;
+                CommandMenuGui.magicselected = this.magicsList.size() - 1;
         }
         // InsideItems
-        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
+        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
             if (CommandMenuGui.potionselected > 0) {
                 CommandMenuGui.potionselected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
             } else if (CommandMenuGui.potionselected <= 1) {
                 CommandMenuGui.potionselected = this.itemsCommands.size() - 1;
             }
-        }
+        }*/
         // InsideDrive
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             if (CommandMenuGui.driveselected > 0) {
                 CommandMenuGui.driveselected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
             } else if (CommandMenuGui.driveselected <= 1) {
-                CommandMenuGui.driveselected = this.driveCommands.size() - 1;
+                CommandMenuGui.driveselected = this.driveFormsMap.size() - 1;
             }
         }
         // InsidePortal
-        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
+        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
             if (CommandMenuGui.portalSelected > 0) {
                 CommandMenuGui.portalSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
@@ -131,15 +136,15 @@ public class InputHandler {
                 CommandMenuGui.selected--;
         }
         // InsideMagic
-        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (CommandMenuGui.magicselected < this.magicCommands.size() - 1) {
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
+            if (CommandMenuGui.magicselected < this.magicsList.size() - 1) {
                 CommandMenuGui.magicselected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-            } else if (CommandMenuGui.magicselected >= this.magicCommands.size() - 1)
+            } else if (CommandMenuGui.magicselected >= this.magicsList.size() - 1)
                 CommandMenuGui.magicselected = 0;
         }
         // InsideItems
-        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
+        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
             if (CommandMenuGui.potionselected < this.itemsCommands.size() - 1) {
                 CommandMenuGui.potionselected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
@@ -147,19 +152,19 @@ public class InputHandler {
                 if (CommandMenuGui.potionselected >= this.itemsCommands.size() - 1)
                     CommandMenuGui.potionselected = 0;
             }
-        }
+        }*/
         // InsideDrive
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
-            if (CommandMenuGui.driveselected < this.driveCommands.size() - 1) {
+            if (CommandMenuGui.driveselected < this.driveFormsMap.size() - 1) {
                 CommandMenuGui.driveselected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
             } else {
-                if (CommandMenuGui.driveselected >= this.driveCommands.size() - 1)
+                if (CommandMenuGui.driveselected >= this.driveFormsMap.size() - 1)
                     CommandMenuGui.driveselected = 0;
             }
         }
         // InsidePortal
-        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
+       /* else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
             if (CommandMenuGui.portalSelected < this.portalCommands.size() - 1) {
                 CommandMenuGui.portalSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
@@ -230,6 +235,7 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
+                    CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                     /*if (!STATS.getRecharge() && (!this.magicCommands.isEmpty() && (!DRIVE.getActiveDriveName().equals(Strings.Form_Valor) && !DRIVE.getActiveDriveName().equals(Strings.Form_Anti)))) {
                         CommandMenuGui.magicselected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
@@ -336,13 +342,14 @@ public class InputHandler {
 
         // Magic Submenu
         if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            /*if (this.magicCommands.isEmpty()) {
-            } else if (!STATS.getRecharge() || Constants.getCost((String) this.magicCommands.get(CommandMenuGui.magicselected)) == -1 && STATS.getMP() > 0) {
-                Magic.getMagic(player, world, (String) this.magicCommands.get(CommandMenuGui.magicselected));
+            if (this.magicsList.isEmpty()) {
+            } else {/* if (!STATS.getRecharge() || Constants.getCost((String) this.magicsList.get(CommandMenuGui.magicselected)) == -1 && STATS.getMP() > 0) {
+               // Magic.getMagic(player, world, (String) this.magicsList.get(CommandMenuGui.magicselected));
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
-            }*/
+                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;*/
+        	    PacketHandler.sendToServer(new PacketUseMagic(magicsList.get(CommandMenuGui.magicselected)));
+                world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            }
         }
 
         if (CommandMenuGui.selected == CommandMenuGui.ITEMS && CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
@@ -593,6 +600,9 @@ public class InputHandler {
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity player = mc.player;
+        this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
+        this.magicsList =ModCapabilities.get(mc.player).getMagicsList();
+
         /*PlayerStatsCapability.IPlayerStats STATS = player.getCapability(ModCapabilities.PLAYER_STATS, null);
         IDriveState DS = player.getCapability(ModCapabilities.DRIVE_STATE, null);
         this.magicCommands = new ArrayList<String>();

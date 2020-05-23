@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -14,6 +15,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 
 public class UpgradeDriveFormItem extends Item {
 	String formName;
@@ -25,10 +28,13 @@ public class UpgradeDriveFormItem extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		if (props.getDriveFormsMap() != null) {
-			int level = props.getDriveFormsMap().containsKey(formName) ? props.getDriveFormsMap().get(formName) + 1 : 1;
-			props.setDriveFormLevel(formName, level);
+		if (!world.isRemote) {
+			IPlayerCapabilities props = ModCapabilities.get(player);
+			if (props.getDriveFormsMap() != null) {
+				int level = props.getDriveFormsMap().containsKey(formName) ? props.getDriveFormsMap().get(formName) + 1 : 1;
+				props.setDriveFormLevel(formName, level);
+				PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+			}
 		}
 		return ActionResult.resultSuccess(player.getHeldItem(hand));
 	}

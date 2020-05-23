@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.KKChestTileEntity;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class KKChestBlock extends BaseBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -69,7 +70,16 @@ public class KKChestBlock extends BaseBlock {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		ModCapabilities.get(player).setDriveFormLevel("form_valor", 1);
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"fire");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"blizzard");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"water");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"thunder");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"cure");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"aero");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"magnet");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"reflect");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"gravity");
+		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"stop");
 
 		if (!worldIn.isRemote) {
 //			setDefaultState(state.with(BIG, true));

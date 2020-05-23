@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -15,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 
 //TODO cleanup
 public class CommandMenuGui extends Screen {
@@ -99,8 +102,84 @@ public class CommandMenuGui extends Screen {
 		drawMagic(width, height);
 		drawItems(width, height);
 		drawDrive(width, height);
+		if (submenu == SUB_MAGIC) {
+			drawSubMagic(width, height);
+		}
 		if (submenu == SUB_DRIVE) {
 			drawSubDrive(width, height);
+		}
+	}
+
+	private void drawSubMagic(int width, int height) {
+		IPlayerCapabilities props = ModCapabilities.get(mc.player);
+		if (props != null && props.getMagicsList() != null && !props.getMagicsList().isEmpty()) {
+			// MAGIC TOP
+			GL11.glPushMatrix();
+			{
+				GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
+				mc.textureManager.bindTexture(texture);
+				GL11.glTranslatef(5, (height - MENU_HEIGHT * scale * (props.getMagicsList().size() + 1)), 0);
+				GL11.glScalef(scale, scale, scale);
+				int v = 0;
+				if (submenu == SUB_MAGIC) {
+
+					GL11.glColor4ub(magicMenuColor[0], magicMenuColor[1], magicMenuColor[2], (byte) alpha);
+
+					blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+					// drawTexturedModalRect(0, 0, 0, 0+extraY, TOP_WIDTH, TOP_HEIGHT);
+					drawString(mc.fontRenderer, /*Utils.translateToLocal(Strings.Gui_CommandMenu_Magic_Title)*/"MAGIC", 6, 4, 0xFFFFFF);
+				}
+			}
+			GL11.glPopMatrix();
+			for (int i = 0; i < props.getMagicsList().size(); i++) {
+				GL11.glPushMatrix();
+				{
+					GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
+					int u;
+					int v;
+					int x;
+					x = (magicselected == i) ? 10 : 5;
+
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(x, (height - MENU_HEIGHT * scale * (props.getMagicsList().size() - i)), 0);
+					GL11.glScalef(scale, scale, scale);
+					if (submenu == SUB_MAGIC) {
+						v = 0;
+
+						paintWithColorArray(magicMenuColor, (byte) alpha);
+						if (magicselected == i) {
+							// drawTexturedModalRect(0, 0, TOP_WIDTH, 15+extraY, TOP_WIDTH + MENU_WIDTH, v +
+							// MENU_HEIGHT);
+							textX = 11;
+
+							// Draw slot
+							blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+
+							GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
+
+							// Draw Icon
+							blit(60, 2, 140 + selected * iconWidth - iconWidth, 18, iconWidth, iconWidth);
+
+						} else { // Not selected
+							textX = 6;
+							blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+						}
+
+						String magic = props.getMagicsList().get(i);
+						int cost = ModMagics.registry.getValue(new ResourceLocation(magic)).getCost();
+						int colour = props.getMP() > cost ? 0xFFFFFF : 0xFF9900;
+						if(props.getRecharge()) {
+							colour = 0x888888;
+						}
+						magic = magic.substring(magic.indexOf(":")+1);
+						/*int level = mc.player.getCapability(ModCapabilities.MAGIC_STATE, null).getMagicLevel(magic);
+						String magicName = Constants.getMagicName(magic, level);*/
+						drawString(mc.fontRenderer, /*Utils.translateToLocal(magicName)*/magic, textX, 4, colour);
+						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+					}
+				}
+				GL11.glPopMatrix();
+			}
 		}
 	}
 
@@ -299,8 +378,8 @@ public class CommandMenuGui extends Screen {
 
 	private void drawSubDrive(int width, int height) {
 		IPlayerCapabilities props = ModCapabilities.get(mc.player);
-		
-		if (props.getDriveFormsMap() != null && !props.getDriveFormsMap().isEmpty()) {
+
+		if (props != null && props.getDriveFormsMap() != null && !props.getDriveFormsMap().isEmpty()) {
 			// DRIVE TOP
 			GL11.glPushMatrix();
 			{
@@ -326,10 +405,12 @@ public class CommandMenuGui extends Screen {
 					drawString(mc.fontRenderer, /* Utils.translateToLocal(Strings.Gui_CommandMenu_Drive_Title) */ "Drive Forms", 6, 4, 0xFFFFFF);
 			}
 			GL11.glPopMatrix();
-			
+
 			for (int i = 0; i < props.getDriveFormsMap().size(); i++) {
 				String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
-
+				//System.out.println(formName + ": " + props.getDriveFormsMap().get(formName));
+				formName = formName.substring(formName.indexOf(":") + 1);
+				
 				GL11.glPushMatrix();
 				{
 					GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
@@ -342,7 +423,7 @@ public class CommandMenuGui extends Screen {
 					mc.textureManager.bindTexture(texture);
 					GL11.glTranslatef(x, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() - i)), 0);
 					GL11.glScalef(1.25f, scale, scale);
-					
+
 					if (submenu == SUB_DRIVE) {
 						v = 0;
 						paintWithColorArray(driveMenuColor, (byte) alpha);
@@ -373,7 +454,7 @@ public class CommandMenuGui extends Screen {
 					GL11.glTranslatef(x, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() - i)), 0);
 					GL11.glScalef(scale, scale, scale);
 					if (submenu == SUB_DRIVE) {
-						if (props.getDP() >= /*Constants.getCost(driveCommands.get(i))*/300)//TODO Cheat mode
+						if (props.getDP() >= /* Constants.getCost(driveCommands.get(i)) */300)// TODO Cheat mode
 							drawString(mc.fontRenderer, formName, textX, 4, 0xFFFFFF);
 						else
 							drawString(mc.fontRenderer, formName, textX, 4, 0x888888);
