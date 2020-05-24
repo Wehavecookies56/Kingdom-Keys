@@ -27,16 +27,15 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketAntiPoints;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSetDriveForm;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
 import online.kingdomkeys.kingdomkeys.network.PacketUseMagic;
 
-//TODO cleanup
 public class InputHandler {
 
     List<PortalCoords> portalCommands;
-    //List<Ability> attackCommands;
     Map<String, Integer> driveFormsMap;
     List<String> magicsList;
 
@@ -45,9 +44,11 @@ public class InputHandler {
     public boolean antiFormCheck() {
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity player = mc.player;
+        IPlayerCapabilities props = ModCapabilities.get(player);
         World world = mc.world;
         double random = Math.random();
-        int ap = 0;//TODO player.getCapability(ModCapabilities.DRIVE_STATE, null).getAntiPoints();
+        int ap = props.getAntiPoints();
+        System.out.println("Antipoints: "+ap);
         int prob = 0;
         if (ap > 0 && ap <= 4)
             prob = 0;
@@ -57,10 +58,11 @@ public class InputHandler {
             prob = 25;
 
         if (random * 100 < prob) {
-            //PacketDispatcher.sendToServer(new DriveFormPacket(Strings.Form_Anti));
+            PacketHandler.sendToServer(new PacketSetDriveForm(Strings.Form_Anti));
+    		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            //PacketDispatcher.sendToServer(new AntiPoints(-4));
             world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
             return true;
         } else
@@ -232,7 +234,7 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    if (!props.getRecharge() && (!this.magicsList.isEmpty() && (!props.getDriveForm().equals("valor") && !props.getDriveForm().equals("anti")))) {
+                    if (!props.getRecharge() && (!this.magicsList.isEmpty() && (!props.getActiveDriveForm().equals("valor") && !props.getActiveDriveForm().equals("anti")))) {
                         CommandMenuGui.magicselected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -261,20 +263,26 @@ public class InputHandler {
 
             case CommandMenuGui.DRIVE: //Accessing DRIVE submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                	if(props.getDriveForm().equals("")) {//DRIVE
+                	if(props.getActiveDriveForm().equals("")) {//DRIVE
                         System.out.println("drive submenu");
-                        if (props.getDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
-                        
+                        if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
+                        	
                         } else { //If is in a drive form other than antiform
                         	if(!driveFormsMap.isEmpty()) {
                                 CommandMenuGui.driveselected = 0;
                                 CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
+                                mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                                 return;
                         	}
                         }
                 	} else {//REVERT
                 		System.out.println("REVERT");
-	                	PacketHandler.sendToServer(new PacketSetDriveForm(""));
+                		if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                		} else {
+		                	PacketHandler.sendToServer(new PacketSetDriveForm(""));
+		            		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                		}
                 	}
 
                    /* if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
@@ -381,9 +389,11 @@ public class InputHandler {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new PacketSetDriveForm(formName));
+	            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                } else {
 	                    if (!antiFormCheck()) {
 		                	PacketHandler.sendToServer(new PacketSetDriveForm(formName));
+		            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                    }
 	                }
 	                CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -543,33 +553,10 @@ public class InputHandler {
 
         if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
             commandBack();
-           // event.setCanceled(true);
+            //event.setCanceled(true);
         }
     }
 
-    /*@SubscribeEvent
-    public void OnMouseWheelScroll(online.kingdomkeys.kingdomkeys.handler.ScrollCallbackWrapper.MouseScrolledEvent event) {
-    
-        Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
-        World world = mc.world;
-
-        if (!mc.isGameFocused() && !KeyboardHelper.isScrollActivatorDown()) {
-            event.setCanceled(false);
-            return;
-        }
-
-        if (event.getYOffset() == Constants.WHEEL_DOWN && KeyboardHelper.isScrollActivatorDown()) {
-            commandDown();
-            event.setCanceled(true);
-        }
-        if (event.getYOffset() == Constants.WHEEL_UP && KeyboardHelper.isScrollActivatorDown()) {
-            commandUp();
-            event.setCanceled(true);
-        }
-
-    }*/
-    
     @SubscribeEvent
     public void OnMouseWheelScroll(MouseScrollEvent event) {
     	Minecraft mc = Minecraft.getInstance();

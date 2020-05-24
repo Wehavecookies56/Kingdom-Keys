@@ -39,7 +39,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putBoolean("recharge", instance.getRecharge());
 			props.putDouble("dp", instance.getDP());
 			props.putDouble("max_dp", instance.getMaxDP());
-			props.putString("drive_form", instance.getDriveForm());
+			props.putDouble("fp", instance.getFP());
+			props.putString("drive_form", instance.getActiveDriveForm());
+			props.putInt("anti_points", instance.getAntiPoints());
 			props.putInt("reflect_ticks", instance.getReflectTicks());
 			props.putBoolean("reflect_active", instance.getReflectActive());
 			props.putInt("munny", instance.getMunny());
@@ -77,7 +79,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setRecharge(properties.getBoolean("recharge"));
 			instance.setDP(properties.getDouble("dp"));
 			instance.setMaxDP(properties.getDouble("max_dp"));
-			instance.setDriveForm(properties.getString("drive_form"));
+			instance.setFP(properties.getDouble("fp"));
+			instance.setActiveDriveForm(properties.getString("drive_form"));
+			instance.setAntiPoints(properties.getInt("anti_points"));
 			instance.setReflectTicks(properties.getInt("reflect_ticks"));
 			instance.setReflectActive(properties.getBoolean("reflect_active"));
 			instance.setMunny(properties.getInt("munny"));
@@ -102,14 +106,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0, munny = 0;
+	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0, munny = 0, antipoints = 0;
 
 	private String driveForm = "";
 	Map<String, Integer> driveForms = new HashMap<String, Integer>();
 	List<String> magicList = new ArrayList<String>();
 
-	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300;
-
+	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300, fp=0;
+	
 	private boolean recharge, reflectActive;
 
 	private List<String> messages = new ArrayList<String>();
@@ -747,14 +751,44 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setMaxDP(double dp) {
 		this.maxDP = dp;
 	}
+	
+	@Override
+	public double getFP() {
+		return fp;
+	}
 
 	@Override
-	public void setDriveForm(String form) {
+	public void setFP(double fp) {
+		this.fp = fp;
+	}
+
+	@Override
+	public void addFP(double fp) {
+		this.fp += fp;
+	}
+
+	@Override
+	public void remFP(double cost) {
+		this.fp -= fp;
+	}
+	/*
+	@Override
+	public double getMaxFP(String form) {
+		return maxFP;
+	}
+
+	@Override
+	public void setMaxFP(double dp) {
+		this.maxFP = dp;
+	}*/
+
+	@Override
+	public void setActiveDriveForm(String form) {
 		driveForm = form;
 	}
 
 	@Override
-	public String getDriveForm() {
+	public String getActiveDriveForm() {
 		return driveForm;
 	}
 
@@ -841,5 +875,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			magicList.remove(magic);
 		}
 	}
+
+	@Override
+	public int getAntiPoints() {
+		return antipoints;
+	}
+
+	@Override
+	public void setAntiPoints(int points) {
+		this.antipoints = points;
+	}
+
+	
 
 }

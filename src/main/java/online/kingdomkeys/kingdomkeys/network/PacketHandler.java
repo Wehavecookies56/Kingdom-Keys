@@ -35,6 +35,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, PacketSetDriveForm.class, PacketSetDriveForm::encode, PacketSetDriveForm::decode, PacketSetDriveForm::handle);
 		HANDLER.registerMessage(packetID++, PacketUpgradeSynthesisBag.class, PacketUpgradeSynthesisBag::encode, PacketUpgradeSynthesisBag::decode, PacketUpgradeSynthesisBag::handle);
 		HANDLER.registerMessage(packetID++, PacketAttackOffhand.class, PacketAttackOffhand::encode, PacketAttackOffhand::decode, PacketAttackOffhand::handle);
+		HANDLER.registerMessage(packetID++, PacketAntiPoints.class, PacketAntiPoints::encode, PacketAntiPoints::decode, PacketAntiPoints::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

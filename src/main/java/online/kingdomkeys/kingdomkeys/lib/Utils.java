@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import java.util.Map;
+
 import net.minecraft.util.text.TranslationTextComponent;
 
 /**
@@ -94,6 +96,12 @@ public class Utils {
 		XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS, NONE
 	}
 	
+	
+	public static int getDriveFormLevel(Map<String,Integer> map, String driveForm) {
+		if(driveForm.equals(Strings.Form_Anti))
+			return 7;
+		return map.get(driveForm);
+	}
 	/**
 	 *
 	 * MOST OF THIS WON'T BE HERE ANYMORE

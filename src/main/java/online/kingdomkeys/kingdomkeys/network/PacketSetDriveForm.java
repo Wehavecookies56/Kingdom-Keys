@@ -5,11 +5,15 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class PacketSetDriveForm {
 
@@ -38,13 +42,21 @@ public class PacketSetDriveForm {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities props = ModCapabilities.get(player);
-			System.out.println("Actual form: "+props.getDriveForm()+", Going to get form: "+message.form);
-			if (!props.getDriveForm().equals("") && message.form.equals("")) { // If is in a drive form and the target is "" (player)
-				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(props.getDriveForm()));
-				form.endDrive(player);
-			} else if (!message.form.equals("")) { // If is not in a form and wants to drive
-				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(message.form));
-				form.initDrive(player);
+			System.out.println("Actual form: " + props.getActiveDriveForm() + ", Going to get form: " + message.form);
+			if (message.form.equals(Strings.Form_Anti)) { //If target is antiform
+				props.setActiveDriveForm(Strings.Form_Anti);
+				props.setDP(0);
+				props.setFP(1000);
+				props.setAntiPoints(props.getAntiPoints() -4);
+				PacketHandler.syncToAllAround(player, props);
+			} else { //if target is a normal form or revert
+				if (!props.getActiveDriveForm().equals("") && message.form.equals("")) { // If is in a drive form and the target is "" (player)
+					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm()));
+					form.endDrive(player);
+				} else if (!message.form.equals("")) { // If is not in a form and wants to drive
+					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(message.form));
+					form.initDrive(player);
+				}
 			}
 
 		});

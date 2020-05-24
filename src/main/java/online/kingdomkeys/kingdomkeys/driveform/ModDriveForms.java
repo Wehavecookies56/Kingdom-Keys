@@ -21,18 +21,18 @@ public class ModDriveForms {
 			registry = new RegistryBuilder<DriveForm>().setName(new ResourceLocation(KingdomKeys.MODID, "driveforms")).setType(DriveForm.class).create();
 		}
 
-		public static DriveForm createForm(String name, int cost) {
-			return new DriveForm(KingdomKeys.MODID + ":" + Strings.DF_Prefix + name, cost);
+		public static DriveForm createForm(String name, int cost, int ap) {
+			return new DriveForm(KingdomKeys.MODID + ":" + Strings.DF_Prefix + name, cost, ap);
 		}
 
 		@SubscribeEvent
 		public static void registerDriveForms(RegistryEvent.Register<DriveForm> event) {
 			event.getRegistry().registerAll(
-				createForm("valor", 300), 
-				createForm("wisdom", 300),
-				createForm("limit", 400),
-				createForm("master", 400),
-				createForm("final", 500)
+				createForm("valor", 300, 1), 
+				createForm("wisdom", 300, 1),
+				createForm("limit", 400, 1),
+				createForm("master", 400, 1),
+				createForm("final", 500, -10)
 			);
 		}
 	}

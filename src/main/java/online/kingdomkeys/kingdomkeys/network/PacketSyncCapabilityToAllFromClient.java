@@ -8,7 +8,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncCapabilityToAllFromClient {
-
+	//Packet to sync to all from client
 	public PacketSyncCapabilityToAllFromClient() {
 	}
 

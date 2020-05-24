@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncGlobalCapabilityToAll {
-
+	//Send packet to everyone to render gravity flat for example
 	int id;
 	private int stopTicks, stopDmg, flatTicks;
 

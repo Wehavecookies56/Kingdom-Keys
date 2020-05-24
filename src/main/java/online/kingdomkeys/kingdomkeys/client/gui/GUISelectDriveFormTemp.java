@@ -42,7 +42,7 @@ public class GUISelectDriveFormTemp extends Screen{
 	public void render(int mouseX, int mouseY, float partialTicks) {
         renderBackground();
         ClientPlayerEntity player = Minecraft.getInstance().player;
-        String form = ModCapabilities.get(player).getDriveForm();
+        String form = ModCapabilities.get(player).getActiveDriveForm();
         
         for(int i = 0;i<buttons.size();i++) {
         	Button b = (Button) buttons.get(i);

@@ -25,8 +25,9 @@ public class PacketSyncCapability {
 	private int defense = 0;
 	private int hp, ap, maxAP;
 	private int munny = 0;
+	private int antipoints = 0;
 
-	private double MP, maxMP, dp, maxDP;
+	private double MP, maxMP, dp, maxDP, fp;
 	
 	private boolean recharge;
 
@@ -55,6 +56,8 @@ public class PacketSyncCapability {
 		this.maxAP = capability.getMaxAP();
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
+		this.fp = capability.getFP();
+		this.antipoints=capability.getAntiPoints();
 		this.munny = capability.getMunny();
 		
 		this.magicList = capability.getMagicsList();
@@ -80,6 +83,8 @@ public class PacketSyncCapability {
 		buffer.writeInt(this.maxAP);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.maxDP);
+		buffer.writeDouble(this.fp);
+		buffer.writeInt(this.antipoints);
 		buffer.writeInt(this.munny);
 		
 
@@ -127,6 +132,8 @@ public class PacketSyncCapability {
 		msg.maxAP = buffer.readInt();
 		msg.dp = buffer.readDouble();
 		msg.maxDP = buffer.readDouble();
+		msg.fp = buffer.readDouble();
+		msg.antipoints = buffer.readInt();
 		msg.munny = buffer.readInt();
 
 		CompoundNBT magicsTag = buffer.readCompoundTag();
@@ -181,6 +188,7 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setMessages(message.messages));
 			props.ifPresent(cap -> cap.setMagicsList(message.magicList));
 			props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
+			props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
 		});
 		ctx.get().setPacketHandled(true);
 	}

@@ -29,7 +29,7 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends BipedModel<T>,
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ResourceLocation texture = null;
-		String drive = ModCapabilities.get((PlayerEntity) entitylivingbaseIn).getDriveForm();
+		String drive = ModCapabilities.get((PlayerEntity) entitylivingbaseIn).getActiveDriveForm();
 
 		switch (drive) {
 		case Strings.Form_Valor:

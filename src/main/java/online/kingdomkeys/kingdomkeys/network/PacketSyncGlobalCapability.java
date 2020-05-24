@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class PacketSyncGlobalCapability {
-
+	//Sync to client global capabilities
 	private int stoppedTicks, stopDmg, flatTicks;
 
 	public PacketSyncGlobalCapability() {

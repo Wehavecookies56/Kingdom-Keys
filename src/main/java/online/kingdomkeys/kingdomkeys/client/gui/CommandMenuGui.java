@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
@@ -196,7 +197,7 @@ public class CommandMenuGui extends Screen {
 			textX = 0;
 			paintWithColorArray(normalModeColor, (byte) alpha);
 			blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-			if (this.submenu == 0) {
+			if (submenu == 0) {
 				drawString(mc.fontRenderer, I18n.format("COMMANDS"), 6, 4, 0xFFFFFF);
 			}
 		}
@@ -242,7 +243,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			if (this.submenu == 0) {
+			if (submenu == 0) {
 				drawString(mc.fontRenderer, I18n.format("Attack"), 6 + textX, 4, 0xFFFFFF);
 
 				/*
@@ -276,9 +277,10 @@ public class CommandMenuGui extends Screen {
 			GL11.glTranslatef(x, (height - MENU_HEIGHT * scale * MAGIC), 0);
 			GL11.glScalef(scale, scale, scale);
 
-			if (submenu != 0)
+			if (submenu != 0) {
 				GL11.glColor4ub((byte) 80, (byte) 80, (byte) 80, (byte) alpha);
-
+			}
+			
 			if (selected == MAGIC) { // Selected
 				textX = 5;
 				paintWithColorArray(normalModeColor, (byte) alpha);
@@ -293,7 +295,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			if (this.submenu == 0) {
+			if (submenu == 0) {
 				drawString(mc.fontRenderer, I18n.format("Magic"), 6 + textX, 4, 0xFFFFFF);
 			}
 
@@ -331,7 +333,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			if (this.submenu == 0) {
+			if (submenu == 0) {
 				drawString(mc.fontRenderer, I18n.format("Items"), 6 + textX, 4, 0xFFFFFF);
 			}
 
@@ -370,8 +372,9 @@ public class CommandMenuGui extends Screen {
 			}
 
 			if (submenu == 0 && ModCapabilities.get(mc.player) != null) {
-				String text = ModCapabilities.get(mc.player).getDriveForm().equals("")?"Drive":"Revert";
-				drawString(mc.fontRenderer, I18n.format(text), 6 + textX, 4, 0xFFFFFF);
+				String text = ModCapabilities.get(mc.player).getActiveDriveForm().equals("")?"Drive":"Revert";
+				int color = ModCapabilities.get(mc.player).getActiveDriveForm().equals(Strings.Form_Anti) ? 0x888888 : 0xFFFFFF;
+				drawString(mc.fontRenderer, I18n.format(text), 6 + textX, 4, color);
 			}
 		}
 		GL11.glPopMatrix();
@@ -409,7 +412,8 @@ public class CommandMenuGui extends Screen {
 
 			for (int i = 0; i < props.getDriveFormsMap().size(); i++) {
 				String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
-				//System.out.println(formName + ": " + props.getDriveFormsMap().get(formName));
+				int cost = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getCost();
+				int color = props.getDP() >= cost ? 0xFFFFFF : 0x888888;
 				formName = formName.substring(formName.indexOf(":") + 1);
 				
 				GL11.glPushMatrix();
@@ -454,11 +458,8 @@ public class CommandMenuGui extends Screen {
 					x = (driveselected == i) ? 10 : 5;
 					GL11.glTranslatef(x, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() - i)), 0);
 					GL11.glScalef(scale, scale, scale);
-					if (submenu == SUB_DRIVE) {
-						if (props.getDP() >= /* Constants.getCost(driveCommands.get(i)) */300)// TODO Cheat mode
-							drawString(mc.fontRenderer, formName, textX, 4, 0xFFFFFF);
-						else
-							drawString(mc.fontRenderer, formName, textX, 4, 0x888888);
+					if (submenu == SUB_DRIVE) {						
+						drawString(mc.fontRenderer, formName, textX, 4, color);
 					}
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

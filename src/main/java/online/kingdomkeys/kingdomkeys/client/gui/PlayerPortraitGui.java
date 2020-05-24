@@ -8,7 +8,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 //TODO cleanup + comments
 public class PlayerPortraitGui extends Screen {
@@ -22,6 +26,7 @@ public class PlayerPortraitGui extends Screen {
 //        if (!MainConfig.displayGUI())
         //          return;
         Minecraft mc = Minecraft.getInstance();
+        IPlayerCapabilities props = ModCapabilities.get(mc.player);
         //if(!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode()) return;
         int screenWidth = mc.getMainWindow().getScaledWidth();
         int screenHeight = mc.getMainWindow().getScaledHeight();
@@ -42,10 +47,9 @@ public class PlayerPortraitGui extends Screen {
                     break;
             }
 
-           /* DriveStateCapability.IDriveState DS = mc.player.getCapability(ModCapabilities.DRIVE_STATE, null);
-            if (DS.getActiveDriveName().equals(Strings.Form_Anti))
-                GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) this.alpha);
-*/
+             if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+                GL11.glColor4ub((byte) 80, (byte) 80, (byte) 80, (byte) 255);
+            }
 
             GL11.glPushMatrix();
             {
@@ -174,8 +178,9 @@ public class PlayerPortraitGui extends Screen {
 
                 GL11.glColor4f(100.0F, 1.0F, 1.0F, 1.0F);
 
-                /*if (DS.isDriveForm) {
-                    ResourceLocation texture = new ResourceLocation(Reference.MODID, "textures/armour/"+ds.getActiveDriveform()+".png");
+                if (!props.getActiveDriveForm().equals("") && !props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+                	String driveName = props.getActiveDriveForm().substring(props.getActiveDriveForm().indexOf("_")+1);
+                    ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+driveName+".png");
                     mc.textureManager.bindTexture(texture);
 
                     GL11.glPushMatrix();
@@ -184,7 +189,7 @@ public class PlayerPortraitGui extends Screen {
                         GL11.glScalef(2, 1, 1);
                         GL11.glScalef(0.5f, 0.5f, 0.5f);
                         GL11.glScalef(scale, scale, scale);
-                        this.drawTexturedModalRect(0, 0, 80, 140, 32, 80);
+                        this.blit(0, 0, 80, 140, 32, 80);
                     }
                     GL11.glPopMatrix();
 
@@ -194,7 +199,7 @@ public class PlayerPortraitGui extends Screen {
                         GL11.glScalef(2, 1, 1);
                         GL11.glScalef(0.5f, 0.5f, 0.5f);
                         GL11.glScalef(scale, scale, scale);
-                        this.drawTexturedModalRect(0, 0, 64, 140, 16, 80);
+                        this.blit(0, 0, 64, 140, 16, 80);
                     }
                     GL11.glPopMatrix();
 
@@ -204,11 +209,11 @@ public class PlayerPortraitGui extends Screen {
                         GL11.glScalef(2, 1, 1);
                         GL11.glScalef(0.5f, 0.5f, 0.5f);
                         GL11.glScalef(scale, scale, scale);
-                        this.drawTexturedModalRect(0, 0, 112, 140, 16, 80);
+                        this.blit(0, 0, 112, 140, 16, 80);
                     }
                     GL11.glPopMatrix();
 
-                } */
+                } 
             }
             GL11.glPopMatrix();
         }

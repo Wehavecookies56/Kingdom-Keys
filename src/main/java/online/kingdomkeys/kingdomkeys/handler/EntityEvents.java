@@ -12,6 +12,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -19,13 +21,17 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
@@ -47,10 +53,21 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
-		//props.setDriveForm("");
-		//System.out.println(props.getMagicsList());
-		// MP Recharge system
 		if (props != null) {
+			//props.setMaxDP(900);
+			if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+				if (props.getFP() > 0) {
+					props.setFP(props.getFP() - 1);
+				} else {
+					props.setActiveDriveForm("");
+					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					PacketHandler.syncToAllAround(event.player, props);
+				}
+			} else if(!props.getActiveDriveForm().equals("")) {
+				ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm())).updateDrive(event.player);
+			}
+
+			// MP Recharge system
 			if (props.getRecharge()) {
 				if (props.getMP() >= props.getMaxMP()) {
 					props.setRecharge(false);

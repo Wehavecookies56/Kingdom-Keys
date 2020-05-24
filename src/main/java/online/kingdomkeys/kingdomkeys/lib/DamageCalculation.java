@@ -24,7 +24,7 @@ public class DamageCalculation {
 
             damage = (float) (keyblade.getMagic() + props.getMagic());
 
-            switch (props.getDriveForm()) {
+            switch (props.getActiveDriveForm()) {
                 case Strings.Form_Wisdom:
                     damage = damage * 2;
                     break;
@@ -65,7 +65,7 @@ public class DamageCalculation {
 
             damage = (float) (weapon.getMagic() + props.getMagic());
 
-            switch (props.getDriveForm()) {
+            switch (props.getActiveDriveForm()) {
                 case Strings.Form_Wisdom:
                     damage = damage * 2;
                     break;
@@ -128,7 +128,7 @@ public class DamageCalculation {
             damage = (float) (keyblade.getStrength() + props.getStrength());
             System.out.println(damage);
 
-            switch (props.getDriveForm()) {
+            switch (props.getActiveDriveForm()) {
                 case Strings.Form_Valor:
                     damage = (float) (damage * 1.5);
                     break;
@@ -160,7 +160,7 @@ public class DamageCalculation {
             if (weapon.getItem() instanceof IOrgWeapon) {
                 damage = (float) (((IOrgWeapon) weapon.getItem()).getStrength() + props.getStrength());
 
-                switch (props.getDriveForm()) {
+                switch (props.getActiveDriveForm()) {
                     case Strings.Form_Valor:
                         damage = (float) (damage * 1.5);
                         break;

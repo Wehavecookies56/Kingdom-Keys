@@ -15,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 //TODO cleanup + comments
 public class DriveGui extends Screen {
@@ -68,11 +70,17 @@ public class DriveGui extends Screen {
 		IPlayerCapabilities props = ModCapabilities.get(mc.player);
 		if (props != null) {
 			double dp = props.getDP();
-			//double fp = 0;
+			double fp = props.getFP();
 
 			currDrive = (float) ((oneValue * dp) - getCurrBar(dp, (int) props.getMaxDP() / 100) * guiLength);
-			// if (STATE.getInDrive())
-			//currForm = (float) ((oneValue * fp) - getCurrBar(fp, STATE.getFormGaugeLevel(STATE.getActiveDriveName())) * guiLength);
+			
+			if (!props.getActiveDriveForm().equals("")) {
+				if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {//Antiform FP calculation
+					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 1000) * guiLength);
+				} else {
+					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 300 + (props.getDriveFormsMap().get(props.getActiveDriveForm()) * 100)) * guiLength);
+				}
+			}
 
 			if (dp == props.getMaxDP()) {
 				currDrive = guiLength;
@@ -119,7 +127,7 @@ public class DriveGui extends Screen {
 						GL11.glTranslatef((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
 
-						if (props.getDriveForm().equals("")) {
+						if (props.getActiveDriveForm().equals("")) {
 							this.blit(15, 6, 0, 0, guiWidth, guiHeight);
 						} else {
 							this.blit(15, 6, 98, 0, guiWidth, guiHeight);
@@ -132,10 +140,10 @@ public class DriveGui extends Screen {
 					{
 						GL11.glTranslatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
-						if (props.getDriveForm().equals("")) {
+						if (props.getActiveDriveForm().equals("")) {
 							this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
 						} else {
-							this.blit(16, 6, 98, 18, (int) currForm, guiHeight);
+							this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
 						}
 					}
 					GL11.glPopMatrix();
@@ -146,14 +154,14 @@ public class DriveGui extends Screen {
 						GL11.glTranslatef((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
 
-						int numPos = props.getDriveForm().equals("") ? getCurrBar(dp, (int) props.getMaxDP() / 100) * 10 : 97;// + (getCurrBar(fp, STATE.getFormGaugeLevel(STATE.getActiveDriveName())) * 10);
+						int numPos = props.getActiveDriveForm().equals("") ? getCurrBar(dp, (int) props.getMaxDP() / 100) * 10 : 99 + getCurrBar(fp,Utils.getDriveFormLevel(props.getDriveFormsMap(), props.getActiveDriveForm()) + 2)*10;//(getCurrBar(fp, props.getFormGaugeLevel(props.getActiveDriveForm())) * 10);
 						// int numPos = getCurrBar(dp, 9) * 10;
 						this.blit(14, 6, numPos, 38, 8, guiHeight);
 					}
 					GL11.glPopMatrix();
 
 					// MAX Icon
-					if (props.getDP() >= props.getMaxDP() && props.getDriveForm().equals("")) {
+					if (props.getDP() >= props.getMaxDP() && props.getActiveDriveForm().equals("")) {
 						GL11.glPushMatrix();
 						{
 							if (doChange) {

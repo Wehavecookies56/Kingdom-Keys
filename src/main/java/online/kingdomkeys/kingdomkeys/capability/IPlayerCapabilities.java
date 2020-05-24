@@ -46,6 +46,11 @@ public interface IPlayerCapabilities {
 	void addDP(double dp);
 	void remDP(double cost);
 	
+	double getFP();
+	void setFP(double fp);
+	void addFP(double fp);
+	void remFP(double cost);
+	
 	double getMaxDP();
 	void setMaxDP(double dP);
 	
@@ -64,8 +69,8 @@ public interface IPlayerCapabilities {
     
 	int getExpNeeded(int level, int currentExp);
 	
-	void setDriveForm(String form);
-	String getDriveForm();
+	void setActiveDriveForm(String form);
+	String getActiveDriveForm();
 	
 	void setReflectTicks(int ticks);
 	void remReflectTicks(int ticks);
@@ -88,4 +93,7 @@ public interface IPlayerCapabilities {
 	void setMagicsList(List<String> list);
 	void addMagicToList(String magic);
 	void removeMagicFromList(String magic);
+	
+	int getAntiPoints();
+	void setAntiPoints(int points);
 }
