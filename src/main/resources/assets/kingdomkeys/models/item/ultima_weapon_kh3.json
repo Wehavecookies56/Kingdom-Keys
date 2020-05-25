@@ -1,7 +1,7 @@
 {
   "parent": "forge:item/default",
   "loader": "forge:obj",
-  "model": "kingdomkeys:models/item/ultimaweaponkh3.obj",
+  "model": "kingdomkeys:models/item/keyblade/ultimaweaponkh3.obj",
   "textures": {
     
   },

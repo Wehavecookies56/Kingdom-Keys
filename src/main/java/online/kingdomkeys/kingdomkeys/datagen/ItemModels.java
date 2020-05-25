@@ -279,16 +279,16 @@ public class ItemModels extends ItemModelProvider {
 		standardMaterial(Strings.SM_OrichalcumPlus);
 		standardMaterial(Strings.SM_ManifestIllusion);
 		standardMaterial(Strings.SM_LostIllusion);
-		//standardMaterial(Strings.SM_SinisterCrystal);
-		//standardMaterial(Strings.SM_SinisterGem);
-		//standardMaterial(Strings.SM_SinisterStone);
-		//standardMaterial(Strings.SM_SinisterShard);
-		//standardMaterial(Strings.SM_Fluorite);
-		//standardMaterial(Strings.SM_Damascus);
-		//standardMaterial(Strings.SM_Adamantite);
-		//standardMaterial(Strings.SM_Electrum);
-		//standardMaterial(Strings.SM_EvanescentCrystal);
-		//standardMaterial(Strings.SM_IllusoryCrystal);
+		standardMaterial(Strings.SM_SinisterCrystal);
+		standardMaterial(Strings.SM_SinisterGem);
+		standardMaterial(Strings.SM_SinisterStone);
+		standardMaterial(Strings.SM_SinisterShard);
+		standardMaterial(Strings.SM_Fluorite);
+		standardMaterial(Strings.SM_Damascus);
+		standardMaterial(Strings.SM_Adamantite);
+		standardMaterial(Strings.SM_Electrum);
+		standardMaterial(Strings.SM_EvanescentCrystal);
+		standardMaterial(Strings.SM_IllusoryCrystal);
     }
     
     private void blocks() {
@@ -304,6 +304,7 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("blast_blox");
 		standardBlockItem("magnet_blox_on");
 		standardBlockItem("magnet_blox_off");
+		standardBlockItem("pair_blox");
 
 		//ore
 		standardBlockItem("blazing_ore");

@@ -1,17 +1,30 @@
 {
   "abilities": [
-    "Combo Boost",
-    "Air Combo Boost",
-    "Situation Boost"
+    "Treasure Magnet",
+    "Formchange Extender"
   ],
-  "keychain": "kingdomkeys:ultima_weapon_kh3_chain",
+  "keychain": "kingdomkeys:kingdom_key_d_chain",
   "base_stats": {
-    "str": 8,
+    "str": 4,
     "mag": 3
   },
   "levels": [
     {
-      "str": 9,
+      "str": 4,
+      "mag": 4,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "str": 5,
       "mag": 4,
       "recipe": [
         {
@@ -25,7 +38,7 @@
       ]
     },
     {
-      "str": 9,
+      "str": 5,
       "mag": 5,
       "recipe": [
         {
@@ -39,137 +52,103 @@
       ]
     },
     {
-      "str": 10,
+      "str": 6,
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 6,
       "mag": 6,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_fluorite",
-          "quantity": 1
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 2
         },
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
+          "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         }
       ]
     },
     {
-      "str": 10,
+      "str": 7,
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 7,
       "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_hungry_stone",
+          "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_damascus",
+          "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
         }
       ]
     },
     {
-      "str": 11,
+      "str": 8,
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 8,
       "mag": 8,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 3
-        },
-        {
-          "material": "kingdomkeys:mat_hungry_stone",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        }
-      ]
-    },
-    {
-      "str": 11,
-      "mag": 9,
-      "recipe": [
-        {
-          "material": "kingdomkeys:mat_wellspring_gem",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        }
-      ]
-    },
-    {
-      "str": 12,
-      "mag": 10,
-      "recipe": [
-        {
-          "material": "kingdomkeys:mat_wellspring_gem",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_hungry_gem",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_adamantite",
-          "quantity": 1
-        }
-      ]
-    },
-    {
-      "str": 12,
-      "mag": 11,
-      "recipe": [
-        {
           "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:mat_hungry_gem",
-          "quantity": 2
-        },
-        {
           "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
         }
       ]
     },
     {
-      "str": 13,
-      "mag": 12,
+      "str": 9,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_adamantite",
-          "quantity": 1
-        }
-      ]
-    },
-    {
-      "str": 13,
-      "mag": 13,
-      "recipe": [
-        {
-          "material": "kingdomkeys:mat_wellspring_crystal",
-          "quantity": 2
         },
         {
           "material": "kingdomkeys:mat_electrum",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_hungry_crystal",
           "quantity": 1
         }
       ]
     }
   ],
-  "description": "test"
+  "description": "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness."
 }

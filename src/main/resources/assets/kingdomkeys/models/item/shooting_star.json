@@ -1,0 +1,47 @@
+{
+	"parent": "forge:item/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/item/keyblade/shootingstar.obj",
+	"textures": {
+   
+	},
+	"display": {
+            
+                    "thirdperson_lefthand": {
+                        "rotation": [0, 180 , 0],
+                        "translation": [0, -0.1, 0.1 ],
+                        "scale": [0.02, 0.02, 0.02]
+                    },
+                    "thirdperson_righthand": {
+                        "rotation": [0, 180, 0],
+                        "translation": [ 0, -0.1, 0.1 ],
+                        "scale": [0.02, 0.02, 0.02]
+                    },
+                    "gui": {
+                        "rotation": [45 , 10, -45  ],
+                        "translation": [ -0.2, -0.2, 0 ],
+                        "scale": [0.01, 0.01, 0.01]
+                    },
+                    "firstperson_righthand": {
+                        "rotation": [180, 0 , 170],
+                        "translation": [ 0, -0.1, 0 ],
+                        "scale": [0.013, 0.013, 0.013]
+                    },
+                    "firstperson_lefthand": {
+                        "rotation": [180, 0, 190],
+                        "translation": [ 0, -0.1, 0 ],
+                        "scale": [0.013, 0.013, 0.013]
+                    },
+                    "ground": {
+                        "rotation": [45, 0, 0],
+                        "scale": [0.01, 0.01, 0.01]
+					},
+					"fixed": {
+						"rotation": [ 0, 90, 0],
+						"translation": [ 0, -0.25, 0 ],
+						"scale": [0.01, 0.01, 0.01]
+                    }
+                
+        
+    }
+}

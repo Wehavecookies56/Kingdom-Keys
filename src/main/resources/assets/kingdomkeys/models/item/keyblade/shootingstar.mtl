@@ -1,0 +1,6 @@
+# Created by Metasequoia
+
+newmtl mat1
+Ka 0.30720 0.30720 0.30720
+Kd 0.40960 0.40960 0.40960
+map_Kd kingdomkeys:item/models/keyblades/shootingstar
