@@ -46,6 +46,7 @@ public class ProxyClient implements IProxy {
         MinecraftForge.EVENT_BUS.register(new MPGui());
         MinecraftForge.EVENT_BUS.register(new DriveGui());
         MinecraftForge.EVENT_BUS.register(new InputHandler());
+        MinecraftForge.EVENT_BUS.register(new LockOnGui());
 		//ModModels.register();
         
 

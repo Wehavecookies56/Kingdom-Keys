@@ -3,15 +3,21 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
@@ -27,7 +33,6 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketAntiPoints;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSetDriveForm;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
@@ -497,20 +502,22 @@ public class InputHandler {
                 case ACTION:
                     commandAction();
                     break;
-
+                */
                 case LOCK_ON:
                     if (lockOn == null) {
                         RayTraceResult rtr = getMouseOverExtended(100);
-                        if (rtr != null) {
-                            if (rtr.entityHit != null) {
-                                double distanceSq = player.getDistanceSqToEntity(rtr.entityHit);
+                        if (rtr != null && rtr instanceof EntityRayTraceResult) {
+                        	EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
+                            if (ertr.getEntity() != null) {
+                                double distanceSq = player.getDistanceSq(ertr.getEntity());
                                 double reachSq = 100 * 100;
                                 if (reachSq >= distanceSq) {
-                                    if (rtr.entityHit instanceof EntityLivingBase) {
-                                        lockOn = (EntityLivingBase) rtr.entityHit;
-                                        LockOn.target = (EntityLivingBase) rtr.entityHit;
-                                        player.world.playSound((EntityPlayer) player, player.getPosition(), ModSounds.lockon, SoundCategory.MASTER, 1.0f, 1.0f);
-                                    } else if (rtr.entityHit instanceof EntityPart) {
+                                    if (ertr.getEntity() instanceof LivingEntity) {
+                                        lockOn = (LivingEntity) ertr.getEntity();
+                                        System.out.println(lockOn);
+                                        //LockOn.target = (EntityLivingBase) ertr.getEntity();
+                                        player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                                    }/* else if (rtr.entityHit instanceof EntityPart) {
                                         EntityPart part = (EntityPart) rtr.entityHit;
                                         if (part.getParent() != null && part.getParent() instanceof EntityLivingBase) {
                                             lockOn = (EntityLivingBase) part.getParent();
@@ -518,14 +525,14 @@ public class InputHandler {
                                             player.world.playSound((EntityPlayer) player, player.getPosition(), ModSounds.lockon, SoundCategory.MASTER, 1.0f, 1.0f);
 
                                         }
-                                    }
+                                    }*/
                                 }
                             }
                         }
                     } else {
                         lockOn = null;
                     }
-                    break;*/
+                    break;
 
             }
     }
@@ -597,36 +604,67 @@ public class InputHandler {
             return keybinding.isPressed();
         }
     }
+    
+    public static RayTraceResult getMouseOverExtended(float dist) {
+		Minecraft mc = Minecraft.getInstance();
+		Entity theRenderViewEntity = mc.getRenderViewEntity();
+		AxisAlignedBB theViewBoundingBox = new AxisAlignedBB(theRenderViewEntity.getPosX() - 0.5D, theRenderViewEntity.getPosY() - 0.0D, theRenderViewEntity.getPosZ() - 0.5D, theRenderViewEntity.getPosX() + 0.5D, theRenderViewEntity.getPosY() + 1.5D, theRenderViewEntity.getPosZ() + 0.5D);
+		RayTraceResult returnMOP = null;
+		if (mc.world != null) {
+			double var2 = dist;
+			returnMOP = theRenderViewEntity.pick(var2, 0, false);
+			double calcdist = var2;
+			Vec3d pos = theRenderViewEntity.getEyePosition(0);
+			var2 = calcdist;
+			if (returnMOP != null) {
+				calcdist = returnMOP.getHitVec().distanceTo(pos);
+			}
+
+			Vec3d lookvec = theRenderViewEntity.getLook(0);
+			Vec3d var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
+			Entity pointedEntity = null;
+			float var9 = 1.0F;
+
+			List<Entity> list = mc.world.getEntitiesWithinAABBExcludingEntity(theRenderViewEntity, theViewBoundingBox.grow(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).grow(var9, var9, var9));
+			double d = calcdist;
+
+			for (Entity entity : list) {
+				if (entity.canBeCollidedWith()) {
+					float bordersize = entity.getCollisionBorderSize();
+					AxisAlignedBB aabb = new AxisAlignedBB(entity.getPosX() - entity.getWidth() / 2, entity.getPosY(), entity.getPosZ() - entity.getWidth() / 2, entity.getPosX() + entity.getWidth() / 2, entity.getPosY() + entity.getHeight(), entity.getPosZ() + entity.getWidth() / 2);
+					aabb.grow(bordersize, bordersize, bordersize);
+					Optional<Vec3d> mop0 = aabb.rayTrace(pos, var8);
+
+					if (aabb.contains(pos)) {
+						if (0.0D < d || d == 0.0D) {
+							pointedEntity = entity;
+							d = 0.0D;
+						}
+					} else if (mop0 != null && mop0.isPresent()) {
+						double d1 = pos.distanceTo(mop0.get());
+
+						if (d1 < d || d == 0.0D) {
+							pointedEntity = entity;
+							d = d1;
+						}
+					}
+				}
+			}
+
+			if (pointedEntity != null && (d < calcdist || returnMOP == null)) {
+				returnMOP = new EntityRayTraceResult(pointedEntity);
+			}
+		}
+		return returnMOP;
+	}
+
 
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
         this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
         this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
 
-        /*PlayerStatsCapability.IPlayerStats STATS = player.getCapability(ModCapabilities.PLAYER_STATS, null);
-        IDriveState DS = player.getCapability(ModCapabilities.DRIVE_STATE, null);
-        this.magicCommands = new ArrayList<String>();
-        this.itemsCommands = new ArrayList<String>();
-        this.driveCommands = new ArrayList<String>();
-        this.portalCommands = new ArrayList<PortalCoords>();
-        this.attackCommands = new ArrayList<Ability>();
-
-        this.magicCommands.clear();
-        for (int i = 0; i < player.getCapability(ModCapabilities.MAGIC_STATE, null).getInventorySpells().getSlots(); i++)
-            if (!ItemStack.areItemStacksEqual(player.getCapability(ModCapabilities.MAGIC_STATE, null).getInventorySpells().getStackInSlot(i), ItemStack.EMPTY))
-                this.magicCommands.add(((ItemSpellOrb) player.getCapability(ModCapabilities.MAGIC_STATE, null).getInventorySpells().getStackInSlot(i).getItem()).getMagicName());
-
-        this.itemsCommands.clear();
-        for (int i = 0; i < player.getCapability(ModCapabilities.PLAYER_STATS, null).getInventoryPotionsMenu().getSlots(); i++)
-            if (!ItemStack.areItemStacksEqual(player.getCapability(ModCapabilities.PLAYER_STATS, null).getInventoryPotionsMenu().getStackInSlot(i), ItemStack.EMPTY))
-                this.itemsCommands.add(((ItemKKPotion) player.getCapability(ModCapabilities.PLAYER_STATS, null).getInventoryPotionsMenu().getStackInSlot(i).getItem()).getUnlocalizedName().substring(5));
-
-        this.driveCommands.clear();
-        for (int i = 0; i < player.getCapability(ModCapabilities.DRIVE_STATE, null).getInventoryDriveForms().getSlots(); i++)
-            if (!ItemStack.areItemStacksEqual(player.getCapability(ModCapabilities.DRIVE_STATE, null).getInventoryDriveForms().getStackInSlot(i), ItemStack.EMPTY))
-                this.driveCommands.add(((ItemDriveForm) player.getCapability(ModCapabilities.DRIVE_STATE, null).getInventoryDriveForms().getStackInSlot(i).getItem()).getDriveFormName());
-
-        this.portalCommands.clear();
+        /*this.portalCommands.clear();
         for (byte i = 0; i < 3; i++) {
             PortalCoords coords = player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getPortalCoords(i);
             if (!(coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)) {
