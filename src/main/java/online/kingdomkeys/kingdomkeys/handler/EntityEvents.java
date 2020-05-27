@@ -30,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
@@ -172,16 +173,6 @@ public class EntityEvents {
 				event.getEntityLiving().velocityChanged = true;
 
 				//Spawn particles
-				
-				/*for (double y = 0; y < 2.5; y += 0.1) {
-					for (int a = 1; a <= 360; a += 15) {
-						double ra = (1.4 - Math.abs(y - 1.2));
-						double x = event.getEntityLiving().getPosX() + ra * Math.cos(Math.toRadians(a));
-						double z = event.getEntityLiving().getPosZ() + ra * Math.sin(Math.toRadians(a));
-						event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, x, event.getEntityLiving().getPosY() + y, z, 0, 0, 0);
-					}
-				}*/
-				
 				float radius = 1.5F;
 				double freq = 0.4;
 				double X = event.getEntityLiving().getPosX();
@@ -236,7 +227,11 @@ public class EntityEvents {
 
 			if (gProps != null) {
 				if (gProps.getStoppedTicks() > 0) {
-					gProps.addDamage((int) event.getAmount());
+					float dmg = event.getAmount();
+					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+						dmg = DamageCalculation.getStrengthDamage((PlayerEntity) event.getSource().getTrueSource());
+					}
+					gProps.addDamage((int) dmg);
 					event.setCanceled(true);
 				}
 			}
