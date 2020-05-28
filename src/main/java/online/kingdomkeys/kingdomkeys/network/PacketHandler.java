@@ -37,6 +37,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, PacketAttackOffhand.class, PacketAttackOffhand::encode, PacketAttackOffhand::decode, PacketAttackOffhand::handle);
 		HANDLER.registerMessage(packetID++, PacketAntiPoints.class, PacketAntiPoints::encode, PacketAntiPoints::decode, PacketAntiPoints::handle);
 		HANDLER.registerMessage(packetID++, PacketSetGliding.class, PacketSetGliding::encode, PacketSetGliding::decode, PacketSetGliding::handle);
+		HANDLER.registerMessage(packetID++, PacketSetAerialDodgeTicks.class, PacketSetAerialDodgeTicks::encode, PacketSetAerialDodgeTicks::decode, PacketSetAerialDodgeTicks::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

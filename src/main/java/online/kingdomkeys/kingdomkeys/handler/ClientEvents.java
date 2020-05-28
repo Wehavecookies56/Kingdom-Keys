@@ -88,10 +88,16 @@ public class ClientEvents {
 		if(event.getEntity() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntity();
 			IPlayerCapabilities props = ModCapabilities.get(player);
+			//Glide animation
 			if(props.getIsGliding()) {
 				event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
 				event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
 				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
+			}
+			
+			//Aerial Dodge rotation
+			if(props.getAerialDodgeTicks() > 0) {
+				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
 			}
 		}
 	}

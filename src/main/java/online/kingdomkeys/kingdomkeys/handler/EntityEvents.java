@@ -2,8 +2,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -16,6 +15,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -35,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSetAerialDodgeTicks;
 import online.kingdomkeys.kingdomkeys.network.PacketSetGliding;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
@@ -47,18 +48,18 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
 		PlayerEntity player = e.getPlayer();
-		if(!e.getPlayer().world.isRemote) { //Sync from server to client
+		if (!e.getPlayer().world.isRemote) { // Sync from server to client
 			PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 		}
 		PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
 	}
-	
+
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
-			//props.setMaxDP(900);
-			if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+			// props.setMaxDP(900);
+			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
 				if (props.getFP() > 0) {
 					props.setFP(props.getFP() - 1);
 				} else {
@@ -66,7 +67,7 @@ public class EntityEvents {
 					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					PacketHandler.syncToAllAround(event.player, props);
 				}
-			} else if(!props.getActiveDriveForm().equals("")) {
+			} else if (!props.getActiveDriveForm().equals("")) {
 				ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm())).updateDrive(event.player);
 			}
 
@@ -90,7 +91,8 @@ public class EntityEvents {
 						PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) event.player);
 					}
 				}
-			}			
+			}
+
 		}
 
 		// Combat mode
@@ -121,7 +123,6 @@ public class EntityEvents {
 			isHostiles = false;
 		}
 	}
-	
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
@@ -132,10 +133,9 @@ public class EntityEvents {
 			player = (PlayerEntity) event.getEntityLiving();
 			props = ModCapabilities.get((PlayerEntity) event.getEntityLiving());
 		}
-			
-		
+
 		if (gProps != null) {
-			//Stop
+			// Stop
 			if (gProps.getStoppedTicks() > 0) {
 				gProps.subStoppedTicks(1);
 
@@ -146,14 +146,14 @@ public class EntityEvents {
 					gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
 					if (gProps.getDamage() > 0)
 						event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
-					
+
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
 						PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
 					gProps.setDamage(0);
 				}
 			}
-			
-			//Gravity
+
+			// Gravity
 			if (gProps.getFlatTicks() > 0) {
 				gProps.subFlatTicks(1);
 
@@ -162,91 +162,115 @@ public class EntityEvents {
 
 				if (gProps.getFlatTicks() <= 0) {
 					gProps.setFlatTicks(0); // Just in case it goes below (shouldn't happen)
-					
-					if (event.getEntityLiving() instanceof LivingEntity) //This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
+
+					if (event.getEntityLiving() instanceof LivingEntity) // This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
 						PacketHandler.syncToAllAround(event.getEntityLiving(), gProps);
 				}
 			}
 		}
 
-		
-		
-		
-		
 		if (props != null) {
-			if (player.world.isRemote) {
-				if (!player.onGround && player.getMotion().y < -0.1) {
-					if (KeyboardHelper.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
-						if(!props.getIsGliding()) {
-							props.setIsGliding(true);
-							PacketHandler.sendToServer(new PacketSetGliding(true));
-						}
-					} else {
-						if(props.getIsGliding()) {
-							props.setIsGliding(false);
-							PacketHandler.sendToServer(new PacketSetGliding(false));
-						}
-					}
-				} else {
-					if(props.getIsGliding()) {
-						props.setIsGliding(false);
-						PacketHandler.sendToServer(new PacketSetGliding(false));
-					}
-				}
-			}
-
-			if (props.getIsGliding()) {
-				player.setMotion(player.getMotion().x, -0.1, player.getMotion().z);
-			}
+			//Final Form glide
+			handleGlide(player,props);
+			handleAerialDodge(player,props);
 			
+
 			if (props.getReflectTicks() > 0) {
 				props.remReflectTicks(1);
 
 				event.getEntityLiving().setMotion(0, 0, 0);
 				event.getEntityLiving().velocityChanged = true;
 
-				//Spawn particles
+				// Spawn particles
 				float radius = 1.5F;
 				double freq = 0.4;
 				double X = event.getEntityLiving().getPosX();
 				double Y = event.getEntityLiving().getPosY();
 				double Z = event.getEntityLiving().getPosZ();
-				
-				 for (double x = X - radius; x <= X + radius; x+=freq) {
-	                for (double y = Y - radius; y <= Y + radius; y+=freq) {
-	                    for (double z = Z - radius; z <= Z + radius; z+=freq) {
-	                        if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-	                        	event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, x, y+1, z, 0, 0, 0);
-	                        }
-	                    }
-	                }
-	            }
-				
-			} else { //When it finishes
-				if(props.getReflectActive()) {//If has been hit
-					//SPAWN ENTITY and apply damage
-					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
-			        if (!list.isEmpty()) {
-			            for (int i = 0; i < list.size(); i++) {
-			                Entity e = (Entity) list.get(i);
-			                if (e instanceof LivingEntity) {
-			                	e.attackEntityFrom(DamageSource.MAGIC, 10);
-			                }
-			            }
-			        }
-					props.setReflectActive(false); //Restart reflect
-				}
-			}
-			
-			/*if (player.world.isRemote) {
-				if (!player.onGround && player.getMotion().y < -0.1) {
-					if (KeyboardHelper.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
-						player.setMotion(player.getMotion().x, -0.01, player.getMotion().z);
+
+				for (double x = X - radius; x <= X + radius; x += freq) {
+					for (double y = Y - radius; y <= Y + radius; y += freq) {
+						for (double z = Z - radius; z <= Z + radius; z += freq) {
+							if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
+								event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
+							}
+						}
 					}
 				}
-			}*/
+
+			} else { // When it finishes
+				if (props.getReflectActive()) {// If has been hit
+					// SPAWN ENTITY and apply damage
+					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+					if (!list.isEmpty()) {
+						for (int i = 0; i < list.size(); i++) {
+							Entity e = (Entity) list.get(i);
+							if (e instanceof LivingEntity) {
+								e.attackEntityFrom(DamageSource.MAGIC, 10);
+							}
+						}
+					}
+					props.setReflectActive(false); // Restart reflect
+				}
+			}
+		}
+	}
+	
+	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities props) {
+		if(props.getAerialDodgeTicks() > 0) {
+			props.setAerialDodgeTicks(props.getAerialDodgeTicks()-1);
+		} else {
+			if (player.onGround) {
+				props.setHasJumpedAerialDodge(false);
+				props.setAerialDodgeTicks(0);
+			} else {
+				if (player.world.isRemote) {
+					if (player.getMotion().y < 0 && Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown() && !player.isSneaking()) {
+						if (!props.hasJumpedAerialDodge()) {
+							props.setHasJumpedAerialDodge(true);
+							player.jump();
+							player.getMotion().mul(new Vec3d(0,1,0));// *= //Constants.MASTER_SECOND_JUMP[masterLevel - 2];
+							PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true,10));
+							//PacketDispatcher.sendToServer(new MasterFormPacket());
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void handleGlide(PlayerEntity player, IPlayerCapabilities props) {
+		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
+			//if(player.ticksExisted % 5 == 0)
+				//System.out.println(Minecraft.getInstance().player.getDisplayName().getFormattedText()+": I see "+player.fallDistance+ " as "+player.getDisplayName().getFormattedText()+" Fall distance");
+			if(Minecraft.getInstance().player == player) {
+			if (!player.onGround && player.fallDistance > 0) {
+				if (Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown()) {
+					if (!props.getIsGliding()) {
+						props.setIsGliding(true);// Set props clientside
+						props.setAerialDodgeTicks(0);
+						PacketHandler.sendToServer(new PacketSetGliding(true)); // Set props serverside
+						PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true,0)); //In case the player is still rotating stop it
+					}
+				} else { // If is no longer pressing space
+					if (props.getIsGliding()) {
+						props.setIsGliding(false);
+						PacketHandler.sendToServer(new PacketSetGliding(false));
+					}
+				}
+			} else { // If touches the ground
+				if (props.getIsGliding()) {
+					props.setIsGliding(false);
+					PacketHandler.sendToServer(new PacketSetGliding(false));
+					PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(false,0)); //In case the player is still rotating stop it
+				}
+			}
+			}
 		}
 
+		if (props.getIsGliding()) {
+			player.setMotion(player.getMotion().x, -0.1, player.getMotion().z);
+		}		
 	}
 
 	// Prevent attack when stopped
@@ -260,7 +284,7 @@ public class EntityEvents {
 				IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) target);
 
 				if (props.getReflectTicks() > 0) { // If is casting reflect
-					if(!props.getReflectActive()) // If has been hit while casting reflect
+					if (!props.getReflectActive()) // If has been hit while casting reflect
 						props.setReflectActive(true);
 					event.setCanceled(true);
 				}
@@ -304,27 +328,27 @@ public class EntityEvents {
 					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) player);
 				}
 			}
-			
+
 		}
-		
+
 		Entity entity = event.getEntity();
 		double x = entity.getPosX();
 		double y = entity.getPosY();
 		double z = entity.getPosZ();
-		event.getEntity().world.addEntity(new MunnyEntity(event.getEntity().world,x,y,z,1000));
-		event.getEntity().world.addEntity(new HPOrbEntity(event.getEntity().world,x,y,z,10));
+		event.getEntity().world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, 1000));
+		event.getEntity().world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, 10));
 		event.getEntity().world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
 		event.getEntity().world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
 	}
-	
+
 	@SubscribeEvent
 	public void onPlayerClone(PlayerEvent.Clone event) {
-		if(event.isWasDeath()) {
+		if (event.isWasDeath()) {
 			PlayerEntity oPlayer = event.getOriginal();
 			PlayerEntity nPlayer = event.getPlayer();
 			IPlayerCapabilities oProps = ModCapabilities.get(oPlayer);
 			IPlayerCapabilities nProps = ModCapabilities.get(nPlayer);
-			//TODO sync stuff
+			// TODO sync stuff
 		}
 	}
 
@@ -338,6 +362,5 @@ public class EntityEvents {
 			PacketHandler.syncToAllAround(targetPlayer, props);
 		}
 	}
-	
-	
+
 }

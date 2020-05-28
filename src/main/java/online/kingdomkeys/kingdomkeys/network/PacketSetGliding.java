@@ -34,7 +34,7 @@ public class PacketSetGliding {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities props = ModCapabilities.get(player);
 			props.setIsGliding(message.gliding);
-			//System.out.println(message.gliding);
+			System.out.println("Setting "+message.gliding+" to "+player.getDisplayName().getFormattedText());
 			PacketHandler.syncToAllAround(player, props);
 		});
 		ctx.get().setPacketHandled(true);

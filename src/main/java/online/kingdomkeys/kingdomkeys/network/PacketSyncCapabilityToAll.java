@@ -26,7 +26,8 @@ public class PacketSyncCapabilityToAll {
 	
 	private double dp = 0, fp = 0;
 
-	private boolean isGliding = false;
+	private int aerialDodgeTicks = 0;
+	private boolean isGliding = false, hasJumpedAD = false;
 	
 	public PacketSyncCapabilityToAll() {
 	}
@@ -44,7 +45,10 @@ public class PacketSyncCapabilityToAll {
 		this.fp = capability.getFP();
 		this.dp = capability.getDP();
 		this.antipoints = capability.getAntiPoints();
+		
 		this.isGliding = capability.getIsGliding();
+		this.aerialDodgeTicks = capability.getAerialDodgeTicks();
+		this.hasJumpedAD = capability.hasJumpedAerialDodge();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -62,6 +66,8 @@ public class PacketSyncCapabilityToAll {
 		buffer.writeInt(this.antipoints);
 		
 		buffer.writeBoolean(this.isGliding);
+		buffer.writeInt(this.aerialDodgeTicks);
+		buffer.writeBoolean(this.hasJumpedAD);
 	}
 
 	public static PacketSyncCapabilityToAll decode(PacketBuffer buffer) {
@@ -80,6 +86,8 @@ public class PacketSyncCapabilityToAll {
 		msg.antipoints = buffer.readInt();
 		
 		msg.isGliding = buffer.readBoolean();
+		msg.aerialDodgeTicks = buffer.readInt();
+		msg.hasJumpedAD = buffer.readBoolean();
 		return msg;
 	}
 
@@ -108,6 +116,8 @@ public class PacketSyncCapabilityToAll {
 				props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
 				
 				props.ifPresent(cap -> cap.setIsGliding(message.isGliding));
+				props.ifPresent(cap -> cap.setAerialDodgeTicks(message.aerialDodgeTicks));
+				props.ifPresent(cap -> cap.setHasJumpedAerialDodge(message.hasJumpedAD));
 			}
 		});
 		ctx.get().setPacketHandled(true);

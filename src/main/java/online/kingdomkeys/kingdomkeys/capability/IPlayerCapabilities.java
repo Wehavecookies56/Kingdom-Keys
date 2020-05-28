@@ -101,4 +101,9 @@ public interface IPlayerCapabilities {
 	//Drive forms
 	boolean getIsGliding();
 	void setIsGliding(boolean b);
+	
+	int getAerialDodgeTicks();
+	void setAerialDodgeTicks(int ticks);
+	boolean hasJumpedAerialDodge();
+	void setHasJumpedAerialDodge(boolean b);
 }
