@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.EntityWaterRenderer;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.KKChestTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
@@ -166,4 +167,5 @@ public class ModEntities {
     public static final RegistryObject<TileEntityType<MagnetBloxTileEntity>> TYPE_MAGNET_BLOX = TILE_ENTITIES.register("magnet_blox", () -> TileEntityType.Builder.create(MagnetBloxTileEntity::new, ModBlocks.magnetBlox.get()).build(null));
     public static final RegistryObject<TileEntityType<PedestalTileEntity>> TYPE_PEDESTAL = TILE_ENTITIES.register("pedestal", () -> TileEntityType.Builder.create(PedestalTileEntity::new, ModBlocks.pedestal.get()).build(null));
     public static final RegistryObject<TileEntityType<KKChestTileEntity>> TYPE_KKCHEST = TILE_ENTITIES.register("kk_chest", () -> TileEntityType.Builder.create(KKChestTileEntity::new, ModBlocks.kkChest.get()).build(null));
+    public static final RegistryObject<TileEntityType<OrgPortalTileEntity>> TYPE_ORG_PORTAL = TILE_ENTITIES.register("org_portal", () -> TileEntityType.Builder.create(OrgPortalTileEntity::new, ModBlocks.orgPortal.get()).build(null));
 }

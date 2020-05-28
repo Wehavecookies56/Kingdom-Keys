@@ -85,7 +85,7 @@ public class KKChestBlock extends BaseBlock {
 //			setDefaultState(state.with(BIG, true));
 			if (worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof KKChestTileEntity) {
 				KKChestTileEntity te = (KKChestTileEntity) worldIn.getTileEntity(pos);
-				if (te.getKeyblade() == null || ItemStack.areItemStacksEqual(te.getKeyblade(), ItemStack.EMPTY)) { // No lock, lock it
+				if (te.getKeybladeName() == null || te.getKeybladeName().equals(null)) { // No lock, lock it
 					te.setKeyblade(player.getHeldItemMainhand());
 					te.markDirty();
 
@@ -94,7 +94,7 @@ public class KKChestBlock extends BaseBlock {
 					// player.openGui(KingdomKeys.instance, GuiIDs.GUI_KKCHEST_INV, world,
 					// pos.getX(), pos.getY(), pos.getZ());
 					return ActionResultType.SUCCESS;
-				} else if (te.getKeyblade() != null && !ItemStack.areItemStacksEqual(te.getKeyblade(), ItemStack.EMPTY) && te.getKeyblade().getItem() == player.getHeldItemMainhand().getItem()) { // Locked but you have th right keyblade
+				} else if (te.getKeybladeName() != null && te.getKeybladeName().equals(player.getHeldItemMainhand().getItem().getName().getFormattedText())) { // Locked but you have the right keyblade
 					// player.openGui(KingdomKeys.instance, GuiIDs.GUI_KKCHEST_INV, world,
 					// pos.getX(), pos.getY(), pos.getZ());
 					return ActionResultType.SUCCESS;

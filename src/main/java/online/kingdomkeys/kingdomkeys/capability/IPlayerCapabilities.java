@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.entity.player.PlayerEntity;
+import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 
 public interface IPlayerCapabilities {
 	int getLevel();
@@ -106,4 +107,8 @@ public interface IPlayerCapabilities {
 	void setAerialDodgeTicks(int ticks);
 	boolean hasJumpedAerialDodge();
 	void setHasJumpedAerialDodge(boolean b);
+	
+	
+	PortalCoords getPortalCoords(byte pID);
+    void setPortalCoords(byte pID, PortalCoords coords);
 }

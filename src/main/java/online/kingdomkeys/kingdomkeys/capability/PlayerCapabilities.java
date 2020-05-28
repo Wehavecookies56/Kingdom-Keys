@@ -16,6 +16,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
@@ -60,6 +61,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				forms.putInt(pair.getKey().toString(), pair.getValue());
 			}
 			props.put("drive_forms", forms);
+			
+			 for(byte i=0;i<3;i++) {
+				props.putByte("Portal"+i+"N", instance.getPortalCoords(i).getPID());
+            	props.putDouble("Portal"+i+"X", instance.getPortalCoords(i).getX());
+            	props.putDouble("Portal"+i+"Y", instance.getPortalCoords(i).getY());
+            	props.putDouble("Portal"+i+"Z", instance.getPortalCoords(i).getZ());
+            	props.putInt("Portal"+i+"D", instance.getPortalCoords(i).getDimID());
+            }
 
 			return props;
 		}
@@ -103,6 +112,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
 					instance.getDriveFormsMap().remove(key.toString());
 			}
+			
+			for(byte i=0;i<3;i++) {
+				instance.setPortalCoords(i,new PortalCoords(
+				properties.getByte("Portal"+i+"N"),
+        		properties.getDouble("Portal"+i+"X"),
+        		properties.getDouble("Portal"+i+"Y"),
+        		properties.getDouble("Portal"+i+"Z"),
+        		properties.getInt("Portal"+i+"D"))
+	            );
+            }
 		}
 	}
 
@@ -117,6 +136,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
 	private List<String> messages = new ArrayList<String>();
+	
+    private PortalCoords[] orgPortalCoords = {new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0)};
+
 
 	@Override
 	public int getLevel() {
@@ -921,6 +943,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		hasJumpedAerealDodge = b;
 	}
 
-	
+	@Override
+	public PortalCoords getPortalCoords(byte pID) {
+    	return orgPortalCoords[pID];
+	}
+
+	@Override
+	public void setPortalCoords(byte pID, PortalCoords coords) {
+		orgPortalCoords[pID] = coords;
+	}
 
 }
