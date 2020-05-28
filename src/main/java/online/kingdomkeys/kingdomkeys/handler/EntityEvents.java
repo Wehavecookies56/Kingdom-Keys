@@ -27,11 +27,13 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -170,10 +172,11 @@ public class EntityEvents {
 		}
 
 		if (props != null) {
-			//Final Form glide
-			handleGlide(player,props);
-			handleAerialDodge(player,props);
-			
+			// Drive Form abilities
+			if(props.getActiveDriveForm().equals(Strings.Form_Master))
+				handleAerialDodge(player, props);
+			if(props.getActiveDriveForm().equals(Strings.Form_Final))
+				handleGlide(player, props);
 
 			if (props.getReflectTicks() > 0) {
 				props.remReflectTicks(1);
@@ -215,10 +218,10 @@ public class EntityEvents {
 			}
 		}
 	}
-	
+
 	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities props) {
-		if(props.getAerialDodgeTicks() > 0) {
-			props.setAerialDodgeTicks(props.getAerialDodgeTicks()-1);
+		if (props.getAerialDodgeTicks() > 0) {
+			props.setAerialDodgeTicks(props.getAerialDodgeTicks() - 1);
 		} else {
 			if (player.onGround) {
 				props.setHasJumpedAerialDodge(false);
@@ -229,9 +232,9 @@ public class EntityEvents {
 						if (!props.hasJumpedAerialDodge()) {
 							props.setHasJumpedAerialDodge(true);
 							player.jump();
-							player.getMotion().mul(new Vec3d(0,1,0));// *= //Constants.MASTER_SECOND_JUMP[masterLevel - 2];
-							PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true,10));
-							//PacketDispatcher.sendToServer(new MasterFormPacket());
+							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[props.getDriveFormLevel(Strings.Form_Master)];
+							player.setMotion(player.getMotion().mul(new Vec3d(boost, boost, boost)));
+							PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true, 10));
 						}
 					}
 				}
@@ -241,36 +244,34 @@ public class EntityEvents {
 
 	private void handleGlide(PlayerEntity player, IPlayerCapabilities props) {
 		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
-			//if(player.ticksExisted % 5 == 0)
-				//System.out.println(Minecraft.getInstance().player.getDisplayName().getFormattedText()+": I see "+player.fallDistance+ " as "+player.getDisplayName().getFormattedText()+" Fall distance");
-			if(Minecraft.getInstance().player == player) {
-			if (!player.onGround && player.fallDistance > 0) {
-				if (Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown()) {
-					if (!props.getIsGliding()) {
-						props.setIsGliding(true);// Set props clientside
-						props.setAerialDodgeTicks(0);
-						PacketHandler.sendToServer(new PacketSetGliding(true)); // Set props serverside
-						PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true,0)); //In case the player is still rotating stop it
+			if (Minecraft.getInstance().player == player) { // Only the local player will send the packets
+				if (!player.onGround && player.fallDistance > 0) {
+					if (Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown()) {
+						if (!props.getIsGliding()) {
+							props.setIsGliding(true);// Set props clientside
+							props.setAerialDodgeTicks(0);
+							PacketHandler.sendToServer(new PacketSetGliding(true)); // Set props serverside
+							PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true, 0)); // In case the player is still rotating stop it
+						}
+					} else { // If is no longer pressing space
+						if (props.getIsGliding()) {
+							props.setIsGliding(false);
+							PacketHandler.sendToServer(new PacketSetGliding(false));
+						}
 					}
-				} else { // If is no longer pressing space
+				} else { // If touches the ground
 					if (props.getIsGliding()) {
 						props.setIsGliding(false);
 						PacketHandler.sendToServer(new PacketSetGliding(false));
+						PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(false, 0)); // In case the player is still rotating stop it
 					}
 				}
-			} else { // If touches the ground
-				if (props.getIsGliding()) {
-					props.setIsGliding(false);
-					PacketHandler.sendToServer(new PacketSetGliding(false));
-					PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(false,0)); //In case the player is still rotating stop it
-				}
-			}
 			}
 		}
 
 		if (props.getIsGliding()) {
 			player.setMotion(player.getMotion().x, -0.1, player.getMotion().z);
-		}		
+		}
 	}
 
 	// Prevent attack when stopped
@@ -291,10 +292,20 @@ public class EntityEvents {
 			}
 
 			if (gProps != null) {
+				PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
 				if (gProps.getStoppedTicks() > 0) {
 					float dmg = event.getAmount();
+					System.out.println(event.getSource());
 					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-						dmg = DamageCalculation.getStrengthDamage((PlayerEntity) event.getSource().getTrueSource());
+						if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+							dmg = DamageCalculation.getStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), (KeybladeItem) source.getHeldItemMainhand().getItem());
+						} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+							dmg = DamageCalculation.getStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), (KeybladeItem) source.getHeldItemOffhand().getItem());
+						}
+						if(dmg == 0) {
+							dmg = event.getAmount();
+						}
+						System.out.println(dmg);
 					}
 					gProps.addDamage((int) dmg);
 					event.setCanceled(true);

@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class DriveForm extends ForgeRegistryEntry<DriveForm> {
 												//Level 0-7 (0 unused)
+	public static final float[] MASTER_AERIAL_DODGE_BOOST = {0,1,1,1.2F,1.2F,1.4F,1.4F,1.6F};
 	public static final float[] FINAL_GLIDE = {0,-0.1F,-0.1F,-0.06F,-0.06F,-0.01F,-0.01F,-0.005F};
 	String name;
 	int cost;
