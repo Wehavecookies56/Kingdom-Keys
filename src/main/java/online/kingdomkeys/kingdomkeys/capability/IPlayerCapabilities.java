@@ -87,6 +87,7 @@ public interface IPlayerCapabilities {
 	Map<String,Integer> getDriveFormsMap();
 	void setDriveFormsMap(Map<String,Integer> map);
 	
+	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);
 	
 	List<String> getMagicsList();
@@ -96,4 +97,8 @@ public interface IPlayerCapabilities {
 	
 	int getAntiPoints();
 	void setAntiPoints(int points);
+	
+	//Drive forms
+	boolean getIsGliding();
+	void setIsGliding(boolean b);
 }

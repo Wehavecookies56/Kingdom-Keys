@@ -11,7 +11,8 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class DriveForm extends ForgeRegistryEntry<DriveForm> {
-
+												//Level 0-7 (0 unused)
+	public static final float[] FINAL_GLIDE = {0,-0.1F,-0.1F,-0.06F,-0.06F,-0.01F,-0.01F,-0.005F};
 	String name;
 	int cost;
 	int antiPoints;
@@ -63,7 +64,6 @@ public class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		props.setActiveDriveForm("");
 		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 		PacketHandler.syncToAllAround(player, props);
-
 	}
 
 }

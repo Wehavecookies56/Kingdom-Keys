@@ -26,6 +26,8 @@ public class PacketSyncCapabilityToAll {
 	
 	private double dp = 0, fp = 0;
 
+	private boolean isGliding = false;
+	
 	public PacketSyncCapabilityToAll() {
 	}
 
@@ -42,6 +44,7 @@ public class PacketSyncCapabilityToAll {
 		this.fp = capability.getFP();
 		this.dp = capability.getDP();
 		this.antipoints = capability.getAntiPoints();
+		this.isGliding = capability.getIsGliding();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -57,6 +60,8 @@ public class PacketSyncCapabilityToAll {
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
+		
+		buffer.writeBoolean(this.isGliding);
 	}
 
 	public static PacketSyncCapabilityToAll decode(PacketBuffer buffer) {
@@ -73,6 +78,8 @@ public class PacketSyncCapabilityToAll {
 		msg.dp = buffer.readDouble();
 		msg.fp = buffer.readDouble();
 		msg.antipoints = buffer.readInt();
+		
+		msg.isGliding = buffer.readBoolean();
 		return msg;
 	}
 
@@ -99,6 +106,8 @@ public class PacketSyncCapabilityToAll {
 				props.ifPresent(cap -> cap.setDP(message.dp));
 				props.ifPresent(cap -> cap.setFP(message.fp));
 				props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
+				
+				props.ifPresent(cap -> cap.setIsGliding(message.isGliding));
 			}
 		});
 		ctx.get().setPacketHandled(true);

@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -33,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.PacketSetGliding;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
 
@@ -87,7 +90,7 @@ public class EntityEvents {
 						PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) event.player);
 					}
 				}
-			}
+			}			
 		}
 
 		// Combat mode
@@ -118,6 +121,7 @@ public class EntityEvents {
 			isHostiles = false;
 		}
 	}
+	
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
@@ -165,7 +169,36 @@ public class EntityEvents {
 			}
 		}
 
+		
+		
+		
+		
 		if (props != null) {
+			if (player.world.isRemote) {
+				if (!player.onGround && player.getMotion().y < -0.1) {
+					if (KeyboardHelper.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+						if(!props.getIsGliding()) {
+							props.setIsGliding(true);
+							PacketHandler.sendToServer(new PacketSetGliding(true));
+						}
+					} else {
+						if(props.getIsGliding()) {
+							props.setIsGliding(false);
+							PacketHandler.sendToServer(new PacketSetGliding(false));
+						}
+					}
+				} else {
+					if(props.getIsGliding()) {
+						props.setIsGliding(false);
+						PacketHandler.sendToServer(new PacketSetGliding(false));
+					}
+				}
+			}
+
+			if (props.getIsGliding()) {
+				player.setMotion(player.getMotion().x, -0.1, player.getMotion().z);
+			}
+			
 			if (props.getReflectTicks() > 0) {
 				props.remReflectTicks(1);
 
@@ -204,6 +237,14 @@ public class EntityEvents {
 					props.setReflectActive(false); //Restart reflect
 				}
 			}
+			
+			/*if (player.world.isRemote) {
+				if (!player.onGround && player.getMotion().y < -0.1) {
+					if (KeyboardHelper.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+						player.setMotion(player.getMotion().x, -0.01, player.getMotion().z);
+					}
+				}
+			}*/
 		}
 
 	}

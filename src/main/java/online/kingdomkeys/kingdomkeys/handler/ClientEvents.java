@@ -1,13 +1,21 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.Base64;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class ClientEvents {
@@ -50,10 +58,9 @@ public class ClientEvents {
             player.prevRotationPitch += player.rotationPitch - f;
             player.prevRotationYaw += player.rotationYaw - f1;
 
-           /* if (player.ridingEntity != null)
-            {
-                player.ridingEntity.applyOrientationToEntity(player);
-            }*/
+            if (player.getRidingEntity() != null) {
+                player.getRidingEntity().applyOrientationToEntity(player);
+            }
 
 		}
 	}
@@ -71,6 +78,20 @@ public class ClientEvents {
 			} else {
 				yaw = event.getEntityLiving().rotationYaw;
 				pitch = event.getEntityLiving().rotationPitch;
+			}
+		}		
+		
+	}
+	
+	@SubscribeEvent
+	public void RenderEntity(RenderLivingEvent.Pre event) {
+		if(event.getEntity() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getEntity();
+			IPlayerCapabilities props = ModCapabilities.get(player);
+			if(props.getIsGliding()) {
+				event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
+				event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
+				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
 			}
 		}
 	}

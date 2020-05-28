@@ -1,6 +1,14 @@
 package online.kingdomkeys.kingdomkeys;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -42,12 +50,6 @@ import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
 import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -123,8 +125,7 @@ public class KingdomKeys {
 		addMoogleHouse();
 	}
 
-	public void addMoogleHouse()
-	{
+	public void addMoogleHouse() {
 		List v = new ArrayList();
 		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_plains"),2)));
 		List s = new ArrayList();

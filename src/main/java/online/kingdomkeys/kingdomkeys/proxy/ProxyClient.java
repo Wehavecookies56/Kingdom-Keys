@@ -30,8 +30,6 @@ public class ProxyClient implements IProxy {
     @Override
     public void setup(FMLCommonSetupEvent event) {
 
-       // ((KeybladeItem)ModItems.kingdomKey).getProperties().setTEISR(()->()->new KeybladeRenderer());
-
         /*if (ClientConfig.CORSAIR_KEYBOARD_LIGHTING) {
             keyboardManager = new KeyboardManager();
             MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
@@ -66,7 +64,8 @@ public class ProxyClient implements IProxy {
             ClientRegistry.registerKeyBinding(key.getKeybind());
 
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
-		
+		MinecraftForge.EVENT_BUS.register(new ClientEvents());
+
         RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.kkChest.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
@@ -76,7 +75,6 @@ public class ProxyClient implements IProxy {
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
-		MinecraftForge.EVENT_BUS.register(new ClientEvents());
         ModContainers.registerGUIFactories();
     }
 

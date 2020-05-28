@@ -114,7 +114,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300, fp=0;
 	
-	private boolean recharge, reflectActive;
+	private boolean recharge, reflectActive, isGliding;
 
 	private List<String> messages = new ArrayList<String>();
 
@@ -884,6 +884,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setAntiPoints(int points) {
 		this.antipoints = points;
+	}
+
+	@Override
+	public int getDriveFormLevel(String name) {
+		return driveForms.get(name);
+	}
+
+	@Override
+	public boolean getIsGliding() {
+		return isGliding;
+	}
+
+	@Override
+	public void setIsGliding(boolean b) {
+		this.isGliding = b;
 	}
 
 	
