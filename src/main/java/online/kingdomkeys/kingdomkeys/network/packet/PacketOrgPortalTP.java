@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.worldgen.TeleporterOrgPortal;
@@ -43,8 +44,10 @@ public class PacketOrgPortalTP {
 	public static void handle(PacketOrgPortalTP message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-	    	//BlockPos pos = new BlockPos(message.x,message.y,message.z);
-	    	player.setPosition(message.x,message.y,message.z);
+	    	BlockPos pos = new BlockPos(message.x,message.y,message.z);
+	        
+	          	new TeleporterOrgPortal((ServerWorld) player.world).teleport(player, pos, message.dim);;	    
+	     //   player.setPosition(message.x,message.y,message.z);
 	    	//new TeleporterOrgPortal((ServerWorld) player.world).teleport(player, pos, message.dim);
 		});
 		ctx.get().setPacketHandled(true);

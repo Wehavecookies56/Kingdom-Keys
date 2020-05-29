@@ -60,10 +60,11 @@ public class GravityEntity extends ThrowableEntity {
 			this.remove();
 		}
 
-		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
-		if(ticksExisted > 2)
+		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
+		// getPosZ(), 1, 1, 0);
+		if (ticksExisted > 2)
 			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
-		
+
 		super.tick();
 	}
 
@@ -74,36 +75,36 @@ public class GravityEntity extends ThrowableEntity {
 		double X = getPosX();
 		double Y = getPosY();
 		double Z = getPosZ();
-		
-		 for (double x = X - radius; x <= X + radius; x+=freq) {
-            for (double y = Y; y <= Y + radius; y+=freq) {
-                for (double z = Z - radius; z <= Z + radius; z+=freq) {
-                    if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-                    	world.addParticle(ParticleTypes.DRAGON_BREATH, x, y+1, z, 0, 0, 0);
-                    }
-                }
-            }
-        }
+
+		for (double x = X - radius; x <= X + radius; x += freq) {
+			for (double y = Y; y <= Y + radius; y += freq) {
+				for (double z = Z - radius; z <= Z + radius; z += freq) {
+					if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
+						world.addParticle(ParticleTypes.DRAGON_BREATH, x, y + 1, z, 0, 0, 0);
+					}
+				}
+			}
+		}
 		if (!world.isRemote) {
 			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(player, getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
-	        if (!list.isEmpty()) {
-	            for (int i = 0; i < list.size(); i++) {
-	                Entity e = (Entity) list.get(i);
-	                if (e instanceof LivingEntity) {
-	                	IGlobalCapabilities gProps = ModCapabilities.getGlobal((LivingEntity) e);
+			if (!list.isEmpty()) {
+				for (int i = 0; i < list.size(); i++) {
+					Entity e = (Entity) list.get(i);
+					if (e instanceof LivingEntity) {
+						IGlobalCapabilities gProps = ModCapabilities.getGlobal((LivingEntity) e);
 						gProps.setFlatTicks(100); // Just in case it goes below (shouldn't happen)
-						
-						if (e instanceof LivingEntity) //This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
-							PacketHandler.syncToAllAround((LivingEntity)e, gProps);
-						
+
+						if (e instanceof LivingEntity) // This should sync the state of this entity (player or mob) to all the clients
+														// around to stop render it flat
+							PacketHandler.syncToAllAround((LivingEntity) e, gProps);
+
 						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 1);
-	                }
-	            }
-	        }
-	        
-	        remove();
-	        
-			
+					}
+				}
+			}
+
+			remove();
+
 		}
 	}
 

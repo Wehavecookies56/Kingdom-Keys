@@ -89,12 +89,12 @@ public class KKChestBlock extends BaseBlock {
 					te.setKeyblade(player.getHeldItemMainhand());
 					te.markDirty();
 
-					player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + "Set " + player.getHeldItemMainhand().getDisplayName().getFormattedText() + " as the keyblade to unlock the chest"));
+					player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + "Set " + te.getKeybladeName() + " as the keyblade to unlock the chest"));
 
 					// player.openGui(KingdomKeys.instance, GuiIDs.GUI_KKCHEST_INV, world,
 					// pos.getX(), pos.getY(), pos.getZ());
 					return ActionResultType.SUCCESS;
-				} else if (te.getKeybladeName() != null && te.getKeybladeName().equals(player.getHeldItemMainhand().getItem().getName().getFormattedText())) { // Locked but you have the right keyblade
+				} else if (te.getKeybladeName() != null && te.getKeybladeName().equals(player.getHeldItemMainhand().getItem().toString())) { // Locked but you have the right keyblade
 					// player.openGui(KingdomKeys.instance, GuiIDs.GUI_KKCHEST_INV, world,
 					// pos.getX(), pos.getY(), pos.getZ());
 					return ActionResultType.SUCCESS;

@@ -22,7 +22,7 @@ public class BounceBloxBlock extends BaseBlock {
 	// Negate fall damage when fallen on if the entity is not sneaking
 	@Override
 	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-		if (entityIn.isCrouching()) {
+		if (entityIn.isSneaking()) {
 			super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
 		} else {
 			entityIn.onLivingFall(fallDistance, 0.0F);
@@ -59,7 +59,7 @@ public class BounceBloxBlock extends BaseBlock {
 		}
 		super.onEntityWalk(worldIn, pos, entityIn);
 	}
-	
+
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		return collisionShape;
@@ -71,8 +71,8 @@ public class BounceBloxBlock extends BaseBlock {
 		double x = entity.getMotion().x;
 		double z = entity.getMotion().z;
 		float force = 1;
-		
-		if(entity instanceof LivingEntity && ((LivingEntity)entity).onGround) {
+
+		if (entity instanceof LivingEntity && ((LivingEntity) entity).onGround) {
 			force = 3;
 		}
 
@@ -81,14 +81,16 @@ public class BounceBloxBlock extends BaseBlock {
 		} else if (pos.north().equals(entity.getPosition()) || pos.north().down().equals(entity.getPosition())) {
 			z = -force;
 		}
-		
+
 		if (pos.east().equals(entity.getPosition()) || pos.east().down().equals(entity.getPosition())) {
 			x = force;
 		} else if (pos.west().equals(entity.getPosition()) || pos.west().down().equals(entity.getPosition())) {
 			x = -force;
 		}
-		
-		entity.setMotion(new Vec3d(x, entity.getMotion().getY(), z));
+
+		if (!entity.isSneaking()) {
+			entity.setMotion(new Vec3d(x, entity.getMotion().getY(), z));
+		}
 		super.onEntityCollision(state, world, pos, entity);
 	}
 }

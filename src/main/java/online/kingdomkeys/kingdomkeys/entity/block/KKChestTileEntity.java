@@ -14,7 +14,7 @@ public class KKChestTileEntity extends TileEntity {
 
 	// set by the block upon creation
 	public void setKeyblade(ItemStack keyblade) {
-		keybladeName = keyblade.getItem().getName().getFormattedText();
+		keybladeName = keyblade.getItem().toString();
 	}
 	
 	public String getKeybladeName() {
