@@ -109,6 +109,7 @@ public interface IPlayerCapabilities {
 	void setHasJumpedAerialDodge(boolean b);
 	
 	
+	List<PortalCoords> getPortalList();
 	PortalCoords getPortalCoords(byte pID);
     void setPortalCoords(byte pID, PortalCoords coords);
 }

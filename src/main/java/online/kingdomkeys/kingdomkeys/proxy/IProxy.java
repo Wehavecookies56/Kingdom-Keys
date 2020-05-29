@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 /**
@@ -8,5 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public interface IProxy {
     //Setup event for the proxy
     void setup(final FMLCommonSetupEvent event);
+
+	PlayerEntity getClientPlayer();
 
 }

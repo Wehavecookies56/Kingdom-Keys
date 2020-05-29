@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -17,7 +15,9 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 
 //TODO cleanup
@@ -103,6 +103,9 @@ public class CommandMenuGui extends Screen {
 		drawMagic(width, height);
 		drawItems(width, height);
 		drawDrive(width, height);
+		if (submenu == SUB_PORTALS) {
+			drawSubPortals(width, height);
+		}
 		if (submenu == SUB_MAGIC) {
 			drawSubMagic(width, height);
 		}
@@ -378,6 +381,66 @@ public class CommandMenuGui extends Screen {
 			}
 		}
 		GL11.glPopMatrix();
+	}
+	public void drawSubPortals(int width, int height) {
+		if (ModCapabilities.get(mc.player).getPortalList() != null && !ModCapabilities.get(mc.player).getPortalList().isEmpty()) {
+			// PORTAL TOP
+			GL11.glPushMatrix();
+			{
+				paintWithColorArray(portalMenuColor, (byte) alpha);
+				mc.textureManager.bindTexture(texture);
+				GL11.glTranslatef(5, (height - MENU_HEIGHT * scale * (ModCapabilities.get(mc.player).getPortalList().size() + 1)), 0);
+				GL11.glScalef(scale, scale, scale);
+				if (submenu == SUB_PORTALS) {
+					blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+					drawString(mc.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Portals_Title), 6, 4, 0xFFFFFF);
+				}
+			}
+			GL11.glPopMatrix();
+	
+			for (int i = 0; i < ModCapabilities.get(mc.player).getPortalList().size(); i++) {
+				GL11.glPushMatrix();
+				{
+					GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
+					int u;
+					int v;
+					int x;
+					x = (portalSelected == i) ? 10 : 5;
+	
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(x, (height - MENU_HEIGHT * scale * (ModCapabilities.get(mc.player).getPortalList().size() - i)), 0);
+					GL11.glScalef(scale, scale, scale);
+					if (submenu == SUB_PORTALS) {
+						v = 0;
+						paintWithColorArray(portalMenuColor, (byte) alpha);
+	
+						if (portalSelected == i) {
+							textX = 11;
+	
+							// Draw slot
+							blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+	
+							GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) alpha);
+	
+							// Draw Icon
+							blit(60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+	
+						} else { // Not selected
+							textX = 6;	
+							blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+						}
+						// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
+						// 0xFF9900;
+	
+						PortalCoords portal = ModCapabilities.get(mc.player).getPortalList().get(i);
+						// String magicName = Constants.getMagicName(magic, level);
+						drawString(mc.fontRenderer, Utils.translateToLocal(portal.getShortCoords() + ""), textX, 4, 0xFFFFFF);
+						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+					}
+				}
+				GL11.glPopMatrix();
+			}
+		}
 	}
 
 	private void drawSubDrive(int width, int height) {

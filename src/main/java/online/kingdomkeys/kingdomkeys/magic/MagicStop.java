@@ -10,7 +10,7 @@ import net.minecraft.util.Hand;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
 
 public class MagicStop extends Magic {
 	String name;

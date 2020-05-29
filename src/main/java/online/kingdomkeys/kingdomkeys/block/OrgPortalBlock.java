@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class OrgPortalBlock extends BaseBlock {
 
@@ -32,7 +33,7 @@ public class OrgPortalBlock extends BaseBlock {
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return ModEntities.TYPE_ORG_PORTAL.get().create();
+		return ModEntities.TYPE_ORG_PORTAL_TE.get().create();
 	}
 
 	@Override
@@ -63,6 +64,7 @@ public class OrgPortalBlock extends BaseBlock {
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now " + player.getDisplayName().getFormattedText()+ "'s portal " + (index + 1)));
 							ModCapabilities.get(player).setPortalCoords((byte) index, new PortalCoords((byte) index, pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
 							//TODO sync with the client
+							PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
 							//System.out.println(index + " " + player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getPortalCoords(index).getDimID());
 							//PacketDispatcher.sendTo(new SyncOrgXIIIData(player.getCapability(ModCapabilities.ORGANIZATION_XIII, null)), (EntityPlayerMP) player);
 						} else {
@@ -109,7 +111,7 @@ public class OrgPortalBlock extends BaseBlock {
 						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));
 					}
 
-					//PacketDispatcher.sendTo(new SyncOrgXIIIData(player.getCapability(ModCapabilities.ORGANIZATION_XIII, null)), (EntityPlayerMP) player);
+					PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
 				}
 			}
 		}

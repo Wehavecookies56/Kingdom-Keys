@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network;
+package online.kingdomkeys.kingdomkeys.network.packet;
 
 import java.util.ArrayList;
 import java.util.HashMap;

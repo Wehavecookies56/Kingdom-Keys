@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network;
+package online.kingdomkeys.kingdomkeys.network.packet;
 
 import java.util.function.Supplier;
 
@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class PacketSyncCapabilityToAllFromClient {
 	//Packet to sync to all from client

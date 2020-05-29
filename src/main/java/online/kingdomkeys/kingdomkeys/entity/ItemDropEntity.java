@@ -20,7 +20,7 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 
 public abstract class ItemDropEntity extends Entity {
 	public int delayBeforeCanPickup;

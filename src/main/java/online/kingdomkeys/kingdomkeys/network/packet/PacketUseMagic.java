@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network;
+package online.kingdomkeys.kingdomkeys.network.packet;
 
 import java.util.function.Supplier;
 
@@ -10,6 +10,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class PacketUseMagic {
 	

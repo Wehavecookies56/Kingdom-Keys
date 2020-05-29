@@ -15,13 +15,18 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.network.PacketDispatcher;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
@@ -34,9 +39,10 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSetDriveForm;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncAllClientData;
-import online.kingdomkeys.kingdomkeys.network.PacketUseMagic;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSetDriveForm;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSpawnOrgPortal;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncAllClientData;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketUseMagic;
 
 public class InputHandler {
 
@@ -114,7 +120,7 @@ public class InputHandler {
             }
         }
         // InsidePortal
-        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
             if (CommandMenuGui.portalSelected > 0) {
                 CommandMenuGui.portalSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
@@ -123,7 +129,7 @@ public class InputHandler {
             }
         }
         // InsideAttacks
-        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
+        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
             if (CommandMenuGui.attackSelected > 0) {
                 CommandMenuGui.attackSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_ATTACKS;
@@ -205,20 +211,20 @@ public class InputHandler {
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
                 System.out.println("attack");
-                /*if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
+                //if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
                     // Submenu of the portals
                     if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                        if (!this.portalCommands.isEmpty() && !STATS.getRecharge()) {
+                        if (!this.portalCommands.isEmpty() && !props.getRecharge()) {
                             CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
                             CommandMenuGui.portalSelected = 0;
-                            world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
+                            world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         } else {
                             CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                            world.playSound(player, player.getPosition(), ModSounds.error, SoundCategory.MASTER, 1.0f, 1.0f);
+                            world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         }
                         return;
                     }
-                } else {
+              /*  } else {
                     // Attacks Submenu
                     if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                         if (!this.attackCommands.isEmpty() && !STATS.getRecharge()) {
@@ -342,24 +348,24 @@ public class InputHandler {
 
         // Portal Submenu
         if (CommandMenuGui.selected == CommandMenuGui.ATTACK && CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
-            /*if (this.portalCommands.isEmpty()) {
+            if (this.portalCommands.isEmpty()) {
             } else {
                 // ModDriveForms.getDriveForm(player, world, (String)
                 // this.driveCommands.get(CommandMenuGui.driveselected));
-                if (!player.getCapability(ModCapabilities.PLAYER_STATS, null).getRecharge()) {
+                if (!ModCapabilities.get(player).getRecharge()) {
                     PortalCoords coords = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
                     if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) {
                         // ValidPortal
                         summonPortal(player, coords);
                     } else {
-                        player.sendMessage(new TextComponentString(TextFormatting.RED + "You don't have any portal destination"));
+                        player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You don't have any portal destination"));
                     }
 
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                    world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 }
-            }*/
+            }
         }
 
         // Magic Submenu
@@ -410,7 +416,29 @@ public class InputHandler {
 
     }
 
-    public void commandBack() {
+    private void summonPortal(PlayerEntity player, PortalCoords coords) {
+		IPlayerCapabilities props = ModCapabilities.get(player);
+		BlockPos destination = new BlockPos(coords.getX(), coords.getY(), coords.getZ());
+
+		if (player.isSneaking()) {
+			PacketHandler.sendToServer(new PacketSpawnOrgPortal(player.getPosition(), destination, coords.getDimID()));
+			player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+		} else {
+			RayTraceResult rtr = InputHandler.getMouseOverExtended(100);
+			if (rtr != null && rtr instanceof BlockRayTraceResult) {
+				BlockRayTraceResult brtr = (BlockRayTraceResult)rtr;
+				double distanceSq = player.getDistanceSq(brtr.getPos().getX(), brtr.getPos().getY(), brtr.getPos().getZ());
+				double reachSq = 100 * 100;
+				if (reachSq >= distanceSq) {
+					PacketHandler.sendToServer(new PacketSpawnOrgPortal(brtr.getPos().up(), destination, coords.getDimID()));
+					player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				}
+
+			}
+		}
+	}
+
+	public void commandBack() {
     	Minecraft mc = Minecraft.getInstance();
     	mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         PlayerEntity player = mc.player;
@@ -663,17 +691,10 @@ public class InputHandler {
         Minecraft mc = Minecraft.getInstance();
         this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
         this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
+        this.portalCommands = ModCapabilities.get(mc.player).getPortalList();
+        
 
-        /*this.portalCommands.clear();
-        for (byte i = 0; i < 3; i++) {
-            PortalCoords coords = player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getPortalCoords(i);
-            if (!(coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)) {
-                this.portalCommands.add(coords);
-                // System.out.println(i+" Added portal: "+coords.getPID());
-            }
-        }
-
-        this.attackCommands.clear();
+        /* this.attackCommands.clear();
         IAbilities ABILITIES = player.getCapability(ModCapabilities.ABILITIES, null);
         // for (int i = 0; i < ABILITIES.getEquippedAbilities().size(); i++) {
         for (Ability ability : ABILITIES.getEquippedAbilities()) {

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network;
+package online.kingdomkeys.kingdomkeys.network.packet;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 
 public class PacketSyncCapabilityToAll {
 
@@ -29,6 +30,9 @@ public class PacketSyncCapabilityToAll {
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
 	
+    PortalCoords[] orgPortalCoords = {new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0)};
+
+	
 	public PacketSyncCapabilityToAll() {
 	}
 
@@ -45,6 +49,10 @@ public class PacketSyncCapabilityToAll {
 		this.fp = capability.getFP();
 		this.dp = capability.getDP();
 		this.antipoints = capability.getAntiPoints();
+		
+        for(byte i=0;i<3;i++) {
+        	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
+        }
 		
 		this.isGliding = capability.getIsGliding();
 		this.aerialDodgeTicks = capability.getAerialDodgeTicks();
@@ -65,6 +73,15 @@ public class PacketSyncCapabilityToAll {
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
 		
+		
+		for(byte i=0;i<3;i++) {
+        	buffer.writeByte(this.orgPortalCoords[i].getPID());
+        	buffer.writeDouble(this.orgPortalCoords[i].getX());
+        	buffer.writeDouble(this.orgPortalCoords[i].getY());
+        	buffer.writeDouble(this.orgPortalCoords[i].getZ());
+        	buffer.writeInt(this.orgPortalCoords[i].getDimID());
+        }
+		
 		buffer.writeBoolean(this.isGliding);
 		buffer.writeInt(this.aerialDodgeTicks);
 		buffer.writeBoolean(this.hasJumpedAD);
@@ -84,6 +101,14 @@ public class PacketSyncCapabilityToAll {
 		msg.dp = buffer.readDouble();
 		msg.fp = buffer.readDouble();
 		msg.antipoints = buffer.readInt();
+		
+		for(byte i=0;i<3;i++) {
+    		msg.orgPortalCoords[i].setPID(buffer.readByte());
+    		msg.orgPortalCoords[i].setX(buffer.readDouble());
+    		msg.orgPortalCoords[i].setY(buffer.readDouble());
+    		msg.orgPortalCoords[i].setZ(buffer.readDouble());
+    		msg.orgPortalCoords[i].setDimID(buffer.readInt());
+        }
 		
 		msg.isGliding = buffer.readBoolean();
 		msg.aerialDodgeTicks = buffer.readInt();
@@ -114,6 +139,10 @@ public class PacketSyncCapabilityToAll {
 				props.ifPresent(cap -> cap.setDP(message.dp));
 				props.ifPresent(cap -> cap.setFP(message.fp));
 				props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
+				
+				props.ifPresent(cap -> cap.setPortalCoords((byte)0, message.orgPortalCoords[0]));
+				props.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));
+				props.ifPresent(cap -> cap.setPortalCoords((byte)2, message.orgPortalCoords[2]));
 				
 				props.ifPresent(cap -> cap.setIsGliding(message.isGliding));
 				props.ifPresent(cap -> cap.setAerialDodgeTicks(message.aerialDodgeTicks));

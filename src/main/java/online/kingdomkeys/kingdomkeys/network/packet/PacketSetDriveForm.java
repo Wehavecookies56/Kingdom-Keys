@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network;
+package online.kingdomkeys.kingdomkeys.network.packet;
 
 import java.util.function.Supplier;
 
@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class PacketSetDriveForm {
 

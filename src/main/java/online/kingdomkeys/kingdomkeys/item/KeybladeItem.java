@@ -30,8 +30,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.network.PacketAttackOffhand;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketAttackOffhand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 
 public class KeybladeItem extends SwordItem {

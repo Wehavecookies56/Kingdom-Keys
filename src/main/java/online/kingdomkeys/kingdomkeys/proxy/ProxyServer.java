@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
+
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
@@ -18,4 +20,9 @@ public class ProxyServer implements IProxy {
 
 
     }
+
+	@Override
+	public PlayerEntity getClientPlayer() {
+		return null;
+	}
 }

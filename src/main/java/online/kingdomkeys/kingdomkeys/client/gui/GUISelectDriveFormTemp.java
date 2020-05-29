@@ -10,7 +10,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSetDriveForm;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSetDriveForm;
 
 public class GUISelectDriveFormTemp extends Screen{
 

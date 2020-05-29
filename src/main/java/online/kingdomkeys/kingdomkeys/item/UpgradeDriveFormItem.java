@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 
 public class UpgradeDriveFormItem extends Item {
 	String formName;

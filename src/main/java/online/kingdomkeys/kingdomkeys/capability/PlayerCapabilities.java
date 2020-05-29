@@ -19,8 +19,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
-import online.kingdomkeys.kingdomkeys.network.ShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.ShowOverlayPacket;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -951,6 +951,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setPortalCoords(byte pID, PortalCoords coords) {
 		orgPortalCoords[pID] = coords;
+	}
+
+	@Override
+	public List<PortalCoords> getPortalList() {
+		List<PortalCoords> list = new ArrayList<PortalCoords>();
+		for (byte i = 0; i < 3; i++) {
+            PortalCoords coords = getPortalCoords(i);
+            if (!(coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)) {
+                list.add(coords);
+                // System.out.println(i+" Added portal: "+coords.getPID());
+            }
+        }
+		return list;
 	}
 
 }

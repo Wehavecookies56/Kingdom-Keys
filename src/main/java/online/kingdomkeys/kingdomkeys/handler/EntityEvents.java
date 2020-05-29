@@ -37,10 +37,10 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.PacketSetAerialDodgeTicks;
-import online.kingdomkeys.kingdomkeys.network.PacketSetGliding;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncCapability;
-import online.kingdomkeys.kingdomkeys.network.PacketSyncGlobalCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSetAerialDodgeTicks;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSetGliding;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
 
 public class EntityEvents {
 

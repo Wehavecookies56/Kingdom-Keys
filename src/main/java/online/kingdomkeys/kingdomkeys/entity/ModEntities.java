@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.GigaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MegaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MoogleRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.OrgPortalEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowGlobRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRenderer;
@@ -80,6 +81,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
     //public static final RegistryObject<EntityType<StopEntity>> TYPE_STOP = createEntityType(StopEntity::new, StopEntity::new, EntityClassification.MISC,"entity_stop", 0.5F, 0.5F);
     
+    public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, EntityClassification.MISC,"entity_org_portal", 0.5F, 0.5F);
     //Mobs
     // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.CREATURE, "moogle", 0.6F, 1.5F);
@@ -159,6 +161,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LARGE_BODY.get(), LargeBodyRenderer.FACTORY);
         
         ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), TESRPedestal::new);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer.FACTORY);
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);
@@ -167,5 +170,5 @@ public class ModEntities {
     public static final RegistryObject<TileEntityType<MagnetBloxTileEntity>> TYPE_MAGNET_BLOX = TILE_ENTITIES.register("magnet_blox", () -> TileEntityType.Builder.create(MagnetBloxTileEntity::new, ModBlocks.magnetBlox.get()).build(null));
     public static final RegistryObject<TileEntityType<PedestalTileEntity>> TYPE_PEDESTAL = TILE_ENTITIES.register("pedestal", () -> TileEntityType.Builder.create(PedestalTileEntity::new, ModBlocks.pedestal.get()).build(null));
     public static final RegistryObject<TileEntityType<KKChestTileEntity>> TYPE_KKCHEST = TILE_ENTITIES.register("kk_chest", () -> TileEntityType.Builder.create(KKChestTileEntity::new, ModBlocks.kkChest.get()).build(null));
-    public static final RegistryObject<TileEntityType<OrgPortalTileEntity>> TYPE_ORG_PORTAL = TILE_ENTITIES.register("org_portal", () -> TileEntityType.Builder.create(OrgPortalTileEntity::new, ModBlocks.orgPortal.get()).build(null));
+    public static final RegistryObject<TileEntityType<OrgPortalTileEntity>> TYPE_ORG_PORTAL_TE = TILE_ENTITIES.register("org_portal", () -> TileEntityType.Builder.create(OrgPortalTileEntity::new, ModBlocks.orgPortal.get()).build(null));
 }

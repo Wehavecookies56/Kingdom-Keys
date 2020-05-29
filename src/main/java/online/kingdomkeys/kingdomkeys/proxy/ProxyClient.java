@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -77,5 +78,10 @@ public class ProxyClient implements IProxy {
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
         ModContainers.registerGUIFactories();
     }
+
+	@Override
+	public PlayerEntity getClientPlayer() {
+		return Minecraft.getInstance().player;
+	}
 
 }

@@ -11,7 +11,7 @@ public class OrgPortalTileEntity extends TileEntity {
 	UUID ownerName;
 
 	public OrgPortalTileEntity() {
-		super(ModEntities.TYPE_ORG_PORTAL.get());
+		super(ModEntities.TYPE_ORG_PORTAL_TE.get());
 	}
 
 	@Override
