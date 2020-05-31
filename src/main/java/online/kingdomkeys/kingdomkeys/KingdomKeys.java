@@ -113,7 +113,6 @@ public class KingdomKeys {
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
 		MinecraftForge.EVENT_BUS.register(new CapabilityEventsHandler());
-		MinecraftForge.EVENT_BUS.register(new DriveForm());
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {

@@ -85,14 +85,18 @@ public interface IPlayerCapabilities {
 	void setMunny(int amount);
 	int getMunny();
 	
+	void displayDriveFormLevelUpMessage(PlayerEntity player, String driveForm);
+    void clearDFMessages();
+	void setDFMessages(List<String> messages);
+	List<String> getDFMessages();
+	
 	Map<String, int[]> getDriveFormsMap();
 	void setDriveFormsMap(Map<String,int[]> map);
-	void displayLevelUpMessage(PlayerEntity player, String driveForm);
 
 	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);
     int getDriveFormExp(String drive);
-    void setDriveFormExp(String drive, int exp);
+    void setDriveFormExp(PlayerEntity player, String drive, int exp);
 
 	
 	List<String> getMagicsList();

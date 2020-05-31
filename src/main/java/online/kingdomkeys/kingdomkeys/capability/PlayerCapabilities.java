@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.packet.ShowOverlayPacket;
@@ -135,6 +136,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
 	private List<String> messages = new ArrayList<String>();
+	private List<String> dfMessages = new ArrayList<String>();
 
 	private PortalCoords[] orgPortalCoords = { new PortalCoords((byte) 0, 0, 0, 0, 0), new PortalCoords((byte) 0, 0, 0, 0, 0), new PortalCoords((byte) 0, 0, 0, 0, 0) };
 
@@ -236,6 +238,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void clearMessages() {
 		this.getMessages().clear();
+	}
+	
+	@Override
+	public List<String> getDFMessages() {
+		return this.dfMessages;
+	}
+
+	@Override
+	public void clearDFMessages() {
+		this.getDFMessages().clear();
+	}
+	
+	@Override
+	public void setDFMessages(List<String> messages) {
+		this.dfMessages = messages;
 	}
 
 	@Override
@@ -784,7 +801,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addFP(double fp) {
-		this.fp += fp;
+		double max = (200 + Utils.getDriveFormLevel(getDriveFormsMap(), getActiveDriveForm()) * 100);
+		if(this.fp + fp > max) {
+			this.fp = max;
+		} else {
+			this.fp += fp;
+		}
 	}
 
 	@Override
@@ -864,8 +886,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setDriveFormLevel(String name, int level) {
-		int experience = ModDriveForms.registry.getValue(new ResourceLocation(name)).getLevelUpCost(level);
-		driveForms.put(name, new int[] {level, experience});
+		if(level <= ModDriveForms.registry.getValue(new ResourceLocation(name)).getMaxLevel()) {
+			int experience = ModDriveForms.registry.getValue(new ResourceLocation(name)).getLevelUpCost(level);
+			driveForms.put(name, new int[] {level, experience});
+		}
 	}
 
 	@Override
@@ -874,9 +898,40 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void setDriveFormExp(String name, int exp) {
+	public void setDriveFormExp(PlayerEntity player, String name, int exp) {
+		int oldLevel = getDriveFormLevel(name);
 		int driveLevel = ModDriveForms.registry.getValue(new ResourceLocation(name)).getLevelFromExp(exp);
-		driveForms.put(name, new int[] {driveLevel, exp});
+		if(driveLevel <= ModDriveForms.registry.getValue(new ResourceLocation(name)).getMaxLevel()) {
+			driveForms.put(name, new int[] {driveLevel, exp});
+			if(driveLevel > oldLevel) {
+				displayDriveFormLevelUpMessage(player, name);
+				PacketHandler.sendTo(new PacketSyncCapability(this), (ServerPlayerEntity)player);
+			}
+		}
+	}
+	
+	@Override
+    public void displayDriveFormLevelUpMessage(PlayerEntity player, String driveForm) { 
+     	this.getMessages().clear();
+     	this.getDFMessages().clear();
+     	
+     	dfMessages.add(Strings.Stats_LevelUp_FormGauge);
+     	String dfAbility = ModDriveForms.registry.getValue(new ResourceLocation(getActiveDriveForm())).getDFAbilityForLevel(getDriveFormLevel(driveForm));
+     	String bfAbility = ModDriveForms.registry.getValue(new ResourceLocation(getActiveDriveForm())).getBaseAbilityForLevel(getDriveFormLevel(driveForm));
+
+     	if(!dfAbility.equals("")) {
+     		dfMessages.add(dfAbility);
+     	}
+     	
+     	if(!bfAbility.equals("")) {
+     		messages.add(bfAbility);
+     	}
+
+		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
+		// TODO Actually add abilities and then syncing
+		// PacketDispatcher.sendTo(new SyncDriveData(player.getCapability(ModCapabilities.DRIVE_STATE, null)), (EntityPlayerMP) player);
+		
+		PacketHandler.sendTo(new ShowOverlayPacket("drivelevelup", driveForm), (ServerPlayerEntity) player);
 	}
 
 	@Override
@@ -965,5 +1020,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		return list;
 	}
+
+	
 
 }

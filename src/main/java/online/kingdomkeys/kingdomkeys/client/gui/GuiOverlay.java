@@ -32,7 +32,7 @@ public class GuiOverlay extends Screen {
 	public static boolean showLevelUp;
 	public static boolean showDriveLevelUp;
 	//public static WorldTeleporter teleport;
-	public static String driveForm = "none";
+	public static String driveForm = "";
 	public static long timeExp;
 	public static long timeMunny;
 	public static long timeLevelUp;
@@ -44,7 +44,7 @@ public class GuiOverlay extends Screen {
 	int sHeight;
 
 	Minecraft mc;
-	IPlayerCapabilities STATS;
+	IPlayerCapabilities props;
 
 
 	@SubscribeEvent
@@ -56,8 +56,7 @@ public class GuiOverlay extends Screen {
 			width = mc.getMainWindow().getScaledWidth();
 			sHeight = mc.getMainWindow().getScaledHeight();
 
-			STATS = ModCapabilities.get(mc.player);
-			//DRIVE = mc.player.getCapability(ModCapabilities.DRIVE_STATE, null);
+			props = ModCapabilities.get(mc.player);
 
 			// Experience
 			if (showExp) {
@@ -76,7 +75,7 @@ public class GuiOverlay extends Screen {
 
 			// Drive form level up
 			if (showDriveLevelUp) {
-				//showDriveLevelUp(event);
+				showDriveLevelUp(event);
 			}
 			
 			/*if(teleport != null) {
@@ -97,7 +96,7 @@ public class GuiOverlay extends Screen {
 	}*/
 
 	private void showExp() {
-		String reqExp = String.valueOf(STATS.getExpNeeded(STATS.getLevel(), STATS.getExperience()));
+		String reqExp = String.valueOf(props.getExpNeeded(props.getLevel(), props.getExperience()));
 		mc.fontRenderer.drawString("Next LV", 5, 5, 0xFFFFFF);
 		mc.fontRenderer.drawString(reqExp, 5, 5 + mc.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
 		//System.out.println("\nStart time: "+timeExp+"\nActual time:"+System.currentTimeMillis()/1000+"\nEnd Time:   "+(timeExp + 4));
@@ -125,7 +124,7 @@ public class GuiOverlay extends Screen {
 		ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
 		GL11.glPushMatrix();
 		{
-			int height = (mc.fontRenderer.FONT_HEIGHT - 3) * STATS.getMessages().size();
+			int height = (mc.fontRenderer.FONT_HEIGHT - 3) * props.getMessages().size();
 			GL11.glEnable(GL11.GL_BLEND);
 			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
 			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
@@ -143,7 +142,7 @@ public class GuiOverlay extends Screen {
 //			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((mc.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
 			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((mc.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
 			showText("LV.", width - ((mc.fontRenderer.getStringWidth("LV. ")) * 0.75f) - 90, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-			showText("" + STATS.getLevel(), width - 256.0f * 0.75f + ((mc.fontRenderer.getStringWidth("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+			showText("" + props.getLevel(), width - 256.0f * 0.75f + ((mc.fontRenderer.getStringWidth("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 			showText(mc.player.getDisplayName().getString(), width - ((mc.fontRenderer.getStringWidth(mc.player.getDisplayName().getString())) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 
 			// Half
@@ -176,8 +175,8 @@ public class GuiOverlay extends Screen {
 			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
 			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
 			//System.out.println(STATS.getMessages());
-			for (int i = 0; i < STATS.getMessages().size(); i++) {
-				String message = STATS.getMessages().get(i).toString();
+			for (int i = 0; i < props.getMessages().size(); i++) {
+				String message = props.getMessages().get(i).toString();
 				showText(Utils.translateToLocal(message), (width - 256.0f * 0.8f + (mc.fontRenderer.getStringWidth("Maximum HP Increased!")) * 0.8f) - 35, mc.fontRenderer.FONT_HEIGHT * 0.8f * i + 23, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
 			GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
@@ -188,66 +187,146 @@ public class GuiOverlay extends Screen {
 			showLevelUp = false;
 	}
 
-	/*private void showDriveLevelUp(RenderGameOverlayEvent event) {
-		byte[] driveColor = getDriveFormColor();
+	private void showDriveLevelUp(RenderGameOverlayEvent event) {
+		byte[] driveColor = getDriveFormColor(); //TODO set color in the registry
 
 		ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
 
 		GL11.glPushMatrix();
 		{
-			int height = (mc.fontRenderer.FONT_HEIGHT - 3) * DRIVE.getMessages().size();
+			int heightBase = (mc.fontRenderer.FONT_HEIGHT - 3) * (props.getMessages().size()+0);
+			int heightDF = (mc.fontRenderer.FONT_HEIGHT - 3) * props.getDFMessages().size();
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-
-			// Top
-			mc.renderEngine.bindTexture(texture);
+//Base Abilities
 			GL11.glPushMatrix();
 			{
-				GL11.glTranslatef(2, sHeight / 3, 0);
-				GL11.glScalef(0.6f, 0.6f, 1);
-				drawTexturedModalRect(0, 0, 0, 0, 256, 36);
+				// Top
+				mc.textureManager.bindTexture(texture);
+				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
+				GL11.glPushMatrix();
+				{
+					GL11.glTranslatef(2, sHeight / 3, 0);
+					GL11.glScalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 51, 256, 36);
+				}
+				GL11.glPopMatrix();
+	
+				showText(mc.player.getDisplayName().getFormattedText(), 140 - (mc.fontRenderer.getStringWidth(mc.player.getDisplayName().getFormattedText()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+	
+				// Half
+				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
+				GL11.glPushMatrix();
+				{
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(2, sHeight / 3 + 21, 0);
+					GL11.glScalef(0.6f, heightBase+1, 1);
+					blit(0, 0, 0, 51+36, 256, 1);
+				}
+				GL11.glPopMatrix();
+	
+				// Text
+				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
+				for (int i = 0; i < props.getMessages().size(); i++) {
+					String message = props.getMessages().get(i).toString();
+					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + mc.fontRenderer.FONT_HEIGHT * 1.1F * i + 21, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
+				}
+				
+				// Bottom
+				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
+				GL11.glPushMatrix();
+				{
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(2, sHeight / 3 + 22 + heightBase, 0);
+					GL11.glScalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 51+37, 244, 14);
+				}
+				GL11.glPopMatrix();
+				
+				// Icon
+				GL11.glColor4ub((byte) 200,(byte) 200,(byte) 200, (byte) 255);
+				GL11.glPushMatrix();
+				{
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(4.5F, sHeight / 3+6, 0);
+					GL11.glScalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 102, 43, 36);
+				}
+				GL11.glPopMatrix();
 			}
 			GL11.glPopMatrix();
-
-			showText("LEVEL UP!", 6, sHeight / 3 + 5, 0, 0.75F, 0.75F, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
-			showText("LV.", 2 + (mc.fontRenderer.getStringWidth("LV. ") * 0.75f) + 38, sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-			showText("" + DRIVE.getDriveLevel(driveForm), 2 * 0.75f + (mc.fontRenderer.getStringWidth("999") * 0.75f) + 50, sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-			showText(Utils.translateToLocal(driveForm), 150 - (mc.fontRenderer.getStringWidth(Utils.translateToLocal(driveForm)) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-
-			// Half
-			GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
+			
+//Form Abilities
 			GL11.glPushMatrix();
 			{
-				mc.renderEngine.bindTexture(texture);
-				GL11.glTranslatef(2.0f * 0.6f + 1, sHeight / 3 + 36.0f * 0.6f, 0);
-				GL11.glScalef(0.6f, height, 1);
-				drawTexturedModalRect(0, 0, 0, 36, 256, 1);
+				// Top
+				mc.textureManager.bindTexture(texture);
+				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
+				GL11.glPushMatrix();
+				{
+					GL11.glTranslatef(2, sHeight / 3 + 29 + heightBase, 0);
+					GL11.glScalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 51, 256, 36);
+				}
+				GL11.glPopMatrix();
+	
+				//showText("LEVEL UP!", 6, sHeight / 3 + 29 + heightBase + 5, 0, 0.75F, 0.75F, 1,0xFFFFFF);//TODO Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
+				showText("LV.", 2 + (mc.fontRenderer.getStringWidth("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
+				showText("" + props.getDriveFormLevel(driveForm), 2 * 0.75f + (mc.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				showText(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1)), 140 - (mc.fontRenderer.getStringWidth(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1))) * 0.75f), sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				
+				// Half
+				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
+				GL11.glPushMatrix();
+				{
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(2, sHeight / 3 + 50 + heightBase, 0);
+					GL11.glScalef(0.6f, heightDF, 1);
+					blit(0, 0, 0, 51+36, 256, 1);
+				}
+				GL11.glPopMatrix();
+	
+				// Bottom
+				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
+				GL11.glPushMatrix();
+				{
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(2, sHeight / 3 + 50 + heightBase + heightDF, 0);
+
+					//GL11.glTranslatef(2, sHeight / 3 + heightDF + (36.0f * 0.6f), 0);
+					GL11.glScalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 51+37, 244, 14);
+				}
+				GL11.glPopMatrix();
+				
+				// Icon
+				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
+				GL11.glPushMatrix();
+				{
+					mc.textureManager.bindTexture(texture);
+					GL11.glTranslatef(4.5F, sHeight / 3 + 34 + heightBase, 0);
+					GL11.glScalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 102, 43, 36);
+				}
+				GL11.glPopMatrix();
+	
+				// Text
+				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
+				for (int i = 0; i < props.getDFMessages().size(); i++) {
+					String message = props.getDFMessages().get(i).toString();
+					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + mc.fontRenderer.FONT_HEIGHT * 1.1F * i + 54, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
+				}
+				GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
+			
 			}
 			GL11.glPopMatrix();
-
-			// Bottom
-			GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-			GL11.glPushMatrix();
-			{
-				mc.renderEngine.bindTexture(texture);
-				GL11.glTranslatef(2, sHeight / 3 + height + (36.0f * 0.6f), 0);
-				GL11.glScalef(0.6f, 0.6f, 1);
-				drawTexturedModalRect(0, 0, 0, 37, 256, 14);
-			}
-			GL11.glPopMatrix();
-
-			// Text
-			GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-			for (int i = 0; i < DRIVE.getMessages().size(); i++) {
-				String message = DRIVE.getMessages().get(i).toString();
-				showText(Utils.translateToLocalFormatted(message), 2 * 0.8f + 15, sHeight / 3 + mc.fontRenderer.FONT_HEIGHT * 0.8f * i + 21, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
-			}
-			GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
 		}
 		GL11.glPopMatrix();
-		if (timeDriveLevelUp + levelSeconds <= (int) Minecraft.getSystemTime() / 1000)
+		
+		if (System.currentTimeMillis()/1000 > (timeDriveLevelUp + levelSeconds))
 			showDriveLevelUp = false;
-	}*/
+
+	}
 
 	private void showText(String text, float tX, float tY, float tZ, float sX, float sY, float sZ, int color) {
 		GL11.glPushMatrix();

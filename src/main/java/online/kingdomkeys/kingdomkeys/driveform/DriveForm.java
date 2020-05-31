@@ -1,40 +1,28 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
-import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 
-public class DriveForm extends ForgeRegistryEntry<DriveForm> {
+public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	// Level 0-7 (0 unused)
 	public static final float[] MASTER_AERIAL_DODGE_BOOST = { 0, 1, 1, 1.2F, 1.2F, 1.4F, 1.4F, 1.6F };
 	public static final float[] FINAL_GLIDE = { 0, -0.1F, -0.1F, -0.06F, -0.06F, -0.01F, -0.01F, -0.005F };
 	String name;
 	int driveCost;
-	String growthAbility;
-	int antiPoints;
+	int ap;
 	int[] levelUpCosts;// {0,X,X,X,X,X,X}
-
-	public DriveForm() {}
+	int maxLevel;
 	
-	public DriveForm(String registryName, int cost, String growthAbility, int antiPoints, int[] levelUpCosts) {
+	public DriveForm(String registryName) {
 		this.name = registryName;
-		this.driveCost = cost;
-		this.growthAbility = growthAbility;
-		this.antiPoints = antiPoints;
-		this.levelUpCosts = levelUpCosts;
+		this.maxLevel = 7;
 		setRegistryName(registryName);
 	}
 
@@ -47,12 +35,16 @@ public class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	}
 
 	public int getFormAntiPoints() {
-		return antiPoints;
+		return ap;
 	}
 
 	public int[] getLevelUpCosts() {
 		return levelUpCosts;
 	}
+	
+	public abstract String getBaseAbilityForLevel(int driveFormLevel);
+	public abstract String getDFAbilityForLevel(int driveFormLevel); //TODO make the ability registry
+	
 
 	public int getLevelUpCost(int level) {
 		return levelUpCosts[level-1];
@@ -64,11 +56,11 @@ public class DriveForm extends ForgeRegistryEntry<DriveForm> {
 				return i;
 			}
 		}
-		return -1;
+		return getMaxLevel();
 	}
 	
-	public String getGrowthAbility() {
-		return growthAbility;
+	public int getMaxLevel() {
+		return maxLevel;
 	}
 
 	public void initDrive(PlayerEntity player) {
@@ -86,7 +78,7 @@ public class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public void updateDrive(PlayerEntity player) {
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		if (props.getFP() > 0) {
-			props.setFP(props.getFP() - 1);
+			props.setFP(props.getFP() - 0.4);
 		} else {
 			endDrive(player);
 		}
@@ -100,56 +92,5 @@ public class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 		PacketHandler.syncToAllAround(player, props);
 	}
-
-	
-	@SubscribeEvent
-	public void getValorFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().world.isRemote) { //TODO Check the target is hostile
-			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-				IPlayerCapabilities props = ModCapabilities.get(player);
-
-				if (props.getActiveDriveForm().equals(Strings.Form_Valor)) {
-					props.setDriveFormExp(props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
-					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
-				}
-			}
-		}
-	}
-	@SubscribeEvent
-	public void getFinalFormXP(LivingDeathEvent event) {
-		if (!event.getEntity().world.isRemote && event.getEntity() instanceof EndermanEntity) {
-			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-				IPlayerCapabilities props = ModCapabilities.get(player);
-
-				if (props.getActiveDriveForm().equals(Strings.Form_Final)) {
-					props.setDriveFormExp(props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
-
-					/*int[] costs = DriveFormRegistry.get(DRIVE.getActiveDriveName()).getExpCosts();
-					int actualLevel = DRIVE.getDriveLevel(DRIVE.getActiveDriveName());
-					int actualExp = DRIVE.getDriveExp(DRIVE.getActiveDriveName());
-
-					if (costs.length == 7 && actualLevel < 7) {
-						if (actualExp >= costs[actualLevel]) {
-							DRIVE.setDriveLevel(DRIVE.getActiveDriveName(), actualLevel + 1);
-							if (DRIVE.getDriveLevel(Strings.Form_Final) == 3)
-								player.getCapability(ModCapabilities.ABILITIES, null).unlockAbility(ModAbilities.glide);
-							DRIVE.displayLevelUpMessage(player, DRIVE.getActiveDriveName());
-
-							if (actualLevel + 1 == 7) {
-								DRIVE.setDriveGaugeLevel(DRIVE.getDriveGaugeLevel() + 1);
-								DRIVE.setDP(DRIVE.getMaxDP());
-							}
-						}
-					}
-					PacketDispatcher.sendTo(new SyncDriveData(DRIVE), (EntityPlayerMP) player);
-					PacketDispatcher.sendTo(new SyncUnlockedAbilities(player.getCapability(ModCapabilities.ABILITIES, null)), (EntityPlayerMP) player);*/
-				}
-			}
-		}
-	}
-
-	
 
 }

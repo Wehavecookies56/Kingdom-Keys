@@ -31,7 +31,7 @@ public class PacketSyncCapability {
 	
 	private boolean recharge;
 
-	List<String> messages;
+	List<String> messages, dfMessages;
 	
 	List<String> magicList = new ArrayList<String>();
 	Map<String,int[]> driveFormsMap = new HashMap<String,int[]>();
@@ -64,6 +64,7 @@ public class PacketSyncCapability {
 		this.driveFormsMap = capability.getDriveFormsMap();
 		
 		this.messages = capability.getMessages();
+		this.dfMessages = capability.getDFMessages();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -86,30 +87,33 @@ public class PacketSyncCapability {
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
 		buffer.writeInt(this.munny);
-		
 
 		CompoundNBT magics = new CompoundNBT();
 		Iterator<String> magicsIt = magicList.iterator();
 		while (magicsIt.hasNext()) {
 			String m = magicsIt.next();
-			//System.out.println("WritePacket: "+m);
 			magics.putInt(m, 1);
 		}
 		buffer.writeCompoundTag(magics);
-
 		
 		CompoundNBT forms = new CompoundNBT();
 		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormsMap.entrySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
-			//System.out.println("WritePacket: "+pair.getKey()+" "+pair.getValue());
 			forms.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(forms);
 
 		
+		buffer.writeInt(messages.size());
+		buffer.writeInt(dfMessages.size());
+
 		for (int i = 0; i < this.messages.size(); i++) {
 			buffer.writeString(this.messages.get(i));
+		}
+		
+		for (int i = 0; i < this.dfMessages.size(); i++) {
+			buffer.writeString(this.dfMessages.get(i));
 		}
 	}
 
@@ -158,11 +162,20 @@ public class PacketSyncCapability {
 				instance.getDriveFormsMap().remove(key.toString());*/
 		}
 		//System.out.println(msg.driveFormsMap);
-		msg.messages = new ArrayList<String>();
 		
-		while (buffer.isReadable()) {
+		int msgSize = buffer.readInt();
+		int dfMsgSize = buffer.readInt();
+		
+		msg.messages = new ArrayList<String>();
+		for(int i = 0;i<msgSize;i++) {
 			msg.messages.add(buffer.readString(100));
 		}
+		
+		msg.dfMessages = new ArrayList<String>();
+		for(int i = 0;i<dfMsgSize;i++) {
+			msg.dfMessages.add(buffer.readString(100));
+		}
+		
 		return msg;
 	}
 
@@ -182,9 +195,11 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setConsumedAP(message.ap));
 			props.ifPresent(cap -> cap.setMaxAP(message.maxAP));
 			props.ifPresent(cap -> cap.setDP(message.dp));
+			props.ifPresent(cap -> cap.setFP(message.fp));
 			props.ifPresent(cap -> cap.setMaxDP(message.maxDP));
 			props.ifPresent(cap -> cap.setMunny(message.munny));
 			props.ifPresent(cap -> cap.setMessages(message.messages));
+			props.ifPresent(cap -> cap.setDFMessages(message.dfMessages));
 			props.ifPresent(cap -> cap.setMagicsList(message.magicList));
 			props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
 			props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));

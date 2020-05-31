@@ -202,34 +202,6 @@ public abstract class ItemDropEntity extends Entity {
 	}
 
 	/**
-	 * Get a fragment of the maximum experience points value for the supplied value
-	 * of experience points value.
-	 */
-	/*public static int getXPSplit(int expValue) {
-		if (expValue >= 2477) {
-			return 2477;
-		} else if (expValue >= 1237) {
-			return 1237;
-		} else if (expValue >= 617) {
-			return 617;
-		} else if (expValue >= 307) {
-			return 307;
-		} else if (expValue >= 149) {
-			return 149;
-		} else if (expValue >= 73) {
-			return 73;
-		} else if (expValue >= 37) {
-			return 37;
-		} else if (expValue >= 17) {
-			return 17;
-		} else if (expValue >= 7) {
-			return 7;
-		} else {
-			return expValue >= 3 ? 3 : 1;
-		}
-	}
-*/
-	/**
 	 * Returns true if it's possible to attack this entity with an item.
 	 */
 	public boolean canBeAttackedWithItem() {

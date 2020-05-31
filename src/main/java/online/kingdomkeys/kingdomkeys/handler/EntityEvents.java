@@ -61,13 +61,9 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
-			Map<String, int[]> map = props.getDriveFormsMap();
-			if(map.containsKey(Strings.Form_Valor))
-				System.out.println(event.player.world.isRemote+": "+map.get(Strings.Form_Valor)[0]+"/"+map.get(Strings.Form_Valor)[1]);
-			// props.setMaxDP(900);
 			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
 				if (props.getFP() > 0) {
-					props.setFP(props.getFP() - 1);
+					props.setFP(props.getFP() - 0.4);
 				} else {
 					props.setActiveDriveForm("");
 					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);

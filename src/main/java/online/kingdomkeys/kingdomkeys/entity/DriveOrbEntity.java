@@ -3,12 +3,18 @@ package online.kingdomkeys.kingdomkeys.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 
 public class DriveOrbEntity extends ItemDropEntity {
 
@@ -28,7 +34,16 @@ public class DriveOrbEntity extends ItemDropEntity {
 	@Override
 	void onPickup(PlayerEntity player) {
 		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.addDP(value);
+		if(props.getActiveDriveForm().equals(""))
+			props.addDP(value);
+		else {
+			props.addFP(value);
+
+			if (props.getActiveDriveForm().equals(Strings.Form_Master)) {
+				props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + value/10);
+				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
+			}
+		}
 	}
 
 	@Override
