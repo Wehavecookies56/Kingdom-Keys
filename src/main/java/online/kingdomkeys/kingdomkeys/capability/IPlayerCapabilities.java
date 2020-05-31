@@ -85,11 +85,15 @@ public interface IPlayerCapabilities {
 	void setMunny(int amount);
 	int getMunny();
 	
-	Map<String,Integer> getDriveFormsMap();
-	void setDriveFormsMap(Map<String,Integer> map);
-	
+	Map<String, int[]> getDriveFormsMap();
+	void setDriveFormsMap(Map<String,int[]> map);
+	void displayLevelUpMessage(PlayerEntity player, String driveForm);
+
 	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);
+    int getDriveFormExp(String drive);
+    void setDriveFormExp(String drive, int exp);
+
 	
 	List<String> getMagicsList();
 	void setMagicsList(List<String> list);

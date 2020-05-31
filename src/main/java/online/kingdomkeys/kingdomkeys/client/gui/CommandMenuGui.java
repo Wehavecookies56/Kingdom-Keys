@@ -475,7 +475,7 @@ public class CommandMenuGui extends Screen {
 
 			for (int i = 0; i < props.getDriveFormsMap().size(); i++) {
 				String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
-				int cost = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getCost();
+				int cost = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getDriveCost();
 				int color = props.getDP() >= cost ? 0xFFFFFF : 0x888888;
 				formName = formName.substring(formName.indexOf(":") + 1);
 				

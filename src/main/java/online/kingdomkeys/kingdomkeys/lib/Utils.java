@@ -97,10 +97,10 @@ public class Utils {
 	}
 	
 	
-	public static int getDriveFormLevel(Map<String,Integer> map, String driveForm) {
+	public static int getDriveFormLevel(Map<String,int[]> map, String driveForm) {
 		if(driveForm.equals(Strings.Form_Anti))
 			return 7;
-		return map.get(driveForm);
+		return map.get(driveForm)[0];
 	}
 	/**
 	 *

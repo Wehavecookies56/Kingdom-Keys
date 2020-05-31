@@ -78,7 +78,7 @@ public class DriveGui extends Screen {
 				if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {//Antiform FP calculation
 					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 1000) * guiLength);
 				} else {
-					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 300 + (props.getDriveFormsMap().get(props.getActiveDriveForm()) * 100)) * guiLength);
+					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 300 + (props.getDriveFormsMap().get(props.getActiveDriveForm())[0] * 100)) * guiLength);
 				}
 			}
 

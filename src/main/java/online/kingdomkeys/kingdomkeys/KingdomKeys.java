@@ -35,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.CapabilityEventsHandler;
 import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
@@ -112,6 +113,7 @@ public class KingdomKeys {
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
 		MinecraftForge.EVENT_BUS.register(new CapabilityEventsHandler());
+		MinecraftForge.EVENT_BUS.register(new DriveForm());
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {

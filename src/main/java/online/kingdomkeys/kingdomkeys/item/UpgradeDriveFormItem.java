@@ -31,9 +31,11 @@ public class UpgradeDriveFormItem extends Item {
 		if (!world.isRemote) {
 			IPlayerCapabilities props = ModCapabilities.get(player);
 			if (props.getDriveFormsMap() != null) {
-				int level = props.getDriveFormsMap().containsKey(formName) ? props.getDriveFormsMap().get(formName) + 1 : 1;
-				props.setDriveFormLevel(formName, level);
-				PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+				int level = props.getDriveFormsMap().containsKey(formName) ? props.getDriveFormsMap().get(formName)[0] + 1 : 1;
+				if(level <=7) {
+					props.setDriveFormLevel(formName, level);
+					PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+				}
 			}
 		}
 		return ActionResult.resultSuccess(player.getHeldItem(hand));

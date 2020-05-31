@@ -26,7 +26,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.PacketDispatcher;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
@@ -47,7 +46,7 @@ import online.kingdomkeys.kingdomkeys.network.packet.PacketUseMagic;
 public class InputHandler {
 
     List<PortalCoords> portalCommands;
-    Map<String, Integer> driveFormsMap;
+    Map<String, int[]> driveFormsMap;
     List<String> magicsList;
 
     public static LivingEntity lockOn = null;
@@ -396,7 +395,7 @@ public class InputHandler {
             } else {
             	String formName = (String) props.getDriveFormsMap().keySet().toArray()[CommandMenuGui.driveselected];
             	DriveForm driveForm = ModDriveForms.registry.getValue(new ResourceLocation(formName));
-            	if (props.getDP() >= driveForm.getCost()) {
+            	if (props.getDP() >= driveForm.getDriveCost()) {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new PacketSetDriveForm(formName));

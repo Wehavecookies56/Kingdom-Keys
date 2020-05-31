@@ -34,7 +34,7 @@ public class PacketSyncCapability {
 	List<String> messages;
 	
 	List<String> magicList = new ArrayList<String>();
-	Map<String,Integer> driveFormsMap = new HashMap<String,Integer>();
+	Map<String,int[]> driveFormsMap = new HashMap<String,int[]>();
 
 	public PacketSyncCapability() {
 	}
@@ -99,11 +99,11 @@ public class PacketSyncCapability {
 
 		
 		CompoundNBT forms = new CompoundNBT();
-		Iterator<Map.Entry<String, Integer>> driveFormsIt = driveFormsMap.entrySet().iterator();
+		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormsMap.entrySet().iterator();
 		while (driveFormsIt.hasNext()) {
-			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) driveFormsIt.next();
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
 			//System.out.println("WritePacket: "+pair.getKey()+" "+pair.getValue());
-			forms.putInt(pair.getKey().toString(), pair.getValue());
+			forms.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(forms);
 
@@ -151,10 +151,9 @@ public class PacketSyncCapability {
 		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			//System.out.println(it);
-			String key = (String) driveFormsIt.next();
-			int value = driveFormsTag.getInt(key);
+			String driveFormName = (String) driveFormsIt.next();
 //			System.out.println("ReadPacket: "+key+" value: "+value);
-			msg.driveFormsMap.put(key, value);
+			msg.driveFormsMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
 			/*if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
 				instance.getDriveFormsMap().remove(key.toString());*/
 		}

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -60,6 +61,9 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
+			Map<String, int[]> map = props.getDriveFormsMap();
+			if(map.containsKey(Strings.Form_Valor))
+				System.out.println(event.player.world.isRemote+": "+map.get(Strings.Form_Valor)[0]+"/"+map.get(Strings.Form_Valor)[1]);
 			// props.setMaxDP(900);
 			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
 				if (props.getFP() > 0) {

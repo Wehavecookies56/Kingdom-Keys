@@ -12,10 +12,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -48,27 +50,27 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putInt("munny", instance.getMunny());
 
 			CompoundNBT magics = new CompoundNBT();
-			for(String magic : instance.getMagicsList()) {
+			for (String magic : instance.getMagicsList()) {
 				magics.putInt(magic, 0);
 			}
 			props.put("magics", magics);
 
 			CompoundNBT forms = new CompoundNBT();
-			Iterator<Map.Entry<String, Integer>> it = instance.getDriveFormsMap().entrySet().iterator();
+			Iterator<Map.Entry<String, int[]>> it = instance.getDriveFormsMap().entrySet().iterator();
 			while (it.hasNext()) {
-				Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) it.next();
-			//	System.out.println("Write: "+pair.getKey()+" "+pair.getValue());
-				forms.putInt(pair.getKey().toString(), pair.getValue());
+				Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) it.next();
+				// System.out.println("Write: "+pair.getKey()+" "+pair.getValue());
+				forms.putIntArray(pair.getKey().toString(), pair.getValue());
 			}
 			props.put("drive_forms", forms);
-			
-			 for(byte i=0;i<3;i++) {
-				props.putByte("Portal"+i+"N", instance.getPortalCoords(i).getPID());
-            	props.putDouble("Portal"+i+"X", instance.getPortalCoords(i).getX());
-            	props.putDouble("Portal"+i+"Y", instance.getPortalCoords(i).getY());
-            	props.putDouble("Portal"+i+"Z", instance.getPortalCoords(i).getZ());
-            	props.putInt("Portal"+i+"D", instance.getPortalCoords(i).getDimID());
-            }
+
+			for (byte i = 0; i < 3; i++) {
+				props.putByte("Portal" + i + "N", instance.getPortalCoords(i).getPID());
+				props.putDouble("Portal" + i + "X", instance.getPortalCoords(i).getX());
+				props.putDouble("Portal" + i + "Y", instance.getPortalCoords(i).getY());
+				props.putDouble("Portal" + i + "Z", instance.getPortalCoords(i).getZ());
+				props.putInt("Portal" + i + "D", instance.getPortalCoords(i).getDimID());
+			}
 
 			return props;
 		}
@@ -98,47 +100,43 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			Iterator<String> magicIt = properties.getCompound("magics").keySet().iterator();
 			while (magicIt.hasNext()) {
 				String key = (String) magicIt.next();
-				System.out.println("Read: "+key);
+				System.out.println("Read: " + key);
 				instance.getMagicsList().add(key.toString());
-				/*if (properties.getCompound("magics").getInt(key) == 0 && key.toString() != null)
-					instance.getMagicsList().remove(key.toString());*/
+				/*
+				 * if (properties.getCompound("magics").getInt(key) == 0 && key.toString() !=
+				 * null) instance.getMagicsList().remove(key.toString());
+				 */
 			}
-			
+
 			Iterator<String> driveFormsIt = properties.getCompound("drive_forms").keySet().iterator();
 			while (driveFormsIt.hasNext()) {
-				String key = (String) driveFormsIt.next();
-				System.out.println("Read: "+key);
-				instance.getDriveFormsMap().put(key.toString(), properties.getCompound("drive_forms").getInt(key));
-				if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
-					instance.getDriveFormsMap().remove(key.toString());
+				String driveFormName = (String) driveFormsIt.next();
+				System.out.println("Read: " + driveFormName);
+				instance.getDriveFormsMap().put(driveFormName.toString(), properties.getCompound("drive_forms").getIntArray(driveFormName));
+				
+				if (properties.getCompound("drive_forms").getIntArray(driveFormName)[0] == 0 && driveFormName.toString() != null)
+					instance.getDriveFormsMap().remove(driveFormName.toString());
 			}
-			
-			for(byte i=0;i<3;i++) {
-				instance.setPortalCoords(i,new PortalCoords(
-				properties.getByte("Portal"+i+"N"),
-        		properties.getDouble("Portal"+i+"X"),
-        		properties.getDouble("Portal"+i+"Y"),
-        		properties.getDouble("Portal"+i+"Z"),
-        		properties.getInt("Portal"+i+"D"))
-	            );
-            }
+
+			for (byte i = 0; i < 3; i++) {
+				instance.setPortalCoords(i, new PortalCoords(properties.getByte("Portal" + i + "N"), properties.getDouble("Portal" + i + "X"), properties.getDouble("Portal" + i + "Y"), properties.getDouble("Portal" + i + "Z"), properties.getInt("Portal" + i + "D")));
+			}
 		}
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = "";
-	Map<String, Integer> driveForms = new HashMap<String, Integer>();
+	Map<String, int[]> driveForms = new HashMap<String, int[]>();
 	List<String> magicList = new ArrayList<String>();
 
-	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300, fp=0;
-	
+	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300, fp = 0;
+
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
 	private List<String> messages = new ArrayList<String>();
-	
-    private PortalCoords[] orgPortalCoords = {new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0)};
 
+	private PortalCoords[] orgPortalCoords = { new PortalCoords((byte) 0, 0, 0, 0, 0), new PortalCoords((byte) 0, 0, 0, 0, 0), new PortalCoords((byte) 0, 0, 0, 0, 0) };
 
 	@Override
 	public int getLevel() {
@@ -773,7 +771,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setMaxDP(double dp) {
 		this.maxDP = dp;
 	}
-	
+
 	@Override
 	public double getFP() {
 		return fp;
@@ -793,16 +791,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void remFP(double cost) {
 		this.fp -= fp;
 	}
-	/*
-	@Override
-	public double getMaxFP(String form) {
-		return maxFP;
-	}
-
-	@Override
-	public void setMaxFP(double dp) {
-		this.maxFP = dp;
-	}*/
 
 	@Override
 	public void setActiveDriveForm(String form) {
@@ -860,18 +848,35 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public Map<String, Integer> getDriveFormsMap() {
+	public Map<String, int[]> getDriveFormsMap() {
 		return driveForms;
 	}
 
 	@Override
-	public void setDriveFormLevel(String name, int level) {
-		driveForms.put(name, level);
+	public void setDriveFormsMap(Map<String, int[]> map) {
+		this.driveForms = map;
 	}
 
 	@Override
-	public void setDriveFormsMap(Map<String, Integer> map) {
-		this.driveForms = map;
+	public int getDriveFormLevel(String name) {
+		return driveForms.get(name)[0];
+	}
+
+	@Override
+	public void setDriveFormLevel(String name, int level) {
+		int experience = ModDriveForms.registry.getValue(new ResourceLocation(name)).getLevelUpCost(level);
+		driveForms.put(name, new int[] {level, experience});
+	}
+
+	@Override
+	public int getDriveFormExp(String name) {
+		return driveForms.get(name)[1];
+	}
+
+	@Override
+	public void setDriveFormExp(String name, int exp) {
+		int driveLevel = ModDriveForms.registry.getValue(new ResourceLocation(name)).getLevelFromExp(exp);
+		driveForms.put(name, new int[] {driveLevel, exp});
 	}
 
 	@Override
@@ -886,14 +891,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addMagicToList(String magic) {
-		if(!magicList.contains(magic)) {
+		if (!magicList.contains(magic)) {
 			magicList.add(magic);
 		}
 	}
-	
+
 	@Override
 	public void removeMagicFromList(String magic) {
-		if(magicList.contains(magic)) {
+		if (magicList.contains(magic)) {
 			magicList.remove(magic);
 		}
 	}
@@ -906,11 +911,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setAntiPoints(int points) {
 		this.antipoints = points;
-	}
-
-	@Override
-	public int getDriveFormLevel(String name) {
-		return driveForms.get(name);
 	}
 
 	@Override
@@ -932,12 +932,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setAerialDodgeTicks(int ticks) {
 		this.aerialDodgeTicks = ticks;
 	}
-	
+
 	@Override
 	public boolean hasJumpedAerialDodge() {
 		return hasJumpedAerealDodge;
 	}
-	
+
 	@Override
 	public void setHasJumpedAerialDodge(boolean b) {
 		hasJumpedAerealDodge = b;
@@ -945,7 +945,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public PortalCoords getPortalCoords(byte pID) {
-    	return orgPortalCoords[pID];
+		return orgPortalCoords[pID];
 	}
 
 	@Override
@@ -957,12 +957,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public List<PortalCoords> getPortalList() {
 		List<PortalCoords> list = new ArrayList<PortalCoords>();
 		for (byte i = 0; i < 3; i++) {
-            PortalCoords coords = getPortalCoords(i);
-            if (!(coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)) {
-                list.add(coords);
-                // System.out.println(i+" Added portal: "+coords.getPID());
-            }
-        }
+			PortalCoords coords = getPortalCoords(i);
+			if (!(coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)) {
+				list.add(coords);
+				// System.out.println(i+" Added portal: "+coords.getPID());
+			}
+		}
 		return list;
 	}
 
