@@ -14,10 +14,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.ai.EntityAIShadow;
 
-public class ShadowEntity extends CreatureEntity {
+public class ShadowEntity extends CreatureEntity implements IKHMob{
 
     public ShadowEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
@@ -62,5 +63,10 @@ public class ShadowEntity extends CreatureEntity {
     protected SoundEvent getAmbientSound() {
         return ModSounds.kupoliving.get();
     }*/
+
+	@Override
+	public MobType getMobType() {
+		return EntityHelper.MobType.HEARTLESS_PUREBLOOD;
+	}
 
 }

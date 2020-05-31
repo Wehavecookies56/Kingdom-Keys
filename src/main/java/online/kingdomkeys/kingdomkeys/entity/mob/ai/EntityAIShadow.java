@@ -78,29 +78,31 @@ public class EntityAIShadow extends TargetGoal {
 
 				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.5, 0));
 
-				if (dir == EntityHelper.Dir.NORTH)
+				switch(dir) {
+				case NORTH:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -0.7));
-				if (dir == EntityHelper.Dir.NORTH_WEST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -0.7));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, 0));
-				}
-				if (dir == EntityHelper.Dir.SOUTH)
+					break;
+				case NORTH_WEST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, -0.7));
+					break;
+				case SOUTH:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 0.7));
-				if (dir == EntityHelper.Dir.NORTH_EAST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -0.7));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, 0));
-				}
-				if (dir == EntityHelper.Dir.WEST)
+					break;
+				case NORTH_EAST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, -0.7));
+					break;
+				case WEST:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, 0));
-				if (dir == EntityHelper.Dir.SOUTH_WEST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 0.7));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, 0));
-				}
-				if (dir == EntityHelper.Dir.EAST)
+					break;
+				case SOUTH_WEST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, 0.7));
+					break;
+				case EAST:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, 0));
-				if (dir == EntityHelper.Dir.SOUTH_EAST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 0.7));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, 0));
+					break;
+				case SOUTH_EAST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, 0.7));
+					break;
 				}
 
 				if (this.goalOwner.world.rand.nextInt(2) == 0) {
@@ -120,29 +122,31 @@ public class EntityAIShadow extends TargetGoal {
 
 				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.2, 0));
 
-				if (dir == EntityHelper.Dir.NORTH)
+				switch(dir) {
+				case NORTH:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -1));
-				if (dir == EntityHelper.Dir.NORTH_WEST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -1));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, 0));
-				}
-				if (dir == EntityHelper.Dir.SOUTH)
+					break;
+				case NORTH_WEST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, -1));
+					break;
+				case SOUTH:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 1));
-				if (dir == EntityHelper.Dir.NORTH_EAST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -1));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, 0));
-				}
-				if (dir == EntityHelper.Dir.WEST)
+					break;
+				case NORTH_EAST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, -1));
+					break;
+				case WEST:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, 0));
-				if (dir == EntityHelper.Dir.SOUTH_WEST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 1));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, 0));
-				}
-				if (dir == EntityHelper.Dir.EAST)
+					break;
+				case SOUTH_WEST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, 1));
+					break;
+				case EAST:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, 0));
-				if (dir == EntityHelper.Dir.SOUTH_EAST) {
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 1));
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, 0));
+					break;
+				case SOUTH_EAST:
+					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, 1));
+					break;
 				}
 
 				if (this.goalOwner.world.rand.nextInt(2) == 0) {

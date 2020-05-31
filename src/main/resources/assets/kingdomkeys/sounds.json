@@ -32,6 +32,13 @@
 			{"name": "kingdomkeys:hp_orb", "stream": false }
 		]
 	},
+	
+	"mp_orb": {
+		"category": "master",
+		"sounds": [
+			{"name": "kingdomkeys:mp_orb", "stream": false }
+		]
+	},
 
 	"music.what_a_surprise": {
 		"category": "music",

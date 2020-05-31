@@ -33,6 +33,6 @@ public class MPOrbEntity extends ItemDropEntity {
 
 	@Override
 	SoundEvent getPickupSound() {
-		return ModSounds.antidrive.get();
+		return ModSounds.mp_orb.get();
 	}
 }

@@ -28,6 +28,7 @@ public class ModSounds {
             menu_in = registerSound("menu_in"),
             menu_move = registerSound("menu_move"),
             menu_select = registerSound("menu_select"),
+            mp_orb = registerSound("mp_orb"),
             munny = registerSound("munny"),
             potion = registerSound("potion"),
             savepoint = registerSound("savepoint"),
