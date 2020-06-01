@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -173,11 +174,22 @@ public class EntityEvents {
 
 		if (props != null) {
 			// Drive Form abilities
-			if(props.getActiveDriveForm().equals(Strings.Form_Master))
+			if(props.getActiveDriveForm().equals(Strings.Form_Valor) || props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Valor) && props.getDriveFormLevel(Strings.Form_Valor) >= 3)) {
+				handleHighJump(player, props);
+			}
+			if(props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+				//handleQuickRun(player, props);
+			}
+			if(props.getActiveDriveForm().equals(Strings.Form_Limit)) {
+				//handleDodgeRoll(player, props);
+			}
+			if(props.getActiveDriveForm().equals(Strings.Form_Master) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Master) && props.getDriveFormLevel(Strings.Form_Master) >= 3)) {
 				handleAerialDodge(player, props);
-			if(props.getActiveDriveForm().equals(Strings.Form_Final))
+			}
+			if(props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Final) && props.getDriveFormLevel(Strings.Form_Final) >= 3)) {
 				handleGlide(player, props);
-
+			}
+			
 			if (props.getReflectTicks() > 0) {
 				props.remReflectTicks(1);
 
@@ -218,6 +230,24 @@ public class EntityEvents {
 			}
 		}
 	}
+	
+	private void handleHighJump(PlayerEntity player, IPlayerCapabilities props) {
+		boolean j = false;
+        if(player.world.isRemote) {
+            j = Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown();
+        }
+
+        if (j) {
+            if(player.getMotion().y > 0) {
+            	if(props.getActiveDriveForm().equals(Strings.Form_Final)) {
+	            	player.setMotion(player.getMotion().add(0,DriveForm.FINAL_JUMP_BOOST[props.getDriveFormLevel(Strings.Form_Final)],0));
+            	} else {
+					int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
+	            	player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
+	            }
+            }
+        }
+	}
 
 	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities props) {
 		if (props.getAerialDodgeTicks() > 0) {
@@ -232,7 +262,8 @@ public class EntityEvents {
 						if (!props.hasJumpedAerialDodge()) {
 							props.setHasJumpedAerialDodge(true);
 							player.jump();
-							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[props.getDriveFormLevel(Strings.Form_Master)];
+							int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Master)-2 : props.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
+							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
 							player.setMotion(player.getMotion().mul(new Vec3d(boost, boost, boost)));
 							PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true, 10));
 						}
@@ -270,7 +301,10 @@ public class EntityEvents {
 		}
 
 		if (props.getIsGliding()) {
-			player.setMotion(player.getMotion().x, -0.1, player.getMotion().z);
+			int glideLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Final)-2 : props.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
+			float glide = DriveForm.FINAL_GLIDE[glideLevel];
+			Vec3d motion = player.getMotion();
+			player.setMotion(motion.x, glide, motion.z);
 		}
 	}
 
@@ -291,7 +325,7 @@ public class EntityEvents {
 				}
 			}
 
-			if (gProps != null) {
+			if (gProps != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
 				if (gProps.getStoppedTicks() > 0) {
 					float dmg = event.getAmount();

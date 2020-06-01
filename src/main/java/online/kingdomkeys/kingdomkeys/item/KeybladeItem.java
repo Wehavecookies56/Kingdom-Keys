@@ -58,12 +58,12 @@ public class KeybladeItem extends SwordItem {
 		return data.getMagic(level);
 	}
 
-	// Get strength from the data based on level
+	// Get strength from the data based on actual level
 	public int getStrength() {
 		return data.getStrength(level);
 	}
 
-	// Get magic from the data based on level
+	// Get magic from the data based on actual level
 	public int getMagic() {
 		return data.getMagic(level);
 	}
@@ -92,7 +92,7 @@ public class KeybladeItem extends SwordItem {
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 		if (player.isSneaking()) {
-
+			//setKeybladeLevel(10);
 		} else {
 			if (world.isRemote) {
 				RayTraceResult rtr = Minecraft.getInstance().objectMouseOver;

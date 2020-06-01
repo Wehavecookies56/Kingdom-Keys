@@ -905,6 +905,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			driveForms.put(name, new int[] {driveLevel, exp});
 			if(driveLevel > oldLevel) {
 				displayDriveFormLevelUpMessage(player, name);
+				if(driveLevel == ModDriveForms.registry.getValue(new ResourceLocation(name)).getMaxLevel()) {
+					setMaxDP(getMaxDP() + 100);
+				}
 				PacketHandler.sendTo(new PacketSyncCapability(this), (ServerPlayerEntity)player);
 			}
 		}
@@ -916,8 +919,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
      	this.getDFMessages().clear();
      	
      	dfMessages.add(Strings.Stats_LevelUp_FormGauge);
-     	String dfAbility = ModDriveForms.registry.getValue(new ResourceLocation(getActiveDriveForm())).getDFAbilityForLevel(getDriveFormLevel(driveForm));
-     	String bfAbility = ModDriveForms.registry.getValue(new ResourceLocation(getActiveDriveForm())).getBaseAbilityForLevel(getDriveFormLevel(driveForm));
+     	String dfAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getDFAbilityForLevel(getDriveFormLevel(driveForm));
+     	String bfAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getBaseAbilityForLevel(getDriveFormLevel(driveForm));
 
      	if(!dfAbility.equals("")) {
      		dfMessages.add(dfAbility);

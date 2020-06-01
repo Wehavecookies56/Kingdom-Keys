@@ -1,5 +1,18 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+
+@Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormLimit extends DriveForm {
 
 	public DriveFormLimit(String registryName) {
@@ -49,6 +62,21 @@ public class DriveFormLimit extends DriveForm {
 			return "Dodge Roll LV MAX";
 		}
 		return null;
+	}
+	
+	@SubscribeEvent
+	public static void getValorFormXP(LivingAttackEvent event) {
+		if (!event.getEntity().world.isRemote) { //TODO Check the target is hostile
+			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+				IPlayerCapabilities props = ModCapabilities.get(player);
+
+				if (props.getActiveDriveForm().equals(Strings.Form_Limit)) {
+					props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
+					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
+				}
+			}
+		}
 	}
 
 }

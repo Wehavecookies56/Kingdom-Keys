@@ -53,7 +53,7 @@ public class ShowOverlayPacket {
 			if (msg.type.equals("exp")) {
 	            GuiOverlay.showExp = true;
 	            GuiOverlay.timeExp = time;
-	            System.out.println(time);
+	            //System.out.println(time);
 	        }
 	        if (msg.type.equals("munny")) {
 	            GuiOverlay.showMunny = true;
