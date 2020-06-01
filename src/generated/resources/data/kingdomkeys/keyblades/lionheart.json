@@ -3,9 +3,9 @@
     "Treasure Magnet",
     "Formchange Extender"
   ],
-  "keychain": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+  "keychain": "kingdomkeys:lionheart_chain",
   "base_stats": {
-    "str": 5,
+    "str": 9,
     "mag": 2
   },
   "levels": [
@@ -174,5 +174,5 @@
       ]
     }
   ],
-  "description": "A keyblade with the ability to unlock a person\u0027s heart, releasing the darkness within."
+  "description": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage."
 }

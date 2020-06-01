@@ -3,10 +3,10 @@
     "Treasure Magnet",
     "Formchange Extender"
   ],
-  "keychain": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+  "keychain": "kingdomkeys:oblivion_chain",
   "base_stats": {
-    "str": 5,
-    "mag": 2
+    "str": 10,
+    "mag": -1
   },
   "levels": [
     {
@@ -174,5 +174,5 @@
       ]
     }
   ],
-  "description": "A keyblade with the ability to unlock a person\u0027s heart, releasing the darkness within."
+  "description": "Has great strength, and allows the Drive Gauge to restore quickly during MP Charge."
 }

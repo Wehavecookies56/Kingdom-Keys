@@ -3,10 +3,10 @@
     "Treasure Magnet",
     "Formchange Extender"
   ],
-  "keychain": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+  "keychain": "kingdomkeys:divine_rose_chain",
   "base_stats": {
-    "str": 5,
-    "mag": 2
+    "str": 11,
+    "mag": 0
   },
   "levels": [
     {
@@ -174,5 +174,5 @@
       ]
     }
   ],
-  "description": "A keyblade with the ability to unlock a person\u0027s heart, releasing the darkness within."
+  "description": "A powerful weapon that is difficult to deflect. Capable of dealing a string of critical blows."
 }

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.datagen;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.enchantment.SilkTouchEnchantment;
 import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.conditions.RandomChanceWithLooting;
 import net.minecraft.world.storage.loot.functions.SetCount;
@@ -81,6 +82,7 @@ public class LootTables extends BaseLootTables {
                         .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.blazing_stone.get()).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
                         .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f))))
+                //.addLootPool(ItemLootEntry.builder(ModBlocks.blazingOre.get()).acceptCondition(Silk))
         );
 
         lootTables.put(ModBlocks.blazingOreN.get(), LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))

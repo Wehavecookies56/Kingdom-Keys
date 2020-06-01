@@ -3,7 +3,7 @@
     "Treasure Magnet",
     "Formchange Extender"
   ],
-  "keychain": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+  "keychain": "kingdomkeys:wishing_star_chain",
   "base_stats": {
     "str": 5,
     "mag": 2
@@ -174,5 +174,5 @@
       ]
     }
   ],
-  "description": "A keyblade with the ability to unlock a person\u0027s heart, releasing the darkness within."
+  "description": "Has a short reach, but always finishes up a combo attack with a powerful critical blow."
 }
