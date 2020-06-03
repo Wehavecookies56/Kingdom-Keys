@@ -46,6 +46,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putDouble("fp", instance.getFP());
 			props.putString("drive_form", instance.getActiveDriveForm());
 			props.putInt("anti_points", instance.getAntiPoints());
+			props.putInt("aero_ticks", instance.getAeroTicks());
 			props.putInt("reflect_ticks", instance.getReflectTicks());
 			props.putBoolean("reflect_active", instance.getReflectActive());
 			props.putInt("munny", instance.getMunny());
@@ -94,6 +95,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setFP(properties.getDouble("fp"));
 			instance.setActiveDriveForm(properties.getString("drive_form"));
 			instance.setAntiPoints(properties.getInt("anti_points"));
+			instance.setAeroTicks(properties.getInt("aero_ticks"));
 			instance.setReflectTicks(properties.getInt("reflect_ticks"));
 			instance.setReflectActive(properties.getBoolean("reflect_active"));
 			instance.setMunny(properties.getInt("munny"));
@@ -125,7 +127,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = "";
 	Map<String, int[]> driveForms = new HashMap<String, int[]>();
@@ -833,6 +835,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public boolean getRecharge() {
 		return this.recharge;
 	}
+	
+	@Override
+	public int getAeroTicks() {
+		return aeroTicks;
+	}
+
+	@Override
+	public void setAeroTicks(int i) {
+		aeroTicks = i;
+	}
+	
+	@Override
+	public void remAeroTicks(int ticks) {
+		aeroTicks -= ticks;
+	}
 
 	@Override
 	public void setReflectTicks(int ticks) {
@@ -1023,7 +1040,5 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		return list;
 	}
-
-	
 
 }

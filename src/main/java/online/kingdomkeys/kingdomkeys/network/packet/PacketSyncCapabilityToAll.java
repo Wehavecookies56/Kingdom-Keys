@@ -23,6 +23,7 @@ public class PacketSyncCapabilityToAll {
 			magic = 0,
 			defense = 0,
 			reflectTicks = 0,
+			aeroTicks = 0,
 			antipoints = 0;
 	
 	private double dp = 0, fp = 0;
@@ -45,6 +46,7 @@ public class PacketSyncCapabilityToAll {
 		this.magic = capability.getMagic();
 		this.defense = capability.getDefense();
 		this.driveForm = capability.getActiveDriveForm();
+		this.aeroTicks = capability.getAeroTicks();
 		this.reflectTicks = capability.getReflectTicks();
 		this.fp = capability.getFP();
 		this.dp = capability.getDP();
@@ -68,6 +70,7 @@ public class PacketSyncCapabilityToAll {
 		buffer.writeInt(this.magic);
 		buffer.writeInt(this.defense);
 		buffer.writeString(this.driveForm);
+		buffer.writeInt(this.aeroTicks);
 		buffer.writeInt(this.reflectTicks);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.fp);
@@ -97,6 +100,7 @@ public class PacketSyncCapabilityToAll {
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
 		msg.driveForm = buffer.readString();
+		msg.aeroTicks = buffer.readInt();
 		msg.reflectTicks = buffer.readInt();
 		msg.dp = buffer.readDouble();
 		msg.fp = buffer.readDouble();
@@ -135,6 +139,7 @@ public class PacketSyncCapabilityToAll {
 				props.ifPresent(cap -> cap.setMagic(message.magic));
 				props.ifPresent(cap -> cap.setDefense(message.defense));
 				props.ifPresent(cap -> cap.setActiveDriveForm(message.driveForm));
+				props.ifPresent(cap -> cap.setAeroTicks(message.aeroTicks));
 				props.ifPresent(cap -> cap.setReflectTicks(message.reflectTicks));
 				props.ifPresent(cap -> cap.setDP(message.dp));
 				props.ifPresent(cap -> cap.setFP(message.fp));
