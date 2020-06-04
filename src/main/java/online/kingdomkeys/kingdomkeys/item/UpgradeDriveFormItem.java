@@ -32,22 +32,22 @@ public class UpgradeDriveFormItem extends Item {
 		if (!world.isRemote) {
 			IPlayerCapabilities props = ModCapabilities.get(player);
 			if (props != null && props.getDriveFormsMap() != null) {
-				if(props.getDriveFormsMap().containsKey(formName)) { //If you have the form add some exp
+				if (props.getDriveFormsMap().containsKey(formName)) { // If you have the form add some exp
 					int level = props.getDriveFormsMap().containsKey(formName) ? props.getDriveFormsMap().get(formName)[0] + 1 : 1;
-					if(level <=7) {
+					if (level <= 7) {
 						int exp = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getLevelUpCost(level);
 						int oldExp = 0;
-						if(level > 1) {
-							oldExp = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getLevelUpCost(level-1);
+						if (level > 1) {
+							oldExp = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getLevelUpCost(level - 1);
 						}
-						int newExp = exp-oldExp;
-						props.setDriveFormExp(player, formName, props.getDriveFormExp(formName)+newExp/10);
-						player.sendMessage(new TranslationTextComponent(formName.substring(formName.indexOf(":")+1)+ " has got +"+newExp/10+" exp"));
+						int newExp = exp - oldExp;
+						props.setDriveFormExp(player, formName, props.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
+						player.sendMessage(new TranslationTextComponent(formName.substring(formName.indexOf(":") + 1) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
 					}
 
-				} else {//If you don't have the form unlock it
+				} else {// If you don't have the form unlock it
 					props.setDriveFormLevel(formName, 1);
-					player.sendMessage(new TranslationTextComponent("Unlocked "+formName.substring(formName.indexOf(":")+1)));
+					player.sendMessage(new TranslationTextComponent("Unlocked " + formName.substring(formName.indexOf(":") + 1)));
 				}
 				PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 			}

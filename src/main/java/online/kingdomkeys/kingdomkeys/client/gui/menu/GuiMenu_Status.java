@@ -149,7 +149,6 @@ public class GuiMenu_Status extends GuiMenu_Bars {
 		int i = 0;
 		for (i = 0; i < props.getDriveFormsMap().size(); i++) {
 			String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
-			System.out.println(i+" "+formName);
 			addButton(dfStats[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, formName.substring(formName.indexOf(":")+1), (e) -> { action(e.getMessage()); }));
 		}
 		addButton(stats_back = new GuiMenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, "Back", (e) -> { action(e.getMessage()); }));
