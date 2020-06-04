@@ -1,22 +1,24 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class GuiMenu_Status extends GuiMenu_Bars {
 
-	final int STATS_PLAYER = 0, STATS_VALOR = 1, STATS_WISDOM = 2, STATS_LIMIT = 3, STATS_MASTER = 4, STATS_FINAL = 5, STATS_BACK = 6;
+	final int STATS_PLAYER = -1, STATS_BACK = -2;
 
-	int selected = 0;
-	String form;
+	String form = "";
+	
+	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 
-	Button stats_player, stats_valor, stats_wisdom, stats_limit, stats_master, stats_final, stats_back;
+
+	Button stats_player, stats_back; //stats_valor, stats_wisdom, stats_limit, stats_master, stats_final, stats_back;
+	GuiMenuButton[] dfStats = new GuiMenuButton[props.getDriveFormsMap().size()];
 
 	GuiMenuColoredElement level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
 
@@ -29,27 +31,27 @@ public class GuiMenu_Status extends GuiMenu_Bars {
 		drawPlayerInfo = false;
 	}
 
-	protected void action(int btnID) {
-		if (btnID == STATS_BACK)
+	protected void action(String string) {
+		if (string.equals("Back"))
 			GuiHelper.openMenu();
 		else
-			selected = btnID;
+			form = string;
 
 		updateButtons();
 	}
 
 	private void updateButtons() {
 		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		String rlForm = KingdomKeys.MODID+":"+form; //form has no prefix (kingdomkeys:)
 
-		stats_player.active = selected != STATS_PLAYER;
-		stats_valor.active = selected != STATS_VALOR && props.getDriveFormLevel(Strings.Form_Valor) > 0;
-		stats_wisdom.active = selected != STATS_WISDOM && props.getDriveFormLevel(Strings.Form_Wisdom) > 0;
-		stats_limit.active = selected != STATS_LIMIT && props.getDriveFormLevel(Strings.Form_Limit) > 0;
-		stats_master.active = selected != STATS_MASTER && props.getDriveFormLevel(Strings.Form_Master) > 0;
-		stats_final.active = selected != STATS_FINAL && props.getDriveFormLevel(Strings.Form_Final) > 0;
+		stats_player.active = !form.equals(""); //If form is empty we assume it's the player stats view
+		for(int i = 0; i < dfStats.length;i++) {//Iterate through all the buttons to update their state
+			dfStats[i].active = !rlForm.equals(KingdomKeys.MODID+":"+dfStats[i].getMessage()) && props.getDriveFormsMap().containsKey(KingdomKeys.MODID+":"+dfStats[i].getMessage()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+			dfStats[i].setSelected(!dfStats[i].active); //Set it selected if it's not active (so it renders a bit to the right)
+		}
 		
 		//Select the widgets to show depending on the selected button
-		if (selected == STATS_PLAYER) {
+		if (form.equals("")) {
 			form = "";
 			dfLevel.visible = false;
 			dfExp.visible = false;
@@ -91,7 +93,7 @@ public class GuiMenu_Status extends GuiMenu_Bars {
 			tRes.visible = false;
 			dRes.visible = false;*/
 			
-			switch (selected) {
+			/*switch (selected) {
 			case STATS_VALOR:
 				form = Strings.Form_Valor;
 				break;
@@ -107,16 +109,14 @@ public class GuiMenu_Status extends GuiMenu_Bars {
 			case STATS_FINAL:
 				form = Strings.Form_Final;
 				break;
-			}
+			}*/
 			 
-			int remainingExp = props.getDriveFormLevel(form) == 7 ? 0 : ModDriveForms.registry.getValue(new ResourceLocation(form)).getLevelUpCost(props.getDriveFormLevel(form)+1) - props.getDriveFormExp(form);
-			dfLevel.setValue("" + props.getDriveFormLevel(form));
-			dfExp.setValue(""+props.getDriveFormExp(form));
+			int remainingExp = props.getDriveFormLevel(rlForm) == ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getMaxLevel() ? 0 : ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getLevelUpCost(props.getDriveFormLevel(rlForm)+1) - props.getDriveFormExp(rlForm);
+			dfLevel.setValue("" + props.getDriveFormLevel(rlForm));
+			dfExp.setValue(""+props.getDriveFormExp(rlForm));
 			dfNextLevel.setValue(""+remainingExp);
-			dfFormGauge.setValue(""+(2 + props.getDriveFormLevel(form)));
+			dfFormGauge.setValue(""+(2 + props.getDriveFormLevel(rlForm)));
 		}
-		
-		
 		
 		//updateScreen();
 	}
@@ -127,35 +127,32 @@ public class GuiMenu_Status extends GuiMenu_Bars {
 		super.height = height;
 		super.init();
 		this.buttons.clear();
-		final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-		selected = 0;
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		int button_stats_playerY = button_statsY;
-		int button_stats_valorY = button_stats_playerY + 18;
-		int button_stats_wisdomY = button_stats_valorY + 18;
-		int button_stats_limitY = button_stats_wisdomY + 18;
-		int button_stats_masterY = button_stats_limitY + 18;
-		int button_stats_finalY = button_stats_masterY + 18;
-		int button_stats_backY = button_stats_finalY + 18;
+		int button_stats_formsY = button_stats_playerY + 18;
 
 		float buttonPosX = (float) width * 0.03F;
 		float subButtonPosX = buttonPosX + 10;
 
 		float buttonWidth = ((float) width * 0.1744F)- 20;
+		float subButtonWidth = buttonWidth - 10;
+
 
 		float dataWidth = ((float) width * 0.1744F)-10;
 
 		int col1X = (int) (subButtonPosX + buttonWidth + 40), col2X=(int) (col1X + dataWidth * 2)+10 ;
 
-		addButton(stats_player = new GuiMenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getFormattedText(), (e) -> { action(STATS_PLAYER); }));
-		addButton(stats_valor = new GuiMenuButton((int) subButtonPosX, button_stats_valorY, (int) buttonWidth, "Valor", (e) -> { action(STATS_VALOR); }));
-		addButton(stats_wisdom = new GuiMenuButton((int) subButtonPosX, button_stats_wisdomY, (int) buttonWidth, "Wisdom", (e) -> { action(STATS_WISDOM); }));
-		addButton(stats_limit = new GuiMenuButton((int) subButtonPosX, button_stats_limitY, (int) buttonWidth, "Limit", (e) -> { action(STATS_LIMIT); }));
-		addButton(stats_master = new GuiMenuButton((int) subButtonPosX, button_stats_masterY, (int) buttonWidth, "Master", (e) -> { action(STATS_MASTER); }));
-		addButton(stats_final = new GuiMenuButton((int) subButtonPosX, button_stats_finalY, (int) buttonWidth, "Final", (e) -> { action(STATS_FINAL); }));
-		addButton(stats_back = new GuiMenuButton((int) buttonPosX, button_stats_backY, (int) buttonWidth, "Back", (e) -> { action(STATS_BACK); }));
+		addButton(stats_player = new GuiMenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getFormattedText(), (e) -> { action(""); }));
+
+		int i = 0;
+		for (i = 0; i < props.getDriveFormsMap().size(); i++) {
+			String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
+			System.out.println(i+" "+formName);
+			addButton(dfStats[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, formName.substring(formName.indexOf(":")+1), (e) -> { action(e.getMessage()); }));
+		}
+		addButton(stats_back = new GuiMenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, "Back", (e) -> { action(e.getMessage()); }));
 		
 		//Stats
 		int c = 0;

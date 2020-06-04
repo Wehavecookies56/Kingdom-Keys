@@ -455,9 +455,7 @@ public class CommandMenuGui extends Screen {
 				GL11.glTranslatef(5, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() + 1)), 0);
 				GL11.glScalef(1.25f, scale, scale);
 				if (submenu == SUB_DRIVE) {
-
 					GL11.glColor4ub((byte) 0, (byte) 255, (byte) 255, (byte) alpha);
-
 					blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 				}
 			}

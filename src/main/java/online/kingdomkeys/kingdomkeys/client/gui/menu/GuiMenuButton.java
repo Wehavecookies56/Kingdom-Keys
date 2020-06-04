@@ -52,12 +52,17 @@ public class GuiMenuButton extends Button{
 			} else {
 				if(active) {//Not hovered but fully visible
 					drawButton(false);
-
 					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
 				} else {//Not hovered and selected (not fully visible)
-					drawButton(false);
-
-					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100,100,100).hashCode());
+					if(selected) {
+						x += 10;
+						drawButton(false);
+						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100,100,100).hashCode());
+						x -= 10;
+					} else {
+						drawButton(false);
+						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100,100,100).hashCode());
+					}
 				}
 			}
 			RenderSystem.popMatrix();
