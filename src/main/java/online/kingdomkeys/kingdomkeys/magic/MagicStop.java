@@ -15,8 +15,8 @@ import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
 public class MagicStop extends Magic {
 	String name;
 
-	public MagicStop(String registryName, int cost) {
-		super(registryName, cost);
+	public MagicStop(String registryName, int cost, int order) {
+		super(registryName, cost, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

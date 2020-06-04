@@ -14,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 public class MagicThunder extends Magic {
 	String name;
 
-	public MagicThunder(String registryName, int cost) {
-		super(registryName, cost);
+	public MagicThunder(String registryName, int cost, int order) {
+		super(registryName, cost, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

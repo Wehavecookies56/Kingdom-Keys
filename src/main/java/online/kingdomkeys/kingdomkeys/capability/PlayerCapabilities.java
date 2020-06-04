@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +130,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = "";
-	Map<String, int[]> driveForms = new HashMap<String, int[]>();
+	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>();
 	List<String> magicList = new ArrayList<String>();
 
 	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300, fp = 0;
@@ -887,12 +887,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public Map<String, int[]> getDriveFormsMap() {
-		return driveForms;
+	public LinkedHashMap<String, int[]> getDriveFormsMap() {
+		return Utils.getSortedDriveForms(driveForms);
 	}
 
 	@Override
-	public void setDriveFormsMap(Map<String, int[]> map) {
+	public void setDriveFormsMap(LinkedHashMap<String, int[]> map) {
 		this.driveForms = map;
 	}
 
@@ -956,7 +956,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public List<String> getMagicsList() {
-		return magicList;
+		return Utils.getSortedMagics(magicList);
 	}
 
 	@Override

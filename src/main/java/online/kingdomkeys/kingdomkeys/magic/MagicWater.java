@@ -10,8 +10,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 public class MagicWater extends Magic {
 	String name;
 
-	public MagicWater(String registryName, int cost) {
-		super(registryName, cost);
+	public MagicWater(String registryName, int cost, int order) {
+		super(registryName, cost, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

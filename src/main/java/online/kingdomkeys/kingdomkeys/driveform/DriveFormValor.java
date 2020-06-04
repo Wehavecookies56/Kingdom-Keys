@@ -15,8 +15,8 @@ import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormValor extends DriveForm {
 
-	public DriveFormValor(String registryName) {
-		super(registryName);
+	public DriveFormValor(String registryName, int order) {
+		super(registryName, order);
 		this.driveCost = 300;
 		this.ap = 1;
 		this.levelUpCosts = new int[] { 0, 80, 240, 520, 968, 1528, 2200 };

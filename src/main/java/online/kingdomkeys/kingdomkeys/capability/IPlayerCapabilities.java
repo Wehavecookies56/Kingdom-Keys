@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,8 +96,8 @@ public interface IPlayerCapabilities {
 	void setDFMessages(List<String> messages);
 	List<String> getDFMessages();
 	
-	Map<String, int[]> getDriveFormsMap();
-	void setDriveFormsMap(Map<String,int[]> map);
+	LinkedHashMap<String, int[]> getDriveFormsMap();
+	void setDriveFormsMap(LinkedHashMap<String,int[]> map);
 
 	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);

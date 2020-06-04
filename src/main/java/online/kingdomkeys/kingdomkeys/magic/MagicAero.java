@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 public class MagicAero extends Magic {
 	String name;
 
-	public MagicAero(String registryName, int cost) {
-		super(registryName, cost);
+	public MagicAero(String registryName, int cost, int order) {
+		super(registryName, cost, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

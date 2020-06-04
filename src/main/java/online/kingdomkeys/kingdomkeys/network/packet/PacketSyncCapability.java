@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.packet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class PacketSyncCapability {
 	List<String> messages, dfMessages;
 	
 	List<String> magicList = new ArrayList<String>();
-	Map<String,int[]> driveFormsMap = new HashMap<String,int[]>();
+	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
 
 	public PacketSyncCapability() {
 	}

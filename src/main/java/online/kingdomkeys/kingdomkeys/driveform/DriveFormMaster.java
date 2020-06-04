@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 
 public class DriveFormMaster extends DriveForm {
 
-	public DriveFormMaster(String registryName) {
-		super(registryName);
+	public DriveFormMaster(String registryName, int order) {
+		super(registryName, order);
 		this.driveCost = 400;
 		this.ap = 1;
 		this.levelUpCosts = new int[] {0, 60, 240, 456, 726, 1050, 1500};

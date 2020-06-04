@@ -21,11 +21,13 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	int ap;
 	int[] levelUpCosts;// {0,X,X,X,X,X,X}
 	int maxLevel;
+	int order;
 
-	public DriveForm(String registryName) {
+	public DriveForm(String registryName, int order) {
 		this.name = registryName;
 		this.maxLevel = 7;
 		setRegistryName(registryName);
+		this.order = order;
 	}
 
 	public String getName() {
@@ -42,6 +44,10 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 
 	public int[] getLevelUpCosts() {
 		return levelUpCosts;
+	}
+	
+	public int getOrder() {
+		return order;
 	}
 
 	public abstract String getBaseAbilityForLevel(int driveFormLevel);

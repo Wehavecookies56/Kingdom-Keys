@@ -10,8 +10,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 public class MagicGravity extends Magic {
 	String name;
 
-	public MagicGravity(String registryName, int cost) {
-		super(registryName, cost);
+	public MagicGravity(String registryName, int cost, int order) {
+		super(registryName, cost, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

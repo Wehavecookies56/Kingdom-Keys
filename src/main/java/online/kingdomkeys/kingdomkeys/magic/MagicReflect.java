@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 public class MagicReflect extends Magic {
 	String name;
 
-	public MagicReflect(String registryName, int cost) {
-		super(registryName, cost);
+	public MagicReflect(String registryName, int cost, int order) {
+		super(registryName, cost, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

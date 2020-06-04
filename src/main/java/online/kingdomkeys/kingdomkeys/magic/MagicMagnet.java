@@ -10,8 +10,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 public class MagicMagnet extends Magic {
 	String name;
 
-	public MagicMagnet(String registryName, int cost) {
-		super(registryName, cost);
+	public MagicMagnet(String registryName, int cost, int order) {
+		super(registryName, cost, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

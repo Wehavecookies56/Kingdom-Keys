@@ -1,8 +1,19 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -102,12 +113,70 @@ public class Utils {
 			return 7;
 		return map.get(driveForm)[0];
 	}
+	
+	
+	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap) {
+		List<DriveForm> list = new ArrayList<DriveForm>();		
+		
+		Iterator<String> it = driveFormsMap.keySet().iterator();
+		while(it.hasNext()) {
+			String entry = it.next();
+			list.add(ModDriveForms.registry.getValue(new ResourceLocation(entry)));
+		}
+		
+		Collections.sort(list, Comparator.comparingInt(DriveForm::getOrder));
+		
+		LinkedHashMap<String, int[]> map = new LinkedHashMap<String, int[]>();
+		for(int i=0;i<list.size();i++) {
+			map.put(list.get(i).getName(), driveFormsMap.get(list.get(i).getName()));
+		}
+		
+		//Old way
+		/*String[] keys = new String[driveFormsMap.size()];
+		int[][] values = new int[driveFormsMap.size()][2];
+		Iterator<Entry<String, int[]>> it = driveFormsMap.entrySet().iterator();
+		while(it.hasNext()) {
+			Entry<String, int[]> entry = it.next();
+			int order = ModDriveForms.registry.getValue(new ResourceLocation(entry.getKey())).getOrder();
+			keys[order] = entry.getKey();
+			values[order] = entry.getValue();
+		}
+		
+		LinkedHashMap<String, int[]> map = new LinkedHashMap<String, int[]>();
+		for(int i=0;i<keys.length;i++) {
+			map.put(keys[i], values[i]);
+		}*/
+
+		return map; 
+	}
+
+	public static List<String> getSortedMagics(List<String> list) {
+		Collections.sort(list, ((a,b)-> Integer.compare(ModMagics.registry.getValue(new ResourceLocation(a)).getOrder(), ModMagics.registry.getValue(new ResourceLocation(b)).getOrder())));
+		return list;
+		
+		/*String[] keys = new String[list.size()];
+		int[][] values = new int[list.size()][2];
+		Iterator<String> it = list.iterator();
+		while(it.hasNext()) {
+			String entry = it.next();
+			int order = ModMagics.registry.getValue(new ResourceLocation(entry)).getOrder();
+			keys[order] = entry.getKey();
+			values[order] = entry.getValue();
+		}
+		
+		LinkedHashMap<String, int[]> map = new LinkedHashMap<String, int[]>();
+		for(int i=0;i<keys.length;i++) {
+			map.put(keys[i], values[i]);
+		}
+
+		return map; */
+	}
+
 	/**
 	 *
 	 * MOST OF THIS WON'T BE HERE ANYMORE
 	 *
 	 */
-
 	/*public static boolean summonWeapon(EntityPlayer player, EnumHand hand, int keychainSlot) {
 		SummonKeybladeCapability.ISummonKeyblade summonCap = player.getCapability(ModCapabilities.SUMMON_KEYBLADE, null);
 		OrganizationXIIICapability.IOrganizationXIII organizationXIIICap = player.getCapability(ModCapabilities.ORGANIZATION_XIII, null);
