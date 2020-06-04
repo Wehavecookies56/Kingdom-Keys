@@ -70,7 +70,7 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		props.setActiveDriveForm(getName());
 		int cost = ModDriveForms.registry.getValue(new ResourceLocation(getName())).getDriveCost();
 		props.remDP(cost);
-		props.setFP(200 + Utils.getDriveFormLevel(props.getDriveFormsMap(), props.getActiveDriveForm()) * 100);
+		props.setFP(200 + props.getDriveFormLevel(props.getActiveDriveForm()) * 100);
 		// Summon Keyblades
 		props.setAntiPoints(props.getAntiPoints() + getFormAntiPoints());
 		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
