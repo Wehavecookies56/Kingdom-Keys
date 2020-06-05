@@ -6,9 +6,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
-public class GuiMenu_Status extends GuiMenu_Bars {
+public class GuiMenu_Status extends GuiMenu_Background {
 
 	final int STATS_PLAYER = -1, STATS_BACK = -2;
 
@@ -143,14 +144,14 @@ public class GuiMenu_Status extends GuiMenu_Bars {
 
 		int col1X = (int) (subButtonPosX + buttonWidth + 40), col2X=(int) (col1X + dataWidth * 2)+10 ;
 
-		addButton(stats_player = new GuiMenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getFormattedText(), (e) -> { action(""); }));
+		addButton(stats_player = new GuiMenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action(""); }));
 
 		int i = 0;
 		for (i = 0; i < props.getDriveFormsMap().size(); i++) {
 			String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
-			addButton(dfStats[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, formName.substring(formName.indexOf(":")+1), (e) -> { action(e.getMessage()); }));
+			addButton(dfStats[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, formName.substring(formName.indexOf(":")+1), ButtonType.SUBBUTTON, (e) -> { action(e.getMessage()); }));
 		}
-		addButton(stats_back = new GuiMenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, "Back", (e) -> { action(e.getMessage()); }));
+		addButton(stats_back = new GuiMenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, "Back", ButtonType.BUTTON, (e) -> { action(e.getMessage()); }));
 		
 		//Stats
 		int c = 0;

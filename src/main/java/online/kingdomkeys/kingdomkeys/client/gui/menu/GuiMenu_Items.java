@@ -15,14 +15,14 @@ public class GuiMenu_Items extends Screen {
 
     Button items_player, items_stock, items_back;
 
-    GuiMenu_Bars background;
+    GuiMenu_Background background;
 
 	private Minecraft mc;
 
     public GuiMenu_Items () {
         super(new TranslationTextComponent(""));
 
-        background = new GuiMenu_Bars(Strings.Gui_Menu_Items_Title);
+        background = new GuiMenu_Background(Strings.Gui_Menu_Items_Title);
         mc = Minecraft.getInstance();
     }
 

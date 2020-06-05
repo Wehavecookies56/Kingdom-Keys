@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class LockOnGui extends Screen {
 	int guiWidth = 256;
@@ -48,7 +48,6 @@ public class LockOnGui extends Screen {
 		// null).getHudMode())
 		// return;
 		IPlayerCapabilities props = ModCapabilities.get(player);
-		//If ability level > 0 and amount of equipped is > 0
 		if(props != null) {
 			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 				Entity target = InputHandler.lockOn;
@@ -84,7 +83,8 @@ public class LockOnGui extends Screen {
 
 				RenderSystem.pushMatrix();
 				
-				int[] scan = props.getEquippedAbilityLevel(KingdomKeys.MODID + ":scan");
+				int[] scan = props.getEquippedAbilityLevel(Strings.scan);
+				//If ability level > 0 and amount of equipped is > 0
 				if (target != null && scan[0] > 0 && scan[1] > 0) {
 					this.drawString(mc.fontRenderer, target.getName().getFormattedText(), screenWidth - mc.fontRenderer.getStringWidth(target.getName().getFormattedText()), 15, 0xFFFFFF);
 					drawHPBar(event, (LivingEntity) target);

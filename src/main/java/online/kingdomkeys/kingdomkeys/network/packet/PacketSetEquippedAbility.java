@@ -5,17 +5,10 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
-import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class PacketSetEquippedAbility {
 
@@ -51,7 +44,7 @@ public class PacketSetEquippedAbility {
 			int apCost = ModAbilities.registry.getValue(new ResourceLocation(message.ability)).getAPCost();
 			int newConsumedAP = message.level > -1 ? apCost : -apCost;
 			props.setConsumedAP(props.getConsumedAP() + newConsumedAP);
-			System.out.println("adding/sub " + message.ability + " by " + message.level + " adding: " + newConsumedAP);
+			//System.out.println("adding/sub " + message.ability + " by " + message.level + " adding: " + newConsumedAP);
 			props.addEquippedAbilityLevel(message.ability, message.level);
 		});
 		ctx.get().setPacketHandled(true);

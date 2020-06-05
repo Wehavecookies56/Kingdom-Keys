@@ -12,22 +12,20 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-public class GuiMenu extends Screen{
+public class GuiMenu extends GuiMenu_Background{
 
 	public GuiMenu() {
-		super(new TranslationTextComponent(""));
-
-		background = new GuiMenu_Bars(Strings.Gui_Menu);
-		minecraft = Minecraft.getInstance();	}
+		super("Menu");
+		minecraft = Minecraft.getInstance();
+	}
 
 	final int ITEMS = 0, ABILITIES = 1, CUSTOMIZE = 2, PARTY = 3, STATUS = 4, JOURNAL = 5, CONFIG = 6;
 	final int SUBMENU_MAIN = 0, SUBMENU_ITEMS = 1;
 
 	Button items, abilities, customize, party, status, journal, config;
-
-	GuiMenu_Bars background;
 
 	static int munny;
 
@@ -40,7 +38,7 @@ public class GuiMenu extends Screen{
 			minecraft.displayGuiScreen(new GuiMenu_Items());
 			break;
 		case ABILITIES:
-			minecraft.displayGuiScreen(new GuiAbilities("Abilities"));
+			minecraft.displayGuiScreen(new GuiMenu_Abilities("Abilities"));
 			break;
 		case STATUS:
 			minecraft.displayGuiScreen(new GuiMenu_Status("Status"));
@@ -57,10 +55,9 @@ public class GuiMenu extends Screen{
 
 	@Override
 	public void init() {
+		super.width = width;
+		super.height = height;
 		super.init();
-		background.width = width;
-		background.height = height;
-		background.init();
 		float topBarHeight = (float) height * 0.17F;
 		int button_itemsY = (int) topBarHeight + 5;
 		int button_abilitiesY = button_itemsY + 18;
@@ -72,13 +69,13 @@ public class GuiMenu extends Screen{
 		float buttonPosX = (float) width * 0.0526F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 		
-		addButton(items = new GuiMenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items),(e) -> { action(ITEMS); }));
-		addButton(abilities = new GuiMenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities),(e) -> { action(ABILITIES); }));
-		addButton(customize = new GuiMenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize),(e) -> { action(STATUS); }));
-		addButton(party = new GuiMenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party),(e) -> { action(STATUS); }));
-		addButton(status = new GuiMenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status),(e) -> { action(STATUS); }));
-		addButton(journal = new GuiMenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal),(e) -> { action(STATUS); }));
-		addButton(config = new GuiMenuButton((int) buttonPosX, button_configY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config),(e) -> { action(STATUS); }));
+		addButton(items = new GuiMenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, (e) -> { action(ITEMS); }));
+		addButton(abilities = new GuiMenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON,(e) -> { action(ABILITIES); }));
+		addButton(customize = new GuiMenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON,(e) -> { action(STATUS); }));
+		addButton(party = new GuiMenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON,(e) -> { action(STATUS); }));
+		addButton(status = new GuiMenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON,(e) -> { action(STATUS); }));
+		addButton(journal = new GuiMenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON,(e) -> { action(STATUS); }));
+		addButton(config = new GuiMenuButton((int) buttonPosX, button_configY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON,(e) -> { action(STATUS); }));
 
         updateButtons();
 	}
@@ -111,11 +108,8 @@ public class GuiMenu extends Screen{
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		background.drawBars();
-		background.drawMunnyTime();
-		background.drawBiomeDim();
-		drawPlayer();
 		super.render(mouseX, mouseY, partialTicks);
+		drawPlayer();
 	}
 
 	public void drawPlayer() {

@@ -24,7 +24,17 @@ public class Strings {
     
     //Abilities
     public static final String
-    		AB_Prefix = "ability_";
+    		AB_Prefix = "ability_",
+    		//Action
+    		//Growth
+    		highJump = KingdomKeys.MODID+":"+Strings.AB_Prefix +"high_jump",
+    		quickRun = KingdomKeys.MODID+":"+Strings.AB_Prefix +"quick_run",
+    		dodgeRoll = KingdomKeys.MODID+":"+Strings.AB_Prefix +"dodge_roll",
+    		aerialRecovery = KingdomKeys.MODID+":"+Strings.AB_Prefix +"aerial_recovery",
+    		glide = KingdomKeys.MODID+":"+Strings.AB_Prefix +"glide",
+    		//Support
+    		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan"
+    		;
     
     // Synthesis Materials
     public static final String

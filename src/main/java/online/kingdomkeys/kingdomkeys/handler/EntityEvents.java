@@ -64,6 +64,10 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
+			if(!event.player.world.isRemote)
+				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)event.player);
+			//System.out.println(props.getEquippedAbilityLevel("kingdomKeys:ability_scan")[1]);
+			//System.out.println(props.getConsumedAP());
 			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
 				if (props.getFP() > 0) {
 					props.setFP(props.getFP() - 0.4);

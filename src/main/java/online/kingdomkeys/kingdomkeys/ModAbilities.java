@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
-import online.kingdomkeys.kingdomkeys.Ability.Type;
+import online.kingdomkeys.kingdomkeys.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModAbilities {
@@ -20,7 +20,7 @@ public class ModAbilities {
 			registry = new RegistryBuilder<Ability>().setName(new ResourceLocation(KingdomKeys.MODID, "abilities")).setType(Ability.class).create();
 		}
 
-		public static Ability createAbility(String name, int apCost, Type type, int order) {
+		public static Ability createAbility(String name, int apCost, AbilityType type, int order) {
 			return new Ability(KingdomKeys.MODID + ":" + Strings.AB_Prefix + name, apCost, type, order);
 		}
 
@@ -29,14 +29,14 @@ public class ModAbilities {
 			int order = 0;
 			event.getRegistry().registerAll(
 				// Growth
-				createAbility("high_jump", 2, Type.GROWTH, order++), 
-				createAbility("quick_run", 2, Type.GROWTH, order++), 
-				createAbility("dodge_roll", 3, Type.GROWTH, order++),
-				createAbility("aerial_dodge", 3, Type.GROWTH, order++),
-				createAbility("glide", 3, Type.GROWTH, order++),
+				createAbility("high_jump", 2, AbilityType.GROWTH, order++), 
+				createAbility("quick_run", 2, AbilityType.GROWTH, order++), 
+				createAbility("dodge_roll", 3, AbilityType.GROWTH, order++),
+				createAbility("aerial_dodge", 3, AbilityType.GROWTH, order++),
+				createAbility("glide", 3, AbilityType.GROWTH, order++),
 				
 				// Support
-				createAbility("scan", 1, Type.SUPPORT, order++)
+				createAbility("scan", 1, AbilityType.SUPPORT, order++)
 			);
 		}
 	}

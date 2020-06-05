@@ -15,9 +15,9 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
-public class GuiMenu_Bars extends Screen {
+public class GuiMenu_Background extends Screen {
 
-	public GuiMenu_Bars(String name) {
+	public GuiMenu_Background(String name) {
 		super(new TranslationTextComponent(name));
 		minecraft = Minecraft.getInstance();
 	}
@@ -38,7 +38,10 @@ public class GuiMenu_Bars extends Screen {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		RenderHelper.disableStandardItemLighting();
+		drawBars();
+		drawMunnyTime();
+		drawBiomeDim();
+		//RenderHelper.disableStandardItemLighting();
 		drawBackground(width, height, drawPlayerInfo);
 		super.render(mouseX, mouseY, partialTicks);
 	}

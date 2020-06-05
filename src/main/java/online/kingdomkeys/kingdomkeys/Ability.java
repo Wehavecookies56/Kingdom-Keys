@@ -4,16 +4,16 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public class Ability extends ForgeRegistryEntry<Ability> {
 
-	public static enum Type{
+	public static enum AbilityType{
 		ACTION, GROWTH, SUPPORT
 	}
 	
     String name;
     int apCost;
-    Type type;
+    AbilityType type;
     int order;
 
-    public Ability(String registryName, int apCost, Type type, int order) {
+    public Ability(String registryName, int apCost, AbilityType type, int order) {
     	this.name = registryName;
     	this.apCost = apCost;
     	this.type = type;
@@ -29,7 +29,7 @@ public class Ability extends ForgeRegistryEntry<Ability> {
 		return order;
 	}
 	
-	public Type getType() {
+	public AbilityType getType() {
 		return type;
 	}
 

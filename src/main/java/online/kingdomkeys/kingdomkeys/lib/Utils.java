@@ -7,10 +7,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.Ability;
+import online.kingdomkeys.kingdomkeys.ModAbilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
@@ -114,6 +115,23 @@ public class Utils {
 		return map.get(driveForm)[0];
 	}
 	
+	public static LinkedHashMap<String, int[]> getSortedAbilities(LinkedHashMap<String, int[]> abilities) {
+		List<Ability> list = new ArrayList<Ability>();		
+		
+		Iterator<String> it = abilities.keySet().iterator();
+		while(it.hasNext()) {
+			String entry = it.next();
+			list.add(ModAbilities.registry.getValue(new ResourceLocation(entry)));
+		}
+		
+		Collections.sort(list, Comparator.comparingInt(Ability::getOrder));
+		
+		LinkedHashMap<String, int[]> map = new LinkedHashMap<String, int[]>();
+		for(int i=0;i<list.size();i++) {
+			map.put(list.get(i).getRegistryName().toString(), abilities.get(list.get(i).getRegistryName().toString()));
+		}
+		return map;
+	}
 	
 	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap) {
 		List<DriveForm> list = new ArrayList<DriveForm>();		

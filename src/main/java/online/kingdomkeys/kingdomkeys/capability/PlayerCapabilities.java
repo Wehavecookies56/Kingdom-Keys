@@ -39,6 +39,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putInt("magic", instance.getMagic());
 			props.putInt("defense", instance.getDefense());
 			props.putInt("max_hp", instance.getMaxHP());
+			props.putInt("ap", instance.getConsumedAP());
+			props.putInt("max_ap", instance.getMaxAP());
 			props.putDouble("mp", instance.getMP());
 			props.putDouble("max_mp", instance.getMaxMP());
 			props.putBoolean("recharge", instance.getRecharge());
@@ -96,6 +98,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setMagic(properties.getInt("magic"));
 			instance.setDefense(properties.getInt("defense"));
 			instance.setMaxHP(properties.getInt("max_hp"));
+			instance.setConsumedAP(properties.getInt("ap"));
+			instance.setMaxAP(properties.getInt("max_ap"));
 			instance.setMP(properties.getDouble("mp"));
 			instance.setMaxMP(properties.getDouble("max_mp"));
 			instance.setRecharge(properties.getBoolean("recharge"));
@@ -137,7 +141,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				instance.getAbilitiesMap().put(abilityName.toString(), properties.getCompound("abilities").getIntArray(abilityName));
 
 				// In this case we don't want abilities to get removed if they have level 0 as that means they could be unequipped
-				
 			}
 
 			for (byte i = 0; i < 3; i++) {
@@ -368,9 +371,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		switch (this.level) {
 		case 2:
 			this.addDefense(1);
-			addAbility(KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan");
+			addAbility(Strings.scan);
 			break;
 		case 3:
+			addAbility(Strings.highJump);
 			this.addStrength(1);
 			break;
 		case 4:
@@ -1062,7 +1066,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public LinkedHashMap<String, int[]> getAbilitiesMap() {
-		return abilitiesMap;
+		return abilitiesMap;//Utils.getSortedAbilities(abilitiesMap);
 	}
 
 	@Override

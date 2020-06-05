@@ -12,14 +12,15 @@ import online.kingdomkeys.kingdomkeys.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSetEquippedAbility;
 
-public class GuiAbilities extends GuiMenu_Bars {
+public class GuiMenu_Abilities extends GuiMenu_Background {
 	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-	GuiMenuButton[] abilities = new GuiMenuButton[props.getAbilitiesMap().size()];
+	GuiMenuAbilitiesButton[] abilities = new GuiMenuAbilitiesButton[props.getAbilitiesMap().size()];
 
-	public GuiAbilities(String name) {
+	public GuiMenu_Abilities(String name) {
 		super(name);
 		minecraft = Minecraft.getInstance();
 	}
@@ -41,7 +42,7 @@ public class GuiAbilities extends GuiMenu_Bars {
 			String abilityName = (String) props.getAbilitiesMap().keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 
-			addButton(abilities[i] = new GuiMenuButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, abilityName.substring(abilityName.indexOf(":") + 1), (e) -> {
+			addButton(abilities[i] = new GuiMenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, abilityName.substring(abilityName.indexOf(":") + 1), ability.getType(), (e) -> {
 				action(ability);
 			}));
 		}
@@ -51,35 +52,31 @@ public class GuiAbilities extends GuiMenu_Bars {
 		String abilityName = ability.getRegistryName().toString();
 
 		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
+		int lvlIncrease = 0;
 		if (props.getEquippedAbilityLevel(abilityName)[1] > 0) { // If ability is > 0 = equipped, time to unequip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Unequip(mc.player, ability));
-			props.setConsumedAP(props.getConsumedAP() - apCost);
-			props.addEquippedAbilityLevel(abilityName, -1);
-			// ABILITIES.equipAbility(ability, false);
-			PacketHandler.sendToServer(new PacketSetEquippedAbility(abilityName, -1));
-			init();
+			lvlIncrease = -1;
 		} else { // If ability is <= 0 equip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
 			if (props.getConsumedAP() + apCost > props.getMaxAP()) {
 				System.out.println("Not enough AP");
 			} else {
-				props.setConsumedAP(props.getConsumedAP() + apCost);
-				props.addEquippedAbilityLevel(abilityName, 1);
-				// ABILITIES.equipAbility(ability, true);
-				PacketHandler.sendToServer(new PacketSetEquippedAbility(abilityName, 1));
-				init();
+				lvlIncrease = 1;
 			}
 		}
+		if(lvlIncrease > 0)
+			props.setConsumedAP(props.getConsumedAP() + apCost);
+		else 
+			props.setConsumedAP(props.getConsumedAP() - apCost);
+		props.addEquippedAbilityLevel(abilityName, lvlIncrease);
+		PacketHandler.sendToServer(new PacketSetEquippedAbility(abilityName, lvlIncrease));
+		init();
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		drawBars();
-		drawMunnyTime();
-		drawBiomeDim();
-		drawAP();
 		super.render(mouseX, mouseY, partialTicks);
-
+		drawAP();
 		// fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 	}
 
@@ -100,12 +97,13 @@ public class GuiAbilities extends GuiMenu_Bars {
 			} else {
 				text = "[+] "; // Has to equip
 			}
-			text += (abilityName) + " (" + ability.getAPCost() + ") [" + ability.getType() + "]";
-			GuiMenuButton button = (GuiMenuButton) buttons.get(i);
+			text += abilityName.substring(abilityName.indexOf(":")+1);
+			GuiMenuAbilitiesButton button = (GuiMenuAbilitiesButton) buttons.get(i);
 			if (ability.getAPCost() > props.getMaxAP() - props.getConsumedAP() && !(props.getEquippedAbilityLevel(abilityName)[1] > 0)) {
 				button.active = false;
 			}
 			button.setMessage(text);
+			button.setAP(ability.getAPCost());
 
 			if (button.isHovered())
 				hoveredAbility = ability;
