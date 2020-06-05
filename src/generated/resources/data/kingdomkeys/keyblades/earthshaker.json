@@ -1,0 +1,174 @@
+{
+  "abilities": [
+    "Magic Treasure Magnet",
+    "Formchange Extender"
+  ],
+  "keychain": "kingdomkeys:earthshaker_chain",
+  "base_stats": {
+    "str": 4,
+    "mag": 0
+  },
+  "levels": [
+    {
+      "str": 3,
+      "mag": 4,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 3,
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 4,
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 4,
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 5,
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_lightning_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 5,
+      "mag": 8,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_lightning_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 6,
+      "mag": 8,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 6,
+      "mag": 9,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_lightning_gem",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 7,
+      "mag": 10,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_lightning_gem",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 8,
+      "mag": 10,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_lightning_crystal",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_crystal",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_electrum",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "description": "The Keyblade Terra started out with. What it lacks in reach it makes up for with a slight boost in Strength."
+}
