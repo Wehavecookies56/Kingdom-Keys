@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.packet.PacketAttackOffhand;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketOrgPortalTP;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSetAerialDodgeTicks;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSetDriveForm;
+import online.kingdomkeys.kingdomkeys.network.packet.PacketSetEquippedAbility;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSetGliding;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSpawnOrgPortal;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncAllClientData;
@@ -58,6 +59,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, PacketSetAerialDodgeTicks.class, PacketSetAerialDodgeTicks::encode, PacketSetAerialDodgeTicks::decode, PacketSetAerialDodgeTicks::handle);
 		HANDLER.registerMessage(packetID++, PacketSpawnOrgPortal.class, PacketSpawnOrgPortal::encode, PacketSpawnOrgPortal::decode, PacketSpawnOrgPortal::handle);
 		HANDLER.registerMessage(packetID++, PacketOrgPortalTP.class, PacketOrgPortalTP::encode, PacketOrgPortalTP::decode, PacketOrgPortalTP::handle);
+		HANDLER.registerMessage(packetID++, PacketSetEquippedAbility.class, PacketSetEquippedAbility::encode, PacketSetEquippedAbility::decode, PacketSetEquippedAbility::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

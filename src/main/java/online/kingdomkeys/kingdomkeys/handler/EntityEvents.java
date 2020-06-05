@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -52,7 +51,10 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
 		PlayerEntity player = e.getPlayer();
-		if (!e.getPlayer().world.isRemote) { // Sync from server to client
+		if (!player.world.isRemote) { // Sync from server to client
+			//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
+			LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
+			System.out.println(map.values());
 			PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 		}
 		PacketHandler.syncToAllAround(player, ModCapabilities.get(player));

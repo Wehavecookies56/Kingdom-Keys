@@ -12,9 +12,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.GUIMenuO;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
 
 public class GuiMenu extends Screen{
 
@@ -41,9 +39,12 @@ public class GuiMenu extends Screen{
 		case ITEMS:
 			minecraft.displayGuiScreen(new GuiMenu_Items());
 			break;
+		case ABILITIES:
+			minecraft.displayGuiScreen(new GuiAbilities("Abilities"));
+			break;
 		case STATUS:
 			minecraft.displayGuiScreen(new GuiMenu_Status("Status"));
-
+			break;
 		/*
 		 * case CUSTOMIZE: GuiHelper.openCustomize(); break; case STATUS:
 		 * GuiHelper.openStatus(); break; case JOURNAL: GuiHelper.openReports(); break;
@@ -72,7 +73,7 @@ public class GuiMenu extends Screen{
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 		
 		addButton(items = new GuiMenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items),(e) -> { action(ITEMS); }));
-		addButton(abilities = new GuiMenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities),(e) -> { action(STATUS); }));
+		addButton(abilities = new GuiMenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities),(e) -> { action(ABILITIES); }));
 		addButton(customize = new GuiMenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize),(e) -> { action(STATUS); }));
 		addButton(party = new GuiMenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party),(e) -> { action(STATUS); }));
 		addButton(status = new GuiMenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status),(e) -> { action(STATUS); }));

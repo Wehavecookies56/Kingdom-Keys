@@ -22,6 +22,10 @@ public class Strings {
     public static final String
     		DF_Prefix = "form_";
     
+    //Abilities
+    public static final String
+    		AB_Prefix = "ability_";
+    
     // Synthesis Materials
     public static final String
             SM_Prefix = "mat_",

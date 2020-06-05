@@ -16,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
@@ -58,13 +59,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.put("magics", magics);
 
 			CompoundNBT forms = new CompoundNBT();
-			Iterator<Map.Entry<String, int[]>> it = instance.getDriveFormsMap().entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) it.next();
+			Iterator<Map.Entry<String, int[]>> driveFormsIt = instance.getDriveFormsMap().entrySet().iterator();
+			while (driveFormsIt.hasNext()) {
+				Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
 				// System.out.println("Write: "+pair.getKey()+" "+pair.getValue());
 				forms.putIntArray(pair.getKey().toString(), pair.getValue());
 			}
 			props.put("drive_forms", forms);
+			
+			CompoundNBT abilities = new CompoundNBT();
+			Iterator<Map.Entry<String, int[]>> abilitiesIt = instance.getAbilitiesMap().entrySet().iterator();
+			while (abilitiesIt.hasNext()) {
+				Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
+				abilities.putIntArray(pair.getKey().toString(), pair.getValue());
+			}
+			props.put("abilities", abilities);
 
 			for (byte i = 0; i < 3; i++) {
 				props.putByte("Portal" + i + "N", instance.getPortalCoords(i).getPID());
@@ -120,6 +129,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if (properties.getCompound("drive_forms").getIntArray(driveFormName)[0] == 0 && driveFormName.toString() != null)
 					instance.getDriveFormsMap().remove(driveFormName.toString());
 			}
+			
+			Iterator<String> abilitiesIt = properties.getCompound("abilities").keySet().iterator();
+			while (abilitiesIt.hasNext()) {
+				String abilityName = (String) abilitiesIt.next();
+				System.out.println("Read: " + abilityName);
+				instance.getAbilitiesMap().put(abilityName.toString(), properties.getCompound("abilities").getIntArray(abilityName));
+
+				// In this case we don't want abilities to get removed if they have level 0 as that means they could be unequipped
+				
+			}
 
 			for (byte i = 0; i < 3; i++) {
 				instance.setPortalCoords(i, new PortalCoords(properties.getByte("Portal" + i + "N"), properties.getDouble("Portal" + i + "X"), properties.getDouble("Portal" + i + "Y"), properties.getDouble("Portal" + i + "Z"), properties.getInt("Portal" + i + "D")));
@@ -127,11 +146,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = "";
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>();
 	List<String> magicList = new ArrayList<String>();
+	LinkedHashMap<String, int[]> abilitiesMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped}, 
 
 	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300, fp = 0;
 
@@ -344,12 +364,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void levelUpStatsAndDisplayMessage(PlayerEntity player) {
-		// IAbilities ABILITIES = player.getCapability(ModCapabilities.ABILITIES, null);
 		this.getMessages().clear();
 		switch (this.level) {
 		case 2:
 			this.addDefense(1);
-			// ABILITIES.unlockAbility(ModAbilities.scan);
+			addAbility(KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan");
 			break;
 		case 3:
 			this.addStrength(1);
@@ -1039,6 +1058,40 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public LinkedHashMap<String, int[]> getAbilitiesMap() {
+		return abilitiesMap;
+	}
+
+	@Override
+	public void setAbilitiesMap(LinkedHashMap<String, int[]> map) {
+		this.abilitiesMap = map;
+	}
+
+	@Override
+	public void addAbility(String ability) {
+		messages.add(ability);
+		if(abilitiesMap.containsKey(ability)) {
+			abilitiesMap.put(ability, new int[]{abilitiesMap.get(ability)[0]+1,abilitiesMap.get(ability)[1]});
+		} else {//If not already present in the map set it to level 1 and fully unequipped
+			abilitiesMap.put(ability, new int[]{1,0}); 
+		}
+	}
+
+	@Override
+	public int[] getEquippedAbilityLevel(String string) {
+		if(abilitiesMap.containsKey(string)) {
+			return abilitiesMap.get(string);
+		}
+		return new int[] {0,0};
+	}
+
+	@Override
+	public void addEquippedAbilityLevel(String ability, int level) {
+		System.out.println(ability+": "+abilitiesMap.get(ability)[0]+" : "+(abilitiesMap.get(ability)[1]+level));
+		abilitiesMap.put(ability, new int[] {abilitiesMap.get(ability)[0], abilitiesMap.get(ability)[1]+level});
 	}
 
 }

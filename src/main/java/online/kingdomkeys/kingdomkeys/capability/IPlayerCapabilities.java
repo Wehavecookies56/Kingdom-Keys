@@ -110,6 +110,12 @@ public interface IPlayerCapabilities {
 	void addMagicToList(String magic);
 	void removeMagicFromList(String magic);
 	
+	LinkedHashMap<String, int[]> getAbilitiesMap();
+	void setAbilitiesMap(LinkedHashMap<String,int[]> map);
+	void addAbility(String ability);
+	int[] getEquippedAbilityLevel(String string); 
+	void addEquippedAbilityLevel(String ability, int level);
+	
 	int getAntiPoints();
 	void setAntiPoints(int points);
 	

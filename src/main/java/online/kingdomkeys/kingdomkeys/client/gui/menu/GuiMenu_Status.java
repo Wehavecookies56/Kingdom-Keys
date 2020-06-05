@@ -16,7 +16,6 @@ public class GuiMenu_Status extends GuiMenu_Bars {
 	
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 
-
 	Button stats_player, stats_back; //stats_valor, stats_wisdom, stats_limit, stats_master, stats_final, stats_back;
 	GuiMenuButton[] dfStats = new GuiMenuButton[props.getDriveFormsMap().size()];
 

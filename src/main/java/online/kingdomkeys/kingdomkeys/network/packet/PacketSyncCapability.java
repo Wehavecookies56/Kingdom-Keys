@@ -35,6 +35,7 @@ public class PacketSyncCapability {
 	
 	List<String> magicList = new ArrayList<String>();
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
+	LinkedHashMap<String,int[]> abilitiesMap = new LinkedHashMap<String,int[]>();
 
 	public PacketSyncCapability() {
 	}
@@ -62,6 +63,7 @@ public class PacketSyncCapability {
 		
 		this.magicList = capability.getMagicsList();
 		this.driveFormsMap = capability.getDriveFormsMap();
+		this.abilitiesMap = capability.getAbilitiesMap();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
@@ -103,6 +105,14 @@ public class PacketSyncCapability {
 			forms.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(forms);
+		
+		CompoundNBT abilities = new CompoundNBT();
+		Iterator<Map.Entry<String, int[]>> abilitiesIt = abilitiesMap.entrySet().iterator();
+		while (abilitiesIt.hasNext()) {
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
+			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
+		}
+		buffer.writeCompoundTag(abilities);
 
 		
 		buffer.writeInt(messages.size());
@@ -147,8 +157,6 @@ public class PacketSyncCapability {
 			String key = (String) it.next();
 //			System.out.println("ReadPacket: "+key+" value: "+value);
 			msg.magicList.add(key);
-			/*if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
-				instance.getDriveFormsMap().remove(key.toString());*/
 		}
 		
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();
@@ -162,6 +170,13 @@ public class PacketSyncCapability {
 				instance.getDriveFormsMap().remove(key.toString());*/
 		}
 		//System.out.println(msg.driveFormsMap);
+		
+		CompoundNBT abilitiesTag = buffer.readCompoundTag();
+		Iterator<String> abilitiesIt = abilitiesTag.keySet().iterator();
+		while (abilitiesIt.hasNext()) {
+			String abilityName = (String) abilitiesIt.next();
+			msg.abilitiesMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
+		}
 		
 		int msgSize = buffer.readInt();
 		int dfMsgSize = buffer.readInt();
@@ -202,6 +217,7 @@ public class PacketSyncCapability {
 			props.ifPresent(cap -> cap.setDFMessages(message.dfMessages));
 			props.ifPresent(cap -> cap.setMagicsList(message.magicList));
 			props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
+			props.ifPresent(cap -> cap.setAbilitiesMap(message.abilitiesMap));
 			props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
 		});
 		ctx.get().setPacketHandled(true);
