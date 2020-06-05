@@ -97,10 +97,6 @@ public class GuiMenuAbilitiesButton extends Button{
 	}
 
 	private void drawButton(boolean hovered) {
-		//vPos = hovered ? selectedVPos : vPos;
-		//Hovered outline
-		
-		
 		//Ability name
 		RenderSystem.pushMatrix();
 		{
@@ -111,6 +107,7 @@ public class GuiMenuAbilitiesButton extends Button{
 			blit(x + endWidth + middleWidth, y, rightU, vPos, endWidth, height);
 		}
 		RenderSystem.popMatrix();
+		
 		//AP Cost
 		RenderSystem.color3f(0.4F, 0.4F, 0);
 		blit(x+middleWidth+endWidth+10, y, leftU, vPos, endWidth, height);
@@ -118,6 +115,8 @@ public class GuiMenuAbilitiesButton extends Button{
 			blit(x +middleWidth+ i + endWidth+20, y, middleU, vPos, 1, height);
 		}
 		blit(x + endWidth + middleWidth+apMiddleWidth +20, y, rightU, vPos, endWidth, height);
+		
+		//Hovered outline
 		if(hovered) {
 			RenderSystem.pushMatrix();
 			{

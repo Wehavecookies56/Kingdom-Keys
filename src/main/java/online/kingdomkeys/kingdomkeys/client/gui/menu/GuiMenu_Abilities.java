@@ -93,9 +93,9 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 
 			String text = "";
 			if (props.getEquippedAbilityLevel(abilityName)[1] > 0) {
-				text = "[-] "; // Has to unequip
+				text = "O "; // Has to unequip
 			} else {
-				text = "[+] "; // Has to equip
+				text = "  "; // Has to equip
 			}
 			text += abilityName.substring(abilityName.indexOf(":")+1);
 			GuiMenuAbilitiesButton button = (GuiMenuAbilitiesButton) buttons.get(i);
