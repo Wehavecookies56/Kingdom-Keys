@@ -119,7 +119,6 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 
 		int consumedAP = props.getConsumedAP();
 		int maxAP = props.getMaxAP();
-			//System.out.println(consumedAP+"/"+maxAP);
 		
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 

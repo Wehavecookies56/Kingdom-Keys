@@ -1,7 +1,7 @@
 {
   "parent": "forge:item/default",
   "loader": "forge:obj",
-  "model": "kingdomkeys:models/item/kingdom_key.obj",
+  "model": "kingdomkeys:models/item/keyblade/kingdom_key.obj",
   "textures": {
     
   },
