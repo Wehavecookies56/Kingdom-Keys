@@ -5,7 +5,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -35,6 +38,14 @@ public class SavePointBlock extends BaseBlock {
 		// Tried to make animation here but random tick f*cks it all
 		super.animateTick(state, world, pos, random);
 	}
+	
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if(!worldIn.isRemote) {
+			player.setSpawnPoint(pos.add(0, 1, 0), true, true, player.dimension);
+		}
+		return ActionResultType.CONSUME;
+	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -42,6 +53,7 @@ public class SavePointBlock extends BaseBlock {
 		if (entity instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entity;
 			IPlayerCapabilities props = ModCapabilities.get(player);
+			
 			double r = 0.7D;
 			double cx = pos.getX() + 0.5;
 			double cy = pos.getY() + 0.5;
