@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import java.util.ArrayList;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -23,7 +25,7 @@ public class LockOnGui extends Screen {
 
 	int hpGuiWidth = 173;
 	float hpBarWidth;
-	int BarHP;
+	int hpPerBar;
 	int hpBars;
 	int currentBar;
 
@@ -111,37 +113,39 @@ public class LockOnGui extends Screen {
 			float oneHeart = (noborderguiwidth / target.getMaxHealth());
 			int currHealth = noborderguiwidth - (int) (oneHeart * target.getHealth());
 
-			BarHP = 25;
-
-			// If the max health is not divisible by BarHP reduce it
-			while (target.getMaxHealth() % BarHP != 0) {
-				BarHP--;
-				if (BarHP == 1) {// If it's not divisible by 0 set it to the entity health
-					BarHP = (int) target.getMaxHealth();
-					break;
-				}
-			}
-
-			// Number of HP bars (returns 1 more but it gets removed after)
-			hpBars = (int) target.getMaxHealth() / BarHP;
-
-			// Current HP Bar
-			currentBar = (int) target.getHealth() / BarHP;
-
-			if (target.getHealth() % BarHP != 0) // If there is module it will have it's hp bar
-				currentBar++;
-
-			int oneBar = (int) (target.getMaxHealth() / hpBars);
-
-			if (target.getMaxHealth() == target.getHealth()) {
-				hpBarWidth = oneBar * 10;
+			hpPerBar = 10;
+			int widthMultiplier = 20;
+			
+			if(target.getMaxHealth()%hpPerBar == 0) {
+				hpBars = (int) (target.getMaxHealth() / hpPerBar);
 			} else {
-				hpBarWidth = (float) (Math.ceil(target.getHealth() % oneBar) * 10);
+				hpBars = (int) (target.getMaxHealth() / hpPerBar) + 1;
+			}
+			
+			if(target.getHealth() % hpPerBar == 0) {
+				currentBar = (int) (target.getHealth() / hpPerBar);
+			} else {
+				currentBar = (int) (target.getHealth() / hpPerBar) + 1;
 			}
 
-			// Background HP width
-			int hpBarMaxWidth = (int) (target.getMaxHealth() * 10 / hpBars);
+			int oneBar = (int) (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());//(int) (target.getMaxHealth() / hpBars);
 
+
+			if (target.getHealth() % hpPerBar == 0 && target.getHealth() != 0) {
+				hpBarWidth = oneBar * widthMultiplier;
+			} else {
+				hpBarWidth = (float) (Math.ceil(target.getHealth() % hpPerBar) * widthMultiplier);
+			}
+
+			int hpBarMaxWidth;
+			// Background HP width
+			if (target.getMaxHealth() >= hpPerBar) {
+				hpBarMaxWidth = oneBar * widthMultiplier;
+			} else {
+				hpBarMaxWidth = (int) (Math.ceil(target.getMaxHealth() % hpPerBar) * widthMultiplier);
+			}
+
+			System.out.println(target.getHealth());
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
@@ -168,7 +172,7 @@ public class LockOnGui extends Screen {
 			{
 				RenderSystem.translatef(scale * posX, scale * posY, 0);
 				RenderSystem.scalef(scale, scale, 0);
-				blit(0, 0, 0, 0, 2, 10);
+				blit(0, 0, 0, 0, 2, 12);
 			}
 			RenderSystem.popMatrix();
 
@@ -177,7 +181,7 @@ public class LockOnGui extends Screen {
 			{
 				RenderSystem.translatef((posX + 2) * scale, posY * scale, 0);
 				RenderSystem.scalef(width, scale, 0);
-				blit(0, 0, 2, 0, 1, 10);
+				blit(0, 0, 2, 0, 1, 12);
 			}
 			RenderSystem.popMatrix();
 
@@ -186,14 +190,14 @@ public class LockOnGui extends Screen {
 			{
 				RenderSystem.translatef((posX + 2) * scale + width, scale * posY, 0);
 				RenderSystem.scalef(scale, scale, 0);
-				blit(0, 0, 3, 0, 2, 10);
+				blit(0, 0, 3, 0, 2, 12);
 			}
 			RenderSystem.popMatrix();
 
 			// HP Icon
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef(posX + width - 14, posY + 7, 0);
+				RenderSystem.translatef(posX + width - 14, posY + 9, 0);
 				RenderSystem.scalef(scale, scale, 0);
 				blit(1, 0, 0, 32, 23, 12);
 			}
@@ -203,7 +207,7 @@ public class LockOnGui extends Screen {
 			for (int i = 0; i < hpBars - 1; i++) {
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 7, 0);
+					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
 					RenderSystem.scalef(scale, scale, 0);
 					blit(0, 0, 0, 46, 17, 12);
 				}
@@ -223,7 +227,7 @@ public class LockOnGui extends Screen {
 			{
 				RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
 				RenderSystem.scalef(width, scale, 0);
-				blit(0, 0, 2, 12, 1, 6);
+				blit(0, 0, 2, 12, 1, 8);
 			}
 			RenderSystem.popMatrix();
 
