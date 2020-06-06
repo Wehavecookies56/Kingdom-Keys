@@ -35,7 +35,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.CapabilityEventsHandler;
 import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
@@ -49,6 +48,7 @@ import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+import online.kingdomkeys.kingdomkeys.world.ModBiomes;
 import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
 import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
 
@@ -99,6 +99,8 @@ public class KingdomKeys {
 
         ModEntities.ENTITIES.register(modEventBus);
 
+		ModBiomes.BIOMES.register(modEventBus);
+
 		modEventBus.addListener(this::setup);
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
@@ -119,9 +121,9 @@ public class KingdomKeys {
 		// Run setup on proxies
 		proxy.setup(event);
 		ModCapabilities.register();
+		ModBiomes.init();
 		DeferredWorkQueue.runLater(() -> {
 			PacketHandler.register();
-
 		});
 		addMoogleHouse();
 	}

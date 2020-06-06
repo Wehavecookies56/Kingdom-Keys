@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys;
+package online.kingdomkeys.kingdomkeys.ability;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
 

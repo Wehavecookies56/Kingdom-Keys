@@ -11,9 +11,9 @@ import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.Ability;
-import online.kingdomkeys.kingdomkeys.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public class GuiMenuAbilitiesButton extends Button{

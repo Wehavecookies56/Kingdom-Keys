@@ -42,6 +42,7 @@ import online.kingdomkeys.kingdomkeys.network.packet.PacketSetAerialDodgeTicks;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSetGliding;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
+import online.kingdomkeys.kingdomkeys.world.ModBiomes;
 
 public class EntityEvents {
 
@@ -63,6 +64,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
+		event.player.changeDimension(ModBiomes.traverseTownBiome.get())
 		if (props != null) {
 			if(!event.player.world.isRemote)
 				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)event.player);
