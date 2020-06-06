@@ -1,0 +1,14 @@
+# Blender MTL File: 'None'
+# Material Count: 2
+
+newmtl Material__93
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+d 1.000000
+map_Kd kingdomkeys:item/models/keyblades/wishingstar_2
+
+newmtl Material__94
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+d 1.000000
+map_Kd kingdomkeys:item/models/keyblades/wishingstar_1

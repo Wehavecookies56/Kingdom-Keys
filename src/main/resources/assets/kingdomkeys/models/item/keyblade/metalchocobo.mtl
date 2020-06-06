@@ -1,0 +1,14 @@
+# Blender MTL File: 'None'
+# Material Count: 2
+
+newmtl Material__45
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+d 1.000000
+map_Kd kingdomkeys:item/models/keyblades/metalchocobo_1
+
+newmtl Material__46
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+d 1.000000
+map_Kd kingdomkeys:item/models/keyblades/metalchocobo_2

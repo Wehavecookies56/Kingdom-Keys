@@ -1,6 +1,50 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/organization/colossus"
-  }
+	"parent": "forge:item/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/item/keyblade/colossus.obj",
+	"textures": {
+
+	},
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [0.0, 0.04, -0.01 ],
+			"scale": [0.017000000923871994, 0.017000000923871994, 0.017000000923871994 ]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0.0, -90.0, 0.0 ],
+			"translation": [0.0, 0.7, 0.0 ],
+			"scale": [0.019999999552965164, 0.019999999552965164, 0.019999999552965164 ]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0.0, -90.0, 0.0 ],
+			"translation": [0.0, 0.04, -0.01 ],
+			"scale": [0.017000000923871994, 0.017000000923871994, 0.017000000923871994 ]
+		},
+		"thirdperson_righthand": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [0.0, 0.7, 0.0 ],
+			"scale": [0.019999999552965164, 0.019999999552965164, 0.019999999552965164 ]
+		},
+		"gui": {
+			"rotation": [0.0, 0.0, -45.0 ],
+			"translation": [-0.1, 0.0, 0.0 ],
+			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+		},
+		"ground": {
+			"rotation": [45.0, 0.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.00800000037997961, 0.00800000037997961, 0.00800000037997961 ]
+		},
+		"fixed": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [0.0, -0.25, 0.0 ],
+			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+		}
+	},
+	"visibility": {
+		"object_1": "hide",
+		"object_2": "default",
+		"object_3": "show"
+	}
 }

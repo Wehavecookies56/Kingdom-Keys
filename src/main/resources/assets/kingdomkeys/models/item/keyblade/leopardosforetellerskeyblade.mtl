@@ -1,0 +1,7 @@
+# Created by Metasequoia
+
+newmtl mat1
+Ka 0.35800 0.35800 0.35800
+Kd 0.74700 0.74700 0.74700
+
+map_Kd kingdomkeys:item/models/keyblades/gula

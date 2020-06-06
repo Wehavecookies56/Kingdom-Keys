@@ -1,0 +1,14 @@
+# Blender MTL File: 'None'
+# Material Count: 2
+
+newmtl Material__91
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+d 1.000000
+map_Kd kingdomkeys:item/models/keyblades/threewishes_1
+
+newmtl Material__92
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+d 1.000000
+map_Kd kingdomkeys:item/models/keyblades/threewishes_2

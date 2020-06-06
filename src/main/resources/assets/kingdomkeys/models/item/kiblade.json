@@ -1,7 +1,7 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:b3d",
-	"model": "kingdomkeys:models/item/keyblade/kiblade.b3d",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/item/keyblade/kiblade.obj",
 	"textures": {
 
 	},
