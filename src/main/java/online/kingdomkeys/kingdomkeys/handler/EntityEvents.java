@@ -44,10 +44,10 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetAerialDodgeTicks;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetGliding;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetAerialDodgeTicksPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.world.KKDimTeleporter;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
@@ -71,7 +71,7 @@ public class EntityEvents {
 			//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
 			LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
 			System.out.println(map.values());
-			PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 		}
 		PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
 	}
@@ -79,15 +79,9 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
-		if(!event.player.world.isRemote) {
-			KKDimTeleporter tp = new KKDimTeleporter((ServerWorld) event.player.world, new BlockPos(0,0,0), "kingdomkeys:"+Strings.twilightTown);
-			System.out.println(tp);
-			//tp.placeEntity(event.player, (ServerWorld)event.player.world, (ServerWorld)event.player.world, 0, null);
-		}
-		//event.player.changeDimension(ModBiomes.traverseTownBiome.get())
 		if (props != null) {
 			if(!event.player.world.isRemote)
-				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)event.player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
 			//System.out.println(props.getEquippedAbilityLevel("kingdomKeys:ability_scan")[1]);
 			//System.out.println(props.getConsumedAP());
 			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
@@ -109,7 +103,7 @@ public class EntityEvents {
 					props.setMP(props.getMaxMP());
 					// System.out.println(props.getMP());
 					if (!event.player.world.isRemote) {
-						PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) event.player);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
 					}
 				} else {
 					if (event.player.ticksExisted % 5 == 0)
@@ -119,7 +113,7 @@ public class EntityEvents {
 				if (props.getMP() <= 0) {
 					props.setRecharge(true);
 					if (!event.player.world.isRemote) {
-						PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) event.player);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
 					}
 				}
 			}
@@ -179,7 +173,7 @@ public class EntityEvents {
 						event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
 
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
-						PacketHandler.sendTo(new PacketSyncGlobalCapability(gProps), (ServerPlayerEntity) event.getEntityLiving());
+						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(gProps), (ServerPlayerEntity) event.getEntityLiving());
 					gProps.setDamage(0);
 				}
 			}
@@ -317,7 +311,7 @@ public class EntityEvents {
 							int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Master)-2 : props.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
 							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
 							player.setMotion(player.getMotion().mul(new Vec3d(boost, boost, boost)));
-							PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true, 10));
+							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));
 						}
 					}
 				}
@@ -333,20 +327,20 @@ public class EntityEvents {
 						if (!props.getIsGliding()) {
 							props.setIsGliding(true);// Set props clientside
 							props.setAerialDodgeTicks(0);
-							PacketHandler.sendToServer(new PacketSetGliding(true)); // Set props serverside
-							PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(true, 0)); // In case the player is still rotating stop it
+							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set props serverside
+							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 0)); // In case the player is still rotating stop it
 						}
 					} else { // If is no longer pressing space
 						if (props.getIsGliding()) {
 							props.setIsGliding(false);
-							PacketHandler.sendToServer(new PacketSetGliding(false));
+							PacketHandler.sendToServer(new CSSetGlidingPacket(false));
 						}
 					}
 				} else { // If touches the ground
 					if (props.getIsGliding()) {
 						props.setIsGliding(false);
-						PacketHandler.sendToServer(new PacketSetGliding(false));
-						PacketHandler.sendToServer(new PacketSetAerialDodgeTicks(false, 0)); // In case the player is still rotating stop it
+						PacketHandler.sendToServer(new CSSetGlidingPacket(false));
+						PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(false, 0)); // In case the player is still rotating stop it
 					}
 				}
 			}
@@ -422,7 +416,7 @@ public class EntityEvents {
 						props.addExperience(player, 1500);
 					}
 
-					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
 				}
 			}
 

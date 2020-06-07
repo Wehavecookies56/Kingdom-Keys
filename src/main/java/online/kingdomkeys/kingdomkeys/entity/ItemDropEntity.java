@@ -20,7 +20,7 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
 
 public abstract class ItemDropEntity extends Entity {
 	public int delayBeforeCanPickup;
@@ -156,7 +156,7 @@ public abstract class ItemDropEntity extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1);
 				this.remove();
-				PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(entityIn)), (ServerPlayerEntity)entityIn);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(entityIn)), (ServerPlayerEntity)entityIn);
 			}
 
 		}

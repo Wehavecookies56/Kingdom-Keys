@@ -10,15 +10,15 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.world.TeleporterOrgPortal;
 
-public class PacketOrgPortalTP {
+public class CSOrgPortalTPPacket {
 
 	int dim;
     double x,y,z;
 
-	public PacketOrgPortalTP() {
+	public CSOrgPortalTPPacket() {
 	}
 
-	public PacketOrgPortalTP(int dimension, double x, double y, double z) {
+	public CSOrgPortalTPPacket(int dimension, double x, double y, double z) {
     	this.dim = dimension;
         this.x = x;
         this.y = y;
@@ -32,8 +32,8 @@ public class PacketOrgPortalTP {
         buffer.writeDouble(z);
 	}
 
-	public static PacketOrgPortalTP decode(PacketBuffer buffer) {
-		PacketOrgPortalTP msg = new PacketOrgPortalTP();
+	public static CSOrgPortalTPPacket decode(PacketBuffer buffer) {
+		CSOrgPortalTPPacket msg = new CSOrgPortalTPPacket();
 		msg.dim = buffer.readInt();
 		msg.x = buffer.readDouble();
 		msg.y = buffer.readDouble();
@@ -41,7 +41,7 @@ public class PacketOrgPortalTP {
 		return msg;
 	}
 
-	public static void handle(PacketOrgPortalTP message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSOrgPortalTPPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 	    	BlockPos pos = new BlockPos(message.x,message.y,message.z);

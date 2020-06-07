@@ -7,27 +7,27 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
 
-public class ShowOverlayPacket {
+public class SCShowOverlayPacket {
 
 	String type;
 	int munny;
 	String driveForm;
 
-	public ShowOverlayPacket() {
+	public SCShowOverlayPacket() {
 	}
 
-	public ShowOverlayPacket(String type) {
+	public SCShowOverlayPacket(String type) {
 		this.type = type;
 		this.driveForm = "";
 	}
 
-	public ShowOverlayPacket(String type, int munny) {
+	public SCShowOverlayPacket(String type, int munny) {
 		this.type = type;
 		this.munny = munny;
 		this.driveForm = "";
 	}
 
-	public ShowOverlayPacket(String type, String driveForm) {
+	public SCShowOverlayPacket(String type, String driveForm) {
 		this.type = type;
 		this.driveForm = driveForm;
 	}
@@ -38,15 +38,15 @@ public class ShowOverlayPacket {
         buffer.writeString(this.driveForm);
 	}
 
-	public static ShowOverlayPacket decode(PacketBuffer buffer) {
-		ShowOverlayPacket msg = new ShowOverlayPacket();
+	public static SCShowOverlayPacket decode(PacketBuffer buffer) {
+		SCShowOverlayPacket msg = new SCShowOverlayPacket();
 		msg.type = buffer.readString(50);
 		msg.munny = buffer.readInt();
 		msg.driveForm = buffer.readString(25);
 		return msg;
 	}
 
-	public static void handle(final ShowOverlayPacket msg, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final SCShowOverlayPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Minecraft mc = Minecraft.getInstance();
 			long time = System.currentTimeMillis()/1000;

@@ -10,7 +10,7 @@ import net.minecraft.util.Hand;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncGlobalCapabilityPacket;
 
 public class MagicStop extends Magic {
 	String name;
@@ -31,7 +31,7 @@ public class MagicStop extends Magic {
                 	IGlobalCapabilities props = ModCapabilities.getGlobal((LivingEntity) e);
                 	props.setStoppedTicks(100); //Stop
                 	if(e instanceof ServerPlayerEntity)
-                		PacketHandler.sendTo(new PacketSyncGlobalCapability(props), (ServerPlayerEntity) e);
+                		PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(props), (ServerPlayerEntity) e);
                 }
             }
         }

@@ -10,21 +10,21 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-public class PacketUpgradeSynthesisBag {
+public class CSUpgradeSynthesisBagPacket {
 
-	public PacketUpgradeSynthesisBag() {
+	public CSUpgradeSynthesisBagPacket() {
 
 	}
 
 	public void encode(PacketBuffer buffer) {
 	}
 
-	public static PacketUpgradeSynthesisBag decode(PacketBuffer buffer) {
-		PacketUpgradeSynthesisBag msg = new PacketUpgradeSynthesisBag();
+	public static CSUpgradeSynthesisBagPacket decode(PacketBuffer buffer) {
+		CSUpgradeSynthesisBagPacket msg = new CSUpgradeSynthesisBagPacket();
 		return msg;
 	}
 
-	public static void handle(PacketUpgradeSynthesisBag message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSUpgradeSynthesisBagPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			ItemStack stack = player.getHeldItemMainhand();

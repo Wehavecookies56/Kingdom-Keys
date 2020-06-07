@@ -15,7 +15,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-public class PacketSyncCapability {
+public class SCSyncCapabilityPacket {
 
 	int level = 0;
 	private int exp = 0;
@@ -37,10 +37,10 @@ public class PacketSyncCapability {
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
 	LinkedHashMap<String,int[]> abilitiesMap = new LinkedHashMap<String,int[]>();
 
-	public PacketSyncCapability() {
+	public SCSyncCapabilityPacket() {
 	}
 
-	public PacketSyncCapability(IPlayerCapabilities capability) {
+	public SCSyncCapabilityPacket(IPlayerCapabilities capability) {
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
 		this.expGiven = capability.getExperienceGiven();
@@ -127,8 +127,8 @@ public class PacketSyncCapability {
 		}
 	}
 
-	public static PacketSyncCapability decode(PacketBuffer buffer) {
-		PacketSyncCapability msg = new PacketSyncCapability();
+	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
+		SCSyncCapabilityPacket msg = new SCSyncCapabilityPacket();
 
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
@@ -194,7 +194,7 @@ public class PacketSyncCapability {
 		return msg;
 	}
 
-	public static void handle(final PacketSyncCapability message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final SCSyncCapabilityPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			LazyOptional<IPlayerCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
 			props.ifPresent(cap -> cap.setLevel(message.level));

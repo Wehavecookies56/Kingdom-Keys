@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.ShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCShowOverlayPacket;
 
 public class MunnyEntity extends ItemDropEntity {
 
@@ -31,7 +31,7 @@ public class MunnyEntity extends ItemDropEntity {
 	void onPickup(PlayerEntity player) {
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		props.setMunny(props.getMunny() + value);
-		PacketHandler.sendTo(new ShowOverlayPacket("munny", value), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCShowOverlayPacket("munny", value), (ServerPlayerEntity) player);
 	}
 
 	@Override

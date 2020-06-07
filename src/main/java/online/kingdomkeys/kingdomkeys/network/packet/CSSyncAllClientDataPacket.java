@@ -10,26 +10,26 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class PacketSyncAllClientData {
+public class CSSyncAllClientDataPacket {
 
-	public PacketSyncAllClientData() {
+	public CSSyncAllClientDataPacket() {
 	}
 
 	public void encode(PacketBuffer buffer) {
 
 	}
 
-	public static PacketSyncAllClientData decode(PacketBuffer buffer) {
-		PacketSyncAllClientData msg = new PacketSyncAllClientData();
+	public static CSSyncAllClientDataPacket decode(PacketBuffer buffer) {
+		CSSyncAllClientDataPacket msg = new CSSyncAllClientDataPacket();
 
 		return msg;
 	}
 
-	public static void handle(final PacketSyncAllClientData message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final CSSyncAllClientDataPacket message, Supplier<NetworkEvent.Context> ctx) {
 		PlayerEntity player = ctx.get().getSender();
 
 		IPlayerCapabilities props = ModCapabilities.get(player);
-		PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
 
 		ctx.get().setPacketHandled(true);
 	}

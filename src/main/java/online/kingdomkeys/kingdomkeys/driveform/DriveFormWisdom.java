@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormWisdom extends DriveForm {
@@ -76,7 +76,7 @@ public class DriveFormWisdom extends DriveForm {
 					IPlayerCapabilities props = ModCapabilities.get(player);
 					if (props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
-						PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity) player);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
 					}
 				}
 			}

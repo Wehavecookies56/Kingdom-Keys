@@ -10,15 +10,15 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-public class PacketSyncGlobalCapabilityToAll {
+public class SCSyncGlobalCapabilityToAllPacket {
 	//Send packet to everyone to render gravity flat for example
 	int id;
 	private int stopTicks, stopDmg, flatTicks;
 
-	public PacketSyncGlobalCapabilityToAll() {
+	public SCSyncGlobalCapabilityToAllPacket() {
 	}
 
-	public PacketSyncGlobalCapabilityToAll(int id, IGlobalCapabilities capability) {
+	public SCSyncGlobalCapabilityToAllPacket(int id, IGlobalCapabilities capability) {
 		this.id = id;
 		this.stopTicks = capability.getStoppedTicks();
 		this.stopDmg = capability.getDamage();
@@ -32,8 +32,8 @@ public class PacketSyncGlobalCapabilityToAll {
 		buffer.writeInt(this.flatTicks);
 	}
 
-	public static PacketSyncGlobalCapabilityToAll decode(PacketBuffer buffer) {
-		PacketSyncGlobalCapabilityToAll msg = new PacketSyncGlobalCapabilityToAll();
+	public static SCSyncGlobalCapabilityToAllPacket decode(PacketBuffer buffer) {
+		SCSyncGlobalCapabilityToAllPacket msg = new SCSyncGlobalCapabilityToAllPacket();
 		msg.id = buffer.readInt();
 		msg.stopTicks = buffer.readInt();
 		msg.stopDmg = buffer.readInt();
@@ -42,7 +42,7 @@ public class PacketSyncGlobalCapabilityToAll {
 		return msg;
 	}
 
-	public static void handle(final PacketSyncGlobalCapabilityToAll message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final SCSyncGlobalCapabilityToAllPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			LivingEntity entity = (LivingEntity) Minecraft.getInstance().world.getEntityByID(message.id);
 			

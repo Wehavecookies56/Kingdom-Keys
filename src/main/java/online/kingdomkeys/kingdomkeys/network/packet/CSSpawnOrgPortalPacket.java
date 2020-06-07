@@ -10,16 +10,16 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class PacketSpawnOrgPortal {
+public class CSSpawnOrgPortalPacket {
 
 	BlockPos pos;
 	BlockPos destPos;
 	int dimension;
 
-	public PacketSpawnOrgPortal() {
+	public CSSpawnOrgPortalPacket() {
 	}
 
-	public PacketSpawnOrgPortal(BlockPos pos, BlockPos dest, int dim) {
+	public CSSpawnOrgPortalPacket(BlockPos pos, BlockPos dest, int dim) {
 		this.pos = pos;
 		this.destPos = dest;
 		this.dimension = dim;
@@ -31,15 +31,15 @@ public class PacketSpawnOrgPortal {
 		buffer.writeInt(dimension);
 	}
 
-	public static PacketSpawnOrgPortal decode(PacketBuffer buffer) {
-		PacketSpawnOrgPortal msg = new PacketSpawnOrgPortal();
+	public static CSSpawnOrgPortalPacket decode(PacketBuffer buffer) {
+		CSSpawnOrgPortalPacket msg = new CSSpawnOrgPortalPacket();
 		msg.pos = buffer.readBlockPos();
 		msg.destPos = buffer.readBlockPos();
 		msg.dimension = buffer.readInt();
 		return msg;
 	}
 
-	public static void handle(PacketSpawnOrgPortal message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSSpawnOrgPortalPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			// PacketDispatcher.sendToAllAround(new SpawnPortalParticles(pos), player,
@@ -50,7 +50,7 @@ public class PacketSpawnOrgPortal {
 			OrgPortalEntity destPortal = new OrgPortalEntity(player.world, player, message.destPos.up(), message.destPos, message.dimension, false);
 			player.world.addEntity(destPortal);
 			
-			PacketHandler.sendToAll(new SyncOrgPortal(message.pos, message.destPos, message.dimension), player.world);
+			PacketHandler.sendToAll(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension), player.world);
 
 		});
 		ctx.get().setPacketHandled(true);

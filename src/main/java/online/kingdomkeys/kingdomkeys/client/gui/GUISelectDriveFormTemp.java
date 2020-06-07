@@ -9,7 +9,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetDriveForm;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetDriveFormPacket;
 
 public class GUISelectDriveFormTemp extends Screen{
 
@@ -34,7 +34,7 @@ public class GUISelectDriveFormTemp extends Screen{
 	}
 	
 	private void select(String model) {
-		PacketHandler.sendToServer(new PacketSetDriveForm(model));
+		PacketHandler.sendToServer(new CSSetDriveFormPacket(model));
 	}
 
 	@Override

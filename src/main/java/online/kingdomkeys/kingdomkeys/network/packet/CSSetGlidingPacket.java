@@ -9,14 +9,14 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class PacketSetGliding {
+public class CSSetGlidingPacket {
 
 	private boolean gliding;
 
-	public PacketSetGliding() {
+	public CSSetGlidingPacket() {
 	}
 
-	public PacketSetGliding(boolean gliding) {
+	public CSSetGlidingPacket(boolean gliding) {
 		this.gliding = gliding;
 	}
 
@@ -24,13 +24,13 @@ public class PacketSetGliding {
 		buffer.writeBoolean(this.gliding);
 	}
 
-	public static PacketSetGliding decode(PacketBuffer buffer) {
-		PacketSetGliding msg = new PacketSetGliding();
+	public static CSSetGlidingPacket decode(PacketBuffer buffer) {
+		CSSetGlidingPacket msg = new CSSetGlidingPacket();
 		msg.gliding = buffer.readBoolean();
 		return msg;
 	}
 
-	public static void handle(PacketSetGliding message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSSetGlidingPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities props = ModCapabilities.get(player);

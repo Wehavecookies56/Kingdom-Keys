@@ -11,14 +11,14 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
-public class PacketAntiPoints {
+public class CSAntiPointsPacket {
 
 	int points;
 
-	public PacketAntiPoints() {
+	public CSAntiPointsPacket() {
 	}
 
-	public PacketAntiPoints(int points) {
+	public CSAntiPointsPacket(int points) {
 		this.points = points;
 	}
 
@@ -26,13 +26,13 @@ public class PacketAntiPoints {
 		buffer.writeInt(this.points);
 	}
 
-	public static PacketAntiPoints decode(PacketBuffer buffer) {
-		PacketAntiPoints msg = new PacketAntiPoints();
+	public static CSAntiPointsPacket decode(PacketBuffer buffer) {
+		CSAntiPointsPacket msg = new CSAntiPointsPacket();
 		msg.points = buffer.readInt();
 		return msg;
 	}
 
-	public static void handle(PacketAntiPoints message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSAntiPointsPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities props = ModCapabilities.get(player);

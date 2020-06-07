@@ -9,15 +9,15 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class PacketSetAerialDodgeTicks {
+public class CSSetAerialDodgeTicksPacket {
 
 	private int ticks;
 	private boolean hasJumped;
 
-	public PacketSetAerialDodgeTicks() {
+	public CSSetAerialDodgeTicksPacket() {
 	}
 
-	public PacketSetAerialDodgeTicks(boolean hasJumped, int ticks) {
+	public CSSetAerialDodgeTicksPacket(boolean hasJumped, int ticks) {
 		this.hasJumped = hasJumped;
 		this.ticks = ticks;
 	}
@@ -27,14 +27,14 @@ public class PacketSetAerialDodgeTicks {
 		buffer.writeInt(this.ticks);
 	}
 
-	public static PacketSetAerialDodgeTicks decode(PacketBuffer buffer) {
-		PacketSetAerialDodgeTicks msg = new PacketSetAerialDodgeTicks();
+	public static CSSetAerialDodgeTicksPacket decode(PacketBuffer buffer) {
+		CSSetAerialDodgeTicksPacket msg = new CSSetAerialDodgeTicksPacket();
 		msg.hasJumped = buffer.readBoolean();
 		msg.ticks = buffer.readInt();
 		return msg;
 	}
 
-	public static void handle(PacketSetAerialDodgeTicks message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSSetAerialDodgeTicksPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities props = ModCapabilities.get(player);

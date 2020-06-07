@@ -27,14 +27,14 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
-public class PacketAttackOffhand {
+public class CSAttackOffhandPacket {
 
 	private int entityId;
 
-	public PacketAttackOffhand() {
+	public CSAttackOffhandPacket() {
 	}
 
-	public PacketAttackOffhand(int entityId) {
+	public CSAttackOffhandPacket(int entityId) {
         this.entityId = entityId;
 	}
 
@@ -42,13 +42,13 @@ public class PacketAttackOffhand {
         buffer.writeInt(entityId);
 	}
 
-	public static PacketAttackOffhand decode(PacketBuffer buffer) {
-		PacketAttackOffhand msg = new PacketAttackOffhand();
+	public static CSAttackOffhandPacket decode(PacketBuffer buffer) {
+		CSAttackOffhandPacket msg = new CSAttackOffhandPacket();
 		msg.entityId = buffer.readInt();
 		return msg;
 	}
 
-	public static void handle(PacketAttackOffhand message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSAttackOffhandPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			 Entity entity = player.world.getEntityByID(message.entityId);

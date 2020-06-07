@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -14,6 +15,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncSynthBagToClientPacket;
 
 public class SynthesisBagContainer extends Container {
 
@@ -111,6 +114,16 @@ public class SynthesisBagContainer extends Container {
     public ItemStack slotClick(int slot, int dragType, ClickType clickTypeIn, PlayerEntity player) {
         if (slot >= 0 && getSlot(slot).getStack() == player.getHeldItem(Hand.MAIN_HAND)) return ItemStack.EMPTY;
         return super.slotClick(slot, dragType, clickTypeIn, player);
+    }
+    
+    @Override
+    public void onContainerClosed(PlayerEntity playerIn) {
+		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) playerIn.getHeldItemMainhand().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+		if(!playerIn.world.isRemote) {
+			PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bagInv), (ServerPlayerEntity)playerIn);
+		}
+    	System.out.println(playerIn.world.isRemote+" "+bagInv.getStackInSlot(0));
+    	super.onContainerClosed(playerIn);
     }
 
     @Override

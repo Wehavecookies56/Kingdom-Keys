@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
 
 public class UpgradeDriveFormItem extends Item {
 	String formName;
@@ -49,7 +49,7 @@ public class UpgradeDriveFormItem extends Item {
 					props.setDriveFormLevel(formName, 1);
 					player.sendMessage(new TranslationTextComponent("Unlocked " + formName.substring(formName.indexOf(":") + 1)));
 				}
-				PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 			}
 		}
 		return ActionResult.resultSuccess(player.getHeldItem(hand));

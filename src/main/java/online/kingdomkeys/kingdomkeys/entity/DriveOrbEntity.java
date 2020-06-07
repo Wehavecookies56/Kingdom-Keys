@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
 
 public class DriveOrbEntity extends ItemDropEntity {
 
@@ -41,7 +41,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 
 			if (props.getActiveDriveForm().equals(Strings.Form_Master)) {
 				props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + value/10);
-				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
 			}
 		}
 	}

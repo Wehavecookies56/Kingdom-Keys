@@ -23,8 +23,8 @@ import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
-import online.kingdomkeys.kingdomkeys.network.packet.ShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCShowOverlayPacket;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -193,14 +193,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					this.setLevel(this.getLevel() + 1);
 					this.levelUpStatsAndDisplayMessage(player);
-					PacketHandler.sendTo(new ShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
+					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
 				}
 			} else {
 				this.exp = this.maxEXP;
 			}
 			// System.out.println(getExpNeeded(this.getLevel(), this.exp));
 
-			PacketHandler.sendTo(new ShowOverlayPacket("exp"), (ServerPlayerEntity) player);
+			PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
 		}
 	}
 
@@ -748,7 +748,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
 		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
-		PacketHandler.sendTo(new PacketSyncCapability(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 	}
 
 	@Override
@@ -948,7 +948,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if(driveLevel == ModDriveForms.registry.getValue(new ResourceLocation(name)).getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
-				PacketHandler.sendTo(new PacketSyncCapability(this), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity)player);
 			}
 		}
 	}
@@ -974,7 +974,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// TODO Actually add abilities and then syncing
 		// PacketDispatcher.sendTo(new SyncDriveData(player.getCapability(ModCapabilities.DRIVE_STATE, null)), (EntityPlayerMP) player);
 		
-		PacketHandler.sendTo(new ShowOverlayPacket("drivelevelup", driveForm), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayerEntity) player);
 	}
 
 	@Override

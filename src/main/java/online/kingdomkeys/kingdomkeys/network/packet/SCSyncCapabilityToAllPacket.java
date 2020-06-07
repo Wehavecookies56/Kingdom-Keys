@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 
-public class PacketSyncCapabilityToAll {
+public class SCSyncCapabilityToAllPacket {
 
 	private String name, driveForm;
 	private int level = 0,
@@ -34,10 +34,10 @@ public class PacketSyncCapabilityToAll {
     PortalCoords[] orgPortalCoords = {new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0),new PortalCoords((byte)0,0,0,0,0)};
 
 	
-	public PacketSyncCapabilityToAll() {
+	public SCSyncCapabilityToAllPacket() {
 	}
 
-	public PacketSyncCapabilityToAll(String name, IPlayerCapabilities capability) {
+	public SCSyncCapabilityToAllPacket(String name, IPlayerCapabilities capability) {
 		this.name = name;
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
@@ -90,8 +90,8 @@ public class PacketSyncCapabilityToAll {
 		buffer.writeBoolean(this.hasJumpedAD);
 	}
 
-	public static PacketSyncCapabilityToAll decode(PacketBuffer buffer) {
-		PacketSyncCapabilityToAll msg = new PacketSyncCapabilityToAll();
+	public static SCSyncCapabilityToAllPacket decode(PacketBuffer buffer) {
+		SCSyncCapabilityToAllPacket msg = new SCSyncCapabilityToAllPacket();
 		msg.name = buffer.readString();
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
@@ -120,7 +120,7 @@ public class PacketSyncCapabilityToAll {
 		return msg;
 	}
 
-	public static void handle(final PacketSyncCapabilityToAll message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final SCSyncCapabilityToAllPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			List<AbstractClientPlayerEntity> list = Minecraft.getInstance().world.getPlayers();
 			PlayerEntity player = null;

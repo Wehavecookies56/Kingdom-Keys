@@ -9,16 +9,16 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 
-public class SyncOrgPortal {
+public class SCSyncOrgPortalPacket {
 
 	BlockPos pos;
     BlockPos destPos;
     int dimension;
 
-	public SyncOrgPortal() {
+	public SCSyncOrgPortalPacket() {
 	}
 
-	public SyncOrgPortal(BlockPos pos, BlockPos dest, int dim) {
+	public SCSyncOrgPortalPacket(BlockPos pos, BlockPos dest, int dim) {
 		this.pos = pos;
         this.destPos = dest;
         this.dimension = dim;
@@ -30,15 +30,15 @@ public class SyncOrgPortal {
         buffer.writeInt(dimension);
 	}
 
-	public static SyncOrgPortal decode(PacketBuffer buffer) {
-		SyncOrgPortal msg = new SyncOrgPortal();
+	public static SCSyncOrgPortalPacket decode(PacketBuffer buffer) {
+		SCSyncOrgPortalPacket msg = new SCSyncOrgPortalPacket();
 		msg.pos = buffer.readBlockPos();
         msg.destPos = buffer.readBlockPos();
         msg.dimension = buffer.readInt();
 		return msg;
 	}
 
-	public static void handle(final SyncOrgPortal msg, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final SCSyncOrgPortalPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();

@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketOrgPortalTP;
+import online.kingdomkeys.kingdomkeys.network.packet.CSOrgPortalTPPacket;
 
 public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData{
 
@@ -95,7 +95,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
 		                	player.setPosition(destinationPos.getX(), destinationPos.getY(), destinationPos.getZ());
 		                	if(player.world.isRemote)
-		                		PacketHandler.sendToServer(new PacketOrgPortalTP(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5));
+		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5));
 		                }
 		            }
 		        }

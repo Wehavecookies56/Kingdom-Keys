@@ -28,6 +28,7 @@ public class SynthesisBagItem extends Item {
 
 	public SynthesisBagItem(Properties properties) {
 		super(properties);
+		
 	}
 
 	@Override

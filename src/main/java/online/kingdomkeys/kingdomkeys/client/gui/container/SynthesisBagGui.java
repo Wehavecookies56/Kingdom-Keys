@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.container;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
@@ -14,7 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketUpgradeSynthesisBag;
+import online.kingdomkeys.kingdomkeys.network.packet.CSUpgradeSynthesisBagPacket;
 
 public class SynthesisBagGui extends ContainerScreen<SynthesisBagContainer> {
 
@@ -31,7 +30,6 @@ public class SynthesisBagGui extends ContainerScreen<SynthesisBagContainer> {
 	protected void init() {
 		CompoundNBT nbt = playerInventory.getCurrentItem().getOrCreateTag();
 		bagLevel = nbt.getInt("level");
-		Minecraft.getInstance().getMainWindow().getHeight();
 		this.ySize = texHeight[bagLevel];
 		addButton(upgrade = new Button(20, 20, 60, 20, "Upgrade", (e) -> { upgrade(); }));
 		super.init();
@@ -39,15 +37,9 @@ public class SynthesisBagGui extends ContainerScreen<SynthesisBagContainer> {
 
 	private void upgrade() {
 		if(bagLevel < 2) {
-			PacketHandler.sendToServer(new PacketUpgradeSynthesisBag());
-		    this.minecraft.displayGuiScreen((Screen)null);
+			PacketHandler.sendToServer(new CSUpgradeSynthesisBagPacket());
+		    onClose();
 		}
-	}
-	
-	@Override
-	public void onClose() {
-		// TODO Auto-generated method stub
-		super.onClose();
 	}
 
 	@Override
@@ -56,7 +48,7 @@ public class SynthesisBagGui extends ContainerScreen<SynthesisBagContainer> {
 		super.render(mouseX, mouseY, partialTicks);
 		this.renderHoveredToolTip(mouseX, mouseY);
 		
-		upgrade.active = bagLevel < 2;
+		upgrade.visible = bagLevel < 2;
 	}
 
 	@Override

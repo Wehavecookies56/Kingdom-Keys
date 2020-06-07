@@ -16,14 +16,14 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class PacketSetDriveForm {
+public class CSSetDriveFormPacket {
 
 	String form;
 
-	public PacketSetDriveForm() {
+	public CSSetDriveFormPacket() {
 	}
 
-	public PacketSetDriveForm(String form) {
+	public CSSetDriveFormPacket(String form) {
 		this.form = form;
 	}
 
@@ -32,14 +32,14 @@ public class PacketSetDriveForm {
 		buffer.writeString(this.form);
 	}
 
-	public static PacketSetDriveForm decode(PacketBuffer buffer) {
-		PacketSetDriveForm msg = new PacketSetDriveForm();
+	public static CSSetDriveFormPacket decode(PacketBuffer buffer) {
+		CSSetDriveFormPacket msg = new CSSetDriveFormPacket();
 		int length = buffer.readInt();
 		msg.form = buffer.readString(length);
 		return msg;
 	}
 
-	public static void handle(PacketSetDriveForm message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSSetDriveFormPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities props = ModCapabilities.get(player);

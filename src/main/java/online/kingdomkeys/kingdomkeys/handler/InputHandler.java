@@ -38,10 +38,10 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetDriveForm;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSpawnOrgPortal;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncAllClientData;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketUseMagic;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetDriveFormPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSpawnOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSUseMagicPacket;
 
 public class InputHandler {
 
@@ -68,7 +68,7 @@ public class InputHandler {
             prob = 25;
 
         if (random * 100 < prob) {
-            PacketHandler.sendToServer(new PacketSetDriveForm(Strings.Form_Anti));
+            PacketHandler.sendToServer(new CSSetDriveFormPacket(Strings.Form_Anti));
     		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -290,7 +290,7 @@ public class InputHandler {
                 		if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {
                 			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 		} else {
-		                	PacketHandler.sendToServer(new PacketSetDriveForm(""));
+		                	PacketHandler.sendToServer(new CSSetDriveFormPacket(""));
 		            		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 		}
                 	}
@@ -374,7 +374,7 @@ public class InputHandler {
                // Magic.getMagic(player, world, (String) this.magicsList.get(CommandMenuGui.magicselected));
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;*/
-        	    PacketHandler.sendToServer(new PacketUseMagic(magicsList.get(CommandMenuGui.magicselected)));
+        	    PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicselected)));
                 world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
             }
         }
@@ -398,11 +398,11 @@ public class InputHandler {
             	if (props.getDP() >= driveForm.getDriveCost()) {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
-	                	PacketHandler.sendToServer(new PacketSetDriveForm(formName));
+	                	PacketHandler.sendToServer(new CSSetDriveFormPacket(formName));
 	            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                } else {
 	                    if (!antiFormCheck()) {
-		                	PacketHandler.sendToServer(new PacketSetDriveForm(formName));
+		                	PacketHandler.sendToServer(new CSSetDriveFormPacket(formName));
 		            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                    }
 	                }
@@ -420,7 +420,7 @@ public class InputHandler {
 		BlockPos destination = new BlockPos(coords.getX(), coords.getY(), coords.getZ());
 
 		if (player.isSneaking()) {
-			PacketHandler.sendToServer(new PacketSpawnOrgPortal(player.getPosition(), destination, coords.getDimID()));
+			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
 			player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 		} else {
 			RayTraceResult rtr = InputHandler.getMouseOverExtended(100);
@@ -429,7 +429,7 @@ public class InputHandler {
 				double distanceSq = player.getDistanceSq(brtr.getPos().getX(), brtr.getPos().getY(), brtr.getPos().getZ());
 				double reachSq = 100 * 100;
 				if (reachSq >= distanceSq) {
-					PacketHandler.sendToServer(new PacketSpawnOrgPortal(brtr.getPos().up(), destination, coords.getDimID()));
+					PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getPos().up(), destination, coords.getDimID()));
 					player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				}
 
@@ -483,7 +483,7 @@ public class InputHandler {
         if (key != null)
             switch (key) {
                 case OPENMENU:
-    				PacketHandler.sendToServer(new PacketSyncAllClientData());
+    				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
                     GuiHelper.openMenu();
                     break;
 

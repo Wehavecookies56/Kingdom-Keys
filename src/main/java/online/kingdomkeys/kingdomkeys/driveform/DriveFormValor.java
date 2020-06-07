@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormValor extends DriveForm {
@@ -74,7 +74,7 @@ public class DriveFormValor extends DriveForm {
 				if (props.getActiveDriveForm().equals(Strings.Form_Valor)) {
 					props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
 					//props.setDriveFormExp(player, props.getActiveDriveForm(), 239);
-					PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
 				}
 			}
 		}

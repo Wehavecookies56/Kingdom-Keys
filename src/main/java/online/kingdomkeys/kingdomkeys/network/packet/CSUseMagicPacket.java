@@ -12,13 +12,13 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class PacketUseMagic {
+public class CSUseMagicPacket {
 	
 	String name;
 	
-	public PacketUseMagic() {}
+	public CSUseMagicPacket() {}
 
-	public PacketUseMagic(String name) {
+	public CSUseMagicPacket(String name) {
 		this.name = name;
 	}
 
@@ -27,14 +27,14 @@ public class PacketUseMagic {
 		buffer.writeString(this.name);
 	}
 
-	public static PacketUseMagic decode(PacketBuffer buffer) {
-		PacketUseMagic msg = new PacketUseMagic();
+	public static CSUseMagicPacket decode(PacketBuffer buffer) {
+		CSUseMagicPacket msg = new CSUseMagicPacket();
 		int length = buffer.readInt();
 		msg.name = buffer.readString(length);
 		return msg;
 	}
 
-	public static void handle(PacketUseMagic message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSUseMagicPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			 IPlayerCapabilities props = ModCapabilities.get(player);
@@ -43,7 +43,7 @@ public class PacketUseMagic {
 			if (props.getMP() >= 0 && !props.getRecharge()) {
 				int cost = ModMagics.registry.getValue(new ResourceLocation(message.name)).getCost();
 				props.remMP(cost);
-				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
             	ModMagics.registry.getValue(new ResourceLocation(message.name)).onUse(player);
 			}
 		});

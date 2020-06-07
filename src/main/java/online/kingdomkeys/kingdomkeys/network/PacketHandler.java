@@ -12,24 +12,25 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketAntiPoints;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketAttackOffhand;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketOrgPortalTP;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetAerialDodgeTicks;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetDriveForm;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetEquippedAbility;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSetGliding;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSpawnOrgPortal;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncAllClientData;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapabilityToAll;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapabilityToAllFromClient;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapabilityToAll;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketUpgradeSynthesisBag;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketUseMagic;
-import online.kingdomkeys.kingdomkeys.network.packet.ShowOverlayPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.SyncOrgPortal;
+import online.kingdomkeys.kingdomkeys.network.packet.CSAntiPointsPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSAttackOffhandPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSOrgPortalTPPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetAerialDodgeTicksPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetDriveFormPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetEquippedAbilityPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSpawnOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSSyncCapabilityToAllFromClientPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncGlobalCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSUpgradeSynthesisBagPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.packet.SCSyncSynthBagToClientPacket;
 
 public class PacketHandler {
 	private static final String PROTOCOL_VERSION = Integer.toString(1);
@@ -40,26 +41,27 @@ public class PacketHandler {
 		int packetID = 0;
 		
 		//ServerToClient
-		HANDLER.registerMessage(packetID++, ShowOverlayPacket.class, ShowOverlayPacket::encode, ShowOverlayPacket::decode, ShowOverlayPacket::handle);
-		HANDLER.registerMessage(packetID++, PacketSyncCapability.class, PacketSyncCapability::encode, PacketSyncCapability::decode, PacketSyncCapability::handle);
-		HANDLER.registerMessage(packetID++, PacketSyncCapabilityToAll.class, PacketSyncCapabilityToAll::encode, PacketSyncCapabilityToAll::decode, PacketSyncCapabilityToAll::handle);
-		HANDLER.registerMessage(packetID++, PacketSyncGlobalCapability.class, PacketSyncGlobalCapability::encode, PacketSyncGlobalCapability::decode, PacketSyncGlobalCapability::handle);
-		HANDLER.registerMessage(packetID++, PacketSyncGlobalCapabilityToAll.class, PacketSyncGlobalCapabilityToAll::encode, PacketSyncGlobalCapabilityToAll::decode, PacketSyncGlobalCapabilityToAll::handle);
-		HANDLER.registerMessage(packetID++, SyncOrgPortal.class, SyncOrgPortal::encode, SyncOrgPortal::decode, SyncOrgPortal::handle);
-		
+		HANDLER.registerMessage(packetID++, SCShowOverlayPacket.class, SCShowOverlayPacket::encode, SCShowOverlayPacket::decode, SCShowOverlayPacket::handle);
+		HANDLER.registerMessage(packetID++, SCSyncCapabilityPacket.class, SCSyncCapabilityPacket::encode, SCSyncCapabilityPacket::decode, SCSyncCapabilityPacket::handle);
+		HANDLER.registerMessage(packetID++, SCSyncCapabilityToAllPacket.class, SCSyncCapabilityToAllPacket::encode, SCSyncCapabilityToAllPacket::decode, SCSyncCapabilityToAllPacket::handle);
+		HANDLER.registerMessage(packetID++, SCSyncGlobalCapabilityPacket.class, SCSyncGlobalCapabilityPacket::encode, SCSyncGlobalCapabilityPacket::decode, SCSyncGlobalCapabilityPacket::handle);
+		HANDLER.registerMessage(packetID++, SCSyncGlobalCapabilityToAllPacket.class, SCSyncGlobalCapabilityToAllPacket::encode, SCSyncGlobalCapabilityToAllPacket::decode, SCSyncGlobalCapabilityToAllPacket::handle);
+		HANDLER.registerMessage(packetID++, SCSyncOrgPortalPacket.class, SCSyncOrgPortalPacket::encode, SCSyncOrgPortalPacket::decode, SCSyncOrgPortalPacket::handle);
+		HANDLER.registerMessage(packetID++, SCSyncSynthBagToClientPacket.class, SCSyncSynthBagToClientPacket::encode, SCSyncSynthBagToClientPacket::decode, SCSyncSynthBagToClientPacket::handle);
+
 		//ClientToServer
-		HANDLER.registerMessage(packetID++, PacketSyncCapabilityToAllFromClient.class, PacketSyncCapabilityToAllFromClient::encode, PacketSyncCapabilityToAllFromClient::decode, PacketSyncCapabilityToAllFromClient::handle);
-		HANDLER.registerMessage(packetID++, PacketSyncAllClientData.class, PacketSyncAllClientData::encode, PacketSyncAllClientData::decode, PacketSyncAllClientData::handle);
-		HANDLER.registerMessage(packetID++, PacketUseMagic.class, PacketUseMagic::encode, PacketUseMagic::decode, PacketUseMagic::handle);
-		HANDLER.registerMessage(packetID++, PacketSetDriveForm.class, PacketSetDriveForm::encode, PacketSetDriveForm::decode, PacketSetDriveForm::handle);
-		HANDLER.registerMessage(packetID++, PacketUpgradeSynthesisBag.class, PacketUpgradeSynthesisBag::encode, PacketUpgradeSynthesisBag::decode, PacketUpgradeSynthesisBag::handle);
-		HANDLER.registerMessage(packetID++, PacketAttackOffhand.class, PacketAttackOffhand::encode, PacketAttackOffhand::decode, PacketAttackOffhand::handle);
-		HANDLER.registerMessage(packetID++, PacketAntiPoints.class, PacketAntiPoints::encode, PacketAntiPoints::decode, PacketAntiPoints::handle);
-		HANDLER.registerMessage(packetID++, PacketSetGliding.class, PacketSetGliding::encode, PacketSetGliding::decode, PacketSetGliding::handle);
-		HANDLER.registerMessage(packetID++, PacketSetAerialDodgeTicks.class, PacketSetAerialDodgeTicks::encode, PacketSetAerialDodgeTicks::decode, PacketSetAerialDodgeTicks::handle);
-		HANDLER.registerMessage(packetID++, PacketSpawnOrgPortal.class, PacketSpawnOrgPortal::encode, PacketSpawnOrgPortal::decode, PacketSpawnOrgPortal::handle);
-		HANDLER.registerMessage(packetID++, PacketOrgPortalTP.class, PacketOrgPortalTP::encode, PacketOrgPortalTP::decode, PacketOrgPortalTP::handle);
-		HANDLER.registerMessage(packetID++, PacketSetEquippedAbility.class, PacketSetEquippedAbility::encode, PacketSetEquippedAbility::decode, PacketSetEquippedAbility::handle);
+		HANDLER.registerMessage(packetID++, CSSyncCapabilityToAllFromClientPacket.class, CSSyncCapabilityToAllFromClientPacket::encode, CSSyncCapabilityToAllFromClientPacket::decode, CSSyncCapabilityToAllFromClientPacket::handle);
+		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
+		HANDLER.registerMessage(packetID++, CSUseMagicPacket.class, CSUseMagicPacket::encode, CSUseMagicPacket::decode, CSUseMagicPacket::handle);
+		HANDLER.registerMessage(packetID++, CSSetDriveFormPacket.class, CSSetDriveFormPacket::encode, CSSetDriveFormPacket::decode, CSSetDriveFormPacket::handle);
+		HANDLER.registerMessage(packetID++, CSUpgradeSynthesisBagPacket.class, CSUpgradeSynthesisBagPacket::encode, CSUpgradeSynthesisBagPacket::decode, CSUpgradeSynthesisBagPacket::handle);
+		HANDLER.registerMessage(packetID++, CSAttackOffhandPacket.class, CSAttackOffhandPacket::encode, CSAttackOffhandPacket::decode, CSAttackOffhandPacket::handle);
+		HANDLER.registerMessage(packetID++, CSAntiPointsPacket.class, CSAntiPointsPacket::encode, CSAntiPointsPacket::decode, CSAntiPointsPacket::handle);
+		HANDLER.registerMessage(packetID++, CSSetGlidingPacket.class, CSSetGlidingPacket::encode, CSSetGlidingPacket::decode, CSSetGlidingPacket::handle);
+		HANDLER.registerMessage(packetID++, CSSetAerialDodgeTicksPacket.class, CSSetAerialDodgeTicksPacket::encode, CSSetAerialDodgeTicksPacket::decode, CSSetAerialDodgeTicksPacket::handle);
+		HANDLER.registerMessage(packetID++, CSSpawnOrgPortalPacket.class, CSSpawnOrgPortalPacket::encode, CSSpawnOrgPortalPacket::decode, CSSpawnOrgPortalPacket::handle);
+		HANDLER.registerMessage(packetID++, CSOrgPortalTPPacket.class, CSOrgPortalTPPacket::encode, CSOrgPortalTPPacket::decode, CSOrgPortalTPPacket::handle);
+		HANDLER.registerMessage(packetID++, CSSetEquippedAbilityPacket.class, CSSetEquippedAbilityPacket::encode, CSSetEquippedAbilityPacket::decode, CSSetEquippedAbilityPacket::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {
@@ -80,7 +82,7 @@ public class PacketHandler {
 	public static void syncToAllAround(PlayerEntity player, IPlayerCapabilities props) {
 		if (!player.world.isRemote) {
 			for (PlayerEntity playerFromList : player.world.getPlayers()) {
-				sendTo(new PacketSyncCapabilityToAll(player.getDisplayName().getString(), props), (ServerPlayerEntity) playerFromList);
+				sendTo(new SCSyncCapabilityToAllPacket(player.getDisplayName().getString(), props), (ServerPlayerEntity) playerFromList);
 			}
 		}
 	}
@@ -88,7 +90,7 @@ public class PacketHandler {
 	public static void syncToAllAround(LivingEntity entity, IGlobalCapabilities props) {
 		if (!entity.world.isRemote) {
 			for (PlayerEntity playerFromList : entity.world.getPlayers()) {
-				sendTo(new PacketSyncGlobalCapabilityToAll(entity.getEntityId(), props), (ServerPlayerEntity) playerFromList);
+				sendTo(new SCSyncGlobalCapabilityToAllPacket(entity.getEntityId(), props), (ServerPlayerEntity) playerFromList);
 			}
 		}
 	}

@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.PacketAttackOffhand;
+import online.kingdomkeys.kingdomkeys.network.packet.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 
 public class KeybladeItem extends SwordItem {
@@ -103,7 +103,7 @@ public class KeybladeItem extends SwordItem {
 						EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
 						if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.OFF_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.OFF_HAND).getItem() instanceof KeybladeItem && hand == Hand.OFF_HAND) {
 							if (ertr.getEntity() != null) {
-								PacketHandler.sendToServer(new PacketAttackOffhand(ertr.getEntity().getEntityId()));
+								PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getEntityId()));
 								return ActionResult.resultSuccess(itemstack);
 							}
 							return ActionResult.resultFail(itemstack);
