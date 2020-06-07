@@ -16,14 +16,20 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -42,13 +48,22 @@ import online.kingdomkeys.kingdomkeys.network.packet.PacketSetAerialDodgeTicks;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSetGliding;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncCapability;
 import online.kingdomkeys.kingdomkeys.network.packet.PacketSyncGlobalCapability;
-import online.kingdomkeys.kingdomkeys.world.ModBiomes;
+import online.kingdomkeys.kingdomkeys.world.KKDimTeleporter;
+import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
 public class EntityEvents {
 
 	public static boolean isBoss = false;
 	public static boolean isHostiles = false;
 
+	@SubscribeEvent
+	public void registerDimensions(final RegisterDimensionsEvent event) {
+		if (DimensionType.byName(KingdomKeys.TTDimType) == null) {
+			DimensionManager.registerDimension(KingdomKeys.TTDimType, ModDimensions.traverseTownDimension.get(), null, true);
+		}
+		KingdomKeys.LOGGER.info("Dimensions Registered!");
+	}
+	
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
 		PlayerEntity player = e.getPlayer();
@@ -64,7 +79,12 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
-		event.player.changeDimension(ModBiomes.traverseTownBiome.get())
+		if(!event.player.world.isRemote) {
+			KKDimTeleporter tp = new KKDimTeleporter((ServerWorld) event.player.world, new BlockPos(0,0,0), "kingdomkeys:"+Strings.twilightTown);
+			System.out.println(tp);
+			//tp.placeEntity(event.player, (ServerWorld)event.player.world, (ServerWorld)event.player.world, 0, null);
+		}
+		//event.player.changeDimension(ModBiomes.traverseTownBiome.get())
 		if (props != null) {
 			if(!event.player.world.isRemote)
 				PacketHandler.sendTo(new PacketSyncCapability(props), (ServerPlayerEntity)event.player);

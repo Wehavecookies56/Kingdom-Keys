@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.worldgen.TeleporterOrgPortal;
+import online.kingdomkeys.kingdomkeys.world.TeleporterOrgPortal;
 
 public class PacketOrgPortalTP {
 

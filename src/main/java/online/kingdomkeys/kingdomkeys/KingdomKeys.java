@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.ibm.icu.impl.Normalizer2Impl.ReorderingBuffer;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,6 +50,7 @@ import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.world.ModBiomes;
+import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
 import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
 
@@ -86,6 +88,8 @@ public class KingdomKeys {
 			return new ItemStack(ModBlocks.normalBlox.get());
 		}
 	};
+	
+	public static final ResourceLocation TTDimType = new ResourceLocation(MODID, "traverse_town");
 
 	public KingdomKeys() {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
@@ -100,6 +104,7 @@ public class KingdomKeys {
         ModEntities.ENTITIES.register(modEventBus);
 
 		ModBiomes.BIOMES.register(modEventBus);
+		ModDimensions.DIMENSIONS.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
 
@@ -122,6 +127,7 @@ public class KingdomKeys {
 		proxy.setup(event);
 		ModCapabilities.register();
 		ModBiomes.init();
+		//ModDimensions.init();
 		DeferredWorkQueue.runLater(() -> {
 			PacketHandler.register();
 		});

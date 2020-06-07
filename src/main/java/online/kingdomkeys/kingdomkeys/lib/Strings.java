@@ -13,6 +13,12 @@ public class Strings {
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
 		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
+    
+    //Dimensions
+    public static final String
+    		twilightTown = "twilight_town",
+    		destinyIslands = "destiny_islands",
+    		soa = "station_of_awakening";
 
     // Magics
     public static final String

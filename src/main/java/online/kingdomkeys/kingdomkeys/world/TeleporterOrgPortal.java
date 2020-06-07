@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.worldgen;
+package online.kingdomkeys.kingdomkeys.world;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

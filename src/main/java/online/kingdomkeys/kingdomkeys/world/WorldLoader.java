@@ -16,6 +16,7 @@ import net.minecraft.tileentity.StructureBlockTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class WorldLoader {
 
@@ -25,7 +26,7 @@ public class WorldLoader {
 
     public void processAndGenerateStructureFile(String file, ServerWorld world, BlockPos offset) {
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/assets/kk/worlds/" + file + ".world");
+            InputStream inputStream = getClass().getResourceAsStream("/assets/"+KingdomKeys.MODID+"/worlds/" + file + ".world");
             CompoundNBT main = CompressedStreamTools.readCompressed(inputStream);
 
             ListNBT palette = main.getList("palette", Constants.NBT.TAG_COMPOUND);
