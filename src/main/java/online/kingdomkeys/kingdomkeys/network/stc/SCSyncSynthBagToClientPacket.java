@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network.packet;
+package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.ArrayList;
 import java.util.List;

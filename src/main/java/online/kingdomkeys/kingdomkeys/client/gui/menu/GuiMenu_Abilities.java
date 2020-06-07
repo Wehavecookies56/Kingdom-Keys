@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.CSSetEquippedAbilityPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 
 public class GuiMenu_Abilities extends GuiMenu_Background {
 	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);

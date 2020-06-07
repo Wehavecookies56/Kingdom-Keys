@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network.packet;
+package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
 
 public class CSSpawnOrgPortalPacket {
 

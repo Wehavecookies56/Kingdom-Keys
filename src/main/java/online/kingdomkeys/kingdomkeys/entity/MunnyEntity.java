@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.SCShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 
 public class MunnyEntity extends ItemDropEntity {
 

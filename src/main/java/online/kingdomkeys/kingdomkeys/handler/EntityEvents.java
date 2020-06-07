@@ -44,10 +44,10 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.CSSetAerialDodgeTicksPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.CSSetGlidingPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.world.KKDimTeleporter;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 

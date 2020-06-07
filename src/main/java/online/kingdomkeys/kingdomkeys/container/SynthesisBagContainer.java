@@ -16,7 +16,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.SCSyncSynthBagToClientPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthBagToClientPacket;
 
 public class SynthesisBagContainer extends Container {
 

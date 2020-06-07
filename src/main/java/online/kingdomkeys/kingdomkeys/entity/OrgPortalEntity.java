@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.CSOrgPortalTPPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 
 public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData{
 

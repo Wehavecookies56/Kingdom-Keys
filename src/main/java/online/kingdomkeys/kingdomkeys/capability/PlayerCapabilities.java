@@ -23,8 +23,8 @@ import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.SCShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 

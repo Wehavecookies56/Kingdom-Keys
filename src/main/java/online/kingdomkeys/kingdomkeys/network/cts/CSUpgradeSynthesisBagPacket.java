@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network.packet;
+package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 

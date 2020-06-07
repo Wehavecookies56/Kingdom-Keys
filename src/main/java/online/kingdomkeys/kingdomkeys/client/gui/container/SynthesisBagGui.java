@@ -13,7 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.CSUpgradeSynthesisBagPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 
 public class SynthesisBagGui extends ContainerScreen<SynthesisBagContainer> {
 

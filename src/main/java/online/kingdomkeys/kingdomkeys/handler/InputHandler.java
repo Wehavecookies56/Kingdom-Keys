@@ -38,10 +38,10 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.packet.CSSetDriveFormPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.CSSpawnOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.CSSyncAllClientDataPacket;
-import online.kingdomkeys.kingdomkeys.network.packet.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 
 public class InputHandler {
 

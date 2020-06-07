@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.network.packet;
+package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
@@ -9,6 +9,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class CSSyncAllClientDataPacket {
 
