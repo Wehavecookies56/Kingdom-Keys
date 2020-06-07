@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
-public class GuiMenuAbilitiesButton extends Button{
+public class GuiMenuAbilitiesButton extends BaseKKGuiButton{
 
 	private ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	private int endWidth = 11;

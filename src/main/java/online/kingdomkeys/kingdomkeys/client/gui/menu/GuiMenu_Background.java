@@ -6,7 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -17,11 +17,78 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class GuiMenu_Background extends Screen {
 
+	int selected;
+	
 	public GuiMenu_Background(String name) {
 		super(new TranslationTextComponent(name));
 		minecraft = Minecraft.getInstance();
+		selected = -1;
 	}
+	//TODO Make menus work with arrow keys?
+	
+	//public static final int UP = Keybinds.SCROLL_UP.getKeybind().getKey().getKeyCode();
+	//public static final int DOWN = Keybinds.SCROLL_DOWN.getKeybind().getKey().getKeyCode();
 
+	/*@Override
+	public boolean keyPressed(int keyId, int p_keyPressed_2_, int p_keyPressed_3_) {
+		System.out.println(keyId+" "+p_keyPressed_2_+" "+p_keyPressed_3_);
+		//minecraft.gameSettings.keyBindForward.getKey().getKeyCode()
+		if(selected >= 0 && selected <= buttons.size() -1) {
+			BaseKKGuiButton oldBtn = (BaseKKGuiButton)buttons.get(selected);
+			oldBtn.setSelected(false);
+		}
+		
+		if(keyId == DOWN) {
+			selected++;
+			if(selected > buttons.size()-1) {
+				selected = 0;
+			}
+			
+			if(selected >= 0 && selected <= buttons.size() -1) {
+				while(!buttons.get(selected).active) {
+					selected++;
+				}
+				BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
+				if(btn.active)
+					btn.setSelected(true);
+				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
+				
+			}
+			
+		}
+		
+		if(keyId == UP) {
+			selected--;
+			if(selected < 0) {
+				selected = buttons.size()-1;
+			}
+			while(!buttons.get(selected).active) {
+				selected--;
+				if(selected == -1)
+					selected = buttons.size()-1;
+				if(buttons.get(selected) instanceof BaseKKGuiButton)
+					break;
+			}
+			BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
+			if(btn.active)
+				btn.setSelected(true);
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
+		}
+		
+		if(keyId == 262) {
+			if(selected > -1) {
+				BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
+				btn.onPress();
+			}
+		}
+		
+		System.out.println(selected);
+
+		return super.keyPressed(keyId, p_keyPressed_2_, p_keyPressed_3_);
+	}*/
+	
 	public boolean drawPlayerInfo;
 
 	GuiElementBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
@@ -43,7 +110,27 @@ public class GuiMenu_Background extends Screen {
 		drawBiomeDim();
 		//RenderHelper.disableStandardItemLighting();
 		drawBackground(width, height, drawPlayerInfo);
+		
+		int i = 0;
+		for(Widget btn : buttons) {
+			if(btn instanceof BaseKKGuiButton) {
+				i++;
+				if(btn.isHovered()) {
+					selected = -1;
+					clearButtons();
+				}
+			}
+		}
 		super.render(mouseX, mouseY, partialTicks);
+	}
+
+	private void clearButtons() {
+		for(Widget btn : buttons) {
+			if(btn instanceof BaseKKGuiButton) {
+				((BaseKKGuiButton) btn).setSelected(false);
+			}
+		}
+			
 	}
 
 	public void drawBars() {
@@ -92,7 +179,6 @@ public class GuiMenu_Background extends Screen {
 	public void drawMunnyTime() {
 		RenderSystem.pushMatrix();
 		{
-			
 			RenderSystem.scaled(1.1, 1.1, 1);
 			drawString(minecraft.fontRenderer, (Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
 			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + ModCapabilities.get(minecraft.player).getMunny(), 5, (int) (topBarHeight + middleHeight), 0xF66627);
@@ -127,9 +213,6 @@ public class GuiMenu_Background extends Screen {
 	}
 
 	public void init() {
-		// ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		// setWorldAndResolution(Minecraft.getMinecraft(), sr.getScaledWidth(),
-		// sr.getScaledHeight());
 		topBarHeight = (float) height * 0.17F;
 		bottomBarHeight = (float) height * 0.23F;
 		topLeftBarWidth = (float) width * 0.175F;

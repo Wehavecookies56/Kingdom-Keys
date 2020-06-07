@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-public class GuiMenu extends GuiMenu_Background{
+public class GuiMenu extends GuiMenu_Background {
 
 	public GuiMenu() {
 		super("Menu");

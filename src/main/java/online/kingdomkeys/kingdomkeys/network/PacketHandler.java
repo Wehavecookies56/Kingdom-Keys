@@ -21,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSyncCapabilityToAllFromClientPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
@@ -50,7 +49,6 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncSynthBagToClientPacket.class, SCSyncSynthBagToClientPacket::encode, SCSyncSynthBagToClientPacket::decode, SCSyncSynthBagToClientPacket::handle);
 
 		//ClientToServer
-		HANDLER.registerMessage(packetID++, CSSyncCapabilityToAllFromClientPacket.class, CSSyncCapabilityToAllFromClientPacket::encode, CSSyncCapabilityToAllFromClientPacket::decode, CSSyncCapabilityToAllFromClientPacket::handle);
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
 		HANDLER.registerMessage(packetID++, CSUseMagicPacket.class, CSUseMagicPacket::encode, CSUseMagicPacket::decode, CSUseMagicPacket::handle);
 		HANDLER.registerMessage(packetID++, CSSetDriveFormPacket.class, CSSetDriveFormPacket::encode, CSSetDriveFormPacket::decode, CSSetDriveFormPacket::handle);

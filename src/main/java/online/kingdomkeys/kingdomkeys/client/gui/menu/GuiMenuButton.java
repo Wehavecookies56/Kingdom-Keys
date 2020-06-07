@@ -12,11 +12,10 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
-public class GuiMenuButton extends Button {
+public class GuiMenuButton extends BaseKKGuiButton {
 
 	private ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	private int endWidth = 11;
@@ -28,10 +27,6 @@ public class GuiMenuButton extends Button {
 	private int sbLeftU = 22, sbMiddleU = 34, sbRightU = 36;
 	private int sbVPos = 118;
 	private int sbSelectedVPos = 138;
-
-	private int aLeftU = 47, aMiddleU = 59, aRightU = 61;
-	private int aVPos = 118;
-	private int aSelectedVPos = 138;
 
 	private int middleWidth;
 
@@ -53,77 +48,43 @@ public class GuiMenuButton extends Button {
 	@ParametersAreNonnullByDefault
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
-		/*switch (type) {
-		case BUTTON:*/
-			if (visible) {
-				RenderSystem.pushMatrix();
-				RenderSystem.color3f(1, 1, 1);
-
-				// RenderSystem.enableAlpha();
-				RenderSystem.enableBlend();
-				Minecraft.getInstance().textureManager.bindTexture(texture);
-				if (isHovered && active) { // Hovered button
-					x += 10;
-					drawButton(true);
-					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-					x -= 10;
-				} else {
-					if (active) {// Not hovered but fully visible
-						drawButton(false);
-						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-					} else {// Not hovered and selected (not fully visible)
-						if (selected) {
-							x += 10;
-							drawButton(false);
-							drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
-							x -= 10;
-						} else {
-							drawButton(false);
-							drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
-						}
-					}
-				}
-				RenderSystem.color3f(1, 1, 1);
-				RenderSystem.popMatrix();
-			}
-			/*break;
-
-		case SUBBUTTON:
-			if (visible) {
-				RenderSystem.pushMatrix();
-				RenderSystem.color3f(1, 1, 1);
-				// RenderSystem.enableAlpha();
-				RenderSystem.enableBlend();
-				Minecraft.getInstance().textureManager.bindTexture(texture);
-				if (isHovered && active) { // Hovered button
-					x += 10;
-					drawButton(true);
-
-					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-					x -= 10;
-				} else {
-					if (active) {// Not hovered but fully visible
-						drawButton(false);
-						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-					} else {// Not hovered and selected (not fully visible)
-						if (selected) {
-							x += 10;
-							drawButton(false);
-							drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
-							x -= 10;
-						} else {
-							drawButton(false);
-							drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
-						}
-					}
-				}
-				RenderSystem.popMatrix();
-			}
-			break;
-
+		//if(!isSelected())
+			isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
+		/*if(isHovered()) {
+			selected = false;
 		}*/
 
+		if (visible) {
+			RenderSystem.pushMatrix();
+			RenderSystem.color3f(1, 1, 1);
+
+			// RenderSystem.enableAlpha();
+			RenderSystem.enableBlend();
+			Minecraft.getInstance().textureManager.bindTexture(texture);
+			if (isHovered && active) { // Hovered button
+				x += 10;
+				drawButton(true);
+				drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
+				x -= 10;
+			} else {
+				if (active) {// Not hovered but fully visible
+					drawButton(false);
+					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
+				} else {// Not hovered and selected (not fully visible)
+					if (selected) {
+						x += 10;
+						drawButton(false);
+						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
+						x -= 10;
+					} else {
+						drawButton(false);
+						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
+					}
+				}
+			}
+			RenderSystem.color3f(1, 1, 1);
+			RenderSystem.popMatrix();
+		}
 	}
 
 	private void drawButton(boolean hovered) {
@@ -147,7 +108,7 @@ public class GuiMenuButton extends Button {
 
 		}
 
-		vPos = hovered ? selVPos : vPos;
+		vPos = hovered || selected ? selVPos : vPos;
 
 		blit(x, y, leftU, vPos, endWidth, height);
 		for (int i = 0; i < middleWidth; i++)
