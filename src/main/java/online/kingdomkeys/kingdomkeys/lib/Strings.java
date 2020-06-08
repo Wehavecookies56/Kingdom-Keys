@@ -385,19 +385,19 @@ public class Strings {
     
     // Music Discs
     public static final String
-	    Disc_Birth_by_Sleep_A_Link_to_the_Future = "birth_by_sleep_-a_link_to_the_future-",
-	    Disc_Darkness_of_the_Unknown = "darkness_of_the_unknown",
-	    Disc_Dearly_Beloved_Symphony_Version = "dearly_beloved_-symphony_version-",
-	    Disc_Dream_Drop_Distance_The_Next_Awakening = "dream_drop_distance_-the_next_awakening-",
-	    Disc_Hikari_KINGDOM_Instrumental_Version = "hikari_-kingdom_instrumental_version-",
-	    Disc_L_Oscurita_Dell_Ignoto = "l_oscurita_dell_ignoto",
-	    Disc_Musique_pour_la_tristesse_de_Xion = "musique_pour_la_tristesse_de_xion",
-	    Disc_No_More_Bugs_Bug_Version = "no_more_bugs_-bug_version-",
-	    Disc_Organization_XIII = "organization_xiii",
-	    Disc_Sanctuary = "sanctuary",
-	    Disc_Simple_And_Clean_PLANITb_Remix = "simple_and_clean_planitb_remix",
-	    Disc_Sinister_Sundown = "sinister_sundown",
-	    Disc_The_13th_Anthology = "the_13th_anthology"
+	    Disc_Birth_by_Sleep_A_Link_to_the_Future = "disc_0",
+	    Disc_Darkness_of_the_Unknown = "disc_1",
+	    Disc_Dearly_Beloved_Symphony_Version = "disc_2",
+	    Disc_Dream_Drop_Distance_The_Next_Awakening = "disc_3",
+	    Disc_Hikari_KINGDOM_Instrumental_Version = "disc_4",
+	    Disc_L_Oscurita_Dell_Ignoto = "disc_5",
+	    Disc_Musique_pour_la_tristesse_de_Xion = "disc_6",
+	    Disc_No_More_Bugs_Bug_Version = "disc_7",
+	    Disc_Organization_XIII = "disc_8",
+	    Disc_Sanctuary = "disc_9",
+	    Disc_Simple_And_Clean_PLANITb_Remix = "disc_10",
+	    Disc_Sinister_Sundown = "disc_11",
+	    Disc_The_13th_Anthology = "disc_12"
     ;
 
     //Keyblades

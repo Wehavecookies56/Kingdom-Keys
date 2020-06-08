@@ -145,7 +145,7 @@ public class LockOnGui extends Screen {
 				hpBarMaxWidth = (int) (Math.ceil(target.getMaxHealth() % hpPerBar) * widthMultiplier);
 			}
 
-			System.out.println(target.getHealth());
+			//System.out.println(target.getHealth());
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
@@ -235,7 +235,7 @@ public class LockOnGui extends Screen {
 			for (int i = 0; i < currentBar - 1; i++) {
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 7, 0);
+					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
 					RenderSystem.scalef(scale, scale, 0);
 					blit(2, 2, 2, 62, 16, 12);
 				}

@@ -5,9 +5,12 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -15,15 +18,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.entity.organization.BaseChakramEntity;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class ChakramItem extends SwordItem implements IOrgWeapon {
     private OrganizationData data;
 
-    //TODO remove attack damage
-    public ChakramItem(String name, int attackDamageIn, float attackSpeedIn) {
-        super(new OrganizationItemTier(attackDamageIn), attackDamageIn, attackSpeedIn, new Item.Properties().group(KingdomKeys.orgWeaponsGroup).maxStackSize(1));
-        setRegistryName(KingdomKeys.MODID, name);
+    public ChakramItem() {
+        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().group(KingdomKeys.orgWeaponsGroup).maxStackSize(1));
     }
 
     //Get strength from the data based on level
@@ -67,6 +69,15 @@ public class ChakramItem extends SwordItem implements IOrgWeapon {
     @Override
     public OrganizationData getOrganizationData() {
         return data;
+    }
+    
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
+    	BaseChakramEntity entity = new BaseChakramEntity(worldIn, player, this.getName().getFormattedText());
+		player.world.addEntity(entity);
+		entity.shoot(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+		player.swingArm(Hand.MAIN_HAND);
+    	return super.onItemRightClick(worldIn, player, handIn);
     }
 
 

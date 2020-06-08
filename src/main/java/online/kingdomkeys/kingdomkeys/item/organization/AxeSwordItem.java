@@ -20,10 +20,8 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 public class AxeSwordItem extends SwordItem implements IOrgWeapon {
 	private OrganizationData data;
 
-	//TODO remove attack damage
-	public AxeSwordItem(String name, int attackDamageIn, float attackSpeedIn) {
-		super(new OrganizationItemTier(attackDamageIn), attackDamageIn, attackSpeedIn, new Item.Properties().group(KingdomKeys.orgWeaponsGroup).maxStackSize(1));
-		setRegistryName(KingdomKeys.MODID, name);
+	public AxeSwordItem() {
+        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().group(KingdomKeys.orgWeaponsGroup).maxStackSize(1));
 	}
 
 	//Get strength from the data based on level

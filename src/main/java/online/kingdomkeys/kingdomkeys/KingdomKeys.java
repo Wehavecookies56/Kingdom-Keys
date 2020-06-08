@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.ibm.icu.impl.Normalizer2Impl.ReorderingBuffer;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -73,7 +73,7 @@ public class KingdomKeys {
 	public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(ModItems.eternalFlames);
+			return new ItemStack(ModItems.eternalFlames.get());
 		}
 	};
 	public static ItemGroup keybladesGroup = new ItemGroup(Strings.keybladesGroup) {
@@ -180,7 +180,7 @@ public class KingdomKeys {
 	private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
 		resourceManager.addReloadListener((IResourceManagerReloadListener)manager -> {
 			KeybladeDataLoader.loadData(resourceManager);
-			//OrganizationDataLoader.loadData(resourceManager);
+			OrganizationDataLoader.loadData(resourceManager);
 		});
 	}
 

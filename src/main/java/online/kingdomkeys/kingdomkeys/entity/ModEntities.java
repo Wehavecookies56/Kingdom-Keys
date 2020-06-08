@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.EntityGravityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.EntityMagnetRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.EntityThunderRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.EntityWaterRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.EntityChakramRenderer;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.KKChestTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
@@ -58,6 +59,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.BaseChakramEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
@@ -82,6 +84,9 @@ public class ModEntities {
     //public static final RegistryObject<EntityType<StopEntity>> TYPE_STOP = createEntityType(StopEntity::new, StopEntity::new, EntityClassification.MISC,"entity_stop", 0.5F, 0.5F);
     
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, EntityClassification.MISC,"entity_org_portal", 0.5F, 0.5F);
+    
+    public static final RegistryObject<EntityType<BaseChakramEntity>> TYPE_CHAKRAM = createEntityType(BaseChakramEntity::new, BaseChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1F, 0.5F);
+    
     //Mobs
     // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.CREATURE, "moogle", 0.6F, 1.5F);
@@ -162,6 +167,8 @@ public class ModEntities {
         
         ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), TESRPedestal::new);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer.FACTORY);
+        
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_CHAKRAM.get(), EntityChakramRenderer.FACTORY);
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);
