@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import java.util.ArrayList;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -32,9 +30,6 @@ public class LockOnGui extends Screen {
 	int hpGuiHeight = 10;
 	int noborderguiwidth = 171;
 
-	int max = 23;
-	int i = max;
-	int multiplier = 4;
 	float scale;
 
 	public LockOnGui() {
@@ -50,51 +45,56 @@ public class LockOnGui extends Screen {
 		// null).getHudMode())
 		// return;
 		IPlayerCapabilities props = ModCapabilities.get(player);
-		if(props != null) {
-			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-				Entity target = InputHandler.lockOn;
-				if (target == null)
-					return;
-				float size = 6;
+		if (props != null) {
+			
+			Entity target = InputHandler.lockOn;
+			if (target == null) {
+				return;
+			} else {
+				if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
+					event.setCanceled(true);
+				}
+				if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+					float size = 6;
 
-				mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon.png"));
+					mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
 
-				i--;
+					int screenWidth = mc.getMainWindow().getScaledWidth();
+					int screenHeight = mc.getMainWindow().getScaledHeight();
 
-				if (i <= 0)
-					i = max * multiplier;
+					scale = 0.75F;
 
-				int screenWidth = mc.getMainWindow().getScaledWidth();
-				int screenHeight = mc.getMainWindow().getScaledHeight();
+					// Icon
 
-				scale = 0.75F;
-
-				// Icon
-				if (target != null) {
 					RenderSystem.pushMatrix();
 					{
-						RenderSystem.translatef((screenWidth / 2) - (guiWidth / 2) * scale / size, (screenHeight / 2) - (guiHeight / 2) * scale / size, 0);
+						RenderSystem.translatef((screenWidth / 2) - (guiWidth / 2) * scale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * scale / size - 0.5F, 0);
 						RenderSystem.scalef(scale / size, scale / size, scale / size);
-					//	RenderSystem.rotatef(player.ticksExisted % 360 * 10,0,0,1);
-						this.blit(-5,5, 0, 0, guiWidth, guiHeight);
+						this.blit(0, 0, 0, 0, guiWidth, guiHeight);
+
+						mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
+						RenderSystem.translated(guiWidth / 2, guiWidth / 2, 0);
+						RenderSystem.rotatef(player.ticksExisted % 360 * 10, 0, 0, 1);
+						RenderSystem.translated(-guiWidth / 2, -guiWidth / 2, 0);
+						this.blit(0, 0, 0, 0, guiWidth, guiHeight);
 					}
 					RenderSystem.popMatrix();
+
+					mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+
+					RenderSystem.pushMatrix();
+
+					int[] scan = props.getEquippedAbilityLevel(Strings.scan);
+					// If ability level > 0 and amount of equipped is > 0
+					if (target != null && scan[0] > 0 && scan[1] > 0) {
+						this.drawString(mc.fontRenderer, target.getName().getFormattedText(), screenWidth - mc.fontRenderer.getStringWidth(target.getName().getFormattedText()), 15, 0xFFFFFF);
+						drawHPBar(event, (LivingEntity) target);
+					}
+
+					RenderSystem.scalef(scale, scale, scale);
+					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.popMatrix();
 				}
-
-				mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-
-				RenderSystem.pushMatrix();
-				
-				int[] scan = props.getEquippedAbilityLevel(Strings.scan);
-				//If ability level > 0 and amount of equipped is > 0
-				if (target != null && scan[0] > 0 && scan[1] > 0) {
-					this.drawString(mc.fontRenderer, target.getName().getFormattedText(), screenWidth - mc.fontRenderer.getStringWidth(target.getName().getFormattedText()), 15, 0xFFFFFF);
-					drawHPBar(event, (LivingEntity) target);
-				}
-
-				RenderSystem.scalef(scale, scale, scale);
-				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-				RenderSystem.popMatrix();
 			}
 		}
 	}
@@ -115,21 +115,20 @@ public class LockOnGui extends Screen {
 
 			hpPerBar = 10;
 			int widthMultiplier = 20;
-			
-			if(target.getMaxHealth()%hpPerBar == 0) {
+
+			if (target.getMaxHealth() % hpPerBar == 0) {
 				hpBars = (int) (target.getMaxHealth() / hpPerBar);
 			} else {
 				hpBars = (int) (target.getMaxHealth() / hpPerBar) + 1;
 			}
-			
-			if(target.getHealth() % hpPerBar == 0) {
+
+			if (target.getHealth() % hpPerBar == 0) {
 				currentBar = (int) (target.getHealth() / hpPerBar);
 			} else {
 				currentBar = (int) (target.getHealth() / hpPerBar) + 1;
 			}
 
-			int oneBar = (int) (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());//(int) (target.getMaxHealth() / hpBars);
-
+			int oneBar = (int) (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());// (int) (target.getMaxHealth() / hpBars);
 
 			if (target.getHealth() % hpPerBar == 0 && target.getHealth() != 0) {
 				hpBarWidth = oneBar * widthMultiplier;
@@ -145,7 +144,7 @@ public class LockOnGui extends Screen {
 				hpBarMaxWidth = (int) (Math.ceil(target.getMaxHealth() % hpPerBar) * widthMultiplier);
 			}
 
-			//System.out.println(target.getHealth());
+			// System.out.println(target.getHealth());
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);

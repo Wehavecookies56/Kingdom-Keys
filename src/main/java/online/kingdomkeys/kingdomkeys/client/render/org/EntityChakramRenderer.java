@@ -1,17 +1,18 @@
 package online.kingdomkeys.kingdomkeys.client.render.org;
 
+import java.util.List;
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.model.BakedQuad;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,7 +20,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
 import online.kingdomkeys.kingdomkeys.entity.organization.BaseChakramEntity;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 @OnlyIn(Dist.CLIENT)
 public class EntityChakramRenderer extends EntityRenderer<BaseChakramEntity> {
@@ -42,10 +42,13 @@ public class EntityChakramRenderer extends EntityRenderer<BaseChakramEntity> {
 			//System.out.println(entity.getModel());
 			/*matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
 			matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));*/
-		    
-			ItemRenderer renderItem = Minecraft.getInstance().getItemRenderer();
-
-		    renderItem.renderItem(new ItemStack(ModItems.eternalFlames.get()), TransformType.FIXED, packedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
+		//	IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "models/item/eternal_flames"));
+			/*ItemRenderer renderItem = Minecraft.getInstance().getItemRenderer();
+		    renderItem.renderItem(new ItemStack(ModItems.eternalFlames.get()), TransformType.FIXED, packedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);*/
+			
+		/*	List<BakedQuad> mod = model.getQuads(null, null, new Random());
+			mod.
+			Minecraft.getInstance().getRenderManager().remodel.*/
 
 			//	shot.render(matrixStackIn, bufferIn.getBuffer(shot.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, r, g, b, 1F);
 
