@@ -26,27 +26,27 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
-public class BaseChakramEntity extends ThrowableEntity{
+public class ChakramEntity extends ThrowableEntity{
 
 	int maxTicks = 100;
 	boolean returning = false;
 	String model;
 	
-	public BaseChakramEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public ChakramEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public BaseChakramEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public ChakramEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
 		super(ModEntities.TYPE_CHAKRAM.get(), world);
 	}
 
-	public BaseChakramEntity(World world) {
+	public ChakramEntity(World world) {
 		super(ModEntities.TYPE_CHAKRAM.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public BaseChakramEntity(World world, PlayerEntity player, String model) {
+	public ChakramEntity(World world, PlayerEntity player, String model) {
 		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
 		owner = player;
 		setModel(model);
@@ -134,7 +134,7 @@ public class BaseChakramEntity extends ThrowableEntity{
 		this.maxTicks = maxTicks;
 	}
 	
-	private static final DataParameter<String> MODEL = EntityDataManager.createKey(BaseChakramEntity.class, DataSerializers.STRING);
+	private static final DataParameter<String> MODEL = EntityDataManager.createKey(ChakramEntity.class, DataSerializers.STRING);
 	
 	public String getModel() {
 		return model;

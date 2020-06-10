@@ -56,8 +56,8 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		if (this.ticksExisted > maxTicks) {
 			this.remove();
 		}
-		
-		/* double rx = 1D;
+		/*
+		 double rx = 1D;
 		 double ry = 2D;
 		 for(int z = 1; z <= 360; z+=7) {
 	         for (int a = 1; a <= 360; a += 7) {
@@ -68,7 +68,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	             world.addParticle(ParticleTypes.DRAGON_BREATH, x, y, getPosZ(), 0.0D, 0.0D, 0.0D);
 	         }
 		 }
-		world.addParticle(ParticleTypes.CLOUD, getPosX(), getPosY(), getPosZ(), 0, 0, 0);*/
+		world.addParticle(ParticleTypes.CLOUD, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		double radiusX = 1D, radiusY = 3D, radiusZ = 1D;
 		double freq = 0.5D;
 		double X = getPosX(),Y = getPosY()-1, Z = getPosZ();
@@ -81,7 +81,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 				}
 			}
 		}
-
+*/
 		super.tick();
 	}
 	

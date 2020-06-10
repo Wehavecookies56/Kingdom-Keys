@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.organization.BaseChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class ChakramItem extends SwordItem implements IOrgWeapon {
@@ -73,7 +73,7 @@ public class ChakramItem extends SwordItem implements IOrgWeapon {
     
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
-    	BaseChakramEntity entity = new BaseChakramEntity(worldIn, player, this.getName().getFormattedText());
+    	ChakramEntity entity = new ChakramEntity(worldIn, player, this.getName().getFormattedText());
 		player.world.addEntity(entity);
 		entity.shoot(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 		player.swingArm(Hand.MAIN_HAND);

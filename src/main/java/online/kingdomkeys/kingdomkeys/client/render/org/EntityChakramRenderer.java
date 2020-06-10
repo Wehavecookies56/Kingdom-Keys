@@ -5,52 +5,74 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.organization.BaseChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityChakramRenderer extends EntityRenderer<BaseChakramEntity> {
+public class EntityChakramRenderer extends EntityRenderer<ChakramEntity> {
 
 	public static final Factory FACTORY = new EntityChakramRenderer.Factory();
-	ModelBlizzard shot;
-
-	public EntityChakramRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	Random rand = new Random();
+	float rotation = 0;
+	
+	public EntityChakramRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
-		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(BaseChakramEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(ChakramEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		matrixStackIn.push();
 		{
-			float r = 1, g = 0, b = 0;
-			
-			//System.out.println(entity.getModel());
-			/*matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
-			matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));*/
-		//	IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "models/item/eternal_flames"));
-			/*ItemRenderer renderItem = Minecraft.getInstance().getItemRenderer();
-		    renderItem.renderItem(new ItemStack(ModItems.eternalFlames.get()), TransformType.FIXED, packedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);*/
-			
-		/*	List<BakedQuad> mod = model.getQuads(null, null, new Random());
-			mod.
-			Minecraft.getInstance().getRenderManager().remodel.*/
+			String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
 
-			//	shot.render(matrixStackIn, bufferIn.getBuffer(shot.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, r, g, b, 1F);
+			
+			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentBlockType());
+			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
+
+			float scale = 0.05F; // (1.0f + poweringState) + (0.6f + poweringState) * progress0;
+
+			matrixStackIn.push();
+			{
+				matrixStackIn.scale(scale, scale, scale);
+
+				float a = 1;// MathHelper.clamp(1 - progress1, 0, 1);
+				float rgb = 1;// MathHelper.clamp(progress1, 0, 1);
+				
+				matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+				matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90));
+				matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + rotation));
+				rotation+=10;
+
+				if(entity.ticksExisted > 1) {
+					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
+						buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+					}
+				}
+
+				matrixStackIn.pop();
+			}
 
 		}
 		matrixStackIn.pop();
@@ -59,16 +81,16 @@ public class EntityChakramRenderer extends EntityRenderer<BaseChakramEntity> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(BaseChakramEntity entity) {
+	public ResourceLocation getEntityTexture(ChakramEntity entity) {
 		String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
 		//System.out.println(name);
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/"+name+".png");
 	}
 
-	public static class Factory implements IRenderFactory<BaseChakramEntity> {
+	public static class Factory implements IRenderFactory<ChakramEntity> {
 		@Override
-		public EntityRenderer<? super BaseChakramEntity> createRenderFor(EntityRendererManager manager) {
-			return new EntityChakramRenderer(manager, new ModelBlizzard());
+		public EntityRenderer<? super ChakramEntity> createRenderFor(EntityRendererManager manager) {
+			return new EntityChakramRenderer(manager);
 		}
 	}
 }

@@ -46,7 +46,6 @@ public class LockOnGui extends Screen {
 		// return;
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		if (props != null) {
-			
 			Entity target = InputHandler.lockOn;
 			if (target == null) {
 				return;
@@ -54,6 +53,7 @@ public class LockOnGui extends Screen {
 				if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
 					event.setCanceled(true);
 				}
+				
 				if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 					float size = 6;
 
@@ -65,7 +65,6 @@ public class LockOnGui extends Screen {
 					scale = 0.75F;
 
 					// Icon
-
 					RenderSystem.pushMatrix();
 					{
 						RenderSystem.translatef((screenWidth / 2) - (guiWidth / 2) * scale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * scale / size - 0.5F, 0);
@@ -103,9 +102,7 @@ public class LockOnGui extends Screen {
 		Minecraft mc = Minecraft.getInstance();
 		int screenWidth = mc.getMainWindow().getScaledWidth();
 		int screenHeight = mc.getMainWindow().getScaledHeight();
-		// if
-		// (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS,
-		// null).getHudMode())
+		// if (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));

@@ -12,9 +12,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.client.model.obj.OBJModel;
-import online.kingdomkeys.kingdomkeys.entity.organization.BaseChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 
-public class ModelChakram extends EntityModel<BaseChakramEntity> {
+public class ModelChakram extends EntityModel<ChakramEntity> {
 	public ModelRenderer fist;
 
 	public ModelChakram() {
@@ -35,7 +35,7 @@ public class ModelChakram extends EntityModel<BaseChakramEntity> {
 	}
 	
 	@Override
-	public void setRotationAngles(BaseChakramEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setRotationAngles(ChakramEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		// TODO Auto-generated method stub
 		
 	}

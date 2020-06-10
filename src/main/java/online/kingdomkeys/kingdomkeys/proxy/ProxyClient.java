@@ -12,6 +12,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -81,7 +82,12 @@ public class ProxyClient implements IProxy {
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
         ModContainers.registerGUIFactories();
         
-        ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "models/item/eternal_flames"));
+        DeferredWorkQueue.runLater(() -> {
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
+            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
+        });
+        //ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "models/item/eternal_flames"));
     }
 
 	@Override

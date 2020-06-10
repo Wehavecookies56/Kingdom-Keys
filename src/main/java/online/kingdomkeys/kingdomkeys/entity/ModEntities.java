@@ -59,7 +59,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.BaseChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
@@ -85,7 +85,7 @@ public class ModEntities {
     
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, EntityClassification.MISC,"entity_org_portal", 0.5F, 0.5F);
     
-    public static final RegistryObject<EntityType<BaseChakramEntity>> TYPE_CHAKRAM = createEntityType(BaseChakramEntity::new, BaseChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1F, 0.5F);
+    public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1F, 0.5F);
     
     //Mobs
     // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
