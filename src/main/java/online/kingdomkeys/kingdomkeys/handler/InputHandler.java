@@ -29,7 +29,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.client.gui.GUISelectDriveFormTemp;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -516,10 +515,7 @@ public class InputHandler {
                     commandBack();
                     
                     break;
-                    
-                case TEST:
-    				mc.displayGuiScreen(new GUISelectDriveFormTemp());
-                	break;
+             
                /* case SUMMON_KEYBLADE:
                     if (!player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive())
                         Utils.summonWeapon(player, EnumHand.MAIN_HAND, 0);
@@ -542,7 +538,6 @@ public class InputHandler {
                                     if (ertr.getEntity() instanceof LivingEntity) {
                                         lockOn = (LivingEntity) ertr.getEntity();
                                         System.out.println(lockOn);
-                                        //LockOn.target = (EntityLivingBase) ertr.getEntity();
                                         player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                                     }/* else if (rtr.entityHit instanceof EntityPart) {
                                         EntityPart part = (EntityPart) rtr.entityHit;
@@ -572,7 +567,7 @@ public class InputHandler {
     }
 
     @SubscribeEvent
-    public void handleKeyInputEvent(InputEvent.MouseInputEvent event) {
+    public void handleKeyInputEvent(InputEvent.RawMouseEvent event) {
         /*
          * if (player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive()) {
          * if (player.getCapability(ModCapabilities.DRIVE_STATE,
@@ -582,12 +577,12 @@ public class InputHandler {
 
         if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
             commandEnter();
-            //event.setCanceled(true);
+            event.setCanceled(true);
         }
 
         if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
             commandBack();
-            //event.setCanceled(true);
+            event.setCanceled(true);
         }
     }
 
@@ -615,8 +610,8 @@ public class InputHandler {
         SUMMON_KEYBLADE("key.kingdomkeys.summonkeyblade", GLFW.GLFW_KEY_G),
         LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z),
         SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
-        ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X),
-        TEST("key.kingdomkeys.test",GLFW.GLFW_KEY_K);
+        ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X);
+        //TEST("key.kingdomkeys.test",GLFW.GLFW_KEY_K);
 
         private final KeyBinding keybinding;
         Keybinds(String name, int defaultKey) {

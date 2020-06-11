@@ -12,23 +12,14 @@ public class KeyboardHelper {
 
     public static boolean isShiftDown () {
         return isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
-        /*    return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
-        else return false;*/
     }
 
-   /*public static boolean isControlDown () {
-        if (Keyboard.isCreated())
-            return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-        else return false;
-    }*/
+    public static boolean isControlDown () {
+    	return isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) || isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
+    }
 
     public static boolean isScrollActivatorDown () {
-
-        /*if(InputMappings.getInputByName("key.kingdomkeys.scrollactivator") != null)
-            return InputMappings.isKeyDown(InputMappings.getInputByName("key.kingdomkeys.scrollactivator").getKeyCode());
-        else
-            return false;*/
-        return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT); //TODO change to detect the mapped key
+        return isKeyDown(InputHandler.Keybinds.SCROLL_ACTIVATOR.getKeybind().getKey().getKeyCode());
     }
 
     /**
