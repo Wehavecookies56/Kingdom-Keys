@@ -84,6 +84,7 @@ public class ProxyClient implements IProxy {
         
         DeferredWorkQueue.runLater(() -> {
         	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/zephyr"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
         });

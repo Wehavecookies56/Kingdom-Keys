@@ -5,9 +5,12 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -15,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class LanceItem extends SwordItem implements IOrgWeapon {
@@ -67,6 +71,14 @@ public class LanceItem extends SwordItem implements IOrgWeapon {
         return data;
     }
 
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
+    	LanceEntity entity = new LanceEntity(worldIn, player, this.getName().getFormattedText());
+		player.world.addEntity(entity);
+		entity.shoot(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+		player.swingArm(Hand.MAIN_HAND);
+    	return super.onItemRightClick(worldIn, player, handIn);
+    }
 
     @OnlyIn(Dist.CLIENT)
     @Override

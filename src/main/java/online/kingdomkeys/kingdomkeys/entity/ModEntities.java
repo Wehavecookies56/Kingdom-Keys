@@ -40,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.EntityMagnetRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.EntityThunderRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.EntityWaterRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.EntityChakramRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.EntityLanceRenderer;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.KKChestTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
@@ -60,6 +61,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class ModEntities {
@@ -86,6 +88,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, EntityClassification.MISC,"entity_org_portal", 0.5F, 0.5F);
     
     public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1F, 0.5F);
+    public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, EntityClassification.MISC,"entity_lance", 1F, 0.5F);
     
     //Mobs
     // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
@@ -169,6 +172,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_CHAKRAM.get(), EntityChakramRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_LANCE.get(), EntityLanceRenderer.FACTORY);
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);

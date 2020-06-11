@@ -75,9 +75,9 @@ public abstract class ItemDropEntity extends Entity {
 			this.pushOutOfBlocks(this.getPosX(), (this.getBoundingBox().minY + this.getBoundingBox().maxY) / 2.0D, this.getPosZ());
 		}
 
-		double d0 = 8.0D;
-		if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > 64.0D) {
-			this.closestPlayer = this.world.getClosestPlayer(this, 8.0D);
+		double maxDist = 8.0D;
+		if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > Math.pow(maxDist,2)) {
+			this.closestPlayer = this.world.getClosestPlayer(this, maxDist);
 		}
 
 		if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
@@ -87,8 +87,8 @@ public abstract class ItemDropEntity extends Entity {
 		if (this.closestPlayer != null) {
 			Vec3d vec3d = new Vec3d(this.closestPlayer.getPosX() - this.getPosX(), this.closestPlayer.getPosY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getPosY(), this.closestPlayer.getPosZ() - this.getPosZ());
 			double d1 = vec3d.lengthSquared();
-			if (d1 < 64.0D) {
-				double d2 = 1.0D - Math.sqrt(d1) / 8.0D;
+			if (d1 < Math.pow(maxDist,2)) {
+				double d2 = 1.0D - Math.sqrt(d1) / maxDist;
 				this.setMotion(this.getMotion().add(vec3d.normalize().scale(d2 * d2 * 0.1D)));
 			}
 		}
@@ -112,10 +112,6 @@ public abstract class ItemDropEntity extends Entity {
 		this.setMotion(vec3d.x * (double) 0.99F, Math.min(vec3d.y + (double) 5.0E-4F, (double) 0.06F), vec3d.z * (double) 0.99F);
 	}
 
-	/**
-	 * Will deal the specified amount of fire damage to the entity if the entity
-	 * isn't immune to fire damage.
-	 */
 	protected void dealFireDamage(int amount) {
 		this.attackEntityFrom(DamageSource.IN_FIRE, (float) amount);
 	}
@@ -130,7 +126,6 @@ public abstract class ItemDropEntity extends Entity {
 			return false;
 		} else {
 			this.markVelocityChanged();
-
 			return false;
 		}
 	}
@@ -152,9 +147,8 @@ public abstract class ItemDropEntity extends Entity {
 	public void onCollideWithPlayer(PlayerEntity entityIn) {
 		if (!this.world.isRemote) {
 			if (this.delayBeforeCanPickup == 0) {
-				entityIn.xpCooldown = 2;
 				onPickup(entityIn);
-				this.playSound(getPickupSound(), 1F, 1);
+				this.playSound(getPickupSound(), 1F, 1F);
 				this.remove();
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(entityIn)), (ServerPlayerEntity)entityIn);
 			}
