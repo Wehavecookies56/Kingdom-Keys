@@ -371,6 +371,7 @@ public class Strings {
         kingdom_hearts = "kingdom_hearts",
         iceCream = "ice_cream",
         emptyBottle = "empty_bottle",
+        synthesisBag = "synthesis_bag",
         LevelUpMagicFire = "levelupmagicfire",
         LevelUpMagicBlizzard = "levelupmagicblizzard",
         LevelUpMagicThunder = "levelupmagicthunder",

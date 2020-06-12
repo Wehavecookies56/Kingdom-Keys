@@ -89,6 +89,7 @@ public class ItemModels extends ItemModelProvider {
 		standardItem(Strings.LevelUpWisdom);
 		standardItem(Strings.LevelUpValor);
 
+		standardItem(Strings.synthesisBag);
     }
 
 	private void keychains() {
