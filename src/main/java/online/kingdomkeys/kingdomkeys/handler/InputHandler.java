@@ -93,11 +93,11 @@ public class InputHandler {
         }
         // InsideMagic
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (CommandMenuGui.magicselected > 0) {
-                CommandMenuGui.magicselected--;
+            if (CommandMenuGui.magicSelected > 0) {
+                CommandMenuGui.magicSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-            } else if (CommandMenuGui.magicselected <= 1)
-                CommandMenuGui.magicselected = this.magicsList.size() - 1;
+            } else if (CommandMenuGui.magicSelected <= 1)
+                CommandMenuGui.magicSelected = this.magicsList.size() - 1;
         }
         // InsideItems
         /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
@@ -110,11 +110,11 @@ public class InputHandler {
         }*/
         // InsideDrive
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
-            if (CommandMenuGui.driveselected > 0) {
-                CommandMenuGui.driveselected--;
+            if (CommandMenuGui.driveSelected > 0) {
+                CommandMenuGui.driveSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
-            } else if (CommandMenuGui.driveselected <= 1) {
-                CommandMenuGui.driveselected = this.driveFormsMap.size() - 1;
+            } else if (CommandMenuGui.driveSelected <= 1) {
+                CommandMenuGui.driveSelected = this.driveFormsMap.size() - 1;
             }
         }
         // InsidePortal
@@ -151,11 +151,11 @@ public class InputHandler {
         }
         // InsideMagic
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (CommandMenuGui.magicselected < this.magicsList.size() - 1) {
-                CommandMenuGui.magicselected++;
+            if (CommandMenuGui.magicSelected < this.magicsList.size() - 1) {
+                CommandMenuGui.magicSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-            } else if (CommandMenuGui.magicselected >= this.magicsList.size() - 1)
-                CommandMenuGui.magicselected = 0;
+            } else if (CommandMenuGui.magicSelected >= this.magicsList.size() - 1)
+                CommandMenuGui.magicSelected = 0;
         }
         // InsideItems
         /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
@@ -169,12 +169,12 @@ public class InputHandler {
         }*/
         // InsideDrive
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
-            if (CommandMenuGui.driveselected < this.driveFormsMap.size() - 1) {
-                CommandMenuGui.driveselected++;
+            if (CommandMenuGui.driveSelected < this.driveFormsMap.size() - 1) {
+                CommandMenuGui.driveSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
             } else {
-                if (CommandMenuGui.driveselected >= this.driveFormsMap.size() - 1)
-                    CommandMenuGui.driveselected = 0;
+                if (CommandMenuGui.driveSelected >= this.driveFormsMap.size() - 1)
+                    CommandMenuGui.driveSelected = 0;
             }
         }
         // InsidePortal
@@ -244,7 +244,7 @@ public class InputHandler {
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                     if (!props.getRecharge() && (!this.magicsList.isEmpty() && (!props.getActiveDriveForm().equals("valor") && !props.getActiveDriveForm().equals("anti")))) {
-                        CommandMenuGui.magicselected = 0;
+                        CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         return;
@@ -278,7 +278,7 @@ public class InputHandler {
                         	
                         } else { //If is in a drive form other than antiform
                         	if(!driveFormsMap.isEmpty()) {
-                                CommandMenuGui.driveselected = 0;
+                                CommandMenuGui.driveSelected = 0;
                                 CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
                                 mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                                 return;
@@ -373,7 +373,7 @@ public class InputHandler {
                // Magic.getMagic(player, world, (String) this.magicsList.get(CommandMenuGui.magicselected));
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;*/
-        	    PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicselected)));
+        	    PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
                 world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
             }
         }
@@ -392,7 +392,7 @@ public class InputHandler {
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             if (this.driveFormsMap.isEmpty()) {
             } else {
-            	String formName = (String) props.getDriveFormsMap().keySet().toArray()[CommandMenuGui.driveselected];
+            	String formName = (String) props.getDriveFormsMap().keySet().toArray()[CommandMenuGui.driveSelected];
             	DriveForm driveForm = ModDriveForms.registry.getValue(new ResourceLocation(formName));
             	if (props.getDP() >= driveForm.getDriveCost()) {
 	                if (formName.equals(Strings.Form_Final)) {
@@ -460,8 +460,8 @@ public class InputHandler {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         }
-        CommandMenuGui.magicselected = 0;
-        CommandMenuGui.driveselected = 0;
+        CommandMenuGui.magicSelected = 0;
+        CommandMenuGui.driveSelected = 0;
 
         // GuiHelper.openTutorial(Tutorials.TUTORIAL_SOA_1);
 

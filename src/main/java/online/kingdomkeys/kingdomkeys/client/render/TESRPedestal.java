@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import online.kingdomkeys.kingdomkeys.container.PedestalInventory;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;

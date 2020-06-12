@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public enum KKArmorMaterial implements IArmorMaterial {
-	ORGANIZATION(KingdomKeys.MODID + ":organization", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
+	ORGANIZATION(KingdomKeys.MODID + ":organization", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
 	TERRA(KingdomKeys.MODID + ":terra", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
@@ -28,16 +28,16 @@ public enum KKArmorMaterial implements IArmorMaterial {
 	ERAQUS(KingdomKeys.MODID + ":eraqus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
+	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
 	NIGHTMAREVEN(KingdomKeys.MODID + ":nightmareventus", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	ANTICOAT(KingdomKeys.MODID + ":anticoat", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
+	ANTICOAT(KingdomKeys.MODID + ":anticoat", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	XEMNAS(KingdomKeys.MODID + ":xemnas", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
+	XEMNAS(KingdomKeys.MODID + ":xemnas", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 6.9F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	});
 	private static final int[] MAX_DAMAGE_ARRAY = new int[] { 16, 16, 16, 16 };

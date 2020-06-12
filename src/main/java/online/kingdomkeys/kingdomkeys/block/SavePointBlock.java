@@ -73,7 +73,7 @@ public class SavePointBlock extends BaseBlock {
 			if (a < 0)
 				a = 1800;
 				
-			if (props.getMP() < props.getMaxMP() || player.getHealth() < props.getMaxHP()) { // TODO add the rest of things that you get back
+			if (props.getMP() < props.getMaxMP() || player.getHealth() < props.getMaxHP() || player.getFoodStats().getFoodLevel() < 20) { // TODO add the rest of things that you get back
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.2, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.2, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.8, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
@@ -81,6 +81,7 @@ public class SavePointBlock extends BaseBlock {
 
 				props.addMP(1);
 				player.heal(1);
+				player.getFoodStats().addStats(1, 1);
 			}
 		}
 		super.onEntityCollision(state, world, pos, entity);

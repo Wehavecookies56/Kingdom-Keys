@@ -19,24 +19,24 @@ public class PlayerPortraitGui extends Screen {
 
 	public PlayerPortraitGui() {
 		super(new TranslationTextComponent(""));
+		minecraft = Minecraft.getInstance();
 	}
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
 //        if (!MainConfig.displayGUI())
 		// return;
-		Minecraft mc = Minecraft.getInstance();
-		IPlayerCapabilities props = ModCapabilities.get(mc.player);
-		// if(!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
+		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		// if(!minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
-		int screenWidth = mc.getMainWindow().getScaledWidth();
-		int screenHeight = mc.getMainWindow().getScaledHeight();
+		int screenWidth = minecraft.getMainWindow().getScaledWidth();
+		int screenHeight = minecraft.getMainWindow().getScaledHeight();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			GL11.glColor3f(1, 1, 1);
-			ResourceLocation skin = mc.player.getLocationSkin();
-			mc.getTextureManager().bindTexture(skin);
+			ResourceLocation skin = minecraft.player.getLocationSkin();
+			minecraft.getTextureManager().bindTexture(skin);
 			float scale = 0.5f;
-			switch (mc.gameSettings.guiScale) {
+			switch (minecraft.gameSettings.guiScale) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85f;
 				break;
@@ -183,7 +183,7 @@ public class PlayerPortraitGui extends Screen {
 					if (!props.getActiveDriveForm().equals("") && !props.getActiveDriveForm().equals(Strings.Form_Anti)) {
 						String driveName = props.getActiveDriveForm().substring(props.getActiveDriveForm().indexOf("_") + 1);
 						ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + driveName + ".png");
-						mc.textureManager.bindTexture(texture);
+						minecraft.textureManager.bindTexture(texture);
 
 						GL11.glPushMatrix();
 						{

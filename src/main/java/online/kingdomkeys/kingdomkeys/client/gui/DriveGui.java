@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 //TODO cleanup + comments
 public class DriveGui extends Screen {
-	Minecraft mc = Minecraft.getInstance();
+	
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
 
@@ -40,6 +40,7 @@ public class DriveGui extends Screen {
 
 	public DriveGui() {
 		super(new TranslationTextComponent(""));
+		minecraft = Minecraft.getInstance();
 	}
 
 	/**
@@ -67,7 +68,7 @@ public class DriveGui extends Screen {
 		 * (!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		 * return;
 		 */
-		IPlayerCapabilities props = ModCapabilities.get(mc.player);
+		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 		if (props != null) {
 			double dp = props.getDP();
 			double fp = props.getFP();
@@ -96,14 +97,14 @@ public class DriveGui extends Screen {
 				int guiWidth = 95;
 				int guiBarWidth = 83;
 				int guiHeight = 18;
-				int screenWidth = mc.getMainWindow().getScaledWidth();
-				int screenHeight = mc.getMainWindow().getScaledHeight();
-				PlayerEntity player = mc.player;
+				int screenWidth = minecraft.getMainWindow().getScaledWidth();
+				int screenHeight = minecraft.getMainWindow().getScaledHeight();
+				PlayerEntity player = minecraft.player;
 
-				mc.textureManager.bindTexture(texture);
+				minecraft.textureManager.bindTexture(texture);
 
 				float scale = 0.65f;
-				switch (mc.gameSettings.guiScale) {
+				switch (minecraft.gameSettings.guiScale) {
 				case Constants.SCALE_AUTO:
 					scale = 0.85f;
 					break;

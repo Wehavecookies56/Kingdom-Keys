@@ -16,7 +16,7 @@ public class PedestalGui extends ContainerScreen<PedestalContainer> {
 
     public PedestalGui(PedestalContainer container, PlayerInventory inventory, ITextComponent title) {
         super(container, inventory, title);
-		Minecraft.getInstance().getMainWindow().getHeight();
+		//Minecraft.getInstance().getMainWindow().getHeight();
 		this.ySize = 186;
 
     }

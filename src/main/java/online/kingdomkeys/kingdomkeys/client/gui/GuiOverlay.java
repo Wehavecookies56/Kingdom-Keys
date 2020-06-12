@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 public class GuiOverlay extends Screen {
 	public GuiOverlay() {
 		super(new TranslationTextComponent(""));
+		minecraft = Minecraft.getInstance();
 	}
 
 	public static boolean showExp;
@@ -43,7 +44,6 @@ public class GuiOverlay extends Screen {
 	int width;
 	int sHeight;
 
-	Minecraft mc;
 	IPlayerCapabilities props;
 
 
@@ -51,12 +51,11 @@ public class GuiOverlay extends Screen {
 	@OnlyIn(Dist.CLIENT)
 	public void RenderGameOverlayEvent(RenderGameOverlayEvent event) {
 		if (event.getType() == ElementType.TEXT) {
-			mc = Minecraft.getInstance();
 
-			width = mc.getMainWindow().getScaledWidth();
-			sHeight = mc.getMainWindow().getScaledHeight();
+			width = minecraft.getMainWindow().getScaledWidth();
+			sHeight = minecraft.getMainWindow().getScaledHeight();
 
-			props = ModCapabilities.get(mc.player);
+			props = ModCapabilities.get(minecraft.player);
 
 			// Experience
 			if (showExp) {
@@ -88,17 +87,17 @@ public class GuiOverlay extends Screen {
 		String text = teleport.toName;
 		GlStateManager.pushMatrix();
 		{
-			GlStateManager.translate(width/2-(mc.fontRenderer.getStringWidth(text)*2)/2, sHeight - sHeight/6, 1);
+			GlStateManager.translate(width/2-(minecraft.fontRenderer.getStringWidth(text)*2)/2, sHeight - sHeight/6, 1);
 			GlStateManager.scale(2, 2, 2);
-			mc.fontRenderer.drawStringWithShadow(text, 0,0, 0xFFFFFF);
+			minecraft.fontRenderer.drawStringWithShadow(text, 0,0, 0xFFFFFF);
 		}
 		GlStateManager.popMatrix();
 	}*/
 
 	private void showExp() {
 		String reqExp = String.valueOf(props.getExpNeeded(props.getLevel(), props.getExperience()));
-		mc.fontRenderer.drawString("Next LV", 5, 5, 0xFFFFFF);
-		mc.fontRenderer.drawString(reqExp, 5, 5 + mc.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
+		minecraft.fontRenderer.drawString("Next LV", 5, 5, 0xFFFFFF);
+		minecraft.fontRenderer.drawString(reqExp, 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
 		//System.out.println("\nStart time: "+timeExp+"\nActual time:"+System.currentTimeMillis()/1000+"\nEnd Time:   "+(timeExp + 4));
 		if (System.currentTimeMillis()/1000 > (timeExp + 4))
 			showExp = false;
@@ -108,13 +107,13 @@ public class GuiOverlay extends Screen {
 		if (!showExp) { // If no exp is being display print it at the top
 			RenderSystem.pushMatrix();{
 			RenderSystem.translatef(1, 1, 0);
-			mc.fontRenderer.drawString("Munny Get!", 5, 5, 0xFFFFFF);
-			mc.fontRenderer.drawString(munnyGet + "", 5, 5 + mc.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
+			minecraft.fontRenderer.drawString("Munny Get!", 5, 5, 0xFFFFFF);
+			minecraft.fontRenderer.drawString(munnyGet + "", 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
 			}
 			RenderSystem.popMatrix();
 		} else { // If exp is being displayed print it below it
-			mc.fontRenderer.drawString("Munny Get!", 5, 5 + mc.fontRenderer.FONT_HEIGHT + 10, 0xFFFFFF);
-			mc.fontRenderer.drawString(munnyGet + "", 5, 5 + (mc.fontRenderer.FONT_HEIGHT * 2) + 10, 0xFFFFFF);
+			minecraft.fontRenderer.drawString("Munny Get!", 5, 5 + minecraft.fontRenderer.FONT_HEIGHT + 10, 0xFFFFFF);
+			minecraft.fontRenderer.drawString(munnyGet + "", 5, 5 + (minecraft.fontRenderer.FONT_HEIGHT * 2) + 10, 0xFFFFFF);
 		}
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;
@@ -124,13 +123,13 @@ public class GuiOverlay extends Screen {
 		ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
 		GL11.glPushMatrix();
 		{
-			int height = (mc.fontRenderer.FONT_HEIGHT - 3) * props.getMessages().size();
+			int height = (minecraft.fontRenderer.FONT_HEIGHT - 3) * props.getMessages().size();
 			GL11.glEnable(GL11.GL_BLEND);
 			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
 			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
 
 			// Top
-			mc.textureManager.bindTexture(texture);
+			minecraft.textureManager.bindTexture(texture);
 			GL11.glPushMatrix();
 			{
 				GL11.glTranslatef((width - 153.6f - 2), 0, 0);
@@ -139,11 +138,11 @@ public class GuiOverlay extends Screen {
 			}
 			GL11.glPopMatrix();
 
-//			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((mc.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
-			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((mc.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
-			showText("LV.", width - ((mc.fontRenderer.getStringWidth("LV. ")) * 0.75f) - 90, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-			showText("" + props.getLevel(), width - 256.0f * 0.75f + ((mc.fontRenderer.getStringWidth("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-			showText(mc.player.getDisplayName().getString(), width - ((mc.fontRenderer.getStringWidth(mc.player.getDisplayName().getString())) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+//			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
+			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
+			showText("LV.", width - ((minecraft.fontRenderer.getStringWidth("LV. ")) * 0.75f) - 90, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
+			showText("" + props.getLevel(), width - 256.0f * 0.75f + ((minecraft.fontRenderer.getStringWidth("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+			showText(minecraft.player.getDisplayName().getString(), width - ((minecraft.fontRenderer.getStringWidth(minecraft.player.getDisplayName().getString())) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 
 			// Half
 			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
@@ -151,7 +150,7 @@ public class GuiOverlay extends Screen {
 
 			GL11.glPushMatrix();
 			{
-				mc.textureManager.bindTexture(texture);
+				minecraft.textureManager.bindTexture(texture);
 				GL11.glTranslatef((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
 				GL11.glScalef(0.6f, height, 1);
 				blit(0, 0, 0, 36, 256, 1);
@@ -164,7 +163,7 @@ public class GuiOverlay extends Screen {
 
 			GL11.glPushMatrix();
 			{
-				mc.textureManager.bindTexture(texture);
+				minecraft.textureManager.bindTexture(texture);
 				GL11.glTranslatef((width - 256.0f * 0.6f - 2), height + (36.0f * 0.6f), 0);
 				GL11.glScalef(0.6f, 0.6f, 1);
 				blit(0, 0, 0, 37, 256, 14);
@@ -177,7 +176,7 @@ public class GuiOverlay extends Screen {
 			//System.out.println(STATS.getMessages());
 			for (int i = 0; i < props.getMessages().size(); i++) {
 				String message = props.getMessages().get(i).toString();
-				showText(Utils.translateToLocal(message), (width - 256.0f * 0.8f + (mc.fontRenderer.getStringWidth("Maximum HP Increased!")) * 0.8f) - 35, mc.fontRenderer.FONT_HEIGHT * 0.8f * i + 23, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
+				showText(Utils.translateToLocal(message), (width - 256.0f * 0.8f + (minecraft.fontRenderer.getStringWidth("Maximum HP Increased!")) * 0.8f) - 35, minecraft.fontRenderer.FONT_HEIGHT * 0.8f * i + 23, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
 			GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
 		}
@@ -194,15 +193,15 @@ public class GuiOverlay extends Screen {
 
 		GL11.glPushMatrix();
 		{
-			int heightBase = (mc.fontRenderer.FONT_HEIGHT - 3) * (props.getMessages().size()+0);
-			int heightDF = (mc.fontRenderer.FONT_HEIGHT - 3) * props.getDFMessages().size();
+			int heightBase = (minecraft.fontRenderer.FONT_HEIGHT - 3) * (props.getMessages().size()+0);
+			int heightDF = (minecraft.fontRenderer.FONT_HEIGHT - 3) * props.getDFMessages().size();
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
 //Base Abilities
 			GL11.glPushMatrix();
 			{
 				// Top
-				mc.textureManager.bindTexture(texture);
+				minecraft.textureManager.bindTexture(texture);
 				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
 				GL11.glPushMatrix();
 				{
@@ -212,13 +211,13 @@ public class GuiOverlay extends Screen {
 				}
 				GL11.glPopMatrix();
 	
-				showText(mc.player.getDisplayName().getFormattedText(), 140 - (mc.fontRenderer.getStringWidth(mc.player.getDisplayName().getFormattedText()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				showText(minecraft.player.getDisplayName().getFormattedText(), 140 - (minecraft.fontRenderer.getStringWidth(minecraft.player.getDisplayName().getFormattedText()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 	
 				// Half
 				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
 				GL11.glPushMatrix();
 				{
-					mc.textureManager.bindTexture(texture);
+					minecraft.textureManager.bindTexture(texture);
 					GL11.glTranslatef(2, sHeight / 3 + 21, 0);
 					GL11.glScalef(0.6f, heightBase+1, 1);
 					blit(0, 0, 0, 51+36, 256, 1);
@@ -229,14 +228,14 @@ public class GuiOverlay extends Screen {
 				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
 				for (int i = 0; i < props.getMessages().size(); i++) {
 					String message = props.getMessages().get(i).toString();
-					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + mc.fontRenderer.FONT_HEIGHT * 1.1F * i + 21, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
+					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i + 21, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
 				
 				// Bottom
 				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
 				GL11.glPushMatrix();
 				{
-					mc.textureManager.bindTexture(texture);
+					minecraft.textureManager.bindTexture(texture);
 					GL11.glTranslatef(2, sHeight / 3 + 22 + heightBase, 0);
 					GL11.glScalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 51+37, 244, 14);
@@ -247,7 +246,7 @@ public class GuiOverlay extends Screen {
 				GL11.glColor4ub((byte) 200,(byte) 200,(byte) 200, (byte) 255);
 				GL11.glPushMatrix();
 				{
-					mc.textureManager.bindTexture(texture);
+					minecraft.textureManager.bindTexture(texture);
 					GL11.glTranslatef(4.5F, sHeight / 3+6, 0);
 					GL11.glScalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 102, 43, 36);
@@ -260,7 +259,7 @@ public class GuiOverlay extends Screen {
 			GL11.glPushMatrix();
 			{
 				// Top
-				mc.textureManager.bindTexture(texture);
+				minecraft.textureManager.bindTexture(texture);
 				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
 				GL11.glPushMatrix();
 				{
@@ -271,15 +270,15 @@ public class GuiOverlay extends Screen {
 				GL11.glPopMatrix();
 	
 				//showText("LEVEL UP!", 6, sHeight / 3 + 29 + heightBase + 5, 0, 0.75F, 0.75F, 1,0xFFFFFF);//TODO Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
-				showText("LV.", 2 + (mc.fontRenderer.getStringWidth("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-				showText("" + props.getDriveFormLevel(driveForm), 2 * 0.75f + (mc.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-				showText(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1)), 140 - (mc.fontRenderer.getStringWidth(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1))) * 0.75f), sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				showText("LV.", 2 + (minecraft.fontRenderer.getStringWidth("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
+				showText("" + props.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				showText(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1)), 140 - (minecraft.fontRenderer.getStringWidth(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1))) * 0.75f), sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 				
 				// Half
 				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
 				GL11.glPushMatrix();
 				{
-					mc.textureManager.bindTexture(texture);
+					minecraft.textureManager.bindTexture(texture);
 					GL11.glTranslatef(2, sHeight / 3 + 50 + heightBase, 0);
 					GL11.glScalef(0.6f, heightDF, 1);
 					blit(0, 0, 0, 51+36, 256, 1);
@@ -290,7 +289,7 @@ public class GuiOverlay extends Screen {
 				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
 				GL11.glPushMatrix();
 				{
-					mc.textureManager.bindTexture(texture);
+					minecraft.textureManager.bindTexture(texture);
 					GL11.glTranslatef(2, sHeight / 3 + 50 + heightBase + heightDF, 0);
 
 					//GL11.glTranslatef(2, sHeight / 3 + heightDF + (36.0f * 0.6f), 0);
@@ -303,7 +302,7 @@ public class GuiOverlay extends Screen {
 				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
 				GL11.glPushMatrix();
 				{
-					mc.textureManager.bindTexture(texture);
+					minecraft.textureManager.bindTexture(texture);
 					GL11.glTranslatef(4.5F, sHeight / 3 + 34 + heightBase, 0);
 					GL11.glScalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 102, 43, 36);
@@ -314,7 +313,7 @@ public class GuiOverlay extends Screen {
 				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
 				for (int i = 0; i < props.getDFMessages().size(); i++) {
 					String message = props.getDFMessages().get(i).toString();
-					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + mc.fontRenderer.FONT_HEIGHT * 1.1F * i + 54, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
+					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i + 54, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
 				GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
 			
@@ -333,7 +332,7 @@ public class GuiOverlay extends Screen {
 		{
 			GL11.glTranslatef(tX, tY, tZ);
 			GL11.glScalef(sX, sY, sZ);
-			drawString(mc.fontRenderer, text, 0, 0, color);
+			drawString(minecraft.fontRenderer, text, 0, 0, color);
 		}
 		GL11.glPopMatrix();
 	}

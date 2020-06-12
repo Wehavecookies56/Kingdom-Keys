@@ -35,5 +35,5 @@ public class OrgPortalTileEntity extends TileEntity {
 	public void setOwner(PlayerEntity player) {
 		this.ownerName = player.getUniqueID();
 	}
-
+	
 }

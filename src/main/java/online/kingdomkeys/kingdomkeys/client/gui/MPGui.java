@@ -27,14 +27,14 @@ public class MPGui extends Screen {
 
 	public MPGui() {
 		super(new TranslationTextComponent(""));
+		minecraft = Minecraft.getInstance();
 	}
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
 		// if (!MainConfig.displayGUI())
 		// return;
-		Minecraft mc = Minecraft.getInstance();
-		PlayerEntity player = mc.player;
+		PlayerEntity player = minecraft.player;
 
 		// if (!player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
@@ -43,23 +43,22 @@ public class MPGui extends Screen {
 			// event.setCanceled(true);
 		}
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 
-			int screenWidth = mc.getMainWindow().getScaledWidth();
-			int screenHeight = mc.getMainWindow().getScaledHeight();
+			int screenWidth = minecraft.getMainWindow().getScaledWidth();
+			int screenHeight = minecraft.getMainWindow().getScaledHeight();
 
 			float scale = 1f;
-			switch (mc.gameSettings.guiScale) {
+			switch (minecraft.gameSettings.guiScale) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;
 			}
-			float scaleFactor = 0.9F;
+			float scaleFactor = 1F;
 			props = ModCapabilities.get(player);
 			if(props == null)
 				return;
-			// System.out.println("Client: "+props.getMP());
-			mpBarWidth = (int) ((int) props.getMP() * scaleFactor);
+			mpBarWidth = (int) (props.getMP() * scaleFactor);
 			int mpBarMaxWidth = (int) (props.getMaxMP() * scaleFactor);
 
 			GL11.glPushMatrix();// MP Background
@@ -134,8 +133,7 @@ public class MPGui extends Screen {
 			GL11.glTranslatef((posX + 2) * scale, (posY + 2) * scale, 0);
 			GL11.glScalef(width, scale, 0);
 			int v = props.getRecharge() ? 22 : 12;
-			int h = props.getRecharge() ? 8 : 7;
-			blit(0, 0, 2, v, 1, h);
+			blit(0, 0, 2, v, 1, 8);
 		}
 		GL11.glPopMatrix();
 
