@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class GuiMenu extends GuiMenu_Background {
 
@@ -31,7 +32,6 @@ public class GuiMenu extends GuiMenu_Background {
 
 	int submenuIndex = SUBMENU_MAIN;
 
-	
 	protected void action(int buttonID) {
 		switch (buttonID) {
 		case ITEMS:
@@ -68,22 +68,36 @@ public class GuiMenu extends GuiMenu_Background {
 		int button_configY = button_journalY + 18;
 		float buttonPosX = (float) width * 0.0526F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
-		
-		addButton(items = new GuiMenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, (e) -> { action(ITEMS); }));
-		addButton(abilities = new GuiMenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON,(e) -> { action(ABILITIES); }));
-		addButton(customize = new GuiMenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON,(e) -> { action(STATUS); }));
-		addButton(party = new GuiMenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON,(e) -> { action(STATUS); }));
-		addButton(status = new GuiMenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON,(e) -> { action(STATUS); }));
-		addButton(journal = new GuiMenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON,(e) -> { action(STATUS); }));
-		addButton(config = new GuiMenuButton((int) buttonPosX, button_configY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON,(e) -> { action(STATUS); }));
 
-        updateButtons();
+		addButton(items = new GuiMenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, (e) -> {
+			action(ITEMS);
+		}));
+		addButton(abilities = new GuiMenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, (e) -> {
+			action(ABILITIES);
+		}));
+		addButton(customize = new GuiMenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, (e) -> {
+			action(STATUS);
+		}));
+		addButton(party = new GuiMenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, (e) -> {
+			action(STATUS);
+		}));
+		addButton(status = new GuiMenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, (e) -> {
+			action(STATUS);
+		}));
+		addButton(journal = new GuiMenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, (e) -> {
+			action(STATUS);
+		}));
+		addButton(config = new GuiMenuButton((int) buttonPosX, button_configY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, (e) -> {
+			action(STATUS);
+		}));
+
+		updateButtons();
 	}
 
 	private void updateButtons() {
 		switch (submenuIndex) {
 		case SUBMENU_MAIN:
-			this.items.visible = true;
+			items.visible = true;
 			abilities.visible = true;
 			customize.visible = true;
 			party.visible = true;
@@ -128,29 +142,30 @@ public class GuiMenu extends GuiMenu_Background {
 		RenderSystem.popMatrix();
 		RenderSystem.pushMatrix();
 		
-		RenderSystem.color3f(1, 1, 1);
-		RenderSystem.translatef(1, 1, 100);
-		//RenderSystem.EnableAlphaTest();
-	//	RenderSystem.EnableBlend();
-		minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-		int infoBoxWidth = (int) ((width * 0.1385F) - 14); //This might be wrong cuz I had to convert from float to int
-		int infoBoxPosX = (int) (width * 0.4354F);
-		int infoBoxPosY = (int) (height * 0.624F);
-		blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
-		for (int i = 0; i < infoBoxWidth; i++) {
-			blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
-		}
-		blit(infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
-		blit(infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 47);
-		for (int i = 0; i < infoBoxWidth + 8; i++) {
-			blit(infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 47);
-		}
-		blit(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 47);
-
+			RenderSystem.color3f(1, 1, 1);
+			RenderSystem.translatef(1, 1, 100);
+			RenderSystem.enableAlphaTest();
+			RenderSystem.enableBlend();
+			minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
+			int infoBoxPosX = (int) (width * 0.4354F);
+			int infoBoxPosY = (int) (height * 0.624F);
+			blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
+			for (int i = 0; i < infoBoxWidth; i++) {
+				blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
+			}
+			blit(infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
+			blit(infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
+			for (int i = 0; i < infoBoxWidth + 8; i++) {
+				blit(infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
+			}
+			blit(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
+			RenderSystem.disableAlphaTest();
+			RenderSystem.disableBlend();
 		RenderSystem.popMatrix();
 		RenderSystem.pushMatrix();
 		{
-			RenderSystem.translatef(1, 1, 100);
+			RenderSystem.translatef(2, 2, 100);
 			IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 			if (props != null) {
 				RenderSystem.pushMatrix();
@@ -167,7 +182,5 @@ public class GuiMenu extends GuiMenu_Background {
 		}
 		RenderSystem.popMatrix();
 	}
-
-	
 
 }

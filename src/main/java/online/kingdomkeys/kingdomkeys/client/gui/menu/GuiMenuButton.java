@@ -30,6 +30,7 @@ public class GuiMenuButton extends BaseKKGuiButton {
 
 	private int middleWidth;
 
+	private String data;
 	enum ButtonType {
 		BUTTON, SUBBUTTON
 	}
@@ -43,6 +44,14 @@ public class GuiMenuButton extends BaseKKGuiButton {
 		super(x, y, 22 + widthIn, 20, buttonText, onPress);
 		middleWidth = widthIn;
 		this.type = type;
+	}
+	
+	public String getData() {
+		return data;
+	}
+	
+	public void setData(String data) {
+		this.data = data;
 	}
 
 	@ParametersAreNonnullByDefault
@@ -141,5 +150,6 @@ public class GuiMenuButton extends BaseKKGuiButton {
 	public void playDownSound(SoundHandler soundHandlerIn) {
 		soundHandlerIn.play(SimpleSound.master(ModSounds.menu_select.get(), 1.0F, 1.0F));
 	}
+
 
 }

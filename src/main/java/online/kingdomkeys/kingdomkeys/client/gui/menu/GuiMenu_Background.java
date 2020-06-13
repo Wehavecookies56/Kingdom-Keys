@@ -139,7 +139,7 @@ public class GuiMenu_Background extends Screen {
 		int sw = Minecraft.getInstance().getMainWindow().getScaledWidth();
 
 		for (int i = 0; i < sh; i += 3) {
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			RenderSystem.color3f(1, 1, 1);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
@@ -147,7 +147,7 @@ public class GuiMenu_Background extends Screen {
 			RenderSystem.translatef(0, i, 0);
 			RenderSystem.scalef(sw, 1, 1);
 			blit(0, 0, 77, 92, 1, 1);
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 		}
 		topLeftBar.draw();
 		topRightBar.draw();

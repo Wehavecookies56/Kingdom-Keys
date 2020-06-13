@@ -20,6 +20,7 @@ public class GuiElementBar extends Screen {
         this.width = width;
         this.height = height;
         this.flipGradient = flipGradient;
+        minecraft = Minecraft.getInstance();
     }
 
     private final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
@@ -39,7 +40,6 @@ public class GuiElementBar extends Screen {
     private final int gradientU = 101, gradientV = 67, gradientW = 10, gradientH = 32;
 
     public void draw() {
-        minecraft = Minecraft.getInstance();
         minecraft.textureManager.bindTexture(texture);
         //Top left corner
         blit(posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);

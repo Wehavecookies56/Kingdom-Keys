@@ -295,15 +295,16 @@ public class Strings {
             Gui_CommandMenu_Drive = Gui_CommandMenu + ".drive",
             Gui_CommandMenu_Limit = Gui_CommandMenu + ".limit",
             Gui_CommandMenu_Drive_Revert = Gui_CommandMenu_Drive + ".revert",
+            // Submenus
             Gui_CommandMenu_Magic_Title = Gui_CommandMenu_Magic + ".title",
             Gui_CommandMenu_Portals_Title = Gui_CommandMenu_Portal + ".title",
-
             Gui_CommandMenu_Drive_Title = Gui_CommandMenu_Drive + ".title",
 
             // Menu
             Gui_Menu = "gui.menu",
             Gui_Menu_Main = Gui_Menu + ".main",
             Gui_Menu_Main_Title = Gui_Menu_Main + ".title",
+            
             Gui_Menu_Main_Button = Gui_Menu_Main + ".button",
             Gui_Menu_Main_Button_Items = Gui_Menu_Main_Button + ".items",
             Gui_Menu_Main_Button_Abilities = Gui_Menu_Main_Button + ".abilities",
@@ -312,8 +313,11 @@ public class Strings {
             Gui_Menu_Main_Button_Status = Gui_Menu_Main_Button + ".status",
             Gui_Menu_Main_Button_Journal = Gui_Menu_Main_Button + ".journal",
             Gui_Menu_Main_Button_Config = Gui_Menu_Main_Button + ".config",
+            
+            Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
             Gui_Menu_Main_Time = Gui_Menu_Main + ".time",
             Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",
+            
             Gui_Menu_Items = Gui_Menu + ".items",
             Gui_Menu_Items_Title = Gui_Menu_Items + ".title",
             Gui_Menu_Items_Button_Keychain = Gui_Menu_Items + ".keychain",
@@ -324,7 +328,29 @@ public class Strings {
             Gui_Menu_Items_Button = Gui_Menu_Items + ".button",
             Gui_Menu_Items_Button_Stock = Gui_Menu_Items_Button + ".stock",
             Gui_Menu_Items_Button_Back = Gui_Menu_Items_Button + ".back",
-            Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
+            
+            Gui_Menu_Status = Gui_Menu + ".status",
+            Gui_Menu_Status_Title = Gui_Menu_Status + ".title",
+            Gui_Menu_Status_Level = Gui_Menu_Status + ".level",
+            Gui_Menu_Status_TotalExp = Gui_Menu_Status + ".totalexp",
+			Gui_Menu_Status_NextLevel = Gui_Menu_Status + ".nextlevel",
+			Gui_Menu_Status_HP = Gui_Menu_Status + ".hp",
+			Gui_Menu_Status_MP = Gui_Menu_Status + ".mp",
+			Gui_Menu_Status_AP = Gui_Menu_Status + ".ap",
+			Gui_Menu_Status_DriveGauge = Gui_Menu_Status + ".drivegauge",
+			Gui_Menu_Status_Strength = Gui_Menu_Status + ".strength",
+			Gui_Menu_Status_Magic = Gui_Menu_Status + ".magic",
+			Gui_Menu_Status_Defense = Gui_Menu_Status + ".defense",
+			Gui_Menu_Status_FireRes = Gui_Menu_Status + ".fireres",
+			Gui_Menu_Status_BlizzardRes = Gui_Menu_Status + ".blizzardres",
+			Gui_Menu_Status_ThunderRes = Gui_Menu_Status + ".thunderres",
+			Gui_Menu_Status_DarkRes = Gui_Menu_Status + ".darkres",
+			Gui_Menu_Status_FormLevel = Gui_Menu_Status + ".formlevel",
+			Gui_Menu_Status_FormGauge = Gui_Menu_Status + ".formgauge",
+			Gui_Menu_Status_Button = Gui_Menu_Status + ".button",
+            Gui_Menu_Status_Button_Back = Gui_Menu_Status_Button + ".back",
+
+            
             Gui_Menu_Config = Gui_Menu + ".config",
             Gui_Menu_Config_Title = Gui_Menu_Config + ".title",
             Gui_Menu_Config_Colour = Gui_Menu_Config + ".colour",

@@ -178,7 +178,7 @@ public class CommandMenuGui extends Screen {
 						magic = magic.substring(magic.indexOf(":")+1);
 						/*int level = minecraft.player.getCapability(ModCapabilities.MAGIC_STATE, null).getMagicLevel(magic);
 						String magicName = Constants.getMagicName(magic, level);*/
-						drawString(minecraft.fontRenderer, /*Utils.translateToLocal(magicName)*/magic, textX, 4, colour);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(magic), textX, 4, colour);
 						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					}
 				}
@@ -520,7 +520,7 @@ public class CommandMenuGui extends Screen {
 					GL11.glTranslatef(x, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() - i)), 0);
 					GL11.glScalef(scale, scale, scale);
 					if (submenu == SUB_DRIVE) {						
-						drawString(minecraft.fontRenderer, formName, textX, 4, color);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(formName), textX, 4, color);
 					}
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

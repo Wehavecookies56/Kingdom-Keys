@@ -25,6 +25,7 @@ public class GuiMenuColoredElement extends Widget {
 
 	String key, value;
 	Color color;
+	Minecraft minecraft;
 
 	public GuiMenuColoredElement(int x, int y, int widthIn, String key, String value, int color) {
 		super(x, y, widthIn, 14, key);
@@ -32,6 +33,7 @@ public class GuiMenuColoredElement extends Widget {
 		this.value = value;
 		middleWidth = widthIn;
 		this.color = new Color(color);
+		minecraft = Minecraft.getInstance();
 	}
 
 	@ParametersAreNonnullByDefault
@@ -44,13 +46,13 @@ public class GuiMenuColoredElement extends Widget {
 			RenderSystem.color3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			Minecraft.getInstance().textureManager.bindTexture(texture);
+			minecraft.textureManager.bindTexture(texture);
 
 			for (int i = 0; i < middleWidth; i++) {
 				blit(x + i, y, u, vPos, 1, height);
 			}
-			drawString(Minecraft.getInstance().fontRenderer, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
-			drawString(Minecraft.getInstance().fontRenderer, value, x + width - Minecraft.getInstance().fontRenderer.getStringWidth(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
+			drawString(minecraft.fontRenderer, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
+			drawString(minecraft.fontRenderer, value, x + width - minecraft.fontRenderer.getStringWidth(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
 			RenderSystem.disableBlend();
 			RenderSystem.popMatrix();
 		}
