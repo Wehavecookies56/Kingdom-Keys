@@ -1,7 +1,7 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/waywardwind.obj",
+	"loader": "forge:b3d",
+	"model": "kingdomkeys:models/item/keyblade/waywardwind.b3d",
 	"textures": {
 
 	},

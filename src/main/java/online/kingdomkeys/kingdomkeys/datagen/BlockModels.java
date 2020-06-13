@@ -53,8 +53,8 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("kk_chest");
 		standardCube("org_portal");
 		standardCube("mosaic_stained_glass");
-		standardCube("pedestal");
-		standardCube("soa_door");
+	//	standardCube("pedestal");
+	//	standardCube("soa_door");
 		standardCube("savepoint");
 	}
 
