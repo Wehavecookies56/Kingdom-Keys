@@ -23,7 +23,7 @@ public class SCSyncCapabilityPacket {
 	private int strength = 0;
 	private int magic = 0;
 	private int defense = 0;
-	private int hp, ap, maxAP;
+	private int maxHp, ap, maxAP;
 	private int munny = 0;
 	private int antipoints = 0;
 
@@ -51,7 +51,7 @@ public class SCSyncCapabilityPacket {
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		this.recharge = capability.getRecharge();
-		this.hp = capability.getMaxHP();
+		this.maxHp = capability.getMaxHP();
 		// this.choice1 = capability.getChoice1();
 		this.ap = capability.getConsumedAP();
 		this.maxAP = capability.getMaxAP();
@@ -80,7 +80,7 @@ public class SCSyncCapabilityPacket {
 		buffer.writeDouble(this.MP);
 		buffer.writeDouble(this.maxMP);
 		buffer.writeBoolean(this.recharge);
-		buffer.writeInt(this.hp);
+		buffer.writeInt(this.maxHp);
 		// buffer.writeString(this.choice1);
 		buffer.writeInt(this.ap);
 		buffer.writeInt(this.maxAP);
@@ -140,7 +140,7 @@ public class SCSyncCapabilityPacket {
 		msg.MP = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();
 		msg.recharge = buffer.readBoolean();
-		msg.hp = buffer.readInt();
+		msg.maxHp = buffer.readInt();
 		// msg.choice1 = buffer.readString(40);
 		msg.ap = buffer.readInt();
 		msg.maxAP = buffer.readInt();
@@ -206,7 +206,7 @@ public class SCSyncCapabilityPacket {
 			props.ifPresent(cap -> cap.setMP(message.MP));
 			props.ifPresent(cap -> cap.setMaxMP(message.maxMP));
 			props.ifPresent(cap -> cap.setRecharge(message.recharge));
-			props.ifPresent(cap -> cap.setMaxHP(message.hp));
+			props.ifPresent(cap -> cap.setMaxHP(message.maxHp));
 			props.ifPresent(cap -> cap.setConsumedAP(message.ap));
 			props.ifPresent(cap -> cap.setMaxAP(message.maxAP));
 			props.ifPresent(cap -> cap.setDP(message.dp));

@@ -24,7 +24,9 @@ public class SCSyncCapabilityToAllPacket {
 			defense = 0,
 			reflectTicks = 0,
 			aeroTicks = 0,
-			antipoints = 0;
+			antipoints = 0,
+			maxHP = 20;
+	
 	
 	private double dp = 0, fp = 0;
 
@@ -51,6 +53,7 @@ public class SCSyncCapabilityToAllPacket {
 		this.fp = capability.getFP();
 		this.dp = capability.getDP();
 		this.antipoints = capability.getAntiPoints();
+		this.maxHP = capability.getMaxHP();
 		
         for(byte i=0;i<3;i++) {
         	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
@@ -75,7 +78,7 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
-		
+		buffer.writeInt(this.maxHP);
 		
 		for(byte i=0;i<3;i++) {
         	buffer.writeByte(this.orgPortalCoords[i].getPID());
@@ -105,6 +108,7 @@ public class SCSyncCapabilityToAllPacket {
 		msg.dp = buffer.readDouble();
 		msg.fp = buffer.readDouble();
 		msg.antipoints = buffer.readInt();
+		msg.maxHP = buffer.readInt();
 		
 		for(byte i=0;i<3;i++) {
     		msg.orgPortalCoords[i].setPID(buffer.readByte());
@@ -144,6 +148,7 @@ public class SCSyncCapabilityToAllPacket {
 				props.ifPresent(cap -> cap.setDP(message.dp));
 				props.ifPresent(cap -> cap.setFP(message.fp));
 				props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
+				props.ifPresent(cap -> cap.setMaxHP(message.maxHP));
 				
 				props.ifPresent(cap -> cap.setPortalCoords((byte)0, message.orgPortalCoords[0]));
 				props.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));

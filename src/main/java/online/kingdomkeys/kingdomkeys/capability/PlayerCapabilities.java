@@ -156,7 +156,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	List<String> magicList = new ArrayList<String>();
 	LinkedHashMap<String, int[]> abilitiesMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped}, 
 
-	private double mp = 0, maxMP = 10, dp = 0, maxDP = 300, fp = 0;
+	private double mp = 0, maxMP = 0, dp = 0, maxDP = 300, fp = 0;
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
@@ -383,6 +383,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		case 5:
 			this.addStrength(1);
 			this.addMaxHP(5);
+			this.addMaxMP(5);
 			// ABILITIES.unlockAbility(ModAbilities.guard);
 			break;
 		case 6:
@@ -402,6 +403,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			this.addMagic(1);
 			this.addDefense(1);
 			this.addMaxHP(5);
+			this.addMaxMP(5);
 			// ABILITIES.unlockAbility(ModAbilities.mpHaste);
 			break;
 		case 11:
@@ -420,6 +422,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		case 15:
 			this.addStrength(1);
 			this.addMaxHP(5);
+			this.addMaxMP(5);
 			// ABILITIES.unlockAbility(ModAbilities.formBoost);
 			break;
 		case 16:
@@ -438,6 +441,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		case 20:
 			this.addMagic(1);
 			this.addMaxHP(5);
+			this.addMaxMP(5);
 			// ABILITIES.unlockAbility(ModAbilities.mpHastera);
 			break;
 		case 21:
@@ -731,9 +735,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		if (this.level % 5 == 0) {
 			player.setHealth(getMaxHP());
 			player.getFoodStats().addStats(20, 0);
-			// player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).addPoints(1);
-			this.addMaxMP(5);
 			this.setMP(this.getMaxMP());
+			
+			// player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).addPoints(1);
+			 this.addMaxMP(5);
 			// PacketDispatcher.sendTo(new
 			// SyncOrgXIIIData(player.getCapability(ModCapabilities.ORGANIZATION_XIII,
 			// null)), (EntityPlayerMP) player);
@@ -1063,6 +1068,18 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		return list;
 	}
+	
+	@Override
+	public void setPortalList(List<PortalCoords> list) {
+		for (byte i = 0; i < list.size(); i++) {
+			orgPortalCoords[i] = list.get(i);
+			/*System.out.println(list.get(i).getDimID());
+			System.out.println(list.get(i).getX());
+			System.out.println(list.get(i).getY());
+			System.out.println(list.get(i).getZ());
+			System.out.println(list.get(i).getPID());*/
+		}
+	}
 
 	@Override
 	public LinkedHashMap<String, int[]> getAbilitiesMap() {
@@ -1097,5 +1114,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		System.out.println(ability+": "+abilitiesMap.get(ability)[0]+" : "+(abilitiesMap.get(ability)[1]+level));
 		abilitiesMap.put(ability, new int[] {abilitiesMap.get(ability)[0], abilitiesMap.get(ability)[1]+level});
 	}
+
+	
 
 }

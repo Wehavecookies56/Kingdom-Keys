@@ -25,16 +25,16 @@ public class ModMagics {
 		public static void registerMagics(RegistryEvent.Register<Magic> event) {
 			int order = 0;
 			event.getRegistry().registerAll(
-					new MagicFire(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire", 5, order++),
-					new MagicBlizzard(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard", 30, order++),
-					new MagicWater(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water", 300, order++),
-					new MagicThunder(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder", 300, order++),
+					new MagicFire(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire", 10, order++),
+					new MagicBlizzard(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard", 12, order++),
+					new MagicWater(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water", 12, order++),
+					new MagicThunder(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder", 15, order++),
 					new MagicCure(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure", 300, order++),
-					new MagicAero(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero", 300, order++),
-					new MagicMagnet(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet", 300, order++),
-					new MagicReflect(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect", 300, order++),
-					new MagicGravity(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity", 300, order++),
-					new MagicStop(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop", 300, order++)
+					new MagicAero(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero", 12, order++),
+					new MagicMagnet(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet", 15, order++),
+					new MagicReflect(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect", 10, order++),
+					new MagicGravity(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity", 14, order++),
+					new MagicStop(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop", 20, order++)
 			);
 		}
 	}

@@ -130,6 +130,7 @@ public interface IPlayerCapabilities {
 	
 	
 	List<PortalCoords> getPortalList();
+	void setPortalList(List<PortalCoords> list);
 	PortalCoords getPortalCoords(byte pID);
     void setPortalCoords(byte pID, PortalCoords coords);
 }

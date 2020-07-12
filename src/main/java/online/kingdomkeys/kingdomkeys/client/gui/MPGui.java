@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
-import com.ibm.icu.impl.PropsVectors;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -56,86 +54,87 @@ public class MPGui extends Screen {
 			}
 			float scaleFactor = 1F;
 			props = ModCapabilities.get(player);
-			if(props == null)
+			if(props == null || props.getMaxMP() <= 0)
 				return;
+			
 			mpBarWidth = (int) (props.getMP() * scaleFactor);
 			int mpBarMaxWidth = (int) (props.getMaxMP() * scaleFactor);
 
-			GL11.glPushMatrix();// MP Background
+			RenderSystem.pushMatrix();// MP Background
 			{
-				GL11.glTranslatef((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
-				GL11.glScalef(scale, scale / 1.3F, scale);
+				RenderSystem.translatef((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
+				RenderSystem.scalef(scale, scale / 1.3F, scale);
 				drawMPBarBack(0, 0, mpBarMaxWidth, scale);
 			}
 
-			GL11.glPopMatrix();// MP Bar
+			RenderSystem.popMatrix();// MP Bar
 			{
-				GL11.glPushMatrix();
-				GL11.glTranslatef((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
-				GL11.glScalef(scale, scale / 1.3F, scale);
+				RenderSystem.pushMatrix();
+				RenderSystem.translatef((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
+				RenderSystem.scalef(scale, scale / 1.3F, scale);
 				drawMPBarTop(0, 0, (int) Math.ceil(mpBarWidth), scale);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 		}
 	}
 
 	public void drawMPBarBack(int posX, int posY, int width, float scale) {
 		Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			// Left Margin
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glTranslatef(scale * posX, scale * posY, 0);
-				GL11.glScalef(scale, scale, 0);
+				RenderSystem.translatef(scale * posX, scale * posY, 0);
+				RenderSystem.scalef(scale, scale, 0);
 				blit(0, 0, 0, 0, 2, 12);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// Background
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glTranslatef((posX + 2) * scale, posY * scale, 0);
-				GL11.glScalef(width, scale, 0);
+				RenderSystem.translatef((posX + 2) * scale, posY * scale, 0);
+				RenderSystem.scalef(width, scale, 0);
 				int v = props.getRecharge() ? 8 : 2;
 				blit(0, 0, v, 0, 1, 12);
 
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// Right Margin
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glTranslatef((posX + 2) * scale + width, scale * posY, 0);
-				GL11.glScalef(scale, scale, 0);
+				RenderSystem.translatef((posX + 2) * scale + width, scale * posY, 0);
+				RenderSystem.scalef(scale, scale, 0);
 				blit(0, 0, 3, 0, 2, 12);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// MP Icon
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
 				int v = props.getRecharge() ? 45 : 32;
-				GL11.glTranslatef((posX + 2) * scale + width + 1, scale * posY, 0);
-				GL11.glScalef(scale * 0.8F, scale, 1);
+				RenderSystem.translatef((posX + 2) * scale + width + 1, scale * posY, 0);
+				RenderSystem.scalef(scale * 0.8F, scale, 1);
 				blit(0, 0, 0, v, 23, 12);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 
 	}
 
 	public void drawMPBarTop(int posX, int posY, int width, float scale) {
 		Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GL11.glTranslatef((posX + 2) * scale, (posY + 2) * scale, 0);
-			GL11.glScalef(width, scale, 0);
+			RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
+			RenderSystem.scalef(width, scale, 0);
 			int v = props.getRecharge() ? 22 : 12;
 			blit(0, 0, 2, v, 1, 8);
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 
 	}
 }

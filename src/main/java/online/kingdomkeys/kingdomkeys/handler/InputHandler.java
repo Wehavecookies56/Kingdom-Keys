@@ -36,6 +36,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
@@ -373,8 +374,18 @@ public class InputHandler {
                // Magic.getMagic(player, world, (String) this.magicsList.get(CommandMenuGui.magicselected));
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;*/
-        	    PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
-                world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				String magic = magicsList.get(CommandMenuGui.magicSelected);
+				int cost = ModMagics.registry.getValue(new ResourceLocation(magic)).getCost();
+
+            	if(props.getMaxMP() == 0 || props.getRecharge() || cost > props.getMaxMP() && cost < 300) {
+                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            	} else {
+    				PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
+                    world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+    			}
+                CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+
             }
         }
 

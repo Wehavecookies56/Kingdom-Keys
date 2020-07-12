@@ -69,8 +69,8 @@ public class EntityEvents {
 		PlayerEntity player = e.getPlayer();
 		if (!player.world.isRemote) { // Sync from server to client
 			//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
-			LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
-			System.out.println(map.values());
+			//LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
+			//System.out.println(map.values());
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
 		}
 		PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
@@ -415,6 +415,15 @@ public class EntityEvents {
 					if (event.getEntity() instanceof WitherEntity) {
 						props.addExperience(player, 1500);
 					}
+					
+					Entity entity = event.getEntity();
+					double x = entity.getPosX();
+					double y = entity.getPosY();
+					double z = entity.getPosZ();
+					entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, 1000));
+					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, 10));
+					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
+					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
 
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
 				}
@@ -422,14 +431,7 @@ public class EntityEvents {
 
 		}
 
-		Entity entity = event.getEntity();
-		double x = entity.getPosX();
-		double y = entity.getPosY();
-		double z = entity.getPosZ();
-		event.getEntity().world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, 1000));
-		event.getEntity().world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, 10));
-		event.getEntity().world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
-		event.getEntity().world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
+		
 	}
 
 	@SubscribeEvent
@@ -439,7 +441,35 @@ public class EntityEvents {
 			PlayerEntity nPlayer = event.getPlayer();
 			IPlayerCapabilities oProps = ModCapabilities.get(oPlayer);
 			IPlayerCapabilities nProps = ModCapabilities.get(nPlayer);
+			nProps.setLevel(oProps.getLevel());
+			nProps.setExperience(oProps.getExperience());
+			nProps.setExperienceGiven(oProps.getExperienceGiven());
+			nProps.setStrength(oProps.getStrength());
+			nProps.setMagic(oProps.getMagic());
+			nProps.setDefense(oProps.getDefense());
+			nProps.setMaxHP(oProps.getMaxHP());
+			nProps.setMP(oProps.getMP());
+			nProps.setMaxMP(oProps.getMaxMP());
+			nProps.setDP(oProps.getDP());
+			nProps.setFP(oProps.getFP());
+			nProps.setMaxDP(oProps.getMaxDP());
+			nProps.setConsumedAP(oProps.getConsumedAP());
+			nProps.setMaxAP(oProps.getMaxAP());
+			
+			nProps.setMunny(oProps.getMunny());
+			
+			nProps.setMagicsList(oProps.getMagicsList());
+			nProps.setAbilitiesMap(oProps.getAbilitiesMap());
+			nProps.setPortalList(oProps.getPortalList());
+
+			nProps.setDriveFormsMap(oProps.getDriveFormsMap());
+			//nProps.setDriveFormLevel(Strings.Form_Valor, oProps.getDriveFormLevel(Strings.Form_Valor)); //TODO rest of the forms
+			//nProps.setDriveFormExp(event.getPlayer(), Strings.Form_Valor, oProps.getDriveFormExp(Strings.Form_Valor));
+			
 			// TODO sync stuff
+			/*if(!event.getPlayer().world.isRemote)
+				PacketHandler.syncToAllAround(nPlayer, ModCapabilities.get(nPlayer));*/
+
 		}
 	}
 
