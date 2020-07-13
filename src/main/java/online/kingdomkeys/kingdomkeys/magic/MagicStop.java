@@ -18,7 +18,6 @@ public class MagicStop extends Magic {
 	public MagicStop(String registryName, int cost, int order) {
 		super(registryName, cost, order);
 		this.name = registryName;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -30,6 +29,7 @@ public class MagicStop extends Magic {
                 if (e instanceof LivingEntity) {
                 	IGlobalCapabilities props = ModCapabilities.getGlobal((LivingEntity) e);
                 	props.setStoppedTicks(100); //Stop
+                	props.setStopCaster(player.getDisplayName().getFormattedText());
                 	if(e instanceof ServerPlayerEntity)
                 		PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(props), (ServerPlayerEntity) e);
                 }

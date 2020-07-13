@@ -385,7 +385,6 @@ public class InputHandler {
     			}
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-
             }
         }
 

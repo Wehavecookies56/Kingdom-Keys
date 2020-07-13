@@ -64,10 +64,10 @@ public class MagnetEntity extends ThrowableEntity {
 		// getPosZ(), 1, 1, 0);
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
-		if (ticksExisted >= 3) {
+		if (ticksExisted >= 3 && ticksExisted % 4 == 0) {
 
 			int radius = 2;
-			double freq = 0.4;
+			double freq = 0.6;
 			double X = getPosX();
 			double Y = getPosY();
 			double Z = getPosZ();

@@ -8,8 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -188,6 +190,15 @@ public class Utils {
 		}
 
 		return map; */
+	}
+
+	public static PlayerEntity getPlayerByName(World world, String name) {
+		for(PlayerEntity p : world.getPlayers()) {
+			if(p.getDisplayName().getFormattedText().equals(name)) {
+				return p;
+			}
+		}
+		return null;
 	}
 
 	/**

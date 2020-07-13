@@ -17,7 +17,10 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
 public class BlizzardEntity extends ThrowableEntity {
 
@@ -87,17 +90,19 @@ public class BlizzardEntity extends ThrowableEntity {
 			}
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
-
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+					IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) this.getThrower());
+					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
+					System.out.println(dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)
 
 				if (brtResult != null && rtRes.getType() == Type.BLOCK) {
 					BlockPos hitPos = brtResult.getPos();
-					System.out.println(world.getBlockState(hitPos).getBlockState());
+					//System.out.println(world.getBlockState(hitPos).getBlockState());
 					if (world.getBlockState(hitPos).getBlockState() == Blocks.WATER.getDefaultState()) {
 						System.out.println("water");
 					}

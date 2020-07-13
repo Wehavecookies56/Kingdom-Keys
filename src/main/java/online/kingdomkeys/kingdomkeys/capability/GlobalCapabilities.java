@@ -28,6 +28,7 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	}
 
 	private int timeStopped, stopDmg, flatTicks;
+	private String stopCaster;
 
 	@Override
 	public void setStoppedTicks(int time) {
@@ -52,12 +53,22 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public void setDamage(int dmg) {
 		this.stopDmg = dmg;
-		
 	}
 
 	@Override
 	public void addDamage(int dmg) {
 		this.stopDmg+=dmg;
+	}
+
+
+	@Override
+	public void setStopCaster(String name) {
+		this.stopCaster = name;
+	}
+
+	@Override
+	public String getStopCaster() {
+		return this.stopCaster;
 	}
 
 	@Override

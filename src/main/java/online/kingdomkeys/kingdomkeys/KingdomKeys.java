@@ -184,22 +184,5 @@ public class KingdomKeys {
 		});
 	}
 
-	@SubscribeEvent
-	public void hitEntity(LivingHurtEvent event) {
-		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-			KeybladeItem heldKeyblade = null;
-			
-			if (player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-				heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
-			} else if(player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-				heldKeyblade = (KeybladeItem) player.getHeldItemOffhand().getItem();
-			}
-			
-			if(heldKeyblade != null) {
-				float dmg = DamageCalculation.getStrengthDamage(player, heldKeyblade);
-				event.setAmount(dmg);
-			}
-		}
-	}
+	
 }

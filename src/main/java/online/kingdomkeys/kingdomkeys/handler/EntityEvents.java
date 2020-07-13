@@ -24,6 +24,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -43,6 +44,7 @@ import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
@@ -97,23 +99,25 @@ public class EntityEvents {
 			}
 
 			// MP Recharge system
-			if (props.getRecharge()) {
-				if (props.getMP() >= props.getMaxMP()) {
-					props.setRecharge(false);
-					props.setMP(props.getMaxMP());
-					// System.out.println(props.getMP());
-					if (!event.player.world.isRemote) {
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+			if(!event.player.world.isRemote) {
+				if (props.getRecharge()) {
+					if (props.getMP() >= props.getMaxMP()) {
+						props.setRecharge(false);
+						props.setMP(props.getMaxMP());
+						// System.out.println(props.getMP());
+						//if (!event.player.world.isRemote) {
+							PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+						//}
+					} else {
+						if (event.player.ticksExisted % 5 == 0)
+							props.addMP(props.getMaxMP()/50);
 					}
-				} else {
-					if (event.player.ticksExisted % 5 == 0)
-						props.addMP(1);
-				}
-			} else { // Not on recharge
-				if (props.getMP() <= 0) {
-					props.setRecharge(true);
-					if (!event.player.world.isRemote) {
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+				} else { // Not on recharge
+					if (props.getMP() <= 0) {
+						props.setRecharge(true);
+						if (!event.player.world.isRemote) {
+							PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+						}
 					}
 				}
 			}
@@ -169,12 +173,14 @@ public class EntityEvents {
 
 				if (gProps.getStoppedTicks() <= 0) {
 					gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
-					if (gProps.getDamage() > 0)
-						event.getEntityLiving().attackEntityFrom(DamageSource.MAGIC, gProps.getDamage());
+					if (gProps.getDamage() > 0 && gProps.getStopCaster() != null) {						
+						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, gProps.getStopCaster())), gProps.getDamage()/3);
+					}
 
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
 						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(gProps), (ServerPlayerEntity) event.getEntityLiving());
 					gProps.setDamage(0);
+					gProps.setStopCaster(null);
 				}
 			}
 
@@ -221,7 +227,7 @@ public class EntityEvents {
 
 				// Spawn particles
 				float radius = 1.5F;
-				double freq = 0.4;
+				double freq = 0.6;
 				double X = event.getEntityLiving().getPosX();
 				double Y = event.getEntityLiving().getPosY();
 				double Z = event.getEntityLiving().getPosZ();
@@ -244,7 +250,7 @@ public class EntityEvents {
 						for (int i = 0; i < list.size(); i++) {
 							Entity e = (Entity) list.get(i);
 							if (e instanceof LivingEntity) {
-								e.attackEntityFrom(DamageSource.MAGIC, 10);
+								e.attackEntityFrom(DamageSource.causePlayerDamage(player), 10);
 							}
 						}
 					}
@@ -256,9 +262,10 @@ public class EntityEvents {
 			if (props.getAeroTicks() > 0) {
 				props.remAeroTicks(1);
 
+				if(player.ticksExisted % 5 == 0) {
 				// Spawn particles
 				float radius = 1F;
-				double freq = 0.4;
+				double freq = 0.5;
 				double X = event.getEntityLiving().getPosX();
 				double Y = event.getEntityLiving().getPosY();
 				double Z = event.getEntityLiving().getPosZ();
@@ -272,7 +279,7 @@ public class EntityEvents {
 						}
 					}
 				}
-				
+				}
 			} 
 		}
 	}
@@ -353,13 +360,34 @@ public class EntityEvents {
 			player.setMotion(motion.x, glide, motion.z);
 		}
 	}
+	
+	@SubscribeEvent
+	public void hitEntity(LivingHurtEvent event) {
+		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+			KeybladeItem heldKeyblade = null;
+			
+			if (player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+				heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
+			} else if(player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+				heldKeyblade = (KeybladeItem) player.getHeldItemOffhand().getItem();
+			}
+			
+			//System.out.println(event.getSource().getImmediateSource());
+			if(heldKeyblade != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
+				float dmg = DamageCalculation.getStrengthDamage(player, heldKeyblade);
+				event.setAmount(dmg);
+			}
+		}
+	}
 
 	// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
 		if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
-			// LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
+			//LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 			LivingEntity target = event.getEntityLiving();
+			
 			IGlobalCapabilities gProps = ModCapabilities.getGlobal(target);
 			if (target instanceof PlayerEntity) {
 				IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) target);
@@ -403,7 +431,9 @@ public class EntityEvents {
 		 */
 
 		if (!event.getEntity().world.isRemote) {
-			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+			System.out.println(event.getSource().getImmediateSource());
+System.out.println(event.getSource().getTrueSource());
+			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 
 				if (event.getEntity() instanceof MobEntity) {
@@ -463,6 +493,11 @@ public class EntityEvents {
 			nProps.setPortalList(oProps.getPortalList());
 
 			nProps.setDriveFormsMap(oProps.getDriveFormsMap());
+			
+			nPlayer.setHealth(nProps.getMaxHP());
+			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(nProps.getMaxHP());
+
+			
 			//nProps.setDriveFormLevel(Strings.Form_Valor, oProps.getDriveFormLevel(Strings.Form_Valor)); //TODO rest of the forms
 			//nProps.setDriveFormExp(event.getPlayer(), Strings.Form_Valor, oProps.getDriveFormExp(Strings.Form_Valor));
 			
@@ -477,7 +512,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void playerStartedTracking(PlayerEvent.StartTracking e) {
 		if (e.getTarget() instanceof PlayerEntity) {
-			System.out.println(e.getTarget());
+			//System.out.println(e.getTarget());
 			PlayerEntity targetPlayer = (PlayerEntity) e.getTarget();
 			IPlayerCapabilities props = ModCapabilities.get(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, props);

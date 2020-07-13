@@ -10,6 +10,8 @@ public interface IGlobalCapabilities {
 	int getDamage();
 	void setDamage(int dmg);
 	void addDamage(int dmg);
+	void setStopCaster(String name);
+	String getStopCaster();
 	
 	
 	//Gravity Flat
