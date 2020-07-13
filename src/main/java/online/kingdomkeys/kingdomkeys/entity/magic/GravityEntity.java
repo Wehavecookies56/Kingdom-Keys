@@ -1,9 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -17,8 +20,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-
-import java.util.List;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 
 public class GravityEntity extends ThrowableEntity {
 
@@ -86,26 +88,32 @@ public class GravityEntity extends ThrowableEntity {
 			}
 		}
 		if (!world.isRemote) {
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(player, getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getThrower(), getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
 						IGlobalCapabilities gProps = ModCapabilities.getGlobal((LivingEntity) e);
 						gProps.setFlatTicks(100); // Just in case it goes below (shouldn't happen)
-
-						if (e instanceof LivingEntity) // This should sync the state of this entity (player or mob) to all the clients
-														// around to stop render it flat
+						
+						if (e instanceof LivingEntity) // This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
 							PacketHandler.syncToAllAround((LivingEntity) e, gProps);
 
+						if(e instanceof ServerPlayerEntity)
+							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) e);
+						
 						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 1);
 					}
 				}
 			}
 
 			remove();
-
+			
+			//if(getThrower() instanceof ServerPlayerEntity)
+				//PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) getThrower());
 		}
+		
+		
 	}
 
 	public int getMaxTicks() {

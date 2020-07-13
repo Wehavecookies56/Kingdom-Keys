@@ -130,8 +130,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				System.out.println("Read: " + driveFormName);
 				instance.getDriveFormsMap().put(driveFormName.toString(), properties.getCompound("drive_forms").getIntArray(driveFormName));
 				
-				if (properties.getCompound("drive_forms").getIntArray(driveFormName)[0] == 0 && driveFormName.toString() != null)
-					instance.getDriveFormsMap().remove(driveFormName.toString());
+				/*if (properties.getCompound("drive_forms").getIntArray(driveFormName)[0] == 0 && driveFormName.toString() != null)
+					instance.getDriveFormsMap().remove(driveFormName.toString());*/
 			}
 			
 			Iterator<String> abilitiesIt = properties.getCompound("abilities").keySet().iterator();
@@ -152,7 +152,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = "";
-	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>();
+	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>(); //Key = name, value=  {level, experience}
 	List<String> magicList = new ArrayList<String>();
 	LinkedHashMap<String, int[]> abilitiesMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped}, 
 

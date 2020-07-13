@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -16,16 +15,14 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
@@ -48,9 +45,9 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.world.KKDimTeleporter;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
 public class EntityEvents {
@@ -163,6 +160,8 @@ public class EntityEvents {
 			props = ModCapabilities.get((PlayerEntity) event.getEntityLiving());
 		}
 
+		//MinecraftForge.EVENT_BUS.post(new EntityEvent.EyeHeight(player, player.getPose(), player.getSize(player.getPose()), player.getHeight()));
+
 		if (gProps != null) {
 			// Stop
 			if (gProps.getStoppedTicks() > 0) {
@@ -193,9 +192,16 @@ public class EntityEvents {
 
 				if (gProps.getFlatTicks() <= 0) {
 					gProps.setFlatTicks(0); // Just in case it goes below (shouldn't happen)
-
-					if (event.getEntityLiving() instanceof LivingEntity) // This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
+					
+					
+					if (event.getEntityLiving() instanceof LivingEntity) {// This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
 						PacketHandler.syncToAllAround(event.getEntityLiving(), gProps);
+						
+						if (event.getEntityLiving() instanceof ServerPlayerEntity) {
+							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) event.getEntityLiving());
+						}
+					}
+					
 				}
 			}
 		}
@@ -413,7 +419,7 @@ public class EntityEvents {
 						if(dmg == 0) {
 							dmg = event.getAmount();
 						}
-						System.out.println(dmg);
+						//System.out.println(dmg);
 					}
 					gProps.addDamage((int) dmg);
 					event.setCanceled(true);
@@ -431,8 +437,6 @@ public class EntityEvents {
 		 */
 
 		if (!event.getEntity().world.isRemote) {
-			System.out.println(event.getSource().getImmediateSource());
-System.out.println(event.getSource().getTrueSource());
 			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 
@@ -497,6 +501,10 @@ System.out.println(event.getSource().getTrueSource());
 			nPlayer.setHealth(nProps.getMaxHP());
 			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(nProps.getMaxHP());
 
+			
+			for(int i=0;i<nProps.getDriveFormsMap().size();i++){
+			//	System.out.println(nProps.getDriveFormsMap().get(i));
+			}
 			
 			//nProps.setDriveFormLevel(Strings.Form_Valor, oProps.getDriveFormLevel(Strings.Form_Valor)); //TODO rest of the forms
 			//nProps.setDriveFormExp(event.getPlayer(), Strings.Form_Valor, oProps.getDriveFormExp(Strings.Form_Valor));

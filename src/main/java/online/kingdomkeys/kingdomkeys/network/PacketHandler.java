@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
@@ -47,6 +48,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncGlobalCapabilityToAllPacket.class, SCSyncGlobalCapabilityToAllPacket::encode, SCSyncGlobalCapabilityToAllPacket::decode, SCSyncGlobalCapabilityToAllPacket::handle);
 		HANDLER.registerMessage(packetID++, SCSyncOrgPortalPacket.class, SCSyncOrgPortalPacket::encode, SCSyncOrgPortalPacket::decode, SCSyncOrgPortalPacket::handle);
 		HANDLER.registerMessage(packetID++, SCSyncSynthBagToClientPacket.class, SCSyncSynthBagToClientPacket::encode, SCSyncSynthBagToClientPacket::decode, SCSyncSynthBagToClientPacket::handle);
+		HANDLER.registerMessage(packetID++, SCRecalculateEyeHeight.class, SCRecalculateEyeHeight::encode, SCRecalculateEyeHeight::decode, SCRecalculateEyeHeight::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

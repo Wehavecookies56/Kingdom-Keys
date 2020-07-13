@@ -7,8 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -77,6 +77,19 @@ public class ClientEvents {
 			}
 		}		
 		
+	}
+	
+
+	@SubscribeEvent
+	public void changeHeight(EntityEvent.EyeHeight event) {
+		if(Minecraft.getInstance().player != null) {
+			IGlobalCapabilities props = ModCapabilities.getGlobal(Minecraft.getInstance().player);
+			if(props.getFlatTicks() > 0) {
+				event.setNewHeight(0.1F);
+			} else {
+				event.setNewHeight(1.62F);
+			}
+		}
 	}
 	
 	@SubscribeEvent
