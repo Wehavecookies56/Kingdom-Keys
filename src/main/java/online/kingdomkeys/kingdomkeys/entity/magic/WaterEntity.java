@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
 public class WaterEntity extends ThrowableEntity {
 
@@ -115,7 +116,8 @@ public class WaterEntity extends ThrowableEntity {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)

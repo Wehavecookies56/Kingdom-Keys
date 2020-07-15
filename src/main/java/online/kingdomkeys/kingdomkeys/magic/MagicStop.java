@@ -22,7 +22,7 @@ public class MagicStop extends Magic {
 
 	@Override
 	public void onUse(PlayerEntity player) {
-		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(6.0D, 3.0D, 6.0D).offset(-3.0D, -1.0D, -3.0D));
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 Entity e = (Entity) list.get(i);

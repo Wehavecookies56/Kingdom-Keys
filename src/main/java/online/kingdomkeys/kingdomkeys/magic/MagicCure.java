@@ -1,8 +1,12 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import com.ibm.icu.impl.PropsVectors;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.Hand;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
@@ -18,7 +22,8 @@ public class MagicCure extends Magic {
 	@Override
 	public void onUse(PlayerEntity player) {
 		 //	PacketDispatcher.sendToAllAround(new SpawnCureParticles(this, 1), player, 64.0D);
-		player.heal(7);
+		IPlayerCapabilities props = ModCapabilities.get(player);
+		player.heal(props.getMaxHP()/3);
 		
 		//TODO For the Party System
 		/* IPlayerCapabilities props = ModCapabilities.get(player);

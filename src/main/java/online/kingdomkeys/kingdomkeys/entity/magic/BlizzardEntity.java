@@ -95,7 +95,7 @@ public class BlizzardEntity extends ThrowableEntity {
 					IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) this.getThrower());
 					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
-					System.out.println(dmg);
+					//System.out.println(dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)

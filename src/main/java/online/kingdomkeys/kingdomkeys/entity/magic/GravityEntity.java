@@ -109,8 +109,12 @@ public class GravityEntity extends ThrowableEntity {
 
 			remove();
 			
-			//if(getThrower() instanceof ServerPlayerEntity)
-				//PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) getThrower());
+			/*IGlobalCapabilities playerGProps = ModCapabilities.getGlobal(getThrower());
+			playerGProps.setFlatTicks(100);
+			if(getThrower() instanceof ServerPlayerEntity) {
+				PacketHandler.syncToAllAround((LivingEntity) getThrower(), playerGProps);
+				PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) getThrower());
+			}*/
 		}
 		
 		
