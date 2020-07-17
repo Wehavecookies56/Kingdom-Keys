@@ -11,6 +11,7 @@ import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -39,12 +40,14 @@ import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
@@ -207,22 +210,24 @@ public class EntityEvents {
 
 		if (props != null) {
 			// Drive Form abilities
-			if(props.getActiveDriveForm().equals(Strings.Form_Valor) || props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Valor) && props.getDriveFormLevel(Strings.Form_Valor) >= 3)) {
-				handleHighJump(player, props);
-			}
-			if(props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-				//handleQuickRun(player, props);
-			}
-			if(props.getActiveDriveForm().equals(Strings.Form_Limit)) {
-				//handleDodgeRoll(player, props);
-			}
-			if(props.getActiveDriveForm().equals(Strings.Form_Master) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Master) && props.getDriveFormLevel(Strings.Form_Master) >= 3)) {
-				handleAerialDodge(player, props);
-			}
-			if(props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Final) && props.getDriveFormLevel(Strings.Form_Final) >= 3)) {
-				handleGlide(player, props);
-			}
-			
+			//if(player.world.isRemote && player.getDisplayName().getFormattedText().equals(Minecraft.getInstance().player.getDisplayName().getFormattedText())) {
+				if(shouldHandleHighJump(player, props)) {
+					handleHighJump(player, props);
+				}
+				if(props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+					//handleQuickRun(player, props);
+				}
+				if(props.getActiveDriveForm().equals(Strings.Form_Limit)) {
+					//handleDodgeRoll(player, props);
+				}
+				if(props.getActiveDriveForm().equals(Strings.Form_Master) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Master) && props.getDriveFormLevel(Strings.Form_Master) >= 3)) {
+					handleAerialDodge(player, props);
+				}
+				if(props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Final) && props.getDriveFormLevel(Strings.Form_Final) >= 3)) {
+					handleGlide(player, props);
+				}
+			//}
+
 			//Reflect
 			if (props.getReflectTicks() > 0) {
 				props.remReflectTicks(1);
@@ -300,13 +305,27 @@ public class EntityEvents {
             	if(props.getActiveDriveForm().equals(Strings.Form_Final)) {
 	            	player.setMotion(player.getMotion().add(0,DriveForm.FINAL_JUMP_BOOST[props.getDriveFormLevel(Strings.Form_Final)],0));
             	} else {
+            		System.out.println(props.getDriveFormsMap() != null);
             		if(props.getActiveDriveForm() != null) {
-            			int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
-	            		player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
+            			System.out.println(props.getDriveFormLevel(Strings.Form_Valor));
+            		//	int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
+	            	//	player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
             		}
 	            }
             }
         }
+	}
+	
+	private boolean shouldHandleHighJump(PlayerEntity player, IPlayerCapabilities props) {
+		if(props.getDriveFormsMap() == null)
+			return false;
+		if(props.getActiveDriveForm().equals(Strings.Form_Valor) || props.getActiveDriveForm().equals(Strings.Form_Final)) {
+			return true;
+		}
+		if(props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Valor) && props.getDriveFormLevel(Strings.Form_Valor) >= 3)){
+			return true;
+		}
+		return false;
 	}
 
 	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities props) {
@@ -373,6 +392,7 @@ public class EntityEvents {
 		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 			KeybladeItem heldKeyblade = null;
+			ItemStack heldOrgWeapon = null;
 			
 			if (player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 				heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
@@ -383,6 +403,17 @@ public class EntityEvents {
 			//System.out.println(event.getSource().getImmediateSource());
 			if(heldKeyblade != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
 				float dmg = DamageCalculation.getStrengthDamage(player, heldKeyblade);
+				event.setAmount(dmg);
+			}
+			
+			if (player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
+				heldOrgWeapon = player.getHeldItemMainhand();
+			} else if(player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+				heldOrgWeapon = player.getHeldItemOffhand();
+			}
+			
+			if(heldKeyblade == null && heldOrgWeapon != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
+				float dmg = DamageCalculation.getOrgStrengthDamage(player, heldOrgWeapon);
 				event.setAmount(dmg);
 			}
 		}
@@ -502,17 +533,15 @@ public class EntityEvents {
 			nPlayer.setHealth(nProps.getMaxHP());
 			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(nProps.getMaxHP());
 
-			
-			for(int i=0;i<nProps.getDriveFormsMap().size();i++){
-			//	System.out.println(nProps.getDriveFormsMap().get(i));
-			}
-			
-			//nProps.setDriveFormLevel(Strings.Form_Valor, oProps.getDriveFormLevel(Strings.Form_Valor)); //TODO rest of the forms
-			//nProps.setDriveFormExp(event.getPlayer(), Strings.Form_Valor, oProps.getDriveFormExp(Strings.Form_Valor));
-			
+			System.out.println(event.getPlayer().world.isRemote+": "+nProps.getMP());
 			// TODO sync stuff
-			/*if(!event.getPlayer().world.isRemote)
+			if(!event.getPlayer().world.isRemote) {
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(nProps), (ServerPlayerEntity) nPlayer);
+
+				/*PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(event.getPlayer())), (ServerPlayerEntity)event.getPlayer());
+
 				PacketHandler.syncToAllAround(nPlayer, ModCapabilities.get(nPlayer));*/
+			}
 
 		}
 	}

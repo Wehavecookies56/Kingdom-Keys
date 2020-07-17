@@ -1,11 +1,15 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -27,7 +31,8 @@ public class SCSyncCapabilityToAllPacket {
 			antipoints = 0,
 			maxHP = 20;
 	
-	
+	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
+
 	private double dp = 0, fp = 0;
 
 	private int aerialDodgeTicks = 0;
@@ -59,6 +64,8 @@ public class SCSyncCapabilityToAllPacket {
         	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
         }
 		
+		this.driveFormsMap = capability.getDriveFormsMap();
+
 		this.isGliding = capability.getIsGliding();
 		this.aerialDodgeTicks = capability.getAerialDodgeTicks();
 		this.hasJumpedAD = capability.hasJumpedAerialDodge();
@@ -87,6 +94,14 @@ public class SCSyncCapabilityToAllPacket {
         	buffer.writeDouble(this.orgPortalCoords[i].getZ());
         	buffer.writeInt(this.orgPortalCoords[i].getDimID());
         }
+		
+		CompoundNBT forms = new CompoundNBT();
+		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormsMap.entrySet().iterator();
+		while (driveFormsIt.hasNext()) {
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
+			forms.putIntArray(pair.getKey().toString(), pair.getValue());
+		}
+		buffer.writeCompoundTag(forms);
 		
 		buffer.writeBoolean(this.isGliding);
 		buffer.writeInt(this.aerialDodgeTicks);
@@ -117,6 +132,13 @@ public class SCSyncCapabilityToAllPacket {
     		msg.orgPortalCoords[i].setZ(buffer.readDouble());
     		msg.orgPortalCoords[i].setDimID(buffer.readInt());
         }
+		
+		CompoundNBT driveFormsTag = buffer.readCompoundTag();
+		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
+		while (driveFormsIt.hasNext()) {
+			String driveFormName = (String) driveFormsIt.next();
+			msg.driveFormsMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
+		}
 		
 		msg.isGliding = buffer.readBoolean();
 		msg.aerialDodgeTicks = buffer.readInt();
@@ -154,6 +176,8 @@ public class SCSyncCapabilityToAllPacket {
 				props.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));
 				props.ifPresent(cap -> cap.setPortalCoords((byte)2, message.orgPortalCoords[2]));
 				
+				props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
+
 				props.ifPresent(cap -> cap.setIsGliding(message.isGliding));
 				props.ifPresent(cap -> cap.setAerialDodgeTicks(message.aerialDodgeTicks));
 				props.ifPresent(cap -> cap.setHasJumpedAerialDodge(message.hasJumpedAD));

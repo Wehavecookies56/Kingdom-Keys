@@ -27,11 +27,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.KKChestTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class KKChestBlock extends BaseBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -70,18 +72,29 @@ public class KKChestBlock extends BaseBlock {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"fire");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"blizzard");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"water");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"thunder");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"cure");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"aero");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"magnet");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"reflect");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"gravity");
-		ModCapabilities.get(player).addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"stop");
-
 		if (!worldIn.isRemote) {
+			IPlayerCapabilities props = ModCapabilities.get(player);
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"fire");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"blizzard");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"water");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"thunder");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"cure");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"aero");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"magnet");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"reflect");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"gravity");
+			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"stop");
+			
+			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor", 1);
+			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom", 1);
+			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit", 1);
+			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master", 1);
+			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final", 1);
+			
+			props.setMaxDP(900);
+			
+			PacketHandler.syncToAllAround(player, props);
+			
 //			setDefaultState(state.with(BIG, true));
 			if (worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof KKChestTileEntity) {
 				KKChestTileEntity te = (KKChestTileEntity) worldIn.getTileEntity(pos);
