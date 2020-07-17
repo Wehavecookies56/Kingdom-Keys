@@ -85,42 +85,35 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
-			if(!event.player.world.isRemote)
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
-			//System.out.println(props.getEquippedAbilityLevel("kingdomKeys:ability_scan")[1]);
-			//System.out.println(props.getConsumedAP());
-			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
-				if (props.getFP() > 0) {
-					props.setFP(props.getFP() - 0.4);
-				} else {
-					props.setActiveDriveForm("");
-					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-					PacketHandler.syncToAllAround(event.player, props);
-				}
-			} else if (!props.getActiveDriveForm().equals("")) {
-				ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm())).updateDrive(event.player);
-			}
-
-			// MP Recharge system
 			if(!event.player.world.isRemote) {
+				if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+					if (props.getFP() > 0) {
+						props.setFP(props.getFP() - 0.4);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
+					} else {
+						props.setActiveDriveForm("");
+						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						PacketHandler.syncToAllAround(event.player, props);
+					}
+				} else if (!props.getActiveDriveForm().equals("")) {
+					ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm())).updateDrive(event.player);
+				}
+			
+				// MP Recharge system
 				if (props.getRecharge()) {
-					if (props.getMP() >= props.getMaxMP()) {
+					if (props.getMP() >= props.getMaxMP()) { //Has recharged fully
 						props.setRecharge(false);
 						props.setMP(props.getMaxMP());
-						// System.out.println(props.getMP());
-						//if (!event.player.world.isRemote) {
-							PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
-						//}
-					} else {
+					} else { //Still recharging
 						if (event.player.ticksExisted % 5 == 0)
 							props.addMP(props.getMaxMP()/50);
 					}
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+
 				} else { // Not on recharge
 					if (props.getMP() <= 0) {
 						props.setRecharge(true);
-						if (!event.player.world.isRemote) {
-							PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
-						}
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
 					}
 				}
 			}

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -9,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	// Level 0-7 (0 unused)
@@ -86,7 +88,8 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public void updateDrive(PlayerEntity player) {
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		if (props.getFP() > 0) {
-			props.setFP(props.getFP() - 0.4);
+			props.setFP(props.getFP() - 0.15);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
 		} else {
 			endDrive(player);
 		}
