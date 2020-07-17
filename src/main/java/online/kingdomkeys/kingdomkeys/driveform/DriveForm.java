@@ -89,7 +89,6 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		if (props.getFP() > 0) {
 			props.setFP(props.getFP() - 0.15);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
 		} else {
 			endDrive(player);
 		}
@@ -101,7 +100,9 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		props.setActiveDriveForm("");
 		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-		PacketHandler.syncToAllAround(player, props);
+		if(!player.world.isRemote) {
+			PacketHandler.syncToAllAround(player, props);
+		}
 	}
 
 }

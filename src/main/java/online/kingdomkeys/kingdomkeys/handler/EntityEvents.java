@@ -88,41 +88,44 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
-			if(!event.player.world.isRemote) {
+			if(!event.player.world.isRemote && event.player.ticksExisted == 6) {
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
-
-				if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
-					if (props.getFP() > 0) {
-						props.setFP(props.getFP() - 0.4);
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
-					} else {
-						props.setActiveDriveForm("");
-						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			}
+			
+			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+				if (props.getFP() > 0) {
+					props.setFP(props.getFP() - 0.3);
+				} else {
+					props.setActiveDriveForm("");
+					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					if(!event.player.world.isRemote) {
 						PacketHandler.syncToAllAround(event.player, props);
 					}
-				} else if (!props.getActiveDriveForm().equals("")) {
-					ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm())).updateDrive(event.player);
 				}
-			
-				// MP Recharge system
-				if (props.getRecharge()) {
-					if (props.getMP() >= props.getMaxMP()) { //Has recharged fully
-						props.setRecharge(false);
-						props.setMP(props.getMaxMP());
-					} else { //Still recharging
-						if (event.player.ticksExisted % 5 == 0)
-							props.addMP(props.getMaxMP()/50);
-					}
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+			} else if (!props.getActiveDriveForm().equals("")) {
+				ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm())).updateDrive(event.player);
+			}
+		
+			// MP Recharge system
+			if (props.getRecharge()) {
+				if (props.getMP() >= props.getMaxMP()) { //Has recharged fully
+					props.setRecharge(false);
+					props.setMP(props.getMaxMP());
+				} else { //Still recharging
+					if (event.player.ticksExisted % 5 == 0)
+						props.addMP(props.getMaxMP()/50);
+				}
+				
+				//PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
 
-				} else { // Not on recharge
-					if (props.getMP() <= 0) {
-						props.setRecharge(true);
+			} else { // Not on recharge
+				if (props.getMP() <= 0) {
+					props.setRecharge(true);
+					if(!event.player.world.isRemote) {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
 					}
 				}
 			}
-
 		}
 
 		// Combat mode
@@ -310,8 +313,8 @@ public class EntityEvents {
             		System.out.println(props.getDriveFormsMap() != null);
             		if(props.getActiveDriveForm() != null) {
             			System.out.println(props.getDriveFormLevel(Strings.Form_Valor));
-            		//	int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
-	            	//	player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
+            			int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
+	            		player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
             		}
 	            }
             }
@@ -537,13 +540,13 @@ public class EntityEvents {
 
 			System.out.println(event.getPlayer().world.isRemote+": "+nProps.getMP());
 			// TODO sync stuff
-			if(!event.getPlayer().world.isRemote) {
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(nProps), (ServerPlayerEntity) nPlayer);
+			//if(!event.getPlayer().world.isRemote) {
+			//	PacketHandler.sendTo(new SCSyncCapabilityPacket(nProps), (ServerPlayerEntity) nPlayer);
 
 				/*PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(event.getPlayer())), (ServerPlayerEntity)event.getPlayer());
 
 				PacketHandler.syncToAllAround(nPlayer, ModCapabilities.get(nPlayer));*/
-			}
+			//}
 
 		}
 	}
