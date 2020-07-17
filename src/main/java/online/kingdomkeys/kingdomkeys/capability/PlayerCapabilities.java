@@ -916,7 +916,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public LinkedHashMap<String, int[]> getDriveFormsMap() {
-		return Utils.getSortedDriveForms(driveForms);
+		return driveForms;//Utils.getSortedDriveForms(driveForms);
 	}
 
 	@Override

@@ -66,13 +66,19 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
 		PlayerEntity player = e.getPlayer();
-		if (!player.world.isRemote) { // Sync from server to client
-			//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
-			//LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
-			//System.out.println(map.values());
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+		IPlayerCapabilities props = ModCapabilities.get(player);
+		if(props != null) {
+			if (!player.world.isRemote) { // Sync from server to client
+				//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
+				//LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
+				//System.out.println(map.values());
+				player.setHealth(props.getMaxHP());
+				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(props.getMaxHP());
+				
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+			}
+			PacketHandler.syncToAllAround(player, props);
 		}
-		PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
 	}
 
 	@SubscribeEvent
@@ -301,8 +307,10 @@ public class EntityEvents {
             	if(props.getActiveDriveForm().equals(Strings.Form_Final)) {
 	            	player.setMotion(player.getMotion().add(0,DriveForm.FINAL_JUMP_BOOST[props.getDriveFormLevel(Strings.Form_Final)],0));
             	} else {
-					int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
-	            	player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
+            		if(props.getActiveDriveForm() != null) {
+            			int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
+	            		player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
+            		}
 	            }
             }
         }

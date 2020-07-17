@@ -162,7 +162,7 @@ public class SCSyncCapabilityPacket {
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();
 		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
 		while (driveFormsIt.hasNext()) {
-			//System.out.println(it);
+		//	System.out.println(it);
 			String driveFormName = (String) driveFormsIt.next();
 //			System.out.println("ReadPacket: "+key+" value: "+value);
 			msg.driveFormsMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));

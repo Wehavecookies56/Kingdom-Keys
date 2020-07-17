@@ -74,7 +74,7 @@ public class DriveFormWisdom extends DriveForm {
 				if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 					PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 					IPlayerCapabilities props = ModCapabilities.get(player);
-					if (props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+					if (props != null && props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
 					}

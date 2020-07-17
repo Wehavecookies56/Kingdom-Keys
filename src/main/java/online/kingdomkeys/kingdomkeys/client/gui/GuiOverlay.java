@@ -95,12 +95,14 @@ public class GuiOverlay extends Screen {
 	}*/
 
 	private void showExp() {
-		String reqExp = String.valueOf(props.getExpNeeded(props.getLevel(), props.getExperience()));
-		minecraft.fontRenderer.drawString("Next LV", 5, 5, 0xFFFFFF);
-		minecraft.fontRenderer.drawString(reqExp, 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
-		//System.out.println("\nStart time: "+timeExp+"\nActual time:"+System.currentTimeMillis()/1000+"\nEnd Time:   "+(timeExp + 4));
-		if (System.currentTimeMillis()/1000 > (timeExp + 4))
-			showExp = false;
+		if(props != null) {
+			String reqExp = String.valueOf(props.getExpNeeded(props.getLevel(), props.getExperience()));
+			minecraft.fontRenderer.drawString("Next LV", 5, 5, 0xFFFFFF);
+			minecraft.fontRenderer.drawString(reqExp, 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
+			//System.out.println("\nStart time: "+timeExp+"\nActual time:"+System.currentTimeMillis()/1000+"\nEnd Time:   "+(timeExp + 4));
+			if (System.currentTimeMillis()/1000 > (timeExp + 4))
+				showExp = false;
+		}
 	}
 
 	private void showMunny() {

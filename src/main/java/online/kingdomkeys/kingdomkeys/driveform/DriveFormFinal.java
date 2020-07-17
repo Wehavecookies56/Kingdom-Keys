@@ -72,7 +72,7 @@ public class DriveFormFinal extends DriveForm {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 				IPlayerCapabilities props = ModCapabilities.get(player);
 
-				if (props.getActiveDriveForm().equals(Strings.Form_Final)) {
+				if (props != null && props.getActiveDriveForm().equals(Strings.Form_Final)) {
 					props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
 				}

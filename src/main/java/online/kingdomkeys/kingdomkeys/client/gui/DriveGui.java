@@ -21,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 //TODO cleanup + comments
 public class DriveGui extends Screen {
 	
-
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
 
 	int maxDrive = 1000;
@@ -75,7 +74,7 @@ public class DriveGui extends Screen {
 
 			currDrive = (float) ((oneValue * dp) - getCurrBar(dp, (int) props.getMaxDP() / 100) * guiLength);
 			
-			if (!props.getActiveDriveForm().equals("")) {
+			if (props.getActiveDriveForm() != null && !props.getActiveDriveForm().equals("")) {
 				if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {//Antiform FP calculation
 					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 1000) * guiLength);
 				} else {
