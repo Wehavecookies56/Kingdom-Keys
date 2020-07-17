@@ -73,8 +73,9 @@ public class ProxyClient implements IProxy {
 
         RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.kkChest.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
+        
         
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
@@ -88,7 +89,6 @@ public class ProxyClient implements IProxy {
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
         });
-        //ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "models/item/eternal_flames"));
     }
 
 	@Override

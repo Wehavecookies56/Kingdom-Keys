@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.StainedGlassBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
@@ -56,7 +59,9 @@ public class ModBlocks {
     		kkChest = createNewBlock("kk_chest", () -> new KKChestBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
     		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
     		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
-            mosaic_stained_glass = createNewBlock("mosaic_stained_glass", Block.Properties.create(Material.GLASS).hardnessAndResistance(1.0F, 10.0F)),
+    		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new StainedGlassBlock(DyeColor.LIME,Block.Properties.create(Material.GLASS).notSolid().sound(SoundType.GLASS).hardnessAndResistance(1.0F, 10.0F))),
+       		//mosaic_stained_glass = createNewBlock("mosaic_stained_glass", Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F)),
+       		//mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new KKGlassBlock(Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F))),
             station_of_awakening = createNewBlock("station_of_awakening", Block.Properties.create(Material.GLASS).hardnessAndResistance(1.0F, 10.0F), null),
             orgPortal = createNewBlock("org_portal", () -> new OrgPortalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)))
             ;

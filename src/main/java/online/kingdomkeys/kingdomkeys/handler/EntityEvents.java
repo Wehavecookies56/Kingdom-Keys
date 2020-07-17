@@ -89,6 +89,8 @@ public class EntityEvents {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
 			if(!event.player.world.isRemote) {
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
+
 				if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
 					if (props.getFP() > 0) {
 						props.setFP(props.getFP() - 0.4);
