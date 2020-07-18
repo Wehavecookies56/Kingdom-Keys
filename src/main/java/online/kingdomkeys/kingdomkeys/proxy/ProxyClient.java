@@ -1,10 +1,15 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,18 +24,27 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.*;
+import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
+import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.LockOnGui;
+import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
 
     public static KeyboardManager keyboardManager;
+	public static final Map<Item, BipedModel> armorModels = new HashMap<Item, BipedModel>();
 
     @Override
     public void setup(FMLCommonSetupEvent event) {
@@ -89,7 +103,43 @@ public class ProxyClient implements IProxy {
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
         });
+        
+        VentusModel top = new VentusModel(0.5F);
+        VentusModel pants = new VentusModel(0.3F);
+        
+		armorModels.put(ModItems.ventus_Helmet.get(), top);
+		armorModels.put(ModItems.ventus_Chestplate.get(), top);
+		armorModels.put(ModItems.ventus_Leggings.get(), pants);
+		armorModels.put(ModItems.ventus_Boots.get(), top);
     }
+    
+   /* @SubscribeEvent
+    public static void loadComplete(FMLLoadCompleteEvent evt) {
+        EntityRendererManager entityRenderManager = Minecraft.getInstance().getRenderManager();
+        //Add our own custom armor layer to the various player renderers
+        for (Entry<String, PlayerRenderer> entry : entityRenderManager.getSkinMap().entrySet()) {
+            addCustomArmorLayer(entry.getValue());
+        }
+        //Add our own custom armor layer to everything that has an armor layer
+        //Note: This includes any modded mobs that have vanilla's BipedArmorLayer added to them
+        for (Entry<EntityType<?>, EntityRenderer<?>> entry : entityRenderManager.renderers.entrySet()) {
+            EntityRenderer<?> renderer = entry.getValue();
+            if (renderer instanceof LivingRenderer) {
+                addCustomArmorLayer((LivingRenderer) renderer);
+            }
+        }
+    }
+
+    private static <T extends LivingEntity, M extends BipedModel<T>, A extends BipedModel<T>> void addCustomArmorLayer(LivingRenderer<T, M> renderer) {
+        for (LayerRenderer<T, M> layerRenderer : new ArrayList<>(renderer.layerRenderers)) {
+            //Only allow an exact match, so we don't add to modded entities that only have a modded extended armor layer
+            if (layerRenderer.getClass() == BipedArmorLayer.class) {
+                BipedArmorLayer<T, M, A> bipedArmorLayer = (BipedArmorLayer<T, M, A>) layerRenderer;
+                renderer.addLayer(new KKArmorLayer<>(renderer, bipedArmorLayer.getModelFromSlot(EquipmentSlotType.LEGS), bipedArmorLayer.getModelFromSlot(EquipmentSlotType.HEAD)));
+                break;
+            }
+        }
+    }*/
 
 	@Override
 	public PlayerEntity getClientPlayer() {
