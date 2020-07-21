@@ -14,18 +14,20 @@ import net.minecraftforge.common.util.Constants;
 public class Party {
 	private String name;
 	private List<Member> members = new ArrayList<Member>();
+	private boolean priv;
 
 	public Party() {
 		
 	}
 
-	public Party(String name, LivingEntity entity) {
+	/*public Party(String name, LivingEntity entity) {
 		this(name, entity.getUniqueID(), entity.getDisplayName().getFormattedText());
-	}
+	}*/
 
-	public Party(String name, UUID leaderId, String username) {
+	public Party(String name, UUID leaderId, String username, boolean priv) {
 		this.name = name;
 		this.addMember(leaderId, username).setIsLeader();
+		this.priv = priv;
 	}
 
 	public void setName(String name) {
@@ -35,7 +37,16 @@ public class Party {
 	public String getName() {
 		return this.name;
 	}
+	
+	public void setPriv(boolean priv) {
+		this.priv = priv;
+	}
 
+	public boolean getPriv() {
+		return this.priv;
+	}
+	
+	
 	public Member addMember(LivingEntity entity) {
 		return this.addMember(entity.getUniqueID(), entity.getDisplayName().getFormattedText());
 	}
@@ -72,9 +83,10 @@ public class Party {
 	}
 
 	public CompoundNBT write() {
-		CompoundNBT crewNBT = new CompoundNBT();
-		crewNBT.putString("name", this.getName());
-
+		CompoundNBT partyNBT = new CompoundNBT();
+		partyNBT.putString("name", this.getName());
+		partyNBT.putBoolean("private", this.priv);
+		
 		ListNBT members = new ListNBT();
 		for (Party.Member member : this.getMembers()) {
 			CompoundNBT memberNBT = new CompoundNBT();
@@ -83,14 +95,14 @@ public class Party {
 			memberNBT.putBoolean("isLeader", member.isLeader());
 			members.add(memberNBT);
 		}
-		crewNBT.put("members", members);
+		partyNBT.put("members", members);
 
-		return crewNBT;
+		return partyNBT;
 	}
 
 	public void read(CompoundNBT nbt) {
-		String name = nbt.getString("name");
-		this.setName(name);
+		this.setName(nbt.getString("name"));
+		this.setPriv(nbt.getBoolean("private"));
 
 		ListNBT members = nbt.getList("members", Constants.NBT.TAG_COMPOUND);
 		for (int j = 0; j < members.size(); j++) {

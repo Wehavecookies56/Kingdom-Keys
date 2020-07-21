@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class ExtendedWorldData extends WorldSavedData {
-	private static final String IDENTIFIER = "kingdomkeys";
+	private static final String NAME = "kingdomkeys";
 
 	private HashMap<String, Party> parties = new HashMap<String, Party>();
 
@@ -29,7 +29,7 @@ public class ExtendedWorldData extends WorldSavedData {
 	public static Map<World, ExtendedWorldData> loadedExtWorlds = new HashMap<>();
 
 	public ExtendedWorldData() {
-		super(IDENTIFIER);
+		super(NAME);
 	}
 
 	public ExtendedWorldData(String identifier) {
@@ -50,7 +50,7 @@ public class ExtendedWorldData extends WorldSavedData {
 		if (world instanceof ServerWorld) {
 			ServerWorld serverWorld = (ServerWorld) world;
 			world.increaseMaxEntityRadius(50);
-			ExtendedWorldData worldSavedData = serverWorld.getSavedData().get(ExtendedWorldData::new, IDENTIFIER);
+			ExtendedWorldData worldSavedData = serverWorld.getSavedData().get(ExtendedWorldData::new, NAME);
 			if (worldSavedData != null) {
 				worldExt = worldSavedData;
 			} else {
@@ -77,9 +77,7 @@ public class ExtendedWorldData extends WorldSavedData {
 			this.parties.put(Utils.getResourceName(party.getName()), party);
 		}
 		
-		this.heartlessSpawn = nbt.getBoolean("heartless");
-
-
+		this.heartlessSpawn = nbt.getBoolean("heartless");  
 	}
 
 	@Override
@@ -109,10 +107,10 @@ public class ExtendedWorldData extends WorldSavedData {
 
 	@Nullable
 	public Party getPartyFromMember(UUID memId) {
-		for (Party crew : this.parties.values()) {
-			for (Member member : crew.getMembers()) {
+		for (Party party : this.parties.values()) {
+			for (Member member : party.getMembers()) {
 				if (member.getUUID().equals(memId))
-					return crew;
+					return party;
 			}
 		}
 

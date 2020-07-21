@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -17,14 +18,29 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
 
 public class GuiMenu_Party extends GuiMenu_Background {
 
-	Button party_back;
+	boolean priv = false;
+	TextFieldWidget tfName;
+	Button togglePriv, accept, cancel;
+	GuiMenuButton back, create, join, invite, kick, disband, leave;
 	GuiMenuButton[] players = new GuiMenuButton[minecraft.world.getPlayers().size()];
-	
+		
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 	final ExtendedWorldData worldData = ExtendedWorldData.get(minecraft.world);
+	Party party;
+	
+	//Not in party
+	//0 = not in party
+	//1 = creating (create)
+	//2 = Looking for party (join)
+	//In party
+	//3 = Leader view
+	//4 = Member view
+	int phase = 0;
 	
 	public GuiMenu_Party(String name) {
 		super(name);
@@ -32,17 +48,102 @@ public class GuiMenu_Party extends GuiMenu_Background {
 	}
 
 	protected void action(String string) {
-		if (string.equals("back"))
-			GuiHelper.openMenu();
-		//else
-		//	form = string;
-
+		switch(string) {
+		case "back":
+			switch(phase) {
+			case 0:
+			case 3:
+			case 4:
+				GuiHelper.openMenu();
+				break;
+			case 1:
+			case 2:
+				phase = 0;
+				break;
+			
+				
+			}
+			
+			break;
+		case "create":
+			phase = 1;
+			break;
+		case "join":
+			phase = 2;
+			break;
+		case "togglePriv":
+			priv = !priv;
+			break;
+		case "accept":
+			if(phase == 1) { //Accept Party creation
+				Party localParty = new Party(tfName.getMessage(), minecraft.player.getUniqueID(), minecraft.player.getName().getFormattedText(), priv);
+				PacketHandler.sendToServer(new CSPartyCreate(localParty));
+			}
+			break;
+		}
 		updateButtons();
 	}
 
 	private void updateButtons() {
 		//IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-		
+		switch(phase) {
+		case 0:
+			create.visible = true;
+			join.visible = true;
+			
+			invite.visible = false;
+			togglePriv.visible = false;
+			kick.visible = false;
+			disband.visible = false;
+			leave.visible = false;
+			accept.visible = false;
+			cancel.visible = false;
+			tfName.visible = false;
+			back.y = getY(2);
+			break;
+		case 1:
+			togglePriv.setMessage(priv ? "Private" : "Public");
+			//TBName
+			togglePriv.visible = true;
+			accept.visible = true;
+			cancel.visible = true;
+			tfName.visible = true;
+			back.y = getY(0);
+			
+			create.visible = false;
+			join.visible = false;
+			cancel.visible = false;
+			break;
+		case 2:
+			break;
+		case 3:
+			invite.visible = true;
+			togglePriv.visible = true;
+			kick.visible = true;
+			disband.visible = true;
+			
+			back.y = getY(4);
+			
+			create.visible = false;
+			join.visible = false;
+			togglePriv.visible = false;
+			accept.visible = false;
+			cancel.visible = false;
+			tfName.visible = false;
+			leave.visible = false;
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		}
+	}
+
+	private int getY(int i) {
+		int button_statsY = (int) topBarHeight + 5;
+		return button_statsY + (i * 18);
 	}
 
 	@Override
@@ -52,67 +153,110 @@ public class GuiMenu_Party extends GuiMenu_Background {
 		super.height = height;
 		super.init();
 		this.buttons.clear();
-
+		
+		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
-		int button_stats_playerY = button_statsY;
-		int button_stats_formsY = button_stats_playerY + 18;
 
 		float buttonPosX = (float) width * 0.03F;
 		float subButtonPosX = buttonPosX + 10;
 
-		float buttonWidth = ((float) width * 0.1744F)- 20;
+		float buttonWidth = ((float) width * 0.1744F) - 20;
 		float subButtonWidth = buttonWidth - 10;
 
 
-		float dataWidth = ((float) width * 0.1744F)-10;
+		float dataWidth = ((float) width * 0.1744F) - 10;
 
 		int col1X = (int) (subButtonPosX + buttonWidth + 40), col2X=(int) (col1X + dataWidth * 2)+10 ;
 
-		int i = 0;
-		for(i = 0; i<minecraft.world.getPlayers().size();i++) {//Player selector
-			PlayerEntity player = minecraft.world.getPlayers().get(i);
-			addButton(players[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, player.getName().getFormattedText(), ButtonType.SUBBUTTON, (e) -> { action(player.getName().getFormattedText()); }));
+		//int i = 0;
+		addButton(create = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Create"), ButtonType.BUTTON, (e) -> { action("create"); }));
+		addButton(join = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Join"), ButtonType.BUTTON, (e) -> { action("join"); }));
+		addButton(invite = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Invite"), ButtonType.BUTTON, (e) -> { action("invite"); }));
+		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, Utils.translateToLocal("Private/public"), (e) -> { action("togglePriv"); }));
+		addButton(kick = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal("Kick"), ButtonType.BUTTON, (e) -> { action("kick"); }));
+		addButton(disband = new GuiMenuButton((int) buttonPosX, button_statsY + (3 * 18), (int) buttonWidth, Utils.translateToLocal("Disband"), ButtonType.BUTTON, (e) -> { action("disband"); }));
+		addButton(leave = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Leave"), ButtonType.BUTTON, (e) -> { action("leave"); }));
+		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) buttonWidth, 20, Utils.translateToLocal("Accept"), (e) -> { action("accept"); }));
+		addButton(cancel = new Button((int) buttonPosX, button_statsY + (6 * 18), (int) buttonWidth, 20, Utils.translateToLocal("Cancel"), (e) -> { action("cancel"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		
+		addButton(tfName = new TextFieldWidget(minecraft.fontRenderer, (int)(width*0.25), (int)(height*0.25), 100, 15, "asd"));
+
+		updateButtons();
+		if(party == null) {
+			phase = 0;
+		} else {
+			if(party.getLeader().getUUID().equals(minecraft.player.getUniqueID())){
+				phase = 3;
+			} else {
+				phase = 4;
+			}
 		}
-		addButton(party_back = new GuiMenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		
-		//Stats
-		int c = 0;
-		int spacer = 14;
-		
-		
+
 		updateButtons();
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
-		/*for(int i = 0; i<minecraft.world.getPlayers().size();i++) {//Player selector
-			drawPlayer(0, minecraft.world.getPlayers().get(i));
-			drawPlayer(1, minecraft.world.getPlayers().get(i));
-			drawPlayer(2, minecraft.world.getPlayers().get(i));
-		}*/
+		
+		int buttonX = (int)(width*0.25);
+		
+		if(phase == 3 || phase == 4) {
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.scaled(1.5,1.5, 1);
+				drawString(minecraft.fontRenderer, party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
+			}
+			RenderSystem.popMatrix();
+		}
+		
+		if(phase == 1 || phase == 2) {
+			if(phase == 1) {
+				drawString(minecraft.fontRenderer, "Party Name", buttonX, (int)(height*0.2), 0xFFFFFF);
+				drawString(minecraft.fontRenderer, "Accessibility", buttonX, (int)(height*0.35), 0xFFFFFF);
+			}
+			/*minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			int infoBoxPosX = (int) (width * 0.3F);
+			int infoBoxPosY = (int) (height * 0.2F);
+			blit(infoBoxPosX, infoBoxPosY, 22, 67, 23, 23);
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.scaled(10, 1, 1);
+				blit(infoBoxPosX+23, infoBoxPosY, 47, 67, 1, 23);
+			}
+			RenderSystem.popMatrix();*/
+
+			/*blit(infoBoxPosX, infoBoxPosY, 22, 67, 23, 23);
+			blit(infoBoxPosX, infoBoxPosY, 22, 67, 23, 23);
+			blit(infoBoxPosX, infoBoxPosY, 22, 67, 23, 23);*/
+			
+		}
 		drawParty();
 	}
 	
 	public void drawParty() {
-		ExtendedWorldData worldData = ExtendedWorldData.get(minecraft.world);
-		Party party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
-		if(party != null) {
-			for(int i=0;i<party.getMembers().size();i++) {
-				UUID memberUUID = party.getMembers().get(i).getUUID();
-				drawPlayer(i,minecraft.world.getPlayerByUuid(memberUUID));
+		if(phase == 3 || phase == 4 || phase == 0) {
+			ExtendedWorldData worldData = ExtendedWorldData.get(minecraft.world);
+			Party party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+			if(party != null) {
+				for(int i=0;i<party.getMembers().size();i++) {
+					UUID memberUUID = party.getMembers().get(i).getUUID();
+					drawPlayer(i,minecraft.world.getPlayerByUuid(memberUUID));
+				}
+			} else {
+				drawPlayer(0, minecraft.player);
 			}
-		} else {
-			drawPlayer(0, minecraft.player);
 		}
 	}
 	
 	public void drawPlayer(int order, PlayerEntity player) {
 		float playerWidth = width * 0.10F;
 		float playerHeight = height * 0.4481F;
-		float playerPosX = 30F+ (0.25F * (order+1) * width);
+		float playerPosX = 150F+ (0.18F * (order) * width);
 		float playerPosY = height * 0.7518F;
 		RenderSystem.pushMatrix();
 		{
@@ -131,8 +275,8 @@ public class GuiMenu_Party extends GuiMenu_Background {
 				RenderSystem.enableBlend();
 				minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-				int infoBoxPosX = (int) (-12F+ (0.25F * (order+1) * width));
-				int infoBoxPosY = (int) (height * 0.624F);
+				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
+				int infoBoxPosY = (int) (height * 0.6F);
 				blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
 					blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);

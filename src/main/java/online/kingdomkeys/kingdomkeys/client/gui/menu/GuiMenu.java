@@ -94,7 +94,12 @@ public class GuiMenu extends GuiMenu_Background {
 			action(STATUS);
 		}));
 		
+		items.setTip("Equip your Keyblade, potions and accessories");
+		abilities.setTip("Equip or unequip your abilities");
+		customize.setTip("Change the order of your magics");
 		party.setTip("Create or check your party");
+		status.setTip("Check your stats");
+		journal.setTip("You will not find anything here as it won't be done probably");
 
 		updateButtons();
 	}

@@ -32,16 +32,16 @@ public class UpgradeDriveFormItem extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-	  /*ExtendedWorldData worldData = ExtendedWorldData.get(world);
+		ExtendedWorldData worldData = ExtendedWorldData.get(world);
 		
-		Party party = new Party("Atox", player.getUniqueID(), "Abelatox");
+		Party party = new Party("Atox", player.getUniqueID(), "Abelatox",false);
 		worldData.addParty(party);
 		for(int i = 0; i<world.getPlayers().size();i++) {//Player selector
 			PlayerEntity p = world.getPlayers().get(i);
 			if(p != player)
 				party.addMember(p.getUniqueID(), p.getName().getFormattedText());
 		}
-		//worldData.removeParty(party);*/
+		worldData.removeParty(party);
 
 		
 		if (!world.isRemote) {
