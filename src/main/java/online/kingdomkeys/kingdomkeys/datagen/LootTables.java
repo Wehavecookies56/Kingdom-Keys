@@ -2,8 +2,11 @@ package online.kingdomkeys.kingdomkeys.datagen;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.enchantment.SilkTouchEnchantment;
-import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.ConstantRange;
+import net.minecraft.world.storage.loot.ItemLootEntry;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTable;
+import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.RandomChanceWithLooting;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -17,11 +20,11 @@ public class LootTables extends BaseLootTables {
 
     @Override
     protected void addTables() {
-        bloxs();
+        blox();
         ores();
     }
-    private void bloxs()
-    {
+    
+    private void blox() {
         standardBlockLoot(ModBlocks.normalBlox.get());
         standardBlockLoot(ModBlocks.hardBlox.get());
         standardBlockLoot(ModBlocks.metalBlox.get());
@@ -30,6 +33,7 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.blastBlox.get());
         standardBlockLoot(ModBlocks.ghostBlox.get());
         standardBlockLoot(ModBlocks.magnetBlox.get());
+        
         lootTables.put(ModBlocks.rarePrizeBlox.get(), LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.valorOrb.get()).weight(1)).addEntry(ItemLootEntry.builder(ModItems.wisdomOrb.get())
                         .weight(1)).addEntry(ItemLootEntry.builder(ModItems.masterOrb.get()).weight(1)).addEntry(ItemLootEntry
@@ -72,7 +76,8 @@ public class LootTables extends BaseLootTables {
                 .addEntry(ItemLootEntry.builder(ModItems.lost_illusion.get()).weight(1))
         ));
     }
-    private void ores(){
+    
+    private void ores() {
         lootTables.put(ModBlocks.blazingOre.get(), LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.blazing_crystal.get()).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
                 .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))

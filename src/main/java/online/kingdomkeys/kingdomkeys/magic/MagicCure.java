@@ -14,7 +14,7 @@ public class MagicCure extends Magic {
 	String name;
 
 	public MagicCure(String registryName, int cost, int order) {
-		super(registryName, cost, order);
+		super(registryName, cost, true, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

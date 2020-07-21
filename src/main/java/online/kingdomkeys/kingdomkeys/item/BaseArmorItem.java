@@ -16,17 +16,22 @@ import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class BaseArmorItem extends ArmorItem {
 
-	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlotType slot) {
+	String type;
+	
+	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlotType slot, String type) {
 		super(materialIn, slot, new Item.Properties().group(KingdomKeys.miscGroup));
+		this.type = type;
 	}
 
 	@Nonnull
 	@Override
 	public final String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
-		if (stack.getItem() == ModItems.ventus_Leggings.get()) {
-			return KingdomKeys.MODID + ":" + "textures/models/armor/ventus2.png";
-		} else if (stack.getItem() == ModItems.ventus_Helmet.get() || stack.getItem() == ModItems.ventus_Chestplate.get() || stack.getItem() == ModItems.ventus_Boots.get()){
-			return KingdomKeys.MODID + ":" + "textures/models/armor/ventus1.png";
+		if(this.type != null) {
+			if (slot == EquipmentSlotType.LEGS) {
+				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.type+"2.png";
+			} else if (slot == EquipmentSlotType.HEAD || slot == EquipmentSlotType.CHEST || slot == EquipmentSlotType.FEET){
+				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.type+"1.png";
+			}
 		}
 		return null;//KingdomKeys.MODID + ":" + "textures/models/armor/ventus.png";
 	}

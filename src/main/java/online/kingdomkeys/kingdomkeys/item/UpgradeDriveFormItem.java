@@ -13,9 +13,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -29,6 +32,18 @@ public class UpgradeDriveFormItem extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+	  /*ExtendedWorldData worldData = ExtendedWorldData.get(world);
+		
+		Party party = new Party("Atox", player.getUniqueID(), "Abelatox");
+		worldData.addParty(party);
+		for(int i = 0; i<world.getPlayers().size();i++) {//Player selector
+			PlayerEntity p = world.getPlayers().get(i);
+			if(p != player)
+				party.addMember(p.getUniqueID(), p.getName().getFormattedText());
+		}
+		//worldData.removeParty(party);*/
+
+		
 		if (!world.isRemote) {
 			IPlayerCapabilities props = ModCapabilities.get(player);
 			if (props != null && props.getDriveFormsMap() != null) {

@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
@@ -34,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
@@ -48,6 +50,7 @@ public class InputHandler {
     List<PortalCoords> portalCommands;
     Map<String, int[]> driveFormsMap;
     List<String> magicsList;
+    List<Member> targetsList;
 
     public static LivingEntity lockOn = null;
 
@@ -136,6 +139,15 @@ public class InputHandler {
                 CommandMenuGui.attackSelected = this.attackCommands.size() - 1;
             }
         }*/
+        //InsideTargetSelector
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
+            if (CommandMenuGui.targetSelected > 0) {
+                CommandMenuGui.targetSelected--;
+                CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
+            } else if (CommandMenuGui.attackSelected <= 1) {
+                CommandMenuGui.targetSelected = this.targetsList.size() - 1;
+            }
+        }
     }
 
     public void commandDown() {
@@ -198,6 +210,16 @@ public class InputHandler {
                     CommandMenuGui.attackSelected = 0;
             }
         }*/
+        //InsideTargetSelector
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
+            if (CommandMenuGui.targetSelected < this.targetsList.size() - 1) {
+                CommandMenuGui.targetSelected++;
+                CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
+            } else {
+                if (CommandMenuGui.targetSelected >= this.targetsList.size() - 1)
+                    CommandMenuGui.targetSelected = 0;
+            }
+        }
     }
 
     public void commandEnter() {
@@ -206,6 +228,7 @@ public class InputHandler {
         World world = mc.world;
         loadLists();
 
+        ExtendedWorldData worldData = ExtendedWorldData.get(world);
         IPlayerCapabilities props = ModCapabilities.get(player);
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
@@ -353,8 +376,7 @@ public class InputHandler {
                 // this.driveCommands.get(CommandMenuGui.driveselected));
                 if (!ModCapabilities.get(player).getRecharge()) {
                     PortalCoords coords = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
-                    if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) {
-                        // ValidPortal
+                    if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
                         player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You don't have any portal destination"));
@@ -379,15 +401,25 @@ public class InputHandler {
 
             	if(props.getMaxMP() == 0 || props.getRecharge() || cost > props.getMaxMP() && cost < 300) {
                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                    CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             	} else {
-    				PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
+            		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagics.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
+                        CommandMenuGui.targetSelected = 0;
+                        CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
+    	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                        return;
+            		} else {
+            			PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
+                        CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                        CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+            		}
                     world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
     			}
-                CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             }
         }
 
+        //Items Submenu
         if (CommandMenuGui.selected == CommandMenuGui.ITEMS && CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
             /*if (this.itemsCommands.isEmpty()) {
             } else if (!this.itemsCommands.isEmpty()) {
@@ -398,7 +430,8 @@ public class InputHandler {
                 world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
             }*/
         }
-
+        
+        //Drive Submenu
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             if (this.driveFormsMap.isEmpty()) {
             } else {
@@ -421,7 +454,17 @@ public class InputHandler {
 	            }
             }
         }
+        
+        //Target Selector Submenu
+        if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
+            if (this.targetsList.isEmpty()) {
+            } else {
+    			PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected), targetsList.get(CommandMenuGui.targetSelected).getUsername()));
+                CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 
+            }
+        }
     }
 
     private void summonPortal(PlayerEntity player, PortalCoords coords) {
@@ -469,8 +512,11 @@ public class InputHandler {
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+        } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
+            CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
+            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         }
-        CommandMenuGui.magicSelected = 0;
+        //CommandMenuGui.magicSelected = 0;
         CommandMenuGui.driveSelected = 0;
 
         // GuiHelper.openTutorial(Tutorials.TUTORIAL_SOA_1);
@@ -696,6 +742,7 @@ public class InputHandler {
         this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
         this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
         this.portalCommands = ModCapabilities.get(mc.player).getPortalList();
+        this.targetsList = ExtendedWorldData.get(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
         
 
         /* this.attackCommands.clear();

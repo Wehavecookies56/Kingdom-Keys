@@ -26,7 +26,7 @@ public class GuiMenu extends GuiMenu_Background {
 	final int ITEMS = 0, ABILITIES = 1, CUSTOMIZE = 2, PARTY = 3, STATUS = 4, JOURNAL = 5, CONFIG = 6;
 	final int SUBMENU_MAIN = 0, SUBMENU_ITEMS = 1;
 
-	Button items, abilities, customize, party, status, journal, config;
+	GuiMenuButton items, abilities, customize, party, status, journal, config;
 
 	static int munny;
 
@@ -39,6 +39,9 @@ public class GuiMenu extends GuiMenu_Background {
 			break;
 		case ABILITIES:
 			minecraft.displayGuiScreen(new GuiMenu_Abilities("Abilities"));
+			break;
+		case PARTY:
+			minecraft.displayGuiScreen(new GuiMenu_Party("Party"));
 			break;
 		case STATUS:
 			minecraft.displayGuiScreen(new GuiMenu_Status("Status"));
@@ -79,7 +82,7 @@ public class GuiMenu extends GuiMenu_Background {
 			action(STATUS);
 		}));
 		addButton(party = new GuiMenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, (e) -> {
-			action(STATUS);
+			action(PARTY);
 		}));
 		addButton(status = new GuiMenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, (e) -> {
 			action(STATUS);
@@ -90,6 +93,8 @@ public class GuiMenu extends GuiMenu_Background {
 		addButton(config = new GuiMenuButton((int) buttonPosX, button_configY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, (e) -> {
 			action(STATUS);
 		}));
+		
+		party.setTip("Create or check your party");
 
 		updateButtons();
 	}
@@ -104,7 +109,7 @@ public class GuiMenu extends GuiMenu_Background {
 			status.visible = true;
 			journal.visible = true;
 			config.visible = true;
-			party.active = false;
+			party.active = true;
 			journal.active = true;
 			customize.active = false;
 			break;

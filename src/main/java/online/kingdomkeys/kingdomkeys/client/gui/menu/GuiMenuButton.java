@@ -30,7 +30,8 @@ public class GuiMenuButton extends BaseKKGuiButton {
 
 	private int middleWidth;
 
-	private String data;
+	private String data, tip;
+	
 	enum ButtonType {
 		BUTTON, SUBBUTTON
 	}
@@ -52,6 +53,14 @@ public class GuiMenuButton extends BaseKKGuiButton {
 	
 	public void setData(String data) {
 		this.data = data;
+	}
+	
+	public String getTip() {
+		return tip;
+	}
+	
+	public void setTip(String tip) {
+		this.tip = tip;
 	}
 
 	@ParametersAreNonnullByDefault

@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -23,6 +24,11 @@ public class ProxyServer implements IProxy {
 
 	@Override
 	public PlayerEntity getClientPlayer() {
+		return null;
+	}
+
+	@Override
+	public World getClientWorld() {
 		return null;
 	}
 }

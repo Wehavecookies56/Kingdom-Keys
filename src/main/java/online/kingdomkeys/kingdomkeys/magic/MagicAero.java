@@ -13,7 +13,7 @@ public class MagicAero extends Magic {
 	String name;
 
 	public MagicAero(String registryName, int cost, int order) {
-		super(registryName, cost, order);
+		super(registryName, cost, true, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

@@ -11,10 +11,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
@@ -48,18 +50,17 @@ public class CommandMenuGui extends Screen {
 	 * driveCommands, spells, items; public static List<Ability> attackCommands;
 	 */
 
-	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5;
+	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6;
 
 	public static final int NONE = 0;
-	public static int selected = ATTACK;
+	public static int selected = ATTACK, targetSelected = 0;;
 	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		// if (minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
-		// {
+		// if (minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode()) {
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {// && !minecraft.ingameGUI.getChatGUI().getChatOpen()) {
 			RenderSystem.pushMatrix();
 			{
@@ -114,6 +115,69 @@ public class CommandMenuGui extends Screen {
 			if (submenu == SUB_DRIVE) {
 				drawSubDrive(width, height);
 			}
+			if (submenu == SUB_TARGET) {
+				drawSubTargetSelector(width, height);
+			}
+		}
+	}
+	
+	private void drawSubTargetSelector(int width, int height) {
+		ExtendedWorldData worldData = ExtendedWorldData.get(minecraft.player.world);
+		//Title
+		RenderSystem.pushMatrix();
+		{
+			paintWithColorArray(normalModeColor, alpha);
+			minecraft.textureManager.bindTexture(texture);
+			RenderSystem.translatef(5, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().size() + 1)), 0);
+			RenderSystem.scalef(scale, scale, scale);
+			if (submenu == SUB_TARGET) {
+				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+				drawString(minecraft.fontRenderer, Utils.translateToLocal("TARGET"), 6, 4, 0xFFFFFF);
+			}
+		}
+		RenderSystem.popMatrix();
+
+		for (int i = 0; i < worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().size(); i++) {
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.color4f(1F, 1F, 1F, alpha);
+				int u;
+				int v;
+				int x;
+				x = (portalSelected == i) ? 10 : 5;
+
+				minecraft.textureManager.bindTexture(texture);
+				RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().size() - i)), 0);
+				RenderSystem.scalef(scale, scale, scale);
+				if (submenu == SUB_TARGET) {
+					v = 0;
+					paintWithColorArray(portalMenuColor, alpha);
+
+					if (targetSelected == i) {
+						textX = 11;
+
+						// Draw slot
+						blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+
+						RenderSystem.color4f(1, 1F, 1F, alpha);
+
+						// Draw Icon
+						blit(60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+
+					} else { // Not selected
+						textX = 6;	
+						blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+					}
+					// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
+					// 0xFF9900;
+
+					Member member = worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().get(i);
+					// String magicName = Constants.getMagicName(magic, level);
+					drawString(minecraft.fontRenderer, member.getUsername(), textX, 4, 0xFFFFFF);
+					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				}
+			}
+			RenderSystem.popMatrix();
 		}
 	}
 

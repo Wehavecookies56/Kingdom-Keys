@@ -15,7 +15,7 @@ public class MagicThunder extends Magic {
 	String name;
 
 	public MagicThunder(String registryName, int cost, int order) {
-		super(registryName, cost, order);
+		super(registryName, cost, false, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

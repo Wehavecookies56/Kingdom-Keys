@@ -588,10 +588,10 @@ public class ModItems {
 			terra_Leggings = createArmorItem(Strings.terraLeggings, KKArmorMaterial.TERRA, EquipmentSlotType.LEGS),
 			terra_Boots = createArmorItem(Strings.terraBoots, KKArmorMaterial.TERRA,EquipmentSlotType.FEET),
 
-			ventus_Helmet = createArmorItem(Strings.ventusHelmet, KKArmorMaterial.VENTUS, EquipmentSlotType.HEAD),
-			ventus_Chestplate = createArmorItem(Strings.ventusChestplate, KKArmorMaterial.VENTUS, EquipmentSlotType.CHEST),
-			ventus_Leggings = createArmorItem(Strings.ventusLeggings, KKArmorMaterial.VENTUS, EquipmentSlotType.LEGS),
-			ventus_Boots = createArmorItem(Strings.ventusBoots, KKArmorMaterial.VENTUS, EquipmentSlotType.FEET),
+			ventus_Helmet = createArmorItem(Strings.ventusHelmet, KKArmorMaterial.VENTUS, EquipmentSlotType.HEAD, "ventus"),
+			ventus_Chestplate = createArmorItem(Strings.ventusChestplate, KKArmorMaterial.VENTUS, EquipmentSlotType.CHEST, "ventus"),
+			ventus_Leggings = createArmorItem(Strings.ventusLeggings, KKArmorMaterial.VENTUS, EquipmentSlotType.LEGS, "ventus"),
+			ventus_Boots = createArmorItem(Strings.ventusBoots, KKArmorMaterial.VENTUS, EquipmentSlotType.FEET, "ventus"),
 
 			aqua_Helmet = createArmorItem(Strings.aquaHelmet, KKArmorMaterial.AQUA, EquipmentSlotType.HEAD),
 			aqua_Chestplate = createArmorItem(Strings.aquaChestplate, KKArmorMaterial.AQUA, EquipmentSlotType.CHEST),
@@ -738,9 +738,13 @@ public class ModItems {
 		return ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1)));
 	}
 
+	
+	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot, String type) {
+		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, type));
+	}
 
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot) {
-		return ITEMS.register(name, () -> new BaseArmorItem(material, slot));
+		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, null));
 	}
 		/*
         malice = new EtherealBladeItem(Strings.malice),

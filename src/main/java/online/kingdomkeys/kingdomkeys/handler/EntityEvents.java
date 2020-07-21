@@ -29,6 +29,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -50,6 +51,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
@@ -79,6 +81,9 @@ public class EntityEvents {
 				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(props.getMaxHP());
 				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+				
+				ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
+				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);
 			}
 			PacketHandler.syncToAllAround(player, props);
 		}
@@ -88,7 +93,7 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
-			if(!event.player.world.isRemote && event.player.ticksExisted == 6) {
+			if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
 			}
 			

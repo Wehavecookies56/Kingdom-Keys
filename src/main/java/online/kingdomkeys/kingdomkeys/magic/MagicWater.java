@@ -11,7 +11,7 @@ public class MagicWater extends Magic {
 	String name;
 
 	public MagicWater(String registryName, int cost, int order) {
-		super(registryName, cost, order);
+		super(registryName, cost, false, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}

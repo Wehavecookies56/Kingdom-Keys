@@ -19,6 +19,7 @@ public class GuiMenu_Background extends Screen {
 
 	int selected;
 	
+	String tip = null;
 	public GuiMenu_Background(String name) {
 		super(new TranslationTextComponent(name));
 		minecraft = Minecraft.getInstance();
@@ -108,9 +109,11 @@ public class GuiMenu_Background extends Screen {
 		drawBars();
 		drawMunnyTime();
 		drawBiomeDim();
+		drawTip();
 		//RenderHelper.disableStandardItemLighting();
 		drawBackground(width, height, drawPlayerInfo);
-		
+		tip = null;
+
 		int i = 0;
 		for(Widget btn : buttons) {
 			if(btn instanceof BaseKKGuiButton) {
@@ -118,6 +121,10 @@ public class GuiMenu_Background extends Screen {
 				if(btn.isHovered()) {
 					selected = -1;
 					clearButtons();
+					
+					if(btn instanceof GuiMenuButton) {
+						tip = ((GuiMenuButton) btn).getTip();
+					}
 				}
 			}
 		}
@@ -194,6 +201,17 @@ public class GuiMenu_Background extends Screen {
 			drawString(minecraft.fontRenderer, (Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x42ceff);
 		}
 		RenderSystem.popMatrix();
+	}
+	
+	public void drawTip () {
+		if(tip != null) {
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.scaled(1.1, 1.1, 1);
+				drawString(minecraft.fontRenderer, tip, (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), 0xFF9900);
+			}
+			RenderSystem.popMatrix();
+		}
 	}
 
 	public static final ResourceLocation optionsBackground = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menubg.png");

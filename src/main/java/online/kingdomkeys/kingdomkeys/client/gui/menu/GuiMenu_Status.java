@@ -18,13 +18,11 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class GuiMenu_Status extends GuiMenu_Background {
 
-	final int STATS_PLAYER = -1, STATS_BACK = -2;
-
 	String form = "";
 	
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 
-	Button stats_player, stats_back; //stats_valor, stats_wisdom, stats_limit, stats_master, stats_final, stats_back;
+	Button stats_player, stats_back;
 	GuiMenuButton[] dfStats = new GuiMenuButton[props.getDriveFormsMap().size()];
 
 	GuiMenuColoredElement level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;

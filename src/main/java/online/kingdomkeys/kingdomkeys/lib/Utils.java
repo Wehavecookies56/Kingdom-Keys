@@ -203,6 +203,10 @@ public class Utils {
 		}
 		return null;
 	}
+	
+	public static String getResourceName(String text) {
+		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
+	}
 
 	/**
 	 *

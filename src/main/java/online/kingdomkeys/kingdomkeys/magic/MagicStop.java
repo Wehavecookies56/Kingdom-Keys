@@ -16,7 +16,7 @@ public class MagicStop extends Magic {
 	String name;
 
 	public MagicStop(String registryName, int cost, int order) {
-		super(registryName, cost, order);
+		super(registryName, cost, false, order);
 		this.name = registryName;
 	}
 

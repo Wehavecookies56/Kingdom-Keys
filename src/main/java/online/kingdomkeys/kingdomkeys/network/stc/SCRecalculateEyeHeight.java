@@ -12,8 +12,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class SCRecalculateEyeHeight {
 
-	List<ItemStack> itemList = new ArrayList<ItemStack>(56);
-
 	public SCRecalculateEyeHeight() {
 	}
 
