@@ -12,6 +12,10 @@
 	"gui.menu.main.button.journal": "Journal",
 	"gui.menu.main.button.config": "Config",
 	
+	"gui.menu.main.munny": "Munny",
+	"gui.menu.main.time": "World Time",
+	"gui.menu.main.time.spent": "Global Time",
+	
 	"gui.menu.status.level": "Level",
 	"gui.menu.status.totalexp": "Experience",
 	"gui.menu.status.nextlevel": "Next LV",

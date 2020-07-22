@@ -137,10 +137,9 @@ public class GuiMenu extends GuiMenu_Background {
 	}
 
 	public void drawPlayer() {
-		float playerWidth = width * 0.1041F;
-		float playerHeight = height * 0.4481F;
+		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
-		float playerPosY = height * 0.7518F;
+		float playerPosY = height * 0.7F;
 		RenderSystem.pushMatrix();
 		{
 			PlayerEntity player = minecraft.player;
@@ -159,7 +158,7 @@ public class GuiMenu extends GuiMenu_Background {
 			minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
 			int infoBoxPosX = (int) (width * 0.4354F);
-			int infoBoxPosY = (int) (height * 0.624F);
+			int infoBoxPosY = (int) (height * 0.54F);
 			blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
 			for (int i = 0; i < infoBoxWidth; i++) {
 				blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);

@@ -74,16 +74,16 @@ public class KKChestBlock extends BaseBlock {
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
 			IPlayerCapabilities props = ModCapabilities.get(player);
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"fire");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"blizzard");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"water");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"thunder");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"cure");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"aero");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"magnet");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"reflect");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"gravity");
-			props.addMagicToList(KingdomKeys.MODID+":"+Strings.Mag_Prefix+"stop");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity");
+			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop");
 			
 			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor", 1);
 			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom", 1);

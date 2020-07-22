@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -23,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyPrivacy;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyRemove;
 
@@ -106,13 +106,17 @@ public class GuiMenu_Party extends GuiMenu_Background {
 		case "refresh":
 			refreshParties();
 			break;
+		case "leave":
+			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUniqueID()));
+			party = null;
+			break;
 		}
 		
 		if(string.startsWith("party:")) {
 			String[] data = string.split(":");
 			String partyName = data[1].substring(4);
 			Party p = worldData.getPartyFromName(partyName);
-			PacketHandler.sendToServer(new CSPartyAddMember(p,minecraft.player));
+			PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
 			phase = 4;
 			party = p;
 		}
@@ -189,8 +193,20 @@ public class GuiMenu_Party extends GuiMenu_Background {
 			leave.visible = false;
 			break;
 		case 4://Party member
+			leave.visible = true;
 			
+			back.y=getY(1);
+			disband.visible = false;
+			kick.visible = false;
+			refresh.visible = false;
+			create.visible = false;
+			join.visible = false;
+			togglePriv.visible = false;
+			accept.visible = false;
+			cancel.visible = false;
+			tfName.visible = false;
 			togglePriv2.visible = false;
+			invite.visible = false;
 			break;
 		case 5:
 			break;
@@ -214,11 +230,10 @@ public class GuiMenu_Party extends GuiMenu_Background {
 		
 		//Show the buttons to join public parties
 		List<Party> partiesList = worldData.getParties();
-		System.out.println(worldData.getParties());
 		for(int i=0;i<partiesList.size();i++) {
 			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
 				Party p = partiesList.get(i);
-				addButton(parties[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (0 * 18), (int)(buttonWidth*1.2F), "["+p.getMembers().size()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+				addButton(parties[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (i * 18), (int)(buttonWidth*1.2F), "["+p.getMembers().size()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
 			}
 		}
 	}
@@ -277,8 +292,16 @@ public class GuiMenu_Party extends GuiMenu_Background {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
+		//System.out.println(phase);
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
+		worldData = ExtendedWorldData.get(minecraft.world);
+		//Party party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		//System.out.println(phase);
+		if(party == null && phase == 4) {
+			phase = 0;
+			updateButtons();
+		}
 		//System.out.println(priv);
 		
 		int buttonX = (int)(width*0.25);
@@ -318,7 +341,6 @@ public class GuiMenu_Party extends GuiMenu_Background {
 	
 	public void drawParty() {
 		if(phase == 3 || phase == 4 || phase == 0) {
-			ExtendedWorldData worldData = ExtendedWorldData.get(minecraft.world);
 			Party party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 			if(party != null) {
 				for(int i=0;i<party.getMembers().size();i++) {
@@ -333,10 +355,9 @@ public class GuiMenu_Party extends GuiMenu_Background {
 	}
 	
 	public void drawPlayer(int order, Member member) {
-		float playerWidth = width * 0.10F;
-		float playerHeight = height * 0.4481F;
+		float playerHeight = height * 0.45F;
 		float playerPosX = 150F+ (0.18F * (order) * width);
-		float playerPosY = height * 0.7518F;
+		float playerPosY = height * 0.7F;
 		
 		PlayerEntity player = Utils.getPlayerByName(minecraft.world, member.getUsername());
 		
@@ -359,7 +380,7 @@ public class GuiMenu_Party extends GuiMenu_Background {
 				minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
 				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
-				int infoBoxPosY = (int) (height * 0.6F);
+				int infoBoxPosY = (int) (height * 0.54F);
 				blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
 					blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);

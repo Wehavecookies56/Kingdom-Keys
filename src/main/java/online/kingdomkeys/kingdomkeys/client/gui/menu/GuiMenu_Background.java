@@ -187,7 +187,7 @@ public class GuiMenu_Background extends Screen {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.1, 1.1, 1);
-			drawString(minecraft.fontRenderer, (Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
 			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + ModCapabilities.get(minecraft.player).getMunny(), 5, (int) (topBarHeight + middleHeight), 0xF66627);
 			long seconds = minecraft.world.getWorld().getDayTime() / 20;
 			long h = seconds / 3600;
@@ -198,7 +198,7 @@ public class GuiMenu_Background extends Screen {
 			String min = m < 10 ? 0 + "" + m : m + "";
 			String hou = h < 10 ? 0 + "" + h : h + "";
 			String time = hou + ":" + min + ":" + sec;
-			drawString(minecraft.fontRenderer, (Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x42ceff);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x42ceff);
 		}
 		RenderSystem.popMatrix();
 	}
@@ -208,6 +208,7 @@ public class GuiMenu_Background extends Screen {
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.scaled(1.1, 1.1, 1);
+				RenderSystem.translated(0, -5, 0);
 				drawString(minecraft.fontRenderer, tip, (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), 0xFF9900);
 			}
 			RenderSystem.popMatrix();
