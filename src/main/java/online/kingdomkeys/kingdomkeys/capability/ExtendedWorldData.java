@@ -121,6 +121,17 @@ public class ExtendedWorldData extends WorldSavedData {
 	public Party getPartyFromLeader(UUID leaderId) {
 		return this.parties.values().stream().filter(party -> party.getLeader() != null && party.getLeader().getUUID() == leaderId).findFirst().orElse(null);
 	}
+	
+	@Nullable
+	public Party getPartyFromName(String name) {
+		for (Party party : this.parties.values()) {
+			if(party.getName().equals(name)) {
+				return party;
+			}
+		}
+
+		return null;
+	}
 
 	public void removeParty(Party party) {
 		String key = Utils.getResourceName(party.getName());
