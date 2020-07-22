@@ -31,6 +31,10 @@ public class SCSyncCapabilityToAllPacket {
 			antipoints = 0,
 			maxHP = 20;
 	
+	double mp = 0, maxMP = 0;
+		
+	
+	
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
 
 	private double dp = 0, fp = 0;
@@ -59,6 +63,9 @@ public class SCSyncCapabilityToAllPacket {
 		this.dp = capability.getDP();
 		this.antipoints = capability.getAntiPoints();
 		this.maxHP = capability.getMaxHP();
+		this.mp = capability.getMP();
+		this.maxMP = capability.getMaxMP();
+		
 		
         for(byte i=0;i<3;i++) {
         	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
@@ -86,6 +93,8 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
 		buffer.writeInt(this.maxHP);
+		buffer.writeDouble(this.mp);
+		buffer.writeDouble(this.maxMP);
 		
 		for(byte i=0;i<3;i++) {
         	buffer.writeByte(this.orgPortalCoords[i].getPID());
@@ -124,6 +133,8 @@ public class SCSyncCapabilityToAllPacket {
 		msg.fp = buffer.readDouble();
 		msg.antipoints = buffer.readInt();
 		msg.maxHP = buffer.readInt();
+		msg.mp = buffer.readDouble();
+		msg.maxMP = buffer.readDouble();
 		
 		for(byte i=0;i<3;i++) {
     		msg.orgPortalCoords[i].setPID(buffer.readByte());
@@ -171,6 +182,9 @@ public class SCSyncCapabilityToAllPacket {
 				props.ifPresent(cap -> cap.setFP(message.fp));
 				props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
 				props.ifPresent(cap -> cap.setMaxHP(message.maxHP));
+				props.ifPresent(cap -> cap.setMP(message.mp));
+				props.ifPresent(cap -> cap.setMaxMP(message.maxMP));
+				
 				
 				props.ifPresent(cap -> cap.setPortalCoords((byte)0, message.orgPortalCoords[0]));
 				props.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));

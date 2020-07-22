@@ -754,6 +754,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
 		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+		PacketHandler.syncToAllAround(player, this);
+
 	}
 
 	@Override
