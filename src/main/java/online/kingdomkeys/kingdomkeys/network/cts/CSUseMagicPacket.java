@@ -62,6 +62,8 @@ public class CSUseMagicPacket {
 					}
 	            	ModMagics.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity);
 				}
+				
+				PacketHandler.syncToAllAround(player, props);
 			
 		});
 		ctx.get().setPacketHandled(true);

@@ -95,7 +95,12 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ExtendedWorldData.get(minecraft.world);
-
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.scaled(1.5,1.5, 1);
+			drawString(minecraft.fontRenderer, "PARTY", 2, 10, 0xFF9900);
+		}
+		RenderSystem.popMatrix();
 		drawParty();
 	}
 	

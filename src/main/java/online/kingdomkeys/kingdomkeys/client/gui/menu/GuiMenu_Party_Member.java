@@ -90,9 +90,11 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 		} else {
 			int buttonX = (int)(width*0.25);
 			
+			
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.scaled(1.5,1.5, 1);
+				drawString(minecraft.fontRenderer, "PARTY", 2, 10, 0xFF9900);
 				drawString(minecraft.fontRenderer, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
 			}
 			RenderSystem.popMatrix();

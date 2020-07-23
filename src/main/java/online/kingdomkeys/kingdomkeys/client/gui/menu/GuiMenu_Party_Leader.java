@@ -9,12 +9,14 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -53,6 +55,14 @@ public class GuiMenu_Party_Leader extends GuiMenu_Background {
 		case "leave":
 			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUniqueID()));
 			party = null;
+			break;
+		case "settings":
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_Settings("Party Settings"));
+			break;
+		case "kick":
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_Kick("Party Kick"));
 			break;
 		}
 		
@@ -98,8 +108,6 @@ public class GuiMenu_Party_Leader extends GuiMenu_Background {
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		if(party != null) {
 			invite.active = party.getMembers().size() < party.getSize();
-			
-			int buttonX = (int)(width*0.25);
 			
 			RenderSystem.pushMatrix();
 			{
