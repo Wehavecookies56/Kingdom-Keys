@@ -389,7 +389,7 @@ public class InputHandler {
             }
         }
 
-        // Magic Submenu
+        // Target Selector Submenu
         if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
             if (this.magicsList.isEmpty()) {
             } else {/* if (!STATS.getRecharge() || Constants.getCost((String) this.magicsList.get(CommandMenuGui.magicselected)) == -1 && STATS.getMP() > 0) {
@@ -459,9 +459,15 @@ public class InputHandler {
         if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
             if (this.targetsList.isEmpty()) {
             } else {
-    			PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected), targetsList.get(CommandMenuGui.targetSelected).getUsername()));
-                CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+            	Member member = targetsList.get(CommandMenuGui.targetSelected);
+            	if(world.getPlayerByUuid(member.getUUID()) != null) {
+            		PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected), member.getUsername()));
+                	CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            	} else {
+	                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            	}
 
             }
         }
@@ -742,7 +748,9 @@ public class InputHandler {
         this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
         this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
         this.portalCommands = ModCapabilities.get(mc.player).getPortalList();
-        this.targetsList = ExtendedWorldData.get(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+        if(ExtendedWorldData.get(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
+        	this.targetsList = ExtendedWorldData.get(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+        }
         
 
         /* this.attackCommands.clear();
