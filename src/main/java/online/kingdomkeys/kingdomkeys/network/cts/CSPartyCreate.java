@@ -16,6 +16,7 @@ public class CSPartyCreate {
 	String name, username;
 	UUID uuid;
 	boolean priv;
+	byte size;
 	
 	public CSPartyCreate() {}
 
@@ -24,6 +25,7 @@ public class CSPartyCreate {
 		this.uuid = party.getLeader().getUUID();
 		this.username = party.getLeader().getUsername();
 		this.priv = party.getPriv();
+		this.size = party.getSize();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -36,6 +38,8 @@ public class CSPartyCreate {
 		buffer.writeString(this.username);
 		
 		buffer.writeBoolean(this.priv);
+		
+		buffer.writeByte(this.size);
 	}
 
 	public static CSPartyCreate decode(PacketBuffer buffer) {
@@ -49,6 +53,8 @@ public class CSPartyCreate {
 		msg.username = buffer.readString(length);
 		
 		msg.priv = buffer.readBoolean();
+		
+		msg.size = buffer.readByte();
 		return msg;
 	}
 
@@ -56,7 +62,7 @@ public class CSPartyCreate {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
-			Party party = new Party(message.name, message.uuid, message.username, message.priv); 
+			Party party = new Party(message.name, message.uuid, message.username, message.priv, message.size); 
 			worldData.addParty(party);
 			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
 		});

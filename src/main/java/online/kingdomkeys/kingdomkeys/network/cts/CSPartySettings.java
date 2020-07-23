@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,16 +10,18 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 
-public class CSPartyPrivacy {
+public class CSPartySettings {
 	
 	String name;
 	boolean priv;
+	byte size;
 	
-	public CSPartyPrivacy() {}
+	public CSPartySettings() {}
 
-	public CSPartyPrivacy(Party party, boolean priv) {
+	public CSPartySettings(Party party) {
 		this.name = party.getName();
-		this.priv = priv;
+		this.priv = party.getPriv();
+		this.size = party.getSize();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -28,25 +29,27 @@ public class CSPartyPrivacy {
 		buffer.writeString(this.name);
 		
 		buffer.writeBoolean(this.priv);
+		
+		buffer.writeByte(this.size);
 	}
 
-	public static CSPartyPrivacy decode(PacketBuffer buffer) {
-		CSPartyPrivacy msg = new CSPartyPrivacy();
+	public static CSPartySettings decode(PacketBuffer buffer) {
+		CSPartySettings msg = new CSPartySettings();
 		int length = buffer.readInt();
 		msg.name = buffer.readString(length);		
 		msg.priv = buffer.readBoolean();
+		msg.size = buffer.readByte();
 		return msg;
 	}
 
-	public static void handle(CSPartyPrivacy message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSPartySettings message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
-			for(Party p : worldData.getParties()) {
-				if(p.getName().equals(message.name))
-					p.setPriv(message.priv);
-					//worldData.removeParty(party);
-			}
+			Party p = worldData.getPartyFromName(message.name);
+			p.setPriv(message.priv);
+			p.setSize(message.size);
+			
 			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
 		});
 		ctx.get().setPacketHandled(true);

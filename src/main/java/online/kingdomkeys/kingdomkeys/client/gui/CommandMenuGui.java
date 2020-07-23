@@ -102,7 +102,7 @@ public class CommandMenuGui extends Screen {
 			} else {
 				RenderSystem.color4f(combatModeColor[2][0], array[2][1], combatModeColor[2][2], alpha);
 			}
-		} else { //Blue
+		} else { //Blue/color
 			/*
 			 * if (Minecraft.getMinecraft().player.getCapability(ModCapabilities.
 			 * ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE && array ==

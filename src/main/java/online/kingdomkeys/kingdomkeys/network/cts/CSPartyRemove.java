@@ -56,11 +56,9 @@ public class CSPartyRemove {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
-			Party party = new Party(message.name, message.uuid, message.username, message.priv); 
-			for(Party p : worldData.getParties()) {
-				if(p.getName().equals(party.getName()))
-					worldData.removeParty(party);
-			}
+			Party p = worldData.getPartyFromName(message.name);
+			worldData.removeParty(p);
+			
 			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
 		});
 		ctx.get().setPacketHandled(true);

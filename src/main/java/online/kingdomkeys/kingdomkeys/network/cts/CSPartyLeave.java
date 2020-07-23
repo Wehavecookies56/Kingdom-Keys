@@ -13,31 +13,20 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 
 public class CSPartyLeave {
 	
-	String name, username;
-	UUID uuid, playerUUID;
-	boolean priv;
+	String name;
+	UUID playerUUID;
 	
 	public CSPartyLeave() {}
 
 	public CSPartyLeave(Party party, UUID playerUUID) {
 		this.name = party.getName();
-		this.uuid = party.getLeader().getUUID();
-		this.username = party.getLeader().getUsername();
-		this.priv = party.getPriv();
 		this.playerUUID = playerUUID;
 	}
 
 	public void encode(PacketBuffer buffer) {
 		buffer.writeInt(this.name.length());
 		buffer.writeString(this.name);
-		
-		buffer.writeUniqueId(this.uuid);
-		
-		buffer.writeInt(this.username.length());
-		buffer.writeString(this.username);
-		
-		buffer.writeBoolean(this.priv);
-		
+				
 		buffer.writeUniqueId(this.playerUUID);
 	}
 
@@ -45,14 +34,7 @@ public class CSPartyLeave {
 		CSPartyLeave msg = new CSPartyLeave();
 		int length = buffer.readInt();
 		msg.name = buffer.readString(length);
-		
-		msg.uuid = buffer.readUniqueId();
-		
-		length = buffer.readInt();
-		msg.username = buffer.readString(length);
-		
-		msg.priv = buffer.readBoolean();
-		
+				
 		msg.playerUUID = buffer.readUniqueId();
 		return msg;
 	}
@@ -61,12 +43,9 @@ public class CSPartyLeave {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
-			Party party = new Party(message.name, message.uuid, message.username, message.priv); 
-			for(Party p : worldData.getParties()) {
-				if(p.getName().equals(message.name)) {
-					p.removeMember(message.playerUUID);
-				}
-			}
+			Party p = worldData.getPartyFromName(message.name);
+			p.removeMember(message.playerUUID);
+			
 			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
 		});
 		ctx.get().setPacketHandled(true);

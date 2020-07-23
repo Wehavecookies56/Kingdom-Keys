@@ -33,7 +33,6 @@ public class CSPartyAddMember {
 		
 		buffer.writeInt(this.memberName.length());
 		buffer.writeString(this.memberName);
-
 	}
 
 	public static CSPartyAddMember decode(PacketBuffer buffer) {

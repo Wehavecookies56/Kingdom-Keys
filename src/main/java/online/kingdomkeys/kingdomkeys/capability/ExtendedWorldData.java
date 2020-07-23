@@ -27,7 +27,7 @@ public class ExtendedWorldData extends WorldSavedData {
 	private boolean heartlessSpawn = false;
 
 	public static Map<World, ExtendedWorldData> loadedExtWorlds = new HashMap<>();
-
+	
 	public ExtendedWorldData() {
 		super(NAME);
 	}

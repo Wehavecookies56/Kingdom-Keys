@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyPrivacy;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyRemove;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
@@ -71,7 +71,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSetEquippedAbilityPacket.class, CSSetEquippedAbilityPacket::encode, CSSetEquippedAbilityPacket::decode, CSSetEquippedAbilityPacket::handle);
 		HANDLER.registerMessage(packetID++, CSPartyCreate.class, CSPartyCreate::encode, CSPartyCreate::decode, CSPartyCreate::handle);
 		HANDLER.registerMessage(packetID++, CSPartyRemove.class, CSPartyRemove::encode, CSPartyRemove::decode, CSPartyRemove::handle);
-		HANDLER.registerMessage(packetID++, CSPartyPrivacy.class, CSPartyPrivacy::encode, CSPartyPrivacy::decode, CSPartyPrivacy::handle);
+		HANDLER.registerMessage(packetID++, CSPartySettings.class, CSPartySettings::encode, CSPartySettings::decode, CSPartySettings::handle);
 		HANDLER.registerMessage(packetID++, CSPartyAddMember.class, CSPartyAddMember::encode, CSPartyAddMember::decode, CSPartyAddMember::handle);
 		HANDLER.registerMessage(packetID++, CSPartyLeave.class, CSPartyLeave::encode, CSPartyLeave::decode, CSPartyLeave::handle);
 	}

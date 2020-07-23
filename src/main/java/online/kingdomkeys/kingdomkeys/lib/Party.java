@@ -12,9 +12,13 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.common.util.Constants;
 
 public class Party {
+	
+	public static final byte PARTY_LIMIT = 4;
+
 	private String name;
 	private List<Member> members = new ArrayList<Member>();
 	private boolean priv;
+	private byte size;
 
 	public Party() {
 		
@@ -24,10 +28,11 @@ public class Party {
 		this(name, entity.getUniqueID(), entity.getDisplayName().getFormattedText());
 	}*/
 
-	public Party(String name, UUID leaderId, String username, boolean priv) {
+	public Party(String name, UUID leaderId, String username, boolean priv, byte size) {
 		this.name = name;
 		this.addMember(leaderId, username).setIsLeader();
 		this.priv = priv;
+		this.size = size;
 	}
 
 	public void setName(String name) {
@@ -46,6 +51,13 @@ public class Party {
 		return this.priv;
 	}
 	
+	public void setSize(byte size) {
+		this.size = size;
+	}
+	
+	public byte getSize() {
+		return this.size;
+	}	
 	
 	public Member addMember(LivingEntity entity) {
 		return this.addMember(entity.getUniqueID(), entity.getDisplayName().getFormattedText());
@@ -86,6 +98,7 @@ public class Party {
 		CompoundNBT partyNBT = new CompoundNBT();
 		partyNBT.putString("name", this.getName());
 		partyNBT.putBoolean("private", this.priv);
+		partyNBT.putByte("size", this.size);
 		
 		ListNBT members = new ListNBT();
 		for (Party.Member member : this.getMembers()) {
@@ -103,6 +116,7 @@ public class Party {
 	public void read(CompoundNBT nbt) {
 		this.setName(nbt.getString("name"));
 		this.setPriv(nbt.getBoolean("private"));
+		this.setSize(nbt.getByte("size"));
 
 		ListNBT members = nbt.getList("members", Constants.NBT.TAG_COMPOUND);
 		for (int j = 0; j < members.size(); j++) {
