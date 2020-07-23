@@ -55,7 +55,6 @@ public class CSPartyAddMember {
 			for(Party p : worldData.getParties()) {
 				if(p.getName().equals(message.name))
 					p.addMember(message.memberUUID, message.memberName);
-					//worldData.removeParty(party);
 			}
 			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
 		});

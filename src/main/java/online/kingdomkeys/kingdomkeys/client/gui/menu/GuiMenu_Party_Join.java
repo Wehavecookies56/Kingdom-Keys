@@ -1,0 +1,141 @@
+package online.kingdomkeys.kingdomkeys.client.gui.menu;
+
+import java.util.List;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyRemove;
+
+public class GuiMenu_Party_Join extends GuiMenu_Background {
+
+	boolean priv = false;
+	byte pSize = Party.PARTY_LIMIT;
+	
+	GuiMenuButton refresh, back;
+		
+	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	ExtendedWorldData worldData;
+	
+	GuiMenuButton[] parties = new GuiMenuButton[100];
+	
+	public GuiMenu_Party_Join(String name) {
+		super(name);
+		drawPlayerInfo = true;
+		worldData = ExtendedWorldData.get(minecraft.world);
+	}
+
+	protected void action(String string) {
+		//Clear list as it should never be seen unless in phase 2
+		for(int i=0;i<parties.length;i++) {
+			if(parties[i] != null) {
+				parties[i].visible = false;
+			}
+		}
+		
+		switch(string) {
+		case "back":
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_None("No Party"));			
+			break;
+		case "refresh":
+			refreshParties();
+			break;
+		}
+		
+		if(string.startsWith("party:")) {
+			String[] data = string.split(":");
+			String partyName = data[1].substring(6);
+			Party p = worldData.getPartyFromName(partyName);
+			if(p.getMembers().size() < p.getSize()) {
+				PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
+				p.addMember(minecraft.player.getUniqueID(), minecraft.player.getDisplayName().getFormattedText());
+
+				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				minecraft.displayGuiScreen(new GuiMenu_Party_Member("Party Member"));
+			} else {
+				System.out.println("Full");
+			}
+		}
+		updateButtons();
+	}
+
+	private void updateButtons() {
+		refresh.visible = true;
+		refreshParties();
+	}
+
+	private void refreshParties() {
+		worldData = ExtendedWorldData.get(minecraft.world);
+
+		float topBarHeight = (float) height * 0.17F;
+		int button_statsY = (int) topBarHeight + 5;
+		float buttonWidth = ((float) width * 0.1744F) - 20;
+
+		for(int i = 0;i<buttons.size();i++) {
+			if(buttons.get(i).getMessage().startsWith("[")) {
+				buttons.remove(i);
+			}
+		}
+		
+		//Show the buttons to join public parties
+		List<Party> partiesList = worldData.getParties();
+		for(int i=0;i<partiesList.size();i++) {
+			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
+				Party p = partiesList.get(i);
+				addButton(parties[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (i * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+			}
+		}
+	}	
+
+	@Override
+	public void init() {
+		//TODO request packet to sync other players data
+		super.width = width;
+		super.height = height;
+		super.init();
+		this.buttons.clear();
+				
+		float topBarHeight = (float) height * 0.17F;
+		int button_statsY = (int) topBarHeight + 5;
+		float buttonPosX = (float) width * 0.03F;
+		float buttonWidth = ((float) width * 0.1744F) - 20;
+
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(refresh = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Refresh"), ButtonType.BUTTON, (e) -> { action("refresh"); }));
+		
+		updateButtons();
+	}
+
+	@Override
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		System.out.println("Join");
+		//System.out.println(phase);
+		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+		super.render(mouseX, mouseY, partialTicks);
+		worldData = ExtendedWorldData.get(minecraft.world);
+	}
+	
+	
+}

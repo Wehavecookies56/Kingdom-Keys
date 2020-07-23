@@ -1,0 +1,194 @@
+package online.kingdomkeys.kingdomkeys.client.gui.menu;
+
+import java.util.List;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyRemove;
+
+public class GuiMenu_Party_Leader extends GuiMenu_Background {
+	
+	GuiMenuButton back, invite, settings, kick, disband;
+		
+	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	ExtendedWorldData worldData;
+	
+	Party party;
+	
+	public GuiMenu_Party_Leader(String name) {
+		super(name);
+		drawPlayerInfo = true;
+		worldData = ExtendedWorldData.get(minecraft.world);
+	}
+
+	protected void action(String string) {
+		switch(string) {
+		case "back":
+			GuiHelper.openMenu();
+			break;
+		case "disband":
+			PacketHandler.sendToServer(new CSPartyRemove(party));
+			GuiHelper.openMenu();
+			break;
+		case "leave":
+			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUniqueID()));
+			party = null;
+			break;
+		}
+		
+		updateButtons();
+	}
+
+	private void updateButtons() {
+		invite.visible = true;
+		kick.visible = true;
+		disband.visible = true;
+	}
+
+	@Override
+	public void init() {
+		//TODO request packet to sync other players data
+		super.width = width;
+		super.height = height;
+		super.init();
+		this.buttons.clear();
+		
+		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		
+		float topBarHeight = (float) height * 0.17F;
+		int button_statsY = (int) topBarHeight + 5;
+		float buttonPosX = (float) width * 0.03F;
+		float buttonWidth = ((float) width * 0.1744F) - 20;
+
+		addButton(invite = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Invite"), ButtonType.BUTTON, (e) -> { action("invite"); }));
+		addButton(settings = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Settings"), ButtonType.BUTTON, (e) -> { action("settings"); }));
+		addButton(kick = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal("Kick"), ButtonType.BUTTON, (e) -> { action("kick"); }));
+		addButton(disband = new GuiMenuButton((int) buttonPosX, button_statsY + (3 * 18), (int) buttonWidth, Utils.translateToLocal("Disband"), ButtonType.BUTTON, (e) -> { action("disband"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (4 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		
+		updateButtons();
+	}
+
+	@Override
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		//System.out.println(phase);
+		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+		super.render(mouseX, mouseY, partialTicks);
+		worldData = ExtendedWorldData.get(minecraft.world);
+		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		if(party != null) {
+			invite.active = party.getMembers().size() < party.getSize();
+			
+			int buttonX = (int)(width*0.25);
+			
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.scaled(1.5,1.5, 1);
+				drawString(minecraft.fontRenderer, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
+			}
+			RenderSystem.popMatrix();
+		
+			drawParty();
+		}
+		
+	}
+	
+	public void drawParty() {
+		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		if(party != null) {
+			for(int i=0;i<party.getMembers().size();i++) {
+				Member member = party.getMembers().get(i);
+				drawPlayer(i,member);
+			}
+		} else {
+			Member m = new Member(minecraft.player.getUniqueID(), minecraft.player.getDisplayName().getFormattedText());
+			drawPlayer(0, m);
+		}
+	}
+	
+	public void drawPlayer(int order, Member member) {
+		float playerHeight = height * 0.45F;
+		float playerPosX = 150F+ (0.18F * (order) * width);
+		float playerPosY = height * 0.7F;
+		
+		PlayerEntity player = Utils.getPlayerByName(minecraft.world, member.getUsername());
+		
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				if(member != null && player != null)
+					InventoryScreen.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
+			}
+			RenderSystem.popMatrix();
+			RenderSystem.pushMatrix();
+			
+				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.translatef(9, 1, 100);
+				RenderSystem.enableAlphaTest();
+				RenderSystem.enableBlend();
+				minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
+				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
+				int infoBoxPosY = (int) (height * 0.54F);
+				blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
+				for (int i = 0; i < infoBoxWidth; i++) {
+					blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
+				}
+				blit(infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
+				blit(infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
+				for (int i = 0; i < infoBoxWidth + 8; i++) {
+					blit(infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
+				}
+				blit(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
+				RenderSystem.disableAlphaTest();
+				RenderSystem.disableBlend();
+			RenderSystem.popMatrix();
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.translatef(10, 2, 100);
+				
+				RenderSystem.pushMatrix();
+				{
+					RenderSystem.translatef((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.fontRenderer.FONT_HEIGHT / 2)), 1);
+					// RenderSystem.scale(0.75F, 0.75F, 1);
+					drawString(minecraft.fontRenderer, member.getUsername(), 0, 0, 0xFFFFFF);
+				}
+				RenderSystem.popMatrix();
+				if(player != null) {
+					IPlayerCapabilities props = ModCapabilities.get(player);
+					if (props != null) {
+						drawString(minecraft.fontRenderer, "LV: " + props.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+						drawString(minecraft.fontRenderer, "HP: " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
+						drawString(minecraft.fontRenderer, "MP: " + (int) props.getMP() + "/" + (int) props.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
+					}
+				}
+			}
+			RenderSystem.popMatrix();
+		}
+		RenderSystem.popMatrix();
+	}
+	
+}
