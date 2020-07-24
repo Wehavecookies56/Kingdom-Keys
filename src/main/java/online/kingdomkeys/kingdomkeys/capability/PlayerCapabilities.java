@@ -84,11 +84,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				props.putDouble("Portal" + i + "Z", instance.getPortalCoords(i).getZ());
 				props.putInt("Portal" + i + "D", instance.getPortalCoords(i).getDimID());
 			}
-			
-			for(byte i = 0;i<10;i++) {
-				props.putString("Party"+i, instance.getPartiesInvited().get(i));
-				System.out.println(instance.getPartiesInvited().get(i));
+
+			CompoundNBT parties = new CompoundNBT();
+			for (int i=0;i<instance.getPartiesInvited().size();i++) {
+				parties.putInt(instance.getPartiesInvited().get(i),i);
 			}
+			props.put("parties", parties);
+			
 			System.out.println("finish write");
 
 			return props;
@@ -144,9 +146,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				instance.setPortalCoords(i, new PortalCoords(properties.getByte("Portal" + i + "N"), properties.getDouble("Portal" + i + "X"), properties.getDouble("Portal" + i + "Y"), properties.getDouble("Portal" + i + "Z"), properties.getInt("Portal" + i + "D")));
 			}
 			
-			for (byte i = 0; i < 10; i++) {
-				instance.addPartiesInvited(properties.getString("Party"+i));
-				System.out.println("READ: "+properties.getString("Party"+i));
+			Iterator<String> partyIt = properties.getCompound("parties").keySet().iterator();
+			while (partyIt.hasNext()) {
+				String key = (String) partyIt.next();
+				System.out.println("Read: " + key);
+				instance.getPartiesInvited().add(key.toString());
 			}
 			System.out.println("finish read");
 		}
