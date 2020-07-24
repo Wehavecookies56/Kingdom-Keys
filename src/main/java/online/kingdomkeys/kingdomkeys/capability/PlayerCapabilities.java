@@ -64,7 +64,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			Iterator<Map.Entry<String, int[]>> driveFormsIt = instance.getDriveFormsMap().entrySet().iterator();
 			while (driveFormsIt.hasNext()) {
 				Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
-				// System.out.println("Write: "+pair.getKey()+" "+pair.getValue());
 				forms.putIntArray(pair.getKey().toString(), pair.getValue());
 			}
 			props.put("drive_forms", forms);
@@ -91,7 +90,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 			props.put("parties", parties);
 			
-			System.out.println("finish write");
+			//System.out.println("finish write");
 
 			return props;
 		}
@@ -124,21 +123,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			Iterator<String> magicIt = properties.getCompound("magics").keySet().iterator();
 			while (magicIt.hasNext()) {
 				String key = (String) magicIt.next();
-				System.out.println("Read: " + key);
+				//System.out.println("Read: " + key);
 				instance.getMagicsList().add(key.toString());
 			}
 
 			Iterator<String> driveFormsIt = properties.getCompound("drive_forms").keySet().iterator();
 			while (driveFormsIt.hasNext()) {
 				String driveFormName = (String) driveFormsIt.next();
-				System.out.println("Read: " + driveFormName);
+				//System.out.println("Read: " + driveFormName);
 				instance.getDriveFormsMap().put(driveFormName.toString(), properties.getCompound("drive_forms").getIntArray(driveFormName));
 			}
 			
 			Iterator<String> abilitiesIt = properties.getCompound("abilities").keySet().iterator();
 			while (abilitiesIt.hasNext()) {
 				String abilityName = (String) abilitiesIt.next();
-				System.out.println("Read: " + abilityName);
+				//System.out.println("Read: " + abilityName);
 				instance.getAbilitiesMap().put(abilityName.toString(), properties.getCompound("abilities").getIntArray(abilityName));
 			}
 
@@ -149,7 +148,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			Iterator<String> partyIt = properties.getCompound("parties").keySet().iterator();
 			while (partyIt.hasNext()) {
 				String key = (String) partyIt.next();
-				System.out.println("Read: " + key);
+				//System.out.println("Read: " + key);
 				instance.getPartiesInvited().add(key.toString());
 			}
 			System.out.println("finish read");

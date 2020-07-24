@@ -22,7 +22,7 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 	boolean priv = false;
 	byte pSize = Party.PARTY_LIMIT;
 	
-	GuiMenuButton refresh, back;
+	GuiMenuButton back;
 		
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 	ExtendedWorldData worldData;
@@ -71,7 +71,6 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 	}
 
 	private void updateButtons() {
-		refresh.visible = true;
 		refreshMembers();
 	}
 
@@ -83,7 +82,7 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		for(int i = 0;i<buttons.size();i++) {
-			if(!buttons.get(i).getMessage().startsWith("Refresh") && !buttons.get(i).getMessage().startsWith("Back")) {
+			if(!buttons.get(i).getMessage().startsWith("Back")) {
 				buttons.remove(i);
 			}
 		}
@@ -91,7 +90,9 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 		//Show the buttons to join public parties
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		for(int i = 1; i < minecraft.world.getPlayers().size(); i++) {
-			addButton(players[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), minecraft.world.getPlayers().get(i).getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
+			if(worldData.getPartyFromMember(minecraft.world.getPlayers().get(i).getUniqueID()) != party) {
+				addButton(players[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), minecraft.world.getPlayers().get(i).getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
+			}
 		}
 	
 	}	
@@ -109,8 +110,7 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addButton(refresh = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Refresh"), ButtonType.BUTTON, (e) -> { action("refresh"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
@@ -120,6 +120,7 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ExtendedWorldData.get(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		refreshMembers();
 
 		RenderSystem.pushMatrix();
 		{

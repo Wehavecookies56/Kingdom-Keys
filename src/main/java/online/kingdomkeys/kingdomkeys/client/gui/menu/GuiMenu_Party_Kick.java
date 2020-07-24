@@ -17,11 +17,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 
 public class GuiMenu_Party_Kick extends GuiMenu_Background {
-
-	boolean priv = false;
-	byte pSize = Party.PARTY_LIMIT;
 	
-	GuiMenuButton refresh, back;
+	GuiMenuButton back;
 		
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 	ExtendedWorldData worldData;
@@ -70,7 +67,6 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	}
 
 	private void updateButtons() {
-		refresh.visible = true;
 		refreshMembers();
 	}
 
@@ -108,8 +104,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addButton(refresh = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Refresh"), ButtonType.BUTTON, (e) -> { action("refresh"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
@@ -119,6 +114,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ExtendedWorldData.get(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		refreshMembers();
 
 		RenderSystem.pushMatrix();
 		{

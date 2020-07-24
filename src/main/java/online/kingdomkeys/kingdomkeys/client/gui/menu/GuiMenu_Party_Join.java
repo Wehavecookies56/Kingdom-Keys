@@ -33,7 +33,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	boolean priv = false;
 	byte pSize = Party.PARTY_LIMIT;
 	
-	GuiMenuButton refresh, back;
+	GuiMenuButton back;
 		
 	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 	ExtendedWorldData worldData;
@@ -59,9 +59,6 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			minecraft.displayGuiScreen(new GuiMenu_Party_None("No Party"));			
 			break;
-		case "refresh":
-			refreshParties();
-			break;
 		}
 		
 		if(string.startsWith("party:")) {
@@ -82,7 +79,6 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	}
 
 	private void updateButtons() {
-		refresh.visible = true;
 		refreshParties();
 	}
 
@@ -132,8 +128,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addButton(refresh = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Refresh"), ButtonType.BUTTON, (e) -> { action("refresh"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
@@ -142,6 +137,8 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ExtendedWorldData.get(minecraft.world);
+		refreshParties();
+
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
