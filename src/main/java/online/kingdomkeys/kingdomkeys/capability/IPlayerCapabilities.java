@@ -133,4 +133,9 @@ public interface IPlayerCapabilities {
 	void setPortalList(List<PortalCoords> list);
 	PortalCoords getPortalCoords(byte pID);
     void setPortalCoords(byte pID, PortalCoords coords);
+    
+    List<String> getPartiesInvited();
+    void setPartiesInvited(List<String> list);
+    void addPartiesInvited(String partyName);
+    void removePartiesInvited(String partyName);
 }

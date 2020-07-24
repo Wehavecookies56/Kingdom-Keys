@@ -84,6 +84,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				props.putDouble("Portal" + i + "Z", instance.getPortalCoords(i).getZ());
 				props.putInt("Portal" + i + "D", instance.getPortalCoords(i).getDimID());
 			}
+			
+			for(byte i = 0;i<10;i++) {
+				props.putString("Party"+i, instance.getPartiesInvited().get(i));
+				System.out.println(instance.getPartiesInvited().get(i));
+			}
+			System.out.println("finish write");
 
 			return props;
 		}
@@ -118,10 +124,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				String key = (String) magicIt.next();
 				System.out.println("Read: " + key);
 				instance.getMagicsList().add(key.toString());
-				/*
-				 * if (properties.getCompound("magics").getInt(key) == 0 && key.toString() !=
-				 * null) instance.getMagicsList().remove(key.toString());
-				 */
 			}
 
 			Iterator<String> driveFormsIt = properties.getCompound("drive_forms").keySet().iterator();
@@ -129,9 +131,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				String driveFormName = (String) driveFormsIt.next();
 				System.out.println("Read: " + driveFormName);
 				instance.getDriveFormsMap().put(driveFormName.toString(), properties.getCompound("drive_forms").getIntArray(driveFormName));
-				
-				/*if (properties.getCompound("drive_forms").getIntArray(driveFormName)[0] == 0 && driveFormName.toString() != null)
-					instance.getDriveFormsMap().remove(driveFormName.toString());*/
 			}
 			
 			Iterator<String> abilitiesIt = properties.getCompound("abilities").keySet().iterator();
@@ -139,13 +138,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				String abilityName = (String) abilitiesIt.next();
 				System.out.println("Read: " + abilityName);
 				instance.getAbilitiesMap().put(abilityName.toString(), properties.getCompound("abilities").getIntArray(abilityName));
-
-				// In this case we don't want abilities to get removed if they have level 0 as that means they could be unequipped
 			}
 
 			for (byte i = 0; i < 3; i++) {
 				instance.setPortalCoords(i, new PortalCoords(properties.getByte("Portal" + i + "N"), properties.getDouble("Portal" + i + "X"), properties.getDouble("Portal" + i + "Y"), properties.getDouble("Portal" + i + "Z"), properties.getInt("Portal" + i + "D")));
 			}
+			
+			for (byte i = 0; i < 10; i++) {
+				instance.addPartiesInvited(properties.getString("Party"+i));
+				System.out.println("READ: "+properties.getString("Party"+i));
+			}
+			System.out.println("finish read");
 		}
 	}
 
@@ -155,6 +158,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>(); //Key = name, value=  {level, experience}
 	List<String> magicList = new ArrayList<String>();
 	LinkedHashMap<String, int[]> abilitiesMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped}, 
+
+	List<String> partiesList = new ArrayList<String>();
 
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 300, fp = 0;
 
@@ -1115,6 +1120,26 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void addEquippedAbilityLevel(String ability, int level) {
 		System.out.println(ability+": "+abilitiesMap.get(ability)[0]+" : "+(abilitiesMap.get(ability)[1]+level));
 		abilitiesMap.put(ability, new int[] {abilitiesMap.get(ability)[0], abilitiesMap.get(ability)[1]+level});
+	}
+
+	@Override
+	public List<String> getPartiesInvited() {
+		return partiesList;
+	}
+
+	@Override
+	public void setPartiesInvited(List<String> list) {
+		this.partiesList = list;
+	}
+
+	@Override
+	public void addPartiesInvited(String partyName) {
+		this.partiesList.add(partyName);
+	}
+
+	@Override
+	public void removePartiesInvited(String partyName) {
+		this.partiesList.remove(partyName);
 	}
 
 	

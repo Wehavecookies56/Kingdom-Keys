@@ -1,12 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
-import java.util.List;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -22,11 +18,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyRemove;
 
 public class GuiMenu_Party_Leader extends GuiMenu_Background {
 	
@@ -49,7 +42,7 @@ public class GuiMenu_Party_Leader extends GuiMenu_Background {
 			GuiHelper.openMenu();
 			break;
 		case "disband":
-			PacketHandler.sendToServer(new CSPartyRemove(party));
+			PacketHandler.sendToServer(new CSPartyDisband(party));
 			GuiHelper.openMenu();
 			break;
 		case "leave":
@@ -63,6 +56,10 @@ public class GuiMenu_Party_Leader extends GuiMenu_Background {
 		case "kick":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			minecraft.displayGuiScreen(new GuiMenu_Party_Kick("Party Kick"));
+			break;
+		case "invite":
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_Invite("Party Invite"));
 			break;
 		}
 		

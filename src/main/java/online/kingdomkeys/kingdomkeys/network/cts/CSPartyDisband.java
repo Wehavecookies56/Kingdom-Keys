@@ -11,15 +11,15 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 
-public class CSPartyRemove {
+public class CSPartyDisband {
 	
 	String name, username;
 	UUID uuid;
 	boolean priv;
 	
-	public CSPartyRemove() {}
+	public CSPartyDisband() {}
 
-	public CSPartyRemove(Party party) {
+	public CSPartyDisband(Party party) {
 		this.name = party.getName();
 		this.uuid = party.getLeader().getUUID();
 		this.username = party.getLeader().getUsername();
@@ -38,8 +38,8 @@ public class CSPartyRemove {
 		buffer.writeBoolean(this.priv);
 	}
 
-	public static CSPartyRemove decode(PacketBuffer buffer) {
-		CSPartyRemove msg = new CSPartyRemove();
+	public static CSPartyDisband decode(PacketBuffer buffer) {
+		CSPartyDisband msg = new CSPartyDisband();
 		int length = buffer.readInt();
 		msg.name = buffer.readString(length);
 		
@@ -52,7 +52,7 @@ public class CSPartyRemove {
 		return msg;
 	}
 
-	public static void handle(CSPartyRemove message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSPartyDisband message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
@@ -55,6 +56,8 @@ public class CSPartyAddMember {
 			for(Party p : worldData.getParties()) {
 				if(p.getName().equals(message.name))
 					p.addMember(message.memberUUID, message.memberName);
+				PlayerEntity target = player.world.getPlayerByUuid(message.memberUUID);
+				ModCapabilities.get(target).removePartiesInvited(message.name);
 			}
 			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
 		});

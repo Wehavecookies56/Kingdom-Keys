@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyRemove;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
 
 public class GuiMenu_Party_Join extends GuiMenu_Background {
 
@@ -35,7 +35,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	
 	GuiMenuButton refresh, back;
 		
-	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 	ExtendedWorldData worldData;
 	
 	GuiMenuButton[] parties = new GuiMenuButton[100];
@@ -66,7 +66,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		
 		if(string.startsWith("party:")) {
 			String[] data = string.split(":");
-			String partyName = data[1].substring(6);
+			String partyName = data[1].substring(data[1].indexOf("]")+2);
 			Party p = worldData.getPartyFromName(partyName);
 			if(p.getMembers().size() < p.getSize()) {
 				PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
@@ -87,6 +87,8 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	}
 
 	private void refreshParties() {
+		props = ModCapabilities.get(minecraft.player);
+		List<String> privateParties = props.getPartiesInvited();
 		worldData = ExtendedWorldData.get(minecraft.world);
 
 		float topBarHeight = (float) height * 0.17F;
@@ -99,12 +101,20 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 			}
 		}
 		
+		//Show private parties
+		int j = 0;
+		for(j = 0;j<privateParties.size();j++) {
+			Party p = worldData.getPartyFromName(privateParties.get(j));
+			addButton(parties[j] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+		}
 		//Show the buttons to join public parties
 		List<Party> partiesList = worldData.getParties();
 		for(int i=0;i<partiesList.size();i++) {
 			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
 				Party p = partiesList.get(i);
-				addButton(parties[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (i * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+				if(!privateParties.contains(p.getName())){//TODO test this xD
+					addButton(parties[i+j] = new GuiMenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+				}
 			}
 		}
 	}	

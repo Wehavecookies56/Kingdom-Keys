@@ -14,9 +14,10 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyInvite;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 
-public class GuiMenu_Party_Kick extends GuiMenu_Background {
+public class GuiMenu_Party_Invite extends GuiMenu_Background {
 
 	boolean priv = false;
 	byte pSize = Party.PARTY_LIMIT;
@@ -27,9 +28,9 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	ExtendedWorldData worldData;
 	Party party;
 	
-	GuiMenuButton[] players = new GuiMenuButton[4];
+	GuiMenuButton[] players = new GuiMenuButton[100];
 	
-	public GuiMenu_Party_Kick(String name) {
+	public GuiMenu_Party_Invite(String name) {
 		super(name);
 		drawPlayerInfo = true;
 		worldData = ExtendedWorldData.get(minecraft.world);
@@ -58,8 +59,8 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 			String name = data[1];
 			
 			UUID targetUUID = Utils.getPlayerByName(minecraft.world, name).getUniqueID();
-			PacketHandler.sendToServer(new CSPartyLeave(party, targetUUID));
-			party.removeMember(targetUUID);
+			PacketHandler.sendToServer(new CSPartyInvite(party, targetUUID));
+			//party.removeMember(targetUUID);
 			refreshMembers();
 
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -89,8 +90,8 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 		
 		//Show the buttons to join public parties
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
-		for(int i = 1; i < party.getMembers().size(); i++) {
-			addButton(players[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
+		for(int i = 1; i < minecraft.world.getPlayers().size(); i++) {
+			addButton(players[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), minecraft.world.getPlayers().get(i).getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
 		}
 	
 	}	
@@ -123,7 +124,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "JOIN", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, "INVITE", 2, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
 	}

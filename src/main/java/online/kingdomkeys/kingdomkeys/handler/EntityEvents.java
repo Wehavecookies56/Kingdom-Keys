@@ -93,6 +93,7 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
 		if (props != null) {
+			//System.out.println(props.getPartiesInvited());
 			if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
 			}

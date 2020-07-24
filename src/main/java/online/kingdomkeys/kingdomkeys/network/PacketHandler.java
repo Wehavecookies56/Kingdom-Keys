@@ -17,9 +17,10 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyInvite;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyRemove;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
@@ -70,10 +71,11 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSOrgPortalTPPacket.class, CSOrgPortalTPPacket::encode, CSOrgPortalTPPacket::decode, CSOrgPortalTPPacket::handle);
 		HANDLER.registerMessage(packetID++, CSSetEquippedAbilityPacket.class, CSSetEquippedAbilityPacket::encode, CSSetEquippedAbilityPacket::decode, CSSetEquippedAbilityPacket::handle);
 		HANDLER.registerMessage(packetID++, CSPartyCreate.class, CSPartyCreate::encode, CSPartyCreate::decode, CSPartyCreate::handle);
-		HANDLER.registerMessage(packetID++, CSPartyRemove.class, CSPartyRemove::encode, CSPartyRemove::decode, CSPartyRemove::handle);
+		HANDLER.registerMessage(packetID++, CSPartyDisband.class, CSPartyDisband::encode, CSPartyDisband::decode, CSPartyDisband::handle);
 		HANDLER.registerMessage(packetID++, CSPartySettings.class, CSPartySettings::encode, CSPartySettings::decode, CSPartySettings::handle);
 		HANDLER.registerMessage(packetID++, CSPartyAddMember.class, CSPartyAddMember::encode, CSPartyAddMember::decode, CSPartyAddMember::handle);
 		HANDLER.registerMessage(packetID++, CSPartyLeave.class, CSPartyLeave::encode, CSPartyLeave::decode, CSPartyLeave::handle);
+		HANDLER.registerMessage(packetID++, CSPartyInvite.class, CSPartyInvite::encode, CSPartyInvite::decode, CSPartyInvite::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

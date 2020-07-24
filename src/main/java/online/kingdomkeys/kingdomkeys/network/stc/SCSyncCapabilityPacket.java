@@ -36,6 +36,7 @@ public class SCSyncCapabilityPacket {
 	List<String> magicList = new ArrayList<String>();
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
 	LinkedHashMap<String,int[]> abilitiesMap = new LinkedHashMap<String,int[]>();
+	List<String> partiesList = new ArrayList<String>(10);
 
 	public SCSyncCapabilityPacket() {
 	}
@@ -64,6 +65,7 @@ public class SCSyncCapabilityPacket {
 		this.magicList = capability.getMagicsList();
 		this.driveFormsMap = capability.getDriveFormsMap();
 		this.abilitiesMap = capability.getAbilitiesMap();
+		this.partiesList = capability.getPartiesInvited();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
@@ -113,7 +115,12 @@ public class SCSyncCapabilityPacket {
 			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(abilities);
-
+		
+		buffer.writeInt(partiesList.size());
+		for(int i=0;i<partiesList.size();i++) {
+			buffer.writeInt(this.partiesList.get(i).length());
+			buffer.writeString(this.partiesList.get(i));
+		}
 		
 		buffer.writeInt(messages.size());
 		buffer.writeInt(dfMessages.size());
@@ -153,29 +160,30 @@ public class SCSyncCapabilityPacket {
 		CompoundNBT magicsTag = buffer.readCompoundTag();
 		Iterator<String> it = magicsTag.keySet().iterator();
 		while (it.hasNext()) {
-			//System.out.println(it);
 			String key = (String) it.next();
-//			System.out.println("ReadPacket: "+key+" value: "+value);
 			msg.magicList.add(key);
 		}
 		
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();
 		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
 		while (driveFormsIt.hasNext()) {
-		//	System.out.println(it);
 			String driveFormName = (String) driveFormsIt.next();
-//			System.out.println("ReadPacket: "+key+" value: "+value);
 			msg.driveFormsMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
-			/*if (properties.getCompound("drive_forms").getInt(key) == 0 && key.toString() != null)
-				instance.getDriveFormsMap().remove(key.toString());*/
 		}
-		//System.out.println(msg.driveFormsMap);
 		
 		CompoundNBT abilitiesTag = buffer.readCompoundTag();
 		Iterator<String> abilitiesIt = abilitiesTag.keySet().iterator();
 		while (abilitiesIt.hasNext()) {
 			String abilityName = (String) abilitiesIt.next();
 			msg.abilitiesMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
+		}
+		
+		int amount = buffer.readInt();
+		msg.partiesList = new ArrayList<String>();
+
+		for(int i=0;i<amount;i++) {
+			int length = buffer.readInt();
+			msg.partiesList.add(buffer.readString(length));
 		}
 		
 		int msgSize = buffer.readInt();
@@ -219,6 +227,7 @@ public class SCSyncCapabilityPacket {
 			props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
 			props.ifPresent(cap -> cap.setAbilitiesMap(message.abilitiesMap));
 			props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
+			props.ifPresent(cap -> cap.setPartiesInvited(message.partiesList));
 		});
 		ctx.get().setPacketHandled(true);
 	}
