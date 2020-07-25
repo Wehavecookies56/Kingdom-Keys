@@ -6,6 +6,8 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -13,7 +15,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 
 public class CSPartyInvite {
 	
@@ -46,20 +47,19 @@ public class CSPartyInvite {
 	public static void handle(CSPartyInvite message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			//ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
-			/*Party p = worldData.getPartyFromName(message.name);
-			p.removeMember(message.playerUUID);*/
 			
 			PlayerEntity target = player.world.getPlayerByUuid(message.playerUUID);
 			IPlayerCapabilities tProps = ModCapabilities.get(target);
 			if(!tProps.getPartiesInvited().contains(message.name)) {
 				tProps.addPartiesInvited(message.name);
+				
+				ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
+				Party p = worldData.getPartyFromName(message.name);
+				target.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()));
 			}
 			
-			System.out.println(tProps.getPartiesInvited());
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(tProps), (ServerPlayerEntity)target);
-			//PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
 		});
 		ctx.get().setPacketHandled(true);
 	}

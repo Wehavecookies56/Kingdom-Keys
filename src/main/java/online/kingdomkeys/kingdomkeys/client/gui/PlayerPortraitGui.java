@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -27,12 +27,13 @@ public class PlayerPortraitGui extends Screen {
 //        if (!MainConfig.displayGUI())
 		// return;
 		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-		// if(!minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
+		// if(!minecraft.player.getCapability(ModCapabilities.PLAYER_STATS,
+		// null).getHudMode())
 		// return;
 		int screenWidth = minecraft.getMainWindow().getScaledWidth();
 		int screenHeight = minecraft.getMainWindow().getScaledHeight();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			GL11.glColor3f(1, 1, 1);
+			RenderSystem.color3f(1, 1, 1);
 			ResourceLocation skin = minecraft.player.getLocationSkin();
 			minecraft.getTextureManager().bindTexture(skin);
 			float scale = 0.5f;
@@ -50,12 +51,12 @@ public class PlayerPortraitGui extends Screen {
 
 			if (props != null) {
 				if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
-					GL11.glColor4ub((byte) 80, (byte) 80, (byte) 80, (byte) 255);
+					RenderSystem.color4f(0.3F, 0.3F, 0.3F, 1F);
 				}
 
-				GL11.glPushMatrix();
+				RenderSystem.pushMatrix();
 				{
-					GL11.glTranslatef(-5, -1, 0);
+					RenderSystem.translatef(-5, -1, 0);
 
 					// HEAD
 					int headWidth = 32;
@@ -65,13 +66,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledHeadPosX = headPosX * scale;
 					float scaledHeadPosY = headPosY * scale;
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 32, 32, headWidth, headHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
 					// HAT
 					int hatWidth = 32;
@@ -81,13 +82,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledHatPosX = hatPosX * scale;
 					float scaledHatPosY = hatPosY * scale;
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 160, 32, hatWidth, hatHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
 					// BODY
 					int bodyWidth = 32;
@@ -97,13 +98,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledBodyPosX = bodyPosX * scale;
 					float scaledBodyPosY = bodyPosY * scale;
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 80, 80, bodyWidth, bodyHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
 					// JACKET
 					int jacketWidth = 32;
@@ -113,13 +114,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledjacketPosX = jacketPosX * scale;
 					float scaledjacketPosY = jacketPosY * scale;
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 80, 148, bodyWidth, bodyHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
 					// ARMS
 					int armWidth = 16;
@@ -133,22 +134,22 @@ public class PlayerPortraitGui extends Screen {
 					float scaledArmLPosX = armLPosX * scale;
 					float scaledArmLPosY = armLPosY * scale;
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 176, 80, armWidth, armHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 176, 80, armWidth, armHeight);
 					}
-					GL11.glPopMatrix();
-					GL11.glColor4f(100.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.popMatrix();
+					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
 					// GLOVES
 					int gloveWidth = 16;
@@ -162,62 +163,62 @@ public class PlayerPortraitGui extends Screen {
 					float scaledgloveLPosX = gloveLPosX * scale;
 					float scaledgloveLPosY = gloveLPosY * scale;
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
-					GL11.glColor4f(100.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
 					if (!props.getActiveDriveForm().equals("") && !props.getActiveDriveForm().equals(Strings.Form_Anti)) {
 						String driveName = props.getActiveDriveForm().substring(props.getActiveDriveForm().indexOf("_") + 1);
 						ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + driveName + ".png");
 						minecraft.textureManager.bindTexture(texture);
 
-						GL11.glPushMatrix();
+						RenderSystem.pushMatrix();
 						{
-							GL11.glTranslatef((screenWidth - 32 * scale) - 16 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
-							GL11.glScalef(2, 1, 1);
-							GL11.glScalef(0.5f, 0.5f, 0.5f);
-							GL11.glScalef(scale, scale, scale);
+							RenderSystem.translatef((screenWidth - 32 * scale) - 16 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
+							RenderSystem.scalef(2, 1, 1);
+							RenderSystem.scalef(0.5f, 0.5f, 0.5f);
+							RenderSystem.scalef(scale, scale, scale);
 							this.blit(0, 0, 80, 140, 32, 80);
 						}
-						GL11.glPopMatrix();
+						RenderSystem.popMatrix();
 
-						GL11.glPushMatrix();
+						RenderSystem.pushMatrix();
 						{
-							GL11.glTranslatef((screenWidth - 16 * scale) - 48 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
-							GL11.glScalef(2, 1, 1);
-							GL11.glScalef(0.5f, 0.5f, 0.5f);
-							GL11.glScalef(scale, scale, scale);
+							RenderSystem.translatef((screenWidth - 16 * scale) - 48 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
+							RenderSystem.scalef(2, 1, 1);
+							RenderSystem.scalef(0.5f, 0.5f, 0.5f);
+							RenderSystem.scalef(scale, scale, scale);
 							this.blit(0, 0, 64, 140, 16, 80);
 						}
-						GL11.glPopMatrix();
+						RenderSystem.popMatrix();
 
-						GL11.glPushMatrix();
+						RenderSystem.pushMatrix();
 						{
-							GL11.glTranslatef((screenWidth - 16 * scale) - 0 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
-							GL11.glScalef(2, 1, 1);
-							GL11.glScalef(0.5f, 0.5f, 0.5f);
-							GL11.glScalef(scale, scale, scale);
+							RenderSystem.translatef((screenWidth - 16 * scale) - 0 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
+							RenderSystem.scalef(2, 1, 1);
+							RenderSystem.scalef(0.5f, 0.5f, 0.5f);
+							RenderSystem.scalef(scale, scale, scale);
 							this.blit(0, 0, 112, 140, 16, 80);
 						}
-						GL11.glPopMatrix();
+						RenderSystem.popMatrix();
 
 					}
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 			}
 		}
 	}
