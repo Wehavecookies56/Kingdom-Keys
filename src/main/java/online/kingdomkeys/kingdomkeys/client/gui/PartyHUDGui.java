@@ -1,13 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -19,7 +14,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
@@ -74,63 +73,140 @@ public class PartyHUDGui extends Screen {
 			List<Member> allies = new ArrayList<Member>();
 			allies.clear();
 			for(Member m : p.getMembers()) {
-				System.out.println(m.getUsername());
+				//System.out.println(m.getUsername());
 				if(!m.getUUID().equals(player.getUniqueID())) {
 					allies.add(m);
 				}
 			}
 			for(int i=0;i<allies.size();i++) {
 				Member ally = allies.get(i);
-				//GameProfile gp = player.world.getPlayerByUuid(ally.getUUID()).getGameProfile();
-	            //GameProfile gp = new GameProfile(ally.getUUID(), ally.getUsername());
-	          /*  Collection<Property> test = gp.getProperties().get("textures");
-	            Iterator<Property> it = test.iterator();
-	            while(it.hasNext()) {
-	            	//System.out.println(it.next().getValue());
-	            }*/
-			//	String skinURL = "http://media.discordapp.net/attachments/182573160313389058/736353607196344430/5ddb42d4d6b174f319ae0eaeb288cceb96428d2e10b7853d419b6afed6ea0069.png";// "http://textures.minecraft.net/texture/5ddb42d4d6b174f319ae0eaeb288cceb96428d2e10b7853d419b6afed6ea0069";
-
-				ResourceLocation skin = getLocationSkin(minecraft.world.getPlayerByUuid(ally.getUUID()));
-				//ResourceLocation skin = new ResourceLocation(skinURL);
-				minecraft.getTextureManager().bindTexture(skin);
-				RenderSystem.pushMatrix();
-				{
-					RenderSystem.translatef(-10, -screenHeight/4*1, 0);
-	
-					// HEAD
-					int headWidth = 32;
-					int headHeight = 32;
-					float headPosX = 0;
-					float headPosY = 0;
-					float scaledHeadPosX = headPosX * scale;
-					float scaledHeadPosY = headPosY * scale;
-	
+				if(player.world.getPlayerByUuid(ally.getUUID()) != null){
+					PlayerEntity playerAlly = player.world.getPlayerByUuid(ally.getUUID());
+					ResourceLocation skin = getLocationSkin(playerAlly);
+					minecraft.getTextureManager().bindTexture(skin);
 					RenderSystem.pushMatrix();
 					{
+						RenderSystem.translatef(-10, -screenHeight/4*(i+1), 0);
+		
+						// HEAD
+						int headWidth = 32;
+						int headHeight = 32;
+						float headPosX = 0;
+						float headPosY = 0;
+						float scaledHeadPosX = headPosX * scale;
+						float scaledHeadPosY = headPosY * scale;
+		
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
+							RenderSystem.scalef(scale, scale, scale);
+							this.blit(0, 0, 32, 32, headWidth, headHeight);
+						}
+						RenderSystem.popMatrix();
+		
+						// HAT
+						int hatWidth = 32;
+						int hatHeight = 32;
+						float hatPosX = 0;
+						float hatPosY = 0;
+						float scaledHatPosX = hatPosX * scale;
+						float scaledHatPosY = hatPosY * scale;
+		
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+							RenderSystem.scalef(scale, scale, scale);
+							this.blit(0, 0, 160, 32, hatWidth, hatHeight);
+						}
+						RenderSystem.popMatrix();
+		
+						
 						RenderSystem.translatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 32, 32, headWidth, headHeight);
+						//HP
+						float val = playerAlly.getHealth();
+						float max = playerAlly.getMaxHealth();
+						minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+						RenderSystem.translatef(-4, 0, 1);
+						//Top
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.scalef(scale/3*2, scale, 1);
+							this.blit(0, 0, 0, 71, 12, 2);
+						}
+						RenderSystem.popMatrix();
+						//Middle
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef(0, 1, 1);
+							RenderSystem.scalef(scale/3*2, scale*28, 1);
+							this.blit(0, 0, 0, 73, 12, 1);
+						}
+						RenderSystem.popMatrix();
+						//Bottom
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef(0, 30, 1);
+							RenderSystem.scalef(scale/3*2, scale, 1);
+							this.blit(0, -30, 0, 71, 12, 2);
+						}
+						RenderSystem.popMatrix();
+					
+						//Bar
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.rotatef(180, 0, 0, 1);
+							RenderSystem.translatef(-4, -15, 1);
+							RenderSystem.scalef(scale/3*2, (scale*28) * val/max, 1);
+							this.blit(0, 0, 0, 77, 12, 1);
+						}
+						RenderSystem.popMatrix();
+						
+						//MP
+						IPlayerCapabilities props = ModCapabilities.get(playerAlly);
+						if(props != null) {
+							val = (float) props.getMP();
+							max = (float) props.getMaxMP();
+							minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+							RenderSystem.translatef(20, 0, 1);
+							//Top
+							RenderSystem.pushMatrix();
+							{
+								RenderSystem.scalef(scale/3*2, scale, 1);
+								this.blit(0, 0, 0, 58, 12, 2);
+							}
+							RenderSystem.popMatrix();
+							//Middle
+							RenderSystem.pushMatrix();
+							{
+								RenderSystem.translatef(0, 1, 1);
+								RenderSystem.scalef(scale/3*2, scale*28, 1);
+								this.blit(0, 0, 0, 60, 12, 1);
+							}
+							RenderSystem.popMatrix();
+							//Bottom
+							RenderSystem.pushMatrix();
+							{
+								RenderSystem.translatef(0, 30, 1);
+								RenderSystem.scalef(scale/3*2, scale, 1);
+								this.blit(0, -30, 0, 58, 12, 2);
+							}
+							RenderSystem.popMatrix();
+						
+							//Bar
+							RenderSystem.pushMatrix();
+							{
+								RenderSystem.rotatef(180, 0, 0, 1);
+								RenderSystem.translatef(-4, -15, 1);
+								//System.out.println(val+" "+max);
+								RenderSystem.scalef(scale/3*2, (scale*28) * val/max, 1);
+								this.blit(0, 0, 0, 64, 12, 1);
+							}
+							RenderSystem.popMatrix();
+						}
+						
 					}
 					RenderSystem.popMatrix();
-	
-					// HAT
-					int hatWidth = 32;
-					int hatHeight = 32;
-					float hatPosX = 0;
-					float hatPosY = 0;
-					float scaledHatPosX = hatPosX * scale;
-					float scaledHatPosY = hatPosY * scale;
-	
-					RenderSystem.pushMatrix();
-					{
-						RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 160, 32, hatWidth, hatHeight);
-					}
-					RenderSystem.popMatrix();
-	
 				}
-				RenderSystem.popMatrix();
 			}
 		}
 	}

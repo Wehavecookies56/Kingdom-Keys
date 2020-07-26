@@ -93,6 +93,16 @@ public class Party {
 	public List<Member> getMembers() {
 		return this.members;
 	}
+	
+	public int getMemberOrder(UUID memberUUID) {
+		int i = 0;
+		for(i = 0; i<members.size();i++) {
+			if(members.get(i).getUUID().equals(memberUUID)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
 	public CompoundNBT write() {
 		CompoundNBT partyNBT = new CompoundNBT();

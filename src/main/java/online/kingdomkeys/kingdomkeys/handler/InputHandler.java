@@ -35,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -405,7 +406,8 @@ public class InputHandler {
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             	} else {
             		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagics.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
-                        CommandMenuGui.targetSelected = 0;
+            			Party party = worldData.getPartyFromMember(player.getUniqueID());
+                        CommandMenuGui.targetSelected = party.getMemberOrder(player.getUniqueID());
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
     	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         return;
