@@ -334,7 +334,9 @@ public class EntityEvents {
 		if(props.getActiveDriveForm().equals(Strings.Form_Valor) || props.getActiveDriveForm().equals(Strings.Form_Final)) {
 			return true;
 		}
-		if(props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Valor) && props.getDriveFormLevel(Strings.Form_Valor) >= 3)){
+
+		if(props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Valor) && props.getDriveFormLevel(Strings.Form_Valor) >= 3
+				/*&& props.getEquippedAbilityLevel(Strings.highJump) != null && props.getEquippedAbilityLevel(Strings.highJump)[1]>0*/)){
 			return true;
 		}
 		return false;

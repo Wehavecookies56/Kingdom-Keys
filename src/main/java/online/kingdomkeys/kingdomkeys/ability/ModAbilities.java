@@ -29,6 +29,11 @@ public class ModAbilities {
 		public static void registerAbilities(RegistryEvent.Register<Ability> event) {
 			int order = 0;
 			event.getRegistry().registerAll(
+				createAbility("auto_valor", 1, AbilityType.ACTION, order++),
+				createAbility("auto_wisdom", 1, AbilityType.ACTION, order++),
+				createAbility("auto_limit", 1, AbilityType.ACTION, order++),
+				createAbility("auto_master", 1, AbilityType.ACTION, order++),
+				createAbility("auto_final", 1, AbilityType.ACTION, order++),
 				// Growth
 				createAbility("high_jump", 2, AbilityType.GROWTH, order++), 
 				createAbility("quick_run", 2, AbilityType.GROWTH, order++), 

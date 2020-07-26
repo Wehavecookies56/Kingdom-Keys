@@ -382,7 +382,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			addAbility(Strings.scan);
 			break;
 		case 3:
-			addAbility(Strings.highJump);
+			//addAbility(Strings.highJump);
 			this.addStrength(1);
 			break;
 		case 4:
@@ -983,10 +983,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
      	
      	if(!bfAbility.equals("")) {
      		messages.add(bfAbility);
+     		//addAbility(bfAbility);
      	}
 
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
 		// TODO Actually add abilities and then syncing
+		//addAbility(bfAbility);
 		// PacketDispatcher.sendTo(new SyncDriveData(player.getCapability(ModCapabilities.DRIVE_STATE, null)), (EntityPlayerMP) player);
 		
 		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayerEntity) player);

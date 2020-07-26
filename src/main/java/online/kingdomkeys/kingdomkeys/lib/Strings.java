@@ -32,12 +32,19 @@ public class Strings {
     public static final String
     		AB_Prefix = "ability_",
     		//Action
+    		autoValor = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_valor",
+    		autoWisdom = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_wisdom",
+    		autoLimit = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_limit",
+    		autoMaster = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_master",
+    		autoFinal = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_final",
+    		
     		//Growth
     		highJump = KingdomKeys.MODID+":"+Strings.AB_Prefix +"high_jump",
     		quickRun = KingdomKeys.MODID+":"+Strings.AB_Prefix +"quick_run",
     		dodgeRoll = KingdomKeys.MODID+":"+Strings.AB_Prefix +"dodge_roll",
     		aerialRecovery = KingdomKeys.MODID+":"+Strings.AB_Prefix +"aerial_recovery",
     		glide = KingdomKeys.MODID+":"+Strings.AB_Prefix +"glide",
+    		
     		//Support
     		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan"
     		;
@@ -180,8 +187,8 @@ public class Strings {
             SM_Electrum = "electrum",
 
             SM_EvanescentCrystal = "evanescent" + SM_Crystal,
-            SM_IllusoryCrystal = "illusory" + SM_Crystal
-            ;
+            SM_IllusoryCrystal = "illusory" + SM_Crystal;
+    
     //Armors
     public static final String
     		organizationHood = "organization_helmet",

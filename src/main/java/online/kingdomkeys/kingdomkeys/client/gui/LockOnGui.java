@@ -233,7 +233,7 @@ public class LockOnGui extends Screen {
 				{
 					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
 					RenderSystem.scalef(scale, scale, 0);
-					blit(2, 2, 2, 62, 16, 12);
+					blit(2, 2, 2, 62, 16, 8);
 				}
 				RenderSystem.popMatrix();
 			}
