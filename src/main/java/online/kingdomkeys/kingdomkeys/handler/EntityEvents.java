@@ -48,7 +48,6 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
@@ -91,7 +90,13 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
+		//ExtendedWorldData worldData = ExtendedWorldData.get(event.player.world);
+		//System.out.println(event.player.getDisplayName().getFormattedText()+" "+worldData.getParties());
+		/*if(!event.player.world.isRemote) {
+			PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity)event.player);
+		}*/
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
+	//	System.out.println(props);
 		//System.out.println(event.player.world.isRemote);
 		if (props != null) {
 			//System.out.println(event.player.world.isRemote+" "+props.getPartiesInvited());
@@ -508,10 +513,7 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
 				}
 			}
-
 		}
-
-		
 	}
 
 	@SubscribeEvent
@@ -557,6 +559,15 @@ public class EntityEvents {
 				PacketHandler.syncToAllAround(nPlayer, ModCapabilities.get(nPlayer));*/
 			//}
 
+		}
+	}
+	
+	@SubscribeEvent
+	public void onDimensionChanged(PlayerEvent.PlayerChangedDimensionEvent e) {
+		PlayerEntity player = e.getPlayer();
+		if(!player.world.isRemote) {
+			IPlayerCapabilities props = ModCapabilities.get(player);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
 		}
 	}
 

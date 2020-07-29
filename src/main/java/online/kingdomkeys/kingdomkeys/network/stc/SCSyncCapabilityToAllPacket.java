@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,7 +12,6 @@ import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -32,10 +32,9 @@ public class SCSyncCapabilityToAllPacket {
 			maxHP = 20;
 	
 	double mp = 0, maxMP = 0;
-		
-	
 	
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
+	List<String> magicsList = new ArrayList<String>();
 
 	private double dp = 0, fp = 0;
 
@@ -66,11 +65,11 @@ public class SCSyncCapabilityToAllPacket {
 		this.mp = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		
-		
         for(byte i=0;i<3;i++) {
         	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
         }
 		
+        this.magicsList = capability.getMagicsList();
 		this.driveFormsMap = capability.getDriveFormsMap();
 
 		this.isGliding = capability.getIsGliding();
@@ -103,6 +102,14 @@ public class SCSyncCapabilityToAllPacket {
         	buffer.writeDouble(this.orgPortalCoords[i].getZ());
         	buffer.writeInt(this.orgPortalCoords[i].getDimID());
         }
+		
+		CompoundNBT magics = new CompoundNBT();
+		Iterator<String> magicsIt = magicsList.iterator();
+		while (magicsIt.hasNext()) {
+			String m = magicsIt.next();
+			magics.putInt(m, 1);
+		}
+		buffer.writeCompoundTag(magics);
 		
 		CompoundNBT forms = new CompoundNBT();
 		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormsMap.entrySet().iterator();
@@ -144,6 +151,13 @@ public class SCSyncCapabilityToAllPacket {
     		msg.orgPortalCoords[i].setDimID(buffer.readInt());
         }
 		
+		CompoundNBT magicsTag = buffer.readCompoundTag();
+		Iterator<String> it = magicsTag.keySet().iterator();
+		while (it.hasNext()) {
+			String key = (String) it.next();
+			msg.magicsList.add(key);
+		}
+		
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();
 		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
 		while (driveFormsIt.hasNext()) {
@@ -168,7 +182,35 @@ public class SCSyncCapabilityToAllPacket {
 				}
 			}
 			if (player != null) {
-				LazyOptional<IPlayerCapabilities> props = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
+				IPlayerCapabilities props = ModCapabilities.get(player);
+				props.setLevel(message.level);
+				props.setExperience(message.exp);
+				props.setExperienceGiven(message.expGiven);
+				props.setStrength(message.strength);
+				props.setMagic(message.magic);
+				props.setDefense(message.defense);
+				props.setActiveDriveForm(message.driveForm);
+				props.setAeroTicks(message.aeroTicks);
+				props.setReflectTicks(message.reflectTicks);
+				props.setDP(message.dp);
+				props.setFP(message.fp);
+				props.setAntiPoints(message.antipoints);
+				props.setMaxHP(message.maxHP);
+				props.setMP(message.mp);
+				props.setMaxMP(message.maxMP);
+
+				props.setPortalCoords((byte)0, message.orgPortalCoords[0]);
+				props.setPortalCoords((byte)1, message.orgPortalCoords[1]);
+				props.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+
+				props.setMagicsList(message.magicsList);
+				props.setDriveFormsMap(message.driveFormsMap);
+
+				props.setIsGliding(message.isGliding);
+				props.setAerialDodgeTicks(message.aerialDodgeTicks);
+				props.setHasJumpedAerialDodge(message.hasJumpedAD);
+				
+				/*LazyOptional<IPlayerCapabilities> props = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
 				props.ifPresent(cap -> cap.setLevel(message.level));
 				props.ifPresent(cap -> cap.setExperience(message.exp));
 				props.ifPresent(cap -> cap.setExperienceGiven(message.expGiven));
@@ -190,11 +232,12 @@ public class SCSyncCapabilityToAllPacket {
 				props.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));
 				props.ifPresent(cap -> cap.setPortalCoords((byte)2, message.orgPortalCoords[2]));
 				
+				props.ifPresent(cap -> cap.setMagicsList(message.magicsList));
 				props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
 
 				props.ifPresent(cap -> cap.setIsGliding(message.isGliding));
 				props.ifPresent(cap -> cap.setAerialDodgeTicks(message.aerialDodgeTicks));
-				props.ifPresent(cap -> cap.setHasJumpedAerialDodge(message.hasJumpedAD));
+				props.ifPresent(cap -> cap.setHasJumpedAerialDodge(message.hasJumpedAD));*/
 			}
 		});
 		ctx.get().setPacketHandled(true);

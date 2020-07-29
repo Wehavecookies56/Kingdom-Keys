@@ -91,7 +91,7 @@ public class KKChestBlock extends BaseBlock {
 			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master", 1);
 			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final", 1);
 			
-			props.setMaxDP(900);
+			//props.setMaxDP(900);
 			
 			PacketHandler.syncToAllAround(player, props);
 			

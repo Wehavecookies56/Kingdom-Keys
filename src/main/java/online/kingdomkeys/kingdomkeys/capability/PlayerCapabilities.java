@@ -826,7 +826,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxDP(double dp) {
-		this.maxDP = dp;
+		if(this.maxDP + dp > 900) {
+			this.maxDP = 900;
+		} else {
+			this.maxDP = dp;
+		}
 	}
 
 	@Override

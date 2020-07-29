@@ -33,6 +33,7 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.blastBlox.get());
         standardBlockLoot(ModBlocks.ghostBlox.get());
         standardBlockLoot(ModBlocks.magnetBlox.get());
+        standardBlockLoot(ModBlocks.orgPortal.get());
         
         lootTables.put(ModBlocks.rarePrizeBlox.get(), LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.valorOrb.get()).weight(1)).addEntry(ItemLootEntry.builder(ModItems.wisdomOrb.get())
