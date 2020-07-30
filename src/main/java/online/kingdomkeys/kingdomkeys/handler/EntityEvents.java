@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -13,7 +14,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -44,7 +44,6 @@ import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -105,6 +104,7 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity)event.player);
 		}*/
 		IPlayerCapabilities props = ModCapabilities.get(event.player);
+		//props.setPartiesInvited(new ArrayList<String>());
 	//	System.out.println(props);
 		//System.out.println(event.player.world.isRemote);
 		if (props != null) {

@@ -14,6 +14,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
 
 public class SCSyncCapabilityPacket {
 
@@ -33,7 +34,9 @@ public class SCSyncCapabilityPacket {
 
 	List<String> messages, dfMessages;
 	
-	List<String> magicList = new ArrayList<String>();
+    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
+
+    List<String> magicList = new ArrayList<String>();
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
 	LinkedHashMap<String,int[]> abilitiesMap = new LinkedHashMap<String,int[]>();
 	List<String> partiesList = new ArrayList<String>(10);
@@ -61,6 +64,10 @@ public class SCSyncCapabilityPacket {
 		this.fp = capability.getFP();
 		this.antipoints=capability.getAntiPoints();
 		this.munny = capability.getMunny();
+		
+		for(byte i=0;i<3;i++) {
+        	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
+        }
 		
 		this.magicList = capability.getMagicsList();
 		this.driveFormsMap = capability.getDriveFormsMap();
@@ -91,6 +98,14 @@ public class SCSyncCapabilityPacket {
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
 		buffer.writeInt(this.munny);
+		
+		for(byte i=0;i<3;i++) {
+        	buffer.writeByte(this.orgPortalCoords[i].getPID());
+        	buffer.writeDouble(this.orgPortalCoords[i].getX());
+        	buffer.writeDouble(this.orgPortalCoords[i].getY());
+        	buffer.writeDouble(this.orgPortalCoords[i].getZ());
+        	buffer.writeInt(this.orgPortalCoords[i].getDimID());
+        }
 
 		CompoundNBT magics = new CompoundNBT();
 		Iterator<String> magicsIt = magicList.iterator();
@@ -157,6 +172,14 @@ public class SCSyncCapabilityPacket {
 		msg.antipoints = buffer.readInt();
 		msg.munny = buffer.readInt();
 
+		for(byte i=0;i<3;i++) {
+    		msg.orgPortalCoords[i].setPID(buffer.readByte());
+    		msg.orgPortalCoords[i].setX(buffer.readDouble());
+    		msg.orgPortalCoords[i].setY(buffer.readDouble());
+    		msg.orgPortalCoords[i].setZ(buffer.readDouble());
+    		msg.orgPortalCoords[i].setDimID(buffer.readInt());
+        }
+		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
 		Iterator<String> it = magicsTag.keySet().iterator();
 		while (it.hasNext()) {
@@ -204,30 +227,39 @@ public class SCSyncCapabilityPacket {
 
 	public static void handle(final SCSyncCapabilityPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			LazyOptional<IPlayerCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
-			props.ifPresent(cap -> cap.setLevel(message.level));
-			props.ifPresent(cap -> cap.setExperience(message.exp));
-			props.ifPresent(cap -> cap.setExperienceGiven(message.expGiven));
-			props.ifPresent(cap -> cap.setStrength(message.strength));
-			props.ifPresent(cap -> cap.setMagic(message.magic));
-			props.ifPresent(cap -> cap.setDefense(message.defense));
-			props.ifPresent(cap -> cap.setMP(message.MP));
-			props.ifPresent(cap -> cap.setMaxMP(message.maxMP));
-			props.ifPresent(cap -> cap.setRecharge(message.recharge));
-			props.ifPresent(cap -> cap.setMaxHP(message.maxHp));
-			props.ifPresent(cap -> cap.setConsumedAP(message.ap));
-			props.ifPresent(cap -> cap.setMaxAP(message.maxAP));
-			props.ifPresent(cap -> cap.setDP(message.dp));
-			props.ifPresent(cap -> cap.setFP(message.fp));
-			props.ifPresent(cap -> cap.setMaxDP(message.maxDP));
-			props.ifPresent(cap -> cap.setMunny(message.munny));
-			props.ifPresent(cap -> cap.setMessages(message.messages));
-			props.ifPresent(cap -> cap.setDFMessages(message.dfMessages));
-			props.ifPresent(cap -> cap.setMagicsList(message.magicList));
-			props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
-			props.ifPresent(cap -> cap.setAbilitiesMap(message.abilitiesMap));
-			props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
-			props.ifPresent(cap -> cap.setPartiesInvited(message.partiesList));
+			//LazyOptional<IPlayerCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
+			IPlayerCapabilities props = ModCapabilities.get(Minecraft.getInstance().player);
+			
+			props.setLevel(message.level);
+			props.setExperience(message.exp);
+			props.setExperienceGiven(message.expGiven);
+			props.setStrength(message.strength);
+			props.setMagic(message.magic);
+			props.setDefense(message.defense);
+			props.setMP(message.MP);
+			props.setMaxMP(message.maxMP);
+			props.setRecharge(message.recharge);
+			props.setMaxHP(message.maxHp);
+			props.setConsumedAP(message.ap);
+			props.setMaxAP(message.maxAP);
+			props.setDP(message.dp);
+			props.setFP(message.fp);
+			props.setMaxDP(message.maxDP);
+			props.setMunny(message.munny);
+			props.setMessages(message.messages);
+			props.setDFMessages(message.dfMessages);
+			
+			props.setPortalCoords((byte)0, message.orgPortalCoords[0]);
+			props.setPortalCoords((byte)1, message.orgPortalCoords[1]);
+			props.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+
+			
+			props.setMagicsList(message.magicList);
+			props.setDriveFormsMap(message.driveFormsMap);
+			props.setAbilitiesMap(message.abilitiesMap);
+			props.setAntiPoints(message.antipoints);
+			props.setPartiesInvited(message.partiesList);
+			
 		});
 		ctx.get().setPacketHandled(true);
 	}

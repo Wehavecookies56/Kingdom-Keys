@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
+import java.util.LinkedHashMap;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -19,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
@@ -503,7 +504,7 @@ public class CommandMenuGui extends Screen {
 						// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
 						// 0xFF9900;
 	
-						PortalCoords portal = ModCapabilities.get(minecraft.player).getPortalList().get(i);
+						PortalData portal = ModCapabilities.get(minecraft.player).getPortalList().get(i);
 						// String magicName = Constants.getMagicName(magic, level);
 						drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getShortCoords() + ""), textX, 4, 0xFFFFFF);
 						RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -517,21 +518,23 @@ public class CommandMenuGui extends Screen {
 	private void drawSubDrive(int width, int height) {
 		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 
-		if (props != null && props.getDriveFormsMap() != null && !props.getDriveFormsMap().isEmpty()) {
+		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(props.getDriveFormsMap());
+		
+		if (props != null && forms != null && !forms.isEmpty()) {
 			// DRIVE TOP
 			RenderSystem.pushMatrix();
 			{
 				paintWithColorArray(driveMenuColor, alpha);
 				minecraft.textureManager.bindTexture(texture);
-				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() + 1)), 0);
+				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (forms.size() + 1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 				drawString(minecraft.fontRenderer, Utils.translateToLocal("Drive Forms"), 5, 4, 0xFFFFFF);
 			}
 			RenderSystem.popMatrix();
 
-			for (int i = 0; i < props.getDriveFormsMap().size(); i++) {
-				String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
+			for (int i = 0; i < forms.size(); i++) {
+				String formName = (String) forms.keySet().toArray()[i];
 				int cost = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getDriveCost();
 				int color = props.getDP() >= cost ? 0xFFFFFF : 0x888888;
 				formName = formName.substring(formName.indexOf(":") + 1);
@@ -546,7 +549,7 @@ public class CommandMenuGui extends Screen {
 					v = (driveSelected == i) ? MENU_HEIGHT : 0;
 
 					minecraft.textureManager.bindTexture(texture);
-					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() - i)), 0);
+					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
 					RenderSystem.scalef(scale, scale, scale);
 
 					if (submenu == SUB_DRIVE) {
@@ -576,7 +579,7 @@ public class CommandMenuGui extends Screen {
 					RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
 					int x;
 					x = (driveSelected == i) ? 10 : 5;
-					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (props.getDriveFormsMap().size() - i)), 0);
+					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
 					RenderSystem.scalef(scale, scale, scale);
 					if (submenu == SUB_DRIVE) {						
 						drawString(minecraft.fontRenderer, Utils.translateToLocal(formName), textX, 4, color);

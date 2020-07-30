@@ -19,7 +19,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -142,7 +142,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 
 			for (byte i = 0; i < 3; i++) {
-				instance.setPortalCoords(i, new PortalCoords(properties.getByte("Portal" + i + "N"), properties.getDouble("Portal" + i + "X"), properties.getDouble("Portal" + i + "Y"), properties.getDouble("Portal" + i + "Z"), properties.getInt("Portal" + i + "D")));
+				instance.setPortalCoords(i, new PortalData(properties.getByte("Portal" + i + "N"), properties.getDouble("Portal" + i + "X"), properties.getDouble("Portal" + i + "Y"), properties.getDouble("Portal" + i + "Z"), properties.getInt("Portal" + i + "D")));
 			}
 			
 			Iterator<String> partyIt = properties.getCompound("parties").keySet().iterator();
@@ -171,7 +171,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private List<String> messages = new ArrayList<String>();
 	private List<String> dfMessages = new ArrayList<String>();
 
-	private PortalCoords[] orgPortalCoords = { new PortalCoords((byte) 0, 0, 0, 0, 0), new PortalCoords((byte) 0, 0, 0, 0, 0), new PortalCoords((byte) 0, 0, 0, 0, 0) };
+	private PortalData[] orgPortalCoords = { new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0) };
 
 	@Override
 	public int getLevel() {
@@ -1063,20 +1063,20 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public PortalCoords getPortalCoords(byte pID) {
+	public PortalData getPortalCoords(byte pID) {
 		return orgPortalCoords[pID];
 	}
 
 	@Override
-	public void setPortalCoords(byte pID, PortalCoords coords) {
+	public void setPortalCoords(byte pID, PortalData coords) {
 		orgPortalCoords[pID] = coords;
 	}
 
 	@Override
-	public List<PortalCoords> getPortalList() {
-		List<PortalCoords> list = new ArrayList<PortalCoords>();
+	public List<PortalData> getPortalList() {
+		List<PortalData> list = new ArrayList<PortalData>();
 		for (byte i = 0; i < 3; i++) {
-			PortalCoords coords = getPortalCoords(i);
+			PortalData coords = getPortalCoords(i);
 			if (!(coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)) {
 				list.add(coords);
 				// System.out.println(i+" Added portal: "+coords.getPID());
@@ -1086,7 +1086,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
-	public void setPortalList(List<PortalCoords> list) {
+	public void setPortalList(List<PortalData> list) {
 		for (byte i = 0; i < list.size(); i++) {
 			orgPortalCoords[i] = list.get(i);
 			/*System.out.println(list.get(i).getDimID());

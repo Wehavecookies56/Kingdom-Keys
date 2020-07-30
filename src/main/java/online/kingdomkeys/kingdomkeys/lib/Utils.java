@@ -9,9 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.NetworkDirection;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -202,6 +206,18 @@ public class Utils {
 			}
 		}
 		return null;
+	}
+	
+	public static List<PlayerEntity> getAllPlayers(MinecraftServer ms){
+		List<PlayerEntity> list = new ArrayList<PlayerEntity>();
+		java.util.Iterator<ServerWorld> it = ms.getWorlds().iterator();
+		while(it.hasNext()) {
+			ServerWorld world = it.next();
+			for(PlayerEntity p : world.getPlayers()) {
+				list.add(p);
+			}
+		}
+		return list;
 	}
 	
 	public static String getResourceName(String text) {

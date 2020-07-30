@@ -1,11 +1,11 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-public class PortalCoords {
+public class PortalData {
     byte pID;
     double x,y,z;
     int dimID;
 
-    public PortalCoords(byte pID, double x, double y, double z, int dimID) {
+    public PortalData(byte pID, double x, double y, double z, int dimID) {
         this.pID = pID;
         this.x = x;
         this.y = y;

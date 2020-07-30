@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -73,6 +74,8 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	private void refreshParties() {
 		props = ModCapabilities.get(minecraft.player);
 		List<String> privateParties = props.getPartiesInvited();
+		//props.setPartiesInvited(new ArrayList<String>());
+		System.out.println(privateParties);
 		worldData = ModCapabilities.getWorld(minecraft.world);
 
 		float topBarHeight = (float) height * 0.17F;
@@ -80,7 +83,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		for(int i = 0;i<buttons.size();i++) {
-			if(buttons.get(i).getMessage().startsWith("[")) {
+			if(buttons.get(i).getMessage().startsWith("[") || buttons.get(i).getMessage().startsWith("(P) [")) {
 				buttons.remove(i);
 			}
 		}
@@ -89,7 +92,8 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		int j = 0;
 		for(j = 0;j<privateParties.size();j++) {
 			Party p = worldData.getPartyFromName(privateParties.get(j));
-			addButton(parties[j] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+			if(p != null)
+				addButton(parties[j] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
 		}
 		//Show the buttons to join public parties
 		List<Party> partiesList = worldData.getParties();

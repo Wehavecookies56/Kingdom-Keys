@@ -88,7 +88,7 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public void updateDrive(PlayerEntity player) {
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		if (props.getFP() > 0) {
-			props.setFP(props.getFP() - 0.15);
+			props.setFP(props.getFP() - 0.2);
 		} else {
 			endDrive(player);
 		}

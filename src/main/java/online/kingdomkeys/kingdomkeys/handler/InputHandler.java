@@ -37,8 +37,9 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
@@ -48,7 +49,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 
 public class InputHandler {
 
-    List<PortalCoords> portalCommands;
+    List<PortalData> portalCommands;
     Map<String, int[]> driveFormsMap;
     List<String> magicsList;
     List<Member> targetsList;
@@ -192,7 +193,7 @@ public class InputHandler {
             }
         }
         // InsidePortal
-       /* else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
             if (CommandMenuGui.portalSelected < this.portalCommands.size() - 1) {
                 CommandMenuGui.portalSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
@@ -202,7 +203,7 @@ public class InputHandler {
             }
         }
         // InsideAttack
-        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
+        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
             if (CommandMenuGui.attackSelected < this.attackCommands.size() - 1) {
                 CommandMenuGui.attackSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_ATTACKS;
@@ -377,7 +378,7 @@ public class InputHandler {
                 // ModDriveForms.getDriveForm(player, world, (String)
                 // this.driveCommands.get(CommandMenuGui.driveselected));
                 if (!ModCapabilities.get(player).getRecharge()) {
-                    PortalCoords coords = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
+                    PortalData coords = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
                     if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
@@ -438,7 +439,7 @@ public class InputHandler {
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             if (this.driveFormsMap.isEmpty()) {
             } else {
-            	String formName = (String) props.getDriveFormsMap().keySet().toArray()[CommandMenuGui.driveSelected];
+            	String formName = (String) driveFormsMap.keySet().toArray()[CommandMenuGui.driveSelected];
             	DriveForm driveForm = ModDriveForms.registry.getValue(new ResourceLocation(formName));
             	if (props.getDP() >= driveForm.getDriveCost()) {
 	                if (formName.equals(Strings.Form_Final)) {
@@ -476,7 +477,7 @@ public class InputHandler {
         }
     }
 
-    private void summonPortal(PlayerEntity player, PortalCoords coords) {
+    private void summonPortal(PlayerEntity player, PortalData coords) {
 		IPlayerCapabilities props = ModCapabilities.get(player);
 		BlockPos destination = new BlockPos(coords.getX(), coords.getY(), coords.getZ());
 
@@ -748,7 +749,7 @@ public class InputHandler {
 
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
-        this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
+        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.get(mc.player).getDriveFormsMap());
         this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
         this.portalCommands = ModCapabilities.get(mc.player).getPortalList();
         if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {

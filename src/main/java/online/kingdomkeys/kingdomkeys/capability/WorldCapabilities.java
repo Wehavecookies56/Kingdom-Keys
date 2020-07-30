@@ -111,13 +111,17 @@ public class WorldCapabilities implements IWorldCapabilities {
 	@Override
 	public void removeParty(Party party) {
 		String key = Utils.getResourceName(party.getName());
-		int i = 0;
-		for(i = 0; i < parties.size();i++) {
-			if(parties.get(i).getName().equalsIgnoreCase(key)) {
+		int pos = -1;
+		for(int i = 0; i < parties.size();i++) {
+			System.out.println(parties.get(i).getName()+":"+key);
+			if(Utils.getResourceName(parties.get(i).getName()).equalsIgnoreCase(key)) {
+				pos = i;
 				break;
 			}
 		}
-		parties.remove(i);
+		
+		if(pos>-1)
+			parties.remove(pos);
 	}
 
 	@Override

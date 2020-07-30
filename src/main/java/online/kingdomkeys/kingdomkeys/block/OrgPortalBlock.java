@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
-import online.kingdomkeys.kingdomkeys.lib.PortalCoords;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class OrgPortalBlock extends BaseBlock {
@@ -52,7 +52,7 @@ public class OrgPortalBlock extends BaseBlock {
 						te.markDirty();
 
 						for (byte i = 0; i < 3; i++) {
-							PortalCoords coords = ModCapabilities.get(player).getPortalCoords(i);
+							PortalData coords = ModCapabilities.get(player).getPortalCoords(i);
 							// System.out.println(i+" "+coords.getX());
 							if (coords.getX() == 0.0D && coords.getY() == 0.0D && coords.getZ() == 0.0D) {
 								index = i;
@@ -62,7 +62,7 @@ public class OrgPortalBlock extends BaseBlock {
 						// System.out.println("A: "+index);
 						if (index != -1) {
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now " + player.getDisplayName().getFormattedText()+ "'s portal " + (index + 1)));
-							ModCapabilities.get(player).setPortalCoords((byte) index, new PortalCoords((byte) index, pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
+							ModCapabilities.get(player).setPortalCoords((byte) index, new PortalData((byte) index, pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
 							//TODO sync with the client
 							PacketHandler.syncToAllAround(player, ModCapabilities.get(player));
 							//System.out.println(index + " " + player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getPortalCoords(index).getDimID());
@@ -97,7 +97,7 @@ public class OrgPortalBlock extends BaseBlock {
 
 					byte index = -1;
 					for (byte i = 0; i < 3; i++) {
-						PortalCoords coords = ModCapabilities.get(player).getPortalCoords(i);
+						PortalData coords = ModCapabilities.get(player).getPortalCoords(i);
 						if (coords.getX() == pos.getX() && coords.getY() == pos.getY() && coords.getZ() == pos.getZ()) {
 							index = i;
 							break;
@@ -106,7 +106,7 @@ public class OrgPortalBlock extends BaseBlock {
 					System.out.println("R: " + index);
 					if (index != -1) {
 						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"));
-						ModCapabilities.get(player).setPortalCoords((byte) index, new PortalCoords((byte) index, 0, 0, 0, 0));
+						ModCapabilities.get(player).setPortalCoords((byte) index, new PortalData((byte) index, 0, 0, 0, 0));
 					} else {
 						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));
 					}
