@@ -6,7 +6,7 @@
     ]
   },
   "criteria": {
-    "bag": {
+    "glass_bottle": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "bag",
+      "glass_bottle",
       "has_the_recipe"
     ]
   ]

@@ -55,6 +55,13 @@ public class UpgradeDriveFormItem extends Item {
 						int newExp = exp - oldExp;
 						props.setDriveFormExp(player, formName, props.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
 						player.sendMessage(new TranslationTextComponent(formName.substring(formName.indexOf(":") + 1) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
+						
+						if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
+							player.getHeldItemMainhand().shrink(1);
+						} else if(player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() == this) {
+							player.getHeldItemOffhand().shrink(1);
+						}
+						
 					}
 
 				} else {// If you don't have the form unlock it

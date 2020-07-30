@@ -8,10 +8,12 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
@@ -227,8 +229,7 @@ public class SCSyncCapabilityPacket {
 
 	public static void handle(final SCSyncCapabilityPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			//LazyOptional<IPlayerCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
-			IPlayerCapabilities props = ModCapabilities.get(Minecraft.getInstance().player);
+			IPlayerCapabilities props = ModCapabilities.get(KingdomKeys.proxy.getClientPlayer());
 			
 			props.setLevel(message.level);
 			props.setExperience(message.exp);
@@ -259,7 +260,6 @@ public class SCSyncCapabilityPacket {
 			props.setAbilitiesMap(message.abilitiesMap);
 			props.setAntiPoints(message.antipoints);
 			props.setPartiesInvited(message.partiesList);
-			
 		});
 		ctx.get().setPacketHandled(true);
 	}

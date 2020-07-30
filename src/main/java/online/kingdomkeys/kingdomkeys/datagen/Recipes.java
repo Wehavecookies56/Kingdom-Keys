@@ -67,6 +67,18 @@ public class Recipes extends RecipeProvider {
                 .setGroup("kingdomkeys")
                 .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
+        
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.magnetBlox.get())
+		        .patternLine("RIR")
+		        .patternLine("GBG")
+		        .patternLine("RIR")
+		        .key('I', Tags.Items.INGOTS_IRON)
+		        .key('B', ModBlocks.normalBlox.get())
+		        .key('R', Tags.Items.DUSTS_REDSTONE)
+		        .key('G', Tags.Items.INGOTS_GOLD)
+		        .setGroup("kingdomkeys")
+		        .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
+		        .build(consumer);
 
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.blastBlox.get())
 		        .patternLine("NLN")
@@ -88,6 +100,17 @@ public class Recipes extends RecipeProvider {
                 .setGroup("kingdomkeys")
                 .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
+        
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.mosaic_stained_glass.get())
+		        .patternLine(" G ")
+		        .patternLine("GDG")
+		        .patternLine(" G ")
+		        .key('D', Tags.Items.DYES)
+		        .key('G', Blocks.GLASS)
+		        .setGroup("kingdomkeys")
+		        .addCriterion("glass", InventoryChangeTrigger.Instance.forItems(Blocks.GLASS))
+		        .build(consumer);
+
 
         //items
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.iceCream.get())
