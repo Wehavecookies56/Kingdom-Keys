@@ -9,8 +9,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -53,7 +53,7 @@ public class CSPartyInvite {
 			if(!tProps.getPartiesInvited().contains(message.name)) {
 				tProps.addPartiesInvited(message.name);
 				
-				ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
+				IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 				Party p = worldData.getPartyFromName(message.name);
 				target.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()));
 			}

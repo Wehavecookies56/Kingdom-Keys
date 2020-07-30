@@ -5,8 +5,8 @@ import java.util.UUID;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.util.SoundCategory;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -21,7 +21,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	GuiMenuButton back;
 		
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-	ExtendedWorldData worldData;
+	IWorldCapabilities worldData;
 	Party party;
 	
 	GuiMenuButton[] players = new GuiMenuButton[4];
@@ -29,7 +29,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	public GuiMenu_Party_Kick(String name) {
 		super(name);
 		drawPlayerInfo = true;
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
 
 	protected void action(String string) {
@@ -71,8 +71,8 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	}
 
 	private void refreshMembers() {
-		worldData = ExtendedWorldData.get(minecraft.world);
-
+		worldData = ModCapabilities.getWorld(minecraft.world);
+		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
@@ -112,7 +112,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		super.render(mouseX, mouseY, partialTicks);
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		refreshMembers();
 

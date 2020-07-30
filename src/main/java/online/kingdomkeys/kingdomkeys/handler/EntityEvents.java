@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -29,9 +30,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -43,6 +44,7 @@ import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -71,6 +73,7 @@ public class EntityEvents {
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
 		PlayerEntity player = e.getPlayer();
 		IPlayerCapabilities props = ModCapabilities.get(player);
+		IWorldCapabilities wProps = ModCapabilities.getWorld(player.world);
 		if(props != null) {
 			if (!player.world.isRemote) { // Sync from server to client
 				//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
@@ -80,9 +83,10 @@ public class EntityEvents {
 				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(props.getMaxHP());
 				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
-				
-				ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
-				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncExtendedWorld(wProps), (ServerPlayerEntity) player);
+
+				/*ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
+				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);*/
 			}
 			PacketHandler.syncToAllAround(player, props);
 		}
@@ -90,6 +94,11 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
+		//IWorldCapabilities wProps = ModCapabilities.getWorld(event.player.world);
+		//System.out.println(event.player.world.isRemote);
+		/*for(Party p : wProps.getParties()) {
+			System.out.println(event.player.world.isRemote+ ": "+p.getName());
+		}*/
 		//ExtendedWorldData worldData = ExtendedWorldData.get(event.player.world);
 		//System.out.println(event.player.getDisplayName().getFormattedText()+" "+worldData.getParties());
 		/*if(!event.player.world.isRemote) {
@@ -567,7 +576,15 @@ public class EntityEvents {
 		PlayerEntity player = e.getPlayer();
 		if(!player.world.isRemote) {
 			IPlayerCapabilities props = ModCapabilities.get(player);
+			
+			IWorldCapabilities fromWProps = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
+			IWorldCapabilities toWProps = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
+			
+			toWProps.setParties(fromWProps.getParties());
+			toWProps.setHeartlessSpawn(fromWProps.getHeartlessSpawn());
+			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncExtendedWorld(toWProps), (ServerPlayerEntity)player);
 		}
 	}
 

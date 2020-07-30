@@ -4,8 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.SoundCategory;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -24,14 +24,14 @@ public class GuiMenu_Party_Settings extends GuiMenu_Background {
 	GuiMenuButton back;
 		
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-	ExtendedWorldData worldData;
+	IWorldCapabilities worldData;
 	
 	Party party;
 		
 	public GuiMenu_Party_Settings(String name) {
 		super(name);
 		drawPlayerInfo = true;
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
 
 	protected void action(String string) {
@@ -110,7 +110,7 @@ public class GuiMenu_Party_Settings extends GuiMenu_Background {
 		//System.out.println(phase);
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 
 		

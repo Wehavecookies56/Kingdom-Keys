@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
@@ -40,7 +39,7 @@ public class GuiMenu extends GuiMenu_Background {
 			minecraft.displayGuiScreen(new GuiMenu_Abilities("Abilities"));
 			break;
 		case PARTY:
-			Party p = ExtendedWorldData.get(minecraft.world).getPartyFromMember(minecraft.player.getUniqueID());
+			Party p = ModCapabilities.getWorld(minecraft.world).getPartyFromMember(minecraft.player.getUniqueID());
 			if(p == null) {
 				minecraft.displayGuiScreen(new GuiMenu_Party_None("No Party"));
 			} else {

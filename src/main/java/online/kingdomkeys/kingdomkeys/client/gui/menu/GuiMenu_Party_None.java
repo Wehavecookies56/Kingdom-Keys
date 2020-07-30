@@ -7,8 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
@@ -17,15 +17,13 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 
 public class GuiMenu_Party_None extends GuiMenu_Background {
 	
 	GuiMenuButton back, create, join;
 		
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-	ExtendedWorldData worldData;
+	IWorldCapabilities worldData;
 
 	Party party;
 	
@@ -40,7 +38,7 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 	public GuiMenu_Party_None(String name) {
 		super(name);
 		drawPlayerInfo = true;
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
 
 	protected void action(String string) {		
@@ -94,7 +92,7 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);

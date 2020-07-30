@@ -13,8 +13,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
@@ -143,7 +143,7 @@ public class CommandMenuGui extends Screen {
 	}
 	
 	private void drawSubTargetSelector(int width, int height) {
-		ExtendedWorldData worldData = ExtendedWorldData.get(minecraft.player.world);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
 		//Title
 		RenderSystem.pushMatrix();
 		{

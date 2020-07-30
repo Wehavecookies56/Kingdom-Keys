@@ -1,10 +1,13 @@
 package online.kingdomkeys.kingdomkeys.network;
 
+import com.ibm.icu.util.BytesTrie.Iterator;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -88,10 +91,22 @@ public class PacketHandler {
 		}
 	}
 	
-	public static <MSG> void sendToAll(MSG msg, World world) {
+	public static <MSG> void sendToAll(MSG msg, PlayerEntity player) {
+		MinecraftServer ms = player.getServer();
+		java.util.Iterator<ServerWorld> it = ms.getWorlds().iterator();
+		while(it.hasNext()) {
+			ServerWorld world = it.next();
+			for(PlayerEntity p : world.getPlayers()) {
+				HANDLER.sendTo(msg, ((ServerPlayerEntity)p).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+			}
+		}
+		
+	}
+	
+	/*public static <MSG> void sendToAll(MSG msg, World world) {
 		for(PlayerEntity player : world.getPlayers())
 			HANDLER.sendTo(msg, ((ServerPlayerEntity)player).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-	}
+	}*/
 
 	public static void syncToAllAround(PlayerEntity player, IPlayerCapabilities props) {
 		if (!player.world.isRemote) {

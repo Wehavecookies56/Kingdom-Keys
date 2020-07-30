@@ -7,8 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
@@ -25,13 +25,13 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 	GuiMenuButton back, leave;
 		
 	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-	ExtendedWorldData worldData;
+	IWorldCapabilities worldData;
 	Party party;
 	
 	public GuiMenu_Party_Member(String name) {
 		super(name);
 		drawPlayerInfo = true;
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 	}
 
@@ -80,7 +80,7 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		//System.out.println("Member 1: "+party);
 		super.render(mouseX, mouseY, partialTicks);
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 
 		//System.out.println("Member 2: "+party);

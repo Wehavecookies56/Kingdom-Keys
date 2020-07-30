@@ -4,29 +4,17 @@ import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
 
 public class GuiMenu_Party_Join extends GuiMenu_Background {
 
@@ -36,14 +24,14 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	GuiMenuButton back;
 		
 	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-	ExtendedWorldData worldData;
+	IWorldCapabilities worldData;
 	
 	GuiMenuButton[] parties = new GuiMenuButton[100];
 	
 	public GuiMenu_Party_Join(String name) {
 		super(name);
 		drawPlayerInfo = true;
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
 
 	protected void action(String string) {
@@ -85,7 +73,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	private void refreshParties() {
 		props = ModCapabilities.get(minecraft.player);
 		List<String> privateParties = props.getPartiesInvited();
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -136,7 +124,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		super.render(mouseX, mouseY, partialTicks);
-		worldData = ExtendedWorldData.get(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.world);
 		refreshParties();
 
 		RenderSystem.pushMatrix();

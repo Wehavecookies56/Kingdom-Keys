@@ -26,8 +26,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
@@ -229,7 +229,8 @@ public class InputHandler {
         World world = mc.world;
         loadLists();
 
-        ExtendedWorldData worldData = ExtendedWorldData.get(world);
+        //ExtendedWorldData worldData = ExtendedWorldData.get(world);
+        IWorldCapabilities worldData = ModCapabilities.getWorld(world);
         IPlayerCapabilities props = ModCapabilities.get(player);
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
@@ -750,8 +751,8 @@ public class InputHandler {
         this.driveFormsMap = ModCapabilities.get(mc.player).getDriveFormsMap();
         this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
         this.portalCommands = ModCapabilities.get(mc.player).getPortalList();
-        if(ExtendedWorldData.get(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
-        	this.targetsList = ExtendedWorldData.get(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
+        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
         }
         
 

@@ -15,10 +15,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
@@ -64,7 +63,7 @@ public class PartyHUDGui extends Screen {
 				scale = 0.65f;
 				break;
 			}*/
-			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
 			Party p = worldData.getPartyFromMember(player.getUniqueID());
 			if(p == null) {
 				return;

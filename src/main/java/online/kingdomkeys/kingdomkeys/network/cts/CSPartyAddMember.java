@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -52,14 +52,14 @@ public class CSPartyAddMember {
 	public static void handle(CSPartyAddMember message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 			for(Party p : worldData.getParties()) {
 				if(p.getName().equals(message.name))
 					p.addMember(message.memberUUID, message.memberName);
 				PlayerEntity target = player.world.getPlayerByUuid(message.memberUUID);
 				ModCapabilities.get(target).removePartiesInvited(message.name);
 			}
-			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
+			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

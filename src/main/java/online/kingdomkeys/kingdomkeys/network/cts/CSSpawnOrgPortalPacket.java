@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -51,7 +50,7 @@ public class CSSpawnOrgPortalPacket {
 			OrgPortalEntity destPortal = new OrgPortalEntity(player.world, player, message.destPos.up(), message.destPos, message.dimension, false);
 			player.world.addEntity(destPortal);
 			
-			PacketHandler.sendToAll(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension), player.world);
+			PacketHandler.sendToAll(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension), player);
 
 		});
 		ctx.get().setPacketHandled(true);

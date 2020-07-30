@@ -5,7 +5,8 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
@@ -45,12 +46,12 @@ public class CSPartySettings {
 	public static void handle(CSPartySettings message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			ExtendedWorldData worldData = ExtendedWorldData.get(player.world);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 			Party p = worldData.getPartyFromName(message.name);
 			p.setPriv(message.priv);
 			p.setSize(message.size);
 			
-			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player.world);
+			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

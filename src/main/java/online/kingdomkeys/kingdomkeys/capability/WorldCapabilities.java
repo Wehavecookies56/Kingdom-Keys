@@ -72,15 +72,13 @@ public class WorldCapabilities implements IWorldCapabilities {
 		parties	= list;	
 	}
 
-	public List<Party> getPartiesMap() {
-		return parties;
-	}
-	
+	@Override
 	public List<Party> getParties() {
 		return parties;
 	}
 
 	@Nullable
+	@Override
 	public Party getPartyFromMember(UUID memId) {
 		for (Party party : this.parties) {
 			for (Member member : party.getMembers()) {
@@ -93,14 +91,16 @@ public class WorldCapabilities implements IWorldCapabilities {
 	}
 
 	@Nullable
+	@Override
 	public Party getPartyFromLeader(UUID leaderId) {
 		return this.parties.stream().filter(party -> party.getLeader() != null && party.getLeader().getUUID() == leaderId).findFirst().orElse(null);
 	}
 	
 	@Nullable
+	@Override
 	public Party getPartyFromName(String name) {
 		for (Party party : this.parties) {
-			if(party.getName().equals(name)) {
+			if(party.getName().equalsIgnoreCase(name)) {
 				return party;
 			}
 		}
@@ -108,20 +108,24 @@ public class WorldCapabilities implements IWorldCapabilities {
 		return null;
 	}
 
+	@Override
 	public void removeParty(Party party) {
 		String key = Utils.getResourceName(party.getName());
-		for(Party p : parties) {
-			if(p.getName().equals(key)) {
-				parties.remove(p);
+		int i = 0;
+		for(i = 0; i < parties.size();i++) {
+			if(parties.get(i).getName().equalsIgnoreCase(key)) {
+				break;
 			}
 		}
+		parties.remove(i);
 	}
 
+	@Override
 	public void addParty(Party party) {
 		String key = Utils.getResourceName(party.getName());
 		boolean found = false;
 		for(Party p : parties) {
-			if(p.getName().equals(key)) {
+			if(p.getName().equalsIgnoreCase(key)) {
 				found = true;
 			}
 		}
@@ -129,12 +133,40 @@ public class WorldCapabilities implements IWorldCapabilities {
 			this.parties.add(party);
 	}
 
+	@Override
 	public void removeLeaderMember(Party party, LivingEntity entity) {
 		party.removeMember(entity.getUniqueID());
 	}
 
+	@Override
 	public void addPartyMember(Party party, LivingEntity entity) {
 		party.addMember(entity);
+	}
+	
+	@Override
+	public void read(CompoundNBT nbt) {
+		this.parties.clear();
+		ListNBT parties = nbt.getList("parties", Constants.NBT.TAG_COMPOUND);
+		for (int i = 0; i < parties.size(); i++) {
+			CompoundNBT partyNBT = parties.getCompound(i);
+			Party party = new Party();
+			party.read(partyNBT);
+			this.parties.add(party);
+		}
+		
+		this.heartlessSpawn = nbt.getBoolean("heartless");  
+	}
+	
+	@Override
+	public CompoundNBT write(CompoundNBT nbt) {
+		ListNBT parties = new ListNBT();
+		for (Party party : this.parties) {
+			parties.add(party.write());
+		}
+		nbt.put("parties", parties);
+		
+		nbt.putBoolean("heartless", this.heartlessSpawn);
+		return nbt;
 	}
 
 }

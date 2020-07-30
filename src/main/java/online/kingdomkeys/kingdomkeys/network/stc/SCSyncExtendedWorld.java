@@ -2,16 +2,13 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ExtendedWorldData;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SCSyncExtendedWorld {
 	
@@ -20,7 +17,7 @@ public class SCSyncExtendedWorld {
 	public SCSyncExtendedWorld() {
 	}
 	
-	public SCSyncExtendedWorld(ExtendedWorldData worldData) {
+	public SCSyncExtendedWorld(IWorldCapabilities worldData) {
 		this.data = new CompoundNBT();
 		this.data = worldData.write(this.data);
 	}
@@ -38,7 +35,7 @@ public class SCSyncExtendedWorld {
 	public static void handle(final SCSyncExtendedWorld message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			World world = KingdomKeys.proxy.getClientWorld();
-			ExtendedWorldData worldData = ExtendedWorldData.get(world);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(world);
 			worldData.read(message.data);
 		});
 		ctx.get().setPacketHandled(true);
