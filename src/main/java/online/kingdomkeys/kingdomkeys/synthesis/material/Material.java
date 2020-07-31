@@ -22,5 +22,9 @@ public class Material extends ForgeRegistryEntry<Material> {
         this(material);
         setRegistryName(registryName);
     }
+    
+    public String getMaterialName() {
+    	return material.getRegistryName().toString();
+    }
 
 }

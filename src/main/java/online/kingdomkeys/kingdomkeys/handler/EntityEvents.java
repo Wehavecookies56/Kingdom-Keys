@@ -302,22 +302,22 @@ public class EntityEvents {
 				props.remAeroTicks(1);
 
 				if(player.ticksExisted % 5 == 0) {
-				// Spawn particles
-				float radius = 1F;
-				double freq = 0.5;
-				double X = event.getEntityLiving().getPosX();
-				double Y = event.getEntityLiving().getPosY();
-				double Z = event.getEntityLiving().getPosZ();
-
-				for (double x = X - radius; x <= X + radius; x += freq) {
-					for (double y = Y - radius; y <= Y + radius; y += freq) {
-						for (double z = Z - radius; z <= Z + radius; z += freq) {
-							if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-								event.getEntityLiving().world.addParticle(ParticleTypes.ENCHANTED_HIT, x, y + 1, z, 0, 0, 0);
+					// Spawn particles
+					float radius = 1F;
+					double freq = 0.5;
+					double X = event.getEntityLiving().getPosX();
+					double Y = event.getEntityLiving().getPosY();
+					double Z = event.getEntityLiving().getPosZ();
+	
+					for (double x = X - radius; x <= X + radius; x += freq) {
+						for (double y = Y - radius; y <= Y + radius; y += freq) {
+							for (double z = Z - radius; z <= Z + radius; z += freq) {
+								if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
+									event.getEntityLiving().world.addParticle(ParticleTypes.ENCHANTED_HIT, x, y + 1, z, 0, 0, 0);
+								}
 							}
 						}
 					}
-				}
 				}
 			} 
 		}

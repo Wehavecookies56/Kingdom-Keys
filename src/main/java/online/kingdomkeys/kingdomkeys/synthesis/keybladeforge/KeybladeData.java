@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.item.Item;
+import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 /**
  * Stores the data loaded from the keyblades datapack
@@ -69,4 +71,27 @@ public class KeybladeData {
     public void setBaseStrength(int baseStrength) {
         this.baseStrength = baseStrength;
     }
+    
+    /*public String materialsToString(KeybladeLevel level) {
+    	String mat = "";
+    	for(Entry<Material, Integer> m : level.getMaterialList().entrySet()) {
+    		mat += m.getKey()+"?"+m.getValue();
+    	}
+    	return mat;
+    }
+    
+    public String levelsToString(){
+    	String levels = ""; //Get a string from the levels
+    	for(int i = 0;i<this.levels.size();i++) {
+    		KeybladeLevel level = this.levels.get(i);
+    		levels+= ";"+level.getAbility()+";"+level.getStrength()+";"+level.getMagic()+";"+materialsToString(level);
+    	}
+    	return levels;
+    }
+    
+    @Override
+    public String toString() {
+    	String s = keychain.getRegistryName()+","+ levelsToString()+","+baseStrength+","+baseMagic+","+description;
+    	return super.toString();
+    }*/
 }

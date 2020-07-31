@@ -111,7 +111,6 @@ public class KeybladeItem extends SwordItem {
 						}
 					}
 				}
-
 			}
 		}
 		return super.onItemRightClick(world, player, hand);

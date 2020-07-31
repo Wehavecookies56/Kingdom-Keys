@@ -58,7 +58,9 @@ public class KeybladeLevel {
         return strength;
     }
 
-    public Map<Material, Integer> getMaterialList() { return materials;}
+    public Map<Material, Integer> getMaterialList() {
+    	return materials;
+    }
 
     public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String... abilities) {
         this.strength = strength;
