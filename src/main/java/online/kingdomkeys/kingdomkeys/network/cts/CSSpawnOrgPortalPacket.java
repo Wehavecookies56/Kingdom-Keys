@@ -3,11 +3,14 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
 
 public class CSSpawnOrgPortalPacket {
@@ -42,8 +45,9 @@ public class CSSpawnOrgPortalPacket {
 	public static void handle(CSSpawnOrgPortalPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			// PacketDispatcher.sendToAllAround(new SpawnPortalParticles(pos), player,
-			// 64.0D);
+			// PacketDispatcher.sendToAllAround(new SpawnPortalParticles(pos), player, 64.0D);
+			ModCapabilities.get(player).remMP(300);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity)player);
 			OrgPortalEntity portal = new OrgPortalEntity(player.world, player, message.pos, message.destPos, message.dimension, true);
 			player.world.addEntity(portal);
 

@@ -153,7 +153,7 @@ public class GuiMenu_Status extends GuiMenu_Background {
 
 		int i = 0;
 		for (i = 0; i < props.getDriveFormsMap().size(); i++) {
-			String formName = (String) props.getDriveFormsMap().keySet().toArray()[i];
+			String formName = (String) Utils.getSortedDriveForms(props.getDriveFormsMap()).keySet().toArray()[i];
 			String name = formName.substring(formName.indexOf(":")+1);
 			addButton(dfStats[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(formName.substring(formName.indexOf(":")+1)), ButtonType.SUBBUTTON, (e) -> { action(name); }));
 			dfStats[i].setData(name);

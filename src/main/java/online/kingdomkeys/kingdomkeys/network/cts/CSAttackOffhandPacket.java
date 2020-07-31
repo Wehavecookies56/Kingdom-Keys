@@ -66,7 +66,7 @@ public class CSAttackOffhandPacket {
 	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
 	      if (targetEntity.canBeAttackedWithItem()) {
 	         if (!targetEntity.hitByEntity(player)) {
-	            float f = DamageCalculation.getStrengthDamage(player, (KeybladeItem)player.getHeldItemOffhand().getItem());
+	            float f = DamageCalculation.getKBStrengthDamage(player, player.getHeldItemOffhand());
 	            //float f = (float)player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();//TODO damage calculation
 	            float f1;
 	            if (targetEntity instanceof LivingEntity) {

@@ -201,7 +201,7 @@ public class EntityEvents {
 				if (gProps.getStoppedTicks() <= 0) {
 					gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
 					if (gProps.getDamage() > 0 && gProps.getStopCaster() != null) {						
-						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, gProps.getStopCaster())), gProps.getDamage()/3);
+						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, gProps.getStopCaster())), gProps.getDamage()/2);
 					}
 
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
@@ -236,7 +236,6 @@ public class EntityEvents {
 
 		if (props != null) {
 			// Drive Form abilities
-			//if(player.world.isRemote && player.getDisplayName().getFormattedText().equals(Minecraft.getInstance().player.getDisplayName().getFormattedText())) {
 				if(shouldHandleHighJump(player, props)) {
 					handleHighJump(player, props);
 				}
@@ -252,8 +251,12 @@ public class EntityEvents {
 				if(props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Final) && props.getDriveFormLevel(Strings.Form_Final) >= 3)) {
 					handleGlide(player, props);
 				}
-			//}
 
+				//Rotation ticks should always be lost, this way we prevent the spinning animation on other players (hopefully)
+				if (props.getAerialDodgeTicks() > 0) {
+					props.setAerialDodgeTicks(props.getAerialDodgeTicks() - 1);
+				} 
+				
 			//Reflect
 			if (props.getReflectTicks() > 0) {
 				props.remReflectTicks(1);
@@ -331,9 +334,9 @@ public class EntityEvents {
             	if(props.getActiveDriveForm().equals(Strings.Form_Final)) {
 	            	player.setMotion(player.getMotion().add(0,DriveForm.FINAL_JUMP_BOOST[props.getDriveFormLevel(Strings.Form_Final)],0));
             	} else {
-            		System.out.println(props.getDriveFormsMap() != null);
+            		//System.out.println(props.getDriveFormsMap() != null);
             		if(props.getActiveDriveForm() != null) {
-            			System.out.println(props.getDriveFormLevel(Strings.Form_Valor));
+            			//System.out.println(props.getDriveFormLevel(Strings.Form_Valor));
             			int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
 	            		player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
             		}
@@ -357,9 +360,7 @@ public class EntityEvents {
 	}
 
 	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities props) {
-		if (props.getAerialDodgeTicks() > 0) {
-			props.setAerialDodgeTicks(props.getAerialDodgeTicks() - 1);
-		} else {
+		if (props.getAerialDodgeTicks() <= 0) {
 			if (player.onGround) {
 				props.setHasJumpedAerialDodge(false);
 				props.setAerialDodgeTicks(0);
@@ -421,16 +422,19 @@ public class EntityEvents {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 			KeybladeItem heldKeyblade = null;
 			ItemStack heldOrgWeapon = null;
+			ItemStack stack = null;
 			
 			if (player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 				heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
+				stack = player.getHeldItemMainhand();
 			} else if(player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
 				heldKeyblade = (KeybladeItem) player.getHeldItemOffhand().getItem();
+				stack = player.getHeldItemOffhand();
 			}
 			
 			//System.out.println(event.getSource().getImmediateSource());
 			if(heldKeyblade != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
-				float dmg = DamageCalculation.getStrengthDamage(player, heldKeyblade);
+				float dmg = DamageCalculation.getKBStrengthDamage(player, stack);
 				event.setAmount(dmg);
 			}
 			
@@ -472,9 +476,9 @@ public class EntityEvents {
 					System.out.println(event.getSource());
 					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 						if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-							dmg = DamageCalculation.getStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), (KeybladeItem) source.getHeldItemMainhand().getItem());
+							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemMainhand());
 						} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-							dmg = DamageCalculation.getStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), (KeybladeItem) source.getHeldItemOffhand().getItem());
+							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
 						}
 						if(dmg == 0) {
 							dmg = event.getAmount();

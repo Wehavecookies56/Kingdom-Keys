@@ -30,6 +30,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
@@ -151,10 +152,10 @@ public class KeybladeItem extends SwordItem {
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		// TODO make better tooltip (translations and looks)
 		if (data != null) {
-			tooltip.add(new TranslationTextComponent("Level %s", getKeybladeLevel()));
-			tooltip.add(new TranslationTextComponent("Strength %s", getStrength(getKeybladeLevel())));
-			tooltip.add(new TranslationTextComponent("Magic %s", getMagic(getKeybladeLevel())));
-			tooltip.add(new TranslationTextComponent(TextFormatting.ITALIC + getDescription()));
+			tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeybladeLevel()));
+			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength(getKeybladeLevel())+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel())+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,1, (KeybladeItem) stack.getItem())+"]"));
+			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getDescription()));
 		}
 	}
 
