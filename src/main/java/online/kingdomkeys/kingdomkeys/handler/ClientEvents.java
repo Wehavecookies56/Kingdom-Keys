@@ -117,7 +117,7 @@ public class ClientEvents {
 			
 			//Aerial Dodge rotation
 			if(props.getAerialDodgeTicks() > 0) {
-				System.out.println(player.getDisplayName().getFormattedText()+" "+props.getAerialDodgeTicks());
+				//System.out.println(player.getDisplayName().getFormattedText()+" "+props.getAerialDodgeTicks());
 				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
 			}
 		}

@@ -3,7 +3,7 @@
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/block/kk_chest.obj",
 	"transform":{
-		"translation": [ -0.5, -1, -0.5 ],
+		"translation": [ -0.485, -1, -0.485 ],
 		"scale": [ 0.015, 0.015, 0.015 ]
 	},
 	"textures": {

@@ -1,17 +1,12 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import java.util.Random;
-
 import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.Block.Properties;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FallingBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.FallingBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -83,7 +78,6 @@ public class PairBloxBlock extends BaseBlock {
 
 	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		System.out.println("a");
 		if (worldIn.isAirBlock(pos.down()) || canFallThrough(worldIn.getBlockState(pos.down())) && pos.getY() >= 0) {
 			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
 			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.get(PAIR));

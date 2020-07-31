@@ -101,7 +101,7 @@ public class Recipes extends RecipeProvider {
                 .addCriterion("normalblox", InventoryChangeTrigger.Instance.forItems(ModBlocks.normalBlox.get()))
                 .build(consumer);
         
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.mosaic_stained_glass.get())
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.mosaic_stained_glass.get(), 4)
 		        .patternLine(" G ")
 		        .patternLine("GDG")
 		        .patternLine(" G ")

@@ -56,11 +56,11 @@
       "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_damascus",
+          "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
+          "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         }
       ]
@@ -70,16 +70,16 @@
       "mag": 7,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        },
+        {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_lightning_stone",
           "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 1
         }
       ]
     },
@@ -88,16 +88,16 @@
       "mag": 8,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        },
+        {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_lightning_stone",
           "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 1
         }
       ]
     },
@@ -120,11 +120,11 @@
       "mag": 9,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_lightning_gem",
+          "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_gem",
+          "material": "kingdomkeys:mat_lightning_gem",
           "quantity": 1
         },
         {
@@ -138,16 +138,16 @@
       "mag": 10,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_lightning_gem",
-          "quantity": 2
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:mat_lightning_gem",
+          "quantity": 2
         }
       ]
     },
@@ -156,15 +156,15 @@
       "mag": 10,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_electrum",
+          "quantity": 1
+        },
+        {
           "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 2
         },
         {
           "material": "kingdomkeys:mat_lightning_crystal",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_electrum",
           "quantity": 1
         }
       ]

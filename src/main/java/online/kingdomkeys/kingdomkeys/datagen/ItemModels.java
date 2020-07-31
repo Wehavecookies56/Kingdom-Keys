@@ -306,6 +306,7 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("magnet_blox_on");
 		standardBlockItem("magnet_blox_off");
 		standardBlockItem("pair_blox");
+		standardBlockItem("org_portal");
 
 		//ore
 		standardBlockItem("blazing_ore");
