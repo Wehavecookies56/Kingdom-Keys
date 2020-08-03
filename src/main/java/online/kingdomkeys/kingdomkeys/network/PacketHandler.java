@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network;
 
-import com.ibm.icu.util.BytesTrie.Iterator;
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -36,10 +34,12 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityToAllPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthBagToClientPacket;
 
 public class PacketHandler {
@@ -60,6 +60,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncSynthBagToClientPacket.class, SCSyncSynthBagToClientPacket::encode, SCSyncSynthBagToClientPacket::decode, SCSyncSynthBagToClientPacket::handle);
 		HANDLER.registerMessage(packetID++, SCRecalculateEyeHeight.class, SCRecalculateEyeHeight::encode, SCRecalculateEyeHeight::decode, SCRecalculateEyeHeight::handle);
 		HANDLER.registerMessage(packetID++, SCSyncExtendedWorld.class, SCSyncExtendedWorld::encode, SCSyncExtendedWorld::decode, SCSyncExtendedWorld::handle);
+		HANDLER.registerMessage(packetID++, SCSyncKeybladeData.class, SCSyncKeybladeData::encode, SCSyncKeybladeData::decode, SCSyncKeybladeData::handle);
+		HANDLER.registerMessage(packetID++, SCSyncOrganizationData.class, SCSyncOrganizationData::encode, SCSyncOrganizationData::decode, SCSyncOrganizationData::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

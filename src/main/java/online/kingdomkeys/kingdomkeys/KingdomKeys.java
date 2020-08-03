@@ -140,6 +140,7 @@ public class KingdomKeys {
 		sa.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_savanna"),2)));
 		List d = new ArrayList();
 		d.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),2)));
+		
 		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return v; }
