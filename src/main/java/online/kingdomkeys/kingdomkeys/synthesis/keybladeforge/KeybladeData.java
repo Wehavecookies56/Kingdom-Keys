@@ -1,12 +1,10 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.item.Item;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 /**
  * Stores the data loaded from the keyblades datapack

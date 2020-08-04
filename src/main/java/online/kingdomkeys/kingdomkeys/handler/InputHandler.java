@@ -641,15 +641,18 @@ public class InputHandler {
          * event.setCanceled(true); } else { event.setCanceled(false); } }
          */
 
-        if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
-            commandEnter();
-            event.setCanceled(true);
-        }
-
-        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
-            commandBack();
-            event.setCanceled(true);
-        }
+    	Minecraft mc = Minecraft.getInstance();
+    	if(mc.world != null){
+	        if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
+	            commandEnter();
+	            event.setCanceled(true);
+	        }
+	
+	        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
+	            commandBack();
+	            event.setCanceled(true);
+	        }
+    	}
     }
 
     @SubscribeEvent

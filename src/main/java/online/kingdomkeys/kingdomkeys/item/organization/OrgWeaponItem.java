@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,8 +15,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
 public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon{
 
@@ -65,9 +62,8 @@ public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon{
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        //TODO make better tooltip (translations and looks)
         if (data != null) {
-            tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+""+getMember()+""));
+            tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+""+getMember()));
             tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength()));
             tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic()));
             tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getDescription()));

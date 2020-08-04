@@ -719,11 +719,23 @@ public class ModItems {
 			evanescent_crystal = createNewItem(Strings.SM_EvanescentCrystal, () -> new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
 			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
 
-			valorOrb = createNewItem(Strings.LevelUpValor, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_valor")),
-			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_wisdom")),			
-			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_limit")),
-			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_master")),
-			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup),KingdomKeys.MODID+":form_final")),
+			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire")),
+			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard")),			
+			waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water")),
+			thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder")),
+			cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure")),
+			aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero")),
+			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet")),			
+			reflectSpell= createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect")),
+			gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity")),
+			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop")),
+			
+			valorOrb = createNewItem(Strings.LevelUpValor, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_valor")),
+			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_wisdom")),			
+			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_limit")),
+			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_master")),
+			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_final")),
+			
 			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 
 	//Helper method to create item with the properties and registry name
@@ -734,11 +746,11 @@ public class ModItems {
 	public static <T extends Item> RegistryObject<T> createNewItem(String name, Supplier<? extends T> item) {
 		return ITEMS.register(name, item);
 	}
+
 	public static RegistryObject<Item> createKeybladeItem(String name) {
 		return ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1)));
 	}
 
-	
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot, String type) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, type));
 	}

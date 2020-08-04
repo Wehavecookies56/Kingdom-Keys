@@ -149,7 +149,6 @@ public class KeybladeItem extends SwordItem {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		// TODO make better tooltip (translations and looks)
 		if (data != null) {
 			tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeybladeLevel()));
 			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength(getKeybladeLevel())+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
