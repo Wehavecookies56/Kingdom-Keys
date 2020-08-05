@@ -77,22 +77,20 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
                                         JsonArray recipeArray = levelElement.getAsJsonArray();
                                         recipeArray.forEach(ingredient -> {
                                             JsonObject ingredientObject = ingredient.getAsJsonObject();
-                                            ingredientObject.entrySet().forEach(ingredientEntry -> {
-                                                JsonElement ingredientElement = ingredientEntry.getValue();
-                                                Material m = null;
-                                                int quantity = 0;
-                                                if (ingredientEntry.getKey().equals("material")) {
-                                                    //Retrieve the material from the material registry
-                                                    m = GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation(ingredientElement.getAsString()));
-                                                    if (m == null) {
-                                                        throw new JsonParseException("Invalid material supplied in recipe" + json);
-                                                    }
+                                            Material m = null;
+                                            int quantity = 0;
+                                            boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
+                                            if (valid) {
+                                                m = GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
+                                                if (m == null) {
+                                                    throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
+                                                } else {
+                                                    quantity = ingredientObject.get("quantity").getAsInt();
+                                                    recipe.put(m, quantity);
                                                 }
-                                                if (ingredientEntry.getKey().equals("quantity")) {
-                                                    quantity = ingredientElement.getAsInt();
-                                                }
-                                                recipe.put(m, quantity);
-                                            });
+                                            } else {
+                                                throw new JsonParseException("Invalid recipe ingredient, missing material/quantity" + json);
+                                            }
                                             level.setMaterials(recipe);
                                         });
                                         break;
