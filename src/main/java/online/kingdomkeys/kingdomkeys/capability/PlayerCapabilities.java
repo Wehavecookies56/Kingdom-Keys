@@ -53,6 +53,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			props.putInt("reflect_ticks", instance.getReflectTicks());
 			props.putBoolean("reflect_active", instance.getReflectActive());
 			props.putInt("munny", instance.getMunny());
+			
+			CompoundNBT recipes = new CompoundNBT();
+			for (String recipe : instance.getKnownRecipesList()) {
+				recipes.putInt(recipe, 0);
+			}
+			props.put("recipes", recipes);
 
 			CompoundNBT magics = new CompoundNBT();
 			for (String magic : instance.getMagicsList()) {
@@ -120,6 +126,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setReflectActive(properties.getBoolean("reflect_active"));
 			instance.setMunny(properties.getInt("munny"));
 
+			Iterator<String> recipesIt = properties.getCompound("recipes").keySet().iterator();
+			while (recipesIt.hasNext()) {
+				String key = (String) recipesIt.next();
+				instance.getKnownRecipesList().add(key.toString());
+			}
+			
 			Iterator<String> magicIt = properties.getCompound("magics").keySet().iterator();
 			while (magicIt.hasNext()) {
 				String key = (String) magicIt.next();
@@ -160,6 +172,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private String driveForm = "";
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>(); //Key = name, value=  {level, experience}
 	List<String> magicList = new ArrayList<String>();
+	List<String> recipesList = new ArrayList<String>();
 	LinkedHashMap<String, int[]> abilitiesMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped}, 
 
 	List<String> partiesList = new ArrayList<String>();
@@ -1151,6 +1164,23 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.partiesList.remove(partyName);
 	}
 
-	
+	@Override
+	public List<String> getKnownRecipesList() {
+		return recipesList;
+	}
 
+	@Override
+	public void setKnownRecipesList(List<String> list) {
+		this.recipesList = list;
+	}
+
+	@Override
+	public boolean hasKnownRecipe(String recipe) {
+		return this.recipesList.contains(recipe);
+	}
+
+	@Override
+	public void addKnownRecipe(String recipe) {
+		this.recipesList.add(recipe);
+	}
 }

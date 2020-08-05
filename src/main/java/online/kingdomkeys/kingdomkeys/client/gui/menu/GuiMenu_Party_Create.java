@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -31,7 +33,7 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 	Party party;
 		
 	public GuiMenu_Party_Create(String name) {
-		super(name);
+		super(name, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -40,7 +42,7 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 		switch(string) {
 		case "back":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_None("No Party"));
+			minecraft.displayGuiScreen(new GuiMenu_Party_None());
 			break;
 		case "togglePriv":
 			priv = !priv;
@@ -51,7 +53,7 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 				PacketHandler.sendToServer(new CSPartyCreate(localParty));
 				
 				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-				minecraft.displayGuiScreen(new GuiMenu_Party_Leader("Party Leader"));
+				minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
 			}
 			break;
 		case "size":

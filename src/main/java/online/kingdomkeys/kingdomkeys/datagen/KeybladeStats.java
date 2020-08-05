@@ -3326,7 +3326,7 @@ public class KeybladeStats extends KeybladeProvider {
                         .addMaterial(Strings.SM_LightningCrystal, 1)).build())
                 .desc("A weapon that enables your attacks to reach a wide area and deal immense damage.");
 
-        getBuilder(Strings.midnightRoar).keychain(Strings.midnightRoarChain).baseStats(6,0 )
+        getBuilder(Strings.midnightRoar).keychain(Strings.midnightRoarChain).baseStats(6,0)
                 .abilities("Magic Treasure Magnet", "Formchange Extender")
                 .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3, 4).withMaterials(new Recipe()
                         .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())

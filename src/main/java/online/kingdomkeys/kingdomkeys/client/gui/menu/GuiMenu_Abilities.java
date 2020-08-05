@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -19,8 +21,8 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
 	GuiMenuAbilitiesButton[] abilities = new GuiMenuAbilitiesButton[props.getAbilitiesMap().size()];
 
-	public GuiMenu_Abilities(String name) {
-		super(name);
+	public GuiMenu_Abilities() {
+		super("Abilities", new Color(0,0,255));
 		minecraft = Minecraft.getInstance();
 	}
 

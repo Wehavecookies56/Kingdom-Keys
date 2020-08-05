@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 
 public interface IPlayerCapabilities {
@@ -138,4 +139,9 @@ public interface IPlayerCapabilities {
     void setPartiesInvited(List<String> list);
     void addPartiesInvited(String partyName);
     void removePartiesInvited(String partyName);
+	
+    List<String> getKnownRecipesList();
+    boolean hasKnownRecipe(String recipe);
+    void setKnownRecipesList(List<String> list);
+	void addKnownRecipe(String recipe);
 }

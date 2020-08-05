@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
@@ -35,8 +37,8 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 	//3 = Leader view
 	//4 = Member view
 	
-	public GuiMenu_Party_None(String name) {
-		super(name);
+	public GuiMenu_Party_None() {
+		super("Party", new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}

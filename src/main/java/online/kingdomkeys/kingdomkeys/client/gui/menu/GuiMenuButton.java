@@ -32,7 +32,7 @@ public class GuiMenuButton extends BaseKKGuiButton {
 
 	private String data, tip;
 	
-	enum ButtonType {
+	public enum ButtonType {
 		BUTTON, SUBBUTTON
 	}
 

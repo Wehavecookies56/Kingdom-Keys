@@ -1,15 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-public class GuiMenu_Items extends Screen {
+public class GuiMenu_Items extends GuiMenu_Background {
 
     final int ITEMS_PLAYER = 1, ITEMS_STOCK = 2, ITEMS_BACK = 3;
 
@@ -19,10 +17,9 @@ public class GuiMenu_Items extends Screen {
 
 	private Minecraft mc;
 
-    public GuiMenu_Items () {
-        super(new TranslationTextComponent(""));
+    public GuiMenu_Items() {
+		super("Items", new Color(0,0,255));
 
-        background = new GuiMenu_Background(Strings.Gui_Menu_Items_Title);
         mc = Minecraft.getInstance();
     }
 
@@ -47,10 +44,10 @@ public class GuiMenu_Items extends Screen {
 
     @Override
     public void init () {
-        super.init();
-        background.width = width;
-        background.height = height;
-        background.init();
+    	super.width = width;
+		super.height = height;
+		super.init();
+		this.buttons.clear();
         float topBarHeight = (float)height * 0.17F;
         int button_itemsY = (int)topBarHeight+5;
         float buttonPosX = (float)width * 0.1526F;

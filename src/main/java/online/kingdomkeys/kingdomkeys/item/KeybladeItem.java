@@ -39,7 +39,7 @@ public class KeybladeItem extends SwordItem {
 
 	// Level 0 = no upgrades, will use base stats in the data file
 	private int level = 0;
-	private KeybladeData data;
+	public KeybladeData data;
 
 	private Item.Properties properties;
 

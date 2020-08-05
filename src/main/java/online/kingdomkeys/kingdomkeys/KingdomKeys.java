@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
+import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
@@ -121,6 +122,7 @@ public class KingdomKeys {
 		// Run setup on proxies
 		proxy.setup(event);
 		ModCapabilities.register();
+		Lists.init();
 		ModBiomes.init();
 		//ModDimensions.init();
 		DeferredWorkQueue.runLater(() -> {

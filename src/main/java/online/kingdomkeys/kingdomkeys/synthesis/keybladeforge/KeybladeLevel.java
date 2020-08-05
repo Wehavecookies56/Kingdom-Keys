@@ -17,6 +17,7 @@ public class KeybladeLevel {
     private Map<Material, Integer> materials;
     //private Map<Material, Integer> materialsList;
     //The ability gained when upgrading to this level
+    
     //TODO ability system and potentially multiple abilities here
     String ability;
 

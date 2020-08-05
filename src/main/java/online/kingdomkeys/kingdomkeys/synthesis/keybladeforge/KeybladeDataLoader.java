@@ -10,15 +10,17 @@ import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
-public class KeybladeDataLoader {
+public abstract class KeybladeDataLoader extends ReloadListener<JsonObject>{
 
     //GSON builder with custom deserializer for keyblade data
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(KeybladeData.class, new KeybladeDataDeserializer()).setPrettyPrinting().create();
@@ -34,15 +36,13 @@ public class KeybladeDataLoader {
     public static void loadData(IResourceManager manager) {
         String folder = "keyblades";
         String extension = ".json";
+        
         for (ResourceLocation file : manager.getAllResourceLocations(folder, n -> n.endsWith(extension))) { //Get all .json files
-        	
             ResourceLocation keybladeDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-          //  KingdomKeys.LOGGER.info("Found keyblade data file {}, ID {}", file, keybladeDataID);
             KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
             try {
             	BufferedReader br = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
             	BufferedReader br2 = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
-            	System.out.println(keybladeDataID+": "+manager.getResource(file));
             	String data = "";
             	while(br.ready()) {
             		data += br.readLine();

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	GuiMenuButton[] parties = new GuiMenuButton[100];
 	
 	public GuiMenu_Party_Join(String name) {
-		super(name);
+		super(name, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -46,7 +47,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		switch(string) {
 		case "back":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_None("No Party"));			
+			minecraft.displayGuiScreen(new GuiMenu_Party_None());			
 			break;
 		}
 		
@@ -59,7 +60,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 				p.addMember(minecraft.player.getUniqueID(), minecraft.player.getDisplayName().getFormattedText());
 
 				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-				minecraft.displayGuiScreen(new GuiMenu_Party_Member("Party Member"));
+				minecraft.displayGuiScreen(new GuiMenu_Party_Member());
 			} else {
 				System.out.println("Full");
 			}

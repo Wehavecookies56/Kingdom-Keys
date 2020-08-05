@@ -121,13 +121,13 @@ public class CommandMenuGui extends Screen {
 	}
 
 	public void drawCommandMenu(int width, int height) {
-		drawTop(width, height);
-		drawAttack(width, height);
-		drawMagic(width, height);
-		drawItems(width, height);
-		drawDrive(width, height);
-		
 		if(ModCapabilities.get(minecraft.player) != null) {
+			drawTop(width, height);
+			drawAttack(width, height);
+			drawMagic(width, height);
+			drawItems(width, height);
+			drawDrive(width, height);
+		
 			if (submenu == SUB_PORTALS) {
 				drawSubPortals(width, height);
 			}
@@ -326,7 +326,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			drawString(minecraft.fontRenderer, I18n.format("Attack"), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, I18n.format("Attack "+ModCapabilities.get(minecraft.player).getKnownRecipesList().size()), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
 
 			/*
 			 * if(Minecraft.getInstance().player.getCapability(ModCapabilities.

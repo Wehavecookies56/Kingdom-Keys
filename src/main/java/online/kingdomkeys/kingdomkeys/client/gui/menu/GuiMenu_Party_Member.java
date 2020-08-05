@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
@@ -28,8 +30,8 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 	IWorldCapabilities worldData;
 	Party party;
 	
-	public GuiMenu_Party_Member(String name) {
-		super(name);
+	public GuiMenu_Party_Member() {
+		super("Party Member", new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
@@ -43,7 +45,7 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 		case "leave":
 			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUniqueID()));
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_None("No Party"));
+			minecraft.displayGuiScreen(new GuiMenu_Party_None());
 			//party = null;
 			break;		
 		}

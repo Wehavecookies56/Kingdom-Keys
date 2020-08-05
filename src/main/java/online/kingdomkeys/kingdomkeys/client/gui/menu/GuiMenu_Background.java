@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
-import org.lwjgl.opengl.GL11;
+import java.awt.Color;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -20,10 +20,13 @@ public class GuiMenu_Background extends Screen {
 	int selected;
 	
 	String tip = null;
-	public GuiMenu_Background(String name) {
+	Color color;
+	
+	public GuiMenu_Background(String name, Color rgb) {
 		super(new TranslationTextComponent(name));
 		minecraft = Minecraft.getInstance();
 		selected = -1;
+		this.color = rgb;
 	}
 	//TODO Make menus work with arrow keys?
 	
@@ -147,7 +150,7 @@ public class GuiMenu_Background extends Screen {
 
 		for (int i = 0; i < sh; i += 3) {
 			RenderSystem.pushMatrix();
-			RenderSystem.color3f(1, 1, 1);
+			RenderSystem.color3f(color.getRed(), color.getGreen(), color.getBlue());
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 			minecraft.textureManager.bindTexture(menu);

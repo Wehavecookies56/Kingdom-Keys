@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.gui.widget.button.Button;
@@ -31,8 +33,8 @@ public class GuiMenu_Status extends GuiMenu_Background {
 
 	GuiMenuColoredElement[] dfWidgets = { dfLevel, dfExp, dfNextLevel, dfFormGauge };
 	
-	public GuiMenu_Status(String name) {
-		super(name);
+	public GuiMenu_Status() {
+		super("Status", new Color(0,0,255));
 		drawPlayerInfo = false;
 	}
 
@@ -97,24 +99,7 @@ public class GuiMenu_Status extends GuiMenu_Background {
 			bRes.visible = false;
 			tRes.visible = false;
 			dRes.visible = false;*/
-			
-			/*switch (selected) {
-			case STATS_VALOR:
-				form = Strings.Form_Valor;
-				break;
-			case STATS_WISDOM:
-				form = Strings.Form_Wisdom;
-				break;
-			case STATS_LIMIT:
-				form = Strings.Form_Limit;
-				break;
-			case STATS_MASTER:
-				form = Strings.Form_Master;
-				break;
-			case STATS_FINAL:
-				form = Strings.Form_Final;
-				break;
-			}*/
+		
 			 
 			int remainingExp = props.getDriveFormLevel(rlForm) == ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getMaxLevel() ? 0 : ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getLevelUpCost(props.getDriveFormLevel(rlForm)+1) - props.getDriveFormExp(rlForm);
 			dfLevel.setValue("" + props.getDriveFormLevel(rlForm));

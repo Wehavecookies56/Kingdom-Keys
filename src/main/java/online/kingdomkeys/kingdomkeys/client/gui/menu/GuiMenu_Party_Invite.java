@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
 import java.util.UUID;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -30,7 +31,7 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 	GuiMenuButton[] players = new GuiMenuButton[100];
 	
 	public GuiMenu_Party_Invite(String name) {
-		super(name);
+		super(name, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -46,7 +47,7 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 		switch(string) {
 		case "back":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Leader("Party Leader"));			
+			minecraft.displayGuiScreen(new GuiMenu_Party_Leader());			
 			break;
 		case "refresh":
 			refreshMembers();

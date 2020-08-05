@@ -38,6 +38,7 @@ public class SCSyncCapabilityPacket {
 	
     PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
 
+    List<String> recipesList = new ArrayList<String>();
     List<String> magicList = new ArrayList<String>();
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
 	LinkedHashMap<String,int[]> abilitiesMap = new LinkedHashMap<String,int[]>();
@@ -71,6 +72,7 @@ public class SCSyncCapabilityPacket {
         	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
         }
 		
+		this.recipesList = capability.getKnownRecipesList();
 		this.magicList = capability.getMagicsList();
 		this.driveFormsMap = capability.getDriveFormsMap();
 		this.abilitiesMap = capability.getAbilitiesMap();
@@ -108,6 +110,14 @@ public class SCSyncCapabilityPacket {
         	buffer.writeDouble(this.orgPortalCoords[i].getZ());
         	buffer.writeInt(this.orgPortalCoords[i].getDimID());
         }
+		
+		CompoundNBT recipes = new CompoundNBT();
+		Iterator<String> recipesIt = recipesList.iterator();
+		while (recipesIt.hasNext()) {
+			String r = recipesIt.next();
+			recipes.putInt(r, 1);
+		}
+		buffer.writeCompoundTag(recipes);
 
 		CompoundNBT magics = new CompoundNBT();
 		Iterator<String> magicsIt = magicList.iterator();
@@ -182,10 +192,17 @@ public class SCSyncCapabilityPacket {
     		msg.orgPortalCoords[i].setDimID(buffer.readInt());
         }
 		
+		CompoundNBT recipesTag = buffer.readCompoundTag();
+		Iterator<String> recipesIt = recipesTag.keySet().iterator();
+		while (recipesIt.hasNext()) {
+			String key = (String) recipesIt.next();
+			msg.recipesList.add(key);
+		}
+		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
-		Iterator<String> it = magicsTag.keySet().iterator();
-		while (it.hasNext()) {
-			String key = (String) it.next();
+		Iterator<String> magicsIt = magicsTag.keySet().iterator();
+		while (magicsIt.hasNext()) {
+			String key = (String) magicsIt.next();
 			msg.magicList.add(key);
 		}
 		
@@ -254,7 +271,7 @@ public class SCSyncCapabilityPacket {
 			props.setPortalCoords((byte)1, message.orgPortalCoords[1]);
 			props.setPortalCoords((byte)2, message.orgPortalCoords[2]);
 
-			
+			props.setKnownRecipesList(message.recipesList);
 			props.setMagicsList(message.magicList);
 			props.setDriveFormsMap(message.driveFormsMap);
 			props.setAbilitiesMap(message.abilitiesMap);

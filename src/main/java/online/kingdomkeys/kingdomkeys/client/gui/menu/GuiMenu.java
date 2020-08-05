@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -10,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.GuiMenu_Synthesis;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
@@ -17,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 public class GuiMenu extends GuiMenu_Background {
 
 	public GuiMenu() {
-		super("Menu");
+		super("Menu", new Color(0,0,255));
 		minecraft = Minecraft.getInstance();
 	}
 
@@ -36,30 +39,31 @@ public class GuiMenu extends GuiMenu_Background {
 			minecraft.displayGuiScreen(new GuiMenu_Items());
 			break;
 		case ABILITIES:
-			minecraft.displayGuiScreen(new GuiMenu_Abilities("Abilities"));
+			minecraft.displayGuiScreen(new GuiMenu_Abilities());
 			break;
 		case PARTY:
 			Party p = ModCapabilities.getWorld(minecraft.world).getPartyFromMember(minecraft.player.getUniqueID());
 			if(p == null) {
-				minecraft.displayGuiScreen(new GuiMenu_Party_None("No Party"));
+				minecraft.displayGuiScreen(new GuiMenu_Party_None());
 			} else {
 				if(p.getLeader().getUUID().equals(minecraft.player.getUniqueID())){
-					minecraft.displayGuiScreen(new GuiMenu_Party_Leader("Party Leader"));
+					minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
 				} else {
-					minecraft.displayGuiScreen(new GuiMenu_Party_Member("Party Member"));
+					minecraft.displayGuiScreen(new GuiMenu_Party_Member());
 				}
 			}
 			//minecraft.displayGuiScreen(new GuiMenu_Party_Join("Party"));
 			break;
 		case STATUS:
-			minecraft.displayGuiScreen(new GuiMenu_Status("Status"));
+			minecraft.displayGuiScreen(new GuiMenu_Status());
 			break;
 		/*
 		 * case CUSTOMIZE: GuiHelper.openCustomize(); break; case STATUS:
-		 * GuiHelper.openStatus(); break; case JOURNAL: GuiHelper.openReports(); break;
-		 * case CONFIG: GuiHelper.openMenu_Config(); break; case ABILITIES:
-		 * minecraft.displayGuiScreen(new GuiAbilities()); break;
-		 */
+		 * GuiHelper.openStatus(); break; case JOURNAL: GuiHelper.openReports(); break;*/
+		  case CONFIG:
+			minecraft.displayGuiScreen(new GuiMenu_Synthesis()); 
+			break;
+		 
 		}
 		updateButtons();
 	}
@@ -87,7 +91,7 @@ public class GuiMenu extends GuiMenu_Background {
 			action(ABILITIES);
 		}));
 		addButton(customize = new GuiMenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, (e) -> {
-			action(STATUS);
+			action(CUSTOMIZE);
 		}));
 		addButton(party = new GuiMenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, (e) -> {
 			action(PARTY);
@@ -96,10 +100,10 @@ public class GuiMenu extends GuiMenu_Background {
 			action(STATUS);
 		}));
 		addButton(journal = new GuiMenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, (e) -> {
-			action(STATUS);
+			action(JOURNAL);
 		}));
 		addButton(config = new GuiMenuButton((int) buttonPosX, button_configY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, (e) -> {
-			action(STATUS);
+			action(CONFIG);
 		}));
 		
 		items.setTip("Equip your Keyblade, potions and accessories");
@@ -124,7 +128,9 @@ public class GuiMenu extends GuiMenu_Background {
 			config.visible = true;
 			party.active = true;
 			journal.active = true;
+			
 			customize.active = false;
+			journal.active = false;
 			break;
 		case SUBMENU_ITEMS:
 			items.visible = false;
