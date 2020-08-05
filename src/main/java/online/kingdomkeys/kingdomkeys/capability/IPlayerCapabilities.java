@@ -3,10 +3,12 @@ package online.kingdomkeys.kingdomkeys.capability;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 public interface IPlayerCapabilities {
 	int getLevel();
@@ -144,4 +146,13 @@ public interface IPlayerCapabilities {
     boolean hasKnownRecipe(String recipe);
     void setKnownRecipesList(List<String> list);
 	void addKnownRecipe(String recipe);
+	
+	TreeMap<String, Integer> getMaterialsMap();
+	void setMaterialsMap(TreeMap<String, Integer> materialsMap);
+	int getMaterialAmount(Material material);
+	void addMaterial(Material material, int amount);
+	void setMaterial(Material material, int amount);
+	void removeMaterial(Material material, int amount);
+	
+	
 }

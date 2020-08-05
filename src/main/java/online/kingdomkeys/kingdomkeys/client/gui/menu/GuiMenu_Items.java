@@ -13,14 +13,9 @@ public class GuiMenu_Items extends GuiMenu_Background {
 
     Button items_player, items_stock, items_back;
 
-    GuiMenu_Background background;
-
-	private Minecraft mc;
-
     public GuiMenu_Items() {
 		super("Items", new Color(0,0,255));
-
-        mc = Minecraft.getInstance();
+        minecraft = Minecraft.getInstance();
     }
 
     protected void action (int buttonID){
@@ -66,9 +61,9 @@ public class GuiMenu_Items extends GuiMenu_Background {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        background.drawBars();
-        background.drawMunnyTime();
-        background.drawBiomeDim();
+       /* drawBars();
+        drawMunnyTime();
+        background.drawBiomeDim();*/
         super.render(mouseX, mouseY, partialTicks);
     }
     

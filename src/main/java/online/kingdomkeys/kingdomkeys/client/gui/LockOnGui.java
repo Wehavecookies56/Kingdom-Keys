@@ -34,12 +34,12 @@ public class LockOnGui extends Screen {
 
 	public LockOnGui() {
 		super(new TranslationTextComponent(""));
+		minecraft = Minecraft.getInstance();
 	}
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		Minecraft mc = Minecraft.getInstance();
-		PlayerEntity player = mc.player;
+		PlayerEntity player = minecraft.player;
 		// if
 		// (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS,
 		// null).getHudMode())
@@ -57,10 +57,10 @@ public class LockOnGui extends Screen {
 				if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 					float size = 6;
 
-					mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
+					minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
 
-					int screenWidth = mc.getMainWindow().getScaledWidth();
-					int screenHeight = mc.getMainWindow().getScaledHeight();
+					int screenWidth = minecraft.getMainWindow().getScaledWidth();
+					int screenHeight = minecraft.getMainWindow().getScaledHeight();
 
 					scale = 0.75F;
 
@@ -71,7 +71,7 @@ public class LockOnGui extends Screen {
 						RenderSystem.scalef(scale / size, scale / size, scale / size);
 						this.blit(0, 0, 0, 0, guiWidth, guiHeight);
 
-						mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
+						minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 						RenderSystem.translated(guiWidth / 2, guiWidth / 2, 0);
 						RenderSystem.rotatef(player.ticksExisted % 360 * 10, 0, 0, 1);
 						RenderSystem.translated(-guiWidth / 2, -guiWidth / 2, 0);
@@ -79,14 +79,14 @@ public class LockOnGui extends Screen {
 					}
 					RenderSystem.popMatrix();
 
-					mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+					minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 					RenderSystem.pushMatrix();
 
 					int[] scan = props.getEquippedAbilityLevel(Strings.scan);
 					// If ability level > 0 and amount of equipped is > 0
 					if (target != null && scan[0] > 0 && scan[1] > 0) {
-						this.drawString(mc.fontRenderer, target.getName().getFormattedText(), screenWidth - mc.fontRenderer.getStringWidth(target.getName().getFormattedText()), 15, 0xFFFFFF);
+						this.drawString(minecraft.fontRenderer, target.getName().getFormattedText(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getFormattedText()), 15, 0xFFFFFF);
 						drawHPBar(event, (LivingEntity) target);
 					}
 
@@ -100,18 +100,18 @@ public class LockOnGui extends Screen {
 
 	public void drawHPBar(RenderGameOverlayEvent event, LivingEntity target) {
 		Minecraft mc = Minecraft.getInstance();
-		int screenWidth = mc.getMainWindow().getScaledWidth();
-		int screenHeight = mc.getMainWindow().getScaledHeight();
+		int screenWidth = minecraft.getMainWindow().getScaledWidth();
+		//int screenHeight = minecraft.getMainWindow().getScaledHeight();
 		// if (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			mc.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 			float oneHeart = (noborderguiwidth / target.getMaxHealth());
-			int currHealth = noborderguiwidth - (int) (oneHeart * target.getHealth());
+			//int currHealth = noborderguiwidth - (int) (oneHeart * target.getHealth());
 
-			hpPerBar = 10;
-			int widthMultiplier = 20;
+			hpPerBar = 20;
+			int widthMultiplier = 10;
 
 			if (target.getMaxHealth() % hpPerBar == 0) {
 				hpBars = (int) (target.getMaxHealth() / hpPerBar);
@@ -160,7 +160,7 @@ public class LockOnGui extends Screen {
 	}
 
 	public void drawHPBarBack(int posX, int posY, int width, float scale) {
-		Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
 			// Left Margin

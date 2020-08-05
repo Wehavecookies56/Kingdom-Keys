@@ -13,16 +13,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 public class RecipeItem extends Item {
 
@@ -53,6 +56,7 @@ public class RecipeItem extends Item {
 							String message = "Recipe " + Utils.translateToLocal(recipe) + " learnt successfully";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message));
 							PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+							//props.setMaterial(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_fluorite")), 1);
 						}
 					}
 	

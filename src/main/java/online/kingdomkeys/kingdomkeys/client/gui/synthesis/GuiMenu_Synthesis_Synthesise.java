@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 	
@@ -110,7 +110,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				{
 					RenderSystem.translated(width*0.75F, height*0.17, 1);
 					RenderSystem.scaled(1,1,1);
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(props.getKnownRecipesList().get(selectedKB)), 2, 10, 0xFF9900);
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(props.getKnownRecipesList().get(selectedKB)), 0, 10, 0xFF9900);
 				}
 				RenderSystem.popMatrix();
 				
@@ -125,30 +125,29 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.translated(width*0.75F, height*0.6, 1);
-					drawString(minecraft.fontRenderer, "Strength: "+item.getStrength()+" ["+(props.getStrength()+item.getStrength())+"]", 2, 0, 0xFF0000);
-					drawString(minecraft.fontRenderer, "Magic: "+item.getMagic()+" ["+(props.getMagic()+item.getMagic())+"]", 2, 10, 0x0000FF);
+					drawString(minecraft.fontRenderer, "Strength: "+item.getStrength()+" ["+(props.getStrength()+item.getStrength())+"]", 0, 0, 0xFF0000);
+					drawString(minecraft.fontRenderer, "Magic: "+item.getMagic()+" ["+(props.getMagic()+item.getMagic())+"]", 0, 10, 0x0000FF);
 					
-					//drawString(minecraft.fontRenderer, "Ability: "+item.getAbility(), 2, 20, 0x0000FF);
+					//drawString(minecraft.fontRenderer, "Ability: "+item.getAbility(), 0, 20, 0x0000FF);
 				}
 				RenderSystem.popMatrix();
 				
 				RenderSystem.pushMatrix();
 				{
+					
 					RenderSystem.translated(width*0.4F, height*0.3, 1);
 					Iterator<Entry<Material, Integer>> materials = item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
-					//for(int i = 0;i<materials.size();i++) {
 					int i = 0;
-						while(materials.hasNext()) {
-							Entry<Material, Integer> m = materials.next();
-							if(m.getKey() != null) {
-								String n = Utils.translateToLocal(m.getKey().getMaterialName());
-								drawString(minecraft.fontRenderer, n+" "+m.getValue(), 2, (i*10), 0xFFFF00);
-								i++;
-							}
-						}
-					//}
-					
-					//drawString(minecraft.fontRenderer, "Materials: ", 2, 20, 0xFF0000);
+					while(materials.hasNext()) {
+						Entry<Material, Integer> m = materials.next();
+						ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey().getMaterialName())),m.getValue());
+						String n = Utils.translateToLocal(stack.getTranslationKey());
+						//props.setMaterial(m.getKey(), 1);
+						int color = props.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
+						drawString(minecraft.fontRenderer, n+" "+m.getValue()+" ("+props.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
+						itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
+						i++;
+					}
 				}
 				RenderSystem.popMatrix();
 				

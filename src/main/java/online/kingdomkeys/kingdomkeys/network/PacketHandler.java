@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAntiPointsPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
@@ -81,6 +82,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSPartyAddMember.class, CSPartyAddMember::encode, CSPartyAddMember::decode, CSPartyAddMember::handle);
 		HANDLER.registerMessage(packetID++, CSPartyLeave.class, CSPartyLeave::encode, CSPartyLeave::decode, CSPartyLeave::handle);
 		HANDLER.registerMessage(packetID++, CSPartyInvite.class, CSPartyInvite::encode, CSPartyInvite::decode, CSPartyInvite::handle);
+		HANDLER.registerMessage(packetID++, CSDepositMaterials.class, CSDepositMaterials::encode, CSDepositMaterials::decode, CSDepositMaterials::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

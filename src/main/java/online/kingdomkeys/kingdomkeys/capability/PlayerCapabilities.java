@@ -1,10 +1,11 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,7 +17,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -96,7 +97,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 			props.put("parties", parties);
 			
-			//System.out.println("finish write");
+			CompoundNBT mats = new CompoundNBT();
+			Iterator<Map.Entry<String, Integer>> materialsIt = instance.getMaterialsMap().entrySet().iterator();
+			while (materialsIt.hasNext()) {
+				Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
+				mats.putInt(pair.getKey().toString(), pair.getValue());
+			}
+			props.put("materials", mats);
 
 			return props;
 		}
@@ -160,10 +167,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			Iterator<String> partyIt = properties.getCompound("parties").keySet().iterator();
 			while (partyIt.hasNext()) {
 				String key = (String) partyIt.next();
-				//System.out.println("Read: " + key);
 				instance.getPartiesInvited().add(key.toString());
 			}
-			System.out.println("finish read");
+			
+			Iterator<String> materialsIt = properties.getCompound("materials").keySet().iterator();
+			while (materialsIt.hasNext()) {
+				String mat = (String) materialsIt.next();
+				instance.getMaterialsMap().put(mat.toString(), properties.getCompound("materials").getInt(mat));
+			}
 		}
 	}
 
@@ -174,6 +185,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	List<String> magicList = new ArrayList<String>();
 	List<String> recipesList = new ArrayList<String>();
 	LinkedHashMap<String, int[]> abilitiesMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped}, 
+    private TreeMap<String, Integer> materials = new TreeMap<String, Integer>();
+
 
 	List<String> partiesList = new ArrayList<String>();
 
@@ -253,7 +266,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setMagic(int level) {
 		this.magic = level;
-
 	}
 
 	@Override
@@ -1183,4 +1195,67 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void addKnownRecipe(String recipe) {
 		this.recipesList.add(recipe);
 	}
+	
+	 @Override
+     public TreeMap<String, Integer> getMaterialsMap() {
+         return materials;
+     }
+
+	 @Override
+	 public void setMaterialsMap(TreeMap<String, Integer> materialsMap) {
+		 this.materials = materialsMap;
+	 }
+	 
+     @Override
+     public int getMaterialAmount(Material material) {
+         if (materials.containsKey(material.getMaterialName())) {
+             int currAmount = materials.get(material.getMaterialName());
+             return currAmount;
+         }
+         return 0;
+     }
+
+     @Override
+     public void addMaterial(Material material, int amount) {
+         if (materials.containsKey(material.getMaterialName())) {
+             int currAmount = materials.get(material.getMaterialName());
+             if (amount <= 0) {
+                 materials.remove(material.getMaterialName());
+             } else {
+                 materials.replace(material.getMaterialName(), currAmount + amount);
+             }
+         } else {
+             if (amount <= 0) {
+                 materials.remove(material.getMaterialName());
+             } else {
+                 materials.put(material.getMaterialName(), amount);
+             }
+         }
+     }
+
+     @Override
+     public void setMaterial(Material material, int amount) {
+         if (materials.containsKey(material.getMaterialName())) {
+             if (amount <= 0)
+                 materials.remove(material.getMaterialName());
+             else
+             materials.replace(material.getMaterialName(), amount);
+         } else {
+             if (amount <= 0)
+                 materials.remove(material.getMaterialName());
+             else
+                 materials.put(material.getMaterialName(), amount);
+         }
+     }
+
+     @Override
+     public void removeMaterial(Material material, int amount) {
+         if (materials.containsKey(material.getMaterialName())) {
+             int currAmount = materials.get(material.getMaterialName());
+             if (amount > currAmount) 
+             	amount = currAmount;
+             materials.replace(material.getMaterialName(), currAmount - amount);
+         } else
+             return;
+     }
 }

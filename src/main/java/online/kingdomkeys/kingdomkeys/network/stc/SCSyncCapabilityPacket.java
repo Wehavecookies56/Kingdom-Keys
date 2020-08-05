@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
@@ -43,7 +44,8 @@ public class SCSyncCapabilityPacket {
 	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
 	LinkedHashMap<String,int[]> abilitiesMap = new LinkedHashMap<String,int[]>();
 	List<String> partiesList = new ArrayList<String>(10);
-
+	TreeMap<String, Integer> materialsMap = new TreeMap<String,Integer>();
+	
 	public SCSyncCapabilityPacket() {
 	}
 
@@ -77,6 +79,7 @@ public class SCSyncCapabilityPacket {
 		this.driveFormsMap = capability.getDriveFormsMap();
 		this.abilitiesMap = capability.getAbilitiesMap();
 		this.partiesList = capability.getPartiesInvited();
+		this.materialsMap = capability.getMaterialsMap();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
@@ -148,6 +151,14 @@ public class SCSyncCapabilityPacket {
 			buffer.writeInt(this.partiesList.get(i).length());
 			buffer.writeString(this.partiesList.get(i));
 		}
+		
+		CompoundNBT materials = new CompoundNBT();
+		Iterator<Map.Entry<String, Integer>> materialsIt = materialsMap.entrySet().iterator();
+		while (materialsIt.hasNext()) {
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
+			materials.putInt(pair.getKey().toString(), pair.getValue());
+		}
+		buffer.writeCompoundTag(materials);
 		
 		buffer.writeInt(messages.size());
 		buffer.writeInt(dfMessages.size());
@@ -228,6 +239,13 @@ public class SCSyncCapabilityPacket {
 			msg.partiesList.add(buffer.readString(length));
 		}
 		
+		CompoundNBT materialsTag = buffer.readCompoundTag();
+		Iterator<String> materialsIt = materialsTag.keySet().iterator();
+		while (materialsIt.hasNext()) {
+			String matName = (String) materialsIt.next();
+			msg.materialsMap.put(matName, materialsTag.getInt(matName));
+		}
+		
 		int msgSize = buffer.readInt();
 		int dfMsgSize = buffer.readInt();
 		
@@ -277,6 +295,7 @@ public class SCSyncCapabilityPacket {
 			props.setAbilitiesMap(message.abilitiesMap);
 			props.setAntiPoints(message.antipoints);
 			props.setPartiesInvited(message.partiesList);
+			props.setMaterialsMap(message.materialsMap);
 		});
 		ctx.get().setPacketHandled(true);
 	}

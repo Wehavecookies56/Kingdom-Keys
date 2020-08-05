@@ -30,11 +30,11 @@ public class GuiMenu_Synthesis extends GuiMenu_Background {
 		/*case "forge":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			minecraft.displayGuiScreen(new GuiMenu_Synthesis_Forge("Forge"));
-			break;
+			break;*/
 		case "materials":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Synthesis_Materials("Materials"));
-			break;*/
+			minecraft.displayGuiScreen(new GuiMenu_Synthesis_Materials());
+			break;
 		}
 		
 		updateButtons();
@@ -57,9 +57,9 @@ public class GuiMenu_Synthesis extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-
 		addButton(synthesise = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Synthesise Items"), ButtonType.BUTTON, (e) -> { action("synthesise"); }));
-	
+		addButton(forge = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Keyblade Forge"), ButtonType.BUTTON, (e) -> { action("forge"); }));
+		addButton(materials = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal("Materials"), ButtonType.BUTTON, (e) -> { action("materials"); }));
 		
 		updateButtons();
 	}
