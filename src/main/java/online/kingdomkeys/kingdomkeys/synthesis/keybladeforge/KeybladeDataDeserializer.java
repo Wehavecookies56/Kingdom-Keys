@@ -111,7 +111,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
                     break;
             }
         });
-        KingdomKeys.LOGGER.info("KEYCHAIN: {}, LEVELS: {}, DESCRIPTION: {}", out.keychain, out.levels, out.description);
+      //  KingdomKeys.LOGGER.info("KEYCHAIN: {}, LEVELS: {}, DESCRIPTION: {}", out.keychain, out.levels, out.description);
         return out;
     }
 }

@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -34,6 +36,7 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
+import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeData;
 
 public class KeybladeItem extends SwordItem {
@@ -165,6 +168,13 @@ public class KeybladeItem extends SwordItem {
 			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength(getKeybladeLevel())+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel())+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,1, (KeybladeItem) stack.getItem())+"]"));
 			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getDescription()));
+			if(recipe != null) {
+				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
+				while(it.hasNext()) {
+					Entry<Material, Integer> mat = it.next();
+					tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
+				}
+			}
 		}
 	}
 

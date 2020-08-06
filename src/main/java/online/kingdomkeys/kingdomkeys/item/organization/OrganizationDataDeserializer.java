@@ -47,7 +47,7 @@ public class OrganizationDataDeserializer implements JsonDeserializer<Organizati
                     break;
             }
         });
-        KingdomKeys.LOGGER.info("DESCRIPTION: {}", out.description);
+      //  KingdomKeys.LOGGER.info("DESCRIPTION: {}", out.description);
         return out;
     }
 }

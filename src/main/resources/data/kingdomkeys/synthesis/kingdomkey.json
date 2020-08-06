@@ -1,9 +1,0 @@
-{
-	"output": {
-		"item": "kingdomkeys:kingdom_key_chain",
-		"quantity": 1
-	},
-	"materials": [
-		{ "material": "kingdomkeys:materialhere", "quantity": 1 }
-	]
-}

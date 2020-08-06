@@ -37,8 +37,9 @@ public class RecipeData {
 		return result;
 	}
 
-	public void setResult(Item result) {
+	public void setResult(Item result, int amount) {
 		this.result = result;
+		this.amount = amount;
 	}
 
 	public int getAmount() {
