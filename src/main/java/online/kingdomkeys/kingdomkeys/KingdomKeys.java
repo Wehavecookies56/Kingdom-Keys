@@ -46,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.world.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
@@ -179,6 +180,7 @@ public class KingdomKeys {
 		resourceManager.addReloadListener((IResourceManagerReloadListener)manager -> {
 			KeybladeDataLoader.loadData(resourceManager);
 			OrganizationDataLoader.loadData(resourceManager);
+			RecipeDataLoader.loadData(resourceManager);
 		});
 	}
 

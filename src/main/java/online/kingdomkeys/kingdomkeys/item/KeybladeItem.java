@@ -34,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
+import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeData;
 
 public class KeybladeItem extends SwordItem {
 
@@ -42,6 +43,8 @@ public class KeybladeItem extends SwordItem {
 	public KeybladeData data;
 
 	private Item.Properties properties;
+	
+	RecipeData recipe;
 
 	// TODO remove attack damage
 	public KeybladeItem(Item.Properties properties) {
@@ -87,6 +90,14 @@ public class KeybladeItem extends SwordItem {
 
 	public Item.Properties getProperties() {
 		return properties;
+	}
+	
+	public void setRecipe(RecipeData recipe) {
+		this.recipe = recipe;
+	}
+	
+	public RecipeData getRecipe() {
+		return recipe;
 	}
 
 	@Override
