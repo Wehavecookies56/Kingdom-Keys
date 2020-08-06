@@ -19,22 +19,27 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataDeserializer;
+import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
+import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataDeserializer;
+import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeData;
+import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeDataDeserializer;
 
-public class SCSyncOrganizationData {
+public class SCSyncSynthesisData {
 	
-    public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(OrganizationData.class, new OrganizationDataDeserializer()).setPrettyPrinting().create();
+    public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(RecipeData.class, new RecipeDataDeserializer()).setPrettyPrinting().create();
 
-	public SCSyncOrganizationData() {
+	public SCSyncSynthesisData() {
 	}
 
 	List<String> names = new LinkedList<String>();
 	List<String> data = new LinkedList<String>();
 	
 	
-	public SCSyncOrganizationData(List<String> names, List<String> data) { //TODO add the 2 lists thing
+	public SCSyncSynthesisData(List<String> names, List<String> data) { //TODO add the 2 lists thing
 		this.names = names;
 		this.data = data;
 	}
@@ -56,8 +61,8 @@ public class SCSyncOrganizationData {
 		}
 	}
 
-	public static SCSyncOrganizationData decode(PacketBuffer buffer) {
-		SCSyncOrganizationData msg = new SCSyncOrganizationData();
+	public static SCSyncSynthesisData decode(PacketBuffer buffer) {
+		SCSyncSynthesisData msg = new SCSyncSynthesisData();
 		int nLen = buffer.readInt();
 		int dLen = buffer.readInt();
 		
@@ -74,25 +79,25 @@ public class SCSyncOrganizationData {
 		return msg;	
 	}
 
-	public static void handle(final SCSyncOrganizationData message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final SCSyncSynthesisData message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();
 			
 			for(int i = 0;i<message.names.size();i++) {
-	            IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(new ResourceLocation(message.names.get(i)));
+	            KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(message.names.get(i)));
 
 				String d = message.data.get(i);
 				BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 				
-				OrganizationData result;
+				RecipeData result;
 				try {
-				    result = GSON_BUILDER.fromJson(br, OrganizationData.class);
+				    result = GSON_BUILDER.fromJson(br, RecipeData.class);
 				   
 				} catch (JsonParseException e) {
 				    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
 				    continue;
 				}
-				weapon.setOrganizationData(result);
+				keyblade.setRecipe(result);
 				IOUtils.closeQuietly(br);
 			}
 		});

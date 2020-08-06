@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import java.awt.Color;
-
-import org.lwjgl.opengl.GL11;
+import java.util.LinkedHashMap;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -14,11 +14,13 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 
 public class GuiMenu_Abilities extends GuiMenu_Background {
 	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	LinkedHashMap<String, int[]> abilitiesMap;
 	GuiMenuAbilitiesButton[] abilities = new GuiMenuAbilitiesButton[props.getAbilitiesMap().size()];
 
 	public GuiMenu_Abilities() {
@@ -28,6 +30,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 
 	@Override
 	public void init() {
+		abilitiesMap = Utils.getSortedAbilities(props.getAbilitiesMap());
 		super.width = width;
 		super.height = height;
 		super.init();
@@ -39,8 +42,8 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = 100;
 		int i = 0;
-		for (i = 0; i < props.getAbilitiesMap().size(); i++) {
-			String abilityName = (String) props.getAbilitiesMap().keySet().toArray()[i];
+		for (i = 0; i < abilitiesMap.size(); i++) {
+			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 
 			addButton(abilities[i] = new GuiMenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, abilityName.substring(abilityName.indexOf(":") + 1), ability.getType(), (e) -> {
@@ -88,8 +91,8 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 		Ability hoveredAbility = null;
 		int i = 0;
 		//Get all the abilities and set their text
-		for (i = 0; i < props.getAbilitiesMap().size(); i++) {
-			String abilityName = (String) props.getAbilitiesMap().keySet().toArray()[i];
+		for (i = 0; i < abilitiesMap.size(); i++) {
+			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 
 			String text = "";
@@ -124,42 +127,42 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
 		// Global
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GL11.glTranslatef((posX - 2) * scale - 20, posY * scale - 10, 0);
+			RenderSystem.translatef((posX - 2) * scale - 20, posY * scale - 10, 0);
 
 			// Left
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glColor3f(1, 1, 1);
+				RenderSystem.color3f(1, 1, 1);
 				blit(0, 0, 143, 67, 7, 25);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// Middle
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glColor3f(1, 1, 1);
+				RenderSystem.color3f(1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
 					blit(7 + j, 0, 151, 67, 1, 25);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 			// Right
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glColor3f(1, 1, 1);
+				RenderSystem.color3f(1, 1, 1);
 				blit(7 + barWidth, 0, 153, 67, 7, 25);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// Bar Background
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glColor3f(1, 1, 1);
+				RenderSystem.color3f(1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
 					blit(j + 7, 17, 161, 67, 1, 25);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
@@ -167,7 +170,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 				requiredAP *= -1;
 
 				// Bar going to decrease (dark yellow section when hovering equipped ability)
-				GL11.glPushMatrix();
+				RenderSystem.pushMatrix();
 				{
 					int percent = (consumedAP) * barWidth / maxAP;
 					GlStateManager.pushMatrix();
@@ -177,24 +180,26 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 					GlStateManager.popMatrix();
 
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 			} else {
-				// Bar going to increase (blue section when hovering unequipped ability)
-				GL11.glPushMatrix();
-				{
-					int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-					GlStateManager.pushMatrix();
-					// GlStateManager.color(1, 1, 1,0.5F);
-					for (int j = 0; j < percent; j++)
-						blit(j + 7, 17, 167, 67, 1, 5);
-					GlStateManager.popMatrix();
+				if(consumedAP + requiredAP < props.getMaxAP()) {
+					// Bar going to increase (blue section when hovering unequipped ability)
+					RenderSystem.pushMatrix();
+					{
+						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
+						GlStateManager.pushMatrix();
+						// GlStateManager.color(1, 1, 1,0.5F);
+						for (int j = 0; j < percent; j++)
+							blit(j + 7, 17, 167, 67, 1, 5);
+						GlStateManager.popMatrix();
+					}
+					RenderSystem.popMatrix();
 				}
-				GL11.glPopMatrix();
 			}
 			GlStateManager.color4f(1, 1, 1, 1F);
 
 			// Foreground
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
 				int percent = (consumedAP) * barWidth / maxAP;
 				if (requiredAP < 0)
@@ -204,18 +209,18 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 				for (int j = 0; j < percent; j++)
 					blit(j + 7, 17, 163, 67, 1, 5);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// AP Text
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glScalef(scale * 1.3F, scale, 0);
+				RenderSystem.scalef(scale * 1.3F, scale, 0);
 				drawString(minecraft.fontRenderer, "AP: " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 			
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	@Override

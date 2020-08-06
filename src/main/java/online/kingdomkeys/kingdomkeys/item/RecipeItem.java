@@ -56,7 +56,6 @@ public class RecipeItem extends Item {
 							String message = "Recipe " + Utils.translateToLocal(recipe) + " learnt successfully";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message));
 							PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
-							//props.setMaterial(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_fluorite")), 1);
 						}
 					}
 	

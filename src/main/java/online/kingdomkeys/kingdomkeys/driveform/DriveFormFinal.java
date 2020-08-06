@@ -29,38 +29,38 @@ public class DriveFormFinal extends DriveForm {
 		case 1:
 			return "";
 		case 2:
-			return "Auto Final";
+			return Strings.autoFinal;
 		case 3:
-			return "Glide LV 1";
+			return Strings.glide;
 		case 4:
 			return "";
 		case 5:
-			return "Glide LV 2";
+			return Strings.glide;
 		case 6:
 			return "";
 		case 7:
-			return "Glide LV 3";
+			return Strings.glide;
 		}
 		return null;	
 	}
-	
+
 	@Override
 	public String getDFAbilityForLevel(int driveFormLevel) {
 		switch (driveFormLevel) {
 		case 1:
-			return "Glide LV 1";
+			return Strings.glide;
 		case 2:
 			return "";
 		case 3:
-			return "Glide LV 2";
+			return Strings.glide;
 		case 4:
 			return "";
 		case 5:
-			return "Glide LV 3";
+			return Strings.glide;
 		case 6:
 			return "";
 		case 7:
-			return "Glide MAX";
+			return Strings.glide;
 		}
 		return null;
 	}

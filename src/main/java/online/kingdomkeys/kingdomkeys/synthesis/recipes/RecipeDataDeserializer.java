@@ -65,10 +65,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<RecipeData> {
                      if(valid) {
                     	 Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(outputObject.get("item").getAsString()));
                          out.setResult(keychain, outputObject.get("quantity").getAsInt());
-                         System.out.println("Loaded recipe for "+keychain.getName().getFormattedText());
                      }
-                            	 
-                   
                     break;
             }
         });

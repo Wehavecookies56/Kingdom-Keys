@@ -47,19 +47,19 @@ public class DriveFormValor extends DriveForm {
 	public String getDFAbilityForLevel(int driveFormLevel) {
 		switch (driveFormLevel) {
 		case 1:
-			return Strings.highJump+" LV 1";
+			return Strings.highJump;
 		case 2:
 			return "";
 		case 3:
-			return "High Jump LV 2";
+			return Strings.highJump;
 		case 4:
 			return "";
 		case 5:
-			return "High Jump LV 3";
+			return Strings.highJump;
 		case 6:
 			return "";
 		case 7:
-			return "High Jump MAX";
+			return Strings.highJump;
 		}
 		return null;
 	}

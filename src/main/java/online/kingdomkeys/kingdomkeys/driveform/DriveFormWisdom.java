@@ -31,38 +31,38 @@ public class DriveFormWisdom extends DriveForm {
 		case 1:
 			return "";
 		case 2:
-			return "Auto Wisdom";
+			return Strings.autoWisdom;
 		case 3:
-			return "Quick Run LV 1";
+			return Strings.quickRun;
 		case 4:
 			return "";
 		case 5:
-			return "Quick Run LV 2";
+			return Strings.quickRun;
 		case 6:
 			return "";
 		case 7:
-			return "Quick Run LV 3";
+			return Strings.quickRun;
 		}
-		return null;
+		return null;	
 	}
 
 	@Override
 	public String getDFAbilityForLevel(int driveFormLevel) {
 		switch (driveFormLevel) {
 		case 1:
-			return "Quick Run LV 1";
+			return Strings.quickRun;
 		case 2:
 			return "";
 		case 3:
-			return "Quick Run LV 2";
+			return Strings.quickRun;
 		case 4:
 			return "";
 		case 5:
-			return "Quick Run LV 3";
+			return Strings.quickRun;
 		case 6:
 			return "";
 		case 7:
-			return "Quick Run MAX";
+			return Strings.quickRun;
 		}
 		return null;
 	}

@@ -56,20 +56,28 @@ public class GuiMenuAbilitiesButton extends BaseKKGuiButton{
 			if (isHovered && active) { //Hovered button
 				drawButton(isHovered);
 				drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-				drawString(Minecraft.getInstance().fontRenderer, ap+" AP", x +endWidth + middleWidth+ apMiddleWidth, y + 6, new Color(255, 255, 0).hashCode());
+				drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+				drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
 			} else {
 				if(active) {//Not hovered but fully visible
 					drawButton(isHovered);
 					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-					drawString(Minecraft.getInstance().fontRenderer, ap+" AP", x +endWidth + middleWidth+ apMiddleWidth, y + 6, new Color(255, 255, 0).hashCode());
+					drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+					drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+
 				} else {//Not hovered and selected (not fully visible)
 					if(selected) {
 						drawButton(isHovered);
 						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100,100,100).hashCode());
-						drawString(Minecraft.getInstance().fontRenderer, ap+" AP", x +endWidth + middleWidth+ apMiddleWidth, y + 6, new Color(255, 255, 0).hashCode());
+						drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+						drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+
 					} else {
 						drawButton(isHovered);
 						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100,100,100).hashCode());
+						drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(180, 180, 0).hashCode());
+						drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(180, 180, 180).hashCode());
+
 					}
 				}
 			}

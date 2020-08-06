@@ -25,17 +25,17 @@ public class DriveFormMaster extends DriveForm {
 		case 1:
 			return "";
 		case 2:
-			return "Auto Master";
+			return Strings.autoMaster;
 		case 3:
-			return "Aerial Dodge LV 1";
+			return Strings.aerialDodge;
 		case 4:
 			return "";
 		case 5:
-			return "Aerial Dodge LV 2";
+			return Strings.aerialDodge;
 		case 6:
 			return "";
 		case 7:
-			return "Aerial Dodge LV 3";
+			return Strings.aerialDodge;
 		}
 		return null;	
 	}
@@ -44,19 +44,19 @@ public class DriveFormMaster extends DriveForm {
 	public String getDFAbilityForLevel(int driveFormLevel) {
 		switch (driveFormLevel) {
 		case 1:
-			return "Aerial Dodge LV 1";
+			return Strings.aerialDodge;
 		case 2:
 			return "";
 		case 3:
-			return "Aerial Dodge LV 2";
+			return Strings.aerialDodge;
 		case 4:
 			return "";
 		case 5:
-			return "Aerial Dodge LV 3";
+			return Strings.aerialDodge;
 		case 6:
 			return "";
 		case 7:
-			return "Aerial Dodge MAX";
+			return Strings.aerialDodge;
 		}
 		return null;
 	}

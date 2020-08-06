@@ -42,7 +42,6 @@ public class CSDepositMaterials {
 							Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 							props.addMaterial(mat, stack.getCount());
 							player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-							System.out.println("mat");
 						}
 					}
 				}

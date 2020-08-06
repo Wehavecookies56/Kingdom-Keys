@@ -54,8 +54,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				break;
 			case "create":
 				IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-				System.out.println(props.getKnownRecipesList().get(selectedKB));
 				PacketHandler.sendToServer(new CSSynthesiseKeyblade(props.getKnownRecipesList().get(selectedKB)));
+				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.itemget.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				break;
 			}
 		}
@@ -71,7 +71,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		return -1;
 	}
 	
-	boolean enoughMats = false;
+	//boolean enoughMats = false;
 	private void updateButtons() {
 		
 		if(selectedKB > -1) {
@@ -80,8 +80,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 			String name = kb.substring("item.kingdomkeys.".length());
 			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
 			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
-			enoughMats = true;
-
+			
+			boolean enoughMats = true;
 			if(item.getRecipe() != null) {
 				create.visible = true;
 				Iterator<Entry<Material, Integer>> materials = item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
@@ -90,11 +90,9 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 					if(props.getMaterialAmount(m.getKey()) < m.getValue()) {
 						enoughMats = false;
 					}
-					
 				}
-
 			}
-			
+
 			create.active = enoughMats;
 			create.visible = item.getRecipe() != null;
 		} else {

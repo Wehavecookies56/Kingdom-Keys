@@ -17,6 +17,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
@@ -1003,16 +1007,31 @@ public class PlayerCapabilities implements IPlayerCapabilities {
      	this.getDFMessages().clear();
      	
      	dfMessages.add(Strings.Stats_LevelUp_FormGauge);
-     	String dfAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getDFAbilityForLevel(getDriveFormLevel(driveForm));
-     	String bfAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getBaseAbilityForLevel(getDriveFormLevel(driveForm));
+     	String driveformAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getDFAbilityForLevel(getDriveFormLevel(driveForm));
+     	String baseAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getBaseAbilityForLevel(getDriveFormLevel(driveForm));
 
-     	if(!dfAbility.equals("")) {
-     		dfMessages.add(dfAbility);
+     	if(!driveformAbility.equals("")) {
+     		Ability a = ModAbilities.registry.getValue(new ResourceLocation(driveformAbility));
+     		String name = driveformAbility;
+     		if(a.getType() == AbilityType.GROWTH) {
+     			String level = (getEquippedAbilityLevel(driveformAbility)[0]+2)+"";
+     			if(level.equals("4")) {
+     				level = "MAX.";
+     			}
+     			name += " LV. "+level;
+     		}
+     		dfMessages.add(name);
      	}
      	
-     	if(!bfAbility.equals("")) {
-     		messages.add(bfAbility);
-     		//addAbility(bfAbility);
+     	if(!baseAbility.equals("")) {
+     		Ability a = ModAbilities.registry.getValue(new ResourceLocation(baseAbility));
+     		String name = baseAbility;
+     		if(a.getType() == AbilityType.GROWTH) {
+     			name += " LV. "+(getEquippedAbilityLevel(baseAbility)[0]+1);
+     		}
+     		addAbility(baseAbility,name);
+
+     		//messages.add(name);
      	}
 
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
@@ -1135,6 +1154,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void addAbility(String ability) {
 		messages.add(ability);
+		if(abilitiesMap.containsKey(ability)) {
+			abilitiesMap.put(ability, new int[]{abilitiesMap.get(ability)[0]+1,abilitiesMap.get(ability)[1]});
+		} else {//If not already present in the map set it to level 1 and fully unequipped
+			abilitiesMap.put(ability, new int[]{1,0}); 
+		}
+	}
+	
+	public void addAbility(String ability, String displayName) {
+		messages.add(displayName);
 		if(abilitiesMap.containsKey(ability)) {
 			abilitiesMap.put(ability, new int[]{abilitiesMap.get(ability)[0]+1,abilitiesMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped

@@ -55,7 +55,9 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
 public class EntityEvents {
@@ -89,6 +91,7 @@ public class EntityEvents {
 
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeDataLoader.names, RecipeDataLoader.dataList), (ServerPlayerEntity)player);
 			}
 			PacketHandler.syncToAllAround(player, props);
 		}
@@ -248,10 +251,10 @@ public class EntityEvents {
 				if(props.getActiveDriveForm().equals(Strings.Form_Limit)) {
 					//handleDodgeRoll(player, props);
 				}
-				if(props.getActiveDriveForm().equals(Strings.Form_Master) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Master) && props.getDriveFormLevel(Strings.Form_Master) >= 3)) {
+				if(props.getActiveDriveForm().equals(Strings.Form_Master) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Master) && props.getDriveFormLevel(Strings.Form_Master) >= 3 && props.getEquippedAbilityLevel(Strings.aerialDodge) != null && props.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
 					handleAerialDodge(player, props);
 				}
-				if(props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Final) && props.getDriveFormLevel(Strings.Form_Final) >= 3)) {
+				if(props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Final) && props.getDriveFormLevel(Strings.Form_Final) >= 3 && props.getEquippedAbilityLevel(Strings.glide) != null && props.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
 					handleGlide(player, props);
 				}
 
@@ -355,8 +358,11 @@ public class EntityEvents {
 			return true;
 		}
 
-		if(props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Valor) && props.getDriveFormLevel(Strings.Form_Valor) >= 3
-				/*&& props.getEquippedAbilityLevel(Strings.highJump) != null && props.getEquippedAbilityLevel(Strings.highJump)[1]>0*/)){
+		if(props.getActiveDriveForm().equals("") 
+				&& (props.getDriveFormsMap().containsKey(Strings.Form_Valor)
+				&& props.getDriveFormLevel(Strings.Form_Valor) >= 3
+				&& props.getEquippedAbilityLevel(Strings.highJump) != null
+				&& props.getEquippedAbilityLevel(Strings.highJump)[1]>0)){
 			return true;
 		}
 		return false;

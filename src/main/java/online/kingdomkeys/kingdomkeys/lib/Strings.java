@@ -42,7 +42,7 @@ public class Strings {
     		highJump = KingdomKeys.MODID+":"+Strings.AB_Prefix +"high_jump",
     		quickRun = KingdomKeys.MODID+":"+Strings.AB_Prefix +"quick_run",
     		dodgeRoll = KingdomKeys.MODID+":"+Strings.AB_Prefix +"dodge_roll",
-    		aerialRecovery = KingdomKeys.MODID+":"+Strings.AB_Prefix +"aerial_recovery",
+    		aerialDodge = KingdomKeys.MODID+":"+Strings.AB_Prefix +"aerial_dodge",
     		glide = KingdomKeys.MODID+":"+Strings.AB_Prefix +"glide",
     		
     		//Support
