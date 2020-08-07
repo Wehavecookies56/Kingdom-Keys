@@ -99,9 +99,9 @@ public class GuiMenu_Background extends Screen {
 
 	float topBarHeight;
 	float bottomBarHeight;
-	float topLeftBarWidth;
+	protected float topLeftBarWidth;
 	float topRightBarWidth;
-	float topGap;
+	protected float topGap;
 	float bottomLeftBarWidth;
 	float bottomRightBarWidth;
 	float bottomGap;
