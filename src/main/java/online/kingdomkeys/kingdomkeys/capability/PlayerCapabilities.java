@@ -1014,11 +1014,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
      		Ability a = ModAbilities.registry.getValue(new ResourceLocation(driveformAbility));
      		String name = driveformAbility;
      		if(a.getType() == AbilityType.GROWTH) {
-     			String level = (getEquippedAbilityLevel(driveformAbility)[0]+2)+"";
-     			if(level.equals("4")) {
-     				level = "MAX.";
-     			}
-     			name += " LV. "+level;
+     			int level = (getEquippedAbilityLevel(driveformAbility)[0]+2); //+2 Because it's not set yet, it should be +1 if the ability was already upgraded at the time of generating this message
+     			name += "_"+level;
      		}
      		dfMessages.add(name);
      	}
@@ -1027,7 +1024,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
      		Ability a = ModAbilities.registry.getValue(new ResourceLocation(baseAbility));
      		String name = baseAbility;
      		if(a.getType() == AbilityType.GROWTH) {
-     			name += " LV. "+(getEquippedAbilityLevel(baseAbility)[0]+1);
+     			name += "_"+(getEquippedAbilityLevel(baseAbility)[0]+1);
      		}
      		addAbility(baseAbility,name);
 

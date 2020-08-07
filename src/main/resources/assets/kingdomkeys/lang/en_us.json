@@ -36,6 +36,49 @@
 	
 	"gui.commandmenu.portal.title": "Portals",
 	
+	"_comment": "Level up messages",
+	"stats.levelUpStr": "Strength Increased!",
+	"stats.levelUpDef": "Defense Increased!",
+	"stats.levelUpMag": "Magic Increased!",
+	"stats.levelUpHP": "Maximum HP Increased!",
+	"stats.levelUpMP": "Maximum MP Increased!",
+	"stats.levelUpAP": "Maximum AP Increased!",
+	"stats.levelUpFG": "Form Gauge Powered Up!",
+	
+	"_comment": "Abilities",
+	"kingdomkeys:ability_auto_valor": "Auto Valor",
+	"kingdomkeys:ability_auto_wisdom": "Auto Wisdom",
+	"kingdomkeys:ability_auto_limit": "Auto Limit",
+	"kingdomkeys:ability_auto_master": "Auto Master",
+	"kingdomkeys:ability_auto_final": "Auto Final",
+	
+	"kingdomkeys:ability_high_jump_1": "High Jump LV.1",
+	"kingdomkeys:ability_high_jump_2": "High Jump LV.2",
+	"kingdomkeys:ability_high_jump_3": "High Jump LV.3",
+	"kingdomkeys:ability_high_jump_4": "High Jump MAX",
+	
+	"kingdomkeys:ability_quick_run_1": "Quick Run LV.1",
+	"kingdomkeys:ability_quick_run_2": "Quick Run LV.2",
+	"kingdomkeys:ability_quick_run_3": "Quick Run LV.3",
+	"kingdomkeys:ability_quick_run_4": "Quick Run MAX",
+	
+	"kingdomkeys:ability_dodge_roll_1": "Dodge Roll LV.1",
+	"kingdomkeys:ability_dodge_roll_2": "Dodge Roll LV.2",
+	"kingdomkeys:ability_dodge_roll_3": "Dodge Roll LV.3",
+	"kingdomkeys:ability_dodge_roll_4": "Dodge Roll MAX",
+	
+	"kingdomkeys:ability_aerial_dodge_1": "Aerial Dodge LV.1",
+	"kingdomkeys:ability_aerial_dodge_2": "Aerial Dodge LV.2",
+	"kingdomkeys:ability_aerial_dodge_3": "Aerial Dodge LV.3",
+	"kingdomkeys:ability_aerial_dodge_4": "Aerial Dodge MAX",
+	
+	"kingdomkeys:ability_glide_1": "Glide LV.1",
+	"kingdomkeys:ability_glide_2": "Glide LV.2",
+	"kingdomkeys:ability_glide_3": "Glide LV.3",
+	"kingdomkeys:ability_glide_4": "Glide MAX",
+	
+	"kingdomkeys:ability_scan": "Scan",
+	
 	
     "_comment": "Blocks",
     "block.kingdomkeys.normal_blox": "Normal Blox",

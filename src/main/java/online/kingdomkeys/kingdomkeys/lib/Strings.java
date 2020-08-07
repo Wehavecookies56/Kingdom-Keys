@@ -275,11 +275,11 @@ public class Strings {
 		    Stats_LevelUp_MP = "stats.levelUpMP",
 		    Stats_LevelUp_AP = "stats.levelUpAP",
 		    Stats_LevelUp_FormGauge = "stats.levelUpFG",
-			Stats_LevelUp_HighJump = "stats.levelUpHighJump",
+			Stats_LevelUp_HighJump = "stats.levelUpHighJump"/*,
 			Stats_LevelUp_QuickRun = "stats.levelUpQuickRun",
 			Stats_LevelUp_DodgeRoll = "stats.levelUpDodgeRoll",
 			Stats_LevelUp_AerialDodge = "stats.levelUpAerialDodge",
-			Stats_LevelUp_Glide = "stats.levelUpGlide";
+			Stats_LevelUp_Glide = "stats.levelUpGlide"*/;
 
     //Forms
     public static final String

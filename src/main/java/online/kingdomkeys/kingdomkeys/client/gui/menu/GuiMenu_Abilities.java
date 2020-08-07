@@ -3,13 +3,13 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu;
 import java.awt.Color;
 import java.util.LinkedHashMap;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -45,8 +45,8 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 		for (i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
-
-			addButton(abilities[i] = new GuiMenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, abilityName.substring(abilityName.indexOf(":") + 1), ability.getType(), (e) -> {
+			System.out.println(Utils.translateToLocal(abilityName));
+			addButton(abilities[i] = new GuiMenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, Utils.translateToLocal(abilityName), ability.getType(), (e) -> {
 				action(ability);
 			}));
 		}
@@ -101,7 +101,16 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 			} else {
 				text = "  "; // Has to equip
 			}
-			text += abilityName.substring(abilityName.indexOf(":")+1);
+			
+			
+			String lvl = "";
+			if(ability.getType() == AbilityType.GROWTH) {
+				int level = (props.getEquippedAbilityLevel(abilityName)[0]);
+     			lvl+= "_"+level;
+			}
+			
+			text += Utils.translateToLocal(abilityName+lvl);
+
 			GuiMenuAbilitiesButton button = (GuiMenuAbilitiesButton) buttons.get(i);
 			if (ability.getAPCost() > props.getMaxAP() - props.getConsumedAP() && !(props.getEquippedAbilityLevel(abilityName)[1] > 0)) {
 				button.active = false;
@@ -173,11 +182,11 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 				RenderSystem.pushMatrix();
 				{
 					int percent = (consumedAP) * barWidth / maxAP;
-					GlStateManager.pushMatrix();
-					// GlStateManager.color(1, 1, 1,);
+					RenderSystem.pushMatrix();
+					// RenderSystem.color(1, 1, 1,);
 					for (int j = 0; j < percent; j++)
 						blit(j + 7, 17, 165, 67, 1, 5);
-					GlStateManager.popMatrix();
+					RenderSystem.popMatrix();
 
 				}
 				RenderSystem.popMatrix();
@@ -187,16 +196,16 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 					RenderSystem.pushMatrix();
 					{
 						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-						GlStateManager.pushMatrix();
-						// GlStateManager.color(1, 1, 1,0.5F);
+						RenderSystem.pushMatrix();
+						// RenderSystem.color(1, 1, 1,0.5F);
 						for (int j = 0; j < percent; j++)
 							blit(j + 7, 17, 167, 67, 1, 5);
-						GlStateManager.popMatrix();
+						RenderSystem.popMatrix();
 					}
 					RenderSystem.popMatrix();
 				}
 			}
-			GlStateManager.color4f(1, 1, 1, 1F);
+			RenderSystem.color4f(1, 1, 1, 1F);
 
 			// Foreground
 			RenderSystem.pushMatrix();
