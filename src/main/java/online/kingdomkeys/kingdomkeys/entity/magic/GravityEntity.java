@@ -93,11 +93,11 @@ public class GravityEntity extends ThrowableEntity {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
-						IGlobalCapabilities gProps = ModCapabilities.getGlobal((LivingEntity) e);
-						gProps.setFlatTicks(100); // Just in case it goes below (shouldn't happen)
+						IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
+						globalData.setFlatTicks(100); // Just in case it goes below (shouldn't happen)
 						
 						if (e instanceof LivingEntity) // This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
-							PacketHandler.syncToAllAround((LivingEntity) e, gProps);
+							PacketHandler.syncToAllAround((LivingEntity) e, globalData);
 
 						if(e instanceof ServerPlayerEntity)
 							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) e);
@@ -109,10 +109,10 @@ public class GravityEntity extends ThrowableEntity {
 
 			remove();
 			
-			/*IGlobalCapabilities playerGProps = ModCapabilities.getGlobal(getThrower());
-			playerGProps.setFlatTicks(100);
+			/*IGlobalCapabilities globalData = ModCapabilities.getGlobal(getThrower());
+			globalData.setFlatTicks(100);
 			if(getThrower() instanceof ServerPlayerEntity) {
-				PacketHandler.syncToAllAround((LivingEntity) getThrower(), playerGProps);
+				PacketHandler.syncToAllAround((LivingEntity) getThrower(), globalData);
 				PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) getThrower());
 			}*/
 		}

@@ -121,7 +121,7 @@ public class CommandMenuGui extends Screen {
 	}
 
 	public void drawCommandMenu(int width, int height) {
-		if(ModCapabilities.get(minecraft.player) != null) {
+		if(ModCapabilities.getPlayer(minecraft.player) != null) {
 			drawTop(width, height);
 			drawAttack(width, height);
 			drawMagic(width, height);
@@ -207,14 +207,14 @@ public class CommandMenuGui extends Screen {
 	}
 
 	private void drawSubMagic(int width, int height) {
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-		if (props != null && props.getMagicsList() != null && !props.getMagicsList().isEmpty()) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		if (playerData != null && playerData.getMagicList() != null && !playerData.getMagicList().isEmpty()) {
 			// MAGIC TOP
 			RenderSystem.pushMatrix();
 			{
 			//	RenderSystem.color4f(1F, 1F, 1F, alpha);
 				minecraft.textureManager.bindTexture(texture);
-				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (props.getMagicsList().size() + 1)), 0);
+				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (playerData.getMagicList().size() + 1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				paintWithColorArray(magicMenuColor, alpha);
 				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
@@ -223,7 +223,7 @@ public class CommandMenuGui extends Screen {
 				
 			}
 			RenderSystem.popMatrix();
-			for (int i = 0; i < props.getMagicsList().size(); i++) {
+			for (int i = 0; i < playerData.getMagicList().size(); i++) {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.color4f(1F, 1F, 1F, alpha);
@@ -233,7 +233,7 @@ public class CommandMenuGui extends Screen {
 					x = 10;
 
 					minecraft.textureManager.bindTexture(texture);
-					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (props.getMagicsList().size() - i)), 0);
+					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (playerData.getMagicList().size() - i)), 0);
 					RenderSystem.scalef(scale, scale, scale);
 						v = 0;
 
@@ -256,11 +256,11 @@ public class CommandMenuGui extends Screen {
 							blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 						}
 
-						String magic = props.getMagicsList().get(i);
+						String magic = playerData.getMagicList().get(i);
 						int cost = ModMagics.registry.getValue(new ResourceLocation(magic)).getCost();
-						int colour = props.getMP() > cost ? 0xFFFFFF : 0xFF9900;
+						int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 						
-						if(props.getMaxMP() == 0 || props.getRecharge() || cost > props.getMaxMP() && cost < 300) {
+						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
 							colour = 0x888888;
 						}
 						
@@ -326,7 +326,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			drawString(minecraft.fontRenderer, I18n.format("Attack "+ModCapabilities.get(minecraft.player).getKnownRecipesList().size()), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, I18n.format("Attack "+ModCapabilities.getPlayer(minecraft.player).getKnownRecipeList().size()), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
 
 			/*
 			 * if(Minecraft.getInstance().player.getCapability(ModCapabilities.
@@ -448,29 +448,31 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			if (ModCapabilities.get(minecraft.player) != null) {
-				String text = ModCapabilities.get(minecraft.player).getActiveDriveForm().equals("")?"Drive":"Revert";
-				int color = ModCapabilities.get(minecraft.player).getActiveDriveForm().equals(Strings.Form_Anti) ? 0x888888 : 0xFFFFFF;
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			if (playerData != null) {
+				String text = playerData.getActiveDriveForm().equals("")?"Drive":"Revert";
+				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) ? 0x888888 : 0xFFFFFF;
 				drawString(minecraft.fontRenderer, I18n.format(text), 6 + textX, 4, getColor(color,SUB_MAIN));
 			}
 		}
 		RenderSystem.popMatrix();
 	}
 	public void drawSubPortals(int width, int height) {
-		if (ModCapabilities.get(minecraft.player).getPortalList() != null && !ModCapabilities.get(minecraft.player).getPortalList().isEmpty()) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		if (playerData.getPortalList() != null && !playerData.getPortalList().isEmpty()) {
 			// PORTAL TOP
 			RenderSystem.pushMatrix();
 			{
 				paintWithColorArray(portalMenuColor, alpha);
 				minecraft.textureManager.bindTexture(texture);
-				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (ModCapabilities.get(minecraft.player).getPortalList().size() + 1)), 0);
+				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (playerData.getPortalList().size() + 1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Portals_Title), 6, 4, 0xFFFFFF);
 			}
 			RenderSystem.popMatrix();
 	
-			for (int i = 0; i < ModCapabilities.get(minecraft.player).getPortalList().size(); i++) {
+			for (int i = 0; i < playerData.getPortalList().size(); i++) {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.color4f(1F, 1F, 1F, alpha);
@@ -480,7 +482,7 @@ public class CommandMenuGui extends Screen {
 					x = (portalSelected == i) ? 15 : 10;
 	
 					minecraft.textureManager.bindTexture(texture);
-					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (ModCapabilities.get(minecraft.player).getPortalList().size() - i)), 0);
+					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (playerData.getPortalList().size() - i)), 0);
 					RenderSystem.scalef(scale, scale, scale);
 					if (submenu == SUB_PORTALS) {
 						v = 0;
@@ -504,7 +506,7 @@ public class CommandMenuGui extends Screen {
 						// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
 						// 0xFF9900;
 	
-						PortalData portal = ModCapabilities.get(minecraft.player).getPortalList().get(i);
+						PortalData portal = playerData.getPortalList().get(i);
 						// String magicName = Constants.getMagicName(magic, level);
 						drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getShortCoords() + ""), textX, 4, 0xFFFFFF);
 						RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -516,11 +518,11 @@ public class CommandMenuGui extends Screen {
 	}
 
 	private void drawSubDrive(int width, int height) {
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(props.getDriveFormsMap());
+		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
 		
-		if (props != null && forms != null && !forms.isEmpty()) {
+		if (playerData != null && forms != null && !forms.isEmpty()) {
 			// DRIVE TOP
 			RenderSystem.pushMatrix();
 			{
@@ -536,7 +538,7 @@ public class CommandMenuGui extends Screen {
 			for (int i = 0; i < forms.size(); i++) {
 				String formName = (String) forms.keySet().toArray()[i];
 				int cost = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getDriveCost();
-				int color = props.getDP() >= cost ? 0xFFFFFF : 0x888888;
+				int color = playerData.getDP() >= cost ? 0xFFFFFF : 0x888888;
 				formName = formName.substring(formName.indexOf(":") + 1);
 				
 				RenderSystem.pushMatrix();

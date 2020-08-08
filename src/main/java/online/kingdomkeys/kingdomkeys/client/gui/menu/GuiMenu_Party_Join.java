@@ -25,7 +25,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	
 	GuiMenuButton back;
 		
-	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	
 	GuiMenuButton[] parties = new GuiMenuButton[100];
@@ -73,9 +73,9 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	}
 
 	private void refreshParties() {
-		props = ModCapabilities.get(minecraft.player);
-		List<String> privateParties = props.getPartiesInvited();
-		//props.setPartiesInvited(new ArrayList<String>());
+		playerData = ModCapabilities.getPlayer(minecraft.player);
+		List<String> privateParties = playerData.getPartiesInvited();
+		//playerData.setPartiesInvited(new ArrayList<String>());
 		System.out.println(privateParties);
 		worldData = ModCapabilities.getWorld(minecraft.world);
 

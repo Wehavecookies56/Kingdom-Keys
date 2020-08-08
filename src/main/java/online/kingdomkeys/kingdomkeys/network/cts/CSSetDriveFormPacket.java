@@ -39,17 +39,17 @@ public class CSSetDriveFormPacket {
 	public static void handle(CSSetDriveFormPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			System.out.println("Actual form: " + props.getActiveDriveForm() + ", Going to get form: " + message.form);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			System.out.println("Actual form: " + playerData.getActiveDriveForm() + ", Going to get form: " + message.form);
 			if (message.form.equals(Strings.Form_Anti)) { //If target is antiform
-				props.setActiveDriveForm(Strings.Form_Anti);
-				props.setDP(0);
-				props.setFP(1000);
-				props.setAntiPoints(props.getAntiPoints() -4);
-				PacketHandler.syncToAllAround(player, props);
+				playerData.setActiveDriveForm(Strings.Form_Anti);
+				playerData.setDP(0);
+				playerData.setFP(1000);
+				playerData.setAntiPoints(playerData.getAntiPoints() -4);
+				PacketHandler.syncToAllAround(player, playerData);
 			} else { //if target is a normal form or revert
-				if (!props.getActiveDriveForm().equals("") && message.form.equals("")) { // If is in a drive form and the target is "" (player)
-					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm()));
+				if (!playerData.getActiveDriveForm().equals("") && message.form.equals("")) { // If is in a drive form and the target is "" (player)
+					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 					form.endDrive(player);
 				} else if (!message.form.equals("")) { // If is not in a form and wants to drive
 					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(message.form));

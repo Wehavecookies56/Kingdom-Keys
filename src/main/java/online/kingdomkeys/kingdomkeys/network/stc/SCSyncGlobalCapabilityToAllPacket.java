@@ -47,10 +47,10 @@ public class SCSyncGlobalCapabilityToAllPacket {
 			LivingEntity entity = (LivingEntity) Minecraft.getInstance().world.getEntityByID(message.id);
 			
 			if (entity != null) {
-				LazyOptional<IGlobalCapabilities> props = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
-				props.ifPresent(cap -> cap.setStoppedTicks(message.stopTicks));
-				props.ifPresent(cap -> cap.setDamage(message.stopDmg));
-				props.ifPresent(cap -> cap.setFlatTicks(message.flatTicks));
+				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
+				globalData.ifPresent(cap -> cap.setStoppedTicks(message.stopTicks));
+				globalData.ifPresent(cap -> cap.setDamage(message.stopDmg));
+				globalData.ifPresent(cap -> cap.setFlatTicks(message.flatTicks));
 			}
 		});
 		ctx.get().setPacketHandled(true);

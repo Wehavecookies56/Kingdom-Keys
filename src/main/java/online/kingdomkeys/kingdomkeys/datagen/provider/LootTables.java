@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.datagen;
+package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -10,6 +10,7 @@ import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.RandomChanceWithLooting;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTables;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class LootTables extends BaseLootTables {

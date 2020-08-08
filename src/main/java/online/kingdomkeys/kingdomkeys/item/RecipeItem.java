@@ -40,22 +40,22 @@ public class RecipeItem extends Item {
 				ItemStack stack = player.getHeldItemMainhand();
 				if (stack.hasTag()) {
 					String[] recipes = { stack.getTag().getString("recipe1"), stack.getTag().getString("recipe2"), stack.getTag().getString("recipe3") };
-					IPlayerCapabilities props = ModCapabilities.get(player);
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 					boolean consume = false;
 					for (String recipe : recipes) {
 						if (recipe == null || !Lists.recipes.contains(recipe)) { // If recipe is not valid
 							String message = "ERROR: Recipe for " + Utils.translateToLocal(recipe) + " was not learnt because it is not a valid recipe, Report this to a dev";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message));
-						} else if (props.hasKnownRecipe(recipe)) { // If recipe already known
+						} else if (playerData.hasKnownRecipe(recipe)) { // If recipe already known
 							String message = "Recipe for " + Utils.translateToLocal(recipe) + " already learnt";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message));
 						} else { // If recipe is not known, learn it
-							props.addKnownRecipe(recipe);
+							playerData.addKnownRecipe(recipe);
 							consume = true;
 							String message = "Recipe " + Utils.translateToLocal(recipe) + " learnt successfully";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message));
-							PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+							PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 						}
 					}
 	
@@ -71,7 +71,7 @@ public class RecipeItem extends Item {
 	}
 
 	public void shuffleRecipes(ItemStack stack, PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 		long seed = System.nanoTime();
 		// Shuffles the list of recipe to increase randomness
@@ -81,20 +81,20 @@ public class RecipeItem extends Item {
 		
 		Recipe1 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 		
-		if (props.getKnownRecipesList().size() < Lists.recipes.size() - 2) {
-			while (props.hasKnownRecipe(Recipe1)) {
+		if (playerData.getKnownRecipeList().size() < Lists.recipes.size() - 2) {
+			while (playerData.hasKnownRecipe(Recipe1)) {
 				Recipe1 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 			}
 		}
 		Recipe2 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
-		if (props.getKnownRecipesList().size() < Lists.recipes.size() - 1) {
-			while (Recipe2.equals(Recipe1) || props.hasKnownRecipe(Recipe2)) {
+		if (playerData.getKnownRecipeList().size() < Lists.recipes.size() - 1) {
+			while (Recipe2.equals(Recipe1) || playerData.hasKnownRecipe(Recipe2)) {
 				Recipe2 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 			}
 		}
 		Recipe3 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
-		if (props.getKnownRecipesList().size() < Lists.recipes.size()) {
-			while ((Recipe3.equals(Recipe2) || Recipe3.equals(Recipe1)) || props.hasKnownRecipe(Recipe3)) {
+		if (playerData.getKnownRecipeList().size() < Lists.recipes.size()) {
+			while ((Recipe3.equals(Recipe2) || Recipe3.equals(Recipe1)) || playerData.hasKnownRecipe(Recipe3)) {
 				Recipe3 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 			}
 		}

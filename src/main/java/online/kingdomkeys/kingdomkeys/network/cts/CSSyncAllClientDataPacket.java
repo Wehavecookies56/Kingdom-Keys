@@ -29,8 +29,8 @@ public class CSSyncAllClientDataPacket {
 	public static void handle(final CSSyncAllClientDataPacket message, Supplier<NetworkEvent.Context> ctx) {
 		PlayerEntity player = ctx.get().getSender();
 
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 
 		ctx.get().setPacketHandled(true);
 	}

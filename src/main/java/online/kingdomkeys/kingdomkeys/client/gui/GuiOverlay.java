@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
-
+//TODO replace GL11 stuff
 public class GuiOverlay extends Screen {
 	public GuiOverlay() {
 		super(new TranslationTextComponent(""));
@@ -44,7 +44,7 @@ public class GuiOverlay extends Screen {
 	int width;
 	int sHeight;
 
-	IPlayerCapabilities props;
+	IPlayerCapabilities playerData;
 
 
 	@SubscribeEvent
@@ -55,7 +55,7 @@ public class GuiOverlay extends Screen {
 			width = minecraft.getMainWindow().getScaledWidth();
 			sHeight = minecraft.getMainWindow().getScaledHeight();
 
-			props = ModCapabilities.get(minecraft.player);
+			playerData = ModCapabilities.getPlayer(minecraft.player);
 
 			// Experience
 			if (showExp) {
@@ -95,8 +95,8 @@ public class GuiOverlay extends Screen {
 	}*/
 
 	private void showExp() {
-		if(props != null) {
-			String reqExp = String.valueOf(props.getExpNeeded(props.getLevel(), props.getExperience()));
+		if(playerData != null) {
+			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
 			minecraft.fontRenderer.drawString("Next LV", 5, 5, 0xFFFFFF);
 			minecraft.fontRenderer.drawString(reqExp, 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
 			//System.out.println("\nStart time: "+timeExp+"\nActual time:"+System.currentTimeMillis()/1000+"\nEnd Time:   "+(timeExp + 4));
@@ -125,7 +125,7 @@ public class GuiOverlay extends Screen {
 		ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
 		GL11.glPushMatrix();
 		{
-			int height = (minecraft.fontRenderer.FONT_HEIGHT - 3) * props.getMessages().size();
+			int height = (minecraft.fontRenderer.FONT_HEIGHT - 3) * playerData.getMessages().size();
 			GL11.glEnable(GL11.GL_BLEND);
 			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
 			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
@@ -143,7 +143,7 @@ public class GuiOverlay extends Screen {
 //			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
 			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
 			showText("LV.", width - ((minecraft.fontRenderer.getStringWidth("LV. ")) * 0.75f) - 90, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-			showText("" + props.getLevel(), width - 256.0f * 0.75f + ((minecraft.fontRenderer.getStringWidth("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+			showText("" + playerData.getLevel(), width - 256.0f * 0.75f + ((minecraft.fontRenderer.getStringWidth("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 			showText(minecraft.player.getDisplayName().getString(), width - ((minecraft.fontRenderer.getStringWidth(minecraft.player.getDisplayName().getString())) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 
 			// Half
@@ -176,8 +176,8 @@ public class GuiOverlay extends Screen {
 			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
 			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
 			//System.out.println(STATS.getMessages());
-			for (int i = 0; i < props.getMessages().size(); i++) {
-				String message = props.getMessages().get(i).toString();
+			for (int i = 0; i < playerData.getMessages().size(); i++) {
+				String message = playerData.getMessages().get(i).toString();
 				showText(Utils.translateToLocal(message), (width - 256.0f * 0.8f + (minecraft.fontRenderer.getStringWidth("Maximum HP Increased!")) * 0.8f) - 35, minecraft.fontRenderer.FONT_HEIGHT * 0.8f * i + 23, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
 			GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
@@ -189,7 +189,7 @@ public class GuiOverlay extends Screen {
 	}
 
 	private void showDriveLevelUp(RenderGameOverlayEvent event) {
-		if(props == null)
+		if(playerData == null)
 			return;
 
 		byte[] driveColor = getDriveFormColor(); //TODO set color in the registry
@@ -198,8 +198,8 @@ public class GuiOverlay extends Screen {
 		GL11.glPushMatrix();
 		{
 			
-			int heightBase = (minecraft.fontRenderer.FONT_HEIGHT - 3) * (props.getMessages().size()+0);
-			int heightDF = (minecraft.fontRenderer.FONT_HEIGHT - 3) * props.getDFMessages().size();
+			int heightBase = (minecraft.fontRenderer.FONT_HEIGHT - 3) * (playerData.getMessages().size()+0);
+			int heightDF = (minecraft.fontRenderer.FONT_HEIGHT - 3) * playerData.getDFMessages().size();
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
 //Base Abilities
@@ -231,8 +231,8 @@ public class GuiOverlay extends Screen {
 	
 				// Text
 				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
-				for (int i = 0; i < props.getMessages().size(); i++) {
-					String message = props.getMessages().get(i).toString();
+				for (int i = 0; i < playerData.getMessages().size(); i++) {
+					String message = playerData.getMessages().get(i).toString();
 					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i + 21, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
 				
@@ -276,8 +276,8 @@ public class GuiOverlay extends Screen {
 	
 				//showText("LEVEL UP!", 6, sHeight / 3 + 29 + heightBase + 5, 0, 0.75F, 0.75F, 1,0xFFFFFF);//TODO Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
 				showText("LV.", 2 + (minecraft.fontRenderer.getStringWidth("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-				//System.out.println(props.getDriveFormLevel(driveForm));
-				showText("" + props.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				//System.out.println(playerData.getDriveFormLevel(driveForm));
+				showText("" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 				showText(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1)), 140 - (minecraft.fontRenderer.getStringWidth(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1))) * 0.75f), sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 				
 				
@@ -318,8 +318,8 @@ public class GuiOverlay extends Screen {
 	
 				// Text
 				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-				for (int i = 0; i < props.getDFMessages().size(); i++) {
-					String message = props.getDFMessages().get(i).toString();
+				for (int i = 0; i < playerData.getDFMessages().size(); i++) {
+					String message = playerData.getDFMessages().get(i).toString();
 					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i + 54, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
 				GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);

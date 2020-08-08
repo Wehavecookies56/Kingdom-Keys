@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.datagen;
+package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import java.io.IOException;
 import java.nio.file.Path;

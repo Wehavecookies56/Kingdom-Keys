@@ -34,8 +34,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.handler.CapabilityEventsHandler;
-import online.kingdomkeys.kingdomkeys.handler.DataGeneration;
+import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
@@ -46,7 +45,7 @@ import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
-import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.world.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
@@ -116,7 +115,7 @@ public class KingdomKeys {
 
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
-		MinecraftForge.EVENT_BUS.register(new CapabilityEventsHandler());
+		MinecraftForge.EVENT_BUS.register(new ModCapabilities());
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
@@ -175,13 +174,10 @@ public class KingdomKeys {
         OreGen.generateOre();
     }
 
-	//TODO do this with non deprecated stuff, works for now
 	private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
-		resourceManager.addReloadListener((IResourceManagerReloadListener)manager -> {
-			KeybladeDataLoader.loadData(resourceManager);
-			OrganizationDataLoader.loadData(resourceManager);
-			RecipeDataLoader.loadData(resourceManager);
-		});
+		resourceManager.addReloadListener(new KeybladeDataLoader());
+		resourceManager.addReloadListener(new OrganizationDataLoader());
+		resourceManager.addReloadListener(new RecipeDataLoader());
 	}
 
 	

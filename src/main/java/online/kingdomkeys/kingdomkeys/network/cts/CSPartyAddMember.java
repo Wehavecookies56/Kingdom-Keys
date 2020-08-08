@@ -59,8 +59,8 @@ public class CSPartyAddMember {
 				if(p.getName().equals(message.name))
 					p.addMember(message.memberUUID, message.memberName);
 				PlayerEntity target = player.world.getPlayerByUuid(message.memberUUID);
-				ModCapabilities.get(target).removePartiesInvited(message.name);
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(target)), (ServerPlayerEntity)target);
+				ModCapabilities.getPlayer(target).removePartiesInvited(message.name);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(target)), (ServerPlayerEntity)target);
 				//System.out.println(ModCapabilities.get(target).getPartiesInvited());
 			}
 			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player);

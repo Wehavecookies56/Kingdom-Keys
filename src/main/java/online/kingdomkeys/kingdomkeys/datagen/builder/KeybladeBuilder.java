@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.datagen;
+package online.kingdomkeys.kingdomkeys.datagen.builder;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;

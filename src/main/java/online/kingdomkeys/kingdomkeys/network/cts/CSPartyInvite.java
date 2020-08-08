@@ -49,9 +49,9 @@ public class CSPartyInvite {
 			PlayerEntity player = ctx.get().getSender();
 			
 			PlayerEntity target = player.world.getPlayerByUuid(message.playerUUID);
-			IPlayerCapabilities tProps = ModCapabilities.get(target);
-			if(!tProps.getPartiesInvited().contains(message.name)) {
-				tProps.addPartiesInvited(message.name);
+			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(target);
+			if(!targetPlayerData.getPartiesInvited().contains(message.name)) {
+				targetPlayerData.addPartiesInvited(message.name);
 				
 				IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 				Party p = worldData.getPartyFromName(message.name);
@@ -59,7 +59,7 @@ public class CSPartyInvite {
 			}
 			
 			
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(tProps), (ServerPlayerEntity)target);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(targetPlayerData), (ServerPlayerEntity)target);
 		});
 		ctx.get().setPacketHandled(true);
 	}

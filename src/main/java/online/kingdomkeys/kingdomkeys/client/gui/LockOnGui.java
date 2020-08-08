@@ -44,8 +44,8 @@ public class LockOnGui extends Screen {
 		// (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS,
 		// null).getHudMode())
 		// return;
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		if (props != null) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		if (playerData != null) {
 			Entity target = InputHandler.lockOn;
 			if (target == null) {
 				return;
@@ -83,7 +83,7 @@ public class LockOnGui extends Screen {
 
 					RenderSystem.pushMatrix();
 
-					int[] scan = props.getEquippedAbilityLevel(Strings.scan);
+					int[] scan = playerData.getEquippedAbilityLevel(Strings.scan);
 					// If ability level > 0 and amount of equipped is > 0
 					if (target != null && scan[0] > 0 && scan[1] > 0) {
 						this.drawString(minecraft.fontRenderer, target.getName().getFormattedText(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getFormattedText()), 15, 0xFFFFFF);

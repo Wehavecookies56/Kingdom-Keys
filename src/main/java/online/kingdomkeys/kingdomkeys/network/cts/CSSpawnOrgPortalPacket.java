@@ -7,6 +7,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -46,8 +47,9 @@ public class CSSpawnOrgPortalPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			// PacketDispatcher.sendToAllAround(new SpawnPortalParticles(pos), player, 64.0D);
-			ModCapabilities.get(player).remMP(300);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity)player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			playerData.remMP(300);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			OrgPortalEntity portal = new OrgPortalEntity(player.world, player, message.pos, message.destPos, message.dimension, true);
 			player.world.addEntity(portal);
 

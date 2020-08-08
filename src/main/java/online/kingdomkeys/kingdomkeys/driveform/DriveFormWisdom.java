@@ -73,10 +73,10 @@ public class DriveFormWisdom extends DriveForm {
 			if (((IKHMob) event.getEntity()).getMobType() == MobType.HEARTLESS_EMBLEM || ((IKHMob) event.getEntity()).getMobType() == MobType.HEARTLESS_PUREBLOOD) {
 				if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 					PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-					IPlayerCapabilities props = ModCapabilities.get(player);
-					if (props != null && props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-						props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+					if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + 1);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 					}
 				}
 			}

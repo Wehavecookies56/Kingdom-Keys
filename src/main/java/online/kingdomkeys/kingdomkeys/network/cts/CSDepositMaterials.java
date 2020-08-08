@@ -32,20 +32,20 @@ public class CSDepositMaterials {
 	public static void handle(CSDepositMaterials message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-				IPlayerCapabilities props = ModCapabilities.get(player);
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				for(int i = 0; i < player.inventory.getSizeInventory();i++) {
 					ItemStack stack = player.inventory.getStackInSlot(i);
 					
-					if(stack != null) {
+					if(!ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
 						//System.out.println(stack.getItem().getRegistryName().getPath());
 						if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 							Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
-							props.addMaterial(mat, stack.getCount());
+							playerData.addMaterial(mat, stack.getCount());
 							player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
 						}
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

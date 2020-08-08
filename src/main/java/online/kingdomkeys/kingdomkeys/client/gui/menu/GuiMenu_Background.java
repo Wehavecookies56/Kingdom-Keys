@@ -191,7 +191,7 @@ public class GuiMenu_Background extends Screen {
 		{
 			RenderSystem.scaled(1.1, 1.1, 1);
 			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + ModCapabilities.get(minecraft.player).getMunny(), 5, (int) (topBarHeight + middleHeight), 0xF66627);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + ModCapabilities.getPlayer(minecraft.player).getMunny(), 5, (int) (topBarHeight + middleHeight), 0xF66627);
 			long seconds = minecraft.world.getWorld().getDayTime() / 20;
 			long h = seconds / 3600;
 			long m = seconds % 3600 / 60;

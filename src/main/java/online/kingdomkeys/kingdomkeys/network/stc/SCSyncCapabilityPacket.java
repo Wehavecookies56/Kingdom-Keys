@@ -39,12 +39,12 @@ public class SCSyncCapabilityPacket {
 	
     PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
 
-    List<String> recipesList = new ArrayList<String>();
+    List<String> recipeList = new ArrayList<String>();
     List<String> magicList = new ArrayList<String>();
-	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
-	LinkedHashMap<String,int[]> abilitiesMap = new LinkedHashMap<String,int[]>();
-	List<String> partiesList = new ArrayList<String>(10);
-	TreeMap<String, Integer> materialsMap = new TreeMap<String,Integer>();
+	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<String,int[]>();
+	LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<String,int[]>();
+	List<String> partyList = new ArrayList<String>(10);
+	TreeMap<String, Integer> materialMap = new TreeMap<String,Integer>();
 	
 	public SCSyncCapabilityPacket() {
 	}
@@ -74,12 +74,12 @@ public class SCSyncCapabilityPacket {
         	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
         }
 		
-		this.recipesList = capability.getKnownRecipesList();
-		this.magicList = capability.getMagicsList();
-		this.driveFormsMap = capability.getDriveFormsMap();
-		this.abilitiesMap = capability.getAbilitiesMap();
-		this.partiesList = capability.getPartiesInvited();
-		this.materialsMap = capability.getMaterialsMap();
+		this.recipeList = capability.getKnownRecipeList();
+		this.magicList = capability.getMagicList();
+		this.driveFormMap = capability.getDriveFormMap();
+		this.abilityMap = capability.getAbilityMap();
+		this.partyList = capability.getPartiesInvited();
+		this.materialMap = capability.getMaterialMap();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
@@ -115,7 +115,7 @@ public class SCSyncCapabilityPacket {
         }
 		
 		CompoundNBT recipes = new CompoundNBT();
-		Iterator<String> recipesIt = recipesList.iterator();
+		Iterator<String> recipesIt = recipeList.iterator();
 		while (recipesIt.hasNext()) {
 			String r = recipesIt.next();
 			recipes.putInt(r, 1);
@@ -131,7 +131,7 @@ public class SCSyncCapabilityPacket {
 		buffer.writeCompoundTag(magics);
 		
 		CompoundNBT forms = new CompoundNBT();
-		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormsMap.entrySet().iterator();
+		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormMap.entrySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
 			forms.putIntArray(pair.getKey().toString(), pair.getValue());
@@ -139,21 +139,21 @@ public class SCSyncCapabilityPacket {
 		buffer.writeCompoundTag(forms);
 		
 		CompoundNBT abilities = new CompoundNBT();
-		Iterator<Map.Entry<String, int[]>> abilitiesIt = abilitiesMap.entrySet().iterator();
+		Iterator<Map.Entry<String, int[]>> abilitiesIt = abilityMap.entrySet().iterator();
 		while (abilitiesIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
 			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(abilities);
 		
-		buffer.writeInt(partiesList.size());
-		for(int i=0;i<partiesList.size();i++) {
-			buffer.writeInt(this.partiesList.get(i).length());
-			buffer.writeString(this.partiesList.get(i));
+		buffer.writeInt(partyList.size());
+		for(int i=0;i<partyList.size();i++) {
+			buffer.writeInt(this.partyList.get(i).length());
+			buffer.writeString(this.partyList.get(i));
 		}
 		
 		CompoundNBT materials = new CompoundNBT();
-		Iterator<Map.Entry<String, Integer>> materialsIt = materialsMap.entrySet().iterator();
+		Iterator<Map.Entry<String, Integer>> materialsIt = materialMap.entrySet().iterator();
 		while (materialsIt.hasNext()) {
 			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
 			materials.putInt(pair.getKey().toString(), pair.getValue());
@@ -207,7 +207,7 @@ public class SCSyncCapabilityPacket {
 		Iterator<String> recipesIt = recipesTag.keySet().iterator();
 		while (recipesIt.hasNext()) {
 			String key = (String) recipesIt.next();
-			msg.recipesList.add(key);
+			msg.recipeList.add(key);
 		}
 		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
@@ -221,29 +221,29 @@ public class SCSyncCapabilityPacket {
 		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			String driveFormName = (String) driveFormsIt.next();
-			msg.driveFormsMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
+			msg.driveFormMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
 		}
 		
 		CompoundNBT abilitiesTag = buffer.readCompoundTag();
 		Iterator<String> abilitiesIt = abilitiesTag.keySet().iterator();
 		while (abilitiesIt.hasNext()) {
 			String abilityName = (String) abilitiesIt.next();
-			msg.abilitiesMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
+			msg.abilityMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
 		}
 		
 		int amount = buffer.readInt();
-		msg.partiesList = new ArrayList<String>();
+		msg.partyList = new ArrayList<String>();
 
 		for(int i=0;i<amount;i++) {
 			int length = buffer.readInt();
-			msg.partiesList.add(buffer.readString(length));
+			msg.partyList.add(buffer.readString(length));
 		}
 		
 		CompoundNBT materialsTag = buffer.readCompoundTag();
 		Iterator<String> materialsIt = materialsTag.keySet().iterator();
 		while (materialsIt.hasNext()) {
 			String matName = (String) materialsIt.next();
-			msg.materialsMap.put(matName, materialsTag.getInt(matName));
+			msg.materialMap.put(matName, materialsTag.getInt(matName));
 		}
 		
 		int msgSize = buffer.readInt();
@@ -264,38 +264,38 @@ public class SCSyncCapabilityPacket {
 
 	public static void handle(final SCSyncCapabilityPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			IPlayerCapabilities props = ModCapabilities.get(KingdomKeys.proxy.getClientPlayer());
-			
-			props.setLevel(message.level);
-			props.setExperience(message.exp);
-			props.setExperienceGiven(message.expGiven);
-			props.setStrength(message.strength);
-			props.setMagic(message.magic);
-			props.setDefense(message.defense);
-			props.setMP(message.MP);
-			props.setMaxMP(message.maxMP);
-			props.setRecharge(message.recharge);
-			props.setMaxHP(message.maxHp);
-			props.setConsumedAP(message.ap);
-			props.setMaxAP(message.maxAP);
-			props.setDP(message.dp);
-			props.setFP(message.fp);
-			props.setMaxDP(message.maxDP);
-			props.setMunny(message.munny);
-			props.setMessages(message.messages);
-			props.setDFMessages(message.dfMessages);
-			
-			props.setPortalCoords((byte)0, message.orgPortalCoords[0]);
-			props.setPortalCoords((byte)1, message.orgPortalCoords[1]);
-			props.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(KingdomKeys.proxy.getClientPlayer());
 
-			props.setKnownRecipesList(message.recipesList);
-			props.setMagicsList(message.magicList);
-			props.setDriveFormsMap(message.driveFormsMap);
-			props.setAbilitiesMap(message.abilitiesMap);
-			props.setAntiPoints(message.antipoints);
-			props.setPartiesInvited(message.partiesList);
-			props.setMaterialsMap(message.materialsMap);
+			playerData.setLevel(message.level);
+			playerData.setExperience(message.exp);
+			playerData.setExperienceGiven(message.expGiven);
+			playerData.setStrength(message.strength);
+			playerData.setMagic(message.magic);
+			playerData.setDefense(message.defense);
+			playerData.setMP(message.MP);
+			playerData.setMaxMP(message.maxMP);
+			playerData.setRecharge(message.recharge);
+			playerData.setMaxHP(message.maxHp);
+			playerData.setConsumedAP(message.ap);
+			playerData.setMaxAP(message.maxAP);
+			playerData.setDP(message.dp);
+			playerData.setFP(message.fp);
+			playerData.setMaxDP(message.maxDP);
+			playerData.setMunny(message.munny);
+			playerData.setMessages(message.messages);
+			playerData.setDFMessages(message.dfMessages);
+
+			playerData.setPortalCoords((byte)0, message.orgPortalCoords[0]);
+			playerData.setPortalCoords((byte)1, message.orgPortalCoords[1]);
+			playerData.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+
+			playerData.setKnownRecipeList(message.recipeList);
+			playerData.setMagicList(message.magicList);
+			playerData.setDriveFormMap(message.driveFormMap);
+			playerData.setAbilityMap(message.abilityMap);
+			playerData.setAntiPoints(message.antipoints);
+			playerData.setPartiesInvited(message.partyList);
+			playerData.setMaterialMap(message.materialMap);
 		});
 		ctx.get().setPacketHandled(true);
 	}

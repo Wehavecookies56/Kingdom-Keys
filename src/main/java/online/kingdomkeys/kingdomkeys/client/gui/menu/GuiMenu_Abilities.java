@@ -19,9 +19,9 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 
 public class GuiMenu_Abilities extends GuiMenu_Background {
-	IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	LinkedHashMap<String, int[]> abilitiesMap;
-	GuiMenuAbilitiesButton[] abilities = new GuiMenuAbilitiesButton[props.getAbilitiesMap().size()];
+	GuiMenuAbilitiesButton[] abilities = new GuiMenuAbilitiesButton[playerData.getAbilityMap().size()];
 
 	public GuiMenu_Abilities() {
 		super("Abilities", new Color(0,0,255));
@@ -30,7 +30,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 
 	@Override
 	public void init() {
-		abilitiesMap = Utils.getSortedAbilities(props.getAbilitiesMap());
+		abilitiesMap = Utils.getSortedAbilities(playerData.getAbilityMap());
 		super.width = width;
 		super.height = height;
 		super.init();
@@ -57,22 +57,22 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 
 		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
 		int lvlIncrease = 0;
-		if (props.getEquippedAbilityLevel(abilityName)[1] > 0) { // If ability is > 0 = equipped, time to unequip
+		if (playerData.getEquippedAbilityLevel(abilityName)[1] > 0) { // If ability is > 0 = equipped, time to unequip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Unequip(mc.player, ability));
 			lvlIncrease = -1;
 		} else { // If ability is <= 0 equip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
-			if (props.getConsumedAP() + apCost > props.getMaxAP()) {
+			if (playerData.getConsumedAP() + apCost > playerData.getMaxAP()) {
 				System.out.println("Not enough AP");
 			} else {
 				lvlIncrease = 1;
 			}
 		}
 		if(lvlIncrease > 0)
-			props.setConsumedAP(props.getConsumedAP() + apCost);
-		else 
-			props.setConsumedAP(props.getConsumedAP() - apCost);
-		props.addEquippedAbilityLevel(abilityName, lvlIncrease);
+			playerData.setConsumedAP(playerData.getConsumedAP() + apCost);
+		else
+			playerData.setConsumedAP(playerData.getConsumedAP() - apCost);
+		playerData.addEquippedAbilityLevel(abilityName, lvlIncrease);
 		PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, lvlIncrease));
 		init();
 	}
@@ -96,7 +96,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 
 			String text = "";
-			if (props.getEquippedAbilityLevel(abilityName)[1] > 0) {
+			if (playerData.getEquippedAbilityLevel(abilityName)[1] > 0) {
 				text = "O "; // Has to unequip
 			} else {
 				text = "  "; // Has to equip
@@ -105,14 +105,14 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 			
 			String lvl = "";
 			if(ability.getType() == AbilityType.GROWTH) {
-				int level = (props.getEquippedAbilityLevel(abilityName)[0]);
+				int level = (playerData.getEquippedAbilityLevel(abilityName)[0]);
      			lvl+= "_"+level;
 			}
 			
 			text += Utils.translateToLocal(abilityName+lvl);
 
 			GuiMenuAbilitiesButton button = (GuiMenuAbilitiesButton) buttons.get(i);
-			if (ability.getAPCost() > props.getMaxAP() - props.getConsumedAP() && !(props.getEquippedAbilityLevel(abilityName)[1] > 0)) {
+			if (ability.getAPCost() > playerData.getMaxAP() - playerData.getConsumedAP() && !(playerData.getEquippedAbilityLevel(abilityName)[1] > 0)) {
 				button.active = false;
 			}
 			button.setMessage(text);
@@ -130,8 +130,8 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 		int posY = screenHeight - 100;
 		float scale = 1F;
 
-		int consumedAP = props.getConsumedAP();
-		int maxAP = props.getMaxAP();
+		int consumedAP = playerData.getConsumedAP();
+		int maxAP = playerData.getMaxAP();
 		
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
@@ -175,7 +175,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
-			if (hoveredAbility != null && props.getEquippedAbilityLevel(hoveredAbility.getRegistryName().toString())[1] > 0) { // If hovering an equipped ability
+			if (hoveredAbility != null && playerData.getEquippedAbilityLevel(hoveredAbility.getRegistryName().toString())[1] > 0) { // If hovering an equipped ability
 				requiredAP *= -1;
 
 				// Bar going to decrease (dark yellow section when hovering equipped ability)
@@ -191,7 +191,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 				}
 				RenderSystem.popMatrix();
 			} else {
-				if(consumedAP + requiredAP < props.getMaxAP()) {
+				if(consumedAP + requiredAP < playerData.getMaxAP()) {
 					// Bar going to increase (blue section when hovering unequipped ability)
 					RenderSystem.pushMatrix();
 					{

@@ -26,7 +26,7 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 
 	GuiMenuButton back, leave;
 		
-	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	Party party;
 	
@@ -163,11 +163,11 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 				}
 				RenderSystem.popMatrix();
 				if(player != null) {
-					IPlayerCapabilities props = ModCapabilities.get(player);
-					if (props != null) {
-						drawString(minecraft.fontRenderer, "LV: " + props.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+					if (playerData != null) {
+						drawString(minecraft.fontRenderer, "LV: " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
 						drawString(minecraft.fontRenderer, "HP: " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
-						drawString(minecraft.fontRenderer, "MP: " + (int) props.getMP() + "/" + (int) props.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
+						drawString(minecraft.fontRenderer, "MP: " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
 					}
 				}
 			}

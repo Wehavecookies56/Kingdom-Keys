@@ -33,10 +33,10 @@ public class CSSetGlidingPacket {
 	public static void handle(CSSetGlidingPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			props.setIsGliding(message.gliding);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			playerData.setIsGliding(message.gliding);
 			//System.out.println("Setting "+message.gliding+" to "+player.getDisplayName().getFormattedText());
-			PacketHandler.syncToAllAround(player, props);
+			PacketHandler.syncToAllAround(player, playerData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

@@ -57,7 +57,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
-import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
 public class EntityEvents {
@@ -76,32 +77,32 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
 		PlayerEntity player = e.getPlayer();
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		IWorldCapabilities wProps = ModCapabilities.getWorld(player.world);
-		if(props != null) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+		if(playerData != null) {
 			if (!player.world.isRemote) { // Sync from server to client
 				//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
 				//LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
 				//System.out.println(map.values());
-				player.setHealth(props.getMaxHP());
-				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(props.getMaxHP());
+				player.setHealth(playerData.getMaxHP());
+				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
 				
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
-				PacketHandler.sendTo(new SCSyncExtendedWorld(wProps), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);
 
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
-				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeDataLoader.names, RecipeDataLoader.dataList), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), (ServerPlayerEntity)player);
 			}
-			PacketHandler.syncToAllAround(player, props);
+			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
-		//IWorldCapabilities wProps = ModCapabilities.getWorld(event.player.world);
+		//IWorldCapabilities worldData = ModCapabilities.getWorld(event.player.world);
 		//System.out.println(event.player.world.isRemote);
-		/*for(Party p : wProps.getParties()) {
+		/*for(Party p : worldData.getParties()) {
 			System.out.println(event.player.world.isRemote+ ": "+p.getName());
 		}*/
 		//ExtendedWorldData worldData = ExtendedWorldData.get(event.player.world);
@@ -109,47 +110,47 @@ public class EntityEvents {
 		/*if(!event.player.world.isRemote) {
 			PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity)event.player);
 		}*/
-		IPlayerCapabilities props = ModCapabilities.get(event.player);
-		//props.setPartiesInvited(new ArrayList<String>());
-	//	System.out.println(props);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+		//playerData.setPartiesInvited(new ArrayList<String>());
+	//	System.out.println(playerData);
 		//System.out.println(event.player.world.isRemote);
-		if (props != null) {
-			//System.out.println(event.player.world.isRemote+" "+props.getPartiesInvited());
+		if (playerData != null) {
+			//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
 			if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)event.player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);
 			}
 			
-			if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
-				if (props.getFP() > 0) {
-					props.setFP(props.getFP() - 0.3);
+			if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+				if (playerData.getFP() > 0) {
+					playerData.setFP(playerData.getFP() - 0.3);
 				} else {
-					props.setActiveDriveForm("");
+					playerData.setActiveDriveForm("");
 					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					if(!event.player.world.isRemote) {
-						PacketHandler.syncToAllAround(event.player, props);
+						PacketHandler.syncToAllAround(event.player, playerData);
 					}
 				}
-			} else if (!props.getActiveDriveForm().equals("")) {
-				ModDriveForms.registry.getValue(new ResourceLocation(props.getActiveDriveForm())).updateDrive(event.player);
+			} else if (!playerData.getActiveDriveForm().equals("")) {
+				ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).updateDrive(event.player);
 			}
 		
 			// MP Recharge system
-			if (props.getRecharge()) {
-				if (props.getMP() >= props.getMaxMP()) { //Has recharged fully
-					props.setRecharge(false);
-					props.setMP(props.getMaxMP());
+			if (playerData.getRecharge()) {
+				if (playerData.getMP() >= playerData.getMaxMP()) { //Has recharged fully
+					playerData.setRecharge(false);
+					playerData.setMP(playerData.getMaxMP());
 				} else { //Still recharging
 					if (event.player.ticksExisted % 5 == 0)
-						props.addMP(props.getMaxMP()/50);
+						playerData.addMP(playerData.getMaxMP()/50);
 				}
 				
-				//PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+				//PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
 
 			} else { // Not on recharge
-				if (props.getMP() <= 0) {
-					props.setRecharge(true);
+				if (playerData.getMP() <= 0) {
+					playerData.setRecharge(true);
 					if(!event.player.world.isRemote) {
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) event.player);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
 					}
 				}
 			}
@@ -186,50 +187,50 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
-		IGlobalCapabilities gProps = ModCapabilities.getGlobal(event.getEntityLiving());
-		IPlayerCapabilities props = null;
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
+		IPlayerCapabilities playerData = null;
 		PlayerEntity player = null;
 		if (event.getEntityLiving() instanceof PlayerEntity) {
 			player = (PlayerEntity) event.getEntityLiving();
-			props = ModCapabilities.get((PlayerEntity) event.getEntityLiving());
+			playerData = ModCapabilities.getPlayer((PlayerEntity) event.getEntityLiving());
 		}
 
 		//MinecraftForge.EVENT_BUS.post(new EntityEvent.EyeHeight(player, player.getPose(), player.getSize(player.getPose()), player.getHeight()));
 
-		if (gProps != null) {
+		if (globalData != null) {
 			// Stop
-			if (gProps.getStoppedTicks() > 0) {
-				gProps.subStoppedTicks(1);
+			if (globalData.getStoppedTicks() > 0) {
+				globalData.subStoppedTicks(1);
 
 				event.getEntityLiving().setMotion(0, 0, 0);
 				event.getEntityLiving().velocityChanged = true;
 
-				if (gProps.getStoppedTicks() <= 0) {
-					gProps.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
-					if (gProps.getDamage() > 0 && gProps.getStopCaster() != null) {						
-						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, gProps.getStopCaster())), gProps.getDamage()/2);
+				if (globalData.getStoppedTicks() <= 0) {
+					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
+					if (globalData.getDamage() > 0 && globalData.getStopCaster() != null) {
+						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, globalData.getStopCaster())), globalData.getDamage()/2);
 					}
 
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
-						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(gProps), (ServerPlayerEntity) event.getEntityLiving());
-					gProps.setDamage(0);
-					gProps.setStopCaster(null);
+						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) event.getEntityLiving());
+					globalData.setDamage(0);
+					globalData.setStopCaster(null);
 				}
 			}
 
 			// Gravity
-			if (gProps.getFlatTicks() > 0) {
-				gProps.subFlatTicks(1);
+			if (globalData.getFlatTicks() > 0) {
+				globalData.subFlatTicks(1);
 
 				event.getEntityLiving().setMotion(0, -4, 0);
 				event.getEntityLiving().velocityChanged = true;
 
-				if (gProps.getFlatTicks() <= 0) {
-					gProps.setFlatTicks(0); // Just in case it goes below (shouldn't happen)
+				if (globalData.getFlatTicks() <= 0) {
+					globalData.setFlatTicks(0); // Just in case it goes below (shouldn't happen)
 					
 					
 					if (event.getEntityLiving() instanceof LivingEntity) {// This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
-						PacketHandler.syncToAllAround(event.getEntityLiving(), gProps);
+						PacketHandler.syncToAllAround(event.getEntityLiving(), globalData);
 						
 						if (event.getEntityLiving() instanceof ServerPlayerEntity) {
 							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) event.getEntityLiving());
@@ -240,32 +241,32 @@ public class EntityEvents {
 			}
 		}
 
-		if (props != null) {
+		if (playerData != null) {
 			// Drive Form abilities
-				if(shouldHandleHighJump(player, props)) {
-					handleHighJump(player, props);
+				if(shouldHandleHighJump(player, playerData)) {
+					handleHighJump(player, playerData);
 				}
-				if(props.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-					//handleQuickRun(player, props);
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+					//handleQuickRun(player, playerData);
 				}
-				if(props.getActiveDriveForm().equals(Strings.Form_Limit)) {
-					//handleDodgeRoll(player, props);
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
+					//handleDodgeRoll(player, playerData);
 				}
-				if(props.getActiveDriveForm().equals(Strings.Form_Master) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Master) && props.getDriveFormLevel(Strings.Form_Master) >= 3 && props.getEquippedAbilityLevel(Strings.aerialDodge) != null && props.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
-					handleAerialDodge(player, props);
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals("") && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
+					handleAerialDodge(player, playerData);
 				}
-				if(props.getActiveDriveForm().equals(Strings.Form_Final) || props.getActiveDriveForm().equals("") && (props.getDriveFormsMap().containsKey(Strings.Form_Final) && props.getDriveFormLevel(Strings.Form_Final) >= 3 && props.getEquippedAbilityLevel(Strings.glide) != null && props.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
-					handleGlide(player, props);
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals("") && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
+					handleGlide(player, playerData);
 				}
 
 				//Rotation ticks should always be lost, this way we prevent the spinning animation on other players (hopefully)
-				if (props.getAerialDodgeTicks() > 0) {
-					props.setAerialDodgeTicks(props.getAerialDodgeTicks() - 1);
+				if (playerData.getAerialDodgeTicks() > 0) {
+					playerData.setAerialDodgeTicks(playerData.getAerialDodgeTicks() - 1);
 				} 
 				
 			//Reflect
-			if (props.getReflectTicks() > 0) {
-				props.remReflectTicks(1);
+			if (playerData.getReflectTicks() > 0) {
+				playerData.remReflectTicks(1);
 
 				event.getEntityLiving().setMotion(0, 0, 0);
 				event.getEntityLiving().velocityChanged = true;
@@ -288,7 +289,7 @@ public class EntityEvents {
 				}
 
 			} else { // When it finishes
-				if (props.getReflectActive()) {// If has been hit
+				if (playerData.getReflectActive()) {// If has been hit
 					// SPAWN ENTITY and apply damage
 					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
 					if (!list.isEmpty()) {
@@ -299,13 +300,13 @@ public class EntityEvents {
 							}
 						}
 					}
-					props.setReflectActive(false); // Restart reflect
+					playerData.setReflectActive(false); // Restart reflect
 				}
 			}
 			
 			//Aero
-			if (props.getAeroTicks() > 0) {
-				props.remAeroTicks(1);
+			if (playerData.getAeroTicks() > 0) {
+				playerData.remAeroTicks(1);
 
 				if(player.ticksExisted % 5 == 0) {
 					// Spawn particles
@@ -329,7 +330,7 @@ public class EntityEvents {
 		}
 	}
 	
-	private void handleHighJump(PlayerEntity player, IPlayerCapabilities props) {
+	private void handleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
 		boolean j = false;
         if(player.world.isRemote) {
             j = Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown();
@@ -337,13 +338,13 @@ public class EntityEvents {
 
         if (j) {
             if(player.getMotion().y > 0) {
-            	if(props.getActiveDriveForm().equals(Strings.Form_Final)) {
-	            	player.setMotion(player.getMotion().add(0,DriveForm.FINAL_JUMP_BOOST[props.getDriveFormLevel(Strings.Form_Final)],0));
+            	if(playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+	            	player.setMotion(player.getMotion().add(0,DriveForm.FINAL_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Final)],0));
             	} else {
-            		//System.out.println(props.getDriveFormsMap() != null);
-            		if(props.getActiveDriveForm() != null) {
-            			//System.out.println(props.getDriveFormLevel(Strings.Form_Valor));
-            			int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Valor)-2 : props.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
+            		//System.out.println(playerData.getDriveFormMap() != null);
+            		if(playerData.getActiveDriveForm() != null) {
+            			//System.out.println(playerData.getDriveFormLevel(Strings.Form_Valor));
+            			int jumpLevel = playerData.getActiveDriveForm().equals("") ? playerData.getDriveFormLevel(Strings.Form_Valor)-2 : playerData.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
 	            		player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
             		}
 	            }
@@ -351,35 +352,35 @@ public class EntityEvents {
         }
 	}
 	
-	private boolean shouldHandleHighJump(PlayerEntity player, IPlayerCapabilities props) {
-		if(props.getDriveFormsMap() == null)
+	private boolean shouldHandleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
+		if(playerData.getDriveFormMap() == null)
 			return false;
-		if(props.getActiveDriveForm().equals(Strings.Form_Valor) || props.getActiveDriveForm().equals(Strings.Form_Final)) {
+		if(playerData.getActiveDriveForm().equals(Strings.Form_Valor) || playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
 			return true;
 		}
 
-		if(props.getActiveDriveForm().equals("") 
-				&& (props.getDriveFormsMap().containsKey(Strings.Form_Valor)
-				&& props.getDriveFormLevel(Strings.Form_Valor) >= 3
-				&& props.getEquippedAbilityLevel(Strings.highJump) != null
-				&& props.getEquippedAbilityLevel(Strings.highJump)[1]>0)){
+		if(playerData.getActiveDriveForm().equals("")
+				&& (playerData.getDriveFormMap().containsKey(Strings.Form_Valor)
+				&& playerData.getDriveFormLevel(Strings.Form_Valor) >= 3
+				&& playerData.getEquippedAbilityLevel(Strings.highJump) != null
+				&& playerData.getEquippedAbilityLevel(Strings.highJump)[1]>0)){
 			return true;
 		}
 		return false;
 	}
 
-	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities props) {
-		if (props.getAerialDodgeTicks() <= 0) {
+	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities playerData) {
+		if (playerData.getAerialDodgeTicks() <= 0) {
 			if (player.onGround) {
-				props.setHasJumpedAerialDodge(false);
-				props.setAerialDodgeTicks(0);
+				playerData.setHasJumpedAerialDodge(false);
+				playerData.setAerialDodgeTicks(0);
 			} else {
 				if (player.world.isRemote) {
 					if (player.getMotion().y < 0 && Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown() && !player.isSneaking()) {
-						if (!props.hasJumpedAerialDodge()) {
-							props.setHasJumpedAerialDodge(true);
+						if (!playerData.hasJumpedAerialDodge()) {
+							playerData.setHasJumpedAerialDodge(true);
 							player.jump();
-							int jumpLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Master)-2 : props.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
+							int jumpLevel = playerData.getActiveDriveForm().equals("") ? playerData.getDriveFormLevel(Strings.Form_Master)-2 : playerData.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
 							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
 							player.setMotion(player.getMotion().mul(new Vec3d(boost, boost, boost)));
 							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));
@@ -390,26 +391,26 @@ public class EntityEvents {
 		}
 	}
 
-	private void handleGlide(PlayerEntity player, IPlayerCapabilities props) {
+	private void handleGlide(PlayerEntity player, IPlayerCapabilities playerData) {
 		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
 			if (Minecraft.getInstance().player == player) { // Only the local player will send the packets
 				if (!player.onGround && player.fallDistance > 0) {
 					if (Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown()) {
-						if (!props.getIsGliding()) {
-							props.setIsGliding(true);// Set props clientside
-							props.setAerialDodgeTicks(0);
-							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set props serverside
+						if (!playerData.getIsGliding()) {
+							playerData.setIsGliding(true);// Set playerData clientside
+							playerData.setAerialDodgeTicks(0);
+							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set playerData serverside
 							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 0)); // In case the player is still rotating stop it
 						}
 					} else { // If is no longer pressing space
-						if (props.getIsGliding()) {
-							props.setIsGliding(false);
+						if (playerData.getIsGliding()) {
+							playerData.setIsGliding(false);
 							PacketHandler.sendToServer(new CSSetGlidingPacket(false));
 						}
 					}
 				} else { // If touches the ground
-					if (props.getIsGliding()) {
-						props.setIsGliding(false);
+					if (playerData.getIsGliding()) {
+						playerData.setIsGliding(false);
 						PacketHandler.sendToServer(new CSSetGlidingPacket(false));
 						PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(false, 0)); // In case the player is still rotating stop it
 					}
@@ -417,8 +418,8 @@ public class EntityEvents {
 			}
 		}
 
-		if (props.getIsGliding()) {
-			int glideLevel = props.getActiveDriveForm().equals("") ? props.getDriveFormLevel(Strings.Form_Final)-2 : props.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
+		if (playerData.getIsGliding()) {
+			int glideLevel = playerData.getActiveDriveForm().equals("") ? playerData.getDriveFormLevel(Strings.Form_Final)-2 : playerData.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			Vec3d motion = player.getMotion();
 			player.setMotion(motion.x, glide, motion.z);
@@ -467,20 +468,20 @@ public class EntityEvents {
 			//LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 			LivingEntity target = event.getEntityLiving();
 			
-			IGlobalCapabilities gProps = ModCapabilities.getGlobal(target);
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
 			if (target instanceof PlayerEntity) {
-				IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) target);
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
 
-				if (props.getReflectTicks() > 0) { // If is casting reflect
-					if (!props.getReflectActive()) // If has been hit while casting reflect
-						props.setReflectActive(true);
+				if (playerData.getReflectTicks() > 0) { // If is casting reflect
+					if (!playerData.getReflectActive()) // If has been hit while casting reflect
+						playerData.setReflectActive(true);
 					event.setCanceled(true);
 				}
 			}
 
-			if (gProps != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
+			if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
-				if (gProps.getStoppedTicks() > 0) {
+				if (globalData.getStoppedTicks() > 0) {
 					float dmg = event.getAmount();
 					System.out.println(event.getSource());
 					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
@@ -494,7 +495,7 @@ public class EntityEvents {
 						}
 						//System.out.println(dmg);
 					}
-					gProps.addDamage((int) dmg);
+					globalData.addDamage((int) dmg);
 					event.setCanceled(true);
 				}
 			}
@@ -514,13 +515,13 @@ public class EntityEvents {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 
 				if (event.getEntity() instanceof MobEntity) {
-					IPlayerCapabilities props = ModCapabilities.get(player);
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 					MobEntity mob = (MobEntity) event.getEntity();
 
-					props.addExperience(player, (int) ((mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2) /* * MainConfig.entities.xpMultiplier */));
+					playerData.addExperience(player, (int) ((mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2) /* * MainConfig.entities.xpMultiplier */));
 					if (event.getEntity() instanceof WitherEntity) {
-						props.addExperience(player, 1500);
+						playerData.addExperience(player, 1500);
 					}
 					
 					Entity entity = event.getEntity();
@@ -532,7 +533,7 @@ public class EntityEvents {
 					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
 					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
 
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity) player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}
 			}
 		}
@@ -543,38 +544,38 @@ public class EntityEvents {
 		if (event.isWasDeath()) {
 			PlayerEntity oPlayer = event.getOriginal();
 			PlayerEntity nPlayer = event.getPlayer();
-			IPlayerCapabilities oProps = ModCapabilities.get(oPlayer);
-			IPlayerCapabilities nProps = ModCapabilities.get(nPlayer);
-			nProps.setLevel(oProps.getLevel());
-			nProps.setExperience(oProps.getExperience());
-			nProps.setExperienceGiven(oProps.getExperienceGiven());
-			nProps.setStrength(oProps.getStrength());
-			nProps.setMagic(oProps.getMagic());
-			nProps.setDefense(oProps.getDefense());
-			nProps.setMaxHP(oProps.getMaxHP());
-			nProps.setMP(oProps.getMP());
-			nProps.setMaxMP(oProps.getMaxMP());
-			nProps.setDP(oProps.getDP());
-			nProps.setFP(oProps.getFP());
-			nProps.setMaxDP(oProps.getMaxDP());
-			nProps.setConsumedAP(oProps.getConsumedAP());
-			nProps.setMaxAP(oProps.getMaxAP());
-			
-			nProps.setMunny(oProps.getMunny());
-			
-			nProps.setMagicsList(oProps.getMagicsList());
-			nProps.setAbilitiesMap(oProps.getAbilitiesMap());
-			nProps.setPortalList(oProps.getPortalList());
+			IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
+			IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
+			newPlayerData.setLevel(oldPlayerData.getLevel());
+			newPlayerData.setExperience(oldPlayerData.getExperience());
+			newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
+			newPlayerData.setStrength(oldPlayerData.getStrength());
+			newPlayerData.setMagic(oldPlayerData.getMagic());
+			newPlayerData.setDefense(oldPlayerData.getDefense());
+			newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
+			newPlayerData.setMP(oldPlayerData.getMP());
+			newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
+			newPlayerData.setDP(oldPlayerData.getDP());
+			newPlayerData.setFP(oldPlayerData.getFP());
+			newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
+			newPlayerData.setConsumedAP(oldPlayerData.getConsumedAP());
+			newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
 
-			nProps.setDriveFormsMap(oProps.getDriveFormsMap());
-			
-			nPlayer.setHealth(nProps.getMaxHP());
-			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(nProps.getMaxHP());
+			newPlayerData.setMunny(oldPlayerData.getMunny());
 
-			System.out.println(event.getPlayer().world.isRemote+": "+nProps.getMP());
+			newPlayerData.setMagicList(oldPlayerData.getMagicList());
+			newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
+			newPlayerData.setPortalList(oldPlayerData.getPortalList());
+
+			newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
+			
+			nPlayer.setHealth(oldPlayerData.getMaxHP());
+			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
+
+			System.out.println(event.getPlayer().world.isRemote+": "+newPlayerData.getMP());
 			// TODO sync stuff
 			//if(!event.getPlayer().world.isRemote) {
-			//	PacketHandler.sendTo(new SCSyncCapabilityPacket(nProps), (ServerPlayerEntity) nPlayer);
+			//	PacketHandler.sendTo(new SCSyncCapabilityPacket(newPlayerData), (ServerPlayerEntity) nPlayer);
 
 				/*PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(event.getPlayer())), (ServerPlayerEntity)event.getPlayer());
 
@@ -588,16 +589,16 @@ public class EntityEvents {
 	public void onDimensionChanged(PlayerEvent.PlayerChangedDimensionEvent e) {
 		PlayerEntity player = e.getPlayer();
 		if(!player.world.isRemote) {
-			IPlayerCapabilities props = ModCapabilities.get(player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			IWorldCapabilities fromWProps = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
-			IWorldCapabilities toWProps = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
+			IWorldCapabilities fromWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
+			IWorldCapabilities toWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
+
+			toWorldData.setParties(fromWorldData.getParties());
+			toWorldData.setHeartlessSpawn(fromWorldData.getHeartlessSpawn());
 			
-			toWProps.setParties(fromWProps.getParties());
-			toWProps.setHeartlessSpawn(fromWProps.getHeartlessSpawn());
-			
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
-			PacketHandler.sendTo(new SCSyncExtendedWorld(toWProps), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncExtendedWorld(toWorldData), (ServerPlayerEntity)player);
 		}
 	}
 
@@ -607,8 +608,8 @@ public class EntityEvents {
 		if (e.getTarget() instanceof PlayerEntity) {
 			//System.out.println(e.getTarget());
 			PlayerEntity targetPlayer = (PlayerEntity) e.getTarget();
-			IPlayerCapabilities props = ModCapabilities.get(targetPlayer);
-			PacketHandler.syncToAllAround(targetPlayer, props);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(targetPlayer);
+			PacketHandler.syncToAllAround(targetPlayer, playerData);
 		}
 	}
 

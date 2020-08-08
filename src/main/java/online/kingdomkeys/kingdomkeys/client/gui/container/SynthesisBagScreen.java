@@ -15,14 +15,14 @@ import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 
-public class SynthesisBagGui extends ContainerScreen<SynthesisBagContainer> {
+public class SynthesisBagScreen extends ContainerScreen<SynthesisBagContainer> {
 
 	private static final String textureBase = KingdomKeys.MODID+":textures/gui/synthesis_bag_";
 	int[] texHeight = {140, 176, 212};
 	int bagLevel = 0;
 	Button upgrade;
 
-	public SynthesisBagGui(SynthesisBagContainer container, PlayerInventory playerInv, ITextComponent title) {
+	public SynthesisBagScreen(SynthesisBagContainer container, PlayerInventory playerInv, ITextComponent title) {
 		super(container, playerInv, title);
 	}
 

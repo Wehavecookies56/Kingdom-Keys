@@ -99,8 +99,8 @@ public interface IPlayerCapabilities {
 	void setDFMessages(List<String> messages);
 	List<String> getDFMessages();
 	
-	LinkedHashMap<String, int[]> getDriveFormsMap();
-	void setDriveFormsMap(LinkedHashMap<String,int[]> map);
+	LinkedHashMap<String, int[]> getDriveFormMap();
+	void setDriveFormMap(LinkedHashMap<String,int[]> map);
 
 	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);
@@ -108,13 +108,13 @@ public interface IPlayerCapabilities {
     void setDriveFormExp(PlayerEntity player, String drive, int exp);
 
 	
-	List<String> getMagicsList();
-	void setMagicsList(List<String> list);
+	List<String> getMagicList();
+	void setMagicList(List<String> list);
 	void addMagicToList(String magic);
 	void removeMagicFromList(String magic);
 	
-	LinkedHashMap<String, int[]> getAbilitiesMap();
-	void setAbilitiesMap(LinkedHashMap<String,int[]> map);
+	LinkedHashMap<String, int[]> getAbilityMap();
+	void setAbilityMap(LinkedHashMap<String,int[]> map);
 	void addAbility(String ability);
 	int[] getEquippedAbilityLevel(String string); 
 	void addEquippedAbilityLevel(String ability, int level);
@@ -142,13 +142,13 @@ public interface IPlayerCapabilities {
     void addPartiesInvited(String partyName);
     void removePartiesInvited(String partyName);
 	
-    List<String> getKnownRecipesList();
+    List<String> getKnownRecipeList();
     boolean hasKnownRecipe(String recipe);
-    void setKnownRecipesList(List<String> list);
+    void setKnownRecipeList(List<String> list);
 	void addKnownRecipe(String recipe);
 	
-	TreeMap<String, Integer> getMaterialsMap();
-	void setMaterialsMap(TreeMap<String, Integer> materialsMap);
+	TreeMap<String, Integer> getMaterialMap();
+	void setMaterialMap(TreeMap<String, Integer> materialsMap);
 	int getMaterialAmount(Material material);
 	void addMaterial(Material material, int amount);
 	void setMaterial(Material material, int amount);

@@ -53,8 +53,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				break;
 			case "create":
-				IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-				PacketHandler.sendToServer(new CSSynthesiseKeyblade(props.getKnownRecipesList().get(selectedKB)));
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+				PacketHandler.sendToServer(new CSSynthesiseKeyblade(playerData.getKnownRecipeList().get(selectedKB)));
 				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.itemget.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				break;
 			}
@@ -62,9 +62,9 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 	}
 
 	private int getIndexFromName(String name) {
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-		for(int i = 0;i < props.getKnownRecipesList().size(); i++) {
-			if(props.getKnownRecipesList().get(i).equals(name)) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		for(int i = 0;i < playerData.getKnownRecipeList().size(); i++) {
+			if(playerData.getKnownRecipeList().get(i).equals(name)) {
 				return i;
 			}
 		}
@@ -75,8 +75,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 	private void updateButtons() {
 		
 		if(selectedKB > -1) {
-			IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-			String kb = props.getKnownRecipesList().get(selectedKB);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			String kb = playerData.getKnownRecipeList().get(selectedKB);
 			String name = kb.substring("item.kingdomkeys.".length());
 			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
 			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
@@ -87,7 +87,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				Iterator<Entry<Material, Integer>> materials = item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				while(materials.hasNext()) {
 					Entry<Material, Integer> m = materials.next();
-					if(props.getMaterialAmount(m.getKey()) < m.getValue()) {
+					if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
 						enoughMats = false;
 					}
 				}
@@ -113,15 +113,15 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		
 		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
 		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 
 		addButton(create = new Button((int) (width*0.75F), (int) (height*0.6)+20, 50,20, Utils.translateToLocal("Create"), (e) -> { action("create"); }));
-		for(int i = 0;i<props.getKnownRecipesList().size();i++) {
-			String name = props.getKnownRecipesList().get(i);
-			addButton(keyblades[i] = new GuiMenuButton((int) buttonPosX, button_statsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(props.getKnownRecipesList().get(i)), ButtonType.BUTTON, (e) -> { action("s:"+name); }));
+		for(int i = 0;i<playerData.getKnownRecipeList().size();i++) {
+			String name = playerData.getKnownRecipeList().get(i);
+			addButton(keyblades[i] = new GuiMenuButton((int) buttonPosX, button_statsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(playerData.getKnownRecipeList().get(i)), ButtonType.BUTTON, (e) -> { action("s:"+name); }));
 		}
 		
 		updateButtons();
@@ -136,9 +136,9 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
 		
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		prev.visible = page > 0;
-		next.visible = page < props.getKnownRecipesList().size()/8;
+		next.visible = page < playerData.getKnownRecipeList().size()/8;
 		
 		RenderSystem.pushMatrix();
 		{
@@ -166,7 +166,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		if(selectedKB > -1) {
 			RenderSystem.pushMatrix();
 			{
-				String kb = props.getKnownRecipesList().get(selectedKB);
+				String kb = playerData.getKnownRecipeList().get(selectedKB);
 				String name = kb.substring("item.kingdomkeys.".length());
 				ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
 				KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
@@ -175,7 +175,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				{
 					RenderSystem.translated(width*0.75F, height*0.17, 1);
 					RenderSystem.scaled(1,1,1);
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(props.getKnownRecipesList().get(selectedKB)), 0, 10, 0xFF9900);
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(playerData.getKnownRecipeList().get(selectedKB)), 0, 10, 0xFF9900);
 				}
 				RenderSystem.popMatrix();
 				
@@ -190,8 +190,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.translated(width*0.75F, height*0.6, 1);
-					drawString(minecraft.fontRenderer, "Strength: "+item.getStrength()+" ["+(props.getStrength()+item.getStrength())+"]", 0, 0, 0xFF0000);
-					drawString(minecraft.fontRenderer, "Magic: "+item.getMagic()+" ["+(props.getMagic()+item.getMagic())+"]", 0, 10, 0x0000FF);
+					drawString(minecraft.fontRenderer, "Strength: "+item.getStrength()+" ["+(playerData.getStrength()+item.getStrength())+"]", 0, 0, 0xFF0000);
+					drawString(minecraft.fontRenderer, "Magic: "+item.getMagic()+" ["+(playerData.getMagic()+item.getMagic())+"]", 0, 10, 0x0000FF);
 					
 					//drawString(minecraft.fontRenderer, "Ability: "+item.getAbility(), 0, 20, 0x0000FF);
 				}
@@ -208,9 +208,9 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 							Entry<Material, Integer> m = materials.next();
 							ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey().getMaterialName())),m.getValue());
 							String n = Utils.translateToLocal(stack.getTranslationKey());
-							//props.setMaterial(m.getKey(), 1);
-							int color = props.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-							drawString(minecraft.fontRenderer, n+" "+m.getValue()+" ("+props.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
+							//playerData.setMaterial(m.getKey(), 1);
+							int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
+							drawString(minecraft.fontRenderer, n+" "+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
 							itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
 							i++;
 						}

@@ -13,8 +13,8 @@ import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalGui;
-import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagGui;
+import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
 
 public class ModContainers {
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, KingdomKeys.MODID);
@@ -37,8 +37,8 @@ public class ModContainers {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerGUIFactories() {
-        registerGUIFactory((ContainerType<SynthesisBagContainer>) (ModContainers.SYNTHESIS_BAG.get()), SynthesisBagGui::new);
-        registerGUIFactory((ContainerType<PedestalContainer>) (ModContainers.PEDESTAL.get()), PedestalGui::new);
+        registerGUIFactory((ContainerType<SynthesisBagContainer>) (ModContainers.SYNTHESIS_BAG.get()), SynthesisBagScreen::new);
+        registerGUIFactory((ContainerType<PedestalContainer>) (ModContainers.PEDESTAL.get()), PedestalScreen::new);
     }
 
 }

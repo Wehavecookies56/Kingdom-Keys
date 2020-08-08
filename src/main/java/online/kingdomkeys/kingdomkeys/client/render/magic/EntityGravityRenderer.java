@@ -66,9 +66,9 @@ public class EntityGravityRenderer extends EntityRenderer<GravityEntity> {
 	public static class Events {
 		@SubscribeEvent
 		public static void RenderEntity(RenderLivingEvent.Pre event) {
-			IGlobalCapabilities gProps = ModCapabilities.getGlobal(event.getEntity());
-			if (gProps != null) {
-				if (gProps.getFlatTicks() > 0 || event.getEntity().getScoreboardName().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
+			if (globalData != null) {
+				if (globalData.getFlatTicks() > 0 || event.getEntity().getScoreboardName().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
 					MatrixStack mat = event.getMatrixStack();
 					mat.scale(1.5F, 0.01F, 1.5F);
 				}

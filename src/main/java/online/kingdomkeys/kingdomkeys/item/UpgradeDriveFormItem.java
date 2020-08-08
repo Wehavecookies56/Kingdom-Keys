@@ -30,10 +30,10 @@ public class UpgradeDriveFormItem extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {		
 		if (!world.isRemote) {
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			if (props != null && props.getDriveFormsMap() != null) {
-				if (props.getDriveFormsMap().containsKey(formName)) { // If you have the form add some exp
-					int level = props.getDriveFormsMap().containsKey(formName) ? props.getDriveFormsMap().get(formName)[0] + 1 : 1;
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if (playerData != null && playerData.getDriveFormMap() != null) {
+				if (playerData.getDriveFormMap().containsKey(formName)) { // If you have the form add some exp
+					int level = playerData.getDriveFormMap().containsKey(formName) ? playerData.getDriveFormMap().get(formName)[0] + 1 : 1;
 					if (level <= 7) {
 						int exp = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getLevelUpCost(level);
 						int oldExp = 0;
@@ -41,22 +41,22 @@ public class UpgradeDriveFormItem extends Item {
 							oldExp = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getLevelUpCost(level - 1);
 						}
 						int newExp = exp - oldExp;
-						props.setDriveFormExp(player, formName, props.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
+						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
 						player.sendMessage(new TranslationTextComponent(formName.substring(formName.indexOf(":") + 1) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
 						
-						if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
+						if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
 							player.getHeldItemMainhand().shrink(1);
-						} else if(player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() == this) {
+						} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
 							player.getHeldItemOffhand().shrink(1);
 						}
 						
 					}
 
 				} else {// If you don't have the form unlock it
-					props.setDriveFormLevel(formName, 1);
+					playerData.setDriveFormLevel(formName, 1);
 					player.sendMessage(new TranslationTextComponent("Unlocked " + formName.substring(formName.indexOf(":") + 1)));
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 			}
 		}
 		return ActionResult.resultSuccess(player.getHeldItem(hand));

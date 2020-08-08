@@ -69,12 +69,12 @@ public class DriveFormValor extends DriveForm {
 		if (!event.getEntity().world.isRemote) { //TODO Check the target is hostile
 			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-				IPlayerCapabilities props = ModCapabilities.get(player);
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				
-				if (props != null && props.getActiveDriveForm().equals(Strings.Form_Valor)) {
-					props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + 1);
-					//props.setDriveFormExp(player, props.getActiveDriveForm(), 239);
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
+				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + 1);
+					//playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), 239);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 				}
 			}
 		}

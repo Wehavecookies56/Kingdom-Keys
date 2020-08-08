@@ -46,7 +46,7 @@ public class CSSynthesiseKeyblade {
 	public static void handle(CSSynthesiseKeyblade message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			IPlayerCapabilities props = ModCapabilities.get(player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			String name = message.name.substring("item.kingdomkeys.".length());
 			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
@@ -56,7 +56,7 @@ public class CSSynthesiseKeyblade {
 			boolean hasMaterials = true;
 			while(it.hasNext()) { //Check if the player has the materials (checked serverside just in case)
 				Entry<Material, Integer> m = it.next();
-				if(props.getMaterialAmount(m.getKey()) < m.getValue()) {
+				if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
 					hasMaterials = false;
 				}
 			}
@@ -65,14 +65,14 @@ public class CSSynthesiseKeyblade {
 			Iterator<Entry<Material, Integer>> ite = item.getRecipe().getMaterials().entrySet().iterator();
 				while(ite.hasNext()) {
 					Entry<Material, Integer> m = ite.next();
-					props.removeMaterial(m.getKey(), m.getValue());
+					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				//TODO Item i = item.getRecipe().getResult();
 				
 				int amount = item.getRecipe().getAmount();
 				player.inventory.addItemStackToInventory(new ItemStack(item,amount));
 			}
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

@@ -74,21 +74,21 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	}
 
 	public void initDrive(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.setActiveDriveForm(getName());
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		playerData.setActiveDriveForm(getName());
 		int cost = ModDriveForms.registry.getValue(new ResourceLocation(getName())).getDriveCost();
-		props.remDP(cost);
-		props.setFP(200 + props.getDriveFormLevel(props.getActiveDriveForm()) * 100);
+		playerData.remDP(cost);
+		playerData.setFP(200 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
 		// Summon Keyblades
-		props.setAntiPoints(props.getAntiPoints() + getFormAntiPoints());
+		playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
 		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-		PacketHandler.syncToAllAround(player, props);
+		PacketHandler.syncToAllAround(player, playerData);
 	}
 
 	public void updateDrive(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		if (props.getFP() > 0) {
-			props.setFP(props.getFP() - 0.2);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		if (playerData.getFP() > 0) {
+			playerData.setFP(playerData.getFP() - 0.2);
 		} else {
 			endDrive(player);
 		}
@@ -97,11 +97,11 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	}
 
 	public void endDrive(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.setActiveDriveForm("");
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		playerData.setActiveDriveForm("");
 		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 		if(!player.world.isRemote) {
-			PacketHandler.syncToAllAround(player, props);
+			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
 

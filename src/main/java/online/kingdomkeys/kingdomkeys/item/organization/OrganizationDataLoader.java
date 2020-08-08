@@ -5,7 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import net.minecraft.client.resources.JsonReloadListener;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.profiler.IProfiler;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
@@ -19,7 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public abstract class OrganizationDataLoader extends ReloadListener<JsonObject>{
+public class OrganizationDataLoader extends JsonReloadListener {
 
     //GSON builder with custom deserializer for keyblade data
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(OrganizationData.class, new OrganizationDataDeserializer()).setPrettyPrinting().create();
@@ -32,6 +38,16 @@ public abstract class OrganizationDataLoader extends ReloadListener<JsonObject>{
     
     public static List<String> names = new LinkedList<String>();
     public static List<String> dataList = new LinkedList<String>();
+
+    public OrganizationDataLoader() {
+        super(GSON_BUILDER, "organization");
+    }
+
+    @Override
+    protected void apply(Map<ResourceLocation, JsonObject> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
+        loadData(resourceManagerIn);
+        PacketHandler.sendToAllPlayers(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList));
+    }
 
     public static void loadData(IResourceManager manager) {
         String folder = "organization";

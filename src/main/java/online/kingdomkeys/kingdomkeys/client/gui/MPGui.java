@@ -20,7 +20,7 @@ public class MPGui extends Screen {
 	int mpBarWidth;
 	int guiHeight = 10;
 	int noborderguiwidth = 171;
-	IPlayerCapabilities props;
+	IPlayerCapabilities playerData;
 	int counter = 0;
 
 	public MPGui() {
@@ -53,12 +53,12 @@ public class MPGui extends Screen {
 				break;
 			}
 			float scaleFactor = 1F;
-			props = ModCapabilities.get(player);
-			if(props == null || props.getMaxMP() <= 0)
+			playerData = ModCapabilities.getPlayer(player);
+			if(playerData == null || playerData.getMaxMP() <= 0)
 				return;
 			
-			mpBarWidth = (int) (props.getMP() * scaleFactor);
-			int mpBarMaxWidth = (int) (props.getMaxMP() * scaleFactor);
+			mpBarWidth = (int) (playerData.getMP() * scaleFactor);
+			int mpBarMaxWidth = (int) (playerData.getMaxMP() * scaleFactor);
 
 			RenderSystem.pushMatrix();// MP Background
 			{
@@ -96,7 +96,7 @@ public class MPGui extends Screen {
 			{
 				RenderSystem.translatef((posX + 2) * scale, posY * scale, 0);
 				RenderSystem.scalef(width, scale, 0);
-				int v = props.getRecharge() ? 8 : 2;
+				int v = playerData.getRecharge() ? 8 : 2;
 				blit(0, 0, v, 0, 1, 12);
 
 			}
@@ -114,7 +114,7 @@ public class MPGui extends Screen {
 			// MP Icon
 			RenderSystem.pushMatrix();
 			{
-				int v = props.getRecharge() ? 45 : 32;
+				int v = playerData.getRecharge() ? 45 : 32;
 				RenderSystem.translatef((posX + 2) * scale + width + 1, scale * posY, 0);
 				RenderSystem.scalef(scale * 0.8F, scale, 1);
 				blit(0, 0, 0, v, 23, 12);
@@ -131,7 +131,7 @@ public class MPGui extends Screen {
 		{
 			RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
 			RenderSystem.scalef(width, scale, 0);
-			int v = props.getRecharge() ? 22 : 12;
+			int v = playerData.getRecharge() ? 22 : 12;
 			blit(0, 0, 2, v, 1, 8);
 		}
 		RenderSystem.popMatrix();

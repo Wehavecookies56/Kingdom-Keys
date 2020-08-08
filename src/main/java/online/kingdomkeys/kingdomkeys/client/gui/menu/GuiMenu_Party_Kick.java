@@ -21,7 +21,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	
 	GuiMenuButton back;
 		
-	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	Party party;
 	

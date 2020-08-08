@@ -9,6 +9,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -110,24 +111,28 @@ public class PacketHandler {
 		}
 		
 	}
+
+	public static <MSG> void sendToAllPlayers(MSG msg) {
+		HANDLER.send(PacketDistributor.ALL.noArg(), msg);
+	}
 	
 	/*public static <MSG> void sendToAll(MSG msg, World world) {
 		for(PlayerEntity player : world.getPlayers())
 			HANDLER.sendTo(msg, ((ServerPlayerEntity)player).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	}*/
 
-	public static void syncToAllAround(PlayerEntity player, IPlayerCapabilities props) {
+	public static void syncToAllAround(PlayerEntity player, IPlayerCapabilities playerData) {
 		if (!player.world.isRemote) {
 			for (PlayerEntity playerFromList : player.world.getPlayers()) {
-				sendTo(new SCSyncCapabilityToAllPacket(player.getDisplayName().getString(), props), (ServerPlayerEntity) playerFromList);
+				sendTo(new SCSyncCapabilityToAllPacket(player.getDisplayName().getString(), playerData), (ServerPlayerEntity) playerFromList);
 			}
 		}
 	}
 	
-	public static void syncToAllAround(LivingEntity entity, IGlobalCapabilities props) {
+	public static void syncToAllAround(LivingEntity entity, IGlobalCapabilities globalData) {
 		if (!entity.world.isRemote) {
 			for (PlayerEntity playerFromList : entity.world.getPlayers()) {
-				sendTo(new SCSyncGlobalCapabilityToAllPacket(entity.getEntityId(), props), (ServerPlayerEntity) playerFromList);
+				sendTo(new SCSyncGlobalCapabilityToAllPacket(entity.getEntityId(), globalData), (ServerPlayerEntity) playerFromList);
 			}
 		}
 	}

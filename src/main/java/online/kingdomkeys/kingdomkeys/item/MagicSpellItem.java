@@ -30,21 +30,21 @@ public class MagicSpellItem extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {		
 		if (!world.isRemote) {
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			System.out.println(props.getMagicsList());
-			if (props != null && props.getMagicsList() != null) {
-				if (!props.getMagicsList().contains(magic)) {
-					props.addMagicToList(magic);
-					if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			System.out.println(playerData.getMagicList());
+			if (playerData != null && playerData.getMagicList() != null) {
+				if (!playerData.getMagicList().contains(magic)) {
+					playerData.addMagicToList(magic);
+					if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
 						player.getHeldItemMainhand().shrink(1);
-					} else if(player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() == this) {
+					} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
 						player.getHeldItemOffhand().shrink(1);
 					}
 					player.sendMessage(new TranslationTextComponent("Unlocked " + magic.substring(magic.indexOf(":") + 1)));
 				} else {
 					player.sendMessage(new TranslationTextComponent(magic.substring(magic.indexOf(":") + 1)+ " Already unlocked"));
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			}
 		}
 		return ActionResult.resultSuccess(player.getHeldItem(hand));

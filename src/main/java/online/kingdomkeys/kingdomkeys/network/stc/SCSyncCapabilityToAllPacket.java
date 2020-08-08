@@ -33,8 +33,8 @@ public class SCSyncCapabilityToAllPacket {
 	
 	double mp = 0, maxMP = 0;
 	
-	LinkedHashMap<String,int[]> driveFormsMap = new LinkedHashMap<String,int[]>();
-	List<String> magicsList = new ArrayList<String>();
+	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<String,int[]>();
+	List<String> magicList = new ArrayList<String>();
 
 	private double dp = 0, fp = 0;
 
@@ -69,8 +69,8 @@ public class SCSyncCapabilityToAllPacket {
         	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
         }
 		
-        this.magicsList = capability.getMagicsList();
-		this.driveFormsMap = capability.getDriveFormsMap();
+        this.magicList = capability.getMagicList();
+		this.driveFormMap = capability.getDriveFormMap();
 
 		this.isGliding = capability.getIsGliding();
 		this.aerialDodgeTicks = capability.getAerialDodgeTicks();
@@ -104,7 +104,7 @@ public class SCSyncCapabilityToAllPacket {
         }
 		
 		CompoundNBT magics = new CompoundNBT();
-		Iterator<String> magicsIt = magicsList.iterator();
+		Iterator<String> magicsIt = magicList.iterator();
 		while (magicsIt.hasNext()) {
 			String m = magicsIt.next();
 			magics.putInt(m, 1);
@@ -112,7 +112,7 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeCompoundTag(magics);
 		
 		CompoundNBT forms = new CompoundNBT();
-		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormsMap.entrySet().iterator();
+		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormMap.entrySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
 			forms.putIntArray(pair.getKey().toString(), pair.getValue());
@@ -155,14 +155,14 @@ public class SCSyncCapabilityToAllPacket {
 		Iterator<String> it = magicsTag.keySet().iterator();
 		while (it.hasNext()) {
 			String key = (String) it.next();
-			msg.magicsList.add(key);
+			msg.magicList.add(key);
 		}
 		
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();
 		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			String driveFormName = (String) driveFormsIt.next();
-			msg.driveFormsMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
+			msg.driveFormMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
 		}
 		
 		msg.isGliding = buffer.readBoolean();
@@ -182,62 +182,62 @@ public class SCSyncCapabilityToAllPacket {
 				}
 			}
 			if (player != null) {
-				IPlayerCapabilities props = ModCapabilities.get(player);
-				props.setLevel(message.level);
-				props.setExperience(message.exp);
-				props.setExperienceGiven(message.expGiven);
-				props.setStrength(message.strength);
-				props.setMagic(message.magic);
-				props.setDefense(message.defense);
-				props.setActiveDriveForm(message.driveForm);
-				props.setAeroTicks(message.aeroTicks);
-				props.setReflectTicks(message.reflectTicks);
-				props.setDP(message.dp);
-				props.setFP(message.fp);
-				props.setAntiPoints(message.antipoints);
-				props.setMaxHP(message.maxHP);
-				props.setMP(message.mp);
-				props.setMaxMP(message.maxMP);
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				playerData.setLevel(message.level);
+				playerData.setExperience(message.exp);
+				playerData.setExperienceGiven(message.expGiven);
+				playerData.setStrength(message.strength);
+				playerData.setMagic(message.magic);
+				playerData.setDefense(message.defense);
+				playerData.setActiveDriveForm(message.driveForm);
+				playerData.setAeroTicks(message.aeroTicks);
+				playerData.setReflectTicks(message.reflectTicks);
+				playerData.setDP(message.dp);
+				playerData.setFP(message.fp);
+				playerData.setAntiPoints(message.antipoints);
+				playerData.setMaxHP(message.maxHP);
+				playerData.setMP(message.mp);
+				playerData.setMaxMP(message.maxMP);
 
-				props.setPortalCoords((byte)0, message.orgPortalCoords[0]);
-				props.setPortalCoords((byte)1, message.orgPortalCoords[1]);
-				props.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+				playerData.setPortalCoords((byte)0, message.orgPortalCoords[0]);
+				playerData.setPortalCoords((byte)1, message.orgPortalCoords[1]);
+				playerData.setPortalCoords((byte)2, message.orgPortalCoords[2]);
 
-				props.setMagicsList(message.magicsList);
-				props.setDriveFormsMap(message.driveFormsMap);
+				playerData.setMagicList(message.magicList);
+				playerData.setDriveFormMap(message.driveFormMap);
 
-				props.setIsGliding(message.isGliding);
-				props.setAerialDodgeTicks(message.aerialDodgeTicks);
-				props.setHasJumpedAerialDodge(message.hasJumpedAD);
+				playerData.setIsGliding(message.isGliding);
+				playerData.setAerialDodgeTicks(message.aerialDodgeTicks);
+				playerData.setHasJumpedAerialDodge(message.hasJumpedAD);
 				
-				/*LazyOptional<IPlayerCapabilities> props = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
-				props.ifPresent(cap -> cap.setLevel(message.level));
-				props.ifPresent(cap -> cap.setExperience(message.exp));
-				props.ifPresent(cap -> cap.setExperienceGiven(message.expGiven));
-				props.ifPresent(cap -> cap.setStrength(message.strength));
-				props.ifPresent(cap -> cap.setMagic(message.magic));
-				props.ifPresent(cap -> cap.setDefense(message.defense));
-				props.ifPresent(cap -> cap.setActiveDriveForm(message.driveForm));
-				props.ifPresent(cap -> cap.setAeroTicks(message.aeroTicks));
-				props.ifPresent(cap -> cap.setReflectTicks(message.reflectTicks));
-				props.ifPresent(cap -> cap.setDP(message.dp));
-				props.ifPresent(cap -> cap.setFP(message.fp));
-				props.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
-				props.ifPresent(cap -> cap.setMaxHP(message.maxHP));
-				props.ifPresent(cap -> cap.setMP(message.mp));
-				props.ifPresent(cap -> cap.setMaxMP(message.maxMP));
+				/*LazyOptional<IPlayerCapabilities> playerData = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
+				playerData.ifPresent(cap -> cap.setLevel(message.level));
+				playerData.ifPresent(cap -> cap.setExperience(message.exp));
+				playerData.ifPresent(cap -> cap.setExperienceGiven(message.expGiven));
+				playerData.ifPresent(cap -> cap.setStrength(message.strength));
+				playerData.ifPresent(cap -> cap.setMagic(message.magic));
+				playerData.ifPresent(cap -> cap.setDefense(message.defense));
+				playerData.ifPresent(cap -> cap.setActiveDriveForm(message.driveForm));
+				playerData.ifPresent(cap -> cap.setAeroTicks(message.aeroTicks));
+				playerData.ifPresent(cap -> cap.setReflectTicks(message.reflectTicks));
+				playerData.ifPresent(cap -> cap.setDP(message.dp));
+				playerData.ifPresent(cap -> cap.setFP(message.fp));
+				playerData.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
+				playerData.ifPresent(cap -> cap.setMaxHP(message.maxHP));
+				playerData.ifPresent(cap -> cap.setMP(message.mp));
+				playerData.ifPresent(cap -> cap.setMaxMP(message.maxMP));
 				
 				
-				props.ifPresent(cap -> cap.setPortalCoords((byte)0, message.orgPortalCoords[0]));
-				props.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));
-				props.ifPresent(cap -> cap.setPortalCoords((byte)2, message.orgPortalCoords[2]));
+				playerData.ifPresent(cap -> cap.setPortalCoords((byte)0, message.orgPortalCoords[0]));
+				playerData.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));
+				playerData.ifPresent(cap -> cap.setPortalCoords((byte)2, message.orgPortalCoords[2]));
 				
-				props.ifPresent(cap -> cap.setMagicsList(message.magicsList));
-				props.ifPresent(cap -> cap.setDriveFormsMap(message.driveFormsMap));
+				playerData.ifPresent(cap -> cap.setMagicList(message.magicsList));
+				playerData.ifPresent(cap -> cap.setDriveFormMap(message.driveFormMap));
 
-				props.ifPresent(cap -> cap.setIsGliding(message.isGliding));
-				props.ifPresent(cap -> cap.setAerialDodgeTicks(message.aerialDodgeTicks));
-				props.ifPresent(cap -> cap.setHasJumpedAerialDodge(message.hasJumpedAD));*/
+				playerData.ifPresent(cap -> cap.setIsGliding(message.isGliding));
+				playerData.ifPresent(cap -> cap.setAerialDodgeTicks(message.aerialDodgeTicks));
+				playerData.ifPresent(cap -> cap.setHasJumpedAerialDodge(message.hasJumpedAD));*/
 			}
 		});
 		ctx.get().setPacketHandled(true);

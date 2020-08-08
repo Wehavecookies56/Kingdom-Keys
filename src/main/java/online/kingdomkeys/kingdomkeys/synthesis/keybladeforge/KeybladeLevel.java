@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
-import online.kingdomkeys.kingdomkeys.datagen.KeybladeStats;
+import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 import java.util.Map;

@@ -37,11 +37,11 @@ public class CSSetAerialDodgeTicksPacket {
 	public static void handle(CSSetAerialDodgeTicksPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			props.setHasJumpedAerialDodge(message.hasJumped);
-			props.setAerialDodgeTicks(message.ticks);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			playerData.setHasJumpedAerialDodge(message.hasJumped);
+			playerData.setAerialDodgeTicks(message.ticks);
 			//System.out.println(message.gliding);
-			PacketHandler.syncToAllAround(player, props);
+			PacketHandler.syncToAllAround(player, playerData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

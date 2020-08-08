@@ -49,11 +49,11 @@ public class CSUseMagicPacket {
 	public static void handle(CSUseMagicPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-				IPlayerCapabilities props = ModCapabilities.get(player);
-				if (props.getMP() >= 0 && !props.getRecharge()) {
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
 					int cost = ModMagics.registry.getValue(new ResourceLocation(message.name)).getCost();
-					props.remMP(cost);
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
+					playerData.remMP(cost);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 					PlayerEntity targetEntity;
 					if(message.target.equals("")) {
 						targetEntity = player;
@@ -63,7 +63,7 @@ public class CSUseMagicPacket {
 	            	ModMagics.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity);
 				}
 				
-				PacketHandler.syncToAllAround(player, props);
+				PacketHandler.syncToAllAround(player, playerData);
 			
 		});
 		ctx.get().setPacketHandled(true);

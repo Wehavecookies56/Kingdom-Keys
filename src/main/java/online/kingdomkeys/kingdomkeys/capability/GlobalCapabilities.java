@@ -11,11 +11,11 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	public static class Storage implements IStorage<IGlobalCapabilities> {
 		@Override
 		public INBT writeNBT(Capability<IGlobalCapabilities> capability, IGlobalCapabilities instance, Direction side) {
-			CompoundNBT props = new CompoundNBT();
-			props.putInt("ticks_stopped", instance.getStoppedTicks());
-			props.putInt("stop_dmg", instance.getDamage());
-			props.putInt("ticks_flat", instance.getFlatTicks());
-			return props;
+			CompoundNBT storage = new CompoundNBT();
+			storage.putInt("ticks_stopped", instance.getStoppedTicks());
+			storage.putInt("stop_dmg", instance.getDamage());
+			storage.putInt("ticks_flat", instance.getFlatTicks());
+			return storage;
 		}
 
 		@Override

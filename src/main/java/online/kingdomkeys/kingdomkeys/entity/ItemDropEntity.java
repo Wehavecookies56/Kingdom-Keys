@@ -150,7 +150,7 @@ public abstract class ItemDropEntity extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);
 				this.remove();
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(entityIn)), (ServerPlayerEntity)entityIn);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(entityIn)), (ServerPlayerEntity)entityIn);
 			}
 
 		}

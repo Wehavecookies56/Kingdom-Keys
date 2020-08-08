@@ -161,10 +161,10 @@ public class PartyHUDGui extends Screen {
 						RenderSystem.popMatrix();
 						
 						//MP
-						IPlayerCapabilities props = ModCapabilities.get(playerAlly);
-						if(props != null) {
-							val = (float) props.getMP();
-							max = (float) props.getMaxMP();
+						IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerAlly);
+						if(playerData != null) {
+							val = (float) playerData.getMP();
+							max = (float) playerData.getMaxMP();
 							minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 							RenderSystem.translatef(20, 0, 1);
 							//Top

@@ -59,10 +59,10 @@ public class InputHandler {
     public boolean antiFormCheck() {
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity player = mc.player;
-        IPlayerCapabilities props = ModCapabilities.get(player);
+        IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         World world = mc.world;
         double random = Math.random();
-        int ap = props.getAntiPoints();
+        int ap = playerData.getAntiPoints();
         System.out.println("Antipoints: "+ap);
         int prob = 0;
         if (ap > 0 && ap <= 4)
@@ -232,14 +232,14 @@ public class InputHandler {
 
         //ExtendedWorldData worldData = ExtendedWorldData.get(world);
         IWorldCapabilities worldData = ModCapabilities.getWorld(world);
-        IPlayerCapabilities props = ModCapabilities.get(player);
+        IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
                 System.out.println("attack");
                 //if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
                     // Submenu of the portals
                     if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                        if (!this.portalCommands.isEmpty() && !props.getRecharge()) {
+                        if (!this.portalCommands.isEmpty() && !playerData.getRecharge()) {
                             CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
                             CommandMenuGui.portalSelected = 0;
                             world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -270,7 +270,7 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    if (!props.getRecharge() && (!this.magicsList.isEmpty() && (!props.getActiveDriveForm().equals("valor") && !props.getActiveDriveForm().equals("anti")))) {
+                    if (!playerData.getRecharge() && (!this.magicsList.isEmpty() && (!playerData.getActiveDriveForm().equals("valor") && !playerData.getActiveDriveForm().equals("anti")))) {
                         CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -299,9 +299,9 @@ public class InputHandler {
 
             case CommandMenuGui.DRIVE: //Accessing DRIVE submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                	if(props.getActiveDriveForm().equals("")) {//DRIVE
+                	if(playerData.getActiveDriveForm().equals("")) {//DRIVE
                         System.out.println("drive submenu");
-                        if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
+                        if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
                         	
                         } else { //If is in a drive form other than antiform
                         	if(!driveFormsMap.isEmpty()) {
@@ -313,7 +313,7 @@ public class InputHandler {
                         }
                 	} else {//REVERT
                 		System.out.println("REVERT");
-                		if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
                 			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 		} else {
 		                	PacketHandler.sendToServer(new CSSetDriveFormPacket(""));
@@ -377,7 +377,7 @@ public class InputHandler {
             } else {
                 // ModDriveForms.getDriveForm(player, world, (String)
                 // this.driveCommands.get(CommandMenuGui.driveselected));
-                if (!ModCapabilities.get(player).getRecharge()) {
+                if (!ModCapabilities.getPlayer(player).getRecharge()) {
                     PortalData coords = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
                     if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) { //If the portal is not default coords
                         summonPortal(player, coords);
@@ -402,7 +402,7 @@ public class InputHandler {
 				String magic = magicsList.get(CommandMenuGui.magicSelected);
 				int cost = ModMagics.registry.getValue(new ResourceLocation(magic)).getCost();
 
-            	if(props.getMaxMP() == 0 || props.getRecharge() || cost > props.getMaxMP() && cost < 300) {
+            	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
@@ -441,7 +441,7 @@ public class InputHandler {
             } else {
             	String formName = (String) driveFormsMap.keySet().toArray()[CommandMenuGui.driveSelected];
             	DriveForm driveForm = ModDriveForms.registry.getValue(new ResourceLocation(formName));
-            	if (props.getDP() >= driveForm.getDriveCost()) {
+            	if (playerData.getDP() >= driveForm.getDriveCost()) {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new CSSetDriveFormPacket(formName));
@@ -478,7 +478,7 @@ public class InputHandler {
     }
 
     private void summonPortal(PlayerEntity player, PortalData coords) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		BlockPos destination = new BlockPos(coords.getX(), coords.getY(), coords.getZ());
 
 		if (player.isSneaking()) {
@@ -752,9 +752,9 @@ public class InputHandler {
 
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
-        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.get(mc.player).getDriveFormsMap());
-        this.magicsList = ModCapabilities.get(mc.player).getMagicsList();
-        this.portalCommands = ModCapabilities.get(mc.player).getPortalList();
+        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
+        this.magicsList = ModCapabilities.getPlayer(mc.player).getMagicList();
+        this.portalCommands = ModCapabilities.getPlayer(mc.player).getPortalList();
         if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
         	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
         }

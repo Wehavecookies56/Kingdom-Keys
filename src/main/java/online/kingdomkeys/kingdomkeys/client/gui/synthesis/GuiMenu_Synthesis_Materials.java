@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -37,15 +38,15 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			
 			ClientPlayerEntity player = minecraft.player;
-			IPlayerCapabilities props = ModCapabilities.get(player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			for(int i = 0; i < player.inventory.getSizeInventory();i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
 				
-				if(stack != null) {
+				if(!ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
 					//System.out.println(stack.getItem().getRegistryName().getPath());
 					if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 						Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
-						props.addMaterial(mat, stack.getCount());
+						playerData.addMaterial(mat, stack.getCount());
 						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
 						System.out.println("mat");
 					}

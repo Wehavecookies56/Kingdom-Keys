@@ -27,8 +27,8 @@ public class MPOrbEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.addMP(value);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		playerData.addMP(value);
 	}
 
 	@Override

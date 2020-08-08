@@ -33,15 +33,15 @@ public class DriveOrbEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		if(props.getActiveDriveForm().equals(""))
-			props.addDP(value);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		if(playerData.getActiveDriveForm().equals(""))
+			playerData.addDP(value);
 		else {
-			props.addFP(value);
+			playerData.addFP(value);
 
-			if (props.getActiveDriveForm().equals(Strings.Form_Master)) {
-				props.setDriveFormExp(player, props.getActiveDriveForm(), props.getDriveFormExp(props.getActiveDriveForm()) + value/10);
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(props), (ServerPlayerEntity)player);
+			if (playerData.getActiveDriveForm().equals(Strings.Form_Master)) {
+				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + value/10);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			}
 		}
 	}

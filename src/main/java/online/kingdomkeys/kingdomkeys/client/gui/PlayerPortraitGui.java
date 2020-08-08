@@ -26,7 +26,7 @@ public class PlayerPortraitGui extends Screen {
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
 //        if (!MainConfig.displayGUI())
 		// return;
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		// if(!minecraft.player.getCapability(ModCapabilities.PLAYER_STATS,
 		// null).getHudMode())
 		// return;
@@ -49,8 +49,8 @@ public class PlayerPortraitGui extends Screen {
 				break;
 			}
 
-			if (props != null) {
-				if (props.getActiveDriveForm().equals(Strings.Form_Anti)) {
+			if (playerData != null) {
+				if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 					RenderSystem.color4f(0.3F, 0.3F, 0.3F, 1F);
 				}
 
@@ -181,8 +181,8 @@ public class PlayerPortraitGui extends Screen {
 
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
-					if (!props.getActiveDriveForm().equals("") && !props.getActiveDriveForm().equals(Strings.Form_Anti)) {
-						String driveName = props.getActiveDriveForm().substring(props.getActiveDriveForm().indexOf("_") + 1);
+					if (!playerData.getActiveDriveForm().equals("") && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+						String driveName = playerData.getActiveDriveForm().substring(playerData.getActiveDriveForm().indexOf("_") + 1);
 						ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + driveName + ".png");
 						minecraft.textureManager.bindTexture(texture);
 

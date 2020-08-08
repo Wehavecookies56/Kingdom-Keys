@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.nbt.CompoundNBT;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
@@ -20,86 +23,49 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
-import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataDeserializer;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataDeserializer;
-import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeData;
-import online.kingdomkeys.kingdomkeys.synthesis.recipes.RecipeDataDeserializer;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataDeserializer;
 
 public class SCSyncSynthesisData {
-	
-    public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(RecipeData.class, new RecipeDataDeserializer()).setPrettyPrinting().create();
 
 	public SCSyncSynthesisData() {
 	}
 
-	List<String> names = new LinkedList<String>();
-	List<String> data = new LinkedList<String>();
+	List<Recipe> recipes = new LinkedList<>();
 	
-	
-	public SCSyncSynthesisData(List<String> names, List<String> data) { //TODO add the 2 lists thing
-		this.names = names;
-		this.data = data;
+	public SCSyncSynthesisData(List<Recipe> recipes) {
+		this.recipes = recipes;
 	}
 	
 	public void encode(PacketBuffer buffer) {
-		buffer.writeInt(this.names.size());
-		buffer.writeInt(this.data.size());
-		
-		for(int i = 0; i < this.names.size();i++) {
-			String n = names.get(i);
-			buffer.writeInt(n.length());
-			buffer.writeString(n);
+		buffer.writeInt(recipes.size());
+		CompoundNBT compoundNBT = new CompoundNBT();
+		for(int i = 0; i < recipes.size(); i++) {
+			compoundNBT.put("recipe"+i, recipes.get(i).serializeNBT());
 		}
-		
-		for(int i = 0; i < this.data.size();i++) {
-			String d = data.get(i);
-			buffer.writeInt(d.length());
-			buffer.writeString(d);
-		}
+		buffer.writeCompoundTag(compoundNBT);
 	}
 
 	public static SCSyncSynthesisData decode(PacketBuffer buffer) {
 		SCSyncSynthesisData msg = new SCSyncSynthesisData();
-		int nLen = buffer.readInt();
-		int dLen = buffer.readInt();
-		
-		for(int i=0;i<nLen;i++) {
-			int l = buffer.readInt();
-			msg.names.add(buffer.readString(l));
+		int size = buffer.readInt();
+		CompoundNBT compoundNBT = buffer.readCompoundTag();
+		for (int i = 0; i < size; i++) {
+			Recipe r = new Recipe();
+			r.deserializeNBT((CompoundNBT) compoundNBT.get("recipe"+i));
+			msg.recipes.add(r);
 		}
-
-		for(int i=0;i<dLen;i++) {
-			int l = buffer.readInt();
-			msg.data.add(buffer.readString(l));
-		}
-		
 		return msg;	
 	}
 
 	public static void handle(final SCSyncSynthesisData message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();
-			
-			for(int i = 0;i<message.names.size();i++) {
-	            KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(message.names.get(i)));
 
-				String d = message.data.get(i);
-				BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
-				
-				RecipeData result;
-				try {
-				    result = GSON_BUILDER.fromJson(br, RecipeData.class);
-				   
-				} catch (JsonParseException e) {
-				    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
-				    continue;
-				}
-				keyblade.setRecipe(result);
-				IOUtils.closeQuietly(br);
-			}
+			RecipeRegistry.getInstance().clearRegistry();
+
+			message.recipes.forEach(recipe -> {
+				RecipeRegistry.getInstance().register(recipe);
+			});
 		});
 		ctx.get().setPacketHandled(true);
 	}

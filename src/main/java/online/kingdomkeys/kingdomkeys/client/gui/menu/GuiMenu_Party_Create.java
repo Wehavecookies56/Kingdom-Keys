@@ -27,7 +27,7 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 	Button togglePriv, accept, size;
 	GuiMenuButton back;
 		
-	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	
 	Party party;
@@ -70,7 +70,7 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 	}
 
 	private void updateButtons() {
-		//IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		togglePriv.setMessage(priv ? "Private" : "Public");
 
 		

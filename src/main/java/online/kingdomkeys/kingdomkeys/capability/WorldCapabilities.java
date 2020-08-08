@@ -24,25 +24,25 @@ public class WorldCapabilities implements IWorldCapabilities {
 	public static class Storage implements IStorage<IWorldCapabilities> {
 		@Override
 		public INBT writeNBT(Capability<IWorldCapabilities> capability, IWorldCapabilities instance, Direction side) {
-			CompoundNBT props = new CompoundNBT();
-			props.putBoolean("heartless", instance.getHeartlessSpawn());
+			CompoundNBT storage = new CompoundNBT();
+			storage.putBoolean("heartless", instance.getHeartlessSpawn());
 
 			ListNBT parties = new ListNBT();
 			for (Party party : instance.getParties()) {
 				parties.add(party.write());
 			}
-			props.put("parties", parties);
+			storage.put("parties", parties);
 			
-			return props;
+			return storage;
 		}
 
 		@Override
 		public void readNBT(Capability<IWorldCapabilities> capability, IWorldCapabilities instance, Direction side, INBT nbt) {
-			CompoundNBT properties = (CompoundNBT) nbt;
-			instance.setHeartlessSpawn(properties.getBoolean("heartless"));
+			CompoundNBT storage = (CompoundNBT) nbt;
+			instance.setHeartlessSpawn(storage.getBoolean("heartless"));
 			
 			List<Party> partiesList = instance.getParties();
-			ListNBT parties = properties.getList("parties", Constants.NBT.TAG_COMPOUND);
+			ListNBT parties = storage.getList("parties", Constants.NBT.TAG_COMPOUND);
 
 			for (int i = 0; i < parties.size(); i++) {
 				CompoundNBT partyNBT = parties.getCompound(i);

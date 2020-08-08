@@ -27,11 +27,11 @@ public class MagicStop extends Magic {
             for (int i = 0; i < list.size(); i++) {
                 Entity e = (Entity) list.get(i);
                 if (e instanceof LivingEntity) {
-                	IGlobalCapabilities props = ModCapabilities.getGlobal((LivingEntity) e);
-                	props.setStoppedTicks(100); //Stop
-                	props.setStopCaster(player.getDisplayName().getFormattedText());
+                	IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
+					globalData.setStoppedTicks(100); //Stop
+					globalData.setStopCaster(player.getDisplayName().getFormattedText());
                 	if(e instanceof ServerPlayerEntity)
-                		PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(props), (ServerPlayerEntity) e);
+                		PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);
                 }
             }
         }

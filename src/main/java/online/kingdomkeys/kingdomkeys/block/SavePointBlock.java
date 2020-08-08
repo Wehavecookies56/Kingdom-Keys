@@ -52,7 +52,7 @@ public class SavePointBlock extends BaseBlock {
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (entity instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) entity;
-			IPlayerCapabilities props = ModCapabilities.get(player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			double r = 0.7D;
 			double cx = pos.getX() + 0.5;
@@ -73,13 +73,13 @@ public class SavePointBlock extends BaseBlock {
 			if (a < 0)
 				a = 1800;
 				
-			if (props.getMP() < props.getMaxMP() || player.getHealth() < props.getMaxHP() || player.getFoodStats().getFoodLevel() < 20) { // TODO add the rest of things that you get back
+			if (playerData.getMP() < playerData.getMaxMP() || player.getHealth() < playerData.getMaxHP() || player.getFoodStats().getFoodLevel() < 20) { // TODO add the rest of things that you get back
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.2, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.2, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.8, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.8, 0.0D, 0.0D, 0.0D);
 
-				props.addMP(1);
+				playerData.addMP(1);
 				player.heal(1);
 				player.getFoodStats().addStats(1, 1);
 			}

@@ -21,9 +21,9 @@ public class MagicAero extends Magic {
 	@Override
 	public void onUse(PlayerEntity player) {
 		//TODO Equip aero shield
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.setAeroTicks(400);
-		PacketHandler.syncToAllAround(player, props);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		playerData.setAeroTicks(400);
+		PacketHandler.syncToAllAround(player, playerData);
 		player.swingArm(Hand.MAIN_HAND);
 
 	}

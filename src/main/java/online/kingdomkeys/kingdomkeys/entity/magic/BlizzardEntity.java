@@ -92,7 +92,7 @@ public class BlizzardEntity extends ThrowableEntity {
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
-					IPlayerCapabilities props = ModCapabilities.get((PlayerEntity) this.getThrower());
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) this.getThrower());
 					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
 					//System.out.println(dmg);

@@ -73,27 +73,27 @@ public class KKChestBlock extends BaseBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity");
-			props.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop");
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity");
+			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop");
 			
-			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor", 1);
-			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom", 1);
-			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit", 1);
-			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master", 1);
-			props.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final", 1);
+			playerData.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor", 1);
+			playerData.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom", 1);
+			playerData.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit", 1);
+			playerData.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master", 1);
+			playerData.setDriveFormLevel(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final", 1);
 			
-			//props.setMaxDP(900);
+			//playerData.setMaxDP(900);
 			
-			PacketHandler.syncToAllAround(player, props);
+			PacketHandler.syncToAllAround(player, playerData);
 			
 //			setDefaultState(state.with(BIG, true));
 			if (worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof KKChestTileEntity) {

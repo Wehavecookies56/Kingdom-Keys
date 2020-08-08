@@ -1,10 +1,12 @@
-package online.kingdomkeys.kingdomkeys.datagen;
+package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
+import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;

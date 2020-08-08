@@ -38,10 +38,10 @@ public class SCSyncGlobalCapabilityPacket {
 
 	public static void handle(final SCSyncGlobalCapabilityPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			LazyOptional<IGlobalCapabilities> props = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
-			props.ifPresent(cap -> cap.setStoppedTicks(message.stoppedTicks));
-			props.ifPresent(cap -> cap.setDamage(message.stopDmg));
-			props.ifPresent(cap -> cap.setFlatTicks(message.flatTicks));
+			LazyOptional<IGlobalCapabilities> globalData = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
+			globalData.ifPresent(cap -> cap.setStoppedTicks(message.stoppedTicks));
+			globalData.ifPresent(cap -> cap.setDamage(message.stopDmg));
+			globalData.ifPresent(cap -> cap.setFlatTicks(message.flatTicks));
 		});
 		ctx.get().setPacketHandled(true);
 	}

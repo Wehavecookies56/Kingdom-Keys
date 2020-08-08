@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.datagen;
+package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Blocks;

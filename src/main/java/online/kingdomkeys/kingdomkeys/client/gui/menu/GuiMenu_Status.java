@@ -22,10 +22,10 @@ public class GuiMenu_Status extends GuiMenu_Background {
 
 	String form = "";
 	
-	final IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 	Button stats_player, stats_back;
-	GuiMenuButton[] dfStats = new GuiMenuButton[props.getDriveFormsMap().size()];
+	GuiMenuButton[] dfStats = new GuiMenuButton[playerData.getDriveFormMap().size()];
 
 	GuiMenuColoredElement level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
 
@@ -48,12 +48,12 @@ public class GuiMenu_Status extends GuiMenu_Background {
 	}
 
 	private void updateButtons() {
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		String rlForm = KingdomKeys.MODID+":"+form; //form has no prefix (kingdomkeys:)
 
 		stats_player.active = !form.equals(""); //If form is empty we assume it's the player stats view
 		for(int i = 0; i < dfStats.length;i++) {//Iterate through all the buttons to update their state
-			dfStats[i].active = !rlForm.equals(KingdomKeys.MODID+":"+dfStats[i].getData()) && props.getDriveFormsMap().containsKey(KingdomKeys.MODID+":"+dfStats[i].getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+			dfStats[i].active = !rlForm.equals(KingdomKeys.MODID+":"+dfStats[i].getData()) && playerData.getDriveFormMap().containsKey(KingdomKeys.MODID+":"+dfStats[i].getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
 			dfStats[i].setSelected(!dfStats[i].active); //Set it selected if it's not active (so it renders a bit to the right)
 		}
 		
@@ -101,11 +101,11 @@ public class GuiMenu_Status extends GuiMenu_Background {
 			dRes.visible = false;*/
 		
 			 
-			int remainingExp = props.getDriveFormLevel(rlForm) == ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getMaxLevel() ? 0 : ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getLevelUpCost(props.getDriveFormLevel(rlForm)+1) - props.getDriveFormExp(rlForm);
-			dfLevel.setValue("" + props.getDriveFormLevel(rlForm));
-			dfExp.setValue(""+props.getDriveFormExp(rlForm));
+			int remainingExp = playerData.getDriveFormLevel(rlForm) == ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getMaxLevel() ? 0 : ModDriveForms.registry.getValue(new ResourceLocation(rlForm)).getLevelUpCost(playerData.getDriveFormLevel(rlForm)+1) - playerData.getDriveFormExp(rlForm);
+			dfLevel.setValue("" + playerData.getDriveFormLevel(rlForm));
+			dfExp.setValue(""+playerData.getDriveFormExp(rlForm));
 			dfNextLevel.setValue(""+remainingExp);
-			dfFormGauge.setValue(""+(2 + props.getDriveFormLevel(rlForm)));
+			dfFormGauge.setValue(""+(2 + playerData.getDriveFormLevel(rlForm)));
 		}
 		
 		//updateScreen();
@@ -137,8 +137,8 @@ public class GuiMenu_Status extends GuiMenu_Background {
 		addButton(stats_player = new GuiMenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action(""); }));
 
 		int i = 0;
-		for (i = 0; i < props.getDriveFormsMap().size(); i++) {
-			String formName = (String) Utils.getSortedDriveForms(props.getDriveFormsMap()).keySet().toArray()[i];
+		for (i = 0; i < playerData.getDriveFormMap().size(); i++) {
+			String formName = (String) Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet().toArray()[i];
 			String name = formName.substring(formName.indexOf(":")+1);
 			addButton(dfStats[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(formName.substring(formName.indexOf(":")+1)), ButtonType.SUBBUTTON, (e) -> { action(name); }));
 			dfStats[i].setData(name);
@@ -149,19 +149,19 @@ public class GuiMenu_Status extends GuiMenu_Background {
 		int c = 0;
 		int spacer = 14;
 		
-		addButton(level = new GuiMenuColoredElement(col1X, button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Level),"" + props.getLevel(), 0x000088));
-		addButton(totalExp = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_TotalExp),"" + props.getExperience(), 0x000088));
-		addButton(nextLevel = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_NextLevel),"" + props.getExpNeeded(props.getLevel(), props.getExperience()), 0x000088));
+		addButton(level = new GuiMenuColoredElement(col1X, button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Level),"" + playerData.getLevel(), 0x000088));
+		addButton(totalExp = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_TotalExp),"" + playerData.getExperience(), 0x000088));
+		addButton(nextLevel = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_NextLevel),"" + playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()), 0x000088));
 		
 		addButton(hp = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_HP),"" + (int) minecraft.player.getMaxHealth(), 0x008800));
-		addButton(mp = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_MP),"" + (int) props.getMaxMP(), 0x008800));
-		addButton(ap = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP),"" + props.getConsumedAP()+"/"+props.getMaxAP(), 0x008800));
-		addButton(driveGauge = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_DriveGauge),"" + (int) props.getMaxDP()/100, 0x008800));
+		addButton(mp = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_MP),"" + (int) playerData.getMaxMP(), 0x008800));
+		addButton(ap = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP),"" + playerData.getConsumedAP()+"/"+playerData.getMaxAP(), 0x008800));
+		addButton(driveGauge = new GuiMenuColoredElement(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_DriveGauge),"" + (int) playerData.getMaxDP()/100, 0x008800));
 		
 		c=0;
-		addButton(str = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),"" + props.getStrength(), 0x880000));
-		addButton(mag = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),"" + props.getMagic(), 0x880000));
-		addButton(def = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),"" + props.getDefense(), 0x880000));
+		addButton(str = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),"" + playerData.getStrength(), 0x880000));
+		addButton(mag = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),"" + playerData.getMagic(), 0x880000));
+		addButton(def = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),"" + playerData.getDefense(), 0x880000));
 		
 		addButton(fRes = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_FireRes),"0%", 0x887700));
 		addButton(bRes = new GuiMenuColoredElement(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardRes),"0%", 0x887700));

@@ -20,13 +20,13 @@ public class DamageCalculation {
      */
     public static float getMagicDamage(PlayerEntity player, int level, KeybladeItem keyblade) {
         if (player != null) {
-        	IPlayerCapabilities props = ModCapabilities.get(player);
+        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         	float damage = 0;
             float finalDamage = 0;
 
-            damage = (float) (keyblade.getMagic() + props.getMagic());
+            damage = (float) (keyblade.getMagic() + playerData.getMagic());
 
-            switch (props.getActiveDriveForm()) {
+            switch (playerData.getActiveDriveForm()) {
                 case Strings.Form_Wisdom:
                     damage = damage * 2;
                     break;
@@ -60,14 +60,14 @@ public class DamageCalculation {
      */
     public static float getMagicDamage(PlayerEntity player, int level, IOrgWeapon weapon) {
         if (player != null) {
-        	IPlayerCapabilities props = ModCapabilities.get(player);
+        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
             float damage = 0;
             float finalDamage = 0;
 
-            damage = (float) (weapon.getMagic() + props.getMagic());
+            damage = (float) (weapon.getMagic() + playerData.getMagic());
 
-            switch (props.getActiveDriveForm()) {
+            switch (playerData.getActiveDriveForm()) {
                 case Strings.Form_Wisdom:
                     damage = damage * 2;
                     break;
@@ -102,14 +102,14 @@ public class DamageCalculation {
      */
     public static float getMagicDamage(PlayerEntity player, int level) {
         if (player != null) {
-        	IPlayerCapabilities props = ModCapabilities.get(player);
+        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
             float finalDamage = 0;
 
             if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.MAIN_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem) {
                 finalDamage = getMagicDamage(player, level, (KeybladeItem) player.getHeldItemMainhand().getItem());
             } else {
-                finalDamage = props.getMagic();
+                finalDamage = playerData.getMagic();
             }
             return finalDamage; //(float) (finalDamage * MainConfig.items.damageMultiplier);
         } else {
@@ -123,15 +123,15 @@ public class DamageCalculation {
      */
     public static float getKBStrengthDamage(PlayerEntity player, ItemStack stack) {
         if (player != null) {
-        	IPlayerCapabilities props = ModCapabilities.get(player);
+        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             float damage = 0;
             float finalDamage = 0;
 
             KeybladeItem keyblade = (KeybladeItem) stack.getItem();
-            damage = (float) (keyblade.getStrength() + props.getStrength());
+            damage = (float) (keyblade.getStrength() + playerData.getStrength());
             //System.out.println(damage);
 
-            switch (props.getActiveDriveForm()) {
+            switch (playerData.getActiveDriveForm()) {
                 case Strings.Form_Valor:
                     damage = (float) (damage * 1.5);
                     break;
@@ -158,15 +158,15 @@ public class DamageCalculation {
      */
     public static float getOrgStrengthDamage(PlayerEntity player, ItemStack stack) {
         if (player != null) {
-        	IPlayerCapabilities props = ModCapabilities.get(player);
+        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             float damage = 0;
             float finalDamage = 0;
             if (stack.getItem() instanceof IOrgWeapon) {
             	IOrgWeapon org = (IOrgWeapon) stack.getItem();
 
-                damage = (float) org.getStrength() + props.getStrength();
+                damage = (float) org.getStrength() + playerData.getStrength();
 
-                switch (props.getActiveDriveForm()) {
+                switch (playerData.getActiveDriveForm()) {
                     case Strings.Form_Valor:
                         damage = (float) (damage * 1.5);
                         break;

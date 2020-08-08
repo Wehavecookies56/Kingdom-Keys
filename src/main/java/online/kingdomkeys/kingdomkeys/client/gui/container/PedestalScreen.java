@@ -10,11 +10,11 @@ import net.minecraft.util.text.ITextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 
-public class PedestalGui extends ContainerScreen<PedestalContainer> {
+public class PedestalScreen extends ContainerScreen<PedestalContainer> {
 
 	private static final String texture = KingdomKeys.MODID+":textures/gui/pedestal.png";
 
-    public PedestalGui(PedestalContainer container, PlayerInventory inventory, ITextComponent title) {
+    public PedestalScreen(PedestalContainer container, PlayerInventory inventory, ITextComponent title) {
         super(container, inventory, title);
 		//Minecraft.getInstance().getMainWindow().getHeight();
 		this.ySize = 186;

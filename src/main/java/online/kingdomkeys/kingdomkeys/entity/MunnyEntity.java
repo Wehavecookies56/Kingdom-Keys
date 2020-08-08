@@ -29,8 +29,8 @@ public class MunnyEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.setMunny(props.getMunny() + value);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		playerData.setMunny(playerData.getMunny() + value);
 		PacketHandler.sendTo(new SCShowOverlayPacket("munny", value), (ServerPlayerEntity) player);
 	}
 

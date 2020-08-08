@@ -32,8 +32,8 @@ public class CSAntiPointsPacket {
 	public static void handle(CSAntiPointsPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			IPlayerCapabilities props = ModCapabilities.get(player);
-			props.setAntiPoints(props.getAntiPoints() + message.points);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			playerData.setAntiPoints(playerData.getAntiPoints() + message.points);
 		});
 		ctx.get().setPacketHandled(true);
 	}

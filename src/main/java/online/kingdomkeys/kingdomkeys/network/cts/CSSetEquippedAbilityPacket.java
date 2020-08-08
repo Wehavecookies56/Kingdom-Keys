@@ -40,12 +40,12 @@ public class CSSetEquippedAbilityPacket {
 	public static void handle(CSSetEquippedAbilityPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-			IPlayerCapabilities props = ModCapabilities.get(player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			int apCost = ModAbilities.registry.getValue(new ResourceLocation(message.ability)).getAPCost();
 			int newConsumedAP = message.level > -1 ? apCost : -apCost;
-			props.setConsumedAP(props.getConsumedAP() + newConsumedAP);
+			playerData.setConsumedAP(playerData.getConsumedAP() + newConsumedAP);
 			//System.out.println("adding/sub " + message.ability + " by " + message.level + " adding: " + newConsumedAP);
-			props.addEquippedAbilityLevel(message.ability, message.level);
+			playerData.addEquippedAbilityLevel(message.ability, message.level);
 		});
 		ctx.get().setPacketHandled(true);
 	}

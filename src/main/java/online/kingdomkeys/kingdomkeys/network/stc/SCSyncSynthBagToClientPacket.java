@@ -49,12 +49,12 @@ public class SCSyncSynthBagToClientPacket {
 
 	public static void handle(final SCSyncSynthBagToClientPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			IItemHandler props = KingdomKeys.proxy.getClientPlayer().getHeldItemMainhand().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+			IItemHandler itemHandler = KingdomKeys.proxy.getClientPlayer().getHeldItemMainhand().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
 			for (int i = 0; i < message.itemList.size(); i++) {
 				// System.out.println(i+"- "+message.itemList.get(i));
 				// System.out.println(message.itemList.get(i).getCount());
-				props.getStackInSlot(i).setCount(0);
-				props.insertItem(i, message.itemList.get(i), false);
+				itemHandler.getStackInSlot(i).setCount(0);
+				itemHandler.insertItem(i, message.itemList.get(i), false);
 			}
 		});
 		ctx.get().setPacketHandled(true);

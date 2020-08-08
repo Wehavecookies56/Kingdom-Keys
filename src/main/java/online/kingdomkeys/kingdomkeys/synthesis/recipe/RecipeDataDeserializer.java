@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.synthesis.recipes;
+package online.kingdomkeys.kingdomkeys.synthesis.recipe;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -26,17 +26,17 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
  * Levels do not require an ability
  * Description can be empty
  */
-public class RecipeDataDeserializer implements JsonDeserializer<RecipeData> {
+public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
 
     @Override
-    public RecipeData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-    	RecipeData out = new RecipeData();
+    public Recipe deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    	Recipe out = new Recipe();
         JsonObject jsonObject = json.getAsJsonObject();
 
         jsonObject.entrySet().forEach(entry -> {
             JsonElement element = entry.getValue();
             switch (entry.getKey()) {//Check for the first level key
-                case "recipe":
+                case "ingredients":
                     Map<Material, Integer> recipe = new HashMap<>();//Create the recipe
                     JsonArray recipeArray = element.getAsJsonArray(); //Get the array
                     recipeArray.forEach(ingredient -> {//Iterate through all the ingredients
@@ -69,7 +69,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<RecipeData> {
                     break;
             }
         });
-        KingdomKeys.LOGGER.info("KEYCHAIN: {}, LEVELS: {}, DESCRIPTION: {}", out.result,out.amount, out.materials);
+        KingdomKeys.LOGGER.info("OUTPUT: {}, QUANTITY: {}, INGREDIENTS: {}", out.result,out.amount, out.materials);
         return out;
     }
 }

@@ -66,9 +66,9 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
-		IGlobalCapabilities gProps = ModCapabilities.getGlobal(event.getEntityLiving());
-		if (gProps != null) {
-			if (gProps.getStoppedTicks() > 0) {
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
+		if (globalData != null) {
+			if (globalData.getStoppedTicks() > 0) {
 				event.getEntityLiving().rotationPitch = pitch;
 				event.getEntityLiving().rotationYaw = yaw;
 				event.setCanceled(true);
@@ -85,10 +85,10 @@ public class ClientEvents {
 	public void changeHeight(EntityEvent.EyeHeight event) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
 		if(player != null) {
-			IGlobalCapabilities props = ModCapabilities.getGlobal(player);
-			if(props != null) {
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+			if(globalData != null) {
 				float eyeHeight = player.getEyeHeight();
-				if(props.getFlatTicks() > 0) {
+				if(globalData.getFlatTicks() > 0) {
 					eyeHeight = 0.2F;
 					//event.setNewHeight(0.1F);
 				} else {
@@ -107,17 +107,17 @@ public class ClientEvents {
 	public void RenderEntity(RenderLivingEvent.Pre event) {
 		if(event.getEntity() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntity();
-			IPlayerCapabilities props = ModCapabilities.get(player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			//Glide animation
-			if(props.getIsGliding()) {
+			if(playerData.getIsGliding()) {
 				event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
 				event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
 				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
 			}
 			
 			//Aerial Dodge rotation
-			if(props.getAerialDodgeTicks() > 0) {
-				//System.out.println(player.getDisplayName().getFormattedText()+" "+props.getAerialDodgeTicks());
+			if(playerData.getAerialDodgeTicks() > 0) {
+				//System.out.println(player.getDisplayName().getFormattedText()+" "+playerData.getAerialDodgeTicks());
 				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
 			}
 		}

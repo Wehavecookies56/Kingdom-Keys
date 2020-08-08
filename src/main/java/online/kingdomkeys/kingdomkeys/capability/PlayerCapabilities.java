@@ -22,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -36,148 +37,148 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public static class Storage implements IStorage<IPlayerCapabilities> {
 		@Override
 		public INBT writeNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side) {
-			CompoundNBT props = new CompoundNBT();
-			props.putInt("level", instance.getLevel());
-			props.putInt("experience", instance.getExperience());
-			props.putInt("experience_given", instance.getExperienceGiven());
-			props.putInt("strength", instance.getStrength());
-			props.putInt("magic", instance.getMagic());
-			props.putInt("defense", instance.getDefense());
-			props.putInt("max_hp", instance.getMaxHP());
-			props.putInt("ap", instance.getConsumedAP());
-			props.putInt("max_ap", instance.getMaxAP());
-			props.putDouble("mp", instance.getMP());
-			props.putDouble("max_mp", instance.getMaxMP());
-			props.putBoolean("recharge", instance.getRecharge());
-			props.putDouble("dp", instance.getDP());
-			props.putDouble("max_dp", instance.getMaxDP());
-			props.putDouble("fp", instance.getFP());
-			props.putString("drive_form", instance.getActiveDriveForm());
-			props.putInt("anti_points", instance.getAntiPoints());
-			props.putInt("aero_ticks", instance.getAeroTicks());
-			props.putInt("reflect_ticks", instance.getReflectTicks());
-			props.putBoolean("reflect_active", instance.getReflectActive());
-			props.putInt("munny", instance.getMunny());
+			CompoundNBT storage = new CompoundNBT();
+			storage.putInt("level", instance.getLevel());
+			storage.putInt("experience", instance.getExperience());
+			storage.putInt("experience_given", instance.getExperienceGiven());
+			storage.putInt("strength", instance.getStrength());
+			storage.putInt("magic", instance.getMagic());
+			storage.putInt("defense", instance.getDefense());
+			storage.putInt("max_hp", instance.getMaxHP());
+			storage.putInt("ap", instance.getConsumedAP());
+			storage.putInt("max_ap", instance.getMaxAP());
+			storage.putDouble("mp", instance.getMP());
+			storage.putDouble("max_mp", instance.getMaxMP());
+			storage.putBoolean("recharge", instance.getRecharge());
+			storage.putDouble("dp", instance.getDP());
+			storage.putDouble("max_dp", instance.getMaxDP());
+			storage.putDouble("fp", instance.getFP());
+			storage.putString("drive_form", instance.getActiveDriveForm());
+			storage.putInt("anti_points", instance.getAntiPoints());
+			storage.putInt("aero_ticks", instance.getAeroTicks());
+			storage.putInt("reflect_ticks", instance.getReflectTicks());
+			storage.putBoolean("reflect_active", instance.getReflectActive());
+			storage.putInt("munny", instance.getMunny());
 			
 			CompoundNBT recipes = new CompoundNBT();
-			for (String recipe : instance.getKnownRecipesList()) {
+			for (String recipe : instance.getKnownRecipeList()) {
 				recipes.putInt(recipe, 0);
 			}
-			props.put("recipes", recipes);
+			storage.put("recipes", recipes);
 
 			CompoundNBT magics = new CompoundNBT();
-			for (String magic : instance.getMagicsList()) {
+			for (String magic : instance.getMagicList()) {
 				magics.putInt(magic, 0);
 			}
-			props.put("magics", magics);
+			storage.put("magics", magics);
 
 			CompoundNBT forms = new CompoundNBT();
-			Iterator<Map.Entry<String, int[]>> driveFormsIt = instance.getDriveFormsMap().entrySet().iterator();
+			Iterator<Map.Entry<String, int[]>> driveFormsIt = instance.getDriveFormMap().entrySet().iterator();
 			while (driveFormsIt.hasNext()) {
 				Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
 				forms.putIntArray(pair.getKey().toString(), pair.getValue());
 			}
-			props.put("drive_forms", forms);
+			storage.put("drive_forms", forms);
 			
 			CompoundNBT abilities = new CompoundNBT();
-			Iterator<Map.Entry<String, int[]>> abilitiesIt = instance.getAbilitiesMap().entrySet().iterator();
+			Iterator<Map.Entry<String, int[]>> abilitiesIt = instance.getAbilityMap().entrySet().iterator();
 			while (abilitiesIt.hasNext()) {
 				Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
 				abilities.putIntArray(pair.getKey().toString(), pair.getValue());
 			}
-			props.put("abilities", abilities);
+			storage.put("abilities", abilities);
 
 			for (byte i = 0; i < 3; i++) {
-				props.putByte("Portal" + i + "N", instance.getPortalCoords(i).getPID());
-				props.putDouble("Portal" + i + "X", instance.getPortalCoords(i).getX());
-				props.putDouble("Portal" + i + "Y", instance.getPortalCoords(i).getY());
-				props.putDouble("Portal" + i + "Z", instance.getPortalCoords(i).getZ());
-				props.putInt("Portal" + i + "D", instance.getPortalCoords(i).getDimID());
+				storage.putByte("Portal" + i + "N", instance.getPortalCoords(i).getPID());
+				storage.putDouble("Portal" + i + "X", instance.getPortalCoords(i).getX());
+				storage.putDouble("Portal" + i + "Y", instance.getPortalCoords(i).getY());
+				storage.putDouble("Portal" + i + "Z", instance.getPortalCoords(i).getZ());
+				storage.putInt("Portal" + i + "D", instance.getPortalCoords(i).getDimID());
 			}
 
 			CompoundNBT parties = new CompoundNBT();
 			for (int i=0;i<instance.getPartiesInvited().size();i++) {
 				parties.putInt(instance.getPartiesInvited().get(i),i);
 			}
-			props.put("parties", parties);
+			storage.put("parties", parties);
 			
 			CompoundNBT mats = new CompoundNBT();
-			Iterator<Map.Entry<String, Integer>> materialsIt = instance.getMaterialsMap().entrySet().iterator();
+			Iterator<Map.Entry<String, Integer>> materialsIt = instance.getMaterialMap().entrySet().iterator();
 			while (materialsIt.hasNext()) {
 				Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
 				mats.putInt(pair.getKey().toString(), pair.getValue());
 			}
-			props.put("materials", mats);
+			storage.put("materials", mats);
 
-			return props;
+			return storage;
 		}
 
 		@Override
 		public void readNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side, INBT nbt) {
-			CompoundNBT properties = (CompoundNBT) nbt;
-			instance.setLevel(properties.getInt("level"));
-			instance.setExperience(properties.getInt("experience"));
-			instance.setExperienceGiven(properties.getInt("experience_given"));
-			instance.setStrength(properties.getInt("strength"));
-			instance.setMagic(properties.getInt("magic"));
-			instance.setDefense(properties.getInt("defense"));
-			instance.setMaxHP(properties.getInt("max_hp"));
-			instance.setConsumedAP(properties.getInt("ap"));
-			instance.setMaxAP(properties.getInt("max_ap"));
-			instance.setMP(properties.getDouble("mp"));
-			instance.setMaxMP(properties.getDouble("max_mp"));
-			instance.setRecharge(properties.getBoolean("recharge"));
-			instance.setDP(properties.getDouble("dp"));
-			instance.setMaxDP(properties.getDouble("max_dp"));
-			instance.setFP(properties.getDouble("fp"));
-			instance.setActiveDriveForm(properties.getString("drive_form"));
-			instance.setAntiPoints(properties.getInt("anti_points"));
-			instance.setAeroTicks(properties.getInt("aero_ticks"));
-			instance.setReflectTicks(properties.getInt("reflect_ticks"));
-			instance.setReflectActive(properties.getBoolean("reflect_active"));
-			instance.setMunny(properties.getInt("munny"));
+			CompoundNBT storage = (CompoundNBT) nbt;
+			instance.setLevel(storage.getInt("level"));
+			instance.setExperience(storage.getInt("experience"));
+			instance.setExperienceGiven(storage.getInt("experience_given"));
+			instance.setStrength(storage.getInt("strength"));
+			instance.setMagic(storage.getInt("magic"));
+			instance.setDefense(storage.getInt("defense"));
+			instance.setMaxHP(storage.getInt("max_hp"));
+			instance.setConsumedAP(storage.getInt("ap"));
+			instance.setMaxAP(storage.getInt("max_ap"));
+			instance.setMP(storage.getDouble("mp"));
+			instance.setMaxMP(storage.getDouble("max_mp"));
+			instance.setRecharge(storage.getBoolean("recharge"));
+			instance.setDP(storage.getDouble("dp"));
+			instance.setMaxDP(storage.getDouble("max_dp"));
+			instance.setFP(storage.getDouble("fp"));
+			instance.setActiveDriveForm(storage.getString("drive_form"));
+			instance.setAntiPoints(storage.getInt("anti_points"));
+			instance.setAeroTicks(storage.getInt("aero_ticks"));
+			instance.setReflectTicks(storage.getInt("reflect_ticks"));
+			instance.setReflectActive(storage.getBoolean("reflect_active"));
+			instance.setMunny(storage.getInt("munny"));
 
-			Iterator<String> recipesIt = properties.getCompound("recipes").keySet().iterator();
+			Iterator<String> recipesIt = storage.getCompound("recipes").keySet().iterator();
 			while (recipesIt.hasNext()) {
 				String key = (String) recipesIt.next();
-				instance.getKnownRecipesList().add(key.toString());
+				instance.getKnownRecipeList().add(key.toString());
 			}
 			
-			Iterator<String> magicIt = properties.getCompound("magics").keySet().iterator();
+			Iterator<String> magicIt = storage.getCompound("magics").keySet().iterator();
 			while (magicIt.hasNext()) {
 				String key = (String) magicIt.next();
 				//System.out.println("Read: " + key);
-				instance.getMagicsList().add(key.toString());
+				instance.getMagicList().add(key.toString());
 			}
 
-			Iterator<String> driveFormsIt = properties.getCompound("drive_forms").keySet().iterator();
+			Iterator<String> driveFormsIt = storage.getCompound("drive_forms").keySet().iterator();
 			while (driveFormsIt.hasNext()) {
 				String driveFormName = (String) driveFormsIt.next();
 				//System.out.println("Read: " + driveFormName);
-				instance.getDriveFormsMap().put(driveFormName.toString(), properties.getCompound("drive_forms").getIntArray(driveFormName));
+				instance.getDriveFormMap().put(driveFormName.toString(), storage.getCompound("drive_forms").getIntArray(driveFormName));
 			}
 			
-			Iterator<String> abilitiesIt = properties.getCompound("abilities").keySet().iterator();
+			Iterator<String> abilitiesIt = storage.getCompound("abilities").keySet().iterator();
 			while (abilitiesIt.hasNext()) {
 				String abilityName = (String) abilitiesIt.next();
 				//System.out.println("Read: " + abilityName);
-				instance.getAbilitiesMap().put(abilityName.toString(), properties.getCompound("abilities").getIntArray(abilityName));
+				instance.getAbilityMap().put(abilityName.toString(), storage.getCompound("abilities").getIntArray(abilityName));
 			}
 
 			for (byte i = 0; i < 3; i++) {
-				instance.setPortalCoords(i, new PortalData(properties.getByte("Portal" + i + "N"), properties.getDouble("Portal" + i + "X"), properties.getDouble("Portal" + i + "Y"), properties.getDouble("Portal" + i + "Z"), properties.getInt("Portal" + i + "D")));
+				instance.setPortalCoords(i, new PortalData(storage.getByte("Portal" + i + "N"), storage.getDouble("Portal" + i + "X"), storage.getDouble("Portal" + i + "Y"), storage.getDouble("Portal" + i + "Z"), storage.getInt("Portal" + i + "D")));
 			}
 			
-			Iterator<String> partyIt = properties.getCompound("parties").keySet().iterator();
+			Iterator<String> partyIt = storage.getCompound("parties").keySet().iterator();
 			while (partyIt.hasNext()) {
 				String key = (String) partyIt.next();
 				instance.getPartiesInvited().add(key.toString());
 			}
 			
-			Iterator<String> materialsIt = properties.getCompound("materials").keySet().iterator();
+			Iterator<String> materialsIt = storage.getCompound("materials").keySet().iterator();
 			while (materialsIt.hasNext()) {
 				String mat = (String) materialsIt.next();
-				instance.getMaterialsMap().put(mat.toString(), properties.getCompound("materials").getInt(mat));
+				instance.getMaterialMap().put(mat.toString(), storage.getCompound("materials").getInt(mat));
 			}
 		}
 	}
@@ -187,12 +188,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private String driveForm = "";
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>(); //Key = name, value=  {level, experience}
 	List<String> magicList = new ArrayList<String>();
-	List<String> recipesList = new ArrayList<String>();
-	LinkedHashMap<String, int[]> abilitiesMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped}, 
+	List<String> recipeList = new ArrayList<String>();
+	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped},
     private TreeMap<String, Integer> materials = new TreeMap<String, Integer>();
 
 
-	List<String> partiesList = new ArrayList<String>();
+	List<String> partyList = new ArrayList<String>();
 
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 300, fp = 0;
 
@@ -363,11 +364,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addMP(double mp) {
-		if (this.mp + mp > this.maxMP) {
-			this.mp = this.maxMP;
-		} else {
-			this.mp += mp;
-		}
+		this.mp = Math.min(this.mp + mp, this.maxMP);
 	}
 
 	@Override
@@ -790,7 +787,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
 		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(player)), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 		PacketHandler.syncToAllAround(player, this);
 
 	}
@@ -818,10 +815,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void remMP(double amount) {
 		// TODO CHEAT MODE
-		if (this.mp - amount < 0)
-			this.mp = 0;
-		else
-			this.mp -= amount;
+		this.mp = Math.max(this.mp - amount, 0);
 	}
 
 	@Override
@@ -836,11 +830,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addDP(double dp) {
-		if (this.dp + dp > this.maxDP) {
-			this.dp = this.maxDP;
-		} else {
-			this.dp += dp;
-		}
+		this.dp = Math.min(this.dp + dp, this.maxDP);
 	}
 
 	@Override
@@ -855,11 +845,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxDP(double dp) {
-		if(this.maxDP + dp > 900) {
-			this.maxDP = 900;
-		} else {
-			this.maxDP = dp;
-		}
+		this.maxDP = Math.min(this.maxDP + dp, 900);
 	}
 
 	@Override
@@ -874,12 +860,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addFP(double fp) {
-		double max = (200 + Utils.getDriveFormLevel(getDriveFormsMap(), getActiveDriveForm()) * 100);
-		if(this.fp + fp > max) {
-			this.fp = max;
-		} else {
-			this.fp += fp;
-		}
+		double max = (200 + Utils.getDriveFormLevel(getDriveFormMap(), getActiveDriveForm()) * 100);
+		this.fp = Math.min(this.fp + fp, max);
 	}
 
 	@Override
@@ -958,12 +940,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public LinkedHashMap<String, int[]> getDriveFormsMap() {
+	public LinkedHashMap<String, int[]> getDriveFormMap() {
 		return driveForms;//Utils.getSortedDriveForms(driveForms);
 	}
 
 	@Override
-	public void setDriveFormsMap(LinkedHashMap<String, int[]> map) {
+	public void setDriveFormMap(LinkedHashMap<String, int[]> map) {
 		this.driveForms = map;
 	}
 
@@ -974,8 +956,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setDriveFormLevel(String name, int level) {
-		if(level <= ModDriveForms.registry.getValue(new ResourceLocation(name)).getMaxLevel()) {
-			int experience = ModDriveForms.registry.getValue(new ResourceLocation(name)).getLevelUpCost(level);
+		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(name));
+		if(level <= form.getMaxLevel()) {
+			int experience = form.getLevelUpCost(level);
 			driveForms.put(name, new int[] {level, experience});
 		}
 	}
@@ -987,13 +970,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setDriveFormExp(PlayerEntity player, String name, int exp) {
+		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(name));
 		int oldLevel = getDriveFormLevel(name);
-		int driveLevel = ModDriveForms.registry.getValue(new ResourceLocation(name)).getLevelFromExp(exp);
-		if(driveLevel <= ModDriveForms.registry.getValue(new ResourceLocation(name)).getMaxLevel()) {
+		int driveLevel = form.getLevelFromExp(exp);
+		if(driveLevel <= form.getMaxLevel()) {
 			driveForms.put(name, new int[] {driveLevel, exp});
 			if(driveLevel > oldLevel) {
 				displayDriveFormLevelUpMessage(player, name);
-				if(driveLevel == ModDriveForms.registry.getValue(new ResourceLocation(name)).getMaxLevel()) {
+				if(driveLevel == form.getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity)player);
@@ -1007,12 +991,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
      	this.getDFMessages().clear();
      	
      	dfMessages.add(Strings.Stats_LevelUp_FormGauge);
-     	String driveformAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getDFAbilityForLevel(getDriveFormLevel(driveForm));
-     	String baseAbility = ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getBaseAbilityForLevel(getDriveFormLevel(driveForm));
+		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(driveForm));
+		String driveformAbility = form.getDFAbilityForLevel(getDriveFormLevel(driveForm));
+     	String baseAbility = form.getBaseAbilityForLevel(getDriveFormLevel(driveForm));
 
      	if(!driveformAbility.equals("")) {
      		Ability a = ModAbilities.registry.getValue(new ResourceLocation(driveformAbility));
-     		String name = driveformAbility;
+     		String name = a.getRegistryName().getPath();
      		if(a.getType() == AbilityType.GROWTH) {
      			int level = (getEquippedAbilityLevel(driveformAbility)[0]+2); //+2 Because it's not set yet, it should be +1 if the ability was already upgraded at the time of generating this message
      			name += "_"+level;
@@ -1022,7 +1007,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
      	
      	if(!baseAbility.equals("")) {
      		Ability a = ModAbilities.registry.getValue(new ResourceLocation(baseAbility));
-     		String name = baseAbility;
+     		String name = a.getRegistryName().getPath();
      		if(a.getType() == AbilityType.GROWTH) {
      			name += "_"+(getEquippedAbilityLevel(baseAbility)[0]+1);
      		}
@@ -1040,12 +1025,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public List<String> getMagicsList() {
+	public List<String> getMagicList() {
 		return Utils.getSortedMagics(magicList);
 	}
 
 	@Override
-	public void setMagicsList(List<String> list) {
+	public void setMagicList(List<String> list) {
 		this.magicList = list;
 	}
 
@@ -1139,96 +1124,96 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public LinkedHashMap<String, int[]> getAbilitiesMap() {
-		return abilitiesMap;//Utils.getSortedAbilities(abilitiesMap);
+	public LinkedHashMap<String, int[]> getAbilityMap() {
+		return abilityMap;//Utils.getSortedAbilities(abilitiesMap);
 	}
 
 	@Override
-	public void setAbilitiesMap(LinkedHashMap<String, int[]> map) {
-		this.abilitiesMap = map;
+	public void setAbilityMap(LinkedHashMap<String, int[]> map) {
+		this.abilityMap = map;
 	}
 
 	@Override
 	public void addAbility(String ability) {
 		messages.add(ability);
-		if(abilitiesMap.containsKey(ability)) {
-			abilitiesMap.put(ability, new int[]{abilitiesMap.get(ability)[0]+1,abilitiesMap.get(ability)[1]});
+		if(abilityMap.containsKey(ability)) {
+			abilityMap.put(ability, new int[]{abilityMap.get(ability)[0]+1,abilityMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped
-			abilitiesMap.put(ability, new int[]{1,0}); 
+			abilityMap.put(ability, new int[]{1,0});
 		}
 	}
 	
 	public void addAbility(String ability, String displayName) {
 		messages.add(displayName);
-		if(abilitiesMap.containsKey(ability)) {
-			abilitiesMap.put(ability, new int[]{abilitiesMap.get(ability)[0]+1,abilitiesMap.get(ability)[1]});
+		if(abilityMap.containsKey(ability)) {
+			abilityMap.put(ability, new int[]{abilityMap.get(ability)[0]+1,abilityMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped
-			abilitiesMap.put(ability, new int[]{1,0}); 
+			abilityMap.put(ability, new int[]{1,0});
 		}
 	}
 
 	@Override
 	public int[] getEquippedAbilityLevel(String string) {
-		if(abilitiesMap.containsKey(string)) {
-			return abilitiesMap.get(string);
+		if(abilityMap.containsKey(string)) {
+			return abilityMap.get(string);
 		}
 		return new int[] {0,0};
 	}
 
 	@Override
 	public void addEquippedAbilityLevel(String ability, int level) {
-		System.out.println(ability+": "+abilitiesMap.get(ability)[0]+" : "+(abilitiesMap.get(ability)[1]+level));
-		abilitiesMap.put(ability, new int[] {abilitiesMap.get(ability)[0], abilitiesMap.get(ability)[1]+level});
+		System.out.println(ability+": "+abilityMap.get(ability)[0]+" : "+(abilityMap.get(ability)[1]+level));
+		abilityMap.put(ability, new int[] {abilityMap.get(ability)[0], abilityMap.get(ability)[1]+level});
 	}
 
 	@Override
 	public List<String> getPartiesInvited() {
-		return partiesList;
+		return partyList;
 	}
 
 	@Override
 	public void setPartiesInvited(List<String> list) {
-		this.partiesList = list;
+		this.partyList = list;
 	}
 
 	@Override
 	public void addPartiesInvited(String partyName) {
-		this.partiesList.add(partyName);
+		this.partyList.add(partyName);
 	}
 
 	@Override
 	public void removePartiesInvited(String partyName) {
-		this.partiesList.remove(partyName);
+		this.partyList.remove(partyName);
 	}
 
 	@Override
-	public List<String> getKnownRecipesList() {
-		return recipesList;
+	public List<String> getKnownRecipeList() {
+		return recipeList;
 	}
 
 	@Override
-	public void setKnownRecipesList(List<String> list) {
-		this.recipesList = list;
+	public void setKnownRecipeList(List<String> list) {
+		this.recipeList = list;
 	}
 
 	@Override
 	public boolean hasKnownRecipe(String recipe) {
-		return this.recipesList.contains(recipe);
+		return this.recipeList.contains(recipe);
 	}
 
 	@Override
 	public void addKnownRecipe(String recipe) {
-		this.recipesList.add(recipe);
+		this.recipeList.add(recipe);
 	}
 	
 	 @Override
-     public TreeMap<String, Integer> getMaterialsMap() {
+     public TreeMap<String, Integer> getMaterialMap() {
          return materials;
      }
 
 	 @Override
-	 public void setMaterialsMap(TreeMap<String, Integer> materialsMap) {
-		 this.materials = materialsMap;
+	 public void setMaterialMap(TreeMap<String, Integer> materialMap) {
+		 this.materials = materialMap;
 	 }
 	 
      @Override

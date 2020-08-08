@@ -189,8 +189,8 @@ public class GuiMenu extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.translatef(2, 2, 100);
-			IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-			if (props != null) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			if (playerData != null) {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.translatef((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.fontRenderer.FONT_HEIGHT / 2)), 1);
@@ -198,9 +198,9 @@ public class GuiMenu extends GuiMenu_Background {
 					drawString(minecraft.fontRenderer, minecraft.player.getDisplayName().getFormattedText(), 0, 0, 0xFFFFFF);
 				}
 				RenderSystem.popMatrix();
-				drawString(minecraft.fontRenderer, "LV: " + props.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+				drawString(minecraft.fontRenderer, "LV: " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
 				drawString(minecraft.fontRenderer, "HP: " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
-				drawString(minecraft.fontRenderer, "MP: " + (int) props.getMP() + "/" + (int) props.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
+				drawString(minecraft.fontRenderer, "MP: " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
 			}
 		}
 		RenderSystem.popMatrix();

@@ -67,22 +67,22 @@ public class DriveGui extends Screen {
 		 * (!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		 * return;
 		 */
-		IPlayerCapabilities props = ModCapabilities.get(minecraft.player);
-		if (props != null) {
-			double dp = props.getDP();
-			double fp = props.getFP();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		if (playerData != null) {
+			double dp = playerData.getDP();
+			double fp = playerData.getFP();
 
-			currDrive = (float) ((oneValue * dp) - getCurrBar(dp, (int) props.getMaxDP() / 100) * guiLength);
+			currDrive = (float) ((oneValue * dp) - getCurrBar(dp, (int) playerData.getMaxDP() / 100) * guiLength);
 			
-			if (props.getDriveFormsMap() != null && props.getActiveDriveForm() != null && !props.getActiveDriveForm().equals("")) {
-				if(props.getActiveDriveForm().equals(Strings.Form_Anti)) {//Antiform FP calculation
+			if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm() != null && !playerData.getActiveDriveForm().equals("")) {
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {//Antiform FP calculation
 					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 1000) * guiLength);
 				} else {
-					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 300 + (props.getDriveFormsMap().get(props.getActiveDriveForm())[0] * 100)) * guiLength);
+					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 300 + (playerData.getDriveFormMap().get(playerData.getActiveDriveForm())[0] * 100)) * guiLength);
 				}
 			}
 
-			if (dp == props.getMaxDP()) {
+			if (dp == playerData.getMaxDP()) {
 				currDrive = guiLength;
 			}
 
@@ -127,7 +127,7 @@ public class DriveGui extends Screen {
 						GL11.glTranslatef((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
 
-						if (props.getActiveDriveForm().equals("")) {
+						if (playerData.getActiveDriveForm().equals("")) {
 							this.blit(15, 6, 0, 0, guiWidth, guiHeight);
 						} else {
 							this.blit(15, 6, 98, 0, guiWidth, guiHeight);
@@ -140,7 +140,7 @@ public class DriveGui extends Screen {
 					{
 						GL11.glTranslatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
-						if (props.getActiveDriveForm().equals("")) {
+						if (playerData.getActiveDriveForm().equals("")) {
 							this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
 						} else {
 							this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
@@ -154,14 +154,14 @@ public class DriveGui extends Screen {
 						GL11.glTranslatef((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
 
-						int numPos = props.getActiveDriveForm().equals("") ? getCurrBar(dp, (int) props.getMaxDP() / 100) * 10 : 99 + getCurrBar(fp,Utils.getDriveFormLevel(props.getDriveFormsMap(), props.getActiveDriveForm()) + 2)*10;//(getCurrBar(fp, props.getFormGaugeLevel(props.getActiveDriveForm())) * 10);
+						int numPos = playerData.getActiveDriveForm().equals("") ? getCurrBar(dp, (int) playerData.getMaxDP() / 100) * 10 : 99 + getCurrBar(fp,Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2)*10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
 						// int numPos = getCurrBar(dp, 9) * 10;
 						this.blit(14, 6, numPos, 38, 8, guiHeight);
 					}
 					GL11.glPopMatrix();
 
 					// MAX Icon
-					if (props.getDP() >= props.getMaxDP() && props.getActiveDriveForm().equals("")) {
+					if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals("")) {
 						GL11.glPushMatrix();
 						{
 							if (doChange) {

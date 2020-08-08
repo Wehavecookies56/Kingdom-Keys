@@ -20,9 +20,9 @@ public class MagicReflect extends Magic {
 
 	@Override
 	public void onUse(PlayerEntity player) {
-		IPlayerCapabilities props = ModCapabilities.get(player);
-		props.setReflectTicks(40);
-		PacketHandler.syncToAllAround(player, props);
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		playerData.setReflectTicks(40);
+		PacketHandler.syncToAllAround(player, playerData);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 
