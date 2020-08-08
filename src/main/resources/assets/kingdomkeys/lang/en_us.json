@@ -192,8 +192,98 @@
 	"item.kingdomkeys.xemnas_leggings": "Xemnas Leggings",
 	"item.kingdomkeys.xemnas_boots": "Xemnas Boots",
 	
+	"_comment": "Materials",
+	"item.kingdomkeys.blazing_shard": "Blazing Shard",
+	"item.kingdomkeys.blazing_stone": "Blazing Stone",
+	"item.kingdomkeys.blazing_gem": "Blazing Gem",
+	"item.kingdomkeys.blazing_crystal": "Blazing Crystal",
+	
+	"item.kingdomkeys.soothing_shard": "Soothing Shard",
+	"item.kingdomkeys.soothing_stone": "Soothing Stone",
+	"item.kingdomkeys.soothing_gem": "Soothing Gem",
+	"item.kingdomkeys.soothing_crystal": "Soothing Crystal",
+	
+	"item.kingdomkeys.writhing_shard": "Writhing Shard",
+	"item.kingdomkeys.writhing_stone": "Writhing Stone",
+	"item.kingdomkeys.writhing_gem": "Writhing Gem",
+	"item.kingdomkeys.writhing_crystal": "Writhing Crystal",
+	
+	"item.kingdomkeys.betwixt_shard": "Betwixt Shard",
+	"item.kingdomkeys.betwixt_stone": "Betwixt Stone",
+	"item.kingdomkeys.betwixt_gem": "Betwixt Gem",
+	"item.kingdomkeys.betwixt_crystal": "Betwixt Crystal",
+	
 	"item.kingdomkeys.wellspring_shard": "Wellspring Shard",
+	"item.kingdomkeys.wellspring_stone": "Wellspring Stone",
+	"item.kingdomkeys.wellspring_gem": "Wellspring Gem",
+	"item.kingdomkeys.wellspring_crystal": "Wellspring Crystal",
+	
+	"item.kingdomkeys.frost_shard": "Frost Shard",
+	"item.kingdomkeys.frost_stone": "Frost Stone",
+	"item.kingdomkeys.frost_gem": "Frost Gem",
+	"item.kingdomkeys.frost_crystal": "Frost Crystal",
+	
+	"item.kingdomkeys.lightning_shard": "Lightning Shard",
+	"item.kingdomkeys.lightning_stone": "Lightning Stone",
+	"item.kingdomkeys.lightning_gem": "Lightning Gem",
+	"item.kingdomkeys.lightning_crystal": "Lightning Crystal",
+	
+	"item.kingdomkeys.lucid_shard": "Lucid Shard",
+	"item.kingdomkeys.lucid_stone": "Lucid Stone",
+	"item.kingdomkeys.lucid_gem": "Lucid Gem",
+	"item.kingdomkeys.lucid_crystal": "Lucid Crystal",
+	
+	"item.kingdomkeys.hungry_shard": "Hungry Shard",
+	"item.kingdomkeys.hungry_stone": "Hungry Stone",
+	"item.kingdomkeys.hungry_gem": "Hungry Gem",
+	"item.kingdomkeys.hungry_crystal": "Hungry Crystal",
+	
+	"item.kingdomkeys.twilight_shard": "Twilight Shard",
+	"item.kingdomkeys.twilight_stone": "Twilight Stone",
+	"item.kingdomkeys.twilight_gem": "Twilight Gem",
+	"item.kingdomkeys.twilight_crystal": "Twilight Crystal",
+	
+	"item.kingdomkeys.mythril_shard": "Mythril Shard",
+	"item.kingdomkeys.mythril_stone": "Mythril Stone",
+	"item.kingdomkeys.mythril_gem": "Mythril Gem",
+	"item.kingdomkeys.mythril_crystal": "Mythril Crystal",
+	
+	"item.kingdomkeys.tranquility_shard": "Tranquility Shard",
+	"item.kingdomkeys.tranquility_stone": "Tranquility Stone",
+	"item.kingdomkeys.tranquility_gem": "Tranquility Gem",
+	"item.kingdomkeys.tranquility_crystal": "Tranquility Crystal",
+	
+	"item.kingdomkeys.sinister_shard": "Sinister Shard",
+	"item.kingdomkeys.sinister_stone": "Sinister Stone",
+	"item.kingdomkeys.sinister_gem": "Sinister Gem",
+	"item.kingdomkeys.sinister_crystal": "Sinister Crystal",
+
+	"item.kingdomkeys.stormy_shard": "Stormy Shard",
+	"item.kingdomkeys.stormy_stone": "Stormy Stone",
+	"item.kingdomkeys.stormy_gem": "Stormy Gem",
+	"item.kingdomkeys.stormy_crystal": "Stormy Crystal",
+
+	"item.kingdomkeys.remembrance_shard": "Remembrance Shard",
+	"item.kingdomkeys.remembrance_stone": "Remembrance Stone",
+	"item.kingdomkeys.remembrance_gem": "Remembrance Gem",
+	"item.kingdomkeys.remembrance_crystal": "Remembrance Crystal",
+
+	"item.kingdomkeys.pulsing_shard": "Pulsing Shard",
+	"item.kingdomkeys.pulsing_stone": "Pulsing Stone",
+	"item.kingdomkeys.pulsing_gem": "Pulsing Gem",
+	"item.kingdomkeys.pulsing_crystal": "Pulsing Crystal",
+	
+	"item.kingdomkeys.orichalcum": "Orichalcum",
+	"item.kingdomkeys.orichalcumplus": "Orichalcum+",
+	"item.kingdomkeys.lost_illusion": "Lost Illusion",
+	"item.kingdomkeys.manifest_illusion": "Manifest Illusion",
+	
 	"item.kingdomkeys.fluorite": "Fluorite",
+	"item.kingdomkeys.damascus": "Damascus",
+	"item.kingdomkeys.adamantite": "Adamantite",
+	"item.kingdomkeys.electrum": "Electrum",
+	"item.kingdomkeys.evanescent_crystal": "Evanescent Crystal",
+	"item.kingdomkeys.illusory_crystal": "Illusory Crystal",
 	
     "item.kingdomkeys.kingdom_key": "Kingdom Key",
     "item.kingdomkeys.kingdom_key_d": "Kingdom Key D",

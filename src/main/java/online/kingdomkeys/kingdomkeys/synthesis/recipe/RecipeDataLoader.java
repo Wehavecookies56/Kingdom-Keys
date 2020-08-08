@@ -66,7 +66,6 @@ public class RecipeDataLoader extends JsonReloadListener {
         String extension = ".json";
 
         RecipeRegistry.getInstance().clearRegistry();
-
         for (ResourceLocation file : manager.getAllResourceLocations(folder, n -> n.endsWith(extension))) { //Get all .json files
             ResourceLocation recipe = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             try {
