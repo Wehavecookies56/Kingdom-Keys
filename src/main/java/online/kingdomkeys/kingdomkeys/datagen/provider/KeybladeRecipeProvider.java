@@ -1,5 +1,17 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DirectoryCache;
+import net.minecraft.data.IDataProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
+import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeRecipeBuilder;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -7,19 +19,8 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+public abstract class KeybladeRecipeProvider <T extends KeybladeRecipeBuilder<T>> implements IDataProvider {
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.ExistingFileHelper;
-import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
-
-public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements IDataProvider {
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     protected final DataGenerator generator;
@@ -30,13 +31,13 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
     @VisibleForTesting
     public final ExistingFileHelper existingFileHelper;
 
-    public KeybladeProvider(DataGenerator generator, String modid, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
+    public KeybladeRecipeProvider(DataGenerator generator, String modid, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
         this.generator = generator;
         this.modid = modid;
         this.existingFileHelper = existingFileHelper;
         this.factory = factory;
     }
-    public KeybladeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
+    public KeybladeRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
         this(generator, modid, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
     }
     protected abstract void registerKeyblades();
@@ -58,6 +59,11 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
         generateAll(cache);
     }
 
+    @Override
+    public String getName() {
+        return null;
+    }
+
     protected void generateAll(DirectoryCache cache) {
         for (T
                 model : generatedModels.values()) {
@@ -72,6 +78,6 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
 
     private Path getPath(T model) {
         ResourceLocation loc = model.getLocation();
-        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblades/" + loc.getPath() + ".json");
+        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/synthesis/" + loc.getPath() + ".json");
     }
 }

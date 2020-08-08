@@ -4,12 +4,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-import online.kingdomkeys.kingdomkeys.datagen.provider.BlockModels;
-import online.kingdomkeys.kingdomkeys.datagen.provider.BlockStates;
-import online.kingdomkeys.kingdomkeys.datagen.provider.ItemModels;
-import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeStats;
-import online.kingdomkeys.kingdomkeys.datagen.provider.LootTables;
-import online.kingdomkeys.kingdomkeys.datagen.provider.Recipes;
+import online.kingdomkeys.kingdomkeys.datagen.init.*;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
@@ -23,5 +18,6 @@ public class DataGeneration {
         generator.addProvider(new BlockStates(generator, event.getExistingFileHelper()));
         generator.addProvider(new KeybladeStats(generator, event.getExistingFileHelper()));
         generator.addProvider(new LootTables(generator));
+        generator.addProvider(new KeybladeRecipe(generator, event.getExistingFileHelper()));
     }
 }

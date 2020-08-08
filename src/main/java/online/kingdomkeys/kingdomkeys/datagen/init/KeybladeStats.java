@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.datagen.provider;
+package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class KeybladeStats extends KeybladeProvider {
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, KingdomKeys.MODID, KEYBLADE_FOLDER, KeybladeBuilder::new, existingFileHelper);
+        super(generator, KingdomKeys.MODID, KeybladeBuilder::new, existingFileHelper);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.datagen.provider;
+package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
