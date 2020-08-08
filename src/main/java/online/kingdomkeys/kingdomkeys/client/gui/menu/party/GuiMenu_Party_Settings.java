@@ -1,29 +1,29 @@
-package online.kingdomkeys.kingdomkeys.client.gui.menu;
+package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
 
-public class GuiMenu_Party_Create extends GuiMenu_Background {
+public class GuiMenu_Party_Settings extends GuiMenu_Background {
 
 	boolean priv = false;
 	byte pSize = Party.PARTY_LIMIT;
 	
-	TextFieldWidget tfName;
 	Button togglePriv, accept, size;
 	GuiMenuButton back;
 		
@@ -32,7 +32,7 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 	
 	Party party;
 		
-	public GuiMenu_Party_Create(String name) {
+	public GuiMenu_Party_Settings(String name) {
 		super(name, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
@@ -42,19 +42,21 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 		switch(string) {
 		case "back":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_None());
+			minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
 			break;
 		case "togglePriv":
 			priv = !priv;
 			break;
 		case "accept":
-			if(!tfName.getText().equals("")) { //Accept Party creation
-				Party localParty = new Party(tfName.getText(), minecraft.player.getUniqueID(), minecraft.player.getName().getFormattedText(), priv, Byte.parseByte(size.getMessage()));
-				PacketHandler.sendToServer(new CSPartyCreate(localParty));
-				
-				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-				minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
-			}
+			//Accept Party creation
+			//Party localParty = worldData.getPartyFromName(name);
+			party.setPriv(priv);
+			party.setSize(pSize);
+			PacketHandler.sendToServer(new CSPartySettings(party));
+			
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
+			
 			break;
 		case "size":
 			if(pSize == Party.PARTY_LIMIT) {
@@ -77,7 +79,6 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 		//TBName
 		togglePriv.visible = true;
 		accept.visible = true;
-		tfName.visible = true;
 		size.visible = true;
 	}
 
@@ -90,6 +91,8 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 		this.buttons.clear();
 		
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		priv = party.getPriv();
+		pSize = party.getSize();
 		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -97,12 +100,11 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 
-		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, Utils.translateToLocal("Private/public"), (e) -> { action("togglePriv"); }));
-		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 100, 20, Utils.translateToLocal("Accept"), (e) -> { action("accept"); }));
+		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, Utils.translateToLocal("Private/public"), (e) -> { action("togglePriv"); }));
+		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, pSize+"", (e) -> { action("size"); }));
+		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), (int) 130, 20, Utils.translateToLocal("Accept"), (e) -> { action("accept"); }));
+		//addButton(cancel = new Button((int) buttonPosX, button_statsY + (6 * 18), (int) buttonWidth, 20, Utils.translateToLocal("Cancel"), (e) -> { action("cancel"); }));
 		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20, Party.PARTY_LIMIT+"", (e) -> { action("size"); }));
-		
-		addButton(tfName = new TextFieldWidget(minecraft.fontRenderer, (int)(width*0.25), (int)(height*0.25), 100, 15, ""));
 		
 		updateButtons();
 	}
@@ -121,12 +123,11 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "CREATE", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, "SETTINGS", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
-		
-		drawString(minecraft.fontRenderer, "Party Name", buttonX, (int)(height * 0.2), 0xFFFFFF);
-		drawString(minecraft.fontRenderer, "Accessibility and limit", buttonX, (int)(height * 0.35), 0xFFFFFF);
+		drawString(minecraft.fontRenderer, "Accessibility and limit", buttonX, (int)(height * 0.2), 0xFFFFFF);
 	}
 	
 }

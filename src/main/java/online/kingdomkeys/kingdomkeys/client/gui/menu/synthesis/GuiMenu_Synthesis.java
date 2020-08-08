@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
+package online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis;
 
 import java.awt.Color;
 

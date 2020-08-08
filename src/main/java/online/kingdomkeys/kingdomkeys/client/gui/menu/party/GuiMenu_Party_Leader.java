@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui.menu;
+package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
@@ -13,59 +13,67 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 
-public class GuiMenu_Party_None extends GuiMenu_Background {
+public class GuiMenu_Party_Leader extends GuiMenu_Background {
 	
-	GuiMenuButton back, create, join;
+	GuiMenuButton back, invite, settings, kick, disband;
 		
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
-
+	
 	Party party;
 	
-	//Not in party
-	//0 = not in party
-	//1 = creating (create)
-	//2 = Looking for party (join)
-	//In party
-	//3 = Leader view
-	//4 = Member view
-	
-	public GuiMenu_Party_None() {
-		super("Party", new Color(0,0,255));
+	public GuiMenu_Party_Leader() {
+		super("Party Leader", new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
 
-	protected void action(String string) {		
+	protected void action(String string) {
 		switch(string) {
 		case "back":
 			GuiHelper.openMenu();
 			break;
-		case "create":
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Create("Create Party"));
+		case "disband":
+			PacketHandler.sendToServer(new CSPartyDisband(party));
+			GuiHelper.openMenu();
 			break;
-		case "join":
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Join("Join Party"));
+		case "leave":
+			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUniqueID()));
+			party = null;
 			break;
-		
+		case "settings":
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_Settings("Party Settings"));
+			break;
+		case "kick":
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_Kick("Party Kick"));
+			break;
+		case "invite":
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.displayGuiScreen(new GuiMenu_Party_Invite("Party Invite"));
+			break;
 		}
 		
 		updateButtons();
 	}
 
 	private void updateButtons() {
-		create.visible = true;
-		join.visible = true;
-		back.visible = true;
+		invite.visible = true;
+		kick.visible = true;
+		disband.visible = true;
 	}
 
 	@Override
@@ -83,25 +91,35 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(create = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Create"), ButtonType.BUTTON, (e) -> { action("create"); }));
-		addButton(join = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Join"), ButtonType.BUTTON, (e) -> { action("join"); }));
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-	
+		addButton(invite = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Invite"), ButtonType.BUTTON, (e) -> { action("invite"); }));
+		addButton(settings = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Settings"), ButtonType.BUTTON, (e) -> { action("settings"); }));
+		addButton(kick = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal("Kick"), ButtonType.BUTTON, (e) -> { action("kick"); }));
+		addButton(disband = new GuiMenuButton((int) buttonPosX, button_statsY + (3 * 18), (int) buttonWidth, Utils.translateToLocal("Disband"), ButtonType.BUTTON, (e) -> { action("disband"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (4 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		
 		updateButtons();
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
+		//System.out.println(phase);
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.world);
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "PARTY", 2, 10, 0xFF9900);
+		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		if(party != null) {
+			invite.active = party.getMembers().size() < party.getSize();
+			
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.scaled(1.5,1.5, 1);
+				drawString(minecraft.fontRenderer, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
+			}
+			RenderSystem.popMatrix();
+		
+			drawParty();
 		}
-		RenderSystem.popMatrix();
-		drawParty();
+		
 	}
 	
 	public void drawParty() {
