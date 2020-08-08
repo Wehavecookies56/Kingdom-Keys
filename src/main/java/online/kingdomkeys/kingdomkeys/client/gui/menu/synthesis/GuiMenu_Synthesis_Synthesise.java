@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis;
 
 import java.awt.Color;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -24,6 +25,8 @@ import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseKeyblade;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 	
@@ -82,9 +85,10 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
 			
 			boolean enoughMats = true;
-			if(item.getRecipe() != null) {
+			Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
+			if(recipe != null) {
 				create.visible = true;
-				Iterator<Entry<Material, Integer>> materials = item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
+				Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();//item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				while(materials.hasNext()) {
 					Entry<Material, Integer> m = materials.next();
 					if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
@@ -94,7 +98,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 			}
 
 			create.active = enoughMats;
-			create.visible = item.getRecipe() != null;
+			create.visible = recipe != null;
 		} else {
 			create.visible = false;
 		}
@@ -201,8 +205,9 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				{
 					
 					RenderSystem.translated(width*0.4F, height*0.3, 1);
-					if(item.getRecipe() != null) {
-						Iterator<Entry<Material, Integer>> materials = item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
+					Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
+					if(recipe != null) {
+						Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 						int i = 0;
 						while(materials.hasNext()) {
 							Entry<Material, Integer> m = materials.next();

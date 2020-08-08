@@ -94,14 +94,6 @@ public class KeybladeItem extends SwordItem {
 	public Item.Properties getProperties() {
 		return properties;
 	}
-	
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
-	}
-	
-	public Recipe getRecipe() {
-		return recipe;
-	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {

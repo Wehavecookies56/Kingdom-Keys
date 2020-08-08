@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
@@ -19,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 public class CSSynthesiseKeyblade {
 
@@ -52,7 +55,8 @@ public class CSSynthesiseKeyblade {
 			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
 			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
 			
-			Iterator<Entry<Material, Integer>> it = item.getRecipe().getMaterials().entrySet().iterator();
+			Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
+			Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 			boolean hasMaterials = true;
 			while(it.hasNext()) { //Check if the player has the materials (checked serverside just in case)
 				Entry<Material, Integer> m = it.next();
@@ -62,14 +66,14 @@ public class CSSynthesiseKeyblade {
 			}
 			
 			if(hasMaterials) { //If the player has the materials substract them and give the item
-			Iterator<Entry<Material, Integer>> ite = item.getRecipe().getMaterials().entrySet().iterator();
+			Iterator<Entry<Material, Integer>> ite = recipe.getMaterials().entrySet().iterator();
 				while(ite.hasNext()) {
 					Entry<Material, Integer> m = ite.next();
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				//TODO Item i = item.getRecipe().getResult();
 				
-				int amount = item.getRecipe().getAmount();
+				int amount = recipe.getAmount();
 				player.inventory.addItemStackToInventory(new ItemStack(item,amount));
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
