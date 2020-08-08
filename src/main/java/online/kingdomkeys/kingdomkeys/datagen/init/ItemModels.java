@@ -206,7 +206,7 @@ public class ItemModels extends ItemModelProvider {
 		standardKeychain(Strings.unboundChain);
 		standardKeychain(Strings.victoryLineChain);
 		standardKeychain(Strings.voidGearChain);
-		standardKeychain(Strings.waytotheDawnChain);
+		standardKeychain(Strings.wayToTheDawnChain);
 		standardKeychain(Strings.waywardWindChain);
 		standardKeychain(Strings.winnersProofChain);
 		standardKeychain(Strings.wishingLampChain);

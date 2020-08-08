@@ -703,7 +703,7 @@ public class KeybladeStats extends KeybladeProvider {
                         .addMaterial(Strings.SM_HungryCrystal, 1)).build())
                 .desc("The Keyblade above all others, holding all power and will increase MP restoration rate, once all MP has been consumed.");
 
-        getBuilder(Strings.waytotheDawn).keychain(Strings.waytotheDawnChain).baseStats(7,3)
+        getBuilder(Strings.wayToTheDawn).keychain(Strings.wayToTheDawnChain).baseStats(7,3)
                 .abilities("Magic Treasure Magnet", "Formchange Extender")
                 .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3, 4).withMaterials(new Recipe()
                         .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
