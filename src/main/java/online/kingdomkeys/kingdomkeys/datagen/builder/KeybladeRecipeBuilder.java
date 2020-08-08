@@ -7,16 +7,16 @@ import com.google.gson.JsonObject;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ModelFile;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class KeybladeRecipeBuilder<T extends KeybladeRecipeBuilder<T>> extends ModelFile {
 
     protected final ExistingFileHelper existingFileHelper;
-    private Map<Material, Integer> materials;
-    private ResourceLocation keychain;
-
+    private ResourceLocation output;
+    private Map recipe = new HashMap();
+    private int quantity;
     public KeybladeRecipeBuilder(Object o, Object o1) {
         super((ResourceLocation) o);
         this.existingFileHelper = (ExistingFileHelper) o1;
@@ -26,20 +26,25 @@ public class KeybladeRecipeBuilder<T extends KeybladeRecipeBuilder<T>> extends M
         return (T) this;
     }
 
-    public T keychain(String keyChain) {
-        Preconditions.checkNotNull(keyChain, "Texture must not be null");
+    public T output(String output, int quantity) {
+        Preconditions.checkNotNull(output, "Texture must not be null");
         ResourceLocation asLoc;
-        if (keyChain.contains(":")) {
-            asLoc = new ResourceLocation(keyChain);
+        if (output.contains(":")) {
+            asLoc = new ResourceLocation(output);
         } else {
-            asLoc = new ResourceLocation(getLocation().getNamespace(), keyChain);
+            asLoc = new ResourceLocation(getLocation().getNamespace(), output);
         }
-        return keychain(asLoc);
+        return output(asLoc, quantity);
     }
 
-    public T keychain(ResourceLocation keychain) {
-        Preconditions.checkNotNull(keychain, "Keychain must not be null");
-        this.keychain = keychain;
+    public T output(ResourceLocation output, int quantity) {
+        Preconditions.checkNotNull(output, "Keychain must not be null");
+        this.output = output;
+        this.quantity = quantity;
+        return self();
+    }
+    public T addMaterial(String mat, int quantity) {
+        recipe.put(mat, quantity);
         return self();
     }
 
@@ -51,19 +56,25 @@ public class KeybladeRecipeBuilder<T extends KeybladeRecipeBuilder<T>> extends M
     @VisibleForTesting
     public JsonObject toJson() {
         JsonObject root = new JsonObject();
+        JsonObject obj1 = new JsonObject();
+        JsonArray recipes = new JsonArray();
 
-        if (this.keychain != null) {
-            root.addProperty("keychain", this.keychain.toString());
+        if (this.output != null) {
+            obj1.addProperty("item", this.output.toString());
+            obj1.addProperty("quantity", quantity);
         }
 
-            JsonObject obj1 = new JsonObject();
-            JsonArray recipe = new JsonArray();
-            materials.forEach((key, value) -> {
+        if (recipe != null) {
+            recipe.forEach((key, value) -> {
                 JsonObject matObj = new JsonObject();
-                matObj.addProperty("material", key.getRegistryName().toString());
-                matObj.addProperty("quantity", value);
-                recipe.add(matObj); });
-            obj1.add("ingredients", recipe);
+                matObj.addProperty("material", key.toString());
+                matObj.addProperty("quantity", value.toString());
+                recipes.add(matObj);
+            });
+        }
+
+        root.add("output", obj1);
+        root.add("ingredients", recipes);
 
         return root;
     }
