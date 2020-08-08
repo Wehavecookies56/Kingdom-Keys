@@ -5,11 +5,11 @@
   },
   "ingredients": [
     {
-      "material": "twilight_shard",
+      "material": "kingdomkeys:mat_twilight_shard",
       "quantity": "1"
     },
     {
-      "material": "mythril_shard",
+      "material": "kingdomkeys:mat_mythril_shard",
       "quantity": "10"
     }
   ]

@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "pulsing_shard",
+      "material": "kingdomkeys:mat_twilight_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_shard",
       "quantity": "2"
     },
     {
-      "material": "betwixt_shard",
+      "material": "kingdomkeys:mat_betwixt_shard",
       "quantity": "3"
-    },
-    {
-      "material": "twilight_stone",
-      "quantity": "5"
     }
   ]
 }

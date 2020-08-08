@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "writhing_gem",
-      "quantity": "5"
-    },
-    {
-      "material": "pulsing_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "2"
     },
     {
-      "material": "soothing_gem",
+      "material": "kingdomkeys:mat_soothing_gem",
       "quantity": "5"
     },
     {
-      "material": "frost_gem",
+      "material": "kingdomkeys:mat_frost_gem",
       "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "5"
     }
   ]
 }

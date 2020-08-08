@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "tranquility_shard",
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_tranquility_shard",
       "quantity": "4"
     },
     {
-      "material": "writhing_shard",
+      "material": "kingdomkeys:mat_writhing_shard",
       "quantity": "5"
-    },
-    {
-      "material": "writhing_stone",
-      "quantity": "3"
     }
   ]
 }

@@ -9,7 +9,7 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
-import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeRecipeBuilder;
+import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public abstract class KeybladeRecipeProvider <T extends KeybladeRecipeBuilder<T>> implements IDataProvider {
+public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T>> implements IDataProvider {
 
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
@@ -30,13 +30,13 @@ public abstract class KeybladeRecipeProvider <T extends KeybladeRecipeBuilder<T>
     @VisibleForTesting
     public final ExistingFileHelper existingFileHelper;
 
-    public KeybladeRecipeProvider(DataGenerator generator, String modid, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
+    public SynthesisRecipeProvider(DataGenerator generator, String modid, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
         this.generator = generator;
         this.modid = modid;
         this.existingFileHelper = existingFileHelper;
         this.factory = factory;
     }
-    public KeybladeRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
+    public SynthesisRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
         this(generator, modid, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
     }
     protected abstract void registerRecipe();

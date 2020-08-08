@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "writhing_shard",
-      "quantity": "3"
-    },
-    {
-      "material": "frost_stone",
+      "material": "kingdomkeys:mat_frost_stone",
       "quantity": "2"
     },
     {
-      "material": "lucid_crystal",
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_crystal",
       "quantity": "2"
     }
   ]

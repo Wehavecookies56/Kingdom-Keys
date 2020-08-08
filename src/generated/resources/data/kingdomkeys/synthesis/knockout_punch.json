@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "mythril_gem",
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_gem",
       "quantity": "1"
-    },
-    {
-      "material": "wellspring_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "pulsing_stone",
-      "quantity": "2"
-    },
-    {
-      "material": "soothing_stone",
-      "quantity": "2"
     }
   ]
 }

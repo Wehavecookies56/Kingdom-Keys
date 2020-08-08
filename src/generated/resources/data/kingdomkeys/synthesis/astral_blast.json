@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "blazing_shard",
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_shard",
       "quantity": "3"
-    },
-    {
-      "material": "soothing_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "lucid_stone",
-      "quantity": "2"
     }
   ]
 }

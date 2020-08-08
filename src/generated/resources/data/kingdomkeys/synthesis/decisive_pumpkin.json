@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "frost_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "orichalcum",
-      "quantity": "1"
-    },
-    {
-      "material": "writhing_gem",
+      "material": "kingdomkeys:mat_writhing_gem",
       "quantity": "2"
     },
     {
-      "material": "writhing_crystal",
+      "material": "kingdomkeys:mat_frost_crystal",
       "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcum",
+      "quantity": "1"
     }
   ]
 }

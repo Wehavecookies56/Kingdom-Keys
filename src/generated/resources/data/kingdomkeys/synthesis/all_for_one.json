@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_crystal",
+      "material": "kingdomkeys:mat_wellspring_crystal",
       "quantity": "1"
     },
     {
-      "material": "soothing_stone",
+      "material": "kingdomkeys:mat_soothing_stone",
       "quantity": "3"
     },
     {
-      "material": "soothing_shard",
+      "material": "kingdomkeys:mat_soothing_shard",
       "quantity": "2"
     }
   ]

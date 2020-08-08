@@ -5,27 +5,27 @@
   },
   "ingredients": [
     {
-      "material": "blazing_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "1"
     },
     {
-      "material": "betwixt_crystal",
+      "material": "kingdomkeys:mat_blazing_crystal",
       "quantity": "1"
     },
     {
-      "material": "twilight_crystal",
+      "material": "kingdomkeys:mat_twilight_crystal",
       "quantity": "1"
     },
     {
-      "material": "pulsing_crystal",
+      "material": "kingdomkeys:mat_betwixt_crystal",
       "quantity": "1"
     },
     {
-      "material": "mythril_crystal",
+      "material": "kingdomkeys:mat_writhing_crystal",
       "quantity": "1"
     },
     {
-      "material": "writhing_crystal",
+      "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "1"
     }
   ]

@@ -5,23 +5,23 @@
   },
   "ingredients": [
     {
-      "material": "orichalcum",
+      "material": "kingdomkeys:mat_lightning_gem",
       "quantity": "1"
     },
     {
-      "material": "hungry_crystal",
-      "quantity": "5"
-    },
-    {
-      "material": "lightning_gem",
-      "quantity": "1"
-    },
-    {
-      "material": "orichalcumplus",
+      "material": "kingdomkeys:mat_orichalcumplus",
       "quantity": "9"
     },
     {
-      "material": "mythril_crystal",
+      "material": "kingdomkeys:mat_hungry_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "1"
     }
   ]

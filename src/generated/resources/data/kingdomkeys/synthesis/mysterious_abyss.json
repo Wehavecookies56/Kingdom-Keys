@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "frost_crystal",
-      "quantity": "1"
-    },
-    {
-      "material": "frost_shard",
-      "quantity": "2"
-    },
-    {
-      "material": "frost_stone",
+      "material": "kingdomkeys:mat_frost_stone",
       "quantity": "5"
     },
     {
-      "material": "frost_gem",
+      "material": "kingdomkeys:mat_frost_shard",
       "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_frost_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_frost_crystal",
+      "quantity": "1"
     }
   ]
 }

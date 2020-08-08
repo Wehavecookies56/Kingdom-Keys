@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "mythril_gem",
-      "quantity": "2"
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "3"
     },
     {
-      "material": "writhing_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "twilight_crystal",
+      "material": "kingdomkeys:mat_twilight_crystal",
       "quantity": "1"
     },
     {
-      "material": "pulsing_crystal",
-      "quantity": "3"
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_gem",
+      "quantity": "2"
     }
   ]
 }

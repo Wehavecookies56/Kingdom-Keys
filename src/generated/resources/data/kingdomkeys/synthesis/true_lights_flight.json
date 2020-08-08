@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "twilight_gem",
+      "material": "kingdomkeys:mat_twilight_shard",
       "quantity": "3"
     },
     {
-      "material": "lost_illusion",
+      "material": "kingdomkeys:mat_twilight_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lost_illusion",
       "quantity": "1"
-    },
-    {
-      "material": "twilight_shard",
-      "quantity": "3"
     }
   ]
 }

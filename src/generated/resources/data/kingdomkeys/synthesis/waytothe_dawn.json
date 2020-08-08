@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "hungry_gem",
-      "quantity": "4"
-    },
-    {
-      "material": "twilight_crystal",
-      "quantity": "1"
-    },
-    {
-      "material": "pulsing_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "2"
     },
     {
-      "material": "writhing_crystal",
+      "material": "kingdomkeys:mat_twilight_crystal",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_gem",
+      "quantity": "4"
     }
   ]
 }

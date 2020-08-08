@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "soothing_crystal",
+      "material": "kingdomkeys:mat_lightning_gem",
       "quantity": "5"
     },
     {
-      "material": "pulsing_stone",
+      "material": "kingdomkeys:mat_lightning_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "3"
-    },
-    {
-      "material": "lightning_stone",
-      "quantity": "5"
-    },
-    {
-      "material": "lightning_gem",
-      "quantity": "5"
     }
   ]
 }

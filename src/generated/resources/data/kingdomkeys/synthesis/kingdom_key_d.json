@@ -5,11 +5,11 @@
   },
   "ingredients": [
     {
-      "material": "pulsing_gem",
+      "material": "kingdomkeys:mat_pulsing_shard",
       "quantity": "1"
     },
     {
-      "material": "pulsing_shard",
+      "material": "kingdomkeys:mat_pulsing_gem",
       "quantity": "1"
     }
   ]

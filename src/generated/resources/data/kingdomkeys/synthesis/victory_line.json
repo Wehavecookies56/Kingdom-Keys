@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "lucid_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "pulsing_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "3"
     },
     {
-      "material": "soothing_stone",
+      "material": "kingdomkeys:mat_lucid_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_stone",
       "quantity": "3"
     }
   ]

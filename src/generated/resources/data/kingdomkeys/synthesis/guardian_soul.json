@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_stone",
+      "material": "kingdomkeys:mat_lightning_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_stone",
       "quantity": "1"
     },
     {
-      "material": "pulsing_stone",
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "4"
-    },
-    {
-      "material": "writhing_shard",
-      "quantity": "3"
-    },
-    {
-      "material": "lightning_gem",
-      "quantity": "3"
     }
   ]
 }

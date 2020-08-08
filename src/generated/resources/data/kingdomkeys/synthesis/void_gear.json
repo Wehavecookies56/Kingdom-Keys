@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "writhing_shard",
-      "quantity": "1"
-    },
-    {
-      "material": "pulsing_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "pulsing_shard",
+      "material": "kingdomkeys:mat_pulsing_shard",
       "quantity": "5"
     },
     {
-      "material": "lucid_shard",
+      "material": "kingdomkeys:mat_lucid_shard",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_gem",
+      "quantity": "2"
     }
   ]
 }

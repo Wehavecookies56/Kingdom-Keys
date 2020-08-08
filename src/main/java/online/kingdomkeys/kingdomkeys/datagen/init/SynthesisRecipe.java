@@ -3,13 +3,13 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeRecipeBuilder;
-import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeRecipeProvider;
+import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
+import online.kingdomkeys.kingdomkeys.datagen.provider.SynthesisRecipeProvider;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-public class KeybladeRecipe extends KeybladeRecipeProvider {
-    public KeybladeRecipe(DataGenerator generator,ExistingFileHelper existingFileHelper) {
-        super(generator, KingdomKeys.MODID, KeybladeRecipeBuilder::new, existingFileHelper);
+public class SynthesisRecipe extends SynthesisRecipeProvider {
+    public SynthesisRecipe(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+        super(generator, KingdomKeys.MODID, SynthesisRecipeBuilder::new, existingFileHelper);
     }
 
     @Override

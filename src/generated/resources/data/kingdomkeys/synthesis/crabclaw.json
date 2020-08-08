@@ -5,19 +5,19 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_stone",
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_stone",
       "quantity": "1"
     },
     {
-      "material": "hungry_stone",
+      "material": "kingdomkeys:mat_lucid_shard",
       "quantity": "2"
     },
     {
-      "material": "lucid_shard",
-      "quantity": "2"
-    },
-    {
-      "material": "soothing_gem",
+      "material": "kingdomkeys:mat_hungry_stone",
       "quantity": "2"
     }
   ]

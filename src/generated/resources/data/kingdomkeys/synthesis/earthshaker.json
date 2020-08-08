@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "writhing_shard",
-      "quantity": "5"
-    },
-    {
-      "material": "wellspring_shard",
+      "material": "kingdomkeys:mat_wellspring_shard",
       "quantity": "3"
     },
     {
-      "material": "betwixt_stone",
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_stone",
       "quantity": "3"
     }
   ]

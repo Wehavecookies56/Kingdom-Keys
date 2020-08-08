@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "writhing_shard",
+      "material": "kingdomkeys:mat_pulsing_shard",
       "quantity": "2"
     },
     {
-      "material": "pulsing_shard",
+      "material": "kingdomkeys:mat_writhing_shard",
       "quantity": "2"
     },
     {
-      "material": "stormy_shard",
+      "material": "kingdomkeys:mat_stormy_shard",
       "quantity": "1"
     }
   ]

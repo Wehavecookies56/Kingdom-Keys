@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "soothing_crystal",
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_crystal",
       "quantity": "1"
     },
     {
-      "material": "soothing_stone",
+      "material": "kingdomkeys:mat_soothing_stone",
       "quantity": "3"
-    },
-    {
-      "material": "soothing_gem",
-      "quantity": "2"
     }
   ]
 }

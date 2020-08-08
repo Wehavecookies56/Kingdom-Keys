@@ -5,11 +5,11 @@
   },
   "ingredients": [
     {
-      "material": "writhing_gem",
+      "material": "kingdomkeys:mat_writhing_gem",
       "quantity": "2"
     },
     {
-      "material": "lucid_crystal",
+      "material": "kingdomkeys:mat_lucid_crystal",
       "quantity": "1"
     }
   ]

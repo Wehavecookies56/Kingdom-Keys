@@ -5,19 +5,19 @@
   },
   "ingredients": [
     {
-      "material": "twilight_gem",
-      "quantity": "1"
-    },
-    {
-      "material": "pulsing_stone",
+      "material": "kingdomkeys:mat_tranquility_crystal",
       "quantity": "2"
     },
     {
-      "material": "blazing_shard",
+      "material": "kingdomkeys:mat_blazing_shard",
       "quantity": "4"
     },
     {
-      "material": "tranquility_crystal",
+      "material": "kingdomkeys:mat_twilight_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "2"
     }
   ]

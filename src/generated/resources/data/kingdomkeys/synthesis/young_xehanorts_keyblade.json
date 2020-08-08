@@ -5,23 +5,23 @@
   },
   "ingredients": [
     {
-      "material": "writhing_gem",
-      "quantity": "10"
-    },
-    {
-      "material": "frost_shard",
+      "material": "kingdomkeys:mat_frost_shard",
       "quantity": "5"
     },
     {
-      "material": "mythril_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "writhing_crystal",
+      "material": "kingdomkeys:mat_writhing_gem",
       "quantity": "10"
     },
     {
-      "material": "lucid_crystal",
+      "material": "kingdomkeys:mat_lucid_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "10"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "3"
     }
   ]

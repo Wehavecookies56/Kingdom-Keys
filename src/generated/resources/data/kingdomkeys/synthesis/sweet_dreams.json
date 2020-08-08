@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "pulsing_stone",
-      "quantity": "2"
-    },
-    {
-      "material": "betwixt_shard",
-      "quantity": "2"
-    },
-    {
-      "material": "twilight_shard",
+      "material": "kingdomkeys:mat_twilight_shard",
       "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_shard",
+      "quantity": "2"
     }
   ]
 }

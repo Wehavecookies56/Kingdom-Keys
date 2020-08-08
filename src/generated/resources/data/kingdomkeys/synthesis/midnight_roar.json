@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "writhing_stone",
-      "quantity": "3"
-    },
-    {
-      "material": "soothing_gem",
+      "material": "kingdomkeys:mat_soothing_gem",
       "quantity": "2"
     },
     {
-      "material": "writhing_crystal",
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
       "quantity": "2"
     }
   ]

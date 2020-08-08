@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_stone",
-      "quantity": "3"
-    },
-    {
-      "material": "lucid_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "pulsing_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_gem",
+      "quantity": "3"
     }
   ]
 }

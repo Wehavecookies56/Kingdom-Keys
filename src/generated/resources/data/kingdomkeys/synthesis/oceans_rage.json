@@ -5,11 +5,11 @@
   },
   "ingredients": [
     {
-      "material": "lightning_stone",
+      "material": "kingdomkeys:mat_lightning_stone",
       "quantity": "5"
     },
     {
-      "material": "frost_shard",
+      "material": "kingdomkeys:mat_frost_shard",
       "quantity": "5"
     }
   ]

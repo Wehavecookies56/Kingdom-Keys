@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "pulsing_stone",
-      "quantity": "2"
-    },
-    {
-      "material": "remembrance_gem",
+      "material": "kingdomkeys:mat_remembrance_gem",
       "quantity": "1"
     },
     {
-      "material": "lucid_shard",
+      "material": "kingdomkeys:mat_lucid_shard",
       "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "2"
     }
   ]
 }

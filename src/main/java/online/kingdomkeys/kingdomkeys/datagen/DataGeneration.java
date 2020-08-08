@@ -18,6 +18,6 @@ public class DataGeneration {
         generator.addProvider(new BlockStates(generator, event.getExistingFileHelper()));
         generator.addProvider(new KeybladeStats(generator, event.getExistingFileHelper()));
         generator.addProvider(new LootTables(generator));
-        generator.addProvider(new KeybladeRecipe(generator, event.getExistingFileHelper()));
+        generator.addProvider(new SynthesisRecipe(generator, event.getExistingFileHelper()));
     }
 }

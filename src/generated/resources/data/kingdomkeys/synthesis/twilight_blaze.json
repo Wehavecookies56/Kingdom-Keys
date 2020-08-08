@@ -5,11 +5,11 @@
   },
   "ingredients": [
     {
-      "material": "blazing_crystal",
+      "material": "kingdomkeys:mat_blazing_crystal",
       "quantity": "3"
     },
     {
-      "material": "twilight_crystal",
+      "material": "kingdomkeys:mat_twilight_crystal",
       "quantity": "3"
     }
   ]

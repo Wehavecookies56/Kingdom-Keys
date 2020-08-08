@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_crystal",
-      "quantity": "4"
-    },
-    {
-      "material": "lucid_gem",
+      "material": "kingdomkeys:mat_frost_stone",
       "quantity": "2"
     },
     {
-      "material": "frost_stone",
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_gem",
       "quantity": "2"
     }
   ]

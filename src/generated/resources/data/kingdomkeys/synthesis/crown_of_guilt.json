@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "writhing_stone",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "2"
     },
     {
-      "material": "tranquility_gem",
+      "material": "kingdomkeys:mat_tranquility_gem",
       "quantity": "1"
     },
     {
-      "material": "pulsing_crystal",
+      "material": "kingdomkeys:mat_writhing_stone",
       "quantity": "2"
     }
   ]

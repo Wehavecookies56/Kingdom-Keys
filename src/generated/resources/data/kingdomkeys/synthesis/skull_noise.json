@@ -5,19 +5,19 @@
   },
   "ingredients": [
     {
-      "material": "writhing_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "wellspring_shard",
+      "material": "kingdomkeys:mat_wellspring_shard",
       "quantity": "3"
     },
     {
-      "material": "lost_illusion",
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_lost_illusion",
       "quantity": "1"
     },
     {
-      "material": "writhing_crystal",
+      "material": "kingdomkeys:mat_writhing_crystal",
       "quantity": "3"
     }
   ]

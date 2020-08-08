@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "orichalcum",
-      "quantity": "1"
-    },
-    {
-      "material": "blazing_crystal",
+      "material": "kingdomkeys:mat_blazing_crystal",
       "quantity": "5"
     },
     {
-      "material": "blazing_stone",
+      "material": "kingdomkeys:mat_blazing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_stone",
       "quantity": "1"
     },
     {
-      "material": "blazing_gem",
-      "quantity": "3"
+      "material": "kingdomkeys:mat_orichalcum",
+      "quantity": "1"
     }
   ]
 }

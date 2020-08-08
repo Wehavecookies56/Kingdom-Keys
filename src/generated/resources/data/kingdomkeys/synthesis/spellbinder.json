@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "pulsing_gem",
+      "material": "kingdomkeys:mat_frost_stone",
       "quantity": "2"
     },
     {
-      "material": "frost_stone",
+      "material": "kingdomkeys:mat_lucid_crystal",
       "quantity": "2"
     },
     {
-      "material": "lucid_crystal",
+      "material": "kingdomkeys:mat_pulsing_gem",
       "quantity": "2"
     }
   ]

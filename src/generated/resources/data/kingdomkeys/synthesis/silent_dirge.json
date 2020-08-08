@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "writhing_shard",
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_shard",
       "quantity": "1"
-    },
-    {
-      "material": "twilight_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "soothing_gem",
-      "quantity": "2"
     }
   ]
 }

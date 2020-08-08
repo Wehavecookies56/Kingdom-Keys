@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "3"
     },
     {
-      "material": "twilight_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "pulsing_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "blazing_gem",
+      "material": "kingdomkeys:mat_blazing_gem",
       "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "3"
     }
   ]
 }

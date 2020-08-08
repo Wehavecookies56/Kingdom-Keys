@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "pulsing_stone",
-      "quantity": "4"
-    },
-    {
-      "material": "blazing_crystal",
+      "material": "kingdomkeys:mat_blazing_crystal",
       "quantity": "2"
     },
     {
-      "material": "wellspring_shard",
+      "material": "kingdomkeys:mat_wellspring_shard",
       "quantity": "3"
     },
     {
-      "material": "lucid_gem",
+      "material": "kingdomkeys:mat_lucid_gem",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "4"
     }
   ]
 }

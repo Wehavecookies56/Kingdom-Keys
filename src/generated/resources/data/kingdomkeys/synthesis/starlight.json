@@ -5,19 +5,19 @@
   },
   "ingredients": [
     {
-      "material": "mythril_gem",
+      "material": "kingdomkeys:mat_mythril_stone",
       "quantity": "3"
     },
     {
-      "material": "mythril_shard",
+      "material": "kingdomkeys:mat_mythril_shard",
       "quantity": "3"
     },
     {
-      "material": "mythril_crystal",
+      "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "3"
     },
     {
-      "material": "mythril_stone",
+      "material": "kingdomkeys:mat_mythril_gem",
       "quantity": "3"
     }
   ]

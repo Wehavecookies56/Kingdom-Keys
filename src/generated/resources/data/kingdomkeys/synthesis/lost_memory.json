@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "twilight_gem",
+      "material": "kingdomkeys:mat_hungry_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_gem",
       "quantity": "3"
     },
     {
-      "material": "mythril_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "pulsing_stone",
+      "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "2"
     },
     {
-      "material": "hungry_shard",
-      "quantity": "1"
+      "material": "kingdomkeys:mat_mythril_gem",
+      "quantity": "3"
     }
   ]
 }

@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "wellspring_stone",
+      "material": "kingdomkeys:mat_wellspring_stone",
       "quantity": "3"
     },
     {
-      "material": "blazing_shard",
+      "material": "kingdomkeys:mat_blazing_gem",
       "quantity": "3"
     },
     {
-      "material": "blazing_gem",
+      "material": "kingdomkeys:mat_blazing_shard",
       "quantity": "3"
     }
   ]

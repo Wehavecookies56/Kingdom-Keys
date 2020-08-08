@@ -5,15 +5,15 @@
   },
   "ingredients": [
     {
-      "material": "blazing_shard",
+      "material": "kingdomkeys:mat_blazing_gem",
       "quantity": "2"
     },
     {
-      "material": "writhing_stone",
+      "material": "kingdomkeys:mat_writhing_stone",
       "quantity": "3"
     },
     {
-      "material": "blazing_gem",
+      "material": "kingdomkeys:mat_blazing_shard",
       "quantity": "2"
     }
   ]

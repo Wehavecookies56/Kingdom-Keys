@@ -5,20 +5,20 @@
   },
   "ingredients": [
     {
-      "material": "writhing_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "writhing_stone",
-      "quantity": "3"
-    },
-    {
-      "material": "betwixt_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "pulsing_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "3"
     }
   ]
 }

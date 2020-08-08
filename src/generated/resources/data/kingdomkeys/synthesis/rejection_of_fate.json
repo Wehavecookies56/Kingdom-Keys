@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "material": "twilight_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "writhing_stone",
-      "quantity": "2"
-    },
-    {
-      "material": "twilight_crystal",
+      "material": "kingdomkeys:mat_twilight_crystal",
       "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_gem",
+      "quantity": "2"
     }
   ]
 }
