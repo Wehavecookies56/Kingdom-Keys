@@ -9,7 +9,6 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
-import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeRecipeBuilder;
 
 import java.io.IOException;
@@ -40,7 +39,7 @@ public abstract class KeybladeRecipeProvider <T extends KeybladeRecipeBuilder<T>
     public KeybladeRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
         this(generator, modid, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
     }
-    protected abstract void registerKeyblades();
+    protected abstract void registerRecipe();
 
     public T getBuilder(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
@@ -55,13 +54,13 @@ public abstract class KeybladeRecipeProvider <T extends KeybladeRecipeBuilder<T>
     @Override
     public void act(DirectoryCache cache) throws IOException {
         clear();
-        registerKeyblades();
+        registerRecipe();
         generateAll(cache);
     }
 
     @Override
     public String getName() {
-        return null;
+        return "Recipes";
     }
 
     protected void generateAll(DirectoryCache cache) {

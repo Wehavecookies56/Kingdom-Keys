@@ -39,7 +39,7 @@ public class KeybladeRecipe extends KeybladeRecipeProvider {
     }
 
     @Override
-    protected void registerKeyblades() {
+    protected void registerRecipe() {
 
     }
 }
