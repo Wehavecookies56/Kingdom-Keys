@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:leviathan_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "frost_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "lucid_crystal",
+      "quantity": "2"
+    }
+  ]
+}

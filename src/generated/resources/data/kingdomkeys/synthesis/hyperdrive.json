@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:hyperdrive_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_crystal",
+      "quantity": "4"
+    },
+    {
+      "material": "lucid_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "frost_stone",
+      "quantity": "2"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:gull_wing_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "blazing_gem",
+      "quantity": "2"
+    }
+  ]
+}

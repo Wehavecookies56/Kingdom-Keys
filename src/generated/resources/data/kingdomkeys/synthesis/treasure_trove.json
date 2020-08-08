@@ -1,0 +1,28 @@
+{
+  "output": {
+    "item": "kingdomkeys:treasure_trove_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "frost_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "blazing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "lucid_crystal",
+      "quantity": "2"
+    }
+  ]
+}

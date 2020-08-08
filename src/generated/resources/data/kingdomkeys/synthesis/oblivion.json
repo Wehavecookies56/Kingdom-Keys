@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:oblivion_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "betwixt_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "2"
+    }
+  ]
+}

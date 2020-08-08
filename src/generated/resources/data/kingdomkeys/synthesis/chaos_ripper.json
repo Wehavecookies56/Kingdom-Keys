@@ -1,0 +1,16 @@
+{
+  "output": {
+    "item": "kingdomkeys:chaos_ripper_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "lucid_crystal",
+      "quantity": "1"
+    }
+  ]
+}

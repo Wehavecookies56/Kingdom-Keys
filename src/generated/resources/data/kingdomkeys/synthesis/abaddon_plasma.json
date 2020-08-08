@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:abaddon_plasma_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "soothing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "soothing_gem",
+      "quantity": "2"
+    }
+  ]
+}

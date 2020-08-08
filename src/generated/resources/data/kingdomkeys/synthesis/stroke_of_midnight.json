@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:stroke_of_midnight_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "soothing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "frost_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "betwixt_shard",
+      "quantity": "1"
+    }
+  ]
+}

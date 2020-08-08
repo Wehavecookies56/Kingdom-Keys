@@ -1,0 +1,16 @@
+{
+  "output": {
+    "item": "kingdomkeys:abyssal_tide_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "frost_shard",
+      "quantity": "3"
+    }
+  ]
+}

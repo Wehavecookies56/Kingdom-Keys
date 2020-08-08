@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:sweetstack_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "blazing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "wellspring_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "lucid_gem",
+      "quantity": "1"
+    }
+  ]
+}

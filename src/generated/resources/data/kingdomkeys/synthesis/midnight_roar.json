@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:midnight_roar_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "2"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:rainfell_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "frost_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "lucid_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "stormy_gem",
+      "quantity": "1"
+    }
+  ]
+}

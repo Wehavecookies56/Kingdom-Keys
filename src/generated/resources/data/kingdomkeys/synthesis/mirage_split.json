@@ -1,0 +1,28 @@
+{
+  "output": {
+    "item": "kingdomkeys:mirage_split_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "writhing_gem",
+      "quantity": "6"
+    },
+    {
+      "material": "writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "4"
+    }
+  ]
+}

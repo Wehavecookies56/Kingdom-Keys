@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:fenrir_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "twilight_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "6"
+    },
+    {
+      "material": "betwixt_shard",
+      "quantity": "2"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "output": {
+    "item": "kingdomkeys:ultima_weapon_bbs_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "hungry_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "lightning_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "orichalcumplus",
+      "quantity": "9"
+    },
+    {
+      "material": "mythril_crystal",
+      "quantity": "1"
+    }
+  ]
+}

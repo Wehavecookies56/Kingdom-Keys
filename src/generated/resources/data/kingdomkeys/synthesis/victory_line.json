@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:victory_line_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "lucid_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "3"
+    }
+  ]
+}

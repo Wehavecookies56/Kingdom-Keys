@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:missing_ache_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "wellspring_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "3"
+    }
+  ]
+}

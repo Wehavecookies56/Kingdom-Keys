@@ -1,0 +1,28 @@
+{
+  "output": {
+    "item": "kingdomkeys:nightmares_end_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "soothing_crystal",
+      "quantity": "4"
+    },
+    {
+      "material": "orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_gem",
+      "quantity": "6"
+    },
+    {
+      "material": "soothing_shard",
+      "quantity": "3"
+    }
+  ]
+}

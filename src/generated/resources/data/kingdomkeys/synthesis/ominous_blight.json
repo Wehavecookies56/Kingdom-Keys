@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:ominous_blight_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "2"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:diamond_dust_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "frost_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "frost_gem",
+      "quantity": "3"
+    }
+  ]
+}

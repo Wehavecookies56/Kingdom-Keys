@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:two_become_one_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "twilight_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "lost_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "twilight_crystal",
+      "quantity": "3"
+    }
+  ]
+}

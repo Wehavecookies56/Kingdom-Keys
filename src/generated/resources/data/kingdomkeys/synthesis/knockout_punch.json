@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:knockout_punch_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "mythril_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "2"
+    }
+  ]
+}

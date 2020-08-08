@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:no_name_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "frost_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "frost_gem",
+      "quantity": "2"
+    }
+  ]
+}

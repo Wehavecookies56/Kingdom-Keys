@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:fairy_harp_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "lucid_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_shard",
+      "quantity": "3"
+    }
+  ]
+}

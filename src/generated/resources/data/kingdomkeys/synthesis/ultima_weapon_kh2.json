@@ -1,0 +1,32 @@
+{
+  "output": {
+    "item": "kingdomkeys:ultima_weapon_kh2_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "hungry_crystal",
+      "quantity": "7"
+    },
+    {
+      "material": "orichalcumplus",
+      "quantity": "13"
+    },
+    {
+      "material": "betwixt_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "twilight_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "mythril_crystal",
+      "quantity": "1"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "output": {
+    "item": "kingdomkeys:ultima_weapon_kh1_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "hungry_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "hungry_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "lightning_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "lost_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "stormy_stone",
+      "quantity": "3"
+    }
+  ]
+}

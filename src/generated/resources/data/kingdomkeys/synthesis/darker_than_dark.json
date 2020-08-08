@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:darker_than_dark_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "lucid_crystal",
+      "quantity": "3"
+    }
+  ]
+}

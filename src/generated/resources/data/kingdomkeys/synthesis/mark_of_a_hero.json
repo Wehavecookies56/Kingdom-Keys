@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:mark_of_a_hero_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "soothing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "lightning_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "lightning_shard",
+      "quantity": "3"
+    }
+  ]
+}

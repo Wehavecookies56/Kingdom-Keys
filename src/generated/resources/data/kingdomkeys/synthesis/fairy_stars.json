@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:fairy_stars_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "wellspring_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "soothing_shard",
+      "quantity": "4"
+    }
+  ]
+}

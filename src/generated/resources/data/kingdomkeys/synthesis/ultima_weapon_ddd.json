@@ -1,0 +1,28 @@
+{
+  "output": {
+    "item": "kingdomkeys:ultima_weapon_ddd_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "twilight_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "betwixt_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "twilight_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "twilight_stone",
+      "quantity": "5"
+    }
+  ]
+}

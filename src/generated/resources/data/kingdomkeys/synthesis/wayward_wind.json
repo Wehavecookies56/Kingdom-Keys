@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:wayward_wind_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "stormy_shard",
+      "quantity": "1"
+    }
+  ]
+}

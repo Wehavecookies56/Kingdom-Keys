@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:earthshaker_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "wellspring_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "betwixt_stone",
+      "quantity": "3"
+    }
+  ]
+}

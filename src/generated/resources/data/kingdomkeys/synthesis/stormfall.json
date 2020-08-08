@@ -1,0 +1,28 @@
+{
+  "output": {
+    "item": "kingdomkeys:stormfall_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "stormy_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "stormy_stone",
+      "quantity": "2"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "output": {
+    "item": "kingdomkeys:darkgnaw_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "lucid_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "5"
+    }
+  ]
+}

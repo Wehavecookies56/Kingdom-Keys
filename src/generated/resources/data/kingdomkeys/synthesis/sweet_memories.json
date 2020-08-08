@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:sweet_memories_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "remembrance_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "lucid_shard",
+      "quantity": "4"
+    }
+  ]
+}

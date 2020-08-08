@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:pain_of_solitude_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "betwixt_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "twilight_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "2"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "output": {
+    "item": "kingdomkeys:incomplete_kiblade_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "blazing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "betwixt_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "twilight_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "mythril_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "1"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:three_wishes_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "lucid_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "5"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:photon_debugger_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "lightning_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "lightning_shard",
+      "quantity": "4"
+    },
+    {
+      "material": "lightning_crystal",
+      "quantity": "2"
+    }
+  ]
+}

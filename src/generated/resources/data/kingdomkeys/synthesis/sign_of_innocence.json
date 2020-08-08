@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:sign_of_innocence_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "twilight_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "twilight_crystal",
+      "quantity": "1"
+    }
+  ]
+}

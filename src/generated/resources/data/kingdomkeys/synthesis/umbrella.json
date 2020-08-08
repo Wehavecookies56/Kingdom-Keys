@@ -1,0 +1,16 @@
+{
+  "output": {
+    "item": "kingdomkeys:umbrella_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "twilight_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "mythril_shard",
+      "quantity": "10"
+    }
+  ]
+}

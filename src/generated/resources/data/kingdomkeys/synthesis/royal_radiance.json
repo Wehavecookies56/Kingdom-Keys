@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:royal_radiance_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "frost_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "3"
+    }
+  ]
+}

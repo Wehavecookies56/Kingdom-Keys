@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:waytothe_dawn_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "hungry_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "twilight_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "1"
+    }
+  ]
+}

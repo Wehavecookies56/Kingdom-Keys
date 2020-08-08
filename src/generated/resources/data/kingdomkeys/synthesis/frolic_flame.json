@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:frolic_flame_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "blazing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "blazing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "blazing_gem",
+      "quantity": "2"
+    }
+  ]
+}

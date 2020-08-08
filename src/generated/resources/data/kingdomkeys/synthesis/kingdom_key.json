@@ -1,0 +1,16 @@
+{
+  "output": {
+    "item": "kingdomkeys:kingdom_key_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "pulsing_shard",
+      "quantity": "1"
+    }
+  ]
+}

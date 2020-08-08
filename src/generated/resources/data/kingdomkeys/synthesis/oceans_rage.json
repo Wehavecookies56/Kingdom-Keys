@@ -1,0 +1,16 @@
+{
+  "output": {
+    "item": "kingdomkeys:oceans_rage_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "lightning_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "frost_shard",
+      "quantity": "5"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:followthe_wind_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "blazing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "3"
+    }
+  ]
+}

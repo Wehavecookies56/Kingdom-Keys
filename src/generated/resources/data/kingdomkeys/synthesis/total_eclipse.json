@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:total_eclipse_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "blazing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "blazing_gem",
+      "quantity": "2"
+    }
+  ]
+}

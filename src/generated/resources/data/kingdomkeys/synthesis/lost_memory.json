@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:lost_memory_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "twilight_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "mythril_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "hungry_shard",
+      "quantity": "1"
+    }
+  ]
+}

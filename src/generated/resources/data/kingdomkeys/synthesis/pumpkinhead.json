@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:pumpkinhead_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "lucid_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "2"
+    }
+  ]
+}

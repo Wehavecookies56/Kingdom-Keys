@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:lunar_eclipse_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "frost_gem",
+      "quantity": "2"
+    }
+  ]
+}

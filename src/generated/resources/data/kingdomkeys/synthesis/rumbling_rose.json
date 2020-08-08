@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:rumbling_rose_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "lucid_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "soothing_shard",
+      "quantity": "2"
+    }
+  ]
+}

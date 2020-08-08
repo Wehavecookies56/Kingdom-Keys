@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:astral_blast_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "blazing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "lucid_stone",
+      "quantity": "2"
+    }
+  ]
+}

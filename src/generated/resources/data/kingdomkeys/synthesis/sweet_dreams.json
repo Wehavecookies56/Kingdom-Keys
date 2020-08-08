@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:sweet_dreams_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "betwixt_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "twilight_shard",
+      "quantity": "4"
+    }
+  ]
+}

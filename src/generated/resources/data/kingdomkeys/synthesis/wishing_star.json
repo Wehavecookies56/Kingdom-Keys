@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:wishing_star_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "mythril_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_gem",
+      "quantity": "2"
+    }
+  ]
+}

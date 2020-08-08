@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:maverick_flare_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "blazing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "blazing_gem",
+      "quantity": "3"
+    }
+  ]
+}

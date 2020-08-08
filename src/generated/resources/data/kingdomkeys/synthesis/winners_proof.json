@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:winners_proof_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "tranquility_shard",
+      "quantity": "4"
+    },
+    {
+      "material": "writhing_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "3"
+    }
+  ]
+}

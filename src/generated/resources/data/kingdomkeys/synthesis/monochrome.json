@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:monochrome_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "lucid_stone",
+      "quantity": "3"
+    }
+  ]
+}

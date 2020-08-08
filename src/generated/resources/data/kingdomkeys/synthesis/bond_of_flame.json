@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:bond_of_flame_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "blazing_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "blazing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "blazing_gem",
+      "quantity": "2"
+    }
+  ]
+}

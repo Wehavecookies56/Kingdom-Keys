@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:oathkeeper_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "twilight_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "mythril_crystal",
+      "quantity": "3"
+    }
+  ]
+}

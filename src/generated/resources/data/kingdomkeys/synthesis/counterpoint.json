@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:counterpoint_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "hungry_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "soothing_shard",
+      "quantity": "2"
+    }
+  ]
+}

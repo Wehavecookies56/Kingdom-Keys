@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:one_winged_angel_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "blazing_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "blazing_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "blazing_gem",
+      "quantity": "3"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "lost_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "3"
+    }
+  ]
+}

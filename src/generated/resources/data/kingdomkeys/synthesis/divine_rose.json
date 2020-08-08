@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:divine_rose_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "lucid_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "soothing_gem",
+      "quantity": "4"
+    }
+  ]
+}

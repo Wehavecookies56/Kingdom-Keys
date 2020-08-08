@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:all_for_one_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "soothing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "soothing_shard",
+      "quantity": "2"
+    }
+  ]
+}

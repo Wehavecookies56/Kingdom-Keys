@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:decisive_pumpkin_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "frost_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "writhing_crystal",
+      "quantity": "3"
+    }
+  ]
+}

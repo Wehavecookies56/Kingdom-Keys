@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:guardian_soul_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "wellspring_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "lightning_gem",
+      "quantity": "3"
+    }
+  ]
+}

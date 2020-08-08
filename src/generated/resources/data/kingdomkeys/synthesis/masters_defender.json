@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:masters_defender_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "twilight_gem",
+      "quantity": "10"
+    },
+    {
+      "material": "pulsing_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "twilight_crystal",
+      "quantity": "7"
+    },
+    {
+      "material": "mythril_crystal",
+      "quantity": "4"
+    }
+  ]
+}

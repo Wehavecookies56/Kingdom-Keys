@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:spellbinder_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "pulsing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "frost_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "lucid_crystal",
+      "quantity": "2"
+    }
+  ]
+}

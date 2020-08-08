@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:crown_of_guilt_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "tranquility_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "2"
+    }
+  ]
+}

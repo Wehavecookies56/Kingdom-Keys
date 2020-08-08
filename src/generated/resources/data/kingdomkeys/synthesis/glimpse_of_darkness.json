@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:glimpse_of_darkness_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "writhing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "betwixt_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "pulsing_crystal",
+      "quantity": "2"
+    }
+  ]
+}

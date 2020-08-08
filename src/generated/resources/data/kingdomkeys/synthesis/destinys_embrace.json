@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:destinys_embrace_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "soothing_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "pulsing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "lightning_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "lightning_gem",
+      "quantity": "5"
+    }
+  ]
+}
