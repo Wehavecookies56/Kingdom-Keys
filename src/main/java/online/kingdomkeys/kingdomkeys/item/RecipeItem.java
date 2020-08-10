@@ -123,9 +123,9 @@ public class RecipeItem extends Item {
 			String recipe2 = stack.getTag().getString("recipe2");
 			String recipe3 = stack.getTag().getString("recipe3");
 
-			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe1 + ".name")));
-			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe2 + ".name")));
-			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe3 + ".name")));
+			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe1)));
+			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe2)));
+			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe3)));
 		}
 	}
 }

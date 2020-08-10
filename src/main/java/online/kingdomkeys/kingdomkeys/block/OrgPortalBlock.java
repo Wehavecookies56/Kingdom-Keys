@@ -53,20 +53,16 @@ public class OrgPortalBlock extends BaseBlock {
 
 						for (byte i = 0; i < 3; i++) {
 							PortalData coords = ModCapabilities.getPlayer(player).getPortalCoords(i);
-							// System.out.println(i+" "+coords.getX());
 							if (coords.getX() == 0.0D && coords.getY() == 0.0D && coords.getZ() == 0.0D) {
 								index = i;
 								break;
 							}
 						}
-						// System.out.println("A: "+index);
+
 						if (index != -1) {
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now " + player.getDisplayName().getFormattedText()+ "'s portal " + (index + 1)));
 							ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
-							//TODO sync with the client
 							PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
-							//System.out.println(index + " " + player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getPortalCoords(index).getDimID());
-							//PacketDispatcher.sendTo(new SyncOrgXIIIData(player.getCapability(ModCapabilities.ORGANIZATION_XIII, null)), (EntityPlayerMP) player);
 						} else {
 							player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));
 						}

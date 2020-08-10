@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1188,6 +1189,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public List<String> getKnownRecipeList() {
+		Collections.sort(recipeList);
 		return recipeList;
 	}
 

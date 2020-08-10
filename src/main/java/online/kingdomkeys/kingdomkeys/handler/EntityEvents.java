@@ -9,6 +9,8 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -41,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -57,7 +60,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
@@ -514,12 +516,15 @@ public class EntityEvents {
 			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 
-				if (event.getEntity() instanceof MobEntity) {
+				if (event.getEntity() instanceof MonsterEntity) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
-					MobEntity mob = (MobEntity) event.getEntity();
+					MonsterEntity mob = (MonsterEntity) event.getEntity();
 
-					playerData.addExperience(player, (int) ((mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2) /* * MainConfig.entities.xpMultiplier */));
+					double value = mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2;
+					double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
+					playerData.addExperience(player, (int)exp /* * MainConfig.entities.xpMultiplier */);
+										
 					if (event.getEntity() instanceof WitherEntity) {
 						playerData.addExperience(player, 1500);
 					}
@@ -532,6 +537,13 @@ public class EntityEvents {
 					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, 10));
 					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
 					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
+					
+					int num = Utils.randomWithRange(1,100);
+
+					if(num <= 1) {
+						ItemEntity ie = new ItemEntity(player.world, x, y, z, new ItemStack(ModItems.recipe.get()));
+						player.world.addEntity(ie);
+					}
 
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}

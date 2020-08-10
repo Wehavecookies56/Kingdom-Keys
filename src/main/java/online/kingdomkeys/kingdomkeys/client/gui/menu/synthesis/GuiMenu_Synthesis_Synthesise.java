@@ -1,7 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis;
 
 import java.awt.Color;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -79,7 +81,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		
 		if(selectedKB > -1) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			String kb = playerData.getKnownRecipeList().get(selectedKB);
+			List<String> recipeList = playerData.getKnownRecipeList();
+			String kb = recipeList.get(selectedKB);
 			String name = kb.substring("item.kingdomkeys.".length());
 			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
 			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
@@ -122,10 +125,11 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
 		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 
-		addButton(create = new Button((int) (width*0.75F), (int) (height*0.6)+20, 50,20, Utils.translateToLocal("Create"), (e) -> { action("create"); }));
+		addButton(create = new Button((int) (width*0.75F), (int) (height*0.6)+20, 50,20, Utils.translateToLocal("gui.synthesis.synthesise.create"), (e) -> { action("create"); }));
 		for(int i = 0;i<playerData.getKnownRecipeList().size();i++) {
 			String name = playerData.getKnownRecipeList().get(i);
 			addButton(keyblades[i] = new GuiMenuButton((int) buttonPosX, button_statsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(playerData.getKnownRecipeList().get(i)), ButtonType.BUTTON, (e) -> { action("s:"+name); }));
+			keyblades[i].active = RecipeRegistry.getInstance().getValue(new ResourceLocation(name.substring(5).replace(".", ":"))) != null;
 		}
 		
 		updateButtons();
