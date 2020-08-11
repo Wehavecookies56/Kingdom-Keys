@@ -83,6 +83,17 @@ public class ItemModels extends ItemModelProvider {
 		standardDisc(Strings.Disc_Sinister_Sundown);
 		standardDisc(Strings.Disc_The_13th_Anthology);
 
+		standardItem(Strings.SpellFire);
+		standardItem(Strings.SpellBlizzard);
+		standardItem(Strings.SpellWater);
+		standardItem(Strings.SpellThunder);
+		standardItem(Strings.SpellCure);
+		standardItem(Strings.SpellAero);
+		standardItem(Strings.SpellMagnet);
+		standardItem(Strings.SpellReflect);
+		standardItem(Strings.SpellGravity);
+		standardItem(Strings.SpellStop);
+		
 		standardItem(Strings.LevelUpFinal);
 		standardItem(Strings.LevelUpLimit);
 		standardItem(Strings.LevelUpMaster);
@@ -90,6 +101,7 @@ public class ItemModels extends ItemModelProvider {
 		standardItem(Strings.LevelUpValor);
 
 		standardItem(Strings.synthesisBag);
+		standardItem("recipe");
     }
 
 	private void keychains() {
@@ -307,6 +319,7 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("magnet_blox_off");
 		standardBlockItem("pair_blox");
 		standardBlockItem("org_portal");
+		standardBlockItem("kk_chest");
 
 		//ore
 		standardBlockItem("blazing_ore");
@@ -331,6 +344,8 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("twilight_ore_n");
 
 		standardBlockItem("mosaic_stained_glass");
+		standardBlockItem("synthesis_table");
+		
 	}
 
     void standardMaterial(String name) {

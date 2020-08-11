@@ -31,6 +31,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -42,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -547,6 +549,11 @@ public class EntityEvents {
 
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}
+			}
+			
+			if(event.getEntity() instanceof MoogleEntity && event.getSource() == DamageSource.ANVIL) {
+				ItemEntity ie = new ItemEntity(event.getEntity().world, event.getEntity().getPosX(), event.getEntity().getPosY(), event.getEntity().getPosZ(), new ItemStack(ModBlocks.synthesisTable.get()));
+				event.getEntity().world.addEntity(ie);
 			}
 		}
 	}

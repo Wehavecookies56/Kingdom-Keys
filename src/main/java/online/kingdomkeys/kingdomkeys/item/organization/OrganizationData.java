@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
 /**
- * Stores the data loaded from the keyblades datapack
+ * Stores the data loaded from the organization datapack
  */
 public class OrganizationData {
 

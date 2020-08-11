@@ -15,12 +15,12 @@
       "mag": 4,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_fluorite",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
         }
       ]
     },
@@ -29,12 +29,12 @@
       "mag": 5,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_fluorite",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
         }
       ]
     },
@@ -57,12 +57,12 @@
       "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_hungry_stone",
@@ -75,12 +75,12 @@
       "mag": 8,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_hungry_stone",
@@ -93,11 +93,11 @@
       "mag": 9,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_damascus",
+          "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_gem",
+          "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         }
       ]
@@ -107,16 +107,16 @@
       "mag": 10,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 2
+        },
+        {
           "material": "kingdomkeys:mat_hungry_gem",
           "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_wellspring_gem",
-          "quantity": 2
         }
       ]
     },
@@ -125,16 +125,16 @@
       "mag": 11,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 3
+        },
+        {
           "material": "kingdomkeys:mat_hungry_gem",
           "quantity": 2
         },
         {
           "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_wellspring_gem",
-          "quantity": 3
         }
       ]
     },
@@ -143,11 +143,11 @@
       "mag": 12,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_crystal",
+          "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_adamantite",
+          "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 1
         }
       ]
@@ -161,12 +161,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_crystal",
-          "quantity": 2
-        },
-        {
           "material": "kingdomkeys:mat_electrum",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_crystal",
+          "quantity": 2
         }
       ]
     }

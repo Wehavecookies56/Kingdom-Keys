@@ -56,6 +56,7 @@ public class BlockModels extends BlockModelProvider {
 	//	standardCube("pedestal");
 	//	standardCube("soa_door");
 		standardCube("savepoint");
+		standardCube("synthesis_table");
 	}
 
 	public void standardCube(String name) {
