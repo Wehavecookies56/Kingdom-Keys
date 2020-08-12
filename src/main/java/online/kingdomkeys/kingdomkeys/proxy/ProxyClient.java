@@ -104,7 +104,7 @@ public class ProxyClient implements IProxy {
         });
         
         VentusModel top = new VentusModel(0.5F);
-        VentusModel pants = new VentusModel(0.3F);
+        VentusModel pants = new VentusModel(0.25F);
         
 		armorModels.put(ModItems.ventus_Helmet.get(), top);
 		armorModels.put(ModItems.ventus_Chestplate.get(), top);
