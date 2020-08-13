@@ -5,21 +5,17 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.client.renderer.model.ModelManager;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.BaseKKGuiButton;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
-public class GuiKeychainListItem extends Widget {
+public class GuiKeychainListItem extends BaseKKGuiButton {
 
 	ItemStack stack;
 	boolean selected;
@@ -28,8 +24,8 @@ public class GuiKeychainListItem extends Widget {
 	int slot;
 	Minecraft minecraft;
 
-	public GuiKeychainListItem(ItemStack item, int slot, int x, int y, GuiWeapons parent, int colour) {
-		super(x, y, "");
+	public GuiKeychainListItem(ItemStack item, int slot, int x, int y, int widthIn, GuiWeapons parent, int colour, Button.IPressable onPress) {
+		super(x, y, widthIn, 20, "", onPress);
 		this.stack = item;
 		width = (int) (parent.width * 0.264F);
 		height = 14;

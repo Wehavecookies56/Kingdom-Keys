@@ -8,10 +8,12 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuAbilitiesButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
@@ -19,7 +21,9 @@ public class GuiWeapons extends GuiMenu_Background {
 
 	GuiElementBox keyblades, details;
 
-	List<GuiKeychainListItem> keychains = new ArrayList<>();
+	//List<GuiKeychainListItem> keychains = new ArrayList<>();
+	GuiKeychainListItem[] keychains = new GuiKeychainListItem[36];
+
 
 	int chainSlot, colour, buttonColour;
 
@@ -33,7 +37,7 @@ public class GuiWeapons extends GuiMenu_Background {
 
 	@Override
 	public void init() {
-		keychains.clear();
+		//keychains.clear();
 		super.width = width;
 		super.height = height;
 		super.init();
@@ -48,26 +52,32 @@ public class GuiWeapons extends GuiMenu_Background {
 
 		int itemHeight = 14;
 
-		BiMap<Integer, ItemStack> keychainItems = HashBiMap.create();
+		//BiMap<Integer, ItemStack> keychainItems = HashBiMap.create();
 		
-		if(minecraft.player.inventory.getFirstEmptyStack() > -1){
+		/*if(minecraft.player.inventory.getFirstEmptyStack() > -1){
 			keychainItems.put(minecraft.player.inventory.getFirstEmptyStack(), minecraft.player.inventory.getStackInSlot(minecraft.player.inventory.getFirstEmptyStack()));
-		}
-		
+		}*/
+		int pos = 0;
 		for (int i = 0; i < minecraft.player.inventory.getSizeInventory(); i++) {
 			if (!ItemStack.areItemStacksEqual(minecraft.player.inventory.getStackInSlot(i), ItemStack.EMPTY)) {
 				if (minecraft.player.inventory.getStackInSlot(i).getItem() instanceof KeychainItem) {
-					keychainItems.put(i, minecraft.player.inventory.getStackInSlot(i)); //Add keychain to list
+				//	keychainItems.put(i, minecraft.player.inventory.getStackInSlot(i)); //Add keychain to list
+					addButton(keychains[i] = new GuiKeychainListItem(minecraft.player.inventory.getStackInSlot(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour, (e) -> {action("");}));
 				}
 			}
 
 		}
-		for (int i = 0; i < new ArrayList<>(keychainItems.keySet()).size(); i++) {
-			keychains.add(new GuiKeychainListItem(new ArrayList<>(keychainItems.values()).get(i), new ArrayList<>(keychainItems.keySet()).get(i), (int) listX, (int) listY + i + (itemHeight * i), this, buttonColour));
-		}
+		/*for (int i = 0; i < new ArrayList<>(keychainItems.keySet()).size(); i++) {
+			addButton(new GuiKeychainListItem(new ArrayList<>(keychainItems.values()).get(i), new ArrayList<>(keychainItems.keySet()).get(i), (int) listX, (int) listY + i + (itemHeight * i), 100, this, buttonColour, (e) -> {action("");}));
+		}*/
 		keyblades = new GuiElementBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight, colour);
 		details = new GuiElementBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight, colour);
 		//super.init();
+	}
+
+	private void action(String string) {
+		System.out.println("T2");
+		
 	}
 
 	@Override
@@ -77,7 +87,7 @@ public class GuiWeapons extends GuiMenu_Background {
 		//background.drawMunnyTime();
 		keyblades.draw();
 		details.draw();
-		for (GuiKeychainListItem i : keychains) {
+		for (Widget i : buttons) {
 			i.render(mouseX, mouseY, partialTicks);
 		}
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

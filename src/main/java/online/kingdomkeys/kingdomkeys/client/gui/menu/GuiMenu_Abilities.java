@@ -84,9 +84,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 		// fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 	}
 
-	/**
-	 * 
-	 */
+	
 	private void drawAP() {
 		Ability hoveredAbility = null;
 		int i = 0;
