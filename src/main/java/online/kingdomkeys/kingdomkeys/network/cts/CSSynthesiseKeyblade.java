@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
@@ -71,10 +70,10 @@ public class CSSynthesiseKeyblade {
 					Entry<Material, Integer> m = ite.next();
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
-				//TODO Item i = item.getRecipe().getResult();
+				Item i = recipe.getResult();
 				
 				int amount = recipe.getAmount();
-				player.inventory.addItemStackToInventory(new ItemStack(item,amount));
+				player.inventory.addItemStackToInventory(new ItemStack(i,amount));
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 		});

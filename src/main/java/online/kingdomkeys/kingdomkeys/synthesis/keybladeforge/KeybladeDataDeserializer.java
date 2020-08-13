@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 import java.lang.reflect.Type;
@@ -38,6 +39,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
                     Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(element.getAsString()));
                     //Make sure the item is valid
                     if (keychain != null) {
+                    	System.out.println(json+" "+keychain);
                         out.setKeychain(keychain);
                     }
                     break;

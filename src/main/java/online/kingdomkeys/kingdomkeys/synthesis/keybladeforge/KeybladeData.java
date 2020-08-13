@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.item.Item;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
 /**
  * Stores the data loaded from the keyblades datapack
@@ -12,7 +13,7 @@ import net.minecraft.item.Item;
 public class KeybladeData {
 
     //The keychain that summons the keyblade this is for, if null the upgrade levels are ignored and only base stats are used
-    @Nullable Item keychain;
+    @Nullable KeychainItem keychain;
     //The level 0 stats
     int baseStrength, baseMagic;
     //List of upgrades for the keyblade
@@ -24,7 +25,7 @@ public class KeybladeData {
 
     }
 
-    public KeybladeData(@Nullable Item keychain, @Nullable List<KeybladeLevel> levels, String description, int baseStrength, int baseMagic) {
+    public KeybladeData(@Nullable KeychainItem keychain, @Nullable List<KeybladeLevel> levels, String description, int baseStrength, int baseMagic) {
         this.keychain = keychain;
         this.levels = levels;
         this.description = description;
@@ -51,7 +52,11 @@ public class KeybladeData {
     }
 
     public void setKeychain(Item keychain) {
-        this.keychain = keychain;
+    	if(keychain instanceof KeychainItem) {
+    		this.keychain = (KeychainItem) keychain;
+    	} else {
+    		this.keychain = null;
+    	}
     }
 
     public void setLevels(List<KeybladeLevel> levels) {

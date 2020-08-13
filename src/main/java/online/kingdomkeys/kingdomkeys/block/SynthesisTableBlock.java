@@ -10,6 +10,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis.GuiMenu_Synthesis;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
@@ -22,11 +24,11 @@ public class SynthesisTableBlock extends BaseBlock {
 		super(properties);
 	}
 
-
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (worldIn.isRemote) {
-			//Minecraft.getInstance().displayGuiScreen(new GuiMenu_Synthesis());
+			Minecraft.getInstance().displayGuiScreen(new GuiMenu_Synthesis());
 		}
 		return ActionResultType.SUCCESS;
 	}

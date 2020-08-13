@@ -170,6 +170,32 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				keyblades[i].x = (int) (width * 0.04F);
 			}
 		}
+		
+		
+		
+		/*String kb = playerData.getKnownRecipeList().get(0);
+		String name = kb.substring("item.kingdomkeys.".length());
+		ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
+		KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
+//System.out.println(//item);
+		Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
+		if(recipe != null) {
+			Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
+			int i = 0;
+			while(materials.hasNext()) {
+				Entry<Material, Integer> m = materials.next();
+				ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey().getMaterialName())),m.getValue());
+				String n = Utils.translateToLocal(stack.getTranslationKey());
+				//playerData.setMaterial(m.getKey(), 1);
+				int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
+				drawString(minecraft.fontRenderer, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
+				itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
+				i++;
+			}
+		}*/
+
+		
+		
 		//System.out.println(selectedKB);
 		if(selectedKB > -1) {
 			RenderSystem.pushMatrix();

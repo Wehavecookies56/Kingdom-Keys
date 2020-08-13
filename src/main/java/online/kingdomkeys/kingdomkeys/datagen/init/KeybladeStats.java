@@ -3386,7 +3386,7 @@ public class KeybladeStats extends KeybladeProvider {
                         .addMaterial(Strings.SM_LightningCrystal, 1)).build())
                 .desc("A weapon that possesses very high Strength. Effective against tough enemies.");
 
-        getBuilder(Strings.totalEclipse).keychain(Strings.totalEclipse).baseStats(5,0 )
+        getBuilder(Strings.totalEclipse).keychain(Strings.totalEclipseChain).baseStats(5,0 )
                 .abilities("Magic Treasure Magnet", "Formchange Extender")
                 .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3, 4).withMaterials(new Recipe()
                         .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())

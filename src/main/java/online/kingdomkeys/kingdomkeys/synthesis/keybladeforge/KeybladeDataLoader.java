@@ -79,6 +79,8 @@ public class KeybladeDataLoader extends JsonReloadListener {
                     continue;
                 }
                 keyblade.setKeybladeData(result);
+                if(result.keychain != null)
+                	result.keychain.setKeyblade(keyblade);
                 IOUtils.closeQuietly(manager.getResource(file));
             } catch (IOException e) {
                 e.printStackTrace();

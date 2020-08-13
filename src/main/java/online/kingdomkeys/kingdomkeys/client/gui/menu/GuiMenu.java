@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.GuiWeapons;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Member;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_None;
@@ -39,7 +40,7 @@ public class GuiMenu extends GuiMenu_Background {
 	protected void action(int buttonID) {
 		switch (buttonID) {
 		case ITEMS:
-			minecraft.displayGuiScreen(new GuiMenu_Items());
+			minecraft.displayGuiScreen(new GuiWeapons(0, 0, 0xFF0000));
 			break;
 		case ABILITIES:
 			minecraft.displayGuiScreen(new GuiMenu_Abilities());
