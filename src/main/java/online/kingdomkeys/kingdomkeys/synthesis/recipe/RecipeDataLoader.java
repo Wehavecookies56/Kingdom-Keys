@@ -61,7 +61,7 @@ public class RecipeDataLoader extends JsonReloadListener {
         });
     }
 
-    public static void loadData(IResourceManager manager) {
+    public void loadData(IResourceManager manager) {
         String folder = "synthesis";
         String extension = ".json";
 

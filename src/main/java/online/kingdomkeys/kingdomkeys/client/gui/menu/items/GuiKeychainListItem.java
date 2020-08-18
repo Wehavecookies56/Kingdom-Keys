@@ -79,15 +79,17 @@ public class GuiKeychainListItem extends BaseKKGuiButton {
 			if (selected || isHovered) { //Render stuff on the right
 				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				RenderSystem.pushMatrix();
-				RenderSystem.enableBlend();
-				//RenderSystem.enableAlpha();
-				RenderSystem.translated(x + 0.6F, y, 0);
-				RenderSystem.scaled(0.5F, 0.5F, 1);
-				blit(0, 0, 128, 34, 18, 28);
-				for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-					blit(17 + i, 0, 146, 34, 2, 28);
+				{
+					RenderSystem.enableBlend();
+					//RenderSystem.enableAlpha();
+					RenderSystem.translated(x + 0.6F, y, 0);
+					RenderSystem.scaled(0.5F, 0.5F, 1);
+					blit(0, 0, 128, 34, 18, 28);
+					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
+						blit(17 + i, 0, 146, 34, 2, 28);
+					}
+					blit((int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				}
-				blit((int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				RenderSystem.popMatrix();
 				
 				if(item != null && item.getKeyblade() != null) {
@@ -97,22 +99,22 @@ public class GuiKeychainListItem extends BaseKKGuiButton {
 					RenderHelper.disableStandardItemLighting();
 					RenderHelper.setupGuiFlatDiffuseLighting();
 					RenderSystem.pushMatrix();
-					//RenderSystem.enableAlpha();
-					RenderSystem.translated(iconPosX, iconPosY, 0);
-					RenderSystem.scaled((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-					minecraft.getItemRenderer().renderItemIntoGUI(new ItemStack(item.getKeyblade()), 0, 0);
-
-					//minecraft.getRenderManager().renderItem().renderItemAndEffectIntoGUI(new ItemStack(item.getKeyblade()), 0, 0);
+					{
+						//RenderSystem.enableAlpha();
+						RenderSystem.translated(iconPosX, iconPosY, 0);
+						RenderSystem.scaled((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+						minecraft.getItemRenderer().renderItemIntoGUI(new ItemStack(item.getKeyblade()), 0, 0);
+					}
 					RenderSystem.popMatrix();
 					float strPosX = parent.width * 0.6104F;
 					float strPosY = parent.height * 0.5185F;
 					float strNumPosX = parent.width * 0.7473F;
 					float magPosY = parent.height * 0.5657F;
 					
-					String strengthStr = String.valueOf(((int) item.getKeyblade().getStrength()));
-					String magicStr = String.valueOf(((int) item.getKeyblade().getMagic()));
-					int strength = ModCapabilities.getPlayer(minecraft.player).getStrength() + ((int) item.getKeyblade().getStrength());
-					int magic = ModCapabilities.getPlayer(minecraft.player).getMagic() + ((int) item.getKeyblade().getMagic());
+					String strengthStr = String.valueOf(((int) item.getKeyblade().getStrength(stack)));
+					String magicStr = String.valueOf(((int) item.getKeyblade().getMagic(stack)));
+					int strength = ModCapabilities.getPlayer(minecraft.player).getStrength() + ((int) item.getKeyblade().getStrength(stack));
+					int magic = ModCapabilities.getPlayer(minecraft.player).getMagic() + ((int) item.getKeyblade().getMagic(stack));
 					String openBracketStr = " [  ";
 					String openBracketMag = " [  ";
 					String totalStr = String.valueOf(strength);

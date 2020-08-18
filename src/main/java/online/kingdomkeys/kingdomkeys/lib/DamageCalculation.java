@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.ListNBT;
@@ -8,6 +7,7 @@ import net.minecraft.util.Hand;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 
 public class DamageCalculation {
@@ -18,36 +18,45 @@ public class DamageCalculation {
     /**
      * Magic
      */
-    public static float getMagicDamage(PlayerEntity player, int level, KeybladeItem keyblade) {
+    public static float getMagicDamage(PlayerEntity player, int level, ItemStack stack) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         	float damage = 0;
             float finalDamage = 0;
 
-            damage = (float) (keyblade.getMagic() + playerData.getMagic());
-
-            switch (playerData.getActiveDriveForm()) {
-                case Strings.Form_Wisdom:
-                    damage = damage * 2;
-                    break;
-                case Strings.Form_Master:
-                    damage = (float) (damage * 2.25);
-                    break;
-                case Strings.Form_Final:
-                    damage = (float) (damage * 2.5);
-                    break;
+            KeybladeItem keyblade = null;
+            if(stack.getItem() instanceof KeychainItem) {
+            	keyblade = ((KeychainItem) stack.getItem()).getKeyblade();
+            } else if(stack.getItem() instanceof KeybladeItem) {
+            	keyblade = (KeybladeItem) stack.getItem();
             }
-
-            switch (level) {
-                case 1:
-                    finalDamage = damage;
-                    break;
-                case 2:
-                    finalDamage = (float) (damage + (0.1 * damage));
-                    break;
-                case 3:
-                    finalDamage = (float) (damage + (0.2 * damage));
-                    break;
+            
+            if(keyblade != null) {
+	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic());
+	
+	            switch (playerData.getActiveDriveForm()) {
+	                case Strings.Form_Wisdom:
+	                    damage = damage * 2;
+	                    break;
+	                case Strings.Form_Master:
+	                    damage = (float) (damage * 2.25);
+	                    break;
+	                case Strings.Form_Final:
+	                    damage = (float) (damage * 2.5);
+	                    break;
+	            }
+	
+	            switch (level) {
+	                case 1:
+	                    finalDamage = damage;
+	                    break;
+	                case 2:
+	                    finalDamage = (float) (damage + (0.1 * damage));
+	                    break;
+	                case 3:
+	                    finalDamage = (float) (damage + (0.2 * damage));
+	                    break;
+	            }
             }
 
             return finalDamage;//TODO (float) (finalDamage * MainConfig.items.damageMultiplier);
@@ -107,7 +116,7 @@ public class DamageCalculation {
             float finalDamage = 0;
 
             if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.MAIN_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem) {
-                finalDamage = getMagicDamage(player, level, (KeybladeItem) player.getHeldItemMainhand().getItem());
+                finalDamage = getMagicDamage(player, level, player.getHeldItemMainhand());
             } else {
                 finalDamage = playerData.getMagic();
             }
@@ -127,25 +136,34 @@ public class DamageCalculation {
             float damage = 0;
             float finalDamage = 0;
 
-            KeybladeItem keyblade = (KeybladeItem) stack.getItem();
-            damage = (float) (keyblade.getStrength() + playerData.getStrength());
-            //System.out.println(damage);
-
-            switch (playerData.getActiveDriveForm()) {
-                case Strings.Form_Valor:
-                    damage = (float) (damage * 1.5);
-                    break;
-                case Strings.Form_Limit:
-                    damage = (float) (damage * 1.2);
-                    break;
-                case Strings.Form_Master:
-                    damage = (float) (damage * 1.5);
-                    break;
-                case Strings.Form_Final:
-                    damage = (float) (damage * 1.7);
-                    break;
+            KeybladeItem keyblade = null;
+            if(stack.getItem() instanceof KeychainItem) {
+            	keyblade = ((KeychainItem) stack.getItem()).getKeyblade();
+            } else if(stack.getItem() instanceof KeybladeItem) {
+            	keyblade = (KeybladeItem) stack.getItem();
             }
+            
+            if(keyblade != null) {
+            
+	            damage = (float) (keyblade.getStrength(stack) + playerData.getStrength());
+	            //System.out.println(damage);
+	
+	            switch (playerData.getActiveDriveForm()) {
+	                case Strings.Form_Valor:
+	                    damage = (float) (damage * 1.5);
+	                    break;
+	                case Strings.Form_Limit:
+	                    damage = (float) (damage * 1.2);
+	                    break;
+	                case Strings.Form_Master:
+	                    damage = (float) (damage * 1.5);
+	                    break;
+	                case Strings.Form_Final:
+	                    damage = (float) (damage * 1.7);
+	                    break;
+	            }
 
+            }
             finalDamage = damage + getSharpnessDamage(stack); //(float) (damage * MainConfig.items.damageMultiplier);
             return finalDamage;
         } else {

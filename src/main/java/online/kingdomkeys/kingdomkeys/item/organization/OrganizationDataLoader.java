@@ -45,11 +45,12 @@ public class OrganizationDataLoader extends JsonReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonObject> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
+        KingdomKeys.LOGGER.info("Loading organization data");
         loadData(resourceManagerIn);
         PacketHandler.sendToAllPlayers(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList));
     }
 
-    public static void loadData(IResourceManager manager) {
+    public void loadData(IResourceManager manager) {
         String folder = "organization";
         String extension = ".json";
         

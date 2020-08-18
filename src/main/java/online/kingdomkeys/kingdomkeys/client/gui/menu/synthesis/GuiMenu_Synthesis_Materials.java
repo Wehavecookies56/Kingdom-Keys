@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis;
 
 import java.awt.Color;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -9,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -89,6 +92,26 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 		super.render(mouseX, mouseY, partialTicks);
 		
 		int buttonX = (int)(width*0.25);
+		
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		
+		Iterator<Entry<String, Integer>> itMats = playerData.getMaterialMap().entrySet().iterator();
+		int i = 0;
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.translated(width*0.4F, height*0.2, 1);
+
+			while(itMats.hasNext()) {
+				Entry<String, Integer> m = itMats.next();
+				ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey())),m.getValue());
+				String n = Utils.translateToLocal(stack.getTranslationKey());
+				drawString(minecraft.fontRenderer, Utils.translateToLocal(n)+ " x"+stack.getCount(), 2, (int) (i*16), 0xFFFF00);
+				itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-5);
+				i++;
+			}
+		
+		}
+		RenderSystem.popMatrix();
 		
 		RenderSystem.pushMatrix();
 		{

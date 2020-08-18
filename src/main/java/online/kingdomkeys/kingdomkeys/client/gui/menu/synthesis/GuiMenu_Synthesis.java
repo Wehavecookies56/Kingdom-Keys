@@ -27,10 +27,10 @@ public class GuiMenu_Synthesis extends GuiMenu_Background {
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			minecraft.displayGuiScreen(new GuiMenu_Synthesis_Synthesise());
 			break;
-		/*case "forge":
+		case "forge":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Synthesis_Forge("Forge"));
-			break;*/
+			minecraft.displayGuiScreen(new GuiMenu_Synthesis_Forge());
+			break;
 		case "materials":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			minecraft.displayGuiScreen(new GuiMenu_Synthesis_Materials());

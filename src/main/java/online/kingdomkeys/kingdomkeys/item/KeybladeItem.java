@@ -10,11 +10,14 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.command.impl.TagCommand;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.SwordItem;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
@@ -42,12 +45,11 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 public class KeybladeItem extends SwordItem {
 
 	// Level 0 = no upgrades, will use base stats in the data file
-	private int level = 0;
 	public KeybladeData data;
 
 	private Item.Properties properties;
 	
-	Recipe recipe;
+	public Recipe recipe;
 
 	// TODO remove attack damage
 	public KeybladeItem(Item.Properties properties) {
@@ -66,13 +68,13 @@ public class KeybladeItem extends SwordItem {
 	}
 
 	// Get strength from the data based on actual level
-	public int getStrength() {
-		return data.getStrength(level);
+	public int getStrength(ItemStack stack) {
+		return data.getStrength(getKeybladeLevel(stack));
 	}
 
 	// Get magic from the data based on actual level
-	public int getMagic() {
-		return data.getMagic(level);
+	public int getMagic(ItemStack stack) {
+		return data.getMagic(getKeybladeLevel(stack));
 	}
 
 	public String getDescription() {
@@ -83,16 +85,29 @@ public class KeybladeItem extends SwordItem {
 		this.data = data;
 	}
 
-	public int getKeybladeLevel() {
-		return level;
+	public int getKeybladeLevel(ItemStack stack) {
+		if(stack.hasTag()) {
+			if(stack.getTag().contains("level")) {
+				return stack.getTag().getInt("level");
+			}			
+		}
+		return 0;
 	}
 
-	public void setKeybladeLevel(int level) {
-		this.level = level;
+	public void setKeybladeLevel(ItemStack stack, int level) {
+		if(!stack.hasTag()) {
+			stack.setTag(new CompoundNBT());
+		}
+		stack.getTag().putInt("level", level);
 	}
 
 	public Item.Properties getProperties() {
 		return properties;
+	}
+	
+	@Override
+	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
 	@Override
@@ -156,9 +171,9 @@ public class KeybladeItem extends SwordItem {
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		if (data != null) {
-			tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeybladeLevel()));
-			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength(getKeybladeLevel())+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel())+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,1, (KeybladeItem) stack.getItem())+"]"));
+			tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
+			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,1,stack)+"]"));
 			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getDescription()));
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();

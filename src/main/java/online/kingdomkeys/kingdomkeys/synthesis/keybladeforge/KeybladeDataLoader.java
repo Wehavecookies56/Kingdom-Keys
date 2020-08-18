@@ -54,7 +54,7 @@ public class KeybladeDataLoader extends JsonReloadListener {
         PacketHandler.sendToAllPlayers(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList));
     }
 
-    public static void loadData(IResourceManager manager) {
+    public void loadData(IResourceManager manager) {
         String folder = "keyblades";
         String extension = ".json";
         
