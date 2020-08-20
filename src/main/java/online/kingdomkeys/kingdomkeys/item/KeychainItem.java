@@ -68,8 +68,9 @@ public class KeychainItem extends SwordItem {
     @OnlyIn(Dist.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		if (getKeyblade() != null && getKeyblade().data != null) {			
-			tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
+		if (getKeyblade() != null && getKeyblade().data != null) {
+			if(getKeyblade().getKeybladeLevel(stack) > 0)
+				tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
 			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,1, stack)+"]"));
 			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getKeyblade().getDescription()));

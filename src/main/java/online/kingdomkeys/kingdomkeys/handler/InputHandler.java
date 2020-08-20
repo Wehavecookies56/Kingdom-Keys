@@ -34,6 +34,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -44,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagics;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 
@@ -582,10 +585,14 @@ public class InputHandler {
                     
                     break;
              
-               /* case SUMMON_KEYBLADE:
-                    if (!player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive())
-                        Utils.summonWeapon(player, EnumHand.MAIN_HAND, 0);
-                    break;
+                case SUMMON_KEYBLADE:
+                    //if (!player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive())
+                     //   Utils.summonWeapon(player, EnumHand.MAIN_HAND, 0);
+                	if(player.getHeldItemMainhand() != null && (player.getHeldItemMainhand().getItem() instanceof KeychainItem || player.getHeldItemMainhand().getItem() instanceof KeybladeItem)) {
+                		PacketHandler.sendToServer(new CSSummonKeyblade());
+
+                	}
+                    break;/*
                 case SCROLL_ACTIVATOR:
                     break;
                 case ACTION:

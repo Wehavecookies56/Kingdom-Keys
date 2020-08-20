@@ -59,6 +59,10 @@ public class KeybladeData {
     	}
     }
 
+    public KeychainItem getKeychain() {
+    	return keychain;
+    }
+    
     public void setLevels(List<KeybladeLevel> levels) {
         this.levels = levels;
     }
