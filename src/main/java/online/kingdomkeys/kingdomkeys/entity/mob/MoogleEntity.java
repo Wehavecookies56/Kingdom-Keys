@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -11,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -61,12 +63,8 @@ public class MoogleEntity extends CreatureEntity {
         return ModSounds.kupoliving.get();
     }
 
-
-    //TODO needs to be loot table
     @Override
-    protected void dropLoot(DamageSource damageSourceIn, boolean p_213354_2_) {
-        if (damageSourceIn == DamageSource.ANVIL) {
-
-        }
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
+    	return true;
     }
 }

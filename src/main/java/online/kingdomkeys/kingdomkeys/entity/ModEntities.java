@@ -79,11 +79,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
-    //public static final RegistryObject<EntityType<CureEntity>> TYPE_CURE = createEntityType(CureEntity::new, CureEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MagnetEntity::new, EntityClassification.MISC,"entity_magnet", 0.5F, 0.5F);
-    //public static final RegistryObject<EntityType<ReflectEntity>> TYPE_REFLECT = createEntityType(ReflectEntity::new, ReflectEntity::new, EntityClassification.MISC,"entity_reflect", 4F, 3F),
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
-    //public static final RegistryObject<EntityType<StopEntity>> TYPE_STOP = createEntityType(StopEntity::new, StopEntity::new, EntityClassification.MISC,"entity_stop", 0.5F, 0.5F);
     
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, EntityClassification.MISC,"entity_org_portal", 0.5F, 0.5F);
     
@@ -91,15 +88,14 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, EntityClassification.MISC,"entity_lance", 1F, 0.5F);
     
     //Mobs
-    // public static EntityType<EntityShadow> TYPE_HEARTLESS_SHADOW = createEntityType(EntityShadow.class, EntityShadow::new, "shadow");
-    public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.CREATURE, "moogle", 0.6F, 1.5F);
+    public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.AMBIENT, "moogle", 0.6F, 1.5F);
     
     //Pureblood
-    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "shadow", 0.5F, 0.7F);
-    public static final RegistryObject<EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MegaShadowEntity::new, EntityClassification.CREATURE, "mega_shadow", 1.5F, 1.7F);
-    public static final RegistryObject<EntityType<GigaShadowEntity>> TYPE_GIGA_SHADOW = createEntityType(GigaShadowEntity::new, GigaShadowEntity::new, EntityClassification.CREATURE, "giga_shadow", 2.5F, 2.7F);
-    public static final RegistryObject<EntityType<DarkballEntity>> TYPE_DARKBALL = createEntityType(DarkballEntity::new, DarkballEntity::new, EntityClassification.CREATURE, "darkball", 1.3F, 1.7F);
-    public static final RegistryObject<EntityType<ShadowGlobEntity>> TYPE_SHADOW_GLOB = createEntityType(ShadowGlobEntity::new, ShadowGlobEntity::new, EntityClassification.CREATURE, "shadow_glob", 1.5F, 1F);
+    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "shadow", 0.5F, 0.7F);
+    public static final RegistryObject<EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MegaShadowEntity::new, EntityClassification.MONSTER, "mega_shadow", 1.5F, 1.7F);
+    public static final RegistryObject<EntityType<GigaShadowEntity>> TYPE_GIGA_SHADOW = createEntityType(GigaShadowEntity::new, GigaShadowEntity::new, EntityClassification.MONSTER, "giga_shadow", 2.5F, 2.7F);
+    public static final RegistryObject<EntityType<DarkballEntity>> TYPE_DARKBALL = createEntityType(DarkballEntity::new, DarkballEntity::new, EntityClassification.MONSTER, "darkball", 1.3F, 1.7F);
+    public static final RegistryObject<EntityType<ShadowGlobEntity>> TYPE_SHADOW_GLOB = createEntityType(ShadowGlobEntity::new, ShadowGlobEntity::new, EntityClassification.MONSTER, "shadow_glob", 1.5F, 1F);
     
     //Emblems
    /* public static final RegistryObject<EntityType<ShadowEntity>> TYPE_RED_NOCTURNE = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "red_nocturne", 0.5F, 0.5F);
@@ -113,7 +109,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SKATER_BOMB = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "skater_bomb", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_STORM_BOMB = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "storm_bomb", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_DETONATOR = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "detonator", 0.5F, 0.5F);*/
-    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.CREATURE, "large_body", 1F, 1.5F);
+    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 1F, 1.5F);
    /* public static final RegistryObject<EntityType<ShadowEntity>> TYPE_WHITE_MUSHROOM = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "white_mushroom", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_DIRE_PLANT = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.CREATURE, "dire_plant", 0.5F, 0.5F);*/
 

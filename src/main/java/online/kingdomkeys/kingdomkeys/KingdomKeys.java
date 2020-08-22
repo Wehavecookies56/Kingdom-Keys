@@ -9,10 +9,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,6 +30,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -59,7 +63,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.3";
+	public static final String MODVER = "2.0";
 	public static final String MCVER = "1.15.2";
 
 	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
@@ -117,6 +121,7 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(new ModCapabilities());
 	}
 
+	@SuppressWarnings("deprecation")
 	private void setup(final FMLCommonSetupEvent event) {
 		// Run setup on proxies
 		proxy.setup(event);
@@ -128,6 +133,13 @@ public class KingdomKeys {
 			PacketHandler.register();
 		});
 		addMoogleHouse();
+		
+		DeferredWorkQueue.runLater(() -> {
+			for(Biome b : ForgeRegistries.BIOMES){
+				b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 6, 1, 1));
+			}
+		});
+
 	}
 
 	public void addMoogleHouse() {

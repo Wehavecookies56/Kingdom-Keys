@@ -55,15 +55,15 @@ public class EntityLanceRenderer extends EntityRenderer<LanceEntity> {
 
 			matrixStackIn.push();
 			{
-				matrixStackIn.scale(scale, scale, scale);
-
-				float a = 1;
-				float rgb = 1;
-				
-				matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
-				matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 90));
-
 				if(entity.ticksExisted > 1) {
+					matrixStackIn.scale(scale, scale, scale);
+	
+					float a = 1;
+					float rgb = 1;
+					
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+					matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 90));
+
 					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
 						buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 					}
