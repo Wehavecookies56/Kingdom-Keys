@@ -45,8 +45,7 @@ public class EntityChakramRenderer extends EntityRenderer<ChakramEntity> {
 	public void render(ChakramEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		matrixStackIn.push();
 		{
-			String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
-
+			String name = entity.getModel();
 			
 			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentBlockType());
 			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));

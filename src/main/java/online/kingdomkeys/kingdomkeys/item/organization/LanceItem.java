@@ -17,7 +17,7 @@ public class LanceItem extends OrgWeaponItem implements IOrgWeapon {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
-    	LanceEntity entity = new LanceEntity(worldIn, player, this.getName().getFormattedText());
+    	LanceEntity entity = new LanceEntity(worldIn, player, this.getRegistryName().getPath());
 		player.world.addEntity(entity);
 		entity.shoot(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 		player.swingArm(Hand.MAIN_HAND);
