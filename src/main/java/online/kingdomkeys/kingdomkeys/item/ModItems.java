@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import net.minecraft.inventory.EquipmentSlotType;
@@ -22,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.LexiconItem;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
+import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
 
@@ -739,6 +741,7 @@ public class ModItems {
 			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1))),
     		recipe = createNewItem("recipe", () -> new RecipeItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 
+
 	//Helper method to create item with the properties and registry name
 	public static RegistryObject<Item> createNewItem(String name, Item.Properties properties) {
 		return ITEMS.register(name, () -> new Item(properties));
@@ -749,7 +752,12 @@ public class ModItems {
 	}
 
 	public static RegistryObject<Item> createKeybladeItem(String name) {
-		return ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1)));
+		/*if(Lists.keyblades == null) {
+			Lists.keyblades = new ArrayList<RegistryObject<Item>>();
+		}*/
+		RegistryObject<Item> thing = ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1)));
+		//Lists.keyblades.add(thing);
+		return thing;
 	}
 
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot, String type) {

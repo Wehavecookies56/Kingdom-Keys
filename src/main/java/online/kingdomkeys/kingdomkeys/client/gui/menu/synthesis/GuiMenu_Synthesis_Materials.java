@@ -51,7 +51,7 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 						Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 						playerData.addMaterial(mat, stack.getCount());
 						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-						System.out.println("mat");
+						//System.out.println("mat");
 					}
 				}
 			}

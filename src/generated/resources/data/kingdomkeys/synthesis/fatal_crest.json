@@ -1,0 +1,24 @@
+{
+  "output": {
+    "item": "kingdomkeys:fatal_crest_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_stone",
+      "quantity": "3"
+    }
+  ]
+}

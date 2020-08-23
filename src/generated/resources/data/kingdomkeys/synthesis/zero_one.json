@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:zero_one_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lightning_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_gem",
+      "quantity": "4"
+    }
+  ]
+}

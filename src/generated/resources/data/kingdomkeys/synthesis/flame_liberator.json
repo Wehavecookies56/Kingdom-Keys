@@ -1,0 +1,20 @@
+{
+  "output": {
+    "item": "kingdomkeys:flame_liberator_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_blazing_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_shard",
+      "quantity": "5"
+    }
+  ]
+}

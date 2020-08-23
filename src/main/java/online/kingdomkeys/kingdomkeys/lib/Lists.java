@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,9 @@ import static online.kingdomkeys.kingdomkeys.item.ModItems.*;
 public class Lists {
 
     public static List<String> recipes = new ArrayList<String>();
+    
+	//public static List<RegistryObject<Item>> keyblades = new ArrayList<RegistryObject<Item>>();
+
 
     public static List<Item> Xemnas = new ArrayList<Item>();
     public static List<Item> Xigbar = new ArrayList<Item>();

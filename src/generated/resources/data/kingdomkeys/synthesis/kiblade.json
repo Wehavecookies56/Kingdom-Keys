@@ -1,0 +1,60 @@
+{
+  "output": {
+    "item": "kingdomkeys:kiblade_chain",
+    "quantity": 1
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_incomplete_kiblade_chain",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcum",
+      "quantity": "8"
+    },
+    {
+      "material": "kingdomkeys:mat_frost_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcumplus",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "2"
+    }
+  ]
+}

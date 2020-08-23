@@ -217,9 +217,10 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 				
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translated(width*0.75F, height*0.17, 1);
-					RenderSystem.scaled(1,1,1);
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(item.getName().getFormattedText()+" ["+item.getKeybladeLevel(kcStack)+"]"), 0, 10, 0xFF9900);
+					String text = Utils.translateToLocal(item.getName().getFormattedText()+" ["+item.getKeybladeLevel(kcStack)+"]");
+					//System.out.println(width);
+					drawString(minecraft.fontRenderer, text, width-minecraft.fontRenderer.getStringWidth(text)-10, (int) (height*0.17)+5, 0xFF9900);
+					
 				}
 				RenderSystem.popMatrix();
 				
@@ -233,11 +234,16 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 				
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translated(width*0.75F, height*0.6, 1);
-					drawString(minecraft.fontRenderer, "Strength: "+item.getStrength(0)+" ["+(playerData.getStrength()+item.getStrength(0))+"]", 0, 0, 0xFF0000);
-					drawString(minecraft.fontRenderer, "Magic: "+item.getMagic(0)+" ["+(playerData.getMagic()+item.getMagic(0))+"]", 0, 10, 0x0000FF);
-					
-					//drawString(minecraft.fontRenderer, "Ability: "+item.getAbility(), 0, 20, 0x0000FF);
+					if(item.getKeybladeLevel(kcStack) < 10) {
+						RenderSystem.translated(width*0.75F, height*0.6, 1);
+						int actualStr = item.getStrength(item.getKeybladeLevel(kcStack));
+						int nextStr = item.getStrength(item.getKeybladeLevel(kcStack)+1);
+						int actualMag = item.getMagic(item.getKeybladeLevel(kcStack));
+						int nextMag = item.getMagic(item.getKeybladeLevel(kcStack)+1);
+						drawString(minecraft.fontRenderer, "Strength: "+actualStr+" --> "+nextStr, 0, 0, 0xFF0000);
+						drawString(minecraft.fontRenderer, "Magic: "+actualMag+" --> "+nextMag, 0, 10, 0x4444FF);
+						//drawString(minecraft.fontRenderer, "Ability: "+item.getAbility(), 0, 20, 0x0000FF);
+					}
 				}
 				RenderSystem.popMatrix();
 				
@@ -256,7 +262,7 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 							String n = Utils.translateToLocal(stack.getTranslationKey());
 							//playerData.setMaterial(m.getKey(), 1);
 							int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-							drawString(minecraft.fontRenderer, n+" "+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
+							drawString(minecraft.fontRenderer, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
 							itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
 							i++;
 						}

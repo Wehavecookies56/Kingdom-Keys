@@ -11,7 +11,7 @@
   "levels": [
     {
       "str": 6,
-      "mag": 2,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -24,8 +24,8 @@
       ]
     },
     {
-      "str": 6,
-      "mag": 3,
+      "str": 7,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -39,7 +39,7 @@
     },
     {
       "str": 7,
-      "mag": 3,
+      "mag": 6,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -53,83 +53,83 @@
     },
     {
       "str": 8,
-      "mag": 3,
+      "mag": 6,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_damascus",
+          "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
+          "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         }
       ]
     },
     {
       "str": 8,
-      "mag": 4,
+      "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 2
         },
         {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 2
-        }
-      ]
-    },
-    {
-      "str": 8,
-      "mag": 5,
-      "recipe": [
-        {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_writhing_stone",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 3
         }
       ]
     },
     {
       "str": 9,
-      "mag": 5,
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 9,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_gem",
+          "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_writhing_gem",
+          "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 1
         }
       ]
     },
     {
       "str": 10,
-      "mag": 5,
+      "mag": 8,
       "recipe": [
-        {
-          "material": "kingdomkeys:mat_adamantite",
-          "quantity": 1
-        },
         {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_wellspring_gem",
@@ -139,15 +139,15 @@
     },
     {
       "str": 11,
-      "mag": 5,
+      "mag": 8,
       "recipe": [
-        {
-          "material": "kingdomkeys:mat_adamantite",
-          "quantity": 1
-        },
         {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_wellspring_gem",
@@ -157,14 +157,14 @@
     },
     {
       "str": 11,
-      "mag": 6,
+      "mag": 9,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_crystal",
+          "material": "kingdomkeys:mat_electrum",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_electrum",
+          "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 1
         },
         {
