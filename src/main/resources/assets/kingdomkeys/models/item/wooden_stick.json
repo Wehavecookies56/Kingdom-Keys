@@ -2,6 +2,7 @@
 	"parent": "forge:item/default",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/item/keyblade/woodenstick.obj",
+	"flip-v": true,
 	"textures": {
 
 	},
@@ -27,9 +28,9 @@
 			"scale": [0.019999999552965164, 0.019999999552965164, 0.019999999552965164 ]
 		},
 		"gui": {
-			"rotation": [45.0, 10.0, -45.0 ],
-			"translation": [-0.2, -0.2, 0.0 ],
-			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+			"rotation": [45.0, 0.0, -45.0 ],
+			"translation": [-3.5, -3.5, 0.0 ],
+			"scale": [0.025, 0.025, 0.025 ]
 		},
 		"ground": {
 			"rotation": [45.0, 0.0, 0.0 ],

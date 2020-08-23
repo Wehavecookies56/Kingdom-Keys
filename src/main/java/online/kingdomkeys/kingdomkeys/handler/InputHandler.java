@@ -66,7 +66,7 @@ public class InputHandler {
         World world = mc.world;
         double random = Math.random();
         int ap = playerData.getAntiPoints();
-        System.out.println("Antipoints: "+ap);
+        //System.out.println("Antipoints: "+ap);
         int prob = 0;
         if (ap > 0 && ap <= 4)
             prob = 0;
@@ -590,7 +590,6 @@ public class InputHandler {
                      //   Utils.summonWeapon(player, EnumHand.MAIN_HAND, 0);
                 	if(player.getHeldItemMainhand() != null && (player.getHeldItemMainhand().getItem() instanceof KeychainItem || player.getHeldItemMainhand().getItem() instanceof KeybladeItem)) {
                 		PacketHandler.sendToServer(new CSSummonKeyblade());
-
                 	}
                     break;/*
                 case SCROLL_ACTIVATOR:

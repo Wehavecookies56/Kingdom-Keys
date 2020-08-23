@@ -689,8 +689,6 @@ public class Strings {
         winnersProofChain = "winners_proof_chain",
         wishingLampChain = "wishing_lamp_chain",
         wishingStarChain = "wishing_star_chain",
-        woodenKeybladeChain = "wooden_keyblade_chain",
-        woodenStickChain = "wooden_stick_chain",
         youngXehanortsKeybladeChain = "young_xehanorts_keyblade_chain",
         zeroOneChain = "zero_one_chain";
 

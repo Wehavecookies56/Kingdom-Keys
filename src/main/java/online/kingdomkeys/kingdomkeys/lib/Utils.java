@@ -9,18 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkDirection;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.magic.ModMagics;
+import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -119,6 +118,21 @@ public class Utils {
 		if(driveForm.equals(Strings.Form_Anti))
 			return 7;
 		return map.get(driveForm)[0];
+	}
+	
+	public static LinkedHashMap<Material, Integer> getSortedMaterials(Map<Material, Integer> materials) {
+		ArrayList<Material> list = new ArrayList<Material>();
+
+		for(Material m : materials.keySet()) {
+			list.add(m);
+		}
+		list.sort(Comparator.comparing(Material::getMaterialName));
+		
+		LinkedHashMap<Material,Integer> map = new LinkedHashMap<Material,Integer>();
+		for(Material k : list) {
+			map.put(k, materials.get(k));
+		}
+		return map;
 	}
 	
 	public static LinkedHashMap<String, int[]> getSortedAbilities(LinkedHashMap<String, int[]> abilities) {

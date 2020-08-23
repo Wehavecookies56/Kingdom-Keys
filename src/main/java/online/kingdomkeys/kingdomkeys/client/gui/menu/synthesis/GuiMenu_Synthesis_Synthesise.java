@@ -208,11 +208,10 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				
 				RenderSystem.pushMatrix();
 				{
-					
 					RenderSystem.translated(width*0.4F, height*0.2, 1);
 					Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
 					if(recipe != null) {
-						Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
+						Iterator<Entry<Material, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 						int i = 0;
 						while(materials.hasNext()) {
 							Entry<Material, Integer> m = materials.next();
@@ -221,7 +220,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 							//playerData.setMaterial(m.getKey(), 1);
 							int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 							drawString(minecraft.fontRenderer, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
-							itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
+							itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-5);
 							i++;
 						}
 					}

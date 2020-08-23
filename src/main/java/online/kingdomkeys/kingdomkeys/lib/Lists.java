@@ -513,8 +513,6 @@ public class Lists {
         recipes.add(winnersProof.get().getTranslationKey());
         recipes.add(wishingLamp.get().getTranslationKey());
         recipes.add(wishingStar.get().getTranslationKey());
-        recipes.add(woodenKeyblade.get().getTranslationKey());
-        recipes.add(woodenStick.get().getTranslationKey());
         recipes.add(youngXehanortsKeyblade.get().getTranslationKey());
         recipes.add(zeroOne.get().getTranslationKey());
         
