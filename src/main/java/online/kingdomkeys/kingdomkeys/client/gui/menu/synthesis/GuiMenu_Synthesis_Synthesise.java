@@ -207,9 +207,10 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translated(width*0.75F, height*0.17, 1);
 					RenderSystem.scaled(1,1,1);
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(playerData.getKnownRecipeList().get(selectedKB)), 0, 10, 0xFF9900);
+					String text = Utils.translateToLocal(playerData.getKnownRecipeList().get(selectedKB));
+					//System.out.println(width);
+					drawString(minecraft.fontRenderer, text, width-minecraft.fontRenderer.getStringWidth(text)-2, (int) (height*0.17)+5, 0xFF9900);
 				}
 				RenderSystem.popMatrix();
 				

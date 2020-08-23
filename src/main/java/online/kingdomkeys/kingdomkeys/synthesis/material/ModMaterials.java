@@ -108,7 +108,11 @@ public class ModMaterials {
                     createMaterial(ModItems.sinister_stone.get(), Strings.SM_SinisterStone),
                     createMaterial(ModItems.sinister_shard.get(), Strings.SM_SinisterShard),
                     createMaterial(ModItems.evanescent_crystal.get(), Strings.SM_EvanescentCrystal),
-                    createMaterial(ModItems.illusory_crystal.get(), Strings.SM_IllusoryCrystal));
+                    createMaterial(ModItems.illusory_crystal.get(), Strings.SM_IllusoryCrystal),
+            		
+                    createMaterial(ModItems.incompleteKibladeChain.get(), Strings.incompleteKibladeChain),
+                    createMaterial(ModItems.mirageSplitChain.get(), Strings.mirageSplitChain),
+                    createMaterial(ModItems.nightmaresEndChain.get(), Strings.nightmaresEndChain));
         }
 
     }

@@ -62,7 +62,7 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 				ItemStack stack = minecraft.player.inventory.getStackInSlot(getIndexFromMapIndex(selectedKC));
 				KeychainItem kcItem = (KeychainItem) stack.getItem();
 				KeybladeItem item = (KeybladeItem) kcItem.getKeyblade();
-				//System.out.println(item.getKeybladeLevel(stack));
+
 				Iterator<Entry<Material, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
 				boolean hasMaterials = true;
 				while(itMats.hasNext()) { //Check if the player has the materials (checked serverside just in case)

@@ -157,6 +157,8 @@ public class SCSyncCapabilityPacket {
 		while (materialsIt.hasNext()) {
 			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
 			materials.putInt(pair.getKey().toString(), pair.getValue());
+			if (materials.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
+				materials.remove(pair.getKey().toString());
 		}
 		buffer.writeCompoundTag(materials);
 		

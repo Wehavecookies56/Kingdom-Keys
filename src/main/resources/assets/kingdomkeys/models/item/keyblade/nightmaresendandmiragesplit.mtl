@@ -9,7 +9,7 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
-illum 2
+map_Kd kingdomkeys:item/models/keyblades/nightmaresendandmiragesplit_2
 
 newmtl Brush.068
 Ns 323.999994
@@ -20,6 +20,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
+map_Kd kingdomkeys:item/models/keyblades/nightmaresendandmiragesplit_1
 
 newmtl Brush.069
 Ns 225.000000
@@ -30,6 +31,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
+map_Kd kingdomkeys:item/models/keyblades/nightmaresendandmiragesplit_3
 
 newmtl Brush.070
 Ns 225.000000
@@ -40,3 +42,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
+map_Kd kingdomkeys:item/models/keyblades/nightmaresendandmiragesplit_1

@@ -105,9 +105,12 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 				Entry<String, Integer> m = itMats.next();
 				ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey())),m.getValue());
 				String n = Utils.translateToLocal(stack.getTranslationKey());
-				drawString(minecraft.fontRenderer, Utils.translateToLocal(n)+ " x"+stack.getCount(), 2, (int) (i*16), 0xFFFF00);
-				itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-5);
-				i++;
+//System.out.println(stack.getTranslationKey());
+			//	if(!stack.getTranslationKey().equals("block.minecraft.air")) {
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(n)+ " x"+stack.getCount(), 2, (int) (i*16), 0xFFFF00);
+					itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-5);
+					i++;
+			//	}
 			}
 		
 		}

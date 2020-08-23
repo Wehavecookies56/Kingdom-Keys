@@ -108,7 +108,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			while (materialsIt.hasNext()) {
 				Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
 				mats.putInt(pair.getKey().toString(), pair.getValue());
+				if(mats.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
+					mats.remove(pair.getKey().toString());
 			}
+		//	System.out.println(mats);
 			storage.put("materials", mats);
 
 			return storage;
