@@ -2,6 +2,7 @@
 	"parent": "forge:item/default",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/item/keyblade/monochrome.obj",
+	"flip-v" : true,
 	"textures": {
 
 	},
