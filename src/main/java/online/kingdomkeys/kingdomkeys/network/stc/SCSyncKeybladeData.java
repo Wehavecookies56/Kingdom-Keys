@@ -91,7 +91,9 @@ public class SCSyncKeybladeData {
 				    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
 				    continue;
 				}
-				keyblade.setKeybladeData(result);
+				 keyblade.setKeybladeData(result);
+	                if(result.keychain != null)
+	                	result.keychain.setKeyblade(keyblade);
 				IOUtils.closeQuietly(br);
 			}
 		});

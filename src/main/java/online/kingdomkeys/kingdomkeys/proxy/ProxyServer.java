@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.proxy;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -29,6 +30,11 @@ public class ProxyServer implements IProxy {
 
 	@Override
 	public World getClientWorld() {
+		return null;
+	}
+
+	@Override
+	public Minecraft getClientMCInstance() {
 		return null;
 	}
 }

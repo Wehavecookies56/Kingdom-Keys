@@ -35,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -69,6 +70,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncKeybladeData.class, SCSyncKeybladeData::encode, SCSyncKeybladeData::decode, SCSyncKeybladeData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncOrganizationData.class, SCSyncOrganizationData::encode, SCSyncOrganizationData::decode, SCSyncOrganizationData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncSynthesisData.class, SCSyncSynthesisData::encode, SCSyncSynthesisData::decode, SCSyncSynthesisData::handle);
+		HANDLER.registerMessage(packetID++, SCOpenSynthesisGui.class, SCOpenSynthesisGui::encode, SCOpenSynthesisGui::decode, SCOpenSynthesisGui::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

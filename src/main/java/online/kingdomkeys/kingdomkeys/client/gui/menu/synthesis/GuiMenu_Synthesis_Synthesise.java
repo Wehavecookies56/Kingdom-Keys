@@ -232,7 +232,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 			RenderSystem.popMatrix();
 		}
 		
-		int buttonX = (int)(width*0.25);
+		//int buttonX = (int)(width*0.25);
 		
 		RenderSystem.pushMatrix();
 		{

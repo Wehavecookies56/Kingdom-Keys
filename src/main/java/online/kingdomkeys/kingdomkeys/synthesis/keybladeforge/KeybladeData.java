@@ -13,7 +13,8 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 public class KeybladeData {
 
     //The keychain that summons the keyblade this is for, if null the upgrade levels are ignored and only base stats are used
-    @Nullable KeychainItem keychain;
+    @Nullable
+	public KeychainItem keychain;
     //The level 0 stats
     int baseStrength, baseMagic;
     //List of upgrades for the keyblade

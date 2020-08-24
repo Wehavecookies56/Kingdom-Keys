@@ -65,7 +65,7 @@ public class GuiMenu extends GuiMenu_Background {
 		 * case CUSTOMIZE: GuiHelper.openCustomize(); break; case STATUS:
 		 * GuiHelper.openStatus(); break; case JOURNAL: GuiHelper.openReports(); break;*/
 		  case CONFIG:
-			minecraft.displayGuiScreen(new GuiMenu_Synthesis()); 
+			//minecraft.displayGuiScreen(new GuiMenu_Synthesis()); 
 			break;
 		 
 		}

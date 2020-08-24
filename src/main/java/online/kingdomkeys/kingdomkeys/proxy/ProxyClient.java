@@ -122,4 +122,9 @@ public class ProxyClient implements IProxy {
 		return Minecraft.getInstance().world;
 	}
 
+	@Override
+	public Minecraft getClientMCInstance() {
+		return Minecraft.getInstance();
+	}
+
 }

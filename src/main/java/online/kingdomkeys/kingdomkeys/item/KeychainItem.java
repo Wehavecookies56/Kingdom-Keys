@@ -40,12 +40,12 @@ public class KeychainItem extends SwordItem {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		ItemStack stack = player.getHeldItem(hand);
+		/*ItemStack stack = player.getHeldItem(hand);
 		if(!world.isRemote) {
 			if(stack != null && stack.getItem() == this) {
 				setKeybladeLevel(stack, getKeybladeLevel(stack)+1);
 			}
-		}
+		}*/
 		return super.onItemRightClick(world, player, hand);
 	}
 	
