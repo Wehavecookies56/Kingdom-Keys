@@ -17,6 +17,7 @@
 	"gui.menu.main.time.spent": "Global Time",
 	
 	"gui.synthesis.synthesise.create": "Create",
+	"gui.synthesis.synthesise.upgrade": "Upgrade",
 	
 	"gui.menu.status.level": "Level",
 	"gui.menu.status.totalexp": "Experience",
@@ -117,7 +118,25 @@
 
     "_comment": "Items",
 	
+	"item.kingdomkeys.recipe": "Recipe",
 	"item.kingdomkeys.ice_cream": "Sea Salt Ice Cream",
+	
+	"item.kingdomkeys.spellfire": "Fire Spell",
+    "item.kingdomkeys.spellblizzard": "Blizzard Spell",
+    "item.kingdomkeys.spellwater": "Water Spell",
+    "item.kingdomkeys.spellthunder": "Thunder Spell",
+    "item.kingdomkeys.spellcure": "Cure Spell",
+    "item.kingdomkeys.spellaero": "Aero Spell",
+    "item.kingdomkeys.spellmagnet": "Magnet Spell",
+    "item.kingdomkeys.spellreflect": "Reflect Spell",
+    "item.kingdomkeys.spellgravity": "Gravity Spell",
+    "item.kingdomkeys.spellstop": "Stop Spell",
+	
+	"item.kingdomkeys.levelupdrivevalor": "Valor Form Orb",
+	"item.kingdomkeys.levelupdrivewisdom": "Wisdom Form Orb",
+	"item.kingdomkeys.levelupdrivelimit": "Limit Form Orb",
+	"item.kingdomkeys.levelupdrivemaster": "Master Form Orb",
+	"item.kingdomkeys.levelupdrivefinal": "Final Form Orb",
 	
 	"disc.duration.desc": "Duration",
 	"disc.durationunits.desc": "(mins:secs)",
@@ -319,7 +338,7 @@
 	"item.kingdomkeys.fenrir": "Fenrir",
 	"item.kingdomkeys.ferris_gear": "Ferris Gear",
 	"item.kingdomkeys.flame_liberator": "Flame Liberator",
-	"item.kingdomkeys.followthe_wind": "Followthe Wind",
+	"item.kingdomkeys.follow_the_wind": "Follow the Wind",
 	"item.kingdomkeys.frolic_flame": "Frolic Flame",
 	"item.kingdomkeys.glimpse_of_darkness": "Glimpse Of Darkness",
 	"item.kingdomkeys.guardian_bell": "Guardian Bell",
@@ -443,7 +462,7 @@
 	"item.kingdomkeys.fenrir_chain": "Fenrir Chain",
 	"item.kingdomkeys.ferris_gear_chain": "Ferris Gear Chain",
 	"item.kingdomkeys.flame_liberator_chain": "Flame Liberator Chain",
-	"item.kingdomkeys.followthe_wind_chain": "Followthe Wind Chain",
+	"item.kingdomkeys.follow_the_wind_chain": "Follow The Wind Chain",
 	"item.kingdomkeys.frolic_flame_chain": "Frolic Flame Chain",
 	"item.kingdomkeys.glimpse_of_darkness_chain": "Glimpse Of Darkness Chain",
 	"item.kingdomkeys.guardian_bell_chain": "Guardian Bell Chain",
@@ -774,7 +793,7 @@
 	"item.kingdomkeys.the_emperor": "The Emperor",
 	"item.kingdomkeys.the_joker": "The Joker",
 	"item.kingdomkeys.fair_game": "Fair Game",
-	"item.kingdomkeys.finest_fantasy13": "Finest Fantasy13",
+	"item.kingdomkeys.finest_fantasy_13": "Finest Fantasy 13",
 	"item.kingdomkeys.high_rollers_secret": "High Rollers Secret",
 	"item.kingdomkeys.fickle_erica": "Fickle Erica",
 	"item.kingdomkeys.jilted_anemone": "Jilted Anemone",

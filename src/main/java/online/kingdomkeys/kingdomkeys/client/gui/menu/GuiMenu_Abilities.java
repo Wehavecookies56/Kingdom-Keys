@@ -45,8 +45,9 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 		for (i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
-			System.out.println(Utils.translateToLocal(abilityName));
-			addButton(abilities[i] = new GuiMenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, Utils.translateToLocal(abilityName), ability.getType(), (e) -> {
+			String path = new ResourceLocation(abilityName).getPath();
+			System.out.println(Utils.translateToLocal(path));
+			addButton(abilities[i] = new GuiMenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, Utils.translateToLocal(path), ability.getType(), (e) -> {
 				action(ability);
 			}));
 		}
@@ -106,7 +107,7 @@ public class GuiMenu_Abilities extends GuiMenu_Background {
 				int level = (playerData.getEquippedAbilityLevel(abilityName)[0]);
      			lvl+= "_"+level;
 			}
-			
+			abilityName = abilityName.replace("kingdomkeys:","");
 			text += Utils.translateToLocal(abilityName+lvl);
 
 			GuiMenuAbilitiesButton button = (GuiMenuAbilitiesButton) buttons.get(i);

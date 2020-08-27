@@ -954,7 +954,7 @@ public class KeybladeStats extends KeybladeProvider {
                     .addMaterial(Strings.SM_WrithingCrystal, 1)).build())
             .desc("The Keyblade wielded by Lea.");
 
-		getBuilder(Strings.followtheWind).keychain(Strings.followtheWindChain).baseStats(6,2)
+		getBuilder(Strings.followTheWind).keychain(Strings.followTheWindChain).baseStats(6,2)
             .abilities("Treasure Magnet", "Formchange Extender")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())

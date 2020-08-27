@@ -43,7 +43,7 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
     	getBuilder(Strings.fenrir).output(Strings.fenrirChain,1).addMaterial(Strings.SM_TwilightGem,3).addMaterial(Strings.SM_PulsingStone,6).addMaterial(Strings.SM_WellspringCrystal,2).addMaterial(Strings.SM_BetwixtShard,2);
     	getBuilder(Strings.ferrisGear).output(Strings.ferrisGearChain,1).addMaterial(Strings.SM_SoothingGem,2).addMaterial(Strings.SM_LightningStone,2).addMaterial(Strings.SM_LucidGem,2);
     	getBuilder(Strings.flameLiberator).output(Strings.flameLiberatorChain,1).addMaterial(Strings.SM_BlazingGem,4).addMaterial(Strings.SM_BlazingStone,2).addMaterial(Strings.SM_BlazingShard,5);
-    	getBuilder(Strings.followtheWind).output(Strings.followtheWindChain,1).addMaterial(Strings.SM_WrithingStone,3).addMaterial(Strings.SM_PulsingStone,2).addMaterial(Strings.SM_BlazingShard,2);
+    	getBuilder(Strings.followTheWind).output(Strings.followTheWindChain,1).addMaterial(Strings.SM_WrithingStone,3).addMaterial(Strings.SM_PulsingStone,2).addMaterial(Strings.SM_BlazingShard,2);
     	getBuilder(Strings.frolicFlame).output(Strings.frolicFlameChain,1).addMaterial(Strings.SM_PulsingStone,1).addMaterial(Strings.SM_BlazingShard,3).addMaterial(Strings.SM_BlazingGem,2).addMaterial(Strings.SM_BlazingCrystal,1);
     	getBuilder(Strings.glimpseOfDarkness).output(Strings.glimpseOfDarknessChain,1).addMaterial(Strings.SM_WrithingStone,3).addMaterial(Strings.SM_BetwixtCrystal,3).addMaterial(Strings.SM_WrithingGem,3).addMaterial(Strings.SM_PulsingCrystal,2);
     	getBuilder(Strings.guardianBell).output(Strings.guardianBellChain,1).addMaterial(Strings.SM_WrithingStone,3).addMaterial(Strings.SM_LightningShard,3).addMaterial(Strings.SM_WellspringCrystal,2);

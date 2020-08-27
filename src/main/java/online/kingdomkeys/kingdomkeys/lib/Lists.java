@@ -424,7 +424,7 @@ public class Lists {
         recipes.add(fatalCrest.get().getTranslationKey());
         recipes.add(fenrir.get().getTranslationKey());
         recipes.add(ferrisGear.get().getTranslationKey());
-        recipes.add(followtheWind.get().getTranslationKey());
+        recipes.add(followTheWind.get().getTranslationKey());
         recipes.add(frolicFlame.get().getTranslationKey());
         recipes.add(glimpseOfDarkness.get().getTranslationKey());
         recipes.add(guardianBell.get().getTranslationKey());
