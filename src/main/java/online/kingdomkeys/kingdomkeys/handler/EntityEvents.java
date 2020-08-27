@@ -588,18 +588,11 @@ public class EntityEvents {
 
 			newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
 			
+			newPlayerData.setKnownRecipeList(oldPlayerData.getKnownRecipeList());
+			newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
+			
 			nPlayer.setHealth(oldPlayerData.getMaxHP());
 			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
-
-			System.out.println(event.getPlayer().world.isRemote+": "+newPlayerData.getMP());
-			// TODO sync stuff
-			//if(!event.getPlayer().world.isRemote) {
-			//	PacketHandler.sendTo(new SCSyncCapabilityPacket(newPlayerData), (ServerPlayerEntity) nPlayer);
-
-				/*PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.get(event.getPlayer())), (ServerPlayerEntity)event.getPlayer());
-
-				PacketHandler.syncToAllAround(nPlayer, ModCapabilities.get(nPlayer));*/
-			//}
 
 		}
 	}

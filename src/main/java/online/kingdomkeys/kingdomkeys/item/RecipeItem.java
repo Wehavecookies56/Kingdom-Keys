@@ -98,7 +98,7 @@ public class RecipeItem extends Item {
 				Recipe3 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
 			}
 		}
-
+//System.out.println(Recipe2);
 		stack.setTag(new CompoundNBT());
 		stack.getTag().putString("recipe1", Recipe1);
 		stack.getTag().putString("recipe2", Recipe2);

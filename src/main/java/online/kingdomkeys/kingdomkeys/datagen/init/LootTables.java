@@ -127,7 +127,7 @@ public class LootTables extends BaseLootTables {
     private void ores() {
         lootTables.put(ModBlocks.blazingOre.get(), LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.blazing_crystal.get()).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
-                .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
+                		.acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.blazing_gem.get()).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
                         .acceptCondition(RandomChanceWithLooting.builder(.25f, .10f)))).addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(ModItems.blazing_shard.get()).weight(1).acceptFunction(SetCount.builder(new RandomValueRange(1,3)))
