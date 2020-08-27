@@ -326,7 +326,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			drawString(minecraft.fontRenderer, I18n.format("Attack "+ModCapabilities.getPlayer(minecraft.player).getKnownRecipeList().size()), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, I18n.format("Attack"), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
 
 			/*
 			 * if(Minecraft.getInstance().player.getCapability(ModCapabilities.
