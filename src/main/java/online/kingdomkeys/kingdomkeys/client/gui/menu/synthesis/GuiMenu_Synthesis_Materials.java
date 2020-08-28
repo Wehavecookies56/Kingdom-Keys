@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
@@ -27,8 +29,9 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 		
-	GuiMenuButton deposit;
-	
+	GuiMenuButton deposit,back;
+	Button prev,next;
+	int page = 0;
 		
 	public GuiMenu_Synthesis_Materials() {
 		super("Synthesis",new Color(0,255,0));
@@ -37,6 +40,14 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 
 	protected void action(String string) {
 		switch(string) {
+		case "prev":
+			page--;
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			break;
+		case "next":
+			page++;
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			break;
 		case "deposit":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			
@@ -56,7 +67,9 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 				}
 			}
 			PacketHandler.sendToServer(new CSDepositMaterials());
-			//minecraft.displayGuiScreen(new GuiMenu_Synthesis_Synthesise());
+			break;
+		case "back":
+			minecraft.displayGuiScreen(null);
 			break;
 		}
 		
@@ -79,8 +92,11 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
+		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
+		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 
 		addButton(deposit = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Deposit Materials"), ButtonType.BUTTON, (e) -> { action("deposit"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Back"), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
@@ -91,9 +107,19 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
 		
-		int buttonX = (int)(width*0.25);
-		
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		int matsPerPage = 9;
+
+		prev.visible = page > 0;
+		next.visible = page < playerData.getMaterialMap().size()/matsPerPage;
+		
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.translated(width * 0.03F+45, (height*0.17) - 18, 1);
+			RenderSystem.scaled(1,1,1);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal("Page: "+(page+1)), 0, 10, 0xFF9900);
+		}
+		RenderSystem.popMatrix();
 		
 		Iterator<Entry<String, Integer>> itMats = playerData.getMaterialMap().entrySet().iterator();
 		int i = 0;
@@ -103,14 +129,13 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 
 			while(itMats.hasNext()) {
 				Entry<String, Integer> m = itMats.next();
-				ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey())),m.getValue());
-				String n = Utils.translateToLocal(stack.getTranslationKey());
-//System.out.println(stack.getTranslationKey());
-			//	if(!stack.getTranslationKey().equals("block.minecraft.air")) {
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(n)+ " x"+stack.getCount(), 2, (int) (i*16), 0xFFFF00);
-					itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-5);
-					i++;
-			//	}
+				if(i>page*matsPerPage-1 && i < page*matsPerPage+matsPerPage) {
+					ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey())),m.getValue());
+					String n = Utils.translateToLocal(stack.getTranslationKey());
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(n)+ " x"+stack.getCount(), 2, (int) ((i-matsPerPage*page)*16), 0xFFFF00);
+					itemRenderer.renderItemIntoGUI(stack, -17, ((i-matsPerPage*page)*16)-5);
+				}
+				i++;
 			}
 		
 		}

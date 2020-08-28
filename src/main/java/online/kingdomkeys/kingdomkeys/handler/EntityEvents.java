@@ -26,10 +26,13 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -62,6 +65,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
@@ -427,6 +431,53 @@ public class EntityEvents {
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			Vec3d motion = player.getMotion();
 			player.setMotion(motion.x, glide, motion.z);
+		}
+	}
+	
+	@SubscribeEvent
+	public void entityPickup(EntityItemPickupEvent event) {
+		if(event.getPlayer().inventory.hasItemStack(new ItemStack(ModItems.synthesisBag.get()))) {
+			if(event.getItem().getItem() != null && event.getItem().getItem().getItem() instanceof SynthesisItem) {
+				//ItemStack stack = event.getItem().getItem();
+				//System.out.println("Pickup: "+stack.getDisplayName().getFormattedText()+" x"+stack.getCount());
+				//event.setCanceled(true);
+				
+				for (int i = 0; i < event.getPlayer().inventory.getSizeInventory(); i++) {
+					if (!ItemStack.areItemStacksEqual(event.getPlayer().inventory.getStackInSlot(i), ItemStack.EMPTY)) {
+						if (event.getPlayer().inventory.getStackInSlot(i).getItem() == ModItems.synthesisBag.get()) {
+							System.out.println("Found bag");
+							IItemHandler inv = event.getPlayer().inventory.getStackInSlot(i).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
+							addSynthesisMaterialToBag(inv, event);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void addSynthesisMaterialToBag(IItemHandler inv, EntityItemPickupEvent event) {
+		for (int j = 0; j < inv.getSlots(); j++) {
+			ItemStack bagItem = inv.getStackInSlot(j);
+			ItemStack pickUp = event.getItem().getItem();
+			if (!ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) {
+				System.out.println("Found bag 2");
+				if (bagItem.getItem().equals(pickUp.getItem())) {
+					System.out.println("Bag already has item");
+					if (bagItem.getCount() < 64) {
+						if (bagItem.getCount() + pickUp.getCount() <= 64) {
+							ItemStack stack = new ItemStack(pickUp.copy().getItem(), pickUp.copy().getCount());
+							inv.insertItem(j, stack, false);
+							pickUp.setCount(0);
+							return;
+						}
+					}
+				}
+			} else if (ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) {
+				System.out.println("idk");
+				inv.insertItem(j, pickUp.copy(), false);
+				pickUp.setCount(0);
+				return;
+			}
 		}
 	}
 	

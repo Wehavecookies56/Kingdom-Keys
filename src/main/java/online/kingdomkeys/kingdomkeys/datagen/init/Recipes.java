@@ -111,8 +111,7 @@ public class Recipes extends RecipeProvider {
 		        .addCriterion("glass", InventoryChangeTrigger.Instance.forItems(Blocks.GLASS))
 		        .build(consumer);
 
-
-        //items
+        //Items
         ShapelessRecipeBuilder.shapelessRecipe(ModItems.iceCream.get())
         		.addIngredient(Tags.Items.RODS_WOODEN)
         		.addIngredient(Items.SUGAR)
@@ -130,24 +129,28 @@ public class Recipes extends RecipeProvider {
                 .addCriterion("glass_bottle", InventoryChangeTrigger.Instance.forItems(Items.GLASS_BOTTLE))
                 .build(consumer);
 
-        /*// bags
-        ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBagS).patternLine("LSL").patternLine("L L").patternLine("LLL")
-                .key('S', Items.STRING).key('L', Items.LEATHER).setGroup("kingdomkeys")
+        ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBag.get())
+        		.patternLine("LSL")
+        		.patternLine("L L")
+        		.patternLine("LLL")
+                .key('S', Items.STRING)
+                .key('L', Items.LEATHER)
+                .setGroup("kingdomkeys")
                 .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.LEATHER))
                 .build(consumer);
-
-        ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBagM).patternLine("LSL").patternLine("LBL").patternLine("LLL")
-                .key('S', Items.STRING).key('L', Items.LEATHER).key('B', ModItems.synthesisBagS)
-                .setGroup("kingdomkeys").addCriterion("bag", InventoryChangeTrigger.Instance.forItems(ModItems.synthesisBagS))
-                .build(consumer);
-
-        ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBagL).patternLine("LSL").patternLine("LBL").patternLine("LLL")
-                .key('S', Items.STRING).key('L', Items.LEATHER).key('B', ModItems.synthesisBagM)
-                .setGroup("kingdomkeys").addCriterion("bag", InventoryChangeTrigger.Instance.forItems(ModItems.synthesisBagM))
-                .build(consumer);
+        
+        ShapedRecipeBuilder.shapedRecipe(ModItems.woodenKeyblade.get())
+				.patternLine(" WS")
+				.patternLine(" WS")
+				.patternLine(" S ")
+		        .key('S', Items.STICK)
+		        .key('W', Blocks.OAK_PLANKS)
+		        .setGroup("kingdomkeys")
+		        .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.LEATHER))
+		        .build(consumer);
 
         // util blocks
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.kkChest).patternLine("HGH").patternLine("GCG").patternLine("HGH")
+        /*ShapedRecipeBuilder.shapedRecipe(ModBlocks.kkChest).patternLine("HGH").patternLine("GCG").patternLine("HGH")
                 .key('G', Tags.Items.INGOTS_GOLD).key('C', Tags.Items.CHESTS).key('H', ModItems.heart)
                 .setGroup("kingdomkeys").addCriterion("chest", InventoryChangeTrigger.Instance.forItems(Blocks.CHEST))
                 .build(consumer);

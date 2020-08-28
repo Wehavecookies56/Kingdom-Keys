@@ -50,7 +50,7 @@ public class SynthesisBagItem extends Item {
 		int bagLevel = nbt.getInt("level");
 		tooltip.add(new TranslationTextComponent("Level " + bagLevel));
 
-		if (worldIn != null) { // So it does not crash D:
+		/*if (worldIn != null) { // So it does not crash D:
 			if (!KeyboardHelper.isShiftDown()) {
 				tooltip.add(new TranslationTextComponent(TextFormatting.ITALIC + "Hold down <SHIFT> for info"));
 			} else {
@@ -64,7 +64,7 @@ public class SynthesisBagItem extends Item {
 					}
 				}
 			}
-		}
+		}*/
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 

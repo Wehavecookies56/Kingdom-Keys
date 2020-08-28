@@ -23,6 +23,7 @@ public class SynthesisBagInventory implements ICapabilityProvider, INBTSerializa
 			return !stack.isEmpty() && stack.getItem() instanceof SynthesisItem;
 		}
 	};
+	
 	private final LazyOptional<IItemHandler> opt = LazyOptional.of(() -> inv);
 
 	@Nonnull
