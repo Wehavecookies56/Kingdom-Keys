@@ -50,6 +50,7 @@ public class ModBlocks {
             pulsingOreE = createNewBlock("pulsing_ore_e", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             remembranceOre = createNewBlock("remembrance_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             hungryOre = createNewBlock("hungry_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
+            sinisterOre = createNewBlock("sinister_ore", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             stormyOre = createNewBlock("stormy_ore", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             tranquilityOre = createNewBlock("tranquility_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             twilightOre = createNewBlock("twilight_ore", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
