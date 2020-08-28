@@ -398,10 +398,6 @@ public class Strings {
     //Items
 
     public static final String
-        heart = "heart",
-        darkHeart = "dark_heart",
-        pureHeart = "pure_heart",
-        kingdom_hearts = "kingdom_hearts",
         iceCream = "ice_cream",
         emptyBottle = "empty_bottle",
         synthesisBag = "synthesis_bag",

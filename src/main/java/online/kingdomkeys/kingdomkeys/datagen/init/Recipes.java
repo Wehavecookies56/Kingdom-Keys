@@ -1,14 +1,20 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import java.util.function.Consumer;
+
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.*;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.IFinishedRecipe;
+import net.minecraft.data.RecipeProvider;
+import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.Items;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import java.util.function.Consumer;
 
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
@@ -144,9 +150,9 @@ public class Recipes extends RecipeProvider {
 				.patternLine(" WS")
 				.patternLine(" S ")
 		        .key('S', Items.STICK)
-		        .key('W', Blocks.OAK_PLANKS)
+		        .key('W', ItemTags.PLANKS)
 		        .setGroup("kingdomkeys")
-		        .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.LEATHER))
+		        .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.STICK))
 		        .build(consumer);
 
         // util blocks
