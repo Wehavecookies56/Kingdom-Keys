@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ModBiomes {
 
-    public static final DeferredRegister<Biome> BIOMES = new DeferredRegister<>(ForgeRegistries.BIOMES, KingdomKeys.MODID);
+    public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, KingdomKeys.MODID);
 
     public static final RegistryObject<Biome>
     traverseTownBiome = createNewBiome("traverse_town_biome", "Traverse Town");

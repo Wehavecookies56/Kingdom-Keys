@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ModSounds {
 
-    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, KingdomKeys.MODID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, KingdomKeys.MODID);
 
     public static final RegistryObject<SoundEvent>
     		alarm = registerSound("alarm"),

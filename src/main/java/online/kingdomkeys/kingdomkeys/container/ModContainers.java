@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
 
 public class ModContainers {
-    public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, KingdomKeys.MODID);
+    public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, KingdomKeys.MODID);
 
     public static final RegistryObject<ContainerType<?>>
         SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork),

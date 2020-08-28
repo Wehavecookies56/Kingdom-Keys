@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModDimensions {
 
-	public static final DeferredRegister<ModDimension> DIMENSIONS = new DeferredRegister<>(ForgeRegistries.MOD_DIMENSIONS, KingdomKeys.MODID);
+	public static final DeferredRegister<ModDimension> DIMENSIONS = DeferredRegister.create(ForgeRegistries.MOD_DIMENSIONS, KingdomKeys.MODID);
 
 	public static final RegistryObject<ModDimension> traverseTownDimension = createNewDimension(Strings.twilightTown);
 
