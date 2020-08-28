@@ -6,95 +6,23 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:spellfire"
+          "name": "kingdomkeys:levelupdrivevalor"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:spellblizzard"
+          "name": "kingdomkeys:levelupdrivewisdom"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:spellwater"
+          "name": "kingdomkeys:levelupdrivemaster"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:spellthunder"
+          "name": "kingdomkeys:levelupdrivefinal"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:spellcure"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:spellaero"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:spellmagnet"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:spellgravity"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:spellreflect"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:spellstop"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:soothing_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:blazing_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:hungry_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:tranquility_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:stormy_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:remembrance_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:lucid_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:pulsing_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:writhing_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:frost_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:wellspring_shard"
+          "name": "kingdomkeys:levelupdrivelimit"
         },
         {
           "type": "minecraft:item",
@@ -150,18 +78,71 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
-          "name": "kingdomkeys:fluorite"
+          "name": "kingdomkeys:soothing_shard"
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "kingdomkeys:damascus"
+          "name": "kingdomkeys:blazing_shard"
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "kingdomkeys:adamantite"
+          "name": "kingdomkeys:hungry_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:twilight_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:tranquility_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:stormy_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:remembrance_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:lucid_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:pulsing_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:writhing_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:betwixt_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:frost_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:wellspring_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:orichalcum"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:orichalcumplus"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:manifest_illusion"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:lost_illusion"
         }
       ]
     }

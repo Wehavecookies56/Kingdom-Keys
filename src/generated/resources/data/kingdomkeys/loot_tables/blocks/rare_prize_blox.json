@@ -130,7 +130,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
           "name": "kingdomkeys:orichalcum"
         },
         {
@@ -139,7 +138,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
           "name": "kingdomkeys:manifest_illusion"
         },
         {
