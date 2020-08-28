@@ -6,102 +6,50 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.25,
-              "looting_multiplier": 0.1
-            }
-          ],
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             }
           ],
           "name": "kingdomkeys:remembrance_crystal"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
+        },
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.25,
-              "looting_multiplier": 0.1
-            }
-          ],
+          "weight": 2,
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             }
           ],
           "name": "kingdomkeys:remembrance_gem"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
+        },
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.25,
-              "looting_multiplier": 0.1
-            }
-          ],
+          "weight": 3,
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
-            }
-          ],
-          "name": "kingdomkeys:remembrance_shard"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.25,
-              "looting_multiplier": 0.1
-            }
-          ],
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             }
           ],
           "name": "kingdomkeys:remembrance_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
+            }
+          ],
+          "name": "kingdomkeys:remembrance_shard"
         }
       ]
     }

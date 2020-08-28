@@ -10,16 +10,17 @@ import org.apache.logging.log4j.Logger;
 
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.entity.EntityClassification;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -138,7 +139,9 @@ public class KingdomKeys {
 		
 		DeferredWorkQueue.runLater(() -> {
 			for(Biome b : ForgeRegistries.BIOMES){
-				b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 6, 1, 1));
+				if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0 && b.getCategory() != Category.OCEAN) {
+					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 4, 1, 1));
+				}
 			}
 		});
 

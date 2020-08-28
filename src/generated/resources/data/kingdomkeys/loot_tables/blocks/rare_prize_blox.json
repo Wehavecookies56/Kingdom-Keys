@@ -74,10 +74,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:wellspring_gem"
-        },
-        {
-          "type": "minecraft:item",
           "name": "kingdomkeys:soothing_crystal"
         },
         {
@@ -143,6 +139,10 @@
         {
           "type": "minecraft:item",
           "name": "kingdomkeys:lost_illusion"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:electrum"
         }
       ]
     }

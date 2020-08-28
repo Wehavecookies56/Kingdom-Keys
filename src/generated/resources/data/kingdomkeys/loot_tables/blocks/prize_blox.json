@@ -6,75 +6,43 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:levelupdrivevalor"
+          "name": "kingdomkeys:spellfire"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:levelupdrivewisdom"
+          "name": "kingdomkeys:spellblizzard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:levelupdrivemaster"
+          "name": "kingdomkeys:spellwater"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:levelupdrivefinal"
+          "name": "kingdomkeys:spellthunder"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:levelupdrivelimit"
+          "name": "kingdomkeys:spellcure"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:soothing_stone"
+          "name": "kingdomkeys:spellaero"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:blazing_stone"
+          "name": "kingdomkeys:spellmagnet"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:hungry_stone"
+          "name": "kingdomkeys:spellgravity"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_shard"
+          "name": "kingdomkeys:spellreflect"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:tranquility_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:stormy_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:remembrance_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:lucid_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:pulsing_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:writhing_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:frost_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:wellspring_stone"
+          "name": "kingdomkeys:spellstop"
         },
         {
           "type": "minecraft:item",
@@ -130,19 +98,70 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:orichalcum"
+          "name": "kingdomkeys:soothing_stone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:orichalcumplus"
+          "name": "kingdomkeys:blazing_stone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:manifest_illusion"
+          "name": "kingdomkeys:hungry_stone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:lost_illusion"
+          "name": "kingdomkeys:twilight_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:tranquility_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:stormy_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:remembrance_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:lucid_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:pulsing_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:writhing_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:betwixt_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:frost_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:wellspring_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "kingdomkeys:fluorite"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "kingdomkeys:damascus"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "kingdomkeys:adamantite"
         }
       ]
     }

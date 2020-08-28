@@ -21,7 +21,7 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
     	getBuilder(Strings.aubade).output(Strings.aubadeChain,1).addMaterial(Strings.SM_BlazingStone,1).addMaterial(Strings.SM_BlazingShard,2).addMaterial(Strings.SM_BlazingCrystal,1);
     	getBuilder(Strings.bondOfFlame).output(Strings.bondOfFlameChain,1).addMaterial(Strings.SM_BlazingStone,3).addMaterial(Strings.SM_BlazingShard,5).addMaterial(Strings.SM_BlazingGem,2);
     	getBuilder(Strings.brightcrest).output(Strings.brightcrestChain,1).addMaterial(Strings.SM_SoothingGem,2).addMaterial(Strings.SM_SoothingStone,3).addMaterial(Strings.SM_SoothingCrystal,1);
-    	getBuilder(Strings.chaosRipper).output(Strings.chaosRipperChain,1).addMaterial(Strings.SM_LucidCrystal,1).addMaterial(Strings.SM_WrithingGem,2);
+    	getBuilder(Strings.chaosRipper).output(Strings.chaosRipperChain,1).addMaterial(Strings.SM_LucidCrystal,2).addMaterial(Strings.SM_WrithingGem,4).addMaterial(Strings.SM_WrithingCrystal, 3).addMaterial(Strings.SM_BetwixtCrystal, 3).addMaterial(Strings.SM_HungryGem, 4).addMaterial(Strings.SM_Orichalcum, 1);
     	getBuilder(Strings.circleOfLife).output(Strings.circleOfLifeChain,1).addMaterial(Strings.SM_SoothingGem,3).addMaterial(Strings.SM_PulsingStone,3).addMaterial(Strings.SM_WellspringShard,3);
     	getBuilder(Strings.counterpoint).output(Strings.counterpointChain,1).addMaterial(Strings.SM_HungryStone,1).addMaterial(Strings.SM_WellspringCrystal,1).addMaterial(Strings.SM_SoothingShard,2);
     	getBuilder(Strings.crabclaw).output(Strings.crabclawChain,1).addMaterial(Strings.SM_SoothingGem,2).addMaterial(Strings.SM_HungryStone,2).addMaterial(Strings.SM_LucidShard,2).addMaterial(Strings.SM_WellspringStone,1);
