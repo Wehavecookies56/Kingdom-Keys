@@ -143,7 +143,7 @@ public class GuiMenu_Status extends GuiMenu_Background {
 			addButton(dfStats[i] = new GuiMenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(formName.substring(formName.indexOf(":")+1)), ButtonType.SUBBUTTON, (e) -> { action(name); }));
 			dfStats[i].setData(name);
 		}
-		addButton(stats_back = new GuiMenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(stats_back = new GuiMenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		//Stats
 		int c = 0;

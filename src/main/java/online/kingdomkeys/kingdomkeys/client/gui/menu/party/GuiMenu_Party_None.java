@@ -85,9 +85,9 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(create = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Create"), ButtonType.BUTTON, (e) -> { action("create"); }));
-		addButton(join = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Join"), ButtonType.BUTTON, (e) -> { action("join"); }));
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(create = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Create), ButtonType.BUTTON, (e) -> { action("create"); }));
+		addButton(join = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Join), ButtonType.BUTTON, (e) -> { action("join"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 	
 		updateButtons();
 	}
@@ -100,7 +100,7 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "PARTY", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party), 2, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
 		drawParty();

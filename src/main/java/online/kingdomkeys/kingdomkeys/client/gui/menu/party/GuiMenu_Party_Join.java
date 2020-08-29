@@ -77,8 +77,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 	private void refreshParties() {
 		playerData = ModCapabilities.getPlayer(minecraft.player);
 		List<String> privateParties = playerData.getPartiesInvited();
-		//playerData.setPartiesInvited(new ArrayList<String>());
-		System.out.println(privateParties);
+		
 		worldData = ModCapabilities.getWorld(minecraft.world);
 
 		float topBarHeight = (float) height * 0.17F;
@@ -123,7 +122,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}

@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 
 public class GuiMenu_Synthesis extends GuiMenu_Background {
@@ -57,9 +58,9 @@ public class GuiMenu_Synthesis extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(synthesise = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Synthesise Items"), ButtonType.BUTTON, (e) -> { action("synthesise"); }));
-		addButton(forge = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Keyblade Forge"), ButtonType.BUTTON, (e) -> { action("forge"); }));
-		addButton(materials = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal("Materials"), ButtonType.BUTTON, (e) -> { action("materials"); }));
+		addButton(synthesise = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise), ButtonType.BUTTON, (e) -> { action("synthesise"); }));
+		addButton(forge = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Forge), ButtonType.BUTTON, (e) -> { action("forge"); }));
+		addButton(materials = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials), ButtonType.BUTTON, (e) -> { action("materials"); }));
 		
 		updateButtons();
 	}

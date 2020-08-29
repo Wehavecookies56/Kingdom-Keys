@@ -311,6 +311,9 @@ public class Strings {
             Gui_Menu = "gui.menu",
             Gui_Menu_Main = Gui_Menu + ".main",
             Gui_Menu_Main_Title = Gui_Menu_Main + ".title",
+            Gui_Menu_Accept = Gui_Menu + ".accept",
+            Gui_Menu_Back = Gui_Menu + ".back",
+
             
             Gui_Menu_Main_Button = Gui_Menu_Main + ".button",
             Gui_Menu_Main_Button_Items = Gui_Menu_Main_Button + ".items",
@@ -334,7 +337,19 @@ public class Strings {
             Gui_Menu_Items_Button_Drive = Gui_Menu_Items + ".drives",
             Gui_Menu_Items_Button = Gui_Menu_Items + ".button",
             Gui_Menu_Items_Button_Stock = Gui_Menu_Items_Button + ".stock",
-            Gui_Menu_Items_Button_Back = Gui_Menu_Items_Button + ".back",
+            
+            Gui_Menu_Party = Gui_Menu + ".party",
+            Gui_Menu_Party_Create = Gui_Menu_Party + ".create",
+            Gui_Menu_Party_Create_Name = Gui_Menu_Party_Create + ".name",
+            Gui_Menu_Party_Create_Accessibility = Gui_Menu_Party_Create + ".accessibility",
+            Gui_Menu_Party_Create_Accessibility_Public = Gui_Menu_Party_Create_Accessibility + ".public",
+            Gui_Menu_Party_Create_Accessibility_Private = Gui_Menu_Party_Create_Accessibility + ".private",
+            Gui_Menu_Party_Leader_Invite = Gui_Menu_Party+".invite",
+			Gui_Menu_Party_Leader_Settings = Gui_Menu_Party+".settings",
+			Gui_Menu_Party_Leader_Kick = Gui_Menu_Party+".kick",
+			Gui_Menu_Party_Leader_Disband = Gui_Menu_Party+".disband",
+            
+            Gui_Menu_Party_Join = Gui_Menu_Party + ".join",
             
             Gui_Menu_Status = Gui_Menu + ".status",
             Gui_Menu_Status_Title = Gui_Menu_Status + ".title",
@@ -355,7 +370,6 @@ public class Strings {
 			Gui_Menu_Status_FormLevel = Gui_Menu_Status + ".formlevel",
 			Gui_Menu_Status_FormGauge = Gui_Menu_Status + ".formgauge",
 			Gui_Menu_Status_Button = Gui_Menu_Status + ".button",
-            Gui_Menu_Status_Button_Back = Gui_Menu_Status_Button + ".back",
 
             
             Gui_Menu_Config = Gui_Menu + ".config",
@@ -384,14 +398,17 @@ public class Strings {
             Gui_Synthesis_Main_Title = Gui_Synthesis_Main + ".title",
             Gui_Synthesis_Main_Recipes = Gui_Synthesis_Main + ".recipes",
             Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",
-            Gui_Synthesis_Main_Materials = Gui_Synthesis_Main + ".materials",
-            Gui_Synthesis_Main_Materials_Deposit = Gui_Synthesis_Main_Materials + ".deposit",
-            Gui_Synthesis_Main_Materials_Deposit_Inv = Gui_Synthesis_Main_Materials_Deposit + ".inventory",
-            Gui_Synthesis_Main_Materials_Deposit_Bag = Gui_Synthesis_Main_Materials_Deposit + ".bag",
-            Gui_Synthesis_Main_Materials_TakeOne = Gui_Synthesis_Main_Materials + ".takeone",
-            Gui_Synthesis_Main_Materials_TakeHalfStack = Gui_Synthesis_Main_Materials + ".takehalfstack",
-            Gui_Synthesis_Main_Materials_TakeStack = Gui_Synthesis_Main_Materials + ".takestack",
-            Gui_Synthesis_Main_Materials_TakeAll = Gui_Synthesis_Main_Materials + ".takeall",
+            Gui_Synthesis_Synthesise = Gui_Synthesis + ".synthesise",
+            Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise+".create",
+            Gui_Synthesis_Forge = Gui_Synthesis + ".forge",
+            Gui_Synthesis_Materials = Gui_Synthesis + ".materials",
+            Gui_Synthesis_Materials_Deposit = Gui_Synthesis_Materials + ".deposit",
+            Gui_Synthesis_Main_Materials_Deposit_Inv = Gui_Synthesis_Materials_Deposit + ".inventory",
+            Gui_Synthesis_Main_Materials_Deposit_Bag = Gui_Synthesis_Materials_Deposit + ".bag",
+            Gui_Synthesis_Main_Materials_TakeOne = Gui_Synthesis_Materials + ".takeone",
+            Gui_Synthesis_Main_Materials_TakeHalfStack = Gui_Synthesis_Materials + ".takehalfstack",
+            Gui_Synthesis_Main_Materials_TakeStack = Gui_Synthesis_Materials + ".takestack",
+            Gui_Synthesis_Main_Materials_TakeAll = Gui_Synthesis_Materials + ".takeall",
             Gui_Synthesis_Main_Recipes_ReqMaterials = Gui_Synthesis_Main_Recipes + ".requiredmaterials",
             Gui_Synthesis_Main_Recipes_Create = Gui_Synthesis_Main_Recipes + ".create";
 

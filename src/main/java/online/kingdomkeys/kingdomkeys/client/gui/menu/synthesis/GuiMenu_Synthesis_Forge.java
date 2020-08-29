@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
@@ -162,7 +163,7 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 			Entry<String, Integer> k = itKeychains.next();
 			String name = k.getKey();
 			int index = ++i;
-			System.out.println(index);
+			//System.out.println(index);
 			addButton(keychains[index] = new GuiMenuButton((int) buttonPosX, button_statsY + (index * 18), (int) buttonWidth, Utils.translateToLocal(name.substring(0, name.length()-"_chain".length())), ButtonType.BUTTON, (e) -> { action("s:"+name+":"+index); }));
 			//keychains[i].active = RecipeRegistry.getInstance().getValue(new ResourceLocation(name.substring(5).replace(".", ":"))) != null;
 		}
@@ -240,8 +241,8 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 						int nextStr = item.getStrength(item.getKeybladeLevel(kcStack)+1);
 						int actualMag = item.getMagic(item.getKeybladeLevel(kcStack));
 						int nextMag = item.getMagic(item.getKeybladeLevel(kcStack)+1);
-						drawString(minecraft.fontRenderer, "Strength: "+actualStr+" --> "+nextStr, 0, 0, 0xFF0000);
-						drawString(minecraft.fontRenderer, "Magic: "+actualMag+" --> "+nextMag, 0, 10, 0x4444FF);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" --> "+nextStr, 0, 0, 0xFF0000);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" --> "+nextMag, 0, 10, 0x4444FF);
 						//drawString(minecraft.fontRenderer, "Ability: "+item.getAbility(), 0, 20, 0x0000FF);
 					}
 				}
@@ -280,7 +281,7 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "SYNTHESISE", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Synthesis_Forge), 2, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
 	}

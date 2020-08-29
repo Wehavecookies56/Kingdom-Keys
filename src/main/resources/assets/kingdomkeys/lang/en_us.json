@@ -2,8 +2,12 @@
     "_comment": "Groups",
     "itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
     "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",
-    
+	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organization Weapons",
+
 	"_comment": "Menu",
+	"gui.menu.back": "Back",
+	"gui.menu.accept": "Accept",
+	
 	"gui.menu.main.button.items": "Items",
 	"gui.menu.main.button.abilities": "Abilities",
 	"gui.menu.main.button.customize": "Customize",
@@ -16,8 +20,27 @@
 	"gui.menu.main.time": "World Time",
 	"gui.menu.main.time.spent": "Global Time",
 	
+	
+	"gui.synthesis.synthesise": "Synthesise",
 	"gui.synthesis.synthesise.create": "Create",
 	"gui.synthesis.synthesise.upgrade": "Upgrade",
+	"gui.synthesis.forge": "Keyblade Forge",
+	"gui.synthesis.materials": "Materials",
+	"gui.synthesis.materials.deposit": "Deposit",
+
+	"gui.menu.party": "Party",
+	"gui.menu.party.create": "Create party",
+	"gui.menu.party.create.name": "Name",
+	"gui.menu.party.create.accessibility": "Accessibility and limit",
+	"gui.menu.party.create.accessibility.public": "Public",
+	"gui.menu.party.create.accessibility.private": "Private",
+	
+	"gui.menu.party.join": "Join party",
+	"gui.menu.party.invite": "Invite",
+	"gui.menu.party.settings": "Settings",
+	"gui.menu.party.kick": "Kick",
+	"gui.menu.party.disband": "Disband",
+	
 	
 	"gui.menu.status.level": "Level",
 	"gui.menu.status.totalexp": "Experience",

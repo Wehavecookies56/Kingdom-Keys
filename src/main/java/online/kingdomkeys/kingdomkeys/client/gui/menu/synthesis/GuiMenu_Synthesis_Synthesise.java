@@ -1,10 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis;
 
 import java.awt.Color;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseKeyblade;
@@ -125,7 +124,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
 		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 
-		addButton(create = new Button((int) (width*0.75F), (int) (height*0.6)+20, 50,20, Utils.translateToLocal("gui.synthesis.synthesise.create"), (e) -> { action("create"); }));
+		addButton(create = new Button((int) (width*0.75F), (int) (height*0.6)+20, 50,20, Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create), (e) -> { action("create"); }));
+		
 		for(int i = 0;i<playerData.getKnownRecipeList().size();i++) {
 			String name = playerData.getKnownRecipeList().get(i);
 			addButton(keyblades[i] = new GuiMenuButton((int) buttonPosX, button_statsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(playerData.getKnownRecipeList().get(i)), ButtonType.BUTTON, (e) -> { action("s:"+name); }));
@@ -199,8 +199,8 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.translated(width*0.75F, height*0.6, 1);
-					drawString(minecraft.fontRenderer, "Strength: "+item.getStrength(0), 0, 0, 0xFF0000);
-					drawString(minecraft.fontRenderer, "Magic: "+item.getMagic(0), 0, 10, 0x0000FF);
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+item.getStrength(0), 0, 0, 0xFF0000);
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+item.getMagic(0), 0, 10, 0x0000FF);
 					
 					//drawString(minecraft.fontRenderer, "Ability: "+item.getAbility(), 0, 20, 0x0000FF);
 				}
@@ -237,7 +237,7 @@ public class GuiMenu_Synthesis_Synthesise extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "SYNTHESISE", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise), 2, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
 	}

@@ -60,7 +60,7 @@ public class GuiMenu_Party_Settings extends GuiMenu_Background {
 			break;
 		case "size":
 			if(pSize == Party.PARTY_LIMIT) {
-				pSize = 1;
+				pSize = 2;
 			} else {
 				pSize++;
 			}
@@ -73,7 +73,7 @@ public class GuiMenu_Party_Settings extends GuiMenu_Background {
 
 	private void updateButtons() {
 		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		togglePriv.setMessage(priv ? "Private" : "Public");
+		togglePriv.setMessage(priv ? Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private) : Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public));
 
 		
 		//TBName
@@ -100,11 +100,11 @@ public class GuiMenu_Party_Settings extends GuiMenu_Background {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 
-		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, Utils.translateToLocal("Private/public"), (e) -> { action("togglePriv"); }));
+		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, "", (e) -> { action("togglePriv"); }));
 		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, pSize+"", (e) -> { action("size"); }));
-		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), (int) 130, 20, Utils.translateToLocal("Accept"), (e) -> { action("accept"); }));
+		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), (int) 130, 20, Utils.translateToLocal(Strings.Gui_Menu_Accept), (e) -> { action("accept"); }));
 		//addButton(cancel = new Button((int) buttonPosX, button_statsY + (6 * 18), (int) buttonWidth, 20, Utils.translateToLocal("Cancel"), (e) -> { action("cancel"); }));
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Button_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
@@ -123,11 +123,11 @@ public class GuiMenu_Party_Settings extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "SETTINGS", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Settings), 2, 10, 0xFF9900);
 			drawString(minecraft.fontRenderer, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
-		drawString(minecraft.fontRenderer, "Accessibility and limit", buttonX, (int)(height * 0.2), 0xFFFFFF);
+		drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.2), 0xFFFFFF);
 	}
 	
 }

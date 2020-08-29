@@ -9,7 +9,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -20,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.lib.Lists;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
@@ -95,8 +94,8 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
 		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 
-		addButton(deposit = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Deposit Materials"), ButtonType.BUTTON, (e) -> { action("deposit"); }));
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal("Back"), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(deposit = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
+		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
@@ -144,7 +143,7 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "Materials", 2, 10, 0xFF9900);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Synthesis_Materials), 2, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
 	}
