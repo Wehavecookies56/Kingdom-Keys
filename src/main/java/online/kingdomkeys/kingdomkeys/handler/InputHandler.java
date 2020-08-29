@@ -238,7 +238,6 @@ public class InputHandler {
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
-                System.out.println("attack");
                 //if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
                     // Submenu of the portals
                     if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
@@ -287,7 +286,7 @@ public class InputHandler {
 
             case CommandMenuGui.ITEMS: //Accessing ITEMS submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    System.out.println("items");
+                    //System.out.println("items");
                     /*if (!this.itemsCommands.isEmpty()) {
                         CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
                         CommandMenuGui.potionselected = 0;
@@ -303,7 +302,7 @@ public class InputHandler {
             case CommandMenuGui.DRIVE: //Accessing DRIVE submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                 	if(playerData.getActiveDriveForm().equals("")) {//DRIVE
-                        System.out.println("drive submenu");
+                        //System.out.println("drive submenu");
                         if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
                         	
                         } else { //If is in a drive form other than antiform
@@ -315,7 +314,7 @@ public class InputHandler {
                         	}
                         }
                 	} else {//REVERT
-                		System.out.println("REVERT");
+                		//System.out.println("REVERT");
                 		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
                 			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 		} else {
@@ -562,26 +561,30 @@ public class InputHandler {
                 case SCROLL_UP:
                    // if (!MainConfig.displayGUI())
                      //   break;
-                    commandUp();
+                	if(mc.currentScreen == null)
+                		commandUp();
                     break;
 
                 case SCROLL_DOWN:
                   //  if (!MainConfig.displayGUI())
                    //     break;
-                    commandDown();
+                	if(mc.currentScreen == null)
+                		commandDown();
                     break;
 
                 case ENTER:
                    /* if (!MainConfig.displayGUI())
                         break;*/
-                    commandEnter();
+                	if(mc.currentScreen == null)
+                		commandEnter();
 
                     break;
 
                 case BACK:
                   //  if (!MainConfig.displayGUI())
                   //      break;
-                    commandBack();
+                	if(mc.currentScreen == null)
+                		commandBack();
                     
                     break;
              
@@ -609,7 +612,7 @@ public class InputHandler {
                                 if (reachSq >= distanceSq) {
                                     if (ertr.getEntity() instanceof LivingEntity) {
                                         lockOn = (LivingEntity) ertr.getEntity();
-                                        System.out.println(lockOn);
+                                        //System.out.println(lockOn);
                                         player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                                     }/* else if (rtr.entityHit instanceof EntityPart) {
                                         EntityPart part = (EntityPart) rtr.entityHit;

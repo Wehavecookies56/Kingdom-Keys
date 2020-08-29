@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 public class ClientEvents {
 
 	@SubscribeEvent
-	public void onRenderTick(RenderTickEvent event) {
+	public void onRenderTick(RenderTickEvent event) { //Lock on
 		//System.out.println(event.player.world.isRemote);
 		PlayerEntity player = Minecraft.getInstance().player;
 		if(InputHandler.lockOn != null && player != null) {
@@ -90,10 +90,9 @@ public class ClientEvents {
 				float eyeHeight = player.getEyeHeight();
 				if(globalData.getFlatTicks() > 0) {
 					eyeHeight = 0.2F;
-					//event.setNewHeight(0.1F);
 				} else {
 					eyeHeight = 1.62F;
-					//event.setNewHeight(1.62F);
+
 					if(player.isSneaking()) {
 						eyeHeight -= 0.3F;
 					}
