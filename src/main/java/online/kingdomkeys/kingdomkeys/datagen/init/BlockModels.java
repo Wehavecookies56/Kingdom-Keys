@@ -44,6 +44,7 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("pulsing_ore_e");
 		standardCube("remembrance_ore");
 		standardCube("hungry_ore");
+		standardCube("sinister_ore");
 		standardCube("stormy_ore");
 		standardCube("tranquility_ore");
 		standardCube("twilight_ore");

@@ -40,6 +40,7 @@ public class BlockStates extends BlockStateProvider {
         simpleBlock(ModBlocks.rarePrizeBlox.get());
         simpleBlock(ModBlocks.remembranceOre.get());
         simpleBlock(ModBlocks.hungryOre.get());
+        simpleBlock(ModBlocks.sinisterOre.get());
         simpleBlock(ModBlocks.stormyOre.get());
         simpleBlock(ModBlocks.tranquilityOre.get());
         simpleBlock(ModBlocks.twilightOre.get());

@@ -334,6 +334,7 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("pulsing_ore_e");
 		standardBlockItem("remembrance_ore");
 		standardBlockItem("hungry_ore");
+		standardBlockItem("sinister_ore");
 		standardBlockItem("stormy_ore");
 		standardBlockItem("tranquility_ore");
 		standardBlockItem("twilight_ore");

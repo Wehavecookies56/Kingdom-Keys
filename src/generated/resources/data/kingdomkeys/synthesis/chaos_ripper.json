@@ -5,12 +5,28 @@
   },
   "ingredients": [
     {
+      "material": "kingdomkeys:mat_betwixt_crystal",
+      "quantity": "3"
+    },
+    {
       "material": "kingdomkeys:mat_writhing_gem",
-      "quantity": "2"
+      "quantity": "4"
     },
     {
       "material": "kingdomkeys:mat_lucid_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcum",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_gem",
+      "quantity": "4"
     }
   ]
 }
