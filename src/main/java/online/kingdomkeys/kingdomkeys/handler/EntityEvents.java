@@ -95,6 +95,15 @@ public class EntityEvents {
 				player.setHealth(playerData.getMaxHP());
 				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
 				
+				if(!playerData.getKnownRecipeList().contains(ModItems.mythril_shard.get().getTranslationKey())) {
+					playerData.addKnownRecipe(ModItems.mythril_shard.get().getTranslationKey());
+					playerData.addKnownRecipe(ModItems.mythril_stone.get().getTranslationKey());
+					playerData.addKnownRecipe(ModItems.mythril_gem.get().getTranslationKey());
+					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getTranslationKey());
+				}
+				System.out.println(playerData.getKnownRecipeList());
+
+				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);
 

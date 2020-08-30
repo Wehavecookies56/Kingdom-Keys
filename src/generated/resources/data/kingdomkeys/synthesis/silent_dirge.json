@@ -1,7 +1,8 @@
 {
   "output": {
     "item": "kingdomkeys:silent_dirge_chain",
-    "quantity": 1
+    "quantity": 1,
+    "type": "keyblade"
   },
   "ingredients": [
     {

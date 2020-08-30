@@ -9,6 +9,7 @@ import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
 
     protected final ExistingFileHelper existingFileHelper;
     private ResourceLocation output;
+    private String type;
     private Map recipe = new HashMap();
     private int quantity;
     public SynthesisRecipeBuilder(Object o, Object o1) {
@@ -45,6 +47,12 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         this.quantity = quantity;
         return self();
     }
+    
+    public T addType(String type) {
+        this.type = type;
+        return self();
+    }
+    
     public T addMaterial(String mat, int quantity) {
         recipe.put(KingdomKeys.MODID + ":" + Strings.SM_Prefix + mat, quantity);
         return self();
@@ -64,6 +72,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         if (this.output != null) {
             obj1.addProperty("item", this.output.toString());
             obj1.addProperty("quantity", quantity);
+            obj1.addProperty("type", type);
         }
 
         if (recipe != null) {
@@ -76,6 +85,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         }
 
         root.add("output", obj1);
+        //root.add("type", type);
         root.add("ingredients", recipes);
 
         return root;

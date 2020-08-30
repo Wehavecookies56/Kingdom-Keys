@@ -64,8 +64,7 @@ public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T
     }
 
     protected void generateAll(DirectoryCache cache) {
-        for (T
-                model : generatedModels.values()) {
+        for (T model : generatedModels.values()) {
             Path target = getPath(model);
             try {
                 IDataProvider.save(GSON, cache, model.toJson(), target);

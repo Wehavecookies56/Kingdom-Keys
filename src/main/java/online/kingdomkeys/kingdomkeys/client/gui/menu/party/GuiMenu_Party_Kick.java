@@ -29,8 +29,8 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 	
 	GuiMenuButton[] players = new GuiMenuButton[4];
 	
-	public GuiMenu_Party_Kick(String name) {
-		super(name, new Color(0,0,255));
+	public GuiMenu_Party_Kick() {
+		super(Strings.Gui_Menu_Party_Leader_Kick, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -118,14 +118,5 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		refreshMembers();
-
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "JOIN", 2, 10, 0xFF9900);
-		}
-		RenderSystem.popMatrix();
 	}
-	
-	
 }

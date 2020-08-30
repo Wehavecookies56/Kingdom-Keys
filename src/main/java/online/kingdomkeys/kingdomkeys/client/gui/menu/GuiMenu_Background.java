@@ -131,6 +131,14 @@ public class GuiMenu_Background extends Screen {
 				}
 			}
 		}
+		
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.scaled(1.3,1.3, 1);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(getTitle().getFormattedText()), 2, 10, 0xFF9900);
+		}
+		RenderSystem.popMatrix();
+		
 		super.render(mouseX, mouseY, partialTicks);
 	}
 

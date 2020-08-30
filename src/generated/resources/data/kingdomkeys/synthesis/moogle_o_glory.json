@@ -1,7 +1,8 @@
 {
   "output": {
     "item": "kingdomkeys:moogle_o_glory_chain",
-    "quantity": 1
+    "quantity": 1,
+    "type": "keyblade"
   },
   "ingredients": [
     {

@@ -44,7 +44,7 @@ public class RecipeItem extends Item {
 
 					boolean consume = false;
 					for (String recipe : recipes) {
-						if (recipe == null || !Lists.recipes.contains(recipe)) { // If recipe is not valid
+						if (recipe == null || !Lists.keybladeRecipes.contains(recipe)) { // If recipe is not valid
 							String message = "ERROR: Recipe for " + Utils.translateToLocal(recipe) + " was not learnt because it is not a valid recipe, Report this to a dev";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message));
 						} else if (playerData.hasKnownRecipe(recipe)) { // If recipe already known
@@ -75,27 +75,27 @@ public class RecipeItem extends Item {
 
 		long seed = System.nanoTime();
 		// Shuffles the list of recipe to increase randomness
-		Collections.shuffle(Lists.recipes, new Random(seed));
+		Collections.shuffle(Lists.keybladeRecipes, new Random(seed));
 		
 		String Recipe1, Recipe2, Recipe3;
 		
-		Recipe1 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
+		Recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 		
-		if (playerData.getKnownRecipeList().size() < Lists.recipes.size() - 2) {
+		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 2) {
 			while (playerData.hasKnownRecipe(Recipe1)) {
-				Recipe1 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
+				Recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
-		Recipe2 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
-		if (playerData.getKnownRecipeList().size() < Lists.recipes.size() - 1) {
+		Recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 1) {
 			while (Recipe2.equals(Recipe1) || playerData.hasKnownRecipe(Recipe2)) {
-				Recipe2 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
+				Recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
-		Recipe3 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
-		if (playerData.getKnownRecipeList().size() < Lists.recipes.size()) {
+		Recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size()) {
 			while ((Recipe3.equals(Recipe2) || Recipe3.equals(Recipe1)) || playerData.hasKnownRecipe(Recipe3)) {
-				Recipe3 = Lists.recipes.get(Utils.randomWithRange(0, Lists.recipes.size() - 1));
+				Recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
 //System.out.println(Recipe2);

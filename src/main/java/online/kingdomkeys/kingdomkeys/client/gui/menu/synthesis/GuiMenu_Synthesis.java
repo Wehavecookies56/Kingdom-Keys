@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
@@ -18,7 +16,7 @@ public class GuiMenu_Synthesis extends GuiMenu_Background {
 	
 		
 	public GuiMenu_Synthesis() {
-		super("Synthesis",new Color(0,255,0));
+		super(Strings.Gui_Synthesis,new Color(0,255,0));
 		drawPlayerInfo = true;
 	}
 
@@ -72,13 +70,7 @@ public class GuiMenu_Synthesis extends GuiMenu_Background {
 		super.render(mouseX, mouseY, partialTicks);
 		
 		int buttonX = (int)(width*0.25);
-		
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "SYNTHESIS", 2, 10, 0xFF9900);
-		}
-		RenderSystem.popMatrix();
+	
 	}
 	
 }

@@ -1,0 +1,29 @@
+{
+  "output": {
+    "item": "kingdomkeys:iras_keyblade_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_lost_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_gem",
+      "quantity": "4"
+    }
+  ]
+}

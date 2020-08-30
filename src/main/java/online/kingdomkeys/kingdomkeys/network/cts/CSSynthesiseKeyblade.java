@@ -52,7 +52,7 @@ public class CSSynthesiseKeyblade {
 			
 			String name = message.name.substring("item.kingdomkeys.".length());
 			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
-			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
+			Item item =  ForgeRegistries.ITEMS.getValue(loc);
 			
 			Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
 			Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();

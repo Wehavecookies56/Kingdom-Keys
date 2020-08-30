@@ -35,7 +35,7 @@ public class GuiMenu_Party_Leader extends GuiMenu_Background {
 	Party party;
 	
 	public GuiMenu_Party_Leader() {
-		super("Party Leader", new Color(0,0,255));
+		super(Strings.Gui_Menu_Party, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -55,15 +55,15 @@ public class GuiMenu_Party_Leader extends GuiMenu_Background {
 			break;
 		case "settings":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Settings("Party Settings"));
+			minecraft.displayGuiScreen(new GuiMenu_Party_Settings());
 			break;
 		case "kick":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Kick("Party Kick"));
+			minecraft.displayGuiScreen(new GuiMenu_Party_Kick());
 			break;
 		case "invite":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Invite("Party Invite"));
+			minecraft.displayGuiScreen(new GuiMenu_Party_Invite());
 			break;
 		}
 		

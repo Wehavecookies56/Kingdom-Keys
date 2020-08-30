@@ -398,8 +398,12 @@ public class Strings {
             Gui_Synthesis_Main_Title = Gui_Synthesis_Main + ".title",
             Gui_Synthesis_Main_Recipes = Gui_Synthesis_Main + ".recipes",
             Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",
+            
             Gui_Synthesis_Synthesise = Gui_Synthesis + ".synthesise",
-            Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise+".create",
+            Gui_Synthesis_Synthesise_Keyblades = Gui_Synthesis_Synthesise + ".keyblades",
+            Gui_Synthesis_Synthesise_Items = Gui_Synthesis_Synthesise + ".items",
+            Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise_Keyblades+".create",
+            
             Gui_Synthesis_Forge = Gui_Synthesis + ".forge",
             Gui_Synthesis_Materials = Gui_Synthesis + ".materials",
             Gui_Synthesis_Materials_Deposit = Gui_Synthesis_Materials + ".deposit",

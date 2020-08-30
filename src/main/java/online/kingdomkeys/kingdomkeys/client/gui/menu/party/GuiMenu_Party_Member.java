@@ -33,7 +33,7 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 	Party party;
 	
 	public GuiMenu_Party_Member() {
-		super("Party Member", new Color(0,0,255));
+		super(Strings.Gui_Menu_Party, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
@@ -98,7 +98,6 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.scaled(1.5,1.5, 1);
-				drawString(minecraft.fontRenderer, "PARTY", 2, 10, 0xFF9900);
 				drawString(minecraft.fontRenderer, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
 			}
 			RenderSystem.popMatrix();

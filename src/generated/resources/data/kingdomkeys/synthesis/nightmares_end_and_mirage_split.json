@@ -1,7 +1,8 @@
 {
   "output": {
     "item": "kingdomkeys:nightmares_end_and_mirage_split_chain",
-    "quantity": 1
+    "quantity": 1,
+    "type": "keyblade"
   },
   "ingredients": [
     {

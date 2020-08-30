@@ -1,7 +1,8 @@
 {
   "output": {
     "item": "kingdomkeys:ultima_weapon_kh1_chain",
-    "quantity": 1
+    "quantity": 1,
+    "type": "keyblade"
   },
   "ingredients": [
     {

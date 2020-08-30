@@ -34,8 +34,8 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 	
 	Party party;
 		
-	public GuiMenu_Party_Create(String name) {
-		super(name, new Color(0,0,255));
+	public GuiMenu_Party_Create() {
+		super(Strings.Gui_Menu_Party_Create, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -116,16 +116,8 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
-
 		
 		int buttonX = (int)(width*0.25);
-		
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Create), 2, 10, 0xFF9900);
-		}
-		RenderSystem.popMatrix();
 		
 		drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Name), buttonX, (int)(height * 0.2), 0xFFFFFF);
 		drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.35), 0xFFFFFF);

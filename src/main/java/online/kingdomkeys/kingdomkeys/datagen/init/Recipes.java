@@ -108,11 +108,12 @@ public class Recipes extends RecipeProvider {
                 .build(consumer);
         
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.mosaic_stained_glass.get(), 4)
-		        .patternLine(" G ")
-		        .patternLine("GDG")
-		        .patternLine(" G ")
+		        .patternLine("DGD")
+		        .patternLine("GIG")
+		        .patternLine("DGD")
 		        .key('D', Tags.Items.DYES)
 		        .key('G', Blocks.GLASS)
+		        .key('I', Tags.Items.INGOTS_IRON)
 		        .setGroup("kingdomkeys")
 		        .addCriterion("glass", InventoryChangeTrigger.Instance.forItems(Blocks.GLASS))
 		        .build(consumer);
@@ -126,15 +127,15 @@ public class Recipes extends RecipeProvider {
                 .addCriterion("ice", InventoryChangeTrigger.Instance.forItems(Blocks.ICE))
                 .build(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(ModItems.emptyBottle.get())
+        /*ShapedRecipeBuilder.shapedRecipe(ModItems.emptyBottle.get())
 		        .patternLine("G G")
 		        .patternLine("GBG")
 		        .patternLine("GGG")
                 .key('G', Tags.Items.GLASS).key('B', Items.GLASS_BOTTLE)
                 .setGroup("kingdomkeys")
                 .addCriterion("glass_bottle", InventoryChangeTrigger.Instance.forItems(Items.GLASS_BOTTLE))
-                .build(consumer);
-
+                .build(consumer);*/
+        
         ShapedRecipeBuilder.shapedRecipe(ModItems.synthesisBag.get())
         		.patternLine("LSL")
         		.patternLine("L L")
@@ -151,6 +152,15 @@ public class Recipes extends RecipeProvider {
 				.patternLine(" S ")
 		        .key('S', Items.STICK)
 		        .key('W', ItemTags.PLANKS)
+		        .setGroup("kingdomkeys")
+		        .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.STICK))
+		        .build(consumer);
+        
+        ShapedRecipeBuilder.shapedRecipe(ModItems.woodenStick.get())
+				.patternLine("S")
+				.patternLine("S")
+				.patternLine("S")
+		        .key('S', Items.STICK)
 		        .setGroup("kingdomkeys")
 		        .addCriterion("leather", InventoryChangeTrigger.Instance.forItems(Items.STICK))
 		        .build(consumer);

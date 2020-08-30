@@ -40,7 +40,7 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 	//4 = Member view
 	
 	public GuiMenu_Party_None() {
-		super("Party", new Color(0,0,255));
+		super(Strings.Gui_Menu_Party, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -52,11 +52,11 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 			break;
 		case "create":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Create("Create Party"));
+			minecraft.displayGuiScreen(new GuiMenu_Party_Create());
 			break;
 		case "join":
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Join("Join Party"));
+			minecraft.displayGuiScreen(new GuiMenu_Party_Join());
 			break;
 		
 		}
@@ -97,12 +97,6 @@ public class GuiMenu_Party_None extends GuiMenu_Background {
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.world);
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party), 2, 10, 0xFF9900);
-		}
-		RenderSystem.popMatrix();
 		drawParty();
 	}
 	

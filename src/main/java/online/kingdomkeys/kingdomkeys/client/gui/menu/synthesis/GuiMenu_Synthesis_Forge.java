@@ -148,7 +148,8 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
 		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 		addButton(create = new Button((int) (width*0.75F), (int) (height*0.6)+20, 50,20, Utils.translateToLocal("gui.synthesis.synthesise.upgrade"), (e) -> { action("upgrade"); }));
-		
+		prev.visible = false;
+		next.visible = false;
 		for(int i = 0;i<minecraft.player.inventory.getSizeInventory();i++) {
 			ItemStack stack = minecraft.player.inventory.getStackInSlot(i);
 			String name = stack.getItem().getName().getFormattedText();
@@ -182,7 +183,7 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 		
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		prev.visible = page > 0;
-		next.visible = page < playerData.getKnownRecipeList().size()/8;
+		next.visible = page < keychainsMap.size()/8;
 		
 		RenderSystem.pushMatrix();
 		{
@@ -200,7 +201,7 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 		}
 		
 		for(int i=page*8;i< page*8+8;i++) {
-			if(i < Lists.recipes.size() && keychains[i] != null) {
+			if(i < Lists.keybladeRecipes.size() && keychains[i] != null) {
 				keychains[i].visible = true;
 				keychains[i].y = ((i/8)-(i/8)+3+(i%8))*18;
 				keychains[i].x = (int) (width * 0.04F);
@@ -270,20 +271,10 @@ public class GuiMenu_Synthesis_Forge extends GuiMenu_Background {
 					}
 				}
 				RenderSystem.popMatrix();
-				
-
 			}
 			RenderSystem.popMatrix();
 		}
 		
-		int buttonX = (int)(width*0.25);
-		
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Synthesis_Forge), 2, 10, 0xFF9900);
-		}
-		RenderSystem.popMatrix();
 	}
 	
 }

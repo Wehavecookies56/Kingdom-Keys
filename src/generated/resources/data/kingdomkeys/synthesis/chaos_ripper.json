@@ -1,7 +1,8 @@
 {
   "output": {
     "item": "kingdomkeys:chaos_ripper_chain",
-    "quantity": 1
+    "quantity": 1,
+    "type": "keyblade"
   },
   "ingredients": [
     {

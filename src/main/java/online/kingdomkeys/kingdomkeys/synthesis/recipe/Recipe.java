@@ -24,19 +24,29 @@ public class Recipe implements INBTSerializable<CompoundNBT> {
     @Nullable Map<Material, Integer> materials;
     @Nullable Item result;
     @Nullable int amount;
-
+    @Nullable String type;
+   
     ResourceLocation registryName;
 
     public Recipe() {
 
     }
 
-    public Recipe(Map<Material, Integer> materials, Item result, int amount) {
+    public Recipe(Map<Material, Integer> materials, Item result, int amount, String type) {
 		this.materials = materials;
 		this.result = result;
 		this.amount = amount;
+		this.type = type;
 	}
+    
+    public String getType() {
+    	return type;
+    }
 
+    public void setType(String type) {
+    	this.type = type;
+    }
+    
     public Map<Material, Integer> getMaterials() {
         return materials;
     }
@@ -69,6 +79,7 @@ public class Recipe implements INBTSerializable<CompoundNBT> {
 		nbt.putString("regname", getRegistryName().toString());
 		nbt.putString("result", result.getRegistryName().toString());
 		nbt.putInt("amount", amount);
+		nbt.putString("type", getType());
 		nbt.putInt("ingredients_size", materials.entrySet().size());
 		AtomicInteger i = new AtomicInteger();
 		materials.entrySet().forEach((entry)-> {
@@ -82,6 +93,7 @@ public class Recipe implements INBTSerializable<CompoundNBT> {
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		this.setResult(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("result"))), nbt.getInt("amount"));
+		this.setType(nbt.getString("type"));
 		Map<Material, Integer> ingredients = new HashMap<>();
 		for (int i = 0; i < nbt.getInt("ingredients_size"); i++) {
 			ingredients.put(ModMaterials.registry.getValue(new ResourceLocation(nbt.getString("ingredient_material_" + i))), nbt.getInt("ingredient_amount_" + i));

@@ -1,7 +1,8 @@
 {
   "output": {
     "item": "kingdomkeys:abyssal_tide_chain",
-    "quantity": 1
+    "quantity": 1,
+    "type": "keyblade"
   },
   "ingredients": [
     {

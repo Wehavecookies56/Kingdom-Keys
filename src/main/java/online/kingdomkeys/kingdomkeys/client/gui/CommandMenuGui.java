@@ -219,7 +219,7 @@ public class CommandMenuGui extends Screen {
 				paintWithColorArray(magicMenuColor, alpha);
 				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 				// drawTexturedModalRect(0, 0, 0, 0+extraY, TOP_WIDTH, TOP_HEIGHT);
-				drawString(minecraft.fontRenderer, /*Utils.translateToLocal(Strings.Gui_CommandMenu_Magic_Title)*/"MAGIC", 6, 4, getColor(0xFFFFFF,SUB_MAGIC));
+				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic_Title), 6, 4, getColor(0xFFFFFF,SUB_MAGIC));
 				
 			}
 			RenderSystem.popMatrix();
@@ -285,7 +285,7 @@ public class CommandMenuGui extends Screen {
 			textX = 0;
 			paintWithColorArray(normalModeColor, alpha);
 			blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-			drawString(minecraft.fontRenderer, I18n.format("COMMANDS"), 6, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Command), 6, 4, getColor(0xFFFFFF,SUB_MAIN));
 		}
 		RenderSystem.popMatrix();
 	}
@@ -326,7 +326,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			drawString(minecraft.fontRenderer, I18n.format("Attack"), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Attack), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
 
 			/*
 			 * if(Minecraft.getInstance().player.getCapability(ModCapabilities.
@@ -375,7 +375,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			drawString(minecraft.fontRenderer, I18n.format("Magic"), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
 			
 
 		}
@@ -412,7 +412,7 @@ public class CommandMenuGui extends Screen {
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
-			drawString(minecraft.fontRenderer, I18n.format("Items"), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Items), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
 
 		}
 		RenderSystem.popMatrix();
@@ -450,9 +450,9 @@ public class CommandMenuGui extends Screen {
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
-				String text = playerData.getActiveDriveForm().equals("")?"Drive":"Revert";
+				String text = playerData.getActiveDriveForm().equals("")?".drive":".revert";
 				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) ? 0x888888 : 0xFFFFFF;
-				drawString(minecraft.fontRenderer, I18n.format(text), 6 + textX, 4, getColor(color,SUB_MAIN));
+				drawString(minecraft.fontRenderer, Utils.translateToLocal("gui.commandmenu"+text), 6 + textX, 4, getColor(color,SUB_MAIN));
 			}
 		}
 		RenderSystem.popMatrix();
@@ -531,7 +531,7 @@ public class CommandMenuGui extends Screen {
 				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (forms.size() + 1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-				drawString(minecraft.fontRenderer, Utils.translateToLocal("Drive Forms"), 5, 4, 0xFFFFFF);
+				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Drive_Title), 5, 4, 0xFFFFFF);
 			}
 			RenderSystem.popMatrix();
 

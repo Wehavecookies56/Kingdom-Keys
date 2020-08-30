@@ -1,0 +1,25 @@
+{
+  "output": {
+    "item": "kingdomkeys:shooting_star_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_wellspring_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_shard",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_stone",
+      "quantity": "5"
+    }
+  ]
+}

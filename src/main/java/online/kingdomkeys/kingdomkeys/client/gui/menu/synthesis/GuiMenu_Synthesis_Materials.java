@@ -33,7 +33,7 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 	int page = 0;
 		
 	public GuiMenu_Synthesis_Materials() {
-		super("Synthesis",new Color(0,255,0));
+		super(Strings.Gui_Synthesis_Materials,new Color(0,255,0));
 		drawPlayerInfo = true;
 	}
 
@@ -68,7 +68,7 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 			PacketHandler.sendToServer(new CSDepositMaterials());
 			break;
 		case "back":
-			minecraft.displayGuiScreen(null);
+			minecraft.displayGuiScreen(new GuiMenu_Synthesis());
 			break;
 		}
 		
@@ -93,7 +93,9 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
 		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
-
+		
+		prev.visible = false;
+		next.visible = false;
 		addButton(deposit = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
 		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
@@ -137,13 +139,6 @@ public class GuiMenu_Synthesis_Materials extends GuiMenu_Background {
 				i++;
 			}
 		
-		}
-		RenderSystem.popMatrix();
-		
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Synthesis_Materials), 2, 10, 0xFF9900);
 		}
 		RenderSystem.popMatrix();
 	}

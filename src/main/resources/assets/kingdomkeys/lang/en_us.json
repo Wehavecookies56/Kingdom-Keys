@@ -3,7 +3,7 @@
     "itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
     "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",
 	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organization Weapons",
-
+	
 	"_comment": "Menu",
 	"gui.menu.back": "Back",
 	"gui.menu.accept": "Accept",
@@ -20,10 +20,12 @@
 	"gui.menu.main.time": "World Time",
 	"gui.menu.main.time.spent": "Global Time",
 	
-	
+	"gui.synthesis": "Sinthesiser",
 	"gui.synthesis.synthesise": "Synthesise",
-	"gui.synthesis.synthesise.create": "Create",
-	"gui.synthesis.synthesise.upgrade": "Upgrade",
+	"gui.synthesis.synthesise.keyblades": "Keyblades",
+	"gui.synthesis.synthesise.keyblades.create": "Create",
+	"gui.synthesis.synthesise.keyblades.upgrade": "Upgrade",
+	"gui.synthesis.synthesise.items": "Items",
 	"gui.synthesis.forge": "Keyblade Forge",
 	"gui.synthesis.materials": "Materials",
 	"gui.synthesis.materials.deposit": "Deposit",
@@ -59,7 +61,17 @@
 	"gui.menu.status.formlevel": "Form Level",
 	"gui.menu.status.formgauge": "Form Gauge",
 	
+	"gui.commandmenu.command": "COMMAND",
+	"gui.commandmenu.attack": "Attack",
+	"gui.commandmenu.magic": "Magic",
+	"gui.commandmenu.items": "Items",
+	"gui.commandmenu.drive": "Drive",
+	"gui.commandmenu.revert": "Revert",
+	
 	"gui.commandmenu.portal.title": "Portals",
+	"gui.commandmenu.magic.title": "Magic",
+	"gui.commandmenu.items.title": "Items",
+	"gui.commandmenu.drive.title": "Forms",
 	
 	"_comment": "Level up messages",
 	"stats.levelUpStr": "Strength Increased!",
@@ -118,6 +130,28 @@
     "block.kingdomkeys.magnet_blox": "Magnet Blox",
 	"block.kingdomkeys.mosaic_stained_glass": "Mosaic Stained Glass",
 	"block.kingdomkeys.org_portal": "Organization Portal",
+	
+	"block.kingdomkeys.blazing_ore": "Blazing Ore",
+	"block.kingdomkeys.blazing_ore_n": "Blazing Ore",
+	"block.kingdomkeys.soothing_ore": "Soothing Ore",
+	"block.kingdomkeys.writhing_ore": "Writhing Ore",
+	"block.kingdomkeys.writhing_ore_n": "Writhing Ore",
+	"block.kingdomkeys.writhing_ore_e": "Writhing Ore",
+	"block.kingdomkeys.betwixt_ore": "Betwixt Ore",
+	"block.kingdomkeys.wellspring_ore": "Wellspring Ore",
+	"block.kingdomkeys.wellspring_ore_n": "Wellspring Ore",
+	"block.kingdomkeys.frost_ore": "Frost Ore",
+	"block.kingdomkeys.lucid_ore": "Lucid Ore",
+	"block.kingdomkeys.lightning_ore": "Lightning Ore",
+	"block.kingdomkeys.pulsing_ore": "Pulsing Ore",
+	"block.kingdomkeys.pulsing_ore_e": "Pulsing Ore",
+	"block.kingdomkeys.remembrance_ore": "Remembrance Ore",
+	"block.kingdomkeys.hungry_ore": "Hungry Ore",
+	"block.kingdomkeys.sinister_ore": "Sinister Ore",
+	"block.kingdomkeys.stormy_ore": "Stormy Ore",
+	"block.kingdomkeys.tranquility_ore": "Tranquility Ore",
+	"block.kingdomkeys.twilight_ore": "Twilight Ore",
+	"block.kingdomkeys.twilight_ore_n": "Twilight Ore",
 
     "_comment": "Magics",
     "magic_fire": "Fire",
@@ -139,7 +173,6 @@
 	"form_final": "Final",
 
     "_comment": "Items",
-	
 	"item.kingdomkeys.recipe": "Recipe",
 	"item.kingdomkeys.ice_cream": "Sea Salt Ice Cream",
 	"item.kingdomkeys.synthesis_bag": "Synthesis Bag",

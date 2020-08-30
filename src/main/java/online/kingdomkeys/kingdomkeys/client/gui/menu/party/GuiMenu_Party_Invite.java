@@ -32,8 +32,8 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 	
 	GuiMenuButton[] players = new GuiMenuButton[100];
 	
-	public GuiMenu_Party_Invite(String name) {
-		super(name, new Color(0,0,255));
+	public GuiMenu_Party_Invite() {
+		super(Strings.Gui_Menu_Party_Leader_Invite, new Color(0,0,255));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.world);
 	}
@@ -123,14 +123,5 @@ public class GuiMenu_Party_Invite extends GuiMenu_Background {
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		refreshMembers();
-
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.scaled(1.5,1.5, 1);
-			drawString(minecraft.fontRenderer, "INVITE", 2, 10, 0xFF9900);
-		}
-		RenderSystem.popMatrix();
-	}
-	
-	
+	}	
 }

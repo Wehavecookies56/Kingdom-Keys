@@ -1,7 +1,8 @@
 {
   "output": {
     "item": "kingdomkeys:kingdom_key_d_chain",
-    "quantity": 1
+    "quantity": 1,
+    "type": "keyblade"
   },
   "ingredients": [
     {
