@@ -42,6 +42,7 @@
 	"gui.menu.party.settings": "Opciones",
 	"gui.menu.party.kick": "Echar",
 	"gui.menu.party.disband": "Disolver",
+	"gui.menu.party.leave": "Leave",
 	
 	
 	"gui.menu.status.level": "Nivel",

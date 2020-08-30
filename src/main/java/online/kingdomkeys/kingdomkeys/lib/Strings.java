@@ -348,6 +348,7 @@ public class Strings {
 			Gui_Menu_Party_Leader_Settings = Gui_Menu_Party+".settings",
 			Gui_Menu_Party_Leader_Kick = Gui_Menu_Party+".kick",
 			Gui_Menu_Party_Leader_Disband = Gui_Menu_Party+".disband",
+			Gui_Menu_Party_Member_Leave = Gui_Menu_Party+".leave",
             
             Gui_Menu_Party_Join = Gui_Menu_Party + ".join",
             
