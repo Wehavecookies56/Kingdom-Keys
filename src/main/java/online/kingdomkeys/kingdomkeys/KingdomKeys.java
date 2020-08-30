@@ -140,7 +140,7 @@ public class KingdomKeys {
 		DeferredWorkQueue.runLater(() -> {
 			for(Biome b : ForgeRegistries.BIOMES){
 				if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0 && b.getCategory() != Category.OCEAN) {
-					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 4, 1, 1));
+					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
 				}
 			}
 		});
@@ -159,19 +159,19 @@ public class KingdomKeys {
 		List d = new ArrayList();
 		d.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),2)));
 		
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return v; }
 		});
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return d; }
 		});
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return sa; }
 		});
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/taiga/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/taiga/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return t; }
 		});

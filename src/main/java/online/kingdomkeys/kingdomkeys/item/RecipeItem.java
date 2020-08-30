@@ -80,32 +80,33 @@ public class RecipeItem extends Item {
 		String Recipe1, Recipe2, Recipe3;
 		
 		Recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
-		
 		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 2) {
 			while (playerData.hasKnownRecipe(Recipe1)) {
 				Recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
+		
 		Recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 1) {
 			while (Recipe2.equals(Recipe1) || playerData.hasKnownRecipe(Recipe2)) {
 				Recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
+		
 		Recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size()) {
 			while ((Recipe3.equals(Recipe2) || Recipe3.equals(Recipe1)) || playerData.hasKnownRecipe(Recipe3)) {
 				Recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
-//System.out.println(Recipe2);
+
 		stack.setTag(new CompoundNBT());
 		stack.getTag().putString("recipe1", Recipe1);
 		stack.getTag().putString("recipe2", Recipe2);
 		stack.getTag().putString("recipe3", Recipe3);
 		
-		if(!player.world.isRemote)
-			System.out.println("Took "+(System.nanoTime()/1000000F - seed/1000000F)+"ms to shuffle");
+		//if(!player.world.isRemote)
+			//System.out.println("Took "+(System.nanoTime()/1000000F - seed/1000000F)+"ms to shuffle");
 	}
 
 	@Override

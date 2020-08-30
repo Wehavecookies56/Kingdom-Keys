@@ -1,7 +1,8 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:b3d",
-	"model": "kingdomkeys:models/item/keyblade/waywardwind.b3d",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/item/keyblade/waywardwind.obj",
+	"flip-v" : true,
 	"textures": {
 
 	},
@@ -9,27 +10,27 @@
 		"firstperson_righthand": {
 			"rotation": [180.0, 180.0, 170.0 ],
 			"translation": [0.0, -0.1, 0.0 ],
-			"scale": [0.013000000268220901, 0.013000000268220901, 0.013000000268220901 ]
+			"scale": [0.015, 0.015, 0.015 ]
 		},
 		"thirdperson_lefthand": {
 			"rotation": [0.0, 0.0, 0.0 ],
 			"translation": [0.0, -0.1, 0.1 ],
-			"scale": [0.019999999552965164, 0.019999999552965164, 0.019999999552965164 ]
+			"scale": [0.025, 0.025, 0.025 ]
 		},
 		"firstperson_lefthand": {
 			"rotation": [180.0, 180.0, 170.0 ],
 			"translation": [0.0, -0.1, 0.0 ],
-			"scale": [0.013000000268220901, 0.013000000268220901, 0.013000000268220901 ]
+			"scale": [0.015, 0.015, 0.015 ]
 		},
 		"thirdperson_righthand": {
 			"rotation": [0.0, 0.0, 0.0 ],
 			"translation": [0.0, -0.1, 0.1 ],
-			"scale": [0.019999999552965164, 0.019999999552965164, 0.019999999552965164 ]
+			"scale": [0.025, 0.025, 0.025 ]
 		},
 		"gui": {
 			"rotation": [45.0, 10.0, -45.0 ],
 			"translation": [-0.2, -0.2, 0.0 ],
-			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+			"scale": [0.012, 0.012, 0.012 ]
 		},
 		"ground": {
 			"rotation": [45.0, 0.0, 0.0 ],
@@ -41,10 +42,5 @@
 			"translation": [0.0, -0.25, 0.0 ],
 			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
 		}
-	},
-	"visibility": {
-		"object_1": "hide",
-		"object_2": "default",
-		"object_3": "show"
 	}
 }
