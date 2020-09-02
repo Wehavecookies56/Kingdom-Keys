@@ -16,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthBagToClientPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
@@ -38,10 +37,8 @@ public class CSDepositMaterials {
 			PlayerEntity player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				for(int i = 0; i < player.inventory.getSizeInventory();i++) {
-					ItemStack stack = player.inventory.getStackInSlot(i);
-					
+					ItemStack stack = player.inventory.getStackInSlot(i);					
 					if(!ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
-						//System.out.println(stack.getItem().getRegistryName().getPath());
 						if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 							Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 							playerData.addMaterial(mat, stack.getCount());

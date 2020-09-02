@@ -1,4 +1,16 @@
 {
+	"_comment": "Controls",
+	"key.kingdomkeys.action": "Action key",
+	"key.kingdomkeys.back": "Command menu back",
+	"key.kingdomkeys.enter": "Command menu enter",
+	"key.kingdomkeys.scrollactivator": "Command menu mouse controller key",
+	"key.kingdomkeys.scrollup": "Command menu up",
+	"key.kingdomkeys.scrolldown": "Command menu down",
+	"key.kingdomkeys.openmenu": "Open Menu",
+	"key.kingdomkeys.showgui": "Show HUD",
+	"key.kingdomkeys.summonkeyblade": "Summon Keyblade",
+	"key.kingdomkeys.lockon": "Lock on",
+	
     "_comment": "Groups",
     "itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
     "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",

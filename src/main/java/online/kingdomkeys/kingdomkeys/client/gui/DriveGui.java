@@ -2,7 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -117,15 +117,15 @@ public class DriveGui extends Screen {
 				float posX = 52 * scale;
 				float posY = 20 * scale + 2;
 
-				GL11.glPushMatrix();
+				RenderSystem.pushMatrix();
 				{
-					GL11.glTranslatef(-20.3F, -2, 1);
+					RenderSystem.translatef(-20.3F, -2, 1);
 
 					// Background
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 
 						if (playerData.getActiveDriveForm().equals("")) {
 							this.blit(15, 6, 0, 0, guiWidth, guiHeight);
@@ -133,43 +133,43 @@ public class DriveGui extends Screen {
 							this.blit(15, 6, 98, 0, guiWidth, guiHeight);
 						}
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
 					// Yellow meter
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						if (playerData.getActiveDriveForm().equals("")) {
 							this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
 						} else {
 							this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
 						}
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
 					// Level Number
-					GL11.glPushMatrix();
+					RenderSystem.pushMatrix();
 					{
-						GL11.glTranslatef((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
-						GL11.glScalef(scale, scale, scale);
+						RenderSystem.translatef((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 
-						int numPos = playerData.getActiveDriveForm().equals("") ? getCurrBar(dp, (int) playerData.getMaxDP() / 100) * 10 : 99 + getCurrBar(fp,Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2)*10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
+						int numPos = playerData.getActiveDriveForm().equals("") ? getCurrBar(dp, (int) playerData.getMaxDP() / 100) * 10 : 100 + getCurrBar(fp,Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2)*10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
 						// int numPos = getCurrBar(dp, 9) * 10;
-						this.blit(14, 6, numPos, 38, 8, guiHeight);
+						this.blit(14, 6, numPos, 38, 10, guiHeight);
 					}
-					GL11.glPopMatrix();
+					RenderSystem.popMatrix();
 
 					// MAX Icon
 					if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals("")) {
-						GL11.glPushMatrix();
+						RenderSystem.pushMatrix();
 						{
 							if (doChange) {
 								decimalColor += CONS;
 								if (decimalColor >= 1)
 									decimalColor = 0;
 								Color c = Color.getHSBColor(decimalColor, 1F, 1F);
-								GL11.glColor3ub((byte) c.getRed(), (byte) c.getGreen(), (byte) c.getBlue());
+								RenderSystem.color3f(c.getRed()/255F, c.getGreen()/255F, c.getBlue()/255F);
 
 								timeLastChange = (int) System.currentTimeMillis();
 								doChange = false;
@@ -179,15 +179,15 @@ public class DriveGui extends Screen {
 								}
 							}
 
-							GL11.glTranslatef(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (10 * scale)), 0);
-							GL11.glScalef(scale, scale, scale);
+							RenderSystem.translatef(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (10 * scale)), 0);
+							RenderSystem.scalef(scale, scale, scale);
 							blit(0, -3, 0, 57, 30, guiHeight);
-							GL11.glColor3ub((byte) 255, (byte) 255, (byte) 255);
+							RenderSystem.color3f(1,1,1);
 						}
-						GL11.glPopMatrix();
+						RenderSystem.popMatrix();
 					}
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 			}
 		}
 	}

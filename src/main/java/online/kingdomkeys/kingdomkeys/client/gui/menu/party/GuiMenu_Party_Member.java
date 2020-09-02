@@ -48,7 +48,6 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUniqueID()));
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			minecraft.displayGuiScreen(new GuiMenu_Party_None());
-			//party = null;
 			break;		
 		}
 		
@@ -92,9 +91,6 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 			GuiHelper.openMenu();
 			updateButtons();
 		} else {
-			int buttonX = (int)(width*0.25);
-			
-			
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.scaled(1.5,1.5, 1);
@@ -129,16 +125,17 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
 			}
 			RenderSystem.popMatrix();
+			int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
+			int infoBoxPosY = (int) (height * 0.54F);
+
 			RenderSystem.pushMatrix();
-			
+			{
 				RenderSystem.color3f(1, 1, 1);
 				RenderSystem.translatef(9, 1, 100);
 				RenderSystem.enableAlphaTest();
 				RenderSystem.enableBlend();
 				minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
-				int infoBoxPosY = (int) (height * 0.54F);
 				blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
 					blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
@@ -151,6 +148,7 @@ public class GuiMenu_Party_Member extends GuiMenu_Background {
 				blit(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
 				RenderSystem.disableAlphaTest();
 				RenderSystem.disableBlend();
+			}
 			RenderSystem.popMatrix();
 			RenderSystem.pushMatrix();
 			{

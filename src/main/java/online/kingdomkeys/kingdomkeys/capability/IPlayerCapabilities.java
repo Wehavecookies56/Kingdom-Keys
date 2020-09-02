@@ -118,7 +118,8 @@ public interface IPlayerCapabilities {
 	void addAbility(String ability);
 	int[] getEquippedAbilityLevel(String string); 
 	void addEquippedAbilityLevel(String ability, int level);
-	
+	boolean isAbilityEquipped(String string);
+
 	int getAntiPoints();
 	void setAntiPoints(int points);
 	
@@ -130,7 +131,6 @@ public interface IPlayerCapabilities {
 	void setAerialDodgeTicks(int ticks);
 	boolean hasJumpedAerialDodge();
 	void setHasJumpedAerialDodge(boolean b);
-	
 	
 	List<PortalData> getPortalList();
 	void setPortalList(List<PortalData> list);

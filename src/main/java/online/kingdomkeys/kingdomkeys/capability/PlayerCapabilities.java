@@ -1163,6 +1163,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		return new int[] {0,0};
 	}
+	
+
+	@Override
+	public boolean isAbilityEquipped(String string) {
+		if(abilityMap.containsKey(string)) {
+			return abilityMap.get(string)[1] > 0;
+		}
+		return false;
+	}
 
 	@Override
 	public void addEquippedAbilityLevel(String ability, int level) {

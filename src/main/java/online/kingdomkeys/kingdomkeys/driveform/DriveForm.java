@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import java.util.List;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -82,7 +86,23 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		// Summon Keyblades
 		playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
 		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+		pushEntities(player);
 		PacketHandler.syncToAllAround(player, playerData);
+	}
+
+	private void pushEntities(PlayerEntity player) {
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(4.0D, 3.0D, 4.0D));
+		if (!list.isEmpty()) {
+			for (int i = 0; i < list.size(); i++) {
+				Entity e = (Entity) list.get(i);
+				if (e instanceof LivingEntity) {
+					double d = e.getPosX() - player.getPosX();
+					double d1 = e.getPosZ() - player.getPosZ();
+					((LivingEntity) e).knockBack(e, 1, -d, -d1);
+					e.setMotion(e.getMotion().x, 0.7F, e.getMotion().z);
+				}
+			}
+		}
 	}
 
 	public void updateDrive(PlayerEntity player) {

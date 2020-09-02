@@ -48,7 +48,7 @@ public class CSSetDriveFormPacket {
 				playerData.setAntiPoints(playerData.getAntiPoints() -4);
 				PacketHandler.syncToAllAround(player, playerData);
 			} else { //if target is a normal form or revert
-				if (!playerData.getActiveDriveForm().equals("") && message.form.equals("")) { // If is in a drive form and the target is "" (player)
+				if (!playerData.getActiveDriveForm().equals("") && message.form.equals("")) { // If is in a drive form and the target is "" (base form)
 					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 					form.endDrive(player);
 				} else if (!message.form.equals("")) { // If is not in a form and wants to drive

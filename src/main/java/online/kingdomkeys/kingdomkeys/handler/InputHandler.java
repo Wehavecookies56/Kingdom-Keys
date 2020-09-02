@@ -18,6 +18,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
@@ -596,11 +597,11 @@ public class InputHandler {
                 	}
                     break;/*
                 case SCROLL_ACTIVATOR:
-                    break;
+                    break;*/
                 case ACTION:
                     commandAction();
                     break;
-                */
+                
                 case LOCK_ON:
                     if (lockOn == null) {
                         RayTraceResult rtr = getMouseOverExtended(100);
@@ -634,7 +635,67 @@ public class InputHandler {
             }
     }
 
-    private Keybinds getPressedKey() {
+    private void commandAction() {
+		Minecraft mc = Minecraft.getInstance();
+		PlayerEntity player = mc.player;
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		
+    	if (player.getMotion().x != 0 && player.getMotion().z != 0) { // If player is moving do dodge roll / quick run
+			if (player.isSprinting()) { //If player is sprinting do quick run
+				if (playerData.isAbilityEquipped(Strings.quickRun) || playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+					float yaw = player.rotationYaw;
+					float motionX = -MathHelper.sin(yaw / 180.0f * (float) Math.PI);
+					float motionZ = MathHelper.cos(yaw / 180.0f * (float) Math.PI);
+
+					int wisdomLevel = playerData.getDriveFormLevel(Strings.Form_Wisdom);
+
+					double power = 0;
+					// Wisdom Form
+					if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+						power = Constants.WISDOM_QR[wisdomLevel];
+						if (!player.onGround)
+							player.addVelocity(motionX * power / 2, 0, motionZ * power / 2);
+					} else if (playerData.getActiveDriveForm().equals("")) { //Base
+						if (wisdomLevel > 2) {
+							power = Constants.WISDOM_QR[wisdomLevel - 2];
+						}
+					}
+
+					if (player.onGround)
+						player.addVelocity(motionX * power, 0, motionZ * power);
+
+				}
+			} else { //If player is moving without sprinting do dodge roll
+				if (playerData.isAbilityEquipped(Strings.dodgeRoll) || playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
+					int limitLevel = playerData.getDriveFormLevel(Strings.Form_Limit);
+					double power = 0;
+					if (playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
+						power = Constants.LIMIT_DR[limitLevel];
+					} else if (playerData.getActiveDriveForm().equals("")) {//Base
+						if (limitLevel > 2) {
+							power = Constants.LIMIT_DR[limitLevel - 2];
+						}
+					}
+
+					if (player.onGround) {
+						player.addVelocity(player.getMotion().x * power, 0, player.getMotion().z * power);
+						//PacketDispatcher.sendToServer(new InvinciblePacket(20));
+					}
+				}
+			}
+		} else { // If player is not moving do guard
+			/*if (ABILITIES.getEquippedAbility(ModAbilities.guard)) {
+				if (player.getHeldItemMainhand() != null) {
+					// If the player holds a weapon
+					if (player.getHeldItemMainhand().getItem() instanceof ItemKeyblade || player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
+						PacketDispatcher.sendToServer(new InvinciblePacket(20));
+					}
+				}
+			}*/
+		}
+    }
+
+	private Keybinds getPressedKey() {
         for (Keybinds key : Keybinds.values())
             if (key.isPressed())
                 return key;
