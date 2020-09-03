@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import online.kingdomkeys.kingdomkeys.worldgen.ModFeatures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -20,7 +21,6 @@ import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -31,11 +31,13 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.commands.MunnyCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
@@ -54,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.world.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
+import online.kingdomkeys.kingdomkeys.worldgen.ModFeatures;
 import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
 
 @Mod("kingdomkeys")
@@ -184,7 +187,16 @@ public class KingdomKeys {
 	@SubscribeEvent
 	public void onServerStarting(FMLServerAboutToStartEvent event) {
 		this.registerResourceLoader(event.getServer().getResourceManager());
+
 	}
+	
+	@SubscribeEvent
+	public void serverStarting(FMLServerStartingEvent event) {
+		CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
+
+		MunnyCommand.register(dispatcher);
+	}
+
 
     public void oreGen(FMLLoadCompleteEvent event) {
         OreGen.generateOre();
