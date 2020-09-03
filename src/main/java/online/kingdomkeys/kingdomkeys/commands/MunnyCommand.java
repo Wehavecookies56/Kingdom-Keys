@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.commands;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -11,13 +12,14 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
+import net.minecraft.command.arguments.EntitySelector;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-public class MunnyCommand { ///kkmunny <set/add> <amount> [player]
+public class MunnyCommand extends BaseCommand{ ///kkmunny <set/add/remove> <amount> [player]
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("munny").requires(source -> source.hasPermissionLevel(3));
 		
@@ -26,6 +28,7 @@ public class MunnyCommand { ///kkmunny <set/add> <amount> [player]
 				.then(Commands.argument("targets", EntityArgument.players())
 					.executes(MunnyCommand::setValue)
 				)
+				.executes(MunnyCommand::setValue)
 			)
 		);
 		
@@ -34,6 +37,7 @@ public class MunnyCommand { ///kkmunny <set/add> <amount> [player]
 				.then(Commands.argument("targets", EntityArgument.players())
 					.executes(MunnyCommand::addValue)
 				)
+				.executes(MunnyCommand::addValue)
 			)
 		);
 		
@@ -42,6 +46,7 @@ public class MunnyCommand { ///kkmunny <set/add> <amount> [player]
 				.then(Commands.argument("targets", EntityArgument.players())
 					.executes(MunnyCommand::removeValue)
 				)
+				.executes(MunnyCommand::removeValue)
 			)
 		);
 		
@@ -50,7 +55,7 @@ public class MunnyCommand { ///kkmunny <set/add> <amount> [player]
 	}
 
 	private static int setValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = EntityArgument.getPlayers(context, "targets");
+		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayerEntity player : players) {
@@ -70,7 +75,7 @@ public class MunnyCommand { ///kkmunny <set/add> <amount> [player]
 	}
 	
 	private static int addValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = EntityArgument.getPlayers(context, "targets");
+		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayerEntity player : players) {
@@ -89,7 +94,7 @@ public class MunnyCommand { ///kkmunny <set/add> <amount> [player]
 	}
 	
 	private static int removeValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = EntityArgument.getPlayers(context, "targets");
+		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayerEntity player : players) {
