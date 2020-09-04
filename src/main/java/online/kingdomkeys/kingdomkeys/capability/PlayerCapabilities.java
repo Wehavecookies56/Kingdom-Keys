@@ -1227,6 +1227,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 	
+	@Override
+	public void clearRecipes() {
+		this.recipeList.clear();
+	}
+	
 	 @Override
      public TreeMap<String, Integer> getMaterialMap() {
          return materials;
@@ -1289,4 +1294,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
          } else
              return;
      }
+
+	@Override
+	public void clearMaterials() {
+		this.materials.clear();
+	}
 }

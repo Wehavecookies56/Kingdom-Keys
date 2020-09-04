@@ -37,6 +37,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.commands.KKMaterialCommand;
 import online.kingdomkeys.kingdomkeys.commands.KKRecipeCommand;
 import online.kingdomkeys.kingdomkeys.commands.MunnyCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -197,6 +198,7 @@ public class KingdomKeys {
 
 		MunnyCommand.register(dispatcher);
 		KKRecipeCommand.register(dispatcher);
+		KKMaterialCommand.register(dispatcher);
 	}
 
 

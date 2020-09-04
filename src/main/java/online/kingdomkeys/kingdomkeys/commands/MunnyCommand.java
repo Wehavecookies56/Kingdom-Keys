@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-public class MunnyCommand extends BaseCommand{ ///munny <set/add/remove> <amount> [player]
+public class MunnyCommand extends BaseCommand{ //Munny <give/take/set> <amount> [player]
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("munny").requires(source -> source.hasPermissionLevel(3));
 		
@@ -30,7 +30,7 @@ public class MunnyCommand extends BaseCommand{ ///munny <set/add/remove> <amount
 			)
 		);
 		
-		builder.then(Commands.literal("add")
+		builder.then(Commands.literal("give")
 			.then(Commands.argument("value", IntegerArgumentType.integer(1,Integer.MAX_VALUE))
 				.then(Commands.argument("targets", EntityArgument.players())
 					.executes(MunnyCommand::addValue)
@@ -39,7 +39,7 @@ public class MunnyCommand extends BaseCommand{ ///munny <set/add/remove> <amount
 			)
 		);
 		
-		builder.then(Commands.literal("remove")
+		builder.then(Commands.literal("take")
 			.then(Commands.argument("value", IntegerArgumentType.integer(1,Integer.MAX_VALUE))
 				.then(Commands.argument("targets", EntityArgument.players())
 					.executes(MunnyCommand::removeValue)
