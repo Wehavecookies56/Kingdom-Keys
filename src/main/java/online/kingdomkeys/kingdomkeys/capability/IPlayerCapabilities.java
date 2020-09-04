@@ -146,6 +146,7 @@ public interface IPlayerCapabilities {
     boolean hasKnownRecipe(String recipe);
     void setKnownRecipeList(List<String> list);
 	void addKnownRecipe(String recipe);
+	void removeKnownRecipe(String recipe);
 	
 	TreeMap<String, Integer> getMaterialMap();
 	void setMaterialMap(TreeMap<String, Integer> materialsMap);

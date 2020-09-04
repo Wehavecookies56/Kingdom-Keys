@@ -37,6 +37,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.commands.KKRecipeCommand;
 import online.kingdomkeys.kingdomkeys.commands.MunnyCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
@@ -195,6 +196,7 @@ public class KingdomKeys {
 		CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
 
 		MunnyCommand.register(dispatcher);
+		KKRecipeCommand.register(dispatcher);
 	}
 
 

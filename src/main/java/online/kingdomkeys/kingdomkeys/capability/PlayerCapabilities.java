@@ -1220,6 +1220,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.recipeList.add(recipe);
 	}
 	
+	@Override
+	public void removeKnownRecipe(String recipe) {
+		if(this.recipeList.contains(recipe)) {
+			this.recipeList.remove(recipe);
+		}
+	}
+	
 	 @Override
      public TreeMap<String, Integer> getMaterialMap() {
          return materials;

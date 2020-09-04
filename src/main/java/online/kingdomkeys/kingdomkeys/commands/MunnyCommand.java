@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.commands;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -12,14 +11,13 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.arguments.EntitySelector;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-public class MunnyCommand extends BaseCommand{ ///kkmunny <set/add/remove> <amount> [player]
+public class MunnyCommand extends BaseCommand{ ///munny <set/add/remove> <amount> [player]
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("munny").requires(source -> source.hasPermissionLevel(3));
 		
