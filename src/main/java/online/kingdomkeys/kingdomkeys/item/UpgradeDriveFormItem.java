@@ -55,6 +55,12 @@ public class UpgradeDriveFormItem extends Item {
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
 					player.sendMessage(new TranslationTextComponent("Unlocked " + formName.substring(formName.indexOf(":") + 1)));
+					
+					if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
+						player.getHeldItemMainhand().shrink(1);
+					} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
+						player.getHeldItemOffhand().shrink(1);
+					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 			}

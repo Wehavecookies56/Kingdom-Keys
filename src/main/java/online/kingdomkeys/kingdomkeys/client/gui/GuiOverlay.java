@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -21,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Utils;
-//TODO replace GL11 stuff
+
 public class GuiOverlay extends Screen {
 	public GuiOverlay() {
 		super(new TranslationTextComponent(""));
@@ -123,22 +122,22 @@ public class GuiOverlay extends Screen {
 
 	private void showLevelUp(RenderGameOverlayEvent event) {
 		ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			int height = (minecraft.fontRenderer.FONT_HEIGHT - 3) * playerData.getMessages().size();
-			GL11.glEnable(GL11.GL_BLEND);
-			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
-			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
+			int height = (int)(minecraft.fontRenderer.FONT_HEIGHT * 0.8f) * (playerData.getMessages().size());
+			RenderSystem.enableBlend();
+			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
 
 			// Top
 			minecraft.textureManager.bindTexture(texture);
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GL11.glTranslatef((width - 153.6f - 2), 0, 0);
-				GL11.glScalef(0.6f, 0.6f, 1);
+				RenderSystem.translatef((width - 153.6f - 2), 0, 0);
+				RenderSystem.scalef(0.6f, 0.6f, 1);
 				blit(0, 0, 0, 0, 256, 36);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 //			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
 			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
@@ -147,42 +146,42 @@ public class GuiOverlay extends Screen {
 			showText(minecraft.player.getDisplayName().getString(), width - ((minecraft.fontRenderer.getStringWidth(minecraft.player.getDisplayName().getString())) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 
 			// Half
-			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
-			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
+			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
 
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
 				minecraft.textureManager.bindTexture(texture);
-				GL11.glTranslatef((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
-				GL11.glScalef(0.6f, height, 1);
+				RenderSystem.translatef((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
+				RenderSystem.scalef(0.6f, height, 1);
 				blit(0, 0, 0, 36, 256, 1);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// Bottom
-			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
-			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
+			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
 
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
 				minecraft.textureManager.bindTexture(texture);
-				GL11.glTranslatef((width - 256.0f * 0.6f - 2), height + (36.0f * 0.6f), 0);
-				GL11.glScalef(0.6f, 0.6f, 1);
+				RenderSystem.translatef((width - 256.0f * 0.6f - 2), height + (36.0f * 0.6f), 0);
+				RenderSystem.scalef(0.6f, 0.6f, 1);
 				blit(0, 0, 0, 37, 256, 14);
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 
 			// Text
-			//GL11.glColor4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
-			GL11.glColor4ub((byte)255,(byte)255,(byte)255, (byte) 255);
+			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
 			//System.out.println(STATS.getMessages());
 			for (int i = 0; i < playerData.getMessages().size(); i++) {
 				String message = playerData.getMessages().get(i).toString();
 				showText(Utils.translateToLocal(message), (width - 256.0f * 0.8f + (minecraft.fontRenderer.getStringWidth("Maximum HP Increased!")) * 0.8f) - 35, minecraft.fontRenderer.FONT_HEIGHT * 0.8f * i + 23, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
-			GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 		
 		if (System.currentTimeMillis()/1000 > (timeLevelUp + levelSeconds))
 			showLevelUp = false;
@@ -192,190 +191,196 @@ public class GuiOverlay extends Screen {
 		if(playerData == null)
 			return;
 
-		byte[] driveColor = getDriveFormColor(); //TODO set color in the registry
+		float[] driveColor = getDriveFormColor(); //TODO set color in the registry
 
 		ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			
-			int heightBase = (minecraft.fontRenderer.FONT_HEIGHT - 3) * (playerData.getMessages().size()+0);
-			int heightDF = (minecraft.fontRenderer.FONT_HEIGHT - 3) * playerData.getDFMessages().size();
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
+//			int height = (int)(minecraft.fontRenderer.FONT_HEIGHT * 0.8f) * (playerData.getMessages().size());
+
+			//int heightBase = (minecraft.fontRenderer.FONT_HEIGHT - 3) * (playerData.getMessages().size());
+			int heightBase = (int) (minecraft.fontRenderer.FONT_HEIGHT * 1.1F) * (playerData.getMessages().size());
+			int heightDF = (int) (minecraft.fontRenderer.FONT_HEIGHT * 1.1F) * playerData.getDFMessages().size();
+			RenderSystem.enableBlend();
+			RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
 //Base Abilities
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
 				// Top
 				minecraft.textureManager.bindTexture(texture);
-				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.color4f(0.4F, 0.4F, 0.4F, 1F);
+				RenderSystem.pushMatrix();
 				{
-					GL11.glTranslatef(2, sHeight / 3, 0);
-					GL11.glScalef(0.6f, 0.6f, 1);
+					RenderSystem.translatef(2, sHeight / 3, 0);
+					RenderSystem.scalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 51, 256, 36);
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 	
 				showText(minecraft.player.getDisplayName().getFormattedText(), 140 - (minecraft.fontRenderer.getStringWidth(minecraft.player.getDisplayName().getFormattedText()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 	
 				// Half
-				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.color4f(0.4F, 0.4F, 0.4F, 1F);
+				RenderSystem.pushMatrix();
 				{
 					minecraft.textureManager.bindTexture(texture);
-					GL11.glTranslatef(2, sHeight / 3 + 21, 0);
-					GL11.glScalef(0.6f, heightBase+1, 1);
+					RenderSystem.translatef(2, sHeight / 3 + 21, 0);
+					RenderSystem.scalef(0.6f, heightBase+1, 1);
 					blit(0, 0, 0, 51+36, 256, 1);
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 	
 				// Text
-				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
+				RenderSystem.color4f(0.4F, 0.4F, 0.4F, 1F);
 				for (int i = 0; i < playerData.getMessages().size(); i++) {
-					String message = playerData.getMessages().get(i).toString();
-					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i + 21, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
+					String message = playerData.getMessages().get(i);
+					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i + 23, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
 				
 				// Bottom
-				GL11.glColor4ub((byte) 100,(byte) 100,(byte) 100, (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.color4f(0.4F, 0.4F, 0.4F, 1F);
+				RenderSystem.pushMatrix();
 				{
 					minecraft.textureManager.bindTexture(texture);
-					GL11.glTranslatef(2, sHeight / 3 + 22 + heightBase, 0);
-					GL11.glScalef(0.6f, 0.6f, 1);
-					blit(0, 0, 0, 51+37, 244, 14);
+					RenderSystem.translatef(2, sHeight / 3 + 22 + heightBase, 0);
+					RenderSystem.scalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 51+37, 256, 14);
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 				
 				// Icon
-				GL11.glColor4ub((byte) 200,(byte) 200,(byte) 200, (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.color4f(0.8F, 0.8F, 0.8F, 1F);
+				RenderSystem.pushMatrix();
 				{
 					minecraft.textureManager.bindTexture(texture);
-					GL11.glTranslatef(4.5F, sHeight / 3+6, 0);
-					GL11.glScalef(0.6f, 0.6f, 1);
+					RenderSystem.translatef(4.5F, sHeight / 3+6, 0);
+					RenderSystem.scalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 102, 43, 36);
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 			
 //Form Abilities
-			GL11.glPushMatrix();
+			RenderSystem.pushMatrix();
 			{
 				// Top
 				minecraft.textureManager.bindTexture(texture);
-				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
+				RenderSystem.pushMatrix();
 				{
-					GL11.glTranslatef(2, sHeight / 3 + 29 + heightBase, 0);
-					GL11.glScalef(0.6f, 0.6f, 1);
+					RenderSystem.translatef(2, sHeight / 3 + 29 + heightBase, 0);
+					RenderSystem.scalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 51, 256, 36);
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
 	
-				//showText("LEVEL UP!", 6, sHeight / 3 + 29 + heightBase + 5, 0, 0.75F, 0.75F, 1,0xFFFFFF);//TODO Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
 				showText("LV.", 2 + (minecraft.fontRenderer.getStringWidth("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-				//System.out.println(playerData.getDriveFormLevel(driveForm));
 				showText("" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 				showText(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1)), 140 - (minecraft.fontRenderer.getStringWidth(Utils.translateToLocal(driveForm.substring(driveForm.indexOf(":")+1))) * 0.75f), sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 				
-				
 				// Half
-				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
+				RenderSystem.pushMatrix();
 				{
 					minecraft.textureManager.bindTexture(texture);
-					GL11.glTranslatef(2, sHeight / 3 + 50 + heightBase, 0);
-					GL11.glScalef(0.6f, heightDF, 1);
+					RenderSystem.translatef(2, sHeight / 3 + 50 + heightBase, 0);
+					RenderSystem.scalef(0.6f, heightDF, 1);
 					blit(0, 0, 0, 51+36, 256, 1);
 				}
-				GL11.glPopMatrix();
-	
-				// Bottom
-				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.popMatrix();
+				
+				// Text
+				RenderSystem.pushMatrix();
 				{
 					minecraft.textureManager.bindTexture(texture);
-					GL11.glTranslatef(2, sHeight / 3 + 50 + heightBase + heightDF, 0);
+					RenderSystem.translatef(0, sHeight / 3 + 50 + heightBase, 0);
 
-					//GL11.glTranslatef(2, sHeight / 3 + heightDF + (36.0f * 0.6f), 0);
-					GL11.glScalef(0.6f, 0.6f, 1);
-					blit(0, 0, 0, 51+37, 244, 14);
+					RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
+					for (int i = 0; i < playerData.getDFMessages().size(); i++) {
+						String message = playerData.getDFMessages().get(i);
+						showText(Utils.translateToLocalFormatted(message), 33, minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i , 0, 0.8f, 0.8f, 1, 0xFFFFFF);
+					}
+					RenderSystem.color4f(1F, 1F, 1F, 1F);
 				}
-				GL11.glPopMatrix();
+				RenderSystem.popMatrix();
+				// Bottom
+				RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
+				RenderSystem.pushMatrix();
+				{
+					minecraft.textureManager.bindTexture(texture);
+					RenderSystem.translatef(2, sHeight / 3 + 50 + heightBase + heightDF, 0);
+
+					//RenderSystem.translatef(2, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * playerData.getDFMessages().size(), 0);
+
+					//RenderSystem.translatef(2, heightDF, 0);
+					RenderSystem.scalef(0.6f, 0.6f, 1);
+					blit(0, 0, 0, 51+37, 256, 14);
+				}
+				RenderSystem.popMatrix();
 				
 				// Icon
-				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-				GL11.glPushMatrix();
+				RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
+				RenderSystem.pushMatrix();
 				{
 					minecraft.textureManager.bindTexture(texture);
-					GL11.glTranslatef(4.5F, sHeight / 3 + 34 + heightBase, 0);
-					GL11.glScalef(0.6f, 0.6f, 1);
+					RenderSystem.translatef(4.5F, sHeight / 3 + 34 + heightBase, 0);
+					RenderSystem.scalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 102, 43, 36);
 				}
-				GL11.glPopMatrix();
-	
-				// Text
-				GL11.glColor4ub(driveColor[0], driveColor[1], driveColor[2], (byte) 255);
-				for (int i = 0; i < playerData.getDFMessages().size(); i++) {
-					String message = playerData.getDFMessages().get(i).toString();
-					showText(Utils.translateToLocalFormatted(message), 2 * 1f + 35, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i + 54, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
-				}
-				GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
-			
+				RenderSystem.popMatrix();
 			}
-			GL11.glPopMatrix();
+			RenderSystem.popMatrix();
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 		
-		if (System.currentTimeMillis()/1000 > (timeDriveLevelUp + levelSeconds))
+	if (System.currentTimeMillis()/1000 > (timeDriveLevelUp + levelSeconds))
 			showDriveLevelUp = false;
 
 	}
 
 	private void showText(String text, float tX, float tY, float tZ, float sX, float sY, float sZ, int color) {
-		GL11.glPushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GL11.glTranslatef(tX, tY, tZ);
-			GL11.glScalef(sX, sY, sZ);
+			RenderSystem.translatef(tX, tY, tZ);
+			RenderSystem.scalef(sX, sY, sZ);
 			drawString(minecraft.fontRenderer, text, 0, 0, color);
 		}
-		GL11.glPopMatrix();
+		RenderSystem.popMatrix();
 	}
 
-	private byte[] getDriveFormColor() {
-		byte[] driveColor = new byte[] { (byte) 255, (byte) 255, (byte) 255 };
+	private float[] getDriveFormColor() {
+		float[] driveColor = new float[] { 1F,1F,1F };
 
 		switch (driveForm) {
 		case Strings.Form_Valor:
-			driveColor[0] = (byte) 255;
-			driveColor[1] = (byte) 0;
-			driveColor[2] = (byte) 0;
+			driveColor[0] = 1F;
+			driveColor[1] = 0;
+			driveColor[2] = 0;
 			break;
 
 		case Strings.Form_Wisdom:
-			driveColor[0] = (byte) 0;
-			driveColor[1] = (byte) 0;
-			driveColor[2] = (byte) 255;
+			driveColor[0] = 0;
+			driveColor[1] = 0;
+			driveColor[2] = 1;
 			break;
 
 		case Strings.Form_Limit:
-			driveColor[0] = (byte) 153;
-			driveColor[1] = (byte) 76;
-			driveColor[2] = (byte) 255;
+			driveColor[0] = 0.6F;
+			driveColor[1] = 0.3F;
+			driveColor[2] = 1F;
 			break;
 
 		case Strings.Form_Master:
-			driveColor[0] = (byte) 255;
-			driveColor[1] = (byte) 185;
-			driveColor[2] = (byte) 25;
+			driveColor[0] = 1F;
+			driveColor[1] = 0.72F;
+			driveColor[2] = 0.1F;
 			break;
 
 		case Strings.Form_Final:
-			driveColor[0] = (byte) 230;
-			driveColor[1] = (byte) 230;
-			driveColor[2] = (byte) 230;
+			driveColor[0] = 0.9F;
+			driveColor[1] = 0.9F;
+			driveColor[2] = 0.9F;
 			break;
 		}
 		return driveColor;

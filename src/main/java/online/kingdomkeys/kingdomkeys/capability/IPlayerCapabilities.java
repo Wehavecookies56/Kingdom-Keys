@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -106,7 +107,7 @@ public interface IPlayerCapabilities {
 	void setDriveFormLevel(String name, int level);
     int getDriveFormExp(String drive);
     void setDriveFormExp(PlayerEntity player, String drive, int exp);
-
+	void addDriveFormExperience(String form, ServerPlayerEntity player, int driveExpNeeded);	
 	
 	List<String> getMagicList();
 	void setMagicList(List<String> list);
@@ -119,6 +120,7 @@ public interface IPlayerCapabilities {
 	int[] getEquippedAbilityLevel(String string); 
 	void addEquippedAbilityLevel(String ability, int level);
 	boolean isAbilityEquipped(String string);
+	void clearAbilities();
 
 	int getAntiPoints();
 	void setAntiPoints(int points);
@@ -156,6 +158,4 @@ public interface IPlayerCapabilities {
 	void setMaterial(Material material, int amount);
 	void removeMaterial(Material material, int amount);
 	void clearMaterials();
-	
-	
 }
