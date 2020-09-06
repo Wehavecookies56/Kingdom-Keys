@@ -17,6 +17,7 @@ import net.minecraft.command.Commands;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -85,6 +86,7 @@ public class KKDriveLevelCommand extends BaseCommand{
 			playerData.setDriveFormLevel(form, 1);
 			playerData.setDriveFormExp(player, form, 0);
 			DriveForm drive = ModDriveForms.registry.getValue(new ResourceLocation(form));
+			playerData.setNewKeychain(new ResourceLocation(form), ItemStack.EMPTY);
 
 			if(playerData.isAbilityEquipped(drive.getBaseAbilityForLevel(3))) {
 				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(drive.getBaseAbilityForLevel(3)));

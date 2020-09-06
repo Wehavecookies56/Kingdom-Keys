@@ -24,6 +24,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -89,23 +90,18 @@ public class EntityEvents {
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 		if(playerData != null) {
 			if (!player.world.isRemote) { // Sync from server to client
-				//System.out.println(player.world.isRemote+" : "+ModCapabilities.get(player).getAbilitiesMap().get("kingdomkeys:scan")[0]);
-				//LinkedHashMap<String, int[]> map = ModCapabilities.get(player).getAbilitiesMap();
-				//System.out.println(map.values());
 				player.setHealth(playerData.getMaxHP());
 				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
 				
-				if(!playerData.getKnownRecipeList().contains(ModItems.mythril_shard.get().getTranslationKey())) {
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { //One time event here :D
+					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
+					
 					playerData.addKnownRecipe(ModItems.mythril_shard.get().getTranslationKey());
 					playerData.addKnownRecipe(ModItems.mythril_stone.get().getTranslationKey());
 					playerData.addKnownRecipe(ModItems.mythril_gem.get().getTranslationKey());
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getTranslationKey());
 				}
-				System.out.println(playerData.getKnownRecipeList());
-
-				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) {
-					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
-				}
+				
 				//Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
 					//Make sure the form exists
@@ -527,6 +523,21 @@ public class EntityEvents {
 			if(heldKeyblade == null && heldOrgWeapon != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
 				float dmg = DamageCalculation.getOrgStrengthDamage(player, heldOrgWeapon);
 				event.setAmount(dmg);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onFall(LivingFallEvent event) {
+		if(event.getEntityLiving() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+				event.setDistance(0);
+			} else {
+				if(playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide)) {
+					event.setDistance(0);
+				}
 			}
 		}
 	}
