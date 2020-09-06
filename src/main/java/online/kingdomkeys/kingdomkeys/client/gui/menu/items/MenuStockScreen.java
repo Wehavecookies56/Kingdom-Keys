@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MenuStockScreen extends MenuBackground {
@@ -97,6 +98,7 @@ public class MenuStockScreen extends MenuBackground {
                 items.add(player.inventory.getStackInSlot(i));
             }
         }
+        items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
         for (int i = 0; i < items.size(); i += 2) {
             inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7)));
             if (i + 1 < items.size()) {

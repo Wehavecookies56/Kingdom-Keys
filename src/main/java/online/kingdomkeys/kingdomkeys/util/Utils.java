@@ -18,7 +18,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -379,5 +382,16 @@ public class Utils {
 		ItemStack tempStack = inv.getStackInSlot(stack2);
 		inv.setInventorySlotContents(stack2, inv.getStackInSlot(stack1));
 		inv.setInventorySlotContents(stack1, tempStack);
+	}
+
+	//Returns the category for the stack from the IItemCategory interface, the registry, else it returns MISC
+	public static ItemCategory getCategoryForStack(ItemStack stack) {
+		ItemCategory category = ItemCategory.MISC;
+		if (stack.getItem() instanceof IItemCategory) {
+			category = ((IItemCategory) stack.getItem()).getCategory();
+		} else if (ItemCategoryRegistry.hasCategory(stack.getItem())) {
+			category = ItemCategoryRegistry.getCategory(stack.getItem());
+		}
+		return category;
 	}
 }

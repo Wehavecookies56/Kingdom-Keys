@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuStockScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuStockItem extends Button {
 
@@ -53,12 +54,7 @@ public class MenuStockItem extends Button {
                 }
                 RenderSystem.popMatrix();
             }
-            ItemCategory category = ItemCategory.MISC;
-            if (stack.getItem() instanceof IItemCategory) {
-                category = ((IItemCategory) stack.getItem()).getCategory();
-            } else if (ItemCategoryRegistry.hasCategory(stack.getItem())) {
-                category = ItemCategoryRegistry.getCategory(stack.getItem());
-            }
+            ItemCategory category = Utils.getCategoryForStack(stack);
             RenderSystem.pushMatrix();
             {
                 RenderSystem.translatef(x + 3, y + 2, 0);
