@@ -136,18 +136,17 @@ public class DriveGui extends Screen {
 					}
 					RenderSystem.popMatrix();
 
-					// Yellow meter
 					RenderSystem.pushMatrix();
 					{
+						// Yellow meter
+						RenderSystem.translatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
+						RenderSystem.scalef(scale, scale, scale);
 						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							RenderSystem.translatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
-							RenderSystem.scalef(scale, scale, scale);
-							if (playerData.getActiveDriveForm().equals("")) {
-								this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
-							} else {
-								this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
-							}
+							this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
+						} else {
+							this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
 						}
+						
 						RenderSystem.popMatrix();
 
 						// Level Number

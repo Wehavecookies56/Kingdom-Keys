@@ -45,9 +45,9 @@ public class MenuStockItem extends Button {
                     RenderSystem.translatef(x + 0.6F, y, 0);
                     float scale = 0.5F;
                     RenderSystem.scalef(scale, scale, 1);
-                    blit(0, 0, 27, 0, 17, 28);
+                    blit(0, 0, 27, 0, 18, 28);
                     for (int i = 0; i < (width * (1 / scale)) - (17 * (1 / scale)); i++) {
-                        blit(17 + i, 0, 45, 0, 1, 28);
+                        blit(17 + i, 0, 45, 0, 2, 28);
                     }
                     blit((int)(width * (1 / scale)) - 17, 0, 47, 0, 17, 28);
                 }

@@ -3,9 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -17,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSSummonKeyblade {
 
@@ -66,8 +64,8 @@ public class CSSummonKeyblade {
 				}
 			}
 			//TODO handle extraChain
-			int slotSummoned = findSummoned(player.inventory, chain);
-			if (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && hasID(heldStack) && heldStack.getItem() instanceof KeybladeItem) {
+			int slotSummoned = Utils.findSummoned(player.inventory, chain);
+			if (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && Utils.hasID(heldStack) && heldStack.getItem() instanceof KeybladeItem) {
 				//DESUMMON
 				if (heldStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))){
 					chain.setTag(heldStack.getTag());
@@ -77,7 +75,7 @@ public class CSSummonKeyblade {
 				}
 			} else if (slotSummoned > -1) {
 				//SUMMON FROM ANOTHER SLOT
-				swapStack(player.inventory, player.inventory.currentItem, slotSummoned);
+				Utils.swapStack(player.inventory, player.inventory.currentItem, slotSummoned);
 				player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			} else {
 				if (!ItemStack.areItemStacksEqual(chain, ItemStack.EMPTY)) {
@@ -89,7 +87,7 @@ public class CSSummonKeyblade {
 					} else if (player.inventory.getFirstEmptyStack() > -1) {
 						ItemStack keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());
 						keyblade.setTag(chain.getTag());
-						swapStack(player.inventory, player.inventory.getFirstEmptyStack(), player.inventory.currentItem);
+						Utils.swapStack(player.inventory, player.inventory.getFirstEmptyStack(), player.inventory.currentItem);
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);
 						player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					}
@@ -101,37 +99,6 @@ public class CSSummonKeyblade {
 		ctx.get().setPacketHandled(true);
 	}
 
-	static boolean hasID(ItemStack stack) {
-		if (stack.getTag() != null) {
-			if (stack.getTag().hasUniqueId("keybladeID")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	//Returns the inv slot if summoned keychain is found
-	static int findSummoned(PlayerInventory inv, ItemStack chain) {
-		for (int i = 0; i < inv.getSizeInventory(); i++) {
-			ItemStack slotStack = inv.getStackInSlot(i);
-			//Only check the tag for keyblades
-			if (slotStack.getItem() instanceof KeybladeItem) {
-				//Make sure it has a tag
-				if (hasID(slotStack)) {
-					//Compare the ID with the chain's
-					if (slotStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
-						return i;
-					}
-				}
-			}
-		}
-		return -1;
-	}
-
-	static void swapStack(PlayerInventory inv, int stack1, int stack2) {
-		ItemStack tempStack = inv.getStackInSlot(stack2);
-		inv.setInventorySlotContents(stack2, inv.getStackInSlot(stack1));
-		inv.setInventorySlotContents(stack1, tempStack);
-	}
+	
 
 }

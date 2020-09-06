@@ -23,12 +23,12 @@ public class MenuItemsScreen extends MenuBackground {
 		this.buttons.clear();
         float topBarHeight = (float)height * 0.17F;
         int button_itemsY = (int)topBarHeight+5;
-        float buttonPosX = (float)width * 0.1526F;
+		float buttonPosX = (float) width * 0.03F;
         float buttonWidth = ((float)width * 0.1744F)-22;
 
         int button_items_playerY = button_itemsY;
-        int button_items_stockY = button_items_playerY + 22;
-        int button_items_backY = button_items_stockY + 22;
+        int button_items_stockY = button_items_playerY + 18 * 1;
+        int button_items_backY = button_items_playerY + 18 * 2;
 
         Minecraft mc = Minecraft.getInstance();
 

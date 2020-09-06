@@ -7,6 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -18,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -334,8 +337,37 @@ public class Utils {
 		drawStringScaled(gui, x, y, text, colour, scaleXY, scaleXY);
 	}
 
-    /*
-    public static Ability getAbilityFromName(String name) {
-		return GameRegistry.findRegistry(Ability.class).getValue(new ResourceLocation(Reference.MODID+":"+name));
-    }*/
+	
+	public static boolean hasID(ItemStack stack) {
+		if (stack.getTag() != null) {
+			if (stack.getTag().hasUniqueId("keybladeID")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//Returns the inv slot if summoned keychain is found
+	public static int findSummoned(PlayerInventory inv, ItemStack chain) {
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
+			ItemStack slotStack = inv.getStackInSlot(i);
+			//Only check the tag for keyblades
+			if (slotStack.getItem() instanceof KeybladeItem) {
+				//Make sure it has a tag
+				if (hasID(slotStack)) {
+					//Compare the ID with the chain's
+					if (slotStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
+						return i;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static void swapStack(PlayerInventory inv, int stack1, int stack2) {
+		ItemStack tempStack = inv.getStackInSlot(stack2);
+		inv.setInventorySlotContents(stack2, inv.getStackInSlot(stack1));
+		inv.setInventorySlotContents(stack1, tempStack);
+	}
 }

@@ -135,20 +135,8 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
-		//IWorldCapabilities worldData = ModCapabilities.getWorld(event.player.world);
-		//System.out.println(event.player.world.isRemote);
-		/*for(Party p : worldData.getParties()) {
-			System.out.println(event.player.world.isRemote+ ": "+p.getName());
-		}*/
-		//ExtendedWorldData worldData = ExtendedWorldData.get(event.player.world);
-		//System.out.println(event.player.getDisplayName().getFormattedText()+" "+worldData.getParties());
-		/*if(!event.player.world.isRemote) {
-			PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity)event.player);
-		}*/
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-		//playerData.setPartiesInvited(new ArrayList<String>());
-	//	System.out.println(playerData);
-		//System.out.println(event.player.world.isRemote);
+		
 		if (playerData != null) {
 			//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
 			if(!event.player.world.isRemote && event.player.ticksExisted == 5) {

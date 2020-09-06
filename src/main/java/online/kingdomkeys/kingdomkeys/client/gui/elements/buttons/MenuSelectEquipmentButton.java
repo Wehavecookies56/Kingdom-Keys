@@ -20,9 +20,12 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuSelectEquipmentButton extends MenuButtonBase {
 
@@ -37,9 +40,11 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
-					PacketHandler.sendToServer(new CSEquipKeychain(parent.form, slot));
 					PlayerEntity player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+					if(Utils.findSummoned(player.inventory, playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
+						PacketHandler.sendToServer(new CSSummonKeyblade());
+					PacketHandler.sendToServer(new CSEquipKeychain(parent.form, slot));
 					ItemStack stackToEquip = player.inventory.getStackInSlot(slot);
 					ItemStack stackPreviouslyEquipped = playerData.equipKeychain(parent.form, stackToEquip);
 					player.inventory.setInventorySlotContents(slot, stackPreviouslyEquipped);

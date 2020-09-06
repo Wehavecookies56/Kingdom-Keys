@@ -95,10 +95,10 @@ public class MenuEquipmentButton extends Button {
                 }
 
                 //Left item slot
-                blit(0, 0, 166, 34, 17, 28);
+                blit(0, 0, 166, 34, 18, 28);
                 //Middle item slot
                 for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                    blit(17 + i, 0, 184, 34, 1, 28);
+                    blit(17 + i, 0, 184, 34, 2, 28);
                 }
                 //Right item slot
                 blit((int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
@@ -126,10 +126,10 @@ public class MenuEquipmentButton extends Button {
                     RenderSystem.translatef(x + 0.6F, y, 0);
                     RenderSystem.scalef(0.5F, 0.5F, 1);
                     //Left selected
-                    blit(0, 0, 128, 34, 17, 28);
+                    blit(0, 0, 128, 34, 18, 28);
                     //Middle selected
                     for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                        blit(17 + i, 0, 146, 34, 1, 28);
+                        blit(17 + i, 0, 146, 34, 2, 28);
                     }
                     //Right selected
                     blit((int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);

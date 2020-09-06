@@ -374,8 +374,9 @@ public class CommandMenuGui extends Screen {
 				paintWithColorArray(normalModeColor, alpha);
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, playerData.getMagicList().isEmpty() ? 0x888888 :getColor(0xFFFFFF,SUB_MAIN));
 			
 
 		}
@@ -521,6 +522,7 @@ public class CommandMenuGui extends Screen {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+		forms.remove(DriveForm.NONE.toString());
 		
 		if (playerData != null && forms != null && !forms.isEmpty()) {
 			// DRIVE TOP
@@ -528,7 +530,7 @@ public class CommandMenuGui extends Screen {
 			{
 				paintWithColorArray(driveMenuColor, alpha);
 				minecraft.textureManager.bindTexture(texture);
-				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (forms.size())), 0);
+				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Drive_Title), 5, 4, 0xFFFFFF);

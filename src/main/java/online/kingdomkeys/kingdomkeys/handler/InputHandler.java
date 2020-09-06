@@ -819,6 +819,7 @@ public class InputHandler {
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
         this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
+        this.driveFormsMap.remove(DriveForm.NONE.toString());
         this.magicsList = ModCapabilities.getPlayer(mc.player).getMagicList();
         this.portalCommands = ModCapabilities.getPlayer(mc.player).getPortalList();
         if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {

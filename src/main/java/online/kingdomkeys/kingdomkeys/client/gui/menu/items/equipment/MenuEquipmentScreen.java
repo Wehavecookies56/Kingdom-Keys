@@ -60,7 +60,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
-            if (!form.equals(DriveForm.NONE)) {
+            if (!form.equals(DriveForm.NONE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
                 addButton(new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293));
             }
         });

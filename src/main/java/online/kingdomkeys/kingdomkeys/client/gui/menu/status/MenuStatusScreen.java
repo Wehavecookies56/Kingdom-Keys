@@ -136,10 +136,11 @@ public class MenuStatusScreen extends MenuBackground {
 		addButton(stats_player = new MenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
 
 		int i = 0;
-		for (i = 0; i < playerData.getDriveFormMap().size(); i++) {
+		for (i = 0; i < playerData.getDriveFormMap().size()-1; i++) {
 			List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
+			forms.remove(DriveForm.NONE.toString());
 			String formName = forms.get(i);
-			if (!formName.equals(DriveForm.NONE.toString())) {
+			//if (!formName.equals(DriveForm.NONE.toString())) {
 				String name = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getTranslationKey();
 				MenuButton b = new MenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(name), ButtonType.SUBBUTTON, (e) -> {
 					action(formName);
@@ -147,7 +148,7 @@ public class MenuStatusScreen extends MenuBackground {
 				b.setData(formName);
 				dfStats.add(b);
 				addButton(b);
-			}
+			//}
 		}
 		addButton(stats_back = new MenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
