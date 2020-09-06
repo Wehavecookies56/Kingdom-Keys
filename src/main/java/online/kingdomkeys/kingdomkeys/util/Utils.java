@@ -18,6 +18,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -339,12 +340,21 @@ public class Utils {
 
 	
 	public static boolean hasID(ItemStack stack) {
-		if (stack.getTag() != null) {
-			if (stack.getTag().hasUniqueId("keybladeID")) {
-				return true;
+    	if (stack.getItem() instanceof KeybladeItem || stack.getItem() instanceof IKeychain) {
+			if (stack.getTag() != null) {
+				if (stack.getTag().hasUniqueId("keybladeID")) {
+					return true;
+				}
 			}
 		}
 		return false;
+	}
+
+	public static UUID getID(ItemStack stack) {
+    	if (hasID(stack)) {
+			return stack.getTag().getUniqueId("keybladeID");
+		}
+    	return null;
 	}
 
 	//Returns the inv slot if summoned keychain is found

@@ -2,11 +2,27 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.GuiContainerEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
@@ -15,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSSummonKeyblade {
@@ -99,6 +116,47 @@ public class CSSummonKeyblade {
 		ctx.get().setPacketHandled(true);
 	}
 
-	
+	@Mod.EventBusSubscriber
+	public static class Events {
+
+		@SubscribeEvent
+		public static void containerClose(PlayerContainerEvent.Close event) {
+			ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+			Container openContainer = event.getContainer();
+			Container playerContainer = player.container;
+
+			if (!openContainer.equals(playerContainer)) {
+				openContainer.inventorySlots.forEach(slot -> {
+					int slotIndex = slot.getSlotIndex();
+					ItemStack stack = slot.getStack();
+					if (slot.inventory != player.inventory) {
+						if (Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) {
+							slot.putStack(ItemStack.EMPTY);
+							openContainer.detectAndSendChanges();
+							int emptySlot = player.inventory.getFirstEmptyStack();
+							if (emptySlot > -1) {
+								player.inventory.setInventorySlotContents(emptySlot, stack);
+								player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+								player.inventory.markDirty();
+							} else {
+								player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+							}
+						}
+					}
+				});
+			}
+		}
+
+		@SubscribeEvent
+		public static void dropItem(ItemTossEvent event) {
+			ItemStack droppedItem = event.getEntityItem().getItem();
+			//If it doesn't have an ID it was not summoned
+			if (Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem) {
+				PlayerEntity player = event.getPlayer();
+				player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				event.setCanceled(true);
+			}
+		}
+	}
 
 }

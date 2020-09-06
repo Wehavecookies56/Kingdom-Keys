@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.item;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.command.impl.TagCommand;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,12 +21,7 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.SwordItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -35,14 +32,21 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KeybladeItem extends SwordItem implements IItemCategory {
 
@@ -109,6 +113,36 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 	
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if (entityIn instanceof PlayerEntity) {
+			if (Utils.hasID(stack)) {
+				PlayerEntity player = (PlayerEntity) entityIn;
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
+				ItemStack formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
+				UUID stackID = Utils.getID(stack);
+				if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY) && ItemStack.areItemStacksEqual(formChain, ItemStack.EMPTY)) {
+					UUID mainChainID = Utils.getID(mainChain);
+					UUID formChainID = Utils.getID(formChain);
+					if (mainChainID == null) mainChainID = new UUID(0, 0);
+					if (formChainID == null) formChainID = new UUID(0, 0);
+					if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
+						//This is either not your keychain or from an inactive form, either way it should not be here
+						player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
+					}
+				}
+				//Check for dupes
+				for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+					if (i != itemSlot) {
+						UUID id = Utils.getID(player.inventory.getStackInSlot(i));
+						if (id != null) {
+							if (id.equals(stackID)) {
+								player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+							}
+						}
+					}
+				}
+			}
+		}
 		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
@@ -199,5 +233,21 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.TOOL;
+	}
+
+	@Mod.EventBusSubscriber
+	public static class Events {
+
+		@SubscribeEvent
+		public static void onItemDropped(EntityJoinWorldEvent event) {
+			if (event.getEntity() instanceof ItemEntity) {
+				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
+				UUID droppedID = Utils.getID(droppedItem);
+				if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
+					event.setCanceled(true);
+				}
+			}
+		}
+
 	}
 }

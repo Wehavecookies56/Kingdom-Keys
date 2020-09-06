@@ -66,6 +66,11 @@ public class MoogleEntity extends CreatureEntity {
     }
 
     @Override
+    public int getTalkInterval() {
+        return 250;
+    }
+
+    @Override
     public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
     	return true;
     }
