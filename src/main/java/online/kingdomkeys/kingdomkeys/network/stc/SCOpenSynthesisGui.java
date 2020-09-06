@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.synthesis.GuiMenu_Synthesis;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public class SCOpenSynthesisGui {
@@ -35,7 +35,7 @@ public class SCOpenSynthesisGui {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenSynthesisGui message) {
-			KingdomKeys.proxy.getClientMCInstance().displayGuiScreen(new GuiMenu_Synthesis());
+			KingdomKeys.proxy.getClientMCInstance().displayGuiScreen(new SynthesisScreen());
 			KingdomKeys.proxy.getClientWorld().playSound(KingdomKeys.proxy.getClientPlayer(), KingdomKeys.proxy.getClientPlayer().getPosition(), ModSounds.kupo.get(), SoundCategory.MASTER, 1, 1);
 		}
 	}

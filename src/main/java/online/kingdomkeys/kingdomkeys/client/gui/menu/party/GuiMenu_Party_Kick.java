@@ -3,31 +3,29 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 import java.awt.Color;
 import java.util.UUID;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 
-public class GuiMenu_Party_Kick extends GuiMenu_Background {
+public class GuiMenu_Party_Kick extends MenuBackground {
 	
-	GuiMenuButton back;
+	MenuButton back;
 		
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	Party party;
 	
-	GuiMenuButton[] players = new GuiMenuButton[4];
+	MenuButton[] players = new MenuButton[4];
 	
 	public GuiMenu_Party_Kick() {
 		super(Strings.Gui_Menu_Party_Leader_Kick, new Color(0,0,255));
@@ -89,7 +87,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 		//Show the buttons to join public parties
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		for(int i = 1; i < party.getMembers().size(); i++) {
-			addButton(players[i] = new GuiMenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
+			addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
 		}
 	
 	}	
@@ -107,7 +105,7 @@ public class GuiMenu_Party_Kick extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}

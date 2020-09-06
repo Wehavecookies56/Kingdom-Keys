@@ -15,6 +15,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats.Recipe;
@@ -24,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
-public class MagicSpellItem extends Item {
+public class MagicSpellItem extends Item implements IItemCategory {
 	String magic;
 
 	public MagicSpellItem(Properties properties, String name) {
@@ -125,5 +127,10 @@ public class MagicSpellItem extends Item {
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(new TranslationTextComponent("Unlock " + magic));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
+
+	@Override
+	public ItemCategory getCategory() {
+		return ItemCategory.MISC;
 	}
 }

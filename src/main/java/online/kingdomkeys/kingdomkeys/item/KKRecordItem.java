@@ -7,14 +7,16 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class KKRecordItem extends MusicDiscItem{
+public class KKRecordItem extends MusicDiscItem implements IItemCategory {
 
 	float length;
 	
@@ -32,4 +34,8 @@ public class KKRecordItem extends MusicDiscItem{
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 
+	@Override
+	public ItemCategory getCategory() {
+		return ItemCategory.MISC;
+	}
 }

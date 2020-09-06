@@ -1,16 +1,11 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -22,12 +17,13 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -88,6 +84,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				abilities.putIntArray(pair.getKey().toString(), pair.getValue());
 			}
 			storage.put("abilities", abilities);
+
+			CompoundNBT keychains = new CompoundNBT();
+			instance.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.serializeNBT()));
+			storage.put("keychains", keychains);
 
 			for (byte i = 0; i < 3; i++) {
 				storage.putByte("Portal" + i + "N", instance.getPortalCoords(i).getPID());
@@ -161,6 +161,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				//System.out.println("Read: " + driveFormName);
 				instance.getDriveFormMap().put(driveFormName.toString(), storage.getCompound("drive_forms").getIntArray(driveFormName));
 			}
+
+
 			
 			Iterator<String> abilitiesIt = storage.getCompound("abilities").keySet().iterator();
 			while (abilitiesIt.hasNext()) {
@@ -168,6 +170,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				//System.out.println("Read: " + abilityName);
 				instance.getAbilityMap().put(abilityName.toString(), storage.getCompound("abilities").getIntArray(abilityName));
 			}
+
+			CompoundNBT keychainsNBT = storage.getCompound("keychains");
+			keychainsNBT.keySet().forEach((chain) -> instance.setNewKeychain(new ResourceLocation(chain), ItemStack.read(keychainsNBT.getCompound(chain))));
 
 			for (byte i = 0; i < 3; i++) {
 				instance.setPortalCoords(i, new PortalData(storage.getByte("Portal" + i + "N"), storage.getDouble("Portal" + i + "X"), storage.getDouble("Portal" + i + "Y"), storage.getDouble("Portal" + i + "Z"), storage.getInt("Portal" + i + "D")));
@@ -189,24 +194,26 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
-	private String driveForm = "";
-	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<String, int[]>(); //Key = name, value=  {level, experience}
-	List<String> magicList = new ArrayList<String>();
-	List<String> recipeList = new ArrayList<String>();
-	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<String, int[]>(); //Key = name, value = {level, equipped},
-    private TreeMap<String, Integer> materials = new TreeMap<String, Integer>();
+	private String driveForm = DriveForm.NONE.toString();
+	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
+	List<String> magicList = new ArrayList<>();
+	List<String> recipeList = new ArrayList<>();
+	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
+    private TreeMap<String, Integer> materials = new TreeMap<>();
 
 
-	List<String> partyList = new ArrayList<String>();
+	List<String> partyList = new ArrayList<>();
 
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 300, fp = 0;
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
-	private List<String> messages = new ArrayList<String>();
-	private List<String> dfMessages = new ArrayList<String>();
+	private List<String> messages = new ArrayList<>();
+	private List<String> dfMessages = new ArrayList<>();
 
 	private PortalData[] orgPortalCoords = { new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0) };
+
+	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 
 	@Override
 	public int getLevel() {
@@ -988,7 +995,58 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 		}
 	}
-	
+
+	@Override
+	public Map<ResourceLocation, ItemStack> getEquippedKeychains() {
+		return equippedKeychains;
+	}
+
+	@Override
+	public ItemStack equipKeychain(ResourceLocation form, ItemStack stack) {
+		//Keychain can be empty stack to unequip
+		if (canEquipKeychain(form, stack)) {
+			ItemStack previous = getEquippedKeychain(form);
+			equippedKeychains.put(form, stack);
+			return previous;
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack getEquippedKeychain(ResourceLocation form) {
+		if (equippedKeychains.containsKey(form)) {
+			return equippedKeychains.get(form);
+		}
+		return null;
+	}
+
+	@Override
+	public void equipAllKeychains(Map<ResourceLocation, ItemStack> keychains) {
+		//Any keychains that cannot be equipped will be removed
+		keychains.replaceAll((k,v) -> canEquipKeychain(k,v) ? v : ItemStack.EMPTY);
+		equippedKeychains = keychains;
+	}
+
+	@Override
+	public boolean canEquipKeychain(ResourceLocation form, ItemStack stack) {
+		if (getEquippedKeychain(form) != null) {
+			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) | stack.getItem() instanceof IKeychain) {
+				//If there is more than 1 item in the stack don't handle it
+				if (stack.getCount() <= 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void setNewKeychain(ResourceLocation form, ItemStack stack) {
+		if (!equippedKeychains.containsKey(form)) {
+			equippedKeychains.put(form, stack);
+		}
+	}
+
 	@Override
     public void displayDriveFormLevelUpMessage(PlayerEntity player, String driveForm) { 
      	this.getMessages().clear();

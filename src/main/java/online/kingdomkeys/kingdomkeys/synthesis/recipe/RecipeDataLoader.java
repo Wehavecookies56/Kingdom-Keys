@@ -56,9 +56,6 @@ public class RecipeDataLoader extends JsonReloadListener {
         KingdomKeys.LOGGER.info("Loading recipe data");
         loadData(resourceManagerIn);
         PacketHandler.sendToAllPlayers(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()));
-        objectIn.forEach((loc, json)-> {
-            KingdomKeys.LOGGER.info("File: {}", loc);
-        });
     }
 
     public void loadData(IResourceManager manager) {

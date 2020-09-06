@@ -35,6 +35,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
@@ -42,7 +44,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 
-public class KeybladeItem extends SwordItem {
+public class KeybladeItem extends SwordItem implements IItemCategory {
 
 	// Level 0 = no upgrades, will use base stats in the data file
 	public KeybladeData data;
@@ -184,6 +186,18 @@ public class KeybladeItem extends SwordItem {
 				}
 			}
 		}
+		if (flagIn.isAdvanced()) {
+			if (stack.getTag() != null) {
+				if (stack.getTag().hasUniqueId("keybladeID")) {
+					tooltip.add(new TranslationTextComponent(TextFormatting.RED + "DEBUG:"));
+					tooltip.add(new TranslationTextComponent(TextFormatting.WHITE + stack.getTag().getUniqueId("keybladeID").toString()));
+				}
+			}
+		}
 	}
 
+	@Override
+	public ItemCategory getCategory() {
+		return ItemCategory.TOOL;
+	}
 }

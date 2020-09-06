@@ -70,7 +70,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
                     break;
             }
         });
-        KingdomKeys.LOGGER.info("OUTPUT: {}, TYPE {}, QUANTITY: {}, INGREDIENTS: {}", out.result, out.type, out.amount, out.materials);
+        //KingdomKeys.LOGGER.info("OUTPUT: {}, TYPE {}, QUANTITY: {}, INGREDIENTS: {}", out.result, out.type, out.amount, out.materials);
         return out;
     }
 }

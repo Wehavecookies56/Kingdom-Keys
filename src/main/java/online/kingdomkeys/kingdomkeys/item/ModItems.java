@@ -24,7 +24,6 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
 
 public class ModItems {
 

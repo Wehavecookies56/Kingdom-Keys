@@ -14,40 +14,8 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.network.cts.CSAntiPointsPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
-import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyInvite;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseKeyblade;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
-import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityToAllPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthBagToClientPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.cts.*;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 
 public class PacketHandler {
 	private static final String PROTOCOL_VERSION = Integer.toString(1);
@@ -71,6 +39,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncOrganizationData.class, SCSyncOrganizationData::encode, SCSyncOrganizationData::decode, SCSyncOrganizationData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncSynthesisData.class, SCSyncSynthesisData::encode, SCSyncSynthesisData::decode, SCSyncSynthesisData::handle);
 		HANDLER.registerMessage(packetID++, SCOpenSynthesisGui.class, SCOpenSynthesisGui::encode, SCOpenSynthesisGui::decode, SCOpenSynthesisGui::handle);
+		HANDLER.registerMessage(packetID++, SCOpenEquipmentScreen.class, SCOpenEquipmentScreen::encode, SCOpenEquipmentScreen::decode, SCOpenEquipmentScreen::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
@@ -94,6 +63,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSynthesiseKeyblade.class, CSSynthesiseKeyblade::encode, CSSynthesiseKeyblade::decode, CSSynthesiseKeyblade::handle);
 		HANDLER.registerMessage(packetID++, CSLevelUpKeybladePacket.class, CSLevelUpKeybladePacket::encode, CSLevelUpKeybladePacket::decode, CSLevelUpKeybladePacket::handle);
 		HANDLER.registerMessage(packetID++, CSSummonKeyblade.class, CSSummonKeyblade::encode, CSSummonKeyblade::decode, CSSummonKeyblade::handle);
+		HANDLER.registerMessage(packetID++, CSEquipKeychain.class, CSEquipKeychain::encode, CSEquipKeychain::decode, CSEquipKeychain::handle);
+
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

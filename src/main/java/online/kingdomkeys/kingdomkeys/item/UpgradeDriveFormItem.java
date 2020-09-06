@@ -54,7 +54,8 @@ public class UpgradeDriveFormItem extends Item {
 
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
-					player.sendMessage(new TranslationTextComponent("Unlocked " + formName.substring(formName.indexOf(":") + 1)));
+					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
+					player.sendMessage(new TranslationTextComponent("message.form_unlocked", ModDriveForms.registry.getValue(new ResourceLocation(formName)).getTranslationKey()));
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 			}

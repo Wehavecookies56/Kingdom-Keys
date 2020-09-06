@@ -2,32 +2,30 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
 
-public class GuiMenu_Party_Create extends GuiMenu_Background {
+public class GuiMenu_Party_Create extends MenuBackground {
 
 	boolean priv = false;
 	byte pSize = Party.PARTY_LIMIT;
 	
 	TextFieldWidget tfName;
 	Button togglePriv, accept, size;
-	GuiMenuButton back;
+	MenuButton back;
 		
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
@@ -86,8 +84,6 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 	@Override
 	public void init() {
 		//TODO request packet to sync other players data
-		super.width = width;
-		super.height = height;
 		super.init();
 		this.buttons.clear();
 		
@@ -101,7 +97,7 @@ public class GuiMenu_Party_Create extends GuiMenu_Background {
 
 		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, "", (e) -> { action("togglePriv"); }));
 		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 100, 20, Utils.translateToLocal(Strings.Gui_Menu_Accept), (e) -> { action("accept"); }));
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20, Party.PARTY_LIMIT+"", (e) -> { action("size"); }));
 		
 		addButton(tfName = new TextFieldWidget(minecraft.fontRenderer, (int)(width*0.25), (int)(height*0.25), 100, 15, ""));

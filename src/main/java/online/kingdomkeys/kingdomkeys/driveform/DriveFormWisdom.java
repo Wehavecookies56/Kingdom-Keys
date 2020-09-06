@@ -18,8 +18,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormWisdom extends DriveForm {
 
-	public DriveFormWisdom(String registryName, int order) {
-		super(registryName, order);
+	public DriveFormWisdom(String registryName, int order, boolean hasKeychain) {
+		super(registryName, order, hasKeychain);
 		this.driveCost = 300;
 		this.ap = 1;
 		this.levelUpCosts = new int[] { 0, 20, 80, 152, 242, 350, 500 };

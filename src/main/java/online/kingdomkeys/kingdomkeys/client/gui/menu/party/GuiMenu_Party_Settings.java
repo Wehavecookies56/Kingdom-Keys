@@ -2,30 +2,28 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
 
-public class GuiMenu_Party_Settings extends GuiMenu_Background {
+public class GuiMenu_Party_Settings extends MenuBackground {
 
 	boolean priv = false;
 	byte pSize = Party.PARTY_LIMIT;
 	
 	Button togglePriv, accept, size;
-	GuiMenuButton back;
+	MenuButton back;
 		
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
@@ -104,7 +102,7 @@ public class GuiMenu_Party_Settings extends GuiMenu_Background {
 		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, pSize+"", (e) -> { action("size"); }));
 		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), (int) 130, 20, Utils.translateToLocal(Strings.Gui_Menu_Accept), (e) -> { action("accept"); }));
 		//addButton(cancel = new Button((int) buttonPosX, button_statsY + (6 * 18), (int) buttonWidth, 20, Utils.translateToLocal("Cancel"), (e) -> { action("cancel"); }));
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}

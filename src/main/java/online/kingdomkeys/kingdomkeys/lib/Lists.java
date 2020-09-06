@@ -1,8 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.RegistryObject;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

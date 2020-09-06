@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
+import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

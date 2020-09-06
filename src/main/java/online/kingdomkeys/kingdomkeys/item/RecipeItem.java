@@ -13,21 +13,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
-public class RecipeItem extends Item {
+public class RecipeItem extends Item implements IItemCategory {
 
 	public RecipeItem(Properties properties) {
 		super(properties);
@@ -127,5 +126,10 @@ public class RecipeItem extends Item {
 			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe2)));
 			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe3)));
 		}
+	}
+
+	@Override
+	public ItemCategory getCategory() {
+		return ItemCategory.MISC;
 	}
 }

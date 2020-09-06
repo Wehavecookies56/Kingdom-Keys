@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,9 +22,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
-public class KeychainItem extends SwordItem {
+public class KeychainItem extends SwordItem implements IKeychain, IItemCategory {
 
 	KeybladeItem keyblade;
 	
@@ -37,6 +42,22 @@ public class KeychainItem extends SwordItem {
     public KeybladeItem getKeyblade() {
     	return this.keyblade;
     }
+
+	@Override
+	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if (stack.getTag() != null) {
+			if (!stack.getTag().hasUniqueId("keybladeID"))
+				stack.setTag(setID(stack.getTag()));
+		} else {
+			stack.setTag(setID(new CompoundNBT()));
+		}
+    	super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+	}
+
+	public CompoundNBT setID(CompoundNBT nbt) {
+		nbt.putUniqueId("keybladeID", UUID.randomUUID());
+		return nbt;
+	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
@@ -75,5 +96,23 @@ public class KeychainItem extends SwordItem {
 			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,1, stack)+"]"));
 			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getKeyblade().getDescription()));
 		}
+		if (flagIn.isAdvanced()) {
+			if (stack.getTag() != null) {
+				if (stack.getTag().hasUniqueId("keybladeID")) {
+					tooltip.add(new TranslationTextComponent(TextFormatting.RED + "DEBUG:"));
+					tooltip.add(new TranslationTextComponent(TextFormatting.WHITE + stack.getTag().getUniqueId("keybladeID").toString()));
+				}
+			}
+		}
+    }
+
+	@Override
+	public KeybladeItem toSummon() {
+		return keyblade;
+	}
+
+	@Override
+	public ItemCategory getCategory() {
+		return ItemCategory.TOOL;
 	}
 }

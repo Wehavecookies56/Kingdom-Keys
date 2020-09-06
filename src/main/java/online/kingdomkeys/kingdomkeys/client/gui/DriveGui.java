@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -16,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
 public class DriveGui extends Screen {
@@ -74,7 +75,7 @@ public class DriveGui extends Screen {
 
 			currDrive = (float) ((oneValue * dp) - getCurrBar(dp, (int) playerData.getMaxDP() / 100) * guiLength);
 			
-			if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm() != null && !playerData.getActiveDriveForm().equals("")) {
+			if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm() != null && !playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {//Antiform FP calculation
 					currForm = (float) ((oneValue * fp) - getCurrBar(fp, 1000) * guiLength);
 				} else {
@@ -127,7 +128,7 @@ public class DriveGui extends Screen {
 						GL11.glTranslatef((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
 
-						if (playerData.getActiveDriveForm().equals("")) {
+						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 							this.blit(15, 6, 0, 0, guiWidth, guiHeight);
 						} else {
 							this.blit(15, 6, 98, 0, guiWidth, guiHeight);
@@ -140,7 +141,7 @@ public class DriveGui extends Screen {
 					{
 						GL11.glTranslatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
-						if (playerData.getActiveDriveForm().equals("")) {
+						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 							this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
 						} else {
 							this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
@@ -154,14 +155,14 @@ public class DriveGui extends Screen {
 						GL11.glTranslatef((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 						GL11.glScalef(scale, scale, scale);
 
-						int numPos = playerData.getActiveDriveForm().equals("") ? getCurrBar(dp, (int) playerData.getMaxDP() / 100) * 10 : 99 + getCurrBar(fp,Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2)*10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
+						int numPos = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? getCurrBar(dp, (int) playerData.getMaxDP() / 100) * 10 : 99 + getCurrBar(fp,Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2)*10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
 						// int numPos = getCurrBar(dp, 9) * 10;
 						this.blit(14, 6, numPos, 38, 8, guiHeight);
 					}
 					GL11.glPopMatrix();
 
 					// MAX Icon
-					if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals("")) {
+					if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 						GL11.glPushMatrix();
 						{
 							if (doChange) {

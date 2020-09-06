@@ -88,6 +88,7 @@ public class ProxyClient implements IProxy {
         RenderTypeLookup.setRenderLayer(ModBlocks.kkChest.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
         
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));

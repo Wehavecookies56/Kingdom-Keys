@@ -13,21 +13,21 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 
-public class GuiMenu_Party_Leader extends GuiMenu_Background {
+public class GuiMenu_Party_Leader extends MenuBackground {
 	
-	GuiMenuButton back, invite, settings, kick, disband;
+	MenuButton back, invite, settings, kick, disband;
 		
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
@@ -91,11 +91,11 @@ public class GuiMenu_Party_Leader extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(invite = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Invite), ButtonType.BUTTON, (e) -> { action("invite"); }));
-		addButton(settings = new GuiMenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Settings), ButtonType.BUTTON, (e) -> { action("settings"); }));
-		addButton(kick = new GuiMenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Kick), ButtonType.BUTTON, (e) -> { action("kick"); }));
-		addButton(disband = new GuiMenuButton((int) buttonPosX, button_statsY + (3 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Disband), ButtonType.BUTTON, (e) -> { action("disband"); }));
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (4 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(invite = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Invite), ButtonType.BUTTON, (e) -> { action("invite"); }));
+		addButton(settings = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Settings), ButtonType.BUTTON, (e) -> { action("settings"); }));
+		addButton(kick = new MenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Kick), ButtonType.BUTTON, (e) -> { action("kick"); }));
+		addButton(disband = new MenuButton((int) buttonPosX, button_statsY + (3 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Disband), ButtonType.BUTTON, (e) -> { action("disband"); }));
+		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (4 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}

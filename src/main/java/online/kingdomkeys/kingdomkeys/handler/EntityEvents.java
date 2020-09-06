@@ -53,7 +53,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
@@ -65,7 +65,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
-import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
+import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 
@@ -103,6 +103,24 @@ public class EntityEvents {
 				}
 				System.out.println(playerData.getKnownRecipeList());
 
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) {
+					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
+				}
+				//Fills the map with empty stacks for every form that requires one.
+				playerData.getDriveFormMap().keySet().forEach(key -> {
+					//Make sure the form exists
+					if (ModDriveForms.registry.containsKey(new ResourceLocation(key))) {
+						//Check if it requires a slot
+						if (ModDriveForms.registry.getValue(new ResourceLocation(key)).hasKeychain()) {
+							//Check if the player has form
+							if (playerData.getDriveFormMap().containsKey(key)) {
+								if (!playerData.getEquippedKeychains().containsKey(new ResourceLocation(key))) {
+									playerData.setNewKeychain(new ResourceLocation(key), ItemStack.EMPTY);
+								}
+							}
+						}
+					}
+				});
 				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);
@@ -141,13 +159,13 @@ public class EntityEvents {
 				if (playerData.getFP() > 0) {
 					playerData.setFP(playerData.getFP() - 0.3);
 				} else {
-					playerData.setActiveDriveForm("");
+					playerData.setActiveDriveForm(DriveForm.NONE.toString());
 					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					if(!event.player.world.isRemote) {
 						PacketHandler.syncToAllAround(event.player, playerData);
 					}
 				}
-			} else if (!playerData.getActiveDriveForm().equals("")) {
+			} else if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 				ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).updateDrive(event.player);
 			}
 		
@@ -164,7 +182,7 @@ public class EntityEvents {
 				//PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
 
 			} else { // Not on recharge
-				if (playerData.getMP() <= 0) {
+				if (playerData.getMP() <= 0 && playerData.getMaxMP() > 0) {
 					playerData.setRecharge(true);
 					if(!event.player.world.isRemote) {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
@@ -269,10 +287,10 @@ public class EntityEvents {
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
 					//handleDodgeRoll(player, playerData);
 				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals("") && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
 					handleAerialDodge(player, playerData);
 				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals("") && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
 					handleGlide(player, playerData);
 				}
 
@@ -361,7 +379,7 @@ public class EntityEvents {
             		//System.out.println(playerData.getDriveFormMap() != null);
             		if(playerData.getActiveDriveForm() != null) {
             			//System.out.println(playerData.getDriveFormLevel(Strings.Form_Valor));
-            			int jumpLevel = playerData.getActiveDriveForm().equals("") ? playerData.getDriveFormLevel(Strings.Form_Valor)-2 : playerData.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
+            			int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Valor)-2 : playerData.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
 	            		player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
             		}
 	            }
@@ -376,7 +394,7 @@ public class EntityEvents {
 			return true;
 		}
 
-		if(playerData.getActiveDriveForm().equals("")
+		if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())
 				&& (playerData.getDriveFormMap().containsKey(Strings.Form_Valor)
 				&& playerData.getDriveFormLevel(Strings.Form_Valor) >= 3
 				&& playerData.getEquippedAbilityLevel(Strings.highJump) != null
@@ -397,7 +415,7 @@ public class EntityEvents {
 						if (!playerData.hasJumpedAerialDodge()) {
 							playerData.setHasJumpedAerialDodge(true);
 							player.jump();
-							int jumpLevel = playerData.getActiveDriveForm().equals("") ? playerData.getDriveFormLevel(Strings.Form_Master)-2 : playerData.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
+							int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Master)-2 : playerData.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
 							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
 							player.setMotion(player.getMotion().mul(new Vec3d(boost, boost, boost)));
 							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));
@@ -436,7 +454,7 @@ public class EntityEvents {
 		}
 
 		if (playerData.getIsGliding()) {
-			int glideLevel = playerData.getActiveDriveForm().equals("") ? playerData.getDriveFormLevel(Strings.Form_Final)-2 : playerData.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
+			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final)-2 : playerData.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			Vec3d motion = player.getMotion();
 			player.setMotion(motion.x, glide, motion.z);
@@ -612,7 +630,7 @@ public class EntityEvents {
 			}
 			
 			if(event.getEntity() instanceof MoogleEntity && event.getSource() == DamageSource.ANVIL) {
-				ItemEntity ie = new ItemEntity(event.getEntity().world, event.getEntity().getPosX(), event.getEntity().getPosY(), event.getEntity().getPosZ(), new ItemStack(ModBlocks.synthesisTable.get()));
+				ItemEntity ie = new ItemEntity(event.getEntity().world, event.getEntity().getPosX(), event.getEntity().getPosY(), event.getEntity().getPosZ(), new ItemStack(ModBlocks.moogleProjector.get()));
 				event.getEntity().world.addEntity(ie);
 			}
 		}
@@ -650,6 +668,8 @@ public class EntityEvents {
 			
 			newPlayerData.setKnownRecipeList(oldPlayerData.getKnownRecipeList());
 			newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
+
+			newPlayerData.equipAllKeychains(oldPlayerData.getEquippedKeychains());
 			
 			nPlayer.setHealth(oldPlayerData.getMaxHP());
 			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());

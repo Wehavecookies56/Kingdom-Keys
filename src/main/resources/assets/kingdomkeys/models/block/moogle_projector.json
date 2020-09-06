@@ -1,0 +1,13 @@
+{
+	"parent": "forge:block/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/block/moogle_projector.obj",
+	"transform":{
+		"translation": [ 0, 0.01, 1 ],
+		"scale": [ 1, 1, 1 ]
+	},
+	"textures": {
+	},
+	"visibility": {
+	}
+}

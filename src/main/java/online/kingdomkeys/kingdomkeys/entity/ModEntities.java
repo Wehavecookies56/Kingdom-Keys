@@ -18,9 +18,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.render.BlastBloxRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.PairBloxRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.TESRPedestal;
+import online.kingdomkeys.kingdomkeys.client.render.block.BlastBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.block.MoogleProjectorRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.block.PedestalRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DarkballRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.GigaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
@@ -41,12 +42,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.EntityThunderRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.EntityWaterRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.EntityChakramRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.EntityLanceRenderer;
-import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.KKChestTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.*;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
@@ -169,7 +165,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LANCE.get(), EntityLanceRenderer.FACTORY);
         
         
-        ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), TESRPedestal::new);
+        ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(TYPE_MOOGLE_PROJECTOR.get(), MoogleProjectorRenderer::new);
 
     }
 
@@ -180,4 +177,6 @@ public class ModEntities {
     public static final RegistryObject<TileEntityType<PedestalTileEntity>> TYPE_PEDESTAL = TILE_ENTITIES.register("pedestal", () -> TileEntityType.Builder.create(PedestalTileEntity::new, ModBlocks.pedestal.get()).build(null));
     public static final RegistryObject<TileEntityType<KKChestTileEntity>> TYPE_KKCHEST = TILE_ENTITIES.register("kk_chest", () -> TileEntityType.Builder.create(KKChestTileEntity::new, ModBlocks.kkChest.get()).build(null));
     public static final RegistryObject<TileEntityType<OrgPortalTileEntity>> TYPE_ORG_PORTAL_TE = TILE_ENTITIES.register("org_portal", () -> TileEntityType.Builder.create(OrgPortalTileEntity::new, ModBlocks.orgPortal.get()).build(null));
+    public static final RegistryObject<TileEntityType<MoogleProjectorTileEntity>> TYPE_MOOGLE_PROJECTOR = TILE_ENTITIES.register("moogle_projector", () -> TileEntityType.Builder.create(MoogleProjectorTileEntity::new, ModBlocks.moogleProjector.get()).build(null));
+
 }

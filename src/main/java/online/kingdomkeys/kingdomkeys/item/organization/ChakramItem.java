@@ -6,7 +6,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ChakramItem extends OrgWeaponItem implements IOrgWeapon {
    

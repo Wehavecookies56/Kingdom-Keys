@@ -20,14 +20,14 @@
 	"gui.menu.main.time": "World Time",
 	"gui.menu.main.time.spent": "Global Time",
 	
-	"gui.synthesis": "Sinthesiser",
-	"gui.synthesis.synthesise": "Synthesise",
+	"gui.synthesis": "Item Workshop",
+	"gui.synthesis.synthesise": "Synthesise Items",
 	"gui.synthesis.synthesise.keyblades": "Keyblades",
 	"gui.synthesis.synthesise.keyblades.create": "Create",
 	"gui.synthesis.synthesise.keyblades.upgrade": "Upgrade",
 	"gui.synthesis.synthesise.items": "Items",
 	"gui.synthesis.forge": "Keyblade Forge",
-	"gui.synthesis.materials": "Materials",
+	"gui.synthesis.materials": "Material List",
 	"gui.synthesis.materials.deposit": "Deposit",
 
 	"gui.menu.party": "Party",
@@ -166,11 +166,11 @@
     "magic_stop": "Stop",
     
     "_comment": "Drive Forms",
-	"form_valor": "Valor",
-	"form_wisdom": "Wisdom",
-	"form_limit": "Limit",
-	"form_master": "Master",
-	"form_final": "Final",
+	"form.form_valor.name": "Valor",
+	"form.form_wisdom.name": "Wisdom",
+	"form.form_limit.name": "Limit",
+	"form.form_master.name": "Master",
+	"form.form_final.name": "Final",
 
     "_comment": "Items",
 	"item.kingdomkeys.recipe": "Recipe",
@@ -907,6 +907,5 @@
     "message.magnet_blox.attract": "Attract Mode",
     "message.magnet_blox.repel": "Repel Mode",
     "message.magnet_blox.range": "Range is now: %s",
-
-	"<--": "heh"
+	"message.form_unlocked": "Unlocked %s"
 }

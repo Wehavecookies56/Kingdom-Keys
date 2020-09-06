@@ -12,6 +12,7 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -34,7 +35,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 	@Override
 	void onPickup(PlayerEntity player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		if(playerData.getActiveDriveForm().equals(""))
+		if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()))
 			playerData.addDP(value);
 		else {
 			playerData.addFP(value);

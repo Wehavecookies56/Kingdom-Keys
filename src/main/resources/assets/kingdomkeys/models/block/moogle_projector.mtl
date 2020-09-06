@@ -1,0 +1,12 @@
+# Blender MTL File: 'None'
+# Material Count: 2
+
+newmtl Material.001
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+map_Kd kingdomkeys:block/moogle_projector.png
+
+newmtl Material.002
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+map_Kd kingdomkeys:block/moogle_projector.png

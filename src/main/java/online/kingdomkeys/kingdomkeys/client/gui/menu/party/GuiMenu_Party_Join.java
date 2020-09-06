@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,27 +9,27 @@ import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenu_Background;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.GuiMenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 
-public class GuiMenu_Party_Join extends GuiMenu_Background {
+public class GuiMenu_Party_Join extends MenuBackground {
 
 	boolean priv = false;
 	byte pSize = Party.PARTY_LIMIT;
 	
-	GuiMenuButton back;
+	MenuButton back;
 		
 	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	
-	GuiMenuButton[] parties = new GuiMenuButton[100];
+	MenuButton[] parties = new MenuButton[100];
 	
 	public GuiMenu_Party_Join() {
 		super(Strings.Gui_Menu_Party_Join, new Color(0,0,255));
@@ -95,7 +94,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		for(j = 0;j<privateParties.size();j++) {
 			Party p = worldData.getPartyFromName(privateParties.get(j));
 			if(p != null)
-				addButton(parties[j] = new GuiMenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+				addButton(parties[j] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
 		}
 		//Show the buttons to join public parties
 		List<Party> partiesList = worldData.getParties();
@@ -103,7 +102,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
 				Party p = partiesList.get(i);
 				if(!privateParties.contains(p.getName())){//TODO test this xD
-					addButton(parties[i+j] = new GuiMenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+					addButton(parties[i+j] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
 				}
 			}
 		}
@@ -122,7 +121,7 @@ public class GuiMenu_Party_Join extends GuiMenu_Background {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(back = new GuiMenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}

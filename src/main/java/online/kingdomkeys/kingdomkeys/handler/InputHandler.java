@@ -41,8 +41,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
-import online.kingdomkeys.kingdomkeys.magic.ModMagics;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
@@ -301,7 +301,7 @@ public class InputHandler {
 
             case CommandMenuGui.DRIVE: //Accessing DRIVE submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                	if(playerData.getActiveDriveForm().equals("")) {//DRIVE
+                	if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {//DRIVE
                         //System.out.println("drive submenu");
                         if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
                         	
@@ -318,7 +318,7 @@ public class InputHandler {
                 		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
                 			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 		} else {
-		                	PacketHandler.sendToServer(new CSSetDriveFormPacket(""));
+		                	PacketHandler.sendToServer(new CSSetDriveFormPacket(DriveForm.NONE.toString()));
 		            		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 		}
                 	}
@@ -402,14 +402,14 @@ public class InputHandler {
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;*/
 				String magic = magicsList.get(CommandMenuGui.magicSelected);
-				int cost = ModMagics.registry.getValue(new ResourceLocation(magic)).getCost();
+				int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost();
 
             	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             	} else {
-            		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagics.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
+            		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagic.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
             			Party party = worldData.getPartyFromMember(player.getUniqueID());
                         CommandMenuGui.targetSelected = party.getMemberOrder(player.getUniqueID());
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
@@ -589,11 +589,7 @@ public class InputHandler {
                     break;
              
                 case SUMMON_KEYBLADE:
-                    //if (!player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive())
-                     //   Utils.summonWeapon(player, EnumHand.MAIN_HAND, 0);
-                	if(player.getHeldItemMainhand() != null && (player.getHeldItemMainhand().getItem() instanceof KeychainItem || player.getHeldItemMainhand().getItem() instanceof KeybladeItem)) {
-                		PacketHandler.sendToServer(new CSSummonKeyblade());
-                	}
+                	PacketHandler.sendToServer(new CSSummonKeyblade());
                     break;/*
                 case SCROLL_ACTIVATOR:
                     break;

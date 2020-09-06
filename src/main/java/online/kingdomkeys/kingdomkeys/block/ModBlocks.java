@@ -65,7 +65,7 @@ public class ModBlocks {
        		//mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new KKGlassBlock(Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F))),
             station_of_awakening = createNewBlock("station_of_awakening", Block.Properties.create(Material.GLASS).hardnessAndResistance(1.0F, 10.0F), null),
             orgPortal = createNewBlock("org_portal", () -> new OrgPortalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
-            synthesisTable = createNewBlock("synthesis_table", () -> new SynthesisTableBlock(Block.Properties.create(Material.IRON).harvestLevel(0).hardnessAndResistance(2F,1F)))
+            moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.create(Material.IRON).lightValue(6).notSolid().harvestLevel(0).hardnessAndResistance(2F,1F)))
             ;
 
     /**

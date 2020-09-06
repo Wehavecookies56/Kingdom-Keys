@@ -1,17 +1,14 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -39,12 +36,13 @@ public class SCSyncCapabilityPacket {
 	
     PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
 
-    List<String> recipeList = new ArrayList<String>();
-    List<String> magicList = new ArrayList<String>();
-	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<String,int[]>();
-	LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<String,int[]>();
-	List<String> partyList = new ArrayList<String>(10);
-	TreeMap<String, Integer> materialMap = new TreeMap<String,Integer>();
+    List<String> recipeList = new ArrayList<>();
+    List<String> magicList = new ArrayList<>();
+	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
+	LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
+	List<String> partyList = new ArrayList<>(10);
+	TreeMap<String, Integer> materialMap = new TreeMap<>();
+	Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
 	
 	public SCSyncCapabilityPacket() {
 	}
@@ -80,6 +78,7 @@ public class SCSyncCapabilityPacket {
 		this.abilityMap = capability.getAbilityMap();
 		this.partyList = capability.getPartiesInvited();
 		this.materialMap = capability.getMaterialMap();
+		this.keychains = capability.getEquippedKeychains();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
@@ -145,7 +144,11 @@ public class SCSyncCapabilityPacket {
 			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(abilities);
-		
+
+		CompoundNBT keychains = new CompoundNBT();
+		this.keychains.forEach((key, value) -> keychains.put(key.toString(), value.serializeNBT()));
+		buffer.writeCompoundTag(keychains);
+
 		buffer.writeInt(partyList.size());
 		for(int i=0;i<partyList.size();i++) {
 			buffer.writeInt(this.partyList.get(i).length());
@@ -232,6 +235,9 @@ public class SCSyncCapabilityPacket {
 			String abilityName = (String) abilitiesIt.next();
 			msg.abilityMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
 		}
+
+		CompoundNBT keychainsNBT = buffer.readCompoundTag();
+		keychainsNBT.keySet().forEach(key -> msg.keychains.put(new ResourceLocation(key), ItemStack.read((CompoundNBT) keychainsNBT.get(key))));
 		
 		int amount = buffer.readInt();
 		msg.partyList = new ArrayList<String>();
@@ -298,6 +304,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setAntiPoints(message.antipoints);
 			playerData.setPartiesInvited(message.partyList);
 			playerData.setMaterialMap(message.materialMap);
+			playerData.equipAllKeychains(message.keychains);
 		});
 		ctx.get().setPacketHandled(true);
 	}

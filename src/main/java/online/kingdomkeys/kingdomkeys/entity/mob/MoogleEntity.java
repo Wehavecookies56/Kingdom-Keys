@@ -27,6 +27,8 @@ public class MoogleEntity extends CreatureEntity {
         super(type, worldIn);
     }
 
+    private boolean fakeMoogle = false;
+
     public MoogleEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(ModEntities.TYPE_MOOGLE.get(), world);
     }
@@ -66,5 +68,13 @@ public class MoogleEntity extends CreatureEntity {
     @Override
     public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
     	return true;
+    }
+
+    public boolean isFakeMoogle() {
+        return fakeMoogle;
+    }
+
+    public void setFakeMoogle(boolean fake) {
+        this.fakeMoogle = fake;
     }
 }

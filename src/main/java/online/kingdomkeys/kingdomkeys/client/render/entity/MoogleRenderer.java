@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -18,8 +20,17 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
     }
 
     @Override
+    public void render(MoogleEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+    }
+
+    @Override
     public ResourceLocation getEntityTexture(MoogleEntity entity) {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/moogle.png");
+        if (!entity.isFakeMoogle()) {
+            return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/moogle.png");
+        } else {
+            return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/fake_moogle.png");
+        }
     }
 
     public static class Factory implements IRenderFactory<MoogleEntity> {

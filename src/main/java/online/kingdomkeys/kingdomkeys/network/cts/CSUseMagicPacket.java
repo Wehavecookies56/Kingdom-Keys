@@ -9,8 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
-import online.kingdomkeys.kingdomkeys.magic.ModMagics;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -51,7 +51,7 @@ public class CSUseMagicPacket {
 			PlayerEntity player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
-					int cost = ModMagics.registry.getValue(new ResourceLocation(message.name)).getCost();
+					int cost = ModMagic.registry.getValue(new ResourceLocation(message.name)).getCost();
 					playerData.remMP(cost);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 					PlayerEntity targetEntity;
@@ -60,7 +60,7 @@ public class CSUseMagicPacket {
 					} else {
 						targetEntity = Utils.getPlayerByName(player.world, message.target);
 					}
-	            	ModMagics.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity);
+	            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity);
 				}
 				
 				PacketHandler.syncToAllAround(player, playerData);

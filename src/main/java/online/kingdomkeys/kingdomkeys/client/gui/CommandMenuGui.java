@@ -7,7 +7,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -17,13 +16,14 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
-import online.kingdomkeys.kingdomkeys.magic.ModMagics;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 
 //TODO cleanup
 public class CommandMenuGui extends Screen {
@@ -257,7 +257,7 @@ public class CommandMenuGui extends Screen {
 						}
 
 						String magic = playerData.getMagicList().get(i);
-						int cost = ModMagics.registry.getValue(new ResourceLocation(magic)).getCost();
+						int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost();
 						int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 						
 						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
@@ -450,7 +450,7 @@ public class CommandMenuGui extends Screen {
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
-				String text = playerData.getActiveDriveForm().equals("")?".drive":".revert";
+				String text = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())?".drive":".revert";
 				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) ? 0x888888 : 0xFFFFFF;
 				drawString(minecraft.fontRenderer, Utils.translateToLocal("gui.commandmenu"+text), 6 + textX, 4, getColor(color,SUB_MAIN));
 			}
@@ -528,7 +528,7 @@ public class CommandMenuGui extends Screen {
 			{
 				paintWithColorArray(driveMenuColor, alpha);
 				minecraft.textureManager.bindTexture(texture);
-				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (forms.size() + 1)), 0);
+				RenderSystem.translatef(10, (height - MENU_HEIGHT * scale * (forms.size())), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				blit(0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Drive_Title), 5, 4, 0xFFFFFF);
@@ -537,59 +537,62 @@ public class CommandMenuGui extends Screen {
 
 			for (int i = 0; i < forms.size(); i++) {
 				String formName = (String) forms.keySet().toArray()[i];
-				int cost = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getDriveCost();
-				int color = playerData.getDP() >= cost ? 0xFFFFFF : 0x888888;
-				formName = formName.substring(formName.indexOf(":") + 1);
-				
-				RenderSystem.pushMatrix();
-				{
-					RenderSystem.color4f(1F, 1F, 1F, alpha);
-					int u;
-					int v;
-					int x;
-					x = (driveSelected == i) ? 15 : 10;
-					v = (driveSelected == i) ? MENU_HEIGHT : 0;
+				if (!formName.equals(DriveForm.NONE.toString())) {
+					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(formName));
+					int cost = form.getDriveCost();
+					int color = playerData.getDP() >= cost ? 0xFFFFFF : 0x888888;
+					formName = form.getTranslationKey();
 
-					minecraft.textureManager.bindTexture(texture);
-					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
-					RenderSystem.scalef(scale, scale, scale);
+					RenderSystem.pushMatrix();
+					{
+						RenderSystem.color4f(1F, 1F, 1F, alpha);
+						int u;
+						int v;
+						int x;
+						x = (driveSelected == i) ? 15 : 10;
+						v = (driveSelected == i) ? MENU_HEIGHT : 0;
 
-					if (submenu == SUB_DRIVE) {
-						v = 0;
-						paintWithColorArray(driveMenuColor, alpha);
-						if (driveSelected == i) {
-							textX = 16;
+						minecraft.textureManager.bindTexture(texture);
+						RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
+						RenderSystem.scalef(scale, scale, scale);
 
-							// Draw slot
-							blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
+						if (submenu == SUB_DRIVE) {
+							v = 0;
+							paintWithColorArray(driveMenuColor, alpha);
+							if (driveSelected == i) {
+								textX = 16;
 
-							RenderSystem.color4f(1F, 1F, 1F, alpha);
+								// Draw slot
+								blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 
-							// Draw Icon
-							blit(60, 2, 140 + selected * iconWidth - iconWidth, 18, iconWidth, iconWidth);
+								RenderSystem.color4f(1F, 1F, 1F, alpha);
 
-						} else { // Not selected
-							textX = 10;
-							blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+								// Draw Icon
+								blit(60, 2, 140 + selected * iconWidth - iconWidth, 18, iconWidth, iconWidth);
+
+							} else { // Not selected
+								textX = 10;
+								blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
+							}
 						}
 					}
-				}
-				RenderSystem.popMatrix();
+					RenderSystem.popMatrix();
 
-				RenderSystem.pushMatrix();
-				{
-					RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
-					int x;
-					x = (driveSelected == i) ? 10 : 5;
-					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
-					RenderSystem.scalef(scale, scale, scale);
-					if (submenu == SUB_DRIVE) {						
-						drawString(minecraft.fontRenderer, Utils.translateToLocal(formName), textX, 4, color);
+					RenderSystem.pushMatrix();
+					{
+						RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
+						int x;
+						x = (driveSelected == i) ? 10 : 5;
+						RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
+						RenderSystem.scalef(scale, scale, scale);
+						if (submenu == SUB_DRIVE) {
+							drawString(minecraft.fontRenderer, Utils.translateToLocal(formName), textX, 4, color);
+						}
+						RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+
 					}
-					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-
+					RenderSystem.popMatrix();
 				}
-				RenderSystem.popMatrix();
 			}
 		}
 	}

@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.SlotItemHandler;
-import online.kingdomkeys.kingdomkeys.synthesis.material.SynthesisItem;
+import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 
 public class SynthesisBagSlot extends SlotItemHandler {
 

@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
@@ -107,7 +110,16 @@ public interface IPlayerCapabilities {
     int getDriveFormExp(String drive);
     void setDriveFormExp(PlayerEntity player, String drive, int exp);
 
-	
+    //Key: drive form registry key, Value: the keychain stack
+    Map<ResourceLocation, ItemStack> getEquippedKeychains();
+    //Return previously equipped ItemStack, returns null if the keychain was not equipped
+	ItemStack equipKeychain(ResourceLocation form, ItemStack stack);
+	//Returns null if the form does not exist in the map, does not return null if the slot is empty
+	ItemStack getEquippedKeychain(ResourceLocation form);
+	void equipAllKeychains(Map<ResourceLocation, ItemStack> keychains);
+	boolean canEquipKeychain(ResourceLocation form, ItemStack stack);
+	void setNewKeychain(ResourceLocation form, ItemStack stack);
+
 	List<String> getMagicList();
 	void setMagicList(List<String> list);
 	void addMagicToList(String magic);

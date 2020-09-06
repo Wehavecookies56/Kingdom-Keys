@@ -18,13 +18,15 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagInventory;
 import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
 
 import java.util.List;
 
-public class SynthesisBagItem extends Item {
+public class SynthesisBagItem extends Item implements IItemCategory {
 
 	public SynthesisBagItem(Properties properties) {
 		super(properties);
@@ -73,4 +75,8 @@ public class SynthesisBagItem extends Item {
 		return new SynthesisBagInventory();
 	}
 
+	@Override
+	public ItemCategory getCategory() {
+		return ItemCategory.TOOL;
+	}
 }

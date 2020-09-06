@@ -6,7 +6,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class LanceItem extends OrgWeaponItem implements IOrgWeapon {
    

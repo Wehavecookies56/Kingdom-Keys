@@ -29,11 +29,12 @@ public class ModDriveForms {
 		public static void registerDriveForms(RegistryEvent.Register<DriveForm> event) {
 			int order = 0;
 			event.getRegistry().registerAll(
-				new DriveFormValor(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor",order++), 
-				new DriveFormWisdom(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom",order++),
-				new DriveFormLimit(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit",order++),
-				new DriveFormMaster(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master",order++),
-				new DriveFormFinal(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final",order++)
+				new DriveFormNone(DriveForm.NONE.toString(), order++, true),
+				new DriveFormValor(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor",order++, true),
+				new DriveFormWisdom(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom",order++, false),
+				new DriveFormLimit(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit",order++, false),
+				new DriveFormMaster(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master",order++, true),
+				new DriveFormFinal(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final",order++, true)
 			);
 		}
 	}

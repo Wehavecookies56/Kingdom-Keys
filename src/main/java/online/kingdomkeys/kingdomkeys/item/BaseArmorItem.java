@@ -12,9 +12,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
-public class BaseArmorItem extends ArmorItem {
+public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
 	String type;
 	
@@ -54,4 +56,8 @@ public class BaseArmorItem extends ArmorItem {
 		return armorModel;
 	}
 
+	@Override
+	public ItemCategory getCategory() {
+		return ItemCategory.EQUIPMENT;
+	}
 }

@@ -1,7 +1,7 @@
 
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import online.kingdomkeys.kingdomkeys.lib.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CardItem extends OrgWeaponItem implements IOrgWeapon {
    
