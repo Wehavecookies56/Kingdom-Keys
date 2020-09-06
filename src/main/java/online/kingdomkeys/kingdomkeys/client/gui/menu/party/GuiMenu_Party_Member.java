@@ -48,7 +48,6 @@ public class GuiMenu_Party_Member extends MenuBackground {
 			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUniqueID()));
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			minecraft.displayGuiScreen(new GuiMenu_Party_None());
-			//party = null;
 			break;		
 		}
 		
@@ -74,7 +73,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(leave = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Leave"), ButtonType.BUTTON, (e) -> { action("leave"); }));
+		addButton(leave = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Member_Leave), ButtonType.BUTTON, (e) -> { action("leave"); }));
 		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
@@ -92,9 +91,6 @@ public class GuiMenu_Party_Member extends MenuBackground {
 			GuiHelper.openMenu();
 			updateButtons();
 		} else {
-			int buttonX = (int)(width*0.25);
-			
-			
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.scaled(1.5,1.5, 1);
@@ -129,16 +125,17 @@ public class GuiMenu_Party_Member extends MenuBackground {
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
 			}
 			RenderSystem.popMatrix();
+			int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
+			int infoBoxPosY = (int) (height * 0.54F);
+
 			RenderSystem.pushMatrix();
-			
+			{
 				RenderSystem.color3f(1, 1, 1);
 				RenderSystem.translatef(9, 1, 100);
 				RenderSystem.enableAlphaTest();
 				RenderSystem.enableBlend();
 				minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
-				int infoBoxPosY = (int) (height * 0.54F);
 				blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
 					blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
@@ -151,6 +148,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 				blit(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
 				RenderSystem.disableAlphaTest();
 				RenderSystem.disableBlend();
+			}
 			RenderSystem.popMatrix();
 			RenderSystem.pushMatrix();
 			{
@@ -166,9 +164,9 @@ public class GuiMenu_Party_Member extends MenuBackground {
 				if(player != null) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (playerData != null) {
-						drawString(minecraft.fontRenderer, "LV: " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-						drawString(minecraft.fontRenderer, "HP: " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
-						drawString(minecraft.fontRenderer, "MP: " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
 					}
 				}
 			}

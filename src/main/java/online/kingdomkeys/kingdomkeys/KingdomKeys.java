@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import online.kingdomkeys.kingdomkeys.worldgen.ModFeatures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -20,7 +21,6 @@ import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -31,11 +31,17 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.commands.KKDriveLevelCommand;
+import online.kingdomkeys.kingdomkeys.commands.KKLevelCommand;
+import online.kingdomkeys.kingdomkeys.commands.KKMaterialCommand;
+import online.kingdomkeys.kingdomkeys.commands.KKRecipeCommand;
+import online.kingdomkeys.kingdomkeys.commands.MunnyCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
@@ -54,6 +60,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.world.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.ModDimensions;
 import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
+import online.kingdomkeys.kingdomkeys.worldgen.ModFeatures;
 import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
 
 @Mod("kingdomkeys")
@@ -65,7 +72,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1";
+	public static final String MODVER = "2.2";
 	public static final String MCVER = "1.15.2";
 
 	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
@@ -140,7 +147,7 @@ public class KingdomKeys {
 		DeferredWorkQueue.runLater(() -> {
 			for(Biome b : ForgeRegistries.BIOMES){
 				if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0 && b.getCategory() != Category.OCEAN) {
-					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 4, 1, 1));
+					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
 				}
 			}
 		});
@@ -159,19 +166,19 @@ public class KingdomKeys {
 		List d = new ArrayList();
 		d.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),2)));
 		
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return v; }
 		});
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return d; }
 		});
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return sa; }
 		});
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/taiga/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/taiga/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return t; }
 		});
@@ -184,7 +191,20 @@ public class KingdomKeys {
 	@SubscribeEvent
 	public void onServerStarting(FMLServerAboutToStartEvent event) {
 		this.registerResourceLoader(event.getServer().getResourceManager());
+
 	}
+	
+	@SubscribeEvent
+	public void serverStarting(FMLServerStartingEvent event) {
+		CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
+
+		MunnyCommand.register(dispatcher);
+		KKRecipeCommand.register(dispatcher);
+		KKMaterialCommand.register(dispatcher);
+		KKLevelCommand.register(dispatcher);
+		KKDriveLevelCommand.register(dispatcher);
+	}
+
 
     public void oreGen(FMLLoadCompleteEvent event) {
         OreGen.generateOre();

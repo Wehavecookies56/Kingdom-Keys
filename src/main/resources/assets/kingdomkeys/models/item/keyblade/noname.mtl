@@ -1,7 +1,7 @@
 # Blender MTL File: 'None'
 # Material Count: 2
 
-newmtl Brush.071
+newmtl Brush.061
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -11,7 +11,7 @@ Ni 1.450000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/noname_2
 
-newmtl Brush.072
+newmtl Brush.062
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000

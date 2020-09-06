@@ -12,6 +12,7 @@ public class Lists {
 
     public static List<String> keybladeRecipes = new ArrayList<String>();
     public static List<String> itemRecipes = new ArrayList<String>();
+    public static List<String> allRecipes = new ArrayList<String>();
 
     public static List<Item> Xemnas = new ArrayList<Item>();
     public static List<Item> Xigbar = new ArrayList<Item>();
@@ -524,6 +525,9 @@ public class Lists {
         	if(recipes.indexOf("item."+keyblade) >= 0)
         		recipes.remove(recipes.indexOf("item."+keyblade));
         }*/
+        
+        allRecipes.addAll(keybladeRecipes);
+        allRecipes.addAll(itemRecipes);
     }
 
 }

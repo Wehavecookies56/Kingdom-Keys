@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -109,8 +108,9 @@ public interface IPlayerCapabilities {
 	void setDriveFormLevel(String name, int level);
     int getDriveFormExp(String drive);
     void setDriveFormExp(PlayerEntity player, String drive, int exp);
+	void addDriveFormExperience(String form, ServerPlayerEntity player, int driveExpNeeded);
 
-    //Key: drive form registry key, Value: the keychain stack
+	//Key: drive form registry key, Value: the keychain stack
     Map<ResourceLocation, ItemStack> getEquippedKeychains();
     //Return previously equipped ItemStack, returns null if the keychain was not equipped
 	ItemStack equipKeychain(ResourceLocation form, ItemStack stack);
@@ -130,7 +130,9 @@ public interface IPlayerCapabilities {
 	void addAbility(String ability);
 	int[] getEquippedAbilityLevel(String string); 
 	void addEquippedAbilityLevel(String ability, int level);
-	
+	boolean isAbilityEquipped(String string);
+	void clearAbilities();
+
 	int getAntiPoints();
 	void setAntiPoints(int points);
 	
@@ -142,7 +144,6 @@ public interface IPlayerCapabilities {
 	void setAerialDodgeTicks(int ticks);
 	boolean hasJumpedAerialDodge();
 	void setHasJumpedAerialDodge(boolean b);
-	
 	
 	List<PortalData> getPortalList();
 	void setPortalList(List<PortalData> list);
@@ -158,6 +159,8 @@ public interface IPlayerCapabilities {
     boolean hasKnownRecipe(String recipe);
     void setKnownRecipeList(List<String> list);
 	void addKnownRecipe(String recipe);
+	void removeKnownRecipe(String recipe);
+	void clearRecipes();
 	
 	TreeMap<String, Integer> getMaterialMap();
 	void setMaterialMap(TreeMap<String, Integer> materialsMap);
@@ -165,6 +168,5 @@ public interface IPlayerCapabilities {
 	void addMaterial(Material material, int amount);
 	void setMaterial(Material material, int amount);
 	void removeMaterial(Material material, int amount);
-	
-	
+	void clearMaterials();
 }

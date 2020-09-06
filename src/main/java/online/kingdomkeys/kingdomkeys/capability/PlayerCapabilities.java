@@ -192,7 +192,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxEXP = 1000000, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -238,18 +238,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void addExperience(PlayerEntity player, int exp) {
 		if (player != null) {
-			if (this.exp + exp <= this.maxEXP) {
+			if (this.level < 100) {
 				this.exp += exp;
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					this.setLevel(this.getLevel() + 1);
 					this.levelUpStatsAndDisplayMessage(player);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
 				}
-			} else {
-				this.exp = this.maxEXP;
 			}
-			// System.out.println(getExpNeeded(this.getLevel(), this.exp));
-
 			PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
 		}
 	}
@@ -1047,6 +1043,23 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
+	public void addDriveFormExperience(String drive, ServerPlayerEntity player, int value) {
+		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(drive));
+		int oldLevel = getDriveFormLevel(drive);
+		int driveLevel = form.getLevelFromExp(exp+value);
+		
+		if(driveLevel <= form.getMaxLevel()) {
+			driveForms.put(drive, new int[] {driveLevel, exp+value});
+			if(driveLevel > oldLevel) {
+				displayDriveFormLevelUpMessage(player, drive);
+				if(driveLevel == form.getMaxLevel()) {
+					setMaxDP(getMaxDP() + 100);
+				}
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity)player);
+			}
+		}
+	}
+	
 	@Override
     public void displayDriveFormLevelUpMessage(PlayerEntity player, String driveForm) { 
      	this.getMessages().clear();
@@ -1221,12 +1234,27 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		return new int[] {0,0};
 	}
+	
+
+	@Override
+	public boolean isAbilityEquipped(String string) {
+		if(abilityMap.containsKey(string)) {
+			return abilityMap.get(string)[1] > 0;
+		}
+		return false;
+	}
 
 	@Override
 	public void addEquippedAbilityLevel(String ability, int level) {
-		System.out.println(ability+": "+abilityMap.get(ability)[0]+" : "+(abilityMap.get(ability)[1]+level));
+		//System.out.println(ability+": "+abilityMap.get(ability)[0]+" : "+(abilityMap.get(ability)[1]+level));
 		abilityMap.put(ability, new int[] {abilityMap.get(ability)[0], abilityMap.get(ability)[1]+level});
 	}
+	
+	@Override
+	public void clearAbilities() {
+		this.abilityMap.clear();
+	}
+	
 
 	@Override
 	public List<String> getPartiesInvited() {
@@ -1267,6 +1295,18 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void addKnownRecipe(String recipe) {
 		this.recipeList.add(recipe);
+	}
+	
+	@Override
+	public void removeKnownRecipe(String recipe) {
+		if(this.recipeList.contains(recipe)) {
+			this.recipeList.remove(recipe);
+		}
+	}
+	
+	@Override
+	public void clearRecipes() {
+		this.recipeList.clear();
 	}
 	
 	 @Override
@@ -1331,4 +1371,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
          } else
              return;
      }
+
+	@Override
+	public void clearMaterials() {
+		this.materials.clear();
+	}
+	
 }

@@ -101,7 +101,7 @@ public class MagnetEntity extends ThrowableEntity {
 						double d1 = e.getPosZ() - getPosZ();
 						((LivingEntity) e).knockBack(e, 1, d, d1);
 						if (e.getPosY() < this.getPosY() - 0.5) {
-							e.setMotion(0, 0.5F, 0);
+							e.setMotion(e.getMotion().x, 0.5F, e.getMotion().z);
 						}
 					}
 				}

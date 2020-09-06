@@ -56,6 +56,11 @@ public class UpgradeDriveFormItem extends Item {
 					playerData.setDriveFormLevel(formName, 1);
 					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
 					player.sendMessage(new TranslationTextComponent("message.form_unlocked", ModDriveForms.registry.getValue(new ResourceLocation(formName)).getTranslationKey()));
+					if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
+						player.getHeldItemMainhand().shrink(1);
+					} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
+						player.getHeldItemOffhand().shrink(1);
+					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 			}
