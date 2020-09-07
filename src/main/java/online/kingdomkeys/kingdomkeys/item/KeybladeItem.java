@@ -119,6 +119,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
 				ItemStack formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
+				if (formChain == null) formChain = ItemStack.EMPTY;
 				UUID stackID = Utils.getID(stack);
 				if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY) && ItemStack.areItemStacksEqual(formChain, ItemStack.EMPTY)) {
 					UUID mainChainID = Utils.getID(mainChain);
@@ -127,6 +128,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 					if (formChainID == null) formChainID = new UUID(0, 0);
 					if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
 						//This is either not your keychain or from an inactive form, either way it should not be here
+						System.out.println("You have a stolen keychain or a keychain from a previous form");
 						player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
 					}
 				}
@@ -136,6 +138,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 						UUID id = Utils.getID(player.inventory.getStackInSlot(i));
 						if (id != null) {
 							if (id.equals(stackID)) {
+								System.out.println("You have a duplicate");
 								player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
 							}
 						}

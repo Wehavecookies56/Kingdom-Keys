@@ -12,7 +12,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
+import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEntity {
@@ -29,9 +31,16 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 		int actualRange = range;
 		for (int i = 0; i < range; i++) {
 			BlockState current = world.getBlockState(pos.offset(facing, i + 1));
-			if (current.isSolid() && current.getBlock() != Blocks.AIR) {
-				actualRange = i;
-				break;
+			if (current.getBlock() == ModBlocks.ghostBlox.get()) {
+				if (current.get(GhostBloxBlock.VISIBLE)) {
+					actualRange = i;
+					break;
+				}
+			} else {
+				if (current.isSolid() && current.getBlock() != Blocks.AIR) {
+					actualRange = i;
+					break;
+				}
 			}
 		}
 		return actualRange;

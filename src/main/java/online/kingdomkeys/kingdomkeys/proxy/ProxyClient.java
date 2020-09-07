@@ -84,7 +84,7 @@ public class ProxyClient implements IProxy {
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
-        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.kkChest.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());

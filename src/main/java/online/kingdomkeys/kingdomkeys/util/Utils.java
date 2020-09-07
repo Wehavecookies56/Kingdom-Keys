@@ -362,15 +362,17 @@ public class Utils {
 
 	//Returns the inv slot if summoned keychain is found
 	public static int findSummoned(PlayerInventory inv, ItemStack chain) {
-		for (int i = 0; i < inv.getSizeInventory(); i++) {
-			ItemStack slotStack = inv.getStackInSlot(i);
-			//Only check the tag for keyblades
-			if (slotStack.getItem() instanceof KeybladeItem) {
-				//Make sure it has a tag
-				if (hasID(slotStack)) {
-					//Compare the ID with the chain's
-					if (slotStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
-						return i;
+    	if (ItemStack.areItemStacksEqual(chain, ItemStack.EMPTY)) {
+			for (int i = 0; i < inv.getSizeInventory(); i++) {
+				ItemStack slotStack = inv.getStackInSlot(i);
+				//Only check the tag for keyblades
+				if (slotStack.getItem() instanceof KeybladeItem) {
+					//Make sure it has a tag
+					if (hasID(slotStack)) {
+						//Compare the ID with the chain's
+						if (slotStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
+							return i;
+						}
 					}
 				}
 			}
