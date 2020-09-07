@@ -82,6 +82,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
         float middleHeight = (float) height * 0.6F;
         boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
         boxR = new MenuBox((int) boxPosX + (int)boxWidth, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+        float filterPosX = width * 0.3525F;
+        float filterPosY = height * 0.023F;
+        filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
+        filterBar.init();
         initItems();
 
         //addButton(scrollBar = new MenuScrollBar());
@@ -96,12 +100,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
         inventory.clear();
         children.clear();
     	buttons.clear();
-    	
-        float filterPosX = width * 0.3525F;
-        float filterPosY = height * 0.023F;
 
-        filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
-        filterBar.init();
         filterBar.buttons.forEach(this::addButton);
 
         
@@ -126,40 +125,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
         }
         inventory.forEach(this::addButton);
     }
-
-    /**
-     * Returns wether the given item should be visible based on the selected filter
-     * @param item
-     * @return
-     */
-   /* public boolean filterItem(ItemStack item) {
-        if (ItemStack.areItemStacksEqual(item, ItemStack.EMPTY)) { //If no item
-            return false;
-        } else {//If there's item
-            if (filterBar.currentFilter == null) { //If the filter is null (ALL)
-                return true;
-            } else {//If there is a filter selected
-                if (item.getItem() instanceof IItemCategory) { //If the item has IItemCategory interface (mod items)
-                    if (filterBar.currentFilter == ((IItemCategory) (item.getItem())).getCategory()) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (ItemCategoryRegistry.hasCategory(item.getItem())) { //If it's not a mod item but still has category (like blocks, food)
-                    if (filterBar.currentFilter == ItemCategoryRegistry.getCategory(item.getItem())) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (filterBar.currentFilter == ItemCategory.MISC) { //If doesn't have anything it's probably because it's a misc (default value for unassigned categories)
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-    }*/
-
 	
 	
 	

@@ -45,7 +45,7 @@ public abstract class MenuFilterable extends MenuBackground {
 	public abstract void initItems();
     
     /**
-     * Returns wether the given item should be visible based on the selected filter
+     * Returns whether the given item should be visible based on the selected filter
      * @param item
      * @return
      */

@@ -79,7 +79,6 @@ public class MenuStockScreen extends MenuFilterable {
         filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
         filterBar.init();
         initItems();
-        filterBar.buttons.forEach(this::addButton);
         //addButton(scrollBar = new MenuScrollBar());
         super.init();
     }
@@ -90,6 +89,11 @@ public class MenuStockScreen extends MenuFilterable {
         float invPosX = (float) width * 0.1494F;
         float invPosY = (float) height * 0.1851F;
         inventory.clear();
+        buttons.clear();
+        children.clear();
+
+        filterBar.buttons.forEach(this::addButton);
+
         List<ItemStack> items = new ArrayList<>();
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             if (filterItem(player.inventory.getStackInSlot(i))) {
@@ -105,38 +109,6 @@ public class MenuStockScreen extends MenuFilterable {
                 inventory.add(new MenuStockItem(this, items.get(i + 1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),true));
             }
         }
-    }
-
-    /**
-     * Returns wether the given item should be visible based on the selected filter
-     * @param item
-     * @return
-     */
-    public boolean filterItem(ItemStack item) {
-        if (ItemStack.areItemStacksEqual(item, ItemStack.EMPTY)) { //If no item
-            return false;
-        } else {//If there's item
-            if (filterBar.currentFilter == null) { //If the filter is null (ALL)
-                return true;
-            } else {//If there is a filter selected
-                if (item.getItem() instanceof IItemCategory) { //If the item has IItemCategory interface (mod items)
-                    if (filterBar.currentFilter == ((IItemCategory) (item.getItem())).getCategory()) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (ItemCategoryRegistry.hasCategory(item.getItem())) { //If it's not a mod item but still has category (like blocks, food)
-                    if (filterBar.currentFilter == ItemCategoryRegistry.getCategory(item.getItem())) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (filterBar.currentFilter == ItemCategory.MISC) { //If doesn't have anything it's probably because it's a misc (default value for unassigned categories)
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
+        inventory.forEach(this::addButton);
     }
 }
