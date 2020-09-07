@@ -58,8 +58,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			storage.putInt("munny", instance.getMunny());
 			
 			CompoundNBT recipes = new CompoundNBT();
-			for (String recipe : instance.getKnownRecipeList()) {
-				recipes.putInt(recipe, 0);
+			for (ResourceLocation recipe : instance.getKnownRecipeList()) {
+				recipes.putString(recipe.toString(), recipe.toString());
 			}
 			storage.put("recipes", recipes);
 
@@ -145,7 +145,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			Iterator<String> recipesIt = storage.getCompound("recipes").keySet().iterator();
 			while (recipesIt.hasNext()) {
 				String key = (String) recipesIt.next();
-				instance.getKnownRecipeList().add(key.toString());
+				instance.getKnownRecipeList().add(new ResourceLocation(key));
 			}
 			
 			Iterator<String> magicIt = storage.getCompound("magics").keySet().iterator();
@@ -197,7 +197,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
 	List<String> magicList = new ArrayList<>();
-	List<String> recipeList = new ArrayList<>();
+	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<String, Integer> materials = new TreeMap<>();
 
@@ -1277,28 +1277,28 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public List<String> getKnownRecipeList() {
+	public List<ResourceLocation> getKnownRecipeList() {
 		Collections.sort(recipeList);
 		return recipeList;
 	}
 
 	@Override
-	public void setKnownRecipeList(List<String> list) {
+	public void setKnownRecipeList(List<ResourceLocation> list) {
 		this.recipeList = list;
 	}
 
 	@Override
-	public boolean hasKnownRecipe(String recipe) {
+	public boolean hasKnownRecipe(ResourceLocation recipe) {
 		return this.recipeList.contains(recipe);
 	}
 
 	@Override
-	public void addKnownRecipe(String recipe) {
+	public void addKnownRecipe(ResourceLocation recipe) {
 		this.recipeList.add(recipe);
 	}
 	
 	@Override
-	public void removeKnownRecipe(String recipe) {
+	public void removeKnownRecipe(ResourceLocation recipe) {
 		if(this.recipeList.contains(recipe)) {
 			this.recipeList.remove(recipe);
 		}

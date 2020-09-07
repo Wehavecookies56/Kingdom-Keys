@@ -1,44 +1,43 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuStockScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuStockItem extends Button {
 
-    MenuStockScreen parent;
+	MenuFilterable parent;
     ItemStack stack;
-    boolean selected;
+    boolean selected, showAmount;
 
-    public MenuStockItem(MenuStockScreen parent, ItemStack stack, int x, int y) {
+    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, boolean showAmount) {
         super(x, y, (int)(parent.width * 0.3255F), 14, "", b -> {
-
+        	parent.action(stack);
         });
         this.parent = parent;
         this.stack = stack;
+        this.showAmount = showAmount;
     }
 
-    @Override
+	@Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
         RenderSystem.color4f(1, 1, 1, 1);
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
             mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-            if (isHovered) {
+            if (isHovered || parent.selected == stack) {
                 RenderSystem.pushMatrix();
                 {
                     RenderSystem.enableBlend();
@@ -65,14 +64,17 @@ public class MenuStockItem extends Button {
             }
             RenderSystem.popMatrix();
             drawString(mc.fontRenderer, stack.getDisplayName().getString(), x + 15, y + 3, 0xFFFFFF);
-            String count = new TranslationTextComponent("x%s ", stack.getCount()).getUnformattedComponentText();
-            drawString(mc.fontRenderer, count, x + width - mc.fontRenderer.getStringWidth(count), y + 3, 0xF8F711);
+
+            if(showAmount) {
+	            String count = new TranslationTextComponent("x%s ", stack.getCount()).getUnformattedComponentText();
+	            drawString(mc.fontRenderer, count, x + width - mc.fontRenderer.getStringWidth(count), y + 3, 0xF8F711);
+            }
         }
     }
 
     @Override
     public void playDownSound(SoundHandler soundHandler) {
-        soundHandler.play(SimpleSound.master(ModSounds.menu_select.get(), 1.0F, 1.0F));
+   		soundHandler.play(SimpleSound.master(ModSounds.menu_select.get(), 1.0F, 1.0F));
     }
 }
 

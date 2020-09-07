@@ -70,7 +70,7 @@ public class MenuEquipmentScreen extends MenuBackground {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        drawAll(mouseX, mouseY, partialTicks);
+        drawMenuBackground(mouseX, mouseY, partialTicks);
         listBox.draw();
         detailsBox.draw();
         super.render(mouseX, mouseY, partialTicks);

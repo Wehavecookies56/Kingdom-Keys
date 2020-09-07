@@ -132,11 +132,11 @@ public class GuiMenu_Synthesis_Synthesise_Items extends MenuBackground {
 		itemRecipes.clear();
 		
 		for(int i = 0;i<playerData.getKnownRecipeList().size();i++) {
-			String name = playerData.getKnownRecipeList().get(i);
-			Recipe recipe = RecipeRegistry.getInstance().getValue(new ResourceLocation(name.substring(5).replace(".", ":")));
+			ResourceLocation name = playerData.getKnownRecipeList().get(i);
+			Recipe recipe = RecipeRegistry.getInstance().getValue(name);
 
 			if(recipe != null && recipe.getType().equals("item")) {
-				itemRecipes.add(name);
+				itemRecipes.add(name.toString());
 			}
 		}
 		

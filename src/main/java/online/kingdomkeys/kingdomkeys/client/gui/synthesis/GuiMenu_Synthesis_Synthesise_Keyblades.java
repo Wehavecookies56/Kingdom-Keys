@@ -37,7 +37,7 @@ public class GuiMenu_Synthesis_Synthesise_Keyblades extends MenuBackground {
 	int selectedKB = -1;
 	int page = 0;
 	
-	List<String> keybladeRecipes = new ArrayList<String>();
+	List<ResourceLocation> keybladeRecipes = new ArrayList<ResourceLocation>();
 
 		
 	public GuiMenu_Synthesis_Synthesise_Keyblades() {
@@ -61,7 +61,7 @@ public class GuiMenu_Synthesis_Synthesise_Keyblades extends MenuBackground {
 				break;
 			case "create":
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-				PacketHandler.sendToServer(new CSSynthesiseKeyblade(keybladeRecipes.get(selectedKB)));
+				PacketHandler.sendToServer(new CSSynthesiseKeyblade(keybladeRecipes.get(selectedKB).toString()));
 				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.itemget.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				break;
 			}
@@ -83,11 +83,9 @@ public class GuiMenu_Synthesis_Synthesise_Keyblades extends MenuBackground {
 		
 		if(selectedKB > -1) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			List<String> recipeList = keybladeRecipes;
-			String kb = recipeList.get(selectedKB);
-			String name = kb.substring("item.kingdomkeys.".length());
-			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
-			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
+			List<ResourceLocation> recipeList = keybladeRecipes;
+			ResourceLocation kb = recipeList.get(selectedKB);
+			KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(kb);
 			
 			boolean enoughMats = true;
 			Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
@@ -133,8 +131,8 @@ public class GuiMenu_Synthesis_Synthesise_Keyblades extends MenuBackground {
 		keybladeRecipes.clear();
 
 		for(int i = 0;i<playerData.getKnownRecipeList().size();i++) {
-			String name = playerData.getKnownRecipeList().get(i);
-			Recipe recipe = RecipeRegistry.getInstance().getValue(new ResourceLocation(name.substring(5).replace(".", ":")));
+			ResourceLocation name = playerData.getKnownRecipeList().get(i);
+			Recipe recipe = RecipeRegistry.getInstance().getValue(name);
 
 			if(recipe != null && recipe.getType().equals("keyblade")) {
 				keybladeRecipes.add(name);
@@ -145,12 +143,12 @@ public class GuiMenu_Synthesis_Synthesise_Keyblades extends MenuBackground {
 		
 		
 		for(int i = 0;i<keybladeRecipes.size();i++) {
-			String name = keybladeRecipes.get(i);
-			Recipe recipe = RecipeRegistry.getInstance().getValue(new ResourceLocation(name.substring(5).replace(".", ":")));
+			ResourceLocation name = keybladeRecipes.get(i);
+			Recipe recipe = RecipeRegistry.getInstance().getValue(name);
 
 			if(recipe != null) {
-				addButton(keyblades[i] = new MenuButton((int) buttonPosX, button_statsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(keybladeRecipes.get(i)), ButtonType.BUTTON, (e) -> { action("s:"+name); }));
-				keyblades[i].active = RecipeRegistry.getInstance().getValue(new ResourceLocation(name.substring(5).replace(".", ":"))) != null;
+				addButton(keyblades[i] = new MenuButton((int) buttonPosX, button_statsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(keybladeRecipes.get(i).getPath()), ButtonType.BUTTON, (e) -> { action("s:"+name); }));
+				keyblades[i].active = RecipeRegistry.getInstance().getValue(name) != null;
 			} 
 		}
 		
@@ -196,15 +194,13 @@ public class GuiMenu_Synthesis_Synthesise_Keyblades extends MenuBackground {
 		if(selectedKB > -1) {
 			RenderSystem.pushMatrix();
 			{
-				String kb = keybladeRecipes.get(selectedKB);
-				String name = kb.substring("item.kingdomkeys.".length());
-				ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
-				KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(loc);
+				ResourceLocation kb = keybladeRecipes.get(selectedKB);
+				KeybladeItem item = (KeybladeItem) ForgeRegistries.ITEMS.getValue(kb);
 				
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.scaled(1,1,1);
-					String text = Utils.translateToLocal(keybladeRecipes.get(selectedKB));
+					String text = Utils.translateToLocal(keybladeRecipes.get(selectedKB).toString());
 					//System.out.println(width);
 					drawString(minecraft.fontRenderer, text, width-minecraft.fontRenderer.getStringWidth(text)-10, (int) (height*0.17)+5, 0xFF9900);
 				}

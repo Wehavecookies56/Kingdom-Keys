@@ -112,7 +112,7 @@ public class MenuBackground extends Screen {
 	public boolean drawSeparately = false;
 
 	//Separate method to render buttons in a different order
-	public void drawAll(int mouseX, int mouseY, float partialTicks) {
+	public void drawMenuBackground(int mouseX, int mouseY, float partialTicks) {
 		drawBars();
 		drawMunnyTime();
 		drawBiomeDim();
@@ -147,7 +147,7 @@ public class MenuBackground extends Screen {
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
 		if (!drawSeparately)
-			drawAll(mouseX, mouseY, partialTicks);
+			drawMenuBackground(mouseX, mouseY, partialTicks);
 		super.render(mouseX, mouseY, partialTicks);
 	}
 

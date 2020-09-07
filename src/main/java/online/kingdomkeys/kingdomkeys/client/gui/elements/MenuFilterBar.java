@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -20,14 +21,14 @@ public class MenuFilterBar {
     final int endWidth = 24, buttonWidth = 26;
     public ItemCategory currentFilter = null;
 
-    MenuStockScreen parent;
+    MenuFilterable parent;
 
     public MenuFilterButton all, consumable, tool, building, equipment, misc;
     public List<Button> buttons = new ArrayList<>();
 
     int x, y, startX, allX, consumableX, toolX, buildingX, equipmentX, miscX, endX;
 
-    public MenuFilterBar(int x, int y, MenuStockScreen parent) {
+    public MenuFilterBar(int x, int y, MenuFilterable parent) {
         this.x = x;
         this.y = y;
         startX = x;
@@ -57,6 +58,7 @@ public class MenuFilterBar {
 
     public void onClickFilter(ItemCategory category) {
         currentFilter = category;
+        parent.selected = ItemStack.EMPTY;
         parent.initItems();
     }
 

@@ -1,18 +1,170 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-import net.minecraft.util.SoundCategory;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class SynthesisCreateScreen extends MenuBackground {
+public class SynthesisCreateScreen extends MenuFilterable {
 		
-	MenuButton keyblades, items, back;
+   // MenuFilterBar filterBar;
+    MenuScrollBar scrollBar;
+    MenuBox boxL, boxR;
+    int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
+
+    public SynthesisCreateScreen() {
+        super("Synthesis", new Color(0,255,0));
+        drawSeparately = true;
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks) {
+        drawMenuBackground(mouseX, mouseY, partialTicks);
+    	boxL.draw();
+        boxR.draw();
+    	super.render(mouseX, mouseY, partialTicks);
+    }
+    
+    @Override
+	protected void renderSelectedData() {
+		float tooltipPosX = width * 0.3333F;
+        float tooltipPosY = height * 0.8F;
+
+        float iconPosX = boxR.x;
+        float iconPosY = boxR.y + 15;
+        float iconWidth = width * 0.1F;
+        float iconHeight = height * 0.1F;
+        
+		Minecraft mc = Minecraft.getInstance();
+        RenderHelper.disableStandardItemLighting();
+        RenderSystem.pushMatrix();
+        {
+        	RenderSystem.translated(iconPosX, iconPosY, 1);
+			RenderSystem.scaled(5, 5, 5);
+			itemRenderer.renderItemIntoGUI(selected, 0, 0);
+        }
+        RenderSystem.popMatrix();
+        
+        if(selected.getItem() != null && selected.getItem() instanceof KeybladeItem) {
+        	KeybladeItem kb = (KeybladeItem) selected.getItem();
+	        mc.fontRenderer.drawSplitString(kb.getDescription(), (int) tooltipPosX + 5, (int) tooltipPosY+5, (int) (width * 0.6F), 0xFFFFFF);
+        }
+	}
+
+    @Override
+    public void init() {
+        float boxPosX = (float) width * 0.1437F;
+        float topBarHeight = (float) height * 0.17F;
+        float boxWidth = (float) width * 0.35F;
+        float middleHeight = (float) height * 0.6F;
+        boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+        boxR = new MenuBox((int) boxPosX + (int)boxWidth, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+        initItems();
+
+        //addButton(scrollBar = new MenuScrollBar());
+        super.init();
+    }
+
+    @Override
+    public void initItems() {
+        PlayerEntity player = Minecraft.getInstance().player;
+        float invPosX = (float) width * 0.1494F;
+        float invPosY = (float) height * 0.1851F;
+        inventory.clear();
+        children.clear();
+    	buttons.clear();
+    	
+        float filterPosX = width * 0.3525F;
+        float filterPosY = height * 0.023F;
+
+        filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
+        filterBar.init();
+        filterBar.buttons.forEach(this::addButton);
+
+        
+        List<ItemStack> items = new ArrayList<>();
+        IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
+        	ResourceLocation itemName = playerData.getKnownRecipeList().get(i);
+        	Recipe recipe = RecipeRegistry.getInstance().getValue(itemName);
+        	ItemStack stack = new ItemStack(recipe.getResult());
+        	
+        	if(recipe.getResult() instanceof KeychainItem)
+        		stack = new ItemStack(((KeychainItem)recipe.getResult()).getKeyblade());
+        	
+        	if (filterItem(stack)) {
+                items.add(stack);
+            }
+        }
+        items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
+        for (int i = 0; i < items.size(); i++) {
+        	//Left col
+            inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 14),false));
+        }
+        inventory.forEach(this::addButton);
+    }
+
+    /**
+     * Returns wether the given item should be visible based on the selected filter
+     * @param item
+     * @return
+     */
+   /* public boolean filterItem(ItemStack item) {
+        if (ItemStack.areItemStacksEqual(item, ItemStack.EMPTY)) { //If no item
+            return false;
+        } else {//If there's item
+            if (filterBar.currentFilter == null) { //If the filter is null (ALL)
+                return true;
+            } else {//If there is a filter selected
+                if (item.getItem() instanceof IItemCategory) { //If the item has IItemCategory interface (mod items)
+                    if (filterBar.currentFilter == ((IItemCategory) (item.getItem())).getCategory()) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if (ItemCategoryRegistry.hasCategory(item.getItem())) { //If it's not a mod item but still has category (like blocks, food)
+                    if (filterBar.currentFilter == ItemCategoryRegistry.getCategory(item.getItem())) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if (filterBar.currentFilter == ItemCategory.MISC) { //If doesn't have anything it's probably because it's a misc (default value for unassigned categories)
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }*/
+
+	
+	
+	
+	
+	/*MenuButton keyblades, items, back;
 	
 		
 	public SynthesisCreateScreen() {
@@ -62,16 +214,6 @@ public class SynthesisCreateScreen extends MenuBackground {
 		
 		updateButtons();
 	}
-
-	/*@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		//System.out.println(phase);
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
-		super.render(mouseX, mouseY, partialTicks);
-		
-		int buttonX = (int)(width*0.25);
-		
-		
-	}*/
+	 */
 	
 }

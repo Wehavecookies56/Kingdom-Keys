@@ -36,7 +36,7 @@ public class SCSyncCapabilityPacket {
 	
     PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
 
-    List<String> recipeList = new ArrayList<>();
+    List<ResourceLocation> recipeList = new ArrayList<>();
     List<String> magicList = new ArrayList<>();
 	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
 	LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
@@ -114,10 +114,10 @@ public class SCSyncCapabilityPacket {
         }
 		
 		CompoundNBT recipes = new CompoundNBT();
-		Iterator<String> recipesIt = recipeList.iterator();
+		Iterator<ResourceLocation> recipesIt = recipeList.iterator();
 		while (recipesIt.hasNext()) {
-			String r = recipesIt.next();
-			recipes.putInt(r, 1);
+			ResourceLocation r = recipesIt.next();
+			recipes.putString(r.toString(), r.toString());
 		}
 		buffer.writeCompoundTag(recipes);
 
@@ -212,7 +212,7 @@ public class SCSyncCapabilityPacket {
 		Iterator<String> recipesIt = recipesTag.keySet().iterator();
 		while (recipesIt.hasNext()) {
 			String key = (String) recipesIt.next();
-			msg.recipeList.add(key);
+			msg.recipeList.add(new ResourceLocation(key));
 		}
 		
 		CompoundNBT magicsTag = buffer.readCompoundTag();

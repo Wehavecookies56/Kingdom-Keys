@@ -14,6 +14,7 @@ import net.minecraft.command.Commands;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -23,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recipe/all> [player]
 	
-   private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> ISuggestionProvider.suggest(Lists.allRecipes.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
+   private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> ISuggestionProvider.suggestIterable(Lists.allRecipes, p_198296_1_);
 
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {		
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kkrecipe").requires(source -> source.hasPermissionLevel(3));
@@ -69,7 +70,7 @@ public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recip
 		
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.addKnownRecipe(recipe);
+			playerData.addKnownRecipe(new ResourceLocation(recipe));
 			if(player != context.getSource().asPlayer()) {
 				context.getSource().sendFeedback(new TranslationTextComponent("Added '"+ Utils.translateToLocal(recipe)+"' recipe to "+player.getDisplayName().getFormattedText()), true);
 			}
@@ -84,7 +85,7 @@ public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recip
 		
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.removeKnownRecipe(recipe);
+			playerData.removeKnownRecipe(new ResourceLocation(recipe));
 			if(player != context.getSource().asPlayer()) {
 				context.getSource().sendFeedback(new TranslationTextComponent("Removed recipe '"+Utils.translateToLocal(recipe)+"' from "+player.getDisplayName().getFormattedText()), true);
 			}
@@ -98,7 +99,7 @@ public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recip
 		
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for(String recipe : Lists.allRecipes) {
+			for(ResourceLocation recipe : Lists.allRecipes) {
 				playerData.addKnownRecipe(recipe);
 			}
 			if(player != context.getSource().asPlayer()) {

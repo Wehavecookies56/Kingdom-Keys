@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -22,9 +23,9 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class RecipeItem extends Item implements IItemCategory {
 
@@ -43,14 +44,15 @@ public class RecipeItem extends Item implements IItemCategory {
 
 					boolean consume = false;
 					for (String recipe : recipes) {
-						if (recipe == null || !Lists.keybladeRecipes.contains(recipe)) { // If recipe is not valid
+						System.out.println(recipe+":"+Lists.keybladeRecipes.get(0));
+						if (recipe == null || !Lists.keybladeRecipes.contains(new ResourceLocation(recipe))) { // If recipe is not valid
 							String message = "ERROR: Recipe for " + Utils.translateToLocal(recipe) + " was not learnt because it is not a valid recipe, Report this to a dev";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message));
-						} else if (playerData.hasKnownRecipe(recipe)) { // If recipe already known
+						} else if (playerData.hasKnownRecipe(new ResourceLocation(recipe))) { // If recipe already known
 							String message = "Recipe for " + Utils.translateToLocal(recipe) + " already learnt";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message));
 						} else { // If recipe is not known, learn it
-							playerData.addKnownRecipe(recipe);
+							playerData.addKnownRecipe(new ResourceLocation(recipe));
 							consume = true;
 							String message = "Recipe " + Utils.translateToLocal(recipe) + " learnt successfully";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message));
@@ -76,7 +78,7 @@ public class RecipeItem extends Item implements IItemCategory {
 		// Shuffles the list of recipe to increase randomness
 		Collections.shuffle(Lists.keybladeRecipes, new Random(seed));
 		
-		String Recipe1, Recipe2, Recipe3;
+		ResourceLocation Recipe1, Recipe2, Recipe3;
 		
 		Recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 2) {
@@ -100,9 +102,9 @@ public class RecipeItem extends Item implements IItemCategory {
 		}
 
 		stack.setTag(new CompoundNBT());
-		stack.getTag().putString("recipe1", Recipe1);
-		stack.getTag().putString("recipe2", Recipe2);
-		stack.getTag().putString("recipe3", Recipe3);
+		stack.getTag().putString("recipe1", Recipe1.toString());
+		stack.getTag().putString("recipe2", Recipe2.toString());
+		stack.getTag().putString("recipe3", Recipe3.toString());
 		
 		//if(!player.world.isRemote)
 			//System.out.println("Took "+(System.nanoTime()/1000000F - seed/1000000F)+"ms to shuffle");

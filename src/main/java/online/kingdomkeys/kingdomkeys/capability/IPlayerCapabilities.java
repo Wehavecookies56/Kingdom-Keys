@@ -155,11 +155,11 @@ public interface IPlayerCapabilities {
     void addPartiesInvited(String partyName);
     void removePartiesInvited(String partyName);
 	
-    List<String> getKnownRecipeList();
-    boolean hasKnownRecipe(String recipe);
-    void setKnownRecipeList(List<String> list);
-	void addKnownRecipe(String recipe);
-	void removeKnownRecipe(String recipe);
+    List<ResourceLocation> getKnownRecipeList();
+    boolean hasKnownRecipe(ResourceLocation recipe);
+    void setKnownRecipeList(List<ResourceLocation> list);
+	void addKnownRecipe(ResourceLocation recipe);
+	void removeKnownRecipe(ResourceLocation recipe);
 	void clearRecipes();
 	
 	TreeMap<String, Integer> getMaterialMap();

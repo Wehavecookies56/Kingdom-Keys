@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -22,14 +23,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class MenuStockScreen extends MenuBackground {
+public class MenuStockScreen extends MenuFilterable {
 
-    List<MenuStockItem> inventory = new ArrayList<>();
 
-    MenuFilterBar filterBar;
     MenuScrollBar scrollBar;
     MenuBox box;
-    public ItemStack selected = ItemStack.EMPTY;
     int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 
     public MenuStockScreen() {
@@ -39,36 +37,35 @@ public class MenuStockScreen extends MenuBackground {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        drawAll(mouseX, mouseY, partialTicks);
+        drawMenuBackground(mouseX, mouseY, partialTicks);
         box.draw();
-        filterBar.render(this, mouseX, mouseY, partialTicks);
-        //scrollBar.render(mouseX, mouseY, partialTicks);
-
-        float tooltipPosX = width * 0.3333F;
+        super.render(mouseX, mouseY, partialTicks);
+    }
+    
+    @Override
+	protected void renderSelectedData() {
+		float tooltipPosX = width * 0.3333F;
         float tooltipPosY = height * 0.8F;
 
         float iconPosX = width * 0.163F;
         float iconPosY = height * 0.8083F;
         float iconWidth = width * 0.1015F;
         float iconHeight = height * 0.1537F;
-
-        if (!ItemStack.areItemStacksEqual(selected, ItemStack.EMPTY)) {
-            Minecraft mc = Minecraft.getInstance();
-            RenderHelper.disableStandardItemLighting();
-            RenderSystem.pushMatrix();
-            {
-                RenderSystem.translatef(iconPosX, tooltipPosY, 0);
-                RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-                mc.getItemRenderer().renderItemAndEffectIntoGUI(selected, 0, 0);
-            }
-            RenderSystem.popMatrix();
-            List<ITextComponent> tooltip = selected.getTooltip(mc.player, ITooltipFlag.TooltipFlags.NORMAL);
-            for (int i = 0; i < tooltip.size(); i++) {
-                drawString(mc.fontRenderer, tooltip.get(i).getUnformattedComponentText(), (int) tooltipPosX + 5, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * i), 0xFFFFFF);
-            }
+        
+		Minecraft mc = Minecraft.getInstance();
+        RenderHelper.disableStandardItemLighting();
+        RenderSystem.pushMatrix();
+        {
+            RenderSystem.translatef(iconPosX, tooltipPosY, 0);
+            RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+            mc.getItemRenderer().renderItemAndEffectIntoGUI(selected, 0, 0);
         }
-        inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
-    }
+        RenderSystem.popMatrix();
+        List<ITextComponent> tooltip = selected.getTooltip(mc.player, ITooltipFlag.TooltipFlags.NORMAL);
+        for (int i = 0; i < tooltip.size(); i++) {
+            drawString(mc.fontRenderer, tooltip.get(i).getUnformattedComponentText(), (int) tooltipPosX + 5, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * i), 0xFFFFFF);
+        }
+	}
 
     @Override
     public void init() {
@@ -87,6 +84,7 @@ public class MenuStockScreen extends MenuBackground {
         super.init();
     }
 
+    @Override
     public void initItems() {
         PlayerEntity player = Minecraft.getInstance().player;
         float invPosX = (float) width * 0.1494F;
@@ -100,33 +98,40 @@ public class MenuStockScreen extends MenuBackground {
         }
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
         for (int i = 0; i < items.size(); i += 2) {
-            inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7)));
+        	//Left col
+            inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7),true));
             if (i + 1 < items.size()) {
-                inventory.add(new MenuStockItem(this, items.get(i + 1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7)));
+            	//Right col
+                inventory.add(new MenuStockItem(this, items.get(i + 1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),true));
             }
         }
     }
 
+    /**
+     * Returns wether the given item should be visible based on the selected filter
+     * @param item
+     * @return
+     */
     public boolean filterItem(ItemStack item) {
-        if (ItemStack.areItemStacksEqual(item, ItemStack.EMPTY)) {
+        if (ItemStack.areItemStacksEqual(item, ItemStack.EMPTY)) { //If no item
             return false;
-        } else {
-            if (filterBar.currentFilter == null) {
+        } else {//If there's item
+            if (filterBar.currentFilter == null) { //If the filter is null (ALL)
                 return true;
-            } else {
-                if (item.getItem() instanceof IItemCategory) {
+            } else {//If there is a filter selected
+                if (item.getItem() instanceof IItemCategory) { //If the item has IItemCategory interface (mod items)
                     if (filterBar.currentFilter == ((IItemCategory) (item.getItem())).getCategory()) {
                         return true;
                     } else {
                         return false;
                     }
-                } else if (ItemCategoryRegistry.hasCategory(item.getItem())) {
+                } else if (ItemCategoryRegistry.hasCategory(item.getItem())) { //If it's not a mod item but still has category (like blocks, food)
                     if (filterBar.currentFilter == ItemCategoryRegistry.getCategory(item.getItem())) {
                         return true;
                     } else {
                         return false;
                     }
-                } else if (filterBar.currentFilter == ItemCategory.MISC) {
+                } else if (filterBar.currentFilter == ItemCategory.MISC) { //If doesn't have anything it's probably because it's a misc (default value for unassigned categories)
                     return true;
                 } else {
                     return false;

@@ -66,7 +66,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		drawAll(mouseX, mouseY, partialTicks);
+		drawMenuBackground(mouseX, mouseY, partialTicks);
 		keyblades.draw();
 		details.draw();
 		super.render(mouseX, mouseY, partialTicks);

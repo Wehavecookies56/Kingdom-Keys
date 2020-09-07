@@ -96,10 +96,10 @@ public class EntityEvents {
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					
-					playerData.addKnownRecipe(ModItems.mythril_shard.get().getTranslationKey());
-					playerData.addKnownRecipe(ModItems.mythril_stone.get().getTranslationKey());
-					playerData.addKnownRecipe(ModItems.mythril_gem.get().getTranslationKey());
-					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getTranslationKey());
+					playerData.addKnownRecipe(ModItems.mythril_shard.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.mythril_stone.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.mythril_gem.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
 				}
 				
 				//Fills the map with empty stacks for every form that requires one.
