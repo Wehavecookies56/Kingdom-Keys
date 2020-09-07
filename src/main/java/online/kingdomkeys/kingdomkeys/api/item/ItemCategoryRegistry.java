@@ -8,10 +8,12 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.ElytraItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.PotionItem;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.tags.Tag;
@@ -30,9 +32,9 @@ public class ItemCategoryRegistry {
     	ForgeRegistries.ITEMS.forEach(item -> {
     		if(item instanceof SwordItem || item instanceof PickaxeItem || item instanceof ShovelItem || item instanceof HoeItem || item instanceof AxeItem || item instanceof CrossbowItem || item instanceof BowItem) {
     			register(item, ItemCategory.TOOL);
-    		} else if(item.isFood()) {
+    		} else if(item.isFood() || item instanceof PotionItem) {
     			register(item, ItemCategory.CONSUMABLE);
-    		} else if(item instanceof ArmorItem) {
+    		} else if(item instanceof ArmorItem || item instanceof ElytraItem) {
     			register(item, ItemCategory.EQUIPMENT);
     		}
     		

@@ -73,7 +73,7 @@ public class KKChestBlock extends BaseBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			/*IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire");
 			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard");
 			playerData.addMagicToList(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water");
@@ -93,7 +93,7 @@ public class KKChestBlock extends BaseBlock {
 			
 			//playerData.setMaxDP(900);
 			
-			PacketHandler.syncToAllAround(player, playerData);
+			PacketHandler.syncToAllAround(player, playerData);*/
 			
 //			setDefaultState(state.with(BIG, true));
 			if (worldIn.getTileEntity(pos) != null && worldIn.getTileEntity(pos) instanceof KKChestTileEntity) {
