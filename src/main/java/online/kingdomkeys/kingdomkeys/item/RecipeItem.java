@@ -18,6 +18,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -44,22 +45,29 @@ public class RecipeItem extends Item implements IItemCategory {
 
 					boolean consume = false;
 					for (String recipe : recipes) {
-						System.out.println(recipe+":"+Lists.keybladeRecipes.get(0));
-						if (recipe == null || !Lists.keybladeRecipes.contains(new ResourceLocation(recipe))) { // If recipe is not valid
-							String message = "ERROR: Recipe for " + Utils.translateToLocal(recipe) + " was not learnt because it is not a valid recipe, Report this to a dev";
+						ResourceLocation rl = new ResourceLocation(recipe);
+						ItemStack recipeStack = new ItemStack(ForgeRegistries.ITEMS.getValue(rl));
+
+						if (recipe == null || !Lists.keybladeRecipes.contains(rl)) { // If recipe is not valid
+							String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message));
-						} else if (playerData.hasKnownRecipe(new ResourceLocation(recipe))) { // If recipe already known
-							String message = "Recipe for " + Utils.translateToLocal(recipe) + " already learnt";
+						} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
+							String message = "Recipe for " + Utils.translateToLocal(recipeStack.getTranslationKey()) + " already learnt";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message));
 						} else { // If recipe is not known, learn it
-							playerData.addKnownRecipe(new ResourceLocation(recipe));
+							playerData.addKnownRecipe(rl);
 							consume = true;
-							String message = "Recipe " + Utils.translateToLocal(recipe) + " learnt successfully";
+							String message = "Recipe " + Utils.translateToLocal(recipeStack.getTranslationKey()) + " learnt successfully";
 							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message));
 							PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 						}
 					}
-	
+					
+					for(int i=0; i<playerData.getKnownRecipeList().size(); i++) {
+						ResourceLocation thing = playerData.getKnownRecipeList().get(i);
+						System.out.println(i+" "+thing.toString());
+					}
+					
 					if (consume) {
 						player.getHeldItemMainhand().shrink(1);
 					} else {

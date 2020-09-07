@@ -40,6 +40,7 @@ public class MenuStockScreen extends MenuFilterable {
         drawMenuBackground(mouseX, mouseY, partialTicks);
         box.draw();
         super.render(mouseX, mouseY, partialTicks);
+        inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
     }
     
     @Override

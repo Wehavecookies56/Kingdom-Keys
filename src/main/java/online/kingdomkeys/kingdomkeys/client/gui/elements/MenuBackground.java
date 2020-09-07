@@ -99,7 +99,7 @@ public class MenuBackground extends Screen {
 
 	MenuBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
 
-	float topBarHeight;
+	protected float topBarHeight;
 	float bottomBarHeight;
 	protected float topLeftBarWidth;
 	float topRightBarWidth;

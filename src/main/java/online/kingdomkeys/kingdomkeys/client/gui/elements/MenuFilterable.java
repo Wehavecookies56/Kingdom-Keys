@@ -4,12 +4,24 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Lists;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseKeyblade;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public abstract class MenuFilterable extends MenuBackground {
 
@@ -19,7 +31,7 @@ public abstract class MenuFilterable extends MenuBackground {
     MenuScrollBar scrollBar;
     public ItemStack selected = ItemStack.EMPTY;
     int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
-
+    
     public MenuFilterable(String name, Color color) {
         super(name, color);
         drawSeparately = true;
@@ -29,6 +41,8 @@ public abstract class MenuFilterable extends MenuBackground {
     	selected = stack;
 	}
     
+    
+    
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         filterBar.render(this, mouseX, mouseY, partialTicks);
@@ -37,7 +51,15 @@ public abstract class MenuFilterable extends MenuBackground {
         if (!ItemStack.areItemStacksEqual(selected, ItemStack.EMPTY)) {
             renderSelectedData();
         }
-        inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
+        
+       // inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
+        
+     //  super.render(mouseX, mouseY, partialTicks);
+    }
+    
+    @Override
+    public void init() {
+    	super.init();
     }
     
     protected abstract void renderSelectedData();

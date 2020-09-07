@@ -24,24 +24,22 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 public class CSSynthesiseKeyblade {
 
-	String name;
+	ResourceLocation name;
 
 	public CSSynthesiseKeyblade() {
 	}
 
-	public CSSynthesiseKeyblade(String name) {
+	public CSSynthesiseKeyblade(ResourceLocation name) {
 		this.name = name;
 	}
 
 	public void encode(PacketBuffer buffer) {
-		buffer.writeInt(this.name.length());
-		buffer.writeString(this.name);
+		buffer.writeResourceLocation(this.name);
 	}
 
 	public static CSSynthesiseKeyblade decode(PacketBuffer buffer) {
 		CSSynthesiseKeyblade msg = new CSSynthesiseKeyblade();
-		int len = buffer.readInt();
-		msg.name = buffer.readString(len);
+		msg.name = buffer.readResourceLocation();
 		return msg;
 	}
 
@@ -50,9 +48,7 @@ public class CSSynthesiseKeyblade {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			String name = message.name.substring("item.kingdomkeys.".length());
-			ResourceLocation loc = new ResourceLocation(KingdomKeys.MODID, name);
-			Item item =  ForgeRegistries.ITEMS.getValue(loc);
+			Item item =  ForgeRegistries.ITEMS.getValue(message.name);
 			
 			Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
 			Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();

@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.commands;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -20,11 +22,22 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recipe/all> [player]
 	
-   private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> ISuggestionProvider.suggestIterable(Lists.allRecipes, p_198296_1_);
+	//private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> ISuggestionProvider.suggestIterable(Lists.allRecipes, p_198296_1_);
+	private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> {
+		   List<String> list = new ArrayList<>();
+		   for (ResourceLocation actual : Lists.allRecipes) {
+			   list.add(actual.toString());
+		   }
+		   return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
+		};
+
 
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {		
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kkrecipe").requires(source -> source.hasPermissionLevel(3));
@@ -75,6 +88,7 @@ public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recip
 				context.getSource().sendFeedback(new TranslationTextComponent("Added '"+ Utils.translateToLocal(recipe)+"' recipe to "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("You have been given '"+Utils.translateToLocal(recipe)+"' recipe"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -90,6 +104,7 @@ public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recip
 				context.getSource().sendFeedback(new TranslationTextComponent("Removed recipe '"+Utils.translateToLocal(recipe)+"' from "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("Your recipe '"+Utils.translateToLocal(recipe)+"' has been taken away"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -106,6 +121,7 @@ public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recip
 				context.getSource().sendFeedback(new TranslationTextComponent("Added all recipes to "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("You have been given all the recipes"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -121,6 +137,7 @@ public class KKRecipeCommand extends BaseCommand{ ///kkrecipe <give/take> <recip
 				context.getSource().sendFeedback(new TranslationTextComponent("Removed all recipes from "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("Your recipes have been taken away"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}

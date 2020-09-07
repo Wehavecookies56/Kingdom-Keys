@@ -22,6 +22,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -32,7 +34,7 @@ public class KKMaterialCommand extends BaseCommand{ //kkmaterial <give/take> <ma
 	private static final SuggestionProvider<CommandSource> SUGGEST_MATERIALS = (p_198296_0_, p_198296_1_) -> {
 	   List<String> list = new ArrayList<>();
 	   for (ResourceLocation actual : ModMaterials.registry.getKeys()) {
-		   list.add(actual.getNamespace() + ":" + actual.getPath());
+		   list.add(actual.toString());
 	   }
 	   return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
@@ -117,6 +119,7 @@ public class KKMaterialCommand extends BaseCommand{ //kkmaterial <give/take> <ma
 				context.getSource().sendFeedback(new TranslationTextComponent("Given x"+amount+" '"+ Utils.translateToLocal(material.getMaterialName())+"' to "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("You have been given x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"'"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -135,6 +138,7 @@ public class KKMaterialCommand extends BaseCommand{ //kkmaterial <give/take> <ma
 				context.getSource().sendFeedback(new TranslationTextComponent("Removed material '"+Utils.translateToLocal(material.getMaterialName())+"' from "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"' have been taken away from you"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -152,6 +156,7 @@ public class KKMaterialCommand extends BaseCommand{ //kkmaterial <give/take> <ma
 				context.getSource().sendFeedback(new TranslationTextComponent("Given all materials to "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("You have been given all the materials"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -167,6 +172,7 @@ public class KKMaterialCommand extends BaseCommand{ //kkmaterial <give/take> <ma
 				context.getSource().sendFeedback(new TranslationTextComponent("Taken all materials from "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("Your materials have been taken away"));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -185,6 +191,7 @@ public class KKMaterialCommand extends BaseCommand{ //kkmaterial <give/take> <ma
 				context.getSource().sendFeedback(new TranslationTextComponent("Set x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"' to "+player.getDisplayName().getFormattedText()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("Your '"+Utils.translateToLocal(material.getMaterialName())+"' have been set to x"+amount));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
@@ -202,6 +209,7 @@ public class KKMaterialCommand extends BaseCommand{ //kkmaterial <give/take> <ma
 				context.getSource().sendFeedback(new TranslationTextComponent("Set all materials for "+player.getDisplayName().getFormattedText()+" to "+amount), true);
 			}
 			player.sendMessage(new TranslationTextComponent("You have been set all the materials to "+amount));
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}

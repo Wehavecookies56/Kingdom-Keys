@@ -1294,7 +1294,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addKnownRecipe(ResourceLocation recipe) {
-		this.recipeList.add(recipe);
+		if(!recipeList.contains(recipe))
+			this.recipeList.add(recipe);
 	}
 	
 	@Override
