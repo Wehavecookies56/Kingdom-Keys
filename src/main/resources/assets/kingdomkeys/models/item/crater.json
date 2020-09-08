@@ -1,6 +1,51 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/organization/crater"
-  }
+	"forge_marker": 1,
+    "defaults": {
+    	"textures": {
+
+    		},
+        "model": "kk:crater.obj"
+    },
+	"variants": {
+        "inventory": [
+            {
+                "transform": {
+                    "thirdperson_lefthand": {
+                        "rotation": [ { "x": 0 }, { "y": 90 }, { "z": 0 } ],
+                        "translation": [ 0, 0.55, 0 ],
+                        "scale": 0.02
+                    },
+                    "thirdperson_righthand": {
+                        "rotation": [ { "x": 0 }, { "y": 90 }, { "z": 0 } ],
+                        "translation": [ 0, 0.55, 0 ],
+                        "scale": 0.02
+                    },
+                    "gui": {
+                        "rotation": [ { "x": 0 }, { "y": 0 }, { "z": 0 } ],
+                        "translation": [ 0.1, 0, 0 ],
+                        "scale": 0.008
+                    },
+                    "firstperson_righthand": {
+                        "rotation": [ { "x": 0 }, { "y": 90 }, { "z": 0 } ],
+                        "translation": [ 0, 0.3, 0 ],
+                        "scale": 0.014
+                    },
+                    "firstperson_lefthand": {
+                        "rotation": [ { "x": 0 }, { "y": 90 }, { "z": 0 } ],
+                        "translation": [ 0, 0.3, 0 ],
+                        "scale": 0.014
+                    },
+                    "ground": {
+                        "rotation": [ { "x": 45 }, { "y": 0 }, { "z": 0 } ],
+                        "scale": 0.008
+					},
+					"fixed": {
+						"rotation": [ { "x": 0 }, { "y": 90 }, { "z": 0 } ],
+						"translation": [ 0, -0.25, 0 ],
+						"scale": 0.01
+                                      }
+                }
+            }
+        ]
+    }
 }
