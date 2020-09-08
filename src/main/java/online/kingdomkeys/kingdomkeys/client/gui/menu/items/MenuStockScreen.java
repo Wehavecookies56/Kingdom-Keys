@@ -1,27 +1,27 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
-import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class MenuStockScreen extends MenuFilterable {
 
@@ -48,8 +48,8 @@ public class MenuStockScreen extends MenuFilterable {
 		float tooltipPosX = width * 0.3333F;
         float tooltipPosY = height * 0.8F;
 
-        float iconPosX = width * 0.163F;
-        float iconPosY = height * 0.8083F;
+        float iconPosX = width * 0.33F;
+        float iconPosY = height * 0.8283F;
         float iconWidth = width * 0.1015F;
         float iconHeight = height * 0.1537F;
         
@@ -57,15 +57,33 @@ public class MenuStockScreen extends MenuFilterable {
         RenderHelper.disableStandardItemLighting();
         RenderSystem.pushMatrix();
         {
-            RenderSystem.translatef(iconPosX, tooltipPosY, 0);
+            RenderSystem.translatef(iconPosX, iconPosY, 0);
             RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
             mc.getItemRenderer().renderItemAndEffectIntoGUI(selected, 0, 0);
         }
         RenderSystem.popMatrix();
-        List<ITextComponent> tooltip = selected.getTooltip(mc.player, ITooltipFlag.TooltipFlags.NORMAL);
-        for (int i = 0; i < tooltip.size(); i++) {
-            drawString(mc.fontRenderer, tooltip.get(i).getUnformattedComponentText(), (int) tooltipPosX + 5, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * i), 0xFFFFFF);
+        
+       // selected.getDisplayName()
+        drawString(mc.fontRenderer, selected.getDisplayName().getFormattedText(), (int) tooltipPosX + 50, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * 0) + 5, 0xFFFFFF);
+
+        if(selected.getItem() instanceof KeybladeItem || selected.getItem() instanceof KeychainItem) {
+        	KeybladeItem kb;
+        	if(selected.getItem() instanceof KeychainItem) {
+        		kb = ((KeychainItem) selected.getItem()).getKeyblade();
+        	} else {
+        		kb = (KeybladeItem) selected.getItem();
+        	}
+        	
+        	mc.fontRenderer.drawSplitString(kb.getDescription(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.38F), 0xAAAAAA);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY + 5), 0xFF0000);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 15, 0x4444FF);
+        } else {
+        	List<ITextComponent> tooltip = selected.getTooltip(mc.player, ITooltipFlag.TooltipFlags.NORMAL);
+            for (int i = 0; i < tooltip.size(); i++) {
+                drawString(mc.fontRenderer, tooltip.get(i).getUnformattedComponentText(), (int) tooltipPosX + 60, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * i) + 5, 0xFFFFFF);
+            }
         }
+        
 	}
 
     @Override
@@ -75,7 +93,7 @@ public class MenuStockScreen extends MenuFilterable {
         float boxWidth = (float) width * 0.7135F;
         float middleHeight = (float) height * 0.6F;
         box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-        float filterPosX = width * 0.3525F;
+        float filterPosX = width * 0.3F;
         float filterPosY = height * 0.023F;
         filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
         filterBar.init();

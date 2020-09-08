@@ -119,25 +119,31 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
 				ItemStack formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
-				if (formChain == null) formChain = ItemStack.EMPTY;
+				if (formChain == null) 
+					formChain = ItemStack.EMPTY;
+				
 				UUID stackID = Utils.getID(stack);
 				if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY) && ItemStack.areItemStacksEqual(formChain, ItemStack.EMPTY)) {
 					UUID mainChainID = Utils.getID(mainChain);
 					UUID formChainID = Utils.getID(formChain);
-					if (mainChainID == null) mainChainID = new UUID(0, 0);
-					if (formChainID == null) formChainID = new UUID(0, 0);
+					if (mainChainID == null)
+						mainChainID = new UUID(0, 0);
+					if (formChainID == null)
+						formChainID = new UUID(0, 0);
+					
 					if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
 						//This is either not your keychain or from an inactive form, either way it should not be here
 						System.out.println("You have a stolen keychain or a keychain from a previous form");
 						player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
 					}
 				}
+				
 				//Check for dupes
 				for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 					if (i != itemSlot) {
 						UUID id = Utils.getID(player.inventory.getStackInSlot(i));
 						if (id != null) {
-							if (id.equals(stackID)) {
+							if (id.equals(stackID) && i != player.inventory.currentItem) {
 								System.out.println("You have a duplicate");
 								player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
 							}

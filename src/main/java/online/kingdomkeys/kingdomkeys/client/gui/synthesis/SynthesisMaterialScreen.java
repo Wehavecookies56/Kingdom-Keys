@@ -91,8 +91,8 @@ public class SynthesisMaterialScreen extends MenuBackground {
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
-		addButton(prev = new Button((int) buttonPosX+10, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
-		addButton(next = new Button((int) buttonPosX+10+80, button_statsY + (-1 * 18), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
+		addButton(prev = new Button((int) buttonPosX+10, (int)(height * 0.1F), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
+		addButton(next = new Button((int) buttonPosX+10+80, (int)(height * 0.1F), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 		
 		prev.visible = false;
 		next.visible = false;
@@ -116,7 +116,7 @@ public class SynthesisMaterialScreen extends MenuBackground {
 		
 		RenderSystem.pushMatrix();
 		{
-			RenderSystem.translated(width * 0.03F+45, (height*0.17) - 18, 1);
+			RenderSystem.translated(width * 0.03F+45, (height*0.15) - 18, 1);
 			RenderSystem.scaled(1,1,1);
 			drawString(minecraft.fontRenderer, Utils.translateToLocal("Page: "+(page+1)), 0, 10, 0xFF9900);
 		}

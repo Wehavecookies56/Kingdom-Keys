@@ -32,6 +32,8 @@ public abstract class MenuFilterable extends MenuBackground {
     public ItemStack selected = ItemStack.EMPTY;
     int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
     
+	protected int page = 0;
+
     public MenuFilterable(String name, Color color) {
         super(name, color);
         drawSeparately = true;

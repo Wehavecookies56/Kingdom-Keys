@@ -86,33 +86,33 @@ public class RecipeItem extends Item implements IItemCategory {
 		// Shuffles the list of recipe to increase randomness
 		Collections.shuffle(Lists.keybladeRecipes, new Random(seed));
 		
-		ResourceLocation Recipe1, Recipe2, Recipe3;
+		ResourceLocation recipe1, recipe2, recipe3;
 		
-		Recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+		recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 2) {
-			while (playerData.hasKnownRecipe(Recipe1)) {
-				Recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+			while (playerData.hasKnownRecipe(recipe1)) {
+				recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
 		
-		Recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+		recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 1) {
-			while (Recipe2.equals(Recipe1) || playerData.hasKnownRecipe(Recipe2)) {
-				Recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+			while (recipe2.equals(recipe1) || playerData.hasKnownRecipe(recipe2)) {
+				recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
 		
-		Recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+		recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size()) {
-			while ((Recipe3.equals(Recipe2) || Recipe3.equals(Recipe1)) || playerData.hasKnownRecipe(Recipe3)) {
-				Recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+			while ((recipe3.equals(recipe2) || recipe3.equals(recipe1)) || playerData.hasKnownRecipe(recipe3)) {
+				recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
 			}
 		}
 
 		stack.setTag(new CompoundNBT());
-		stack.getTag().putString("recipe1", Recipe1.toString());
-		stack.getTag().putString("recipe2", Recipe2.toString());
-		stack.getTag().putString("recipe3", Recipe3.toString());
+		stack.getTag().putString("recipe1", recipe1.toString());
+		stack.getTag().putString("recipe2", recipe2.toString());
+		stack.getTag().putString("recipe3", recipe3.toString());
 		
 		//if(!player.world.isRemote)
 			//System.out.println("Took "+(System.nanoTime()/1000000F - seed/1000000F)+"ms to shuffle");
@@ -133,9 +133,9 @@ public class RecipeItem extends Item implements IItemCategory {
 			String recipe2 = stack.getTag().getString("recipe2");
 			String recipe3 = stack.getTag().getString("recipe3");
 
-			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe1)));
-			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe2)));
-			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(recipe3)));
+			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(recipe1))).getTranslationKey())));
+			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(recipe2))).getTranslationKey())));
+			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(recipe3))).getTranslationKey())));
 		}
 	}
 
