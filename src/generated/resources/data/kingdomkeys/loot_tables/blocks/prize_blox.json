@@ -58,7 +58,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_stone"
+          "name": "kingdomkeys:twilight_shard"
         },
         {
           "type": "minecraft:item",
@@ -86,7 +86,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_stone"
+          "name": "kingdomkeys:betwixt_shard"
         },
         {
           "type": "minecraft:item",
@@ -110,7 +110,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_shard"
+          "name": "kingdomkeys:twilight_stone"
         },
         {
           "type": "minecraft:item",
@@ -138,7 +138,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_shard"
+          "name": "kingdomkeys:betwixt_stone"
         },
         {
           "type": "minecraft:item",

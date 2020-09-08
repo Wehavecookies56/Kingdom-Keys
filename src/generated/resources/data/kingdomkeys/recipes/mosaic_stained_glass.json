@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
   "pattern": [
-    " G ",
-    "GDG",
-    " G "
+    "DGD",
+    "GIG",
+    "DGD"
   ],
   "key": {
     "D": {
@@ -12,6 +12,9 @@
     },
     "G": {
       "item": "minecraft:glass"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
     }
   },
   "result": {

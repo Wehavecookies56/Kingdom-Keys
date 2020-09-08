@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "kingdomkeys:empty_bottle"
+      "kingdomkeys:wooden_stick"
     ]
   },
   "criteria": {
-    "glass_bottle": {
+    "leather": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:glass_bottle"
+            "item": "minecraft:stick"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "kingdomkeys:empty_bottle"
+        "recipe": "kingdomkeys:wooden_stick"
       }
     }
   },
   "requirements": [
     [
-      "glass_bottle",
+      "leather",
       "has_the_recipe"
     ]
   ]

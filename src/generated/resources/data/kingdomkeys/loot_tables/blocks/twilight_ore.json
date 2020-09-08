@@ -37,7 +37,7 @@
               "formula": "minecraft:ore_drops"
             }
           ],
-          "name": "kingdomkeys:twilight_shard"
+          "name": "kingdomkeys:twilight_stone"
         },
         {
           "type": "minecraft:item",
@@ -49,7 +49,7 @@
               "formula": "minecraft:ore_drops"
             }
           ],
-          "name": "kingdomkeys:twilight_stone"
+          "name": "kingdomkeys:twilight_shard"
         }
       ]
     }
