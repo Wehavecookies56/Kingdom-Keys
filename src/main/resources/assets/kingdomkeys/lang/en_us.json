@@ -1,5 +1,6 @@
 {
 	"_comment": "Controls",
+	"key.categories.kingdomkeys": "Kingdom Keys",
 	"key.kingdomkeys.action": "Action key",
 	"key.kingdomkeys.back": "Command menu back",
 	"key.kingdomkeys.enter": "Command menu enter",
@@ -34,10 +35,8 @@
 	
 	"gui.synthesis": "Item Workshop",
 	"gui.synthesis.synthesise": "Synthesise Items",
-	"gui.synthesis.synthesise.keyblades": "Keyblades",
-	"gui.synthesis.synthesise.keyblades.create": "Create",
-	"gui.synthesis.synthesise.keyblades.upgrade": "Upgrade",
-	"gui.synthesis.synthesise.items": "Items",
+	"gui.synthesis.synthesise.create": "Create",
+	"gui.synthesis.forge.upgrade": "Upgrade",
 	"gui.synthesis.forge": "Keyblade Forge",
 	"gui.synthesis.materials": "Material List",
 	"gui.synthesis.materials.deposit": "Deposit",

@@ -116,7 +116,7 @@ public interface IPlayerCapabilities {
 	ItemStack equipKeychain(ResourceLocation form, ItemStack stack);
 	//Returns null if the form does not exist in the map, does not return null if the slot is empty
 	ItemStack getEquippedKeychain(ResourceLocation form);
-	void equipAllKeychains(Map<ResourceLocation, ItemStack> keychains);
+	void equipAllKeychains(Map<ResourceLocation, ItemStack> keychains, boolean force);
 	boolean canEquipKeychain(ResourceLocation form, ItemStack stack);
 	void setNewKeychain(ResourceLocation form, ItemStack stack);
 

@@ -47,7 +47,8 @@ public abstract class MenuFilterable extends MenuBackground {
     
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        filterBar.render(this, mouseX, mouseY, partialTicks);
+        if(filterBar != null)
+        	filterBar.render(this, mouseX, mouseY, partialTicks);
         //scrollBar.render(mouseX, mouseY, partialTicks);
 
         if (!ItemStack.areItemStacksEqual(selected, ItemStack.EMPTY)) {

@@ -1017,9 +1017,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void equipAllKeychains(Map<ResourceLocation, ItemStack> keychains) {
+	public void equipAllKeychains(Map<ResourceLocation, ItemStack> keychains, boolean force) {
 		//Any keychains that cannot be equipped will be removed
-		keychains.replaceAll((k,v) -> canEquipKeychain(k,v) ? v : ItemStack.EMPTY);
+		if(!force)
+			keychains.replaceAll((k,v) -> canEquipKeychain(k,v) ? v : ItemStack.EMPTY);
 		equippedKeychains = keychains;
 	}
 

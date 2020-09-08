@@ -406,6 +406,8 @@ public class Strings {
             Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise_Keyblades+".create",
             
             Gui_Synthesis_Forge = Gui_Synthesis + ".forge",
+            Gui_Synthesis_Forge_Upgrade = Gui_Synthesis_Forge+".upgrade",
+            
             Gui_Synthesis_Materials = Gui_Synthesis + ".materials",
             Gui_Synthesis_Materials_Deposit = Gui_Synthesis_Materials + ".deposit",
             Gui_Synthesis_Main_Materials_Deposit_Inv = Gui_Synthesis_Materials_Deposit + ".inventory",

@@ -304,7 +304,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setAntiPoints(message.antipoints);
 			playerData.setPartiesInvited(message.partyList);
 			playerData.setMaterialMap(message.materialMap);
-			playerData.equipAllKeychains(message.keychains);
+			playerData.equipAllKeychains(message.keychains, false);
 		});
 		ctx.get().setPacketHandled(true);
 	}

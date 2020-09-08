@@ -20,23 +20,23 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 public class CSLevelUpKeybladePacket {
 
-	int index;
+	ItemStack stack;
 	
 	public CSLevelUpKeybladePacket() {
 
 	}
 	
-	public CSLevelUpKeybladePacket(int index) {
-		this.index = index;
+	public CSLevelUpKeybladePacket(ItemStack stack) {
+		this.stack = stack;
 	}
 
 	public void encode(PacketBuffer buffer) {
-		buffer.writeInt(index);
+		buffer.writeItemStack(stack);
 	}
 
 	public static CSLevelUpKeybladePacket decode(PacketBuffer buffer) {
 		CSLevelUpKeybladePacket msg = new CSLevelUpKeybladePacket();
-		msg.index = buffer.readInt();
+		msg.stack = buffer.readItemStack();
 		return msg;
 	}
 
@@ -45,15 +45,13 @@ public class CSLevelUpKeybladePacket {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			ItemStack stack = player.inventory.getStackInSlot(message.index);
+			ItemStack stack = message.stack;
 			KeychainItem kcItem = (KeychainItem) stack.getItem();
 			KeybladeItem item = (KeybladeItem) kcItem.getKeyblade();
-			System.out.println(item.getKeybladeLevel(stack));
 			Iterator<Entry<Material, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
 			boolean hasMaterials = true;
 			while(itMats.hasNext()) { //Check if the player has the materials (checked serverside just in case)
 				Entry<Material, Integer> m = itMats.next();
-				System.out.println(m.getKey().getMaterialName()+" x"+m.getValue());
 				if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
 					hasMaterials = false;
 				}

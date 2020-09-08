@@ -508,7 +508,6 @@ public class EntityEvents {
 				stack = player.getHeldItemOffhand();
 			}
 			
-			//System.out.println(event.getSource().getImmediateSource());
 			if(heldKeyblade != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
 				float dmg = DamageCalculation.getKBStrengthDamage(player, stack);
 				event.setAmount(dmg);
@@ -668,11 +667,10 @@ public class EntityEvents {
 			newPlayerData.setKnownRecipeList(oldPlayerData.getKnownRecipeList());
 			newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
 
-			newPlayerData.equipAllKeychains(oldPlayerData.getEquippedKeychains());
+			newPlayerData.equipAllKeychains(oldPlayerData.getEquippedKeychains(), true);
 			
 			nPlayer.setHealth(oldPlayerData.getMaxHP());
 			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
-
 		}
 	}
 	
