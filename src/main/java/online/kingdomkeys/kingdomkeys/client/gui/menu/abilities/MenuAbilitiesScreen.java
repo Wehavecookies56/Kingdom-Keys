@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -25,10 +26,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	LinkedHashMap<String, int[]> abilitiesMap;
 	MenuAbilitiesButton[] abilities = new MenuAbilitiesButton[playerData.getAbilityMap().size()];
 
+	MenuBox box;
+	
 	public MenuAbilitiesScreen() {
 		super("Abilities", new Color(0,0,255));
-		minecraft = Minecraft.getInstance();
 	}
+	
+	
 
 	@Override
 	public void init() {
@@ -38,9 +42,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		super.init();
 
 		buttons.clear();
+		
+		float boxPosX = (float) width * 0.2F;
+		float topBarHeight = (float) height * 0.17F;
+		float boxWidth = (float) width * 0.45F;
+		float middleHeight = (float) height * 0.6F;
+		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 
 		int buttonPosX = 130;
-		float topBarHeight = (float) height * 0.17F;
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = 100;
 		int i = 0;
@@ -82,6 +91,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
+		box.draw();
 		super.render(mouseX, mouseY, partialTicks);
 		drawAP();
 		// fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);

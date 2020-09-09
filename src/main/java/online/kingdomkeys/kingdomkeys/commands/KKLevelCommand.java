@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.commands;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -12,10 +15,15 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
 public class KKLevelCommand extends BaseCommand{ //kklevel <give/take/set> <amount> [player]
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
@@ -78,6 +86,23 @@ public class KKLevelCommand extends BaseCommand{ //kklevel <give/take/set> <amou
 			while (playerData.getLevel() < level) {
 				playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()));
 			}
+			
+			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
+			Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
+			while(it.hasNext()) {
+				Entry<String, int[]> entry = it.next();
+				int dfLevel = entry.getValue()[0];
+				System.out.println(entry.getKey()+" "+dfLevel);
+				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(entry.getKey()));
+				for(int i=1;i<dfLevel;i++) {
+					String baseAbility = form.getBaseAbilityForLevel(i);
+			     	if(!baseAbility.equals("")) {
+			     		playerData.addAbility(baseAbility, false);
+			     	}
+				}
+
+			}
+			
 			player.heal(playerData.getMaxHP());
 			playerData.setMP(playerData.getMaxMP());
 

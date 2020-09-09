@@ -127,7 +127,7 @@ public interface IPlayerCapabilities {
 	
 	LinkedHashMap<String, int[]> getAbilityMap();
 	void setAbilityMap(LinkedHashMap<String,int[]> map);
-	void addAbility(String ability);
+	void addAbility(String ability, boolean notification);
 	int[] getEquippedAbilityLevel(String string); 
 	void addEquippedAbilityLevel(String ability, int level);
 	boolean isAbilityEquipped(String string);

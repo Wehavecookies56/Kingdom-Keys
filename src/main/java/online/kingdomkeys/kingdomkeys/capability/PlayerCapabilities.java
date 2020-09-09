@@ -111,7 +111,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if(mats.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
 					mats.remove(pair.getKey().toString());
 			}
-		//	System.out.println(mats);
 			storage.put("materials", mats);
 
 			return storage;
@@ -412,7 +411,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		switch (this.level) {
 		case 2:
 			this.addDefense(1);
-			addAbility(Strings.scan);
+			addAbility(Strings.scan, true);
 			break;
 		case 3:
 			//addAbility(Strings.highJump);
@@ -1210,8 +1209,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void addAbility(String ability) {
-		messages.add(ability);
+	public void addAbility(String ability, boolean notification) {
+		if(notification) {
+			messages.add(ability);
+		}
 		if(abilityMap.containsKey(ability)) {
 			abilityMap.put(ability, new int[]{abilityMap.get(ability)[0]+1,abilityMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped
