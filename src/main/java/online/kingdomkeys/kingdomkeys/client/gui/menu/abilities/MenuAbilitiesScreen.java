@@ -71,10 +71,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
 		int lvlIncrease = 0;
-		if (playerData.getEquippedAbilityLevel(abilityName)[1] > 0) { // If ability is > 0 = equipped, time to unequip
+		if (playerData.isAbilityEquipped(abilityName)) { // If ability is equipped, unequip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Unequip(mc.player, ability));
 			lvlIncrease = -1;
-		} else { // If ability is <= 0 equip
+		} else { // If ability is unequipped, equip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
 			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP()) {
 				System.out.println("Not enough AP");
@@ -193,7 +193,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
-			if (hoveredAbility != null && playerData.getEquippedAbilityLevel(hoveredAbility.getRegistryName().toString())[1] > 0) { // If hovering an equipped ability
+			if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString())) { // If hovering an equipped ability
 				requiredAP *= -1;
 
 				// Bar going to decrease (dark yellow section when hovering equipped ability)
@@ -209,13 +209,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 				RenderSystem.popMatrix();
 			} else {
-				if(consumedAP + requiredAP < playerData.getMaxAP()) {
+				if(consumedAP + requiredAP <= playerData.getMaxAP()) {
 					// Bar going to increase (blue section when hovering unequipped ability)
 					RenderSystem.pushMatrix();
 					{
 						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
 						RenderSystem.pushMatrix();
-						// RenderSystem.color(1, 1, 1,0.5F);
 						for (int j = 0; j < percent; j++)
 							blit(j + 7, 17, 167, 67, 1, 5);
 						RenderSystem.popMatrix();
