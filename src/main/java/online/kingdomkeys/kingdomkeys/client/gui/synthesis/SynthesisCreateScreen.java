@@ -207,8 +207,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		RenderHelper.disableStandardItemLighting();
 		RenderSystem.pushMatrix();
 		{
-			RenderSystem.translated(boxM.x, iconPosY, 1);
-			RenderSystem.scaled(4, 4, 4);
+			double offset = (boxM.getWidth()*0.1F);
+			RenderSystem.translated(boxM.x+offset, iconPosY, 1);
+			RenderSystem.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 0);
 			itemRenderer.renderItemIntoGUI(selected, 0, 0);
 		}
 		RenderSystem.popMatrix();

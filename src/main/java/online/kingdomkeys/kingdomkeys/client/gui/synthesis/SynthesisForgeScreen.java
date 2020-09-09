@@ -241,7 +241,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	
-			RenderHelper.disableStandardItemLighting();
 			//Icon
 			RenderSystem.pushMatrix();
 			{

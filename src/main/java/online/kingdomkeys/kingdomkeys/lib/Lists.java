@@ -507,6 +507,7 @@ public class Lists {
         keybladeRecipes.add(acedsKeyblade.get().getRegistryName());
         keybladeRecipes.add(victoryLine.get().getRegistryName());
         keybladeRecipes.add(voidGear.get().getRegistryName());
+        keybladeRecipes.add(voidGearRemnant.get().getRegistryName());
         keybladeRecipes.add(avasKeyblade.get().getRegistryName());
         keybladeRecipes.add(waytotheDawn.get().getRegistryName());
         keybladeRecipes.add(waywardWind.get().getRegistryName());
