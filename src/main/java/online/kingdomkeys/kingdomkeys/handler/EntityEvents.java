@@ -653,7 +653,6 @@ public class EntityEvents {
 			newPlayerData.setDP(oldPlayerData.getDP());
 			newPlayerData.setFP(oldPlayerData.getFP());
 			newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
-			newPlayerData.setConsumedAP(oldPlayerData.getConsumedAP());
 			newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
 
 			newPlayerData.setMunny(oldPlayerData.getMunny());

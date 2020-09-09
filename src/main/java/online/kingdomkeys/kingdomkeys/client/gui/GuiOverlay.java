@@ -55,30 +55,31 @@ public class GuiOverlay extends Screen {
 			sHeight = minecraft.getMainWindow().getScaledHeight();
 
 			playerData = ModCapabilities.getPlayer(minecraft.player);
-
-			// Experience
-			if (showExp) {
-				showExp();
+			if(playerData != null) {
+				// Experience
+				if (showExp) {
+					showExp();
+				}
+	
+				// Munny
+				if (showMunny) {
+					showMunny();
+				}
+	
+				// Level Up
+				if (showLevelUp) {
+					showLevelUp(event);
+				}
+	
+				// Drive form level up
+				if (showDriveLevelUp) {
+					showDriveLevelUp(event);
+				}
+				
+				/*if(teleport != null) {
+					showTeleport();
+				}*/
 			}
-
-			// Munny
-			if (showMunny) {
-				showMunny();
-			}
-
-			// Level Up
-			if (showLevelUp) {
-				showLevelUp(event);
-			}
-
-			// Drive form level up
-			if (showDriveLevelUp) {
-				showDriveLevelUp(event);
-			}
-			
-			/*if(teleport != null) {
-				showTeleport();
-			}*/
 		}
 	}
 
@@ -139,7 +140,7 @@ public class GuiOverlay extends Screen {
 			}
 			RenderSystem.popMatrix();
 
-//			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
+		  //showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
 			showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
 			showText("LV.", width - ((minecraft.fontRenderer.getStringWidth("LV. ")) * 0.75f) - 90, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 			showText("" + playerData.getLevel(), width - 256.0f * 0.75f + ((minecraft.fontRenderer.getStringWidth("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
@@ -184,7 +185,7 @@ public class GuiOverlay extends Screen {
 		RenderSystem.popMatrix();
 		
 		if (System.currentTimeMillis()/1000 > (timeLevelUp + levelSeconds))
-			showLevelUp = false;
+			showLevelUp = false;	
 	}
 
 	private void showDriveLevelUp(RenderGameOverlayEvent event) {

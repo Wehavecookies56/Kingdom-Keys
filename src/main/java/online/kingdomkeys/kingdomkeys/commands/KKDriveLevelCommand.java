@@ -88,10 +88,10 @@ public class KKDriveLevelCommand extends BaseCommand{
 			DriveForm drive = ModDriveForms.registry.getValue(new ResourceLocation(form));
 			playerData.setNewKeychain(new ResourceLocation(form), ItemStack.EMPTY);
 
-			if(playerData.isAbilityEquipped(drive.getBaseAbilityForLevel(3))) {
+			/*if(playerData.isAbilityEquipped(drive.getBaseAbilityForLevel(3))) {
 				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(drive.getBaseAbilityForLevel(3)));
 				playerData.addConsumedAP(-ability.getAPCost());
-			}
+			}*/
 
 			playerData.getAbilityMap().remove(drive.getBaseAbilityForLevel(3));
 			

@@ -24,7 +24,7 @@ public class SCSyncCapabilityPacket {
 	private int strength = 0;
 	private int magic = 0;
 	private int defense = 0;
-	private int maxHp, ap, maxAP;
+	private int maxHp, maxAP;
 	private int munny = 0;
 	private int antipoints = 0;
 
@@ -60,7 +60,6 @@ public class SCSyncCapabilityPacket {
 		this.recharge = capability.getRecharge();
 		this.maxHp = capability.getMaxHP();
 		// this.choice1 = capability.getChoice1();
-		this.ap = capability.getConsumedAP();
 		this.maxAP = capability.getMaxAP();
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
@@ -97,7 +96,6 @@ public class SCSyncCapabilityPacket {
 		buffer.writeBoolean(this.recharge);
 		buffer.writeInt(this.maxHp);
 		// buffer.writeString(this.choice1);
-		buffer.writeInt(this.ap);
 		buffer.writeInt(this.maxAP);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.maxDP);
@@ -192,7 +190,6 @@ public class SCSyncCapabilityPacket {
 		msg.recharge = buffer.readBoolean();
 		msg.maxHp = buffer.readInt();
 		// msg.choice1 = buffer.readString(40);
-		msg.ap = buffer.readInt();
 		msg.maxAP = buffer.readInt();
 		msg.dp = buffer.readDouble();
 		msg.maxDP = buffer.readDouble();
@@ -284,7 +281,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setMaxMP(message.maxMP);
 			playerData.setRecharge(message.recharge);
 			playerData.setMaxHP(message.maxHp);
-			playerData.setConsumedAP(message.ap);
+			KingdomKeys.proxy.getClientPlayer().setHealth(playerData.getMaxHP());
 			playerData.setMaxAP(message.maxAP);
 			playerData.setDP(message.dp);
 			playerData.setFP(message.fp);

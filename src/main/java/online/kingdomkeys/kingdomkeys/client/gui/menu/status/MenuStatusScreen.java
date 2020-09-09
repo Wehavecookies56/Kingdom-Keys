@@ -162,7 +162,7 @@ public class MenuStatusScreen extends MenuBackground {
 		
 		addButton(hp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_HP),"" + (int) minecraft.player.getMaxHealth(), 0x008800));
 		addButton(mp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_MP),"" + (int) playerData.getMaxMP(), 0x008800));
-		addButton(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP),"" + playerData.getConsumedAP()+"/"+playerData.getMaxAP(), 0x008800));
+		addButton(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP),"" + Utils.getConsumedAP(playerData)+"/"+playerData.getMaxAP(), 0x008800));
 		addButton(driveGauge = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_DriveGauge),"" + (int) playerData.getMaxDP()/100, 0x008800));
 		
 		c=0;

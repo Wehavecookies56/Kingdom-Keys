@@ -60,11 +60,7 @@ public interface IPlayerCapabilities {
 	
 	double getMaxDP();
 	void setMaxDP(double dP);
-	
-	int getConsumedAP();
-	void setConsumedAP(int ap);
-	void addConsumedAP(int ap);
-	
+		
 	int getMaxAP();
 	void setMaxAP(int ap);
 	void addMaxAP(int ap);

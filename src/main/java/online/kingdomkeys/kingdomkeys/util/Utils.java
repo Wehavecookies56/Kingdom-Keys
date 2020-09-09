@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.util;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -395,5 +397,19 @@ public class Utils {
 			category = ItemCategoryRegistry.getCategory(stack.getItem());
 		}
 		return category;
+	}
+
+	public static int getConsumedAP(IPlayerCapabilities playerData) {
+		int ap = 0;
+		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
+		Iterator<Entry<String, int[]>> it = map.entrySet().iterator();
+		while(it.hasNext()) {
+			Entry<String, int[]> entry = it.next();
+			Ability a = ModAbilities.registry.getValue(new ResourceLocation(entry.getKey()));
+			if(entry.getValue()[1] > 0) {
+				ap += a.getAPCost();
+			}
+		}
+		return ap;
 	}
 }

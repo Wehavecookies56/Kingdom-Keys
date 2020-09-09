@@ -1,7 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.abilities;
 
 import java.awt.Color;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -17,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
@@ -57,7 +60,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 			String path = new ResourceLocation(abilityName).getPath();
-			System.out.println(Utils.translateToLocal(path));
 			addButton(abilities[i] = new MenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, Utils.translateToLocal(path), ability.getType(), (e) -> {
 				action(ability);
 			}));
@@ -74,19 +76,18 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			lvlIncrease = -1;
 		} else { // If ability is <= 0 equip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
-			if (playerData.getConsumedAP() + apCost > playerData.getMaxAP()) {
+			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP()) {
 				System.out.println("Not enough AP");
 			} else {
 				lvlIncrease = 1;
 			}
 		}
-		if(lvlIncrease > 0)
-			playerData.setConsumedAP(playerData.getConsumedAP() + apCost);
-		else
-			playerData.setConsumedAP(playerData.getConsumedAP() - apCost);
-		playerData.addEquippedAbilityLevel(abilityName, lvlIncrease);
-		PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, lvlIncrease));
-		init();
+		
+		if(lvlIncrease != 0) {
+			playerData.addEquippedAbilityLevel(abilityName, lvlIncrease);
+			PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, lvlIncrease));
+			init();
+		}
 	}
 
 	@Override
@@ -99,6 +100,9 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	
 	private void drawAP() {
+		int consumedAP = Utils.getConsumedAP(playerData);
+		int maxAP = playerData.getMaxAP();
+
 		Ability hoveredAbility = null;
 		int i = 0;
 		//Get all the abilities and set their text
@@ -123,9 +127,15 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			text += Utils.translateToLocal(abilityName+lvl);
 
 			MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
-			if (ability.getAPCost() > playerData.getMaxAP() - playerData.getConsumedAP() && !(playerData.getEquippedAbilityLevel(abilityName)[1] > 0)) {
+			
+			if (ability.getAPCost() > playerData.getMaxAP() - consumedAP) {
 				button.active = false;
 			}
+			
+			if(playerData.isAbilityEquipped(KingdomKeys.MODID+":"+abilityName)) {
+				button.active = true;
+			}
+			
 			button.setMessage(text);
 			button.setAP(ability.getAPCost());
 
@@ -140,9 +150,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int posX = screenWidth - barWidth;
 		int posY = screenHeight - 100;
 		float scale = 1F;
-
-		int consumedAP = playerData.getConsumedAP();
-		int maxAP = playerData.getMaxAP();
 		
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
@@ -234,8 +241,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			// AP Text
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.scalef(scale * 1.3F, scale, 0);
-				drawString(minecraft.fontRenderer, "AP: " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
+				RenderSystem.scalef(scale * 1.3F, scale * 1.1F, 0);
+				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
 			}
 			RenderSystem.popMatrix();
 			

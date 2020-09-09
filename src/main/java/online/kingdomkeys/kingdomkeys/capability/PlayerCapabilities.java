@@ -42,7 +42,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			storage.putInt("magic", instance.getMagic());
 			storage.putInt("defense", instance.getDefense());
 			storage.putInt("max_hp", instance.getMaxHP());
-			storage.putInt("ap", instance.getConsumedAP());
 			storage.putInt("max_ap", instance.getMaxAP());
 			storage.putDouble("mp", instance.getMP());
 			storage.putDouble("max_mp", instance.getMaxMP());
@@ -126,7 +125,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			instance.setMagic(storage.getInt("magic"));
 			instance.setDefense(storage.getInt("defense"));
 			instance.setMaxHP(storage.getInt("max_hp"));
-			instance.setConsumedAP(storage.getInt("ap"));
 			instance.setMaxAP(storage.getInt("max_ap"));
 			instance.setMP(storage.getDouble("mp"));
 			instance.setMaxMP(storage.getDouble("max_mp"));
@@ -191,7 +189,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, ap, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -240,8 +238,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			if (this.level < 100) {
 				this.exp += exp;
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
-					this.setLevel(this.getLevel() + 1);
-					this.levelUpStatsAndDisplayMessage(player);
+					setLevel(this.getLevel() + 1);
+					levelUpStatsAndDisplayMessage(player);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
 				}
 			}
@@ -796,21 +794,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 		PacketHandler.syncToAllAround(player, this);
 
-	}
-
-	@Override
-	public int getConsumedAP() {
-		return ap;
-	}
-
-	@Override
-	public void setConsumedAP(int ap) {
-		this.ap = ap;
-	}
-
-	@Override
-	public void addConsumedAP(int ap) {
-		this.ap += ap;
 	}
 
 	@Override

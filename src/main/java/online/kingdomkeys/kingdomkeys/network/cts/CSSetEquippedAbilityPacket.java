@@ -41,9 +41,6 @@ public class CSSetEquippedAbilityPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			int apCost = ModAbilities.registry.getValue(new ResourceLocation(message.ability)).getAPCost();
-			int newConsumedAP = message.level > -1 ? apCost : -apCost;
-			playerData.setConsumedAP(playerData.getConsumedAP() + newConsumedAP);
 			//System.out.println("adding/sub " + message.ability + " by " + message.level + " adding: " + newConsumedAP);
 			playerData.addEquippedAbilityLevel(message.ability, message.level);
 		});

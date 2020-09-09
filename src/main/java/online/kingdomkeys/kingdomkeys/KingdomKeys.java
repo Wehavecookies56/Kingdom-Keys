@@ -38,6 +38,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.commands.KKDriveLevelCommand;
+import online.kingdomkeys.kingdomkeys.commands.KKExpCommand;
 import online.kingdomkeys.kingdomkeys.commands.KKLevelCommand;
 import online.kingdomkeys.kingdomkeys.commands.KKMaterialCommand;
 import online.kingdomkeys.kingdomkeys.commands.KKRecipeCommand;
@@ -203,6 +204,7 @@ public class KingdomKeys {
 		KKMaterialCommand.register(dispatcher);
 		KKLevelCommand.register(dispatcher);
 		KKDriveLevelCommand.register(dispatcher);
+		KKExpCommand.register(dispatcher);
 	}
 
 
