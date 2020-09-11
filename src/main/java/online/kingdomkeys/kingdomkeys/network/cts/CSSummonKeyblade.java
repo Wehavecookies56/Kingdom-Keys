@@ -38,18 +38,32 @@ public class CSSummonKeyblade {
 
 	ResourceLocation formToSummonFrom;
 	boolean hasForm;
+	boolean forceDesummon;
 
 	public CSSummonKeyblade() {
 		hasForm = false;
+		forceDesummon = false;
+	}
+
+	public CSSummonKeyblade(boolean forceDesummon) {
+		this.forceDesummon = forceDesummon;
 	}
 
 	//Don't pass none please
 	public CSSummonKeyblade(ResourceLocation formToSummonFrom) {
 		this.formToSummonFrom = formToSummonFrom;
 		hasForm = true;
+		forceDesummon = false;
+	}
+
+	public CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceDesummon) {
+		this.formToSummonFrom = formToSummonFrom;
+		hasForm = true;
+		this.forceDesummon = forceDesummon;
 	}
 	
 	public void encode(PacketBuffer buffer) {
+		buffer.writeBoolean(forceDesummon);
 		buffer.writeBoolean(hasForm);
 		if (formToSummonFrom != null)
 			buffer.writeResourceLocation(formToSummonFrom);
@@ -57,6 +71,7 @@ public class CSSummonKeyblade {
 
 	public static CSSummonKeyblade decode(PacketBuffer buffer) {
 		CSSummonKeyblade msg = new CSSummonKeyblade();
+		msg.forceDesummon = buffer.readBoolean();
 		msg.hasForm = buffer.readBoolean();
 		if (msg.hasForm)
 			msg.formToSummonFrom = buffer.readResourceLocation();
@@ -82,12 +97,15 @@ public class CSSummonKeyblade {
 			}
 			//TODO handle extraChain
 			int slotSummoned = Utils.findSummoned(player.inventory, chain);
-			if (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && Utils.hasID(heldStack) && heldStack.getItem() instanceof KeybladeItem) {
+			ItemStack summonedStack = slotSummoned > -1 ? player.inventory.getStackInSlot(slotSummoned) : ItemStack.EMPTY;
+			if (message.forceDesummon)
+				heldStack = summonedStack;
+			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && Utils.hasID(heldStack) && heldStack.getItem() instanceof KeybladeItem)) {
 				//DESUMMON
 				if (heldStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))){
 					chain.setTag(heldStack.getTag());
 					playerData.equipKeychain(DriveForm.NONE, chain);
-					player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
+					player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
 					player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				}
 			} else if (slotSummoned > -1) {
@@ -110,8 +128,6 @@ public class CSSummonKeyblade {
 					}
 				}
 			}
-
-
 		});
 		ctx.get().setPacketHandled(true);
 	}

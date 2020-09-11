@@ -143,7 +143,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 					for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 						if (i != itemSlot) {
 							UUID id = Utils.getID(player.inventory.getStackInSlot(i));
-							if (id != null) {
+							if (id != null && player.inventory.getStackInSlot(i).getItem() instanceof KeybladeItem) {
 								if (id.equals(stackID) && i != player.inventory.currentItem) {
 									System.out.println("You have a duplicate");
 									player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
