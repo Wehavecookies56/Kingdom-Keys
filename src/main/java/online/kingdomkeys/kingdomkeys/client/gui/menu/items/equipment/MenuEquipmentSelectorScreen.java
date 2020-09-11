@@ -7,9 +7,12 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEquipmentButton;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.Color;
 
@@ -47,8 +50,13 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 		int pos = 0;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		addButton(new MenuSelectEquipmentButton(playerData.getEquippedKeychain(form), -1, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
-		if (!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {
+		ItemStack equippedKeychain = playerData.getEquippedKeychain(form);
+		//If the equipped keychain is a keychain get the keyblade's translation key, otherwise ---
+		String equippedKeychainName = (equippedKeychain != null && equippedKeychain.getItem() instanceof KeychainItem) ?  ((KeychainItem) equippedKeychain.getItem()).getKeyblade().getTranslationKey() : "---";
+		
+		//Adds the form current keychain (base too as it's DriveForm.NONE)
+		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),"N/A", 0x440000));
+		if (!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
 			if (minecraft.player.inventory.getFirstEmptyStack() > -1)
 				addButton(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.inventory.getFirstEmptyStack(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 		}
