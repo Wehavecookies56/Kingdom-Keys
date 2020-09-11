@@ -149,14 +149,7 @@ public class CSSummonKeyblade {
 						if (Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) {
 							slot.putStack(ItemStack.EMPTY);
 							openContainer.detectAndSendChanges();
-							int emptySlot = player.inventory.getFirstEmptyStack();
-							if (emptySlot > -1) {
-								player.inventory.setInventorySlotContents(emptySlot, stack);
-								player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-								player.inventory.markDirty();
-							} else {
-								player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-							}
+							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 						}
 					}
 				});

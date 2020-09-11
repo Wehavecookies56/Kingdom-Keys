@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -120,33 +121,36 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 				if(playerData != null) {
 					ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
 					ItemStack formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
-					if (formChain == null) 
+					if (formChain == null)
 						formChain = ItemStack.EMPTY;
-					
+					//TODO form chain
 					UUID stackID = Utils.getID(stack);
-					if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY) && ItemStack.areItemStacksEqual(formChain, ItemStack.EMPTY)) {
+					if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY)) {
 						UUID mainChainID = Utils.getID(mainChain);
 						UUID formChainID = Utils.getID(formChain);
 						if (mainChainID == null)
 							mainChainID = new UUID(0, 0);
 						if (formChainID == null)
 							formChainID = new UUID(0, 0);
-						
+
 						if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
 							//This is either not your keychain or from an inactive form, either way it should not be here
-							System.out.println("You have a stolen keychain or a keychain from a previous form");
 							player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
+							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 						}
+					} else {
+						player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
+						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					}
-					
+
 					//Check for dupes
 					for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 						if (i != itemSlot) {
 							UUID id = Utils.getID(player.inventory.getStackInSlot(i));
 							if (id != null && player.inventory.getStackInSlot(i).getItem() instanceof KeybladeItem) {
 								if (id.equals(stackID) && i != player.inventory.currentItem) {
-									System.out.println("You have a duplicate");
 									player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+									player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 								}
 							}
 						}
