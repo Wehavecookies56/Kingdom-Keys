@@ -55,7 +55,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		String equippedKeychainName = (equippedKeychain != null && equippedKeychain.getItem() instanceof KeychainItem) ?  ((KeychainItem) equippedKeychain.getItem()).getKeyblade().getTranslationKey() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),"N/A", 0x440000));
+		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),"N/A", buttonColour));
 		if (!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
 			if (minecraft.player.inventory.getFirstEmptyStack() > -1)
 				addButton(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.inventory.getFirstEmptyStack(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));

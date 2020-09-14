@@ -95,14 +95,23 @@ public class KKLevelCommand extends BaseCommand{ //kklevel <give/take/set> <amou
 			while(it.hasNext()) {
 				Entry<String, int[]> entry = it.next();
 				int dfLevel = entry.getValue()[0];
-				System.out.println(entry.getKey()+" "+dfLevel);
+				//System.out.println(entry.getKey()+" "+dfLevel);
 				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(entry.getKey()));
-				for(int i=1;i<dfLevel;i++) {
-					String baseAbility = form.getBaseAbilityForLevel(i);
-			     	if(!baseAbility.equals("")) {
-			     		playerData.addAbility(baseAbility, false);
-			     	}
+				if(!form.getRegistryName().equals(DriveForm.NONE)) {
+					for(int i=1;i<=dfLevel;i++) {
+						String baseAbility = form.getBaseAbilityForLevel(i);
+						//System.out.println(i+": "+form.getBaseAbilityForLevel(i));
+				     	if(!baseAbility.equals("")) {
+				     		playerData.addAbility(baseAbility, false);
+				     	}
+					}
 				}
+				/*playerData.setDriveFormLevel(entry.getKey(), 1);
+				playerData.setDriveFormExp(player, entry.getKey(), 0);
+				while (playerData.getDriveFormLevel(entry.getKey()) < dfLevel) {
+					int cost = form.getLevelUpCost(playerData.getDriveFormLevel(entry.getKey())+1);
+					playerData.setDriveFormExp(player, entry.getKey(), cost);
+				}*/
 
 			}
 			
