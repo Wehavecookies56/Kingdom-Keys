@@ -449,6 +449,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			break;
 		case 12:
 			this.addMagic(1);
+			this.addAbility(Strings.mpHaste, true);
 			break;
 		case 13:
 			this.addStrength(1);
@@ -533,6 +534,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		case 34:
 			this.addMagic(1);
 			this.addDefense(1);
+			addAbility(Strings.mpHastera, true);
 			break;
 		case 35:
 			this.addStrength(1);

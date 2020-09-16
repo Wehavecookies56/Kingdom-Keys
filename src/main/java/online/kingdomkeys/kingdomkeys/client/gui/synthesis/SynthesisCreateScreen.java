@@ -42,8 +42,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 
 	Button prev, next, create;
+	int itemsPerPage;
 
-	int itemsPerPage = 10;
 
 	public SynthesisCreateScreen() {
 		super("Synthesis", new Color(0, 255, 0));
@@ -85,6 +85,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		initItems();
 		// addButton(scrollBar = new MenuScrollBar());
 		super.init();
+		
+		itemsPerPage = (int) (middleHeight / 14);
 	}
 
 	@Override
@@ -182,7 +184,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			if (i < inventory.size()) {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
-					inventory.get(i).y = ((i / itemsPerPage) - (i / itemsPerPage) + 3 + (i % itemsPerPage)) * 14 + 6; // 6 = offset
+					inventory.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 14 + 5; // 6 = offset
 					inventory.get(i).render(mouseX, mouseY, partialTicks);
 					inventory.get(i).active = true;
 				}

@@ -100,6 +100,8 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.mythril_stone.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.mythril_gem.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
+					
+					playerData.addAbility(Strings.zeroExp, false);
 				}
 				
 				//Fills the map with empty stacks for every form that requires one.
@@ -159,8 +161,9 @@ public class EntityEvents {
 					playerData.setRecharge(false);
 					playerData.setMP(playerData.getMaxMP());
 				} else { //Still recharging
-					if (event.player.ticksExisted % 5 == 0)
-						playerData.addMP(playerData.getMaxMP()/50);
+					// if (event.player.ticksExisted % 1 == 0)
+					System.out.println((Utils.getMPHasteValue(playerData)/10) + 1);
+					playerData.addMP(playerData.getMaxMP()/500 * ((Utils.getMPHasteValue(playerData)/10) + 2));
 				}
 				
 				//PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
@@ -597,16 +600,18 @@ public class EntityEvents {
 				if (event.getEntity() instanceof MonsterEntity) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
-					MonsterEntity mob = (MonsterEntity) event.getEntity();
-
-					double value = mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2;
-					double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-					playerData.addExperience(player, (int)exp /* * MainConfig.entities.xpMultiplier */);
-										
-					if (event.getEntity() instanceof WitherEntity) {
-						playerData.addExperience(player, 1500);
+					if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
+						MonsterEntity mob = (MonsterEntity) event.getEntity();
+						
+						double value = mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2;
+						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
+						playerData.addExperience(player, (int)exp /* * MainConfig.entities.xpMultiplier */);
+											
+						if (event.getEntity() instanceof WitherEntity) {
+							playerData.addExperience(player, 1500);
+						}
+						
 					}
-					
 					Entity entity = event.getEntity();
 					double x = entity.getPosX();
 					double y = entity.getPosY();

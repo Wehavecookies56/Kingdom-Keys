@@ -18,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class UpgradeDriveFormItem extends Item {
 	String formName;
@@ -42,7 +43,7 @@ public class UpgradeDriveFormItem extends Item {
 						}
 						int newExp = exp - oldExp;
 						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
-						player.sendMessage(new TranslationTextComponent(formName.substring(formName.indexOf(":") + 1) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
+						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(formName.substring(formName.indexOf(":") + 1)) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
 						
 						if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
 							player.getHeldItemMainhand().shrink(1);
@@ -55,7 +56,7 @@ public class UpgradeDriveFormItem extends Item {
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
 					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
-					player.sendMessage(new TranslationTextComponent("message.form_unlocked", ModDriveForms.registry.getValue(new ResourceLocation(formName)).getTranslationKey()));
+					player.sendMessage(new TranslationTextComponent("message.form_unlocked", Utils.translateToLocal(formName.substring(formName.indexOf(":") + 1))));
 					if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
 						player.getHeldItemMainhand().shrink(1);
 					} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
@@ -70,7 +71,7 @@ public class UpgradeDriveFormItem extends Item {
 
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("Upgrade " + formName));
+		tooltip.add(new TranslationTextComponent("Upgrade " + Utils.translateToLocal(formName.substring(formName.indexOf(":") + 1))));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 }

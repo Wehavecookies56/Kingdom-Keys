@@ -651,7 +651,7 @@ public class InputHandler {
 						power = Constants.WISDOM_QR[wisdomLevel];
 						if (!player.onGround)
 							player.addVelocity(motionX * power / 2, 0, motionZ * power / 2);
-					} else if (playerData.getActiveDriveForm().equals("")) { //Base
+					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
 						if (wisdomLevel > 2) {
 							power = Constants.WISDOM_QR[wisdomLevel - 2];
 						}
@@ -667,7 +667,7 @@ public class InputHandler {
 					double power = 0;
 					if (playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
 						power = Constants.LIMIT_DR[limitLevel];
-					} else if (playerData.getActiveDriveForm().equals("")) {//Base
+					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {//Base
 						if (limitLevel > 2) {
 							power = Constants.LIMIT_DR[limitLevel - 2];
 						}

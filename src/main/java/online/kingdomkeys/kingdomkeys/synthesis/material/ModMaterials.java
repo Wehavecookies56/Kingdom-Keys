@@ -33,8 +33,7 @@ public class ModMaterials {
         @SubscribeEvent
         public static void registerMaterials(RegistryEvent.Register<Material> event) {
             event.getRegistry().registerAll(
-                    //PLACEHOLDER
-                    new Material("kingdomkeys:material_apple", Items.APPLE),
+                    //new Material("kingdomkeys:material_apple", Items.APPLE),
                     createMaterial(ModItems.soothing_crystal.get(), Strings.SM_SoothingCrystal),
                     createMaterial(ModItems.soothing_gem.get(), Strings.SM_SoothingGem),
                     createMaterial(ModItems.soothing_stone.get(), Strings.SM_SoothingStone),

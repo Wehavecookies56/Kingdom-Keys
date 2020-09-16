@@ -35,16 +35,19 @@ public class ModAbilities {
 				createAbility("auto_limit", 1, AbilityType.ACTION, order++),
 				createAbility("auto_master", 1, AbilityType.ACTION, order++),
 				createAbility("auto_final", 1, AbilityType.ACTION, order++),
-				
+
 				// Growth
 				createAbility("high_jump", 2, AbilityType.GROWTH, order++), 
 				createAbility("quick_run", 2, AbilityType.GROWTH, order++), 
 				createAbility("dodge_roll", 3, AbilityType.GROWTH, order++),
 				createAbility("aerial_dodge", 3, AbilityType.GROWTH, order++),
 				createAbility("glide", 3, AbilityType.GROWTH, order++),
-				
+
 				// Support
-				createAbility("scan", 1, AbilityType.SUPPORT, order++)
+				createAbility("zero_exp", 0, AbilityType.SUPPORT, order++),
+				createAbility("scan", 1, AbilityType.SUPPORT, order++),
+				createAbility("mp_haste", 3, AbilityType.SUPPORT, order++),
+				createAbility("mp_hastera", 4, AbilityType.SUPPORT, order++)
 			);
 		}
 	}

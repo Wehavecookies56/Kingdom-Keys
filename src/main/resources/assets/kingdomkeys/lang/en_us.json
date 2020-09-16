@@ -127,6 +127,9 @@
 	"ability_glide_4": "Glide MAX",
 	
 	"ability_scan": "Scan",
+	"ability_zero_exp": "Zero EXP",
+	"ability_mp_haste": "MP Haste",
+	"ability_mp_hastera": "MP Hastera",
 	
 	
     "_comment": "Blocks",

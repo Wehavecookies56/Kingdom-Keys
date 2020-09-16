@@ -100,14 +100,14 @@ public class MenuBackground extends Screen {
 	MenuBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
 
 	protected float topBarHeight;
-	float bottomBarHeight;
+	protected float bottomBarHeight;
 	protected float topLeftBarWidth;
-	float topRightBarWidth;
+	protected float topRightBarWidth;
 	protected float topGap;
-	float bottomLeftBarWidth;
-	float bottomRightBarWidth;
-	float bottomGap;
-	float middleHeight;
+	protected float bottomLeftBarWidth;
+	protected float bottomRightBarWidth;
+	protected float bottomGap;
+	protected float middleHeight;
 
 	public boolean drawSeparately = false;
 
@@ -118,7 +118,7 @@ public class MenuBackground extends Screen {
 		drawBiomeDim();
 		drawTip();
 		//RenderHelper.disableStandardItemLighting();
-		drawBackground(width, height, drawPlayerInfo);
+		//drawBackground(width, height, drawPlayerInfo);
 		tip = null;
 
 		int i = 0;

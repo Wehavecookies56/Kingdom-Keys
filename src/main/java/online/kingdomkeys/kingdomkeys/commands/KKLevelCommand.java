@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -86,6 +87,8 @@ public class KKLevelCommand extends BaseCommand{ //kklevel <give/take/set> <amou
             playerData.setDefense(1);
             
             playerData.clearAbilities();
+            playerData.addAbility(Strings.zeroExp, false);
+            
 			while (playerData.getLevel() < level) {
 				playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()));
 			}

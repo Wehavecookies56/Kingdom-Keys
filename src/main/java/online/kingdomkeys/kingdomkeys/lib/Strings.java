@@ -46,7 +46,10 @@ public class Strings {
     		glide = KingdomKeys.MODID+":"+Strings.AB_Prefix +"glide",
     		
     		//Support
-    		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan"
+    		zeroExp = KingdomKeys.MODID+":"+Strings.AB_Prefix +"zero_exp",
+    		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan",
+    		mpHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_haste",
+    		mpHastera= KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_hastera"
     		;
     
     // Synthesis Materials
@@ -401,9 +404,7 @@ public class Strings {
             Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",
             
             Gui_Synthesis_Synthesise = Gui_Synthesis + ".synthesise",
-            Gui_Synthesis_Synthesise_Keyblades = Gui_Synthesis_Synthesise + ".keyblades",
-            Gui_Synthesis_Synthesise_Items = Gui_Synthesis_Synthesise + ".items",
-            Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise_Keyblades+".create",
+            Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise+".create",
             
             Gui_Synthesis_Forge = Gui_Synthesis + ".forge",
             Gui_Synthesis_Forge_Upgrade = Gui_Synthesis_Forge+".upgrade",
