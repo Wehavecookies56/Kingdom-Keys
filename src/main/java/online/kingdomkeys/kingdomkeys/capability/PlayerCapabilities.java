@@ -466,6 +466,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			break;
 		case 16:
 			this.addMagic(1);
+			this.addAbility(Strings.mpRage, true);
 			break;
 		case 17:
 			this.addStrength(1);

@@ -560,23 +560,28 @@ public class EntityEvents {
 						playerData.setReflectActive(true);
 					event.setCanceled(true);
 				}
+				
+				if(playerData.isAbilityEquipped(Strings.mpRage)) {
+					playerData.addMP(event.getAmount());
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
+				}
+				
 			}
 
 			if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
 				if (globalData.getStoppedTicks() > 0) {
 					float dmg = event.getAmount();
-					System.out.println(event.getSource());
 					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 						if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemMainhand());
 						} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
 						}
+						
 						if(dmg == 0) {
 							dmg = event.getAmount();
 						}
-						//System.out.println(dmg);
 					}
 					globalData.addDamage((int) dmg);
 					event.setCanceled(true);

@@ -49,7 +49,8 @@ public class Strings {
     		zeroExp = KingdomKeys.MODID+":"+Strings.AB_Prefix +"zero_exp",
     		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan",
     		mpHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_haste",
-    		mpHastera= KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_hastera"
+    		mpHastera = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_hastera",
+    		mpRage =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_rage"
     		;
     
     // Synthesis Materials

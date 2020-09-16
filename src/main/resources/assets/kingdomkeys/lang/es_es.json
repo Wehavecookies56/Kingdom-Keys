@@ -128,7 +128,10 @@
 	
 	"ability_scan": "Libra",
 	"ability_zero_exp": "Experiencia 0",
-
+	"ability_zero_exp": "Zero EXP",
+	"ability_mp_haste": "Prisa MP",
+	"ability_mp_hastera": "Prisa MP+",
+	"ability_mp_rage": "Aspirar Daño",
 	
     "_comment": "Blocks",
     "block.kingdomkeys.normal_blox": "Blox Normal",

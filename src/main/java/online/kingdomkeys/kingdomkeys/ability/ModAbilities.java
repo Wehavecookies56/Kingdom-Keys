@@ -22,7 +22,7 @@ public class ModAbilities {
 		}
 
 		public static Ability createAbility(String name, int apCost, AbilityType type, int order) {
-			return new Ability(KingdomKeys.MODID + ":" + Strings.AB_Prefix + name, apCost, type, order);
+			return new Ability(name, apCost, type, order);
 		}
 
 		@SubscribeEvent
@@ -30,24 +30,25 @@ public class ModAbilities {
 			int order = 0;
 			event.getRegistry().registerAll(
 				//Action
-				createAbility("auto_valor", 1, AbilityType.ACTION, order++),
-				createAbility("auto_wisdom", 1, AbilityType.ACTION, order++),
-				createAbility("auto_limit", 1, AbilityType.ACTION, order++),
-				createAbility("auto_master", 1, AbilityType.ACTION, order++),
-				createAbility("auto_final", 1, AbilityType.ACTION, order++),
+				createAbility(Strings.autoValor, 1, AbilityType.ACTION, order++),
+				createAbility(Strings.autoWisdom, 1, AbilityType.ACTION, order++),
+				createAbility(Strings.autoLimit, 1, AbilityType.ACTION, order++),
+				createAbility(Strings.autoMaster, 1, AbilityType.ACTION, order++),
+				createAbility(Strings.autoFinal, 1, AbilityType.ACTION, order++),
 
 				// Growth
-				createAbility("high_jump", 2, AbilityType.GROWTH, order++), 
-				createAbility("quick_run", 2, AbilityType.GROWTH, order++), 
-				createAbility("dodge_roll", 3, AbilityType.GROWTH, order++),
-				createAbility("aerial_dodge", 3, AbilityType.GROWTH, order++),
-				createAbility("glide", 3, AbilityType.GROWTH, order++),
+				createAbility(Strings.highJump, 2, AbilityType.GROWTH, order++), 
+				createAbility(Strings.quickRun, 2, AbilityType.GROWTH, order++), 
+				createAbility(Strings.dodgeRoll, 3, AbilityType.GROWTH, order++),
+				createAbility(Strings.aerialDodge, 3, AbilityType.GROWTH, order++),
+				createAbility(Strings.glide, 3, AbilityType.GROWTH, order++),
 
 				// Support
-				createAbility("zero_exp", 0, AbilityType.SUPPORT, order++),
-				createAbility("scan", 1, AbilityType.SUPPORT, order++),
-				createAbility("mp_haste", 3, AbilityType.SUPPORT, order++),
-				createAbility("mp_hastera", 4, AbilityType.SUPPORT, order++)
+				createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT, order++),
+				createAbility(Strings.scan, 1, AbilityType.SUPPORT, order++),
+				createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT, order++),
+				createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT, order++),
+				createAbility(Strings.mpRage, 3, AbilityType.SUPPORT, order++)
 			);
 		}
 	}
