@@ -50,7 +50,8 @@ public class Strings {
     		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan",
     		mpHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_haste",
     		mpHastera = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_hastera",
-    		mpRage =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_rage"
+    		mpRage =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_rage",
+    		damageDrive =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"damage_drive"
     		;
     
     // Synthesis Materials

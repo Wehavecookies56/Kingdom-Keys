@@ -1,14 +1,16 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.abilities;
 
 import java.awt.Color;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
+import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
@@ -19,23 +21,40 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuAbilitiesScreen extends MenuBackground {
 	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	LinkedHashMap<String, int[]> abilitiesMap;
-	MenuAbilitiesButton[] abilities = new MenuAbilitiesButton[playerData.getAbilityMap().size()];
+    List<MenuAbilitiesButton> abilities = new ArrayList<>();
+
 
 	MenuBox box;
-	
+	Button prev, next;
+	int page = 0;
+	int itemsPerPage;
+
 	public MenuAbilitiesScreen() {
 		super("Abilities", new Color(0,0,255));
 	}
 	
-	
+	protected void action(String string) {
+		switch (string) {
+		case "prev":
+			page--;
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			break;
+		case "next":
+			page++;
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			break;
+		}
+
+	}
 
 	@Override
 	public void init() {
@@ -45,6 +64,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		super.init();
 
 		buttons.clear();
+		children.clear();
+		abilities.clear();
 		
 		float boxPosX = (float) width * 0.2F;
 		float topBarHeight = (float) height * 0.17F;
@@ -60,15 +81,32 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 			String path = new ResourceLocation(abilityName).getPath();
-			addButton(abilities[i] = new MenuAbilitiesButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, Utils.translateToLocal(path), ability.getType(), (e) -> {
+			abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(path), ability.getType(), (e) -> {
 				action(ability);
 			}));
+			
+			abilities.get(i).visible = false;
 		}
+		
+		abilities.forEach(this::addButton);
+
+		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Utils.translateToLocal("<--"), (e) -> {
+			action("prev");
+		}));
+		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Utils.translateToLocal("-->"), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+			action("next");
+		}));
+		
+		prev.visible = false;
+		next.visible = false;
+		
+		itemsPerPage = (int) (middleHeight / 19);
+
 	}
 
 	private void action(Ability ability) {
 		String abilityName = ability.getRegistryName().toString();
-
+		System.out.println(abilityName);
 		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
 		int lvlIncrease = 0;
 		if (playerData.isAbilityEquipped(abilityName)) { // If ability is equipped, unequip
@@ -78,6 +116,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
 			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP()) {
 				System.out.println("Not enough AP");
+				return;
 			} else {
 				lvlIncrease = 1;
 			}
@@ -95,7 +134,36 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		box.draw();
 		super.render(mouseX, mouseY, partialTicks);
 		drawAP();
-		// fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+		
+		prev.visible = page > 0;
+		next.visible = page < abilities.size() / itemsPerPage;
+
+		//Page renderer
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.translated(prev.x+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+		}
+		RenderSystem.popMatrix();
+
+		for (int i = 0; i < abilities.size(); i++) {
+			abilities.get(i).visible = false;
+		//	abilities.get(i).active = false;
+		}
+
+		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
+			if (i < abilities.size()) {
+				if (abilities.get(i) != null) {
+					abilities.get(i).visible = true;
+					abilities.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 19 + 2; // 6 = offset
+					//abilities.get(i).active = true;
+					abilities.get(i).render(mouseX, mouseY, partialTicks);
+				}
+			}
+		}
+		
+		prev.render(mouseX,  mouseY,  partialTicks);
+		next.render(mouseX,  mouseY,  partialTicks);
 	}
 
 	
@@ -104,27 +172,20 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int maxAP = playerData.getMaxAP();
 
 		Ability hoveredAbility = null;
-		int i = 0;
 		//Get all the abilities and set their text
-		for (i = 0; i < abilitiesMap.size(); i++) {
+		for (int i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 
-			String text = "";
-			if (playerData.getEquippedAbilityLevel(abilityName)[1] > 0) {
-				text = "O "; // Has to unequip
-			} else {
-				text = "  "; // Has to equip
-			}
-			
-			
+			abilities.get(i).equipped = playerData.isAbilityEquipped(abilityName);			
+
 			String lvl = "";
 			if(ability.getType() == AbilityType.GROWTH) {
 				int level = (playerData.getEquippedAbilityLevel(abilityName)[0]);
      			lvl+= "_"+level;
 			}
 			abilityName = abilityName.replace("kingdomkeys:","");
-			text += Utils.translateToLocal(abilityName+lvl);
+			String text = Utils.translateToLocal(abilityName+lvl);
 
 			MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
 			

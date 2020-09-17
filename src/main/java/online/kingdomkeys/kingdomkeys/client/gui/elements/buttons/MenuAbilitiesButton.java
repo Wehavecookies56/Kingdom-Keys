@@ -33,12 +33,15 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	
 	private boolean selected;
 	private int ap;
+	Minecraft minecraft;
+	public boolean equipped = false;
 	
 	public MenuAbilitiesButton(int x, int y, int widthIn, String buttonText, Ability.AbilityType type, Button.IPressable onPress) {
 		super(x, y, 22 + widthIn, 20, buttonText, onPress);
 		middleWidth = widthIn;
 		apMiddleWidth = widthIn/3;
 		abilityType = type;
+		minecraft = Minecraft.getInstance();
 	}
 
 	@ParametersAreNonnullByDefault
@@ -52,31 +55,31 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			Minecraft.getInstance().textureManager.bindTexture(texture);
+			minecraft.textureManager.bindTexture(texture);
 			if (isHovered && active) { //Hovered button
 				drawButton(isHovered);
-				drawString(Minecraft.getInstance().fontRenderer, getMessage().substring(getMessage().indexOf(":")+1), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-				drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-				drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+				drawString(minecraft.fontRenderer, getMessage().substring(getMessage().indexOf(":")+1), x + 20, y + 6, new Color(255, 255, 255).hashCode());
+				drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+				drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
 			} else {
 				if(active) {//Not hovered but fully visible
 					drawButton(isHovered);
-					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-					drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-					drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+					drawString(minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(255, 255, 255).hashCode());
+					drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+					drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
 
 				} else {//Not hovered and selected (not fully visible)
 					if(selected) {
 						drawButton(isHovered);
-						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100,100,100).hashCode());
-						drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-						drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+						drawString(minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
+						drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+						drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
 
 					} else {
 						drawButton(isHovered);
-						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100,100,100).hashCode());
-						drawString(Minecraft.getInstance().fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(180, 180, 0).hashCode());
-						drawString(Minecraft.getInstance().fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(180, 180, 180).hashCode());
+						drawString(minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
+						drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(180, 180, 0).hashCode());
+						drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(180, 180, 180).hashCode());
 
 					}
 				}
@@ -89,10 +92,10 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	}
 	
 	private void renderColor() {
-		if(abilityType != null) {
-			switch(abilityType) {
+		if (abilityType != null) {
+			switch (abilityType) {
 			case ACTION:
-				RenderSystem.color3f(0, 0,0.4F);
+				RenderSystem.color3f(0, 0, 0.4F);
 				break;
 			case GROWTH:
 				RenderSystem.color3f(0.4F, 0.4F, 0);
@@ -117,12 +120,25 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		RenderSystem.popMatrix();
 		
 		//AP Cost
-		RenderSystem.color3f(0.4F, 0.4F, 0);
-		blit(x+middleWidth+endWidth+10, y, leftU, vPos, endWidth, height);
+		RenderSystem.color3f(0.3F, 0.24F, 0);
+		blit(x+middleWidth+endWidth+10, y-1, 72, 117, endWidth, height);
 		for (int i = 0; i < apMiddleWidth; i++) {
-			blit(x +middleWidth+ i + endWidth+20, y, middleU, vPos, 1, height);
+			blit(x +middleWidth+ i + endWidth+19, y, middleU, vPos, 1, height);
 		}
-		blit(x + endWidth + middleWidth+apMiddleWidth +20, y, rightU, vPos, endWidth, height);
+		blit(x + endWidth + middleWidth+apMiddleWidth +19, y, rightU, vPos, endWidth, height);
+		
+		//Equipped/Unequipped icon
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.color4f(1, 1, 1, 1);
+			
+			if(!equipped) {
+				blit(x+6, y+4, 74, 102, 12, 12);
+			} else {
+				blit(x+6, y+4, 87, 102, 12, 12);
+			}
+		}
+		RenderSystem.popMatrix();
 		
 		//Hovered outline
 		if(hovered) {

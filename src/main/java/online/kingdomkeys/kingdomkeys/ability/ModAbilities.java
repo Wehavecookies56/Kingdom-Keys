@@ -15,40 +15,41 @@ public class ModAbilities {
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registry {
-
+		static int order = 0;
+		
 		@SubscribeEvent
 		public static void registerAbilitiesRegistry(RegistryEvent.NewRegistry event) {
 			registry = new RegistryBuilder<Ability>().setName(new ResourceLocation(KingdomKeys.MODID, "abilities")).setType(Ability.class).create();
 		}
 
-		public static Ability createAbility(String name, int apCost, AbilityType type, int order) {
-			return new Ability(name, apCost, type, order);
+		public static Ability createAbility(String name, int apCost, AbilityType type) {
+			return new Ability(name, apCost, type, order++);
 		}
 
 		@SubscribeEvent
 		public static void registerAbilities(RegistryEvent.Register<Ability> event) {
-			int order = 0;
 			event.getRegistry().registerAll(
 				//Action
-				createAbility(Strings.autoValor, 1, AbilityType.ACTION, order++),
-				createAbility(Strings.autoWisdom, 1, AbilityType.ACTION, order++),
-				createAbility(Strings.autoLimit, 1, AbilityType.ACTION, order++),
-				createAbility(Strings.autoMaster, 1, AbilityType.ACTION, order++),
-				createAbility(Strings.autoFinal, 1, AbilityType.ACTION, order++),
+				createAbility(Strings.autoValor, 1, AbilityType.ACTION),
+				createAbility(Strings.autoWisdom, 1, AbilityType.ACTION),
+				createAbility(Strings.autoLimit, 1, AbilityType.ACTION),
+				createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
+				createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
 
 				// Growth
-				createAbility(Strings.highJump, 2, AbilityType.GROWTH, order++), 
-				createAbility(Strings.quickRun, 2, AbilityType.GROWTH, order++), 
-				createAbility(Strings.dodgeRoll, 3, AbilityType.GROWTH, order++),
-				createAbility(Strings.aerialDodge, 3, AbilityType.GROWTH, order++),
-				createAbility(Strings.glide, 3, AbilityType.GROWTH, order++),
+				createAbility(Strings.highJump, 2, AbilityType.GROWTH), 
+				createAbility(Strings.quickRun, 2, AbilityType.GROWTH), 
+				createAbility(Strings.dodgeRoll, 3, AbilityType.GROWTH),
+				createAbility(Strings.aerialDodge, 3, AbilityType.GROWTH),
+				createAbility(Strings.glide, 3, AbilityType.GROWTH),
 
 				// Support
-				createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT, order++),
-				createAbility(Strings.scan, 1, AbilityType.SUPPORT, order++),
-				createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT, order++),
-				createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT, order++),
-				createAbility(Strings.mpRage, 3, AbilityType.SUPPORT, order++)
+				createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
+				createAbility(Strings.scan, 1, AbilityType.SUPPORT),
+				createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT),
+				createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT),
+				createAbility(Strings.mpRage, 3, AbilityType.SUPPORT),
+				createAbility(Strings.damageDrive, 3, AbilityType.SUPPORT)
 			);
 		}
 	}
