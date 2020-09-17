@@ -33,7 +33,7 @@ public abstract class ItemDropEntity extends Entity {
 		this.rotationYaw = (float) (this.rand.nextDouble() * 360.0D);
 		this.setMotion((this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.rand.nextDouble() * 0.2D * 2.0D, (this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
 		this.value = expValue;
-		this.delayBeforeCanPickup = 10;
+		this.delayBeforeCanPickup = 20;
 	}
 
 	public ItemDropEntity(EntityType<ItemDropEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {

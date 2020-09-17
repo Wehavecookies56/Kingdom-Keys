@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,5 +39,25 @@ public class MunnyEntity extends ItemDropEntity {
 	@Override
 	SoundEvent getPickupSound() {
 		return ModSounds.munny.get();
+	}
+	
+	@Override
+	public void tick() {
+		super.tick();
+		//Merge with surrounding orbs
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().grow(2.0D, 2.0D, 2.0D));
+		if (!list.isEmpty()) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) instanceof ItemDropEntity) {
+					ItemDropEntity e = (ItemDropEntity) list.get(i);
+					if(e instanceof MunnyEntity) {
+						if(this.ticksExisted > e.ticksExisted) {
+							this.value += e.value;
+							e.remove();
+						}
+					}
+				}
+			}
+		}
 	}
 }
