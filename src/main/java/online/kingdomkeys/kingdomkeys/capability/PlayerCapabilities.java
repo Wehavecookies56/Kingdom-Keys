@@ -462,6 +462,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			this.addStrength(1);
 			this.addMaxHP(5);
 			this.addMaxMP(5);
+			this.addAbility(Strings.damageDrive, true);
 			// ABILITIES.unlockAbility(ModAbilities.formBoost);
 			break;
 		case 16:

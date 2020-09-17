@@ -573,6 +573,11 @@ public class EntityEvents {
 					playerData.addMP(event.getAmount());
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
 				}
+
+				if(playerData.isAbilityEquipped(Strings.damageDrive)) {
+					playerData.addDP(event.getAmount());
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
+				}
 				
 			}
 
