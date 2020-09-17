@@ -527,6 +527,14 @@ public class EntityEvents {
 				event.setAmount(dmg);
 			}
 		}
+		
+		if(event.getEntityLiving() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			
+			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense())));
+			event.setAmount(damage <= 0 ? 1 : damage);
+		}
 	}
 	
 	@SubscribeEvent

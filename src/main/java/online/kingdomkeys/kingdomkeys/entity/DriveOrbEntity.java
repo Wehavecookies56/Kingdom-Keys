@@ -37,9 +37,9 @@ public class DriveOrbEntity extends ItemDropEntity {
 	@Override
 	void onPickup(PlayerEntity player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()))
+		if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 			playerData.addDP(value);
-		else {
+		} else {
 			playerData.addFP(value);
 
 			if (playerData.getActiveDriveForm().equals(Strings.Form_Master)) {
