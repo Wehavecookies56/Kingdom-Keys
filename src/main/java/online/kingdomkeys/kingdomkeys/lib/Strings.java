@@ -51,7 +51,11 @@ public class Strings {
     		mpHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_haste",
     		mpHastera = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_hastera",
     		mpRage =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_rage",
-    		damageDrive =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"damage_drive"
+    		damageDrive =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"damage_drive",
+    		driveBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"drive_boost",
+    		formBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"form_boost",
+    		fireBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"fire_boost",
+    		blizzardBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzard_boost"
     		;
     
     // Synthesis Materials

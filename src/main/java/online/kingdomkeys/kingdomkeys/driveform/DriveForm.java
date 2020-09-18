@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
@@ -128,10 +129,13 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	}
 
 	public void updateDrive(PlayerEntity player) {
+		double formDecrease = 0.2;
 		if (!getRegistryName().equals(NONE)) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(playerData.isAbilityEquipped(Strings.formBoost))
+				formDecrease = .15;
 			if (playerData.getFP() > 0) {
-				playerData.setFP(playerData.getFP() - 0.2);
+				playerData.setFP(playerData.getFP() - formDecrease);
 			} else {
 				endDrive(player);
 			}

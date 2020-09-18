@@ -1,7 +1,6 @@
 {
   "abilities": [
-    "Treasure Magnet",
-    "Formchange Extender"
+    "kingdomkeys:ability_fire_boost"
   ],
   "keychain": "kingdomkeys:flame_liberator_chain",
   "base_stats": {
@@ -74,12 +73,12 @@
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:mat_writhing_stone",
-          "quantity": 2
-        },
-        {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
         }
       ]
     },
@@ -92,12 +91,12 @@
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:mat_writhing_stone",
-          "quantity": 2
-        },
-        {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
         }
       ]
     },
@@ -106,7 +105,7 @@
       "mag": 10,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_gem",
+          "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 1
         },
         {
@@ -114,7 +113,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_writhing_gem",
+          "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 1
         }
       ]
@@ -124,16 +123,16 @@
       "mag": 10,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
           "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 2
         },
         {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_adamantite",
-          "quantity": 1
         }
       ]
     },
@@ -142,16 +141,16 @@
       "mag": 10,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
           "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 3
         },
         {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_adamantite",
-          "quantity": 1
         }
       ]
     },

@@ -80,6 +80,7 @@ public class FireEntity extends ThrowableEntity {
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
+
 				if (target != getThrower()) {
 					target.setFire(10);
 					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);

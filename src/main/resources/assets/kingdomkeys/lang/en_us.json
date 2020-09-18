@@ -131,7 +131,12 @@
 	"ability_mp_haste": "MP Haste",
 	"ability_mp_hastera": "MP Hastera",
 	"ability_mp_rage": "MP Rage",	
-	
+	"ability_damage_drive": "Damage Drive",
+	"ability_drive_boost": "Drive Boost",
+	"ability_form_boost": "Form Boost",
+	"ability_fire_boost": "Fire Boost",
+	"ability_blizzard_boost": "Blizzard Boost",
+
     "_comment": "Blocks",
     "block.kingdomkeys.normal_blox": "Normal Blox",
     "block.kingdomkeys.hard_blox": "Hard Blox",

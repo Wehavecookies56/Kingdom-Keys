@@ -49,7 +49,11 @@ public class ModAbilities {
 				createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT),
 				createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT),
 				createAbility(Strings.mpRage, 3, AbilityType.SUPPORT),
-				createAbility(Strings.damageDrive, 3, AbilityType.SUPPORT)
+				createAbility(Strings.damageDrive, 3, AbilityType.SUPPORT),
+				createAbility(Strings.driveBoost, 3, AbilityType.SUPPORT),
+				createAbility(Strings.formBoost, 3, AbilityType.SUPPORT),
+				createAbility(Strings.blizzardBoost, 3, AbilityType.SUPPORT),
+				createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT)
 			);
 		}
 	}

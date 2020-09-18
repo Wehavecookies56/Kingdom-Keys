@@ -578,6 +578,8 @@ public class EntityEvents {
 					playerData.addDP(event.getAmount());
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
 				}
+
+
 				
 			}
 

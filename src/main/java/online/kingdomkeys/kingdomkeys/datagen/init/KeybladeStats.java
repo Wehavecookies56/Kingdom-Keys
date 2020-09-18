@@ -235,7 +235,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade owned by Vulpeus' Foreteller.");
 
 		getBuilder(Strings.bondOfFlame).keychain(Strings.bondOfFlameChain).baseStats(8,8)
-            .abilities("Treasure Magnet", "Formchange Extender")
+            .abilities(Strings.fireBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,9).withMaterials(new Recipe()
@@ -925,7 +925,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.");
 
 		getBuilder(Strings.flameLiberator).keychain(Strings.flameLiberatorChain).baseStats(8,6)
-            .abilities("Treasure Magnet", "Formchange Extender")
+            .abilities(Strings.fireBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,7).withMaterials(new Recipe()
@@ -2095,7 +2095,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.");
 
 		getBuilder(Strings.oathkeeper).keychain(Strings.oathkeeperChain).baseStats(8,4)
-            .abilities("Treasure Magnet", "Formchange Extender")
+            .abilities(Strings.formBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,5).withMaterials(new Recipe()
@@ -2125,7 +2125,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Enhances magic and increases the duration of a Drive Form.");
 
 		getBuilder(Strings.oblivion).keychain(Strings.oblivionChain).baseStats(10,-1)
-            .abilities("Treasure Magnet", "Formchange Extender")
+            .abilities(Strings.driveBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,0).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,0).withMaterials(new Recipe()

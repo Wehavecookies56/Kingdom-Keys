@@ -491,6 +491,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		case 22:
 			this.addMagic(1);
 			this.addDefense(1);
+			this.addAbility(Strings.formBoost, true);
 			break;
 		case 23:
 			this.addStrength(1);
@@ -501,7 +502,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		case 25:
 			this.addStrength(1);
 			this.addMaxHP(5);
-			// ABILITIES.unlockAbility(ModAbilities.damageDrive);
+			this.addAbility(Strings.driveBoost, true);
 			break;
 		case 26:
 			this.addMagic(1);
