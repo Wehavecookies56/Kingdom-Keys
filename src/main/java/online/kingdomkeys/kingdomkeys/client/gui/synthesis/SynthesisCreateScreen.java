@@ -200,7 +200,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	}
 
 	@Override
-	protected void renderSelectedData() {
+	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.3333F;
 		float tooltipPosY = height * 0.8F;
 
@@ -213,8 +213,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		RenderSystem.pushMatrix();
 		{
 			double offset = (boxM.getWidth()*0.1F);
-			RenderSystem.translated(boxM.x+offset, iconPosY, 1);
-			RenderSystem.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 0);
+			RenderSystem.translated(boxM.x + offset/2, iconPosY, 1);
+			RenderSystem.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 1);
 			itemRenderer.renderItemIntoGUI(selected, 0, 0);
 		}
 		RenderSystem.popMatrix();

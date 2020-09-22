@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -15,8 +14,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthBagToClientPacket;
 
 public class SynthesisBagContainer extends Container {
 
@@ -116,7 +113,7 @@ public class SynthesisBagContainer extends Container {
         return super.slotClick(slot, dragType, clickTypeIn, player);
     }
     
-    @Override
+  /*  @Override
     public void onContainerClosed(PlayerEntity playerIn) {
 		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) playerIn.getHeldItemMainhand().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
 		if(!playerIn.world.isRemote) {
@@ -124,7 +121,7 @@ public class SynthesisBagContainer extends Container {
 		}
     	System.out.println(playerIn.world.isRemote+" "+bagInv.getStackInSlot(0));
     	super.onContainerClosed(playerIn);
-    }
+    }*/
 
     @Override
     protected boolean mergeItemStack (ItemStack stack, int start, int end, boolean backwards) {

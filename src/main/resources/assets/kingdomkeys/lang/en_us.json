@@ -40,6 +40,7 @@
 	"gui.synthesis.forge": "Keyblade Forge",
 	"gui.synthesis.materials": "Material List",
 	"gui.synthesis.materials.deposit": "Deposit",
+	"gui.synthesis.materials.take": "Take",
 
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",

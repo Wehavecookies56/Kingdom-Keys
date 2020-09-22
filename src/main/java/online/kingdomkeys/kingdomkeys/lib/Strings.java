@@ -417,6 +417,7 @@ public class Strings {
             
             Gui_Synthesis_Materials = Gui_Synthesis + ".materials",
             Gui_Synthesis_Materials_Deposit = Gui_Synthesis_Materials + ".deposit",
+            Gui_Synthesis_Materials_Take = Gui_Synthesis_Materials + ".take",
             Gui_Synthesis_Main_Materials_Deposit_Inv = Gui_Synthesis_Materials_Deposit + ".inventory",
             Gui_Synthesis_Main_Materials_Deposit_Bag = Gui_Synthesis_Materials_Deposit + ".bag",
             Gui_Synthesis_Main_Materials_TakeOne = Gui_Synthesis_Materials + ".takeone",

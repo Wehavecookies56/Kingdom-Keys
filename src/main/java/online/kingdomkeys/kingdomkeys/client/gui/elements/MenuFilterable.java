@@ -43,8 +43,6 @@ public abstract class MenuFilterable extends MenuBackground {
     	selected = stack;
 	}
     
-    
-    
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         if(filterBar != null)
@@ -52,7 +50,7 @@ public abstract class MenuFilterable extends MenuBackground {
         //scrollBar.render(mouseX, mouseY, partialTicks);
 
         if (!ItemStack.areItemStacksEqual(selected, ItemStack.EMPTY)) {
-            renderSelectedData();
+            renderSelectedData(mouseX, mouseY, partialTicks);
         }
         
        // inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
@@ -65,7 +63,7 @@ public abstract class MenuFilterable extends MenuBackground {
     	super.init();
     }
     
-    protected abstract void renderSelectedData();
+    protected abstract void renderSelectedData(int mouseX, int mouseY, float partialTicks);
 
 	public abstract void initItems();
     

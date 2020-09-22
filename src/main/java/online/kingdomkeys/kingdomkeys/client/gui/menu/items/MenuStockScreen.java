@@ -44,7 +44,7 @@ public class MenuStockScreen extends MenuFilterable {
     }
     
     @Override
-	protected void renderSelectedData() {
+	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.3333F;
         float tooltipPosY = height * 0.8F;
 
