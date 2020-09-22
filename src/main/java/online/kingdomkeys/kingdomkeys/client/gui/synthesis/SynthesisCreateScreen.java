@@ -145,7 +145,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
-
+		
 		if (selected != ItemStack.EMPTY) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
@@ -162,6 +162,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			}
 
 			create.active = enoughMats;
+			if(minecraft.player.inventory.getFirstEmptyStack() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
+				create.active = false;
+				create.setMessage("No empty slot");
+			}
 			create.visible = recipe != null;
 		} else {
 			create.visible = false;
@@ -172,7 +176,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		{
 			RenderSystem.translated(width * 0.03F + 45, (height * 0.15) - 18, 1);
 			drawString(minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
-			//System.out.println(next.visible);
 		}
 		RenderSystem.popMatrix();
 

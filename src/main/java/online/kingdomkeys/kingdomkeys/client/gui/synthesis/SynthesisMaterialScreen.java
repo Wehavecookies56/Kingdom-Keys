@@ -1,13 +1,18 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -15,22 +20,27 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class SynthesisMaterialScreen extends MenuBackground {
+public class SynthesisMaterialScreen extends MenuFilterable {
 		
 	MenuButton deposit,back;
 	Button prev,next;
+	MenuBox boxL, boxR;
 	int page = 0;
+	int itemsPerPage = 14;
 		
 	public SynthesisMaterialScreen() {
 		super(Strings.Gui_Synthesis_Materials,new Color(0,255,0));
@@ -61,11 +71,11 @@ public class SynthesisMaterialScreen extends MenuBackground {
 						Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 						playerData.addMaterial(mat, stack.getCount());
 						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-						//System.out.println("mat");
 					}
 				}
 			}
 			PacketHandler.sendToServer(new CSDepositMaterials());
+			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 			break;
 		case "back":
 			minecraft.displayGuiScreen(new SynthesisScreen());
@@ -79,40 +89,77 @@ public class SynthesisMaterialScreen extends MenuBackground {
 
 	}
 
+	
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
-		super.width = width;
-		super.height = height;
-		super.init();
-		this.buttons.clear();
-				
+		float boxPosX = (float) width * 0.2F;
 		float topBarHeight = (float) height * 0.17F;
-		int button_statsY = (int) topBarHeight + 5;
-		float buttonPosX = (float) width * 0.03F;
+		float boxWidth = (float) width * 0.33F;
+		float middleHeight = (float) height * 0.6F;
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxL.x + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
+		
+	
+		initItems();
+		// addButton(scrollBar = new MenuScrollBar());
+		super.init();
+		itemsPerPage = (int) (middleHeight / 14);
+	}
+	
+
+	@Override
+	public void initItems() {
+		float buttonPosX = (float) width * 0.008F;
+		int button_statsY = (int) topBarHeight + 10;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
+
+		float invPosX = boxL.x;
+		float invPosY = (float) height * 0.1851F;
+		
+		inventory.clear();
+		children.clear();
+		buttons.clear();
+		//filterBar.buttons.forEach(this::addButton);
+
+		List<ItemStack> items = new ArrayList<>();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+
+		Iterator<Entry<String, Integer>> itMaterials = playerData.getMaterialMap().entrySet().iterator();
+		while(itMaterials.hasNext()) {
+			Entry<String, Integer> mat = itMaterials.next();
+			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(mat.getKey()));
+			items.add(new ItemStack(item,mat.getValue()));
+		}
+		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
+
+		for (int i = 0; i < items.size(); i++) {
+			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), true));
+		}
+		
+		inventory.forEach(this::addButton);
+		
 		addButton(prev = new Button((int) buttonPosX+10, (int)(height * 0.1F), 30,20, Utils.translateToLocal("<--"), (e) -> { action("prev"); }));
 		addButton(next = new Button((int) buttonPosX+10+80, (int)(height * 0.1F), 30,20, Utils.translateToLocal("-->"), (e) -> { action("next"); }));
 		
 		prev.visible = false;
 		next.visible = false;
-		addButton(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
-		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(deposit = new MenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
+		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (3 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		//System.out.println(phase);
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+		drawMenuBackground(mouseX, mouseY, partialTicks);
+		boxL.draw();
+		boxR.draw();
 		super.render(mouseX, mouseY, partialTicks);
-		
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		int matsPerPage = 9;
 
 		prev.visible = page > 0;
-		next.visible = page < playerData.getMaterialMap().size()/matsPerPage;
+		next.visible = page < inventory.size() / itemsPerPage;
+		
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		
 		RenderSystem.pushMatrix();
 		{
@@ -122,25 +169,32 @@ public class SynthesisMaterialScreen extends MenuBackground {
 		}
 		RenderSystem.popMatrix();
 		
-		Iterator<Entry<String, Integer>> itMats = playerData.getMaterialMap().entrySet().iterator();
-		int i = 0;
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.translated(width*0.4F, height*0.2, 1);
-
-			while(itMats.hasNext()) {
-				Entry<String, Integer> m = itMats.next();
-				if(i>page*matsPerPage-1 && i < page*matsPerPage+matsPerPage) {
-					ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey())),m.getValue());
-					String n = Utils.translateToLocal(stack.getTranslationKey());
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(n)+ " x"+stack.getCount(), 2, (int) ((i-matsPerPage*page)*16), 0xFFFF00);
-					itemRenderer.renderItemIntoGUI(stack, -17, ((i-matsPerPage*page)*16)-5);
-				}
-				i++;
-			}
-		
+		for (int i = 0; i < inventory.size(); i++) {
+			inventory.get(i).active = false;
 		}
-		RenderSystem.popMatrix();
+
+		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
+			if (i < inventory.size()) {
+				if (inventory.get(i) != null) {
+					inventory.get(i).visible = true;
+					inventory.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 14 + 5; // 6 = offset
+					inventory.get(i).render(mouseX, mouseY, partialTicks);
+					inventory.get(i).active = true;
+				}
+			}
+		}
+		
+		prev.render(mouseX,  mouseY,  partialTicks);
+		next.render(mouseX,  mouseY,  partialTicks);
+		deposit.render(mouseX,  mouseY,  partialTicks);
+		back.render(mouseX,  mouseY,  partialTicks);
 	}
+
+	@Override
+	protected void renderSelectedData() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
