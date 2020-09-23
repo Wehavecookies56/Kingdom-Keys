@@ -11,7 +11,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -90,9 +90,13 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			minecraft.displayGuiScreen(new SynthesisScreen());
 			break;
 		case "take":
-			if(minecraft.player.inventory.getFirstEmptyStack() > -1) {
-				
-				//PacketHandler.sendToServer();
+			if(!ItemStack.areItemsEqual(selected, ItemStack.EMPTY) && minecraft.player.inventory.getFirstEmptyStack() > -1) {
+				try { 
+					Integer.parseInt(amountBox.getText());
+					PacketHandler.sendToServer(new CSTakeMaterials(selected.getItem(), Integer.parseInt(amountBox.getText())));
+				} catch (Exception e) {
+					System.out.println("NaN "+amountBox.getText());
+				}
 			}
 			break;
 		}
@@ -164,10 +168,32 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		next.visible = false;
 		addButton(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
 		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addButton(amountBox = new TextFieldWidget(minecraft.fontRenderer, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.fontRenderer.getStringWidth("#####"), 16, "test"));
+		addButton(amountBox = new TextFieldWidget(minecraft.fontRenderer, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.fontRenderer.getStringWidth("#####"), 16, "test") {
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (isNumber(c)) {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Integer.parseInt(text) > 64) {
+						return false;
+					}
+				} else {
+					return false;
+				}
+				return super.charTyped(c, i);
+			}
+		});
 		addButton(take = new Button((int) amountBox.x + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take), (e) -> { action("take"); }));
 		take.visible = false;
 		updateButtons();
+	}
+
+	public boolean isNumber(char c) {
+		try {
+			Integer.parseInt(String.valueOf(c));
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -179,6 +205,11 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
+		
+		if(minecraft.player.inventory.getFirstEmptyStack() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
+			take.active = false;
+			take.setMessage("No empty slot");
+		}
 		
 		RenderSystem.pushMatrix();
 		{
@@ -238,6 +269,10 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		RenderSystem.popMatrix();
 
 	}
-
 	
+	@Override
+	public boolean isPauseScreen() {
+		return false;
+	}
+
 }

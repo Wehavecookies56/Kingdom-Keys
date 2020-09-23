@@ -310,5 +310,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			}
 			RenderSystem.popMatrix();
 		}
-	}	
+	}
+	
+	@Override
+	public boolean isPauseScreen() {
+		return false;
+	}
 }

@@ -68,9 +68,11 @@ public class SynthesisScreen extends MenuBackground {
 		//System.out.println(phase);
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(mouseX, mouseY, partialTicks);
-		
-		int buttonX = (int)(width*0.25);
+	}
 	
+	@Override
+	public boolean isPauseScreen() {
+		return false;
 	}
 	
 }
