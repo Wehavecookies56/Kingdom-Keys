@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.SynthesisBagItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -47,8 +48,8 @@ public class CSDepositMaterials {
 						}
 						
 						//Bag
-						if (player.inventory.mainInventory.get(i).getItem() == ModItems.synthesisBag.get()) {
-		                    IItemHandler bag = player.inventory.mainInventory.get(i).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
+						if (stack != null && stack.getItem() instanceof SynthesisBagItem) {
+		                    IItemHandler bag = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
 		                    removeMaterial(bag, player, i);
 		    				//PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bag), (ServerPlayerEntity) player);
 						}
