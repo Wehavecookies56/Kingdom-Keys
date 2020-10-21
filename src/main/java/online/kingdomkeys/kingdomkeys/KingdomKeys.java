@@ -36,6 +36,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.particles.ModParticles;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.commands.KKDriveLevelCommand;
 import online.kingdomkeys.kingdomkeys.commands.KKExpCommand;
@@ -103,6 +104,7 @@ public class KingdomKeys {
 	public KingdomKeys() {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		ModParticles.PARTICLES.register(modEventBus);
 
 		ModBlocks.BLOCKS.register(modEventBus);
 		ModItems.ITEMS.register(modEventBus);

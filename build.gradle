@@ -75,7 +75,7 @@ sourceSets.main.resources {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.2.36'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.2.45'
 }
 
 jar {

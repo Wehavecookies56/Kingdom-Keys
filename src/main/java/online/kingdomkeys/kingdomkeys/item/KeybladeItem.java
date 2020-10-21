@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -11,7 +12,6 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.TrapDoorBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.command.impl.TagCommand;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +21,13 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.SwordItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -39,6 +45,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.particles.ExpParticleData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -164,6 +171,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
+		
+		ExpParticleData flameParticleData = new ExpParticleData(Color.red, 2);
+	    world.addParticle(flameParticleData, true, player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0, 0);
+		
 		if (player.isSneaking()) {
 			//setKeybladeLevel(10);
 		} else {
