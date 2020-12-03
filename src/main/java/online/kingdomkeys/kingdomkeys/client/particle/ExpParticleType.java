@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.particles;
+package online.kingdomkeys.kingdomkeys.client.particle;
 
 import net.minecraft.particles.ParticleType;
 

@@ -1,21 +1,20 @@
 package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import online.kingdomkeys.kingdomkeys.container.PedestalInventory;
+import net.minecraftforge.items.CapabilityItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-public class PedestalRenderer<T extends TileEntity> extends TileEntityRenderer<T> {
+public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
 
     private ItemRenderer renderItem;
 
@@ -24,17 +23,25 @@ public class PedestalRenderer<T extends TileEntity> extends TileEntityRenderer<T
 	}
 
 	@Override
-	public void render(T tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+	public void render(PedestalTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 	    this.renderItem = Minecraft.getInstance().getItemRenderer();
 
-		matrixStackIn.push();
-		{
-			PedestalInventory inv = ((PedestalTileEntity)tileEntityIn).getInv();
-			//System.out.println(inv.getStackInSlot(0));
-			RenderSystem.color4f(1, 1, 1,1);
-			matrixStackIn.translate(0.5, 1.25, 0.5);
-		    renderItem.renderItem(new ItemStack(ModItems.ultimaWeaponKH3.get()), TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
-		}
-        matrixStackIn.pop();
+	    tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iih -> {
+			if (!iih.getStackInSlot(0).isEmpty()) {
+				matrixStackIn.push();
+				{
+
+					RenderSystem.color4f(1, 1, 1, 1);
+					float height = 1.25F + (0.1F * (float)Math.sin(0.02F * tileEntityIn.ticksExisted()));
+					matrixStackIn.translate(0.5, height, 0.5);
+					float rotation = tileEntityIn.ticksExisted()  * 0.6F % 360F;
+					matrixStackIn.rotate(new Quaternion(new Vector3f(0, 1, 0), rotation, true));
+					renderItem.renderItem(iih.getStackInSlot(0), TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
+				}
+				matrixStackIn.pop();
+			}
+		});
+
+
 	}
 }

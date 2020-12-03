@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.items.CapabilityItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 
@@ -36,21 +37,23 @@ public class PedestalBlock extends ContainerBlock {
 				return ActionResultType.FAIL; // should always be true, but just in case...
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
 			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+				packetBuffer.writeBlockPos(pos);
 			});
 			// (packetBuffer)->{} is just a do-nothing because we have no extra data to send
 		}
 		return ActionResultType.SUCCESS;
 	}
 
-	public void onReplaced(BlockState state, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()) {
-			TileEntity tileentity = world.getTileEntity(blockPos);
-			if (tileentity instanceof PedestalTileEntity) {
-				PedestalTileEntity tileEntityInventoryBasic = (PedestalTileEntity) tileentity;
-				//tileEntityInventoryBasic.dropAllContents(world, blockPos);
-			}
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (state.hasTileEntity() && state.getBlock() != newState.getBlock()) {
+			world.getTileEntity(pos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+				for (int i = 0; i < inv.getSlots(); i++) {
+					spawnAsEntity(world, pos, inv.getStackInSlot(i));
+				}
+			});
+			world.removeTileEntity(pos);
 //		      worldIn.updateComparatorOutputLevel(pos, this);  if the inventory is used to set redstone power for comparators
-			super.onReplaced(state, world, blockPos, newState, isMoving); // call it last, because it removes the TileEntity
+			super.onReplaced(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
 		}
 	}
 

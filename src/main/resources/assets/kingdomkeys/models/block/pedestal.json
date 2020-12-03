@@ -4,7 +4,7 @@
 	"model": "kingdomkeys:models/block/pedestal.obj",
 	"transform":{
 		"translation": [ -0.5, -1, -0.5 ],
-		"scale": [ 0.01, 0.01, 0.01 ],
+		"scale": [ 0.0085, 0.0085, 0.0085 ],
 		"rotation":[0,45,0]
 	},
 	"textures": {

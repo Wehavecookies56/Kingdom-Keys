@@ -21,7 +21,7 @@ public class ModContainers {
 
     public static final RegistryObject<ContainerType<?>>
         SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork),
-        PEDESTAL = createContainer("pedestal_container", PedestalContainer::createContainerClientSide);
+        PEDESTAL = createContainer("pedestal_container", PedestalContainer::new);
     ;
 
     public static <M extends Container> RegistryObject<ContainerType<?>> createContainer(String name, IContainerFactory<M> container) {

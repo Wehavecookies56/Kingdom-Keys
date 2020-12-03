@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.particles;
+package online.kingdomkeys.kingdomkeys.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;

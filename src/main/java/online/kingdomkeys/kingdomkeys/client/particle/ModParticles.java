@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.particles;
+package online.kingdomkeys.kingdomkeys.client.particle;
 
 import net.minecraft.particles.ParticleType;
 import net.minecraftforge.fml.RegistryObject;
@@ -12,8 +12,8 @@ public class ModParticles {
 	public static final RegistryObject<ParticleType<?>> expParticle = createParticle("exp_particle");
 
 	private static RegistryObject<ParticleType<?>> createParticle(String name) {
-		RegistryObject<ParticleType<?>> thing = PARTICLES.register(name, () -> new ExpParticleType());
-		return thing;
+		RegistryObject<ParticleType<?>> particleType = PARTICLES.register(name, ExpParticleType::new);
+		return particleType;
 	}
 
 }
