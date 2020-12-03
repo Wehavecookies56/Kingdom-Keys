@@ -8,10 +8,5 @@
 		"rotation":[0,45,0]
 	},
 	"textures": {
-	},
-	"visibility": {
-	  "object_1": "hide",
-	  "object_2": "default",
-	  "object_3": "show"
 	}
 }

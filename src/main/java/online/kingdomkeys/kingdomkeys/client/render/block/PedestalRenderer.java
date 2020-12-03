@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GLX;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -30,13 +31,12 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
 			if (!iih.getStackInSlot(0).isEmpty()) {
 				matrixStackIn.push();
 				{
-
 					RenderSystem.color4f(1, 1, 1, 1);
 					float height = 1.25F + (0.1F * (float)Math.sin(0.02F * tileEntityIn.ticksExisted()));
 					matrixStackIn.translate(0.5, height, 0.5);
 					float rotation = tileEntityIn.ticksExisted()  * 0.6F % 360F;
 					matrixStackIn.rotate(new Quaternion(new Vector3f(0, 1, 0), rotation, true));
-					renderItem.renderItem(iih.getStackInSlot(0), TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
+					renderItem.renderItem(iih.getStackInSlot(0), TransformType.FIXED, 100, 655360, matrixStackIn, bufferIn);
 				}
 				matrixStackIn.pop();
 			}

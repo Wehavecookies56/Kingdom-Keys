@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
@@ -13,6 +14,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -26,20 +29,40 @@ public class PedestalBlock extends ContainerBlock {
 		super(properties);
 	}
 
+	private static final VoxelShape collision = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return collision;
+	}
+
+	@Override
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return getShape(state, worldIn, pos, context);
+	}
+
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
 		if (worldIn.isRemote)
-			return ActionResultType.SUCCESS; // on client side, don't do anything
+			return ActionResultType.SUCCESS;
 
 		INamedContainerProvider namedContainerProvider = this.getContainer(state, worldIn, pos);
 		if (namedContainerProvider != null) {
 			if (!(player instanceof ServerPlayerEntity))
-				return ActionResultType.FAIL; // should always be true, but just in case...
+				return ActionResultType.FAIL;
 			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
-				packetBuffer.writeBlockPos(pos);
-			});
-			// (packetBuffer)->{} is just a do-nothing because we have no extra data to send
+			if (state.hasTileEntity() && worldIn.getTileEntity(pos) instanceof PedestalTileEntity) {
+				PedestalTileEntity te = (PedestalTileEntity) worldIn.getTileEntity(pos);
+				if (te != null) {
+					if (te.stationOfAwakeningMarker()) {
+						//SOA stuff
+					} else {
+						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+							packetBuffer.writeBlockPos(pos);
+						});
+					}
+				}
+			}
 		}
 		return ActionResultType.SUCCESS;
 	}
