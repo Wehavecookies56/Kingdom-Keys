@@ -7,7 +7,6 @@ import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
 public class MagicBlizzard extends Magic {
-	String name;
 
 	public MagicBlizzard(String registryName, int cost, int order) {
 		super(registryName, cost, false, order);

@@ -119,22 +119,7 @@ public class MenuBackground extends Screen {
 		drawTip();
 		//RenderHelper.disableStandardItemLighting();
 		//drawBackground(width, height, drawPlayerInfo);
-		tip = null;
-
-		int i = 0;
-		for(Widget btn : buttons) {
-			if(btn instanceof MenuButtonBase) {
-				i++;
-				if(btn.isHovered()) {
-					selected = -1;
-					clearButtons();
-
-					if(btn instanceof MenuButton) {
-						tip = ((MenuButton) btn).getTip();
-					}
-				}
-			}
-		}
+		
 
 		RenderSystem.pushMatrix();
 		{
@@ -226,6 +211,23 @@ public class MenuBackground extends Screen {
 	}
 	
 	public void drawTip () {
+		tip = null;
+
+		int i = 0;
+		for(Widget btn : buttons) {
+			if(btn instanceof MenuButtonBase) {
+				i++;
+				if(btn.isHovered()) {
+					selected = -1;
+					clearButtons();
+
+					if(btn instanceof MenuButton && btn.visible) {
+						tip = ((MenuButton) btn).getTip();
+					}
+				}
+			}
+		}
+		
 		if(tip != null) {
 			RenderSystem.pushMatrix();
 			{
@@ -235,6 +237,7 @@ public class MenuBackground extends Screen {
 			}
 			RenderSystem.popMatrix();
 		}
+		
 	}
 
 	public static final ResourceLocation optionsBackground = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menubg.png");

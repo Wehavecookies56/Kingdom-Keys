@@ -13,7 +13,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 
 public class MagicStop extends Magic {
-	String name;
 
 	public MagicStop(String registryName, int cost, int order) {
 		super(registryName, cost, false, order);

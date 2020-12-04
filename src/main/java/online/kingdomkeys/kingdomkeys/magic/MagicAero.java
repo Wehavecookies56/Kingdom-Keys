@@ -10,19 +10,16 @@ import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class MagicAero extends Magic {
-	String name;
 
 	public MagicAero(String registryName, int cost, int order) {
 		super(registryName, cost, true, order);
 		this.name = registryName;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onUse(PlayerEntity player) {
-		//TODO Equip aero shield
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		playerData.setAeroTicks(400);
+		playerData.setAeroTicks((int) (playerData.getMP() * 3));
 		PacketHandler.syncToAllAround(player, playerData);
 		player.swingArm(Hand.MAIN_HAND);
 
