@@ -20,7 +20,7 @@ archivesBaseName = 'kingdomkeys'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200520-1.15.1'
+    mappings channel: 'snapshot', version: '20201203-1.15.1'
 
     runs {
         client {
@@ -75,7 +75,7 @@ sourceSets.main.resources {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.2.45'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.2.47'
 }
 
 jar {

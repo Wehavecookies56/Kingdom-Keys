@@ -48,7 +48,7 @@ public class PedestalContainer extends Container {
 		int i,j;
 		//Pedestal slot
 		TE.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iih -> {
-			addSlot(new SlotItemHandler(iih, 0, 80, 56) {
+			addSlot(new SlotItemHandler(iih, 0, 152, 9) {
 				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return true; //stack.getItem() instanceof KeybladeItem;

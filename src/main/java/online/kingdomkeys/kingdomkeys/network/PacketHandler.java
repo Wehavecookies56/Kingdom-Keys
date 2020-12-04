@@ -66,7 +66,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSLevelUpKeybladePacket.class, CSLevelUpKeybladePacket::encode, CSLevelUpKeybladePacket::decode, CSLevelUpKeybladePacket::handle);
 		HANDLER.registerMessage(packetID++, CSSummonKeyblade.class, CSSummonKeyblade::encode, CSSummonKeyblade::decode, CSSummonKeyblade::handle);
 		HANDLER.registerMessage(packetID++, CSEquipKeychain.class, CSEquipKeychain::encode, CSEquipKeychain::decode, CSEquipKeychain::handle);
-
+		HANDLER.registerMessage(packetID++, CSPedestalConfig.class, CSPedestalConfig::encode, CSPedestalConfig::decode, CSPedestalConfig::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

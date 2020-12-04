@@ -30,7 +30,28 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	public static final int NUMBER_OF_SLOTS = 1;
 	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
 
+	public static final float DEFAULT_HEIGHT = 1.25F;
+	public static final float DEFAULT_ROTATION = 0.0F;
+	public static final float DEFAULT_ROTATION_SPEED = 0.6F;
+	public static final float DEFAULT_BOB_SPEED = 0.02F;
+	public static final float DEFAULT_SCALE = 1.0F;
+
 	private boolean stationOfAwakeningMarker = false;
+
+	private float rotationSpeed = 0.6F;
+	private float bobSpeed = 0.02F;
+	private float scale = 1.0F;
+
+	//only storing values from the TESR here so values won't be correct on the server
+	private float currentRotation = 0;
+	private float currentHeight = 0;
+
+	private float savedRotation = 0.0F;
+	private float savedHeight = 1.25F;
+
+	private float baseHeight = 1.25F;
+
+	private boolean pause = false;
 
 	public PedestalTileEntity() {
 		super(ModEntities.TYPE_PEDESTAL.get());
@@ -48,24 +69,42 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	@Override
 	public void read(CompoundNBT compound) {
+		super.read(compound);
 		CompoundNBT invCompound = compound.getCompound("inv");
 		inventory.ifPresent(iih -> ((INBTSerializable<CompoundNBT>) iih).deserializeNBT(invCompound));
+		CompoundNBT transformations = compound.getCompound("transforms");
+		rotationSpeed = transformations.getFloat("rotspeed");
+		bobSpeed = transformations.getFloat("bobspeed");
+		savedRotation = transformations.getFloat("savedrot");
+		savedHeight = transformations.getFloat("savedheight");
+		scale = transformations.getFloat("scale");
+		baseHeight = transformations.getFloat("baseheight");
+		pause = transformations.getBoolean("pause");
 		if (compound.hasUniqueId("soaMarker")) {
 			stationOfAwakeningMarker = true;
 		}
-		super.read(compound);
 	}
 
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
+		super.write(compound);
 		inventory.ifPresent(iih -> {
 			CompoundNBT invCompound = ((INBTSerializable<CompoundNBT>) iih).serializeNBT();
 			compound.put("inv", invCompound);
 		});
+		CompoundNBT transformations = new CompoundNBT();
+		transformations.putFloat("rotspeed", rotationSpeed);
+		transformations.putFloat("bobspeed", bobSpeed);
+		transformations.putFloat("savedrot", savedRotation);
+		transformations.putFloat("savedheight", savedHeight);
+		transformations.putFloat("scale", scale);
+		transformations.putFloat("baseheight", baseHeight);
+		transformations.putBoolean("pause", pause);
+		compound.put("transforms", transformations);
 		if (stationOfAwakeningMarker) {
 			compound.putBoolean("soaMarker", true);
 		}
-		return super.write(compound);
+		return compound;
 	}
 
 	@Override
@@ -92,7 +131,78 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		return stationOfAwakeningMarker;
 	}
 
+	public boolean isStationOfAwakeningMarker() {
+		return stationOfAwakeningMarker;
+	}
+
+	public float getRotationSpeed() {
+		return rotationSpeed;
+	}
+
+	public float getBobSpeed() {
+		return bobSpeed;
+	}
+
+	public float getSavedRotation() {
+		return savedRotation;
+	}
+
+	public float getSavedHeight() {
+		return savedHeight;
+	}
+
+	public boolean isPaused() {
+		return pause;
+	}
+
+	public void setSpeed(float rotationSpeed, float bobSpeed) {
+		this.rotationSpeed = rotationSpeed;
+		this.bobSpeed = bobSpeed;
+		markDirty();
+	}
+
+	public void saveTransforms(float savedRotation, float savedHeight) {
+		this.savedRotation = savedRotation;
+		this.savedHeight = savedHeight;
+		markDirty();
+	}
+
+	public void setPause(boolean pause) {
+		this.pause = pause;
+		markDirty();
+	}
+
+	public void setCurrentTransforms(float currentRotation, float currentHeight) {
+		this.currentHeight = currentHeight;
+		this.currentRotation = currentRotation;
+	}
+
+	public float getBaseHeight() {
+		return baseHeight;
+	}
+
+	public void setBaseHeight(float baseHeight) {
+		this.baseHeight = baseHeight;
+	}
+
+	public float getCurrentRotation() {
+		return currentRotation;
+	}
+
+	public float getCurrentHeight() {
+		return currentHeight;
+	}
+
+	public float getScale() {
+		return scale;
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+
 	private int ticksExisted;
+	public int previousTicks;
 
 	public int ticksExisted() {
 		return ticksExisted;
@@ -100,7 +210,10 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	@Override
 	public void tick() {
-		ticksExisted++;
+		if (!pause) {
+			previousTicks = ticksExisted;
+			ticksExisted++;
+		}
 	}
 
 	@Nullable
