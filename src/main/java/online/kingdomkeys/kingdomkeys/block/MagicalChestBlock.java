@@ -82,6 +82,7 @@ public class MagicalChestBlock extends ContainerBlock {
 			if (te != null) {
 				PlayerEntity player = (PlayerEntity) placer;
 				te.setOwner(player.getGameProfile().getId());
+				player.sendStatusMessage(new TranslationTextComponent("Now right click the chest with your keyblade to lock it"), true);
 			}
 		}
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
@@ -130,6 +131,7 @@ public class MagicalChestBlock extends ContainerBlock {
 						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, buf -> {
 							buf.writeBlockPos(pos);
 						});
+						return ActionResultType.SUCCESS;
 					} else {
 						player.sendStatusMessage(new TranslationTextComponent("This chest is locked"), true);
 					}

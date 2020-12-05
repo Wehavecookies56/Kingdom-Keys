@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -108,7 +109,7 @@ public class ClientEvents {
 			PlayerEntity player = (PlayerEntity) event.getEntity();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			//Glide animation
-			if(playerData.getIsGliding()) {
+			if(playerData.getIsGliding() && (player.getMotion().x != 0 && player.getMotion().z != 0 )) {
 				event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
 				event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
 				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
