@@ -57,7 +57,7 @@ public class ModBlocks {
             twilightOreN = createNewBlock("twilight_ore_n", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
 
             savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
-    		kkChest = createNewBlock("kk_chest", () -> new KKChestBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
+    		magicalChest = createNewBlock("magical_chest", () -> new MagicalChestBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
     		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
     		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
     		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new StainedGlassBlock(DyeColor.LIME,Block.Properties.create(Material.GLASS).notSolid().sound(SoundType.GLASS).hardnessAndResistance(1.0F, 10.0F))),

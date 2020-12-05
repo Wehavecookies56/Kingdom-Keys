@@ -173,7 +173,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 		ItemStack itemstack = player.getHeldItem(hand);
 		
 		ExpParticleData flameParticleData = new ExpParticleData(Color.red, 2);
-	    world.addParticle(flameParticleData, true, player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0, 0);
+	    //world.addParticle(flameParticleData, true, player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0, 0);
 		
 		if (player.isSneaking()) {
 			//setKeybladeLevel(10);

@@ -316,7 +316,7 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("magnet_blox_off");
 		standardBlockItem("pair_blox");
 		standardBlockItem("org_portal");
-		standardBlockItem("kk_chest");
+		standardBlockItem("magical_chest");
 		standardBlockItem("pedestal");
 		//standardBlockItem("moogle_projector");
 

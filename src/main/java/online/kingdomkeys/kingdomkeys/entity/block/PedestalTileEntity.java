@@ -58,7 +58,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	}
 
 	private IItemHandler createInventory() {
-		return new ItemStackHandler(1) {
+		return new ItemStackHandler(NUMBER_OF_SLOTS) {
 			@Override
 			public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
 				return true; //stack.getItem() instanceof KeybladeItem;
@@ -115,7 +115,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	@Nullable
 	@Override
 	public Container createMenu(int windowID, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-		return new PedestalContainer(windowID, playerInventory, (PedestalTileEntity)this);
+		return new PedestalContainer(windowID, playerInventory, this);
 	}
 
 	@Nonnull

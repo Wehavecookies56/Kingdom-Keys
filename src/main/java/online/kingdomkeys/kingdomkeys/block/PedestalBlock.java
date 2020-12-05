@@ -75,7 +75,6 @@ public class PedestalBlock extends ContainerBlock {
 				}
 			});
 			world.removeTileEntity(pos);
-//		      worldIn.updateComparatorOutputLevel(pos, this);  if the inventory is used to set redstone power for comparators
 			super.onReplaced(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
 		}
 	}
