@@ -9,7 +9,7 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
-map_Kd kingdomkeys:item/models/keyblades/skullnoise_2
+map_Kd kingdomkeys:item/models/keyblades/skullnoise_1
 
 newmtl Brush.039
 Ns 225.000000
@@ -19,4 +19,4 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
-map_Kd kingdomkeys:item/models/keyblades/skullnoise_1
+map_Kd kingdomkeys:item/models/keyblades/skullnoise_2

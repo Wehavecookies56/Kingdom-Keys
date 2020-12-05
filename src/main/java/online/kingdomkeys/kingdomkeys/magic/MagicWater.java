@@ -8,7 +8,6 @@ import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 
 public class MagicWater extends Magic {
-	String name;
 
 	public MagicWater(String registryName, int cost, int order) {
 		super(registryName, cost, false, order);

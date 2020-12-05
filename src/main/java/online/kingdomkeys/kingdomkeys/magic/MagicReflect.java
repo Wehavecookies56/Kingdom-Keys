@@ -10,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class MagicReflect extends Magic {
-	String name;
 
 	public MagicReflect(String registryName, int cost, int order) {
 		super(registryName, cost, false, order);

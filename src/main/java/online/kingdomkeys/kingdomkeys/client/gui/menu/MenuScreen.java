@@ -37,9 +37,6 @@ public class MenuScreen extends MenuBackground {
 	MenuButton items, abilities, customize, party, status, journal, config;
 
 	static int munny;
-
-	int submenuIndex = SUBMENU_MAIN;
-
 	protected void action(int buttonID) {
 		switch (buttonID) {
 		case ITEMS:
@@ -84,7 +81,8 @@ public class MenuScreen extends MenuBackground {
 		int button_itemsY = (int) topBarHeight + 5;
 		int button_abilitiesY = button_itemsY + 18;
 		int button_customizeY = button_abilitiesY + 18;
-		int button_partyY = button_customizeY + 18;
+		//int button_partyY = button_customizeY + 18;
+		int button_partyY = button_abilitiesY + 18;
 		int button_statusY = button_partyY + 18;
 		int button_journalY = button_statusY + 18;
 		int button_configY = button_journalY + 18;
@@ -124,31 +122,16 @@ public class MenuScreen extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		switch (submenuIndex) {
-		case SUBMENU_MAIN:
-			items.visible = true;
-			abilities.visible = true;
-			customize.visible = true;
-			party.visible = true;
-			status.visible = true;
-			journal.visible = true;
-			config.visible = true;
-			party.active = true;
-			journal.active = true;
-			
-			customize.active = false;
-			journal.active = false;
-			break;
-		case SUBMENU_ITEMS:
-			items.visible = false;
-			abilities.visible = false;
-			customize.visible = false;
-			party.visible = false;
-			status.visible = false;
-			journal.visible = false;
-			config.visible = false;
-			break;
-		}
+		items.visible = true;
+		abilities.visible = true;
+		customize.visible = false;
+		party.visible = true;
+		status.visible = true;
+		journal.visible = false;
+		config.visible = false;
+		
+		customize.active = false;
+		journal.active = false;
 	}
 
 	@Override

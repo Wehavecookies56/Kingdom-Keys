@@ -9,7 +9,6 @@ import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
 public class MagicCure extends Magic {
-	String name;
 
 	public MagicCure(String registryName, int cost, int order) {
 		super(registryName, cost, true, order);

@@ -162,7 +162,7 @@ public class EntityEvents {
 					playerData.setMP(playerData.getMaxMP());
 				} else { //Still recharging
 					// if (event.player.ticksExisted % 1 == 0)
-					System.out.println((Utils.getMPHasteValue(playerData)/10) + 1);
+					//System.out.println((Utils.getMPHasteValue(playerData)/10) + 1);
 					playerData.addMP(playerData.getMaxMP()/500 * ((Utils.getMPHasteValue(playerData)/10) + 2));
 				}
 				
@@ -533,6 +533,11 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense())));
+			if(playerData.getAeroTicks() > 0) {
+				playerData.remAeroTicks((int) damage * 2);
+				damage -= (damage * 30 / 100);
+				System.out.println(playerData.getAeroTicks());
+			}
 			event.setAmount(damage <= 0 ? 1 : damage);
 		}
 	}

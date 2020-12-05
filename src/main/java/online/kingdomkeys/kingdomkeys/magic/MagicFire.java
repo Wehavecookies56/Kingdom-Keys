@@ -6,7 +6,6 @@ import net.minecraft.util.Hand;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
 public class MagicFire extends Magic {
-	String name;
 
 	public MagicFire(String registryName, int cost, int order) {
 		super(registryName, cost, false, order);
