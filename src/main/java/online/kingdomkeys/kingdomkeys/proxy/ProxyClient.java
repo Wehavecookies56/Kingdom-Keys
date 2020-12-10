@@ -116,11 +116,25 @@ public class ProxyClient implements IProxy {
 		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
 		armorModels.put(ModItems.ventus_Boots.get(), vTop);
 		
+		armorModels.put(ModItems.terra_Helmet.get(), top);
+		armorModels.put(ModItems.terra_Chestplate.get(), top);
+		armorModels.put(ModItems.terra_Leggings.get(), bot);
+		armorModels.put(ModItems.terra_Boots.get(), top);
+		
+		armorModels.put(ModItems.aqua_Helmet.get(), top);
+		armorModels.put(ModItems.aqua_Chestplate.get(), top);
+		armorModels.put(ModItems.aqua_Leggings.get(), bot);
+		armorModels.put(ModItems.aqua_Boots.get(), top);
+		
 		armorModels.put(ModItems.organizationRobe_Helmet.get(), top);
 		armorModels.put(ModItems.organizationRobe_Chestplate.get(), top);
 		armorModels.put(ModItems.organizationRobe_Leggings.get(), bot);
 		armorModels.put(ModItems.organizationRobe_Boots.get(), top);
 		
+		armorModels.put(ModItems.antiCoat_Helmet.get(), top);
+		armorModels.put(ModItems.antiCoat_Chestplate.get(), top);
+		armorModels.put(ModItems.antiCoat_Leggings.get(), bot);
+		armorModels.put(ModItems.antiCoat_Boots.get(), top);
 		
     }
 
