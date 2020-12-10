@@ -200,50 +200,26 @@ public class Strings {
     
     //Armors
     public static final String
-    		organizationHood = "organization_helmet",
-		    organizationChestplate = "organization_chestplate",
-		    organizationLeggings = "organization_leggings",
-		    organizationBoots = "organization_boots",
-
-            xemnasHelmet = "xemnas_helmet",
-            xemnasChestplate = "xemnas_chestplate",
-            xemnasLeggings = "xemnas_leggings",
-            xemnasBoots = "xemnas_boots",
-
-            antiCoatHelmet = "anticoat_helmet",
-            antiCoatChestplate = "anticoat_chestplate",
-            antiCoatLeggings = "anticoat_leggings",
-            antiCoatBoots = "anticoat_boots",
-
-            terraHelmet = "terra_helmet",
-            terraChestplate = "terra_chestplate",
-            terraLeggings = "terra_leggings",
-            terraBoots = "terra_boots",
-
-            aquaHelmet = "aqua_helmet",
-            aquaChestplate = "aqua_chestplate",
-            aquaLeggings = "aqua_leggings",
-            aquaBoots = "aqua_boots",
-
-            ventusHelmet = "ventus_helmet",
-            ventusChestplate = "ventus_chestplate",
-            ventusLeggings = "ventus_leggings",
-            ventusBoots = "ventus_boots",
-
-            nightmareVentusHelmet = "nightmareventus_helmet",
-            nightmareVentusChestplate = "nightmareventus_chestplate",
-            nightmareVentusLeggings = "nightmareventus_leggings",
-            nightmareVentusBoots = "nightmareventus_boots",
-
-            eraqusHelmet = "eraqus_helmet",
-            eraqusChestplate = "eraqus_chestplate",
-            eraqusLeggings = "eraqus_leggings",
-            eraqusBoots = "eraqus_boots",
-
-            vanitasHelmet = "vanitas_helmet",
-            vanitasChestplate = "vanitas_chestplate",
-            vanitasLeggings = "vanitas_leggings",
-            vanitasBoots = "vanitas_boots";
+    		helmet = "helmet",
+    		chestplate = "chestplate",
+    		leggings = "leggings",
+    		boots = "boots",
+    		
+    		organization = "organization",
+    		xemnas = "xemnas",
+            antiCoat = "anticoat",
+            terra = "terra",
+            aqua = "aqua",
+            ventus = "ventus",
+            nightmareVentus = "nightmareventus",
+            eraqus = "eraqus",
+            vanitas = "vanitas",
+            aced = "aced",
+            ava = "ava",
+            gula = "gula",
+            invi = "invi",
+            ira = "ira"
+            ;
 
     //Spells
     public static final String

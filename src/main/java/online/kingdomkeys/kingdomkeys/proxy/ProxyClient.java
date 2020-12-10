@@ -34,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.PartyHUDGui;
 import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.render.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -104,13 +105,23 @@ public class ProxyClient implements IProxy {
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
         });
         
-        VentusModel top = new VentusModel(0.5F);
-        VentusModel pants = new VentusModel(0.25F);
+        ArmorModel top = new ArmorModel(0.5F);
+        ArmorModel bot = new ArmorModel(0.25F);
         
-		armorModels.put(ModItems.ventus_Helmet.get(), top);
-		armorModels.put(ModItems.ventus_Chestplate.get(), top);
-		armorModels.put(ModItems.ventus_Leggings.get(), pants);
-		armorModels.put(ModItems.ventus_Boots.get(), top);
+        VentusModel vTop = new VentusModel(0.5F);
+        VentusModel vBot = new VentusModel(0.25F);
+        
+		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
+		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
+		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
+		armorModels.put(ModItems.ventus_Boots.get(), vTop);
+		
+		armorModels.put(ModItems.organizationRobe_Helmet.get(), top);
+		armorModels.put(ModItems.organizationRobe_Chestplate.get(), top);
+		armorModels.put(ModItems.organizationRobe_Leggings.get(), bot);
+		armorModels.put(ModItems.organizationRobe_Boots.get(), top);
+		
+		
     }
 
 	@Override

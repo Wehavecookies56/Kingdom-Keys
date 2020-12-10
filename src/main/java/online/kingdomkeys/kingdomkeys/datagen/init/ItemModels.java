@@ -23,42 +23,76 @@ public class ItemModels extends ItemModelProvider {
     }
 
     private void armor() {
-		standardArmor(Strings.organizationHood);
-		standardArmor(Strings.organizationChestplate);
-		standardArmor(Strings.organizationLeggings);
-		standardArmor(Strings.organizationBoots);
-		standardArmor(Strings.terraHelmet);
-		standardArmor(Strings.terraChestplate);
-		standardArmor(Strings.terraLeggings);
-		standardArmor(Strings.terraBoots);
-		standardArmor(Strings.aquaHelmet);
-		standardArmor(Strings.aquaChestplate);
-		standardArmor(Strings.aquaLeggings);
-		standardArmor(Strings.aquaBoots);
-		standardArmor(Strings.ventusHelmet);
-		standardArmor(Strings.ventusChestplate);
-		standardArmor(Strings.ventusLeggings);
-		standardArmor(Strings.ventusBoots);
-		standardArmor(Strings.eraqusHelmet);
-		standardArmor(Strings.eraqusChestplate);
-		standardArmor(Strings.eraqusLeggings);
-		standardArmor(Strings.eraqusBoots);
-		standardArmor(Strings.xemnasHelmet);
-		standardArmor(Strings.xemnasChestplate);
-		standardArmor(Strings.xemnasLeggings);
-		standardArmor(Strings.xemnasBoots);
-		standardArmor(Strings.nightmareVentusHelmet);
-		standardArmor(Strings.nightmareVentusChestplate);
-		standardArmor(Strings.nightmareVentusLeggings);
-		standardArmor(Strings.nightmareVentusBoots);
-		standardArmor(Strings.vanitasHelmet);
-		standardArmor(Strings.vanitasChestplate);
-		standardArmor(Strings.vanitasLeggings);
-		standardArmor(Strings.vanitasBoots);
-		standardArmor(Strings.antiCoatHelmet);
-		standardArmor(Strings.antiCoatChestplate);
-		standardArmor(Strings.antiCoatLeggings);
-		standardArmor(Strings.antiCoatBoots);
+		standardArmor(Strings.organization+"_"+Strings.helmet);
+		standardArmor(Strings.organization+"_"+Strings.chestplate);
+		standardArmor(Strings.organization+"_"+Strings.leggings);
+		standardArmor(Strings.organization+"_"+Strings.boots);
+		
+		standardArmor(Strings.xemnas+"_"+Strings.helmet);
+		standardArmor(Strings.xemnas+"_"+Strings.chestplate);
+		standardArmor(Strings.xemnas+"_"+Strings.leggings);
+		standardArmor(Strings.xemnas+"_"+Strings.boots);
+		
+		standardArmor(Strings.antiCoat+"_"+Strings.helmet);
+		standardArmor(Strings.antiCoat+"_"+Strings.chestplate);
+		standardArmor(Strings.antiCoat+"_"+Strings.leggings);
+		standardArmor(Strings.antiCoat+"_"+Strings.boots);
+		
+		standardArmor(Strings.terra+"_"+Strings.helmet);
+		standardArmor(Strings.terra+"_"+Strings.chestplate);
+		standardArmor(Strings.terra+"_"+Strings.leggings);
+		standardArmor(Strings.terra+"_"+Strings.boots);
+		
+		standardArmor(Strings.aqua+"_"+Strings.helmet);
+		standardArmor(Strings.aqua+"_"+Strings.chestplate);
+		standardArmor(Strings.aqua+"_"+Strings.leggings);
+		standardArmor(Strings.aqua+"_"+Strings.boots);
+		
+		standardArmor(Strings.ventus+"_"+Strings.helmet);
+		standardArmor(Strings.ventus+"_"+Strings.chestplate);
+		standardArmor(Strings.ventus+"_"+Strings.leggings);
+		standardArmor(Strings.ventus+"_"+Strings.boots);
+		
+		standardArmor(Strings.eraqus+"_"+Strings.helmet);
+		standardArmor(Strings.eraqus+"_"+Strings.chestplate);
+		standardArmor(Strings.eraqus+"_"+Strings.leggings);
+		standardArmor(Strings.eraqus+"_"+Strings.boots);
+		
+		standardArmor(Strings.nightmareVentus+"_"+Strings.helmet);
+		standardArmor(Strings.nightmareVentus+"_"+Strings.chestplate);
+		standardArmor(Strings.nightmareVentus+"_"+Strings.leggings);
+		standardArmor(Strings.nightmareVentus+"_"+Strings.boots);
+		
+		standardArmor(Strings.vanitas+"_"+Strings.helmet);
+		standardArmor(Strings.vanitas+"_"+Strings.chestplate);
+		standardArmor(Strings.vanitas+"_"+Strings.leggings);
+		standardArmor(Strings.vanitas+"_"+Strings.boots);
+		
+		standardArmor(Strings.aced+"_"+Strings.helmet);
+		standardArmor(Strings.aced+"_"+Strings.chestplate);
+		standardArmor(Strings.aced+"_"+Strings.leggings);
+		standardArmor(Strings.aced+"_"+Strings.boots);
+		
+		standardArmor(Strings.ava+"_"+Strings.helmet);
+		standardArmor(Strings.ava+"_"+Strings.chestplate);
+		standardArmor(Strings.ava+"_"+Strings.leggings);
+		standardArmor(Strings.ava+"_"+Strings.boots);
+		
+		standardArmor(Strings.gula+"_"+Strings.helmet);
+		standardArmor(Strings.gula+"_"+Strings.chestplate);
+		standardArmor(Strings.gula+"_"+Strings.leggings);
+		standardArmor(Strings.gula+"_"+Strings.boots);
+		
+		standardArmor(Strings.invi+"_"+Strings.helmet);
+		standardArmor(Strings.invi+"_"+Strings.chestplate);
+		standardArmor(Strings.invi+"_"+Strings.leggings);
+		standardArmor(Strings.invi+"_"+Strings.boots);
+		
+		standardArmor(Strings.ira+"_"+Strings.helmet);
+		standardArmor(Strings.ira+"_"+Strings.chestplate);
+		standardArmor(Strings.ira+"_"+Strings.leggings);
+		standardArmor(Strings.ira+"_"+Strings.boots);
+		
     }
 
     private void items() {
