@@ -111,31 +111,75 @@ public class ProxyClient implements IProxy {
         VentusModel vTop = new VentusModel(0.5F);
         VentusModel vBot = new VentusModel(0.25F);
         
+        armorModels.put(ModItems.terra_Helmet.get(), top);
+		armorModels.put(ModItems.terra_Chestplate.get(), top);
+		armorModels.put(ModItems.terra_Leggings.get(), bot);
+		armorModels.put(ModItems.terra_Boots.get(), top);
+		
+        armorModels.put(ModItems.aqua_Helmet.get(), top);
+		armorModels.put(ModItems.aqua_Chestplate.get(), top);
+		armorModels.put(ModItems.aqua_Leggings.get(), bot);
+		armorModels.put(ModItems.aqua_Boots.get(), top);
+		
 		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
 		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
 		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
 		armorModels.put(ModItems.ventus_Boots.get(), vTop);
 		
-		armorModels.put(ModItems.terra_Helmet.get(), top);
-		armorModels.put(ModItems.terra_Chestplate.get(), top);
-		armorModels.put(ModItems.terra_Leggings.get(), bot);
-		armorModels.put(ModItems.terra_Boots.get(), top);
+		armorModels.put(ModItems.nightmareVentus_Helmet.get(), vTop);
+		armorModels.put(ModItems.nightmareVentus_Chestplate.get(), vTop);
+		armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
+		armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
 		
-		armorModels.put(ModItems.aqua_Helmet.get(), top);
-		armorModels.put(ModItems.aqua_Chestplate.get(), top);
-		armorModels.put(ModItems.aqua_Leggings.get(), bot);
-		armorModels.put(ModItems.aqua_Boots.get(), top);
+		armorModels.put(ModItems.eraqus_Helmet.get(), top);
+		armorModels.put(ModItems.eraqus_Chestplate.get(), top);
+		armorModels.put(ModItems.eraqus_Leggings.get(), bot);
+		armorModels.put(ModItems.eraqus_Boots.get(), top);
 		
 		armorModels.put(ModItems.organizationRobe_Helmet.get(), top);
 		armorModels.put(ModItems.organizationRobe_Chestplate.get(), top);
 		armorModels.put(ModItems.organizationRobe_Leggings.get(), bot);
 		armorModels.put(ModItems.organizationRobe_Boots.get(), top);
+
+		armorModels.put(ModItems.xemnas_Helmet.get(), top);
+		armorModels.put(ModItems.xemnas_Chestplate.get(), top);
+		armorModels.put(ModItems.xemnas_Leggings.get(), bot);
+		armorModels.put(ModItems.xemnas_Boots.get(), top);
+		
+		armorModels.put(ModItems.vanitas_Helmet.get(), top);
+		armorModels.put(ModItems.vanitas_Chestplate.get(), top);
+		armorModels.put(ModItems.vanitas_Leggings.get(), bot);
+		armorModels.put(ModItems.vanitas_Boots.get(), top);		
 		
 		armorModels.put(ModItems.antiCoat_Helmet.get(), top);
 		armorModels.put(ModItems.antiCoat_Chestplate.get(), top);
 		armorModels.put(ModItems.antiCoat_Leggings.get(), bot);
 		armorModels.put(ModItems.antiCoat_Boots.get(), top);
 		
+		armorModels.put(ModItems.aced_Helmet.get(), top);
+		armorModels.put(ModItems.aced_Chestplate.get(), top);
+		armorModels.put(ModItems.aced_Leggings.get(), bot);
+		armorModels.put(ModItems.aced_Boots.get(), top);
+		
+		armorModels.put(ModItems.ava_Helmet.get(), top);
+		armorModels.put(ModItems.ava_Chestplate.get(), top);
+		armorModels.put(ModItems.ava_Leggings.get(), bot);
+		armorModels.put(ModItems.ava_Boots.get(), top);
+		
+		armorModels.put(ModItems.gula_Helmet.get(), top);
+		armorModels.put(ModItems.gula_Chestplate.get(), top);
+		armorModels.put(ModItems.gula_Leggings.get(), bot);
+		armorModels.put(ModItems.gula_Boots.get(), top);
+		
+		armorModels.put(ModItems.invi_Helmet.get(), top);
+		armorModels.put(ModItems.invi_Chestplate.get(), top);
+		armorModels.put(ModItems.invi_Leggings.get(), bot);
+		armorModels.put(ModItems.invi_Boots.get(), top);
+		
+		armorModels.put(ModItems.ira_Helmet.get(), top);
+		armorModels.put(ModItems.ira_Chestplate.get(), top);
+		armorModels.put(ModItems.ira_Leggings.get(), bot);
+		armorModels.put(ModItems.ira_Boots.get(), top);
     }
 
 	@Override
