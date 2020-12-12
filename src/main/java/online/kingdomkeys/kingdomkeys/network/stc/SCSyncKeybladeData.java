@@ -34,7 +34,7 @@ public class SCSyncKeybladeData {
 	List<String> data = new LinkedList<String>();
 	
 	
-	public SCSyncKeybladeData(List<String> names, List<String> data) { //TODO add the 2 lists thing
+	public SCSyncKeybladeData(List<String> names, List<String> data) {
 		this.names = names;
 		this.data = data;
 	}

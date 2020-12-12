@@ -36,22 +36,12 @@ public class CommandMenuGui extends Screen {
 
 	public static final int TOP = 5, ATTACK = 4, MAGIC = 3, ITEMS = 2, DRIVE = 1;
 
-	// int selected = ATTACK;
-
 	int TOP_WIDTH = 70;
 	int TOP_HEIGHT = 15;
-
 	int MENU_WIDTH = 71;
 	int MENU_HEIGHT = 15;
-
 	int iconWidth = 10;
-
 	int textX = 0;
-
-	/*
-	 * public static List<PortalCoords> portalCommands; public static List<String>
-	 * driveCommands, spells, items; public static List<Ability> attackCommands;
-	 */
 
 	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6;
 
@@ -77,14 +67,14 @@ public class CommandMenuGui extends Screen {
 	float alpha = 1F;
 	float scale = 1.05f;
 	float[] orgColor = { 0.8F, 0.8F, 0.8F };
-	float[][] attackMenuColor = { { SUB_ATTACKS }, { 1F, 0.8F, 0.7F }, { 0.5F, 0.4F, 0.35F } };
-	float[][] portalMenuColor = { { SUB_PORTALS }, { 0.4F, 0.4F, 0.4F }, { 0.2F, 0.2F, 0.2F } };
-	float[][] combatModeColor = { { SUB_MAIN }, { 1F, 0F, 0F }, { 0.5F, 0F, 0F } };
-	float[][] normalModeColor = { { SUB_MAIN }, { 0.04F, 0.2F, 1F }, { 0.02F, 0.1F, 0.5F } };
-	float[][] magicMenuColor = { { SUB_MAGIC }, { 0.4F, 0F, 1F }, { 0.2F, 0, 0.5F } };
-	float[][] itemsMenuColor = { { SUB_ITEMS }, { 0.3F, 1F, 0.3F }, { 0.15F, 0.5F, 0.15F } };
-	float[][] driveMenuColor = { { SUB_DRIVE }, { 0F, 1F, 1F }, { 0, 0.5F, 0.5F } };
-	float[][] targetModeColor = { { SUB_TARGET }, { 0.04F, 0.2F, 1F }, { 0.02F, 0.1F, 0.5F } };
+	//		{ color when seen fully, SubMenu when it should be seen fully }
+	float[] normalModeColor = { 0.04F, 0.2F, 1F, SUB_MAIN };
+	float[] portalMenuColor = { 0.4F, 0.4F, 0.4F, SUB_PORTALS};
+	float[] combatModeColor = { 1F, 0F, 0F, SUB_MAIN };
+	float[] magicMenuColor = { 0.4F, 0F, 1F, SUB_MAGIC };
+	float[] itemsMenuColor = { 0.3F, 1F, 0.3F, SUB_ITEMS };
+	float[] driveMenuColor = { 0F, 1F, 1F, SUB_DRIVE };
+	float[] targetModeColor = { 0.04F, 0.2F, 1F, SUB_TARGET};
 
 
 	private int getColor(int colour, int sub) {
@@ -96,12 +86,12 @@ public class CommandMenuGui extends Screen {
 		}
 	}
 	
-	private void paintWithColorArray(float[][] array, float alpha) {
+	private void paintWithColorArray(float[] array, float alpha) {
 		if (EntityEvents.isHostiles) { //Red
-			if(submenu == array[0][0]) {
-				RenderSystem.color4f(combatModeColor[1][0], combatModeColor[1][1], combatModeColor[1][2], alpha);
+			if(submenu == array[3]) {
+				RenderSystem.color4f(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
 			} else {
-				RenderSystem.color4f(combatModeColor[2][0], array[2][1], combatModeColor[2][2], alpha);
+				RenderSystem.color4f(combatModeColor[0] / 2, array[1] / 2, combatModeColor[2] / 2, alpha);
 			}
 		} else { //Blue/color
 			/*
@@ -110,12 +100,11 @@ public class CommandMenuGui extends Screen {
 			 * normalModeColor) { RenderSystem.color4ub(orgColor[0], orgColor[1], orgColor[2],
 			 * alpha); } else {
 			 */
-			if(submenu == array[0][0]) {
-				RenderSystem.color4f(array[1][0], array[1][1], array[1][2], alpha);
+			if(submenu == array[3]) {
+				RenderSystem.color4f(array[0], array[1], array[2], alpha);
 			} else {
-				RenderSystem.color4f(array[2][0], array[2][1], array[2][2], alpha);
+				RenderSystem.color4f(array[0]/2, array[1]/2, array[2]/2, alpha);
 			}
-			//System.out.println(submenu);
 		}
 
 	}

@@ -20,7 +20,8 @@ public class DriveFormFinal extends DriveForm {
 		super(registryName, order, hasKeychain);
 		this.driveCost = 500;
 		this.ap = -10;
-		this.levelUpCosts = new int[] {0, 20, 80, 152, 242, 350, 500};
+		this.levelUpCosts = new int[] { 0, 20, 80, 152, 242, 350, 500 };
+		this.color = new float[] { 0.9F, 0.9F, 0.9F };
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class DriveFormFinal extends DriveForm {
 		case 7:
 			return Strings.glide;
 		}
-		return null;	
+		return null;
 	}
 
 	@Override
@@ -64,17 +65,17 @@ public class DriveFormFinal extends DriveForm {
 		}
 		return null;
 	}
-	
+
 	@SubscribeEvent
 	public static void getFinalFormXP(LivingDeathEvent event) {
-		 if (!event.getEntity().world.isRemote && event.getEntity() instanceof EndermanEntity) { 
+		if (!event.getEntity().world.isRemote && event.getEntity() instanceof EndermanEntity) {
 			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + 1);
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}
 			}
 		}

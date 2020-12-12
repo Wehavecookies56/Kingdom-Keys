@@ -67,7 +67,6 @@ public class CSAttackOffhandPacket {
 	      if (targetEntity.canBeAttackedWithItem()) {
 	         if (!targetEntity.hitByEntity(player)) {
 	            float f = DamageCalculation.getKBStrengthDamage(player, player.getHeldItemOffhand());
-	            //float f = (float)player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();//TODO damage calculation
 	            float f1;
 	            if (targetEntity instanceof LivingEntity) {
 	               f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), ((LivingEntity)targetEntity).getCreatureAttribute());

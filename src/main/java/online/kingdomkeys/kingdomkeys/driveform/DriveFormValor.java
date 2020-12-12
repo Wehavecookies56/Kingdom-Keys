@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -20,6 +21,7 @@ public class DriveFormValor extends DriveForm {
 		this.driveCost = 300;
 		this.ap = 1;
 		this.levelUpCosts = new int[] { 0, 80, 240, 520, 968, 1528, 2200 };
+		this.color = new float[] { 1F, 0F, 0F };
 	}
 	
 	@Override
@@ -66,14 +68,13 @@ public class DriveFormValor extends DriveForm {
 	
 	@SubscribeEvent
 	public static void getValorFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().world.isRemote) { //TODO Check the target is hostile
+		if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof MonsterEntity) {
 			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + 1);
-					//playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), 239);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 				}
 			}

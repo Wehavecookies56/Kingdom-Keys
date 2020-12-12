@@ -38,11 +38,10 @@ public class BlastBloxBlock extends BaseBlock {
         super(properties);
     }
 
-    //TODO change boolean parameter name once finding out what it's for
     //Explode if powered when placed
     @SuppressWarnings("deprecation")
     @Override
-    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (oldState.getBlock() != state.getBlock()) {
             if (worldIn.isBlockPowered(pos)) {
                 this.explode(worldIn, pos);
@@ -51,10 +50,9 @@ public class BlastBloxBlock extends BaseBlock {
         }
     }
 
-    //TODO change boolean parameter name once finding out what it's for
     @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         //Trigger explosion with redstone power
         if (worldIn.isBlockPowered(pos)) {
             this.explode(worldIn, pos);

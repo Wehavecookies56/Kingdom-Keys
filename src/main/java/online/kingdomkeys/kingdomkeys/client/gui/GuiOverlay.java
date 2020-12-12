@@ -18,6 +18,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -99,7 +101,7 @@ public class GuiOverlay extends Screen {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
 			minecraft.fontRenderer.drawString("Next LV", 5, 5, 0xFFFFFF);
 			minecraft.fontRenderer.drawString(reqExp, 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
-			//System.out.println("\nStart time: "+timeExp+"\nActual time:"+System.currentTimeMillis()/1000+"\nEnd Time:   "+(timeExp + 4));
+
 			if (System.currentTimeMillis()/1000 > (timeExp + 4))
 				showExp = false;
 		}
@@ -107,10 +109,11 @@ public class GuiOverlay extends Screen {
 
 	private void showMunny() {
 		if (!showExp) { // If no exp is being display print it at the top
-			RenderSystem.pushMatrix();{
-			RenderSystem.translatef(1, 1, 0);
-			minecraft.fontRenderer.drawString("Munny Get!", 5, 5, 0xFFFFFF);
-			minecraft.fontRenderer.drawString(munnyGet + "", 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.translatef(1, 1, 0);
+				minecraft.fontRenderer.drawString("Munny Get!", 5, 5, 0xFFFFFF);
+				minecraft.fontRenderer.drawString(munnyGet + "", 5, 5 + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
 			}
 			RenderSystem.popMatrix();
 		} else { // If exp is being displayed print it below it
@@ -192,19 +195,18 @@ public class GuiOverlay extends Screen {
 		if(playerData == null)
 			return;
 
-		float[] driveColor = getDriveFormColor(); //TODO set color in the registry
+		DriveForm drive = ModDriveForms.registry.getValue(new ResourceLocation(driveForm));
+		float[] driveColor = drive.getDriveColor();
 
 		ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
 		RenderSystem.pushMatrix();
 		{
-//			int height = (int)(minecraft.fontRenderer.FONT_HEIGHT * 0.8f) * (playerData.getMessages().size());
-
-			//int heightBase = (minecraft.fontRenderer.FONT_HEIGHT - 3) * (playerData.getMessages().size());
 			int heightBase = (int) (minecraft.fontRenderer.FONT_HEIGHT * 1.1F) * (playerData.getMessages().size());
 			int heightDF = (int) (minecraft.fontRenderer.FONT_HEIGHT * 1.1F) * playerData.getDFMessages().size();
 			RenderSystem.enableBlend();
 			RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
-//Base Abilities
+
+			//Base Abilities
 			RenderSystem.pushMatrix();
 			{
 				// Top
@@ -305,16 +307,13 @@ public class GuiOverlay extends Screen {
 					RenderSystem.color4f(1F, 1F, 1F, 1F);
 				}
 				RenderSystem.popMatrix();
+				
 				// Bottom
 				RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
 				RenderSystem.pushMatrix();
 				{
 					minecraft.textureManager.bindTexture(texture);
 					RenderSystem.translatef(2, sHeight / 3 + 50 + heightBase + heightDF, 0);
-
-					//RenderSystem.translatef(2, sHeight / 3 + minecraft.fontRenderer.FONT_HEIGHT * 1.1F * playerData.getDFMessages().size(), 0);
-
-					//RenderSystem.translatef(2, heightDF, 0);
 					RenderSystem.scalef(0.6f, 0.6f, 1);
 					blit(0, 0, 0, 51+37, 256, 14);
 				}
@@ -348,42 +347,5 @@ public class GuiOverlay extends Screen {
 			drawString(minecraft.fontRenderer, text, 0, 0, color);
 		}
 		RenderSystem.popMatrix();
-	}
-
-	private float[] getDriveFormColor() {
-		float[] driveColor = new float[] { 1F,1F,1F };
-
-		switch (driveForm) {
-		case Strings.Form_Valor:
-			driveColor[0] = 1F;
-			driveColor[1] = 0;
-			driveColor[2] = 0;
-			break;
-
-		case Strings.Form_Wisdom:
-			driveColor[0] = 0;
-			driveColor[1] = 0;
-			driveColor[2] = 1;
-			break;
-
-		case Strings.Form_Limit:
-			driveColor[0] = 0.6F;
-			driveColor[1] = 0.3F;
-			driveColor[2] = 1F;
-			break;
-
-		case Strings.Form_Master:
-			driveColor[0] = 1F;
-			driveColor[1] = 0.72F;
-			driveColor[2] = 0.1F;
-			break;
-
-		case Strings.Form_Final:
-			driveColor[0] = 0.9F;
-			driveColor[1] = 0.9F;
-			driveColor[2] = 0.9F;
-			break;
-		}
-		return driveColor;
 	}
 }

@@ -34,7 +34,7 @@ public class SCSyncOrganizationData {
 	List<String> data = new LinkedList<String>();
 	
 	
-	public SCSyncOrganizationData(List<String> names, List<String> data) { //TODO add the 2 lists thing
+	public SCSyncOrganizationData(List<String> names, List<String> data) {
 		this.names = names;
 		this.data = data;
 	}
