@@ -154,6 +154,10 @@ public class ModItems {
 			youngXehanortsKeyblade = createKeybladeItem(Strings.youngXehanortsKeyblade),
 			zeroOne = createKeybladeItem(Strings.zeroOne),
 
+			dreamShield = createNewItem(Strings.dreamShield, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1))),
+			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1))),
+			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1))),
+			
 			abaddonPlasmaChain = createNewItem(Strings.abaddonPlasmaChain, KeychainItem::new),
 			abyssalTideChain = createNewItem(Strings.abyssalTideChain, KeychainItem::new),
 			acedsKeybladeChain = createNewItem(Strings.acedsKeybladeChain, KeychainItem::new),
@@ -777,8 +781,8 @@ public class ModItems {
 		return thing;
 	}
 
-	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot, String type) {
-		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, type));
+	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot, String textureName) {
+		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
 
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot) {
