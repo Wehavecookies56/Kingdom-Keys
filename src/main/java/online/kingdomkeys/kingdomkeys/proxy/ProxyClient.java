@@ -91,7 +91,8 @@ public class ProxyClient implements IProxy {
         RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
-        
+        RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
+
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
@@ -103,6 +104,7 @@ public class ProxyClient implements IProxy {
         	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/zephyr"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
+            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
         });
         
         ArmorModel top = new ArmorModel(0.5F);

@@ -54,7 +54,7 @@ public class PedestalBlock extends ContainerBlock {
 			if (state.hasTileEntity() && worldIn.getTileEntity(pos) instanceof PedestalTileEntity) {
 				PedestalTileEntity te = (PedestalTileEntity) worldIn.getTileEntity(pos);
 				if (te != null) {
-					if (te.stationOfAwakeningMarker()) {
+					if (te.isStationOfAwakeningMarker()) {
 						//SOA stuff
 					} else {
 						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
@@ -104,5 +104,4 @@ public class PedestalBlock extends ContainerBlock {
 	public TileEntity createNewTileEntity(IBlockReader worldIn) {
 		return new PedestalTileEntity();
 	}
-
 }

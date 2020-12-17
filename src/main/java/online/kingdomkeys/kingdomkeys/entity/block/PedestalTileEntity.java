@@ -38,6 +38,8 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	private boolean stationOfAwakeningMarker = false;
 
+	private ItemStack displayStack = ItemStack.EMPTY;
+
 	private float rotationSpeed = 0.6F;
 	private float bobSpeed = 0.02F;
 	private float scale = 1.0F;
@@ -80,9 +82,8 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		scale = transformations.getFloat("scale");
 		baseHeight = transformations.getFloat("baseheight");
 		pause = transformations.getBoolean("pause");
-		if (compound.hasUniqueId("soaMarker")) {
-			stationOfAwakeningMarker = true;
-		}
+		stationOfAwakeningMarker = compound.getBoolean("soa_marker");
+		displayStack = ItemStack.read(compound.getCompound("display_stack"));
 	}
 
 	@Override
@@ -101,9 +102,8 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		transformations.putFloat("baseheight", baseHeight);
 		transformations.putBoolean("pause", pause);
 		compound.put("transforms", transformations);
-		if (stationOfAwakeningMarker) {
-			compound.putBoolean("soaMarker", true);
-		}
+		compound.putBoolean("soa_marker", true);
+		compound.put("display_stack", displayStack.serializeNBT());
 		return compound;
 	}
 
@@ -127,12 +127,22 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		return super.getCapability(cap, side);
 	}
 
-	public boolean stationOfAwakeningMarker() {
-		return stationOfAwakeningMarker;
+	public void setStationOfAwakeningMarker(boolean marker) {
+		this.stationOfAwakeningMarker = marker;
+		markDirty();
 	}
 
 	public boolean isStationOfAwakeningMarker() {
 		return stationOfAwakeningMarker;
+	}
+
+	public ItemStack getDisplayStack() {
+		return displayStack;
+	}
+
+	public void setDisplayStack(ItemStack displayStack) {
+		this.displayStack = displayStack;
+		markDirty();
 	}
 
 	public float getRotationSpeed() {

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.GenerationStage;
+import online.kingdomkeys.kingdomkeys.command.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,14 +40,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.particle.ModParticles;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.commands.KKDriveLevelCommand;
-import online.kingdomkeys.kingdomkeys.commands.KKExpCommand;
-import online.kingdomkeys.kingdomkeys.commands.KKLevelCommand;
-import online.kingdomkeys.kingdomkeys.commands.KKMaterialCommand;
-import online.kingdomkeys.kingdomkeys.commands.KKRecipeCommand;
-import online.kingdomkeys.kingdomkeys.commands.MunnyCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
@@ -59,11 +56,11 @@ import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
-import online.kingdomkeys.kingdomkeys.world.ModBiomes;
-import online.kingdomkeys.kingdomkeys.world.ModDimensions;
-import online.kingdomkeys.kingdomkeys.worldgen.JigsawJank;
-import online.kingdomkeys.kingdomkeys.worldgen.ModFeatures;
-import online.kingdomkeys.kingdomkeys.worldgen.OreGen;
+import online.kingdomkeys.kingdomkeys.world.biome.ModBiomes;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.features.JigsawJank;
+import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
+import online.kingdomkeys.kingdomkeys.world.features.OreGen;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -153,6 +150,11 @@ public class KingdomKeys {
 					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
 				}
 			}
+			//Remove all entity spawns added to the Dive to the Heart biome
+			Biome dtth = ForgeRegistries.BIOMES.getValue(new ResourceLocation(MODID, Strings.diveToTheHeart + "_biome"));
+			for (EntityClassification entityClassification : EntityClassification.values()) {
+				dtth.getSpawns(entityClassification).clear();
+			}
 		});
 
 	}
@@ -207,12 +209,16 @@ public class KingdomKeys {
 		KKLevelCommand.register(dispatcher);
 		KKDriveLevelCommand.register(dispatcher);
 		KKExpCommand.register(dispatcher);
+		DimensionCommand.register(dispatcher);
 	}
 
 
     public void oreGen(FMLLoadCompleteEvent event) {
         OreGen.generateOre();
-    }
+		for (GenerationStage.Decoration i : GenerationStage.Decoration.values()) {
+			ModBiomes.diveToTheHeart.get().getFeatures(i).clear();
+		}
+	}
 
 	private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
 		resourceManager.addReloadListener(new KeybladeDataLoader());

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -27,10 +29,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -58,6 +63,13 @@ public class MagicalChestBlock extends ContainerBlock {
 		this.setDefaultState(this.getDefaultState().with(BIG, false));
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(new TranslationTextComponent("Can be locked with a keyblade"));
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
+
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
@@ -82,7 +94,7 @@ public class MagicalChestBlock extends ContainerBlock {
 			if (te != null) {
 				PlayerEntity player = (PlayerEntity) placer;
 				te.setOwner(player.getGameProfile().getId());
-				player.sendStatusMessage(new TranslationTextComponent("Now right click the chest with your keyblade to lock it"), true);
+				player.sendStatusMessage(new TranslationTextComponent("Use a keyblade to lock this chest"), true);
 			}
 		}
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);

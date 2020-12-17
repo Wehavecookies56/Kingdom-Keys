@@ -18,7 +18,7 @@ public class Strings {
     public static final String
     		twilightTown = "twilight_town",
     		destinyIslands = "destiny_islands",
-    		soa = "station_of_awakening";
+    		diveToTheHeart = "dive_to_the_heart";
 
     // Magics
     public static final String

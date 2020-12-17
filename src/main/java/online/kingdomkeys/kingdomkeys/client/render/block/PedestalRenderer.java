@@ -28,32 +28,37 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
 	public void render(PedestalTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 	    this.renderItem = Minecraft.getInstance().getItemRenderer();
 
-	    tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iih -> {
-			if (!iih.getStackInSlot(0).isEmpty()) {
-				matrixStackIn.push();
-				{
-					RenderSystem.color4f(1, 1, 1, 1);
-					float height, rotation;
-					if (!tileEntityIn.isPaused()) {
-						float lerpedTicks = tileEntityIn.previousTicks + (tileEntityIn.ticksExisted() - tileEntityIn.previousTicks) * partialTicks;
-						height = tileEntityIn.getBaseHeight() + (0.1F * (float) Math.sin(tileEntityIn.getBobSpeed() * lerpedTicks));
-						rotation = lerpedTicks * tileEntityIn.getRotationSpeed() % 360F;
-						tileEntityIn.setCurrentTransforms(rotation, height);
-					} else {
-						height = tileEntityIn.getSavedHeight();
-						rotation = tileEntityIn.getSavedRotation();
-					}
-
-					matrixStackIn.translate(0.5F, height, 0.5F);
-					matrixStackIn.rotate(new Quaternion(new Vector3f(0, 1, 0), rotation, true));
-					matrixStackIn.scale(tileEntityIn.getScale(), tileEntityIn.getScale(), tileEntityIn.getScale());
-					ItemStack item = iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack( ((KeychainItem)iih.getStackInSlot(0).getItem()).getKeyblade() ) : iih.getStackInSlot(0);
-					renderItem.renderItem(item, TransformType.FIXED, 100, 655360, matrixStackIn, bufferIn);
+	    if (!tileEntityIn.isStationOfAwakeningMarker()) {
+			tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iih -> {
+				if (!iih.getStackInSlot(0).isEmpty()) {
+					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) iih.getStackInSlot(0).getItem()).getKeyblade()) : iih.getStackInSlot(0));
 				}
-				matrixStackIn.pop();
+			});
+		} else {
+			renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack());
+		}
+	}
+
+	private void renderItem(PedestalTileEntity tileEntity, MatrixStack matrixStack, IRenderTypeBuffer buffer, float partialTicks, ItemStack toRender) {
+		matrixStack.push();
+		{
+			RenderSystem.color4f(1, 1, 1, 1);
+			float height, rotation;
+			if (!tileEntity.isPaused()) {
+				float lerpedTicks = tileEntity.previousTicks + (tileEntity.ticksExisted() - tileEntity.previousTicks) * partialTicks;
+				height = tileEntity.getBaseHeight() + (0.1F * (float) Math.sin(tileEntity.getBobSpeed() * lerpedTicks));
+				rotation = lerpedTicks * tileEntity.getRotationSpeed() % 360F;
+				tileEntity.setCurrentTransforms(rotation, height);
+			} else {
+				height = tileEntity.getSavedHeight();
+				rotation = tileEntity.getSavedRotation();
 			}
-		});
 
-
+			matrixStack.translate(0.5F, height, 0.5F);
+			matrixStack.rotate(new Quaternion(new Vector3f(0, 1, 0), rotation, true));
+			matrixStack.scale(tileEntity.getScale(), tileEntity.getScale(), tileEntity.getScale());
+			renderItem.renderItem(toRender, TransformType.FIXED, 100, 655360, matrixStack, buffer);
+		}
+		matrixStack.pop();
 	}
 }

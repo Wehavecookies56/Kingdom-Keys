@@ -60,13 +60,13 @@ public class ModBlocks {
     		magicalChest = createNewBlock("magical_chest", () -> new MagicalChestBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
     		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
     		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
-    		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new StainedGlassBlock(DyeColor.LIME,Block.Properties.create(Material.GLASS).notSolid().sound(SoundType.GLASS).hardnessAndResistance(1.0F, 10.0F))),
+    		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new MosaicStainedGlassBlock(Block.Properties.create(Material.GLASS).notSolid().sound(SoundType.GLASS).hardnessAndResistance(1.0F, 10.0F))),
        		//mosaic_stained_glass = createNewBlock("mosaic_stained_glass", Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F)),
        		//mosaic_stained_glass = createNewBlock("mosaircfdxc_stained_glass", () -> new KKGlassBlock(Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F))),
-            station_of_awakening = createNewBlock("station_of_awakening", Block.Properties.create(Material.GLASS).hardnessAndResistance(1.0F, 10.0F), null),
+            station_of_awakening_core = createNewBlock("station_of_awakening_core", () -> new SoAPlatformCoreBlock(Block.Properties.create(Material.GLASS).notSolid().sound(SoundType.GLASS).hardnessAndResistance(1.0F, 10.0F))),
             orgPortal = createNewBlock("org_portal", () -> new OrgPortalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
             moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.create(Material.IRON).lightValue(6).notSolid().harvestLevel(0).hardnessAndResistance(2F,1F)))
-            ;
+    ;
 
     /**
      * Helper method to create basic blocks

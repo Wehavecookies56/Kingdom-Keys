@@ -379,7 +379,8 @@ public class ItemModels extends ItemModelProvider {
 
 		standardBlockItem("mosaic_stained_glass");
 		standardBlockItem("synthesis_table");
-		
+		standardBlockItem("station_of_awakening_core");
+
 	}
 
     void standardMaterial(String name) {

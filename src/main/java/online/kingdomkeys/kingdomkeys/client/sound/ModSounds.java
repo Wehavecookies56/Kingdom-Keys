@@ -49,8 +49,8 @@ public class ModSounds {
             Record_Sanctuary = registerSound("records.sanctuary"),
             Record_Simple_And_Clean_PLANITb_Remix = registerSound("records.simple_and_clean_planitb_remix"),
             Record_Sinister_Sundown = registerSound("records.sinister_sundown"),
-            Record_The_13th_Anthology = registerSound("records.the_13th_anthology"),
-           
+            Record_The_13th_Anthology = registerSound("records.the_13th_anthology");
+           /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),
             Music_A_Fight_To_The_Death = registerSound("music.a_fight_to_the_death"),
             Music_A_Very_Small_Wish = registerSound("music.a_very_small_wish"),
@@ -107,6 +107,7 @@ public class ModSounds {
             Music_What_A_Surprise = registerSound("music.what_a_surprise"),
             Music_What_Lies_Beneath = registerSound("music.what_lies_beneath"),
             Music_Working_Together = registerSound("music.working_together")
+                    */
                     ;
 
     public static RegistryObject<SoundEvent> registerSound(String name) {

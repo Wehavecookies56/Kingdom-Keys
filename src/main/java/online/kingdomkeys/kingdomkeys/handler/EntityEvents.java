@@ -68,20 +68,12 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import online.kingdomkeys.kingdomkeys.world.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class EntityEvents {
 
 	public static boolean isBoss = false;
 	public static boolean isHostiles = false;
-
-	@SubscribeEvent
-	public void registerDimensions(final RegisterDimensionsEvent event) {
-		if (DimensionType.byName(KingdomKeys.TTDimType) == null) {
-			DimensionManager.registerDimension(KingdomKeys.TTDimType, ModDimensions.traverseTownDimension.get(), null, true);
-		}
-		KingdomKeys.LOGGER.info("Dimensions Registered!");
-	}
 	
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
