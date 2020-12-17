@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class DiveToTheHeartChunkGenerator extends ChunkGenerator<DiveToTheHeartChunkGenerator.Config> {
 
@@ -164,13 +165,13 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator<DiveToTheHeartC
                 ((SoAPlatformTileEntity) world.getTileEntity(pos)).setMultiblockFormed(true);
                 break;
             case '3':
-                createPedestal(world, pos, new ItemStack(Items.DIAMOND_SWORD));
+                createPedestal(world, pos, new ItemStack(ModItems.dreamSword.get()));
                 break;
             case '4':
-                createPedestal(world, pos, new ItemStack(Items.SHIELD));
+                createPedestal(world, pos, new ItemStack(ModItems.dreamShield.get()));
                 break;
             case '5':
-                createPedestal(world, pos, new ItemStack(Items.STICK));
+                createPedestal(world, pos, new ItemStack(ModItems.dreamStaff.get()));
                 break;
         }
     }
@@ -192,7 +193,7 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator<DiveToTheHeartC
         public static Config createDefault() {
             Config config = new Config();
             config.setDefaultBlock(Blocks.AIR.getDefaultState());
-            config.setDefaultBlock(Blocks.AIR.getDefaultState());
+            config.setDefaultFluid(Blocks.AIR.getDefaultState());
             return config;
         }
 
