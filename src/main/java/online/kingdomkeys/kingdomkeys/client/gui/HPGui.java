@@ -26,11 +26,9 @@ public class HPGui extends Screen {
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		// if (!MainConfig.displayGUI())
+		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		PlayerEntity player = minecraft.player;
-		// if (!player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
-		// return;
 		if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
 			// if (!MainConfig.client.hud.EnableHeartsOnHUD)
 			// event.setCanceled(true);

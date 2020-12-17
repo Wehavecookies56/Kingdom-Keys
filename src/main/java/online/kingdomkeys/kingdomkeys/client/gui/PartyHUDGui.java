@@ -50,19 +50,8 @@ public class PartyHUDGui extends Screen {
 			int screenWidth = minecraft.getMainWindow().getScaledWidth();
 			int screenHeight = minecraft.getMainWindow().getScaledHeight();
 
-			
 			float scale = 0.5f;
-			/*switch (minecraft.gameSettings.guiScale) {
-			case Constants.SCALE_AUTO:
-				scale = 0.85f;
-				break;
-			case Constants.SCALE_NORMAL:
-				scale = 0.85f;
-				break;
-			default:
-				scale = 0.65f;
-				break;
-			}*/
+			
 			IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
 			Party p = worldData.getPartyFromMember(player.getUniqueID());
 			if(p == null) {
@@ -72,11 +61,11 @@ public class PartyHUDGui extends Screen {
 			List<Member> allies = new ArrayList<Member>();
 			allies.clear();
 			for(Member m : p.getMembers()) {
-				//System.out.println(m.getUsername());
 				if(!m.getUUID().equals(player.getUniqueID())) {
 					allies.add(m);
 				}
 			}
+			
 			for(int i=0;i<allies.size();i++) {
 				Member ally = allies.get(i);
 				if(player.world.getPlayerByUuid(ally.getUUID()) != null){
@@ -196,7 +185,6 @@ public class PartyHUDGui extends Screen {
 							{
 								RenderSystem.rotatef(180, 0, 0, 1);
 								RenderSystem.translatef(-4, -15, 1);
-								//System.out.println(val+" "+max);
 								RenderSystem.scalef(scale/3*2, (scale*28) * val/max, 1);
 								this.blit(0, 0, 0, 64, 12, 1);
 							}

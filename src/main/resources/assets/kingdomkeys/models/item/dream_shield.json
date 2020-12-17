@@ -1,0 +1,45 @@
+{
+	"parent": "forge:item/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/item/keyblade/dreamshield.obj",
+	"textures": {
+
+	},
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [0.0, 0.0, 0.0 ],
+			"translation": [2.0, -4, 0 ],
+			"scale": [0.013, 0.013, 0.013 ]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [50.0, 0.0, 0.0 ],
+			"translation": [0.0, -3, -4.8 ],
+			"scale": [0.02, 0.02, 0.02 ]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0.0, 0.0, 0.0 ],
+			"translation": [2.0, -4, 0 ],
+			"scale": [0.013, 0.013, 0.013 ]
+		},
+		"thirdperson_righthand": {
+			"rotation": [50.0, 0.0, 0.0 ],
+			"translation": [0.0, -3, -4.8 ],
+			"scale": [0.02, 0.02, 0.02 ]
+		},
+		"gui": {
+			"rotation": [0.0, 180.0, 0.0 ],
+			"translation": [0, -7.5, 0.0 ],
+			"scale": [0.015, 0.015, 0.015 ]
+		},
+		"ground": {
+			"rotation": [0.0, 0.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.01, 0.01, 0.01 ]
+		},
+		"fixed": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [0.0, -0.25, 0.0 ],
+			"scale": [0.01, 0.01, 0.01 ]
+		}
+	}
+}

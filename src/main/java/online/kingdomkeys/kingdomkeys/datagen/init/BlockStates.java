@@ -27,8 +27,6 @@ public class BlockStates extends BlockStateProvider {
         simpleBlock(ModBlocks.wellspringOre.get());
         simpleBlock(ModBlocks.wellspringOreN.get());
         simpleBlock(ModBlocks.frostOre.get());
-        //TODO ghostblox
-        //getVariantBuilder(ModBlocks.ghostBlox).forAllStates(blockState -> ConfiguredModel.builder().modelFile(blockState.get(GhostBloxBlock.VISIBLE) ? ));
         simpleBlock(ModBlocks.hardBlox.get());
         simpleBlock(ModBlocks.lightningOre.get());
         simpleBlock(ModBlocks.lucidOre.get());
@@ -47,7 +45,7 @@ public class BlockStates extends BlockStateProvider {
         simpleBlock(ModBlocks.twilightOreN.get());
         
         simpleBlock(ModBlocks.orgPortal.get());
-        //simpleBlock(ModBlocks.mosaic_stained_glass.get());
+        simpleBlock(ModBlocks.mosaic_stained_glass.get());
 
     }
 }

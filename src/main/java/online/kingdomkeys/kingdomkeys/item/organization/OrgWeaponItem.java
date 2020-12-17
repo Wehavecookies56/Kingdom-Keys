@@ -20,7 +20,6 @@ public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon{
 
 	protected OrganizationData data;
 
-    //TODO remove attack damage
     public OrgWeaponItem() {
         super(new OrganizationItemTier(0), 0, 1, new Item.Properties().group(KingdomKeys.orgWeaponsGroup).maxStackSize(1));
     }

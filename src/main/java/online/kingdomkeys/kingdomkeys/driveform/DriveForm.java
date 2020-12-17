@@ -30,7 +30,8 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	int[] levelUpCosts;// {0,X,X,X,X,X,X}
 	int maxLevel;
 	int order;
-
+	float[] color;
+	
 	String translationKey;
 
 	boolean hasKeychain = false;
@@ -72,6 +73,10 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	
 	public int getOrder() {
 		return order;
+	}
+	
+	public final float[] getDriveColor() {
+		return color;
 	}
 
 	public abstract String getBaseAbilityForLevel(int driveFormLevel);

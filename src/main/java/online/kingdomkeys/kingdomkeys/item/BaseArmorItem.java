@@ -18,21 +18,21 @@ import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
-	String type;
+	String textureName;
 	
-	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlotType slot, String type) {
+	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlotType slot, String textureName) {
 		super(materialIn, slot, new Item.Properties().group(KingdomKeys.miscGroup));
-		this.type = type;
+		this.textureName = textureName;
 	}
 
 	@Nonnull
 	@Override
 	public final String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
-		if(this.type != null) {
+		if(this.textureName != null) {
 			if (slot == EquipmentSlotType.LEGS) {
-				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.type+"2.png";
+				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.textureName+"2.png";
 			} else if (slot == EquipmentSlotType.HEAD || slot == EquipmentSlotType.CHEST || slot == EquipmentSlotType.FEET){
-				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.type+"1.png";
+				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.textureName+"1.png";
 			}
 		}
 		return null;//KingdomKeys.MODID + ":" + "textures/models/armor/ventus.png";

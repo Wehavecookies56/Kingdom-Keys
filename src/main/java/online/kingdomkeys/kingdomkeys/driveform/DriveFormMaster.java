@@ -1,14 +1,6 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class DriveFormMaster extends DriveForm {
 
@@ -17,6 +9,7 @@ public class DriveFormMaster extends DriveForm {
 		this.driveCost = 400;
 		this.ap = 1;
 		this.levelUpCosts = new int[] {0, 60, 240, 456, 726, 1050, 1500};
+		this.color = new float[] { 1F, 0.7F, 0.1F };
 	}
 	
 	@Override

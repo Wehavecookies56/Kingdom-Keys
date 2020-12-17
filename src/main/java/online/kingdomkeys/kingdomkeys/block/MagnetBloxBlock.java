@@ -96,7 +96,6 @@ public class MagnetBloxBlock extends BaseBlock{
                 newRange = min;
             }
             worldIn.setBlockState(pos, state.with(RANGE, newRange));
-            //TODO translate
             player.sendStatusMessage(new TranslationTextComponent("message.magnet_blox.range", newRange), true);
         }
         return ActionResultType.SUCCESS;

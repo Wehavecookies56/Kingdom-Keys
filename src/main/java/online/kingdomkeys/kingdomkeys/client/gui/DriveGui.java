@@ -19,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-//TODO cleanup + comments
 public class DriveGui extends Screen {
 	
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
@@ -34,7 +33,6 @@ public class DriveGui extends Screen {
 
 	static final int R = 0, G = 1, B = 2;
 	int[] colors = { 255, 255, 255 };
-	// String nextColor = "r";
 	static final float CONS = 0.005F;
 	float decimalColor = 0F;
 
@@ -191,27 +189,6 @@ public class DriveGui extends Screen {
 					RenderSystem.popMatrix();
 				}
 			}
-		}
-	}
-	/**
-	 * Add to color based on the letter
-	 * 
-	 * @param color R, G or B (position of the colors array)
-	 */
-	private void add(int color) {
-		if (colors[color] <= 255 - CONS) {
-			colors[color] += CONS;
-		}
-	}
-
-	/**
-	 * Substract to color based on the letter
-	 * 
-	 * @param color R, G or B (position of the colors array)
-	 */
-	private void sub(int color) {
-		if (colors[color] - CONS >= 0) {
-			colors[color] -= CONS;
 		}
 	}
 }

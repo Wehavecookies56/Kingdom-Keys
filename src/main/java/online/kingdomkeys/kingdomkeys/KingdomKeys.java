@@ -71,11 +71,11 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.3";
+	public static final String MODVER = "2.0";
 	public static final String MCVER = "1.15.2";
 
 	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
-	public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ProxyClient(), () -> () -> new ProxyServer());
+	public static IProxy proxy = DistExecutor.safeRunForDist(() -> ProxyClient::new, () -> ProxyServer::new);
 
 	public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
 		@Override

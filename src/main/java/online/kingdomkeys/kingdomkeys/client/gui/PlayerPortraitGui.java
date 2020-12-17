@@ -25,12 +25,9 @@ public class PlayerPortraitGui extends Screen {
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-//        if (!MainConfig.displayGUI())
+//        if (!MainConfig.displayGUI() || !minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		// if(!minecraft.player.getCapability(ModCapabilities.PLAYER_STATS,
-		// null).getHudMode())
-		// return;
 		int screenWidth = minecraft.getMainWindow().getScaledWidth();
 		int screenHeight = minecraft.getMainWindow().getScaledHeight();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
