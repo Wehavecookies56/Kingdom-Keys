@@ -17,6 +17,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -125,6 +126,13 @@ public class DiveToTheHeartDimension extends Dimension {
             if (event.player.getPosY() < 10) {
                 event.player.setPosition(0, 25, 0);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void breakBlock(BlockEvent.BreakEvent event) {
+        if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+            event.setCanceled(true);
         }
     }
 }
