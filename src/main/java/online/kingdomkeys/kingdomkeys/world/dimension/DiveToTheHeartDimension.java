@@ -17,9 +17,11 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 
 import javax.annotation.Nullable;
 
@@ -122,17 +124,45 @@ public class DiveToTheHeartDimension extends Dimension {
     //Prevent player from falling off the platform
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player.world.getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
-            if (event.player.getPosY() < 10) {
-                event.player.setPosition(0, 25, 0);
+        if (!event.player.isCreative()) {
+            if (event.player.world.getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+                if (event.player.getPosY() < 10) {
+                    event.player.setPosition(0, 25, 0);
+                }
             }
         }
     }
 
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
-        if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
-            event.setCanceled(true);
+        if (!event.getPlayer().isCreative()) {
+            if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (!event.getPlayer().isCreative()) {
+            if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+                if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.pedestal.get()) {
+                    if (event.getPlayer().isSneaking()) {
+                        event.setCanceled(true);
+                    }
+                } else {
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void useItem(PlayerInteractEvent.RightClickItem event) {
+        if (!event.getPlayer().isCreative()) {
+            if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+                event.setCanceled(true);
+            }
         }
     }
 }
