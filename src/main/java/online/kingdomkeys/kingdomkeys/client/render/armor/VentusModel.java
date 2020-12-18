@@ -1,18 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.render.armor;
 
-import javax.annotation.Nonnull;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ArmorStandEntity;
 
 public class VentusModel extends BipedModel {
 		
@@ -139,23 +133,15 @@ public class VentusModel extends BipedModel {
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-         /*this.getHeadParts().forEach((model) -> {
-            ((ModelRenderer) model).render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-         });
-         
-         this.getBodyParts().forEach((model) -> {
-            ((ModelRenderer) model).render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-         });*/
-	     
-		//this.bipedHead.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
-
-		/*this.rightArm.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
-		this.leftArm.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
-
-		this.body.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
-
-		this.leftLeg.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
-		this.rightLeg.render(matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);*/
+	}
+	
+	@Override
+	public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		if(entityIn instanceof ArmorStandEntity) {
+			super.setRotationAngles(entityIn, 0, 0, 0, 0, 0);
+		} else {
+			super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+		}
 	}
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
