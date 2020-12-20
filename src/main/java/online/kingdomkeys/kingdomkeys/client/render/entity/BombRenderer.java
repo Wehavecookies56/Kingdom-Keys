@@ -14,6 +14,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.DarkballModel;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DarkballEntity;
 
@@ -39,13 +40,15 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
     @Override
     public void render(BaseBombEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         Minecraft mc = Minecraft.getInstance();
-        matrixStackIn.push();
-        matrixStackIn.translate(entityIn.getPosX(), entityIn.getPosY() + 1, entityIn.getPosZ());
-        matrixStackIn.rotate(mc.getRenderManager().getCameraOrientation());
-        matrixStackIn.scale(-0.025F, -0.025F, -0.025F);
-        Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
-        mc.fontRenderer.renderString(entityIn.ticksToExplode + "", -mc.fontRenderer.getStringWidth(entityIn.ticksToExplode + "") / 2, 0, 0x0099FF, false, matrix4f, bufferIn, false, 0, packedLightIn);
-        matrixStackIn.pop();
+        if (entityIn.getAttackTarget() != null) {
+            matrixStackIn.push();
+            matrixStackIn.translate(0, entityIn.getHeight() + 0.5D, 0);
+            matrixStackIn.rotate(mc.getRenderManager().getCameraOrientation());
+            matrixStackIn.scale(-0.025F, -0.025F, -0.025F);
+            Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
+            mc.fontRenderer.renderString(entityIn.ticksToExplode + "", -mc.fontRenderer.getStringWidth(entityIn.ticksToExplode + "") / 2, 0, 0xFFFFFF, false, matrix4f, bufferIn, false, 0, packedLightIn);
+            matrixStackIn.pop();
+        }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
