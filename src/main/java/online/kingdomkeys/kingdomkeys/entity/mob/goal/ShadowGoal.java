@@ -1,17 +1,17 @@
-package online.kingdomkeys.kingdomkeys.entity.mob.ai;
+package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.TargetGoal;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
-public class EntityAIShadow extends TargetGoal {
+public class ShadowGoal extends TargetGoal {
 	// 1 - in Shadow ; 0 - in Overworld
 
 	private final int MAX_DISTANCE_FOR_AI = 100, MAX_DISTANCE_FOR_LEAP = 10, MAX_DISTANCE_FOR_DASH = 25, MAX_DISTANCE_FOR_ATTACK = 5, TIME_BEFORE_NEXT_ATTACK = 70, TIME_OUTSIDE_THE_SHADOW = 70;
 	private int outsideShadowMaxTicks = 70, oldAi = -1, ticksUntilNextAttack;
 	private boolean canUseNextAttack = true;
 
-	public EntityAIShadow(CreatureEntity creature) {
+	public ShadowGoal(CreatureEntity creature) {
 		super(creature, true);
 		ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;
 	}

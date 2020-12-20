@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.armor;
+package online.kingdomkeys.kingdomkeys.client.model.armor;
 
 import java.util.function.Function;
 

@@ -14,19 +14,19 @@ import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
+import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 import javax.annotation.Nullable;
 import java.util.Base64;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityGravityRenderer extends EntityRenderer<GravityEntity> {
+public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 
-	public static final Factory FACTORY = new EntityGravityRenderer.Factory();
-	ModelBlizzard shot;
+	public static final Factory FACTORY = new GravityEntityRenderer.Factory();
+	BlizzardModel shot;
 
-	public EntityGravityRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	public GravityEntityRenderer(EntityRendererManager renderManager, BlizzardModel fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
@@ -58,7 +58,7 @@ public class EntityGravityRenderer extends EntityRenderer<GravityEntity> {
 	public static class Factory implements IRenderFactory<GravityEntity> {
 		@Override
 		public EntityRenderer<? super GravityEntity> createRenderFor(EntityRendererManager manager) {
-			return new EntityGravityRenderer(manager, new ModelBlizzard());
+			return new GravityEntityRenderer(manager, new BlizzardModel());
 		}
 	}
 

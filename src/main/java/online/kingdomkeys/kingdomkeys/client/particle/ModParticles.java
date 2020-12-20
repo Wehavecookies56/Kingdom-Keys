@@ -1,18 +1,24 @@
 package online.kingdomkeys.kingdomkeys.client.particle;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
+import java.util.function.Supplier;
+
 public class ModParticles {
 	public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, KingdomKeys.MODID);
 
-	public static final RegistryObject<ParticleType<?>> expParticle = createParticle("exp_particle");
+	public static final RegistryObject<ParticleType<?>> TYPE_EXP = createParticle("exp_particle", () -> new BasicParticleType(true));
 
-	private static RegistryObject<ParticleType<?>> createParticle(String name) {
-		RegistryObject<ParticleType<?>> particleType = PARTICLES.register(name, ExpParticleType::new);
+	private static <T extends IParticleData, M extends ParticleType<T>>RegistryObject<ParticleType<?>> createParticle(String name, Supplier<M> type) {
+		RegistryObject<ParticleType<?>> particleType = PARTICLES.register(name, type);
 		return particleType;
 	}
 

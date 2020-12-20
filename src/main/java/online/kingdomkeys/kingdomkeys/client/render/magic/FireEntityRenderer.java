@@ -12,23 +12,23 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
+import online.kingdomkeys.kingdomkeys.client.model.FireModel;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityThunderRenderer extends EntityRenderer<ThunderEntity> {
+public class FireEntityRenderer extends EntityRenderer<FireEntity> {
 
-	public static final Factory FACTORY = new EntityThunderRenderer.Factory();
-	ModelBlizzard shot;
+	public static final Factory FACTORY = new FireEntityRenderer.Factory();
+	FireModel shot;
 
-	public EntityThunderRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	public FireEntityRenderer(EntityRendererManager renderManager, FireModel fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(ThunderEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(FireEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -46,14 +46,14 @@ public class EntityThunderRenderer extends EntityRenderer<ThunderEntity> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(ThunderEntity entity) {
+	public ResourceLocation getEntityTexture(FireEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<ThunderEntity> {
+	public static class Factory implements IRenderFactory<FireEntity> {
 		@Override
-		public EntityRenderer<? super ThunderEntity> createRenderFor(EntityRendererManager manager) {
-			return new EntityThunderRenderer(manager, new ModelBlizzard());
+		public EntityRenderer<? super FireEntity> createRenderFor(EntityRendererManager manager) {
+			return new FireEntityRenderer(manager, new FireModel());
 		}
 	}
 }

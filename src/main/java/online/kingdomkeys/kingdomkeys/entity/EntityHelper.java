@@ -1,11 +1,15 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.List;
 
 public class EntityHelper {
 
@@ -15,6 +19,8 @@ public class EntityHelper {
 	public static void setState(Entity e, int i) {
 		e.getDataManager().set(STATE, i);
 	}
+
+	public static double percentage(double i, double j) {return (i * 100) / j;}
 
 	public static int getState(Entity e) {
 		return e.getDataManager().get(STATE);
@@ -101,5 +107,12 @@ public class EntityHelper {
 		}
 
 		return animation;
+	}
+
+	public static List<LivingEntity> getEntitiesNear(Entity e, double radius) {
+		AxisAlignedBB aabb = new AxisAlignedBB(e.getPosX(), e.getPosY(), e.getPosZ(), e.getPosX() + 1, e.getPosY() + 1, e.getPosZ() + 1).grow(radius, radius, radius);
+		List<LivingEntity> list = e.world.getEntitiesWithinAABB(LivingEntity.class, aabb);
+		list.remove(e);
+		return list;
 	}
 }

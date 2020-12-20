@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.armor;
+package online.kingdomkeys.kingdomkeys.client.model.armor;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

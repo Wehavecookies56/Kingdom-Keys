@@ -32,7 +32,7 @@ public class ExpParticleData implements IParticleData {
 	@Nonnull
 	@Override
 	public ParticleType<?> getType() {
-		return ModParticles.expParticle.get();
+		return ModParticles.TYPE_EXP.get();
 	}
 
 	// write the particle information to a PacketBuffer, ready for transmission to a

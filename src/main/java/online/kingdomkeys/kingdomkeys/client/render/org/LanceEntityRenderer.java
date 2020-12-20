@@ -1,11 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.render.org;
 
-import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -18,31 +16,28 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityChakramRenderer extends EntityRenderer<ChakramEntity> {
+public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 
-	public static final Factory FACTORY = new EntityChakramRenderer.Factory();
+	public static final Factory FACTORY = new LanceEntityRenderer.Factory();
 	Random rand = new Random();
 	float rotation = 0;
 	
-	public EntityChakramRenderer(EntityRendererManager renderManager) {
+	public LanceEntityRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(ChakramEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(LanceEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		matrixStackIn.push();
 		{
 			String name = entity.getModel();
@@ -50,21 +45,19 @@ public class EntityChakramRenderer extends EntityRenderer<ChakramEntity> {
 			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentBlockType());
 			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
 
-			float scale = 0.05F; // (1.0f + poweringState) + (0.6f + poweringState) * progress0;
+			float scale = 0.03F;
 
 			matrixStackIn.push();
 			{
-				matrixStackIn.scale(scale, scale, scale);
-
-				float a = 1;// MathHelper.clamp(1 - progress1, 0, 1);
-				float rgb = 1;// MathHelper.clamp(progress1, 0, 1);
-				
-				matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
-				matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90));
-				matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + rotation));
-				rotation+=10;
-
 				if(entity.ticksExisted > 1) {
+					matrixStackIn.scale(scale, scale, scale);
+	
+					float a = 1;
+					float rgb = 1;
+					
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+					matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 90));
+
 					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
 						buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 					}
@@ -80,16 +73,16 @@ public class EntityChakramRenderer extends EntityRenderer<ChakramEntity> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(ChakramEntity entity) {
+	public ResourceLocation getEntityTexture(LanceEntity entity) {
 		String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
 		//System.out.println(name);
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/"+name+".png");
 	}
 
-	public static class Factory implements IRenderFactory<ChakramEntity> {
+	public static class Factory implements IRenderFactory<LanceEntity> {
 		@Override
-		public EntityRenderer<? super ChakramEntity> createRenderFor(EntityRendererManager manager) {
-			return new EntityChakramRenderer(manager);
+		public EntityRenderer<? super LanceEntity> createRenderFor(EntityRendererManager manager) {
+			return new LanceEntityRenderer(manager);
 		}
 	}
 }

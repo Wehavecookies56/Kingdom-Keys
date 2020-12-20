@@ -12,23 +12,23 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
-import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
+import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
+import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityMagnetRenderer extends EntityRenderer<MagnetEntity> {
+public class WaterEntityRenderer extends EntityRenderer<WaterEntity> {
 
-	public static final Factory FACTORY = new EntityMagnetRenderer.Factory();
-	ModelBlizzard shot;
+	public static final Factory FACTORY = new WaterEntityRenderer.Factory();
+	BlizzardModel shot;
 
-	public EntityMagnetRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	public WaterEntityRenderer(EntityRendererManager renderManager, BlizzardModel fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(MagnetEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(WaterEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -46,14 +46,14 @@ public class EntityMagnetRenderer extends EntityRenderer<MagnetEntity> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(MagnetEntity entity) {
+	public ResourceLocation getEntityTexture(WaterEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<MagnetEntity> {
+	public static class Factory implements IRenderFactory<WaterEntity> {
 		@Override
-		public EntityRenderer<? super MagnetEntity> createRenderFor(EntityRendererManager manager) {
-			return new EntityMagnetRenderer(manager, new ModelBlizzard());
+		public EntityRenderer<? super WaterEntity> createRenderFor(EntityRendererManager manager) {
+			return new WaterEntityRenderer(manager, new BlizzardModel());
 		}
 	}
 }

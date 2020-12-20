@@ -201,21 +201,18 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
 	public void setRotationAngles(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     	totalDistance += ent.getDistanceSq(ent.prevPosX, ent.prevPosY, ent.prevPosZ);
     	
-    	if(ent.getDistanceSq(ent.prevPosX, ent.prevPosY, ent.prevPosZ) > 0)
-    	{
+    	if(ent.getDistanceSq(ent.prevPosX, ent.prevPosY, ent.prevPosZ) > 0) {
 	    	cycleIndex = (int) ((totalDistance * 4) % this.legsMovementAnimation.length);
 	    	this.leftLeg1.rotateAngleX = degToRad(legsMovementAnimation[cycleIndex]);
 	    	this.rightLeg1.rotateAngleX = -degToRad(legsMovementAnimation[cycleIndex]);
     	}
-    	else
-    	{
+    	else {
     		this.leftLeg1.rotateAngleX = this.rightLeg1.rotateAngleX = 0;
     	}
     	
     	//System.out.println(EntityHelper.getState(ent));
     	
-    	if(EntityHelper.getState(ent) == 0)
-    	{
+    	if(EntityHelper.getState(ent) == 0) {
     		this.body.rotateAngleY = 0;
     		this.leftArm1.rotateAngleX = this.rightArm1.rotateAngleX = 0;
     		this.leftLeg1.rotateAngleY = this.degToRad(-13);
@@ -223,21 +220,18 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
     		
     		this.rightArm1.rotateAngleX = this.rightArm1.rotateAngleY = this.rightArm1.rotateAngleZ = 0;
     	}
-    	else if(EntityHelper.getState(ent) == 1)
-    	{	
+    	else if(EntityHelper.getState(ent) == 1) {
     		cycleIndex = (int) (ent.ticksExisted % chargeFlailArmsAnimation.length);
     		this.leftArm1.rotateAngleX  = (float) -chargeFlailArmsAnimation[cycleIndex];
     		this.rightArm1.rotateAngleX  = (float) chargeFlailArmsAnimation[cycleIndex];
     	} 	
-    	else if(EntityHelper.getState(ent) == 2)
-    	{	
+    	else if(EntityHelper.getState(ent) == 2) {
     		this.leftArm1.rotateAngleZ  = degToRad(-60);
     		this.rightArm1.rotateAngleZ  = degToRad(60);
     		cycleIndex = (int) ((ent.ticksExisted * 1.4) % mowdownAttackAnimation.length);
     		this.body.rotateAngleY = degToRad(mowdownAttackAnimation[cycleIndex]);
     	} 
-    	else if(EntityHelper.getState(ent) == 10)
-    	{   	
+    	else if(EntityHelper.getState(ent) == 10) {
     		this.leftArm1.rotateAngleZ = this.rightArm1.rotateAngleZ = 0;
     		this.leftArm1.rotateAngleX = this.rightArm1.rotateAngleX = 0;
     		
@@ -253,8 +247,7 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
         return (float) (degrees * (double)Math.PI / 180) ;
     }
     
-    public void setRotation(ModelRenderer modelRenderer, float x, float y, float z) 
-    {
+    public void setRotation(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;

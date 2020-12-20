@@ -12,16 +12,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.ModelBlizzard;
+import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityBlizzardRenderer extends EntityRenderer<BlizzardEntity> {
+public class BlizzardEntityRenderer extends EntityRenderer<BlizzardEntity> {
 
-	public static final Factory FACTORY = new EntityBlizzardRenderer.Factory();
-	ModelBlizzard shot;
+	public static final Factory FACTORY = new BlizzardEntityRenderer.Factory();
+	BlizzardModel shot;
 
-	public EntityBlizzardRenderer(EntityRendererManager renderManager, ModelBlizzard fist) {
+	public BlizzardEntityRenderer(EntityRendererManager renderManager, BlizzardModel fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
@@ -53,7 +53,7 @@ public class EntityBlizzardRenderer extends EntityRenderer<BlizzardEntity> {
 	public static class Factory implements IRenderFactory<BlizzardEntity> {
 		@Override
 		public EntityRenderer<? super BlizzardEntity> createRenderFor(EntityRendererManager manager) {
-			return new EntityBlizzardRenderer(manager, new ModelBlizzard());
+			return new BlizzardEntityRenderer(manager, new BlizzardModel());
 		}
 	}
 }

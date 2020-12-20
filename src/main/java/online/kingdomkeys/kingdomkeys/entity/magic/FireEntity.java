@@ -35,7 +35,7 @@ public class FireEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public FireEntity(World world, PlayerEntity player) {
+	public FireEntity(World world, LivingEntity player) {
 		super(ModEntities.TYPE_FIRE.get(), player, world);
 	}
 
@@ -77,14 +77,14 @@ public class FireEntity extends ThrowableEntity {
 				brtResult = (BlockRayTraceResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getThrower()) {
 					target.setFire(10);
-					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
+					float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)
