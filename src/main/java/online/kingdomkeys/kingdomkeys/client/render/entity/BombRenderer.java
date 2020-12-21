@@ -40,13 +40,15 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
     @Override
     public void render(BaseBombEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         Minecraft mc = Minecraft.getInstance();
-        if (entityIn.getAttackTarget() != null) {
+        if (EntityHelper.getState(entityIn) == 1) {
+            int timer = Math.max(entityIn.ticksToExplode, 0);
+            String text = (int)Math.ceil(timer/20F) + "";
             matrixStackIn.push();
             matrixStackIn.translate(0, entityIn.getHeight() + 0.5D, 0);
             matrixStackIn.rotate(mc.getRenderManager().getCameraOrientation());
             matrixStackIn.scale(-0.025F, -0.025F, -0.025F);
             Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
-            mc.fontRenderer.renderString(entityIn.ticksToExplode + "", -mc.fontRenderer.getStringWidth(entityIn.ticksToExplode + "") / 2, 0, 0xFFFFFF, false, matrix4f, bufferIn, false, 0, packedLightIn);
+            mc.fontRenderer.renderString(text, -mc.fontRenderer.getStringWidth(text) / 2, 0, 0xFFFFFF, false, matrix4f, bufferIn, false, 0, packedLightIn);
             matrixStackIn.pop();
         }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

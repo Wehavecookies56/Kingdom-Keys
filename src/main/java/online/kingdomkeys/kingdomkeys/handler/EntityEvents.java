@@ -539,11 +539,14 @@ public class EntityEvents {
 		if(event.getEntityLiving() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-				event.setDistance(0);
-			} else {
-				if(playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide)) {
+			//Check to prevent edge case crash
+			if (playerData != null && playerData.getActiveDriveForm() != null) {
+				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 					event.setDistance(0);
+				} else {
+					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide)) {
+						event.setDistance(0);
+					}
 				}
 			}
 		}

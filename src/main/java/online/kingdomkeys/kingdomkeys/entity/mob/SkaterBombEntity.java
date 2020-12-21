@@ -32,4 +32,9 @@ public class SkaterBombEntity extends BaseBombEntity {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(26.0D);
     }
+
+    @Override
+    public float getExplosionStength() {
+        return 3F;
+    }
 }
