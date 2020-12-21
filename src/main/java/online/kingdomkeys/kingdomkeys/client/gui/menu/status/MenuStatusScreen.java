@@ -35,7 +35,7 @@ public class MenuStatusScreen extends MenuBackground {
 	MenuColourBox[] dfWidgets = { dfLevel, dfExp, dfNextLevel, dfFormGauge };
 	
 	public MenuStatusScreen() {
-		super("Status", new Color(0,0,255));
+		super(Strings.Gui_Menu_Status, new Color(0,0,255));
 		drawPlayerInfo = false;
 	}
 

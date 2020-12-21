@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -19,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.Color;
@@ -170,12 +172,12 @@ public class MenuEquipmentButton extends Button {
                         if (totalMagicStr.length() == 1) {
                             openBracketMag += " ";
                         }
-                        drawString(fr, "Strength", (int) strPosX, (int) strPosY, 0xEE8603);
+                        drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getFormattedText(), (int) strPosX, (int) strPosY, 0xEE8603);
                         drawString(fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
                         drawString(fr, openBracketStr, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
                         drawString(fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
                         drawString(fr, " ]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr) + fr.getStringWidth(totalStrengthStr), (int) strPosY, 0xBF6004);
-                        drawString(fr, "Magic", (int) strPosX, (int) magPosY, 0xEE8603);
+                        drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getFormattedText(), (int) strPosX, (int) magPosY, 0xEE8603);
                         drawString(fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
                         drawString(fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
                         drawString(fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);

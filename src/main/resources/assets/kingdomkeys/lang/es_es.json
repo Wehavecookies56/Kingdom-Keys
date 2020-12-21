@@ -51,9 +51,9 @@
 	"gui.menu.party.settings": "Opciones",
 	"gui.menu.party.kick": "Echar",
 	"gui.menu.party.disband": "Disolver",
-	"gui.menu.party.leave": "Leave",
+	"gui.menu.party.leave": "Abandonar",
 	
-	
+	"gui.menu.status": "Condición",
 	"gui.menu.status.level": "Nivel",
 	"gui.menu.status.totalexp": "Experiencia",
 	"gui.menu.status.nextlevel": "Siguiente Niv.",
@@ -88,9 +88,9 @@
 	"gui.commandmenu.revert": "Revertir",
 	
 	"gui.commandmenu.portal.title": "Portales",
-	"gui.commandmenu.magic.title": "Magic",
-	"gui.commandmenu.items.title": "Items",
-	"gui.commandmenu.drive.title": "Forms",
+	"gui.commandmenu.magic.title": "Magia",
+	"gui.commandmenu.items.title": "Objetos",
+	"gui.commandmenu.drive.title": "Formas",
 	
 	"_comment": "Level up messages",
 	"stats.levelUpStr": "¡Fuerza aumentada!",
@@ -139,7 +139,11 @@
 	"ability_mp_haste": "Prisa MP",
 	"ability_mp_hastera": "Prisa MP+",
 	"ability_mp_rage": "Aspirar Daño",
-	
+	"ability_damage_drive": "Damage Drive",
+	"ability_drive_boost": "Drive Boost",
+	"ability_form_boost": "Form Boost",
+	"ability_fire_boost": "Fire Boost",
+	"ability_blizzard_boost": "Blizzard Boost",
     "_comment": "Blocks",
     "block.kingdomkeys.normal_blox": "Blox Normal",
     "block.kingdomkeys.hard_blox": "Blox Duro",

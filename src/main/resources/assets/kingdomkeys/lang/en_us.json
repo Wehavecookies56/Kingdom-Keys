@@ -53,7 +53,7 @@
 	"gui.menu.party.disband": "Disband",
 	"gui.menu.party.leave": "Leave",
 	
-	
+	"gui.menu.status": "Status",
 	"gui.menu.status.level": "Level",
 	"gui.menu.status.totalexp": "Experience",
 	"gui.menu.status.nextlevel": "Next LV",

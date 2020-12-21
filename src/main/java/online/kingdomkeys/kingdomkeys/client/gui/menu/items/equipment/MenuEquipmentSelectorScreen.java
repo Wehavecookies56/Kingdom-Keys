@@ -26,7 +26,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	Color colour;
 
 	public MenuEquipmentSelectorScreen(ResourceLocation form, Color colour, int buttonColour) {
-		super("Keychain", new Color(0,0,255));
+		super(Strings.Gui_Menu_Items_Equipment_Weapon, new Color(0,0,255));
 		drawSeparately = true;
 		minecraft = Minecraft.getInstance();
 		this.form = form;

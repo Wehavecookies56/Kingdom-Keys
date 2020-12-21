@@ -27,11 +27,11 @@ import java.util.List;
 public class OreGen {
 	public static void generateOre() {
 		FillerBlockType END = OreFeatureConfig.FillerBlockType.create("end_stone", "end_stone", new BlockMatcher(Blocks.END_STONE));
-		FillerBlockType OVERWORLD = OreFeatureConfig.FillerBlockType.create("overworld", "overworld", (p_214739_0_) -> {
-			if (p_214739_0_ == null) {
+		FillerBlockType OVERWORLD = OreFeatureConfig.FillerBlockType.create("overworld", "overworld", (blockState) -> {
+			if (blockState == null) {
 				return false;
 			} else {
-				Block block = p_214739_0_.getBlock();
+				Block block = blockState.getBlock();
 				return block == Blocks.DIRT || block == Blocks.GRASS_BLOCK || block == Blocks.SAND;
 			} });
 

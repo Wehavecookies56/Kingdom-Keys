@@ -39,7 +39,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	int itemsPerPage;
 
 	public MenuAbilitiesScreen() {
-		super("Abilities", new Color(0,0,255));
+		super(Strings.Gui_Menu_Main_Button_Abilities, new Color(0,0,255));
 	}
 	
 	protected void action(String string) {

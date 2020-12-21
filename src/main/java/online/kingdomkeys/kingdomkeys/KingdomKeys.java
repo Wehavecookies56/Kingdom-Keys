@@ -48,6 +48,7 @@ import online.kingdomkeys.kingdomkeys.command.KKLevelCommand;
 import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
 import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
 import online.kingdomkeys.kingdomkeys.command.MunnyCommand;
+import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
@@ -228,7 +229,9 @@ public class KingdomKeys {
 
 
     public void oreGen(FMLLoadCompleteEvent event) {
-        OreGen.generateOre();
+    	if(CommonConfig.oreGen.get())
+    		OreGen.generateOre();
+        
 		for (GenerationStage.Decoration i : GenerationStage.Decoration.values()) {
 			ModBiomes.diveToTheHeart.get().getFeatures(i).clear();
 		}
