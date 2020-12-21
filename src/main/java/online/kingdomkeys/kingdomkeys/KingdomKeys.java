@@ -159,12 +159,9 @@ public class KingdomKeys {
 					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
 				}
 				
-				for(et : ModEntities.pureblood)
-					if(e instanceof IKHMob) {
-						if(((IKHMob)e).getMobType() == EntityHelper.MobType.HEARTLESS_PUREBLOOD) {
-							b.getSpawns(et.getClassification()).add(new SpawnListEntry(et, 2, 0, 1));
-						}
-					}
+				for(EntityType<?> entityType : ModEntities.pureblood) {
+					b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
+				}
 				
 			}
 			//Remove all entity spawns added to the Dive to the Heart biome

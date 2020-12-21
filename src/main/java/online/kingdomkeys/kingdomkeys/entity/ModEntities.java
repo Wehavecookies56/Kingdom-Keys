@@ -88,11 +88,14 @@ import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
-    
+
     public static Set<EntityType<? extends Entity>> pureblood = new HashSet();
+    public static Set<EntityType<? extends Entity>> emblem = new HashSet();
+    public static Set<EntityType<? extends Entity>> nobody = new HashSet();
 
     public static final RegistryObject<EntityType<BlastBloxEntity>> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
 
@@ -119,24 +122,21 @@ public class ModEntities {
     //Mobs
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.AMBIENT, "moogle", 0.6F, 1.5F);
     
-    static //Pureblood
-    String type = "pureblood";
-    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "shadow", 0.5F, 0.7F, type);
-    public static final RegistryObject<EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MegaShadowEntity::new, EntityClassification.MONSTER, "mega_shadow", 1.5F, 1.7F, type);
-    public static final RegistryObject<EntityType<GigaShadowEntity>> TYPE_GIGA_SHADOW = createEntityType(GigaShadowEntity::new, GigaShadowEntity::new, EntityClassification.MONSTER, "giga_shadow", 2.5F, 2.7F, type);
-    public static final RegistryObject<EntityType<DarkballEntity>> TYPE_DARKBALL = createEntityType(DarkballEntity::new, DarkballEntity::new, EntityClassification.MONSTER, "darkball", 1.5F, 2F, type);
-    public static final RegistryObject<EntityType<ShadowGlobEntity>> TYPE_SHADOW_GLOB = createEntityType(ShadowGlobEntity::new, ShadowGlobEntity::new, EntityClassification.MONSTER, "shadow_glob", 1F, 1F, type);
+    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "shadow", 0.5F, 0.7F, HEARTLESS_PUREBLOOD);
+    public static final RegistryObject<EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MegaShadowEntity::new, EntityClassification.MONSTER, "mega_shadow", 1.5F, 1.7F, HEARTLESS_PUREBLOOD);
+    public static final RegistryObject<EntityType<GigaShadowEntity>> TYPE_GIGA_SHADOW = createEntityType(GigaShadowEntity::new, GigaShadowEntity::new, EntityClassification.MONSTER, "giga_shadow", 2.5F, 2.7F, HEARTLESS_PUREBLOOD);
+    public static final RegistryObject<EntityType<DarkballEntity>> TYPE_DARKBALL = createEntityType(DarkballEntity::new, DarkballEntity::new, EntityClassification.MONSTER, "darkball", 1.5F, 2F, HEARTLESS_PUREBLOOD);
+    public static final RegistryObject<EntityType<ShadowGlobEntity>> TYPE_SHADOW_GLOB = createEntityType(ShadowGlobEntity::new, ShadowGlobEntity::new, EntityClassification.MONSTER, "shadow_glob", 1F, 1F, HEARTLESS_PUREBLOOD);
     
-    type = "emblem";
     //Emblems
-    public static final RegistryObject<EntityType<MinuteBombEntity>> TYPE_MINUTE_BOMB = createEntityType(MinuteBombEntity::new, MinuteBombEntity::new, EntityClassification.MONSTER, "minute_bomb", 0.6F, 1.3F, type);
-    public static final RegistryObject<EntityType<SkaterBombEntity>> TYPE_SKATER_BOMB = createEntityType(SkaterBombEntity::new, SkaterBombEntity::new, EntityClassification.MONSTER, "skater_bomb", 0.6F, 1.3F, type);
-    public static final RegistryObject<EntityType<StormBombEntity>> TYPE_STORM_BOMB = createEntityType(StormBombEntity::new, StormBombEntity::new, EntityClassification.MONSTER, "storm_bomb", 0.6F, 1.3F, type);
-    public static final RegistryObject<EntityType<DetonatorEntity>> TYPE_DETONATOR = createEntityType(DetonatorEntity::new, DetonatorEntity::new, EntityClassification.MONSTER, "detonator", 0.6F, 1.3F, type);
-    public static final RegistryObject<EntityType<RedNocturneEntity>> TYPE_RED_NOCTURNE = createEntityTypeImmuneToFire(RedNocturneEntity::new, RedNocturneEntity::new, EntityClassification.MONSTER, "red_nocturne", 1.0F,  1.0F, type);
-    public static final RegistryObject<EntityType<BlueRhapsodyEntity>> TYPE_BLUE_RHAPSODY = createEntityType(BlueRhapsodyEntity::new, BlueRhapsodyEntity::new, EntityClassification.MONSTER, "blue_rhapsody", 1.0F, 1.0F, type);
-    public static final RegistryObject<EntityType<YellowOperaEntity>> TYPE_YELLOW_OPERA = createEntityType(YellowOperaEntity::new, YellowOperaEntity::new, EntityClassification.MONSTER, "yellow_opera", 1.0F, 1.0F, type);
-    public static final RegistryObject<EntityType<GreenRequiemEntity>> TYPE_GREEN_REQUIEM = createEntityType(GreenRequiemEntity::new, GreenRequiemEntity::new, EntityClassification.MONSTER, "green_requiem", 1.0F, 1.0F, type);
+    public static final RegistryObject<EntityType<MinuteBombEntity>> TYPE_MINUTE_BOMB = createEntityType(MinuteBombEntity::new, MinuteBombEntity::new, EntityClassification.MONSTER, "minute_bomb", 0.6F, 1.3F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<SkaterBombEntity>> TYPE_SKATER_BOMB = createEntityType(SkaterBombEntity::new, SkaterBombEntity::new, EntityClassification.MONSTER, "skater_bomb", 0.6F, 1.3F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<StormBombEntity>> TYPE_STORM_BOMB = createEntityType(StormBombEntity::new, StormBombEntity::new, EntityClassification.MONSTER, "storm_bomb", 0.6F, 1.3F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<DetonatorEntity>> TYPE_DETONATOR = createEntityType(DetonatorEntity::new, DetonatorEntity::new, EntityClassification.MONSTER, "detonator", 0.6F, 1.3F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<RedNocturneEntity>> TYPE_RED_NOCTURNE = createEntityTypeImmuneToFire(RedNocturneEntity::new, RedNocturneEntity::new, EntityClassification.MONSTER, "red_nocturne", 1.0F,  1.0F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<BlueRhapsodyEntity>> TYPE_BLUE_RHAPSODY = createEntityType(BlueRhapsodyEntity::new, BlueRhapsodyEntity::new, EntityClassification.MONSTER, "blue_rhapsody", 1.0F, 1.0F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<YellowOperaEntity>> TYPE_YELLOW_OPERA = createEntityType(YellowOperaEntity::new, YellowOperaEntity::new, EntityClassification.MONSTER, "yellow_opera", 1.0F, 1.0F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<GreenRequiemEntity>> TYPE_GREEN_REQUIEM = createEntityType(GreenRequiemEntity::new, GreenRequiemEntity::new, EntityClassification.MONSTER, "green_requiem", 1.0F, 1.0F, HEARTLESS_EMBLEM);
 
     //TODO update textures to work with newer model, make magic for
     /*
@@ -145,14 +145,13 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_EMERALD_BLUES = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "emerald_blues", 1.0F, 1.0F);
     */
 
-    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 2F, 3F);
+    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 2F, 3F, NOBODY);
     //TODO make AI
     //public static final RegistryObject<EntityType<ShadowEntity>> TYPE_WHITE_MUSHROOM = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "white_mushroom", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.5F, 0.5F, NOBODY);
 
     //Nobodies
-    type = "nobody";
-    public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, EntityClassification.MONSTER, "nobody_creeper", 1F, 1.5F);
+    public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, EntityClassification.MONSTER, "nobody_creeper", 1F, 1.5F, NOBODY);
     public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, EntityClassification.MONSTER, "dusk", 1F, 1.5F);
 
     /**
@@ -166,7 +165,7 @@ public class ModEntities {
      * @param <T> The entity type
      * @return The EntityType created
      */
-    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityType(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY) {
+    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityType(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY, EntityHelper.MobType group) {
         EntityType<T> type = EntityType.Builder.create(factory, classification)
                 .setCustomClientFactory(clientFactory)
                 .setShouldReceiveVelocityUpdates(true)
@@ -174,19 +173,15 @@ public class ModEntities {
                 .setTrackingRange(128)
                 .size(sizeX, sizeY)
                 .build(name);
+        if (group != null) addToGroup(group, type);
         return ENTITIES.register(name, () -> type);
     }
     
-    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityType(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY, String group) {
-    	RegistryObject<EntityType<T>> entity = createEntityType(factory,clientFactory,classification,name,sizeX,sizeY);
-    	switch(group) {
-    	case "pureblood":
-    		pureblood.add(entity);
-    	}
-        return entity;
+    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityType(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY) {
+        return createEntityType(factory,clientFactory,classification,name,sizeX,sizeY, null);
     }
 
-    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityTypeImmuneToFire(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY) {
+    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityTypeImmuneToFire(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY, EntityHelper.MobType group) {
         EntityType<T> type = EntityType.Builder.create(factory, classification)
                 .setCustomClientFactory(clientFactory)
                 .setShouldReceiveVelocityUpdates(true)
@@ -195,16 +190,27 @@ public class ModEntities {
                 .size(sizeX, sizeY)
                 .immuneToFire()
                 .build(name);
+        if (group != null) addToGroup(group, type);
         return ENTITIES.register(name, () -> type);
     }
     
-    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityTypeImmuneToFire(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY, String group) {
-    	RegistryObject<EntityType<T>> entity = createEntityTypeImmuneToFire(factory,clientFactory,classification,name,sizeX,sizeY);
-    	switch(group) {
-    	case "pureblood":
-    		pureblood.add(entity);
-    	}
+    public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityTypeImmuneToFire(EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> clientFactory, EntityClassification classification, String name, float sizeX, float sizeY) {
+    	RegistryObject<EntityType<T>> entity = createEntityTypeImmuneToFire(factory,clientFactory,classification,name,sizeX,sizeY, null);
         return entity;
+    }
+
+    public static void addToGroup(EntityHelper.MobType group, EntityType<?> type) {
+        switch(group) {
+            case HEARTLESS_PUREBLOOD:
+                pureblood.add(type);
+                break;
+            case HEARTLESS_EMBLEM:
+                emblem.add(type);
+                break;
+            case NOBODY:
+                nobody.add(type);
+                break;
+        }
     }
 
     /**
