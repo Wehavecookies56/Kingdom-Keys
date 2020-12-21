@@ -33,14 +33,11 @@
 	"gui.menu.main.time": "World Time",
 	"gui.menu.main.time.spent": "Global Time",
 	
-	"gui.synthesis": "Item Workshop",
-	"gui.synthesis.synthesise": "Synthesise Items",
-	"gui.synthesis.synthesise.create": "Create",
-	"gui.synthesis.forge.upgrade": "Upgrade",
-	"gui.synthesis.forge": "Keyblade Forge",
-	"gui.synthesis.materials": "Material List",
-	"gui.synthesis.materials.deposit": "Deposit",
-	"gui.synthesis.materials.take": "Take",
+	"gui.menu.items": "Items",
+	"gui.menu.items.equipment": "Equipment",
+	"gui.menu.items.stock": "Stock",
+	"gui.menu.items.equipment.weapon": "Weapon",
+	
 
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
@@ -73,6 +70,15 @@
 	"gui.menu.status.darkres": "Dark Resistance",
 	"gui.menu.status.formlevel": "Form Level",
 	"gui.menu.status.formgauge": "Form Gauge",
+	
+	"gui.synthesis": "Item Workshop",
+	"gui.synthesis.synthesise": "Synthesise Items",
+	"gui.synthesis.synthesise.create": "Create",
+	"gui.synthesis.forge.upgrade": "Upgrade",
+	"gui.synthesis.forge": "Keyblade Forge",
+	"gui.synthesis.materials": "Material List",
+	"gui.synthesis.materials.deposit": "Deposit",
+	"gui.synthesis.materials.take": "Take",
 	
 	"gui.commandmenu.command": "COMMAND",
 	"gui.commandmenu.attack": "Attack",
@@ -932,5 +938,10 @@
     "message.magnet_blox.attract": "Attract Mode",
     "message.magnet_blox.repel": "Repel Mode",
     "message.magnet_blox.range": "Range is now: %s",
-	"message.form_unlocked": "Unlocked %s"
+	"message.form_unlocked": "Unlocked %s",
+	"message.chest.lock": "Use a keyblade to lock this chest",
+	"message.chest.can_be_locked": "Can be locked with a keyblade",
+	"message.chest.locked": "This chest is locked",
+	"message.chest.keyblade_set": "Your keyblade has been set to unlock this chest",
+	"message.chest.unlocked": "Chest has been unlocked"
 }

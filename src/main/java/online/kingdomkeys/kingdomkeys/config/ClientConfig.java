@@ -8,7 +8,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  */
 public class ClientConfig {
 
-    public static boolean CORSAIR_KEYBOARD_LIGHTING;
+   // public static boolean CORSAIR_KEYBOARD_LIGHTING;
     public static ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
 
     ClientConfig(final ForgeConfigSpec.Builder builder) {

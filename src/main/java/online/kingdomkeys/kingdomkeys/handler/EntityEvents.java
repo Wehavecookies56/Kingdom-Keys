@@ -19,28 +19,25 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
@@ -50,11 +47,11 @@ import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
@@ -66,9 +63,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
-import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class EntityEvents {
 
@@ -81,6 +77,16 @@ public class EntityEvents {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 		if(playerData != null) {
+			//Heartless Spawn reset
+			if(worldData != null) {
+				if(worldData.getHeartlessSpawn() && CommonConfig.heartlessSpawningMode.get() == 0) {
+					worldData.setHeartlessSpawn(false);
+				} else if(!worldData.getHeartlessSpawn() && CommonConfig.heartlessSpawningMode.get() == 1) {
+					worldData.setHeartlessSpawn(true);
+				}
+			
+			}
+			
 			if (!player.world.isRemote) { // Sync from server to client
 				player.setHealth(playerData.getMaxHP());
 				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
@@ -126,7 +132,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-		
+
 		if (playerData != null) {
 			//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
 			if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
@@ -607,11 +613,11 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
-		/*
-		 * if (event.getEntity() instanceof EntityDragon) {
-		 * WorldSavedDataKingdomKeys.get(DimensionManager.getWorld(DimensionType.
-		 * OVERWORLD.getId())).setSpawnHeartless(true); }
-		 */
+		// EnderDragon killed makes heartless spawn if mode is 3
+		if (event.getEntity() instanceof EnderDragonEntity && CommonConfig.heartlessSpawningMode.get() == 3) {
+			IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
+			worldData.setHeartlessSpawn(true);
+		}
 
 		if (!event.getEntity().world.isRemote) {
 			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {

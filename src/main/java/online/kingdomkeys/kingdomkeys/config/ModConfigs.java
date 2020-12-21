@@ -33,12 +33,12 @@ public class ModConfigs {
 
     public static void bakeClient(final ModConfig config) {
         clientConfig = config;
-        ClientConfig.CORSAIR_KEYBOARD_LIGHTING = ClientConfig.corsairKeyboardLighting.get();
+      //  ClientConfig.CORSAIR_KEYBOARD_LIGHTING = ClientConfig.corsairKeyboardLighting.get();
     }
 
     public static void bakeCommon(final ModConfig config) {
         commonConfig = config;
-
+      //  CommonConfig.HEARTLESS_SPAWNING_MODE = CommonConfig.heartlessSpawningMode.get();
     }
 
     /**

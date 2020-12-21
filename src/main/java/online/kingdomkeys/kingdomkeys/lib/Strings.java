@@ -314,9 +314,11 @@ public class Strings {
             Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",
             
             Gui_Menu_Items = Gui_Menu + ".items",
-            Gui_Menu_Items_Title = Gui_Menu_Items + ".title",
-            Gui_Menu_Items_Button_Keychain = Gui_Menu_Items + ".keychain",
-            Gui_Menu_Items_Button_OrgWeapon = Gui_Menu_Items + ".orgweapon",
+            Gui_Menu_Items_Equipment = Gui_Menu_Items + ".equipment",
+            Gui_Menu_Items_Stock = Gui_Menu_Items + ".stock",
+            
+            Gui_Menu_Items_Equipment_Weapon = Gui_Menu_Items_Equipment + ".weapon",
+            
             Gui_Menu_Items_Button_Potions = Gui_Menu_Items + ".potions",
             Gui_Menu_Items_Button_Spells = Gui_Menu_Items + ".spells",
             Gui_Menu_Items_Button_Drive = Gui_Menu_Items + ".drives",

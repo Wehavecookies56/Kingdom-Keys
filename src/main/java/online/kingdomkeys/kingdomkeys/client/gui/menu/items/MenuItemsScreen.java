@@ -8,13 +8,14 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MenuItemsScreen extends MenuBackground {
 
     Button items_player, items_stock, items_back;
 
     public MenuItemsScreen() {
-		super("Items", new Color(0,0,255));
+		super(Strings.Gui_Menu_Items, new Color(0,0,255));
         minecraft = Minecraft.getInstance();
     }
     @Override

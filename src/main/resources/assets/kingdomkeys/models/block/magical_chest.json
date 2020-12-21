@@ -3,14 +3,10 @@
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/block/magical_chest.obj",
 	"transform":{
-		"translation": [ -0.485, -1, -0.485 ],
-		"scale": [ 0.015, 0.015, 0.015 ]
+		"translation": [ -0.515, -1, -0.485 ],
+		"scale": [ 0.015, 0.015, 0.015 ],
+		"rotation": [ 0, 180, 0 ]
 	},
 	"textures": {
-	},
-	"visibility": {
-	  "object_1": "hide",
-	  "object_2": "default",
-	  "object_3": "show"
 	}
 }

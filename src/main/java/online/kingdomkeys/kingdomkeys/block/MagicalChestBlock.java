@@ -94,7 +94,7 @@ public class MagicalChestBlock extends ContainerBlock {
 			if (te != null) {
 				PlayerEntity player = (PlayerEntity) placer;
 				te.setOwner(player.getGameProfile().getId());
-				player.sendStatusMessage(new TranslationTextComponent("Use a keyblade to lock this chest"), true);
+				player.sendStatusMessage(new TranslationTextComponent("message.chest.lock"), true);
 			}
 		}
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
@@ -124,13 +124,13 @@ public class MagicalChestBlock extends ContainerBlock {
 										buf.writeBlockPos(pos);
 									});
 								} else {
-									player.sendStatusMessage(new TranslationTextComponent("This chest is locked"), true);
+									player.sendStatusMessage(new TranslationTextComponent("message.chest.locked"), true);
 									//you can't open it with that keyblade message
 								}
 							} else {
 								//Set the keyblade ID to unlock
 								te.setKeyblade(heldID);
-								player.sendStatusMessage(new TranslationTextComponent("Your keyblade has been set to unlock this chest"), true);
+								player.sendStatusMessage(new TranslationTextComponent("message.chest.keyblade_set"), true);
 							}
 						} else if (keyblade == null) {
 							//Chest is not locked and keyblade has no ID
@@ -145,7 +145,7 @@ public class MagicalChestBlock extends ContainerBlock {
 						});
 						return ActionResultType.SUCCESS;
 					} else {
-						player.sendStatusMessage(new TranslationTextComponent("This chest is locked"), true);
+						player.sendStatusMessage(new TranslationTextComponent("message.chest.locked"), true);
 					}
 				}
 			}
@@ -236,7 +236,7 @@ public class MagicalChestBlock extends ContainerBlock {
 								UUID heldID = Utils.getID(held);
 								if (heldID.equals(te.getKeyblade())) {
 									te.setKeyblade(null);
-									player.sendStatusMessage(new TranslationTextComponent("Chest has been unlocked"), true);
+									player.sendStatusMessage(new TranslationTextComponent("message.chest.unlocked"), true);
 								}
 							}
 						}

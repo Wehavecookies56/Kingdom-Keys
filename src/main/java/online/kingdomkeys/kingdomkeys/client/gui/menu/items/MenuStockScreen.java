@@ -31,7 +31,7 @@ public class MenuStockScreen extends MenuFilterable {
     int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 
     public MenuStockScreen() {
-        super("Stock", new Color(0,0,255));
+        super(Strings.Gui_Menu_Items_Stock, new Color(0,0,255));
         drawSeparately = true;
     }
 

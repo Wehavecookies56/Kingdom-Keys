@@ -44,9 +44,9 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
             int timer = Math.max(entityIn.ticksToExplode, 0);
             String text = (int)Math.ceil(timer/20F) + "";
             matrixStackIn.push();
-            matrixStackIn.translate(0, entityIn.getHeight() + 0.5D, 0);
+            matrixStackIn.translate(0, entityIn.getHeight() + 0.75D, 0);
             matrixStackIn.rotate(mc.getRenderManager().getCameraOrientation());
-            matrixStackIn.scale(-0.025F, -0.025F, -0.025F);
+            matrixStackIn.scale(-0.05F, -0.05F, -0.05F);
             Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
             mc.fontRenderer.renderString(text, -mc.fontRenderer.getStringWidth(text) / 2, 0, 0xFFFFFF, false, matrix4f, bufferIn, false, 0, packedLightIn);
             matrixStackIn.pop();

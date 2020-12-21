@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.world.gen.GenerationSettings;
-import net.minecraft.world.gen.GenerationStage;
-import online.kingdomkeys.kingdomkeys.command.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +11,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.command.CommandSource;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -22,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,10 +41,19 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
+import online.kingdomkeys.kingdomkeys.command.KKDriveLevelCommand;
+import online.kingdomkeys.kingdomkeys.command.KKExpCommand;
+import online.kingdomkeys.kingdomkeys.command.KKLevelCommand;
+import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
+import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
+import online.kingdomkeys.kingdomkeys.command.MunnyCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
@@ -149,6 +158,14 @@ public class KingdomKeys {
 				if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0 && b.getCategory() != Category.OCEAN) {
 					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
 				}
+				
+				for(et : ModEntities.pureblood)
+					if(e instanceof IKHMob) {
+						if(((IKHMob)e).getMobType() == EntityHelper.MobType.HEARTLESS_PUREBLOOD) {
+							b.getSpawns(et.getClassification()).add(new SpawnListEntry(et, 2, 0, 1));
+						}
+					}
+				
 			}
 			//Remove all entity spawns added to the Dive to the Heart biome
 			Biome dtth = ForgeRegistries.BIOMES.getValue(new ResourceLocation(MODID, Strings.diveToTheHeart + "_biome"));

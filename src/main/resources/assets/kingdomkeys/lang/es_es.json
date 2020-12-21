@@ -33,15 +33,12 @@
 	"gui.menu.main.time": "Hora del Mundo",
 	"gui.menu.main.time.spent": "Tiempo total",
 	
-	"gui.synthesis": "Sinthesiser",
-	"gui.synthesis.synthesise": "Sintetizar",
-	"gui.synthesis.synthesise.create": "Crear",
-	"gui.synthesis.forge.upgrade": "Mejorar",
-	"gui.synthesis.forge": "Forja",
-	"gui.synthesis.materials": "Materiales",
-	"gui.synthesis.materials.deposit": "Depositar",
-	"gui.synthesis.materials.take": "Sacar",
-
+	"gui.menu.items": "Objetos",
+	"gui.menu.items.equipment": "Equipamiento",
+	"gui.menu.items.stock": "Inventario",
+	"gui.menu.items.equipment.weapon": "Arma",
+	
+	
 	"gui.menu.party": "Grupo",
 	"gui.menu.party.create": "Crear Grupo",
 	"gui.menu.party.create.name": "Nombre",
@@ -73,6 +70,15 @@
 	"gui.menu.status.darkres": "Resistancia Oscuridad",
 	"gui.menu.status.formlevel": "Niv. de Forma",
 	"gui.menu.status.formgauge": "Indicador de Forma",
+	
+	"gui.synthesis": "Sintetizador",
+	"gui.synthesis.synthesise": "Sintetizar",
+	"gui.synthesis.synthesise.create": "Crear",
+	"gui.synthesis.forge.upgrade": "Mejorar",
+	"gui.synthesis.forge": "Forja",
+	"gui.synthesis.materials": "Materiales",
+	"gui.synthesis.materials.deposit": "Depositar",
+	"gui.synthesis.materials.take": "Sacar",
 	
 	"gui.commandmenu.command": "COMANDOS",
 	"gui.commandmenu.attack": "Atacar",
@@ -184,11 +190,11 @@
     "magic_stop": "Paro",
     
     "_comment": "Drive Forms",
-	"form_valor": "Valiente",
-	"form_wisdom": "Sabia",
-	"form_limit": "Suma",
-	"form_master": "Maestra",
-	"form_final": "Final",
+	"form.form_valor.name": "Valiente",
+	"form.form_wisdom.name": "Sabia",
+	"form.form_limit.name": "Suma",
+	"form.form_master.name": "Maestra",
+	"form.form_final.name": "Final",
 
     "_comment": "Items",
 	"item.kingdomkeys.recipe": "Receta",
@@ -379,5 +385,19 @@
 	"item.kingdomkeys.electrum": "Electrum",
 	
 	"item.kingdomkeys.evanescent_crystal": "Cristal Evanescente",
-	"item.kingdomkeys.illusory_crystal": "Cristal Ilusorio"
+	"item.kingdomkeys.illusory_crystal": "Cristal Ilusorio",
+	
+	"_comment": "Entities",
+    "entities.kingdomkeys.blast_blox_primed": "Primed Blast Blox",
+
+    "_comment": "Messages",
+    "message.magnet_blox.attract": "Modo Atracción",
+    "message.magnet_blox.repel": "Modo Repeler",
+    "message.magnet_blox.range": "El rango es: %s",
+	"message.form_unlocked": "Desbloqueado/a %s",
+	"message.chest.lock": "Usa una llave espada para bloquear el cofre",
+	"message.chest.can_be_locked": "Puede ser bloqueado con una llave espada",
+	"message.chest.locked": "Este cofre está bloqueado",
+	"message.chest.keyblade_set": "Has establecido tu llave espada para desbloquear este cofre",
+	"message.chest.unlocked": "El Cofre ha sido desbloqueado"
 }

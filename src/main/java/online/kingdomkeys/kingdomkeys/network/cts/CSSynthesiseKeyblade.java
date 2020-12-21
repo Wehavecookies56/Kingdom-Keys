@@ -14,10 +14,14 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -67,10 +71,17 @@ public class CSSynthesiseKeyblade {
 						Entry<Material, Integer> m = ite.next();
 						playerData.removeMaterial(m.getKey(), m.getValue());
 					}
+					
 					Item i = recipe.getResult();
 					
 					int amount = recipe.getAmount();
 					player.inventory.addItemStackToInventory(new ItemStack(i,amount));
+					
+					if(i instanceof KeychainItem && CommonConfig.heartlessSpawningMode.get() == 2) {
+						IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+						worldData.setHeartlessSpawn(true);
+						PacketHandler.sendToAllPlayers(new SCSyncExtendedWorld(worldData));
+					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			}

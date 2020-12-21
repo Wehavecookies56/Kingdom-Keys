@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 import java.awt.Color;
 import java.util.Comparator;
@@ -22,7 +23,7 @@ public class MenuEquipmentScreen extends MenuBackground {
     MenuBox listBox, detailsBox;
 
     public MenuEquipmentScreen() {
-        super("Equipment", new Color(0,0,255));
+        super(Strings.Gui_Menu_Items_Equipment, new Color(0,0,255));
         drawSeparately = true;
     }
 
@@ -52,7 +53,7 @@ public class MenuEquipmentScreen extends MenuBackground {
 
         AtomicInteger offset = new AtomicInteger();
 
-        MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "Weapon", 0xFE8185);
+        MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
         addButton(firstslot);
 
         Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.getValue(f.getKey()).getOrder());

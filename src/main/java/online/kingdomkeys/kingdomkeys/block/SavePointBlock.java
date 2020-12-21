@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -42,7 +43,9 @@ public class SavePointBlock extends BaseBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if(!worldIn.isRemote) {
-			player.setSpawnPoint(pos.add(0, 1, 0), true, true, player.dimension);
+			player.setSpawnPoint(pos.add(0, 1, 0), true, false, player.dimension);
+			player.sendStatusMessage(new TranslationTextComponent("block.minecraft.bed.set_spawn"), true);
+
 		}
 		return ActionResultType.CONSUME;
 	}
