@@ -152,6 +152,7 @@ public class KingdomKeys {
 		DeferredWorkQueue.runLater(() -> {
 			PacketHandler.register();
 		});
+		
 		addMoogleHouse();
 		
 		DeferredWorkQueue.runLater(() -> {
@@ -161,6 +162,12 @@ public class KingdomKeys {
 				}
 				
 				for(EntityType<?> entityType : ModEntities.pureblood) {
+					b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
+				}
+				for(EntityType<?> entityType : ModEntities.emblem) {
+					b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
+				}
+				for(EntityType<?> entityType : ModEntities.nobody) {
 					b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
 				}
 				

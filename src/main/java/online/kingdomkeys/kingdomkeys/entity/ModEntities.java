@@ -93,9 +93,9 @@ import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
 
-    public static Set<EntityType<? extends Entity>> pureblood = new HashSet();
-    public static Set<EntityType<? extends Entity>> emblem = new HashSet();
-    public static Set<EntityType<? extends Entity>> nobody = new HashSet();
+    public static Set<EntityType<? extends Entity>> pureblood = new HashSet<EntityType<?>>();
+    public static Set<EntityType<? extends Entity>> emblem = new HashSet<EntityType<?>>();
+    public static Set<EntityType<? extends Entity>> nobody = new HashSet<EntityType<?>>();
 
     public static final RegistryObject<EntityType<BlastBloxEntity>> TYPE_BLAST_BLOX = createEntityType(BlastBloxEntity::new, BlastBloxEntity::new, EntityClassification.MISC,"blast_blox_primed", 0.98F, 0.98F);
 
@@ -173,7 +173,8 @@ public class ModEntities {
                 .setTrackingRange(128)
                 .size(sizeX, sizeY)
                 .build(name);
-        if (group != null) addToGroup(group, type);
+        if (group != null) 
+        	addToGroup(group, type);
         return ENTITIES.register(name, () -> type);
     }
     

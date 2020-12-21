@@ -104,7 +104,7 @@ public class DiveToTheHeartDimension extends Dimension {
         World world = Minecraft.getInstance().world;
         if (world != null) {
             if (world.getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
-                event.setDensity(0.08F);
+                event.setDensity(0.06F);
                 event.setCanceled(true);
             }
         }
