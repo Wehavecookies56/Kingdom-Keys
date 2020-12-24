@@ -9,12 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 
 public class SCSyncCapabilityPacket {
 
@@ -44,6 +48,11 @@ public class SCSyncCapabilityPacket {
 	TreeMap<String, Integer> materialMap = new TreeMap<>();
 	Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
 	
+	SoAState soAstate, choice, sacrifice;
+	BlockPos choicePedestal, sacrificePedestal;
+	Vec3d returnPos;
+	DimensionType returnDim;
+	
 	public SCSyncCapabilityPacket() {
 	}
 
@@ -59,7 +68,6 @@ public class SCSyncCapabilityPacket {
 		this.maxMP = capability.getMaxMP();
 		this.recharge = capability.getRecharge();
 		this.maxHp = capability.getMaxHP();
-		// this.choice1 = capability.getChoice1();
 		this.maxAP = capability.getMaxAP();
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
@@ -81,6 +89,13 @@ public class SCSyncCapabilityPacket {
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
+		this.soAstate = capability.getSoAState();
+		this.choice = capability.getChosen();
+		this.choicePedestal = capability.getChoicePedestal();
+		this.sacrifice = capability.getSacrificed();
+		this.sacrificePedestal = capability.getSacrificePedestal();
+		this.returnPos = capability.getReturnLocation();
+		this.returnDim = capability.getReturnDimension();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -95,7 +110,6 @@ public class SCSyncCapabilityPacket {
 		buffer.writeDouble(this.maxMP);
 		buffer.writeBoolean(this.recharge);
 		buffer.writeInt(this.maxHp);
-		// buffer.writeString(this.choice1);
 		buffer.writeInt(this.maxAP);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.maxDP);
@@ -173,6 +187,15 @@ public class SCSyncCapabilityPacket {
 		for (int i = 0; i < this.dfMessages.size(); i++) {
 			buffer.writeString(this.dfMessages.get(i));
 		}
+		buffer.writeInt(this.returnDim.getId());
+		buffer.writeDouble(this.returnPos.x);
+		buffer.writeDouble(this.returnPos.y);
+		buffer.writeDouble(this.returnPos.z);
+		buffer.writeByte(this.soAstate.get());
+		buffer.writeByte(this.choice.get());
+		buffer.writeByte(this.sacrifice.get());
+		buffer.writeBlockPos(this.choicePedestal);
+		buffer.writeBlockPos(this.sacrificePedestal);
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -263,7 +286,14 @@ public class SCSyncCapabilityPacket {
 		for(int i = 0;i<dfMsgSize;i++) {
 			msg.dfMessages.add(buffer.readString(100));
 		}
-		
+
+		msg.returnDim = DimensionType.getById(buffer.readInt());
+		msg.returnPos = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+		msg.soAstate = SoAState.fromByte(buffer.readByte());
+		msg.choice = SoAState.fromByte(buffer.readByte());
+		msg.sacrifice = SoAState.fromByte(buffer.readByte());
+		msg.choicePedestal = buffer.readBlockPos();
+		msg.sacrificePedestal = buffer.readBlockPos();
 		return msg;
 	}
 
@@ -302,6 +332,14 @@ public class SCSyncCapabilityPacket {
 			playerData.setPartiesInvited(message.partyList);
 			playerData.setMaterialMap(message.materialMap);
 			playerData.equipAllKeychains(message.keychains, false);
+
+			playerData.setReturnDimension(message.returnDim);
+			playerData.setReturnLocation(message.returnPos);
+			playerData.setSoAState(message.soAstate);
+			playerData.setChoice(message.choice);
+			playerData.setSacrifice(message.sacrifice);
+			playerData.setChoicePedestal(message.choicePedestal);
+			playerData.setSacrificePedestal(message.sacrificePedestal);
 		});
 		ctx.get().setPacketHandled(true);
 	}

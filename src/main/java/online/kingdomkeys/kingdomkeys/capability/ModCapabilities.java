@@ -38,7 +38,7 @@ public class ModCapabilities {
 	}
 
 	public static void register() {
-		CapabilityManager.INSTANCE.register(IPlayerCapabilities.class, new PlayerCapabilities.Storage(), PlayerCapabilities::new);
+		CapabilityManager.INSTANCE.register(IPlayerCapabilities.class, new PlayerCapabilitiesStorage(), PlayerCapabilities::new);
 		CapabilityManager.INSTANCE.register(IGlobalCapabilities.class, new GlobalCapabilities.Storage(), GlobalCapabilities::new);
 		CapabilityManager.INSTANCE.register(IWorldCapabilities.class, new WorldCapabilities.Storage(), WorldCapabilities::new);
 	}

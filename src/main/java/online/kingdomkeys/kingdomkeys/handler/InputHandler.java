@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
+import online.kingdomkeys.kingdomkeys.lib.*;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -35,13 +39,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.PortalData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -552,7 +550,13 @@ public class InputHandler {
             switch (key) {
                 case OPENMENU:
     				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-                    GuiHelper.openMenu();
+                    if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
+                        if (player.dimension != ModDimensions.DIVE_TO_THE_HEART_TYPE) {
+                            mc.displayGuiScreen(new NoChoiceMenuPopup());
+                        }
+                    } else {
+                        GuiHelper.openMenu();
+                    }
                     break;
 
                /* case SHOW_GUI:
