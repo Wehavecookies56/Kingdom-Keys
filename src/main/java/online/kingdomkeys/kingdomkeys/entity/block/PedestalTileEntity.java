@@ -56,6 +56,9 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	private boolean pause = false;
 
+	//only changed on the client so it will not hide for other players
+	public boolean hide = false;
+
 	public PedestalTileEntity() {
 		super(ModEntities.TYPE_PEDESTAL.get());
 	}

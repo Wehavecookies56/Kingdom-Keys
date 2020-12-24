@@ -25,14 +25,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
-import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.LockOnGui;
-import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.PartyHUDGui;
-import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
+import online.kingdomkeys.kingdomkeys.client.gui.*;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
@@ -68,6 +62,7 @@ public class ProxyClient implements IProxy {
         MinecraftForge.EVENT_BUS.register(new InputHandler());
         MinecraftForge.EVENT_BUS.register(new LockOnGui());
         MinecraftForge.EVENT_BUS.register(new PartyHUDGui());
+        MinecraftForge.EVENT_BUS.register(SoAMessages.INSTANCE);
     }
 
     //Register the entity models

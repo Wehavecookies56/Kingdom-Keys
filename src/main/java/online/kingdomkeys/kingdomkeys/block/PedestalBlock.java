@@ -20,8 +20,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
 
 public class PedestalBlock extends ContainerBlock {
 
@@ -55,7 +59,13 @@ public class PedestalBlock extends ContainerBlock {
 				PedestalTileEntity te = (PedestalTileEntity) worldIn.getTileEntity(pos);
 				if (te != null) {
 					if (te.isStationOfAwakeningMarker()) {
-						//SOA stuff
+						IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+						SoAState soAState = playerData.getSoAState();
+						if (soAState == SoAState.CHOICE || (soAState == SoAState.SACRIFICE && (!playerData.getChoicePedestal().equals(pos)))) {
+							PacketHandler.sendTo(new SCOpenChoiceScreen(te.getDisplayStack(), soAState, pos), serverPlayerEntity);
+						} else {
+							return ActionResultType.FAIL;
+						}
 					} else {
 						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
 							packetBuffer.writeBlockPos(pos);

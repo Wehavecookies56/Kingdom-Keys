@@ -698,7 +698,15 @@ public class EntityEvents {
 			newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
 
 			newPlayerData.equipAllKeychains(oldPlayerData.getEquippedKeychains(), true);
-			
+
+			newPlayerData.setSoAState(oldPlayerData.getSoAState());
+			newPlayerData.setReturnDimension(oldPlayerData.getReturnDimension());
+			newPlayerData.setReturnLocation(oldPlayerData.getReturnLocation());
+			newPlayerData.setChoice(oldPlayerData.getChosen());
+			newPlayerData.setChoicePedestal(oldPlayerData.getChoicePedestal());
+			newPlayerData.setSacrifice(oldPlayerData.getSacrificed());
+			newPlayerData.setSacrificePedestal(oldPlayerData.getSacrificePedestal());
+
 			nPlayer.setHealth(oldPlayerData.getMaxHP());
 			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		}

@@ -9,7 +9,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.dimension.DimensionType;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 public interface IPlayerCapabilities {
@@ -165,4 +169,28 @@ public interface IPlayerCapabilities {
 	void setMaterial(Material material, int amount);
 	void removeMaterial(Material material, int amount);
 	void clearMaterials();
+
+	//SoA choices
+
+	Vec3d getReturnLocation();
+	void setReturnLocation(PlayerEntity playerEntity);
+	void setReturnLocation(Vec3d location);
+	DimensionType getReturnDimension();
+	void setReturnDimension(PlayerEntity playerEntity);
+	void setReturnDimension(DimensionType type);
+
+	//The current state of the SoA
+	SoAState getSoAState();
+	void setSoAState(SoAState state);
+	SoAState getChosen();
+	void setChoice(SoAState choice);
+	SoAState getSacrificed();
+	void setSacrifice(SoAState sacrifice);
+
+	//In case player leaves inbetween choices
+	BlockPos getChoicePedestal();
+	void setChoicePedestal(BlockPos pos);
+	BlockPos getSacrificePedestal();
+	void setSacrificePedestal(BlockPos pos);
+
 }

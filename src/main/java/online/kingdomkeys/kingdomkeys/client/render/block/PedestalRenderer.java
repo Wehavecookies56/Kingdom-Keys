@@ -35,7 +35,9 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
 				}
 			});
 		} else {
-			renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack());
+	    	if (!tileEntityIn.hide) {
+				renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack());
+			}
 		}
 	}
 
