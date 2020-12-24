@@ -42,6 +42,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCOpenEquipmentScreen.class, SCOpenEquipmentScreen::encode, SCOpenEquipmentScreen::decode, SCOpenEquipmentScreen::handle);
 		HANDLER.registerMessage(packetID++, SCOpenMaterialsScreen.class, SCOpenMaterialsScreen::encode, SCOpenMaterialsScreen::decode, SCOpenMaterialsScreen::handle);
 		HANDLER.registerMessage(packetID++, SCOpenChoiceScreen.class, SCOpenChoiceScreen::encode, SCOpenChoiceScreen::decode, SCOpenChoiceScreen::handle);
+		HANDLER.registerMessage(packetID++, SCUpdateSoA.class, SCUpdateSoA::encode, SCUpdateSoA::decode, SCUpdateSoA::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
 
@@ -34,11 +35,11 @@ public class NoChoiceMenuPopup extends MenuPopup {
         Minecraft.getInstance().displayGuiScreen(null);
         SoAMessages.INSTANCE.clearMessage();
         SoAMessages.INSTANCE.queueMessages(
-                new SoAMessages.Title("Station of Awakening", "Dive to the heart"),
-                new SoAMessages.Title(null, "Power sleeps within you.", 10, 35, 20),
-                new SoAMessages.Title(null, "If you give it form...", 10, 35, 20),
-                new SoAMessages.Title(null, "It will give you strength.", 10, 35, 20),
-                new SoAMessages.Title(null, "Choose well.", 10, 35, 20)
+                new SoAMessages.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
+                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro1, 10, 35, 20),
+                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro2, 10, 35, 20),
+                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro3, 10, 35, 20),
+                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro4, 10, 35, 20)
         );
     }
 
@@ -50,6 +51,6 @@ public class NoChoiceMenuPopup extends MenuPopup {
 
     @Override
     public List<String> getTextToDisplay() {
-        return Arrays.asList("Before you can open the menu.",  "You must make a choice.");
+        return Arrays.asList(Strings.SoA_Menu1,  Strings.SoA_Menu2);
     }
 }

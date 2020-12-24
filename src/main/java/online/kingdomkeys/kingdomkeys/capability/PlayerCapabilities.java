@@ -30,7 +30,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
-	private int level = 1, exp = 0, expGiven = 0, strength = 0, magic = 0, defense = 0, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, strength = 1, magic = 1, defense = 1, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}

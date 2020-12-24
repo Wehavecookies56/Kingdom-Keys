@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetChoice;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -32,12 +33,13 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
     SoAState state, choice;
 
     //TODO localise
-    List<String> warrior = Arrays.asList("The power of the warrior.", "Invincible courage.", "A sword of terrible destruction.");
-    List<String> guardian = Arrays.asList("The power of the guardian.", "Kindness to aid friends.", "A shield to repel all.");
-    List<String> mystic = Arrays.asList("The power of the mystic.", "Inner strength.", "A staff of wonder and ruin.");
 
-    final String choiceConfirm = "Is this the power you seek?";
-    final String sacrificeConfirm = "You give up this power?";
+    List<String> warrior = Arrays.asList(Strings.SoA_Warrior1, Strings.SoA_Warrior2, Strings.SoA_Warrior3);
+    List<String> guardian = Arrays.asList(Strings.SoA_Guardian1, Strings.SoA_Guardian2, Strings.SoA_Guardian3);
+    List<String> mystic = Arrays.asList(Strings.SoA_Mystic1, Strings.SoA_Mystic2, Strings.SoA_Mystic3);
+
+    final String choiceConfirm = Strings.SoA_ChoiceConfirm;
+    final String sacrificeConfirm = Strings.SoA_SacrificeConfirm;
 
     //Just for the purpose of passing to the packet
     BlockPos pedestal;
@@ -51,15 +53,15 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
     @Nonnull
     @Override
     public String OKString() {
-        return "Yes.";
+        return Strings.SoA_Ok;
     }
 
     @Nonnull
     @Override
     public String CANCELString() {
         if (state == SoAState.CONFIRM)
-            return "Maybe not.";
-        return "No.";
+            return Strings.SoA_ConfirmCancel;
+        return Strings.SoA_Cancel;
     }
 
     @Override
@@ -90,13 +92,15 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
                 }
             }
         }
-        PacketHandler.sendToServer(new CSSetChoice(state, choice, pedestal));
+        if (state != SoAState.CONFIRM) {
+            PacketHandler.sendToServer(new CSSetChoice(state, choice, pedestal));
+        }
         Minecraft.getInstance().displayGuiScreen(null);
         if (state == SoAState.CHOICE) {
             SoAMessages.INSTANCE.clearMessage();
             SoAMessages.INSTANCE.queueMessages(
-                    new SoAMessages.Title(null, "Your path is set.", 10, 35, 20),
-                    new SoAMessages.Title(null, "Now, what will you give up in exchange?", 10, 70, 20)
+                    new SoAMessages.Title(null, Strings.SoA_SacrificeIntro1, 10, 35, 20),
+                    new SoAMessages.Title(null, Strings.SoA_SacrificeIntro2, 10, 70, 20)
             );
         }
         if (state == SoAState.SACRIFICE) {
@@ -110,8 +114,8 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
         if (state == SoAState.CONFIRM) {
             SoAMessages.INSTANCE.clearMessage();
             SoAMessages.INSTANCE.queueMessages(
-                    new SoAMessages.Title(null, "Choose carefully.", 10, 35, 20),
-                    new SoAMessages.Title(null, "What form will your power take?", 10, 70, 20)
+                    new SoAMessages.Title(null, Strings.SoA_ResetIntro1, 10, 35, 20),
+                    new SoAMessages.Title(null, Strings.SoA_ResetIntro2, 10, 70, 20)
             );
             Minecraft mc = Minecraft.getInstance();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
@@ -136,11 +140,11 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
     public String getStringForChoice(SoAState state) {
         switch (state) {
             case WARRIOR:
-                return "of the Warrior.";
+                return Strings.SoA_ConfirmWarrior;
             case GUARDIAN:
-                return "of the Guardian.";
+                return Strings.SoA_ConfirmGuardian;
             case MYSTIC:
-                return "of the Mystic.";
+                return Strings.SoA_ConfirmMystic;
         }
         return "This ain't right";
     }
@@ -174,55 +178,12 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
             }
         } else {
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
-            displayText.add("You've chose the power");
+            displayText.add(Strings.SoA_Confirm1);
             displayText.add(getStringForChoice(playerData.getChosen()));
-            displayText.add("You've given up the power");
+            displayText.add(Strings.SoA_Confirm3);
             displayText.add(getStringForChoice(playerData.getSacrificed()));
-            displayText.add("Is this the form you choose?");
+            displayText.add(Strings.SoA_Confirm5);
         }
         return displayText;
     }
-
-    //Show messages again and hide selected pedestals if player quits during the process
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void joinWorld(EntityJoinWorldEvent event) {
-        if (event.getPhase() == EventPriority.LOWEST) {
-            if (event.getEntity().dimension == ModDimensions.DIVE_TO_THE_HEART_TYPE) {
-                if (event.getEntity() instanceof PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) event.getEntity();
-                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-                    TileEntity teChoice = event.getWorld().getTileEntity(playerData.getChoicePedestal());
-                    TileEntity teSacrifice = event.getWorld().getTileEntity(playerData.getSacrificePedestal());
-                    if (teChoice != null) {
-                        ((PedestalTileEntity) teChoice).hide = true;
-                    }
-                    if (teSacrifice != null) {
-                        ((PedestalTileEntity) teSacrifice).hide = true;
-                    }
-                    if (playerData.getSoAState() == SoAState.CHOICE) {
-                        SoAMessages.INSTANCE.clearMessage();
-                        SoAMessages.INSTANCE.queueMessages(
-                                new SoAMessages.Title("Station of Awakening", "Dive to the heart"),
-                                new SoAMessages.Title(null, "Power sleeps within you.", 10, 35, 20),
-                                new SoAMessages.Title(null, "If you give it form...", 10, 35, 20),
-                                new SoAMessages.Title(null, "It will give you strength.", 10, 35, 20),
-                                new SoAMessages.Title(null, "Choose well.", 10, 35, 20)
-                        );
-                    }
-                    if (playerData.getSoAState() == SoAState.SACRIFICE) {
-                        SoAMessages.INSTANCE.clearMessage();
-                        SoAMessages.INSTANCE.queueMessages(
-                                new SoAMessages.Title(null, "Your path is set.", 10, 35, 20),
-                                new SoAMessages.Title(null, "Now, what will you give up in exchange?", 10, 70, 20)
-                        );
-                    }
-                    if (playerData.getSoAState() == SoAState.CONFIRM) {
-                        Minecraft.getInstance().displayGuiScreen(new ConfirmChoiceMenuPopup(SoAState.CONFIRM, SoAState.NONE, new BlockPos(0, 0, 0)));
-                    }
-                }
-            }
-        }
-    }
-
 }

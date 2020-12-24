@@ -58,6 +58,7 @@ public class CSSetChoice {
                     //travel back
                     playerData.setSoAState(SoAState.COMPLETE);
                     player.changeDimension(playerData.getReturnDimension(), new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
+                    SoAState.applyStatsForChoices(playerData);
                 } else {
                     //reset to before choice
                     playerData.setChoicePedestal(new BlockPos(0, 0, 0));

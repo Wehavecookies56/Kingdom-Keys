@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -79,12 +80,12 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
             
             playerData.setMaxAP(10);
             
-            //TODO Change this with the SOA choice
             playerData.setStrength(1);
             playerData.setMagic(1);
             playerData.setDefense(1);
-            
-            playerData.clearAbilities();
+			SoAState.applyStatsForChoices(playerData);
+
+			playerData.clearAbilities();
             playerData.addAbility(Strings.zeroExp, false);
             
 			while (playerData.getLevel() < level) {

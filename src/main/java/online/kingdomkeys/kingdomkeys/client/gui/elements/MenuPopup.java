@@ -8,6 +8,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -39,12 +40,12 @@ public abstract class MenuPopup extends Screen {
 
     @Nonnull
     public String OKString() {
-        return "OK";
+        return Strings.SoA_MenuOK;
     }
 
     @Nonnull
     public String CANCELString() {
-        return "CANCEL";
+        return Strings.SoA_MenuCancel;
     }
 
     private void buttonAction(Action a) {
@@ -68,8 +69,13 @@ public abstract class MenuPopup extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.addButton(ok = new MenuButton(0, 40, 40, Utils.translateToLocal(OKString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.OK)));
-        this.addButton(cancel = new MenuButton(50, 40, 40, Utils.translateToLocal(CANCELString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.CANCEL)));
+        this.scaledWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
+        this.scaledHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
+        int buttonWidth = 50;
+        int buttonX = (scaledWidth / 2) - (buttonWidth * 2);
+        int buttonY = (scaledHeight / 2) + -10 + (getTextToDisplay().size() * ((font.FONT_HEIGHT * 2) + 3));
+        this.addButton(ok = new MenuButton(buttonX, buttonY, buttonWidth, Utils.translateToLocal(OKString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.OK)));
+        this.addButton(cancel = new MenuButton(buttonX + (buttonWidth * 2), buttonY, buttonWidth, Utils.translateToLocal(CANCELString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.CANCEL)));
         ok.visible = false;
         ok.active = false;
         cancel.visible = false;
@@ -96,14 +102,6 @@ public abstract class MenuPopup extends Screen {
     public void render(int mouseX, int mouseY, float partialTicks) {
         super.render(mouseX, mouseY, partialTicks);
         float startY = -10.0F;
-        float lineGap = 5F;
-        //for (int i = 0; i < getTextToDisplay().size(); i++) {
-        //    drawCenteredString(font, Utils.translateToLocal(getTextToDisplay().get(i)), 0, (int) (startY + (i * font.FONT_HEIGHT) + gap), 0xFFFFFF);
-        //}
-
-        this.scaledWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
-        this.scaledHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
-
         RenderSystem.pushMatrix();
         RenderSystem.translatef((float) (this.scaledWidth / 2), (float) (this.scaledHeight / 2) - ((startY + ((getTextToDisplay().size()-1) * (font.FONT_HEIGHT + 3))) / 2F), 0.0F);
         RenderSystem.enableBlend();

@@ -1017,4 +1017,42 @@ public class Strings {
             foudre = "foudre",
             demoiselle = "demoiselle",
             ampoule = "ampoule";
+
+    //Station of Awakening
+    public static final String
+            SoA_Menu1 = "soa.menu.1",
+            SoA_Menu2 = "soa.menu.2",
+            SoA_MenuOK = "soa.menu.ok",
+            SoA_MenuCancel = "soa.menu.cancel",
+            SoA_Warrior1 = "soa.warrior.1",
+            SoA_Warrior2 = "soa.warrior.2",
+            SoA_Warrior3 = "soa.warrior.3",
+            SoA_Guardian1 = "soa.guardian.1",
+            SoA_Guardian2 = "soa.guardian.2",
+            SoA_Guardian3 = "soa.guardian.3",
+            SoA_Mystic1 = "soa.mystic.1",
+            SoA_Mystic2 = "soa.mystic.2",
+            SoA_Mystic3 = "soa.mystic.3",
+            SoA_ChoiceConfirm = "soa.choice.confirm",
+            SoA_SacrificeConfirm = "soa.sacrifice.confirm",
+            SoA_Ok = "soa.ok",
+            SoA_Cancel = "soa.cancel",
+            SoA_ConfirmCancel = "soa.confirm.cancel",
+            SoA_Title = "soa.title",
+            SoA_Subtitle = "soa.subtitle",
+            SoA_ChoiceIntro1 = "soa.choice.intro.1",
+            SoA_ChoiceIntro2 = "soa.choice.intro.2",
+            SoA_ChoiceIntro3 = "soa.choice.intro.3",
+            SoA_ChoiceIntro4 = "soa.choice.intro.4",
+            SoA_SacrificeIntro1 = "soa.sacrifice.intro.1",
+            SoA_SacrificeIntro2 = "soa.sacrifice.intro.2",
+            SoA_ResetIntro1 = "soa.reset.intro.1",
+            SoA_ResetIntro2 = "soa.reset.intro.2",
+            SoA_Confirm1 = "soa.confirm.1",
+            SoA_ConfirmWarrior = "soa.confirm.warrior",
+            SoA_ConfirmGuardian = "soa.confirm.guardian",
+            SoA_ConfirmMystic = "soa.confirm.mystic",
+            SoA_Confirm3 = "soa.confirm.3",
+            SoA_Confirm5 = "soa.confirm.5"
+    ;
 }
