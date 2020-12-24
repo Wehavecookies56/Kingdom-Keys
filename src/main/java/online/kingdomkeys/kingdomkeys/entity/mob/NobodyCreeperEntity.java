@@ -115,8 +115,7 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
             It's also where we initialize where the pos for the spear attack will be placed
          */
         @Override
-        public void startExecuting()
-        {
+        public void startExecuting() {
             canUseAttack = true;
             if(EntityHelper.getState(theEntity) > 2)
                 attackTimer = 10 + world.rand.nextInt(5);
@@ -132,7 +131,7 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
          */
         @Override
         public void tick() {
-            if( theEntity.getAttackTarget() != null && canUseAttack	) { // Like above we check again to see if the target is still alive (maybe it died so we need to check again)
+            if(theEntity.getAttackTarget() != null && canUseAttack) { // Like above we check again to see if the target is still alive (maybe it died so we need to check again)
                 whileAttackTimer++;
                 LivingEntity target = this.theEntity.getAttackTarget(); // Creates a new variable that holds the target
 
@@ -155,11 +154,10 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
 
                                 for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
                                     enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 8);
-                            }
-                            else
+                            } else {
                                 return;
-                        }
-                        else {
+                            }
+                        } else {
                             //SPEAR
 	            			/*
 	            			 Same as with the sword, the only difference being we move the entity 4 blocks above the target location (for that sweet "falling from sky" effect)
