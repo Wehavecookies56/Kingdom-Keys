@@ -1,19 +1,28 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
+import java.util.Random;
+
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-
-import java.util.Random;
 
 public class DarkballEntity extends CreatureEntity implements IKHMob {
 
@@ -39,6 +48,11 @@ public class DarkballEntity extends CreatureEntity implements IKHMob {
         super(ModEntities.TYPE_DARKBALL.get(), world);
     }
 
+    @Override
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
+    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawn();
+    }
+    
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));

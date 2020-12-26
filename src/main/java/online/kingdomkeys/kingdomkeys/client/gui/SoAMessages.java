@@ -71,7 +71,7 @@ public class SoAMessages extends AbstractGui {
 
     @SubscribeEvent
     public void clientTick(TickEvent.ClientTickEvent event) {
-        if (!messages.isEmpty() || titlesTimer != 0) {
+        if (!Minecraft.getInstance().isGamePaused() && (!messages.isEmpty() || titlesTimer != 0)) {
             tick();
         }
     }

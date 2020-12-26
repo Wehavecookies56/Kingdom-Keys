@@ -5,8 +5,10 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
@@ -19,6 +21,11 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
 
     public NobodyCreeperEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(ModEntities.TYPE_NOBODY_CREEPER.get(), world);
+    }
+    
+    @Override
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
+    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawn();
     }
 
     @Override

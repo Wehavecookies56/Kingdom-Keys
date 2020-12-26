@@ -6,9 +6,11 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
@@ -40,6 +42,11 @@ public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity,
     public LargeBodyEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(ModEntities.TYPE_LARGE_BODY.get(), world);
         this.partsArray = new PartEntity[] { partBelly };
+    }
+    
+    @Override
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
+    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawn();
     }
 
     @Override
