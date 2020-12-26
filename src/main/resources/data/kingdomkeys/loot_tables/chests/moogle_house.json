@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:stone"
+          "name": "kingdomkeys:recipe"
         },
         {
           "type": "minecraft:item",
@@ -14,13 +14,46 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1.0,
+                "min": 0.0,
+                "max": 2.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:orichalcumplus"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 0.0,
                 "max": 3.0,
                 "type": "minecraft:uniform"
               }
             }
-          ],
-          "name": "minecraft:sand"
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:anvils"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 0.0,
+                "max": 1.0,
+                "type": "minecraft:uniform"
+              }
+            }
+          ]
         }
       ]
     }
