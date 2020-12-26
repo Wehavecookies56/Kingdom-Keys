@@ -110,7 +110,6 @@ public class GuiMenu_Party_Join extends MenuBackground {
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
 		super.width = width;
 		super.height = height;
 		super.init();
@@ -131,8 +130,6 @@ public class GuiMenu_Party_Join extends MenuBackground {
 		super.render(mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		refreshParties();
-
-		RenderSystem.popMatrix();
 	}
 	
 	

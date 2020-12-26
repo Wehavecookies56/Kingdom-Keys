@@ -68,7 +68,6 @@ public class DimensionCommand extends BaseCommand {
 		for (ServerPlayerEntity player : players) {
         	BlockPos coords = getWorldCoords(player,dimension);
             player.changeDimension(dimension, new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			//context.getSource().sendFeedback(new TranslationTextComponent("You have been teleported to "+dimension.getRegistryName().toString()), true);
 			
 			if(player != context.getSource().asPlayer()) {
 				context.getSource().sendFeedback(new TranslationTextComponent("Teleported" +player.getDisplayName().getFormattedText()+" to dimension "+dimension.getRegistryName().toString()), true);
