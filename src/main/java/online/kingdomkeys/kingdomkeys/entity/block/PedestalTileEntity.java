@@ -110,7 +110,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		transformations.putFloat("baseheight", baseHeight);
 		transformations.putBoolean("pause", pause);
 		compound.put("transforms", transformations);
-		compound.putBoolean("soa_marker", true);
+		compound.putBoolean("soa_marker", stationOfAwakeningMarker);
 		compound.put("display_stack", displayStack.serializeNBT());
 		return compound;
 	}

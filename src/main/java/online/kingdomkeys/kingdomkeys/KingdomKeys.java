@@ -106,8 +106,6 @@ public class KingdomKeys {
 		}
 	};
 	
-	public static final ResourceLocation TTDimType = new ResourceLocation(MODID, "traverse_town");
-
 	public KingdomKeys() {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

@@ -3,13 +3,16 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public abstract class BaseElementalMusicalHeartlessEntity extends CreatureEntity implements IKHMob {
@@ -26,6 +29,11 @@ public abstract class BaseElementalMusicalHeartlessEntity extends CreatureEntity
 
     public BaseElementalMusicalHeartlessEntity(EntityType<? extends CreatureEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(type, world);
+    }
+    
+    @Override
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
+    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawn();
     }
 
     protected abstract Goal goalToUse();

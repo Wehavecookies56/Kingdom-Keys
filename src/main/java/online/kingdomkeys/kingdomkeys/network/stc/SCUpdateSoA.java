@@ -74,10 +74,10 @@ public class SCUpdateSoA {
 				SoAMessages.INSTANCE.clearMessage();
 				SoAMessages.INSTANCE.queueMessages(
 						new SoAMessages.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
-						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro1, 10, 35, 20),
-						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro2, 10, 35, 20),
-						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro3, 10, 35, 20),
-						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro4, 10, 35, 20)
+						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro1, 20, 60, 20),
+						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro2, 20, 60, 20),
+						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro3, 20, 60, 20),
+						new SoAMessages.Title(null, Strings.SoA_ChoiceIntro4, 20, 60, 20)
 				);
 			}
 			if (message.state == SoAState.SACRIFICE) {

@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@Mod.EventBusSubscriber
 public class ConfirmChoiceMenuPopup extends MenuPopup {
 
     SoAState state, choice;

@@ -101,9 +101,9 @@ public class DiveToTheHeartDimension extends Dimension {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.FogDensity event) {
-        World world = Minecraft.getInstance().world;
+        World world = event.getInfo().getRenderViewEntity().world;
         if (world != null) {
-            if (world.getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+            if (world.getDimension().getType().equals(ModDimensions.DIVE_TO_THE_HEART_TYPE)) {
                 event.setDensity(0.06F);
                 event.setCanceled(true);
             }
@@ -113,8 +113,12 @@ public class DiveToTheHeartDimension extends Dimension {
     //Prevent taking damage in this dimension
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
-        if (event.getEntityLiving().world.getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
-            event.setCanceled(true);
+        if (event.getEntityLiving() instanceof PlayerEntity) {
+            if (!((PlayerEntity)event.getEntityLiving()).isCreative()) {
+                if (event.getEntityLiving().world.getDimension().getType().equals(ModDimensions.DIVE_TO_THE_HEART_TYPE)) {
+                    event.setCanceled(true);
+                }
+            }
         }
     }
 
@@ -122,9 +126,9 @@ public class DiveToTheHeartDimension extends Dimension {
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         if (!event.player.isCreative()) {
-            if (event.player.world.getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+            if (event.player.world.getDimension().getType().equals(ModDimensions.DIVE_TO_THE_HEART_TYPE)) {
                 if (event.player.getPosY() < 10) {
-                    event.player.setPosition(0, 25, 0);
+                    event.player.setPositionAndUpdate(0, 25, 0);
                 }
             }
         }
@@ -133,7 +137,7 @@ public class DiveToTheHeartDimension extends Dimension {
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+            if (event.getWorld().getDimension().getType().equals(ModDimensions.DIVE_TO_THE_HEART_TYPE)) {
                 event.setCanceled(true);
             }
         }
@@ -142,7 +146,7 @@ public class DiveToTheHeartDimension extends Dimension {
     @SubscribeEvent
     public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+            if (event.getWorld().getDimension().getType().equals(ModDimensions.DIVE_TO_THE_HEART_TYPE)) {
                 if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.pedestal.get()) {
                     if (event.getPlayer().isSneaking()) {
                         event.setCanceled(true);
@@ -157,7 +161,7 @@ public class DiveToTheHeartDimension extends Dimension {
     @SubscribeEvent
     public static void useItem(PlayerInteractEvent.RightClickItem event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().getDimension().getType().getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
+            if (event.getWorld().getDimension().getType().equals(ModDimensions.DIVE_TO_THE_HEART_TYPE)) {
                 event.setCanceled(true);
             }
         }
