@@ -193,8 +193,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	private void drawAP() {
 		int consumedAP = Utils.getConsumedAP(playerData);
 		int maxAP = playerData.getMaxAP();
-
 		hoveredAbility = null;
+		
 		//Get all the abilities and set their text
 		for (int i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
