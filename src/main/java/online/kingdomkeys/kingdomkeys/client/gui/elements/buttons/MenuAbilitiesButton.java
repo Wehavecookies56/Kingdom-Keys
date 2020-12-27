@@ -164,7 +164,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	}
 
 	public boolean isHovered() {
-		return isHovered;
+		return isHovered && visible;
 	}
 
 	public boolean isSelected() {
