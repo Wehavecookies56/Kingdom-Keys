@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
@@ -21,6 +22,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -35,6 +38,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	MenuBox box;
 	Button prev, next;
+	MenuButton back;
+	
 	int page = 0;
 	int itemsPerPage;
 
@@ -77,6 +82,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = 100;
 		int i = 0;
+		
+
 		for (i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
@@ -90,6 +97,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		abilities.forEach(this::addButton);
 
+        addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> GuiHelper.openMenu()));
+
 		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Utils.translateToLocal("<--"), (e) -> {
 			action("prev");
 		}));
@@ -99,6 +108,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		prev.visible = false;
 		next.visible = false;
+		
 		
 		itemsPerPage = (int) (middleHeight / 19);
 
@@ -164,6 +174,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		prev.render(mouseX,  mouseY,  partialTicks);
 		next.render(mouseX,  mouseY,  partialTicks);
+		back.render(mouseX, mouseY, partialTicks);
 	}
 
 	
@@ -186,22 +197,24 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 			abilityName = abilityName.replace("kingdomkeys:","");
 			String text = Utils.translateToLocal(abilityName+lvl);
-
-			MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
-			
-			if (ability.getAPCost() > playerData.getMaxAP() - consumedAP) {
-				button.active = false;
+			if(buttons.get(i) instanceof MenuAbilitiesButton) {
+				MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
+				
+				if (ability.getAPCost() > playerData.getMaxAP() - consumedAP) {
+					button.active = false;
+				}
+				
+				if(playerData.isAbilityEquipped(KingdomKeys.MODID+":"+abilityName)) {
+					button.active = true;
+				}
+				
+				button.setMessage(text);
+				button.setAP(ability.getAPCost());
+	
+				if (button.isHovered()) {
+					hoveredAbility = ability;
+				}
 			}
-			
-			if(playerData.isAbilityEquipped(KingdomKeys.MODID+":"+abilityName)) {
-				button.active = true;
-			}
-			
-			button.setMessage(text);
-			button.setAP(ability.getAPCost());
-
-			if (button.isHovered())
-				hoveredAbility = ability;
 		}
 
 		int screenWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();

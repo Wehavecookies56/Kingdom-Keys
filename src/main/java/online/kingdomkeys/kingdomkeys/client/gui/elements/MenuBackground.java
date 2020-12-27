@@ -99,7 +99,7 @@ public class MenuBackground extends Screen {
 
 	MenuBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
 
-	protected float topBarHeight;
+	protected float topBarHeight = (float)height * 0.17F;
 	protected float bottomBarHeight;
 	protected float topLeftBarWidth;
 	protected float topRightBarWidth;
@@ -110,6 +110,13 @@ public class MenuBackground extends Screen {
 	protected float middleHeight;
 
 	public boolean drawSeparately = false;
+	
+	//GUIs variables
+	protected float buttonPosX;
+    protected int buttonPosY;
+    protected float buttonWidth;
+
+
 
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(int mouseX, int mouseY, float partialTicks) {
@@ -172,20 +179,6 @@ public class MenuBackground extends Screen {
 		{
 			String text = minecraft.player.dimension.getRegistryName().getPath().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getDisplayName().getFormattedText();
 			drawString(minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 5, 0xF58B33);
-			/*
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/mouse_icons.png"));
-			RenderSystem.color4f(1, 1, 1, 1);
-			text = "Accept";
-			blit(width - minecraft.fontRenderer.getStringWidth(text) - 80, 19, 0, 35, 15, 20);
-			drawString(minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 60, 25, 0xF58B33);
-
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/mouse_icons.png"));
-			RenderSystem.color4f(1, 1, 1, 1);
-			text = "Back";
-			blit(width - minecraft.fontRenderer.getStringWidth(text) - 25, 19, 14, 35, 15, 20);
-			drawString(minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 25, 0xF58B33);
-
-			 */
 		}
 		RenderSystem.popMatrix();
 	}
@@ -270,6 +263,10 @@ public class MenuBackground extends Screen {
 		topRightBar = new MenuBar((int) (topLeftBarWidth + topGap), -10, (int) topRightBarWidth + 10, (int) topBarHeight + 10, true);
 		bottomLeftBar = new MenuBar(-10, (int) (topBarHeight + middleHeight), (int) bottomLeftBarWidth + 10, (int) bottomBarHeight + 10, false);
 		bottomRightBar = new MenuBar((int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) bottomRightBarWidth + 10, (int) bottomBarHeight + 10, false);
+		
+		buttonPosX = (float) width * 0.03F;
+	    buttonPosY = (int)topBarHeight+5;
+	    buttonWidth = ((float)width * 0.1744F)-22;
 	}
 
 	protected void drawBackground(int screenWidth, int screenHeight, boolean drawPlayer) {

@@ -1,30 +1,35 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
-import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-
 import java.awt.Color;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+
 public class MenuEquipmentScreen extends MenuBackground {
 
     MenuBox listBox, detailsBox;
+    Button back;
 
     public MenuEquipmentScreen() {
         super(Strings.Gui_Menu_Items_Equipment, new Color(0,0,255));
         drawSeparately = true;
+//        minecraft = Minecraft.getInstance();
     }
 
     int scrollOffset = 0;
@@ -32,7 +37,8 @@ public class MenuEquipmentScreen extends MenuBackground {
     @Override
     public void init() {
         super.init();
-        float listBoxX = width * 0.1463F;
+        buttonWidth = ((float)width * 0.07F);
+        float listBoxX = width * 0.16F;
         float boxY = height * 0.174F;
         float listBoxWidth = width * 0.452F;
         float boxHeight = height * 0.5972F;
@@ -41,11 +47,12 @@ public class MenuEquipmentScreen extends MenuBackground {
         listBox = new MenuBox((int) listBoxX, (int) boxY, (int) listBoxWidth, (int) boxHeight, new Color(76, 76, 76));
         detailsBox = new MenuBox((int) detailsX, (int) boxY, (int) detailsWidth, (int) boxHeight, new Color(76, 76, 76));
 
-        float itemsX = width * 0.2869F;
+        float itemsX = width * 0.31F;
         float itemsY = height * 0.1907F;
 
-        Minecraft mc = Minecraft.getInstance();
-        IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
+
+        IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
 
 

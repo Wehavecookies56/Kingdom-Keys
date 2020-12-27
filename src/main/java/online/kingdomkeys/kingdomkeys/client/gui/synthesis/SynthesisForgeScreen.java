@@ -15,11 +15,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -43,6 +45,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	Button prev, next, upgrade;
 
 	int itemsPerPage = 10;
+	private MenuButton back;
 
 	public SynthesisForgeScreen() {
 		super("Forge", new Color(0, 255, 0));
@@ -107,6 +110,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		//filterBar.init();
 		initItems();
 		// addButton(scrollBar = new MenuScrollBar());
+		buttonPosX -= 10;
+		buttonWidth = ((float)width * 0.07F);
+		addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new SynthesisScreen())));
+
 		super.init();
 		itemsPerPage = (int) (middleHeight / 14);
 	}
@@ -226,6 +233,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		prev.render(mouseX,  mouseY,  partialTicks);
 		next.render(mouseX,  mouseY,  partialTicks);
 		upgrade.render(mouseX,  mouseY,  partialTicks);
+		back.render(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

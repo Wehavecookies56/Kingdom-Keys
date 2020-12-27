@@ -86,7 +86,7 @@ public class MenuScreen extends MenuBackground {
 		int button_statusY = button_partyY + 18;
 		int button_journalY = button_statusY + 18;
 		int button_configY = button_journalY + 18;
-		float buttonPosX = (float) width * 0.0526F;
+		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 
 		addButton(items = new MenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, (e) -> {

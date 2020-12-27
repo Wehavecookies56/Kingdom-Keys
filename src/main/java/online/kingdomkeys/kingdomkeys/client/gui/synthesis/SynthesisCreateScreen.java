@@ -15,12 +15,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -43,6 +46,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 	Button prev, next, create;
 	int itemsPerPage;
+	private MenuButton back;
 
 
 	public SynthesisCreateScreen() {
@@ -83,6 +87,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
 		filterBar.init();
 		initItems();
+		buttonPosX -= 10;
+		buttonWidth = ((float)width * 0.07F);
+		addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new SynthesisScreen())));
 		// addButton(scrollBar = new MenuScrollBar());
 		super.init();
 		
@@ -197,6 +204,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		prev.render(mouseX,  mouseY,  partialTicks);
 		next.render(mouseX,  mouseY,  partialTicks);
 		create.render(mouseX,  mouseY,  partialTicks);
+		back.render(mouseX, mouseY, partialTicks);
 	}
 
 	@Override
