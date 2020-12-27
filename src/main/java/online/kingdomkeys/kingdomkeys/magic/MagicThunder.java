@@ -4,12 +4,12 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.Hand;
-import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.server.ServerWorld;
 
 public class MagicThunder extends Magic {
 
@@ -21,16 +21,28 @@ public class MagicThunder extends Magic {
 
 	@Override
 	public void onUse(PlayerEntity player) {
-		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(6.0D, 4.0D, 6.0D).offset(-3.0D, -1.0D, -3.0D));
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 Entity e = (Entity) list.get(i);
                 if (e instanceof LivingEntity) {
-            		ThrowableEntity shot = new ThunderEntity(player.world, player, e.getPosX(),e.getPosY(),e.getPosZ());
-            		shot.shoot(player, 90, player.rotationYaw, 0, 3F, 0);
-            		player.world.addEntity(shot);
+                	LightningBoltEntity shot = new LightningBoltEntity(player.world, e.getPosX(), e.getPosY(), e.getPosZ(), false);
+            		((ServerWorld)player.world).addLightningBolt(shot);
                 }
             }
+        } else {
+        	int x = (int) player.getPosX();
+        	int z = (int) player.getPosZ();
+        	
+        	for(int i = 0; i<4; i++) {
+        	int posX = x + player.world.rand.nextInt(6) - 3;
+        	int posZ = z + player.world.rand.nextInt(6) - 3;
+        	
+        	LightningBoltEntity shot = new LightningBoltEntity(player.world, posX, player.world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ, false);
+        	
+    		((ServerWorld)player.world).addLightningBolt(shot);
+        	}
+
         }
 		player.swingArm(Hand.MAIN_HAND);
 	}
