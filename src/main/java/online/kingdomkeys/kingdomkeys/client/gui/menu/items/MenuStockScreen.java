@@ -42,10 +42,10 @@ public class MenuStockScreen extends MenuFilterable {
     public void render(int mouseX, int mouseY, float partialTicks) {
         drawMenuBackground(mouseX, mouseY, partialTicks);
         box.draw();
-        //back.render(mouseX, mouseY, partialTicks);
 
         super.render(mouseX, mouseY, partialTicks);
         inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
+        back.render(mouseX, mouseY, partialTicks);
     }
     
     @Override
@@ -87,6 +87,7 @@ public class MenuStockScreen extends MenuFilterable {
 
     @Override
     public void init() {
+
         buttonWidth = ((float)width * 0.07F);
 
         float boxPosX = (float) width * 0.1537F;
@@ -96,7 +97,9 @@ public class MenuStockScreen extends MenuFilterable {
         box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
         float filterPosX = width * 0.3F;
         float filterPosY = height * 0.023F;
-        
+
+        buttonPosX = (float) width * 0.03F;
+        buttonPosY = (int) (topBarHeight + 5);
 
         filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
         filterBar.init();

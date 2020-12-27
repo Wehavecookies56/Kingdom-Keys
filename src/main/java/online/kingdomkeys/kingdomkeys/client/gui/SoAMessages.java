@@ -16,16 +16,7 @@ import java.util.*;
 //Text rendering from IngameGui with an added message queue system
 public class SoAMessages extends AbstractGui {
 
-    public static SoAMessages INSTANCE = new SoAMessages();
-
-    public static float startTick;
-    public static float tickCount;
-    public static float end1 = 200;
-    public static float end2 = 100;
-    public static boolean start = false;
-    public static boolean start2 = false;
-    public static boolean start3 = false;
-    public static boolean start4 = false;
+    public static final SoAMessages INSTANCE = new SoAMessages();
 
     public static class Title {
         public String title, subtitle;
