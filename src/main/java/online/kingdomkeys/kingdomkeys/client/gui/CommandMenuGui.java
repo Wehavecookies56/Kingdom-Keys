@@ -134,6 +134,11 @@ public class CommandMenuGui extends Screen {
 	
 	private void drawSubTargetSelector(int width, int height) {
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
+		if(worldData.getPartyFromMember(minecraft.player.getUniqueID()) == null) {
+			submenu = SUB_MAGIC;
+			return;
+		}
+
 		//Title
 		RenderSystem.pushMatrix();
 		{
@@ -339,7 +344,6 @@ public class CommandMenuGui extends Screen {
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
 			minecraft.textureManager.bindTexture(texture);
 
-			int u;
 			int v = 0;
 			int x = 0;
 
@@ -365,7 +369,7 @@ public class CommandMenuGui extends Screen {
 			}
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, playerData.getMagicList().isEmpty() ? 0x888888 :getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 :getColor(0xFFFFFF,SUB_MAIN));
 			
 
 		}
@@ -441,7 +445,7 @@ public class CommandMenuGui extends Screen {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
 				String text = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())?".drive":".revert";
-				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) ? 0x888888 : 0xFFFFFF;
+				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() > 0 ? 0x888888 : 0xFFFFFF;
 				drawString(minecraft.fontRenderer, Utils.translateToLocal("gui.commandmenu"+text), 6 + textX, 4, getColor(color,SUB_MAIN));
 			}
 		}

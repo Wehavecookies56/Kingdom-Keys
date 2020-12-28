@@ -86,10 +86,10 @@ public class EntityEvents {
 		if(playerData != null) {
 			//Heartless Spawn reset
 			if(worldData != null) {
-				if(worldData.getHeartlessSpawn() && CommonConfig.heartlessSpawningMode.get() == 0) {
-					worldData.setHeartlessSpawn(false);
-				} else if(!worldData.getHeartlessSpawn() && CommonConfig.heartlessSpawningMode.get() == 1) {
-					worldData.setHeartlessSpawn(true);
+				if(worldData.getHeartlessSpawnLevel() > 0 && CommonConfig.heartlessSpawningMode.get() == 0) {
+					worldData.setHeartlessSpawnLevel(0);
+				} else if(worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == 1) {
+					worldData.setHeartlessSpawnLevel(1);
 				}
 			
 			}
@@ -624,9 +624,9 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
-		if (event.getEntity() instanceof EnderDragonEntity && CommonConfig.heartlessSpawningMode.get() == 3) {
-			IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
-			worldData.setHeartlessSpawn(true);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
+		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == 3) {
+			worldData.setHeartlessSpawnLevel(1);
 		}
 
 		if (!event.getEntity().world.isRemote) {
@@ -732,7 +732,7 @@ public class EntityEvents {
 			IWorldCapabilities toWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
 
 			toWorldData.setParties(fromWorldData.getParties());
-			toWorldData.setHeartlessSpawn(fromWorldData.getHeartlessSpawn());
+			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			PacketHandler.sendTo(new SCSyncExtendedWorld(toWorldData), (ServerPlayerEntity)player);

@@ -45,7 +45,6 @@ public class OrgPortalBlock extends BaseBlock {
 				if (worldIn.getTileEntity(pos) instanceof OrgPortalTileEntity) {
 
 					OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
-					System.out.println(te.getOwner());
 
 					if (te.getOwner() == null) {
 						te.setOwner(player);
@@ -60,25 +59,33 @@ public class OrgPortalBlock extends BaseBlock {
 						}
 
 						if (index != -1) {
-							player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now " + player.getDisplayName().getFormattedText()+ "'s portal " + (index + 1)));
+							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal " + (index + 1)), true);
 							ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
 							PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
+							te.setOwner(player);
 						} else {
-							player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));
+							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), true);
 						}
 						return ActionResultType.SUCCESS;
 
-					} else if (te.getOwner().equals(player.getDisplayName().getFormattedText())) {
-						player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + index));
+					} else if (te.getOwner().equals(player.getUniqueID())) {
+						for (byte i = 0; i < 3; i++) {
+							PortalData coords = ModCapabilities.getPlayer(player).getPortalCoords(i);
+							if (coords.getX() == 0.0D && coords.getY() == 0.0D && coords.getZ() == 0.0D) {
+								index = i;
+								break;
+							}
+						}
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + index), true);
 					} else {
-						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(te.getOwner()).getDisplayName().getFormattedText()));
-						return ActionResultType.FAIL;
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(te.getOwner()).getDisplayName().getFormattedText()), true);
+						return ActionResultType.SUCCESS;
 					}
 
 				}
 			//}
 		}
-		return ActionResultType.FAIL;
+		return ActionResultType.SUCCESS;
 	}
 	
 	@Override
@@ -101,7 +108,7 @@ public class OrgPortalBlock extends BaseBlock {
 					}
 					System.out.println("R: " + index);
 					if (index != -1) {
-						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"));
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
 						ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, 0, 0, 0, 0));
 					} else {
 						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));

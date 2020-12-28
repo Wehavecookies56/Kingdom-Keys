@@ -79,7 +79,7 @@ public class CSSynthesiseKeyblade {
 					
 					if(i instanceof KeychainItem && CommonConfig.heartlessSpawningMode.get() == 2) {
 						IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
-						worldData.setHeartlessSpawn(true);
+						worldData.setHeartlessSpawnLevel(1);
 						PacketHandler.sendToAllPlayers(new SCSyncExtendedWorld(worldData));
 					}
 				}
