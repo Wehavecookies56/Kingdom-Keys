@@ -1,14 +1,16 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.HEARTLESS_EMBLEM;
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.HEARTLESS_PUREBLOOD;
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.NOBODY;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -65,6 +67,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.BlueRhapsodyEntity;
@@ -88,7 +91,6 @@ import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
-import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
@@ -109,6 +111,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, ThunderBoltEntity::new, EntityClassification.MISC,"entity_thunderbolt", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MagnetEntity::new, EntityClassification.MISC,"entity_magnet", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
 
