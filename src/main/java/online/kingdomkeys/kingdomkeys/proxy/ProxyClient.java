@@ -100,6 +100,7 @@ public class ProxyClient implements IProxy {
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
             ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
+            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
         });
         
         ArmorModel top = new ArmorModel(0.5F);

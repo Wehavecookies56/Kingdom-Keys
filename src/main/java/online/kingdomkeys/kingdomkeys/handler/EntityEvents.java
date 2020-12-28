@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -20,8 +19,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -31,7 +28,6 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -45,10 +41,12 @@ import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -633,6 +631,15 @@ public class EntityEvents {
 			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 
+				if(event.getEntityLiving() instanceof IKHMob) {
+					IKHMob heartless = (IKHMob) event.getEntityLiving();
+					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem) || (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem)) {
+						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
+						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
+						event.getEntityLiving().world.addEntity(heart);
+					}
+				}
+				
 				if (event.getEntity() instanceof MonsterEntity) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
@@ -648,14 +655,15 @@ public class EntityEvents {
 						}
 						
 					}
-					Entity entity = event.getEntity();
+					LivingEntity entity = event.getEntityLiving();
 					double x = entity.getPosX();
 					double y = entity.getPosY();
 					double z = entity.getPosZ();
-					entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, 1000));
-					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, 10));
-					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
-					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
+					
+					entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, Utils.randomWithRange(5, 15)));
+					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
+					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
+					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 2, entity.getMaxHealth() / 1.2)));
 					
 					int num = Utils.randomWithRange(1,100);
 

@@ -50,6 +50,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MunnyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.BlizzardEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.FireEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.GravityEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
@@ -122,6 +123,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1F, 0.5F);
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, EntityClassification.MISC,"entity_lance", 1F, 0.5F);
     
+    public static final RegistryObject<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, HeartEntity::new, EntityClassification.MISC, "heart", 1F, 1F);
+
     //Mobs
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.AMBIENT, "moogle", 0.6F, 1.5F);
     
@@ -258,6 +261,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_DIRE_PLANT.get(), DirePlantRenderer.FACTORY);
 
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_HEART.get(), HeartEntityRenderer.FACTORY);
 
         RenderingRegistry.registerEntityRenderingHandler(TYPE_CHAKRAM.get(), ChakramEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LANCE.get(), LanceEntityRenderer.FACTORY);
