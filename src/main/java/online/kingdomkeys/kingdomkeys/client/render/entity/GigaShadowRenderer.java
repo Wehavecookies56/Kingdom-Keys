@@ -20,7 +20,7 @@ public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowMode
     public static final GigaShadowRenderer.Factory FACTORY = new GigaShadowRenderer.Factory();
 
     public GigaShadowRenderer(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ShadowModel<>(1D), 2.0F);
+        super(renderManagerIn, new ShadowModel<>(1D), 1.5F);
     }
 
     @Override

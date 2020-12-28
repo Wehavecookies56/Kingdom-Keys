@@ -16,6 +16,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
+import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
@@ -75,6 +76,7 @@ public class RecipeDataLoader extends JsonReloadListener {
                     continue;
                 }
                 RecipeRegistry.getInstance().register(result);
+                
                 IOUtils.closeQuietly(manager.getResource(file));
             } catch (IOException e) {
                 e.printStackTrace();

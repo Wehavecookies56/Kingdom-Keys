@@ -18,8 +18,6 @@ public class ShadowGoal extends TargetGoal {
 
 	@Override
 	public boolean shouldContinueExecuting() {
-		System.out.println(EntityHelper.getState(this.goalOwner)+" "+shadowTicks);
-
 		if (this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI) {
 			if (this.goalOwner.onGround) {
 				if (!isInShadow()) {

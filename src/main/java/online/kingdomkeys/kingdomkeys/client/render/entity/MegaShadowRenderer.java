@@ -20,7 +20,7 @@ public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowMode
 	public static final MegaShadowRenderer.Factory FACTORY = new MegaShadowRenderer.Factory();
 
 	public MegaShadowRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new ShadowModel<>(1D), 1.35F);
+		super(renderManagerIn, new ShadowModel<>(1D), 1F);
 	}
 
 	@Override

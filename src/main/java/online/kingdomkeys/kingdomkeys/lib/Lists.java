@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -392,7 +393,7 @@ public class Lists {
         Roxas.add(woodenStick.get());
 
         //Keyblades
-        keybladeRecipes.add(abaddonPlasma.get().getRegistryName());
+       /* keybladeRecipes.add(abaddonPlasma.get().getRegistryName());
         keybladeRecipes.add(abyssalTide.get().getRegistryName());
         keybladeRecipes.add(allForOne.get().getRegistryName());
         keybladeRecipes.add(invisKeyblade.get().getRegistryName());
@@ -522,14 +523,15 @@ public class Lists {
         itemRecipes.add(mythril_gem.get().getRegistryName());
         itemRecipes.add(mythril_stone.get().getRegistryName());
         itemRecipes.add(mythril_shard.get().getRegistryName());
+        itemRecipes.add(Items.DIAMOND.getRegistryName());
         
        /* TODO for(String keyblade : MainConfig.items.bannedKeyblades) {
         	if(recipes.indexOf("item."+keyblade) >= 0)
         		recipes.remove(recipes.indexOf("item."+keyblade));
         }*/
         
-        allRecipes.addAll(keybladeRecipes);
-        allRecipes.addAll(itemRecipes);
+       // allRecipes.addAll(keybladeRecipes);
+        //allRecipes.addAll(itemRecipes);
     }
 
 }

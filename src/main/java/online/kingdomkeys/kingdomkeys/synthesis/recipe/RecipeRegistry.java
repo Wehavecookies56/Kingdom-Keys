@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.synthesis.recipe;
 
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Lists;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,6 +27,14 @@ public class RecipeRegistry {
         if (recipe.getRegistryName() != null) {
             registry.put(recipe.getRegistryName(), recipe);
             KingdomKeys.LOGGER.info("Successfully registered synthesis recipe {}", recipe.getRegistryName());
+            switch(recipe.type) {
+            case "keyblade":
+            	Lists.keybladeRecipes.add(recipe.getRegistryName());
+            	break;
+            case "item":
+            	Lists.itemRecipes.add(recipe.getRegistryName());
+            	break;
+            }
         } else {
             KingdomKeys.LOGGER.error("Cannot register Synthesis Recipe with no registry name");
         }

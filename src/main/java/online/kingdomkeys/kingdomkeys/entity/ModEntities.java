@@ -151,7 +151,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_EMERALD_BLUES = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "emerald_blues", 1.0F, 1.0F);
     */
 
-    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 2F, 3F, NOBODY);
+    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 1.3F, 1.6F, NOBODY);
     //TODO make AI
     //public static final RegistryObject<EntityType<ShadowEntity>> TYPE_WHITE_MUSHROOM = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "white_mushroom", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.5F, 0.5F, NOBODY);
