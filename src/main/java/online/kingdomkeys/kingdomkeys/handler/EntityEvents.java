@@ -11,6 +11,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -60,14 +61,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSoA;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -181,6 +175,28 @@ public class EntityEvents {
 					playerData.setRecharge(true);
 					if(!event.player.world.isRemote) {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
+					}
+				}
+			}
+
+			if (playerData.getAlignment() == Utils.OrgMember.NONE) {
+				if (!event.player.world.isRemote) {
+					boolean wearingOrgCloak = true;
+					int i;
+					for (i = 0; i < event.player.inventory.armorInventory.size(); ++i) {
+						if (event.player.inventory.armorItemInSlot(i).isEmpty()) {
+							wearingOrgCloak = false;
+						}
+					}
+					if (wearingOrgCloak) {
+						for (i = 0; i < event.player.inventory.armorInventory.size(); ++i) {
+							if (!event.player.inventory.armorInventory.get(i).getItem().getRegistryName().getPath().startsWith("organization_")) {
+								wearingOrgCloak = false;
+							}
+						}
+					}
+					if (wearingOrgCloak) {
+						PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
 					}
 				}
 			}
@@ -632,9 +648,14 @@ public class EntityEvents {
 		if (!event.getEntity().world.isRemote) {
 			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				if (event.getEntity() instanceof PlayerEntity) {
 
+				}
+				if (event.getEntity() instanceof VillagerEntity) {
+
+				}
 				if (event.getEntity() instanceof MonsterEntity) {
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 					if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
 						MonsterEntity mob = (MonsterEntity) event.getEntity();
@@ -716,6 +737,11 @@ public class EntityEvents {
 			newPlayerData.setChoicePedestal(oldPlayerData.getChoicePedestal());
 			newPlayerData.setSacrifice(oldPlayerData.getSacrificed());
 			newPlayerData.setSacrificePedestal(oldPlayerData.getSacrificePedestal());
+
+			newPlayerData.setHearts(oldPlayerData.getHearts());
+			newPlayerData.setAlignment(oldPlayerData.getAlignment());
+			newPlayerData.equipWeapon(oldPlayerData.getEquippedWeapon());
+			newPlayerData.setWeaponsUnlocked(oldPlayerData.getWeaponsUnlocked());
 
 			nPlayer.setHealth(oldPlayerData.getMaxHP());
 			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());

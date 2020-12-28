@@ -94,16 +94,14 @@ public class CommandMenuGui extends Screen {
 				RenderSystem.color4f(combatModeColor[0] / 2, array[1] / 2, combatModeColor[2] / 2, alpha);
 			}
 		} else { //Blue/color
-			/*
-			 * if (Minecraft.getMinecraft().player.getCapability(ModCapabilities.
-			 * ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE && array ==
-			 * normalModeColor) { RenderSystem.color4ub(orgColor[0], orgColor[1], orgColor[2],
-			 * alpha); } else {
-			 */
-			if(submenu == array[3]) {
-				RenderSystem.color4f(array[0], array[1], array[2], alpha);
+			if (ModCapabilities.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) {
+				RenderSystem.color4f(orgColor[0], orgColor[1], orgColor[2], alpha);
 			} else {
-				RenderSystem.color4f(array[0]/2, array[1]/2, array[2]/2, alpha);
+				if (submenu == array[3]) {
+					RenderSystem.color4f(array[0], array[1], array[2], alpha);
+				} else {
+					RenderSystem.color4f(array[0] / 2, array[1] / 2, array[2] / 2, alpha);
+				}
 			}
 		}
 
@@ -302,12 +300,11 @@ public class CommandMenuGui extends Screen {
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 
 				// Draw Icon
-				// if (organization) {
-				// drawTexturedModalRect(60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth,
-				// 18, iconWidth, iconWidth);
-				// } else {
-				blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
-				// }
+				if (ModCapabilities.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE) {
+					blit(60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+				} else {
+					blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+				}
 
 			} else { // Not selected
 				textX = 0;

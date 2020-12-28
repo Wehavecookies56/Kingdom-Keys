@@ -94,6 +94,16 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         instance.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.serializeNBT()));
         storage.put("keychains", keychains);
 
+        storage.putInt("hearts", instance.getHearts());
+        storage.putInt("org_alignment", instance.getAlignmentIndex());
+        String equipped = instance.getEquippedWeapon() != null ? instance.getEquippedWeapon().getRegistryName().toString() : "";
+        storage.putString("org_equipped_weapon", equipped);
+
+        CompoundNBT unlockedWeapons = new CompoundNBT();
+        instance.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.putByte(weapon.getRegistryName().toString(), (byte) 0));
+        storage.put("org_weapons_unlocked", unlockedWeapons);
+
+
         for (byte i = 0; i < 3; i++) {
             storage.putByte("Portal" + i + "N", instance.getPortalCoords(i).getPID());
             storage.putDouble("Portal" + i + "X", instance.getPortalCoords(i).getX());
@@ -184,6 +194,13 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
 
         CompoundNBT keychainsNBT = storage.getCompound("keychains");
         keychainsNBT.keySet().forEach((chain) -> instance.setNewKeychain(new ResourceLocation(chain), ItemStack.read(keychainsNBT.getCompound(chain))));
+
+        instance.setHearts(storage.getInt("hearts"));
+        instance.setAlignment(storage.getInt("org_alignment"));
+        String equipped = storage.getString("org_equipped_weapon");
+        instance.equipWeapon(equipped.isEmpty() ? null : equipped);
+        CompoundNBT unlocksCompound = storage.getCompound("org_weapons_unlocked");
+        unlocksCompound.keySet().forEach(instance::unlockWeapon);
 
         for (byte i = 0; i < 3; i++) {
             instance.setPortalCoords(i, new PortalData(storage.getByte("Portal" + i + "N"), storage.getDouble("Portal" + i + "X"), storage.getDouble("Portal" + i + "Y"), storage.getDouble("Portal" + i + "Z"), storage.getInt("Portal" + i + "D")));

@@ -111,7 +111,7 @@ public class Utils {
 	}
 
 	public static enum OrgMember {
-		XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS, NONE
+		NONE, XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS
 	}
 
 	public static int getDriveFormLevel(Map<String, int[]> map, String driveForm) {

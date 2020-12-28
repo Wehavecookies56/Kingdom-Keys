@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class RecipeItem extends Item implements IItemCategory {
@@ -81,7 +82,6 @@ public class RecipeItem extends Item implements IItemCategory {
 
 	public void shuffleRecipes(ItemStack stack, PlayerEntity player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
 		long seed = System.nanoTime();
 		// Shuffles the list of recipe to increase randomness
 		Collections.shuffle(Lists.keybladeRecipes, new Random(seed));

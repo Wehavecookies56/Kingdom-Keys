@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -14,7 +11,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.organization.OrganizationWeaponUnlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public interface IPlayerCapabilities {
 	int getLevel();
@@ -193,4 +192,21 @@ public interface IPlayerCapabilities {
 	BlockPos getSacrificePedestal();
 	void setSacrificePedestal(BlockPos pos);
 
+	int getHearts();
+	void setHearts(int hearts);
+	void addHearts(int hearts);
+	void removeHearts(int hearts);
+
+	Utils.OrgMember getAlignment();
+	int getAlignmentIndex();
+	void setAlignment(Utils.OrgMember member);
+	void setAlignment(int index);
+	boolean isWeaponUnlocked(OrganizationWeaponUnlock weaponUnlock);
+	void unlockWeapon(OrganizationWeaponUnlock weaponUnlock);
+	void unlockWeapon(String registryName);
+	OrganizationWeaponUnlock getEquippedWeapon();
+	void equipWeapon(OrganizationWeaponUnlock unlock);
+	void equipWeapon(String registryName);
+	Set<OrganizationWeaponUnlock> getWeaponsUnlocked();
+	void setWeaponsUnlocked(Set<OrganizationWeaponUnlock> unlocks);
 }

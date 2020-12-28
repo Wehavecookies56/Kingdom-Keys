@@ -3,30 +3,34 @@ package online.kingdomkeys.kingdomkeys.lib;
 import static online.kingdomkeys.kingdomkeys.item.ModItems.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
+import online.kingdomkeys.kingdomkeys.item.organization.EtherealBladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class Lists {
 
-    public static List<ResourceLocation> keybladeRecipes = new ArrayList<ResourceLocation>();
-    public static List<ResourceLocation> itemRecipes = new ArrayList<ResourceLocation>();
-    public static List<ResourceLocation> allRecipes = new ArrayList<ResourceLocation>();
+    public static List<ResourceLocation> keybladeRecipes = new ArrayList<>();
+    public static List<ResourceLocation> itemRecipes = new ArrayList<>();
+    public static List<ResourceLocation> allRecipes = new ArrayList<>();
 
-    public static List<Item> Xemnas = new ArrayList<Item>();
-    public static List<Item> Xigbar = new ArrayList<Item>();
-    public static List<Item> Xaldin = new ArrayList<Item>();
-    public static List<Item> Vexen = new ArrayList<Item>();
-    public static List<Item> Lexaeus = new ArrayList<Item>();
-    public static List<Item> Zexion = new ArrayList<Item>();
-    public static List<Item> Saix = new ArrayList<Item>();
-    public static List<Item> Axel = new ArrayList<Item>();
-    public static List<Item> Demyx = new ArrayList<Item>();
-    public static List<Item> Luxord = new ArrayList<Item>();
-    public static List<Item> Marluxia = new ArrayList<Item>();
-    public static List<Item> Larxene = new ArrayList<Item>();
+    public static List<Item> Xemnas = new ArrayList<>();
+    public static List<Item> Xigbar = new ArrayList<>();
+    public static List<Item> Xaldin = new ArrayList<>();
+    public static List<Item> Vexen = new ArrayList<>();
+    public static List<Item> Lexaeus = new ArrayList<>();
+    public static List<Item> Zexion = new ArrayList<>();
+    public static List<Item> Saix = new ArrayList<>();
+    public static List<Item> Axel = new ArrayList<>();
+    public static List<Item> Demyx = new ArrayList<>();
+    public static List<Item> Luxord = new ArrayList<>();
+    public static List<Item> Marluxia = new ArrayList<>();
+    public static List<Item> Larxene = new ArrayList<>();
     public static List<Item> Roxas = new ArrayList<>();
 
     public static List<Item> getListForMember(Utils.OrgMember member) {
@@ -44,15 +48,14 @@ public class Lists {
             case XEMNAS: return Xemnas;
             case XIGBAR: return Xigbar;
             case ZEXION: return Zexion;
-            case NONE: return null;
+            default: return Collections.emptyList();
         }
-        return null;
     }
 
     public static void init () {
 
         //Xemnas
-     /*   Xemnas.add(malice.get());
+        Xemnas.add(malice.get());
         Xemnas.add(sanction.get());
         Xemnas.add(overlord.get());
         Xemnas.add(veneration.get());
@@ -361,7 +364,7 @@ public class Lists {
         Larxene.add(volDeNuit.get());
         Larxene.add(foudre.get());
         Larxene.add(demoiselle.get());
-        Larxene.add(ampoule.get());*/
+        Larxene.add(ampoule.get());
 
         Roxas.add(kingdomKey.get());
         Roxas.add(missingAche.get());

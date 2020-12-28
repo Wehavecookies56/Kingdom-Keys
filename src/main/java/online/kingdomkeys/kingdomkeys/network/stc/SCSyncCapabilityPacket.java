@@ -19,6 +19,10 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.organization.ModOrganizationUnlocks;
+import online.kingdomkeys.kingdomkeys.organization.OrganizationUnlock;
+import online.kingdomkeys.kingdomkeys.organization.OrganizationWeaponUnlock;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SCSyncCapabilityPacket {
 
@@ -52,6 +56,11 @@ public class SCSyncCapabilityPacket {
 	BlockPos choicePedestal, sacrificePedestal;
 	Vec3d returnPos;
 	DimensionType returnDim;
+
+	int hearts;
+	Utils.OrgMember alignment;
+	OrganizationWeaponUnlock equippedWeapon;
+	Set<OrganizationWeaponUnlock> unlocks;
 	
 	public SCSyncCapabilityPacket() {
 	}
@@ -96,6 +105,11 @@ public class SCSyncCapabilityPacket {
 		this.sacrificePedestal = capability.getSacrificePedestal();
 		this.returnPos = capability.getReturnLocation();
 		this.returnDim = capability.getReturnDimension();
+
+		this.hearts = capability.getHearts();
+		this.alignment = capability.getAlignment();
+		this.equippedWeapon = capability.getEquippedWeapon();
+		this.unlocks = capability.getWeaponsUnlocked();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -196,6 +210,15 @@ public class SCSyncCapabilityPacket {
 		buffer.writeByte(this.sacrifice.get());
 		buffer.writeBlockPos(this.choicePedestal);
 		buffer.writeBlockPos(this.sacrificePedestal);
+
+		buffer.writeInt(this.hearts);
+		buffer.writeInt(this.alignment.ordinal());
+		buffer.writeBoolean(this.equippedWeapon != null);
+		if (this.equippedWeapon != null) {
+			buffer.writeString(this.equippedWeapon.getRegistryName().toString());
+		}
+		buffer.writeInt(this.unlocks.size());
+		unlocks.forEach(unlock -> buffer.writeString(unlock.getRegistryName().toString()));
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -294,6 +317,19 @@ public class SCSyncCapabilityPacket {
 		msg.sacrifice = SoAState.fromByte(buffer.readByte());
 		msg.choicePedestal = buffer.readBlockPos();
 		msg.sacrificePedestal = buffer.readBlockPos();
+
+		msg.hearts = buffer.readInt();
+		msg.alignment = Utils.OrgMember.values()[buffer.readInt()];
+		if (buffer.readBoolean()) {
+			msg.equippedWeapon = (OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(buffer.readString(100)));
+		} else {
+			msg.equippedWeapon = null;
+		}
+		msg.unlocks = new HashSet<>();
+		int unlockSize = buffer.readInt();
+		for (int i = 0; i < unlockSize; ++i) {
+			msg.unlocks.add((OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(buffer.readString(100))));
+		}
 		return msg;
 	}
 
@@ -340,6 +376,11 @@ public class SCSyncCapabilityPacket {
 			playerData.setSacrifice(message.sacrifice);
 			playerData.setChoicePedestal(message.choicePedestal);
 			playerData.setSacrificePedestal(message.sacrificePedestal);
+
+			playerData.setHearts(message.hearts);
+			playerData.setAlignment(message.alignment);
+			playerData.equipWeapon(message.equippedWeapon);
+			playerData.setWeaponsUnlocked(message.unlocks);
 		});
 		ctx.get().setPacketHandled(true);
 	}

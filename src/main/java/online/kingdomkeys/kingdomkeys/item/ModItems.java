@@ -11,7 +11,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunsItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.item.organization.AxeSwordItem;
 import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
@@ -305,30 +305,30 @@ public class ModItems {
 			roundFan = createNewItem(Strings.roundFan, EtherealBladeItem::new),
 			absolute = createNewItem(Strings.absolute, EtherealBladeItem::new),
 			
-			standalone = createNewItem(Strings.standalone, ArrowgunsItem::new),
-			killerbee = createNewItem(Strings.killerbee, ArrowgunsItem::new),
-			stingray = createNewItem(Strings.stingray, ArrowgunsItem::new),
-			counterweight = createNewItem(Strings.counterweight, ArrowgunsItem::new),
-			precision = createNewItem(Strings.precision, ArrowgunsItem::new),
-			dualHead = createNewItem(Strings.dualHead, ArrowgunsItem::new),
-			bahamut = createNewItem(Strings.bahamut, ArrowgunsItem::new),
-			gullwing = createNewItem(Strings.gullwing, ArrowgunsItem::new),
-			blueFrame = createNewItem(Strings.blueFrame, ArrowgunsItem::new),
-			starShell = createNewItem(Strings.starShell, ArrowgunsItem::new),
-			sunrise = createNewItem(Strings.sunrise, ArrowgunsItem::new),
-			ignition = createNewItem(Strings.ignition, ArrowgunsItem::new),
-			armstrong = createNewItem(Strings.armstrong, ArrowgunsItem::new),
-			hardBoiledHeat = createNewItem(Strings.hardBoiledHeat, ArrowgunsItem::new),
-			diabloEye = createNewItem(Strings.diabloEye, ArrowgunsItem::new),
-			doubleTap = createNewItem(Strings.doubleTap, ArrowgunsItem::new),
-			stardust = createNewItem(Strings.stardust, ArrowgunsItem::new),
-			energyMuzzle = createNewItem(Strings.energyMuzzle, ArrowgunsItem::new),
-			crimeAndPunishment = createNewItem(Strings.crimeAndPunishment, ArrowgunsItem::new),
-			cupidsArrow = createNewItem(Strings.cupidsArrow, ArrowgunsItem::new),
-			finalWeapon = createNewItem(Strings.finalWeapon, ArrowgunsItem::new),
-			sharpshooter = createNewItem(Strings.sharpshooter, ArrowgunsItem::new),
-			dryer = createNewItem(Strings.dryer, ArrowgunsItem::new),
-			trumpet = createNewItem(Strings.trumpet, ArrowgunsItem::new),
+			standalone = createNewItem(Strings.standalone, ArrowgunItem::new),
+			killerbee = createNewItem(Strings.killerbee, ArrowgunItem::new),
+			stingray = createNewItem(Strings.stingray, ArrowgunItem::new),
+			counterweight = createNewItem(Strings.counterweight, ArrowgunItem::new),
+			precision = createNewItem(Strings.precision, ArrowgunItem::new),
+			dualHead = createNewItem(Strings.dualHead, ArrowgunItem::new),
+			bahamut = createNewItem(Strings.bahamut, ArrowgunItem::new),
+			gullwing = createNewItem(Strings.gullwing, ArrowgunItem::new),
+			blueFrame = createNewItem(Strings.blueFrame, ArrowgunItem::new),
+			starShell = createNewItem(Strings.starShell, ArrowgunItem::new),
+			sunrise = createNewItem(Strings.sunrise, ArrowgunItem::new),
+			ignition = createNewItem(Strings.ignition, ArrowgunItem::new),
+			armstrong = createNewItem(Strings.armstrong, ArrowgunItem::new),
+			hardBoiledHeat = createNewItem(Strings.hardBoiledHeat, ArrowgunItem::new),
+			diabloEye = createNewItem(Strings.diabloEye, ArrowgunItem::new),
+			doubleTap = createNewItem(Strings.doubleTap, ArrowgunItem::new),
+			stardust = createNewItem(Strings.stardust, ArrowgunItem::new),
+			energyMuzzle = createNewItem(Strings.energyMuzzle, ArrowgunItem::new),
+			crimeAndPunishment = createNewItem(Strings.crimeAndPunishment, ArrowgunItem::new),
+			cupidsArrow = createNewItem(Strings.cupidsArrow, ArrowgunItem::new),
+			finalWeapon = createNewItem(Strings.finalWeapon, ArrowgunItem::new),
+			sharpshooter = createNewItem(Strings.sharpshooter, ArrowgunItem::new),
+			dryer = createNewItem(Strings.dryer, ArrowgunItem::new),
+			trumpet = createNewItem(Strings.trumpet, ArrowgunItem::new),
 			
 			zephyr = createNewItem(Strings.zephyr, LanceItem::new),
 			moonglade = createNewItem(Strings.moonglade, LanceItem::new),

@@ -237,7 +237,7 @@ public class InputHandler {
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
-                //if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
+                if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
                     // Submenu of the portals
                     if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                         if (!this.portalCommands.isEmpty() && !playerData.getRecharge()) {
@@ -250,7 +250,7 @@ public class InputHandler {
                         }
                         return;
                     }
-              /*  } else {
+              } /* else {
                     // Attacks Submenu
                     if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                         if (!this.attackCommands.isEmpty() && !STATS.getRecharge()) {

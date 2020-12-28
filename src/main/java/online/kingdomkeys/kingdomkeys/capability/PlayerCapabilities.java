@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -18,10 +19,14 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.organization.ModOrganizationUnlocks;
+import online.kingdomkeys.kingdomkeys.organization.OrganizationUnlock;
+import online.kingdomkeys.kingdomkeys.organization.OrganizationWeaponUnlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
@@ -56,6 +61,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private List<String> dfMessages = new ArrayList<>();
 
 	private PortalData[] orgPortalCoords = { new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0) };
+
+	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
+	private int hearts = 0;
+	private Set<OrganizationWeaponUnlock> weaponUnlocks = new HashSet<>();
+	//Change this back to null when unlock system done
+	private OrganizationWeaponUnlock equippedWeapon = new OrganizationWeaponUnlock("kingdomkeys:eternal_flames", 1000, Utils.OrgMember.AXEL, new ItemStack(ModItems.eternalFlames.get()));
 
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 
@@ -641,6 +652,97 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			System.out.println(list.get(i).getZ());
 			System.out.println(list.get(i).getPID());*/
 		}
+	}
+
+	@Override
+	public int getHearts() {
+		return this.hearts;
+	}
+
+	@Override
+	public void setHearts(int hearts) {
+		this.hearts = Math.max(0, hearts);
+	}
+
+	@Override
+	public void addHearts(int hearts) {
+		this.hearts = MathHelper.clamp(this.hearts + hearts, 0, Integer.MAX_VALUE);
+	}
+
+	@Override
+	public void removeHearts(int hearts) {
+		addHearts(-hearts);
+	}
+
+	@Override
+	public Utils.OrgMember getAlignment() {
+		return this.alignment;
+	}
+
+	@Override
+	public int getAlignmentIndex() {
+		return this.alignment.ordinal();
+	}
+
+	@Override
+	public void setAlignment(int index) {
+		this.alignment = Utils.OrgMember.values()[index];
+	}
+
+	@Override
+	public void setAlignment(Utils.OrgMember member) {
+		this.alignment = member;
+	}
+
+	@Override
+	public boolean isWeaponUnlocked(OrganizationWeaponUnlock unlock) {
+		return weaponUnlocks.contains(unlock);
+	}
+
+	@Override
+	public void unlockWeapon(OrganizationWeaponUnlock unlock) {
+		if (!weaponUnlocks.contains(unlock)) {
+			this.weaponUnlocks.add(unlock);
+		}
+	}
+
+	@Override
+	public void unlockWeapon(String registryName) {
+		OrganizationWeaponUnlock weaponUnlock = (OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(registryName));
+		if (weaponUnlock != null) {
+			if (!weaponUnlocks.contains(weaponUnlock)) {
+				this.weaponUnlocks.add(weaponUnlock);
+			}
+		}
+	}
+
+	@Override
+	public OrganizationWeaponUnlock getEquippedWeapon() {
+		return this.equippedWeapon;
+	}
+
+	@Override
+	public void equipWeapon(OrganizationWeaponUnlock unlock) {
+		this.equippedWeapon = unlock;
+	}
+
+	@Override
+	public void equipWeapon(String registryName) {
+		if (registryName != null && !registryName.isEmpty()) {
+			this.equippedWeapon = (OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(registryName));
+		} else {
+			this.equippedWeapon = null;
+		}
+	}
+
+	@Override
+	public Set<OrganizationWeaponUnlock> getWeaponsUnlocked() {
+		return this.weaponUnlocks;
+	}
+
+	@Override
+	public void setWeaponsUnlocked(Set<OrganizationWeaponUnlock> unlocks) {
+		this.weaponUnlocks = unlocks;
 	}
 
 	//endregion
