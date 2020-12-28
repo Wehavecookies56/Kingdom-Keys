@@ -38,7 +38,7 @@ public abstract class BaseBombEntity extends CreatureEntity implements IKHMob, I
     
     @Override
     public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawn();
+    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;
     }
 
     @OnlyIn(Dist.CLIENT)

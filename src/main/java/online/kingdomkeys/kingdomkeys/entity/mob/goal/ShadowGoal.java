@@ -8,7 +8,7 @@ public class ShadowGoal extends TargetGoal {
 	// 1 - in Shadow ; 0 - in Overworld
 
 	private final int MAX_DISTANCE_FOR_AI = 100, MAX_DISTANCE_FOR_LEAP = 10, MAX_DISTANCE_FOR_DASH = 25, MAX_DISTANCE_FOR_ATTACK = 5, TIME_BEFORE_NEXT_ATTACK = 70, TIME_OUTSIDE_THE_SHADOW = 70;
-	private int outsideShadowMaxTicks = 70, oldAi = -1, ticksUntilNextAttack;
+	private int shadowTicks = 70, oldAi = -1, ticksUntilNextAttack;
 	private boolean canUseNextAttack = true;
 
 	public ShadowGoal(CreatureEntity creature) {
@@ -19,37 +19,29 @@ public class ShadowGoal extends TargetGoal {
 	@Override
 	public boolean shouldContinueExecuting() {
 		if (this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI) {
-
-			/*
-			 * if(EntityHelper.getState(goalOwner) == 1) System.out.println("" +
-			 * EntityHelper.getState(goalOwner));
-			 */
-
-			if (!this.goalOwner.onGround) {
-				EntityHelper.setState(this.goalOwner, 0);
-				this.goalOwner.setInvulnerable(false);
-			} else {
+			if (this.goalOwner.onGround) {
 				if (!isInShadow()) {
-					outsideShadowMaxTicks--;
-					if (outsideShadowMaxTicks <= 0) {
+					shadowTicks--;
+					if (shadowTicks <= 0) {
 						EntityHelper.setState(this.goalOwner, 1);
-						outsideShadowMaxTicks = TIME_OUTSIDE_THE_SHADOW;
+						//shadowTicks = TIME_OUTSIDE_THE_SHADOW;
 						canUseNextAttack = false;
 					}
 				} else {
-					this.goalOwner.setInvisible(false);
+				//	this.goalOwner.setInvisible(false);
 				}
 			}
 
 			if (isInShadow()) {
 				this.goalOwner.setInvulnerable(true);
-				this.goalOwner.setInvisible(true);
+				//this.goalOwner.setInvisible(true);
 				canUseNextAttack = false;
-				outsideShadowMaxTicks++;
-				if (outsideShadowMaxTicks >= TIME_OUTSIDE_THE_SHADOW) {
+				shadowTicks++;
+				if (shadowTicks >= TIME_OUTSIDE_THE_SHADOW) {
+					System.out.println("chnage to visible");
 					EntityHelper.setState(this.goalOwner, 0);
 					this.goalOwner.setInvulnerable(false);
-					this.goalOwner.setInvisible(false);
+				//	this.goalOwner.setInvisible(false);
 					canUseNextAttack = true;
 				}
 			}
@@ -78,7 +70,7 @@ public class ShadowGoal extends TargetGoal {
 
 				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.5, 0));
 
-				switch(dir) {
+				switch (dir) {
 				case NORTH:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -0.7));
 					break;
@@ -122,7 +114,7 @@ public class ShadowGoal extends TargetGoal {
 
 				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.2, 0));
 
-				switch(dir) {
+				switch (dir) {
 				case NORTH:
 					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -1));
 					break;

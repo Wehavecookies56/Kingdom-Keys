@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -21,8 +20,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -32,7 +29,6 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -46,10 +42,12 @@ import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -80,10 +78,10 @@ public class EntityEvents {
 		if(playerData != null) {
 			//Heartless Spawn reset
 			if(worldData != null) {
-				if(worldData.getHeartlessSpawn() && CommonConfig.heartlessSpawningMode.get() == 0) {
-					worldData.setHeartlessSpawn(false);
-				} else if(!worldData.getHeartlessSpawn() && CommonConfig.heartlessSpawningMode.get() == 1) {
-					worldData.setHeartlessSpawn(true);
+				if(worldData.getHeartlessSpawnLevel() > 0 && CommonConfig.heartlessSpawningMode.get() == 0) {
+					worldData.setHeartlessSpawnLevel(0);
+				} else if(worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == 1) {
+					worldData.setHeartlessSpawnLevel(1);
 				}
 			
 			}
@@ -640,9 +638,9 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
-		if (event.getEntity() instanceof EnderDragonEntity && CommonConfig.heartlessSpawningMode.get() == 3) {
-			IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
-			worldData.setHeartlessSpawn(true);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
+		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == 3) {
+			worldData.setHeartlessSpawnLevel(1);
 		}
 
 		if (!event.getEntity().world.isRemote) {
@@ -655,6 +653,15 @@ public class EntityEvents {
 				if (event.getEntity() instanceof VillagerEntity) {
 
 				}
+				if(event.getEntityLiving() instanceof IKHMob) {
+					IKHMob heartless = (IKHMob) event.getEntityLiving();
+					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem) || (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem)) {
+						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
+						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
+						event.getEntityLiving().world.addEntity(heart);
+					}
+				}
+				
 				if (event.getEntity() instanceof MonsterEntity) {
 
 					if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
@@ -669,14 +676,15 @@ public class EntityEvents {
 						}
 						
 					}
-					Entity entity = event.getEntity();
+					LivingEntity entity = event.getEntityLiving();
 					double x = entity.getPosX();
 					double y = entity.getPosY();
 					double z = entity.getPosZ();
-					entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, 1000));
-					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, 10));
-					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, 10));
-					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, 10));
+					
+					entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, Utils.randomWithRange(5, 15)));
+					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
+					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
+					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 2, entity.getMaxHealth() / 1.2)));
 					
 					int num = Utils.randomWithRange(1,100);
 
@@ -758,7 +766,7 @@ public class EntityEvents {
 			IWorldCapabilities toWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
 
 			toWorldData.setParties(fromWorldData.getParties());
-			toWorldData.setHeartlessSpawn(fromWorldData.getHeartlessSpawn());
+			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			PacketHandler.sendTo(new SCSyncExtendedWorld(toWorldData), (ServerPlayerEntity)player);

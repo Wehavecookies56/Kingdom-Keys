@@ -156,8 +156,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		if (selected != ItemStack.EMPTY) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
-			Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
-			if (recipe != null) {
+			if (RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
+				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
 				create.visible = true;
 				Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();// item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				while (materials.hasNext()) {
@@ -173,7 +173,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				create.active = false;
 				create.setMessage("No empty slot");
 			}
-			create.visible = recipe != null;
+			create.visible = RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName());
 		} else {
 			create.visible = false;
 		}
@@ -251,8 +251,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.translated(iconPosX + 20, height*0.2, 1);
-			Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
-			if(recipe != null) {
+			//System.out.println(selected.getItem().getRegistryName());
+			if(RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
+				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
 				Iterator<Entry<Material, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				int i = 0;
 				while(materials.hasNext()) {
@@ -261,7 +262,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					String n = Utils.translateToLocal(stack.getTranslationKey());
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 					drawString(minecraft.fontRenderer, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
-					itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-5);
+					itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
 					i++;
 				}
 			}

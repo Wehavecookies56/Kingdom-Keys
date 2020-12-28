@@ -24,7 +24,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		@Override
 		public INBT writeNBT(Capability<IWorldCapabilities> capability, IWorldCapabilities instance, Direction side) {
 			CompoundNBT storage = new CompoundNBT();
-			storage.putBoolean("heartless", instance.getHeartlessSpawn());
+			storage.putInt("heartless", instance.getHeartlessSpawnLevel());
 
 			ListNBT parties = new ListNBT();
 			for (Party party : instance.getParties()) {
@@ -38,7 +38,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		@Override
 		public void readNBT(Capability<IWorldCapabilities> capability, IWorldCapabilities instance, Direction side, INBT nbt) {
 			CompoundNBT storage = (CompoundNBT) nbt;
-			instance.setHeartlessSpawn(storage.getBoolean("heartless"));
+			instance.setHeartlessSpawnLevel(storage.getInt("heartless"));
 			
 			List<Party> partiesList = instance.getParties();
 			ListNBT parties = storage.getList("parties", Constants.NBT.TAG_COMPOUND);
@@ -54,16 +54,16 @@ public class WorldCapabilities implements IWorldCapabilities {
 	}
 	
 	List<Party> parties = new ArrayList<Party>();
-	boolean heartlessSpawn = false;
+	int heartlessSpawnLevel = 0;
 
 	@Override
-	public boolean getHeartlessSpawn() {
-		return heartlessSpawn;
+	public int getHeartlessSpawnLevel() {
+		return heartlessSpawnLevel;
 	}
 
 	@Override
-	public void setHeartlessSpawn(boolean b) {
-		heartlessSpawn = b;		
+	public void setHeartlessSpawnLevel(int level) {
+		heartlessSpawnLevel = level;		
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 			this.parties.add(party);
 		}
 		
-		this.heartlessSpawn = nbt.getBoolean("heartless");  
+		this.heartlessSpawnLevel = nbt.getInt("heartless");  
 	}
 	
 	@Override
@@ -168,7 +168,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		}
 		nbt.put("parties", parties);
 		
-		nbt.putBoolean("heartless", this.heartlessSpawn);
+		nbt.putInt("heartless", this.heartlessSpawnLevel);
 		return nbt;
 	}
 

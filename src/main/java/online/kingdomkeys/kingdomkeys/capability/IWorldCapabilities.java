@@ -8,8 +8,8 @@ import net.minecraft.nbt.CompoundNBT;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
 public interface IWorldCapabilities {
-	boolean getHeartlessSpawn();
-	void setHeartlessSpawn(boolean b);
+	int getHeartlessSpawnLevel();
+	void setHeartlessSpawnLevel(int l);
 	
 	void setParties(List<Party> list);
 	List<Party> getParties();

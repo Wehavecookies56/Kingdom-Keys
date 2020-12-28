@@ -1,14 +1,16 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.HEARTLESS_EMBLEM;
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.HEARTLESS_PUREBLOOD;
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.NOBODY;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -48,6 +50,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MunnyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.BlizzardEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.FireEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.GravityEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
@@ -65,6 +68,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.BlueRhapsodyEntity;
@@ -88,7 +92,6 @@ import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
-import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
@@ -109,6 +112,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, ThunderBoltEntity::new, EntityClassification.MISC,"entity_thunderbolt", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MagnetEntity::new, EntityClassification.MISC,"entity_magnet", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
 
@@ -119,6 +123,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1F, 0.5F);
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, EntityClassification.MISC,"entity_lance", 1F, 0.5F);
     
+    public static final RegistryObject<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, HeartEntity::new, EntityClassification.MISC, "heart", 1F, 1F);
+
     //Mobs
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.AMBIENT, "moogle", 0.6F, 1.5F);
     
@@ -133,10 +139,10 @@ public class ModEntities {
     public static final RegistryObject<EntityType<SkaterBombEntity>> TYPE_SKATER_BOMB = createEntityType(SkaterBombEntity::new, SkaterBombEntity::new, EntityClassification.MONSTER, "skater_bomb", 0.6F, 1.3F, HEARTLESS_EMBLEM);
     public static final RegistryObject<EntityType<StormBombEntity>> TYPE_STORM_BOMB = createEntityType(StormBombEntity::new, StormBombEntity::new, EntityClassification.MONSTER, "storm_bomb", 0.6F, 1.3F, HEARTLESS_EMBLEM);
     public static final RegistryObject<EntityType<DetonatorEntity>> TYPE_DETONATOR = createEntityType(DetonatorEntity::new, DetonatorEntity::new, EntityClassification.MONSTER, "detonator", 0.6F, 1.3F, HEARTLESS_EMBLEM);
-    public static final RegistryObject<EntityType<RedNocturneEntity>> TYPE_RED_NOCTURNE = createEntityTypeImmuneToFire(RedNocturneEntity::new, RedNocturneEntity::new, EntityClassification.MONSTER, "red_nocturne", 1.0F,  1.0F, HEARTLESS_EMBLEM);
-    public static final RegistryObject<EntityType<BlueRhapsodyEntity>> TYPE_BLUE_RHAPSODY = createEntityType(BlueRhapsodyEntity::new, BlueRhapsodyEntity::new, EntityClassification.MONSTER, "blue_rhapsody", 1.0F, 1.0F, HEARTLESS_EMBLEM);
-    public static final RegistryObject<EntityType<YellowOperaEntity>> TYPE_YELLOW_OPERA = createEntityType(YellowOperaEntity::new, YellowOperaEntity::new, EntityClassification.MONSTER, "yellow_opera", 1.0F, 1.0F, HEARTLESS_EMBLEM);
-    public static final RegistryObject<EntityType<GreenRequiemEntity>> TYPE_GREEN_REQUIEM = createEntityType(GreenRequiemEntity::new, GreenRequiemEntity::new, EntityClassification.MONSTER, "green_requiem", 1.0F, 1.0F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<RedNocturneEntity>> TYPE_RED_NOCTURNE = createEntityTypeImmuneToFire(RedNocturneEntity::new, RedNocturneEntity::new, EntityClassification.MONSTER, "red_nocturne", 1.0F,  2.0F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<BlueRhapsodyEntity>> TYPE_BLUE_RHAPSODY = createEntityType(BlueRhapsodyEntity::new, BlueRhapsodyEntity::new, EntityClassification.MONSTER, "blue_rhapsody", 1.0F, 2.0F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<YellowOperaEntity>> TYPE_YELLOW_OPERA = createEntityType(YellowOperaEntity::new, YellowOperaEntity::new, EntityClassification.MONSTER, "yellow_opera", 1.0F, 2.0F, HEARTLESS_EMBLEM);
+    public static final RegistryObject<EntityType<GreenRequiemEntity>> TYPE_GREEN_REQUIEM = createEntityType(GreenRequiemEntity::new, GreenRequiemEntity::new, EntityClassification.MONSTER, "green_requiem", 1.0F, 2.0F, HEARTLESS_EMBLEM);
 
     //TODO update textures to work with newer model, make magic for
     /*
@@ -145,7 +151,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_EMERALD_BLUES = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "emerald_blues", 1.0F, 1.0F);
     */
 
-    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 2F, 3F, NOBODY);
+    public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 1.3F, 1.6F, NOBODY);
     //TODO make AI
     //public static final RegistryObject<EntityType<ShadowEntity>> TYPE_WHITE_MUSHROOM = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "white_mushroom", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.5F, 0.5F, NOBODY);
@@ -255,6 +261,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_DIRE_PLANT.get(), DirePlantRenderer.FACTORY);
 
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_HEART.get(), HeartEntityRenderer.FACTORY);
 
         RenderingRegistry.registerEntityRenderingHandler(TYPE_CHAKRAM.get(), ChakramEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LANCE.get(), LanceEntityRenderer.FACTORY);

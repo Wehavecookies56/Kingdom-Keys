@@ -28,7 +28,7 @@ public class DuskEntity extends CreatureEntity implements IKHMob {
 
 	@Override
     public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawn();
+    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;
     }
 	
 	@Override

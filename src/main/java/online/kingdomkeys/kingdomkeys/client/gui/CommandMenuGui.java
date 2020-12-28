@@ -132,6 +132,11 @@ public class CommandMenuGui extends Screen {
 	
 	private void drawSubTargetSelector(int width, int height) {
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
+		if(worldData.getPartyFromMember(minecraft.player.getUniqueID()) == null) {
+			submenu = SUB_MAGIC;
+			return;
+		}
+
 		//Title
 		RenderSystem.pushMatrix();
 		{
@@ -283,20 +288,16 @@ public class CommandMenuGui extends Screen {
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
 			minecraft.textureManager.bindTexture(texture);
 
-			int u;
 			int v = 0;
 			int x = 0;
 
 			RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * ATTACK), 0);
 			RenderSystem.scalef(scale, scale, scale);
 
+			paintWithColorArray(normalModeColor, alpha);
 			if (selected == ATTACK) { // Selected
 				textX = 5;
-				paintWithColorArray(normalModeColor, alpha);
-
-				// Draw slot
 				blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
-
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 
 				// Draw Icon
@@ -308,7 +309,6 @@ public class CommandMenuGui extends Screen {
 
 			} else { // Not selected
 				textX = 0;
-				paintWithColorArray(normalModeColor, alpha);
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
@@ -336,7 +336,6 @@ public class CommandMenuGui extends Screen {
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
 			minecraft.textureManager.bindTexture(texture);
 
-			int u;
 			int v = 0;
 			int x = 0;
 
@@ -347,22 +346,20 @@ public class CommandMenuGui extends Screen {
 				RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
 			}
 			
+			paintWithColorArray(normalModeColor, alpha);
 			if (selected == MAGIC) { // Selected
 				textX = 5;
-				paintWithColorArray(normalModeColor, alpha);
 				// Draw slot
 				blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 				blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
-
 			} else { // Not selected
 				textX = 0;
-				paintWithColorArray(normalModeColor, alpha);
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, playerData.getMagicList().isEmpty() ? 0x888888 :getColor(0xFFFFFF,SUB_MAIN));
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 :getColor(0xFFFFFF,SUB_MAIN));
 			
 
 		}
@@ -385,17 +382,15 @@ public class CommandMenuGui extends Screen {
 			if (submenu != 0)
 				RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
 
+			paintWithColorArray(normalModeColor, alpha);
 			if (selected == ITEMS) { // Selected
 				textX = 5;
-				paintWithColorArray(normalModeColor, alpha);
 				// Draw slot
 				blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 				blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
-
 			} else { // Not selected
 				textX = 0;
-				paintWithColorArray(normalModeColor, alpha);
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
@@ -411,7 +406,6 @@ public class CommandMenuGui extends Screen {
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
 			minecraft.textureManager.bindTexture(texture);
 
-			int u;
 			int v = 0;
 			int x = 0;
 
@@ -421,24 +415,22 @@ public class CommandMenuGui extends Screen {
 			if (submenu != 0)
 				RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
 
+			paintWithColorArray(normalModeColor, alpha);
 			if (selected == DRIVE) { // Selected
 				textX = 5;
-				paintWithColorArray(normalModeColor, alpha);
 				// Draw slot
 				blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 				blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
-
 			} else { // Not selected
 				textX = 0;
-				paintWithColorArray(normalModeColor, alpha);
 				blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
 				String text = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())?".drive":".revert";
-				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) ? 0x888888 : 0xFFFFFF;
+				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() > 0 ? 0x888888 : 0xFFFFFF;
 				drawString(minecraft.fontRenderer, Utils.translateToLocal("gui.commandmenu"+text), 6 + textX, 4, getColor(color,SUB_MAIN));
 			}
 		}

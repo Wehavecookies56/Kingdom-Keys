@@ -9,8 +9,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -25,6 +28,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesB
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
@@ -35,7 +40,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	LinkedHashMap<String, int[]> abilitiesMap;
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 
-
 	MenuBox box;
 	Button prev, next;
 	MenuButton back;
@@ -43,6 +47,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	int page = 0;
 	int itemsPerPage;
 
+	Ability hoveredAbility;
+	
 	public MenuAbilitiesScreen() {
 		super(Strings.Gui_Menu_Main_Button_Abilities, new Color(0,0,255));
 	}
@@ -158,7 +164,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		for (int i = 0; i < abilities.size(); i++) {
 			abilities.get(i).visible = false;
-		//	abilities.get(i).active = false;
 		}
 
 		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
@@ -166,7 +171,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				if (abilities.get(i) != null) {
 					abilities.get(i).visible = true;
 					abilities.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 19 + 2; // 6 = offset
-					//abilities.get(i).active = true;
 					abilities.get(i).render(mouseX, mouseY, partialTicks);
 				}
 			}
@@ -175,14 +179,22 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		prev.render(mouseX,  mouseY,  partialTicks);
 		next.render(mouseX,  mouseY,  partialTicks);
 		back.render(mouseX, mouseY, partialTicks);
+		if(hoveredAbility != null) {
+			renderSelectedData(mouseX, mouseY, partialTicks);
+		}
 	}
 
+	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
+		float tooltipPosX = width * 0.22F;
+		float tooltipPosY = height * 0.77F;
+		minecraft.fontRenderer.drawSplitString(new TranslationTextComponent(hoveredAbility.getRegistryName().getPath()+".desc").getFormattedText(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
+	}
 	
 	private void drawAP() {
 		int consumedAP = Utils.getConsumedAP(playerData);
 		int maxAP = playerData.getMaxAP();
-
-		Ability hoveredAbility = null;
+		hoveredAbility = null;
+		
 		//Get all the abilities and set their text
 		for (int i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];

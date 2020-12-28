@@ -1,15 +1,16 @@
 {
-  "type": "minecraft:block",
-  "pools": [
+  "type": "minecraft:chest",
+  "pools":[
     {
-      "rolls": 1,
+      "rolls": {
+        "min": 3.0,
+        "max": 8.0,
+        "type": "minecraft:uniform"
+      },
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:recipe"
-        },
-        {
-          "type": "minecraft:item",
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -19,14 +20,12 @@
                 "type": "minecraft:uniform"
               }
             }
-          ]
+          ],
+          "name": "kingdomkeys:recipe"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:orichalcumplus"
-        },
-        {
-          "type": "minecraft:item",
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -36,26 +35,26 @@
                 "type": "minecraft:uniform"
               }
             }
-          ]
+          ],
+          "name": "kingdomkeys:orichalcumplus"
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:anvils"
-        },
-        {
-          "type": "minecraft:item",
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "min": 0.0,
-                "max": 1.0,
+                "max": 4.0,
                 "type": "minecraft:uniform"
               }
             }
-          ]
+          ],
+          "name": "kingdomkeys:orichalcum"
         }
       ]
     }
   ]
+
 }

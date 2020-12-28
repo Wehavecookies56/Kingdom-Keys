@@ -20,7 +20,7 @@ public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowMode
     public static final GigaShadowRenderer.Factory FACTORY = new GigaShadowRenderer.Factory();
 
     public GigaShadowRenderer(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ShadowModel<>(1D), 0.35F);
+        super(renderManagerIn, new ShadowModel<>(1D), 1.5F);
     }
 
     @Override
@@ -30,9 +30,15 @@ public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowMode
 
     @Override
     public void render(GigaShadowEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        if (EntityHelper.getState(entityIn) != 1) {
-            super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        }
+    	matrixStackIn.push();
+        {
+	       
+	    	if (EntityHelper.getState(entityIn) == 1) {
+	            matrixStackIn.scale(1.5F, 0.01F, 1.5F);
+	        }
+	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+    	}
+    	matrixStackIn.pop();
     }
 
     @Override
