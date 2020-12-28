@@ -24,9 +24,14 @@ public class ShadowRenderer extends MobRenderer<ShadowEntity, ShadowModel<Shadow
 
     @Override
     public void render(ShadowEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        if (EntityHelper.getState(entityIn) != 1) {
-            super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        }
+        matrixStackIn.push();
+        {	       
+	    	if (EntityHelper.getState(entityIn) == 1) {
+	            matrixStackIn.scale(1.5F, 0.01F, 1.5F);
+	        }
+	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+    	}
+    	matrixStackIn.pop();
     }
 
     @Override

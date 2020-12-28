@@ -20,7 +20,7 @@ public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowMode
 	public static final MegaShadowRenderer.Factory FACTORY = new MegaShadowRenderer.Factory();
 
 	public MegaShadowRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new ShadowModel<>(1D), 0.35F);
+		super(renderManagerIn, new ShadowModel<>(1D), 1.35F);
 	}
 
 	@Override
@@ -30,10 +30,16 @@ public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowMode
 
 	@Override
 	public void render(MegaShadowEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		if (EntityHelper.getState(entityIn) != 1) {
-			super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-		}
-	}
+		matrixStackIn.push();
+        {
+	       
+	    	if (EntityHelper.getState(entityIn) == 1) {
+	            matrixStackIn.scale(1.5F, 0.01F, 1.5F);
+	        }
+	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+    	}
+    	matrixStackIn.pop();
+    }
 
 	@Override
 	protected void preRenderCallback(MegaShadowEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
