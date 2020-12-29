@@ -15,6 +15,7 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -69,6 +70,7 @@ public class EntityEvents {
 
 	public static boolean isBoss = false;
 	public static boolean isHostiles = false;
+	public int ticks;
 	
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
@@ -133,6 +135,11 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
+		if(ticks >= Integer.MAX_VALUE) {
+			ticks = Integer.MIN_VALUE;
+		}
+		ticks++;
+		
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 		if (playerData != null) {
@@ -182,7 +189,7 @@ public class EntityEvents {
 					boolean wearingOrgCloak = true;
 					int i;
 					for (i = 0; i < event.player.inventory.armorInventory.size(); ++i) {
-						if (event.player.inventory.armorItemInSlot(i).isEmpty()) {
+						if (event.player.inventory.armorInventory.get(i).isEmpty()) {
 							wearingOrgCloak = false;
 						}
 					}
@@ -200,32 +207,34 @@ public class EntityEvents {
 			}
 		}
 
-		// Combat mode
-		List<Entity> entities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(16.0D, 10.0D, 16.0D).offset(-8.0D, -5.0D, -8.0D));
-		List<Entity> bossEntities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(150.0D, 100.0D, 150.0D).offset(-75.0D, -50.0D, -75.0D));
-		if (!bossEntities.isEmpty()) {
-			for (int i = 0; i < bossEntities.size(); i++) {
-				if (bossEntities.get(i) instanceof EnderDragonEntity || bossEntities.get(i) instanceof WitherEntity) {
-					isBoss = true;
-					break;
-				} else {
-					isBoss = false;
+		if(ticks % 5 == 0) {
+			// Combat mode
+			List<Entity> entities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(16.0D, 10.0D, 16.0D).offset(-8.0D, -5.0D, -8.0D));
+			List<Entity> bossEntities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(150.0D, 100.0D, 150.0D).offset(-75.0D, -50.0D, -75.0D));
+			if (!bossEntities.isEmpty()) {
+				for (int i = 0; i < bossEntities.size(); i++) {
+					if (bossEntities.get(i) instanceof EnderDragonEntity || bossEntities.get(i) instanceof WitherEntity) {
+						isBoss = true;
+						break;
+					} else {
+						isBoss = false;
+					}
 				}
+			} else {
+				isBoss = false;
 			}
-		} else {
-			isBoss = false;
-		}
-		if (!entities.isEmpty()) {
-			for (Entity entity : entities) {
-				if (entity instanceof MobEntity) {
-					isHostiles = true;
-					break;
-				} else {
-					isHostiles = false;
+			if (!entities.isEmpty()) {
+				for (Entity entity : entities) {
+					if (entity instanceof MobEntity) {
+						isHostiles = true;
+						break;
+					} else {
+						isHostiles = false;
+					}
 				}
+			} else {
+				isHostiles = false;
 			}
-		} else {
-			isHostiles = false;
 		}
 	}
 
@@ -479,11 +488,12 @@ public class EntityEvents {
 				//event.setCanceled(true);
 				
 				for (int i = 0; i < event.getPlayer().inventory.getSizeInventory(); i++) {
-					if (!ItemStack.areItemStacksEqual(event.getPlayer().inventory.getStackInSlot(i), ItemStack.EMPTY)) {
-						if (event.getPlayer().inventory.getStackInSlot(i).getItem() == ModItems.synthesisBag.get()) {
+					ItemStack bag = event.getPlayer().inventory.getStackInSlot(i);
+					if (!ItemStack.areItemStacksEqual(bag, ItemStack.EMPTY)) {
+						if (bag.getItem() == ModItems.synthesisBag.get()) {
 							System.out.println("Found bag");
-							IItemHandler inv = event.getPlayer().inventory.getStackInSlot(i).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
-							addSynthesisMaterialToBag(inv, event);
+							IItemHandler inv = bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
+							addSynthesisMaterialToBag(inv, event, bag);
 						}
 					}
 				}
@@ -491,8 +501,23 @@ public class EntityEvents {
 		}
 	}
 	
-	public void addSynthesisMaterialToBag(IItemHandler inv, EntityItemPickupEvent event) {
-		for (int j = 0; j < inv.getSlots(); j++) {
+	public void addSynthesisMaterialToBag(IItemHandler inv, EntityItemPickupEvent event, ItemStack bag) {
+		CompoundNBT nbt = bag.getOrCreateTag();
+		int bagLevel = nbt.getInt("level");
+		int maxSlots = 0;
+		switch(bagLevel) {
+		case 0:
+			maxSlots = 18;
+			break;
+		case 1:
+			maxSlots = 36;
+			break;
+		case 2:
+			maxSlots = 54;
+			break;
+		}
+		
+		for (int j = 0; j < maxSlots; j++) {
 			ItemStack bagItem = inv.getStackInSlot(j);
 			ItemStack pickUp = event.getItem().getItem();
 			if (!ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) {

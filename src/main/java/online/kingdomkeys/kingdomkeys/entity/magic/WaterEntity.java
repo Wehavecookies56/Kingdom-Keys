@@ -1,12 +1,18 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.*;
@@ -20,8 +26,8 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 public class WaterEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
-	Vec3d motion;
 	PlayerEntity player;
+	String caster;
 
 	public WaterEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -56,16 +62,22 @@ public class WaterEntity extends ThrowableEntity {
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
+		for (PlayerEntity playerFromList : world.getPlayers()) {
+			if(playerFromList.getDisplayName().getFormattedText().equals(getCaster())) {
+				player = playerFromList;
+				break;
+			}
+		}	
+		
+		if (this.ticksExisted > maxTicks || player == null) {
 			this.remove();
 		}
-
+		
 		if(ticksExisted <= 1) {
-			motion = getMotion();
 			this.setMotion(0, 0, 0);
-			this.velocityChanged = true;
 			
 		} else if (ticksExisted < 50) { //Shield
+			setPosition(player.getPosX(), getPosY(), player.getPosZ());
 			double r = 1D;
 			double cx = getPosX();
 			double cy = getPosY();
@@ -79,19 +91,34 @@ public class WaterEntity extends ThrowableEntity {
 			double z2 = cz + (r * Math.sin(Math.toRadians(-a)));
 
 		//	System.out.println(a / 180 / 2);
-			world.addParticle(ParticleTypes.DRIPPING_WATER, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
-			world.addParticle(ParticleTypes.DRIPPING_WATER, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
+			world.addParticle(ParticleTypes.DRIPPING_WATER, x, (cy+0.5) - a / 1080D, z, 0.0D, 0.0D, 0.0D);
+			world.addParticle(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
+			
+    		double radius = 2.0D;
+			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
+
+	        if (!list.isEmpty() && list.get(0) != this) {
+				float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
+	            for (int i = 0; i < list.size(); i++) {
+	                Entity e = (Entity) list.get(i);
+	                if (e instanceof LivingEntity) {
+						e.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
+	                }
+	            }
+	        }
 
 		} else { //Projectile
-			this.setMotion(motion);
+			shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
+
 			velocityChanged = true;
-			for(double px = -0.5;px < 0.5;px++) {
-				for(double pz = -0.5;pz < 0.5;pz++) {
-					world.addParticle(ParticleTypes.DRIPPING_WATER, getPosX()+px, getPosY(), getPosZ()+pz, 0, 0, 0);
+			for(double px = -0.3;px < 0.3;px+=0.1) {
+				for(double pz = -0.3;pz < 0.3;pz+=0.1) {
+					//world.addParticle(ParticleTypes.DRIPPING_WATER, getPosX()+px, getPosY(), getPosZ()+pz, 0, 0, 0);
+					world.addParticle(ParticleTypes.DOLPHIN, getPosX()+px, getPosY(), getPosZ()+pz, 0, 0, 0);
 				}
 			}
 
-			world.addParticle(ParticleTypes.DRIPPING_WATER, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		//world.addParticle(ParticleTypes.DRIPPING_WATER, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		}
 
 		super.tick();
@@ -149,17 +176,38 @@ public class WaterEntity extends ThrowableEntity {
 
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
-		// compound.putInt("lvl", this.getLvl());
+		compound.putString("caster", this.getCaster());
 	}
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
-		// this.setLvl(compound.getInt("lvl"));
+		this.setCaster(compound.getString("caster"));
+	}
+
+	private static final DataParameter<String> CASTER = EntityDataManager.createKey(MagnetEntity.class, DataSerializers.STRING);
+
+	public String getCaster() {
+		return caster;
+	}
+
+	public void setCaster(String name) {
+		this.dataManager.set(CASTER, name);
+		this.caster = name;
+	}
+
+	@Override
+	public void notifyDataManagerChange(DataParameter<?> key) {
+		if (key.equals(CASTER)) {
+			this.caster = this.getCasterDataManager();
+		}
 	}
 
 	@Override
 	protected void registerData() {
-		// TODO Auto-generated method stub
+		this.dataManager.register(CASTER, "");
+	}
 
+	public String getCasterDataManager() {
+		return this.dataManager.get(CASTER);
 	}
 }

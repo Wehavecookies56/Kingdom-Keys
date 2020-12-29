@@ -17,9 +17,9 @@ public class MagicWater extends Magic {
 
 	@Override
 	public void onUse(PlayerEntity player) {
-		ThrowableEntity shot = new WaterEntity(player.world, player);
+		WaterEntity shot = new WaterEntity(player.world, player);
+		shot.setCaster(player.getDisplayName().getFormattedText());
 		player.world.addEntity(shot);
-		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 

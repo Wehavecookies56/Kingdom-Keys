@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class ThunderEntity extends ThrowableEntity {
 
-	int maxTicks = 60;
+	int maxTicks = 20;
 	PlayerEntity player;
 	String caster;
 

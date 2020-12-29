@@ -69,7 +69,7 @@ public class CommandMenuGui extends Screen {
 	float[] orgColor = { 0.8F, 0.8F, 0.8F };
 	//		{ color when seen fully, SubMenu when it should be seen fully }
 	float[] normalModeColor = { 0.04F, 0.2F, 1F, SUB_MAIN };
-	float[] portalMenuColor = { 0.4F, 0.4F, 0.4F, SUB_PORTALS};
+	float[] portalMenuColor = { 0.8F, 0.8F, 0.8F, SUB_PORTALS};
 	float[] combatModeColor = { 1F, 0F, 0F, SUB_MAIN };
 	float[] magicMenuColor = { 0.4F, 0F, 1F, SUB_MAGIC };
 	float[] itemsMenuColor = { 0.3F, 1F, 0.3F, SUB_ITEMS };
@@ -95,7 +95,11 @@ public class CommandMenuGui extends Screen {
 			}
 		} else { //Blue/color
 			if (ModCapabilities.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) {
-				RenderSystem.color4f(orgColor[0], orgColor[1], orgColor[2], alpha);
+				if (submenu == array[3]) {
+					RenderSystem.color4f(orgColor[0], orgColor[1], orgColor[2], alpha);
+				} else {
+					RenderSystem.color4f(orgColor[0] / 2, orgColor[1] / 2, orgColor[2] / 2, alpha);
+				}
 			} else {
 				if (submenu == array[3]) {
 					RenderSystem.color4f(array[0], array[1], array[2], alpha);
@@ -104,7 +108,6 @@ public class CommandMenuGui extends Screen {
 				}
 			}
 		}
-
 	}
 
 	public void drawCommandMenu(int width, int height) {
