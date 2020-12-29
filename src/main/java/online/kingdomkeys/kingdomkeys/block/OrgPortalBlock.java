@@ -18,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class OrgPortalBlock extends BaseBlock {
 
@@ -41,7 +42,7 @@ public class OrgPortalBlock extends BaseBlock {
 		if (!worldIn.isRemote) {
 			byte index = -1;
 
-			//if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
+			if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
 				if (worldIn.getTileEntity(pos) instanceof OrgPortalTileEntity) {
 
 					OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
@@ -83,7 +84,7 @@ public class OrgPortalBlock extends BaseBlock {
 					}
 
 				}
-			//}
+			}
 		}
 		return ActionResultType.SUCCESS;
 	}

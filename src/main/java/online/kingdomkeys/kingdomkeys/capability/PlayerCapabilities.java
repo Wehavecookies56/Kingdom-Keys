@@ -66,7 +66,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int hearts = 0;
 	private Set<OrganizationWeaponUnlock> weaponUnlocks = new HashSet<>();
 	//Change this back to null when unlock system done
-	private OrganizationWeaponUnlock equippedWeapon = new OrganizationWeaponUnlock("kingdomkeys:eternal_flames", 1000, Utils.OrgMember.AXEL, new ItemStack(ModItems.eternalFlames.get()));
+	private OrganizationWeaponUnlock equippedWeapon = new OrganizationWeaponUnlock("eternal_flames", 1000, Utils.OrgMember.AXEL, new ItemStack(ModItems.eternalFlames.get()));
 
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 

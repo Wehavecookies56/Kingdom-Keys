@@ -19,8 +19,11 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagInventory;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class SynthesisBagItem extends Item implements IItemCategory {
 
@@ -34,6 +37,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 		ItemStack stack = player.getHeldItem(hand);
 
 		if (!world.isRemote) {
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity)player);
 			INamedContainerProvider container = new SimpleNamedContainerProvider((w, p, pl) -> new SynthesisBagContainer(w, p, stack), stack.getDisplayName());
 			NetworkHooks.openGui((ServerPlayerEntity) player, container, buf -> {
 				buf.writeBoolean(hand == Hand.MAIN_HAND);

@@ -25,14 +25,14 @@ public class SynthesisBagContainer extends Container {
 		return new SynthesisBagContainer(windowId, inv, inv.player.getHeldItem(hand));
 	}
 	
-	//private final ItemStack bag;
+	private final ItemStack bag;
 
 	public SynthesisBagContainer(int windowId, PlayerInventory playerInv, ItemStack bag) {
 		super(TYPE, windowId);
+		this.bag = bag;
 		int i;
 		int j;
 
-		//this.bag = bag;
 		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
 
 		CompoundNBT nbt = playerInv.getCurrentItem().getOrCreateTag();
@@ -72,40 +72,47 @@ public class SynthesisBagContainer extends Container {
     public boolean canInteractWith (PlayerEntity player) {
         return true;
     }
-
+    
     @Override
-    public ItemStack transferStackInSlot (PlayerEntity player, int index) {
-        ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = inventorySlots.get(index);
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+		ItemStack itemstack = ItemStack.EMPTY;
+		
+		CompoundNBT nbt = bag.getOrCreateTag();
+		int bagLevel = nbt.getInt("level");
+		int maxSlots = 0;
+		switch(bagLevel) {
+		case 0:
+			maxSlots = 18;
+			break;
+		case 1:
+			maxSlots = 36;
+			break;
+		case 2:
+			maxSlots = 54;
+			break;
+		}
+		
+		Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemStack1 = slot.getStack();
-            itemStack = itemStack1.copy();
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+            System.out.println(maxSlots);
+			if (index < maxSlots) {
+				if (!this.mergeItemStack(itemstack1, maxSlots, this.inventorySlots.size(), true)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 0, maxSlots, false)) {
+				return ItemStack.EMPTY;
+			}
 
-            int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
-
-            if (index < containerSlots) {
-                if (!this.mergeItemStack(itemStack1, containerSlots, inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.mergeItemStack(itemStack1, 0, containerSlots, false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (itemStack1.getCount() == 0) {
-                slot.putStack(ItemStack.EMPTY);
-            } else {
-                slot.onSlotChanged();
-            }
-
-            if (itemStack1.getCount() == itemStack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-            slot.onTake(player, itemStack1);
-        }
-
-        return itemStack;
-    }
+			if (itemstack1.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
+			}
+		}
+		return itemstack;
+	}
 
     @Override
     public ItemStack slotClick(int slot, int dragType, ClickType clickTypeIn, PlayerEntity player) {
@@ -123,7 +130,7 @@ public class SynthesisBagContainer extends Container {
     	super.onContainerClosed(playerIn);
     }*/
 
-    @Override
+   /* @Override
     protected boolean mergeItemStack (ItemStack stack, int start, int end, boolean backwards) {
         boolean flag1 = false;
         int k = (backwards ? end - 1 : start);
@@ -188,5 +195,5 @@ public class SynthesisBagContainer extends Container {
         }
 
         return flag1;
-    }
+    }*/
 }
