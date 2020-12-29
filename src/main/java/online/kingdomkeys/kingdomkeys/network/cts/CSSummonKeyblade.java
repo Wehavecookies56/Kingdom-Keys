@@ -86,7 +86,6 @@ public class CSSummonKeyblade {
 
 			ItemStack orgWeapon = null;
 			if (playerData.getAlignment() != Utils.OrgMember.NONE) {
-				System.out.println(playerData.getEquippedWeapon());
 				orgWeapon = playerData.getEquippedWeapon().getWeapon();
 			}
 
@@ -111,7 +110,7 @@ public class CSSummonKeyblade {
 			ItemStack summonedStack = slotSummoned > -1 ? player.inventory.getStackInSlot(slotSummoned) : ItemStack.EMPTY;
 			if (message.forceDesummon)
 				heldStack = summonedStack;
-			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || orgWeapon != null))) {
+			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && heldStack.getItem() instanceof OrgWeaponItem)))) {
 				//DESUMMON
 				if (heldStack.getItem() instanceof KeybladeItem) {
 					if (heldStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
