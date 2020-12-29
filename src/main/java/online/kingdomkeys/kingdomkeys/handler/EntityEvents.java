@@ -189,7 +189,7 @@ public class EntityEvents {
 					boolean wearingOrgCloak = true;
 					int i;
 					for (i = 0; i < event.player.inventory.armorInventory.size(); ++i) {
-						if (event.player.inventory.armorItemInSlot(i).isEmpty()) {
+						if (event.player.inventory.armorInventory.get(i).isEmpty()) {
 							wearingOrgCloak = false;
 						}
 					}

@@ -11,16 +11,16 @@
 	"key.kingdomkeys.showgui": "Show HUD",
 	"key.kingdomkeys.summonkeyblade": "Summon Keyblade",
 	"key.kingdomkeys.lockon": "Lock on",
-	
-    "_comment": "Groups",
-    "itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
+
+	"_comment": "Groups",
+	"itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
     "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",
 	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organization Weapons",
-	
+
 	"_comment": "Menu",
 	"gui.menu.back": "Back",
 	"gui.menu.accept": "Accept",
-	
+
 	"gui.menu.main.button.items": "Items",
 	"gui.menu.main.button.abilities": "Abilities",
 	"gui.menu.main.button.customize": "Customize",
@@ -28,16 +28,16 @@
 	"gui.menu.main.button.status": "Status",
 	"gui.menu.main.button.journal": "Journal",
 	"gui.menu.main.button.config": "Config",
-	
+
 	"gui.menu.main.munny": "Munny",
 	"gui.menu.main.time": "World Time",
 	"gui.menu.main.time.spent": "Global Time",
-	
+
 	"gui.menu.items": "Items",
 	"gui.menu.items.equipment": "Equipment",
 	"gui.menu.items.stock": "Stock",
 	"gui.menu.items.equipment.weapon": "Weapon",
-	
+
 
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
@@ -45,14 +45,14 @@
 	"gui.menu.party.create.accessibility": "Accessibility and limit",
 	"gui.menu.party.create.accessibility.public": "Public",
 	"gui.menu.party.create.accessibility.private": "Private",
-	
+
 	"gui.menu.party.join": "Join party",
 	"gui.menu.party.invite": "Invite",
 	"gui.menu.party.settings": "Settings",
 	"gui.menu.party.kick": "Kick",
 	"gui.menu.party.disband": "Disband",
 	"gui.menu.party.leave": "Leave",
-	
+
 	"gui.menu.status": "Status",
 	"gui.menu.status.level": "Level",
 	"gui.menu.status.totalexp": "Experience",
@@ -70,7 +70,7 @@
 	"gui.menu.status.darkres": "Dark Resistance",
 	"gui.menu.status.formlevel": "Form Level",
 	"gui.menu.status.formgauge": "Form Gauge",
-	
+
 	"gui.synthesis": "Item Workshop",
 	"gui.synthesis.synthesise": "Synthesise Items",
 	"gui.synthesis.synthesise.create": "Create",
@@ -79,19 +79,19 @@
 	"gui.synthesis.materials": "Material List",
 	"gui.synthesis.materials.deposit": "Deposit",
 	"gui.synthesis.materials.take": "Take",
-	
+
 	"gui.commandmenu.command": "COMMAND",
 	"gui.commandmenu.attack": "Attack",
 	"gui.commandmenu.magic": "Magic",
 	"gui.commandmenu.items": "Items",
 	"gui.commandmenu.drive": "Drive",
 	"gui.commandmenu.revert": "Revert",
-	
+
 	"gui.commandmenu.portal.title": "Portals",
 	"gui.commandmenu.magic.title": "Magic",
 	"gui.commandmenu.items.title": "Items",
 	"gui.commandmenu.drive.title": "Forms",
-	
+
 	"_comment": "Level up messages",
 	"stats.levelUpStr": "Strength Increased!",
 	"stats.levelUpDef": "Defense Increased!",
@@ -100,46 +100,44 @@
 	"stats.levelUpMP": "Maximum MP Increased!",
 	"stats.levelUpAP": "Maximum AP Increased!",
 	"stats.levelUpFG": "Form Gauge Powered Up!",
-	
+
 	"_comment": "Abilities",
 	"ability_auto_valor": "Auto Valor",
 	"ability_auto_wisdom": "Auto Wisdom",
 	"ability_auto_limit": "Auto Limit",
 	"ability_auto_master": "Auto Master",
 	"ability_auto_final": "Auto Final",
-	
+
 	"ability_high_jump_1": "High Jump LV.1",
 	"ability_high_jump_2": "High Jump LV.2",
 	"ability_high_jump_3": "High Jump LV.3",
 	"ability_high_jump_4": "High Jump MAX",
 	"ability_high_jump.desc": "Now you can jump really high!",
 
-	
 	"ability_quick_run_1": "Quick Run LV.1",
 	"ability_quick_run_2": "Quick Run LV.2",
 	"ability_quick_run_3": "Quick Run LV.3",
 	"ability_quick_run_4": "Quick Run MAX",
 	"ability_quick_run.desc": "If you press X while running you will sprint.",
 
-	
 	"ability_dodge_roll_1": "Dodge Roll LV.1",
 	"ability_dodge_roll_2": "Dodge Roll LV.2",
 	"ability_dodge_roll_3": "Dodge Roll LV.3",
 	"ability_dodge_roll_4": "Dodge Roll MAX",
 	"ability_dodge_roll.desc": "If you press X while walking you will dodge roll. ",
-	
+
 	"ability_aerial_dodge_1": "Aerial Dodge LV.1",
 	"ability_aerial_dodge_2": "Aerial Dodge LV.2",
 	"ability_aerial_dodge_3": "Aerial Dodge LV.3",
 	"ability_aerial_dodge_4": "Aerial Dodge MAX",
 	"ability_aerial_dodge.desc": "In the air you can press jump again to double jump.",
-	
+
 	"ability_glide_1": "Glide LV.1",
 	"ability_glide_2": "Glide LV.2",
 	"ability_glide_3": "Glide LV.3",
 	"ability_glide_4": "Glide MAX",
 	"ability_glide.desc": "In the air, hold the jump key to glide.",
-	
+
 	"ability_scan": "Scan",
 	"ability_scan.desc": "Inspect the target's current HP.",
 	"ability_zero_exp": "Zero EXP",
@@ -176,7 +174,7 @@
 	"block.kingdomkeys.org_portal": "Organization Portal",
 	"block.kingdomkeys.moogle_projector": "Moogle Projector",
 	"block.kingdomkeys.station_of_awakening_core": "Station of Awakening Platform Core",
-	
+
 	"block.kingdomkeys.blazing_ore": "Blazing Ore",
 	"block.kingdomkeys.blazing_ore_n": "Blazing Ore",
 	"block.kingdomkeys.soothing_ore": "Soothing Ore",
@@ -199,47 +197,47 @@
 	"block.kingdomkeys.twilight_ore": "Twilight Ore",
 	"block.kingdomkeys.twilight_ore_n": "Twilight Ore",
 
-    "_comment": "Magics",
-    "magic_fire": "Fire",
-    "magic_blizzard": "Blizzard",
-    "magic_water": "Water",
-    "magic_thunder": "Thunder",
-    "magic_cure": "Cure",
-    "magic_aero": "Aero",
-    "magic_magnet": "Magnet",
-    "magic_reflect": "Reflect",
-    "magic_gravity": "Gravity",
-    "magic_stop": "Stop",
-    
-    "_comment": "Drive Forms",
+	"_comment": "Magics",
+	"magic_fire": "Fire",
+	"magic_blizzard": "Blizzard",
+	"magic_water": "Water",
+	"magic_thunder": "Thunder",
+	"magic_cure": "Cure",
+	"magic_aero": "Aero",
+	"magic_magnet": "Magnet",
+	"magic_reflect": "Reflect",
+	"magic_gravity": "Gravity",
+	"magic_stop": "Stop",
+
+	"_comment": "Drive Forms",
 	"form.form_valor.name": "Valor",
 	"form.form_wisdom.name": "Wisdom",
 	"form.form_limit.name": "Limit",
 	"form.form_master.name": "Master",
 	"form.form_final.name": "Final",
 
-    "_comment": "Items",
+	"_comment": "Items",
 	"item.kingdomkeys.recipe": "Recipe",
 	"item.kingdomkeys.ice_cream": "Sea Salt Ice Cream",
 	"item.kingdomkeys.synthesis_bag": "Synthesis Bag",
-	
+
 	"item.kingdomkeys.spellfire": "Fire Spell",
-    "item.kingdomkeys.spellblizzard": "Blizzard Spell",
-    "item.kingdomkeys.spellwater": "Water Spell",
-    "item.kingdomkeys.spellthunder": "Thunder Spell",
-    "item.kingdomkeys.spellcure": "Cure Spell",
-    "item.kingdomkeys.spellaero": "Aero Spell",
-    "item.kingdomkeys.spellmagnet": "Magnet Spell",
-    "item.kingdomkeys.spellreflect": "Reflect Spell",
-    "item.kingdomkeys.spellgravity": "Gravity Spell",
-    "item.kingdomkeys.spellstop": "Stop Spell",
-	
+	"item.kingdomkeys.spellblizzard": "Blizzard Spell",
+	"item.kingdomkeys.spellwater": "Water Spell",
+	"item.kingdomkeys.spellthunder": "Thunder Spell",
+	"item.kingdomkeys.spellcure": "Cure Spell",
+	"item.kingdomkeys.spellaero": "Aero Spell",
+	"item.kingdomkeys.spellmagnet": "Magnet Spell",
+	"item.kingdomkeys.spellreflect": "Reflect Spell",
+	"item.kingdomkeys.spellgravity": "Gravity Spell",
+	"item.kingdomkeys.spellstop": "Stop Spell",
+
 	"item.kingdomkeys.levelupdrivevalor": "Valor Form Orb",
 	"item.kingdomkeys.levelupdrivewisdom": "Wisdom Form Orb",
 	"item.kingdomkeys.levelupdrivelimit": "Limit Form Orb",
 	"item.kingdomkeys.levelupdrivemaster": "Master Form Orb",
 	"item.kingdomkeys.levelupdrivefinal": "Final Form Orb",
-	
+
 	"disc.duration.desc": "Duration",
 	"disc.durationunits.desc": "(mins:secs)",
 	"item.kingdomkeys.disc_0": "Music Disc",
@@ -268,114 +266,114 @@
 	"item.kingdomkeys.disc_11.desc": "Yoko Shimomura - Sinister Sundown",
 	"item.kingdomkeys.disc_12": "Music Disc",
 	"item.kingdomkeys.disc_12.desc": "Yoko Shimomura - The 13th Anthology",
-	
-	
+
+
 	"item.kingdomkeys.organization_helmet": "Organization Hood",
 	"item.kingdomkeys.organization_chestplate": "Organization Coat",
 	"item.kingdomkeys.organization_leggings": "Organization Leggings",
 	"item.kingdomkeys.organization_boots": "Organization Boots",
-	
+
 	"item.kingdomkeys.terra_helmet": "Terra Helmet",
 	"item.kingdomkeys.terra_chestplate": "Terra Chestplate",
 	"item.kingdomkeys.terra_leggings": "Terra Leggings",
 	"item.kingdomkeys.terra_boots": "Terra Boots",
-	
+
 	"item.kingdomkeys.aqua_helmet": "Aqua Helmet",
 	"item.kingdomkeys.aqua_chestplate": "Aqua Chestplate",
 	"item.kingdomkeys.aqua_leggings": "Aqua Leggings",
 	"item.kingdomkeys.aqua_boots": "Aqua Boots",
-	
+
 	"item.kingdomkeys.ventus_helmet": "Ventus Helmet",
 	"item.kingdomkeys.ventus_chestplate": "Ventus Chestplate",
 	"item.kingdomkeys.ventus_leggings": "Ventus Leggings",
 	"item.kingdomkeys.ventus_boots": "Ventus Boots",
-	
+
 	"item.kingdomkeys.eraqus_helmet": "Eraqus Helmet",
 	"item.kingdomkeys.eraqus_chestplate": "Eraqus Chestplate",
 	"item.kingdomkeys.eraqus_leggings": "Eraqus Leggings",
 	"item.kingdomkeys.eraqus_boots": "Eraqus Boots",
-	
+
 	"item.kingdomkeys.vanitas_helmet": "Vanitas Helmet",
 	"item.kingdomkeys.vanitas_chestplate": "Vanitas Chestplate",
 	"item.kingdomkeys.vanitas_leggings": "Vanitas Leggings",
 	"item.kingdomkeys.vanitas_boots": "Vanitas Boots",
-	
+
 	"item.kingdomkeys.nightmareventus_helmet": "Nightmare Ventus Helmet",
 	"item.kingdomkeys.nightmareventus_chestplate": "Nightmare Ventus Chestplate",
 	"item.kingdomkeys.nightmareventus_leggings": "Nightmare Ventus Leggings",
 	"item.kingdomkeys.nightmareventus_boots": "Nightmare Ventus Boots",
-	
+
 	"item.kingdomkeys.anticoat_helmet": "AntiCoat Hood",
 	"item.kingdomkeys.anticoat_chestplate": "AntiCoat Coat",
 	"item.kingdomkeys.anticoat_leggings": "AntiCoat Leggings",
 	"item.kingdomkeys.anticoat_boots": "AntiCoat Boots",
-	
+
 	"item.kingdomkeys.xemnas_helmet": "Xemnas Hood",
 	"item.kingdomkeys.xemnas_chestplate": "Xemnas Coat",
 	"item.kingdomkeys.xemnas_leggings": "Xemnas Leggings",
 	"item.kingdomkeys.xemnas_boots": "Xemnas Boots",
-	
+
 	"_comment": "Materials",
 	"item.kingdomkeys.blazing_shard": "Blazing Shard",
 	"item.kingdomkeys.blazing_stone": "Blazing Stone",
 	"item.kingdomkeys.blazing_gem": "Blazing Gem",
 	"item.kingdomkeys.blazing_crystal": "Blazing Crystal",
-	
+
 	"item.kingdomkeys.soothing_shard": "Soothing Shard",
 	"item.kingdomkeys.soothing_stone": "Soothing Stone",
 	"item.kingdomkeys.soothing_gem": "Soothing Gem",
 	"item.kingdomkeys.soothing_crystal": "Soothing Crystal",
-	
+
 	"item.kingdomkeys.writhing_shard": "Writhing Shard",
 	"item.kingdomkeys.writhing_stone": "Writhing Stone",
 	"item.kingdomkeys.writhing_gem": "Writhing Gem",
 	"item.kingdomkeys.writhing_crystal": "Writhing Crystal",
-	
+
 	"item.kingdomkeys.betwixt_shard": "Betwixt Shard",
 	"item.kingdomkeys.betwixt_stone": "Betwixt Stone",
 	"item.kingdomkeys.betwixt_gem": "Betwixt Gem",
 	"item.kingdomkeys.betwixt_crystal": "Betwixt Crystal",
-	
+
 	"item.kingdomkeys.wellspring_shard": "Wellspring Shard",
 	"item.kingdomkeys.wellspring_stone": "Wellspring Stone",
 	"item.kingdomkeys.wellspring_gem": "Wellspring Gem",
 	"item.kingdomkeys.wellspring_crystal": "Wellspring Crystal",
-	
+
 	"item.kingdomkeys.frost_shard": "Frost Shard",
 	"item.kingdomkeys.frost_stone": "Frost Stone",
 	"item.kingdomkeys.frost_gem": "Frost Gem",
 	"item.kingdomkeys.frost_crystal": "Frost Crystal",
-	
+
 	"item.kingdomkeys.lightning_shard": "Lightning Shard",
 	"item.kingdomkeys.lightning_stone": "Lightning Stone",
 	"item.kingdomkeys.lightning_gem": "Lightning Gem",
 	"item.kingdomkeys.lightning_crystal": "Lightning Crystal",
-	
+
 	"item.kingdomkeys.lucid_shard": "Lucid Shard",
 	"item.kingdomkeys.lucid_stone": "Lucid Stone",
 	"item.kingdomkeys.lucid_gem": "Lucid Gem",
 	"item.kingdomkeys.lucid_crystal": "Lucid Crystal",
-	
+
 	"item.kingdomkeys.hungry_shard": "Hungry Shard",
 	"item.kingdomkeys.hungry_stone": "Hungry Stone",
 	"item.kingdomkeys.hungry_gem": "Hungry Gem",
 	"item.kingdomkeys.hungry_crystal": "Hungry Crystal",
-	
+
 	"item.kingdomkeys.twilight_shard": "Twilight Shard",
 	"item.kingdomkeys.twilight_stone": "Twilight Stone",
 	"item.kingdomkeys.twilight_gem": "Twilight Gem",
 	"item.kingdomkeys.twilight_crystal": "Twilight Crystal",
-	
+
 	"item.kingdomkeys.mythril_shard": "Mythril Shard",
 	"item.kingdomkeys.mythril_stone": "Mythril Stone",
 	"item.kingdomkeys.mythril_gem": "Mythril Gem",
 	"item.kingdomkeys.mythril_crystal": "Mythril Crystal",
-	
+
 	"item.kingdomkeys.tranquility_shard": "Tranquility Shard",
 	"item.kingdomkeys.tranquility_stone": "Tranquility Stone",
 	"item.kingdomkeys.tranquility_gem": "Tranquility Gem",
 	"item.kingdomkeys.tranquility_crystal": "Tranquility Crystal",
-	
+
 	"item.kingdomkeys.sinister_shard": "Sinister Shard",
 	"item.kingdomkeys.sinister_stone": "Sinister Stone",
 	"item.kingdomkeys.sinister_gem": "Sinister Gem",
@@ -395,19 +393,19 @@
 	"item.kingdomkeys.pulsing_stone": "Pulsing Stone",
 	"item.kingdomkeys.pulsing_gem": "Pulsing Gem",
 	"item.kingdomkeys.pulsing_crystal": "Pulsing Crystal",
-	
+
 	"item.kingdomkeys.orichalcum": "Orichalcum",
 	"item.kingdomkeys.orichalcumplus": "Orichalcum+",
 	"item.kingdomkeys.lost_illusion": "Lost Illusion",
 	"item.kingdomkeys.manifest_illusion": "Manifest Illusion",
-	
+
 	"item.kingdomkeys.fluorite": "Fluorite",
 	"item.kingdomkeys.damascus": "Damascus",
 	"item.kingdomkeys.adamantite": "Adamantite",
 	"item.kingdomkeys.electrum": "Electrum",
 	"item.kingdomkeys.evanescent_crystal": "Evanescent Crystal",
 	"item.kingdomkeys.illusory_crystal": "Illusory Crystal",
-	
+
 	"_comment": "Keyblades",
 	"item.kingdomkeys.abaddon_plasma": "Abaddon Plasma",
 	"item.kingdomkeys.abyssal_tide": "Abyssal Tide",
@@ -417,6 +415,7 @@
 	"item.kingdomkeys.aubade": "Aubade",
 	"item.kingdomkeys.avas_keyblade": "Ava's Keyblade",
 	"item.kingdomkeys.bond_of_flame": "Bond Of Flame",
+	"item.kingdomkeys.bond_of_the_blaze": "Bond of the Blaze",
 	"item.kingdomkeys.brightcrest": "Brightcrest",
 	"item.kingdomkeys.chaos_ripper": "Chaos Ripper",
 	"item.kingdomkeys.circle_of_life": "Circle Of Life",
@@ -439,7 +438,6 @@
 	"item.kingdomkeys.fatal_crest": "Fatal Crest",
 	"item.kingdomkeys.fenrir": "Fenrir",
 	"item.kingdomkeys.ferris_gear": "Ferris Gear",
-	"item.kingdomkeys.flame_liberator": "Flame Liberator",
 	"item.kingdomkeys.follow_the_wind": "Follow the Wind",
 	"item.kingdomkeys.frolic_flame": "Frolic Flame",
 	"item.kingdomkeys.glimpse_of_darkness": "Glimpse Of Darkness",
@@ -517,7 +515,7 @@
 	"item.kingdomkeys.ultima_weapon_ddd": "Ultima Weapon (DDD)",
 	"item.kingdomkeys.ultima_weapon_kh1": "Ultima Weapon (KH1)",
 	"item.kingdomkeys.ultima_weapon_kh2": "Ultima Weapon (KH2)",
-    "item.kingdomkeys.ultima_weapon_kh3": "Ultima Weapon (KH3)",
+	"item.kingdomkeys.ultima_weapon_kh3": "Ultima Weapon (KH3)",
 	"item.kingdomkeys.umbrella": "Umbrella",
 	"item.kingdomkeys.unbound": "Unbound",
 	"item.kingdomkeys.victory_line": "Victory Line",
@@ -542,6 +540,7 @@
 	"item.kingdomkeys.aubade_chain": "Aubade Chain",
 	"item.kingdomkeys.avas_keyblade_chain": "Ava's Keyblade Chain",
 	"item.kingdomkeys.bond_of_flame_chain": "Bond Of Flame Chain",
+	"item.kingdomkeys.bond_of_the_blaze_chain": "Bond of the Blaze Chain",
 	"item.kingdomkeys.brightcrest_chain": "Brightcrest Chain",
 	"item.kingdomkeys.chaos_ripper_chain": "Chaos Ripper Chain",
 	"item.kingdomkeys.circle_of_life_chain": "Circle Of Life Chain",
@@ -564,7 +563,6 @@
 	"item.kingdomkeys.fatal_crest_chain": "Fatal Crest Chain",
 	"item.kingdomkeys.fenrir_chain": "Fenrir Chain",
 	"item.kingdomkeys.ferris_gear_chain": "Ferris Gear Chain",
-	"item.kingdomkeys.flame_liberator_chain": "Flame Liberator Chain",
 	"item.kingdomkeys.follow_the_wind_chain": "Follow The Wind Chain",
 	"item.kingdomkeys.frolic_flame_chain": "Frolic Flame Chain",
 	"item.kingdomkeys.glimpse_of_darkness_chain": "Glimpse Of Darkness Chain",
