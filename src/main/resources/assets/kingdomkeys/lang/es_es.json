@@ -91,6 +91,10 @@
 	"gui.commandmenu.magic.title": "Magia",
 	"gui.commandmenu.items.title": "Objetos",
 	"gui.commandmenu.drive.title": "Formas",
+	
+	"gui.synthesisbag.upgrade": "Aumentar tamaño",
+	"gui.synthesisbag.munny": "Platines",
+	"gui.synthesisbag.notenoughmunny": "Te faltan platines",
 
 	"_comment": "Level up messages",
 	"stats.levelUpStr": "¡Fuerza aumentada!",

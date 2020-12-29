@@ -92,6 +92,11 @@
 	"gui.commandmenu.items.title": "Items",
 	"gui.commandmenu.drive.title": "Forms",
 
+
+	"gui.synthesisbag.upgrade": "Upgrade size",
+	"gui.synthesisbag.munny": "Munny",
+	"gui.synthesisbag.notenoughmunny": "Not enough munny",
+	
 	"_comment": "Level up messages",
 	"stats.levelUpStr": "Strength Increased!",
 	"stats.levelUpDef": "Defense Increased!",

@@ -50,23 +50,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		CompoundNBT nbt = stack.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
-		tooltip.add(new TranslationTextComponent("Level " + bagLevel));
-
-		/*if (worldIn != null) { // So it does not crash D:
-			if (!KeyboardHelper.isShiftDown()) {
-				tooltip.add(new TranslationTextComponent(TextFormatting.ITALIC + "Hold down <SHIFT> for info"));
-			} else {
-				IItemHandlerModifiable bagInv = (IItemHandlerModifiable) stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
-				if (bagInv != null) {
-					for (int i = 0; i < bagInv.getSlots(); i++) {
-						ItemStack itemStack = bagInv.getStackInSlot(i);
-						if (!ItemStack.areItemsEqual(ItemStack.EMPTY, itemStack)) {
-							tooltip.add(new TranslationTextComponent("- " + itemStack.getDisplayName().getFormattedText() + " x" + itemStack.getCount()));
-						}
-					}
-				}
-			}
-		}*/
+		tooltip.add(new TranslationTextComponent("Level " + (bagLevel+1)));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 

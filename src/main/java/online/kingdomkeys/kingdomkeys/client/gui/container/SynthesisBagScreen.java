@@ -13,6 +13,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.TextComponentMessageFormatHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
@@ -66,10 +68,10 @@ public class SynthesisBagScreen extends ContainerScreen<SynthesisBagContainer> {
 		if(upgrade.visible) {
 			if (x >= upgrade.x && x <= upgrade.x + upgrade.getWidth()) {
 				if (y >= upgrade.y && y <= upgrade.y + upgrade.getHeight()) {
-					list.add("Upgrade size");
-					list.add(TextFormatting.YELLOW+"Munny: "+Utils.getBagCosts(bagLevel));
+					list.add(new TranslationTextComponent("gui.synthesisbag.upgrade").getFormattedText());					
+					list.add(TextFormatting.YELLOW+ new TranslationTextComponent("gui.synthesisbag.munny").getFormattedText()+": "+Utils.getBagCosts(bagLevel));
 					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
-						list.add(TextFormatting.RED+"Not enough Munny");
+						list.add(TextFormatting.RED+ new TranslationTextComponent("gui.synthesisbag.notenoughmunny").getFormattedText());
 					}
 					renderTooltip(list, x, y);
 				}
