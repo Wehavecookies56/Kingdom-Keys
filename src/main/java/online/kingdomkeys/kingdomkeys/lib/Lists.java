@@ -53,7 +53,7 @@ public class Lists {
         }
     }
 
-    public static void init () {
+    static {
 
         //Xemnas
         Xemnas.add(malice.get());

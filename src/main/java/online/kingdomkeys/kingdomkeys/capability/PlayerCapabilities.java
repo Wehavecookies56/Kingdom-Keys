@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -66,7 +67,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int hearts = 0;
 	private Set<OrganizationWeaponUnlock> weaponUnlocks = new HashSet<>();
 	//Change this back to null when unlock system done
-	private OrganizationWeaponUnlock equippedWeapon = new OrganizationWeaponUnlock("kingdomkeys:eternal_flames", 1000, Utils.OrgMember.AXEL, new ItemStack(ModItems.eternalFlames.get()));
+	private OrganizationWeaponUnlock equippedWeapon = (OrganizationWeaponUnlock) ModOrganizationUnlocks.getUnlock(new ResourceLocation(KingdomKeys.MODID,"eternal_flames"));
 
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 

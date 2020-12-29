@@ -22,7 +22,7 @@ public abstract class OrganizationUnlock extends ForgeRegistryEntry<Organization
     private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 
     public OrganizationUnlock(String registryName, int unlockCost, UnlockIcon icon) {
-        setRegistryName(KingdomKeys.MODID + ":" + registryName);
+        setRegistryName(registryName);
         parent = null;
         this.unlockCost = unlockCost;
         this.icon = icon;

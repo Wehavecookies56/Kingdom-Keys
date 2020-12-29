@@ -27,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -355,6 +356,9 @@ public class Utils {
 							return i;
 						}
 					}
+				}
+				else if (slotStack.getItem() instanceof OrgWeaponItem) {
+					return i;
 				}
 			}
 		}

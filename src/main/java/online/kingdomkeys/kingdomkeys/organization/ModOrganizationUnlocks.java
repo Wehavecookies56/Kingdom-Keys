@@ -22,10 +22,19 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModOrganizationUnlocks {
 
     public static IForgeRegistry<OrganizationUnlock> registry;
+
+    public static OrganizationUnlock getUnlock(ResourceLocation location) {
+        if (registry.containsKey(location)) {
+            return registry.getValue(location);
+        } else {
+            System.out.println("NOT REGISTERED");
+        }
+        return null;
+    }
 
     @SubscribeEvent
     public static void registerRegistry(RegistryEvent.NewRegistry event) {
@@ -45,7 +54,10 @@ public class ModOrganizationUnlocks {
             });
 
         }
-        event.getRegistry().registerAll((OrganizationUnlock) unlocks);
+        unlocks.forEach(unlock -> {
+            event.getRegistry().register(unlock);
+            System.out.println(unlock.getRegistryName());
+        });
     }
 
     public static OrganizationWeaponUnlock createWeaponUnlock(OrgWeaponItem weapon, int cost) {

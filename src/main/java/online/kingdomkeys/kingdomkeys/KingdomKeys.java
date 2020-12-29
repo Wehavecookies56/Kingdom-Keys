@@ -144,7 +144,6 @@ public class KingdomKeys {
 		// Run setup on proxies
 		proxy.setup(event);
 		ModCapabilities.register();
-		Lists.init();
 		ModBiomes.init();
 		//ModDimensions.init();
 		DeferredWorkQueue.runLater(() -> {
