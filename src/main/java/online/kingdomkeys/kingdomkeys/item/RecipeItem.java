@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -44,7 +45,6 @@ public class RecipeItem extends Item implements IItemCategory {
 					String[] recipes = { stack.getTag().getString("recipe1"), stack.getTag().getString("recipe2"), stack.getTag().getString("recipe3") };
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					// /give Abelatox kingdomkeys:recipe{recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:diamond"} 1
-					RecipeRegistry.getInstance().getValues().forEach(r -> System.out.println(r.getType()));
 
 					boolean consume = false;
 					for (String recipe : recipes) {
@@ -67,16 +67,14 @@ public class RecipeItem extends Item implements IItemCategory {
 						}
 					}
 
-					for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
-						ResourceLocation thing = playerData.getKnownRecipeList().get(i);
-						System.out.println(i + " " + thing.toString());
-					}
-
 					if (consume) {
 						player.getHeldItemMainhand().shrink(1);
 					} else {
-						shuffleRecipes(player.getHeldItemMainhand(), player);
+						shuffleRecipes(stack, player);
 					}
+				} else {
+					player.sendStatusMessage(new TranslationTextComponent("Opened recipe"), true);
+					shuffleRecipes(stack, (PlayerEntity) player);
 				}
 			}
 		}
@@ -85,48 +83,55 @@ public class RecipeItem extends Item implements IItemCategory {
 
 	public void shuffleRecipes(ItemStack stack, PlayerEntity player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		long seed = System.nanoTime();
-		// Shuffles the list of recipe to increase randomness
-		Collections.shuffle(Lists.keybladeRecipes, new Random(seed));
 
-		ResourceLocation recipe1, recipe2, recipe3;
-
-		recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
-		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 2) {
-			while (playerData.hasKnownRecipe(recipe1)) {
-				recipe1 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
+		ResourceLocation recipe1=null, recipe2=null, recipe3=null;
+		
+		List<ResourceLocation> list = new ArrayList<ResourceLocation>();
+		for(Recipe r : RecipeRegistry.getInstance().getValues()) {
+			if(!playerData.hasKnownRecipe(r.getRegistryName())) {
+				if(r.getType().equals("keyblade")) {
+					list.add(r.getRegistryName());
+				}
 			}
 		}
+		
+		//System.out.println(list.size());
+		//System.out.println(list);
 
-		recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
-		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size() - 1) {
-			while (recipe2.equals(recipe1) || playerData.hasKnownRecipe(recipe2)) {
-				recipe2 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
-			}
+		if(list.size() == 0)
+			return;
+		
+		if(list.size() > 0) {
+			recipe1 = list.get(Utils.randomWithRange(0, list.size() - 1));
 		}
+		
+		if(list.size() > 1) {
+			do {
+				recipe2 = list.get(Utils.randomWithRange(0, list.size() - 1));
+			} while(recipe2 == recipe1);
+		}
+		
+		if(list.size() > 2) {
+			do {
+				recipe3 = list.get(Utils.randomWithRange(0, list.size() - 1));
+			} while(recipe3 == recipe1 || recipe3 == recipe2);
 
-		recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
-		if (playerData.getKnownRecipeList().size() < Lists.keybladeRecipes.size()) {
-			while ((recipe3.equals(recipe2) || recipe3.equals(recipe1)) || playerData.hasKnownRecipe(recipe3)) {
-				recipe3 = Lists.keybladeRecipes.get(Utils.randomWithRange(0, Lists.keybladeRecipes.size() - 1));
-			}
 		}
 
 		stack.setTag(new CompoundNBT());
-		stack.getTag().putString("recipe1", recipe1.toString());
-		stack.getTag().putString("recipe2", recipe2.toString());
-		stack.getTag().putString("recipe3", recipe3.toString());
-
-		// if(!player.world.isRemote)
-		// System.out.println("Took "+(System.nanoTime()/1000000F - seed/1000000F)+"ms
-		// to shuffle");
+		if(recipe1 != null)
+			stack.getTag().putString("recipe1", recipe1.toString());
+		if(recipe2 != null)
+			stack.getTag().putString("recipe2", recipe2.toString());
+		if(recipe3 != null)
+			stack.getTag().putString("recipe3", recipe3.toString());
 	}
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (!stack.hasTag()) {
+		/*if (!stack.hasTag()) {
 			shuffleRecipes(stack, (PlayerEntity) entityIn);
-		}
+		}*/
 		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
