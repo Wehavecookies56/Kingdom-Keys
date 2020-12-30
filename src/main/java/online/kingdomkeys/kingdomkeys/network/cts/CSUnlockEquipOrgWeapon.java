@@ -60,6 +60,7 @@ public class CSUnlockEquipOrgWeapon {
             } else {
                 if (playerData.isWeaponUnlocked(message.weapon.getItem())) {
                     playerData.equipWeapon(message.weapon);
+
                 }
             }
         });

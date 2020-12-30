@@ -84,7 +84,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		float middleHeight = (float) height * 0.6F;
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 
-		int buttonPosX = 130;
+		int buttonPosX = (int) boxPosX + 10;
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = 100;
 		int i = 0;

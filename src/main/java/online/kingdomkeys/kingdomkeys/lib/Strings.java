@@ -310,6 +310,7 @@ public class Strings {
             Gui_Menu_Main_Button_Config = Gui_Menu_Main_Button + ".config",
             
             Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
+            Gui_Menu_Main_Hearts = Gui_Menu_Main + ".hearts",
             Gui_Menu_Main_Time = Gui_Menu_Main + ".time",
             Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",
             

@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
@@ -300,26 +301,28 @@ public class InputHandler {
 
             case CommandMenuGui.DRIVE: //Accessing DRIVE submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                	if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {//DRIVE
-                        //System.out.println("drive submenu");
-                        if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
-                        	
-                        } else { //If is in a drive form other than antiform
-                        	if(!driveFormsMap.isEmpty()) {
-                                CommandMenuGui.driveSelected = 0;
-                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
-                                mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                                return;
-                        	}
-                        }
-                	} else {//REVERT
-                		//System.out.println("REVERT");
-                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
-                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                		} else {
-		                	PacketHandler.sendToServer(new CSSetDriveFormPacket(DriveForm.NONE.toString()));
-		            		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                		}
+                	if(playerData.getAlignment() == OrgMember.NONE) {
+	                	if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {//DRIVE
+	                        //System.out.println("drive submenu");
+	                        if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
+	                        	
+	                        } else { //If is in a drive form other than antiform
+	                        	if(!driveFormsMap.isEmpty()) {
+	                                CommandMenuGui.driveSelected = 0;
+	                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
+	                                mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                                return;
+	                        	}
+	                        }
+	                	} else {//REVERT
+	                		//System.out.println("REVERT");
+	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+	                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                		} else {
+			                	PacketHandler.sendToServer(new CSSetDriveFormPacket(DriveForm.NONE.toString()));
+			            		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                		}
+	                	}
                 	}
 
                    /* if (player.getCapability(ModCapabilities.ORGANIZATION_XIII, null).getMember() != Utils.OrgMember.NONE) {
@@ -438,8 +441,7 @@ public class InputHandler {
         
         //Drive Submenu
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
-            if (this.driveFormsMap.isEmpty()) {
-            } else {
+            if (!this.driveFormsMap.isEmpty() && playerData.getAlignment() == OrgMember.NONE) {
             	String formName = (String) driveFormsMap.keySet().toArray()[CommandMenuGui.driveSelected];
             	DriveForm driveForm = ModDriveForms.registry.getValue(new ResourceLocation(formName));
             	if (playerData.getDP() >= driveForm.getDriveCost()) {
