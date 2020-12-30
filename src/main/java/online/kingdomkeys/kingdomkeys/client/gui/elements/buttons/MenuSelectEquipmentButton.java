@@ -42,7 +42,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				if (slot != -1) {
 					PlayerEntity player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if(Utils.findSummoned(player.inventory, playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
+					if(Utils.findSummoned(player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true));
 					PacketHandler.sendToServer(new CSEquipKeychain(parent.form, slot));
 					ItemStack stackToEquip = player.inventory.getStackInSlot(slot);

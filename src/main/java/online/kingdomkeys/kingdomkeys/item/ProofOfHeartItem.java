@@ -36,7 +36,7 @@ public class ProofOfHeartItem extends Item {
         	if(Utils.isWearingOrgRobes(playerIn)) {
         		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.unequip"), true);
         	} else {
-				if(Utils.findSummoned(playerIn.inventory, playerData.getEquippedWeapon()) > -1)
+				if(Utils.findSummoned(playerIn.inventory, playerData.getEquippedWeapon(), true) > -1)
 					PacketHandler.sendToServer(new CSSummonKeyblade(true));
         		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.leftorg"), true);
         		

@@ -190,7 +190,7 @@ public class EntityEvents {
 					boolean wearingOrgCloak = Utils.isWearingOrgRobes(event.player);
 					
 					if (wearingOrgCloak) {
-						if(Utils.findSummoned(event.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
+						if(Utils.findSummoned(event.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
 							PacketHandler.sendToServer(new CSSummonKeyblade(true));
 						PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
 					}

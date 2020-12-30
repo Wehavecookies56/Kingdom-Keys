@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -86,7 +87,7 @@ public class CSSummonKeyblade {
 
 			ItemStack orgWeapon = null;
 			if (playerData.getAlignment() != Utils.OrgMember.NONE) {
-				orgWeapon = playerData.getEquippedWeapon();
+				orgWeapon = playerData.getEquippedWeapon().copy();
 			}
 
 			ItemStack heldStack = player.getHeldItemMainhand();
@@ -104,12 +105,12 @@ public class CSSummonKeyblade {
 				}
 			}
 			//TODO dual wield org weapons
-			int slotSummoned = Utils.findSummoned(player.inventory, chain);
+			int slotSummoned = Utils.findSummoned(player.inventory, chain, false);
 			int extraSlotSummoned = -1;
 			if (extraChain != null)
-				extraSlotSummoned = Utils.findSummoned(player.inventory, extraChain);
+				extraSlotSummoned = Utils.findSummoned(player.inventory, extraChain, false);
 			if (orgWeapon != null) {
-				slotSummoned = Utils.findSummoned(player.inventory, orgWeapon);
+				slotSummoned = Utils.findSummoned(player.inventory, orgWeapon, true);
 			}
 			ItemStack summonedStack = slotSummoned > -1 ? player.inventory.getStackInSlot(slotSummoned) : ItemStack.EMPTY;
 			ItemStack summonedExtraStack = extraSlotSummoned > -1 ? player.inventory.getStackInSlot(extraSlotSummoned) : ItemStack.EMPTY;
@@ -152,16 +153,16 @@ public class CSSummonKeyblade {
 					}
 				}
 			}
-			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && heldStack.getItem() instanceof OrgWeaponItem)))) {
+			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem))))) {
 				//DESUMMON
-				if (heldStack.getItem() instanceof KeybladeItem) {
+				if (heldStack.getItem() instanceof KeybladeItem && orgWeapon == null) {
 					if (heldStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
 						chain.setTag(heldStack.getTag());
 						playerData.equipKeychain(DriveForm.NONE, chain);
 						player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
 						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					}
-				} else if (heldStack.getItem() instanceof OrgWeaponItem) {
+				} else if (heldStack.getItem() instanceof OrgWeaponItem || heldStack.getItem() instanceof KeybladeItem) {
 					player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
 					player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				}
@@ -211,8 +212,9 @@ public class CSSummonKeyblade {
 			if (!openContainer.equals(playerContainer)) {
 				openContainer.inventorySlots.forEach(slot -> {
 					ItemStack stack = slot.getStack();
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (slot.inventory != player.inventory) {
-						if ((Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) || stack.getItem() instanceof OrgWeaponItem) {
+						if ((Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
 							slot.putStack(ItemStack.EMPTY);
 							openContainer.detectAndSendChanges();
 							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -226,8 +228,9 @@ public class CSSummonKeyblade {
 		public static void dropItem(ItemTossEvent event) {
 			ItemStack droppedItem = event.getEntityItem().getItem();
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
-			if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem) || droppedItem.getItem() instanceof OrgWeaponItem) {
-				PlayerEntity player = event.getPlayer();
+			PlayerEntity player = event.getPlayer();
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem) || ((droppedItem.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem())))) {
 				player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				event.setCanceled(true);
 			}
