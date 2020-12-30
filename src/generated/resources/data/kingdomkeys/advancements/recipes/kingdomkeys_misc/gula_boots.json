@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:gula_boots"
+    ]
+  },
+  "criteria": {
+    "ava_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:ava_boots"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:gula_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ava_boots",
+      "has_the_recipe"
+    ]
+  ]
+}

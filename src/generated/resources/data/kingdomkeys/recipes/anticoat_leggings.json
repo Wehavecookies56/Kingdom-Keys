@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "LPL",
+    "EAE",
+    "L L"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "A": {
+      "item": "kingdomkeys:organization_leggings"
+    },
+    "P": {
+      "item": "minecraft:purple_dye"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:anticoat_leggings"
+  }
+}

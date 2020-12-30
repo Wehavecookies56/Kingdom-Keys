@@ -46,7 +46,7 @@ public class MenuItemsScreen extends MenuBackground {
         if (playerData.getAlignment() == Utils.OrgMember.NONE) {
             Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
         } else {
-            Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen());
+            Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen(playerData.getAlignment()));
         }
     }
 

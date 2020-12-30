@@ -6,7 +6,7 @@
     ]
   },
   "criteria": {
-    "leather": {
+    "stick": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "leather",
+      "stick",
       "has_the_recipe"
     ]
   ]

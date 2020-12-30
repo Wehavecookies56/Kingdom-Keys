@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "EPE",
+    "LAL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "A": {
+      "item": "kingdomkeys:organization_boots"
+    },
+    "P": {
+      "item": "minecraft:purple_dye"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:anticoat_boots"
+  }
+}

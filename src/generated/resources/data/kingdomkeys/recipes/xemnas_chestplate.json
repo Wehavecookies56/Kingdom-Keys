@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "LAL",
+    "EWE",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "A": {
+      "item": "kingdomkeys:organization_chestplate"
+    },
+    "W": {
+      "item": "minecraft:white_dye"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:xemnas_chestplate"
+  }
+}

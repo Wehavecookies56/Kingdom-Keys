@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:ava_helmet"
+    ]
+  },
+  "criteria": {
+    "aced_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:aced_helmet"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:ava_helmet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "aced_helmet",
+      "has_the_recipe"
+    ]
+  ]
+}

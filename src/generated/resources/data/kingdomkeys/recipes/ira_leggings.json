@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:invi_leggings"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:ira_leggings"
+  }
+}

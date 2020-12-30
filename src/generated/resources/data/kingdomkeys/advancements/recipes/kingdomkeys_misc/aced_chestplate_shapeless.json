@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:aced_chestplate_shapeless"
+    ]
+  },
+  "criteria": {
+    "ira_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:ira_chestplate"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:aced_chestplate_shapeless"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ira_chestplate",
+      "has_the_recipe"
+    ]
+  ]
+}

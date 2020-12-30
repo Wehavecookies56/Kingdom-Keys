@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:station_of_awakening_core"
+    ]
+  },
+  "criteria": {
+    "mosaic_stained_glass": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:mosaic_stained_glass"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:station_of_awakening_core"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mosaic_stained_glass",
+      "has_the_recipe"
+    ]
+  ]
+}
