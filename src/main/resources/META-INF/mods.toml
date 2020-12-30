@@ -8,7 +8,7 @@ modLoader="javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
 loaderVersion="[31,)" #mandatory (24 is current forge version)
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues" #optional
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
@@ -18,22 +18,16 @@ version="${file.jarVersion}" #mandatory
  # A display name for the mod
 displayName="Kingdom Keys" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
-updateJSONURL="http://myurl.me/" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="http://example.com/" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/kingdom-keys-re-coded" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="kklogo.png" #optional
 # A text field displayed in the mod UI
-credits="Thanks for everyone who has played the previous versions of the mod and helped us" #optional
+credits="Remorse Code, Collecter, EthanGold, Sr.Gato and Lewis Weekes for supporting the mod on Patreon! Square Enix for Kingdom Hearts" #optional
 # A text field displayed in the mod UI
 authors="Wehavecookies56, Abelatox, Wynd, stel1034" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-This is a long form description of the mod. You can write whatever you want here
-
-Have some lorem ipsum.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis lacinia magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed sagittis luctus odio eu tempus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque volutpat ligula eget lacus auctor sagittis. In hac habitasse platea dictumst. Nunc gravida elit vitae sem vehicula efficitur. Donec mattis ipsum et arcu lobortis, eleifend sagittis sem rutrum. Cras pharetra quam eget posuere fermentum. Sed id tincidunt justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+A mod inspired by Kingdom Hearts adding various elements from the games.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.kingdomkeys]] #optional

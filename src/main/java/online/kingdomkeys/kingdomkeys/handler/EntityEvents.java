@@ -134,6 +134,8 @@ public class EntityEvents {
 		}
 	}
 
+	boolean openedAlignment = false;
+
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
 		if(ticks >= Integer.MAX_VALUE) {
@@ -192,7 +194,11 @@ public class EntityEvents {
 					if (wearingOrgCloak) {
 						if(Utils.findSummoned(event.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
 							PacketHandler.sendToServer(new CSSummonKeyblade(true));
-						PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
+						if (!openedAlignment)
+							PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
+						openedAlignment = true;
+					} else {
+						openedAlignment = false;
 					}
 				}
 			}

@@ -11,7 +11,8 @@ public class CommonConfig {
 
     public static ForgeConfigSpec.IntValue heartlessSpawningMode;
     public static ForgeConfigSpec.BooleanValue oreGen;
-    
+    public static ForgeConfigSpec.BooleanValue debugConsoleOutput;
+
     CommonConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
         
@@ -24,7 +25,12 @@ public class CommonConfig {
         		.comment("Allow Synthesis Materials ores to generate")
                 .translation(KingdomKeys.MODID + ".config.ore_gen")
                 .define("oreGen", true);
-        
+
+        debugConsoleOutput = builder
+                .comment("Enable debug console output")
+                .translation(KingdomKeys.MODID + ".config.debug")
+                .define("debugConsoleOutput", false);
+
         //Moogle spawning
         
         builder.pop();
