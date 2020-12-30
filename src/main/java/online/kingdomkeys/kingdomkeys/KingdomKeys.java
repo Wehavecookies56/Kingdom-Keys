@@ -43,11 +43,13 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.command.KKDriveLevelCommand;
+import online.kingdomkeys.kingdomkeys.command.KKDrivePointsCommand;
 import online.kingdomkeys.kingdomkeys.command.KKExpCommand;
+import online.kingdomkeys.kingdomkeys.command.KKHeartsCommand;
 import online.kingdomkeys.kingdomkeys.command.KKLevelCommand;
 import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
 import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
-import online.kingdomkeys.kingdomkeys.command.MunnyCommand;
+import online.kingdomkeys.kingdomkeys.command.KKMunnyCommand;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
@@ -206,7 +208,7 @@ public class KingdomKeys {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return t; }
 		});
-		JigsawJank.create().append(new ResourceLocation("minecraft",  "village/snowy/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
+		JigsawJank.create().append(new ResourceLocation("minecraft", "village/snowy/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return s; }
 		});
@@ -222,13 +224,15 @@ public class KingdomKeys {
 	public void serverStarting(FMLServerStartingEvent event) {
 		CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
 
-		MunnyCommand.register(dispatcher);
+		KKMunnyCommand.register(dispatcher);
 		KKRecipeCommand.register(dispatcher);
 		KKMaterialCommand.register(dispatcher);
 		KKLevelCommand.register(dispatcher);
 		KKDriveLevelCommand.register(dispatcher);
 		KKExpCommand.register(dispatcher);
 		DimensionCommand.register(dispatcher);
+		KKHeartsCommand.register(dispatcher);
+		KKDrivePointsCommand.register(dispatcher);
 	}
 
 

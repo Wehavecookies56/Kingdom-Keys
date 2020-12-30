@@ -11,11 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class MenuBackground extends Screen {
 
@@ -187,8 +189,10 @@ public class MenuBackground extends Screen {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scaled(1.1, 1.1, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT, 0xFFFFFF);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + ModCapabilities.getPlayer(minecraft.player).getMunny(), 5, (int) (topBarHeight + middleHeight), 0xF66627);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, (int) (topBarHeight + middleHeight) - 7, 0xF66627);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + playerData.getHearts(), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT - 7, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT * 2 - 7, 0xFFFFFF);
 			long seconds = minecraft.world.getWorld().getDayTime() / 20;
 			long h = seconds / 3600;
 			long m = seconds % 3600 / 60;
@@ -198,7 +202,7 @@ public class MenuBackground extends Screen {
 			String min = m < 10 ? 0 + "" + m : m + "";
 			String hou = h < 10 ? 0 + "" + h : h + "";
 			String time = hou + ":" + min + ":" + sec;
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x42ceff);
+			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.fontRenderer.FONT_HEIGHT * 3) - 7, 0x42ceff);
 		}
 		RenderSystem.popMatrix();
 	}

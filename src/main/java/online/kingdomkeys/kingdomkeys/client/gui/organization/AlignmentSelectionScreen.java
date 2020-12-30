@@ -57,6 +57,7 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
+    	//System.out.println(showWelcome);
         renderBackground();
         String line1 = "gui.org.line1";
         String line2 = "gui.org.line2";
@@ -150,7 +151,7 @@ public class AlignmentSelectionScreen extends Screen {
                     weapon_h = 68;
                     break;
             }
-            renderBackground();
+
             if (confirmChoice) {
                 drawCenteredString(font, new TranslationTextComponent("gui.org.line4", name).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
                 drawCenteredString(font, new TranslationTextComponent("gui.org.line5").getFormattedText(), (width / 2), height / 2, 0xFFFFFF);
