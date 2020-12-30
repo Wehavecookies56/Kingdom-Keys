@@ -31,6 +31,7 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	int maxLevel;
 	int order;
 	float[] color;
+	ResourceLocation skinRL;
 	
 	String translationKey;
 
@@ -77,6 +78,10 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	
 	public final float[] getDriveColor() {
 		return color;
+	}
+	
+	public ResourceLocation getTextureLocation() {
+		return skinRL;
 	}
 
 	public abstract String getBaseAbilityForLevel(int driveFormLevel);

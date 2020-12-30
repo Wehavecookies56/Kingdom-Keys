@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,12 +18,13 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormWisdom extends DriveForm {
 
-	public DriveFormWisdom(String registryName, int order, boolean hasKeychain) {
+	public DriveFormWisdom(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
 		super(registryName, order, hasKeychain);
 		this.driveCost = 300;
 		this.ap = 1;
 		this.levelUpCosts = new int[] { 0, 20, 80, 152, 242, 350, 500 };
 		this.color = new float[] { 0F, 0F, 1F };
+		this.skinRL = skinRL;
 	}
 
 	@Override

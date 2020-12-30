@@ -433,7 +433,7 @@ public class CommandMenuGui extends Screen {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
 				String text = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())?".drive":".revert";
-				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() > 0 ? 0x888888 : 0xFFFFFF;
+				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : 0xFFFFFF;
 				drawString(minecraft.fontRenderer, Utils.translateToLocal("gui.commandmenu"+text), 6 + textX, 4, getColor(color,SUB_MAIN));
 			}
 		}

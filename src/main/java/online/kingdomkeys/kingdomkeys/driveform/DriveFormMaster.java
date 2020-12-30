@@ -1,15 +1,17 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class DriveFormMaster extends DriveForm {
 
-	public DriveFormMaster(String registryName, int order, boolean hasKeychain) {
+	public DriveFormMaster(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
 		super(registryName, order, hasKeychain);
 		this.driveCost = 400;
 		this.ap = 1;
 		this.levelUpCosts = new int[] {0, 60, 240, 456, 726, 1050, 1500};
 		this.color = new float[] { 1F, 0.7F, 0.1F };
+		this.skinRL = skinRL;
 	}
 	
 	@Override

@@ -30,11 +30,11 @@ public class ModDriveForms {
 			int order = 0;
 			event.getRegistry().registerAll(
 				new DriveFormNone(DriveForm.NONE.toString(), order++, true),
-				new DriveFormValor(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor",order++, true),
-				new DriveFormWisdom(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom",order++, false),
-				new DriveFormLimit(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit",order++, false),
-				new DriveFormMaster(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master",order++, true),
-				new DriveFormFinal(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final",order++, true)
+				new DriveFormValor(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/valor.png"), true),
+				new DriveFormWisdom(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/wisdom.png"), false),
+				new DriveFormLimit(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/limit.png"), false),
+				new DriveFormMaster(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/master.png"), true),
+				new DriveFormFinal(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/final.png"), true)
 			);
 		}
 	}
