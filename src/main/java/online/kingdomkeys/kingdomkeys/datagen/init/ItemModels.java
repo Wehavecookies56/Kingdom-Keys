@@ -221,6 +221,7 @@ public class ItemModels extends ItemModelProvider {
 		standardKeychain(Strings.rejectionOfFateChain);
 		standardKeychain(Strings.royalRadianceChain);
 		standardKeychain(Strings.rumblingRoseChain);
+		standardKeychain(Strings.shootingStarChain);
 		standardKeychain(Strings.signOfInnocenceChain);
 		standardKeychain(Strings.silentDirgeChain);
 		standardKeychain(Strings.skullNoiseChain);

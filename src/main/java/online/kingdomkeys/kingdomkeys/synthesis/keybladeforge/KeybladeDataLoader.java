@@ -33,7 +33,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 public class KeybladeDataLoader extends JsonReloadListener {
 
     //GSON builder with custom deserializer for keyblade data
-    public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(KeybladeData.class, new KeybladeDataDeserializer()).setPrettyPrinting().create();
+    public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(KeybladeData.class, new KeybladeDataDeserializer()).create();
     /**
      * Method searches the keyblades folder in the datapack for all json files inside it.
      * Loaded data is assigned to the keyblade with the same name as the json file

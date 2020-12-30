@@ -96,7 +96,6 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
                                             level.setMaterials(recipe);
                                         });
                                         break;
-                                    //Optional value currently just a string that does nothing //TODO abilities, use string as ability ResourceLocation, maybe support multiple
                                     case "ability":
                                         level.setAbility(levelElement.getAsString());
                                         break;
@@ -113,7 +112,6 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
                     break;
             }
         });
-      //  KingdomKeys.LOGGER.info("KEYCHAIN: {}, LEVELS: {}, DESCRIPTION: {}", out.keychain, out.levels, out.description);
         return out;
     }
 }

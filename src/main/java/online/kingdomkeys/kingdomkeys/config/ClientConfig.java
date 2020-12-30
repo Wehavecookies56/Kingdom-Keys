@@ -10,7 +10,6 @@ public class ClientConfig {
 
    // public static boolean CORSAIR_KEYBOARD_LIGHTING;
     public static ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
-
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
         corsairKeyboardLighting = builder

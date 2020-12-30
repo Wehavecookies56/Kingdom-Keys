@@ -38,7 +38,6 @@ public class ShadowGoal extends TargetGoal {
 				canUseNextAttack = false;
 				shadowTicks++;
 				if (shadowTicks >= TIME_OUTSIDE_THE_SHADOW) {
-					System.out.println("chnage to visible");
 					EntityHelper.setState(this.goalOwner, 0);
 					this.goalOwner.setInvulnerable(false);
 				//	this.goalOwner.setInvisible(false);
