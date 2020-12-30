@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
+import java.util.List;
+
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -11,13 +14,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.List;
 
 public class WeaponUnlockScreen extends Screen {
 
@@ -111,12 +114,12 @@ public class WeaponUnlockScreen extends Screen {
                     int cost = (int) (startCost + ((0.1 * startCost) * current));
                     playerData.removeHearts(cost);
                     PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon, cost));
-                    //Take hearts
-                    //Send packet
                 } else {
                     playerData.equipWeapon(weapon);
-                    PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon));
-                    //Send packet
+					if(Utils.findSummoned(Minecraft.getInstance().player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
+						PacketHandler.sendToServer(new CSSummonKeyblade(true));
+                    
+					PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon));
                 }
                 break;
         }
