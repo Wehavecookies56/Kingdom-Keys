@@ -13,12 +13,12 @@
       "mag": 9,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_shard",
-          "quantity": 2
-        },
-        {
           "material": "kingdomkeys:mat_fluorite",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 2
         }
       ]
     },
@@ -27,12 +27,12 @@
       "mag": 9,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_shard",
-          "quantity": 3
-        },
-        {
           "material": "kingdomkeys:mat_fluorite",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 3
         }
       ]
     },
@@ -41,12 +41,12 @@
       "mag": 10,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_shard",
-          "quantity": 4
-        },
-        {
           "material": "kingdomkeys:mat_fluorite",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 4
         }
       ]
     },
@@ -159,15 +159,15 @@
       "mag": 13,
       "recipe": [
         {
+          "material": "kingdomkeys:mat_wellspring_crystal",
+          "quantity": 1
+        },
+        {
           "material": "kingdomkeys:mat_writhing_crystal",
           "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_electrum",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 1
         }
       ]

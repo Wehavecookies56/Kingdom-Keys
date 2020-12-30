@@ -1,8 +1,9 @@
 {
 	"parent": "forge:item/default",
 	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/flameliberator.obj",
+	"model": "kingdomkeys:models/item/keyblade/bondoftheblaze.obj",
 	"flip-v" : true,
+	"detectCullableFaces":false,
 	"textures": {
 
 	},

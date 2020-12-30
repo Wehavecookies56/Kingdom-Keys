@@ -924,7 +924,7 @@ public class KeybladeStats extends KeybladeProvider {
                     .addMaterial(Strings.SM_WrithingCrystal, 1)).build())
             .desc("A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.");
 
-		getBuilder(Strings.flameLiberator).keychain(Strings.flameLiberatorChain).baseStats(8,6)
+		getBuilder(Strings.bondOftheBlaze).keychain(Strings.bondOfTheBlazeChain).baseStats(8,6)
             .abilities(Strings.fireBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())

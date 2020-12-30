@@ -165,7 +165,7 @@ public class ItemModels extends ItemModelProvider {
 		standardKeychain(Strings.fatalCrestChain);
 		standardKeychain(Strings.fenrirChain);
 		standardKeychain(Strings.ferrisGearChain);
-		standardKeychain(Strings.flameLiberatorChain);
+		standardKeychain(Strings.bondOfTheBlazeChain);
 		standardKeychain(Strings.followTheWindChain);
 		standardKeychain(Strings.frolicFlameChain);
 		standardKeychain(Strings.glimpseOfDarknessChain);

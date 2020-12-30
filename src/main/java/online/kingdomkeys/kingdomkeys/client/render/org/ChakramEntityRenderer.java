@@ -45,11 +45,12 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentBlockType());
 			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
 
-			float scale = 0.05F; // (1.0f + poweringState) + (0.6f + poweringState) * progress0;
+			float scale = 0.03F; // (1.0f + poweringState) + (0.6f + poweringState) * progress0;
 
 			matrixStackIn.push();
 			{
 				matrixStackIn.scale(scale, scale, scale);
+				matrixStackIn.translate(0, 10, 0);
 
 				float a = 1;// MathHelper.clamp(1 - progress1, 0, 1);
 				float rgb = 1;// MathHelper.clamp(progress1, 0, 1);

@@ -68,7 +68,7 @@ public class ChakramEntity extends ThrowableEntity{
 			this.remove();
 		}
 		
-		if(ticksExisted > maxTicks / 2) {
+		if(ticksExisted > maxTicks / 3) {
 			setReturn();
 		}
 
@@ -94,7 +94,7 @@ public class ChakramEntity extends ThrowableEntity{
 	public void setReturn() {
 		returning = true;
 		if(owner != null)
-		shoot(this.getThrower().getPosX() - this.getPosX(), this.getThrower().getPosY() - this.getPosY() + 1.25, this.getThrower().getPosZ() - this.getPosZ(), 2f, 0);
+			shoot(this.getThrower().getPosX() - this.getPosX(), this.getThrower().getPosY() - this.getPosY() + 1.25, this.getThrower().getPosZ() - this.getPosZ(), 2f, 0);
 	}
 	
 	@Override
@@ -119,8 +119,15 @@ public class ChakramEntity extends ThrowableEntity{
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
 					setReturn();
 				}
-			} else { // Block (not ERTR)				
-				setReturn();
+			} else { // Block (not ERTR)
+				if(brtResult != null) {
+					System.out.println(world.getBlockState(brtResult.getPos()).getBlockState());
+					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
+					System.out.println("goin through");	
+					} else {
+						setReturn();	
+					}
+				}
 			}
 		}
 
