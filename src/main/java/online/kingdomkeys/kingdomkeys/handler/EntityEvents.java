@@ -60,6 +60,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -186,21 +187,11 @@ public class EntityEvents {
 
 			if (playerData.getAlignment() == Utils.OrgMember.NONE) {
 				if (!event.player.world.isRemote) {
-					boolean wearingOrgCloak = true;
-					int i;
-					for (i = 0; i < event.player.inventory.armorInventory.size(); ++i) {
-						if (event.player.inventory.armorInventory.get(i).isEmpty()) {
-							wearingOrgCloak = false;
-						}
-					}
+					boolean wearingOrgCloak = Utils.isWearingOrgRobes(event.player);
+					
 					if (wearingOrgCloak) {
-						for (i = 0; i < event.player.inventory.armorInventory.size(); ++i) {
-							if (!event.player.inventory.armorInventory.get(i).getItem().getRegistryName().getPath().startsWith("organization_")) {
-								wearingOrgCloak = false;
-							}
-						}
-					}
-					if (wearingOrgCloak) {
+						if(Utils.findSummoned(event.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
+							PacketHandler.sendToServer(new CSSummonKeyblade(true));
 						PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
 					}
 				}

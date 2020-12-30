@@ -417,6 +417,24 @@ public class Utils {
 		}
 		return val;
 	}
+	
+	public static boolean isWearingOrgRobes(PlayerEntity player) {
+		boolean wearingOrgCloak = true;
+		int i;
+		for (i = 0; i < player.inventory.armorInventory.size(); ++i) {
+			if (player.inventory.armorInventory.get(i).isEmpty()) {
+				wearingOrgCloak = false;
+			}
+		}
+		if (wearingOrgCloak) {
+			for (i = 0; i < player.inventory.armorInventory.size(); ++i) {
+				if (!player.inventory.armorInventory.get(i).getItem().getRegistryName().getPath().startsWith("organization_")) {
+					wearingOrgCloak = false;
+				}
+			}
+		}
+		return wearingOrgCloak;
+	}
 
 	public static int getBagCosts(int bagLevel) {
 		switch(bagLevel) {
