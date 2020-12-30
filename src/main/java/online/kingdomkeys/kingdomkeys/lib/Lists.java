@@ -18,7 +18,7 @@ public class Lists {
 
     public static List<ResourceLocation> keybladeRecipes = new ArrayList<>();
     public static List<ResourceLocation> itemRecipes = new ArrayList<>();
-    public static List<ResourceLocation> allRecipes = new ArrayList<>();
+    //public static List<ResourceLocation> allRecipes = new ArrayList<>();
 
     public static List<Item> Xemnas = new ArrayList<>();
     public static List<Item> Xigbar = new ArrayList<>();

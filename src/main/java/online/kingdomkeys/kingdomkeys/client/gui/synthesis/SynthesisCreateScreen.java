@@ -222,7 +222,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		{
 			double offset = (boxM.getWidth()*0.1F);
 			RenderSystem.translated(boxM.x + offset/2, iconPosY, 1);
-			RenderSystem.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 1);
+			//RenderSystem.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 1);
+			RenderSystem.scaled(boxM.getWidth() / 20 - offset / 20, boxM.getWidth()/20 - offset / 20, 1);
 			itemRenderer.renderItemIntoGUI(selected, 0, 0);
 		}
 		RenderSystem.popMatrix();
