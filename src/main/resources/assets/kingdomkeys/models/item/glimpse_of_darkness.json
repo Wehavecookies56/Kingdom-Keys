@@ -2,7 +2,6 @@
 	"parent": "forge:item/default",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/item/keyblade/glimpseofdarkness.obj",
-	"flip-v" : true,
 	"textures": {
 
 	},
