@@ -5,6 +5,7 @@ import java.util.*;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -12,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
@@ -25,9 +27,6 @@ import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.organization.ModOrganizationUnlocks;
-import online.kingdomkeys.kingdomkeys.organization.OrganizationUnlock;
-import online.kingdomkeys.kingdomkeys.organization.OrganizationWeaponUnlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
@@ -65,9 +64,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 	private int hearts = 0;
-	private Set<OrganizationWeaponUnlock> weaponUnlocks = new HashSet<>();
+	private Set<ItemStack> weaponUnlocks = new HashSet<>();
 	//Change this back to null when unlock system done
-	private OrganizationWeaponUnlock equippedWeapon = (OrganizationWeaponUnlock) ModOrganizationUnlocks.getUnlock(new ResourceLocation(KingdomKeys.MODID,"eternal_flames"));
+	private ItemStack equippedWeapon = ItemStack.EMPTY;
 
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 
@@ -696,21 +695,25 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public boolean isWeaponUnlocked(OrganizationWeaponUnlock unlock) {
-		return weaponUnlocks.contains(unlock);
+	public boolean isWeaponUnlocked(Item weapon) {
+		for (ItemStack stack : weaponUnlocks) {
+			if (stack.getItem() == weapon.getItem()) return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void unlockWeapon(OrganizationWeaponUnlock unlock) {
-		if (!weaponUnlocks.contains(unlock)) {
-			this.weaponUnlocks.add(unlock);
+	public void unlockWeapon(ItemStack weapon) {
+		if (!weaponUnlocks.contains(weapon)) {
+			this.weaponUnlocks.add(weapon);
 		}
 	}
 
 	@Override
 	public void unlockWeapon(String registryName) {
-		OrganizationWeaponUnlock weaponUnlock = (OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(registryName));
-		if (weaponUnlock != null) {
+		Item weapon = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryName));
+		if (weapon != null) {
+			ItemStack weaponUnlock = new ItemStack(weapon);
 			if (!weaponUnlocks.contains(weaponUnlock)) {
 				this.weaponUnlocks.add(weaponUnlock);
 			}
@@ -718,31 +721,32 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public OrganizationWeaponUnlock getEquippedWeapon() {
+	public ItemStack getEquippedWeapon() {
 		return this.equippedWeapon;
 	}
 
 	@Override
-	public void equipWeapon(OrganizationWeaponUnlock unlock) {
-		this.equippedWeapon = unlock;
+	public void equipWeapon(ItemStack weapon) {
+		this.equippedWeapon = weapon;
 	}
 
 	@Override
 	public void equipWeapon(String registryName) {
-		if (registryName != null && !registryName.isEmpty()) {
-			this.equippedWeapon = (OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(registryName));
+		Item weapon = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryName));
+		if (weapon != null) {
+			this.equippedWeapon = new ItemStack(weapon);
 		} else {
 			this.equippedWeapon = null;
 		}
 	}
 
 	@Override
-	public Set<OrganizationWeaponUnlock> getWeaponsUnlocked() {
+	public Set<ItemStack> getWeaponsUnlocked() {
 		return this.weaponUnlocks;
 	}
 
 	@Override
-	public void setWeaponsUnlocked(Set<OrganizationWeaponUnlock> unlocks) {
+	public void setWeaponsUnlocked(Set<ItemStack> unlocks) {
 		this.weaponUnlocks = unlocks;
 	}
 

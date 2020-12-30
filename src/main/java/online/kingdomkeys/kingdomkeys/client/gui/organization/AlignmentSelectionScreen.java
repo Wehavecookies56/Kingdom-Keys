@@ -60,9 +60,9 @@ public class AlignmentSelectionScreen extends Screen {
     @Override
     public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
         renderBackground();
-        String line1 = "By crafting the Organization robe you are now a member of Organization XIII.";
-        String line2 = "Choose which member of Organization XIII you align with.";
-        String line3 = "Your choice will determine which weapons are available to you.";
+        String line1 = "By donning the Dark Robe you are now a member of Organization XIII.";
+        String line2 = "Choose a member of Organization XIII you align with.";
+        String line3 = "Your choice will determine the weapon you start.";
         if (showWelcome) {
             drawCenteredString(font, line1, (width / 2), height / 2 - font.FONT_HEIGHT * 3, 0xFFFFFF);
             drawCenteredString(font, line2, (width / 2), height / 2 - font.FONT_HEIGHT * 2, 0xFFFFFF);

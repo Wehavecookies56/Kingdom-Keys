@@ -86,7 +86,7 @@ public class CSSummonKeyblade {
 
 			ItemStack orgWeapon = null;
 			if (playerData.getAlignment() != Utils.OrgMember.NONE) {
-				orgWeapon = playerData.getEquippedWeapon().getWeapon();
+				orgWeapon = playerData.getEquippedWeapon();
 			}
 
 			ItemStack heldStack = player.getHeldItemMainhand();

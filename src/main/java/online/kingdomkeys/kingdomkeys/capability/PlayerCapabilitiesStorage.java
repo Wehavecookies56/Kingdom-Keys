@@ -96,11 +96,10 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
 
         storage.putInt("hearts", instance.getHearts());
         storage.putInt("org_alignment", instance.getAlignmentIndex());
-        String equipped = instance.getEquippedWeapon() != null ? instance.getEquippedWeapon().getRegistryName().toString() : "";
-        storage.putString("org_equipped_weapon", equipped);
+        storage.put("org_equipped_weapon", instance.getEquippedWeapon().serializeNBT());
 
         CompoundNBT unlockedWeapons = new CompoundNBT();
-        instance.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.putByte(weapon.getRegistryName().toString(), (byte) 0));
+        instance.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(weapon.getItem().getRegistryName().toString(), weapon.serializeNBT()));
         storage.put("org_weapons_unlocked", unlockedWeapons);
 
 
@@ -197,10 +196,9 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
 
         instance.setHearts(storage.getInt("hearts"));
         instance.setAlignment(storage.getInt("org_alignment"));
-        String equipped = storage.getString("org_equipped_weapon");
-        instance.equipWeapon(equipped.isEmpty() ? null : equipped);
+        instance.equipWeapon(ItemStack.read(storage.getCompound("org_equipped_weapon")));
         CompoundNBT unlocksCompound = storage.getCompound("org_weapons_unlocked");
-        unlocksCompound.keySet().forEach(instance::unlockWeapon);
+        unlocksCompound.keySet().forEach(key -> instance.unlockWeapon(ItemStack.read(unlocksCompound.getCompound(key))));
 
         for (byte i = 0; i < 3; i++) {
             instance.setPortalCoords(i, new PortalData(storage.getByte("Portal" + i + "N"), storage.getDouble("Portal" + i + "X"), storage.getDouble("Portal" + i + "Y"), storage.getDouble("Portal" + i + "Z"), storage.getInt("Portal" + i + "D")));

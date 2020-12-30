@@ -19,9 +19,6 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.organization.ModOrganizationUnlocks;
-import online.kingdomkeys.kingdomkeys.organization.OrganizationUnlock;
-import online.kingdomkeys.kingdomkeys.organization.OrganizationWeaponUnlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SCSyncCapabilityPacket {
@@ -59,8 +56,8 @@ public class SCSyncCapabilityPacket {
 
 	int hearts;
 	Utils.OrgMember alignment;
-	OrganizationWeaponUnlock equippedWeapon;
-	Set<OrganizationWeaponUnlock> unlocks;
+	ItemStack equippedWeapon;
+	Set<ItemStack> unlocks;
 	
 	public SCSyncCapabilityPacket() {
 	}
@@ -213,12 +210,9 @@ public class SCSyncCapabilityPacket {
 
 		buffer.writeInt(this.hearts);
 		buffer.writeInt(this.alignment.ordinal());
-		buffer.writeBoolean(this.equippedWeapon != null);
-		if (this.equippedWeapon != null) {
-			buffer.writeString(this.equippedWeapon.getRegistryName().toString());
-		}
+		buffer.writeItemStack(this.equippedWeapon);
 		buffer.writeInt(this.unlocks.size());
-		unlocks.forEach(unlock -> buffer.writeString(unlock.getRegistryName().toString()));
+		unlocks.forEach(buffer::writeItemStack);
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -320,15 +314,11 @@ public class SCSyncCapabilityPacket {
 
 		msg.hearts = buffer.readInt();
 		msg.alignment = Utils.OrgMember.values()[buffer.readInt()];
-		if (buffer.readBoolean()) {
-			msg.equippedWeapon = (OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(buffer.readString(100)));
-		} else {
-			msg.equippedWeapon = null;
-		}
+		msg.equippedWeapon = buffer.readItemStack();
 		msg.unlocks = new HashSet<>();
 		int unlockSize = buffer.readInt();
 		for (int i = 0; i < unlockSize; ++i) {
-			msg.unlocks.add((OrganizationWeaponUnlock) ModOrganizationUnlocks.registry.getValue(new ResourceLocation(buffer.readString(100))));
+			msg.unlocks.add(buffer.readItemStack());
 		}
 		return msg;
 	}

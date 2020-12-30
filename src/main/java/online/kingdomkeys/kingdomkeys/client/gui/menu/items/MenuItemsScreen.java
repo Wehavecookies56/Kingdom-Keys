@@ -5,12 +5,15 @@ import java.awt.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.TranslationTextComponent;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.organization.WeaponTreeSelectionScreen;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuItemsScreen extends MenuBackground {
 
@@ -31,11 +34,21 @@ public class MenuItemsScreen extends MenuBackground {
 
         Minecraft mc = Minecraft.getInstance();
 
-        addButton(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Items_Equipment).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> mc.displayGuiScreen(new MenuEquipmentScreen())));
+        IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+
+        addButton(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Items_Equipment).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> openItems(playerData)));
         addButton(items_stock = new MenuButton((int)buttonPosX, button_items_stockY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Items_Stock).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> mc.displayGuiScreen(new MenuStockScreen())));
         addButton(items_back = new MenuButton((int)buttonPosX, button_items_backY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> GuiHelper.openMenu()));
 
-}
+    }
+
+    public void openItems(IPlayerCapabilities playerData) {
+        if (playerData.getAlignment() == Utils.OrgMember.NONE) {
+            Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
+        } else {
+            Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen());
+        }
+    }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {

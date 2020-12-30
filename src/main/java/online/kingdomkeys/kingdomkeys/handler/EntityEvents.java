@@ -672,11 +672,31 @@ public class EntityEvents {
 			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				if (event.getEntity() instanceof PlayerEntity) {
 
-				}
-				if (event.getEntity() instanceof VillagerEntity) {
-
+				//TODO more sophisticated and dynamic way to do this
+				//Give hearts
+				if (player.getHeldItemMainhand().getItem() instanceof IOrgWeapon || player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+					int multiplier = 1;
+					if (player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
+						IOrgWeapon weapon = (IOrgWeapon) player.getHeldItemMainhand().getItem();
+						if (weapon.getMember() == playerData.getAlignment()) {
+							multiplier = 2;
+						}
+					}
+					if (event.getEntity() instanceof IKHMob) {
+						IKHMob mob = (IKHMob) event.getEntity();
+						if (mob.getMobType() == MobType.HEARTLESS_EMBLEM) {
+							playerData.addHearts(20 * multiplier);
+						}
+					} else if (event.getEntity() instanceof EnderDragonEntity || event.getEntity() instanceof WitherEntity) {
+						playerData.addHearts(1000 * multiplier);
+					} else if (event.getEntity() instanceof VillagerEntity) {
+						playerData.addHearts(5 * multiplier);
+					} else if (event.getEntity() instanceof MonsterEntity) {
+						playerData.addHearts(2 * multiplier);
+					} else {
+						playerData.addHearts(1 * multiplier);
+					}
 				}
 				if(event.getEntityLiving() instanceof IKHMob) {
 					IKHMob heartless = (IKHMob) event.getEntityLiving();

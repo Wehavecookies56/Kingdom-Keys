@@ -73,6 +73,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSTravelToSoA.class, CSTravelToSoA::encode, CSTravelToSoA::decode, CSTravelToSoA::handle);
 		HANDLER.registerMessage(packetID++, CSSetChoice.class, CSSetChoice::encode, CSSetChoice::decode, CSSetChoice::handle);
 		HANDLER.registerMessage(packetID++, CSSetAlignment.class, CSSetAlignment::encode, CSSetAlignment::decode, CSSetAlignment::handle);
+		HANDLER.registerMessage(packetID++, CSUnlockEquipOrgWeapon.class, CSUnlockEquipOrgWeapon::encode, CSUnlockEquipOrgWeapon::decode, CSUnlockEquipOrgWeapon::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {
