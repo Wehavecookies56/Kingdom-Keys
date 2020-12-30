@@ -76,18 +76,6 @@ public class DamageCalculation {
 
             damage = (float) (weapon.getMagic() + playerData.getMagic());
 
-            switch (playerData.getActiveDriveForm()) {
-                case Strings.Form_Wisdom:
-                    damage = damage * 2;
-                    break;
-                case Strings.Form_Master:
-                    damage = (float) (damage * 2.25);
-                    break;
-                case Strings.Form_Final:
-                    damage = (float) (damage * 2.5);
-                    break;
-            }
-
             switch (level) {
                 case 1:
                     finalDamage = damage;
