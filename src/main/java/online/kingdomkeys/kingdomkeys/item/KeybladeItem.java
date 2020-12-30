@@ -124,15 +124,23 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 		if (entityIn instanceof PlayerEntity) {
 			if (Utils.hasID(stack)) {
 				PlayerEntity player = (PlayerEntity) entityIn;
+				//Stupid workaround for itemSlot being 0 for offhand slot
+				int slot = itemSlot;
+				if (slot == 0) {
+					if (ItemStack.areItemStacksEqual(stack, player.getHeldItemOffhand())) {
+						slot = 40;
+					}
+				}
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if(playerData != null) {
 					ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
-					ItemStack formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
+					ItemStack formChain = null;
+					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()))
+						formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
 					if (formChain == null)
 						formChain = ItemStack.EMPTY;
-					//TODO form chain
 					UUID stackID = Utils.getID(stack);
-					if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY)) {
+					if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY) || !ItemStack.areItemStacksEqual(formChain, ItemStack.EMPTY)) {
 						UUID mainChainID = Utils.getID(mainChain);
 						UUID formChainID = Utils.getID(formChain);
 						if (mainChainID == null)
@@ -142,17 +150,23 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 
 						if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
 							//This is either not your keychain or from an inactive form, either way it should not be here
-							player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
+							player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
 							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 						}
 					} else {
-						player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
+						player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
 						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					}
 
 					//Check for dupes
 					for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-						if (i != itemSlot) {
+						slot = itemSlot;
+						if (i == 40) {
+							if (ItemStack.areItemStacksEqual(stack, player.getHeldItemOffhand())) {
+								slot = 40;
+							}
+						}
+						if (i != slot) {
 							UUID id = Utils.getID(player.inventory.getStackInSlot(i));
 							if (id != null && player.inventory.getStackInSlot(i).getItem() instanceof KeybladeItem) {
 								if (id.equals(stackID) && i != player.inventory.currentItem) {

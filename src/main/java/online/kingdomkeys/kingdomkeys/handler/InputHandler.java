@@ -539,11 +539,6 @@ public class InputHandler {
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity player = mc.player;
         World world = mc.world;
-      //  SummonKeybladeCapability.ISummonKeyblade SUMMON = player.getCapability(ModCapabilities.SUMMON_KEYBLADE, null);
-
-       /* if (player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive()) {
-            Minecraft.getMinecraft().gameSettings.keyBindSwapHands.isPressed();
-        }*/
 
         Keybinds key = getPressedKey();
         if (key != null)
@@ -594,7 +589,11 @@ public class InputHandler {
                     break;
              
                 case SUMMON_KEYBLADE:
-                	PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    } else {
+                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
+                    }
                     break;/*
                 case SCROLL_ACTIVATOR:
                     break;*/

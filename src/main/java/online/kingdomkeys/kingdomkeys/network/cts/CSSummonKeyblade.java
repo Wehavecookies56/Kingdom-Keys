@@ -90,26 +90,68 @@ public class CSSummonKeyblade {
 			}
 
 			ItemStack heldStack = player.getHeldItemMainhand();
+			ItemStack offHeldStack = player.getHeldItemOffhand();
 			ItemStack chain = playerData.getEquippedKeychain(DriveForm.NONE);
 			ItemStack extraChain = null;
 			if (message.formToSummonFrom != null) {
 				if (!message.formToSummonFrom.equals(DriveForm.NONE)) {
 					if (playerData.getEquippedKeychains().containsKey(message.formToSummonFrom)) {
-						extraChain = playerData.getEquippedKeychain(DriveForm.NONE);
+						extraChain = playerData.getEquippedKeychain(message.formToSummonFrom);
 					}
 				} else {
 					KingdomKeys.LOGGER.fatal(".-.");
 					//.-. but why tho
 				}
 			}
-			//TODO handle extraChain
+			//TODO dual wield org weapons
 			int slotSummoned = Utils.findSummoned(player.inventory, chain);
+			int extraSlotSummoned = -1;
+			if (extraChain != null)
+				extraSlotSummoned = Utils.findSummoned(player.inventory, extraChain);
 			if (orgWeapon != null) {
 				slotSummoned = Utils.findSummoned(player.inventory, orgWeapon);
 			}
 			ItemStack summonedStack = slotSummoned > -1 ? player.inventory.getStackInSlot(slotSummoned) : ItemStack.EMPTY;
-			if (message.forceDesummon)
+			ItemStack summonedExtraStack = extraSlotSummoned > -1 ? player.inventory.getStackInSlot(extraSlotSummoned) : ItemStack.EMPTY;
+			if (message.forceDesummon) {
 				heldStack = summonedStack;
+				if (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY)) {
+					offHeldStack = summonedExtraStack;
+				}
+			}
+			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(offHeldStack, ItemStack.EMPTY) && (Utils.hasID(offHeldStack)))) {
+				if (message.forceDesummon || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (ItemStack.areItemStacksEqual(heldStack, summonedStack)))) {
+					if (offHeldStack.getItem() instanceof KeybladeItem) {
+						if (offHeldStack.getTag().getUniqueId("keybladeID").equals(extraChain.getTag().getUniqueId("keybladeID"))) {
+							extraChain.setTag(offHeldStack.getTag());
+							playerData.equipKeychain(message.formToSummonFrom, extraChain);
+							player.inventory.setInventorySlotContents(extraSlotSummoned, ItemStack.EMPTY);
+							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						}
+					}
+				}
+			} else if (extraSlotSummoned > -1) {
+				//SUMMON FROM ANOTHER SLOT
+				Utils.swapStack(player.inventory, 40, extraSlotSummoned);
+				player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			} else {
+				if (extraChain != null) {
+					if (!ItemStack.areItemStacksEqual(extraChain, ItemStack.EMPTY)) {
+						if (ItemStack.areItemStacksEqual(offHeldStack, ItemStack.EMPTY)) {
+							ItemStack keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
+							keyblade.setTag(extraChain.getTag());
+							player.inventory.setInventorySlotContents(40, keyblade);
+							player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						} else if (player.inventory.getFirstEmptyStack() > -1) {
+							ItemStack keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
+							keyblade.setTag(extraChain.getTag());
+							Utils.swapStack(player.inventory, player.inventory.getFirstEmptyStack(), 40);
+							player.inventory.setInventorySlotContents(40, keyblade);
+							player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						}
+					}
+				}
+			}
 			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && heldStack.getItem() instanceof OrgWeaponItem)))) {
 				//DESUMMON
 				if (heldStack.getItem() instanceof KeybladeItem) {
