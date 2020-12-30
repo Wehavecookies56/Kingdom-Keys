@@ -668,6 +668,11 @@ public class EntityEvents {
 			worldData.setHeartlessSpawnLevel(1);
 		}
 
+		if (event.getEntityLiving() instanceof EnderDragonEntity) {
+			LivingEntity entity = event.getEntityLiving();
+			entity.world.addEntity(new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+		}
+
 		if (!event.getEntity().world.isRemote) {
 			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();

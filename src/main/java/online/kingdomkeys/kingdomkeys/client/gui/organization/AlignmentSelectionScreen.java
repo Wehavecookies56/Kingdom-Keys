@@ -62,7 +62,7 @@ public class AlignmentSelectionScreen extends Screen {
         renderBackground();
         String line1 = "By donning the Dark Robe you are now a member of Organization XIII.";
         String line2 = "Choose a member of Organization XIII you align with.";
-        String line3 = "Your choice will determine the weapon you start.";
+        String line3 = "Your choice will determine the weapon you start with.";
         if (showWelcome) {
             drawCenteredString(font, line1, (width / 2), height / 2 - font.FONT_HEIGHT * 3, 0xFFFFFF);
             drawCenteredString(font, line2, (width / 2), height / 2 - font.FONT_HEIGHT * 2, 0xFFFFFF);

@@ -98,6 +98,7 @@ public class ItemModels extends ItemModelProvider {
     private void items() {
 		standardItem(Strings.iceCream);
 		standardItem(Strings.emptyBottle);
+		standardItem(Strings.proofOfHeart);
 
 		standardDisc(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future);
 		standardDisc(Strings.Disc_Darkness_of_the_Unknown);

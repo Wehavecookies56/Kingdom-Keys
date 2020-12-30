@@ -702,7 +702,9 @@ public class Strings {
 
     //Misc
     public static final String
-    	recipe = "recipe";
+    	recipe = "recipe",
+        proofOfHeart = "proof_of_heart"
+    ;
 
     //Organization
     //Xemnas
