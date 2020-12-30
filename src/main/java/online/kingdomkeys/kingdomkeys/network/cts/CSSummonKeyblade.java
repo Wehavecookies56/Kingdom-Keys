@@ -35,20 +35,24 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class CSSummonKeyblade {
 
 	ResourceLocation formToSummonFrom;
 	boolean hasForm;
 	boolean forceDesummon;
+	OrgMember alignment;
 
 	public CSSummonKeyblade() {
 		hasForm = false;
 		forceDesummon = false;
+		alignment = OrgMember.NONE;
 	}
 
 	public CSSummonKeyblade(boolean forceDesummon) {
 		this.forceDesummon = forceDesummon;
+		alignment = OrgMember.NONE;
 	}
 
 	//Don't pass none please
@@ -56,17 +60,26 @@ public class CSSummonKeyblade {
 		this.formToSummonFrom = formToSummonFrom;
 		hasForm = true;
 		forceDesummon = false;
+		alignment = OrgMember.NONE;
 	}
 
 	public CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceDesummon) {
 		this.formToSummonFrom = formToSummonFrom;
 		hasForm = true;
 		this.forceDesummon = forceDesummon;
+		alignment = OrgMember.NONE;
 	}
 	
+	public CSSummonKeyblade(boolean forceDesummon, OrgMember alignment) {
+		hasForm = false;
+		this.forceDesummon = forceDesummon;
+		this.alignment = alignment;
+	}
+
 	public void encode(PacketBuffer buffer) {
 		buffer.writeBoolean(forceDesummon);
 		buffer.writeBoolean(hasForm);
+		buffer.writeInt(alignment.ordinal());
 		if (formToSummonFrom != null)
 			buffer.writeResourceLocation(formToSummonFrom);
 	}
@@ -75,6 +88,7 @@ public class CSSummonKeyblade {
 		CSSummonKeyblade msg = new CSSummonKeyblade();
 		msg.forceDesummon = buffer.readBoolean();
 		msg.hasForm = buffer.readBoolean();
+		msg.alignment = OrgMember.values()[buffer.readInt()];
 		if (msg.hasForm)
 			msg.formToSummonFrom = buffer.readResourceLocation();
 		return msg;
@@ -86,8 +100,15 @@ public class CSSummonKeyblade {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 			ItemStack orgWeapon = null;
+
 			if (playerData.getAlignment() != Utils.OrgMember.NONE) {
 				orgWeapon = playerData.getEquippedWeapon().copy();
+			}
+			
+			if(orgWeapon == null) {
+				if(message.alignment != OrgMember.NONE) {
+					orgWeapon = playerData.getEquippedWeapon().copy();
+				}
 			}
 
 			ItemStack heldStack = player.getHeldItemMainhand();

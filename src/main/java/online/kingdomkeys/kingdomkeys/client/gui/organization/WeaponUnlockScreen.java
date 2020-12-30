@@ -116,7 +116,7 @@ public class WeaponUnlockScreen extends Screen {
                     PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon, cost));
                 } else {
                     playerData.equipWeapon(weapon);
-					if(Utils.findSummoned(Minecraft.getInstance().player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
+					if(Utils.findSummoned(Minecraft.getInstance().player.inventory, playerData.getEquippedWeapon(), true) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true));
                     
 					PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon));
