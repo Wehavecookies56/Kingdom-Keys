@@ -14,13 +14,12 @@
 
 	"_comment": "Groups",
 	"itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
-    "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Llaves Espada",
+	"itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Llaves Espada",
 	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Armas de la Organización",
 
 	"_comment": "Menu",
 	"gui.menu.back": "Atrás",
 	"gui.menu.accept": "Aceptar",
-
 	"gui.menu.main.button.items": "Objetos",
 	"gui.menu.main.button.abilities": "Habilidades",
 	"gui.menu.main.button.customize": "Configuración",
@@ -37,7 +36,6 @@
 	"gui.menu.items.equipment": "Equipamiento",
 	"gui.menu.items.stock": "Inventario",
 	"gui.menu.items.equipment.weapon": "Arma",
-
 
 	"gui.menu.party": "Grupo",
 	"gui.menu.party.create": "Crear Grupo",
@@ -91,10 +89,26 @@
 	"gui.commandmenu.magic.title": "Magia",
 	"gui.commandmenu.items.title": "Objetos",
 	"gui.commandmenu.drive.title": "Formas",
-	
+
 	"gui.synthesisbag.upgrade": "Aumentar tamaño",
 	"gui.synthesisbag.munny": "Platines",
 	"gui.synthesisbag.notenoughmunny": "Te faltan platines",
+	
+	"gui.proofofheart.desc": "Usa este objeto para salir de la Organización XIII",
+	"gui.proofofheart.desc2": "No podrás usarlo si llevas la gabardina",
+	"gui.proofofheart.notinorg": "No eres miembro de la Organización XIII",
+	"gui.proofofheart.leftorg": "Te has salido de la Organización XIII",
+	"gui.proofofheart.unequip": "Primero quitate la ropa de la Organización XIII",
+	
+	"gui.org.line1": "Al llevar la Ropa Oscura te conviertes en un miembro de la Organización XIII.",
+	"gui.org.line2": "Elige un miembro de la Organización XIII para alínearte con él.",
+	"gui.org.line3": "Tu elección determinará tu arma más hábil y la inicial.",
+	"gui.org.line4": "¿Quieres alinearte con %1$s?",
+	"gui.org.line5": "Te costará cambiarlo tras hacer la elección.",
+	"gui.org.ok": "Adelante",
+	"gui.org.select": "Seleccionar",
+	"gui.org.cancel": "Cancelar",
+	"gui.org.confirm": "Confirmar",
 
 	"_comment": "Level up messages",
 	"stats.levelUpStr": "¡Fuerza aumentada!",
@@ -224,6 +238,7 @@
 	"item.kingdomkeys.recipe": "Receta",
 	"item.kingdomkeys.ice_cream": "Helado de Sal Marina",
 	"item.kingdomkeys.synthesis_bag": "Bolsa de Síntesis",
+	"item.kingdomkeys.proof_of_heart": "Prueba de Corazón",
 
 	"item.kingdomkeys.spellfire": "Hechizo de Piro",
 	"item.kingdomkeys.spellblizzard": "Hechizo de Hielo",

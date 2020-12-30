@@ -1,14 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.PacketDispatcher;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -60,13 +58,13 @@ public class AlignmentSelectionScreen extends Screen {
     @Override
     public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
         renderBackground();
-        String line1 = "By donning the Dark Robe you are now a member of Organization XIII.";
-        String line2 = "Choose a member of Organization XIII you align with.";
-        String line3 = "Your choice will determine the weapon you start with.";
+        String line1 = "gui.org.line1";
+        String line2 = "gui.org.line2";
+        String line3 = "gui.org.line3";
         if (showWelcome) {
-            drawCenteredString(font, line1, (width / 2), height / 2 - font.FONT_HEIGHT * 3, 0xFFFFFF);
-            drawCenteredString(font, line2, (width / 2), height / 2 - font.FONT_HEIGHT * 2, 0xFFFFFF);
-            drawCenteredString(font, line3, (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
+            drawCenteredString(font, new TranslationTextComponent(line1).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT * 3, 0xFFFFFF);
+            drawCenteredString(font, new TranslationTextComponent(line2).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT * 2, 0xFFFFFF);
+            drawCenteredString(font, new TranslationTextComponent(line3).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
         } else {
             String name = "";
             String weapon = "";
@@ -154,8 +152,8 @@ public class AlignmentSelectionScreen extends Screen {
             }
             renderBackground();
             if (confirmChoice) {
-                drawCenteredString(font, "You wish to align with " + name + "?", (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
-                drawCenteredString(font, "It will cost to change this after you have made your choice.", (width / 2), height / 2, 0xFFFFFF);
+                drawCenteredString(font, new TranslationTextComponent("gui.org.line4", name).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
+                drawCenteredString(font, new TranslationTextComponent("gui.org.line5").getFormattedText(), (width / 2), height / 2, 0xFFFFFF);
             } else {
                 RenderSystem.pushMatrix();
                 Minecraft.getInstance().getTextureManager().bindTexture(GLOW);
@@ -179,12 +177,12 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void init() {
-        addButton(ok = new Button(0, 0, 50, 20, "OK", p -> actionPerformed(OK)));
-        addButton(confirm = new Button(0, 0, 50, 20, "Confirm", p -> actionPerformed(CONFIRM)));
-        addButton(cancel = new Button(0, 0, 50, 20, "Cancel", p -> actionPerformed(CANCEL)));
+        addButton(ok = new Button(0, 0, 50, 20, new TranslationTextComponent("gui.org.ok").getFormattedText(), p -> actionPerformed(OK)));
+        addButton(confirm = new Button(0, 0, 60, 20, new TranslationTextComponent("gui.org.confirm").getFormattedText(), p -> actionPerformed(CONFIRM)));
+        addButton(cancel = new Button(0, 0, 60, 20,  new TranslationTextComponent("gui.org.cancel").getFormattedText(), p -> actionPerformed(CANCEL)));
         addButton(next = new Button(0, 0, 20, 20, ">", p -> actionPerformed(NEXT)));
         addButton(prev = new Button(0, 0, 20, 20, "<", p -> actionPerformed(PREV)));
-        addButton(select = new Button(0, 0, 50, 20, "Select", p -> actionPerformed(SELECT)));
+        addButton(select = new Button(0, 0, 70, 20,  new TranslationTextComponent("gui.org.select").getFormattedText(), p -> actionPerformed(SELECT)));
         updateButtons();
         super.init();
     }

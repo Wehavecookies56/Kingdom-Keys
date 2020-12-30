@@ -14,13 +14,12 @@
 
 	"_comment": "Groups",
 	"itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
-    "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",
+	"itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",
 	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organization Weapons",
 
 	"_comment": "Menu",
 	"gui.menu.back": "Back",
 	"gui.menu.accept": "Accept",
-
 	"gui.menu.main.button.items": "Items",
 	"gui.menu.main.button.abilities": "Abilities",
 	"gui.menu.main.button.customize": "Customize",
@@ -37,7 +36,6 @@
 	"gui.menu.items.equipment": "Equipment",
 	"gui.menu.items.stock": "Stock",
 	"gui.menu.items.equipment.weapon": "Weapon",
-
 
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
@@ -92,11 +90,26 @@
 	"gui.commandmenu.items.title": "Items",
 	"gui.commandmenu.drive.title": "Forms",
 
-
 	"gui.synthesisbag.upgrade": "Upgrade size",
 	"gui.synthesisbag.munny": "Munny",
 	"gui.synthesisbag.notenoughmunny": "Not enough munny",
-	
+
+	"gui.proofofheart.desc": "Use this to leave the Organization XIII",
+	"gui.proofofheart.desc2": "You won't be able to use it if you're wearing the Organization XIII robes",
+	"gui.proofofheart.notinorg": "You are not in the Organization XIII",
+	"gui.proofofheart.leftorg": "You have left the Organization XIII",
+	"gui.proofofheart.unequip": "First unequip your Organization XIII armor",
+
+	"gui.org.line1": "By donning the Dark Robe you are now a member of Organization XIII.",
+	"gui.org.line2": "Choose a member of Organization XIII you align with.",
+	"gui.org.line3": "Your choice will determine the weapon you start with.",
+	"gui.org.line4": "You wish to align with %1$s?",
+	"gui.org.line5": "It will cost to change this after you have made your choice.",
+	"gui.org.ok": "Ok",
+	"gui.org.select": "Select",
+	"gui.org.cancel": "Cancel",
+	"gui.org.confirm": "Confirm",
+
 	"_comment": "Level up messages",
 	"stats.levelUpStr": "Strength Increased!",
 	"stats.levelUpDef": "Defense Increased!",
@@ -164,17 +177,17 @@
 	"ability_blizzard_boost": "Blizzard Boost",
 	"ability_blizzard_boost.desc": "Increases damage done with blizzard-based attacks.",
 
-    "_comment": "Blocks",
-    "block.kingdomkeys.normal_blox": "Normal Blox",
-    "block.kingdomkeys.hard_blox": "Hard Blox",
-    "block.kingdomkeys.metal_blox": "Metal Blox",
-    "block.kingdomkeys.danger_blox": "Danger Blox",
-    "block.kingdomkeys.bounce_blox": "Bounce Blox",
-    "block.kingdomkeys.blast_blox": "Blast Blox",
-    "block.kingdomkeys.ghost_blox": "Ghost Blox",
-    "block.kingdomkeys.prize_blox": "Prize Blox",
-    "block.kingdomkeys.rare_prize_blox": "Rare Prize Blox",
-    "block.kingdomkeys.magnet_blox": "Magnet Blox",
+	"_comment": "Blocks",
+	"block.kingdomkeys.normal_blox": "Normal Blox",
+	"block.kingdomkeys.hard_blox": "Hard Blox",
+	"block.kingdomkeys.metal_blox": "Metal Blox",
+	"block.kingdomkeys.danger_blox": "Danger Blox",
+	"block.kingdomkeys.bounce_blox": "Bounce Blox",
+	"block.kingdomkeys.blast_blox": "Blast Blox",
+	"block.kingdomkeys.ghost_blox": "Ghost Blox",
+	"block.kingdomkeys.prize_blox": "Prize Blox",
+	"block.kingdomkeys.rare_prize_blox": "Rare Prize Blox",
+	"block.kingdomkeys.magnet_blox": "Magnet Blox",
 	"block.kingdomkeys.mosaic_stained_glass": "Mosaic Stained Glass",
 	"block.kingdomkeys.org_portal": "Organization Portal",
 	"block.kingdomkeys.moogle_projector": "Moogle Projector",
@@ -538,7 +551,7 @@
 	"item.kingdomkeys.zero_one": "Zero One",
 	
 	"_comment": "Keychains",
-    "item.kingdomkeys.abaddon_plasma_chain": "Abaddon Plasma Chain",
+	"item.kingdomkeys.abaddon_plasma_chain": "Abaddon Plasma Chain",
 	"item.kingdomkeys.abyssal_tide_chain": "Abyssal Tide Chain",
 	"item.kingdomkeys.aceds_keyblade_chain": "Aced's Keyblade Chain",
 	"item.kingdomkeys.all_for_one_chain": "All For One Chain",
