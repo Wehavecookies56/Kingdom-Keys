@@ -19,12 +19,17 @@
 
 	"_comment": "Menu",
 	"gui.menu.back": "Back",
+	"gui.menu.back.desc": "Go back to the previous menu.",
 	"gui.menu.accept": "Accept",
 	"gui.menu.main.button.items": "Items",
+	"gui.menu.main.button.items.desc": "Access to your equipables (weapon, potions...) and your inventory.",
 	"gui.menu.main.button.abilities": "Abilities",
+	"gui.menu.main.button.abilities.desc": "Equip or unequip your abilities.",
 	"gui.menu.main.button.customize": "Customize",
 	"gui.menu.main.button.party": "Party",
+	"gui.menu.main.button.party.desc": "Create and manage your party.",
 	"gui.menu.main.button.status": "Status",
+	"gui.menu.main.button.status.desc": "Check your stats.",
 	"gui.menu.main.button.journal": "Journal",
 	"gui.menu.main.button.config": "Config",
 
@@ -35,17 +40,21 @@
 
 	"gui.menu.items": "Items",
 	"gui.menu.items.equipment": "Equipment",
+	"gui.menu.items.equipment.desc": "Equip your weapon and various equipables (not yet available).",
 	"gui.menu.items.stock": "Stock",
+	"gui.menu.items.stock.desc": "Check your inventory.",
 	"gui.menu.items.equipment.weapon": "Weapon",
 
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
+	"gui.menu.party.create.desc": "Create a new party.",
 	"gui.menu.party.create.name": "Name",
 	"gui.menu.party.create.accessibility": "Accessibility and limit",
 	"gui.menu.party.create.accessibility.public": "Public",
 	"gui.menu.party.create.accessibility.private": "Private",
 
 	"gui.menu.party.join": "Join party",
+	"gui.menu.party.join.desc": "Join an already created party.",
 	"gui.menu.party.invite": "Invite",
 	"gui.menu.party.settings": "Settings",
 	"gui.menu.party.kick": "Kick",
@@ -101,7 +110,7 @@
 	"gui.proofofheart.leftorg": "You have left the Organization XIII",
 	"gui.proofofheart.unequip": "First unequip your Organization XIII armor",
 
-	"gui.org.line1": "By donning the Dark Robe you are now a member of Organization XIII.",
+	"gui.org.line1": "By donning the Dark Robe you are now a member of Organization XIII.",																							   
 	"gui.org.line2": "Choose a member of Organization XIII you align with.",
 	"gui.org.line3": "Your choice will determine the weapon you start with.",
 	"gui.org.line4": "You wish to align with %1$s?",

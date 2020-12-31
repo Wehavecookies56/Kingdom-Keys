@@ -230,7 +230,8 @@ public class MenuBackground extends Screen {
 			{
 				RenderSystem.scaled(1.1, 1.1, 1);
 				RenderSystem.translated(0, -5, 0);
-				drawString(minecraft.fontRenderer, tip, (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), 0xFF9900);
+				//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
+				minecraft.fontRenderer.drawSplitString(Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
 			}
 			RenderSystem.popMatrix();
 		}

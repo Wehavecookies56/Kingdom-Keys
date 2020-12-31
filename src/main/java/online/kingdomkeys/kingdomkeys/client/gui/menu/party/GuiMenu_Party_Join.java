@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 import java.awt.Color;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;

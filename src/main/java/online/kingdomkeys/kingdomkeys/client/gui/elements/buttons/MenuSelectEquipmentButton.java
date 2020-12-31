@@ -7,10 +7,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -22,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipm
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
@@ -65,6 +68,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
+        FontRenderer fr = minecraft.fontRenderer;
 		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.color4f(1, 1, 1, 1);
@@ -120,7 +124,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				RenderSystem.popMatrix();
 				
 				if(keyblade != null) {
-					float iconPosX = parent.width * 0.6374F;
+					float iconPosX = parent.width * 0.66F;
 					float iconPosY = parent.height * 0.1833F;
 					float iconHeight = parent.height * 0.3148F;
 					RenderHelper.disableStandardItemLighting();
@@ -133,9 +137,9 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 						minecraft.getItemRenderer().renderItemIntoGUI(new ItemStack(keyblade), 0, 0);
 					}
 					RenderSystem.popMatrix();
-					float strPosX = parent.width * 0.6104F;
+					float strPosX = parent.width * 0.685F;
 					float strPosY = parent.height * 0.5185F;
-					float strNumPosX = parent.width * 0.7473F;
+					float strNumPosX = parent.width * 0.78F;
 					float magPosY = parent.height * 0.5657F;
 					
 					String strengthStr = String.valueOf(((int) keyblade.getStrength(stack)));
@@ -143,8 +147,10 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int strength = playerData.getStrength() + ((int) keyblade.getStrength(stack));
 					int magic = playerData.getMagic() + ((int) keyblade.getMagic(stack));
-					String openBracketStr = " [  ";
-					String openBracketMag = " [  ";
+					String totalStrengthStr = String.valueOf(strength);
+                    String totalMagicStr = String.valueOf(magic);
+					String openBracketStr = " [ ";
+					String openBracketMag = " [ ";
 					String totalStr = String.valueOf(strength);
 					String totalMag = String.valueOf(magic);
 					if (totalStr.length() == 1) {
@@ -153,18 +159,19 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					if (totalMag.length() == 1) {
 						openBracketMag += " ";
 					}
-					drawString(minecraft.fontRenderer, "Strength", (int) strPosX, (int) strPosY, 0xEE8603);
-					drawString(minecraft.fontRenderer, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
-					drawString(minecraft.fontRenderer, openBracketStr+ String.valueOf(strength), (int) strNumPosX + minecraft.fontRenderer.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
-					drawString(minecraft.fontRenderer, String.valueOf(strength), (int) strNumPosX + minecraft.fontRenderer.getStringWidth(strengthStr) + minecraft.fontRenderer.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
-					drawString(minecraft.fontRenderer, " ]", (int) strNumPosX + minecraft.fontRenderer.getStringWidth(strengthStr) + minecraft.fontRenderer.getStringWidth(openBracketStr) + minecraft.fontRenderer.getStringWidth(String.valueOf(strength)), (int) strPosY, 0xBF6004);
 					
-					drawString(minecraft.fontRenderer, "Magic", (int) strPosX, (int) magPosY, 0xEE8603);
-					drawString(minecraft.fontRenderer, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
-					drawString(minecraft.fontRenderer, openBracketMag, (int) strNumPosX + minecraft.fontRenderer.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
-					drawString(minecraft.fontRenderer, String.valueOf(magic), (int) strNumPosX + minecraft.fontRenderer.getStringWidth(magicStr) + minecraft.fontRenderer.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
-					drawString(minecraft.fontRenderer, " ]", (int) strNumPosX + minecraft.fontRenderer.getStringWidth(magicStr) + minecraft.fontRenderer.getStringWidth(openBracketMag) + minecraft.fontRenderer.getStringWidth(String.valueOf(magic)), (int) magPosY, 0xBF6004);
-					
+					drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getFormattedText(), (int) strPosX, (int) strPosY, 0xEE8603);
+					drawString(fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
+					drawString(fr, openBracketStr, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
+					drawString(fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
+					drawString(fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr) + fr.getStringWidth(totalStrengthStr), (int) strPosY, 0xBF6004);
+
+					drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getFormattedText(), (int) strPosX, (int) magPosY, 0xEE8603);
+					drawString(fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
+					drawString(fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
+					drawString(fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
+					drawString(fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
+
 					float tooltipPosX = parent.width * 0.3333F;
 					float tooltipPosY = parent.height * 0.8F;
 					minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);

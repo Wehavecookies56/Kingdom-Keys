@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -702,17 +703,17 @@ public class EntityEvents {
 				}
 				if(event.getEntityLiving() instanceof IKHMob) {
 					IKHMob heartless = (IKHMob) event.getEntityLiving();
-					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem) || (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem)) {
+					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && ((player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem) || (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem))) {
 						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
 						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
 						event.getEntityLiving().world.addEntity(heart);
 					}
 				}
 				
-				if (event.getEntity() instanceof MonsterEntity) {
+				if (event.getEntity().getClassification(false) == EntityClassification.MONSTER) {
 
 					if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
-						MonsterEntity mob = (MonsterEntity) event.getEntity();
+						LivingEntity mob = (LivingEntity) event.getEntity();
 						
 						double value = mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);

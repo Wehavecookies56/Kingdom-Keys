@@ -19,12 +19,17 @@
 
 	"_comment": "Menu",
 	"gui.menu.back": "Atrás",
+	"gui.menu.back.desc": "Vuelve al menú anterior.",
 	"gui.menu.accept": "Aceptar",
 	"gui.menu.main.button.items": "Objetos",
+	"gui.menu.main.button.items.desc": "Accede a los equipables (arma, pociones...) y a tu inventario.",
 	"gui.menu.main.button.abilities": "Habilidades",
+	"gui.menu.main.button.abilities.desc": "Equipa o desequipa tus habilidades.",
 	"gui.menu.main.button.customize": "Configuración",
 	"gui.menu.main.button.party": "Grupo",
+	"gui.menu.main.button.party.desc": "Crea y gestiona tu grupo.",
 	"gui.menu.main.button.status": "Condición",
+	"gui.menu.main.button.status.desc": "Revisa tus estadísticas.",
 	"gui.menu.main.button.journal": "Diario",
 	"gui.menu.main.button.config": "Preferencias",
 
@@ -35,17 +40,21 @@
 
 	"gui.menu.items": "Objetos",
 	"gui.menu.items.equipment": "Equipamiento",
+	"gui.menu.items.equipment.desc": "Equipa tu arma y varios equipables (no disponibles aún).",
 	"gui.menu.items.stock": "Inventario",
+	"gui.menu.items.stock.desc": "Revisa tu inventario.",
 	"gui.menu.items.equipment.weapon": "Arma",
 
 	"gui.menu.party": "Grupo",
 	"gui.menu.party.create": "Crear Grupo",
+	"gui.menu.party.create.desc": "Crea un nuevo grupo.",
 	"gui.menu.party.create.name": "Nombre",
 	"gui.menu.party.create.accessibility": "Accessibilidad y límite",
 	"gui.menu.party.create.accessibility.public": "Pública",
 	"gui.menu.party.create.accessibility.private": "Privada",
 
-	"gui.menu.party.join": "Unir a Grupo",
+	"gui.menu.party.join": "Unirte a Grupo",
+	"gui.menu.party.join.desc": "Únete a un grupo ya creado.",
 	"gui.menu.party.invite": "Invitar",
 	"gui.menu.party.settings": "Opciones",
 	"gui.menu.party.kick": "Echar",
@@ -94,13 +103,13 @@
 	"gui.synthesisbag.upgrade": "Aumentar tamaño",
 	"gui.synthesisbag.munny": "Platines",
 	"gui.synthesisbag.notenoughmunny": "Te faltan platines",
-	
+
 	"gui.proofofheart.desc": "Usa este objeto para salir de la Organización XIII",
 	"gui.proofofheart.desc2": "No podrás usarlo si llevas la gabardina",
 	"gui.proofofheart.notinorg": "No eres miembro de la Organización XIII",
 	"gui.proofofheart.leftorg": "Te has salido de la Organización XIII",
 	"gui.proofofheart.unequip": "Primero quitate la ropa de la Organización XIII",
-	
+
 	"gui.org.line1": "Al llevar la Ropa Oscura te conviertes en un miembro de la Organización XIII.",
 	"gui.org.line2": "Elige un miembro de la Organización XIII para alínearte con él.",
 	"gui.org.line3": "Tu elección determinará tu arma más hábil y la inicial.",

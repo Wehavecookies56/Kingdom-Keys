@@ -1,15 +1,19 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEquipmentButton;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -19,6 +23,7 @@ import java.awt.Color;
 public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	MenuBox keyblades, details;
+    Button back;
 
 	public ResourceLocation form;
 
@@ -37,6 +42,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	@Override
 	public void init() {
 		super.init();
+        buttonWidth = ((float)width * 0.07F);
 		float keybladesX = width * 0.1432F;
 		float keybladesY = height * 0.175F;
 		float keybladesWidth = width * 0.5317F;
@@ -46,8 +52,12 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		float listX = width * 0.1546F;
 		float listY = height * 0.2546F;
 
+
+        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
+
 		int itemHeight = 14;
 
+		
 		int pos = 0;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		ItemStack equippedKeychain = playerData.getEquippedKeychain(form);

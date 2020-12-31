@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuButton extends MenuButtonBase {
 
@@ -42,11 +43,16 @@ public class MenuButton extends MenuButtonBase {
 	private boolean selected;
 
 	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, Button.IPressable onPress) {
-		super(x, y, 22 + widthIn, 20, buttonText, onPress);
+		super(x, y, 22 + widthIn, 20, Utils.translateToLocal(buttonText), onPress);
 		middleWidth = widthIn;
 		this.type = type;
 	}
-	
+
+	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, boolean hasTooltip, Button.IPressable onPress) {
+		this(x, y, widthIn, buttonText, type, onPress);
+			if(hasTooltip)
+		this.tip = buttonText+".desc";
+	}
 	public String getData() {
 		return data;
 	}

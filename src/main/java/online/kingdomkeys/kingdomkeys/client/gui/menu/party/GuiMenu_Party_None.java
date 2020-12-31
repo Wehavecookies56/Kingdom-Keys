@@ -85,9 +85,9 @@ public class GuiMenu_Party_None extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(create = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Create), ButtonType.BUTTON, (e) -> { action("create"); }));
-		addButton(join = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Join), ButtonType.BUTTON, (e) -> { action("join"); }));
-		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(create = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Strings.Gui_Menu_Party_Create, ButtonType.BUTTON, true, (e) -> { action("create"); }));
+		addButton(join = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Strings.Gui_Menu_Party_Join, ButtonType.BUTTON, true, (e) -> { action("join"); }));
+		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Strings.Gui_Menu_Back, ButtonType.BUTTON, true, (e) -> { action("back"); }));
 	
 		updateButtons();
 	}

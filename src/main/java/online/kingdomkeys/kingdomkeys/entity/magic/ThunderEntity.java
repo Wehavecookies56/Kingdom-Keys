@@ -111,9 +111,14 @@ public class ThunderEntity extends ThrowableEntity {
 				break;
 			}
 		}	
+
+		if(player == null) {
+			remove();
+			return;
+		}
 		
-		if(!world.isRemote) { //Only calculate and spawn lightning bolts server side
-        	if(ticksExisted % 5 == 0) {
+		if(!world.isRemote && player != null) { //Only calculate and spawn lightning bolts server side
+			if(ticksExisted % 5 == 0) {
         		double radius = 2.0D;
 				List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
 

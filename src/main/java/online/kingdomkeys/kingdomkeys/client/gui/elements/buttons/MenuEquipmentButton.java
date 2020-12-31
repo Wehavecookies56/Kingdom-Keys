@@ -151,9 +151,9 @@ public class MenuEquipmentButton extends Button {
                             mc.getItemRenderer().renderItemAndEffectIntoGUI(keyblade, 0, 0);
                         }
                         RenderSystem.popMatrix();
-                        float strPosX = parent.width * 0.6104F;
+                        float strPosX = parent.width * 0.634F;
                         float strPosY = parent.height * 0.5185F;
-                        float strNumPosX = parent.width * 0.7473F;
+                        float strNumPosX = parent.width * 0.77F;
                         float magPosY = parent.height * 0.5657F;
                         int strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
                         int magic = ((IKeychain) stack.getItem()).toSummon().getMagic(stack);
@@ -162,8 +162,8 @@ public class MenuEquipmentButton extends Button {
                         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
                         int totalStrength = playerData.getStrength() + strength;
                         int totalMagic = playerData.getMagic() + magic;
-                        String openBracketStr = " [  ";
-                        String openBracketMag = " [  ";
+                        String openBracketStr = " [ ";
+                        String openBracketMag = " [ ";
                         String totalStrengthStr = String.valueOf(totalStrength);
                         String totalMagicStr = String.valueOf(totalMagic);
                         if (totalStrengthStr.length() == 1) {
@@ -172,16 +172,18 @@ public class MenuEquipmentButton extends Button {
                         if (totalMagicStr.length() == 1) {
                             openBracketMag += " ";
                         }
-                        drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getFormattedText(), (int) strPosX, (int) strPosY, 0xEE8603);
-                        drawString(fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
-                        drawString(fr, openBracketStr, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
-                        drawString(fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
-                        drawString(fr, " ]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr) + fr.getStringWidth(totalStrengthStr), (int) strPosY, 0xBF6004);
-                        drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getFormattedText(), (int) strPosX, (int) magPosY, 0xEE8603);
-                        drawString(fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
-                        drawString(fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
-                        drawString(fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
-                        drawString(fr, " ]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
+						drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getFormattedText(), (int) strPosX, (int) strPosY, 0xEE8603);
+						drawString(fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
+						drawString(fr, openBracketStr, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
+						drawString(fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
+						drawString(fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr) + fr.getStringWidth(totalStrengthStr), (int) strPosY, 0xBF6004);
+
+						drawString(fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getFormattedText(), (int) strPosX, (int) magPosY, 0xEE8603);
+						drawString(fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
+						drawString(fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
+						drawString(fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
+						drawString(fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
+
                         float tooltipPosX = parent.width * 0.3333F;
                         float tooltipPosY = parent.height * 0.8F;
                         fr.drawSplitString(((IKeychain) stack.getItem()).toSummon().getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);

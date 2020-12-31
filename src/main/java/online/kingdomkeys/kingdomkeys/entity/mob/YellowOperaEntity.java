@@ -5,19 +5,18 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 
 public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
@@ -118,16 +117,16 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
                         this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.theEntity.getLookController().setLookPositionWithEntity(target, 0F, 0F);
+                        if(!world.isRemote) {
+	                       /* double d0 = this.theEntity.getDistanceSq(this.theEntity.getAttackTarget());
+	                        float f = MathHelper.sqrt(MathHelper.sqrt(d0));
+	                        double d1 = this.theEntity.getAttackTarget().getPosX() - this.theEntity.getPosX();
+	                        double d2 = this.theEntity.getAttackTarget().getBoundingBox().minY + (double) (this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double) (this.theEntity.getHeight() / 2.0F));
+	                        double d3 = this.theEntity.getAttackTarget().getPosZ() - this.theEntity.getPosZ();*/
 
-                        double d0 = this.theEntity.getDistanceSq(this.theEntity.getAttackTarget());
-                        float f = MathHelper.sqrt(MathHelper.sqrt(d0));
-                        double d1 = this.theEntity.getAttackTarget().getPosX() - this.theEntity.getPosX();
-                        double d2 = this.theEntity.getAttackTarget().getBoundingBox().minY + (double) (this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double) (this.theEntity.getHeight() / 2.0F));
-                        double d3 = this.theEntity.getAttackTarget().getPosZ() - this.theEntity.getPosZ();
-                        ThunderEntity esfb = new ThunderEntity(this.theEntity.world);
-                        esfb.shoot(d1, d2, d3, 1, 0);
-                        esfb.setPosition(esfb.getPosX(), this.theEntity.getPosY() + (double) (this.theEntity.getHeight() / 2.0F) + 0.5D, esfb.getPosZ());
-                        this.theEntity.world.addEntity(esfb);
+	                        LightningBoltEntity lightning = new LightningBoltEntity(this.theEntity.world, this.theEntity.getAttackTarget().getPosX(), this.theEntity.getAttackTarget().getPosY(), this.theEntity.getAttackTarget().getPosZ(), false);
+	                        ((ServerWorld)world).addLightningBolt(lightning);
+                        }
                     }
                     else {
                         if (world.rand.nextInt(100) + world.rand.nextDouble() <= 50) {

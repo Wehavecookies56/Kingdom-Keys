@@ -89,34 +89,34 @@ public class MenuScreen extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 
-		addButton(items = new MenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, (e) -> {
+		addButton(items = new MenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, true, (e) -> {
 			action(ITEMS);
 		}));
-		addButton(abilities = new MenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, (e) -> {
+		addButton(abilities = new MenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, true, (e) -> {
 			action(ABILITIES);
 		}));
-		addButton(customize = new MenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, (e) -> {
+		addButton(customize = new MenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, true, (e) -> {
 			action(CUSTOMIZE);
 		}));
-		addButton(party = new MenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, (e) -> {
+		addButton(party = new MenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, true, (e) -> {
 			action(PARTY);
 		}));
-		addButton(status = new MenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, (e) -> {
+		addButton(status = new MenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, true, (e) -> {
 			action(STATUS);
 		}));
-		addButton(journal = new MenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, (e) -> {
+		addButton(journal = new MenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, true, (e) -> {
 			action(JOURNAL);
 		}));
-		addButton(config = new MenuButton((int) buttonPosX, button_configY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, (e) -> {
+		addButton(config = new MenuButton((int) buttonPosX, button_configY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, true, (e) -> {
 			action(CONFIG);
 		}));
-		
+		/*
 		items.setTip("Equip your Keyblade, potions and accessories");
 		abilities.setTip("Equip or unequip your abilities");
 		customize.setTip("Change the order of your magics");
 		party.setTip("Create or check your party");
 		status.setTip("Check your stats");
-		journal.setTip("You will not find anything here as it won't be done probably");
+		journal.setTip("You will not find anything here as it won't be done probably");*/
 
 		updateButtons();
 	}
