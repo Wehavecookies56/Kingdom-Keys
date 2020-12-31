@@ -337,7 +337,6 @@ public class SCSyncCapabilityPacket {
 			playerData.setMaxMP(message.maxMP);
 			playerData.setRecharge(message.recharge);
 			playerData.setMaxHP(message.maxHp);
-			KingdomKeys.proxy.getClientPlayer().setHealth(playerData.getMaxHP());
 			playerData.setMaxAP(message.maxAP);
 			playerData.setDP(message.dp);
 			playerData.setFP(message.fp);
