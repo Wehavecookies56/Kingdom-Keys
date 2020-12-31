@@ -189,19 +189,24 @@ public class EntityEvents {
 			}
 
 			if (playerData.getAlignment() == Utils.OrgMember.NONE) {
-				if (!event.player.world.isRemote) {
+				//if (!event.player.world.isRemote) {
 					boolean wearingOrgCloak = Utils.isWearingOrgRobes(event.player);
 					
 					if (wearingOrgCloak) {
-						if(Utils.findSummoned(event.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
-							PacketHandler.sendToServer(new CSSummonKeyblade(true));
-						if (!openedAlignment)
+						if (!openedAlignment) {
+							if(!event.player.world.isRemote) {
 							PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
+							} else {
+								if(Utils.findSummoned(event.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
+									PacketHandler.sendToServer(new CSSummonKeyblade(true));
+							}
+						}
+						
 						openedAlignment = true;
 					} else {
 						openedAlignment = false;
 					}
-				}
+				//}
 			}
 		}
 
