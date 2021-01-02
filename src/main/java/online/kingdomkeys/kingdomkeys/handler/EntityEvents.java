@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
@@ -61,8 +62,15 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
-import online.kingdomkeys.kingdomkeys.network.stc.*;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSoA;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -489,7 +497,7 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().inventory.getStackInSlot(i);
 					if (!ItemStack.areItemStacksEqual(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.synthesisBag.get()) {
-							System.out.println("Found bag");
+						//	System.out.println("Found bag");
 							IItemHandler inv = bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
 							addSynthesisMaterialToBag(inv, event, bag);
 						}
@@ -519,9 +527,9 @@ public class EntityEvents {
 			ItemStack bagItem = inv.getStackInSlot(j);
 			ItemStack pickUp = event.getItem().getItem();
 			if (!ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) {
-				System.out.println("Found bag 2");
+			//	System.out.println("Found bag 2");
 				if (bagItem.getItem().equals(pickUp.getItem())) {
-					System.out.println("Bag already has item");
+				//	System.out.println("Bag already has item");
 					if (bagItem.getCount() < 64) {
 						if (bagItem.getCount() + pickUp.getCount() <= 64) {
 							ItemStack stack = new ItemStack(pickUp.copy().getItem(), pickUp.copy().getCount());
@@ -532,7 +540,7 @@ public class EntityEvents {
 					}
 				}
 			} else if (ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) {
-				System.out.println("idk");
+			//	System.out.println("idk");
 				inv.insertItem(j, pickUp.copy(), false);
 				pickUp.setCount(0);
 				return;
@@ -544,33 +552,28 @@ public class EntityEvents {
 	public void hitEntity(LivingHurtEvent event) {
 		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-			KeybladeItem heldKeyblade = null;
 			ItemStack heldOrgWeapon = null;
 			ItemStack stack = null;
 			
-			if (player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-				heldKeyblade = (KeybladeItem) player.getHeldItemMainhand().getItem();
-				stack = player.getHeldItemMainhand();
-			} else if(player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-				heldKeyblade = (KeybladeItem) player.getHeldItemOffhand().getItem();
-				stack = player.getHeldItemOffhand();
-			}
+			stack = KeybladeDamageSource.getKeybladeDamageStack(event.getSource(), player);
 			
-			if(heldKeyblade != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
+			if(stack != null) {
 				float dmg = DamageCalculation.getKBStrengthDamage(player, stack);
 				event.setAmount(dmg);
+			} else {
+				if (player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
+					heldOrgWeapon = player.getHeldItemMainhand();
+				} else if(player.getHeldItemOffhand().getItem() instanceof IOrgWeapon) {
+					heldOrgWeapon = player.getHeldItemOffhand();
+				}
 			}
 			
-			if (player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
-				heldOrgWeapon = player.getHeldItemMainhand();
-			} else if(player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-				heldOrgWeapon = player.getHeldItemOffhand();
-			}
-			
-			if(heldKeyblade == null && heldOrgWeapon != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
+			//if(ModCapabilities.getPlayer(player).getAlignment() != OrgMember.NONE && ModCapabilities.getPlayer(player).getAlignment() != OrgMember.ROXAS) {
+			if(heldOrgWeapon != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
 				float dmg = DamageCalculation.getOrgStrengthDamage(player, heldOrgWeapon);
 				event.setAmount(dmg);
 			}
+			//}
 			
 			if(ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
 				event.setAmount(ModCapabilities.getPlayer(player).getStrength());
@@ -643,11 +646,15 @@ public class EntityEvents {
 				if (globalData.getStoppedTicks() > 0) {
 					float dmg = event.getAmount();
 					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-						if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+						ItemStack stack = KeybladeDamageSource.getKeybladeDamageStack(event.getSource(), source);
+						if(stack != null) {
+							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
+						}
+						/*if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemMainhand());
 						} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
-						}
+						}*/
 						
 						if(dmg == 0) {
 							dmg = event.getAmount();

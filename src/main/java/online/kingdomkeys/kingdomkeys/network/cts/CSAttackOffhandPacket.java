@@ -23,6 +23,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
@@ -119,7 +120,7 @@ public class CSAttackOffhandPacket {
 	               }
 
 	               Vec3d vec3d = targetEntity.getMotion();
-	               boolean flag5 = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), f);
+	               boolean flag5 = targetEntity.attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.OFF_HAND, player), f);
 	               if (flag5) {
 	                  if (i > 0) {
 	                     if (targetEntity instanceof LivingEntity) {
@@ -138,7 +139,7 @@ public class CSAttackOffhandPacket {
 	                     for(LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, targetEntity.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
 	                        if (livingentity != player && livingentity != targetEntity && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
 	                           livingentity.knockBack(player, 0.4F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
-	                           livingentity.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
+	                           livingentity.attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.OFF_HAND, player), f3);
 	                        }
 	                     }
 

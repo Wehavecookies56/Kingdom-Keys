@@ -3,9 +3,11 @@ package online.kingdomkeys.kingdomkeys.lib;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -198,13 +200,15 @@ public class DamageCalculation {
             return 0;
         }
     }
+  
     /**
      * Strength
-     */
-    public static float getStrengthDamage(PlayerEntity player) {
+     
+    public static float getStrengthDamage(DamageSource source, PlayerEntity player) {
         if (player != null) {
             float finalDamage = 0;
-
+            
+            ItemStack stack = KeybladeDamageSource.getKeybladeDamageStack(source, player);
             if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.MAIN_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem) {
                 finalDamage = getKBStrengthDamage(player, player.getHeldItemMainhand());
             } else if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.MAIN_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
@@ -215,7 +219,7 @@ public class DamageCalculation {
             return 0;
         }
     }
-    
+    */
     public static float getSharpnessDamage(ItemStack stack) {
 		ListNBT nbttaglist = stack.getEnchantmentTagList();
     	float sharpnessDamage = 0;
