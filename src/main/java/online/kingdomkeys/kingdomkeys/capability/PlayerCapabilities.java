@@ -272,7 +272,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				int level = (getEquippedAbilityLevel(driveformAbility)[0]+2); //+2 Because it's not set yet, it should be +1 if the ability was already upgraded at the time of generating this message
 				name += "_"+level;
 			}
-			dfMessages.add(name);
+			dfMessages.add("A_"+name);
 		}
 
 		if(!baseAbility.equals("")) {
@@ -282,8 +282,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				name += "_"+(getEquippedAbilityLevel(baseAbility)[0]+1);
 			}
 			addAbility(baseAbility,name);
-
-			//messages.add(name);
 		}
 
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
@@ -797,8 +795,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void addAbility(String ability, boolean notification) {
 		if(notification) {
-			messages.add(ability);
+			messages.add("A_"+ability.replace(KingdomKeys.MODID+":", ""));
 		}
+		
 		if(abilityMap.containsKey(ability)) {
 			abilityMap.put(ability, new int[]{abilityMap.get(ability)[0]+1,abilityMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped
@@ -807,7 +806,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	public void addAbility(String ability, String displayName) {
-		messages.add(displayName);
+		messages.add("A_"+displayName);
 		if(abilityMap.containsKey(ability)) {
 			abilityMap.put(ability, new int[]{abilityMap.get(ability)[0]+1,abilityMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped
