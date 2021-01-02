@@ -34,7 +34,8 @@ public class ModDriveForms {
 				new DriveFormWisdom(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/wisdom.png"), false),
 				new DriveFormLimit(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/limit.png"), false),
 				new DriveFormMaster(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "master",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/master.png"), true),
-				new DriveFormFinal(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/final.png"), true)
+				new DriveFormFinal(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "final",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/final.png"), true),
+				new DriveFormAnti(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "anti", order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/anti.png"), false)
 			);
 		}
 	}

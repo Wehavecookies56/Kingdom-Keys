@@ -8,7 +8,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class HPOrbEntity extends ItemDropEntity {
 
@@ -27,7 +29,8 @@ public class HPOrbEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(PlayerEntity player) {
-		player.heal(this.value);
+		if(!ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti))
+			player.heal(this.value);
 	}
 
 	@Override

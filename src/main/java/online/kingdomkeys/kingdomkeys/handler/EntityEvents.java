@@ -571,6 +571,10 @@ public class EntityEvents {
 				float dmg = DamageCalculation.getOrgStrengthDamage(player, heldOrgWeapon);
 				event.setAmount(dmg);
 			}
+			
+			if(ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
+				event.setAmount(ModCapabilities.getPlayer(player).getStrength());
+			}
 		}
 		
 		if(event.getEntityLiving() instanceof PlayerEntity) {
@@ -632,8 +636,6 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
 				}
 
-
-				
 			}
 
 			if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {

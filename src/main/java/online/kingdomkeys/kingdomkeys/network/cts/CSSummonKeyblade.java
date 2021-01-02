@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
@@ -98,7 +99,9 @@ public class CSSummonKeyblade {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
+			
+			if(playerData.getActiveDriveForm().equals(Strings.Form_Anti))
+				return;
 			ItemStack orgWeapon = null;
 
 			if (playerData.getAlignment() != Utils.OrgMember.NONE) {
