@@ -156,18 +156,20 @@ public class KingdomKeys {
 		
 		DeferredWorkQueue.runLater(() -> {
 			for(Biome b : ForgeRegistries.BIOMES){
-				if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0 && b.getCategory() != Category.OCEAN) {
-					b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
-				}
-				
-				for(EntityType<?> entityType : ModEntities.pureblood) {
-					b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-				}
-				for(EntityType<?> entityType : ModEntities.emblem) {
-					b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-				}
-				for(EntityType<?> entityType : ModEntities.nobody) {
-					b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
+				if(b.getCategory() != Category.OCEAN) {
+					if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0) {
+						b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
+					}
+					
+					for(EntityType<?> entityType : ModEntities.pureblood) {
+						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
+					}
+					for(EntityType<?> entityType : ModEntities.emblem) {
+						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
+					}
+					for(EntityType<?> entityType : ModEntities.nobody) {
+						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
+					}
 				}
 				
 			}

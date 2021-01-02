@@ -8,9 +8,12 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAlignment;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class AlignmentSelectionScreen extends Screen {
@@ -48,6 +51,7 @@ public class AlignmentSelectionScreen extends Screen {
 
     public AlignmentSelectionScreen() {
         super(new TranslationTextComponent(""));
+        minecraft = Minecraft.getInstance();
     }
 
     @Override
@@ -189,7 +193,8 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     public void actionPerformed(int ID) {
-        switch (ID) {
+        IPlayerCapabilities playerData;
+		switch (ID) {
             case OK:
                 //Dismiss welcome message
                 showWelcome = false;
@@ -217,8 +222,13 @@ public class AlignmentSelectionScreen extends Screen {
             case CONFIRM:
                 //Send choice to server
                 PacketHandler.sendToServer(new CSSetAlignment(current));
-                ModCapabilities.getPlayer(Minecraft.getInstance().player).setAlignment(current);
+                playerData = ModCapabilities.getPlayer(minecraft.player);
+                playerData.setAlignment(current);
                 Minecraft.getInstance().displayGuiScreen(null);
+                if(playerData.getEquippedKeychain(DriveForm.NONE) != null) {
+					if(Utils.findSummoned(minecraft.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
+						PacketHandler.sendToServer(new CSSummonKeyblade(true));
+				}
                 break;
             case CANCEL:
                 //Go back

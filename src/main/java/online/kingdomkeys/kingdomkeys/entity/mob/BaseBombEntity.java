@@ -95,7 +95,8 @@ public abstract class BaseBombEntity extends CreatureEntity implements IKHMob, I
 
     @Override
     public void tick() {
-        if (EntityHelper.getState(this) == 1) ticksToExplode--;
+        if (EntityHelper.getState(this) == 1) 
+        	ticksToExplode--;
         super.tick();
     }
 

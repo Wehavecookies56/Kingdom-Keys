@@ -987,7 +987,29 @@
 	"item.kingdomkeys.ampoule": "Bombilla",
 
 	"_comment": "Entities",
-	"entities.kingdomkeys.blast_blox_primed": "Primed Blast Blox",
+	"entities.kingdomkeys.blast_blox_primed": "Bloque Explosivo Prendido",
+
+	"entity.kingdomkeys.moogle": "Moguri",
+	"entity.kingdomkeys.shadow": "Sombra",
+	"entity.kingdomkeys.mega_shadow": "MegaSombra",
+	"entity.kingdomkeys.giga_shadow": "GigaSombra",
+	"entity.kingdomkeys.darkball": "Bola oscura",
+	"entity.kingdomkeys.shadow_glob": "Mole de Sombra",
+
+	"entity.kingdomkeys.minute_bomb": "Minuto Explosivo",
+	"entity.kingdomkeys.skater_bomb": "Bomba Patinadora",
+	"entity.kingdomkeys.storm_bomb": "Bomba Tormentosa",
+	"entity.kingdomkeys.detonator": "Detonador",
+	
+	"entity.kingdomkeys.red_nocturne": "Nocturno Rojo",
+	"entity.kingdomkeys.blue_rhapsody": "Rapsodia Azul",
+	"entity.kingdomkeys.yellow_opera": "Ópera Amarilla",
+	"entity.kingdomkeys.green_requiem": "Réquiem Verde",
+	"entity.kingdomkeys.large_body": "Grandullón",
+	"entity.kingdomkeys.dire_plant": "Mala Hierba",
+
+	"entity.kingdomkeys.nobody_creeper": "Trepador",
+	"entity.kingdomkeys.dusk": "Umbrío",
 
 	"_comment": "Messages",
 	"message.magnet_blox.attract": "Modo Atracción",

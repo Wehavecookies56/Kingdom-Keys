@@ -90,7 +90,7 @@ public class BlastBloxEntity extends Entity {
     }
 
     private void explode() {
-        float explosionSize = 8.0F;
+        float explosionSize = 4.0F;
         this.world.createExplosion(this, this.getPosition().getX(), this.getPosition().getY() + (double)(this.getHeight() / 16.0F), this.getPosition().getZ(), explosionSize, true, Explosion.Mode.BREAK);
     }
 

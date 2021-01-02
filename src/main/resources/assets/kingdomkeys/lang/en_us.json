@@ -977,6 +977,28 @@
 	"_comment": "Entities",
 	"entities.kingdomkeys.blast_blox_primed": "Primed Blast Blox",
 
+	"entity.kingdomkeys.moogle": "Moogle",
+	"entity.kingdomkeys.shadow": "Shadow",
+	"entity.kingdomkeys.mega_shadow": "MegaShadow",
+	"entity.kingdomkeys.giga_shadow": "GigaShadow",
+	"entity.kingdomkeys.darkball": "Darkball",
+	"entity.kingdomkeys.shadow_glob": "Shadow Glob",
+
+	"entity.kingdomkeys.minute_bomb": "Minute Bomb",
+	"entity.kingdomkeys.skater_bomb": "Skater Bomb",
+	"entity.kingdomkeys.storm_bomb": "Storm Bomb",
+	"entity.kingdomkeys.detonator": "Detonator",
+	
+	"entity.kingdomkeys.red_nocturne": "Red Nocturne",
+	"entity.kingdomkeys.blue_rhapsody": "Blue Rhapsody",
+	"entity.kingdomkeys.yellow_opera": "Yellow Opera",
+	"entity.kingdomkeys.green_requiem": "Green Requiem",
+	"entity.kingdomkeys.large_body": "Large Body",
+	"entity.kingdomkeys.dire_plant": "Dire Plant",
+
+	"entity.kingdomkeys.nobody_creeper": "Creeper (Nobody)",
+	"entity.kingdomkeys.dusk": "Dusk",
+
 	"_comment": "Messages",
 	"message.magnet_blox.attract": "Attract Mode",
 	"message.magnet_blox.repel": "Repel Mode",
