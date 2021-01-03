@@ -38,6 +38,7 @@ public class SCSyncCapabilityPacket {
 	private boolean recharge;
 
 	List<String> messages, dfMessages;
+	String driveForm;
 	
     PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
 
@@ -100,6 +101,7 @@ public class SCSyncCapabilityPacket {
 		this.choicePedestal = capability.getChoicePedestal();
 		this.sacrifice = capability.getSacrificed();
 		this.sacrificePedestal = capability.getSacrificePedestal();
+		this.driveForm = capability.getActiveDriveForm();
 		this.returnPos = capability.getReturnLocation();
 		this.returnDim = capability.getReturnDimension();
 
@@ -198,6 +200,10 @@ public class SCSyncCapabilityPacket {
 		for (int i = 0; i < this.dfMessages.size(); i++) {
 			buffer.writeString(this.dfMessages.get(i));
 		}
+		
+		buffer.writeInt(this.driveForm.length());
+		buffer.writeString(this.driveForm);
+		
 		buffer.writeInt(this.returnDim.getId());
 		buffer.writeDouble(this.returnPos.x);
 		buffer.writeDouble(this.returnPos.y);
@@ -303,7 +309,10 @@ public class SCSyncCapabilityPacket {
 		for(int i = 0;i<dfMsgSize;i++) {
 			msg.dfMessages.add(buffer.readString(100));
 		}
-
+		
+		int length = buffer.readInt();
+		msg.driveForm = buffer.readString(length);
+		
 		msg.returnDim = DimensionType.getById(buffer.readInt());
 		msg.returnPos = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
 		msg.soAstate = SoAState.fromByte(buffer.readByte());
@@ -357,6 +366,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setPartiesInvited(message.partyList);
 			playerData.setMaterialMap(message.materialMap);
 			playerData.equipAllKeychains(message.keychains, false);
+			playerData.setActiveDriveForm(message.driveForm);
 
 			playerData.setReturnDimension(message.returnDim);
 			playerData.setReturnLocation(message.returnPos);

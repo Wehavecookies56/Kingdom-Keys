@@ -848,25 +848,4 @@ public class EntityEvents {
 			PacketHandler.syncToAllAround(targetPlayer, playerData);
 		}
 	}
-	
-	/*@SubscribeEvent
-	public void potentialSpawns(WorldEvent.PotentialSpawns event) {
-		World world = (World)event.getWorld();
-		IWorldCapabilities worldData = ModCapabilities.getWorld(world);
-		if (!worldData.getHeartlessSpawn()) {
-			List<SpawnListEntry> list2 = new ArrayList<SpawnListEntry>();
-			for(SpawnListEntry entry : event.getList()) {
-				if(ModEntities.pureblood.contains(entry.entityType) || ModEntities.emblem.contains(entry.entityType) || ModEntities.nobody.contains(entry.entityType)) {
-					list2.add(entry);
-				}
-			}
-			
-			if(!list2.isEmpty()) {
-				for(SpawnListEntry entry : list2) {
-					event.getList().remove(entry);
-				}
-			}
-		}
-	}*/
-
 }
