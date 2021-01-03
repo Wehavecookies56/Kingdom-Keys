@@ -528,9 +528,7 @@ public class EntityEvents {
 			ItemStack bagItem = inv.getStackInSlot(j);
 			ItemStack pickUp = event.getItem().getItem();
 			if (!ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) {
-			//	System.out.println("Found bag 2");
 				if (bagItem.getItem().equals(pickUp.getItem())) {
-				//	System.out.println("Bag already has item");
 					if (bagItem.getCount() < 64) {
 						if (bagItem.getCount() + pickUp.getCount() <= 64) {
 							ItemStack stack = new ItemStack(pickUp.copy().getItem(), pickUp.copy().getCount());
@@ -541,7 +539,6 @@ public class EntityEvents {
 					}
 				}
 			} else if (ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) {
-			//	System.out.println("idk");
 				inv.insertItem(j, pickUp.copy(), false);
 				pickUp.setCount(0);
 				return;
