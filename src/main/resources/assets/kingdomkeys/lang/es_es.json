@@ -17,6 +17,9 @@
 	"itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Llaves Espada",
 	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Armas de la Organización",
 
+	"_comment": "DeathMessages",
+	"keybladedamage.death": "%s ha sido víctima de %s",
+	
 	"_comment": "Menu",
 	"gui.menu.back": "Atrás",
 	"gui.menu.back.desc": "Vuelve al menú anterior.",

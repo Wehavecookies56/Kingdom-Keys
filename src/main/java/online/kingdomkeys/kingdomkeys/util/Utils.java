@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -109,6 +110,28 @@ public class Utils {
 	public static String translateToLocal(String name) {
 		TranslationTextComponent translation = new TranslationTextComponent(name);
 		return translation.getFormattedText();
+	}
+	
+	/**
+	 * Get the ItemStack of the item that made the DamageSource
+	 * @param damageSource
+	 * @param player
+	 * @return
+	 */
+	public static ItemStack getKeybladeDamageStack(DamageSource damageSource, PlayerEntity player) {
+		switch (damageSource.damageType) {
+		case "player":
+			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+				return player.getHeldItemMainhand();
+			}
+			break;
+		case "keybladeOffhand":
+			if (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+				return player.getHeldItemOffhand();
+			}
+		}
+		return null;
+
 	}
 
 	public static enum OrgMember {

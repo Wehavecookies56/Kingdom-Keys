@@ -17,6 +17,9 @@
 	"itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Keyblades",
 	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organization Weapons",
 
+	"_comment": "DeathMessages",
+	"keybladedamage.death": "%s was slain by %s",
+
 	"_comment": "Menu",
 	"gui.menu.back": "Back",
 	"gui.menu.back.desc": "Go back to the previous menu.",

@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
@@ -552,10 +553,11 @@ public class EntityEvents {
 	public void hitEntity(LivingHurtEvent event) {
 		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+			
 			ItemStack heldOrgWeapon = null;
 			ItemStack stack = null;
 			
-			stack = KeybladeDamageSource.getKeybladeDamageStack(event.getSource(), player);
+			stack = Utils.getKeybladeDamageStack(event.getSource(), player);
 			
 			if(stack != null) {
 				float dmg = DamageCalculation.getKBStrengthDamage(player, stack);
@@ -593,31 +595,18 @@ public class EntityEvents {
 			event.setAmount(damage <= 0 ? 1 : damage);
 		}
 	}
-	
-	@SubscribeEvent
-	public void onFall(LivingFallEvent event) {
-		if(event.getEntityLiving() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			//Check to prevent edge case crash
-			if (playerData != null && playerData.getActiveDriveForm() != null) {
-				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-					event.setDistance(0);
-				} else {
-					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide)) {
-						event.setDistance(0);
-					}
-				}
-			}
-		}
-	}
 
 	// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
 		if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
-			//LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
+			LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 			LivingEntity target = event.getEntityLiving();
+			
+			if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+				event.setCanceled(true);
+				event.getEntityLiving().attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.MAIN_HAND, (PlayerEntity) attacker), event.getAmount());
+			}
 			
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
 			if (target instanceof PlayerEntity) {
@@ -646,7 +635,7 @@ public class EntityEvents {
 				if (globalData.getStoppedTicks() > 0) {
 					float dmg = event.getAmount();
 					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-						ItemStack stack = KeybladeDamageSource.getKeybladeDamageStack(event.getSource(), source);
+						ItemStack stack = Utils.getKeybladeDamageStack(event.getSource(), source);
 						if(stack != null) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
 						}
@@ -757,6 +746,24 @@ public class EntityEvents {
 			if(event.getEntity() instanceof MoogleEntity && event.getSource() == DamageSource.ANVIL) {
 				ItemEntity ie = new ItemEntity(event.getEntity().world, event.getEntity().getPosX(), event.getEntity().getPosY(), event.getEntity().getPosZ(), new ItemStack(ModBlocks.moogleProjector.get()));
 				event.getEntity().world.addEntity(ie);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onFall(LivingFallEvent event) {
+		if(event.getEntityLiving() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			//Check to prevent edge case crash
+			if (playerData != null && playerData.getActiveDriveForm() != null) {
+				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+					event.setDistance(0);
+				} else {
+					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide)) {
+						event.setDistance(0);
+					}
+				}
 			}
 		}
 	}
