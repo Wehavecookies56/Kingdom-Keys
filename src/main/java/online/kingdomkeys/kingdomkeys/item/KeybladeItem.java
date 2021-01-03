@@ -185,27 +185,19 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
-		
-		ExpParticleData flameParticleData = new ExpParticleData(Color.red, 2);
-	    //world.addParticle(flameParticleData, true, player.getPosX(), player.getPosY(), player.getPosZ(), 0, 0, 0);
-		
-		if (player.isSneaking()) {
-			//setKeybladeLevel(10);
-		} else {
-			if (world.isRemote) {
-				RayTraceResult rtr = Minecraft.getInstance().objectMouseOver;
-				if (rtr != null) {
-					player.swingArm(Hand.OFF_HAND);
+		if (world.isRemote && player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+			RayTraceResult rtr = Minecraft.getInstance().objectMouseOver;
+			if (rtr != null) {
+				player.swingArm(Hand.OFF_HAND);
 
-					if (rtr.getType() == Type.ENTITY) {
-						EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
-						if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.OFF_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.OFF_HAND).getItem() instanceof KeybladeItem && hand == Hand.OFF_HAND) {
-							if (ertr.getEntity() != null) {
-								PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getEntityId()));
-								return ActionResult.resultSuccess(itemstack);
-							}
-							return ActionResult.resultFail(itemstack);
+				if (rtr.getType() == Type.ENTITY) {
+					EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
+					if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.OFF_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.OFF_HAND).getItem() instanceof KeybladeItem && hand == Hand.OFF_HAND) {
+						if (ertr.getEntity() != null) {
+							PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getEntityId()));
+							return ActionResult.resultSuccess(itemstack);
 						}
+						return ActionResult.resultFail(itemstack);
 					}
 				}
 			}

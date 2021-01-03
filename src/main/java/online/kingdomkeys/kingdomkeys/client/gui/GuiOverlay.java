@@ -200,7 +200,7 @@ public class GuiOverlay extends Screen {
 	}
 
 	private void showDriveLevelUp(RenderGameOverlayEvent event) {
-		if(playerData == null)
+		if(playerData == null || driveForm == null)
 			return;
 
 		DriveForm drive = ModDriveForms.registry.getValue(new ResourceLocation(driveForm));

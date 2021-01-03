@@ -562,6 +562,7 @@ public class EntityEvents {
 			if(stack != null) {
 				float dmg = DamageCalculation.getKBStrengthDamage(player, stack);
 				event.setAmount(dmg);
+
 			} else {
 				if (player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
 					heldOrgWeapon = player.getHeldItemMainhand();
@@ -569,6 +570,7 @@ public class EntityEvents {
 					heldOrgWeapon = player.getHeldItemOffhand();
 				}
 			}
+
 			
 			//if(ModCapabilities.getPlayer(player).getAlignment() != OrgMember.NONE && ModCapabilities.getPlayer(player).getAlignment() != OrgMember.ROXAS) {
 			if(heldOrgWeapon != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
@@ -603,10 +605,10 @@ public class EntityEvents {
 			LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 			LivingEntity target = event.getEntityLiving();
 			
-			if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+			/*if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 				event.setCanceled(true);
 				event.getEntityLiving().attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.MAIN_HAND, (PlayerEntity) attacker), event.getAmount());
-			}
+			}*/
 			
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
 			if (target instanceof PlayerEntity) {
@@ -644,7 +646,6 @@ public class EntityEvents {
 						} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
 						}*/
-						
 						if(dmg == 0) {
 							dmg = event.getAmount();
 						}
@@ -701,7 +702,7 @@ public class EntityEvents {
 				}
 				if(event.getEntityLiving() instanceof IKHMob) {
 					IKHMob heartless = (IKHMob) event.getEntityLiving();
-					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && ((player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem) || (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem))) {
+					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && Utils.getKeybladeDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
 						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
 						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
 						event.getEntityLiving().world.addEntity(heart);
