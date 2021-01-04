@@ -1,18 +1,13 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.*;
-import java.util.function.Supplier;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -20,6 +15,9 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.*;
+import java.util.function.Supplier;
 
 public class SCSyncCapabilityPacket {
 
@@ -52,7 +50,7 @@ public class SCSyncCapabilityPacket {
 	
 	SoAState soAstate, choice, sacrifice;
 	BlockPos choicePedestal, sacrificePedestal;
-	Vec3d returnPos;
+	Vector3d returnPos;
 	DimensionType returnDim;
 
 	int hearts;

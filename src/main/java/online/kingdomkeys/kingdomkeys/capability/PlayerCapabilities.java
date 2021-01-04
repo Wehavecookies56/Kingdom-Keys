@@ -12,6 +12,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -977,7 +978,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	//region SoA stuff
 
 	@Override
-	public Vec3d getReturnLocation() {
+	public Vector3d getReturnLocation() {
 		return this.returnPos;
 	}
 
@@ -987,7 +988,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void setReturnLocation(Vec3d location) {
+	public void setReturnLocation(Vector3d location) {
 		this.returnPos = location;
 	}
 
