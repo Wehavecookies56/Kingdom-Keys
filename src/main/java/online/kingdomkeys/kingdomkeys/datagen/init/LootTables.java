@@ -45,6 +45,7 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.station_of_awakening_core.get());
         standardBlockLoot(ModBlocks.pedestal.get());        
         standardBlockLoot(ModBlocks.savepoint.get());
+        standardBlockLoot(ModBlocks.magicalChest.get());
         
         lootTables.put(ModBlocks.prizeBlox.get(), LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
         		.addEntry(ItemLootEntry.builder(ModItems.fireSpell.get()).weight(1))
