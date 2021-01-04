@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.render.block.MoogleProjectorRendere
 import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.PedestalRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.SoAPlatformRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.ArrowgunShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.BombRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DarkballRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DirePlantRenderer;
@@ -117,6 +118,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
 
     public static final RegistryObject<EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, SeedBulletEntity::new, EntityClassification.MISC,"seed_bullet", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ArrowgunShotEntity>> TYPE_ARROWGUN_SHOT = createEntityType(ArrowgunShotEntity::new, ArrowgunShotEntity::new, EntityClassification.MISC,"arrowgun_shot", 0.1F, 0.1F);
 
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, EntityClassification.MISC,"entity_org_portal", 0.5F, 0.5F);
     
@@ -154,7 +156,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 1.3F, 1.6F, NOBODY);
     //TODO make AI
     //public static final RegistryObject<EntityType<ShadowEntity>> TYPE_WHITE_MUSHROOM = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "white_mushroom", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.5F, 0.5F, NOBODY);
+    public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.75F, 1.5F, NOBODY);
 
     //Nobodies
     public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, EntityClassification.MONSTER, "nobody_creeper", 1F, 1.5F, NOBODY);
@@ -267,6 +269,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LANCE.get(), LanceEntityRenderer.FACTORY);
 
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_ARROWGUN_SHOT.get(), ArrowgunShotEntityRenderer.FACTORY);
 
         
         //Tile Entities

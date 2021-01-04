@@ -113,29 +113,30 @@ public class DirePlantEntity extends CreatureEntity implements IKHMob {
 
                 this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
                 double d1 = this.theEntity.getAttackTarget().getPosX() - this.theEntity.getPosX();
-                double d2 = this.theEntity.getAttackTarget().getBoundingBox().minY + (double)(this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F));
+                double d2 = this.theEntity.getAttackTarget().getPosY() - this.theEntity.getPosY();//getBoundingBox().minY + (double)(this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F));
                 double d3 = this.theEntity.getAttackTarget().getPosZ() - this.theEntity.getPosZ();
+                System.out.println("attack");
                 if(world.rand.nextInt(100) + 1 > EntityHelper.percentage(25, 100)) {
 
                     SeedBulletEntity seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
                     seed.shoot(d1, d2, d3, 1.2F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.5D, seed.getPosZ());
+                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
                     this.theEntity.world.addEntity(seed);
                 }
                 else {
                     SeedBulletEntity seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
                     seed.shoot(d1, d2, d3, 1.2F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.5D, seed.getPosZ());
+                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
                     this.theEntity.world.addEntity(seed);
 
                     seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
                     seed.shoot(d1, d2, d3, 0.7F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.5D, seed.getPosZ());
+                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
                     this.theEntity.world.addEntity(seed);
 
                     seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
                     seed.shoot(d1, d2, d3, 0.5F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.5D, seed.getPosZ());
+                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
                     this.theEntity.world.addEntity(seed);
                 }
 

@@ -34,6 +34,7 @@ public class ModSounds {
             savepoint = registerSound("savepoint"),
             savespawn = registerSound("savespawn"),
             sharpshooterbullet = registerSound("sharpshooterbullet"),
+            arrowgunReload = registerSound("arrowgunreload"),
             summon = registerSound("summon"),
             unsummon = registerSound("unsummon"),
             

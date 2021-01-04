@@ -699,7 +699,7 @@ public class EntityEvents {
 				}
 				if(event.getEntityLiving() instanceof IKHMob) {
 					IKHMob heartless = (IKHMob) event.getEntityLiving();
-					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && Utils.getKeybladeDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
+					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && Utils.getKeybladeDamageStack(event.getSource(), player) != null && Utils.getKeybladeDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
 						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
 						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
 						event.getEntityLiving().world.addEntity(heart);
@@ -707,7 +707,6 @@ public class EntityEvents {
 				}
 				
 				if (event.getEntity().getClassification(false) == EntityClassification.MONSTER) {
-
 					if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
 						LivingEntity mob = (LivingEntity) event.getEntity();
 						

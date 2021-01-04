@@ -109,6 +109,12 @@
 			{"name": "kingdomkeys:sharpshooterbullet", "stream": false }
 		]
 	},
+	"arrowgunreload": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:arrowgunreload", "stream": false }
+		]
+	},
 
 	"records.musique_pour_la_tristesse_de_xion": {
 		"category": "record",

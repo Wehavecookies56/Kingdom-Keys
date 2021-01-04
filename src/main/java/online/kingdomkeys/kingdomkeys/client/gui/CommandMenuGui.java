@@ -6,7 +6,9 @@ import java.util.LinkedHashMap;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -19,11 +21,12 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup
 public class CommandMenuGui extends Screen {
@@ -298,13 +301,14 @@ public class CommandMenuGui extends Screen {
 			RenderSystem.scalef(scale, scale, scale);
 
 			paintWithColorArray(normalModeColor, alpha);
+			ClientPlayerEntity player = Minecraft.getInstance().player;
 			if (selected == ATTACK) { // Selected
 				textX = 5;
 				blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 
 				// Draw Icon
-				if (ModCapabilities.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE) {
+				if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
 					blit(60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 				} else {
 					blit(60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
@@ -316,19 +320,20 @@ public class CommandMenuGui extends Screen {
 			}
 
 			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Attack), 6 + textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+			
+			
+			if (player.getHeldItemMainhand() != null) {
+				if (player.getHeldItemMainhand().getItem() instanceof ArrowgunItem) {
+					ItemStack weapon = player.getHeldItemMainhand();
+					if (weapon.hasTag()) {
+						if (weapon.getTag().contains("ammo")) {
+							int ammo = weapon.getTag().getInt("ammo");
+							drawString(minecraft.fontRenderer, ammo + "", textX + TOP_WIDTH, 4, 0xFFFFFF);
+						}
+					}
 
-			/*
-			 * if(Minecraft.getInstance().player.getCapability(ModCapabilities.
-			 * ORGANIZATION_XIII, null).getMember() == Utils.OrgMember.XIGBAR) {
-			 * if(player.getHeldItemMainhand() != null) {
-			 * if(player.getHeldItemMainhand().getItem() instanceof ArrowgunsItem) {
-			 * ItemStack weapon = player.getHeldItemMainhand(); if(weapon.hasTagCompound())
-			 * { if(weapon.getTagCompound().hasKey("ammo")) { int ammo =
-			 * weapon.getTagCompound().getInteger("ammo"); drawString(minecraft.fontRenderer,
-			 * ammo+"", textX+TOP_WIDTH, 4, 0xFFFFFF); } }
-			 * 
-			 * } } }
-			 */
+				}
+			}			 
 		}
 		RenderSystem.popMatrix();
 	}

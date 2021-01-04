@@ -3,11 +3,13 @@ package online.kingdomkeys.kingdomkeys.entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 public class SeedBulletEntity extends ThrowableEntity {
 
@@ -30,12 +32,18 @@ public class SeedBulletEntity extends ThrowableEntity {
         super(ModEntities.TYPE_SEED_BULLET.get(), livingEntityIn, worldIn);
         this.ent = livingEntityIn;
     }
-
+    
+    @Override
+	public IPacket<?> createSpawnPacket() {
+		return NetworkHooks.getEntitySpawningPacket(this);
+	}
+    
     @Override
     protected void onImpact(RayTraceResult result) {
         if (result instanceof EntityRayTraceResult) {
             ((EntityRayTraceResult) result).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, ent), 6);
         }
+        remove();
     }
 
     @Override
@@ -45,12 +53,10 @@ public class SeedBulletEntity extends ThrowableEntity {
 
     @Override
     public void tick() {
-        if (ticks <= 0) {
-            ticks = 30;
-            this.remove();
-        } else {
-            ticks--;
-        }
+    	if(this.ticksExisted >= ticks) {
+    		this.remove();
+    	}
+    	super.tick();
     }
 
     @Override
