@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 public class AssassinGoal extends TargetGoal {
 	// 2 - is Exploding ; 1 - in Shadow ; 0 - in Overworld
 
-	private final int MAX_DISTANCE_FOR_AI = 100, TIME_BEFORE_NEXT_ATTACK = 70, TIME_OUTSIDE_THE_SHADOW = 70;
+	private final int MAX_DISTANCE_FOR_AI = 100, TIME_BEFORE_NEXT_ATTACK = 70, TIME_TO_GO_UNDERGROUND = 120, TIME_UNDERGROUND = 30;
 	private int undergroundTicks = 70, ticksUntilNextAttack, ticksToLowHealth = 70, ticksToExplode = 30;
 	private boolean canUseNextAttack = true;
 
@@ -40,13 +40,13 @@ public class AssassinGoal extends TargetGoal {
 				}
 				return true;
 			}
+			
 			if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 6) {
 				if (this.goalOwner.onGround) {
 					if (!isUnderground()) {
 						undergroundTicks--;
 						if (undergroundTicks <= 0) {
 							EntityHelper.setState(this.goalOwner, 1);
-							//shadowTicks = TIME_OUTSIDE_THE_SHADOW;
 							canUseNextAttack = false;
 						}
 					} else {
@@ -63,11 +63,12 @@ public class AssassinGoal extends TargetGoal {
 					} else {
 						EntityHelper.setState(this.goalOwner, 0);
 						this.goalOwner.setInvulnerable(false);
-						undergroundTicks = TIME_OUTSIDE_THE_SHADOW;
+						undergroundTicks = TIME_TO_GO_UNDERGROUND;
 						canUseNextAttack = true;
 					}
+					
 					undergroundTicks++;
-					if (undergroundTicks >= TIME_OUTSIDE_THE_SHADOW) {
+					if (undergroundTicks >= TIME_UNDERGROUND) { //Go to the surface
 						EntityHelper.setState(this.goalOwner, 0);
 						this.goalOwner.setInvulnerable(false);
 	
