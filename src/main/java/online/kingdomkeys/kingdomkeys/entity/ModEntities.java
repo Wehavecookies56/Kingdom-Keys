@@ -30,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.PedestalRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.SoAPlatformRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ArrowgunShotEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.AssassinRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.BombRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DarkballRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DirePlantRenderer;
@@ -72,6 +73,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.BlueRhapsodyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DarkballEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DetonatorEntity;
@@ -161,6 +163,7 @@ public class ModEntities {
     //Nobodies
     public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, EntityClassification.MONSTER, "nobody_creeper", 1F, 1.5F, NOBODY);
     public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, EntityClassification.MONSTER, "dusk", 1F, 1.5F);
+    public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, EntityClassification.MONSTER, "assassin", 1F, 1.5F);
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -260,6 +263,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_YELLOW_OPERA.get(), ElementalMusicalHeartlessRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GREEN_REQUIEM.get(), ElementalMusicalHeartlessRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_DUSK.get(), DuskRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_ASSASSIN.get(), AssassinRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_DIRE_PLANT.get(), DirePlantRenderer.FACTORY);
 
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer.FACTORY);
