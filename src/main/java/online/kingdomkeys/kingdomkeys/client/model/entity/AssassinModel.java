@@ -170,7 +170,11 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 
     @Override
 	public void setRotationAngles(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+    	this.leftLegTop.rotateAngleX = (float) Math.toRadians(0);
+		this.rightLegTop.rotateAngleX = (float) Math.toRadians(0);
+		this.leftLegBot.rotateAngleX = (float) Math.toRadians(0);
+		this.rightLegBot.rotateAngleX = (float) Math.toRadians(0);
+		
 		if (EntityHelper.getState(ent) == 0) {
 			//this.rightArm.rotateAngleX =  (float) Math.toRadians(0);
 			this.rightArm.rotateAngleY = (float) Math.toRadians(70);
@@ -182,12 +186,22 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 			
 		} else if (EntityHelper.getState(ent) == 1) {
 			this.rightArm.rotateAngleX =  (float) Math.toRadians(270);
-			this.rightArm.rotateAngleY = -90;
-			this.rightArm.rotateAngleZ = 70;
+			this.rightArm.rotateAngleY = (float) Math.toRadians(90 - ent.ticksExisted*50);
+			this.rightArm.rotateAngleZ = (float) Math.toRadians(90);
 
 			this.leftArm.rotateAngleX =  (float) Math.toRadians(270);
-			this.leftArm.rotateAngleY = -90;
-			this.leftArm.rotateAngleZ = 90;
+			this.leftArm.rotateAngleY = (float) Math.toRadians(-90 - ent.ticksExisted*50);
+			this.leftArm.rotateAngleZ = (float) Math.toRadians(90);
+			
+		} else if (EntityHelper.getState(ent) == 2) {
+			this.leftLegTop.rotateAngleX = (float) Math.toRadians(-135);
+			this.rightLegTop.rotateAngleX = (float) Math.toRadians(-135);
+			this.leftLegBot.rotateAngleX = (float) Math.toRadians(90);
+			this.rightLegBot.rotateAngleX = (float) Math.toRadians(90);
+			
+			this.leftArm.rotateAngleY = (float) Math.toRadians(110);
+			this.rightArm.rotateAngleY = (float) Math.toRadians(110);
+			
 		}
 
     }

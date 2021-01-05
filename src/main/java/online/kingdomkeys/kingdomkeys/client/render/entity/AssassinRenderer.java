@@ -28,9 +28,12 @@ public class AssassinRenderer extends MobRenderer<AssassinEntity, AssassinModel<
         {
         	matrixStackIn.translate(0, -0.9, 0);
 	    	if (EntityHelper.getState(entityIn) == 1) {
-	    		matrixStackIn.translate(0, -2, 0);
-	    	} else {
-	    		matrixStackIn.translate(0, 0, 0);
+	    		matrixStackIn.translate(0, -1.5F, 0);
+	    	} else if(EntityHelper.getState(entityIn) == 2){
+	    		matrixStackIn.translate(0, 0.3F, 0);
+	    		if(entityIn.ticksExisted % 10 == 0) {
+	    			matrixStackIn.scale(1.2F, 1.2F, 1.2F);
+	    		}
 	    	}
 	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     	}

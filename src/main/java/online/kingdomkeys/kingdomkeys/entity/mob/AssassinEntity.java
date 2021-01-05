@@ -37,7 +37,8 @@ public class AssassinEntity extends CreatureEntity implements IKHMob {
 	
 	@Override
 	protected void registerGoals() {
-		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
+		//this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
@@ -52,10 +53,10 @@ public class AssassinEntity extends CreatureEntity implements IKHMob {
 	protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
-		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(80.0D);
 		this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000.0D);
-		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
+		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
 	}
 
 	@Override
