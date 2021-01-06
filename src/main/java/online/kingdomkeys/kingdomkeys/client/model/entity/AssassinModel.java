@@ -1,16 +1,19 @@
 package online.kingdomkeys.kingdomkeys.client.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import io.netty.util.internal.MathUtil;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.util.Utils.ModelAnimation;
 
 /**
  * Assassin - Abelatox
@@ -18,6 +21,14 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
  */
 @OnlyIn(Dist.CLIENT)
 public class AssassinModel<T extends Entity> extends EntityModel<T> {
+	protected double distanceMovedTotal = 0.0D;
+	protected double CYCLES_PER_BLOCK;
+	protected int cycleIndex = 0;
+
+	// Walking animation
+	//protected double[][] animationWalk = new double[][] { { 10, 100, 51, -90, 2, -46 }, { 20, 51, 0, -40, 51, 0 }, { 30, 2, -46, 0, 100, 51 }, { 30, 2, -46, 0, 100, 51 }, { 20, 51, 0, -40, 51, 0 }, { 10, 100, -51, -90, 2, -46 }, };
+													//default, min, max, actual
+		
 	public ModelRenderer bodyBot;
     public ModelRenderer leftLegTop;
     public ModelRenderer rightLegTop;
@@ -50,8 +61,14 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
     public ModelRenderer rightArmSpike4_1;
     public ModelRenderer rightArmSpike5;
     public ModelRenderer skirtTop;
-
+    
+	/*protected ModelRenderer[] modelArray = {leftLegTop, leftLegBot};
+	protected double[][] animationWalk = new double[][] { {-35,-45,-25, 0}, { 10, -40, 50, 0 } };
+	protected boolean[] increaseWalking = new boolean[] {true,true};*/
+    List<ModelAnimation> animation = new ArrayList<ModelAnimation>();
+	
     public AssassinModel() {
+		this.CYCLES_PER_BLOCK = 1D;
         this.textureWidth = 64;
         this.textureHeight = 32;
         this.leftArmSpike2 = new ModelRenderer(this, 36, 8);
@@ -197,6 +214,12 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
         this.head.addChild(this.face);
         this.rightLegTop.addChild(this.rightLegBot);
         this.bodyTop.addChild(this.neck);
+        
+        ModelAnimation leftLegTopAnim = new ModelAnimation(leftLegTop, -35, -55, -15, 0, true, rightLegTop);
+        //ModelAnimation rightLegTopAnim = new ModelAnimation(rightLegTop, -35, -45, -25, 0, false);
+        
+        animation.add(leftLegTopAnim);
+        //animation.add(rightLegTopAnim);
     }
 
     @Override
@@ -208,10 +231,35 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 
     @Override
 	public void setRotationAngles(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-    	this.leftLegTop.rotateAngleX = (float) Math.toRadians(-35);
-		this.rightLegTop.rotateAngleX = (float) Math.toRadians(-35);
-		this.leftLegBot.rotateAngleX = (float) Math.toRadians(10);
-		this.rightLegBot.rotateAngleX = (float) Math.toRadians(10);
+		updateDistanceMovedTotal(ent);
+		if (ent.getDistanceSq(ent.prevPosX, ent.prevPosY, ent.prevPosZ) > 0) {
+			for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
+				ModelAnimation m = animation.get(i); 
+				//System.out.println(i + " " + m);
+				if(m != null && m.model != null) {
+					if(m.increasing) { //animnation increase
+						m.actVal += 2;
+						if(m.actVal >= m.maxVal) {
+							m.increasing = false;
+						}
+					} else { //Animation decrease
+						m.actVal -= 2;
+						if(m.actVal <= m.minVal) {
+							m.increasing = true;
+						}
+					}
+					m.model.rotateAngleX = (float) Math.toRadians(m.actVal);
+					if(m.modelCounterpart != null) {
+						m.modelCounterpart.rotateAngleX = (float) Math.toRadians(m.defVal*2-m.actVal);
+					}
+				}
+			}
+		
+		} else {
+	    	this.leftLegTop.rotateAngleX = this.rightLegTop.rotateAngleX = (float) Math.toRadians(-35);
+			this.leftLegBot.rotateAngleX = this.rightLegBot.rotateAngleX = (float) Math.toRadians(10);
+			this.leftFootTop.rotateAngleX = this.rightFootTop.rotateAngleX = (float) Math.toRadians(25);
+		}
 		
 		if (EntityHelper.getState(ent) == 0) {
 			//this.rightArm.rotateAngleX =  (float) Math.toRadians(0);
@@ -239,10 +287,18 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 			
 			this.leftArm.rotateAngleY = (float) Math.toRadians(110);
 			this.rightArm.rotateAngleY = (float) Math.toRadians(110);
-			
 		}
 
     }
+    
+    protected void updateDistanceMovedTotal(Entity e) {
+    	distanceMovedTotal += e.getDistanceSq(e.prevPosX, e.prevPosY, e.prevPosZ);
+	}
+
+	protected double getDistanceMovedTotal() {
+		return (distanceMovedTotal);
+	}
+
 
 
     /**

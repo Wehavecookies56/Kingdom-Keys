@@ -21,17 +21,14 @@ public class AssassinGoal extends TargetGoal {
 	@Override
 	public boolean shouldContinueExecuting() {
 		if (this.goalOwner.getAttackTarget() != null) {
-			
 			if(goalOwner.getHealth() <= goalOwner.getMaxHealth() / 4) { //If the assassin is at 25% hp or less
 				if(isExploding()) {
 					ticksToExplode--;
-					//System.out.println("exploding "+ticksToExplode);
 					if(ticksToExplode <= 0) {
 						explode();
 					}
 				} else {
 					ticksToLowHealth--;
-					//System.out.println("low health "+ticksToLowHealth);
 					if(ticksToLowHealth <= 0) {
 						EntityHelper.setState(this.goalOwner, 2);
 	                    this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
@@ -41,7 +38,30 @@ public class AssassinGoal extends TargetGoal {
 				return true;
 			}
 			
-			if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 6) {
+			
+			if (isUnderground()) {
+				this.goalOwner.setInvulnerable(true);
+
+				canUseNextAttack = false;
+				if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 5) {
+					this.goalOwner.attackEntityAsMob(this.goalOwner.getAttackTarget());
+				} else {
+					EntityHelper.setState(this.goalOwner, 0);
+					this.goalOwner.setInvulnerable(false);
+					undergroundTicks = TIME_TO_GO_UNDERGROUND;
+					canUseNextAttack = true;
+				}
+				
+				undergroundTicks++;
+				if (undergroundTicks >= TIME_UNDERGROUND) { //Go to the surface
+					EntityHelper.setState(this.goalOwner, 0);
+					this.goalOwner.setInvulnerable(false);
+
+					canUseNextAttack = true;
+				}
+			}
+			
+			if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 5) { //If target is in range
 				if (this.goalOwner.onGround) {
 					if (!isUnderground()) {
 						undergroundTicks--;
@@ -54,27 +74,7 @@ public class AssassinGoal extends TargetGoal {
 					}
 				}
 	
-				if (isUnderground()) {
-					this.goalOwner.setInvulnerable(true);
-	
-					canUseNextAttack = false;
-					if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 6) {
-						this.goalOwner.attackEntityAsMob(this.goalOwner.getAttackTarget());
-					} else {
-						EntityHelper.setState(this.goalOwner, 0);
-						this.goalOwner.setInvulnerable(false);
-						undergroundTicks = TIME_TO_GO_UNDERGROUND;
-						canUseNextAttack = true;
-					}
-					
-					undergroundTicks++;
-					if (undergroundTicks >= TIME_UNDERGROUND) { //Go to the surface
-						EntityHelper.setState(this.goalOwner, 0);
-						this.goalOwner.setInvulnerable(false);
-	
-						canUseNextAttack = true;
-					}
-				}
+				
 	
 				//EntityHelper.Dir dir = EntityHelper.get8Directions(this.goalOwner);
 				//int currentAi = this.goalOwner.world.rand.nextInt(2);
@@ -110,7 +110,7 @@ public class AssassinGoal extends TargetGoal {
 	}
 
 	private void explode() {
-        goalOwner.world.createExplosion(goalOwner, goalOwner.getPosX(), goalOwner.getPosY(), goalOwner.getPosZ(), 3, false, Explosion.Mode.NONE);
+        goalOwner.world.createExplosion(goalOwner, goalOwner.getPosX(), goalOwner.getPosY(), goalOwner.getPosZ(), 6, false, Explosion.Mode.NONE);
         goalOwner.remove();
 	}
 

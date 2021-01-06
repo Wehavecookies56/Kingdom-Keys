@@ -1,18 +1,28 @@
 package online.kingdomkeys.kingdomkeys.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -32,12 +42,36 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 /**
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
+	
+	public static class ModelAnimation {
+		public ModelRenderer model;
+		public ModelRenderer modelCounterpart;
+		public float defVal;
+		public float minVal;
+		public float maxVal;
+		public float actVal;
+		public boolean increasing;
+		
+		public ModelAnimation(ModelRenderer model, float defVal, float minVal, float maxVal, float actVal, boolean increasing, @Nullable ModelRenderer counterpart) {
+			this.model = model;
+			this.defVal = defVal;
+			this.minVal = minVal;
+			this.maxVal = maxVal;
+			this.actVal = actVal;
+			this.increasing = increasing;
+			this.modelCounterpart = counterpart;
+		}
+		
+		@Override
+		public String toString() {
+			return defVal+": "+actVal+" "+increasing;
+		}
+	}
 
 	public static int getInt(String num) {
 		int number;
