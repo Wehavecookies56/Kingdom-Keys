@@ -80,7 +80,7 @@ public class MoogleEntity extends CreatureEntity {
 
     @Override
     public int getTalkInterval() {
-        return 250;
+        return 600;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
     }
 
     @Override
-    protected double getMaxHelth() {
+    protected double getMaxHP() {
         return 40.0D;
     }
 
