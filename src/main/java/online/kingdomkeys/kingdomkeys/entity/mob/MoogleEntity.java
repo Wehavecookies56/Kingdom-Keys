@@ -6,6 +6,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
@@ -14,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 
 import javax.annotation.Nullable;
 
@@ -48,7 +51,9 @@ public class MoogleEntity extends CreatureEntity {
 
     @Override
     protected boolean processInteract(PlayerEntity player, Hand hand) {
-        //TODO open moogle UI
+        if (!player.world.isRemote) {
+            PacketHandler.sendTo(new SCOpenSynthesisGui(), (ServerPlayerEntity)player);
+        }
         return super.processInteract(player, hand);
     }
 
