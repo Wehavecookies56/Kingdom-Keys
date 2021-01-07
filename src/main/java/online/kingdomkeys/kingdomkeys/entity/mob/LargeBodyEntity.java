@@ -64,7 +64,7 @@ public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity,
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(70.0D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);

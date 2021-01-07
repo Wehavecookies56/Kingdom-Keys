@@ -51,14 +51,14 @@ public abstract class BaseElementalMusicalHeartlessEntity extends CreatureEntity
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    protected abstract double getMaxHelth();
+    protected abstract double getMaxHP();
 
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getMaxHelth());
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getMaxHP());
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 
     }
