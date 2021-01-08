@@ -267,19 +267,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		if(!driveformAbility.equals("")) {
 			Ability a = ModAbilities.registry.getValue(new ResourceLocation(driveformAbility));
-			String name = a.getRegistryName().getPath();
+			String name = a.getTranslationKey();
 			if(a.getType() == AbilityType.GROWTH) {
 				int level = (getEquippedAbilityLevel(driveformAbility)[0]+2); //+2 Because it's not set yet, it should be +1 if the ability was already upgraded at the time of generating this message
-				name += "_"+level;
+				name = (new StringBuilder(name).insert(name.lastIndexOf('.'), "_"+level)).toString();
 			}
 			dfMessages.add("A_"+name);
 		}
 
 		if(!baseAbility.equals("")) {
 			Ability a = ModAbilities.registry.getValue(new ResourceLocation(baseAbility));
-			String name = a.getRegistryName().getPath();
+			String name = a.getTranslationKey();
 			if(a.getType() == AbilityType.GROWTH) {
-				name += "_"+(getEquippedAbilityLevel(baseAbility)[0]+1);
+				name = (new StringBuilder(name).insert(name.lastIndexOf('.'), "_"+(getEquippedAbilityLevel(baseAbility)[0]+1))).toString();
 			}
 			addAbility(baseAbility,name);
 		}
@@ -794,8 +794,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addAbility(String ability, boolean notification) {
+		Ability abilityInstance = ModAbilities.registry.getValue(new ResourceLocation(ability));
 		if(notification) {
-			messages.add("A_"+ability.replace(KingdomKeys.MODID+":", ""));
+			messages.add("A_"+abilityInstance.getTranslationKey());
 		}
 		
 		if(abilityMap.containsKey(ability)) {

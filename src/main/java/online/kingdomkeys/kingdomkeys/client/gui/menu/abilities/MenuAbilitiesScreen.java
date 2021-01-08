@@ -122,7 +122,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	private void action(Ability ability) {
 		String abilityName = ability.getRegistryName().toString();
-		System.out.println(abilityName);
 		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
 		int lvlIncrease = 0;
 		if (playerData.isAbilityEquipped(abilityName)) { // If ability is equipped, unequip
@@ -187,7 +186,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.22F;
 		float tooltipPosY = height * 0.77F;
-		minecraft.fontRenderer.drawSplitString(new TranslationTextComponent(hoveredAbility.getRegistryName().getPath()+".desc").getFormattedText(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
+		minecraft.fontRenderer.drawSplitString(new TranslationTextComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getFormattedText(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
 	private void drawAP() {
@@ -207,8 +206,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				int level = (playerData.getEquippedAbilityLevel(abilityName)[0]);
      			lvl+= "_"+level;
 			}
-			abilityName = abilityName.replace("kingdomkeys:","");
-			String text = Utils.translateToLocal(abilityName+lvl);
+			abilityName = ability.getTranslationKey();
+			String text = Utils.translateToLocal(new StringBuilder(abilityName).insert(abilityName.lastIndexOf('.'), lvl).toString());
 			if(buttons.get(i) instanceof MenuAbilitiesButton) {
 				MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
 				
@@ -216,7 +215,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					button.active = false;
 				}
 				
-				if(playerData.isAbilityEquipped(KingdomKeys.MODID+":"+abilityName)) {
+				if(playerData.isAbilityEquipped(ability.getRegistryName().toString())) {
 					button.active = true;
 				}
 				

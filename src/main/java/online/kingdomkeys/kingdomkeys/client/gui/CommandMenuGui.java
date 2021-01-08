@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -255,14 +256,15 @@ public class CommandMenuGui extends Screen {
 						}
 
 						String magic = playerData.getMagicList().get(i);
-						int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost();
+						Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
+						int cost = magicInstance.getCost();
 						int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 						
 						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
 							colour = 0x888888;
 						}
 						
-						magic = magic.substring(magic.indexOf(":")+1);
+						magic = magicInstance.getTranslationKey();
 						
 						drawString(minecraft.fontRenderer, Utils.translateToLocal(magic), textX, 4, getColor(colour, SUB_MAGIC));
 						RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);

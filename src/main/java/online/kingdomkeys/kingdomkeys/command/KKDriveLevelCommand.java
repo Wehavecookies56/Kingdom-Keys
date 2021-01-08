@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKDriveLevelCommand extends BaseCommand{ 
 //kk_level <give/take/set> <amount> [player]
@@ -51,24 +52,6 @@ public class KKDriveLevelCommand extends BaseCommand{
 			)
 		);
 		
-		/*builder.then(Commands.literal("give")
-			.then(Commands.argument("value", IntegerArgumentType.integer(1,Integer.MAX_VALUE))
-				.then(Commands.argument("targets", EntityArgument.players())
-					.executes(KKLevelCommand::addValue)
-				)
-				.executes(KKLevelCommand::addValue)
-			)
-		);
-		
-		builder.then(Commands.literal("take")
-			.then(Commands.argument("value", IntegerArgumentType.integer(1,Integer.MAX_VALUE))
-				.then(Commands.argument("targets", EntityArgument.players())
-					.executes(KKLevelCommand::removeValue)
-				)
-				.executes(KKLevelCommand::removeValue)
-			)
-		);*/
-		
 		dispatcher.register(builder);
 		KingdomKeys.LOGGER.warn("Registered command "+builder.getLiteral());
 	}
@@ -91,42 +74,13 @@ public class KKDriveLevelCommand extends BaseCommand{
 				int cost = drive.getLevelUpCost(playerData.getDriveFormLevel(form)+1);
 				playerData.setDriveFormExp(player, form, cost);
 			}
+
+			DriveForm formInstance = ModDriveForms.registry.getValue(new ResourceLocation(form));
 			
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Set "+form+" for " +player.getDisplayName().getFormattedText()+" to level "+level), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getFormattedText()+" to level "+level), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your "+form+" level is now "+level));
-		}
-		return 1;
-	}
-	
-
-	private static int addValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
-		int value = IntegerArgumentType.getInteger(context, "value");
-		
-		for (ServerPlayerEntity player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.setMunny(playerData.getMunny() + value);
-			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getFormattedText()), true);
-			}
-			player.sendMessage(new TranslationTextComponent("Your munny has been increased by "+value));		}
-		return 1;
-	}
-	
-	
-	private static int removeValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
-		int value = IntegerArgumentType.getInteger(context, "value");
-		
-		for (ServerPlayerEntity player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.setMunny(playerData.getMunny() - value);
-			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" munny from "+player.getDisplayName().getFormattedText()), true);
-			}
-			player.sendMessage(new TranslationTextComponent("Your munny has been decreased by "+value));
+			player.sendMessage(new TranslationTextComponent("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level));
 		}
 		return 1;
 	}

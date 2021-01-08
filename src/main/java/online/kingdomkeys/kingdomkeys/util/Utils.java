@@ -289,70 +289,6 @@ public class Utils {
 		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
 	}
 
-	/**
-	 *
-	 * MOST OF THIS WON'T BE HERE ANYMORE
-	 *
-	 */
-	/*
-	 * public static boolean summonWeapon(EntityPlayer player, EnumHand hand, int
-	 * keychainSlot) { SummonKeybladeCapability.ISummonKeyblade summonCap =
-	 * player.getCapability(ModCapabilities.SUMMON_KEYBLADE, null);
-	 * OrganizationXIIICapability.IOrganizationXIII organizationXIIICap =
-	 * player.getCapability(ModCapabilities.ORGANIZATION_XIII, null);
-	 * 
-	 * if (organizationXIIICap.getMember() == Utils.OrgMember.NONE) { if
-	 * (ItemStack.areItemStacksEqual(summonCap.getInventoryKeychain().getStackInSlot
-	 * (keychainSlot), ItemStack.EMPTY)) { player.sendMessage(new
-	 * TextComponentTranslation(TextFormatting.RED + "Missing keychain to summon"));
-	 * return false; } if (!summonCap.getIsKeybladeSummoned(hand) &&
-	 * ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) &&
-	 * summonCap.getInventoryKeychain().getStackInSlot(0).getItem() instanceof
-	 * KeychainItem) { summonCap.setActiveSlot(player.inventory.currentItem);
-	 * 
-	 * ItemStack keychain =
-	 * summonCap.getInventoryKeychain().getStackInSlot(keychainSlot); ItemStack
-	 * keyblade = new ItemStack(((KeychainItem)
-	 * (keychain.getItem())).getKeyblade());
-	 * 
-	 * if (hand == EnumHand.MAIN_HAND) {
-	 * player.inventory.setInventorySlotContents(player.inventory.currentItem,
-	 * keyblade); } else { player.inventory.offHandInventory.set(0, keyblade); }
-	 * 
-	 * if (player.world.isRemote) PacketDispatcher.sendToServer(new
-	 * SummonKeyblade(hand, keychainSlot));
-	 * 
-	 * return true; } else if
-	 * (!ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) &&
-	 * player.getHeldItem(hand).getItem() instanceof ItemRealKeyblade &&
-	 * summonCap.getIsKeybladeSummoned(hand)) { if (player.world.isRemote)
-	 * PacketDispatcher.sendToServer(new DeSummonKeyblade(hand));
-	 * player.inventory.setInventorySlotContents(player.inventory.currentItem,
-	 * ItemStack.EMPTY); player.inventory.offHandInventory.set(0, ItemStack.EMPTY);
-	 * return true; } else { return false; } } else { if
-	 * (!organizationXIIICap.summonedWeapon(hand) &&
-	 * ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY)) { if
-	 * (player.world.isRemote) PacketDispatcher.sendToServer(new
-	 * SummonOrgWeapon(hand, organizationXIIICap.currentWeapon())); if (hand ==
-	 * EnumHand.MAIN_HAND)
-	 * player.inventory.setInventorySlotContents(player.inventory.currentItem, new
-	 * ItemStack(organizationXIIICap.currentWeapon())); else
-	 * player.inventory.offHandInventory.set(0, new
-	 * ItemStack(organizationXIIICap.currentWeapon()));
-	 * organizationXIIICap.setWeaponSummoned(hand, true); return true; } else if
-	 * (!ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) &&
-	 * player.getHeldItem(hand).getItem() instanceof IOrgWeapon ||
-	 * (organizationXIIICap.getMember() == Utils.OrgMember.ROXAS &&
-	 * !ItemStack.areItemStacksEqual(player.getHeldItem(hand), ItemStack.EMPTY) &&
-	 * player.getHeldItem(hand).getItem() instanceof KeybladeItem)) { if
-	 * (player.world.isRemote) { PacketDispatcher.sendToServer(new
-	 * DeSummonOrgWeapon(hand)); } organizationXIIICap.setWeaponSummoned(hand,
-	 * false); if (hand == EnumHand.MAIN_HAND)
-	 * player.inventory.setInventorySlotContents(player.inventory.currentItem,
-	 * ItemStack.EMPTY); else player.inventory.offHandInventory.set(0,
-	 * ItemStack.EMPTY); return true; } else { return false; } } }
-	 */
-
 	@OnlyIn(Dist.CLIENT)
 	public static void blitScaled(AbstractGui gui, float x, float y, int u, int v, int width, int height, float scaleX, float scaleY) {
 		RenderSystem.pushMatrix();
@@ -506,6 +442,25 @@ public class Utils {
 			return 40000;
 		}
 		return 0;
+	}
+
+	public static String snakeToCamel(String str) {
+		// Capitalize first letter of string
+		str = str.substring(0, 1).toUpperCase() + str.substring(1);
+
+		// Run a loop till string
+		// string contains underscore
+		while (str.contains("_")) {
+
+			// Replace the first occurrence
+			// of letter that present after
+			// the underscore, to capitalize
+			// form of next letter of underscore
+			str = str.replaceFirst("_[a-z]", String.valueOf(Character.toUpperCase(str.charAt(str.indexOf("_") + 1))));
+		}
+		str = str.substring(0,1).toLowerCase()+str.substring(1);
+		// Return string
+		return str;
 	}
 
 }

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public class Ability extends ForgeRegistryEntry<Ability> {
@@ -12,6 +13,7 @@ public class Ability extends ForgeRegistryEntry<Ability> {
     int apCost;
     AbilityType type;
     int order;
+    String translationKey;
 
     public Ability(String registryName, int apCost, AbilityType type, int order) {
     	this.name = registryName;
@@ -19,7 +21,12 @@ public class Ability extends ForgeRegistryEntry<Ability> {
     	this.type = type;
     	this.order = order;
         setRegistryName(registryName);
+        translationKey = "ability." + new ResourceLocation(registryName).getPath() + ".name";
     }
+
+    public String getTranslationKey() {
+    	return translationKey;
+	}
     
     public int getAPCost() {
     	return apCost;
