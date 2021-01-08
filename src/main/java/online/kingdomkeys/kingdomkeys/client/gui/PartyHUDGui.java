@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,7 +48,8 @@ public class PartyHUDGui extends Screen {
 			// event.setCanceled(true);
 		}
 		
-		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+		MatrixStack matrixStack = event.getMatrixStack(); 
+		if(event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			int screenWidth = minecraft.getMainWindow().getScaledWidth();
 			int screenHeight = minecraft.getMainWindow().getScaledHeight();
 
@@ -70,16 +73,16 @@ public class PartyHUDGui extends Screen {
 				Member ally = allies.get(i);
 				if(player.world.getPlayerByUuid(ally.getUUID()) != null){
 					PlayerEntity playerAlly = player.world.getPlayerByUuid(ally.getUUID());
-					renderFace(playerAlly,screenWidth, screenHeight, scale, i);
+					renderFace(matrixStack, playerAlly,screenWidth, screenHeight, scale, i);
 				} else {
 					// When player in party but not loaded into this client
-					renderFace(null,screenWidth, screenHeight, scale, i);
+					renderFace(matrixStack, null,screenWidth, screenHeight, scale, i);
 				}
 			}
 		}
 	}
 	
-	public void renderFace(PlayerEntity playerAlly, float screenWidth, float screenHeight, float scale, int i) {
+	public void renderFace(MatrixStack matrixStack, PlayerEntity playerAlly, float screenWidth, float screenHeight, float scale, int i) {
 		ResourceLocation skin;
 		if(playerAlly != null) {
 			skin = getLocationSkin(playerAlly);
@@ -88,9 +91,9 @@ public class PartyHUDGui extends Screen {
 		}
 		minecraft.getTextureManager().bindTexture(skin);
 
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
-			RenderSystem.translatef(-16, -screenHeight/4*(i+1), 0);
+			matrixStack.translate(-16, -screenHeight/4*(i+1), 0);
 
 			// HEAD
 			int headWidth = 32;
@@ -100,16 +103,16 @@ public class PartyHUDGui extends Screen {
 			float scaledHeadPosX = headPosX * scale;
 			float scaledHeadPosY = headPosY * scale;
 
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
-				RenderSystem.scalef(scale, scale, scale);
+				matrixStack.translate((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
+				matrixStack.scale(scale, scale, scale);
 				if(playerAlly == null)
 					RenderSystem.color4f(0.2F,0.2F,0.2F,1F);
 
-				this.blit(0, 0, 32, 32, headWidth, headHeight);
+				this.blit(matrixStack, 0, 0, 32, 32, headWidth, headHeight);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// HAT
 			int hatWidth = 32;
@@ -119,63 +122,63 @@ public class PartyHUDGui extends Screen {
 			float scaledHatPosX = hatPosX * scale;
 			float scaledHatPosY = hatPosY * scale;
 
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				this.blit(0, 0, 160, 32, hatWidth, hatHeight);
+				matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+				matrixStack.scale(scale, scale, scale);
+				this.blit(matrixStack, 0, 0, 160, 32, hatWidth, hatHeight);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 			
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-					RenderSystem.scalef(scale, scale, scale);
-					String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getFormattedText();
-					drawCenteredString(minecraft.fontRenderer, name, 16, -10, 0xFFFFFF);
+					matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+					matrixStack.scale(scale, scale, scale);
+					String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
+					drawCenteredString(matrixStack, minecraft.fontRenderer, name, 16, -10, 0xFFFFFF);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 				
 			if(playerAlly != null) {
-				RenderSystem.translatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
+				matrixStack.translate((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
 				//HP
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
 				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-				RenderSystem.translatef(-4, 0, 1);
+				matrixStack.translate(-4, 0, 1);
 				//Top
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.scalef(scale/3*2, scale, 1);
-					this.blit(0, 0, 0, 71, 12, 2);
+					matrixStack.scale(scale/3*2, scale, 1);
+					this.blit(matrixStack, 0, 0, 0, 71, 12, 2);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 				//Middle
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.translatef(0, 1, 1);
-					RenderSystem.scalef(scale/3*2, scale*28, 1);
-					this.blit(0, 0, 0, 73, 12, 1);
+					matrixStack.translate(0, 1, 1);
+					matrixStack.scale(scale/3*2, scale*28, 1);
+					this.blit(matrixStack, 0, 0, 0, 73, 12, 1);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 				//Bottom
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.translatef(0, 30, 1);
-					RenderSystem.scalef(scale/3*2, scale, 1);
-					this.blit(0, -30, 0, 71, 12, 2);
+					matrixStack.translate(0, 30, 1);
+					matrixStack.scale(scale/3*2, scale, 1);
+					this.blit(matrixStack, 0, -30, 0, 71, 12, 2);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 			
 				//Bar
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.rotatef(180, 0, 0, 1);
-					RenderSystem.translatef(-4, -15, 1);
-					RenderSystem.scalef(scale/3*2, (scale*28) * val/max, 1);
-					this.blit(0, 0, 0, 77, 12, 1);
+					matrixStack.rotate(Vector3f.ZP.rotation(180));
+					matrixStack.translate(-4, -15, 1);
+					matrixStack.scale(scale/3*2, (scale*28) * val/max, 1);
+					this.blit(matrixStack, 0, 0, 0, 77, 12, 1);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 				
 				//MP
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerAlly);
@@ -183,44 +186,44 @@ public class PartyHUDGui extends Screen {
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();
 					minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
-					RenderSystem.translatef(20, 0, 1);
+					matrixStack.translate(20, 0, 1);
 					//Top
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.scalef(scale/3*2, scale, 1);
-						this.blit(0, 0, 0, 58, 12, 2);
+						matrixStack.scale(scale/3*2, scale, 1);
+						this.blit(matrixStack, 0, 0, 0, 58, 12, 2);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 					//Middle
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef(0, 1, 1);
-						RenderSystem.scalef(scale/3*2, scale*28, 1);
-						this.blit(0, 0, 0, 60, 12, 1);
+						matrixStack.translate(0, 1, 1);
+						matrixStack.scale(scale/3*2, scale*28, 1);
+						this.blit(matrixStack, 0, 0, 0, 60, 12, 1);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 					//Bottom
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef(0, 30, 1);
-						RenderSystem.scalef(scale/3*2, scale, 1);
-						this.blit(0, -30, 0, 58, 12, 2);
+						matrixStack.translate(0, 30, 1);
+						matrixStack.scale(scale/3*2, scale, 1);
+						this.blit(matrixStack, 0, -30, 0, 58, 12, 2);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 				
 					//Bar
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.rotatef(180, 0, 0, 1);
-						RenderSystem.translatef(-4, -15, 1);
-						RenderSystem.scalef(scale/3*2, (scale*28) * val/max, 1);
-						this.blit(0, 0, 0, 64, 12, 1);
+						matrixStack.rotate(Vector3f.ZP.rotation(180));
+						matrixStack.translate(-4, -15, 1);
+						matrixStack.scale(scale/3*2, (scale*28) * val/max, 1);
+						this.blit(matrixStack, 0, 0, 0, 64, 12, 1);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 				}
 			}
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 	}
 
 }

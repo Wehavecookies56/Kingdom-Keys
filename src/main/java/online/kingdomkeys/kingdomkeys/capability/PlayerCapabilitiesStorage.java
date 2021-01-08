@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -7,13 +10,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.capabilities.Capability;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
-
-import java.util.Iterator;
-import java.util.Map;
 
 public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCapabilities> {
     @Override
@@ -43,7 +44,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.putByte("soa_choice", instance.getChosen().get());
         storage.putByte("soa_sacrifice", instance.getSacrificed().get());
         CompoundNBT returnCompound = new CompoundNBT();
-        Vec3d pos = instance.getReturnLocation();
+        Vector3d pos = instance.getReturnLocation();
         returnCompound.putDouble("x", pos.x);
         returnCompound.putDouble("y", pos.y);
         returnCompound.putDouble("z", pos.z);
@@ -157,7 +158,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         instance.setChoice(SoAState.fromByte(storage.getByte("soa_choice")));
         instance.setSacrifice(SoAState.fromByte(storage.getByte("soa_sacrifice")));
         CompoundNBT returnCompound = storage.getCompound("soa_return_pos");
-        instance.setReturnLocation(new Vec3d(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
+        instance.setReturnLocation(new Vector3d(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
         instance.setReturnDimension(DimensionType.getById(storage.getInt("soa_return_dim")));
         CompoundNBT choicePedestal = storage.getCompound("soa_choice_pedestal");
         instance.setChoicePedestal(new BlockPos(choicePedestal.getInt("x"), choicePedestal.getInt("y"), choicePedestal.getInt("z")));

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -14,7 +15,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -43,39 +43,39 @@ public class WeaponUnlockScreen extends Screen {
     private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     @Override
-    public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
         int cost = (int) (startCost + ((0.1 * startCost) * current));
-        renderBackground();
+        renderBackground(matrixStack);
         String name = "";
         String weapon = "";
         int weapon_w = 128;
         int weapon_h = 128;
-        renderBackground();
-        RenderSystem.pushMatrix();
+        renderBackground(matrixStack);
+        matrixStack.push();
         Minecraft.getInstance().getTextureManager().bindTexture(GLOW);
         RenderSystem.enableBlend();
-        blit((width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-        drawString(font, new ItemStack(weapons.get(current)).getDisplayName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
-        drawString(font, "Hearts Cost: " + cost, (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
-        drawString(font, "Current Hearts: " + playerData.getHearts(), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
-        RenderSystem.popMatrix();
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
-        RenderSystem.scalef(5, 5, 5);
+        blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
+        drawString(matrixStack, font, new ItemStack(weapons.get(current)).getDisplayName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
+        drawString(matrixStack, font, "Hearts Cost: " + cost, (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
+        drawString(matrixStack, font, "Current Hearts: " + playerData.getHearts(), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
+        matrixStack.pop();
+        matrixStack.push();
+        matrixStack.translate((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
+        matrixStack.scale(5, 5, 5);
         RenderSystem.enableBlend();
         RenderSystem.color3f(0, 0, 0);
         Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(new ItemStack(weapons.get(current)), 0, 0);
-        RenderSystem.popMatrix();
-        super.render(p_render_1_, p_render_2_, p_render_3_);
+        matrixStack.pop();
+        super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
     }
 
     @Override
     protected void init() {
         super.init();
-        addButton(cancel = new Button(0, 0, 50, 20, "Back", p -> actionPerformed(CANCEL)));
-        addButton(next = new Button(0, 0, 20, 20, ">", p -> actionPerformed(NEXT)));
-        addButton(prev = new Button(0, 0, 20, 20, "<", p -> actionPerformed(PREV)));
-        addButton(select = new Button(0, 0, 50, 20, "Unlock", p -> actionPerformed(SELECT)));
+        addButton(cancel = new Button(0, 0, 50, 20, new TranslationTextComponent("Back"), p -> actionPerformed(CANCEL)));
+        addButton(next = new Button(0, 0, 20, 20, new TranslationTextComponent(">"), p -> actionPerformed(NEXT)));
+        addButton(prev = new Button(0, 0, 20, 20, new TranslationTextComponent("<"), p -> actionPerformed(PREV)));
+        addButton(select = new Button(0, 0, 50, 20, new TranslationTextComponent("Unlock"), p -> actionPerformed(SELECT)));
         updateButtons();
     }
 
@@ -201,17 +201,17 @@ public class WeaponUnlockScreen extends Screen {
     public void updateButtons() {
         if (playerData.isWeaponUnlocked(weapons.get(current))) {
             unlock = false;
-            select.setMessage("Equip");
+            select.setMessage(new TranslationTextComponent("Equip"));
             if (playerData.getEquippedWeapon().getItem() == weapons.get(current)) {
                 select.active = false;
-                select.setMessage("Equipped");
+                select.setMessage(new TranslationTextComponent("Equipped"));
             } else {
                 select.active = true;
-                select.setMessage("Equip");
+                select.setMessage(new TranslationTextComponent("Equip"));
             }
         } else {
             unlock = true;
-            select.setMessage("Unlock");
+            select.setMessage(new TranslationTextComponent("Unlock"));
             if (canUnlock()) {
                 select.active = true;
             } else {
@@ -220,15 +220,15 @@ public class WeaponUnlockScreen extends Screen {
         }
         next.visible = true;
         next.x = (width / 2) - (next.getWidth() / 2) + 128;
-        next.y = (height / 2) - (next.getHeight() / 2);
+        next.y = (height / 2) - (next.getHeightRealms() / 2);
         prev.visible = true;
         prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-        prev.y = (height / 2) - (prev.getHeight() / 2);
+        prev.y = (height / 2) - (prev.getHeightRealms() / 2);
         select.visible = true;
         select.x = (width / 2) - (select.getWidth() / 2);
-        select.y = (height / 2) - (select.getHeight() / 2) + 90;
+        select.y = (height / 2) - (select.getHeightRealms() / 2) + 90;
         cancel.visible = true;
         cancel.x = (width / 2) - (select.getWidth() / 2);
-        cancel.y = (height / 2) - (select.getHeight() / 2) + 115;
+        cancel.y = (height / 2) - (select.getHeightRealms() / 2) + 115;
     }
 }

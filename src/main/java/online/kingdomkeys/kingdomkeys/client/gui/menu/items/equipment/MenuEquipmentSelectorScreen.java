@@ -20,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	MenuBox keyblades, details;
@@ -53,7 +55,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 
-        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
+        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 14;
 
@@ -83,11 +85,11 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		drawMenuBackground(mouseX, mouseY, partialTicks);
-		keyblades.draw();
-		details.draw();
-		super.render(mouseX, mouseY, partialTicks);
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
+		keyblades.draw(matrixStack);
+		details.draw(matrixStack);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}
 }

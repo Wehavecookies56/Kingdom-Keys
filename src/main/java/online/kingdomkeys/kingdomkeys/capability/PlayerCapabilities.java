@@ -1,8 +1,16 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -11,11 +19,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -23,16 +29,15 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -51,7 +56,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
-	private Vec3d returnPos = Vec3d.ZERO;
+	private Vector3d returnPos = Vector3d.ZERO;
 	private DimensionType returnDim = DimensionType.OVERWORLD;
 
 	SoAState soAState = SoAState.NONE, choice = SoAState.NONE, sacrifice = SoAState.NONE;
@@ -245,7 +250,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// (EntityPlayerMP) player);
 
 		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
-		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
+		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 		PacketHandler.syncToAllAround(player, this);
 
@@ -1000,7 +1005,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setReturnDimension(PlayerEntity playerEntity) {
-		setReturnDimension(playerEntity.dimension);
+		setReturnDimension(playerEntity.world.getDimensionType());
 	}
 
 	@Override

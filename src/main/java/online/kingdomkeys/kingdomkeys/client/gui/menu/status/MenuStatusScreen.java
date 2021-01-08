@@ -4,14 +4,15 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -133,7 +134,7 @@ public class MenuStatusScreen extends MenuBackground {
 
 		int col1X = (int) (subButtonPosX + buttonWidth + 40), col2X=(int) (col1X + dataWidth * 2)+10 ;
 
-		addButton(stats_player = new MenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
+		addButton(stats_player = new MenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
 
 		int i = 0;
 		for (i = 0; i < playerData.getDriveFormMap().size()-1; i++) {
@@ -187,10 +188,10 @@ public class MenuStatusScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		fill(matrixStack, 125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		
-		super.render(mouseX, mouseY, partialTicks);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 	
 	}
 	

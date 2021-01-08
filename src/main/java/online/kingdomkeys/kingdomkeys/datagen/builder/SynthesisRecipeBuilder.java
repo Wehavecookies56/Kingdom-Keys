@@ -1,29 +1,26 @@
 package online.kingdomkeys.kingdomkeys.datagen.builder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends ModelFile {
 
-    protected final ExistingFileHelper existingFileHelper;
     private ResourceLocation output;
     private String type;
     private Map recipe = new HashMap();
     private int quantity;
     public SynthesisRecipeBuilder(Object o, Object o1) {
         super((ResourceLocation) o);
-        this.existingFileHelper = (ExistingFileHelper) o1;
     }
 
     private T self() {

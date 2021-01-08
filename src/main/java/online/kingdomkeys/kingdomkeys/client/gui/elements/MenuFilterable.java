@@ -4,24 +4,14 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.lib.Lists;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseKeyblade;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public abstract class MenuFilterable extends MenuBackground {
 
@@ -44,13 +34,13 @@ public abstract class MenuFilterable extends MenuBackground {
 	}
     
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if(filterBar != null)
-        	filterBar.render(this, mouseX, mouseY, partialTicks);
+        	filterBar.render(matrixStack, this, mouseX, mouseY, partialTicks);
         //scrollBar.render(mouseX, mouseY, partialTicks);
 
         if (!ItemStack.areItemStacksEqual(selected, ItemStack.EMPTY)) {
-            renderSelectedData(mouseX, mouseY, partialTicks);
+            renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
         }
         
        // inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
@@ -63,7 +53,7 @@ public abstract class MenuFilterable extends MenuBackground {
     	super.init();
     }
     
-    protected abstract void renderSelectedData(int mouseX, int mouseY, float partialTicks);
+    protected abstract void renderSelectedData(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks);
 
 	public abstract void initItems();
     

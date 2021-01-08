@@ -2,12 +2,18 @@ package online.kingdomkeys.kingdomkeys.client.render.entity.drops;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.*;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
 import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 
 public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
@@ -20,7 +26,8 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 		this.shadowOpaque = 0.75F;
 	}
 
-	protected int getBlockLight(ItemDropEntity entityIn, float partialTicks) {
+	@Override
+	protected int getBlockLight(ItemDropEntity entityIn, BlockPos partialTicks) {
 		return MathHelper.clamp(super.getBlockLight(entityIn, partialTicks) + 7, 0, 15);
 	}
 

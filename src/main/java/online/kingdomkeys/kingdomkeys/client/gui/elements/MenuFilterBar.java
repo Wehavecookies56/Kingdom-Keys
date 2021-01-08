@@ -1,6 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.button.Button;
@@ -9,11 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuFilterButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuStockScreen;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MenuFilterBar {
 
@@ -42,9 +43,9 @@ public class MenuFilterBar {
         this.parent = parent;
     }
 
-    public void renderSelectionBox(AbstractGui gui, MenuFilterButton button) {
+    public void renderSelectionBox(MatrixStack matrixStack, AbstractGui gui, MenuFilterButton button) {
         if (button.isHovered() || currentFilter == button.category)
-            Utils.blitScaled(gui, button.x - 1.5F, button.y - 1.5F, 66, 30, 58, 36, 0.5F);
+            Utils.blitScaled(matrixStack, gui, button.x - 1.5F, button.y - 1.5F, 66, 30, 58, 36, 0.5F);
     }
 
     public void init() {
@@ -63,14 +64,14 @@ public class MenuFilterBar {
         parent.initItems();
     }
 
-    public void render(AbstractGui gui, int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrixStack, AbstractGui gui, int mouseX, int mouseY, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
         RenderSystem.color4f(1, 1, 1, 1);
         mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-        Utils.blitScaled(gui, startX, y, 118, 0, 48, 30, 0.5F);
-        buttons.forEach(b -> b.render(mouseX, mouseY, partialTicks));
-        Utils.blitScaled(gui, endX, y, 166, 0, 48, 30, 0.5F);
-        buttons.forEach(b -> renderSelectionBox(gui, (MenuFilterButton) b));
+        Utils.blitScaled(matrixStack, gui, startX, y, 118, 0, 48, 30, 0.5F);
+        buttons.forEach(b -> b.render(matrixStack, mouseX, mouseY, partialTicks));
+        Utils.blitScaled(matrixStack, gui, endX, y, 166, 0, 48, 30, 0.5F);
+        buttons.forEach(b -> renderSelectionBox(matrixStack, gui, (MenuFilterButton) b));
     }
 
 }

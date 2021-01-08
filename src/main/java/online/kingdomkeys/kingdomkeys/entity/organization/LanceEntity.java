@@ -48,7 +48,7 @@ public class LanceEntity extends ThrowableEntity{
 
 	public LanceEntity(World world, PlayerEntity player, String model) {
 		super(ModEntities.TYPE_LANCE.get(), player, world);
-		owner = player;
+		setShooter(player);
 		setModel(model);
 	}
 
@@ -77,7 +77,7 @@ public class LanceEntity extends ThrowableEntity{
 		         --this.throwableShake;
 		      }
 
-		      if (this.inGround) {
+		      if (this.isOnGround()) {
 		         this.inGround = false;
 		         this.setMotion(this.getMotion().mul((double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F)));
 		      }

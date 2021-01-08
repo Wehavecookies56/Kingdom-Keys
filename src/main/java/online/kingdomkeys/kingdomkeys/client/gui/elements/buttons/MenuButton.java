@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -71,7 +72,7 @@ public class MenuButton extends MenuButtonBase {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//if(!isSelected())
 			isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
 		/*if(isHovered()) {
@@ -79,7 +80,7 @@ public class MenuButton extends MenuButtonBase {
 		}*/
 
 		if (visible) {
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			RenderSystem.color3f(1, 1, 1);
 
 			// RenderSystem.enableAlpha();
@@ -87,31 +88,31 @@ public class MenuButton extends MenuButtonBase {
 			Minecraft.getInstance().textureManager.bindTexture(texture);
 			if (isHovered && active) { // Hovered button
 				x += 10;
-				drawButton(true);
-				drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
+				drawButton(matrixStack, true);
+				drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
 				x -= 10;
 			} else {
 				if (active) {// Not hovered but fully visible
-					drawButton(false);
-					drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
+					drawButton(matrixStack, false);
+					drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
 				} else {// Not hovered and selected (not fully visible)
 					if (selected) {
 						x += 10;
-						drawButton(false);
-						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
+						drawButton(matrixStack, false);
+						drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
 						x -= 10;
 					} else {
-						drawButton(false);
-						drawString(Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
+						drawButton(matrixStack, false);
+						drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
 					}
 				}
 			}
 			RenderSystem.color3f(1, 1, 1);
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
 	}
 
-	private void drawButton(boolean hovered) {
+	private void drawButton(MatrixStack matrixStack, boolean hovered) {
 		int leftU = 0, middleU = 0, rightU = 0;
 		int vPos = 0, selVPos = 0;
 		switch (type) { // Set the local values to the corresponding fields
@@ -134,10 +135,10 @@ public class MenuButton extends MenuButtonBase {
 
 		vPos = hovered || selected ? selVPos : vPos;
 
-		blit(x, y, leftU, vPos, endWidth, height);
+		blit(matrixStack, x, y, leftU, vPos, endWidth, height);
 		for (int i = 0; i < middleWidth; i++)
-			blit(x + i + endWidth, y, middleU, vPos, 1, height);
-		blit(x + endWidth + middleWidth, y, rightU, vPos, endWidth, height);
+			blit(matrixStack, x + i + endWidth, y, middleU, vPos, 1, height);
+		blit(matrixStack, x + endWidth + middleWidth, y, rightU, vPos, endWidth, height);
 
 	}
 

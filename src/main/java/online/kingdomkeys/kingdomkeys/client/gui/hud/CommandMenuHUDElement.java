@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -138,12 +140,12 @@ public class CommandMenuHUDElement extends HUDElement {
     }
 
     @Override
-    public void drawElement(float partialTicks) {
+    public void drawElement(MatrixStack matrixStack, float partialTicks) {
         mcInstance.getTextureManager().bindTexture(TEXTURE);
-        blit(0, 0, 0, 0, MENU_WIDTH, MENU_HEIGHT);
-        drawString("COMMANDS", 0, 0, Color.WHITE);
+        blit(matrixStack, 0, 0, 0, 0, MENU_WIDTH, MENU_HEIGHT);
+        drawString(matrixStack, "COMMANDS", 0, 0, Color.WHITE);
         float lerpedPos = previousTickPos + (currentTickPos - previousTickPos) * partialTicks;
-        drawString("TEST", Math.round(lerpedPos), 0, Color.RED);
+        drawString(matrixStack, "TEST", Math.round(lerpedPos), 0, Color.RED);
     }
 
     //Class for the menus e.g. the main one, submenus, 2nd page, etc.

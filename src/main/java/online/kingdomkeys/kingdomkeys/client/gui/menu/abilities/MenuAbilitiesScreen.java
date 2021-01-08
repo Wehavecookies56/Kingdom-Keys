@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -26,10 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
@@ -103,12 +98,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		abilities.forEach(this::addButton);
 
-        addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> GuiHelper.openMenu()));
+        addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> GuiHelper.openMenu()));
 
-		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Utils.translateToLocal("<--"), (e) -> {
+		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Utils.translateToLocal("-->"), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
 		
@@ -145,21 +140,21 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		box.draw();
-		super.render(mouseX, mouseY, partialTicks);
-		drawAP();
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		box.draw(matrixStack);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		drawAP(matrixStack);
 		
 		prev.visible = page > 0;
 		next.visible = page < abilities.size() / itemsPerPage;
 
 		//Page renderer
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
-			RenderSystem.translated(prev.x+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			matrixStack.translate(prev.x+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 
 		for (int i = 0; i < abilities.size(); i++) {
 			abilities.get(i).visible = false;
@@ -170,14 +165,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				if (abilities.get(i) != null) {
 					abilities.get(i).visible = true;
 					abilities.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 19 + 2; // 6 = offset
-					abilities.get(i).render(mouseX, mouseY, partialTicks);
+					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 				}
 			}
 		}
 		
-		prev.render(mouseX,  mouseY,  partialTicks);
-		next.render(mouseX,  mouseY,  partialTicks);
-		back.render(mouseX, mouseY, partialTicks);
+		prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		next.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		back.render(matrixStack, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
 			renderSelectedData(mouseX, mouseY, partialTicks);
 		}
@@ -186,10 +181,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.22F;
 		float tooltipPosY = height * 0.77F;
-		minecraft.fontRenderer.drawSplitString(new TranslationTextComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getFormattedText(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
+		Utils.drawSplitString(font, new TranslationTextComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
-	private void drawAP() {
+	private void drawAP(MatrixStack matrixStack) {
 		int consumedAP = Utils.getConsumedAP(playerData);
 		int maxAP = playerData.getMaxAP();
 		hoveredAbility = null;
@@ -219,7 +214,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					button.active = true;
 				}
 				
-				button.setMessage(text);
+				button.setMessage(new TranslationTextComponent(text));
 				button.setAP(ability.getAPCost());
 	
 				if (button.isHovered()) {
@@ -239,42 +234,42 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
 		// Global
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
-			RenderSystem.translatef((posX - 2) * scale - 20, posY * scale - 10, 0);
+			matrixStack.translate((posX - 2) * scale - 20, posY * scale - 10, 0);
 
 			// Left
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				RenderSystem.color3f(1, 1, 1);
-				blit(0, 0, 143, 67, 7, 25);
+				blit(matrixStack, 0, 0, 143, 67, 7, 25);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// Middle
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				RenderSystem.color3f(1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
-					blit(7 + j, 0, 151, 67, 1, 25);
+					blit(matrixStack, 7 + j, 0, 151, 67, 1, 25);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 			// Right
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				RenderSystem.color3f(1, 1, 1);
-				blit(7 + barWidth, 0, 153, 67, 7, 25);
+				blit(matrixStack, 7 + barWidth, 0, 153, 67, 7, 25);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// Bar Background
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				RenderSystem.color3f(1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
-					blit(j + 7, 17, 161, 67, 1, 25);
+					blit(matrixStack, j + 7, 17, 161, 67, 1, 25);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
@@ -282,35 +277,35 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				requiredAP *= -1;
 
 				// Bar going to decrease (dark yellow section when hovering equipped ability)
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
 					int percent = (consumedAP) * barWidth / maxAP;
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					// RenderSystem.color(1, 1, 1,);
 					for (int j = 0; j < percent; j++)
-						blit(j + 7, 17, 165, 67, 1, 5);
-					RenderSystem.popMatrix();
+						blit(matrixStack, j + 7, 17, 165, 67, 1, 5);
+					matrixStack.pop();
 
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 			} else {
 				if(consumedAP + requiredAP <= playerData.getMaxAP()) {
 					// Bar going to increase (blue section when hovering unequipped ability)
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
 						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-						RenderSystem.pushMatrix();
+						matrixStack.push();
 						for (int j = 0; j < percent; j++)
-							blit(j + 7, 17, 167, 67, 1, 5);
-						RenderSystem.popMatrix();
+							blit(matrixStack, j + 7, 17, 167, 67, 1, 5);
+						matrixStack.pop();
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 				}
 			}
 			RenderSystem.color4f(1, 1, 1, 1F);
 
 			// Foreground
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				int percent = (consumedAP) * barWidth / maxAP;
 				if (requiredAP < 0)
@@ -318,20 +313,20 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 				// System.out.println(ap);
 				for (int j = 0; j < percent; j++)
-					blit(j + 7, 17, 163, 67, 1, 5);
+					blit(matrixStack, j + 7, 17, 163, 67, 1, 5);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// AP Text
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.scalef(scale * 1.3F, scale * 1.1F, 0);
-				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
+				matrixStack.scale(scale * 1.3F, scale * 1.1F, 0);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 			
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 	}
 
 	@Override

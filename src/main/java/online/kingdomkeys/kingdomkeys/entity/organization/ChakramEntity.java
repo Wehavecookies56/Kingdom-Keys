@@ -48,7 +48,7 @@ public class ChakramEntity extends ThrowableEntity{
 
 	public ChakramEntity(World world, PlayerEntity player, String model) {
 		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
-		owner = player;
+		setShooter(player);
 		setModel(model);
 	}
 

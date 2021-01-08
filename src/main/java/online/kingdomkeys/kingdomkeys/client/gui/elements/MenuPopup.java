@@ -1,23 +1,23 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.lwjgl.glfw.GLFW;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.lwjgl.glfw.GLFW;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class MenuPopup extends Screen {
 
@@ -86,11 +86,11 @@ public abstract class MenuPopup extends Screen {
         Arrays.fill(alpha, 0);
     }
 
-    protected void renderTextBackground(FontRenderer fontRendererIn, int yIn, int stringWidthIn) {
+    protected void renderTextBackground(MatrixStack matrixStack, FontRenderer fontRendererIn, int yIn, int stringWidthIn) {
         int i = Minecraft.getInstance().gameSettings.getTextBackgroundColor(0.0F);
         if (i != 0) {
             int j = -stringWidthIn / 2;
-            fill(j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
+            fill(matrixStack, j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
         }
 
     }
@@ -99,15 +99,15 @@ public abstract class MenuPopup extends Screen {
     int scaledHeight;
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        super.render(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
         float startY = -10.0F;
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef((float) (this.scaledWidth / 2), (float) (this.scaledHeight / 2) - ((startY + ((getTextToDisplay().size()-1) * (font.FONT_HEIGHT + 3))) / 2F), 0.0F);
+        matrixStack.push();
+        matrixStack.translate((float) (this.scaledWidth / 2), (float) (this.scaledHeight / 2) - ((startY + ((getTextToDisplay().size()-1) * (font.FONT_HEIGHT + 3))) / 2F), 0.0F);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.pushMatrix();
-        RenderSystem.scalef(2.0F, 2.0F, 2.0F);
+        matrixStack.push();
+        matrixStack.scale(2.0F, 2.0F, 2.0F);
 
         for (int i = 0; i < getTextToDisplay().size(); i++) {
             float f4 = (float) timer[i] - partialTicks;
@@ -120,14 +120,14 @@ public abstract class MenuPopup extends Screen {
             if (alpha[i] > 8) {
                 int l1 = alpha[i] << 24 & -16777216;
                 int i2 = font.getStringWidth(Utils.translateToLocal(getTextToDisplay().get(i)));
-                this.renderTextBackground(font, (int) (startY + (i * (font.FONT_HEIGHT + 3))), i2);
-                font.drawStringWithShadow(Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), startY + (i * (font.FONT_HEIGHT + 3)), 16777215 | l1);
+                this.renderTextBackground(matrixStack, font, (int) (startY + (i * (font.FONT_HEIGHT + 3))), i2);
+                font.drawStringWithShadow(matrixStack, Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), startY + (i * (font.FONT_HEIGHT + 3)), 16777215 | l1);
             }
         }
 
-        RenderSystem.popMatrix();
+        matrixStack.pop();
         RenderSystem.disableBlend();
-        RenderSystem.popMatrix();
+        matrixStack.pop();
     }
 
     int titleDisplayTime = 35;

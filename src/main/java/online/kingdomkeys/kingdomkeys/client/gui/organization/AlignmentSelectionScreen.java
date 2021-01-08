@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -55,21 +56,21 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(int p_renderBackground_1_) {
-        super.renderBackground(p_renderBackground_1_);
+    public void renderBackground(MatrixStack matrixStack, int p_renderBackground_1_) {
+        super.renderBackground(matrixStack, p_renderBackground_1_);
     }
 
     @Override
-    public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
     	//System.out.println(showWelcome);
-        renderBackground();
+        renderBackground(matrixStack);
         String line1 = "gui.org.line1";
         String line2 = "gui.org.line2";
         String line3 = "gui.org.line3";
         if (showWelcome) {
-            drawCenteredString(font, new TranslationTextComponent(line1).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT * 3, 0xFFFFFF);
-            drawCenteredString(font, new TranslationTextComponent(line2).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT * 2, 0xFFFFFF);
-            drawCenteredString(font, new TranslationTextComponent(line3).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, new TranslationTextComponent(line1).getString(), (width / 2), height / 2 - font.FONT_HEIGHT * 3, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, new TranslationTextComponent(line2).getString(), (width / 2), height / 2 - font.FONT_HEIGHT * 2, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, new TranslationTextComponent(line3).getString(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
         } else {
             String name = "";
             String weapon = "";
@@ -157,37 +158,37 @@ public class AlignmentSelectionScreen extends Screen {
             }
 
             if (confirmChoice) {
-                drawCenteredString(font, new TranslationTextComponent("gui.org.line4", name).getFormattedText(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
-                drawCenteredString(font, new TranslationTextComponent("gui.org.line5").getFormattedText(), (width / 2), height / 2, 0xFFFFFF);
+                drawCenteredString(matrixStack, font, new TranslationTextComponent("gui.org.line4", name).getString(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
+                drawCenteredString(matrixStack, font, new TranslationTextComponent("gui.org.line5").getString(), (width / 2), height / 2, 0xFFFFFF);
             } else {
-                RenderSystem.pushMatrix();
+                matrixStack.push();
                 Minecraft.getInstance().getTextureManager().bindTexture(GLOW);
                 RenderSystem.enableBlend();
-                blit((width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-                RenderSystem.popMatrix();
-                RenderSystem.pushMatrix();
+                blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
+                matrixStack.pop();
+                matrixStack.push();
                 Minecraft.getInstance().getTextureManager().bindTexture(icons[current.ordinal()-1]);
                 RenderSystem.enableBlend();
-                blit((width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
-                RenderSystem.translatef((width / 2) - (8) - 64, (height / 2) - 110, 0);
-                RenderSystem.scalef(0.5F, 0.5F, 0.5F);
-                blit(0, 0, 0, 0, icon_width, icon_height);
-                RenderSystem.popMatrix();
-                drawString(font, name, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110, 0xFFFFFF);
-                drawString(font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.FONT_HEIGHT * 2, 0xFFFFFF);
+                blit(matrixStack, (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
+                matrixStack.translate((width / 2) - (8) - 64, (height / 2) - 110, 0);
+                matrixStack.scale(0.5F, 0.5F, 0.5F);
+                blit(matrixStack, 0, 0, 0, 0, icon_width, icon_height);
+                matrixStack.pop();
+                drawString(matrixStack, font, name, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110, 0xFFFFFF);
+                drawString(matrixStack, font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.FONT_HEIGHT * 2, 0xFFFFFF);
             }
         }
-        super.render(p_render_1_, p_render_2_, p_render_3_);
+        super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
     }
 
     @Override
     public void init() {
-        addButton(ok = new Button(0, 0, 50, 20, new TranslationTextComponent("gui.org.ok").getFormattedText(), p -> actionPerformed(OK)));
-        addButton(confirm = new Button(0, 0, 60, 20, new TranslationTextComponent("gui.org.confirm").getFormattedText(), p -> actionPerformed(CONFIRM)));
-        addButton(cancel = new Button(0, 0, 60, 20,  new TranslationTextComponent("gui.org.cancel").getFormattedText(), p -> actionPerformed(CANCEL)));
-        addButton(next = new Button(0, 0, 20, 20, ">", p -> actionPerformed(NEXT)));
-        addButton(prev = new Button(0, 0, 20, 20, "<", p -> actionPerformed(PREV)));
-        addButton(select = new Button(0, 0, 70, 20,  new TranslationTextComponent("gui.org.select").getFormattedText(), p -> actionPerformed(SELECT)));
+        addButton(ok = new Button(0, 0, 50, 20, new TranslationTextComponent("gui.org.ok"), p -> actionPerformed(OK)));
+        addButton(confirm = new Button(0, 0, 60, 20, new TranslationTextComponent("gui.org.confirm"), p -> actionPerformed(CONFIRM)));
+        addButton(cancel = new Button(0, 0, 60, 20,  new TranslationTextComponent("gui.org.cancel"), p -> actionPerformed(CANCEL)));
+        addButton(next = new Button(0, 0, 20, 20, new TranslationTextComponent(">"), p -> actionPerformed(NEXT)));
+        addButton(prev = new Button(0, 0, 20, 20, new TranslationTextComponent("<"), p -> actionPerformed(PREV)));
+        addButton(select = new Button(0, 0, 70, 20,  new TranslationTextComponent("gui.org.select"), p -> actionPerformed(SELECT)));
         updateButtons();
         super.init();
     }
@@ -247,18 +248,18 @@ public class AlignmentSelectionScreen extends Screen {
             prev.visible = false;
             select.visible = false;
             ok.x = (width / 2) - (ok.getWidth() / 2);
-            ok.y = (height / 2) - (ok.getHeight() / 2) + font.FONT_HEIGHT + 2;
+            ok.y = (height / 2) - (ok.getHeightRealms() / 2) + font.FONT_HEIGHT + 2;
         } else {
             ok.visible = false;
             next.visible = true;
             next.x = (width / 2) - (next.getWidth() / 2) + 128;
-            next.y = (height / 2) - (next.getHeight() / 2);
+            next.y = (height / 2) - (next.getHeightRealms() / 2);
             prev.visible = true;
             prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-            prev.y = (height / 2) - (prev.getHeight() / 2);
+            prev.y = (height / 2) - (prev.getHeightRealms() / 2);
             select.visible = true;
             select.x = (width / 2) - (select.getWidth() / 2);
-            select.y= (height / 2) - (select.getHeight() / 2) + 90;
+            select.y= (height / 2) - (select.getHeightRealms() / 2) + 90;
             confirm.visible = false;
             cancel.visible = false;
             if (confirmChoice) {
@@ -268,9 +269,9 @@ public class AlignmentSelectionScreen extends Screen {
                 prev.visible = false;
                 select.visible = false;
                 confirm.x = (width / 2) - (confirm.getWidth() / 2);
-                confirm.y = (height / 2) - (confirm.getHeight() / 2) + 30;
+                confirm.y = (height / 2) - (confirm.getHeightRealms() / 2) + 30;
                 cancel.x = (width / 2) - (cancel.getWidth() / 2);
-                cancel.y = (height / 2) - (cancel.getHeight() / 2) + 32 + confirm.getHeight();
+                cancel.y = (height / 2) - (cancel.getHeightRealms() / 2) + 32 + confirm.getHeightRealms();
             }
         }
     }

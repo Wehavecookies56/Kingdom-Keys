@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,7 @@ public class PlayerPortraitGui extends Screen {
 		int screenWidth = minecraft.getMainWindow().getScaledWidth();
 		int screenHeight = minecraft.getMainWindow().getScaledHeight();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+			MatrixStack matrixStack = event.getMatrixStack(); 
 			RenderSystem.color3f(1, 1, 1);
 			ResourceLocation skin = minecraft.player.getLocationSkin();
 			minecraft.getTextureManager().bindTexture(skin);
@@ -52,9 +54,9 @@ public class PlayerPortraitGui extends Screen {
 					RenderSystem.color4f(0.3F, 0.3F, 0.3F, 1F);
 				}
 
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.translatef(-5, -1, 0);
+					matrixStack.translate(-5, -1, 0);
 
 					// HEAD
 					int headWidth = 32;
@@ -64,13 +66,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledHeadPosX = headPosX * scale;
 					float scaledHeadPosY = headPosY * scale;
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 32, 32, headWidth, headHeight);
+						matrixStack.translate((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 32, 32, headWidth, headHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
 					// HAT
 					int hatWidth = 32;
@@ -80,13 +82,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledHatPosX = hatPosX * scale;
 					float scaledHatPosY = hatPosY * scale;
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 160, 32, hatWidth, hatHeight);
+						matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 160, 32, hatWidth, hatHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
 					// BODY
 					int bodyWidth = 32;
@@ -96,13 +98,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledBodyPosX = bodyPosX * scale;
 					float scaledBodyPosY = bodyPosY * scale;
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 80, 80, bodyWidth, bodyHeight);
+						matrixStack.translate((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 80, 80, bodyWidth, bodyHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
 					// JACKET
 					int jacketWidth = 32;
@@ -112,13 +114,13 @@ public class PlayerPortraitGui extends Screen {
 					float scaledjacketPosX = jacketPosX * scale;
 					float scaledjacketPosY = jacketPosY * scale;
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 80, 148, bodyWidth, bodyHeight);
+						matrixStack.translate((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 80, 148, bodyWidth, bodyHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
 					// ARMS
 					int armWidth = 16;
@@ -132,21 +134,21 @@ public class PlayerPortraitGui extends Screen {
 					float scaledArmLPosX = armLPosX * scale;
 					float scaledArmLPosY = armLPosY * scale;
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 176, 80, armWidth, armHeight);
+						matrixStack.translate((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 176, 80, armWidth, armHeight);
+						matrixStack.translate((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
 					// GLOVES
@@ -161,21 +163,21 @@ public class PlayerPortraitGui extends Screen {
 					float scaledgloveLPosX = gloveLPosX * scale;
 					float scaledgloveLPosY = gloveLPosY * scale;
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
+						matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
+						matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
+						matrixStack.scale(scale, scale, scale);
+						this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
@@ -184,39 +186,39 @@ public class PlayerPortraitGui extends Screen {
 						ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + driveName + ".png");
 						minecraft.textureManager.bindTexture(texture);
 
-						RenderSystem.pushMatrix();
+						matrixStack.push();
 						{
-							RenderSystem.translatef((screenWidth - 32 * scale) - 16 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
-							RenderSystem.scalef(2, 1, 1);
-							RenderSystem.scalef(0.5f, 0.5f, 0.5f);
-							RenderSystem.scalef(scale, scale, scale);
-							this.blit(0, 0, 80, 140, 32, 80);
+							matrixStack.translate((screenWidth - 32 * scale) - 16 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
+							matrixStack.scale(2, 1, 1);
+							matrixStack.scale(0.5f, 0.5f, 0.5f);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 80, 140, 32, 80);
 						}
-						RenderSystem.popMatrix();
+						matrixStack.pop();
 
-						RenderSystem.pushMatrix();
+						matrixStack.push();
 						{
-							RenderSystem.translatef((screenWidth - 16 * scale) - 48 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
-							RenderSystem.scalef(2, 1, 1);
-							RenderSystem.scalef(0.5f, 0.5f, 0.5f);
-							RenderSystem.scalef(scale, scale, scale);
-							this.blit(0, 0, 64, 140, 16, 80);
+							matrixStack.translate((screenWidth - 16 * scale) - 48 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
+							matrixStack.scale(2, 1, 1);
+							matrixStack.scale(0.5f, 0.5f, 0.5f);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 64, 140, 16, 80);
 						}
-						RenderSystem.popMatrix();
+						matrixStack.pop();
 
-						RenderSystem.pushMatrix();
+						matrixStack.push();
 						{
-							RenderSystem.translatef((screenWidth - 16 * scale) - 0 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
-							RenderSystem.scalef(2, 1, 1);
-							RenderSystem.scalef(0.5f, 0.5f, 0.5f);
-							RenderSystem.scalef(scale, scale, scale);
-							this.blit(0, 0, 112, 140, 16, 80);
+							matrixStack.translate((screenWidth - 16 * scale) - 0 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
+							matrixStack.scale(2, 1, 1);
+							matrixStack.scale(0.5f, 0.5f, 0.5f);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 112, 140, 16, 80);
 						}
-						RenderSystem.popMatrix();
+						matrixStack.pop();
 
 					}
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 			}
 		}
 	}

@@ -4,12 +4,14 @@ import java.awt.Color;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MenuColourBox extends Widget {
@@ -28,7 +30,7 @@ public class MenuColourBox extends Widget {
 	Minecraft minecraft;
 
 	public MenuColourBox(int x, int y, int widthIn, String key, String value, int color) {
-		super(x, y, widthIn, 14, key);
+		super(x, y, widthIn, 14, new TranslationTextComponent(key));
 		this.key = key;
 		this.value = value;
 		middleWidth = widthIn;
@@ -38,23 +40,23 @@ public class MenuColourBox extends Widget {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		// isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y +
 		// height;
 		if (visible) {
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			RenderSystem.color3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 			minecraft.textureManager.bindTexture(texture);
 
 			for (int i = 0; i < middleWidth; i++) {
-				blit(x + i, y, u, vPos, 1, height);
+				blit(matrixStack, x + i, y, u, vPos, 1, height);
 			}
-			drawString(minecraft.fontRenderer, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
-			drawString(minecraft.fontRenderer, value, x + width - minecraft.fontRenderer.getStringWidth(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
+			drawString(matrixStack, minecraft.fontRenderer, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
+			drawString(matrixStack, minecraft.fontRenderer, value, x + width - minecraft.fontRenderer.getStringWidth(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
 			RenderSystem.disableBlend();
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
 	}
 
