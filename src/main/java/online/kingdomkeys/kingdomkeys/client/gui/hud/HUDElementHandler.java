@@ -35,14 +35,15 @@ public class HUDElementHandler extends AbstractGui {
         elements.forEach(HUDElement::anchorElement);
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             elements.forEach(element -> {
-                element.render(event.getPartialTicks());
+                element.render(event.getMatrixStack(),event.getPartialTicks());
             });
         }
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
+        if (event.phase != TickEvent.Phase.END) 
+        	return;
         elements.forEach(HUDElement::tick);
     }
 

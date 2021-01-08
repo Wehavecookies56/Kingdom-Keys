@@ -1,17 +1,20 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.*;
 
 //Text rendering from IngameGui with an added message queue system
 public class SoAMessages extends AbstractGui {
@@ -56,7 +59,7 @@ public class SoAMessages extends AbstractGui {
     @SubscribeEvent
     public void renderOverlay(RenderGameOverlayEvent.Text event) {
         if (!messages.isEmpty() || titlesTimer != 0) {
-            draw(event.getPartialTicks());
+            draw(event.getMatrixStack(), event.getPartialTicks());
         }
     }
 
@@ -116,7 +119,7 @@ public class SoAMessages extends AbstractGui {
         }
     }
 
-    public void draw(float partialTicks) {
+    public void draw(MatrixStack matrixStack, float partialTicks) {
         this.scaledWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
         this.scaledHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
 
@@ -134,35 +137,35 @@ public class SoAMessages extends AbstractGui {
 
             j1 = MathHelper.clamp(j1, 0, 255);
             if (j1 > 8) {
-                RenderSystem.pushMatrix();
-                RenderSystem.translatef(this.scaledWidth / 2, this.scaledHeight / 2, 0.0F);
+                matrixStack.push();
+                matrixStack.translate(this.scaledWidth / 2, this.scaledHeight / 2, 0.0F);
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
-                RenderSystem.pushMatrix();
-                RenderSystem.scalef(4.0F, 4.0F, 4.0F);
+                matrixStack.push();
+                matrixStack.scale(4.0F, 4.0F, 4.0F);
                 int l1 = j1 << 24 & -16777216;
                 int i2 = font.getStringWidth(Utils.translateToLocal(this.displayedTitle));
-                this.renderTextBackground(font, -10, i2);
-                font.drawStringWithShadow(Utils.translateToLocal(this.displayedTitle), (float)(-i2 / 2), -10.0F, 16777215 | l1);
-                RenderSystem.popMatrix();
+                this.renderTextBackground(matrixStack, font, -10, i2);
+                font.drawStringWithShadow(matrixStack, Utils.translateToLocal(this.displayedTitle), (float)(-i2 / 2), -10.0F, 16777215 | l1);
+                matrixStack.pop();
                 if (!this.displayedSubTitle.isEmpty()) {
-                    RenderSystem.pushMatrix();
-                    RenderSystem.scalef(2.0F, 2.0F, 2.0F);
+                    matrixStack.push();
+                    matrixStack.scale(2.0F, 2.0F, 2.0F);
                     int k = font.getStringWidth(Utils.translateToLocal(this.displayedSubTitle));
-                    this.renderTextBackground(font, 5, k);
-                    font.drawStringWithShadow(Utils.translateToLocal(this.displayedSubTitle), (float)(-k / 2), 5.0F, 16777215 | l1);
-                    RenderSystem.popMatrix();
+                    this.renderTextBackground(matrixStack, font, 5, k);
+                    font.drawStringWithShadow(matrixStack, Utils.translateToLocal(this.displayedSubTitle), (float)(-k / 2), 5.0F, 16777215 | l1);
+                    matrixStack.pop();
                 }
                 RenderSystem.disableBlend();
-                RenderSystem.popMatrix();
+                matrixStack.pop();
             }
         }
     }
-    protected void renderTextBackground(FontRenderer fontRendererIn, int yIn, int stringWidthIn) {
+    protected void renderTextBackground(MatrixStack matrixStack, FontRenderer fontRendererIn, int yIn, int stringWidthIn) {
         int i = Minecraft.getInstance().gameSettings.getTextBackgroundColor(0.0F);
         if (i != 0) {
             int j = -stringWidthIn / 2;
-            fill(j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
+            fill(matrixStack, j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
         }
 
     }

@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -29,6 +29,7 @@ public class HPGui extends Screen {
 		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		PlayerEntity player = minecraft.player;
+		MatrixStack matrixStack = event.getMatrixStack();
 		if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
 			// if (!MainConfig.client.hud.EnableHeartsOnHUD)
 			// event.setCanceled(true);
@@ -45,74 +46,74 @@ public class HPGui extends Screen {
 				scale = 0.85F;
 				break;
 			}
-			float scaleFactor = 1.5F;
+			float scaleactor = 1.5F;
 
-			hpBarWidth = (int) (player.getHealth() * scaleFactor);
-			int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
+			hpBarWidth = (int) (player.getHealth() * scaleactor);
+			int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleactor);
 
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarBack(0, 0, hpBarMaxWidth, scale);
+				matrixStack.translate((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
+				matrixStack.scale(scale, scale, scale);
+				drawHPBarBack(matrixStack, 0, 0, hpBarMaxWidth, scale);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarTop(0, 0, (int) Math.ceil(hpBarWidth), scale, player);
+				matrixStack.translate((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
+				matrixStack.scale(scale, scale, scale);
+				drawHPBarTop(matrixStack, 0, 0, (int) Math.ceil(hpBarWidth), scale, player);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
 	}
 
-	public void drawHPBarBack(int posX, int posY, int width, float scale) {
+	public void drawHPBarBack(MatrixStack matrixStack, int posX, int posY, int width, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
 			// Left
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef(scale * posX, scale * posY, 0);
-				RenderSystem.scalef(scale, scale, 0);
-				blit(0, 0, 0, 0, 2, 12);
+				matrixStack.translate(scale * posX, scale * posY, 0);
+				matrixStack.scale(scale, scale, 0);
+				blit(matrixStack, 0, 0, 0, 0, 2, 12);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// Middle
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((posX + 2) * scale, posY * scale, 0);
-				RenderSystem.scalef(width, scale, 0);
-				blit(0, 0, 2, 0, 1, 12);
+				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
+				matrixStack.scale(width, scale, 0);
+				blit(matrixStack, 0, 0, 2, 0, 1, 12);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// Right
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((posX + 2) * scale + width, scale * posY, 0);
-				RenderSystem.scalef(scale, scale, 0);
-				blit(0, 0, 3, 0, 2, 12);
+				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
+				matrixStack.scale(scale, scale, 0);
+				blit(matrixStack, 0, 0, 3, 0, 2, 12);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 
 	}
 
-	public void drawHPBarTop(int posX, int posY, int width, float scale, PlayerEntity player) {
+	public void drawHPBarTop(MatrixStack matrixStack, int posX, int posY, int width, float scale, PlayerEntity player) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
-			RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
-			RenderSystem.scalef(width, scale, 0);
+			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
+			matrixStack.scale(width, scale, 0);
 			int v = player.getHealth() >= player.getMaxHealth() / 4 ? 12 : 22;
-			blit(0, -1, 2, v, 1, 8);
+			blit(matrixStack, 0, -1, 2, v, 1, 8);
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 
 	}
 

@@ -163,24 +163,25 @@ public class MenuBackground extends Screen {
 		for (int i = 0; i < sh; i += 3) {
 			matrixStack.push();
 			RenderSystem.color3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
-			// matrixStack.enableAlpha();
+			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 			minecraft.textureManager.bindTexture(menu);
 			matrixStack.translate(0, i, 0);
 			matrixStack.scale(sw, 1, 1);
 			blit(matrixStack, 0, 0, 77, 92, 1, 1);
+			RenderSystem.disableBlend();
 			matrixStack.pop();
 		}
-		topLeftBar.draw();
-		topRightBar.draw();
-		bottomLeftBar.draw();
-		bottomRightBar.draw();
+		topLeftBar.draw(matrixStack);
+		topRightBar.draw(matrixStack);
+		bottomLeftBar.draw(matrixStack);
+		bottomRightBar.draw(matrixStack);
 	}
 
 	public void drawBiomeDim(MatrixStack matrixStack) {
 		matrixStack.push();
 		{
-			String text = minecraft.player.dimension.getRegistryName().getPath().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getString().getFormattedText();
+			String text = minecraft.player.world.getDimensionType().toString().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getRegistryName().getPath();
 			drawString(matrixStack, minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 5, 0xF58B33);
 		}
 		matrixStack.pop();
@@ -232,7 +233,7 @@ public class MenuBackground extends Screen {
 				matrixStack.scale(1.1F, 1.1F, 1F);
 				matrixStack.translate(0, -5, 0);
 				//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
-				minecraft.fontRenderer.drawSplitString(Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
+				Utils.drawSplitString(minecraft.fontRenderer, Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
 			}
 			matrixStack.pop();
 		}

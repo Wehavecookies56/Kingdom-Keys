@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -50,7 +52,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         float itemsX = width * 0.31F;
         float itemsY = height * 0.1907F;
 
-        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
+        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
 
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
@@ -79,20 +81,20 @@ public class MenuEquipmentScreen extends MenuBackground {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        drawMenuBackground(mouseX, mouseY, partialTicks);
-        listBox.draw();
-        detailsBox.draw();
-        super.render(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
+        listBox.draw(matrixStack);
+        detailsBox.draw(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
         /*
-        RenderSystem.pushMatrix();
+        matrixStack.push();
         {
             RenderHelper.enableStandardItemLighting();
 
             driveKeychains.forEach(button -> button.render(mouseX, mouseY, partialTicks));
             //TODO the rest
         }
-        RenderSystem.popMatrix();
+        matrixStack.pop();
         */
     }
 }

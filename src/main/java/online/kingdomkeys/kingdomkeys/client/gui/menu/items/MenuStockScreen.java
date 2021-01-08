@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -39,17 +39,17 @@ public class MenuStockScreen extends MenuFilterable {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        drawMenuBackground(mouseX, mouseY, partialTicks);
-        box.draw();
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
+        box.draw(matrixStack);
 
-        super.render(mouseX, mouseY, partialTicks);
-        inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
-        back.render(mouseX, mouseY, partialTicks);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        inventory.forEach(i -> i.render(matrixStack, mouseX, mouseY, partialTicks));
+        back.render(matrixStack, mouseX, mouseY, partialTicks);
     }
     
     @Override
-	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
+	protected void renderSelectedData(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.3333F;
         float tooltipPosY = height * 0.8F;
 
@@ -60,26 +60,26 @@ public class MenuStockScreen extends MenuFilterable {
         
 		Minecraft mc = Minecraft.getInstance();
         RenderHelper.disableStandardItemLighting();
-        RenderSystem.pushMatrix();
+        matrixStack.push();
         {
-            RenderSystem.translatef(iconPosX, iconPosY, 0);
-            RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+            matrixStack.translate(iconPosX, iconPosY, 0);
+            matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
             mc.getItemRenderer().renderItemAndEffectIntoGUI(selected, 0, 0);
         }
-        RenderSystem.popMatrix();
+        matrixStack.pop();
         
-        drawString(mc.fontRenderer, selected.getDisplayName().getFormattedText(), (int) tooltipPosX + 50, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * 0) + 5, 0xFFFFFF);
+        drawString(matrixStack, mc.fontRenderer, selected.getDisplayName().getString(), (int) tooltipPosX + 50, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * 0) + 5, 0xFFFFFF);
 
         if(selected.getItem() instanceof KeybladeItem || selected.getItem() instanceof KeychainItem) {
         	KeybladeItem kb = selected.getItem() instanceof KeychainItem ? ((KeychainItem) selected.getItem()).getKeyblade() : (KeybladeItem) selected.getItem();
         	
-        	mc.fontRenderer.drawSplitString(kb.getDescription(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.38F), 0xAAAAAA);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY + 5), 0xFF0000);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 15, 0x4444FF);
+        	Utils.drawSplitString(font, kb.getDescription(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.38F), 0xAAAAAA);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY + 5), 0xFF0000);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 15, 0x4444FF);
         } else {
         	List<ITextComponent> tooltip = selected.getTooltip(mc.player, ITooltipFlag.TooltipFlags.NORMAL);
             for (int i = 0; i < tooltip.size(); i++) {
-                drawString(mc.fontRenderer, tooltip.get(i).getUnformattedComponentText(), (int) tooltipPosX + 60, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * i) + 5, 0xFFFFFF);
+                drawString(matrixStack, mc.fontRenderer, tooltip.get(i).getUnformattedComponentText(), (int) tooltipPosX + 60, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * i) + 5, 0xFFFFFF);
             }
         }
         
@@ -120,7 +120,7 @@ public class MenuStockScreen extends MenuFilterable {
 
         filterBar.buttons.forEach(this::addButton);
         
-        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
+        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
 
         List<ItemStack> items = new ArrayList<>();
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {

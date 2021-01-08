@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -46,45 +47,45 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		isHovered = mouseX > x+1 && mouseY >= y+1 && mouseX < x + width-1 && mouseY < y + height-1;
 		
 		if (visible) {
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			renderColor();
 			
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 			minecraft.textureManager.bindTexture(texture);
 			if (isHovered && active) { //Hovered button
-				drawButton(isHovered);
-				drawString(minecraft.fontRenderer, getMessage().substring(getMessage().indexOf(":")+1), x + 20, y + 6, new Color(255, 255, 255).hashCode());
-				drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-				drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+				drawButton(matrixStack, isHovered);
+				drawString(matrixStack, minecraft.fontRenderer, getMessage().getString().substring(getMessage().getString().indexOf(":")+1), x + 20, y + 6, new Color(255, 255, 255).hashCode());
+				drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+				drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
 			} else {
 				if(active) {//Not hovered but fully visible
-					drawButton(isHovered);
-					drawString(minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(255, 255, 255).hashCode());
-					drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-					drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+					drawButton(matrixStack, isHovered);
+					drawString(matrixStack, minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(255, 255, 255).hashCode());
+					drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+					drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
 
 				} else {//Not hovered and selected (not fully visible)
 					if(selected) {
-						drawButton(isHovered);
-						drawString(minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
-						drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-						drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+						drawButton(matrixStack, isHovered);
+						drawString(matrixStack, minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
+						drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+						drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
 
 					} else {
-						drawButton(isHovered);
-						drawString(minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
-						drawString(minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(180, 180, 0).hashCode());
-						drawString(minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(180, 180, 180).hashCode());
+						drawButton(matrixStack, isHovered);
+						drawString(matrixStack, minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
+						drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(180, 180, 0).hashCode());
+						drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(180, 180, 180).hashCode());
 
 					}
 				}
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 			
 		}
 		
@@ -107,50 +108,50 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		}
 	}
 
-	private void drawButton(boolean hovered) {
+	private void drawButton(MatrixStack matrixStack, boolean hovered) {
 		//Ability name
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
-			blit(x, y, leftU, vPos, endWidth, height);
+			blit(matrixStack, x, y, leftU, vPos, endWidth, height);
 			for (int i = 0; i < middleWidth; i++) {
-				blit(x + i + endWidth, y, middleU, vPos, 1, height);
+				blit(matrixStack, x + i + endWidth, y, middleU, vPos, 1, height);
 			}
-			blit(x + endWidth + middleWidth, y, rightU, vPos, endWidth, height);
+			blit(matrixStack, x + endWidth + middleWidth, y, rightU, vPos, endWidth, height);
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 		
 		//AP Cost
 		RenderSystem.color3f(0.3F, 0.24F, 0);
-		blit(x+middleWidth+endWidth+10, y-1, 72, 117, endWidth, height);
+		blit(matrixStack, x+middleWidth+endWidth+10, y-1, 72, 117, endWidth, height);
 		for (int i = 0; i < apMiddleWidth; i++) {
-			blit(x +middleWidth+ i + endWidth+19, y, middleU, vPos, 1, height);
+			blit(matrixStack, x +middleWidth+ i + endWidth+19, y, middleU, vPos, 1, height);
 		}
-		blit(x + endWidth + middleWidth+apMiddleWidth +19, y, rightU, vPos, endWidth, height);
+		blit( matrixStack, x + endWidth + middleWidth+apMiddleWidth +19, y, rightU, vPos, endWidth, height);
 		
 		//Equipped/Unequipped icon
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
 			RenderSystem.color4f(1, 1, 1, 1);
 			
 			if(!equipped) {
-				blit(x+6, y+4, 74, 102, 12, 12);
+				blit(matrixStack, x+6, y+4, 74, 102, 12, 12);
 			} else {
-				blit(x+6, y+4, 87, 102, 12, 12);
+				blit(matrixStack, x+6, y+4, 87, 102, 12, 12);
 			}
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 		
 		//Hovered outline
 		if(hovered) {
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				RenderSystem.color3f(1, 1, 1);
-				blit(x, y, leftU, selectedVPos, endWidth, height);
+				blit(matrixStack, x, y, leftU, selectedVPos, endWidth, height);
 				for (int i = 0; i < middleWidth; i++)
-					blit(x + i + endWidth, y, middleU, selectedVPos, 1, height);
-				blit(x + endWidth + middleWidth, y, rightU, selectedVPos, endWidth, height);
+					blit(matrixStack, x + i + endWidth, y, middleU, selectedVPos, 1, height);
+				blit(matrixStack, x + endWidth + middleWidth, y, rightU, selectedVPos, endWidth, height);
 				}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
 		
 	}

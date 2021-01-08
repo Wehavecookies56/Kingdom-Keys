@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 import java.awt.Color;
 import java.util.UUID;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -79,7 +81,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		for(int i = 0;i<buttons.size();i++) {
-			if(!buttons.get(i).getMessage().startsWith("Refresh") && !buttons.get(i).getMessage().startsWith("Back")) {
+			if(!buttons.get(i).getMessage().getString().startsWith("Refresh") && !buttons.get(i).getMessage().getString().startsWith("Back")) {
 				buttons.remove(i);
 			}
 		}
@@ -111,8 +113,8 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		super.render(mouseX, mouseY, partialTicks);
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		refreshMembers();

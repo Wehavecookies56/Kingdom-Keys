@@ -1,20 +1,20 @@
 package online.kingdomkeys.kingdomkeys.datagen.builder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 
-    protected final ExistingFileHelper existingFileHelper;
     private ResourceLocation keychain;
     private int baseStr, baseMag;
     private String desc;
@@ -23,7 +23,6 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 
     public KeybladeBuilder(Object o, Object o1) {
         super((ResourceLocation) o);
-        this.existingFileHelper = (ExistingFileHelper) o1;
     }
 
     private T self() {

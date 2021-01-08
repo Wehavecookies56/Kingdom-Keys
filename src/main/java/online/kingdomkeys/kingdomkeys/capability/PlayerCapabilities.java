@@ -26,11 +26,11 @@ import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -59,7 +59,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private List<String> messages = new ArrayList<>();
 	private List<String> dfMessages = new ArrayList<>();
 
-	private PortalData[] orgPortalCoords = { new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0) };
+	private PortalData[] orgPortalCoords = { new PortalData((byte) 0, 0, 0, 0, World.OVERWORLD), new PortalData((byte) 0, 0, 0, 0, World.OVERWORLD), new PortalData((byte) 0, 0, 0, 0, World.OVERWORLD) };
 
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 	private int hearts = 0;

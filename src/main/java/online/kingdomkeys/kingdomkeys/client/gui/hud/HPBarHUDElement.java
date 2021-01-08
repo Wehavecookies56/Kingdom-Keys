@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.hud;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 public class HPBarHUDElement extends HUDElement {
 
     public HPBarHUDElement(int anchoredPositionX, int anchoredPositionY, int elementWidth, int elementHeight, HUDAnchorPosition anchor, String name) {
@@ -7,7 +9,7 @@ public class HPBarHUDElement extends HUDElement {
     }
 
     @Override
-    public void drawElement(float partialTicks) {
+    public void drawElement(MatrixStack matrixStack, float partialTicks) {
 
     }
 

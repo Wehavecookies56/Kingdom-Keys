@@ -7,14 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -112,7 +112,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		// addButton(scrollBar = new MenuScrollBar());
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getFormattedText(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new SynthesisScreen())));
+		addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new SynthesisScreen())));
 
 		super.init();
 		itemsPerPage = (int) (middleHeight / 14);
@@ -155,24 +155,24 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		super.init();
 		
 		float buttonPosX = (float) width * 0.03F;
-		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Utils.translateToLocal("<--"), (e) -> {
+		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Utils.translateToLocal("-->"), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
-		addButton(upgrade = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade), (e) -> {
+		addButton(upgrade = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
 			action("upgrade");
 		}));
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		drawMenuBackground(mouseX, mouseY, partialTicks);
-		boxL.draw();
-		boxM.draw();
-		boxR.draw();
-		super.render(mouseX, mouseY, partialTicks);
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
+		boxL.draw(matrixStack);
+		boxM.draw(matrixStack);
+		boxR.draw(matrixStack);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
@@ -207,13 +207,13 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		}
 		
 		//Page renderer
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
-			RenderSystem.translated(width * 0.03F + 45, (height * 0.15) - 18, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 			//System.out.println(next.visible);
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 
 		for (int i = 0; i < inventory.size(); i++) {
 			inventory.get(i).active = false;
@@ -224,20 +224,20 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
 					inventory.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 14 + 5; // 6 = offset
-					inventory.get(i).render(mouseX, mouseY, partialTicks);
+					inventory.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 					inventory.get(i).active = true;
 				}
 			}
 		}
 		
-		prev.render(mouseX,  mouseY,  partialTicks);
-		next.render(mouseX,  mouseY,  partialTicks);
-		upgrade.render(mouseX,  mouseY,  partialTicks);
-		back.render(mouseX, mouseY, partialTicks);
+		prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		next.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		upgrade.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		back.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 
 	@Override
-	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
+	protected void renderSelectedData(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.3333F;
 		float tooltipPosY = height * 0.8F;
 
@@ -251,56 +251,56 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	
 			//Icon
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				double offset = ((boxM.getWidth() / 2) * 0F);
-				RenderSystem.translated(boxM.x + offset, iconPosY, 1);
-				RenderSystem.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 1);
+				matrixStack.translate(boxM.x + offset, iconPosY, 1);
+				matrixStack.scale((float)(boxM.getWidth() / 16 - offset / 16), (float)(boxM.getWidth()/16 - offset / 16), 1);
 				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 0, 0);
 			}
-			RenderSystem.popMatrix();
-			/*RenderSystem.pushMatrix();
+			matrixStack.pop();
+			/*matrixStack.push();
 			{
-				RenderSystem.translated(boxM.x, iconPosY, 1);
-				RenderSystem.scaled(4, 4, 4);
+				matrixStack.translated(boxM.x, iconPosY, 1);
+				matrixStack.scaled(4, 4, 4);
 				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 0, 0);
 			}
-			RenderSystem.popMatrix();*/
+			matrixStack.pop();*/
 
 			//Description
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
 				String text = Utils.translateToLocal(kb.getTranslationKey());
-				drawString(minecraft.fontRenderer, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-				minecraft.fontRenderer.drawSplitString(kb.getDescription(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.fontRenderer.FONT_HEIGHT, (int) (width * 0.6F), 0xFFFFFF);
+				drawString(matrixStack, minecraft.fontRenderer, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
+				Utils.drawSplitString(font, kb.getDescription(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.fontRenderer.FONT_HEIGHT, (int) (width * 0.6F), 0xFFFFFF);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 			
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translated(boxM.x+2, height*0.58, 1);
-				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+kb.getKeybladeLevel(selected), 0, -10, 0xFFFF00);
+				matrixStack.translate(boxM.x+2, height*0.58, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+kb.getKeybladeLevel(selected), 0, -10, 0xFFFF00);
 
 				if(kb.getKeybladeLevel(selected) < 10) {
 					int actualStr = kb.getStrength(kb.getKeybladeLevel(selected));
 					int nextStr = kb.getStrength(kb.getKeybladeLevel(selected)+1);
 					int actualMag = kb.getMagic(kb.getKeybladeLevel(selected));
 					int nextMag = kb.getMagic(kb.getKeybladeLevel(selected )+1);
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" -> "+nextStr, 0, 0, 0xFF0000);
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" -> "+nextMag, 0, 10, 0x4444FF);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" -> "+nextStr, 0, 0, 0xFF0000);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" -> "+nextMag, 0, 10, 0x4444FF);
 				} else {
 					int actualStr = kb.getStrength(kb.getKeybladeLevel(selected));
 					int actualMag = kb.getMagic(kb.getKeybladeLevel(selected));
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr, 0, 0, 0xFF0000);
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag, 0, 10, 0x4444FF);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr, 0, 0, 0xFF0000);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag, 0, 10, 0x4444FF);
 				}
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		
 			//Materials display
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translated(iconPosX + 20, height*0.2, 1);
+				matrixStack.translate(iconPosX + 20, height*0.2, 1);
 				if(kb.getKeybladeLevel(selected) < 10) {
 					Iterator<Entry<Material, Integer>> itMats = kb.data.getLevelData(kb.getKeybladeLevel(selected)).getMaterialList().entrySet().iterator();
 					int i = 0;
@@ -310,13 +310,13 @@ public class SynthesisForgeScreen extends MenuFilterable {
 						String n = Utils.translateToLocal(stack.getTranslationKey());
 						//playerData.setMaterial(m.getKey(), 1);
 						int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-						drawString(minecraft.fontRenderer, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
+						drawString(matrixStack, minecraft.fontRenderer, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
 						itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
 						i++;
 					}
 				}
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
 	}
 	

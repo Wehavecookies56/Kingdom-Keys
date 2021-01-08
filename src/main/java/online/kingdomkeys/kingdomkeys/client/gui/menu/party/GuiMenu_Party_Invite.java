@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 import java.awt.Color;
 import java.util.UUID;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -82,7 +84,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		for(int i = 0;i<buttons.size();i++) {
-			if(!buttons.get(i).getMessage().startsWith("Back")) {
+			if(!buttons.get(i).getMessage().getString().startsWith("Back")) {
 				buttons.remove(i);
 			}
 		}
@@ -91,7 +93,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		for(int i = 1; i < minecraft.world.getPlayers().size(); i++) {
 			if(worldData.getPartyFromMember(minecraft.world.getPlayers().get(i).getUniqueID()) != party) {
-				addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), minecraft.world.getPlayers().get(i).getDisplayName().getFormattedText(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
+				addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), minecraft.world.getPlayers().get(i).getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
 			}
 		}
 	
@@ -116,8 +118,8 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		super.render(mouseX, mouseY, partialTicks);
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		refreshMembers();

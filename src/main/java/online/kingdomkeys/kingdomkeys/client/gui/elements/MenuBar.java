@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -39,41 +39,41 @@ public class MenuBar extends Screen {
 
     private final int gradientU = 101, gradientV = 67, gradientW = 10, gradientH = 32;
 
-    public void draw() {
+    public void draw(MatrixStack matrixStack) {
         minecraft.textureManager.bindTexture(texture);
         //Top left corner
-        blit(posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
+        blit(matrixStack, posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
         //Top right corner
-        blit(posX + width - borderSize, posY, trCornerU, trCornerV, borderSize, borderSize);
+        blit(matrixStack, posX + width - borderSize, posY, trCornerU, trCornerV, borderSize, borderSize);
         //Bottom left corner
-        blit(posX, posY + height - borderSize, blCornerU, blCornerV, borderSize, borderSize);
+        blit(matrixStack, posX, posY + height - borderSize, blCornerU, blCornerV, borderSize, borderSize);
         //Bottom right corner
-        blit(posX + width - borderSize, posY + height - borderSize, brCornerU, brCornerV, borderSize, borderSize);
+        blit(matrixStack, posX + width - borderSize, posY + height - borderSize, brCornerU, brCornerV, borderSize, borderSize);
         int centerWidth = width - (borderSize * 2);
         int centerHeight = height - (borderSize * 2);
         //Center border
         for (int i = 0; i < centerWidth; i++) {
             //Top
-        	blit(posX + borderSize + i, posY, tCenterU, tCenterV, 1, borderSize);
+        	blit(matrixStack, posX + borderSize + i, posY, tCenterU, tCenterV, 1, borderSize);
             //Bottom
-        	blit(posX + borderSize + i, posY + height - borderSize, bCenterU, bCenterV, 1, borderSize);
+        	blit(matrixStack, posX + borderSize + i, posY + height - borderSize, bCenterU, bCenterV, 1, borderSize);
         }
         for (int i = 0; i < centerHeight; i++) {
             //Left
-        	blit(posX, posY + borderSize + i, lCenterU, lCenterV, borderSize, 1);
+        	blit(matrixStack, posX, posY + borderSize + i, lCenterU, lCenterV, borderSize, 1);
             //Right
-        	blit(posX + width - borderSize, posY + borderSize + i, rCenterU, rCenterV, borderSize, 1);
+        	blit(matrixStack, posX + width - borderSize, posY + borderSize + i, rCenterU, rCenterV, borderSize, 1);
         }
         //Inside
-        RenderSystem.pushMatrix();
-        RenderSystem.translated(posX + borderSize, posY + borderSize, 0);
-        RenderSystem.scaled(centerWidth, (float)centerHeight / (float)gradientH,1);
+        matrixStack.push();
+        matrixStack.translate(posX + borderSize, posY + borderSize, 0);
+        matrixStack.scale(centerWidth, (float)centerHeight / (float)gradientH,1);
         if (flipGradient) {
-        	blit(0, 0, gradientU + 11, gradientV, 1, gradientH);
+        	blit(matrixStack, 0, 0, gradientU + 11, gradientV, 1, gradientH);
         } else {
-        	blit(0, 0, gradientU, gradientV, 1, gradientH);
+        	blit(matrixStack, 0, 0, gradientU, gradientV, 1, gradientH);
         }
-        RenderSystem.popMatrix();
+        matrixStack.pop();
         //drawModalRectWithCustomSizedTexture(posX + borderSize, posY + borderSize, gradientU, gradientV, centerWidth, centerHeight, gradientW, gradientH);
         //drawScaledCustomSizeModalRect(posX + borderSize, posY + borderSize, gradientU, gradientV, gradientW, gradientH, centerWidth, centerHeight, centerWidth, centerHeight);
     }

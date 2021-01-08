@@ -12,10 +12,11 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -47,7 +49,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
-	
+
 	public static class ModelAnimation {
 		public ModelRenderer model;
 		public ModelRenderer modelCounterpart;
@@ -56,7 +58,7 @@ public class Utils {
 		public float maxVal;
 		public float actVal;
 		public boolean increasing;
-		
+
 		public ModelAnimation(ModelRenderer model, float defVal, float minVal, float maxVal, float actVal, boolean increasing, @Nullable ModelRenderer counterpart) {
 			this.model = model;
 			this.defVal = defVal;
@@ -66,10 +68,10 @@ public class Utils {
 			this.increasing = increasing;
 			this.modelCounterpart = counterpart;
 		}
-		
+
 		@Override
 		public String toString() {
-			return defVal+": "+actVal+" "+increasing;
+			return defVal + ": " + actVal + " " + increasing;
 		}
 	}
 
@@ -145,9 +147,10 @@ public class Utils {
 		TranslationTextComponent translation = new TranslationTextComponent(name);
 		return translation.getString();
 	}
-	
+
 	/**
 	 * Get the ItemStack of the item that made the DamageSource
+	 * 
 	 * @param damageSource
 	 * @param player
 	 * @return
@@ -262,31 +265,31 @@ public class Utils {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void blitScaled(AbstractGui gui, float x, float y, int u, int v, int width, int height, float scaleX, float scaleY) {
-		RenderSystem.pushMatrix();
-		RenderSystem.translatef(x, y, 0);
-		RenderSystem.scalef(scaleX, scaleY, 1);
-		gui.blit(0, 0, u, v, width, height);
-		RenderSystem.popMatrix();
+	public static void blitScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, int u, int v, int width, int height, float scaleX, float scaleY) {
+		matrixStack.push();
+		matrixStack.translate(x, y, 0);
+		matrixStack.scale(scaleX, scaleY, 1);
+		gui.blit(matrixStack, 0, 0, u, v, width, height);
+		matrixStack.pop();
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void blitScaled(AbstractGui gui, float x, float y, int u, int v, int width, int height, float scaleXY) {
-		blitScaled(gui, x, y, u, v, width, height, scaleXY, scaleXY);
+	public static void blitScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, int u, int v, int width, int height, float scaleXY) {
+		blitScaled(matrixStack, gui, x, y, u, v, width, height, scaleXY, scaleXY);
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void drawStringScaled(AbstractGui gui, float x, float y, String text, int colour, float scaleX, float scaleY) {
-		RenderSystem.pushMatrix();
-		RenderSystem.translatef(x, y, 0);
-		RenderSystem.scalef(scaleX, scaleY, 1);
-		gui.drawString(Minecraft.getInstance().fontRenderer, text, 0, 0, colour);
-		RenderSystem.popMatrix();
+	public static void drawStringScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, String text, int colour, float scaleX, float scaleY) {
+		matrixStack.push();
+		matrixStack.translate(x, y, 0);
+		matrixStack.scale(scaleX, scaleY, 1);
+		gui.drawString(matrixStack, Minecraft.getInstance().fontRenderer, text, 0, 0, colour);
+		matrixStack.pop();
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void drawStringScaled(AbstractGui gui, float x, float y, String text, int colour, float scaleXY) {
-		drawStringScaled(gui, x, y, text, colour, scaleXY, scaleXY);
+	public static void drawStringScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, String text, int colour, float scaleXY) {
+		drawStringScaled(matrixStack, gui, x, y, text, colour, scaleXY, scaleXY);
 	}
 
 	public static boolean hasID(ItemStack stack) {
@@ -324,8 +327,7 @@ public class Utils {
 							return i;
 						}
 					}
-				}
-				else if (slotStack.getItem() instanceof OrgWeaponItem) {
+				} else if (slotStack.getItem() instanceof OrgWeaponItem) {
 					return i;
 				}
 			}
@@ -385,7 +387,7 @@ public class Utils {
 		}
 		return val;
 	}
-	
+
 	public static boolean isWearingOrgRobes(PlayerEntity player) {
 		boolean wearingOrgCloak = true;
 		int i;
@@ -405,7 +407,7 @@ public class Utils {
 	}
 
 	public static int getBagCosts(int bagLevel) {
-		switch(bagLevel) {
+		switch (bagLevel) {
 		case 0:
 			return 10000;
 		case 1:
@@ -430,9 +432,13 @@ public class Utils {
 			// form of next letter of underscore
 			str = str.replaceFirst("_[a-z]", String.valueOf(Character.toUpperCase(str.charAt(str.indexOf("_") + 1))));
 		}
-		str = str.substring(0,1).toLowerCase()+str.substring(1);
+		str = str.substring(0, 1).toLowerCase() + str.substring(1);
 		// Return string
 		return str;
+	}
+
+	public static void drawSplitString(FontRenderer fontRenderer, String text, int x, int y, int len, int color) {
+		fontRenderer.func_238418_a_(ITextProperties.func_240652_a_(text), x, y, len, color);
 	}
 
 }

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -8,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,6 +46,7 @@ public class LockOnGui extends Screen {
 		// (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS,
 		// null).getHudMode())
 		// return;
+		MatrixStack matrixStack = event.getMatrixStack();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (playerData != null) {
 			Entity target = InputHandler.lockOn;
@@ -65,34 +68,34 @@ public class LockOnGui extends Screen {
 					scale = 0.75F;
 
 					// Icon
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 					{
-						RenderSystem.translatef((screenWidth / 2) - (guiWidth / 2) * scale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * scale / size - 0.5F, 0);
-						RenderSystem.scalef(scale / size, scale / size, scale / size);
-						this.blit(0, 0, 0, 0, guiWidth, guiHeight);
+						matrixStack.translate((screenWidth / 2) - (guiWidth / 2) * scale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * scale / size - 0.5F, 0);
+						matrixStack.scale(scale / size, scale / size, scale / size);
+						this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 
 						minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
-						RenderSystem.translated(guiWidth / 2, guiWidth / 2, 0);
-						RenderSystem.rotatef(player.ticksExisted % 360 * 10, 0, 0, 1);
-						RenderSystem.translated(-guiWidth / 2, -guiWidth / 2, 0);
-						this.blit(0, 0, 0, 0, guiWidth, guiHeight);
+						matrixStack.translate(guiWidth / 2, guiWidth / 2, 0);
+						matrixStack.rotate(Vector3f.ZP.rotation(player.ticksExisted % 360 * 10));
+						matrixStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
+						this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 					}
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 
 					minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
-					RenderSystem.pushMatrix();
+					matrixStack.push();
 
 					int[] scan = playerData.getEquippedAbilityLevel(Strings.scan);
 					// If ability level > 0 and amount of equipped is > 0
 					if (target != null && scan[0] > 0 && scan[1] > 0) {
-						this.drawString(minecraft.fontRenderer, target.getName().getFormattedText(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getFormattedText()), 15, 0xFFFFFF);
+						drawString(matrixStack, minecraft.fontRenderer, target.getName().getString(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getString()), 15, 0xFFFFFF);
 						drawHPBar(event, (LivingEntity) target);
 					}
 
-					RenderSystem.scalef(scale, scale, scale);
+					matrixStack.scale(scale, scale, scale);
 					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-					RenderSystem.popMatrix();
+					matrixStack.pop();
 				}
 			}
 		}
@@ -101,6 +104,8 @@ public class LockOnGui extends Screen {
 	public void drawHPBar(RenderGameOverlayEvent event, LivingEntity target) {
 		Minecraft mc = Minecraft.getInstance();
 		int screenWidth = minecraft.getMainWindow().getScaledWidth();
+		MatrixStack matrixStack = event.getMatrixStack();
+
 		//int screenHeight = minecraft.getMainWindow().getScaledHeight();
 		// if (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
@@ -142,102 +147,103 @@ public class LockOnGui extends Screen {
 			}
 
 			// System.out.println(target.getHealth());
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarBack(0, 0, hpBarMaxWidth, scale);
+				matrixStack.translate((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
+				matrixStack.scale(scale, scale, scale);
+				drawHPBarBack(matrixStack, 0, 0, hpBarMaxWidth, scale);
 			}
-			RenderSystem.popMatrix();
-			RenderSystem.pushMatrix();
+			matrixStack.pop();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 2 * scale * 2, 1, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarTop(0, 0, (int) Math.ceil(hpBarWidth), scale);
+				matrixStack.translate((screenWidth - (hpBarWidth) * scale) - 2 * scale * 2, 1, 0);
+				matrixStack.scale(scale, scale, scale);
+				drawHPBarTop(matrixStack, 0, 0, (int) Math.ceil(hpBarWidth), scale);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
 	}
 
-	public void drawHPBarBack(int posX, int posY, int width, float scale) {
+	public void drawHPBarBack(MatrixStack matrixStack, int posX, int posY, int width, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-		RenderSystem.pushMatrix();
+		
+		matrixStack.push();
 		{
 			// Left Margin
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef(scale * posX, scale * posY, 0);
-				RenderSystem.scalef(scale, scale, 0);
-				blit(0, 0, 0, 0, 2, 12);
+				matrixStack.translate(scale * posX, scale * posY, 0);
+				matrixStack.scale(scale, scale, 0);
+				blit(matrixStack, 0, 0, 0, 0, 2, 12);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// Background
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((posX + 2) * scale, posY * scale, 0);
-				RenderSystem.scalef(width, scale, 0);
-				blit(0, 0, 2, 0, 1, 12);
+				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
+				matrixStack.scale(width, scale, 0);
+				blit(matrixStack, 0, 0, 2, 0, 1, 12);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// Right Margin
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((posX + 2) * scale + width, scale * posY, 0);
-				RenderSystem.scalef(scale, scale, 0);
-				blit(0, 0, 3, 0, 2, 12);
+				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
+				matrixStack.scale(scale, scale, 0);
+				blit(matrixStack, 0, 0, 3, 0, 2, 12);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// HP Icon
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef(posX + width - 14, posY + 9, 0);
-				RenderSystem.scalef(scale, scale, 0);
-				blit(1, 0, 0, 32, 23, 12);
+				matrixStack.translate(posX + width - 14, posY + 9, 0);
+				matrixStack.scale(scale, scale, 0);
+				blit(matrixStack, 1, 0, 0, 32, 23, 12);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// HP Bars
 			for (int i = 0; i < hpBars - 1; i++) {
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
-					RenderSystem.scalef(scale, scale, 0);
-					blit(0, 0, 0, 46, 17, 12);
+					matrixStack.translate(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
+					matrixStack.scale(scale, scale, 0);
+					blit(matrixStack, 0, 0, 0, 46, 17, 12);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 			}
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 
 	}
 
-	public void drawHPBarTop(int posX, int posY, int width, float scale) {
+	public void drawHPBarTop(MatrixStack matrixStack, int posX, int posY, int width, float scale) {
 		Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
 			// HP Bar
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
-				RenderSystem.scalef(width, scale, 0);
-				blit(0, 0, 2, 12, 1, 8);
+				matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
+				matrixStack.scale(width, scale, 0);
+				blit(matrixStack, 0, 0, 2, 12, 1, 8);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 
 			// HP Bars
 			for (int i = 0; i < currentBar - 1; i++) {
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
-					RenderSystem.scalef(scale, scale, 0);
-					blit(2, 2, 2, 62, 16, 8);
+					matrixStack.translate(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
+					matrixStack.scale(scale, scale, 0);
+					blit(matrixStack, 2, 2, 2, 62, 16, 8);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 			}
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 	}
 }
