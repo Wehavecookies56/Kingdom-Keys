@@ -18,7 +18,7 @@ public class MagicBlizzard extends Magic {
 	public void onUse(PlayerEntity player) {
 		ThrowableEntity shot = new BlizzardEntity(player.world, player);
 		player.world.addEntity(shot);
-		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
+		shot.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 

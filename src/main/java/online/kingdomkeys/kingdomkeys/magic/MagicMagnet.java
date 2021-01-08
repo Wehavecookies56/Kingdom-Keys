@@ -18,9 +18,9 @@ public class MagicMagnet extends Magic {
 	@Override
 	public void onUse(PlayerEntity player) {
 		MagnetEntity shot = new MagnetEntity(player.world, player);
-		shot.setCaster(player.getDisplayName().getFormattedText());
+		shot.setCaster(player.getDisplayName().getString());
 		player.world.addEntity(shot);
-		shot.shoot(player, -90, player.rotationYaw, 0, 1F, 0);
+		shot.func_234612_a_(player, -90, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 

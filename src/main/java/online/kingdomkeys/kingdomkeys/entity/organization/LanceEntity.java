@@ -70,60 +70,44 @@ public class LanceEntity extends ThrowableEntity{
 		if (ticksExisted > 2)
 			world.addParticle(ParticleTypes.CRIT, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
-		if(!stopped) {
-			//super.tick();
-			if (this.throwableShake > 0) {
-		         --this.throwableShake;
-		      }
+		if (!stopped) {
+			if (this.isOnGround()) {
+				this.setOnGround(false);
+				this.setMotion(this.getMotion().mul((double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F)));
+			}
 
-		      if (this.isOnGround()) {
-		         this.setOnGround(false);
-		         this.setMotion(this.getMotion().mul((double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F)));
-		      }
+			/*AxisAlignedBB axisalignedbb = this.getBoundingBox().expand(this.getMotion()).grow(1.0D);
 
-		      AxisAlignedBB axisalignedbb = this.getBoundingBox().expand(this.getMotion()).grow(1.0D);
+			if (raytraceresult.getType() != RayTraceResult.Type.MISS) {
+				if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(((BlockRayTraceResult) raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) {
+					this.setPortal(((BlockRayTraceResult) raytraceresult).getPos());
+				} else if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+					this.onImpact(raytraceresult);
+				}
+			}*/
 
-		      for(Entity entity : this.world.getEntitiesInAABBexcluding(this, axisalignedbb, (p_213881_0_) -> {
-		         return !p_213881_0_.isSpectator() && p_213881_0_.canBeCollidedWith();
-		      })) {
-		        
-		      }
+			Vector3d vec3d = this.getMotion();
+			double d0 = this.getPosX() + vec3d.x;
+			double d1 = this.getPosY() + vec3d.y;
+			double d2 = this.getPosZ() + vec3d.z;
+			float f1;
+			if (this.isInWater()) {
+				for (int i = 0; i < 4; ++i) {
+					this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+				}
 
-		      RayTraceResult raytraceresult = ProjectileHelper.rayTrace(this, axisalignedbb, (p_213880_1_) -> {
-		         return !p_213880_1_.isSpectator() && p_213880_1_.canBeCollidedWith();
-		      }, RayTraceContext.BlockMode.OUTLINE, true);
-		      
+				f1 = 0.8F;
+			} else {
+				f1 = 0.99F;
+			}
 
-		      if (raytraceresult.getType() != RayTraceResult.Type.MISS) {
-		         if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(((BlockRayTraceResult)raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) {
-		            this.setPortal(((BlockRayTraceResult)raytraceresult).getPos());
-		         } else if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)){
-		            this.onImpact(raytraceresult);
-		         }
-		      }
+			this.setMotion(vec3d.scale((double) f1));
+			if (!this.hasNoGravity()) {
+				Vector3d vec3d1 = this.getMotion();
+				this.setMotion(vec3d1.x, vec3d1.y - (double) this.getGravityVelocity(), vec3d1.z);
+			}
 
-		      Vector3d vec3d = this.getMotion();
-		      double d0 = this.getPosX() + vec3d.x;
-		      double d1 = this.getPosY() + vec3d.y;
-		      double d2 = this.getPosZ() + vec3d.z;
-		      float f1;
-		      if (this.isInWater()) {
-		         for(int i = 0; i < 4; ++i) {
-		            this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
-		         }
-
-		         f1 = 0.8F;
-		      } else {
-		         f1 = 0.99F;
-		      }
-
-		      this.setMotion(vec3d.scale((double)f1));
-		      if (!this.hasNoGravity()) {
-		         Vector3d vec3d1 = this.getMotion();
-		         this.setMotion(vec3d1.x, vec3d1.y - (double)this.getGravityVelocity(), vec3d1.z);
-		      }
-
-		      this.setPosition(d0, d1, d2);
+			this.setPosition(d0, d1, d2);
 		}
 	}
 	

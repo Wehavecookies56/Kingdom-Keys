@@ -18,6 +18,7 @@ import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.dimension.DimensionType;
@@ -70,9 +71,9 @@ public class DimensionCommand extends BaseCommand {
             player.changeDimension(dimension, new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Teleported" +player.getDisplayName().getFormattedText()+" to dimension "+dimension.getRegistryName().toString()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Teleported" +player.getDisplayName().getString()+" to dimension "+dimension.getRegistryName().toString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been teleported to "+dimension.getRegistryName().toString()));
+			player.sendMessage(new TranslationTextComponent("You have been teleported to "+dimension.getRegistryName().toString()), Util.DUMMY_UUID);
         }
         return 1;
     }

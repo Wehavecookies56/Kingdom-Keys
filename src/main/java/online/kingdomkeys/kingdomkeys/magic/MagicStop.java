@@ -28,7 +28,7 @@ public class MagicStop extends Magic {
                 if (e instanceof LivingEntity) {
                 	IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
 					globalData.setStoppedTicks(100); //Stop
-					globalData.setStopCaster(player.getDisplayName().getFormattedText());
+					globalData.setStopCaster(player.getDisplayName().getString());
                 	if(e instanceof ServerPlayerEntity)
                 		PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);
                 }
