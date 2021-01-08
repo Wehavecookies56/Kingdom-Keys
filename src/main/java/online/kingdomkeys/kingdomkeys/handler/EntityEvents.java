@@ -767,54 +767,52 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerClone(PlayerEvent.Clone event) {
-		if (event.isWasDeath()) {
-			PlayerEntity oPlayer = event.getOriginal();
-			PlayerEntity nPlayer = event.getPlayer();
-			IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
-			IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
-			newPlayerData.setLevel(oldPlayerData.getLevel());
-			newPlayerData.setExperience(oldPlayerData.getExperience());
-			newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
-			newPlayerData.setStrength(oldPlayerData.getStrength());
-			newPlayerData.setMagic(oldPlayerData.getMagic());
-			newPlayerData.setDefense(oldPlayerData.getDefense());
-			newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
-			newPlayerData.setMP(oldPlayerData.getMP());
-			newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
-			newPlayerData.setDP(oldPlayerData.getDP());
-			newPlayerData.setFP(oldPlayerData.getFP());
-			newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
-			newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
+		PlayerEntity oPlayer = event.getOriginal();
+		PlayerEntity nPlayer = event.getPlayer();
+		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
+		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
+		newPlayerData.setLevel(oldPlayerData.getLevel());
+		newPlayerData.setExperience(oldPlayerData.getExperience());
+		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
+		newPlayerData.setStrength(oldPlayerData.getStrength());
+		newPlayerData.setMagic(oldPlayerData.getMagic());
+		newPlayerData.setDefense(oldPlayerData.getDefense());
+		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
+		newPlayerData.setMP(oldPlayerData.getMP());
+		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
+		newPlayerData.setDP(oldPlayerData.getDP());
+		newPlayerData.setFP(oldPlayerData.getFP());
+		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
+		newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
 
-			newPlayerData.setMunny(oldPlayerData.getMunny());
+		newPlayerData.setMunny(oldPlayerData.getMunny());
 
-			newPlayerData.setMagicList(oldPlayerData.getMagicList());
-			newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
-			newPlayerData.setPortalList(oldPlayerData.getPortalList());
+		newPlayerData.setMagicList(oldPlayerData.getMagicList());
+		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
+		newPlayerData.setPortalList(oldPlayerData.getPortalList());
 
-			newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
-			
-			newPlayerData.setKnownRecipeList(oldPlayerData.getKnownRecipeList());
-			newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
+		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
 
-			newPlayerData.equipAllKeychains(oldPlayerData.getEquippedKeychains(), true);
+		newPlayerData.setKnownRecipeList(oldPlayerData.getKnownRecipeList());
+		newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
 
-			newPlayerData.setSoAState(oldPlayerData.getSoAState());
-			newPlayerData.setReturnDimension(oldPlayerData.getReturnDimension());
-			newPlayerData.setReturnLocation(oldPlayerData.getReturnLocation());
-			newPlayerData.setChoice(oldPlayerData.getChosen());
-			newPlayerData.setChoicePedestal(oldPlayerData.getChoicePedestal());
-			newPlayerData.setSacrifice(oldPlayerData.getSacrificed());
-			newPlayerData.setSacrificePedestal(oldPlayerData.getSacrificePedestal());
+		newPlayerData.equipAllKeychains(oldPlayerData.getEquippedKeychains(), true);
 
-			newPlayerData.setHearts(oldPlayerData.getHearts());
-			newPlayerData.setAlignment(oldPlayerData.getAlignment());
-			newPlayerData.equipWeapon(oldPlayerData.getEquippedWeapon());
-			newPlayerData.setWeaponsUnlocked(oldPlayerData.getWeaponsUnlocked());
+		newPlayerData.setSoAState(oldPlayerData.getSoAState());
+		newPlayerData.setReturnDimension(oldPlayerData.getReturnDimension());
+		newPlayerData.setReturnLocation(oldPlayerData.getReturnLocation());
+		newPlayerData.setChoice(oldPlayerData.getChosen());
+		newPlayerData.setChoicePedestal(oldPlayerData.getChoicePedestal());
+		newPlayerData.setSacrifice(oldPlayerData.getSacrificed());
+		newPlayerData.setSacrificePedestal(oldPlayerData.getSacrificePedestal());
 
-			nPlayer.setHealth(oldPlayerData.getMaxHP());
-			nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
-		}
+		newPlayerData.setHearts(oldPlayerData.getHearts());
+		newPlayerData.setAlignment(oldPlayerData.getAlignment());
+		newPlayerData.equipWeapon(oldPlayerData.getEquippedWeapon());
+		newPlayerData.setWeaponsUnlocked(oldPlayerData.getWeaponsUnlocked());
+
+		nPlayer.setHealth(oldPlayerData.getMaxHP());
+		nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 	}
 	
 	@SubscribeEvent
