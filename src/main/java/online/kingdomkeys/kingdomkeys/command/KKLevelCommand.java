@@ -14,9 +14,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -74,7 +75,7 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 			playerData.setExperience(0);
 			playerData.setMaxHP(20);
             player.setHealth(playerData.getMaxHP());
-    		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
+    		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
             playerData.setMaxMP(0);
             playerData.setMP(playerData.getMaxMP());
             
@@ -112,9 +113,9 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 			playerData.setMP(playerData.getMaxMP());
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getFormattedText()+" level to "+level), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" level to "+level), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your level is now "+level));
+			player.sendMessage(new TranslationTextComponent("Your level is now "+level),Util.DUMMY_UUID);
 		}
 		return 1;
 	}
@@ -128,9 +129,10 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMunny(playerData.getMunny() + value);
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your munny has been increased by "+value));		}
+			player.sendMessage(new TranslationTextComponent("Your munny has been increased by "+value),Util.DUMMY_UUID);	
+		}
 		return 1;
 	}
 	
@@ -143,9 +145,9 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMunny(playerData.getMunny() - value);
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" munny from "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" munny from "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your munny has been decreased by "+value));
+			player.sendMessage(new TranslationTextComponent("Your munny has been decreased by "+value),Util.DUMMY_UUID);
 		}
 		return 1;
 	}

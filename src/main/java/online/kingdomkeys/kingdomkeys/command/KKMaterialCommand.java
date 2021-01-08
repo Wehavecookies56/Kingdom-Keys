@@ -18,6 +18,7 @@ import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -116,9 +117,9 @@ public class KKMaterialCommand extends BaseCommand{ //kk_material <give/take> <m
 			playerData.addMaterial(material, amount);
 			
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Given x"+amount+" '"+ Utils.translateToLocal(material.getMaterialName())+"' to "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Given x"+amount+" '"+ Utils.translateToLocal(material.getMaterialName())+"' to "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been given x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"'"));
+			player.sendMessage(new TranslationTextComponent("You have been given x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"'"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -135,9 +136,9 @@ public class KKMaterialCommand extends BaseCommand{ //kk_material <give/take> <m
 			playerData.removeMaterial(material, amount);
 			
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Removed material '"+Utils.translateToLocal(material.getMaterialName())+"' from "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Removed material '"+Utils.translateToLocal(material.getMaterialName())+"' from "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"' have been taken away from you"));
+			player.sendMessage(new TranslationTextComponent("x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"' have been taken away from you"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -153,9 +154,9 @@ public class KKMaterialCommand extends BaseCommand{ //kk_material <give/take> <m
 				playerData.addMaterial(material, amount);
 			}
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Given all materials to "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Given all materials to "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been given all the materials"));
+			player.sendMessage(new TranslationTextComponent("You have been given all the materials"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -169,9 +170,9 @@ public class KKMaterialCommand extends BaseCommand{ //kk_material <give/take> <m
 			playerData.clearMaterials();
 			
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Taken all materials from "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Taken all materials from "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your materials have been taken away"));
+			player.sendMessage(new TranslationTextComponent("Your materials have been taken away"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -188,9 +189,9 @@ public class KKMaterialCommand extends BaseCommand{ //kk_material <give/take> <m
 			playerData.setMaterial(material, amount);
 			
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Set x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"' to "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Set x"+amount+" '"+Utils.translateToLocal(material.getMaterialName())+"' to "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your '"+Utils.translateToLocal(material.getMaterialName())+"' have been set to x"+amount));
+			player.sendMessage(new TranslationTextComponent("Your '"+Utils.translateToLocal(material.getMaterialName())+"' have been set to x"+amount),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -206,9 +207,9 @@ public class KKMaterialCommand extends BaseCommand{ //kk_material <give/take> <m
 				playerData.setMaterial(material, amount);
 			}
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Set all materials for "+player.getDisplayName().getFormattedText()+" to "+amount), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Set all materials for "+player.getDisplayName().getString()+" to "+amount), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been set all the materials to "+amount));
+			player.sendMessage(new TranslationTextComponent("You have been set all the materials to "+amount),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;

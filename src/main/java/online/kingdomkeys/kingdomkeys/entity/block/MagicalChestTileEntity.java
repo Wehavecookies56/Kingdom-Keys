@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -75,19 +76,21 @@ public class MagicalChestTileEntity extends TileEntity implements INamedContaine
 		}
         return compound;
     }
-
-    @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
-        CompoundNBT invCompound = compound.getCompound("inv");
-        inventory.ifPresent(iih -> ((INBTSerializable<CompoundNBT>) iih).deserializeNBT(invCompound));
-
-        owner = compound.getUniqueId("owner");
-
-        if (compound.hasUniqueId("keyblade")) {
+	
+	
+	@Override
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
+		CompoundNBT invCompound = compound.getCompound("inv");
+	    inventory.ifPresent(iih -> ((INBTSerializable<CompoundNBT>) iih).deserializeNBT(invCompound));
+	
+	    owner = compound.getUniqueId("owner");
+	
+	    if (compound.hasUniqueId("keyblade")) {
 			keyblade = compound.getUniqueId("keyblade");
 		}
-    }
+	}
+    
 
 	@Nullable
 	@Override
@@ -99,7 +102,7 @@ public class MagicalChestTileEntity extends TileEntity implements INamedContaine
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(pkt.getNbtCompound());
+		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
 	}
 
 	@Override
@@ -108,8 +111,8 @@ public class MagicalChestTileEntity extends TileEntity implements INamedContaine
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundNBT tag) {
-		this.read(tag);
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		this.read(state, tag);
 	}
 
 	@Nonnull

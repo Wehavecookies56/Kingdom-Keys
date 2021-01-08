@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import java.util.UUID;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -23,9 +24,9 @@ public class OrgPortalTileEntity extends TileEntity {
 	}
 
 	@Override
-	public void read(CompoundNBT parentNBTTagCompound) {
-		super.read(parentNBTTagCompound);
-		ownerName = parentNBTTagCompound.getUniqueId("owner");
+	public void read(BlockState state, CompoundNBT nbt) {
+		super.read(state, nbt);
+		ownerName = nbt.getUniqueId("owner");
 	}
 
 	public UUID getOwner() {

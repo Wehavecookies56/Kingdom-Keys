@@ -7,15 +7,17 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
@@ -106,7 +108,7 @@ public class ThunderEntity extends ThrowableEntity {
 		}
 		
 		for (PlayerEntity playerFromList : world.getPlayers()) {
-			if(playerFromList.getDisplayName().getFormattedText().equals(getCaster())) {
+			if(playerFromList.getDisplayName().getString().equals(getCaster())) {
 				player = playerFromList;
 				break;
 			}
@@ -117,39 +119,44 @@ public class ThunderEntity extends ThrowableEntity {
 			return;
 		}
 		
-		if(!world.isRemote && player != null) { //Only calculate and spawn lightning bolts server side
-			if(ticksExisted % 5 == 0) {
-        		double radius = 2.0D;
+		if (!world.isRemote && player != null) { // Only calculate and spawn lightning bolts server side
+			if (ticksExisted % 5 == 0) {
+				double radius = 2.0D;
 				List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
 
-		        if (!list.isEmpty() && list.get(0) != this) {
-		            for (int i = 0; i < list.size(); i++) {
-		                Entity e = (Entity) list.get(i);
-		                if (e instanceof LivingEntity) {
-		                	ThunderBoltEntity shot = new ThunderBoltEntity(player.world, player, e.getPosX(), e.getPosY(), e.getPosZ());
-		                	shot.setCaster(getCaster());
-		            		world.addEntity(shot);
-		            		
-			    			LightningBoltEntity lightning = new LightningBoltEntity(player.world, e.getPosX(), e.getPosY(), e.getPosZ(), true);
-			    			((ServerWorld)player.world).addLightningBolt(lightning);
-		                }
-		            }
-		        } else {
-		        	int x = (int) player.getPosX();
-		        	int z = (int) player.getPosZ();
-		        	
-	        		int posX = x + player.world.rand.nextInt(6) - 3;
-		        	int posZ = z + player.world.rand.nextInt(6) - 3;
-		        	
-		        	ThunderBoltEntity shot = new ThunderBoltEntity(player.world, player, posX, player.world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ);
-            		shot.setCaster(getCaster());
-            		world.addEntity(shot);
-            		
-	    			LightningBoltEntity lightning = new LightningBoltEntity(player.world, posX, player.world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ, true);
-	    			((ServerWorld)player.world).addLightningBolt(lightning);
-	    		}
-        	}
-        }
+				if (!list.isEmpty() && list.get(0) != this) {
+					for (int i = 0; i < list.size(); i++) {
+						Entity e = (Entity) list.get(i);
+						if (e instanceof LivingEntity) {
+							ThunderBoltEntity shot = new ThunderBoltEntity(player.world, player, e.getPosX(), e.getPosY(), e.getPosZ());
+							shot.setCaster(getCaster());
+							world.addEntity(shot);
+
+							LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.world);
+							lightningBoltEntity.moveForced(Vector3d.copyCenteredHorizontally(e.getPosition()));
+							lightningBoltEntity.setCaster(this.player instanceof ServerPlayerEntity ? (ServerPlayerEntity) player : null);
+							this.world.addEntity(lightningBoltEntity);
+						}
+					}
+				} else {
+					int x = (int) player.getPosX();
+					int z = (int) player.getPosZ();
+
+					int posX = x + player.world.rand.nextInt(6) - 3;
+					int posZ = z + player.world.rand.nextInt(6) - 3;
+
+					ThunderBoltEntity shot = new ThunderBoltEntity(player.world, player, posX, player.world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ);
+					shot.setCaster(getCaster());
+					world.addEntity(shot);
+
+					BlockPos pos = new BlockPos(posX, player.world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ);
+					LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.world);
+					lightningBoltEntity.moveForced(Vector3d.copyCenteredHorizontally(pos));
+					lightningBoltEntity.setCaster(this.player instanceof ServerPlayerEntity ? (ServerPlayerEntity) player : null);
+					this.world.addEntity(lightningBoltEntity);
+				}
+			}
+		}
 
 		super.tick();
 	}

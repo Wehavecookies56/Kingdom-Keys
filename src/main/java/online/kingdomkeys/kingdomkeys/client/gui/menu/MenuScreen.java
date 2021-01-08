@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -135,16 +136,16 @@ public class MenuScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		super.render(mouseX, mouseY, partialTicks);
-		drawPlayer();
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		drawPlayer(matrixStack);
 	}
 
-	public void drawPlayer() {
+	public void drawPlayer(MatrixStack matrixStack) {
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
 			PlayerEntity player = minecraft.player;
 			// player.getSwingProgress(1);
@@ -152,49 +153,49 @@ public class MenuScreen extends MenuBackground {
 			InventoryScreen.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
 		}
-		RenderSystem.popMatrix();
-		RenderSystem.pushMatrix();
+		matrixStack.pop();
+		matrixStack.push();
 		
-			RenderSystem.color3f(1, 1, 1);
-			RenderSystem.translatef(1, 1, 100);
+		RenderSystem.color3f(1, 1, 1);
+			matrixStack.translate(1, 1, 100);
 			RenderSystem.enableAlphaTest();
 			RenderSystem.enableBlend();
 			minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
 			int infoBoxPosX = (int) (width * 0.4354F);
 			int infoBoxPosY = (int) (height * 0.54F);
-			blit(infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
+			blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
 			for (int i = 0; i < infoBoxWidth; i++) {
-				blit(infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
+				blit(matrixStack, infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
 			}
-			blit(infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
-			blit(infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
+			blit(matrixStack, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
+			blit(matrixStack, infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
 			for (int i = 0; i < infoBoxWidth + 8; i++) {
-				blit(infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
+				blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
 			}
-			blit(infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
+			blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
 			RenderSystem.disableAlphaTest();
 			RenderSystem.disableBlend();
-		RenderSystem.popMatrix();
-		RenderSystem.pushMatrix();
+		matrixStack.pop();
+		matrixStack.push();
 		{
-			RenderSystem.translatef(2, 2, 100);
+			matrixStack.translate(2, 2, 100);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
-				RenderSystem.pushMatrix();
+				matrixStack.push();
 				{
-					RenderSystem.translatef((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.fontRenderer.FONT_HEIGHT / 2)), 1);
-					// RenderSystem.scale(0.75F, 0.75F, 1);
-					drawString(minecraft.fontRenderer, minecraft.player.getDisplayName().getFormattedText(), 0, 0, 0xFFFFFF);
+					matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.fontRenderer.FONT_HEIGHT / 2)), 1);
+					// matrixStack.scale(0.75F, 0.75F, 1);
+					drawString(matrixStack, minecraft.fontRenderer, minecraft.player.getDisplayName().getString(), 0, 0, 0xFFFFFF);
 				}
-				RenderSystem.popMatrix();
+				matrixStack.pop();
 				
-				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
-				drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
+				drawString(matrixStack,minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
 			}
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 	}
 
 }

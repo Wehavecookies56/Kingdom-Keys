@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -78,8 +79,8 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	}
 
 	@Override
-	public void read(CompoundNBT compound) {
-		super.read(compound);
+	public void read(BlockState state, CompoundNBT compound) {
+		super.read(state, compound);
 		CompoundNBT invCompound = compound.getCompound("inv");
 		inventory.ifPresent(iih -> ((INBTSerializable<CompoundNBT>) iih).deserializeNBT(invCompound));
 		CompoundNBT transformations = compound.getCompound("transforms");
@@ -93,7 +94,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		stationOfAwakeningMarker = compound.getBoolean("soa_marker");
 		displayStack = ItemStack.read(compound.getCompound("display_stack"));
 	}
-
+	
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
@@ -244,7 +245,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(pkt.getNbtCompound());
+		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
 	}
 
 	@Override
@@ -253,7 +254,8 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundNBT tag) {
-		this.read(tag);
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		this.read(state, tag);
 	}
+	
 }

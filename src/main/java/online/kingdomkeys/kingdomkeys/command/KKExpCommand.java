@@ -14,9 +14,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -72,7 +73,7 @@ public class KKExpCommand extends BaseCommand{ //kk_exp <give/take/set> <amount>
 			playerData.setExperience(0);
 			playerData.setMaxHP(20);
             player.setHealth(20);
-    		player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
+    		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
             playerData.setMaxMP(0);            
             playerData.setMaxAP(10);
             
@@ -104,9 +105,9 @@ public class KKExpCommand extends BaseCommand{ //kk_exp <give/take/set> <amount>
 			playerData.setMP(playerData.getMaxMP());
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getFormattedText()+" experience to "+exp), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" experience to "+exp), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your experience is now "+exp));
+			player.sendMessage(new TranslationTextComponent("Your experience is now "+exp),Util.DUMMY_UUID);
 		}
 		return 1;
 	}
@@ -122,9 +123,9 @@ public class KKExpCommand extends BaseCommand{ //kk_exp <give/take/set> <amount>
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 
 			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" experience to "+player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" experience to "+player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your experience has been increased by "+value));		
+			player.sendMessage(new TranslationTextComponent("Your experience has been increased by "+value),Util.DUMMY_UUID);		
 		}
 		return 1;
 	}

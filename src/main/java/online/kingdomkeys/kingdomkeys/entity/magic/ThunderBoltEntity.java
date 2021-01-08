@@ -11,7 +11,7 @@ import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.WitchEntity;
-import net.minecraft.entity.monster.ZombiePigmanEntity;
+import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -24,17 +24,18 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SSpawnGlobalEntityPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
@@ -119,44 +120,58 @@ public class ThunderBoltEntity extends ThrowableEntity {
 
 				for (Entity entity : list) {
 					
-					if (entity != getThrower()) {
-						float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
-						entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
-						//System.out.println(dmg);
+					if (entity != func_234616_v_()) {
+						float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
+						entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+						// System.out.println(dmg);
 					}
-					
-					if (entity instanceof PigEntity) {
-						ZombiePigmanEntity zombiepigmanentity = EntityType.ZOMBIE_PIGMAN.create(entity.world);
-						zombiepigmanentity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-						zombiepigmanentity.setLocationAndAngles(entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.rotationYaw, entity.rotationPitch);
-						zombiepigmanentity.setNoAI(((PigEntity)entity).isAIDisabled());
-						if (this.hasCustomName()) {
-							zombiepigmanentity.setCustomName(entity.getCustomName());
-							zombiepigmanentity.setCustomNameVisible(entity.isCustomNameVisible());
-						}
 
-						entity.world.addEntity(zombiepigmanentity);
-						entity.remove();
+					if (entity instanceof PigEntity) {
+						if (world.getDifficulty() != Difficulty.PEACEFUL) {
+							PigEntity pig = (PigEntity) entity;
+							ZombifiedPiglinEntity zombifiedpiglinentity = EntityType.ZOMBIFIED_PIGLIN.create(world);
+							zombifiedpiglinentity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
+							zombifiedpiglinentity.setLocationAndAngles(pig.getPosX(), pig.getPosY(), pig.getPosZ(), pig.rotationYaw, pig.rotationPitch);
+							zombifiedpiglinentity.setNoAI(pig.isAIDisabled());
+							zombifiedpiglinentity.setChild(pig.isChild());
+							if (pig.hasCustomName()) {
+								zombifiedpiglinentity.setCustomName(pig.getCustomName());
+								zombifiedpiglinentity.setCustomNameVisible(pig.isCustomNameVisible());
+							}
+
+							zombifiedpiglinentity.enablePersistence();
+							world.addEntity(zombifiedpiglinentity);
+							pig.remove();
+						}
 					}
 
 					if (entity instanceof VillagerEntity) {
-						WitchEntity witchentity = EntityType.WITCH.create(entity.world);
-						witchentity.setLocationAndAngles(entity.getPosX(), entity.getPosY(), entity.getPosZ(), entity.rotationYaw, entity.rotationPitch);
-						witchentity.onInitialSpawn(entity.world, entity.world.getDifficultyForLocation(new BlockPos(witchentity)), SpawnReason.CONVERSION, (ILivingEntityData) null, (CompoundNBT) null);
-						witchentity.setNoAI(((VillagerEntity)entity).isAIDisabled());
-						if (this.hasCustomName()) {
-							witchentity.setCustomName(entity.getCustomName());
-							witchentity.setCustomNameVisible(entity.isCustomNameVisible());
-						}
+						if (world.getDifficulty() != Difficulty.PEACEFUL) {
+							VillagerEntity villager = (VillagerEntity) entity;
 
-						entity.world.addEntity(witchentity);
-						entity.remove();
+							WitchEntity witchentity = EntityType.WITCH.create(world);
+							witchentity.setLocationAndAngles(villager.getPosX(), villager.getPosY(), villager.getPosZ(), villager.rotationYaw, villager.rotationPitch);
+							witchentity.onInitialSpawn((ServerWorld)world, world.getDifficultyForLocation(witchentity.getPosition()), SpawnReason.CONVERSION, (ILivingEntityData) null, (CompoundNBT) null);
+							witchentity.setNoAI(villager.isAIDisabled());
+							if (villager.hasCustomName()) {
+								witchentity.setCustomName(villager.getCustomName());
+								witchentity.setCustomNameVisible(villager.isCustomNameVisible());
+							}
+
+							witchentity.enablePersistence();
+							world.addEntity(witchentity);
+							villager.remove();
+						}
 					}
-					
+
 					if(entity instanceof CreeperEntity) {
-						LightningBoltEntity lightningBoltEntity = new LightningBoltEntity(world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), true);
-						//((ServerWorld) event.getWorld()).addLightningBolt(lightningBoltEntity);
-						entity.onStruckByLightning(lightningBoltEntity);
+						 LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.world);
+						 lightningBoltEntity.moveForced(Vector3d.copyCenteredHorizontally(entity.getPosition()));
+						 lightningBoltEntity.setCaster(this.player instanceof ServerPlayerEntity ? (ServerPlayerEntity)player : null);
+				            this.world.addEntity(lightningBoltEntity);
+				            
+						/*LightningBoltEntity lightningBoltEntity = new LightningBoltEntity(world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), true);
+						entity.func_241841_a((ServerWorld) world, lightningBoltEntity);*/
 					}
 				}
 
@@ -213,8 +228,10 @@ public class ThunderBoltEntity extends ThrowableEntity {
 	public String getCasterDataManager() {
 		return this.dataManager.get(CASTER);
 	}
+
+	@Override
 	public IPacket<?> createSpawnPacket() {
-		return new SSpawnGlobalEntityPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

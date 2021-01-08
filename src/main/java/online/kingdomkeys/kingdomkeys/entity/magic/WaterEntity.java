@@ -63,7 +63,7 @@ public class WaterEntity extends ThrowableEntity {
 	@Override
 	public void tick() {
 		for (PlayerEntity playerFromList : world.getPlayers()) {
-			if(playerFromList.getDisplayName().getFormattedText().equals(getCaster())) {
+			if(playerFromList.getDisplayName().getString().equals(getCaster())) {
 				player = playerFromList;
 				break;
 			}
@@ -98,17 +98,17 @@ public class WaterEntity extends ThrowableEntity {
 			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
 
 	        if (!list.isEmpty() && list.get(0) != this) {
-				float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
+				float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1);
 	            for (int i = 0; i < list.size(); i++) {
 	                Entity e = (Entity) list.get(i);
 	                if (e instanceof LivingEntity) {
-						e.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
+						e.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.func_234616_v_()), dmg);
 	                }
 	            }
 	        }
 
 		} else { //Projectile
-			shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
+			func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
 
 			velocityChanged = true;
 			for(double px = -0.3;px < 0.3;px+=0.1) {
@@ -142,9 +142,9 @@ public class WaterEntity extends ThrowableEntity {
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getThrower()) {
-					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getThrower()), dmg);
+				if (target != func_234616_v_()) {
+					float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.func_234616_v_()), dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)

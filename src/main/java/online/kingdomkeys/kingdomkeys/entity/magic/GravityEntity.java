@@ -88,7 +88,7 @@ public class GravityEntity extends ThrowableEntity {
 			}
 		}
 		if (!world.isRemote) {
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getThrower(), getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(func_234616_v_(), getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
@@ -102,18 +102,18 @@ public class GravityEntity extends ThrowableEntity {
 						if(e instanceof ServerPlayerEntity)
 							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) e);
 						
-						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 1);
+						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 1);
 					}
 				}
 			}
 
 			remove();
 			
-			/*IGlobalCapabilities globalData = ModCapabilities.getGlobal(getThrower());
+			/*IGlobalCapabilities globalData = ModCapabilities.getGlobal(func_234616_v_());
 			globalData.setFlatTicks(100);
-			if(getThrower() instanceof ServerPlayerEntity) {
-				PacketHandler.syncToAllAround((LivingEntity) getThrower(), globalData);
-				PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) getThrower());
+			if(func_234616_v_() instanceof ServerPlayerEntity) {
+				PacketHandler.syncToAllAround((LivingEntity) func_234616_v_(), globalData);
+				PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) func_234616_v_());
 			}*/
 		}
 		

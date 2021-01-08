@@ -84,7 +84,7 @@ public class BlastBloxEntity extends Entity {
                 this.explode();
             }
         } else {
-            this.handleWaterMovement();
+            //this.handleWaterMovement();
             this.world.addParticle(ParticleTypes.FLAME, this.getPosition().getX(), this.getPosition().getY() + 0.5D, this.getPosition().getZ(), 0.0D, 0.0D, 0.0D);
         }
     }

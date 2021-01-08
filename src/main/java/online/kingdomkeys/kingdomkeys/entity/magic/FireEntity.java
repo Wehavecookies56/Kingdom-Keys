@@ -81,10 +81,10 @@ public class FireEntity extends ThrowableEntity {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
-				if (target != getThrower()) {
+				if (target != func_234616_v_()) {
 					target.setFire(10);
-					float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+					float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)

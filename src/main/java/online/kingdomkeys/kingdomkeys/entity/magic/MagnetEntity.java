@@ -86,7 +86,7 @@ public class MagnetEntity extends ThrowableEntity {
 			this.velocityChanged = true;
 			
 			for (PlayerEntity playerFromList : world.getPlayers()) {
-				if(playerFromList.getDisplayName().getFormattedText().equals(getCaster())) {
+				if(playerFromList.getDisplayName().getString().equals(getCaster())) {
 					player = playerFromList;
 					break;
 				}
@@ -99,7 +99,7 @@ public class MagnetEntity extends ThrowableEntity {
 					if (e instanceof LivingEntity) {
 						double d = e.getPosX() - getPosX();
 						double d1 = e.getPosZ() - getPosZ();
-						((LivingEntity) e).knockBack(e, 1, d, d1);
+						((LivingEntity) e).applyKnockback(1, d, d1);
 						if (e.getPosY() < this.getPosY() - 0.5) {
 							e.setMotion(e.getMotion().x, 0.5F, e.getMotion().z);
 						}

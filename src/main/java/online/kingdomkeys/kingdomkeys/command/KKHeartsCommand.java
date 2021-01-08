@@ -12,6 +12,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -66,9 +67,9 @@ public class KKHeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <a
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setHearts(value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getFormattedText()+" hearts to "+value), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your hearts have been set to "+value));
+		player.sendMessage(new TranslationTextComponent("Your hearts have been set to "+value),Util.DUMMY_UUID);
 		return 1;
 	}
 	
@@ -85,9 +86,9 @@ public class KKHeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <a
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addHearts(value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" hearts to "+player.getDisplayName().getFormattedText()), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your hearts have been increased by "+value));
+		player.sendMessage(new TranslationTextComponent("Your hearts have been increased by "+value),Util.DUMMY_UUID);
 		return 1;
 	}
 	
@@ -105,9 +106,9 @@ public class KKHeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <a
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.removeHearts(value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" hearts from "+player.getDisplayName().getFormattedText()), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your hearts have been decreased by "+value));
+		player.sendMessage(new TranslationTextComponent("Your hearts have been decreased by "+value),Util.DUMMY_UUID);
 		return 1;
 	}
 }

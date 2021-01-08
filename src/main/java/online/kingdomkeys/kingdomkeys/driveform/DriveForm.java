@@ -131,7 +131,7 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 				if (e instanceof LivingEntity) {
 					double d = e.getPosX() - player.getPosX();
 					double d1 = e.getPosZ() - player.getPosZ();
-					((LivingEntity) e).knockBack(e, 1, -d, -d1);
+					((LivingEntity) e).applyKnockback(1, -d, -d1);
 					e.setMotion(e.getMotion().x, 0.7F, e.getMotion().z);
 				}
 			}
