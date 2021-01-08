@@ -2,14 +2,18 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -42,19 +46,19 @@ public class MoogleEntity extends CreatureEntity {
         this.goalSelector.addGoal(0, new PanicGoal(this, 0.5D));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28D);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.registerAttributes()
+                .createMutableAttribute(Attributes.MAX_HEALTH, 10.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.28D)
+                ;
     }
 
     @Override
-    protected boolean processInteract(PlayerEntity player, Hand hand) {
+    public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
         if (!player.world.isRemote) {
             PacketHandler.sendTo(new SCOpenSynthesisGui(), (ServerPlayerEntity)player);
         }
-        return super.processInteract(player, hand);
+        return super.applyPlayerInteraction(player, vec, hand);
     }
 
     @Override

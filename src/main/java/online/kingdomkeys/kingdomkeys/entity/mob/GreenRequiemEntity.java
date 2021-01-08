@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
@@ -34,9 +36,8 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         return new GreenRequiemGoal(this);
     }
 
-    @Override
-    protected double getMaxHP() {
-        return 40.0D;
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return BaseElementalMusicalHeartlessEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
             canUseAttack = true;
             attackTimer = 25 + world.rand.nextInt(5);
             EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
             initialHealth = theEntity.getHealth();
         }
@@ -115,7 +116,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
                     if (world.rand.nextInt(100) + world.rand.nextDouble() <= 20) {
                         EntityHelper.setState(this.theEntity, 1);
 
-                        this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                        this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                         if(EntityHelper.getEntitiesNear(this.theEntity, 10).size() > 0) {
                             for (LivingEntity heartless : EntityHelper.getEntitiesNear(this.theEntity, 10)) {
@@ -142,7 +143,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
                 if (EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 50) {
                     canUseAttack = false;
                     EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
             }
         }

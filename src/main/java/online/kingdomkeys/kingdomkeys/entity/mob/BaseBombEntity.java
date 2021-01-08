@@ -2,8 +2,10 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.IPacket;
@@ -46,12 +48,12 @@ public abstract class BaseBombEntity extends CreatureEntity implements IKHMob, I
 
     public abstract float getExplosionStength();
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.registerAttributes()
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
+                ;
     }
 
     @Override
@@ -133,7 +135,7 @@ public abstract class BaseBombEntity extends CreatureEntity implements IKHMob, I
         public boolean shouldContinueExecuting() {
             if (shouldExecute()) {
                 EntityHelper.setState(bomb, 1);
-                bomb.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.8D);
+                bomb.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.8D);
                 if (bomb.ticksToExplode <= 0) {
                     bomb.explode();
                 }

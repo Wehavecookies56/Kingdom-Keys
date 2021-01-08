@@ -19,7 +19,7 @@ public class ShadowGoal extends TargetGoal {
 	@Override
 	public boolean shouldContinueExecuting() {
 		if (this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI) {
-			if (this.goalOwner.onGround) {
+			if (this.goalOwner.isOnGround()) {
 				if (!isInShadow()) {
 					shadowTicks--;
 					if (shadowTicks <= 0) {
@@ -64,7 +64,7 @@ public class ShadowGoal extends TargetGoal {
 			}
 
 			// Leaping
-			if (this.goalOwner.onGround && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) <= MAX_DISTANCE_FOR_LEAP && currentAi == 0 && canUseNextAttack) {
+			if (this.goalOwner.isOnGround() && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) <= MAX_DISTANCE_FOR_LEAP && currentAi == 0 && canUseNextAttack) {
 				oldAi = 0;
 
 				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.5, 0));
@@ -108,7 +108,7 @@ public class ShadowGoal extends TargetGoal {
 			}
 
 			// Dash
-			if (this.goalOwner.onGround && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) <= MAX_DISTANCE_FOR_DASH && currentAi == 1 && canUseNextAttack) {
+			if (this.goalOwner.isOnGround() && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) <= MAX_DISTANCE_FOR_DASH && currentAi == 1 && canUseNextAttack) {
 				oldAi = 1;
 
 				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.2, 0));

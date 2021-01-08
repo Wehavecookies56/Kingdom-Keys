@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.world.Explosion;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -31,7 +31,7 @@ public class AssassinGoal extends TargetGoal {
 					ticksToLowHealth--;
 					if(ticksToLowHealth <= 0) {
 						EntityHelper.setState(this.goalOwner, 2);
-	                    this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+	                    this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 	                    this.goalOwner.setInvulnerable(true);
 					}
 				}
@@ -62,7 +62,7 @@ public class AssassinGoal extends TargetGoal {
 			}
 			
 			if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 5) { //If target is in range
-				if (this.goalOwner.onGround) {
+				if (this.goalOwner.isOnGround()) {
 					if (!isUnderground()) {
 						undergroundTicks--;
 						if (undergroundTicks <= 0) {

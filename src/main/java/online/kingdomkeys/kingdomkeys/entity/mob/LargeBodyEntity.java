@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -61,13 +63,13 @@ public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity,
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.registerAttributes()
+                .createMutableAttribute(Attributes.MAX_HEALTH, 100.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15D)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
+                ;
     }
 
     @Override
@@ -88,11 +90,11 @@ public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity,
             this.isAngry = true;
 
         if(this.getCurrentAttackState() == SpecialAttack.MOWDOWN)
-            this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0);
+            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
 
         if(this.getPreviousAttackState() != SpecialAttack.WAIT && timeForNextAI > 0) {
             this.setCurrentAttackState(SpecialAttack.WAIT);
-            this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0);
+            this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
             this.setAttackTarget(null);
             EntityHelper.setState(this, 10);
             timeForNextAI--;
@@ -101,9 +103,9 @@ public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity,
             this.setPreviousAttackState(SpecialAttack.WAIT);
             this.setCurrentAttackState(null);
             if(this.isAngry)
-                this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20);
+                this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20);
             else
-                this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15);
+                this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.15);
             EntityHelper.setState(this, 0);
             this.setAttackTarget(null);
             timeForNextAI = 80;

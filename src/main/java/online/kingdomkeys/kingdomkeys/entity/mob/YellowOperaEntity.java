@@ -3,12 +3,14 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,9 +36,8 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
         return new YellowOperaGoal(this);
     }
 
-    @Override
-    protected double getMaxHP() {
-        return 40.0D;
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return BaseElementalMusicalHeartlessEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
             canUseAttack = true;
             attackTimer = 25 + world.rand.nextInt(5);
             EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
             initialHealth = theEntity.getHealth();
         }
@@ -115,7 +116,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                     if (world.rand.nextInt(100) + world.rand.nextDouble() <= 45) {
                         EntityHelper.setState(this.theEntity, 1);
 
-                        this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                        this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.theEntity.getLookController().setLookPositionWithEntity(target, 0F, 0F);
                         if(!world.isRemote) {
 	                       /* double d0 = this.theEntity.getDistanceSq(this.theEntity.getAttackTarget());
@@ -124,8 +125,9 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 	                        double d2 = this.theEntity.getAttackTarget().getBoundingBox().minY + (double) (this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double) (this.theEntity.getHeight() / 2.0F));
 	                        double d3 = this.theEntity.getAttackTarget().getPosZ() - this.theEntity.getPosZ();*/
 
-	                        LightningBoltEntity lightning = new LightningBoltEntity(this.theEntity.world, this.theEntity.getAttackTarget().getPosX(), this.theEntity.getAttackTarget().getPosY(), this.theEntity.getAttackTarget().getPosZ(), false);
-	                        ((ServerWorld)world).addLightningBolt(lightning);
+                            LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
+                            lightningboltentity.moveForced(this.theEntity.getPositionVec());
+                            world.addEntity(lightningboltentity);
                         }
                     }
                     else {
@@ -133,7 +135,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                             if (theEntity.getDistance(theEntity.getAttackTarget()) < 8) {
                                 EntityHelper.setState(this.theEntity, 2);
 
-                                this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                                this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                                 for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
                                     enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
@@ -170,12 +172,12 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                 if (EntityHelper.getState(theEntity) == 2 && whileAttackTimer > 20) {
                     canUseAttack = false;
                     EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
                 else if (EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 50) {
                     canUseAttack = false;
                     EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
             }
         }

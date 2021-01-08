@@ -1,10 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,13 +42,13 @@ public class MegaShadowEntity extends CreatureEntity implements IKHMob {
         this.targetSelector.addGoal(4, new ShadowGoal(this));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28D);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(80.0D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.registerAttributes()
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.28D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 80.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
+                ;
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.*;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.profiler.IProfiler;
@@ -17,11 +18,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import org.apache.commons.io.IOUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 
 import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.resources.IResourceManager;
@@ -48,7 +44,7 @@ public class KeybladeDataLoader extends JsonReloadListener {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonObject> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
+    protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
         KingdomKeys.LOGGER.info("Loading keyblade data");
         loadData(resourceManagerIn);
         PacketHandler.sendToAllPlayers(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList));

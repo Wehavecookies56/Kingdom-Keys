@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +23,6 @@ import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Category;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
@@ -84,7 +86,7 @@ public class KingdomKeys {
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
 	public static final String MODVER = "2.0.1.1";
-	public static final String MCVER = "1.15.2";
+	public static final String MCVER = "1.16.4";
 
 	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
 	public static IProxy proxy = DistExecutor.safeRunForDist(() -> ProxyClient::new, () -> ProxyServer::new);
@@ -141,48 +143,21 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(new ModCapabilities());
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setup(final FMLCommonSetupEvent event) {
 		// Run setup on proxies
 		proxy.setup(event);
 		ModCapabilities.register();
 		ModBiomes.init();
 		//ModDimensions.init();
-		DeferredWorkQueue.runLater(() -> {
-			PacketHandler.register();
-		});
-		
+		event.enqueueWork(PacketHandler::register);
+		event.enqueueWork(ModEntities::registerAttributes);
 		addMoogleHouse();
-		
-		DeferredWorkQueue.runLater(() -> {
-			for(Biome b : ForgeRegistries.BIOMES){
-				if(b.getCategory() != Category.OCEAN) {
-					if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0) {
-						b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
-					}
-					
-					for(EntityType<?> entityType : ModEntities.pureblood) {
-						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-					}
-					for(EntityType<?> entityType : ModEntities.emblem) {
-						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-					}
-					for(EntityType<?> entityType : ModEntities.nobody) {
-						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-					}
-				}
-				
-			}
-			//Remove all entity spawns added to the Dive to the Heart biome
-			Biome dtth = ForgeRegistries.BIOMES.getValue(new ResourceLocation(MODID, Strings.diveToTheHeart + "_biome"));
-			for (EntityClassification entityClassification : EntityClassification.values()) {
-				dtth.getSpawns(entityClassification).clear();
-			}
-		});
 
 	}
 
 	public void addMoogleHouse() {
+		//TODO figure out for 1.16
+		/*
 		List v = new ArrayList();
 		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_plains"),2)));
 		List s = new ArrayList();
@@ -214,12 +189,8 @@ public class KingdomKeys {
 			@Override
 			public List<Pair<JigsawPiece, Integer>> get() { return s; }
 		});
-	}
 
-	@SubscribeEvent
-	public void onServerStarting(FMLServerAboutToStartEvent event) {
-		this.registerResourceLoader(event.getServer().getResourceManager());
-
+		 */
 	}
 	
 	@SubscribeEvent
@@ -241,17 +212,41 @@ public class KingdomKeys {
     public void oreGen(FMLLoadCompleteEvent event) {
     	if(CommonConfig.oreGen.get())
     		OreGen.generateOre();
-        
-		for (GenerationStage.Decoration i : GenerationStage.Decoration.values()) {
-			ModBiomes.diveToTheHeart.get().getFeatures(i).clear();
+	}
+
+	@SubscribeEvent
+	public void biomeLoad(BiomeLoadingEvent event) {
+		if(event.getCategory() != Category.OCEAN) {
+			if(event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
+				event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
+			}
+
+			for(EntityType<?> entityType : ModEntities.pureblood) {
+				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, 2, 0, 1));
+			}
+			for(EntityType<?> entityType : ModEntities.emblem) {
+				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, 2, 0, 1));
+			}
+			for(EntityType<?> entityType : ModEntities.nobody) {
+				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, 2, 0, 1));
+			}
+		}
+		if (event.getName().equals(new ResourceLocation(MODID, Strings.diveToTheHeart + "_biome"))) {
+			//Remove all entity spawns added to the Dive to the Heart biome
+			for (EntityClassification entityClassification : EntityClassification.values()) {
+				event.getSpawns().getSpawner(entityClassification).clear();
+			}
+			for (GenerationStage.Decoration i : GenerationStage.Decoration.values()) {
+				event.getGeneration().getFeatures(i).clear();
+			}
 		}
 	}
 
-	private void registerResourceLoader(final IReloadableResourceManager resourceManager) {
-		resourceManager.addReloadListener(new KeybladeDataLoader());
-		resourceManager.addReloadListener(new OrganizationDataLoader());
-		resourceManager.addReloadListener(new RecipeDataLoader());
+	@SubscribeEvent
+	public void addReloadListeners(AddReloadListenerEvent event) {
+		event.addListener(new KeybladeDataLoader());
+		event.addListener(new OrganizationDataLoader());
+		event.addListener(new RecipeDataLoader());
 	}
-
 	
 }

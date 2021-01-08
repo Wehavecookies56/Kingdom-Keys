@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -34,9 +36,8 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
         return new RedNocturneGoal(this);
     }
 
-    @Override
-    protected double getMaxHP() {
-        return 40.0D;
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return BaseElementalMusicalHeartlessEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
             canUseAttack = true;
             attackTimer = 20 + world.rand.nextInt(5);
             EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
         }
 
@@ -112,7 +113,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
                     if (world.rand.nextInt(100) + world.rand.nextDouble() <= 75) {
                         EntityHelper.setState(this.theEntity, 1);
 
-                        this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                        this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.theEntity.getLookController().setLookPositionWithEntity(target, 0F, 0F);
 
                         double d0 = this.theEntity.getDistanceSq(this.theEntity.getAttackTarget());
@@ -129,7 +130,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
                         if (theEntity.getDistance(theEntity.getAttackTarget()) < 8) {
                             EntityHelper.setState(this.theEntity, 2);
 
-                            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
                                 enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
@@ -143,12 +144,12 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
                 if (EntityHelper.getState(theEntity) == 2 && whileAttackTimer > 20) {
                     canUseAttack = false;
                     EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
                 else if (EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 50) {
                     canUseAttack = false;
                     EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
             }
         }

@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-def mcver = "1.15.2"
+def mcver = "1.16.2"
 version = '2.0.1.1'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'kingdomkeys'
@@ -75,7 +75,7 @@ sourceSets.main.resources {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.4-35.1.4'
+    minecraft 'net.minecraftforge:forge:1.16.4-35.1.36'
 }
 
 jar {

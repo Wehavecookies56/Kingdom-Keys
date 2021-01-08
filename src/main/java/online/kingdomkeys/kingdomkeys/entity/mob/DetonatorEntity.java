@@ -2,7 +2,9 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,10 +29,8 @@ public class DetonatorEntity extends BaseBombEntity {
         super(ModEntities.TYPE_DETONATOR.get(), spawnEntity, world);
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60.0D);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return BaseBombEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 60.0D);
     }
 
     @Override

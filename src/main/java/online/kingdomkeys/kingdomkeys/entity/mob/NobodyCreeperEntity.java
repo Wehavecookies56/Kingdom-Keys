@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,14 +39,14 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.17D);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-        this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000.0D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.registerAttributes()
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.17D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
+                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 0.0D)
+                ;
     }
 
     @Override
@@ -129,7 +131,7 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
             else
                 attackTimer = 20 + world.rand.nextInt(5);
             EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.17D);
+            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
             whileAttackTimer = 0;
         }
 
@@ -157,7 +159,7 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
 		            			   But why the attack damage ? Becase we don't want the use to be hit by the actual entity being to close (vanilla attack, which deals 1 heart)
 		            			   we want to deal special damage (4 hearts) to every entity around 2 block
 		            			 */
-                                this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                                this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                                 for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
                                     enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 8);
@@ -172,7 +174,7 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
 	            			 */
                             EntityHelper.setState(theEntity, 2);
                             this.theEntity.setPositionAndUpdate(target.getPosX(), target.getPosY() + 4, target.getPosZ());
-                            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                             for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 3))
                                 enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 6);
@@ -183,7 +185,7 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
                             //LEG SWIPE
                             EntityHelper.setState(theEntity, 3);
 
-                            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                             for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 2.5))
                                 enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
@@ -201,13 +203,13 @@ public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
         			 */
                     canUseAttack = false;
                     EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.17D);
+                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
                 }
                 else if(EntityHelper.getState(theEntity) != 1 && whileAttackTimer > 30)
                 {
                     canUseAttack = false;
                     EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.17D);
+                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
                 }
             }
         }

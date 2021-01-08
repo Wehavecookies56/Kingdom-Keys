@@ -11,6 +11,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
+//TODO wait for mult part entity PR to be merged in forge
 public class PartEntity extends Entity {
 
     public final IMultiPartEntity parent;

@@ -6,9 +6,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -36,7 +36,7 @@ public class BounceBloxBlock extends BaseBlock {
 	 */
 	private void bounce(Entity entity) {
 		double bounceFactor = 1;
-		entity.setMotion(new Vec3d(entity.getMotion().getX(), bounceFactor, entity.getMotion().getZ()));
+		entity.setMotion(new Vector3d(entity.getMotion().getX(), bounceFactor, entity.getMotion().getZ()));
 		entity.move(MoverType.SELF, entity.getMotion());
 		entity.fallDistance = 0;
 	}
@@ -60,6 +60,7 @@ public class BounceBloxBlock extends BaseBlock {
 		super.onEntityWalk(worldIn, pos, entityIn);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
 		return collisionShape;
@@ -72,7 +73,7 @@ public class BounceBloxBlock extends BaseBlock {
 		double z = entity.getMotion().z;
 		float force = 1;
 
-		if (entity instanceof LivingEntity && ((LivingEntity) entity).onGround) {
+		if (entity instanceof LivingEntity && entity.isOnGround()) {
 			force = 3;
 		}
 
@@ -89,7 +90,7 @@ public class BounceBloxBlock extends BaseBlock {
 		}
 
 		if (!entity.isSneaking()) {
-			entity.setMotion(new Vec3d(x, entity.getMotion().getY(), z));
+			entity.setMotion(new Vector3d(x, entity.getMotion().getY(), z));
 		}
 		super.onEntityCollision(state, world, pos, entity);
 	}

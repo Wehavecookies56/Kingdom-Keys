@@ -11,6 +11,7 @@ import java.util.function.BiFunction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -184,7 +185,7 @@ public class ModEntities {
                 .setTrackingRange(128)
                 .size(sizeX, sizeY)
                 .build(name);
-        if (group != null) 
+        if (group != null)
         	addToGroup(group, type);
         return ENTITIES.register(name, () -> type);
     }
@@ -282,6 +283,28 @@ public class ModEntities {
         ClientRegistry.bindTileEntityRenderer(TYPE_MOOGLE_PROJECTOR.get(), MoogleProjectorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(TYPE_SOA_PLATFORM.get(), SoAPlatformRenderer::new);
 
+    }
+
+    public static void registerAttributes() {
+        GlobalEntityTypeAttributes.put(TYPE_ASSASSIN.get(), AssassinEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_BLUE_RHAPSODY.get(), BlueRhapsodyEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_DARKBALL.get(), DarkballEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_DETONATOR.get(), DetonatorEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_DIRE_PLANT.get(), DirePlantEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_DUSK.get(), DuskEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_GIGA_SHADOW.get(), GigaShadowEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_GREEN_REQUIEM.get(), GreenRequiemEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_LARGE_BODY.get(), LargeBodyEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_MEGA_SHADOW.get(), MegaShadowEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_MINUTE_BOMB.get(), MinuteBombEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_MOOGLE.get(), MoogleEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_NOBODY_CREEPER.get(), NobodyCreeperEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_RED_NOCTURNE.get(), RedNocturneEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_SHADOW.get(), ShadowEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_SHADOW_GLOB.get(), ShadowGlobEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_SKATER_BOMB.get(), SkaterBombEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_STORM_BOMB.get(), StormBombEntity.registerAttributes().create());
+        GlobalEntityTypeAttributes.put(TYPE_YELLOW_OPERA.get(), YellowOperaEntity.registerAttributes().create());
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);
