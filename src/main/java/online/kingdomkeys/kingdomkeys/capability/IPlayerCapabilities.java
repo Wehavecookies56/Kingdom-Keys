@@ -9,6 +9,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.dimension.DimensionType;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -171,9 +172,9 @@ public interface IPlayerCapabilities {
 
 	//SoA choices
 
-	Vec3d getReturnLocation();
+	Vector3d getReturnLocation();
 	void setReturnLocation(PlayerEntity playerEntity);
-	void setReturnLocation(Vec3d location);
+	void setReturnLocation(Vector3d location);
 	DimensionType getReturnDimension();
 	void setReturnDimension(PlayerEntity playerEntity);
 	void setReturnDimension(DimensionType type);
