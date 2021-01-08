@@ -8,12 +8,12 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
@@ -59,8 +59,8 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
 
     @Nullable
     @Override //probably is called getRenderType or something
-    protected RenderType func_230042_a_(MoogleEntity entity, boolean p_230042_2_, boolean p_230042_3_) {
-        return super.func_230042_a_(entity, p_230042_2_, p_230042_3_);
+    protected RenderType func_230496_a_(MoogleEntity p_230496_1_, boolean p_230496_2_, boolean p_230496_3_, boolean p_230496_4_) {
+        return super.func_230496_a_(p_230496_1_, p_230496_2_, p_230496_3_, p_230496_4_);
     }
 
     public static class Factory implements IRenderFactory<MoogleEntity> {

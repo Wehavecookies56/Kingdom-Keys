@@ -192,11 +192,6 @@ public class SoAPlatformCoreBlock extends BaseBlock {
     }
 
     @Override
-    public boolean isNormalCube(BlockState p_220081_1_, IBlockReader p_220081_2_, BlockPos p_220081_3_) {
-        return false;
-    }
-
-    @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (worldIn.isRemote) {
             return ActionResultType.SUCCESS;
@@ -222,7 +217,7 @@ public class SoAPlatformCoreBlock extends BaseBlock {
 
     public void tryToFormPlatform(SoAPlatformTileEntity tileEntity, World world, BlockPos pos) {
         //Check for shape here
-        boolean shapeCorrect = checkStructure(new BlockPos.Mutable(pos), world, tileEntity);
+        boolean shapeCorrect = checkStructure(new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ()), world, tileEntity);
         if (shapeCorrect) {
             setBlockStates(world, tileEntity.structureBlockPosCache,true);
             tileEntity.setMultiblockFormed(true);

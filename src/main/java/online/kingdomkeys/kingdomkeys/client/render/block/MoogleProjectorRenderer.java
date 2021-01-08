@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MoogleRenderer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -34,7 +34,7 @@ public class MoogleProjectorRenderer extends TileEntityRenderer<MoogleProjectorT
 	        MoogleEntity fakeMoogle = new MoogleEntity(ModEntities.TYPE_MOOGLE.get(), (World)mc.world);
 	        fakeMoogle.setFakeMoogle(true);
 	        EntityRenderer<MoogleEntity> moogleRenderer = (EntityRenderer<MoogleEntity>) mc.getRenderManager().getRenderer(fakeMoogle);
-	        Vec3d vec3d = moogleRenderer.getRenderOffset(fakeMoogle, partialTicks);
+	        Vector3d vec3d = moogleRenderer.getRenderOffset(fakeMoogle, partialTicks);
 	        matrixStackIn.translate(0.5 + vec3d.getX(), 0.0 + vec3d.getY(), 0.5 + vec3d.getZ());
 	        RenderSystem.enableAlphaTest();
 	        {

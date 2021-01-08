@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TextFormatting;
@@ -61,7 +62,7 @@ public class OrgPortalBlock extends BaseBlock {
 
 						if (index != -1) {
 							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal " + (index + 1)), true);
-							ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
+							ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, pos.getX(), pos.getY(), pos.getZ(), player.world.getDimensionKey()));
 							PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
 							te.setOwner(player);
 						} else {
@@ -79,7 +80,7 @@ public class OrgPortalBlock extends BaseBlock {
 						}
 						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + index), true);
 					} else {
-						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(te.getOwner()).getDisplayName().getFormattedText()), true);
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(te.getOwner()).getDisplayName().getString()), true);
 						return ActionResultType.SUCCESS;
 					}
 
@@ -110,9 +111,9 @@ public class OrgPortalBlock extends BaseBlock {
 					System.out.println("R: " + index);
 					if (index != -1) {
 						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
-						ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, 0, 0, 0, 0));
+						ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, 0, 0, 0, player.world.getDimensionKey()));
 					} else {
-						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));
+						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), Util.DUMMY_UUID);
 					}
 
 					PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));

@@ -109,7 +109,8 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
         this.entityModel.setRotationAngles(entityIn, f5, f8, f7, f2, f6);
         boolean flag = this.isVisible(entityIn);
         boolean flag1 = !flag && !entityIn.isInvisibleToPlayer(Minecraft.getInstance().player);
-        RenderType rendertype = this.func_230042_a_(entityIn, flag, flag1);
+        boolean flag2 = Minecraft.getInstance().isEntityGlowing(entityIn);
+        RenderType rendertype = this.func_230496_a_(entityIn, flag, flag1, flag2);
         if (rendertype != null) {
             IVertexBuilder ivertexbuilder = bufferIn.getBuffer(rendertype);
             int i = getPackedOverlay(entityIn, this.getOverlayProgress(entityIn, partialTicks));

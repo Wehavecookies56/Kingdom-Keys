@@ -3,11 +3,12 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -38,7 +39,7 @@ public class SCSyncCapabilityPacket {
 	List<String> messages, dfMessages;
 	String driveForm;
 	
-    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
+    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,World.OVERWORLD),new PortalData((byte)0,0,0,0, World.OVERWORLD),new PortalData((byte)0,0,0,0,World.OVERWORLD)};
 
     List<ResourceLocation> recipeList = new ArrayList<>();
     List<String> magicList = new ArrayList<>();
@@ -51,7 +52,7 @@ public class SCSyncCapabilityPacket {
 	SoAState soAstate, choice, sacrifice;
 	BlockPos choicePedestal, sacrificePedestal;
 	Vector3d returnPos;
-	DimensionType returnDim;
+	RegistryKey<World> returnDim;
 
 	int hearts;
 	Utils.OrgMember alignment;
@@ -133,7 +134,7 @@ public class SCSyncCapabilityPacket {
         	buffer.writeDouble(this.orgPortalCoords[i].getX());
         	buffer.writeDouble(this.orgPortalCoords[i].getY());
         	buffer.writeDouble(this.orgPortalCoords[i].getZ());
-        	buffer.writeInt(this.orgPortalCoords[i].getDimID());
+        	buffer.writeResourceLocation(this.orgPortalCoords[i].getDimID().getLocation());
         }
 		
 		CompoundNBT recipes = new CompoundNBT();
@@ -202,7 +203,7 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.driveForm.length());
 		buffer.writeString(this.driveForm);
 		
-		buffer.writeInt(this.returnDim.getId());
+		buffer.writeResourceLocation(this.returnDim.getLocation());
 		buffer.writeDouble(this.returnPos.x);
 		buffer.writeDouble(this.returnPos.y);
 		buffer.writeDouble(this.returnPos.z);
@@ -246,7 +247,7 @@ public class SCSyncCapabilityPacket {
     		msg.orgPortalCoords[i].setX(buffer.readDouble());
     		msg.orgPortalCoords[i].setY(buffer.readDouble());
     		msg.orgPortalCoords[i].setZ(buffer.readDouble());
-    		msg.orgPortalCoords[i].setDimID(buffer.readInt());
+    		msg.orgPortalCoords[i].setDimID(RegistryKey.getOrCreateKey(Registry.WORLD_KEY,buffer.readResourceLocation()));
         }
 		
 		CompoundNBT recipesTag = buffer.readCompoundTag();
@@ -311,8 +312,8 @@ public class SCSyncCapabilityPacket {
 		int length = buffer.readInt();
 		msg.driveForm = buffer.readString(length);
 		
-		msg.returnDim = DimensionType.getById(buffer.readInt());
-		msg.returnPos = new Vec3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+		msg.returnDim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation());
+		msg.returnPos = new Vector3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
 		msg.soAstate = SoAState.fromByte(buffer.readByte());
 		msg.choice = SoAState.fromByte(buffer.readByte());
 		msg.sacrifice = SoAState.fromByte(buffer.readByte());

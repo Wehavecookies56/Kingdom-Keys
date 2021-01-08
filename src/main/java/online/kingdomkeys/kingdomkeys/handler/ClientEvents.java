@@ -2,11 +2,10 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -83,7 +82,7 @@ public class ClientEvents {
 	
 
 	@SubscribeEvent
-	public void changeHeight(EntityEvent.EyeHeight event) {
+	public void changeHeight(EntityEvent.Size event) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
 		if(player != null) {
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
@@ -98,7 +97,7 @@ public class ClientEvents {
 						eyeHeight -= 0.3F;
 					}
 				}
-				event.setNewHeight(eyeHeight);
+				event.setNewEyeHeight(eyeHeight);
 			}
 		}
 	}

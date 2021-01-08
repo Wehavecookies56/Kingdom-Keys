@@ -25,7 +25,7 @@ public class CSPartyAddMember {
 	public CSPartyAddMember(Party party, PlayerEntity member) {
 		this.name = party.getName();
 		this.memberUUID = member.getUniqueID();
-		this.memberName = member.getDisplayName().getFormattedText();
+		this.memberName = member.getDisplayName().getString();
 	}
 
 	public void encode(PacketBuffer buffer) {

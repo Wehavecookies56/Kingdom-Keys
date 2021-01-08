@@ -34,8 +34,8 @@ public class ModBlocks {
             magnetBlox = createNewBlock("magnet_blox", () -> new MagnetBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 1.0F))),
             pairBlox = createNewBlock("pair_blox", () -> new PairBloxBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 10.0F))),
 
-            blazingOre = createNewBlock("blazing_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F).lightValue(4)),
-            blazingOreN = createNewBlock("blazing_ore_n", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F).lightValue(4)),
+            blazingOre = createNewBlock("blazing_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F).setLightLevel((state) -> 4)),
+            blazingOreN = createNewBlock("blazing_ore_n", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F).setLightLevel((state) -> 4)),
             soothingOre = createNewBlock("soothing_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             writhingOre = createNewBlock("writhing_ore", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             writhingOreN = createNewBlock("writhing_ore_n", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
@@ -45,7 +45,7 @@ public class ModBlocks {
             wellspringOreN = createNewBlock("wellspring_ore_n", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             frostOre = createNewBlock("frost_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
             lucidOre = createNewBlock("lucid_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
-            lightningOre = createNewBlock("lightning_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F).lightValue(4)),
+            lightningOre = createNewBlock("lightning_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F).setLightLevel((state) -> 4)),
             pulsingOre = createNewBlock("pulsing_ore", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             pulsingOreE = createNewBlock("pulsing_ore_e", Block.Properties.create(Material.ROCK).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)),
             remembranceOre = createNewBlock("remembrance_ore", Block.Properties.create(Material.ROCK).harvestLevel(1).hardnessAndResistance(2.0F, 1.0F)),
@@ -65,7 +65,7 @@ public class ModBlocks {
        		//mosaic_stained_glass = createNewBlock("mosaircfdxc_stained_glass", () -> new KKGlassBlock(Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F))),
             station_of_awakening_core = createNewBlock("station_of_awakening_core", () -> new SoAPlatformCoreBlock(Block.Properties.create(Material.GLASS).notSolid().sound(SoundType.GLASS).hardnessAndResistance(1.0F, 10.0F))),
             orgPortal = createNewBlock("org_portal", () -> new OrgPortalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
-            moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.create(Material.IRON).lightValue(6).notSolid().harvestLevel(0).hardnessAndResistance(2F,1F)))
+            moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.create(Material.IRON).setLightLevel((state) -> 6).notSolid().harvestLevel(0).hardnessAndResistance(2F,1F)))
     ;
 
     /**

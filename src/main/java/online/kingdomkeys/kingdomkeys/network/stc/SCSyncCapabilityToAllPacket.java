@@ -12,6 +12,9 @@ import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -41,7 +44,7 @@ public class SCSyncCapabilityToAllPacket {
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
 	
-    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
+    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0, World.OVERWORLD),new PortalData((byte)0,0,0,0,World.OVERWORLD),new PortalData((byte)0,0,0,0,World.OVERWORLD)};
 
 	
 	public SCSyncCapabilityToAllPacket() {
@@ -100,7 +103,7 @@ public class SCSyncCapabilityToAllPacket {
         	buffer.writeDouble(this.orgPortalCoords[i].getX());
         	buffer.writeDouble(this.orgPortalCoords[i].getY());
         	buffer.writeDouble(this.orgPortalCoords[i].getZ());
-        	buffer.writeInt(this.orgPortalCoords[i].getDimID());
+        	buffer.writeResourceLocation(this.orgPortalCoords[i].getDimID().getLocation());
         }
 		
 		CompoundNBT magics = new CompoundNBT();
@@ -148,7 +151,7 @@ public class SCSyncCapabilityToAllPacket {
     		msg.orgPortalCoords[i].setX(buffer.readDouble());
     		msg.orgPortalCoords[i].setY(buffer.readDouble());
     		msg.orgPortalCoords[i].setZ(buffer.readDouble());
-    		msg.orgPortalCoords[i].setDimID(buffer.readInt());
+    		msg.orgPortalCoords[i].setDimID(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation()));
         }
 		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
@@ -176,7 +179,7 @@ public class SCSyncCapabilityToAllPacket {
 			List<AbstractClientPlayerEntity> list = Minecraft.getInstance().world.getPlayers();
 			PlayerEntity player = null;
 			for (int i = 0; i < list.size(); i++) { //Loop through the players
-				String name = list.get(i).getName().getFormattedText();
+				String name = list.get(i).getName().getString();
 				if (name.equals(message.name)) {
 					player = list.get(i);
 				}

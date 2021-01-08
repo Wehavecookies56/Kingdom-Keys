@@ -132,7 +132,7 @@ public class Utils {
 	 */
 	public static String translateToLocalFormatted(String name, Object... format) {
 		TranslationTextComponent translation = new TranslationTextComponent(name, format);
-		return translation.getFormattedText();
+		return translation.getString();
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class Utils {
 	 */
 	public static String translateToLocal(String name) {
 		TranslationTextComponent translation = new TranslationTextComponent(name);
-		return translation.getFormattedText();
+		return translation.getString();
 	}
 	
 	/**
@@ -228,45 +228,17 @@ public class Utils {
 			map.put(list.get(i).getRegistryName().toString(), driveFormsMap.get(list.get(i).getRegistryName().toString()));
 		}
 
-		// System.out.println("SORTED: "+map);
-
-		// Old way
-		/*
-		 * String[] keys = new String[driveFormsMap.size()]; int[][] values = new
-		 * int[driveFormsMap.size()][2]; Iterator<Entry<String, int[]>> it =
-		 * driveFormsMap.entrySet().iterator(); while(it.hasNext()) { Entry<String,
-		 * int[]> entry = it.next(); int order = ModDriveForms.registry.getValue(new
-		 * ResourceLocation(entry.getKey())).getOrder(); keys[order] = entry.getKey();
-		 * values[order] = entry.getValue(); }
-		 * 
-		 * LinkedHashMap<String, int[]> map = new LinkedHashMap<String, int[]>();
-		 * for(int i=0;i<keys.length;i++) { map.put(keys[i], values[i]); }
-		 */
-
 		return map;
 	}
 
 	public static List<String> getSortedMagics(List<String> list) {
 		Collections.sort(list, (Comparator.comparingInt(a -> ModMagic.registry.getValue(new ResourceLocation(a)).getOrder())));
 		return list;
-
-		/*
-		 * String[] keys = new String[list.size()]; int[][] values = new
-		 * int[list.size()][2]; Iterator<String> it = list.iterator();
-		 * while(it.hasNext()) { String entry = it.next(); int order =
-		 * ModMagics.registry.getValue(new ResourceLocation(entry)).getOrder();
-		 * keys[order] = entry.getKey(); values[order] = entry.getValue(); }
-		 * 
-		 * LinkedHashMap<String, int[]> map = new LinkedHashMap<String, int[]>();
-		 * for(int i=0;i<keys.length;i++) { map.put(keys[i], values[i]); }
-		 * 
-		 * return map;
-		 */
 	}
 
 	public static PlayerEntity getPlayerByName(World world, String name) {
 		for (PlayerEntity p : world.getPlayers()) {
-			if (p.getDisplayName().getFormattedText().equals(name)) {
+			if (p.getDisplayName().getString().equals(name)) {
 				return p;
 			}
 		}

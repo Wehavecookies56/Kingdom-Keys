@@ -31,7 +31,8 @@ public class CSTravelToSoA {
             playerData.setReturnDimension(player);
             playerData.setReturnLocation(player);
             playerData.setSoAState(SoAState.CHOICE);
-            player.changeDimension(ModDimensions.DIVE_TO_THE_HEART_TYPE, new BaseTeleporter(0, 28, 0));
+            //TODO figure out this
+            //player.changeDimension(ModDimensions.DIVE_TO_THE_HEART_TYPE, new BaseTeleporter(0, 28, 0));
         });
         ctx.get().setPacketHandled(true);
     }

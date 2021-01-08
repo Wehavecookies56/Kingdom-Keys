@@ -40,7 +40,7 @@ public class SoAPlatformRenderer extends TileEntityRenderer<SoAPlatformTileEntit
     @Override
     public void render(SoAPlatformTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (tileEntityIn.isMultiblockFormed()) {
-            IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentBlockType());
+            IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentCullBlockType());
             IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
             matrixStackIn.push();
             matrixStackIn.translate(0.5,0.026,0.5);

@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -55,7 +56,7 @@ public class CSPartyInvite {
 				
 				IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 				Party p = worldData.getPartyFromName(message.name);
-				target.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()));
+				target.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()), Util.DUMMY_UUID);
 			}
 			
 			

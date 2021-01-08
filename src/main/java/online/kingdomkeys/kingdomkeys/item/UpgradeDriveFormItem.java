@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -45,7 +46,7 @@ public class UpgradeDriveFormItem extends Item {
 						}
 						int newExp = exp - oldExp;
 						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
-						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
+						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"), Util.DUMMY_UUID);
 						
 						if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
 							player.getHeldItemMainhand().shrink(1);
@@ -58,7 +59,7 @@ public class UpgradeDriveFormItem extends Item {
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
 					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
-					player.sendMessage(new TranslationTextComponent("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())));
+					player.sendMessage(new TranslationTextComponent("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), Util.DUMMY_UUID);
 					if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
 						player.getHeldItemMainhand().shrink(1);
 					} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {

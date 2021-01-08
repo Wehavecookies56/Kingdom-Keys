@@ -12,7 +12,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -66,7 +66,7 @@ public abstract class ItemDropEntity extends Entity {
 			this.setMotion(this.getMotion().add(0.0D, -0.03D, 0.0D));
 		}
 
-		if (this.world.getFluidState(new BlockPos(this)).isTagged(FluidTags.LAVA)) {
+		if (this.world.getFluidState(new BlockPos(this.getPositionVec())).isTagged(FluidTags.LAVA)) {
 			this.setMotion((double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F), (double) 0.2F, (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F));
 			this.playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
 		}
@@ -85,7 +85,7 @@ public abstract class ItemDropEntity extends Entity {
 		}
 
 		if (this.closestPlayer != null) {
-			Vec3d vec3d = new Vec3d(this.closestPlayer.getPosX() - this.getPosX(), this.closestPlayer.getPosY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getPosY(), this.closestPlayer.getPosZ() - this.getPosZ());
+			Vector3d vec3d = new Vector3d(this.closestPlayer.getPosX() - this.getPosX(), this.closestPlayer.getPosY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getPosY(), this.closestPlayer.getPosZ() - this.getPosZ());
 			double d1 = vec3d.lengthSquared();
 			if (d1 < Math.pow(maxDist,2)) {
 				double d2 = 1.0D - Math.sqrt(d1) / maxDist;
@@ -108,7 +108,7 @@ public abstract class ItemDropEntity extends Entity {
 	}
 
 	private void applyFloatMotion() {
-		Vec3d vec3d = this.getMotion();
+		Vector3d vec3d = this.getMotion();
 		this.setMotion(vec3d.x * (double) 0.99F, Math.min(vec3d.y + (double) 5.0E-4F, (double) 0.06F), vec3d.z * (double) 0.99F);
 	}
 

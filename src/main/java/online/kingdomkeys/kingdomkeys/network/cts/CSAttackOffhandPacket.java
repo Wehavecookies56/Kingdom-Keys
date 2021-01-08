@@ -20,7 +20,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
@@ -59,7 +59,7 @@ public class CSAttackOffhandPacket {
 	}
 
 
-	 /**
+	 	/**
 	    * Attacks for the player the targeted entity with the currently equipped item.  The equipped item has hitEntity
 	    * called on it. Args: targetEntity
 	    */
@@ -91,7 +91,7 @@ public class CSAttackOffhandPacket {
 	                  flag1 = true;
 	               }
 
-	               boolean flag2 = flag && player.fallDistance > 0.0F && !player.onGround && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger() && targetEntity instanceof LivingEntity;
+	               boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger() && targetEntity instanceof LivingEntity;
 	               flag2 = flag2 && !player.isSprinting();
 	               net.minecraftforge.event.entity.player.CriticalHitEvent hitResult = net.minecraftforge.common.ForgeHooks.getCriticalHit(player, targetEntity, flag2, flag2 ? 1.5F : 1.0F);
 	               flag2 = hitResult != null;
@@ -102,7 +102,7 @@ public class CSAttackOffhandPacket {
 	               damage = damage + f1;
 	               boolean flag3 = false;
 	               double d0 = (double)(player.distanceWalkedModified - player.prevDistanceWalkedModified);
-	               if (flag && !flag2 && !flag1 && player.onGround && d0 < (double)player.getAIMoveSpeed()) {
+	               if (flag && !flag2 && !flag1 && player.isOnGround() && d0 < (double)player.getAIMoveSpeed()) {
 	                  ItemStack itemstack = player.getHeldItem(Hand.OFF_HAND);
 	                  if (itemstack.getItem() instanceof KeybladeItem) {
 	                     flag3 = true;
@@ -120,12 +120,12 @@ public class CSAttackOffhandPacket {
 	                  }
 	               }
 
-	               Vec3d vec3d = targetEntity.getMotion();
+	               Vector3d vec3d = targetEntity.getMotion();
 	               boolean flag5 = targetEntity.attackEntityFrom(KeybladeDamageSource.causeOffhandKeybladeDamage(player), damage);
 	               if (flag5) {
 	                  if (i > 0) {
 	                     if (targetEntity instanceof LivingEntity) {
-	                        ((LivingEntity)targetEntity).knockBack(player, (float)i * 0.5F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
+	                        ((LivingEntity)targetEntity).applyKnockback((float)i * 0.5F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
 	                     } else {
 	                        targetEntity.addVelocity((double)(-MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F)) * (float)i * 0.5F));
 	                     }
@@ -139,7 +139,7 @@ public class CSAttackOffhandPacket {
 
 	                     for(LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, targetEntity.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
 	                        if (livingentity != player && livingentity != targetEntity && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
-	                           livingentity.knockBack(player, 0.4F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
+	                           livingentity.applyKnockback(0.4F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
 	                           livingentity.attackEntityFrom(KeybladeDamageSource.causeOffhandKeybladeDamage(player), f3);
 	                        }
 	                     }

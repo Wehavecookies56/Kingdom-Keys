@@ -19,7 +19,7 @@ public class ChakramItem extends OrgWeaponItem implements IOrgWeapon {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
     	ChakramEntity entity = new ChakramEntity(worldIn, player, this.getRegistryName().getPath());
 		player.world.addEntity(entity);
-		entity.shoot(player, player.rotationPitch, player.rotationYaw, 0, 2.5F, 0);
+		entity.shoot(player.rotationPitch, player.rotationYaw, 0, 2.5F, 0);
 		player.swingArm(Hand.MAIN_HAND);
     	return super.onItemRightClick(worldIn, player, handIn);
     }

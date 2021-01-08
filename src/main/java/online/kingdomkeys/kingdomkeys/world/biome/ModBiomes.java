@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.RainType;
+import net.minecraft.world.biome.BiomeAmbience;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.RegistryObject;
@@ -22,7 +23,7 @@ public class ModBiomes {
     private static RegistryObject<Biome> createNewBiome(String bName, String dName) {
         RegistryObject<Biome> newBiome = BIOMES.register(bName, () -> new ModBiomeBase(new Biome.Builder()
                 .precipitation(RainType.NONE)
-                .waterColor(4159204)
+                .setEffects(new BiomeAmbience()4159204)
                 .temperature(0.5F)
                 .parent(dName)
                 .surfaceBuilder(SurfaceBuilder.NOPE, SurfaceBuilder.STONE_STONE_GRAVEL_CONFIG)

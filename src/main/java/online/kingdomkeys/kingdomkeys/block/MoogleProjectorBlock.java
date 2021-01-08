@@ -67,11 +67,6 @@ public class MoogleProjectorBlock extends BaseBlock {
 	}
 
 	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return false;
-	}
-
-	@Override
 	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.MODEL;
 	}

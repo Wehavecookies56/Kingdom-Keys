@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -57,7 +58,8 @@ public class CSSetChoice {
                 if (message.confirm) {
                     //travel back
                     playerData.setSoAState(SoAState.COMPLETE);
-                    player.changeDimension(playerData.getReturnDimension(), new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
+                    ServerWorld dimension = player.world.getServer().getWorld(playerData.getReturnDimension());
+                    player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
                     SoAState.applyStatsForChoices(playerData);
                 } else {
                     //reset to before choice

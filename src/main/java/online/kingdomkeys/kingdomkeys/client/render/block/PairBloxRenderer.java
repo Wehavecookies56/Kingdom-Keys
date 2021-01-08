@@ -46,7 +46,7 @@ public class PairBloxRenderer extends EntityRenderer<PairBloxEntity> {
 		BlockState blockstate = ModBlocks.pairBlox.get().getDefaultState().with(PairBloxBlock.PAIR, entityIn.getPair());
 		if (blockstate.getRenderType() == BlockRenderType.MODEL) {
 			World world = entityIn.world;
-			if (blockstate != world.getBlockState(new BlockPos(entityIn)) && blockstate.getRenderType() != BlockRenderType.INVISIBLE) {
+			if (blockstate != world.getBlockState(new BlockPos(entityIn.getPositionVec())) && blockstate.getRenderType() != BlockRenderType.INVISIBLE) {
 				matrixStackIn.push();
 				BlockPos blockpos = new BlockPos(entityIn.getPosX(), entityIn.getBoundingBox().maxY, entityIn.getPosZ());
 				matrixStackIn.translate(-0.5D, 0.0D, -0.5D);

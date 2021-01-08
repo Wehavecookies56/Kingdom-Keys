@@ -5,8 +5,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -22,6 +22,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GhostBloxBlock extends BaseBlock implements IWaterLoggable {
@@ -40,8 +41,9 @@ public class GhostBloxBlock extends BaseBlock implements IWaterLoggable {
         builder.add(BlockStateProperties.WATERLOGGED);
     }
 
+    @Nonnull
     @Override
-    public IFluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(BlockState state) {
         return state.get(BlockStateProperties.WATERLOGGED) && !state.get(VISIBLE) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
@@ -51,7 +53,7 @@ public class GhostBloxBlock extends BaseBlock implements IWaterLoggable {
     }
 
     @Override
-    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, IFluidState fluidStateIn) {
+    public boolean receiveFluid(IWorld worldIn, BlockPos pos, BlockState state, FluidState fluidStateIn) {
         if (!state.get(VISIBLE) && (!state.get(BlockStateProperties.WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER)) {
             if (!worldIn.isRemote()) {
                 worldIn.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true)), 3);
@@ -132,14 +134,6 @@ public class GhostBloxBlock extends BaseBlock implements IWaterLoggable {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState().with(VISIBLE, true).with(BlockStateProperties.WATERLOGGED, false);
     }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isNormalCube(BlockState state, IBlockReader reader, BlockPos pos) {
-        return state.get(VISIBLE);
-    }
-
-
 
 
 }

@@ -1,11 +1,14 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
+
 public class PortalData {
     byte pID;
     double x,y,z;
-    int dimID;
+    RegistryKey<World> dimID;
 
-    public PortalData(byte pID, double x, double y, double z, int dimID) {
+    public PortalData(byte pID, double x, double y, double z, RegistryKey<World> dimID) {
         this.pID = pID;
         this.x = x;
         this.y = y;
@@ -37,10 +40,10 @@ public class PortalData {
     public void setZ(double z) {
         this.z = z;
     }
-    public int getDimID() {
+    public RegistryKey<World> getDimID() {
         return dimID;
     }
-    public void setDimID(int dimID) {
+    public void setDimID(RegistryKey<World> dimID) {
         this.dimID = dimID;
     }
 

@@ -8,7 +8,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -21,7 +23,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	int maxTicks = 100;
 	
 	BlockPos destinationPos;
-    int destinationDim;
+    RegistryKey<World> destinationDim;
     boolean shouldTeleport;
 
 	public OrgPortalEntity(EntityType<? extends Entity> type, World world) {
@@ -38,7 +40,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		this.preventEntitySpawning = true;
 	}
 
-	public OrgPortalEntity(World world, PlayerEntity player, BlockPos spawnPos, BlockPos destinationPos, int destinationDim, boolean shouldTP) {
+	public OrgPortalEntity(World world, PlayerEntity player, BlockPos spawnPos, BlockPos destinationPos, RegistryKey<World> destinationDim, boolean shouldTP) {
 		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
 		this.setPosition(spawnPos.getX()+0.5,spawnPos.getY(), spawnPos.getZ()+0.5);
         this.destinationPos = destinationPos;
@@ -147,13 +149,13 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
         buffer.writeInt(destinationPos.getX());
         buffer.writeInt(destinationPos.getY());
         buffer.writeInt(destinationPos.getZ());
-        buffer.writeInt(destinationDim);
+        buffer.writeResourceLocation(destinationDim.getLocation());
         buffer.writeBoolean(shouldTeleport);	}
 
 	@Override
 	public void readSpawnData(PacketBuffer additionalData) {
 		destinationPos = new BlockPos(additionalData.readInt(),additionalData.readInt(),additionalData.readInt());
-    	destinationDim = additionalData.readInt();
+    	destinationDim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, additionalData.readResourceLocation());
     	shouldTeleport = additionalData.readBoolean();
     }
 }

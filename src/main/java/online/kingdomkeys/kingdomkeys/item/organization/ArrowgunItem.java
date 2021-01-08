@@ -39,7 +39,7 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 				// world.playSound(player.getPosX(), player.getPosY(), player.getPosZ(),
 				// ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 0.5F, 1F, false);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
-				bullet.shoot(player, player.rotationPitch, player.rotationYaw, 0, 4f, 0);
+				bullet.shoot(player.rotationPitch, player.rotationYaw, 0, 4f, 0);
 				world.addEntity(bullet);
 
 

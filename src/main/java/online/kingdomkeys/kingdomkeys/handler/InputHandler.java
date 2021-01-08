@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import net.minecraft.util.Util;
+import net.minecraft.util.math.vector.Vector3d;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.lib.*;
@@ -24,7 +26,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -386,7 +387,7 @@ public class InputHandler {
                     if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
-                        player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You don't have any portal destination"));
+                        player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You don't have any portal destination"), Util.DUMMY_UUID);
                     }
 
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -548,9 +549,12 @@ public class InputHandler {
                 case OPENMENU:
     				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
                     if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
-                        if (player.dimension != ModDimensions.DIVE_TO_THE_HEART_TYPE) {
+                        //TODO dimension
+                        /*
+                        if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART_TYPE) {
                             mc.displayGuiScreen(new NoChoiceMenuPopup());
                         }
+                         */
                     } else {
                         GuiHelper.openMenu();
                     }
@@ -654,7 +658,7 @@ public class InputHandler {
 					// Wisdom Form
 					if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						power = Constants.WISDOM_QR[wisdomLevel];
-						if (!player.onGround)
+						if (!player.isOnGround())
 							player.addVelocity(motionX * power / 2, 0, motionZ * power / 2);
 					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
 						if (wisdomLevel > 2) {
@@ -662,7 +666,7 @@ public class InputHandler {
 						}
 					}
 
-					if (player.onGround)
+					if (player.isOnGround())
 						player.addVelocity(motionX * power, 0, motionZ * power);
 
 				}
@@ -678,7 +682,7 @@ public class InputHandler {
 						}
 					}
 
-					if (player.onGround) {
+					if (player.isOnGround()) {
 						player.addVelocity(player.getMotion().x * power, 0, player.getMotion().z * power);
 						//PacketDispatcher.sendToServer(new InvinciblePacket(20));
 					}
@@ -776,14 +780,14 @@ public class InputHandler {
 			double var2 = dist;
 			returnMOP = theRenderViewEntity.pick(var2, 0, false);
 			double calcdist = var2;
-			Vec3d pos = theRenderViewEntity.getEyePosition(0);
+			Vector3d pos = theRenderViewEntity.getEyePosition(0);
 			var2 = calcdist;
 			if (returnMOP != null) {
 				calcdist = returnMOP.getHitVec().distanceTo(pos);
 			}
 
-			Vec3d lookvec = theRenderViewEntity.getLook(0);
-			Vec3d var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
+			Vector3d lookvec = theRenderViewEntity.getLook(0);
+			Vector3d var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
 			Entity pointedEntity = null;
 			float var9 = 1.0F;
 
@@ -795,7 +799,7 @@ public class InputHandler {
 					float bordersize = entity.getCollisionBorderSize();
 					AxisAlignedBB aabb = new AxisAlignedBB(entity.getPosX() - entity.getWidth() / 2, entity.getPosY(), entity.getPosZ() - entity.getWidth() / 2, entity.getPosX() + entity.getWidth() / 2, entity.getPosY() + entity.getHeight(), entity.getPosZ() + entity.getWidth() / 2);
 					aabb.grow(bordersize, bordersize, bordersize);
-					Optional<Vec3d> mop0 = aabb.rayTrace(pos, var8);
+					Optional<Vector3d> mop0 = aabb.rayTrace(pos, var8);
 
 					if (aabb.contains(pos)) {
 						if (0.0D < d || d == 0.0D) {

@@ -48,7 +48,7 @@ public class ChakramEntity extends ThrowableEntity{
 
 	public ChakramEntity(World world, PlayerEntity player, String model) {
 		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
-		owner = player;
+		setShooter(player);
 		setModel(model);
 	}
 
@@ -82,7 +82,7 @@ public class ChakramEntity extends ThrowableEntity{
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget instanceof PlayerEntity) {
 					PlayerEntity owner = (PlayerEntity) entityTarget;
-					if (owner == this.getThrower()) {
+					if (owner == func_234616_v_()) {
 						this.remove();
 					}
 				}
@@ -93,8 +93,8 @@ public class ChakramEntity extends ThrowableEntity{
 
 	public void setReturn() {
 		returning = true;
-		if(owner != null)
-			shoot(this.getThrower().getPosX() - this.getPosX(), this.getThrower().getPosY() - this.getPosY() + 1.25, this.getThrower().getPosZ() - this.getPosZ(), 2f, 0);
+		if(func_234616_v_() != null)
+			shoot(this.func_234616_v_().getPosX() - this.getPosX(), this.func_234616_v_().getPosY() - this.getPosY() + 1.25, this.func_234616_v_().getPosZ() - this.getPosZ(), 2f, 0);
 	}
 	
 	@Override
@@ -114,9 +114,9 @@ public class ChakramEntity extends ThrowableEntity{
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getThrower()) {
+				if (target != func_234616_v_()) {
 					target.setFire(5);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 10);
 					setReturn();
 				}
 			} else { // Block (not ERTR)

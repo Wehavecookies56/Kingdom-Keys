@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -51,9 +52,9 @@ public class MagicSpellItem extends Item implements IItemCategory {
 					} else if (!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
 						player.getHeldItemOffhand().shrink(1);
 					}
-					player.sendMessage(new TranslationTextComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())));
+					player.sendMessage(new TranslationTextComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), Util.DUMMY_UUID);
 				} else {
-					player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey()) + " Already unlocked"));
+					player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey()) + " Already unlocked"), Util.DUMMY_UUID);
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			}

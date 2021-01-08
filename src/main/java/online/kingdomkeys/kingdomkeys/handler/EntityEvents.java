@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -22,7 +22,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -101,7 +101,7 @@ public class EntityEvents {
 			
 			if (!player.world.isRemote) { // Sync from server to client
 				player.setHealth(playerData.getMaxHP());
-				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
+				player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
 				
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
@@ -136,9 +136,12 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
 				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), (ServerPlayerEntity)player);
+				//TODO dimension
+				/*
 				if (player.dimension.getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
 					PacketHandler.sendTo(new SCUpdateSoA(playerData), (ServerPlayerEntity) player);
 				}
+				 */
 			}
 			PacketHandler.syncToAllAround(player, playerData);
 		}
@@ -431,7 +434,7 @@ public class EntityEvents {
 
 	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities playerData) {
 		if (playerData.getAerialDodgeTicks() <= 0) {
-			if (player.onGround) {
+			if (player.isOnGround()) {
 				playerData.setHasJumpedAerialDodge(false);
 				playerData.setAerialDodgeTicks(0);
 			} else {
@@ -442,7 +445,7 @@ public class EntityEvents {
 							player.jump();
 							int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Master)-2 : playerData.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
 							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
-							player.setMotion(player.getMotion().mul(new Vec3d(boost, boost, boost)));
+							player.setMotion(player.getMotion().mul(new Vector3d(boost, boost, boost)));
 							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));
 						}
 					}
@@ -454,7 +457,7 @@ public class EntityEvents {
 	private void handleGlide(PlayerEntity player, IPlayerCapabilities playerData) {
 		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
 			if (Minecraft.getInstance().player == player) { // Only the local player will send the packets
-				if (!player.onGround && player.fallDistance > 0) {
+				if (!player.isOnGround() && player.fallDistance > 0) {
 					if (Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown()) {
 						if (!playerData.getIsGliding()) {
 							playerData.setIsGliding(true);// Set playerData clientside
@@ -481,7 +484,7 @@ public class EntityEvents {
 		if (playerData.getIsGliding()) {
 			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final)-2 : playerData.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
-			Vec3d motion = player.getMotion();
+			Vector3d motion = player.getMotion();
 			player.setMotion(motion.x, glide, motion.z);
 		}
 	}
@@ -710,7 +713,7 @@ public class EntityEvents {
 					if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
 						LivingEntity mob = (LivingEntity) event.getEntity();
 						
-						double value = mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2;
+						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
 						playerData.addExperience(player, (int)exp /* * MainConfig.entities.xpMultiplier */);
 											
@@ -812,7 +815,7 @@ public class EntityEvents {
 		newPlayerData.setWeaponsUnlocked(oldPlayerData.getWeaponsUnlocked());
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
-		nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
+		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 	}
 	
 	@SubscribeEvent

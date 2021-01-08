@@ -5,7 +5,10 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -18,12 +21,12 @@ public class CSSpawnOrgPortalPacket {
 
 	BlockPos pos;
 	BlockPos destPos;
-	int dimension;
+	RegistryKey<World> dimension;
 
 	public CSSpawnOrgPortalPacket() {
 	}
 
-	public CSSpawnOrgPortalPacket(BlockPos pos, BlockPos dest, int dim) {
+	public CSSpawnOrgPortalPacket(BlockPos pos, BlockPos dest, RegistryKey<World> dim) {
 		this.pos = pos;
 		this.destPos = dest;
 		this.dimension = dim;
@@ -32,14 +35,14 @@ public class CSSpawnOrgPortalPacket {
 	public void encode(PacketBuffer buffer) {
 		buffer.writeBlockPos(pos);
 		buffer.writeBlockPos(destPos);
-		buffer.writeInt(dimension);
+		buffer.writeResourceLocation(dimension.getLocation());
 	}
 
 	public static CSSpawnOrgPortalPacket decode(PacketBuffer buffer) {
 		CSSpawnOrgPortalPacket msg = new CSSpawnOrgPortalPacket();
 		msg.pos = buffer.readBlockPos();
 		msg.destPos = buffer.readBlockPos();
-		msg.dimension = buffer.readInt();
+		msg.dimension = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation());
 		return msg;
 	}
 

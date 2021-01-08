@@ -15,6 +15,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -53,15 +54,15 @@ public class RecipeItem extends Item implements IItemCategory {
 							ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(rl).getResult());							
 							if (recipe == null || !RecipeRegistry.getInstance().containsKey(rl)) { // If recipe is not valid
 								String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message));
+								player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message), Util.DUMMY_UUID);
 							} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
 								String message = "Recipe for " + Utils.translateToLocal(outputStack.getTranslationKey()) + " already learnt";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message));
+								player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message), Util.DUMMY_UUID);
 							} else { // If recipe is not known, learn it
 								playerData.addKnownRecipe(rl);
 								consume = true;
 								String message = "Recipe " + Utils.translateToLocal(outputStack.getTranslationKey()) + " learnt successfully";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message));
+								player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message), Util.DUMMY_UUID);
 								PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 							}
 						}

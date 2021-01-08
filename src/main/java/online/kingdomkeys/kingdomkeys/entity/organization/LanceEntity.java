@@ -17,10 +17,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -48,7 +47,7 @@ public class LanceEntity extends ThrowableEntity{
 
 	public LanceEntity(World world, PlayerEntity player, String model) {
 		super(ModEntities.TYPE_LANCE.get(), player, world);
-		owner = player;
+		setShooter(player);
 		setModel(model);
 	}
 
@@ -77,8 +76,8 @@ public class LanceEntity extends ThrowableEntity{
 		         --this.throwableShake;
 		      }
 
-		      if (this.inGround) {
-		         this.inGround = false;
+		      if (this.isOnGround()) {
+		         this.setOnGround(false);
 		         this.setMotion(this.getMotion().mul((double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F)));
 		      }
 
@@ -103,7 +102,7 @@ public class LanceEntity extends ThrowableEntity{
 		         }
 		      }
 
-		      Vec3d vec3d = this.getMotion();
+		      Vector3d vec3d = this.getMotion();
 		      double d0 = this.getPosX() + vec3d.x;
 		      double d1 = this.getPosY() + vec3d.y;
 		      double d2 = this.getPosZ() + vec3d.z;
@@ -120,7 +119,7 @@ public class LanceEntity extends ThrowableEntity{
 
 		      this.setMotion(vec3d.scale((double)f1));
 		      if (!this.hasNoGravity()) {
-		         Vec3d vec3d1 = this.getMotion();
+		         Vector3d vec3d1 = this.getMotion();
 		         this.setMotion(vec3d1.x, vec3d1.y - (double)this.getGravityVelocity(), vec3d1.z);
 		      }
 
@@ -150,8 +149,8 @@ public class LanceEntity extends ThrowableEntity{
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getThrower()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+				if (target != func_234616_v_()) {
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 10);
 					stopLance();
 				}
 			} else { // Block (not ERTR)				

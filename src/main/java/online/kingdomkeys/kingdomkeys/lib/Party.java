@@ -60,7 +60,7 @@ public class Party {
 	}	
 	
 	public Member addMember(LivingEntity entity) {
-		return this.addMember(entity.getUniqueID(), entity.getDisplayName().getFormattedText());
+		return this.addMember(entity.getUniqueID(), entity.getDisplayName().getString());
 	}
 
 	public Member addMember(UUID uuid, String username) {
@@ -144,7 +144,7 @@ public class Party {
 		private boolean isLeader;
 
 		public Member(LivingEntity entity) {
-			this(entity.getUniqueID(), entity.getDisplayName().getFormattedText());
+			this(entity.getUniqueID(), entity.getDisplayName().getString());
 		}
 
 		public Member(UUID uuid, String username) {

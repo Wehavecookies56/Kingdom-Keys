@@ -82,16 +82,16 @@ public class ArrowgunShotEntity extends ThrowableEntity {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
-				if (target != getThrower()) {
+				if (target != func_234616_v_()) {
 					float dmg = 0;
-					if(this.getThrower() instanceof PlayerEntity) {
-						PlayerEntity player = (PlayerEntity) this.getThrower();
+					if(this.func_234616_v_() instanceof PlayerEntity) {
+						PlayerEntity player = (PlayerEntity) this.func_234616_v_();
 						IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 						if(player.getHeldItemMainhand() != null) {
 							dmg = DamageCalculation.getOrgStrengthDamage(player, player.getHeldItemMainhand()) / 2;
 						}
 					}
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)

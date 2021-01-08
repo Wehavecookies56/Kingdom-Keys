@@ -4,8 +4,12 @@ import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Dimension;
+import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
@@ -13,13 +17,13 @@ import online.kingdomkeys.kingdomkeys.world.utils.TeleporterOrgPortal;
 
 public class CSOrgPortalTPPacket {
 
-	int dim;
+	RegistryKey<World> dim;
     double x,y,z;
 
 	public CSOrgPortalTPPacket() {
 	}
 
-	public CSOrgPortalTPPacket(int dimension, double x, double y, double z) {
+	public CSOrgPortalTPPacket(RegistryKey<World> dimension, double x, double y, double z) {
     	this.dim = dimension;
         this.x = x;
         this.y = y;
@@ -27,7 +31,7 @@ public class CSOrgPortalTPPacket {
 	}
 
 	public void encode(PacketBuffer buffer) {
-		buffer.writeInt(dim);
+		buffer.writeResourceLocation(dim.getLocation());
         buffer.writeDouble(x);
         buffer.writeDouble(y);
         buffer.writeDouble(z);
@@ -35,7 +39,8 @@ public class CSOrgPortalTPPacket {
 
 	public static CSOrgPortalTPPacket decode(PacketBuffer buffer) {
 		CSOrgPortalTPPacket msg = new CSOrgPortalTPPacket();
-		msg.dim = buffer.readInt();
+		//No idea if this how you should do this
+		msg.dim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation());
 		msg.x = buffer.readDouble();
 		msg.y = buffer.readDouble();
 		msg.z = buffer.readDouble();
@@ -46,7 +51,8 @@ public class CSOrgPortalTPPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 	    	//BlockPos pos = new BlockPos(message.x,message.y,message.z);
-            player.changeDimension(DimensionType.getById(message.dim), new BaseTeleporter(message.x,message.y,message.z));
+			ServerWorld serverWorld = player.world.getServer().getWorld(message.dim);
+            player.changeDimension(serverWorld, new BaseTeleporter(message.x,message.y,message.z));
 
 	       // new TeleporterOrgPortal((ServerWorld) player.world).teleport(player, pos, message.dim);
 	     //   player.setPosition(message.x,message.y,message.z);

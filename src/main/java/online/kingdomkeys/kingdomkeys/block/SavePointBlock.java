@@ -43,7 +43,7 @@ public class SavePointBlock extends BaseBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if(!worldIn.isRemote) {
-			player.setSpawnPoint(pos.add(0, 1, 0), true, false, player.dimension);
+			player.setBedPosition(pos.add(0, 1, 0));
 			player.sendStatusMessage(new TranslationTextComponent("block.minecraft.bed.set_spawn"), true);
 
 		}
