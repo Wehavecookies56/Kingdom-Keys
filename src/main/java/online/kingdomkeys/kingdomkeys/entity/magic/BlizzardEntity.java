@@ -91,9 +91,9 @@ public class BlizzardEntity extends ThrowableEntity {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getThrower()) {
-					float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+				if (target != func_234616_v_()) {
+					float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
 					//System.out.println(dmg);
 					remove();
 				}

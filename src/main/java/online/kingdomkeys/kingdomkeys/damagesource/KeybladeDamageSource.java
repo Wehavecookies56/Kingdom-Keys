@@ -23,7 +23,7 @@ public class KeybladeDamageSource extends EntityDamageSource {
 
 	@Override
 	public ITextComponent getDeathMessage(LivingEntity entityLivingBaseIn) {
-		return new TranslationTextComponent("keybladedamage.death", entityLivingBaseIn.getDisplayName().getFormattedText(), damageSourceEntity.getDisplayName().getFormattedText());
+		return new TranslationTextComponent("keybladedamage.death", entityLivingBaseIn.getDisplayName().getString(), damageSourceEntity.getDisplayName().getString());
 	}
 
 }

@@ -11,7 +11,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -88,20 +88,20 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 				if (!entities.isEmpty()) {
 					double strength = 0.75;
 					for (Entity e : entities) {
-						Vec3d ePos = e.getPositionVec();
-						Vec3d blockPos;
+						Vector3d ePos = e.getPositionVec();
+						Vector3d blockPos;
 						if(e instanceof LivingEntity) {
-							blockPos = new Vec3d(getPos().getX() + 0.5, getPos().getY(), getPos().getZ() + 0.5);
+							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY(), getPos().getZ() + 0.5);
 						} else {
-							blockPos = new Vec3d(getPos().getX() + 0.5, getPos().getY()+0.5, getPos().getZ() + 0.5);
+							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY()+0.5, getPos().getZ() + 0.5);
 						}
 						// Attract
 						if (attract) {
-							Vec3d blockDir = blockPos.subtract(ePos);
+							Vector3d blockDir = blockPos.subtract(ePos);
 							e.setMotion(blockDir.normalize().mul(strength, strength, strength));
 							// Repel
 						} else {
-							Vec3d pushDir = new Vec3d(facing.getDirectionVec());
+							Vector3d pushDir = new Vector3d(facing.toVector3f());
 							e.setMotion(pushDir.normalize().mul(strength, strength, strength));
 						}
 					}

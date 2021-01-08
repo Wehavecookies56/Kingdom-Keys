@@ -17,6 +17,7 @@ import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -62,9 +63,9 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.addKnownRecipe(new ResourceLocation(recipe));
 			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been given '" + Utils.translateToLocal(recipe) + "' recipe"));
+			player.sendMessage(new TranslationTextComponent("You have been given '" + Utils.translateToLocal(recipe) + "' recipe"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -78,9 +79,9 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.removeKnownRecipe(new ResourceLocation(recipe));
 			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Removed recipe '" + Utils.translateToLocal(recipe) + "' from " + player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Removed recipe '" + Utils.translateToLocal(recipe) + "' from " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your recipe '" + Utils.translateToLocal(recipe) + "' has been taken away"));
+			player.sendMessage(new TranslationTextComponent("Your recipe '" + Utils.translateToLocal(recipe) + "' has been taken away"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -96,9 +97,9 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 			}
 
 			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Added all recipes to " + player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Added all recipes to " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been given all the recipes"));
+			player.sendMessage(new TranslationTextComponent("You have been given all the recipes"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -112,9 +113,9 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 			playerData.clearRecipes();
 
 			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Removed all recipes from " + player.getDisplayName().getFormattedText()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Removed all recipes from " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your recipes have been taken away"));
+			player.sendMessage(new TranslationTextComponent("Your recipes have been taken away"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;

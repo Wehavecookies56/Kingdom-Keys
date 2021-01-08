@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -121,28 +122,28 @@ public class MenuBackground extends Screen {
 
 
 	//Separate method to render buttons in a different order
-	public void drawMenuBackground(int mouseX, int mouseY, float partialTicks) {
-		drawBars();
-		drawMunnyTime();
-		drawBiomeDim();
-		drawTip();
+	public void drawMenuBackground(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		drawBars(matrixStack);
+		drawMunnyTime(matrixStack);
+		drawBiomeDim(matrixStack);
+		drawTip(matrixStack);
 		//RenderHelper.disableStandardItemLighting();
 		//drawBackground(width, height, drawPlayerInfo);
 		
 
-		RenderSystem.pushMatrix();
+		matrixStack.push();
 		{
-			RenderSystem.scaled(1.3,1.3, 1);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(getTitle().getFormattedText()), 2, 10, 0xFF9900);
+			matrixStack.scale(1.3F,1.3F, 1F);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(getTitle().getString()), 2, 10, 0xFF9900);
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (!drawSeparately)
-			drawMenuBackground(mouseX, mouseY, partialTicks);
-		super.render(mouseX, mouseY, partialTicks);
+			drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 
 	private void clearButtons() {
@@ -154,21 +155,21 @@ public class MenuBackground extends Screen {
 			
 	}
 
-	public void drawBars() {
-		renderBackground();
+	public void drawBars(MatrixStack matrixStack) {
+		renderBackground(matrixStack);
 		int sh = Minecraft.getInstance().getMainWindow().getScaledHeight();
 		int sw = Minecraft.getInstance().getMainWindow().getScaledWidth();
 
 		for (int i = 0; i < sh; i += 3) {
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			RenderSystem.color3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
-			// RenderSystem.enableAlpha();
+			// matrixStack.enableAlpha();
 			RenderSystem.enableBlend();
 			minecraft.textureManager.bindTexture(menu);
-			RenderSystem.translatef(0, i, 0);
-			RenderSystem.scalef(sw, 1, 1);
-			blit(0, 0, 77, 92, 1, 1);
-			RenderSystem.popMatrix();
+			matrixStack.translate(0, i, 0);
+			matrixStack.scale(sw, 1, 1);
+			blit(matrixStack, 0, 0, 77, 92, 1, 1);
+			matrixStack.pop();
 		}
 		topLeftBar.draw();
 		topRightBar.draw();
@@ -176,24 +177,24 @@ public class MenuBackground extends Screen {
 		bottomRightBar.draw();
 	}
 
-	public void drawBiomeDim() {
-		RenderSystem.pushMatrix();
+	public void drawBiomeDim(MatrixStack matrixStack) {
+		matrixStack.push();
 		{
-			String text = minecraft.player.dimension.getRegistryName().getPath().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getDisplayName().getFormattedText();
-			drawString(minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 5, 0xF58B33);
+			String text = minecraft.player.dimension.getRegistryName().getPath().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getString().getFormattedText();
+			drawString(matrixStack, minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 5, 0xF58B33);
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 	}
 
-	public void drawMunnyTime() {
-		RenderSystem.pushMatrix();
+	public void drawMunnyTime(MatrixStack matrixStack) {
+		matrixStack.push();
 		{
-			RenderSystem.scaled(1.1, 1.1, 1);
+			matrixStack.scale(1.1F, 1.1F, 1F);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, (int) (topBarHeight + middleHeight) - 7, 0xF66627);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + playerData.getHearts(), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT - 7, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT * 2 - 7, 0xFFFFFF);
-			long seconds = minecraft.world.getWorld().getDayTime() / 20;
+			drawString(matrixStack,minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, (int) (topBarHeight + middleHeight) - 7, 0xF66627);
+			drawString(matrixStack,minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + playerData.getHearts(), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT - 7, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
+			drawString(matrixStack,minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.world) + ":" + getWorldMinutes(minecraft.world), 5, (int) (topBarHeight + middleHeight) + minecraft.fontRenderer.FONT_HEIGHT * 2 - 7, 0xFFFFFF);
+			long seconds = minecraft.world.getDayTime() / 20;
 			long h = seconds / 3600;
 			long m = seconds % 3600 / 60;
 			long s = seconds % 3600 % 60;
@@ -202,12 +203,12 @@ public class MenuBackground extends Screen {
 			String min = m < 10 ? 0 + "" + m : m + "";
 			String hou = h < 10 ? 0 + "" + h : h + "";
 			String time = hou + ":" + min + ":" + sec;
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.fontRenderer.FONT_HEIGHT * 3) - 7, 0x42ceff);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.fontRenderer.FONT_HEIGHT * 3) - 7, 0x42ceff);
 		}
-		RenderSystem.popMatrix();
+		matrixStack.pop();
 	}
 	
-	public void drawTip () {
+	public void drawTip (MatrixStack matrixStack) {
 		tip = null;
 
 		int i = 0;
@@ -226,14 +227,14 @@ public class MenuBackground extends Screen {
 		}
 		
 		if(tip != null) {
-			RenderSystem.pushMatrix();
+			matrixStack.push();
 			{
-				RenderSystem.scaled(1.1, 1.1, 1);
-				RenderSystem.translated(0, -5, 0);
+				matrixStack.scale(1.1F, 1.1F, 1F);
+				matrixStack.translate(0, -5, 0);
 				//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				minecraft.fontRenderer.drawSplitString(Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
 			}
-			RenderSystem.popMatrix();
+			matrixStack.pop();
 		}
 		
 	}

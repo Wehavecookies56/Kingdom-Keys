@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.NetworkManager;
@@ -45,11 +46,11 @@ public class SoAPlatformTileEntity extends TileEntity {
         structureBlockPosCache.add(pos);
         markDirty();
     }
-
+    
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
-        multiblockFormed = compound.getBoolean("formed");
+    public void read(BlockState state, CompoundNBT compound) {
+    	super.read(state, compound);
+    	multiblockFormed = compound.getBoolean("formed");
         CompoundNBT structureCompound = compound.getCompound("structure");
         int size = structureCompound.getInt("size");
         structureBlockPosCache.clear();
@@ -79,20 +80,19 @@ public class SoAPlatformTileEntity extends TileEntity {
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        this.read(pkt.getNbtCompound());
-    }
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+	}
 
     @Override
     public CompoundNBT getUpdateTag() {
         return this.write(new CompoundNBT());
     }
-
+    
     @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        this.read(tag);
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+    	this.read(state, tag);
     }
-
 
     @Override
     public AxisAlignedBB getRenderBoundingBox() {

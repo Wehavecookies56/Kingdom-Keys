@@ -12,6 +12,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -68,9 +69,9 @@ public class KKDrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setDP(value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getFormattedText()+" dp to "+value), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" dp to "+value), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your dp has been set to "+value));
+		player.sendMessage(new TranslationTextComponent("Your dp has been set to "+value),Util.DUMMY_UUID);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
@@ -88,9 +89,9 @@ public class KKDrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addDP(value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" dp to "+player.getDisplayName().getFormattedText()), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" dp to "+player.getDisplayName().getString()), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your dp has been increased by "+value));
+		player.sendMessage(new TranslationTextComponent("Your dp has been increased by "+value),Util.DUMMY_UUID);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
@@ -109,9 +110,9 @@ public class KKDrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.remDP(value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" dp from "+player.getDisplayName().getFormattedText()), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" dp from "+player.getDisplayName().getString()), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your dp has been decreased by "+value));
+		player.sendMessage(new TranslationTextComponent("Your dp has been decreased by "+value),Util.DUMMY_UUID);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}

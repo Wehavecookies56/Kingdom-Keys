@@ -63,7 +63,7 @@ public class PairBloxEntity extends Entity {
 		this.prevPosZ = this.getPosition().getZ();
 		
 		this.move(MoverType.SELF, this.getMotion().add(0, -1, 0));
-		this.handleWaterMovement();
+		//this.handleWaterMovement();
 		if(ticksExisted >= 5) {
 			this.world.setBlockState(this.getPosition(), ModBlocks.pairBlox.get().getDefaultState().with(PairBloxBlock.PAIR, getPair()));
 			this.remove();

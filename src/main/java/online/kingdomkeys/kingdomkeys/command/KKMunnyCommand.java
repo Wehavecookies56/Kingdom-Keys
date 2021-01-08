@@ -12,6 +12,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -66,9 +67,9 @@ public class KKMunnyCommand extends BaseCommand{ //kk_munny <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setMunny(value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getFormattedText()+" munny to "+value), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" munny to "+value), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your munny has been set to "+value));
+		player.sendMessage(new TranslationTextComponent("Your munny has been set to "+value),Util.DUMMY_UUID);
 		return 1;
 	}
 	
@@ -85,9 +86,9 @@ public class KKMunnyCommand extends BaseCommand{ //kk_munny <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setMunny(playerData.getMunny() + value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getFormattedText()), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getString()), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your munny has been increased by "+value));
+		player.sendMessage(new TranslationTextComponent("Your munny has been increased by "+value),Util.DUMMY_UUID);
 		return 1;
 	}
 	
@@ -105,9 +106,9 @@ public class KKMunnyCommand extends BaseCommand{ //kk_munny <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setMunny(playerData.getMunny() - value);
 		if(player != context.getSource().asPlayer()) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" munny from "+player.getDisplayName().getFormattedText()), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" munny from "+player.getDisplayName().getString()), true);
 		}
-		player.sendMessage(new TranslationTextComponent("Your munny has been decreased by "+value));
+		player.sendMessage(new TranslationTextComponent("Your munny has been decreased by "+value),Util.DUMMY_UUID);
 		return 1;
 	}
 }
