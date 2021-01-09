@@ -47,7 +47,7 @@ public class KeybladeDataLoader extends JsonReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
         KingdomKeys.LOGGER.info("Loading keyblade data");
         loadData(resourceManagerIn);
-        PacketHandler.sendToAllPlayers(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList));
+       // PacketHandler.sendToAllPlayers(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList));
     }
 
     public void loadData(IResourceManager manager) {

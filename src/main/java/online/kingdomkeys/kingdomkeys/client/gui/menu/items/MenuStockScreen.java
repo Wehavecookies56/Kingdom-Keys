@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -60,13 +61,13 @@ public class MenuStockScreen extends MenuFilterable {
         
 		Minecraft mc = Minecraft.getInstance();
         RenderHelper.disableStandardItemLighting();
-        matrixStack.push();
+        RenderSystem.pushMatrix();
         {
-            matrixStack.translate(iconPosX, iconPosY, 0);
-            matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+        	RenderSystem.translatef(iconPosX, iconPosY, 0);
+        	RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
             mc.getItemRenderer().renderItemAndEffectIntoGUI(selected, 0, 0);
         }
-        matrixStack.pop();
+        RenderSystem.popMatrix();
         
         drawString(matrixStack, mc.fontRenderer, selected.getDisplayName().getString(), (int) tooltipPosX + 50, (int) tooltipPosY + (mc.fontRenderer.FONT_HEIGHT * 0) + 5, 0xFFFFFF);
 
@@ -87,9 +88,6 @@ public class MenuStockScreen extends MenuFilterable {
 
     @Override
     public void init() {
-
-        buttonWidth = ((float)width * 0.07F);
-
         float boxPosX = (float) width * 0.1537F;
         float topBarHeight = (float) height * 0.17F;
         float boxWidth = (float) width * 0.7135F;
@@ -111,6 +109,8 @@ public class MenuStockScreen extends MenuFilterable {
 
     @Override
     public void initItems() {
+        buttonWidth = ((float)width * 0.07F);
+
         PlayerEntity player = Minecraft.getInstance().player;
         float invPosX = (float) width * 0.1594F;
         float invPosY = (float) height * 0.1851F;

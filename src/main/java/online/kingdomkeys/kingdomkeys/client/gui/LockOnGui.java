@@ -76,7 +76,7 @@ public class LockOnGui extends Screen {
 
 						minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 						matrixStack.translate(guiWidth / 2, guiWidth / 2, 0);
-						matrixStack.rotate(Vector3f.ZP.rotation(player.ticksExisted % 360 * 10));
+						matrixStack.rotate(Vector3f.ZP.rotation((player.ticksExisted % 360) * 0.2F));
 						matrixStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
 						this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 					}

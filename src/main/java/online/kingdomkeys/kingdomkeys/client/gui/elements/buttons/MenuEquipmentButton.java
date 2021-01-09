@@ -145,14 +145,14 @@ public class MenuEquipmentButton extends Button {
                 if (stack != null) {
                     if (stack.getItem() instanceof IKeychain) {
                         ItemStack keyblade = new ItemStack(((IKeychain) stack.getItem()).toSummon());
-                        matrixStack.push();
+                        RenderSystem.pushMatrix();
                         {
                             RenderSystem.enableAlphaTest();
-                            matrixStack.translate(iconPosX, iconPosY, 0);
-                            matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+                            RenderSystem.translatef(iconPosX, iconPosY, 0);
+                            RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
                             mc.getItemRenderer().renderItemAndEffectIntoGUI(keyblade, 0, 0);
                         }
-                        matrixStack.pop();
+                        RenderSystem.popMatrix();
                         float strPosX = parent.width * 0.634F;
                         float strPosY = parent.height * 0.5185F;
                         float strNumPosX = parent.width * 0.77F;

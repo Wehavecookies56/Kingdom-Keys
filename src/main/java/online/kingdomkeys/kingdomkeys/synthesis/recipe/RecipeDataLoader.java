@@ -52,7 +52,7 @@ public class RecipeDataLoader extends JsonReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
         KingdomKeys.LOGGER.info("Loading recipe data");
         loadData(resourceManagerIn);
-        PacketHandler.sendToAllPlayers(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()));
+       // PacketHandler.sendToAllPlayers(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()));
     }
 
     public void loadData(IResourceManager manager) {

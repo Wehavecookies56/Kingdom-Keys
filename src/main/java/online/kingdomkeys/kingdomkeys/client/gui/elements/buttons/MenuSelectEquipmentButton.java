@@ -129,14 +129,14 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					float iconHeight = parent.height * 0.3148F;
 					RenderHelper.disableStandardItemLighting();
 					RenderHelper.setupGuiFlatDiffuseLighting();
-					matrixStack.push();
-					{
-						RenderSystem.enableAlphaTest();
-						matrixStack.translate(iconPosX, iconPosY, 0);
-						matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-						minecraft.getItemRenderer().renderItemIntoGUI(new ItemStack(keyblade), 0, 0);
-					}
-					matrixStack.pop();
+					RenderSystem.pushMatrix();
+                    {
+                        RenderSystem.enableAlphaTest();
+                        RenderSystem.translatef(iconPosX, iconPosY, 0);
+                        RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+                        minecraft.getItemRenderer().renderItemAndEffectIntoGUI(new ItemStack(keyblade), 0, 0);
+                    }
+                    RenderSystem.popMatrix();
 					float strPosX = parent.width * 0.685F;
 					float strPosY = parent.height * 0.5185F;
 					float strNumPosX = parent.width * 0.78F;

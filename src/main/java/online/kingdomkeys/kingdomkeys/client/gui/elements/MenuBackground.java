@@ -181,7 +181,7 @@ public class MenuBackground extends Screen {
 	public void drawBiomeDim(MatrixStack matrixStack) {
 		matrixStack.push();
 		{
-			String text = minecraft.player.world.getDimensionType().toString().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getRegistryName().getPath();
+			String text = minecraft.player.world.getDimensionKey().getLocation().getPath().toString().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getRegistryName();
 			drawString(matrixStack, minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 5, 0xF58B33);
 		}
 		matrixStack.pop();

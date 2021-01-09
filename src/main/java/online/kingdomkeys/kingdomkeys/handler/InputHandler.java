@@ -5,12 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import net.minecraft.util.Util;
-import net.minecraft.util.math.vector.Vector3d;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
-import online.kingdomkeys.kingdomkeys.lib.*;
-import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -20,12 +14,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -40,9 +36,12 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
@@ -50,6 +49,8 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class InputHandler {
 
@@ -548,16 +549,16 @@ public class InputHandler {
             switch (key) {
                 case OPENMENU:
     				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-                    if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
+                    //if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
                         //TODO dimension
                         /*
                         if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART_TYPE) {
                             mc.displayGuiScreen(new NoChoiceMenuPopup());
                         }
                          */
-                    } else {
+                   // } else {
                         GuiHelper.openMenu();
-                    }
+                    //}
                     break;
 
                /* case SHOW_GUI:
