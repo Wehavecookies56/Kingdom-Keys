@@ -45,7 +45,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	List<String> partyList = new ArrayList<>();
 
-	private double mp = 0, maxMP = 0, dp = 0, maxDP = 300, fp = 0;
+	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0;
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 

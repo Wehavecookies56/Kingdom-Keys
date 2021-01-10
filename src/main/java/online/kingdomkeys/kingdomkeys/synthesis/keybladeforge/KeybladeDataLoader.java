@@ -11,6 +11,8 @@ import com.google.gson.*;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.profiler.IProfiler;
+import net.minecraftforge.fml.event.server.ServerLifecycleEvent;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
@@ -36,8 +38,8 @@ public class KeybladeDataLoader extends JsonReloadListener {
      * @param manager Resource manager from the server
      */
     
-    public static List<String> names = new LinkedList<String>();
-    public static List<String> dataList = new LinkedList<String>();
+    public static List<String> names = new LinkedList<>();
+    public static List<String> dataList = new LinkedList<>();
 
     public KeybladeDataLoader() {
         super(GSON_BUILDER, "keyblades");
@@ -47,7 +49,11 @@ public class KeybladeDataLoader extends JsonReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
         KingdomKeys.LOGGER.info("Loading keyblade data");
         loadData(resourceManagerIn);
-       // PacketHandler.sendToAllPlayers(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList));
+        if (ServerLifecycleHooks.getCurrentServer() != null) {
+            for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+                PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), player);
+            }
+        }
     }
 
     public void loadData(IResourceManager manager) {

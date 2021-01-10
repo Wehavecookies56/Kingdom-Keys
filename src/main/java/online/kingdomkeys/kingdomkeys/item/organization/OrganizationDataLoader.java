@@ -11,8 +11,11 @@ import com.google.gson.*;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.profiler.IProfiler;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import org.apache.commons.io.IOUtils;
 
 import net.minecraft.client.resources.ReloadListener;
@@ -32,8 +35,8 @@ public class OrganizationDataLoader extends JsonReloadListener {
      * @param manager Resource manager from the server
      */
     
-    public static List<String> names = new LinkedList<String>();
-    public static List<String> dataList = new LinkedList<String>();
+    public static List<String> names = new LinkedList<>();
+    public static List<String> dataList = new LinkedList<>();
 
     public OrganizationDataLoader() {
         super(GSON_BUILDER, "organization");
@@ -43,7 +46,11 @@ public class OrganizationDataLoader extends JsonReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
         KingdomKeys.LOGGER.info("Loading organization data");
         loadData(resourceManagerIn);
-       // PacketHandler.sendToAllPlayers(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList));
+        if (ServerLifecycleHooks.getCurrentServer() != null) {
+            for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+                PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), player);
+            }
+        }
     }
 
     public void loadData(IResourceManager manager) {

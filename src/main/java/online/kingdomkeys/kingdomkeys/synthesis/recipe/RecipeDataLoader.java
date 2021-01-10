@@ -16,6 +16,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -40,9 +41,6 @@ public class RecipeDataLoader extends JsonReloadListener {
      * Loaded data is assigned to the keyblade with the same name as the json file
      * @param manager Resource manager from the server
      */
-    
-    public static List<String> names = new LinkedList<String>();
-    public static List<String> dataList = new LinkedList<String>();
 
     public RecipeDataLoader() {
         super(GSON_BUILDER, "synthesis");
@@ -52,7 +50,11 @@ public class RecipeDataLoader extends JsonReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
         KingdomKeys.LOGGER.info("Loading recipe data");
         loadData(resourceManagerIn);
-       // PacketHandler.sendToAllPlayers(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()));
+        if (ServerLifecycleHooks.getCurrentServer() != null) {
+            for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+                PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);
+            }
+        }
     }
 
     public void loadData(IResourceManager manager) {

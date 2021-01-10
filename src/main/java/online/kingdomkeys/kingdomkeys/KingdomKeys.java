@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys;
 
+import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
+import online.kingdomkeys.kingdomkeys.world.features.OreGeneration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +26,6 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -99,7 +100,7 @@ public class KingdomKeys {
 
         ModEntities.ENTITIES.register(modEventBus);
 
-		//ModFeatures.FEATURES.register(modEventBus);
+		ModFeatures.FEATURES.register(modEventBus);
 		//ModBiomes.BIOMES.register(modEventBus);
 		//ModDimensions.DIMENSIONS.register(modEventBus);
 		//ModParticles.PARTICLES.register(modEventBus);
@@ -112,8 +113,6 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(this);
 
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
-
-		modEventBus.addListener(this::oreGen);
 
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
@@ -185,14 +184,9 @@ public class KingdomKeys {
 		KKDrivePointsCommand.register(dispatcher);
 	}
 
-
-    public void oreGen(FMLLoadCompleteEvent event) {
-    	/*if(CommonConfig.oreGen.get())
-    		OreGen.generateOre();*/
-	}
-
 	@SubscribeEvent
 	public void biomeLoad(BiomeLoadingEvent event) {
+		OreGeneration.generateOre(event);
 		if(event.getCategory() != Category.OCEAN) {
 			if(event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
 				event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));

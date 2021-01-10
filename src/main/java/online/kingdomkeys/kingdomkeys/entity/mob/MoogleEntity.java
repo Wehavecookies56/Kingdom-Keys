@@ -48,6 +48,7 @@ public class MoogleEntity extends CreatureEntity {
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
         return MobEntity.registerAttributes()
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
                 .createMutableAttribute(Attributes.MAX_HEALTH, 10.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.28D)
                 ;

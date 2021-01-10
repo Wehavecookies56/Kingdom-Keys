@@ -89,13 +89,6 @@
 		]
 	},
 
-	"menuin": {
-		"category": "player",
-		"sounds": [
-			{"name": "kingdomkeys:menuin", "stream": false }
-		]
-	},
-
 	"levelup": {
 		"category": "master",
 		"sounds": [
@@ -184,13 +177,6 @@
 		"category": "record",
 		"sounds": [
 			{"name": "kingdomkeys:records/dearly_beloved_symphony_version", "stream": true }
-		]
-	},
-
-	"menuout": {
-		"category": "player",
-		"sounds": [
-			{"name": "kingdomkeys:menuout", "stream": false }
 		]
 	},
 
