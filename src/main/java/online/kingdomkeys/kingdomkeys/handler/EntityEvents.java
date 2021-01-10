@@ -231,7 +231,7 @@ public class EntityEvents {
 			}
 			if (!entities.isEmpty()) {
 				for (Entity entity : entities) {
-					if (entity instanceof MobEntity) {
+					if (entity instanceof MonsterEntity) {
 						isHostiles = true;
 						break;
 					} else {

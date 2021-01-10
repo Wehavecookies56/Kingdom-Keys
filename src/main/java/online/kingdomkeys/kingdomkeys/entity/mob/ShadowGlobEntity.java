@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
@@ -9,6 +8,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -17,9 +17,9 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class ShadowGlobEntity extends CreatureEntity implements IKHMob {
+public class ShadowGlobEntity extends MonsterEntity implements IKHMob {
 
-    public ShadowGlobEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public ShadowGlobEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
@@ -46,6 +46,8 @@ public class ShadowGlobEntity extends CreatureEntity implements IKHMob {
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 0.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 0.0D)
+				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+
                 ;
     }
 

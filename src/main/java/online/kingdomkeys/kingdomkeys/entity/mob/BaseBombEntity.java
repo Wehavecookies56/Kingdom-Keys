@@ -1,12 +1,20 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
@@ -25,16 +33,16 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
-public abstract class BaseBombEntity extends CreatureEntity implements IKHMob, IEntityAdditionalSpawnData {
+public abstract class BaseBombEntity extends MonsterEntity implements IKHMob, IEntityAdditionalSpawnData {
 
     public int ticksToExplode;
 
-    protected BaseBombEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    protected BaseBombEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
         this.ticksToExplode = 100;
     }
 
-    public BaseBombEntity(EntityType<? extends CreatureEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public BaseBombEntity(EntityType<? extends MonsterEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(type, world);
     }
     
@@ -53,6 +61,7 @@ public abstract class BaseBombEntity extends CreatureEntity implements IKHMob, I
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
+				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
                 ;
     }
 

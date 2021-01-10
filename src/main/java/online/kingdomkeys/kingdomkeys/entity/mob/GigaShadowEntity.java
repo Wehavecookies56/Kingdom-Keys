@@ -1,9 +1,18 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.IWorld;
@@ -14,9 +23,9 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
-public class GigaShadowEntity extends CreatureEntity implements IKHMob {
+public class GigaShadowEntity extends MonsterEntity implements IKHMob {
 
-    public GigaShadowEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public GigaShadowEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
@@ -48,6 +57,8 @@ public class GigaShadowEntity extends CreatureEntity implements IKHMob {
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.28D)
                 .createMutableAttribute(Attributes.MAX_HEALTH, 140.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 6.0D)
+				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+
                 ;
     }
 

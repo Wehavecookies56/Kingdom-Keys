@@ -1,22 +1,32 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySize;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity, IKHMob {
+public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, IKHMob {
 
     enum SpecialAttack {
         WAIT,
@@ -37,7 +47,7 @@ public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity,
             DAMAGE_MOWDOWN = 5,
             DAMAGE_SHOCKWAVE = 4;
 
-    public LargeBodyEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public LargeBodyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
@@ -69,6 +79,8 @@ public class LargeBodyEntity extends CreatureEntity implements IMultiPartEntity,
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15D)
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
+				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+
                 ;
     }
 

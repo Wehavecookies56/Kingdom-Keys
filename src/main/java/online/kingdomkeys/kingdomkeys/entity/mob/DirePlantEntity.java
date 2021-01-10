@@ -1,11 +1,18 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -15,9 +22,9 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SeedBulletEntity;
 
 //TODO fix seed bullet
-public class DirePlantEntity extends CreatureEntity implements IKHMob {
+public class DirePlantEntity extends MonsterEntity implements IKHMob {
 
-    public DirePlantEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public DirePlantEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
@@ -46,6 +53,7 @@ public class DirePlantEntity extends CreatureEntity implements IKHMob {
                 .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D)
+				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
                 ;
     }
 

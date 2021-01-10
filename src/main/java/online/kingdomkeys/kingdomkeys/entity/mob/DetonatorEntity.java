@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.util.ResourceLocation;
@@ -15,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class DetonatorEntity extends BaseBombEntity {
 
-    public DetonatorEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public DetonatorEntity(EntityType<? extends BaseBombEntity> type, World worldIn) {
         super(type, worldIn);
     }
 

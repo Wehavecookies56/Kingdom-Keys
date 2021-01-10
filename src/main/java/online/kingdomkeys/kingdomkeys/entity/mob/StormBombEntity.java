@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -14,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class StormBombEntity extends BaseBombEntity {
 
-    public StormBombEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public StormBombEntity(EntityType<? extends BaseBombEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
