@@ -10,7 +10,10 @@ public class ClientConfig {
 
    // public static boolean CORSAIR_KEYBOARD_LIGHTING;
     public static ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
+    
     public static ForgeConfigSpec.IntValue cmTextXOffset;
+    public static ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
+    
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
         
@@ -27,6 +30,11 @@ public class ClientConfig {
                 .comment("Command Menu Text X Offset")
                 .translation(KingdomKeys.MODID + ".config.cm_text_x_offset")
                 .defineInRange("cmTextXOffset", 0, -1000, 1000);
+        
+        cmHeaderTextVisible = builder
+                .comment("Command Menu Header Text Visibility")
+                .translation(KingdomKeys.MODID + ".config.cm_header_text_visibility")
+                .define("cmHeaderTextVisibility", true);
         
         builder.pop();
     }

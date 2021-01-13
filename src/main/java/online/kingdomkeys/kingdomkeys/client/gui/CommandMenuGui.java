@@ -155,7 +155,7 @@ public class CommandMenuGui extends Screen {
 			matrixStack.translate(20, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().size() + 1)), 0);
 			matrixStack.scale(scale, scale, scale);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("TARGET"), 6, 4, 0xFFFFFF);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("TARGET"), 5 + ClientConfig.cmTextXOffset.get(), 4, 0xFFFFFF);
 			
 		}
 		matrixStack.pop();
@@ -177,7 +177,7 @@ public class CommandMenuGui extends Screen {
 					paintWithColorArray(matrixStack, targetModeColor, alpha);
 
 					if (targetSelected == i) {
-						textX = 11;
+						textX = 10 + ClientConfig.cmTextXOffset.get();
 
 						// Draw slot
 						blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
@@ -188,7 +188,7 @@ public class CommandMenuGui extends Screen {
 						blit(matrixStack, 60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 
 					} else { // Not selected
-						textX = 6;	
+						textX = 5 + ClientConfig.cmTextXOffset.get();
 						blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 					}
 					// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
@@ -220,7 +220,9 @@ public class CommandMenuGui extends Screen {
 			textX = 0;
 			paintWithColorArray(matrixStack, normalModeColor, alpha);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-			//drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Command), 6, 4, getColor(0xFFFFFF,SUB_MAIN));
+			
+			if(ClientConfig.cmHeaderTextVisible.get())
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Command), 6, 4, getColor(0xFFFFFF,SUB_MAIN));
 		}
 		matrixStack.pop();
 	}
