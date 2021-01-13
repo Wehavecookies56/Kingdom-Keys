@@ -11,8 +11,15 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 @Mod.EventBusSubscriber
 public class ModDimensions {
 
-    public static RegistryKey<DimensionType> DIVE_TO_THE_HEART_TYPE = RegistryKey.getOrCreateKey(Registry.DIMENSION_TYPE_KEY, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart"));
-    public static RegistryKey<World> DIVE_TO_THE_HEART = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart"));
+   // public static RegistryKey<DimensionType> DIVE_TO_THE_HEART_TYPE = RegistryKey.getOrCreateKey(Registry.DIMENSION_TYPE_KEY, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart"));
+   // public static RegistryKey<World> DIVE_TO_THE_HEART = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart"));
+    
+    public static final RegistryKey<World> DIVE_TO_THE_HEART = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart"));
+
+    public static void setupDimension() {
+        DTTHChunkGenerator.registerChunkGenerator();
+        DTTHBiomeProvider.registerBiomeProvider();
+    }
 
 
 	/*

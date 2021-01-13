@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -51,6 +52,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class InputHandler {
 
@@ -549,16 +551,16 @@ public class InputHandler {
             switch (key) {
                 case OPENMENU:
     				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-                    //if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
+                    if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
                         //TODO dimension
-                        /*
-                        if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART_TYPE) {
+                        
+                        if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART) {
                             mc.displayGuiScreen(new NoChoiceMenuPopup());
                         }
-                         */
-                   // } else {
+                         
+                    } else {
                         GuiHelper.openMenu();
-                    //}
+                    }
                     break;
 
                /* case SHOW_GUI:

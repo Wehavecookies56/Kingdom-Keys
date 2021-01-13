@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,8 +14,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -57,6 +51,7 @@ import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.features.OreGeneration;
 
@@ -108,7 +103,7 @@ public class KingdomKeys {
 
 		ModFeatures.FEATURES.register(modEventBus);
 		//ModBiomes.BIOMES.register(modEventBus);
-		//ModDimensions.DIMENSIONS.register(modEventBus);
+		ModDimensions.setupDimension();
 		//ModParticles.PARTICLES.register(modEventBus);
 
 		modEventBus.addListener(this::setup);

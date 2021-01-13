@@ -4,10 +4,13 @@ import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class CSTravelToSoA {
 
@@ -30,7 +33,9 @@ public class CSTravelToSoA {
             playerData.setReturnLocation(player);
             playerData.setSoAState(SoAState.CHOICE);
             //TODO figure out this
-            //player.changeDimension(ModDimensions.DIVE_TO_THE_HEART_TYPE, new BaseTeleporter(0, 28, 0));
+           // player.changeDimension((ServerWorld) player.world, ((ServerWorld) player.world).getDefaultTeleporter());
+
+           player.changeDimension((ServerWorld) player.world, new BaseTeleporter(0, 28, 0));
         });
         ctx.get().setPacketHandled(true);
     }

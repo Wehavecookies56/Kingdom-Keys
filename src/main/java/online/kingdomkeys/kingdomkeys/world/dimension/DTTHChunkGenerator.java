@@ -1,22 +1,35 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
+import java.util.stream.IntStream;
+
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.INoiseGenerator;
+import net.minecraft.world.gen.OctavesNoiseGenerator;
+import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
@@ -24,8 +37,32 @@ import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
+public class DTTHChunkGenerator extends ChunkGenerator {
 
+	public static void registerChunkGenerator() {
+		Registry.register(Registry.CHUNK_GENERATOR_CODEC, new ResourceLocation(KingdomKeys.MODID, "chunk_generator"), DTTHChunkGenerator.CODEC);
+	}
+
+	public static final Codec<DTTHChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((surfaceChunkGenerator) -> surfaceChunkGenerator.biomeProvider), DimensionStructuresSettings.field_236190_a_.fieldOf("structures").forGetter((ChunkGenerator::func_235957_b_))).apply(instance, instance.stable(DTTHChunkGenerator::new)));
+	    
+    private static final MobSpawnInfo.Spawners INITIAL_BEE_ENTRY = new MobSpawnInfo.Spawners(EntityType.BEE, 1, 4, 4);
+    private static final BlockState CAVE_AIR = Blocks.CAVE_AIR.getDefaultState();
+    protected final BlockState defaultBlock;
+    protected final BlockState defaultFluid;
+    private final int verticalNoiseResolution;
+    private final int horizontalNoiseResolution;
+    private final int noiseSizeX;
+    private final int noiseSizeY;
+    private final int noiseSizeZ;
+    protected final SharedSeedRandom random;
+    private final OctavesNoiseGenerator lowerInterpolatedNoise;
+    private final OctavesNoiseGenerator upperInterpolatedNoise;
+    private final OctavesNoiseGenerator interpolationNoise;
+    private final INoiseGenerator surfaceDepthNoise;
+    private final OctavesNoiseGenerator field_24776;
+    private final DimensionStructuresSettings dimensionStructuresSettings;
+    private final int height2;
+    
     private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
     private static final ChunkPos SPAWN_CHUNK_POS = new ChunkPos(SPAWN_POS);
 
@@ -112,22 +149,42 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
             "00011111111111000" +
             "00000111111100000";
 
-    public DiveToTheHeartChunkGenerator(BiomeProvider p_i231888_1_, DimensionStructuresSettings p_i231888_2_) {
-        super(p_i231888_1_, p_i231888_2_);
+    public DTTHChunkGenerator(BiomeProvider biomeSource, DimensionStructuresSettings dimensionStructuresSettings) {
+        this(biomeSource, biomeSource, dimensionStructuresSettings);
     }
 
-    public DiveToTheHeartChunkGenerator(BiomeProvider p_i231887_1_, BiomeProvider p_i231887_2_, DimensionStructuresSettings p_i231887_3_, long p_i231887_4_) {
-        super(p_i231887_1_, p_i231887_2_, p_i231887_3_, p_i231887_4_);
-    }
+    private DTTHChunkGenerator(BiomeProvider biomeSource, BiomeProvider biomeSource2, DimensionStructuresSettings dimensionStructuresSettings) {
+        super(biomeSource, biomeSource2, dimensionStructuresSettings, 0);
 
+        // we need the seed passed into here
+        this.random = new SharedSeedRandom(0);
+
+        this.dimensionStructuresSettings = dimensionStructuresSettings;
+        this.height2 = 256;
+        this.verticalNoiseResolution = 8;
+        this.horizontalNoiseResolution = 4;
+        this.defaultBlock = Blocks.HONEYCOMB_BLOCK.getDefaultState();
+        this.defaultFluid = Blocks.WATER.getDefaultState();
+        this.noiseSizeX = 16 / this.horizontalNoiseResolution;
+        this.noiseSizeY = this.height2 / this.verticalNoiseResolution;
+        this.noiseSizeZ = 16 / this.horizontalNoiseResolution;
+        this.lowerInterpolatedNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
+        this.upperInterpolatedNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
+        this.interpolationNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-7, 0));
+        this.surfaceDepthNoise = new PerlinNoiseGenerator(this.random, IntStream.rangeClosed(-3, 0));
+        this.random.skip(2620);
+        this.field_24776 = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
+    }
+    
     @Override
     protected Codec<? extends ChunkGenerator> func_230347_a_() {
-        return null;
+        return CODEC;
     }
 
     @Override
-    public ChunkGenerator func_230349_a_(long p_230349_1_) {
-        return null;
+    @OnlyIn(Dist.CLIENT)
+    public ChunkGenerator func_230349_a_(long seed) {
+        return new DTTHChunkGenerator(this.biomeProvider.getBiomeProvider(seed), dimensionStructuresSettings);
     }
 
     @Override
@@ -214,5 +271,5 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     public IBlockReader func_230348_a_(int p_230348_1_, int p_230348_2_) {
         return null;
     }
-
+    
 }
