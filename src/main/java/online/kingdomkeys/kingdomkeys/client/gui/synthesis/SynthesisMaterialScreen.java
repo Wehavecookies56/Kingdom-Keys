@@ -119,7 +119,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 		boxR = new MenuBox((int) boxL.x + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
 		
-		// addButton(scrollBar = new MenuScrollBar());
 		super.init();
 		initItems();
 
@@ -172,7 +171,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		addButton(amountBox = new TextFieldWidget(minecraft.fontRenderer, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {
-				if (isNumber(c)) {
+				if (Utils.isNumber(c)) {
 					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
 					if (Integer.parseInt(text) > 64) {
 						return false;
@@ -188,14 +187,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		updateButtons();
 	}
 
-	public boolean isNumber(char c) {
-		try {
-			Integer.parseInt(String.valueOf(c));
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
+	
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {

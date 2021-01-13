@@ -10,12 +10,24 @@ public class ClientConfig {
 
    // public static boolean CORSAIR_KEYBOARD_LIGHTING;
     public static ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
+    public static ForgeConfigSpec.IntValue cmTextXOffset;
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
+        
         corsairKeyboardLighting = builder
                 .comment("Enable Corsair RGB keyboard lighting (Ignore if you don't have a Corsair keyboard)")
                 .translation(KingdomKeys.MODID + ".config.corsair_keyboard_lighting")
                 .define("corsairKeyboardLighting", true);
+        	
+        builder.pop();
+        
+        builder.push("gui");
+        
+        cmTextXOffset = builder
+                .comment("Command Menu Text X Offset")
+                .translation(KingdomKeys.MODID + ".config.cm_text_x_offset")
+                .defineInRange("cmTextXOffset", 0, -1000, 1000);
+        
         builder.pop();
     }
 

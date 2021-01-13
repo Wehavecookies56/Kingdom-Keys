@@ -453,7 +453,6 @@ public class Strings {
         abyssalTide = "abyssal_tide",
         acedsKeyblade = "aceds_keyblade",
         allForOne = "all_for_one",
-        anguisForetellersKeyblade = "anguis_foretellers_keyblade",
         astralBlast = "astral_blast",
         aubade = "aubade",
         avasKeyblade = "avas_keyblade",

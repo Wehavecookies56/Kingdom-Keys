@@ -249,7 +249,7 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 			this.leftFootTop.rotateAngleX = this.rightFootTop.rotateAngleX = (float) Math.toRadians(25);
 		}
 		
-		if (EntityHelper.getState(ent) == 0) {
+		if (EntityHelper.getState(ent) == 0) { //Standing
 			//this.rightArm.rotateAngleX =  (float) Math.toRadians(0);
 			this.rightArm.rotateAngleY = (float) Math.toRadians(0);
 			this.rightArm.rotateAngleZ = (float) Math.toRadians(180);
@@ -258,7 +258,7 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 			this.leftArm.rotateAngleY = (float) Math.toRadians(0);
 			this.leftArm.rotateAngleZ = (float) Math.toRadians(0);
 			
-		} else if (EntityHelper.getState(ent) == 1) {
+		} else if (EntityHelper.getState(ent) == 1) { //Underground
 			this.rightArm.rotateAngleX =  (float) Math.toRadians(270);
 			this.rightArm.rotateAngleY = (float) Math.toRadians(90 - ent.ticksExisted*50);
 			this.rightArm.rotateAngleZ = (float) Math.toRadians(90);
@@ -267,7 +267,7 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 			this.leftArm.rotateAngleY = (float) Math.toRadians(-90 - ent.ticksExisted*50);
 			this.leftArm.rotateAngleZ = (float) Math.toRadians(90);
 			
-		} else if (EntityHelper.getState(ent) == 2) {
+		} else if (EntityHelper.getState(ent) == 2) { //Exploding
 			this.leftLegTop.rotateAngleX = (float) Math.toRadians(-135);
 			this.rightLegTop.rotateAngleX = (float) Math.toRadians(-135);
 			this.leftLegBot.rotateAngleX = (float) Math.toRadians(90);

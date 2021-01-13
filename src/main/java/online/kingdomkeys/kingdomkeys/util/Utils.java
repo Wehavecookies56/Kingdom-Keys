@@ -74,11 +74,30 @@ public class Utils {
 			return defVal + ": " + actVal + " " + increasing;
 		}
 	}
+	
+	public static boolean isNumber(char c) {
+		try {
+			Integer.parseInt(String.valueOf(c));
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 
 	public static int getInt(String num) {
 		int number;
 		try {
 			number = Integer.parseInt(num);
+			return number;
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+	
+	public static double getDouble(String num) {
+		double number;
+		try {
+			number = Double.parseDouble(num);
 			return number;
 		} catch (Exception e) {
 			return 0;
