@@ -89,7 +89,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		//Show the buttons to join public parties
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		for(int i = 1; i < party.getMembers().size(); i++) {
-			addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
+			addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
 		}
 	
 	}	
