@@ -56,14 +56,16 @@ public class GuiMenu_Party_Join extends MenuBackground {
 			String[] data = string.split(":");
 			String partyName = data[1].substring(data[1].indexOf("]")+2);
 			Party p = worldData.getPartyFromName(partyName);
-			if(p.getMembers().size() < p.getSize()) {
-				PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
-				p.addMember(minecraft.player.getUniqueID(), minecraft.player.getDisplayName().getString());
-
-				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-				minecraft.displayGuiScreen(new GuiMenu_Party_Member());
-			} else {
-				System.out.println("Full");
+			if(p != null) {
+				if(p.getMembers().size() < p.getSize()) {
+					PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
+					p.addMember(minecraft.player.getUniqueID(), minecraft.player.getDisplayName().getString());
+	
+					minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					minecraft.displayGuiScreen(new GuiMenu_Party_Member());
+				} else {
+					System.out.println("Full");
+				}
 			}
 		}
 		updateButtons();
@@ -94,7 +96,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 		for(j = 0;j<privateParties.size();j++) {
 			Party p = worldData.getPartyFromName(privateParties.get(j));
 			if(p != null)
-				addButton(parties[j] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+				addButton(parties[j] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
 		}
 		//Show the buttons to join public parties
 		List<Party> partiesList = worldData.getParties();
@@ -102,7 +104,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
 				Party p = partiesList.get(i);
 				if(!privateParties.contains(p.getName())){//TODO test this xD
-					addButton(parties[i+j] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage()); }));
+					addButton(parties[i+j] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
 				}
 			}
 		}

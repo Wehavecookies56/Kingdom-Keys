@@ -93,7 +93,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		for(int i = 1; i < minecraft.world.getPlayers().size(); i++) {
 			if(worldData.getPartyFromMember(minecraft.world.getPlayers().get(i).getUniqueID()) != party) {
-				addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), minecraft.world.getPlayers().get(i).getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage()); }));
+				addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), minecraft.world.getPlayers().get(i).getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
 			}
 		}
 	

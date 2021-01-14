@@ -88,6 +88,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
+				System.err.println("Client: "+(kcItem.getKeybladeLevel(stack)+1));
 			}
 			break;
 		}
