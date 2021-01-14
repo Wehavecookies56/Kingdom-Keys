@@ -551,16 +551,13 @@ public class InputHandler {
             switch (key) {
                 case OPENMENU:
     				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-                  /*  if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
-                        //TODO dimension
-                        
+                    if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
                         if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART) {
                             mc.displayGuiScreen(new NoChoiceMenuPopup());
                         }
-                 */        
-                //    } else {
+                    } else {
                         GuiHelper.openMenu();
-                 //   }
+                    }
                     break;
 
                /* case SHOW_GUI:
