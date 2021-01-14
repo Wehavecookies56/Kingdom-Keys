@@ -181,30 +181,7 @@ public class KingdomKeys {
 	@SubscribeEvent
 	public void biomeLoad(BiomeLoadingEvent event) {
 		OreGeneration.generateOre(event);
-		if(event.getCategory() != Category.OCEAN) {
-			if(event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
-				event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
-			}
-
-			for(EntityType<?> entityType : ModEntities.pureblood) {
-				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, 2, 0, 1));
-			}
-			for(EntityType<?> entityType : ModEntities.emblem) {
-				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, 2, 0, 1));
-			}
-			for(EntityType<?> entityType : ModEntities.nobody) {
-				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, 2, 0, 1));
-			}
-		}
-		if (event.getName().equals(new ResourceLocation(MODID, Strings.diveToTheHeart))) {
-			//Remove all entity spawns added to the Dive to the Heart biome
-			for (EntityClassification entityClassification : EntityClassification.values()) {
-				event.getSpawns().getSpawner(entityClassification).clear();
-			}
-			for (GenerationStage.Decoration i : GenerationStage.Decoration.values()) {
-				event.getGeneration().getFeatures(i).clear();
-			}
-		}
+		MobSpawnings.registerSpawns(event);
 	}
 
 	@SubscribeEvent
