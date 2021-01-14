@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "kingdomkeys:item/keychains/mark_of_a_hero_chain"
   }

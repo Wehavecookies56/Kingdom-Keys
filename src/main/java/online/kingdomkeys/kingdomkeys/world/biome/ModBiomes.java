@@ -1,25 +1,17 @@
 package online.kingdomkeys.kingdomkeys.world.biome;
 
-
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import net.minecraft.world.biome.BiomeMaker;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ModBiomes {
 
-    public static final RegistryKey<Biome> diveToTheHeart = createNewBiome("dive_to_the_heart");
+    public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, KingdomKeys.MODID);
 
-    private static RegistryKey<Biome> createNewBiome(String bName) {
-        return RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(KingdomKeys.MODID, bName));
+    static {
+        BIOMES.register("dive_to_the_heart", BiomeMaker::makeVoidBiome);
     }
-
-    public static void init() {
-        BiomeDictionary.addTypes(diveToTheHeart, BiomeDictionary.Type.VOID);
-    }
-
-
 }
 

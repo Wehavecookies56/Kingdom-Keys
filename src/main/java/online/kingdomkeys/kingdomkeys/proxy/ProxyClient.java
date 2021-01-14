@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -26,7 +27,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.*;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
@@ -36,6 +36,7 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.world.dimension.DiveToTheHeartRenderInfo;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
@@ -80,27 +81,22 @@ public class ProxyClient implements IProxy {
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
-        RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
+		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart"), new DiveToTheHeartRenderInfo());
 
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
         ModContainers.registerGUIFactories();
-        
-        DeferredWorkQueue.runLater(() -> {
-        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
-        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/zephyr"));
-            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
-            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
-            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
-            ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
+
+        event.enqueueWork(() -> {
+			RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
+			RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
         });
         
         ArmorModel top = new ArmorModel(0.5F);
@@ -179,6 +175,17 @@ public class ProxyClient implements IProxy {
 		armorModels.put(ModItems.ira_Leggings.get(), bot);
 		armorModels.put(ModItems.ira_Boots.get(), top);
     }
+
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
+	public static void modelRegistry(ModelRegistryEvent event) {
+		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/zephyr"));
+		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
+		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
+		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
+		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
+	}
 
 	@Override
 	public PlayerEntity getClientPlayer() {

@@ -1,0 +1,13 @@
+{
+  "type": "kingdomkeys:dive_to_the_heart",
+  "generator": {
+    "biome_source": {
+      "type": "kingdomkeys:dive_to_the_heart_biome_source"
+    },
+    "type": "kingdomkeys:dive_to_the_heart_generator",
+    "structures": {
+      "structures": {
+      }
+    }
+  }
+}

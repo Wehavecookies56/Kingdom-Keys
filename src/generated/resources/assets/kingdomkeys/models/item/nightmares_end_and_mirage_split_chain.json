@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "kingdomkeys:item/keychains/nightmares_end_and_mirage_split_chain"
   }

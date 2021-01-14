@@ -57,7 +57,7 @@ public class SoAPlatformCoreBlock extends BaseBlock {
             "00100000000000100" +
             "01000000000000010" +
             "01000000000000010" +
-            "11000000000000011" +
+            "10000000000000001" +
             "10000000000000001" +
             "10000000000000001" +
             "10000000000000001" +
@@ -91,10 +91,7 @@ public class SoAPlatformCoreBlock extends BaseBlock {
 
     //Returns true if every block is present
     public boolean checkStructure(BlockPos.Mutable corePos, World world, SoAPlatformTileEntity tileEntity) {
-    	System.out.println(corePos.getX());
         corePos.setPos(corePos.getX() - (width / 2), corePos.getY(), corePos.getZ() - (depth / 2));
-    	System.out.println(corePos.getX()+width);
-
         BlockPos startPos = corePos.toImmutable();
 
         BlockState structureBlock = ModBlocks.mosaic_stained_glass.get().getDefaultState();
@@ -105,6 +102,7 @@ public class SoAPlatformCoreBlock extends BaseBlock {
                 corePos.setPos(corePos.getX(), corePos.getY(), startPos.getZ() + z);
                 for (int x = 0; x < width; ++x) {
                     corePos.setPos(startPos.getX() + x, corePos.getY(), corePos.getZ());
+                    System.out.println("Check pos: " + corePos.getX() + ", " + corePos.getY() + ", " + corePos.getZ());
                     if (corePos.getY() == startPos.getY()) {
                         switch (structureTop.charAt(x + z * width)) {
                             case '0':

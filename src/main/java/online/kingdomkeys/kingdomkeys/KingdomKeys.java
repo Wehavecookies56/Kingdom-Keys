@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys;
 
+import online.kingdomkeys.kingdomkeys.command.*;
+import online.kingdomkeys.kingdomkeys.world.biome.ModBiomes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,14 +31,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.command.KKDriveLevelCommand;
-import online.kingdomkeys.kingdomkeys.command.KKDrivePointsCommand;
-import online.kingdomkeys.kingdomkeys.command.KKExpCommand;
-import online.kingdomkeys.kingdomkeys.command.KKHeartsCommand;
-import online.kingdomkeys.kingdomkeys.command.KKLevelCommand;
-import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
-import online.kingdomkeys.kingdomkeys.command.KKMunnyCommand;
-import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
@@ -102,8 +96,7 @@ public class KingdomKeys {
         ModEntities.ENTITIES.register(modEventBus);
 
 		ModFeatures.FEATURES.register(modEventBus);
-		//ModBiomes.BIOMES.register(modEventBus);
-		ModDimensions.setupDimension();
+		ModBiomes.BIOMES.register(modEventBus);
 		//ModParticles.PARTICLES.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
@@ -128,6 +121,7 @@ public class KingdomKeys {
 		//ModDimensions.init();
 		event.enqueueWork(PacketHandler::register);
 		event.enqueueWork(ModEntities::registerAttributes);
+		event.enqueueWork(ModDimensions::setupDimension);
 		addMoogleHouse();
 
 	}
@@ -179,7 +173,7 @@ public class KingdomKeys {
 		KKLevelCommand.register(dispatcher);
 		KKDriveLevelCommand.register(dispatcher);
 		KKExpCommand.register(dispatcher);
-		//DimensionCommand.register(dispatcher);
+		DimensionCommand.register(dispatcher);
 		KKHeartsCommand.register(dispatcher);
 		KKDrivePointsCommand.register(dispatcher);
 	}
@@ -202,7 +196,7 @@ public class KingdomKeys {
 				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, 2, 0, 1));
 			}
 		}
-		if (event.getName().equals(new ResourceLocation(MODID, Strings.diveToTheHeart + "_biome"))) {
+		if (event.getName().equals(new ResourceLocation(MODID, Strings.diveToTheHeart))) {
 			//Remove all entity spawns added to the Dive to the Heart biome
 			for (EntityClassification entityClassification : EntityClassification.values()) {
 				event.getSpawns().getSpawner(entityClassification).clear();
