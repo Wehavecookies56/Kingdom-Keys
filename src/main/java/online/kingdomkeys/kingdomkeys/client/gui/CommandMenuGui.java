@@ -196,7 +196,7 @@ public class CommandMenuGui extends Screen {
 
 					Member member = worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().get(i);
 					// String magicName = Constants.getMagicName(magic, level);
-					if(minecraft.world.getPlayerByUuid(member.getUUID()) != null) {
+	            	if(minecraft.world.getPlayerByUuid(member.getUUID()) != null && minecraft.player.getDistance(minecraft.world.getPlayerByUuid(member.getUUID())) < 50) {
 						drawString(matrixStack, minecraft.fontRenderer, member.getUsername(), textX, 4, 0xFFFFFF);
 					} else {
 						drawString(matrixStack, minecraft.fontRenderer, member.getUsername(), textX, 4, 0x888888);
