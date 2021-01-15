@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -77,7 +78,7 @@ public class DriveFormWisdom extends DriveForm {
 					PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + 1);
+						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*CommonConfig.wisdomFormXPMultiplier.get())));
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 					}
 				}

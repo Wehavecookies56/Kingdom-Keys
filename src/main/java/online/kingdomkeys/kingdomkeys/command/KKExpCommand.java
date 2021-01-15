@@ -84,7 +84,7 @@ public class KKExpCommand extends BaseCommand{ //kk_exp <give/take/set> <amount>
             
             playerData.clearAbilities();
 		
-            playerData.addExperience(player, exp);
+            playerData.addExperience(player, exp, false);
 			
 			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 			Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
@@ -119,7 +119,7 @@ public class KKExpCommand extends BaseCommand{ //kk_exp <give/take/set> <amount>
 		
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.addExperience(player, value);
+			playerData.addExperience(player, value, false);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 
 			if(player != context.getSource().asPlayer()) {

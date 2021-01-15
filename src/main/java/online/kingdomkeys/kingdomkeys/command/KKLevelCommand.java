@@ -90,7 +90,7 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
             playerData.addAbility(Strings.zeroExp, false);
             
 			while (playerData.getLevel() < level) {
-				playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()));
+				playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false);
 			}
 			
 			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
