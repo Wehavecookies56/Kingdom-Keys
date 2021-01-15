@@ -12,6 +12,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 
 
 /**
@@ -19,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
  */
 public class CommonConfig {
 
-    public static ForgeConfigSpec.IntValue heartlessSpawningMode;
+    public static ForgeConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
     public static ForgeConfigSpec.BooleanValue oreGen;
     public static ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public static ForgeConfigSpec.IntValue recipeDropChance;
@@ -48,11 +49,6 @@ public class CommonConfig {
 		
         builder.push("general");
         
-        heartlessSpawningMode = builder
-                .comment("Heartless spawning mode (0 = never, 1 = always, 2 = after the first keychain is synthesised, 3 = after the dragon is defeated)")
-                .translation(KingdomKeys.MODID + ".config.heartless_spawning_mode")
-                .defineInRange("heartlessSpawningMode", 2, 0, 3);
-        
         oreGen = builder
         		.comment("Allow Synthesis Materials ores to generate")
                 .translation(KingdomKeys.MODID + ".config.ore_gen")
@@ -71,7 +67,12 @@ public class CommonConfig {
         builder.pop();
         
         builder.push("spawning");
-        
+
+		heartlessSpawningMode = builder
+				.comment("Heartless spawning mode, AFTER_KEYCHAIN (after the first keychain is synthesized), AFTER_DRAGON (after the Ender Dragon is defeated)")
+				.translation(KingdomKeys.MODID + ".config.heartless_spawning_mode")
+				.defineEnum("heartlessSpawningMode", SpawningMode.AFTER_KEYCHAIN);
+
 				builder
 				.comment("Mob Spawn")
         		.translation(KingdomKeys.MODID + ".config.mob_spawn")

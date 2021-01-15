@@ -1,13 +1,9 @@
 package online.kingdomkeys.kingdomkeys;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
+import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.util.Pair;
 
@@ -22,11 +18,6 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.LegacySingleJigsawPiece;
-import net.minecraft.world.gen.feature.structure.PlainsVillagePools;
-import net.minecraft.world.gen.feature.structure.VillagesPools;
-import net.minecraft.world.gen.feature.template.StructureProcessor;
-import net.minecraft.world.gen.feature.template.StructureProcessorList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -142,6 +133,7 @@ public class KingdomKeys {
 		//ModDimensions.init();
 		event.enqueueWork(PacketHandler::register);
 		event.enqueueWork(ModEntities::registerAttributes);
+		event.enqueueWork(ModEntities::registerPlacements);
 		event.enqueueWork(ModDimensions::setupDimension);
 		addMoogleHouse();
 

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys;
+package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -7,6 +7,7 @@ import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -18,20 +19,17 @@ public class MobSpawnings {
 		String[] pureblood = CommonConfig.mobSpawnRate.get(1).split(",");
 		String[] emblem = CommonConfig.mobSpawnRate.get(2).split(",");
 		String[] nobody = CommonConfig.mobSpawnRate.get(3).split(",");
-		
-		if(event.getCategory() != Category.OCEAN) {
-			if(event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
-				event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), Integer.parseInt(moogle[1]),Integer.parseInt(moogle[2]), Integer.parseInt(moogle[3])));
-			}
-			for(EntityType<?> entityType : ModEntities.pureblood) {
-				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(pureblood[1]),Integer.parseInt(pureblood[2]), Integer.parseInt(pureblood[3])));
-			}
-			for(EntityType<?> entityType : ModEntities.emblem) {
-				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(emblem[1]),Integer.parseInt(emblem[2]), Integer.parseInt(emblem[3])));
-			}
-			for(EntityType<?> entityType : ModEntities.nobody) {
-				event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(nobody[1]),Integer.parseInt(nobody[2]), Integer.parseInt(nobody[3])));
-			}
+		if(event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
+			event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), Integer.parseInt(moogle[1]),Integer.parseInt(moogle[2]), Integer.parseInt(moogle[3])));
+		}
+		for(EntityType<?> entityType : ModEntities.pureblood) {
+			event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(pureblood[1]),Integer.parseInt(pureblood[2]), Integer.parseInt(pureblood[3])));
+		}
+		for(EntityType<?> entityType : ModEntities.emblem) {
+			event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(emblem[1]),Integer.parseInt(emblem[2]), Integer.parseInt(emblem[3])));
+		}
+		for(EntityType<?> entityType : ModEntities.nobody) {
+			event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(nobody[1]),Integer.parseInt(nobody[2]), Integer.parseInt(nobody[3])));
 		}
 		
 		if (event.getName().equals(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart))) {

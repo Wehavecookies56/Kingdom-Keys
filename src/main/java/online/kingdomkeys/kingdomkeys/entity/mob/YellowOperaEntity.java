@@ -7,6 +7,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -23,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
 
-    public YellowOperaEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public YellowOperaEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 

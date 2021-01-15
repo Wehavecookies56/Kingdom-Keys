@@ -7,6 +7,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
-public abstract class BaseElementalMusicalHeartlessEntity extends CreatureEntity implements IKHMob {
+public abstract class BaseElementalMusicalHeartlessEntity extends MonsterEntity implements IKHMob {
 
     public enum Element {
         FIRE, BLIZZARD, THUNDER, AERO, CURE
@@ -25,11 +26,11 @@ public abstract class BaseElementalMusicalHeartlessEntity extends CreatureEntity
 
     Element elementToUse;
 
-    protected BaseElementalMusicalHeartlessEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    protected BaseElementalMusicalHeartlessEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
-    public BaseElementalMusicalHeartlessEntity(EntityType<? extends CreatureEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public BaseElementalMusicalHeartlessEntity(EntityType<? extends MonsterEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(type, world);
     }
     
