@@ -19,8 +19,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
+import net.minecraft.world.gen.feature.jigsaw.LegacySingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.PlainsVillagePools;
 import net.minecraft.world.gen.feature.structure.VillagesPools;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
@@ -170,10 +172,16 @@ public class KingdomKeys {
         }*/
         RegistryKey<JigsawPattern> key = RegistryKey.getOrCreateKey(Registry.JIGSAW_POOL_KEY, new ResourceLocation("minecraft:village/plains/houses"));
         JigsawPattern pattern = WorldGenRegistries.JIGSAW_POOL.getValueForKey(key);
-        
+        pattern.rawTemplates.add(null);
         System.out.println(pattern.rawTemplates);
-        for (Pair<String, Integer> pair : list) {
+        for (Pair<JigsawPiece, Integer> pair : pattern.rawTemplates) {
+        	
         	newList.add(Pair.of(JigsawPiece.func_242851_a(pair.getFirst(), new StructureProcessorList(processorList)), pair.getSecond()));
+        }
+        for (Pair<String, Integer> pair : list) {
+        	Function<PlacementBehaviour, LegacySingleJigsawPiece> f = JigsawPiece.func_242851_a(pair.getFirst(), new StructureProcessorList(processorList));
+        	f.
+        	newList.add(Pair.of(f, pair.getSecond()));
         }
        // PlainsVillagePools.field_244090_a
         //JigsawPatternRegistry.func_244094_a(pattern);
