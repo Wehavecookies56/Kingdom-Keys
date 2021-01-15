@@ -14,10 +14,15 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
+import net.minecraft.world.gen.feature.structure.PlainsVillagePools;
+import net.minecraft.world.gen.feature.structure.VillagesPools;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.StructureProcessorList;
 import net.minecraftforge.common.MinecraftForge;
@@ -142,7 +147,6 @@ public class KingdomKeys {
 
 	public void addMoogleHouse() {
 		//TODO figure out for 1.16
-		List<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
 		//v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_plains"),2)));
 		/*List s = new ArrayList();
 		s.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_snowy"),2)));
@@ -153,15 +157,27 @@ public class KingdomKeys {
 		List d = new ArrayList();
 		d.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),2)));*/
 		
-		list = ImmutableList.of(Pair.of("village/moogle_house_plains", 1));
+		List<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
+		//list = ImmutableList.of(Pair.of("minecraft:village/plains/houses", 1));
+		
+		list = ImmutableList.of(Pair.of(KingdomKeys.MODID + ":village/moogle_house_plains", 1));
         List<StructureProcessor> processorList = new ArrayList<>();
 
         List<Pair<Function<JigsawPattern.PlacementBehaviour, ? extends JigsawPiece>, Integer>> newList = new ArrayList<>();
-        for (Pair<String, Integer> pair : list) {
-        	newList.add(Pair.of(JigsawPiece.func_242851_a(KingdomKeys.MODID + ":" + pair.getFirst(), new StructureProcessorList(processorList)), pair.getSecond()));
-        }
+		/*for(Entry<RegistryKey<JigsawPattern>, JigsawPattern> a : WorldGenRegistries.JIGSAW_POOL.getEntries()) {
+        	System.out.println(a.getKey()+" "+a.getValue());
+        	newList.add(Pair.of(a,1));
+        }*/
+        RegistryKey<JigsawPattern> key = RegistryKey.getOrCreateKey(Registry.JIGSAW_POOL_KEY, new ResourceLocation("minecraft:village/plains/houses"));
+        JigsawPattern pattern = WorldGenRegistries.JIGSAW_POOL.getValueForKey(key);
         
-		JigsawPatternRegistry.func_244094_a(new JigsawPattern(new ResourceLocation("minecraft", "village/plains/houses"), new ResourceLocation("minecraft", "village/plains/houses"), newList, JigsawPattern.PlacementBehaviour.RIGID));
+        System.out.println(pattern.rawTemplates);
+        for (Pair<String, Integer> pair : list) {
+        	newList.add(Pair.of(JigsawPiece.func_242851_a(pair.getFirst(), new StructureProcessorList(processorList)), pair.getSecond()));
+        }
+       // PlainsVillagePools.field_244090_a
+        //JigsawPatternRegistry.func_244094_a(pattern);
+		JigsawPatternRegistry.func_244094_a(new JigsawPattern(new ResourceLocation("minecraft", "village/plains/houses"), new ResourceLocation("empty"), newList, JigsawPattern.PlacementBehaviour.RIGID));
 	
 		/*JigsawJank.create().append(new ResourceLocation("minecraft", "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
 			@Override
