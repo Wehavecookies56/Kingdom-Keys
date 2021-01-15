@@ -593,57 +593,59 @@ public class EntityEvents {
 	// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
-		if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
-			LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
-			LivingEntity target = event.getEntityLiving();
-			
-			/*if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-				event.setCanceled(true);
-				event.getEntityLiving().attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.MAIN_HAND, (PlayerEntity) attacker), event.getAmount());
-			}*/
-			
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
-			if (target instanceof PlayerEntity) {
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
-
-				if (playerData.getReflectTicks() > 0) { // If is casting reflect
-					if (!playerData.getReflectActive()) // If has been hit while casting reflect
-						playerData.setReflectActive(true);
-					event.setCanceled(true);
-				}
+		if(!event.getEntityLiving().world.isRemote) {
+			if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
+				LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
+				LivingEntity target = event.getEntityLiving();
 				
-				if(playerData.isAbilityEquipped(Strings.mpRage)) {
-					playerData.addMP(event.getAmount());
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
-				}
-
-				if(playerData.isAbilityEquipped(Strings.damageDrive)) {
-					playerData.addDP(event.getAmount());
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
-				}
-
-			}
-
-			if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
-				PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
-				if (globalData.getStoppedTicks() > 0) {
-					float dmg = event.getAmount();
-					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-						ItemStack stack = Utils.getKeybladeDamageStack(event.getSource(), source);
-						if(stack != null) {
-							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
-						}
-						/*if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemMainhand());
-						} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
-						}*/
-						if(dmg == 0) {
-							dmg = event.getAmount();
-						}
-					}
-					globalData.addDamage((int) dmg);
+				/*if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 					event.setCanceled(true);
+					event.getEntityLiving().attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.MAIN_HAND, (PlayerEntity) attacker), event.getAmount());
+				}*/
+				
+				IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
+				if (target instanceof PlayerEntity) {
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
+	
+					if (playerData.getReflectTicks() > 0) { // If is casting reflect
+						if (!playerData.getReflectActive()) // If has been hit while casting reflect
+							playerData.setReflectActive(true);
+						event.setCanceled(true);
+					}
+					
+					if(playerData.isAbilityEquipped(Strings.mpRage)) {
+						playerData.addMP(event.getAmount());
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
+					}
+	
+					if(playerData.isAbilityEquipped(Strings.damageDrive)) {
+						playerData.addDP(event.getAmount());
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
+					}
+	
+				}
+	
+				if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
+					PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
+					if (globalData.getStoppedTicks() > 0) {
+						float dmg = event.getAmount();
+						if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+							ItemStack stack = Utils.getKeybladeDamageStack(event.getSource(), source);
+							if(stack != null) {
+								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
+							}
+							/*if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemMainhand());
+							} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
+							}*/
+							if(dmg == 0) {
+								dmg = event.getAmount();
+							}
+						}
+						globalData.addDamage((int) dmg);
+						event.setCanceled(true);
+					}
 				}
 			}
 		}
@@ -707,10 +709,10 @@ public class EntityEvents {
 						
 						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-						playerData.addExperience(player, (int)exp /* * MainConfig.entities.xpMultiplier */);
+						playerData.addExperience(player, (int) ((int)exp * CommonConfig.xpMultiplier.get()), true);
 											
 						if (event.getEntity() instanceof WitherEntity) {
-							playerData.addExperience(player, 1500);
+							playerData.addExperience(player, 1500, true);
 						}
 						
 					}

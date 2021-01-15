@@ -26,7 +26,7 @@ public interface IPlayerCapabilities {
 	
 	int getExperience();
 	void setExperience(int exp);
-	void addExperience(PlayerEntity player,int exp);
+	void addExperience(PlayerEntity player, int exp, boolean shareXP);
 
 	int getExperienceGiven();
 	void setExperienceGiven(int exp);

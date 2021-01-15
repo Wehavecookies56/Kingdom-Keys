@@ -471,7 +471,7 @@ public class InputHandler {
             if (this.targetsList.isEmpty()) {
             } else {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
-            	if(world.getPlayerByUuid(member.getUUID()) != null) {
+            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < 50) {
             		PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected), member.getUsername()));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;

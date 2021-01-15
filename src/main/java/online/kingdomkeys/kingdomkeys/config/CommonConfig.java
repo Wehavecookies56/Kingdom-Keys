@@ -1,17 +1,11 @@
 package online.kingdomkeys.kingdomkeys.config;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 
 
@@ -25,10 +19,15 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public static ForgeConfigSpec.IntValue recipeDropChance;
     
-    public static List<String> mobSpawnRate;
+    public static List<String> mobSpawnRate; //These are not working
+    
+    public static ForgeConfigSpec.DoubleValue xpMultiplier;
+    public static ForgeConfigSpec.DoubleValue partyXPShare;
+    public static ForgeConfigSpec.DoubleValue driveXPMultiplier;
+    
+	public static ForgeConfigSpec.DoubleValue valorFormXPMultiplier, wisdomFormXPMultiplier, limitFormXPMultiplier, masterFormXPMultiplier, finalFormXPMultiplier;
 
-    CommonConfig(final ForgeConfigSpec.Builder builder) {
-    	
+    CommonConfig(final ForgeConfigSpec.Builder builder) {    	
     	mobSpawnRate = new ArrayList<String>();
 		mobSpawnRate.add("Moogle,2,0,1");
     	mobSpawnRate.add("Pureblood,2,0,1");
@@ -79,6 +78,46 @@ public class CommonConfig {
 				.defineList("mobSpawn", mobSpawnRate, spawnRateCheck);
         
         builder.pop();
+        
+        builder.push("leveling");
+        
+        xpMultiplier = builder
+                .comment("XP Multiplier")
+                .translation(KingdomKeys.MODID + ".config.xp_multiplier")
+                .defineInRange("xpMultiplier", 1F, 0, 1000);
+
+        partyXPShare = builder
+                .comment("XP Share in party (value used here will be used if the party size is 2, will be downscaled the bigger the party is)")
+                .translation(KingdomKeys.MODID + ".config.party_xp_share")
+                .defineInRange("partyXPShare", 0F, 0, 100);
+        
+        valorFormXPMultiplier = builder
+				.comment("Valor Form XP multiplier")
+        		.translation(KingdomKeys.MODID + ".config.valor_xp_multiplier")
+                .defineInRange("valorXPMultiplier", 1F, 0, 1000);
+        
+        wisdomFormXPMultiplier = builder
+				.comment("Wisdom Form XP multiplier")
+        		.translation(KingdomKeys.MODID + ".config.wisdom_xp_multiplier")
+                .defineInRange("wisdomXPMultiplier", 1F, 0, 1000);
+        
+        limitFormXPMultiplier = builder
+				.comment("Limit Form XP multiplier")
+        		.translation(KingdomKeys.MODID + ".config.limit_xp_multiplier")
+                .defineInRange("limitXPMultiplier", 1F, 0, 1000);
+        
+        masterFormXPMultiplier = builder
+				.comment("Master Form XP multiplier")
+        		.translation(KingdomKeys.MODID + ".config.master_xp_multiplier")
+                .defineInRange("masterXPMultiplier", 1F, 0, 1000);
+        
+        finalFormXPMultiplier = builder
+				.comment("Final Form XP multiplier")
+        		.translation(KingdomKeys.MODID + ".config.final_xp_multiplier")
+                .defineInRange("finalXPMultiplier", 1F, 0, 1000);
+        		
+
+		builder.pop();
         
     }
     

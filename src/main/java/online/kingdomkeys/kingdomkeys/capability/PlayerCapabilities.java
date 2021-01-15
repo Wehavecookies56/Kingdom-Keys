@@ -1,6 +1,14 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,6 +31,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -91,10 +101,31 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void addExperience(PlayerEntity player, int exp) {
+	public void addExperience(PlayerEntity player, int exp, boolean shareXP) {
 		if (player != null) {
 			if (this.level < 100) {
-				this.exp += exp;
+				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+				if(party != null && shareXP) { //If player is in a party and first to get EXP
+					double sharedXP = (exp * ((25F / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
+					//sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
+
+					for(Member member : party.getMembers()) {
+						for(RegistryKey<World> worldKey : player.world.getServer().func_240770_D_()) {
+							PlayerEntity ally = player.getServer().getWorld(worldKey).getPlayerByUuid(member.getUUID());
+							if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
+								ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false); //Give EXP to other players with the false param to prevent getting in a loop
+								PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayerEntity)ally);
+							}
+						}
+					}
+					
+					//Adding the exp here as it will iterate through the party and this user won't get it there
+					this.exp += exp;
+					
+				} else {
+					this.exp += exp;
+
+				}
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					levelUpStatsAndDisplayMessage(player);
