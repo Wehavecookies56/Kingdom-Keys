@@ -175,7 +175,7 @@ public class PartyHUDGui extends Screen {
 				{
 					matrixStack.rotate(Vector3f.ZP.rotation((float) Math.toRadians(180)));
 					matrixStack.translate(-4, -15, 1);
-					matrixStack.scale(scale*0.6F, (scale*28) * val/max, 1);
+					matrixStack.scale(scale*0.66F, (scale*28) * val/max, 1);
 					this.blit(matrixStack, 0, 0, 0, 77, 12, 1);
 				}
 				matrixStack.pop();
