@@ -1,20 +1,15 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import net.minecraft.item.ItemStack;
+import java.util.function.Supplier;
+
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
-import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-
-import java.util.function.Supplier;
+import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 
 public class SCOpenAlignmentScreen {
 
