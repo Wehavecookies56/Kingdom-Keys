@@ -94,7 +94,6 @@ public class BlizzardEntity extends ThrowableEntity {
 				if (target != func_234616_v_()) {
 					float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
-					//System.out.println(dmg);
 					remove();
 				}
 			} else { // Block (not ERTR)

@@ -53,7 +53,9 @@ import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
@@ -347,6 +349,14 @@ public class EntityEvents {
 				if (playerData.getReflectActive()) {// If has been hit
 					// SPAWN ENTITY and apply damage
 					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+					Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+
+					if(casterParty != null) {
+						for(Member m : casterParty.getMembers()) {
+							list.remove(player.world.getPlayerByUuid(m.getUUID()));
+						}
+					}
+					
 					if (!list.isEmpty()) {
 						for (int i = 0; i < list.size(); i++) {
 							Entity e = (Entity) list.get(i);
@@ -597,6 +607,13 @@ public class EntityEvents {
 			if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
 				LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 				LivingEntity target = event.getEntityLiving();
+				
+				if(attacker instanceof PlayerEntity && target instanceof PlayerEntity) {
+					Party p = ModCapabilities.getWorld(attacker.world).getPartyFromMember(attacker.getUniqueID());
+					if(p.getMember(event.getEntityLiving().getUniqueID()) != null) {
+						event.setCanceled(true);
+					}
+				}
 				
 				/*if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 					event.setCanceled(true);

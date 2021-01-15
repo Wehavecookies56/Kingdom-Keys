@@ -11,19 +11,23 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class MagnetEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
-	PlayerEntity player;
-	String caster;
 
 	public MagnetEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -41,7 +45,7 @@ public class MagnetEntity extends ThrowableEntity {
 
 	public MagnetEntity(World world, PlayerEntity player) {
 		super(ModEntities.TYPE_MAGNET.get(), player, world);
-		this.player = player;
+		setCaster(player.getUniqueID());
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class MagnetEntity extends ThrowableEntity {
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
+		if (this.ticksExisted > maxTicks || getCaster() == null) {
 			this.remove();
 		}
 
@@ -85,14 +89,18 @@ public class MagnetEntity extends ThrowableEntity {
 			this.setMotion(0, 0, 0);
 			this.velocityChanged = true;
 			
-			for (PlayerEntity playerFromList : world.getPlayers()) {
-				if(playerFromList.getDisplayName().getString().equals(getCaster())) {
-					player = playerFromList;
-					break;
-				}
-			}			
 
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(player, getBoundingBox().grow(6.0D, 4.0D, 6.0D).offset(-3.0D, -2.0D, -3.0D));
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(6.0D, 4.0D, 6.0D).offset(-3.0D, -2.0D, -3.0D));
+			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
+
+			if(casterParty != null) {
+				for(Member m : casterParty.getMembers()) {
+					list.remove(world.getPlayerByUuid(m.getUUID()));
+				}
+			} else {
+				list.remove(func_234616_v_());
+			}
+			
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
@@ -124,40 +132,32 @@ public class MagnetEntity extends ThrowableEntity {
 		this.maxTicks = maxTicks;
 	}
 
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(MagnetEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
-		compound.putString("caster", this.getCaster());
-	}
-
-	@Override
-	public void readAdditional(CompoundNBT compound) {
-		this.setCaster(compound.getString("caster"));
-	}
-	
-	private static final DataParameter<String> CASTER = EntityDataManager.createKey(MagnetEntity.class, DataSerializers.STRING);
-	
-	public String getCaster() {
-		return caster;
-	}
-
-	public void setCaster(String name) {
-		this.dataManager.set(CASTER, name);
-		this.caster = name;
-	}
-
-	@Override
-	public void notifyDataManagerChange(DataParameter<?> key) {
-		if (key.equals(CASTER)) {
-			this.caster = this.getCasterDataManager();
+		super.writeAdditional(compound);
+		if (this.dataManager.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
 		}
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(CASTER, "");
+	public void readAdditional(CompoundNBT compound) {
+		super.readAdditional(compound);
+		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 	}
 
-	public String getCasterDataManager() {
-		return this.dataManager.get(CASTER);
+	public PlayerEntity getCaster() {
+		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	}
+
+	public void setCaster(UUID uuid) {
+		this.dataManager.set(OWNER, Optional.of(uuid));
+	}
+
+	@Override
+	protected void registerData() {
+		this.dataManager.register(OWNER, Optional.of(Util.DUMMY_UUID));
 	}
 }

@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.Entity;
@@ -26,6 +28,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -36,26 +39,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
 public class ThunderBoltEntity extends ThrowableEntity {
 	private int lightningState;
 	public long boltVertex;
 	private int boltLivingTime;
 	private boolean effectOnly;
-	private PlayerEntity player;
-	String caster;
-
-	/*public ThunderBoltEntity(World worldIn, double x, double y, double z, boolean effectOnlyIn) {
-		      super(EntityType.LIGHTNING_BOLT, worldIn);
-		      this.ignoreFrustumCheck = true;
-		      this.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
-		      this.lightningState = 2;
-		      this.boltVertex = this.rand.nextLong();
-		      this.boltLivingTime = this.rand.nextInt(3) + 1;
-		      this.effectOnly = effectOnlyIn;
-		   }*/
 
 	public ThunderBoltEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -73,7 +67,7 @@ public class ThunderBoltEntity extends ThrowableEntity {
 
 	public ThunderBoltEntity(World world, PlayerEntity player, double x, double y, double z) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), player, world);
-		this.player = player;
+		setCaster(player.getUniqueID());
 		this.ignoreFrustumCheck = true;
 	      this.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
 	      this.lightningState = 2;
@@ -117,14 +111,21 @@ public class ThunderBoltEntity extends ThrowableEntity {
 			} else if (!this.effectOnly) {
 				double d0 = 3.0D;
 				List<Entity> list = this.world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.getPosX() - 2.0D, this.getPosY() - 2.0D, this.getPosZ() - 2.0D, this.getPosX() + 2.0D, this.getPosY() + 6.0D + 2.0D, this.getPosZ() + 2.0D), Entity::isAlive);
+				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(func_234616_v_().getUniqueID());
 
+				if(casterParty != null) {
+					for(Member m : casterParty.getMembers()) {
+						list.remove(world.getPlayerByUuid(m.getUUID()));
+					}
+				} else {
+					list.remove(func_234616_v_());
+				}
+				
 				for (Entity entity : list) {
 					
-					if (entity != func_234616_v_()) {
-						float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
-						entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
-						// System.out.println(dmg);
-					}
+					float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
+					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+					
 
 					if (entity instanceof PigEntity) {
 						if (world.getDifficulty() != Difficulty.PEACEFUL) {
@@ -167,16 +168,18 @@ public class ThunderBoltEntity extends ThrowableEntity {
 					if(entity instanceof CreeperEntity) {
 						 LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.world);
 						 lightningBoltEntity.moveForced(Vector3d.copyCenteredHorizontally(entity.getPosition()));
-						 lightningBoltEntity.setCaster(this.player instanceof ServerPlayerEntity ? (ServerPlayerEntity)player : null);
+						 lightningBoltEntity.setCaster(getCaster() instanceof ServerPlayerEntity ? (ServerPlayerEntity)getCaster() : null);
 				            this.world.addEntity(lightningBoltEntity);
 				            
 						/*LightningBoltEntity lightningBoltEntity = new LightningBoltEntity(world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), true);
 						entity.func_241841_a((ServerWorld) world, lightningBoltEntity);*/
 					}
 				}
+				
+				System.out.println(list);
 
-				if (this.caster != null) {
-					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayerEntity)this.player, list);
+				if (getCaster() != null) {
+					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayerEntity)getCaster(), list);
 				}
 			}
 		}
@@ -192,41 +195,43 @@ public class ThunderBoltEntity extends ThrowableEntity {
 		return distance < d0 * d0;
 	}
 
-	@Override
+	/*@Override
 	public void writeAdditional(CompoundNBT compound) {
-		compound.putString("caster", this.getCaster());
+		compound.putUniqueId("caster", this.getCaster());
 	}
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
-		this.setCaster(compound.getString("caster"));
-	}
-
-	private static final DataParameter<String> CASTER = EntityDataManager.createKey(MagnetEntity.class, DataSerializers.STRING);
-
-	public String getCaster() {
-		return caster;
-	}
-
-	public void setCaster(String name) {
-		this.dataManager.set(CASTER, name);
-		this.caster = name;
-	}
+		this.setCaster(compound.getUniqueId("caster"));
+	}*/
+	
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ThunderBoltEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
 	@Override
-	public void notifyDataManagerChange(DataParameter<?> key) {
-		if (key.equals(CASTER)) {
-			this.caster = this.getCasterDataManager();
+	public void writeAdditional(CompoundNBT compound) {
+		super.writeAdditional(compound);
+		if (this.dataManager.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
 		}
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(CASTER, "");
+	public void readAdditional(CompoundNBT compound) {
+		super.readAdditional(compound);
+		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 	}
 
-	public String getCasterDataManager() {
-		return this.dataManager.get(CASTER);
+	public PlayerEntity getCaster() {
+		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	}
+
+	public void setCaster(UUID uuid) {
+		this.dataManager.set(OWNER, Optional.of(uuid));
+	}
+
+	@Override
+	protected void registerData() {
+		this.dataManager.register(OWNER, Optional.of(Util.DUMMY_UUID));
 	}
 
 	@Override
