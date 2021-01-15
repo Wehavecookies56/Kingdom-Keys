@@ -148,65 +148,18 @@ public class KingdomKeys {
 	}
 
 	public void addMoogleHouse() {
-		//TODO figure out for 1.16
-		//v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_plains"),2)));
-		/*List s = new ArrayList();
-		s.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_snowy"),2)));
-		List t = new ArrayList();
-		t.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_taiga"),2)));
-		List sa = new ArrayList();
-		sa.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_savanna"),2)));
-		List d = new ArrayList();
-		d.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),2)));*/
-		
-		List<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>();
-		//list = ImmutableList.of(Pair.of("minecraft:village/plains/houses", 1));
-		
-		list = ImmutableList.of(Pair.of(KingdomKeys.MODID + ":village/moogle_house_plains", 1));
-        List<StructureProcessor> processorList = new ArrayList<>();
+		addPieceToPattern(new ResourceLocation("village/plains/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
+		addPieceToPattern(new ResourceLocation("village/desert/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
+		addPieceToPattern(new ResourceLocation("village/savanna/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
+		addPieceToPattern(new ResourceLocation("village/snowy/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
+		addPieceToPattern(new ResourceLocation("village/taiga/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
+	}
 
-        List<Pair<Function<JigsawPattern.PlacementBehaviour, ? extends JigsawPiece>, Integer>> newList = new ArrayList<>();
-		/*for(Entry<RegistryKey<JigsawPattern>, JigsawPattern> a : WorldGenRegistries.JIGSAW_POOL.getEntries()) {
-        	System.out.println(a.getKey()+" "+a.getValue());
-        	newList.add(Pair.of(a,1));
-        }*/
-        RegistryKey<JigsawPattern> key = RegistryKey.getOrCreateKey(Registry.JIGSAW_POOL_KEY, new ResourceLocation("minecraft:village/plains/houses"));
-        JigsawPattern pattern = WorldGenRegistries.JIGSAW_POOL.getValueForKey(key);
-        pattern.rawTemplates.add(null);
-        System.out.println(pattern.rawTemplates);
-        for (Pair<JigsawPiece, Integer> pair : pattern.rawTemplates) {
-        	
-        	newList.add(Pair.of(JigsawPiece.func_242851_a(pair.getFirst(), new StructureProcessorList(processorList)), pair.getSecond()));
-        }
-        for (Pair<String, Integer> pair : list) {
-        	Function<PlacementBehaviour, LegacySingleJigsawPiece> f = JigsawPiece.func_242851_a(pair.getFirst(), new StructureProcessorList(processorList));
-        	f.
-        	newList.add(Pair.of(f, pair.getSecond()));
-        }
-       // PlainsVillagePools.field_244090_a
-        //JigsawPatternRegistry.func_244094_a(pattern);
-		JigsawPatternRegistry.func_244094_a(new JigsawPattern(new ResourceLocation("minecraft", "village/plains/houses"), new ResourceLocation("empty"), newList, JigsawPattern.PlacementBehaviour.RIGID));
-	
-		/*JigsawJank.create().append(new ResourceLocation("minecraft", "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return d; }
-		});
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return sa; }
-		});
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/taiga/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return t; }
-		});
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/snowy/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return s; }
-		});
-		
-        JigsawPatternRegistry.func_244094_a(new JigsawPattern(new ResourceLocation(KingdomKeys.MODID, name), new ResourceLocation("empty"), newList, JigsawPattern.PlacementBehaviour.RIGID));
-*/
-
+	public void addPieceToPattern(ResourceLocation pattern, ResourceLocation structure, int weight) {
+		RegistryKey<JigsawPattern> key = RegistryKey.getOrCreateKey(Registry.JIGSAW_POOL_KEY, pattern);
+		JigsawPattern pat = WorldGenRegistries.JIGSAW_POOL.getValueForKey(key);
+		pat.rawTemplates.add(Pair.of(JigsawPiece.func_242849_a(structure.toString()).apply(PlacementBehaviour.RIGID), weight));
+		JigsawPatternRegistry.func_244094_a(pat);
 	}
 
 	
