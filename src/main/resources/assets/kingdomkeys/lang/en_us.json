@@ -35,6 +35,7 @@
 	"gui.menu.main.button.status.desc": "Check your stats.",
 	"gui.menu.main.button.journal": "Journal",
 	"gui.menu.main.button.config": "Config",
+	"gui.menu.main.button.config.desc": "Configure various graphical aspects of the HUD.",
 
 	"gui.menu.main.munny": "Munny",
 	"gui.menu.main.hearts": "Hearts",
@@ -81,6 +82,9 @@
 	"gui.menu.status.darkres": "Dark Resistance",
 	"gui.menu.status.formlevel": "Form Level",
 	"gui.menu.status.formgauge": "Form Gauge",
+	
+	"gui.menu.config": "Config",
+
 
 	"gui.synthesis": "Item Workshop",
 	"gui.synthesis.synthesise": "Synthesise Items",

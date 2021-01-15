@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -252,14 +253,14 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		}
 		matrixStack.pop();
 
-		matrixStack.push();
+		RenderSystem.pushMatrix();
 		{
 			double offset = (boxR.getWidth()*0.2F);
-			matrixStack.translate(iconPosX + offset/2, iconPosY, 1);
-			matrixStack.scale((float)(boxR.getWidth() / 16 - offset / 16), (float)(boxR.getWidth()/16 - offset / 16), 1);
+			RenderSystem.translated(iconPosX + offset/2, iconPosY, 1);
+			RenderSystem.scalef((float)(boxR.getWidth() / 16 - offset / 16), (float)(boxR.getWidth()/16 - offset / 16), 1);
 			itemRenderer.renderItemIntoGUI(selected, 0, 0);
 		}
-		matrixStack.pop();
+		RenderSystem.popMatrix();
 
 	}
 	

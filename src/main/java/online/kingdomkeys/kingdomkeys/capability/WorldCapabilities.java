@@ -112,7 +112,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		String key = Utils.getResourceName(party.getName());
 		int pos = -1;
 		for(int i = 0; i < parties.size();i++) {
-			System.out.println(parties.get(i).getName()+":"+key);
+			//System.out.println(parties.get(i).getName()+":"+key);
 			if(Utils.getResourceName(parties.get(i).getName()).equalsIgnoreCase(key)) {
 				pos = i;
 				break;

@@ -228,14 +228,14 @@ public class MenuBackground extends Screen {
 		}
 		
 		if(tip != null) {
-			matrixStack.push();
+			RenderSystem.pushMatrix();
 			{
-				matrixStack.scale(1.1F, 1.1F, 1F);
-				matrixStack.translate(0, -5, 0);
+				RenderSystem.scalef(1.1F, 1.1F, 1F);
+				RenderSystem.translatef(0, -5, 0);
 				//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				Utils.drawSplitString(minecraft.fontRenderer, Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
 			}
-			matrixStack.pop();
+			RenderSystem.popMatrix();
 		}
 		
 	}

@@ -35,6 +35,7 @@
 	"gui.menu.main.button.status.desc": "Revisa tus estadísticas.",
 	"gui.menu.main.button.journal": "Diario",
 	"gui.menu.main.button.config": "Preferencias",
+	"gui.menu.main.button.config.desc": "Configura varios aspectos gráficos de los elementos en pantalla.",
 
 	"gui.menu.main.munny": "Plantines",
 	"gui.menu.main.hearts": "Corazones",
@@ -81,6 +82,9 @@
 	"gui.menu.status.darkres": "Resistancia Oscuridad",
 	"gui.menu.status.formlevel": "Niv. de Forma",
 	"gui.menu.status.formgauge": "Indicador de Forma",
+
+	"gui.menu.config": "Config",
+
 
 	"gui.synthesis": "Sintetizador",
 	"gui.synthesis.synthesise": "Sintetizar",

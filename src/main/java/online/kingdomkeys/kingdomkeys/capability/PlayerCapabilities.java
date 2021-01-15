@@ -674,11 +674,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setPortalList(List<PortalData> list) {
 		for (byte i = 0; i < list.size(); i++) {
 			orgPortalCoords[i] = list.get(i);
-			/*System.out.println(list.get(i).getDimID());
-			System.out.println(list.get(i).getX());
-			System.out.println(list.get(i).getY());
-			System.out.println(list.get(i).getZ());
-			System.out.println(list.get(i).getPID());*/
 		}
 	}
 

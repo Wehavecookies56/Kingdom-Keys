@@ -67,7 +67,7 @@ public class MenuStockItem extends Button {
             drawString(matrixStack, mc.fontRenderer, stack.getDisplayName().getString(), x + 15, y + 3, 0xFFFFFF);
 
             if(showAmount) {
-	            String count = new TranslationTextComponent("x%s ", stack.getCount()).getUnformattedComponentText();
+	            String count = new TranslationTextComponent("x%s ", stack.getCount()).getString();
 	            drawString(matrixStack, mc.fontRenderer, count, x + width - mc.fontRenderer.getStringWidth(count), y + 3, 0xF8F711);
             }
         }

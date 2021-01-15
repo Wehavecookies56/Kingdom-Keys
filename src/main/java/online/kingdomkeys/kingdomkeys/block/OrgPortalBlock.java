@@ -108,7 +108,7 @@ public class OrgPortalBlock extends BaseBlock {
 							break;
 						}
 					}
-					System.out.println("R: " + index);
+					//System.out.println("R: " + index);
 					if (index != -1) {
 						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
 						ModCapabilities.getPlayer(player).setPortalCoords((byte) index, new PortalData((byte) index, 0, 0, 0, player.world.getDimensionKey()));

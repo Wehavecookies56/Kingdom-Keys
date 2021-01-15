@@ -39,7 +39,9 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 				// world.playSound(player.getPosX(), player.getPosY(), player.getPosZ(),
 				// ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 0.5F, 1F, false);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
-				bullet.shoot(player.rotationPitch, player.rotationYaw, 0, 4f, 0);
+				bullet.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 3F, 0);
+
+				//bullet.shoot(player.rotationPitch, player.rotationYaw, 0, 4f, 0);
 				world.addEntity(bullet);
 
 
@@ -53,19 +55,19 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 			}
 
 		} else {
-			/*
-			 * if (player.getHeldItemMainhand().getItemDamage() == 0) { if (!world.isRemote)
-			 * { player.getHeldItemMainhand().setItemDamage(1);
-			 * player.inventory.setInventorySlotContents(player.inventory.currentItem,
-			 * player.getHeldItemMainhand()); player.world.playSound((EntityPlayer) null,
-			 * player.getPosition(), ModSounds.summon, SoundCategory.MASTER, 1.0f, 1.0f); }
-			 * } else { if (!world.isRemote) {
-			 * player.getHeldItemMainhand().setItemDamage(0);
-			 * player.inventory.setInventorySlotContents(player.inventory.currentItem,
-			 * player.getHeldItemMainhand()); player.world.playSound((EntityPlayer) null,
-			 * player.getPosition(), ModSounds.unsummon, SoundCategory.MASTER, 1.0f, 1.0f);
-			 * } }
-			 */
+			if(player.getHeldItem(hand).getTag().getInt("ammo") < ammo) {
+				player.getHeldItem(hand).getTag().putInt("reload", reload / player.getHeldItem(hand).getTag().getInt("ammo"));
+				player.getHeldItem(hand).getTag().putInt("ammo", 0);
+			} else {
+				//SNIPER MODE
+			}
+			/*if (player.getHeldItem(hand).getTag().getInt("reload") > 0) {
+				player.getHeldItem(hand).getTag().putInt("reload", player.getHeldItem(hand).getTag().getInt("reload") - 1);
+			} else {
+            	world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
+            	player.getHeldItem(hand).getTag().putInt("reload", reload);
+            	player.getHeldItem(hand).getTag().putInt("ammo", ammo);
+			}*/
 			return super.onItemRightClick(world, player, hand);
 		}
 
@@ -83,7 +85,6 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 			}
 
 			if (itemStack.getTag().getInt("ammo") == 0) {
-
 				if (itemStack.getTag().getInt("reload") > 0) {
 					itemStack.getTag().putInt("reload", itemStack.getTag().getInt("reload") - 1);
 				} else {

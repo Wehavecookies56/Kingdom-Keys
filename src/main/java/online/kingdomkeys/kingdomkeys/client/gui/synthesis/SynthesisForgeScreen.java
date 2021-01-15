@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -252,14 +252,14 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	
 			//Icon
-			matrixStack.push();
+			RenderSystem.pushMatrix();
 			{
 				double offset = ((boxM.getWidth() / 2) * 0F);
-				matrixStack.translate(boxM.x + offset, iconPosY, 1);
-				matrixStack.scale((float)(boxM.getWidth() / 16 - offset / 16), (float)(boxM.getWidth()/16 - offset / 16), 1);
+				RenderSystem.translated(boxM.x + offset, iconPosY, 1);
+				RenderSystem.scalef((float)(boxM.getWidth() / 16 - offset / 16), (float)(boxM.getWidth()/16 - offset / 16), 1);
 				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 0, 0);
 			}
-			matrixStack.pop();
+			RenderSystem.popMatrix();
 			/*matrixStack.push();
 			{
 				matrixStack.translated(boxM.x, iconPosY, 1);
@@ -299,9 +299,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			matrixStack.pop();
 		
 			//Materials display
-			matrixStack.push();
+			RenderSystem.pushMatrix();
 			{
-				matrixStack.translate(iconPosX + 20, height*0.2, 1);
+				RenderSystem.translated(iconPosX + 20, height*0.2, 1);
 				if(kb.getKeybladeLevel(selected) < 10) {
 					Iterator<Entry<Material, Integer>> itMats = kb.data.getLevelData(kb.getKeybladeLevel(selected)).getMaterialList().entrySet().iterator();
 					int i = 0;
@@ -317,7 +317,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					}
 				}
 			}
-			matrixStack.pop();
+			RenderSystem.popMatrix();
 		}
 	}
 	

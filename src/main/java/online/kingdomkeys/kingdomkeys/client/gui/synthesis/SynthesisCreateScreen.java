@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
@@ -217,15 +218,15 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 		RenderHelper.disableStandardItemLighting();
-		matrixStack.push();
+		RenderSystem.pushMatrix();
 		{
 			double offset = (boxM.getWidth()*0.1F);
-			matrixStack.translate(boxM.x + offset/2, iconPosY, 1);
+			RenderSystem.translated(boxM.x + offset/2, iconPosY, 1);
 			//matrixStack.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 1);
-			matrixStack.scale((float)(boxM.getWidth() / 20F - offset / 20F), (float)(boxM.getWidth() / 20F - offset / 20F), 1);
+			RenderSystem.scalef((float)(boxM.getWidth() / 20F - offset / 20F), (float)(boxM.getWidth() / 20F - offset / 20F), 1);
 			itemRenderer.renderItemIntoGUI(selected, 0, 0);
 		}
-		matrixStack.pop();
+		RenderSystem.popMatrix();
 
 		if (selected.getItem() != null && selected.getItem() instanceof KeybladeItem) {
 			KeybladeItem kb = (KeybladeItem) selected.getItem();
@@ -248,9 +249,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		}
 
 		//Materials
-		matrixStack.push();
+		RenderSystem.pushMatrix();
 		{
-			matrixStack.translate(iconPosX + 20, height*0.2, 1);
+			RenderSystem.translated(iconPosX + 20, height*0.2, 1);
 			//System.out.println(selected.getItem().getRegistryName());
 			if(RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
@@ -267,7 +268,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				}
 			}
 		}
-		matrixStack.pop();
+		RenderSystem.popMatrix();
 	}
 
 	@Override
