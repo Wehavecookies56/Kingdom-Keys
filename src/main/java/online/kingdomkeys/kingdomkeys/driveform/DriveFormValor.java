@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -77,7 +78,7 @@ public class DriveFormValor extends DriveForm {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-					double mult = Double.parseDouble(CommonConfig.driveFormXPMultiplier.get().get(0).split(",")[1]);
+					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(0).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 				}

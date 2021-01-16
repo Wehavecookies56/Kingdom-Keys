@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys;
 
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -111,10 +114,12 @@ public class KingdomKeys {
 		ModBiomes.BIOMES.register(modEventBus);
 		//ModParticles.PARTICLES.register(modEventBus);
 
+		modEventBus.addGenericListener(Feature.class, this::registerFeatures);
 		modEventBus.addListener(this::setup);
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
+		modLoadingContext.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -171,10 +176,15 @@ public class KingdomKeys {
 	}
 
 	
-	@SubscribeEvent
-	public void biomeLoad(BiomeLoadingEvent event) {
-		OreGeneration.generateOre(event);
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void addToBiome(BiomeLoadingEvent event) {
 		MobSpawnings.registerSpawns(event);
+		OreGeneration.generateOre(event);
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL)
+	public void removeFromBiome(BiomeLoadingEvent event) {
+		MobSpawnings.removeSpawns(event);
 	}
 
 	@SubscribeEvent
@@ -183,5 +193,9 @@ public class KingdomKeys {
 		event.addListener(new OrganizationDataLoader());
 		event.addListener(new RecipeDataLoader());
 	}
-	
+
+	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {
+		ModFeatures.register();
+		ModFeatures.registerConfiguredFeatures();
+	}
 }

@@ -1068,5 +1068,8 @@
 	"soa.confirm.guardian": "of the Guardian.",
 	"soa.confirm.mystic": "of the Mystic.",
 	"soa.confirm.3": "You've given the power",
-	"soa.confirm.5": "Is this the form you choose?"
+	"soa.confirm.5": "Is this the form you choose?",
+
+	"_comment": "Biomes",
+	"biome.kingdomkeys.dive_to_the_heart": "Dive to the Heart"
 }

@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -46,7 +47,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 		else {
 			playerData.addFP(finalValue);
 			if (playerData.getActiveDriveForm().equals(Strings.Form_Master)) {
-				double mult = Double.parseDouble(CommonConfig.driveFormXPMultiplier.get().get(3).split(",")[1]);
+				double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(3).split(",")[1]);
 				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (value/10) * mult));
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			}
