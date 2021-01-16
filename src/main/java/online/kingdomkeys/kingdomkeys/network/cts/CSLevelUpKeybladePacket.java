@@ -44,7 +44,7 @@ public class CSLevelUpKeybladePacket {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			ItemStack stack = message.stack;
+			ItemStack stack = message.stack.copy();
 			KeychainItem kcItem = (KeychainItem) stack.getItem();
 			KeybladeItem item = (KeybladeItem) kcItem.getKeyblade();
 			Iterator<Entry<Material, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
@@ -63,6 +63,7 @@ public class CSLevelUpKeybladePacket {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
+				player.inventory.setInventorySlotContents(player.inventory.getSlotFor(message.stack), stack);
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);	
 		});

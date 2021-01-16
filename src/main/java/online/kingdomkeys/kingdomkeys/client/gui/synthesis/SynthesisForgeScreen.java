@@ -64,10 +64,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			break;
 		case "upgrade":
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selected));
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.itemget.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			
-			ItemStack stack = selected;
+			ItemStack stack = selected.copy();
 			KeychainItem kcItem = (KeychainItem) stack.getItem();
 			KeybladeItem item = (KeybladeItem) kcItem.getKeyblade();
 
@@ -88,8 +87,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
+				minecraft.player.inventory.setInventorySlotContents(minecraft.player.inventory.getSlotFor(selected), stack);
 				System.err.println("Client: "+(kcItem.getKeybladeLevel(stack)+1));
 			}
+			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selected));
+			selected = stack;
 			break;
 		}
 
