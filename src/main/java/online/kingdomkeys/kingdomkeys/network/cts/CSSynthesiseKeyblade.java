@@ -17,6 +17,8 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -77,7 +79,7 @@ public class CSSynthesiseKeyblade {
 					int amount = recipe.getAmount();
 					player.inventory.addItemStackToInventory(new ItemStack(i,amount));
 					
-					if(i instanceof KeychainItem && CommonConfig.heartlessSpawningMode.get() == 2) {
+					if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
 						IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 						worldData.setHeartlessSpawnLevel(1);
 						PacketHandler.sendToAllPlayers(new SCSyncExtendedWorld(worldData));

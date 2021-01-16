@@ -83,7 +83,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.0.1.1";
+	public static final String MODVER = "2.0.1.2";
 	public static final String MCVER = "1.15.2";
 
 	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
@@ -129,6 +129,7 @@ public class KingdomKeys {
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
+		modLoadingContext.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -239,8 +240,7 @@ public class KingdomKeys {
 
 
     public void oreGen(FMLLoadCompleteEvent event) {
-    	if(CommonConfig.oreGen.get())
-    		OreGen.generateOre();
+		OreGen.generateOre();
         
 		for (GenerationStage.Decoration i : GenerationStage.Decoration.values()) {
 			ModBiomes.diveToTheHeart.get().getFeatures(i).clear();

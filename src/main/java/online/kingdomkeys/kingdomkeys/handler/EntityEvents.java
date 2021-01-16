@@ -42,15 +42,12 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.*;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
-import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
-import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
-import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
-import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -91,9 +88,9 @@ public class EntityEvents {
 		if(playerData != null) {
 			//Heartless Spawn reset
 			if(worldData != null) {
-				if(worldData.getHeartlessSpawnLevel() > 0 && CommonConfig.heartlessSpawningMode.get() == 0) {
+				if(worldData.getHeartlessSpawnLevel() > 0 && ModConfigs.heartlessSpawningMode == SpawningMode.NEVER) {
 					worldData.setHeartlessSpawnLevel(0);
-				} else if(worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == 1) {
+				} else if(worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.ALWAYS) {
 					worldData.setHeartlessSpawnLevel(1);
 				}
 			
@@ -658,7 +655,7 @@ public class EntityEvents {
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
 		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
-		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == 3) {
+		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
 			worldData.setHeartlessSpawnLevel(1);
 		}
 
