@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
@@ -156,7 +157,7 @@ public class CommandMenuGui extends Screen {
 			matrixStack.translate(20, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().size() + 1)), 0);
 			matrixStack.scale(scale, scale, scale);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("TARGET"), 5 + ClientConfig.cmTextXOffset.get(), 4, 0xFFFFFF);
+			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("TARGET"), 5 + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
 			
 		}
 		matrixStack.pop();
@@ -178,7 +179,7 @@ public class CommandMenuGui extends Screen {
 					paintWithColorArray(matrixStack, targetModeColor, alpha);
 
 					if (targetSelected == i) {
-						textX = 10 + ClientConfig.cmTextXOffset.get();
+						textX = 10 + ModConfigs.cmTextXOffset;
 
 						// Draw slot
 						blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
@@ -189,7 +190,7 @@ public class CommandMenuGui extends Screen {
 						blit(matrixStack, 60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 
 					} else { // Not selected
-						textX = 5 + ClientConfig.cmTextXOffset.get();
+						textX = 5 + ModConfigs.cmTextXOffset;
 						blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 					}
 					// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
@@ -197,7 +198,7 @@ public class CommandMenuGui extends Screen {
 
 					Member member = worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().get(i);
 					// String magicName = Constants.getMagicName(magic, level);
-	            	if(minecraft.world.getPlayerByUuid(member.getUUID()) != null && minecraft.player.getDistance(minecraft.world.getPlayerByUuid(member.getUUID())) < CommonConfig.partyRangeLimit.get()) {
+	            	if(minecraft.world.getPlayerByUuid(member.getUUID()) != null && minecraft.player.getDistance(minecraft.world.getPlayerByUuid(member.getUUID())) < ModConfigs.partyRangeLimit) {
 						drawString(matrixStack, minecraft.fontRenderer, member.getUsername(), textX, 4, 0xFFFFFF);
 					} else {
 						drawString(matrixStack, minecraft.fontRenderer, member.getUsername(), textX, 4, 0x888888);
@@ -222,7 +223,7 @@ public class CommandMenuGui extends Screen {
 			paintWithColorArray(matrixStack, normalModeColor, alpha);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 			
-			if(ClientConfig.cmHeaderTextVisible.get())
+			if(ModConfigs.cmHeaderTextVisible)
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Command), 6, 4, getColor(0xFFFFFF,SUB_MAIN));
 		}
 		matrixStack.pop();
@@ -244,7 +245,7 @@ public class CommandMenuGui extends Screen {
 			paintWithColorArray(matrixStack, normalModeColor, alpha);
 			ClientPlayerEntity player = Minecraft.getInstance().player;
 			if (selected == ATTACK) { // Selected
-				textX = 5 + ClientConfig.cmTextXOffset.get();
+				textX = 5 + ModConfigs.cmTextXOffset;
 				blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 
@@ -256,7 +257,7 @@ public class CommandMenuGui extends Screen {
 				}
 
 			} else { // Not selected
-				textX = ClientConfig.cmTextXOffset.get();
+				textX = ModConfigs.cmTextXOffset;
 				blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
@@ -297,13 +298,13 @@ public class CommandMenuGui extends Screen {
 			
 			paintWithColorArray(matrixStack, normalModeColor, alpha);
 			if (selected == MAGIC) { // Selected
-				textX = 5 + ClientConfig.cmTextXOffset.get();
+				textX = 5 + ModConfigs.cmTextXOffset;
 				// Draw slot
 				blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 				blit(matrixStack, 60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 			} else { // Not selected
-				textX = ClientConfig.cmTextXOffset.get();
+				textX = ModConfigs.cmTextXOffset;
 				blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -333,13 +334,13 @@ public class CommandMenuGui extends Screen {
 
 			paintWithColorArray(matrixStack, normalModeColor, alpha);
 			if (selected == ITEMS) { // Selected
-				textX = 5 + ClientConfig.cmTextXOffset.get();
+				textX = 5 + ModConfigs.cmTextXOffset;
 				// Draw slot
 				blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 				blit(matrixStack, 60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 			} else { // Not selected
-				textX = ClientConfig.cmTextXOffset.get();
+				textX = ModConfigs.cmTextXOffset;
 				blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
@@ -366,13 +367,13 @@ public class CommandMenuGui extends Screen {
 
 			paintWithColorArray(matrixStack, normalModeColor, alpha);
 			if (selected == DRIVE) { // Selected
-				textX = 5 + ClientConfig.cmTextXOffset.get();;
+				textX = 5 + ModConfigs.cmTextXOffset;
 				// Draw slot
 				blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
 				blit(matrixStack, 60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 			} else { // Not selected
-				textX = ClientConfig.cmTextXOffset.get();
+				textX = ModConfigs.cmTextXOffset;
 				blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 			}
 
@@ -417,7 +418,7 @@ public class CommandMenuGui extends Screen {
 						paintWithColorArray(matrixStack, portalMenuColor, alpha);
 	
 						if (portalSelected == i) {
-							textX = 10 + ClientConfig.cmTextXOffset.get();
+							textX = 10 + ModConfigs.cmTextXOffset;
 	
 							// Draw slot
 							blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
@@ -428,7 +429,7 @@ public class CommandMenuGui extends Screen {
 							blit(matrixStack, 60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 	
 						} else { // Not selected
-							textX = 5 + ClientConfig.cmTextXOffset.get();	
+							textX = 5 + ModConfigs.cmTextXOffset;
 							blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 						}
 						// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
@@ -458,7 +459,7 @@ public class CommandMenuGui extends Screen {
 				paintWithColorArray(matrixStack, magicMenuColor, alpha);
 				blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 				// drawTexturedModalRect(0, 0, 0, 0+extraY, TOP_WIDTH, TOP_HEIGHT);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic_Title), 5 + ClientConfig.cmTextXOffset.get(), 4, getColor(0xFFFFFF,SUB_MAGIC));
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic_Title), 5 + ModConfigs.cmTextXOffset, 4, getColor(0xFFFFFF,SUB_MAGIC));
 				
 			}
 			matrixStack.pop();
@@ -480,7 +481,7 @@ public class CommandMenuGui extends Screen {
 						if (magicSelected == i) {
 							// drawTexturedModalRect(0, 0, TOP_WIDTH, 15+extraY, TOP_WIDTH + MENU_WIDTH, v +
 							// MENU_HEIGHT);
-							textX = 10 + ClientConfig.cmTextXOffset.get();	
+							textX = 10 + ModConfigs.cmTextXOffset;
 
 							// Draw slot
 							blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
@@ -491,7 +492,7 @@ public class CommandMenuGui extends Screen {
 							blit(matrixStack, 60, 2, 140 + selected * iconWidth - iconWidth, 18, iconWidth, iconWidth);
 
 						} else { // Not selected
-							textX = 5 + ClientConfig.cmTextXOffset.get();	
+							textX = 5 + ModConfigs.cmTextXOffset;
 							blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 						}
 
@@ -530,7 +531,7 @@ public class CommandMenuGui extends Screen {
 				matrixStack.translate(10, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Drive_Title), 5 + ClientConfig.cmTextXOffset.get(), 4, 0xFFFFFF);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Drive_Title), 5 + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
 			}
 			matrixStack.pop();
 
@@ -559,7 +560,7 @@ public class CommandMenuGui extends Screen {
 							v = 0;
 							paintWithColorArray(matrixStack, driveMenuColor, alpha);
 							if (driveSelected == i) {
-								textX = 10 + ClientConfig.cmTextXOffset.get();
+								textX = 10 + ModConfigs.cmTextXOffset;
 
 								// Draw slot
 								blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
@@ -570,7 +571,7 @@ public class CommandMenuGui extends Screen {
 								blit(matrixStack, 60, 2, 140 + selected * iconWidth - iconWidth, 18, iconWidth, iconWidth);
 
 							} else { // Not selected
-								textX = 5 + ClientConfig.cmTextXOffset.get();
+								textX = 5 + ModConfigs.cmTextXOffset;
 								blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
 							}
 						}

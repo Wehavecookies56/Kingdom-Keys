@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -39,7 +40,7 @@ public class MenuConfigScreen extends MenuBackground {
 		case "textHeaderVisibility":
 			cmHeaderTextVisible = !cmHeaderTextVisible;
 			cmHeaderTextVisibleButton.setMessage(new TranslationTextComponent(cmHeaderTextVisible+""));
-			ClientConfig.cmHeaderTextVisible.set(cmHeaderTextVisible);
+			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
 
 			break;
 		}
@@ -53,7 +54,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 	@Override
 	public void init() {
-		cmHeaderTextVisible = ClientConfig.cmHeaderTextVisible.get();
+		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
 
 		float boxPosX = (float) width * 0.2F;
 		float topBarHeight = (float) height * 0.17F;
@@ -74,7 +75,7 @@ public class MenuConfigScreen extends MenuBackground {
 					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
 					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
 						super.charTyped(c, i);
-						ClientConfig.cmTextXOffset.set(Utils.getInt(cmTextXOffsetBox.getText()));
+						ModConfigs.setCmTextXOffset(Utils.getInt(cmTextXOffsetBox.getText()));
 						return true;
 					} else {
 						return false;
@@ -87,7 +88,7 @@ public class MenuConfigScreen extends MenuBackground {
 			@Override
 			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 				super.keyPressed(keyCode, scanCode, modifiers);
-				ClientConfig.cmTextXOffset.set(Utils.getInt(cmTextXOffsetBox.getText()));
+				ModConfigs.setCmTextXOffset(Utils.getInt(cmTextXOffsetBox.getText()));
 				return true;
 			}
 			
@@ -96,7 +97,7 @@ public class MenuConfigScreen extends MenuBackground {
 		
 		addButton(stats_back = new MenuButton((int) buttonPosX, (int) topBarHeight + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
-		cmTextXOffsetBox.setText(""+ClientConfig.cmTextXOffset.get());
+		cmTextXOffsetBox.setText(""+ModConfigs.cmTextXOffset);
 		cmHeaderTextVisibleButton.setMessage(new TranslationTextComponent(cmHeaderTextVisible+""));
 		
 		updateButtons();

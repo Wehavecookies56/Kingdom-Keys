@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
@@ -136,7 +137,7 @@ public class PartyHUDGui extends Screen {
 					matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
 					matrixStack.scale(scale, scale, scale);
 					String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
-					if(playerAlly != null && minecraft.player.getDistance(playerAlly) >= CommonConfig.partyRangeLimit.get())
+					if(playerAlly != null && minecraft.player.getDistance(playerAlly) >= ModConfigs.partyRangeLimit)
 						drawCenteredString(matrixStack, minecraft.fontRenderer, "Out of range", 16, -20, 0xFFFFFF);
 					drawCenteredString(matrixStack, minecraft.fontRenderer, name, 16, -10, 0xFFFFFF);
 				}

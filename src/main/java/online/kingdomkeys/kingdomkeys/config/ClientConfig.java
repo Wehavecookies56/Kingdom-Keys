@@ -9,10 +9,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 public class ClientConfig {
 
    // public static boolean CORSAIR_KEYBOARD_LIGHTING;
-    public static ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
+    public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
     
-    public static ForgeConfigSpec.IntValue cmTextXOffset;
-    public static ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
+    public ForgeConfigSpec.IntValue cmTextXOffset;
+    public ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
     
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");

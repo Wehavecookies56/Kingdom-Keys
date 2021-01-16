@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class RecipeRegistry {
     public void register(Recipe recipe) {
         if (recipe.getRegistryName() != null) {
             registry.put(recipe.getRegistryName(), recipe);
-            if (CommonConfig.debugConsoleOutput.get())
+            if (ModConfigs.debugConsoleOutput)
                 KingdomKeys.LOGGER.info("Successfully registered synthesis recipe {}", recipe.getRegistryName());
             switch(recipe.type) {
             case "keyblade":

@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.*;
@@ -85,9 +86,9 @@ public class EntityEvents {
 		if(playerData != null) {
 			//Heartless Spawn reset
 			if(worldData != null) {
-				if(worldData.getHeartlessSpawnLevel() > 0 && CommonConfig.heartlessSpawningMode.get() == SpawningMode.NEVER) {
+				if(worldData.getHeartlessSpawnLevel() > 0 && ModConfigs.heartlessSpawningMode == SpawningMode.NEVER) {
 					worldData.setHeartlessSpawnLevel(0);
-				} else if(worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == SpawningMode.ALWAYS) {
+				} else if(worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.ALWAYS) {
 					worldData.setHeartlessSpawnLevel(1);
 				}
 			
@@ -671,7 +672,7 @@ public class EntityEvents {
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
 		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
-		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && CommonConfig.heartlessSpawningMode.get() == SpawningMode.AFTER_DRAGON) {
+		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
 			worldData.setHeartlessSpawnLevel(1);
 		}
 
@@ -725,7 +726,7 @@ public class EntityEvents {
 						
 						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-						playerData.addExperience(player, (int) ((int)exp * CommonConfig.xpMultiplier.get()), true);
+						playerData.addExperience(player, (int) ((int)exp * ModConfigs.xpMultiplier), true);
 											
 						if (event.getEntity() instanceof WitherEntity) {
 							playerData.addExperience(player, 1500, true);
@@ -744,7 +745,7 @@ public class EntityEvents {
 					
 					int num = Utils.randomWithRange(0,99);
 
-					if(num < CommonConfig.recipeDropChance.get()) {
+					if(num < ModConfigs.recipeDropChance) {
 						ItemEntity ie = new ItemEntity(player.world, x, y, z, new ItemStack(ModItems.recipe.get()));
 						player.world.addEntity(ie);
 					}
