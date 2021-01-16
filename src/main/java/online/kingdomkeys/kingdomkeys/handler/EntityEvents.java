@@ -201,10 +201,10 @@ public class EntityEvents {
 					if (!openedAlignment) {
 						if(!event.player.world.isRemote) {
 							PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
+
+							openedAlignment = true;
 						}
 					}
-					
-					openedAlignment = true;
 				} else {
 					openedAlignment = false;
 				}

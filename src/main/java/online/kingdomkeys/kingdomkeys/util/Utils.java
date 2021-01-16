@@ -416,17 +416,11 @@ public class Utils {
 	
 	public static boolean isWearingOrgRobes(PlayerEntity player) {
 		boolean wearingOrgCloak = true;
-		int i;
-		for (i = 0; i < player.inventory.armorInventory.size(); ++i) {
-			if (player.inventory.armorInventory.get(i).isEmpty()) {
+		for (int i = 0; i < player.inventory.armorInventory.size(); ++i) {
+			ItemStack itemStack = player.inventory.armorInventory.get(i);
+			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_")) {
 				wearingOrgCloak = false;
-			}
-		}
-		if (wearingOrgCloak) {
-			for (i = 0; i < player.inventory.armorInventory.size(); ++i) {
-				if (!player.inventory.armorInventory.get(i).getItem().getRegistryName().getPath().startsWith("organization_")) {
-					wearingOrgCloak = false;
-				}
+				break;
 			}
 		}
 		return wearingOrgCloak;
