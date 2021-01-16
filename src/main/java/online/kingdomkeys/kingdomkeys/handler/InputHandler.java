@@ -35,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
@@ -471,7 +472,7 @@ public class InputHandler {
             if (this.targetsList.isEmpty()) {
             } else {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
-            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < 50) {
+            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < CommonConfig.partyRangeLimit.get()) {
             		PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected), member.getUsername()));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;

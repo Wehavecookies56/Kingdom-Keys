@@ -22,6 +22,9 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public static ForgeConfigSpec.IntValue recipeDropChance;
     
+    public static ForgeConfigSpec.IntValue partyRangeLimit;
+
+    
     public static ConfigValue<List<? extends String>> mobSpawnRate;
     public static ConfigValue<List<? extends String>> driveFormXPMultiplier;
     
@@ -32,20 +35,7 @@ public class CommonConfig {
 	//public static ForgeConfigSpec.DoubleValue valorFormXPMultiplier, wisdomFormXPMultiplier, limitFormXPMultiplier, masterFormXPMultiplier, finalFormXPMultiplier;
 
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
-		
-    	Predicate<Object> spawnRateCheck = new Predicate<Object>() {
-			@Override
-			public boolean test(Object t) {
-				if (!(t instanceof String)) {
-					return false;
-				}
-				
-				String str = (String) t;
-				return !isNullOrEmpty(str);
-			}
-		};		
-		
-        builder.push("general");
+		builder.push("general");
         
         oreGen = builder
         		.comment("Allow Synthesis Materials ores to generate")
@@ -61,6 +51,11 @@ public class CommonConfig {
                 .comment("Recipe drop chance")
                 .translation(KingdomKeys.MODID + ".config.recipe_drop_chance")
                 .defineInRange("recipeDropChance", 2, 0, 100);
+        
+        partyRangeLimit = builder
+                .comment("Party range limit")
+                .translation(KingdomKeys.MODID + ".config.party_range_limit")
+                .defineInRange("partyRangeLimit", 50, 1, 150);
         
         builder.pop();
         
@@ -95,32 +90,6 @@ public class CommonConfig {
         		.translation(KingdomKeys.MODID + ".config.drive_form_xp_multiplier")
                 .defineList("driveFormXPMultiplier", Lists.newArrayList("Valor,1", "Wisdom,1", "Limit,1", "Master,1", "Final,1"), o -> o instanceof String);
         
-       /* valorFormXPMultiplier = builder
-				.comment("Valor Form XP multiplier")
-        		.translation(KingdomKeys.MODID + ".config.valor_xp_multiplier")
-                .defineInRange("valorXPMultiplier", 1F, 0, 1000);
-        
-        wisdomFormXPMultiplier = builder
-				.comment("Wisdom Form XP multiplier")
-        		.translation(KingdomKeys.MODID + ".config.wisdom_xp_multiplier")
-                .defineInRange("wisdomXPMultiplier", 1F, 0, 1000);
-        
-        limitFormXPMultiplier = builder
-				.comment("Limit Form XP multiplier")
-        		.translation(KingdomKeys.MODID + ".config.limit_xp_multiplier")
-                .defineInRange("limitXPMultiplier", 1F, 0, 1000);
-        
-        masterFormXPMultiplier = builder
-				.comment("Master Form XP multiplier")
-        		.translation(KingdomKeys.MODID + ".config.master_xp_multiplier")
-                .defineInRange("masterXPMultiplier", 1F, 0, 1000);
-        
-        finalFormXPMultiplier = builder
-				.comment("Final Form XP multiplier")
-        		.translation(KingdomKeys.MODID + ".config.final_xp_multiplier")
-                .defineInRange("finalXPMultiplier", 1F, 0, 1000);*/
-        		
-
 		builder.pop();
         
     }
