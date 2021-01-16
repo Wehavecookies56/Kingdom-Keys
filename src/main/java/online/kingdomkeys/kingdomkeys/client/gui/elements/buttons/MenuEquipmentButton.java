@@ -193,7 +193,7 @@ public class MenuEquipmentButton extends Button {
                         //ArmorItem armour = (ArmorItem) stack.getItem();
                         //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)
                     } else if (stack.getItem() instanceof IOrgWeapon) {
-                        //TODO org
+                        //eeTODO org
                     }
                 }
             }
