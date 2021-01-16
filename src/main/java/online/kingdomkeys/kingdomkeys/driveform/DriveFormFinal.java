@@ -79,7 +79,8 @@ public class DriveFormFinal extends DriveForm {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*CommonConfig.finalFormXPMultiplier.get())));
+					double mult = Double.parseDouble(CommonConfig.driveFormXPMultiplier.get().get(4).split(",")[1]);
+					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}
 			}

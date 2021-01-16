@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.google.common.collect.Lists;
+
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 
@@ -19,20 +22,16 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public static ForgeConfigSpec.IntValue recipeDropChance;
     
-    public static List<String> mobSpawnRate; //These are not working
+    public static ConfigValue<List<? extends String>> mobSpawnRate;
+    public static ConfigValue<List<? extends String>> driveFormXPMultiplier;
     
     public static ForgeConfigSpec.DoubleValue xpMultiplier;
     public static ForgeConfigSpec.DoubleValue partyXPShare;
     public static ForgeConfigSpec.DoubleValue driveXPMultiplier;
     
-	public static ForgeConfigSpec.DoubleValue valorFormXPMultiplier, wisdomFormXPMultiplier, limitFormXPMultiplier, masterFormXPMultiplier, finalFormXPMultiplier;
+	//public static ForgeConfigSpec.DoubleValue valorFormXPMultiplier, wisdomFormXPMultiplier, limitFormXPMultiplier, masterFormXPMultiplier, finalFormXPMultiplier;
 
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
-    	mobSpawnRate = new ArrayList<String>();
-		mobSpawnRate.add("Moogle,2,0,1");
-    	mobSpawnRate.add("Pureblood,2,0,1");
-    	mobSpawnRate.add("Emblem,2,0,1");
-    	mobSpawnRate.add("Nobody,2,0,1");
 		
     	Predicate<Object> spawnRateCheck = new Predicate<Object>() {
 			@Override
@@ -72,10 +71,10 @@ public class CommonConfig {
 				.translation(KingdomKeys.MODID + ".config.heartless_spawning_mode")
 				.defineEnum("heartlessSpawningMode", SpawningMode.AFTER_KEYCHAIN);
 
-				builder
+		mobSpawnRate = builder
 				.comment("Mob Spawn")
         		.translation(KingdomKeys.MODID + ".config.mob_spawn")
-				.defineList("mobSpawn", mobSpawnRate, spawnRateCheck);
+                .defineList("mobSpawn", Lists.newArrayList("Moogle,2,0,1", "Pureblood,2,0,1", "Pureblood,2,0,1", "Nobody,2,0,1"), o -> o instanceof String);		
         
         builder.pop();
         
@@ -91,7 +90,12 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.party_xp_share")
                 .defineInRange("partyXPShare", 0F, 0, 100);
         
-        valorFormXPMultiplier = builder
+        driveFormXPMultiplier = builder
+				.comment("Drive Form XP Multiplier")
+        		.translation(KingdomKeys.MODID + ".config.drive_form_xp_multiplier")
+                .defineList("driveFormXPMultiplier", Lists.newArrayList("Valor,1", "Wisdom,1", "Limit,1", "Master,1", "Final,1"), o -> o instanceof String);
+        
+       /* valorFormXPMultiplier = builder
 				.comment("Valor Form XP multiplier")
         		.translation(KingdomKeys.MODID + ".config.valor_xp_multiplier")
                 .defineInRange("valorXPMultiplier", 1F, 0, 1000);
@@ -114,7 +118,7 @@ public class CommonConfig {
         finalFormXPMultiplier = builder
 				.comment("Final Form XP multiplier")
         		.translation(KingdomKeys.MODID + ".config.final_xp_multiplier")
-                .defineInRange("finalXPMultiplier", 1F, 0, 1000);
+                .defineInRange("finalXPMultiplier", 1F, 0, 1000);*/
         		
 
 		builder.pop();

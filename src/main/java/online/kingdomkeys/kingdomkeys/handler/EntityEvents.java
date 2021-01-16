@@ -151,7 +151,6 @@ public class EntityEvents {
 		ticks++;
 		
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-
 		if (playerData != null) {
 			//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
 			if(!event.player.world.isRemote && event.player.ticksExisted == 5) {

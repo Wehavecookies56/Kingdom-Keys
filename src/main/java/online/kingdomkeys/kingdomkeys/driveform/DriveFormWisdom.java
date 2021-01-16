@@ -78,7 +78,8 @@ public class DriveFormWisdom extends DriveForm {
 					PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*CommonConfig.wisdomFormXPMultiplier.get())));
+						double mult = Double.parseDouble(CommonConfig.driveFormXPMultiplier.get().get(1).split(",")[1]);
+						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 					}
 				}

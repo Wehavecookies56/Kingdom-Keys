@@ -15,10 +15,11 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 public class MobSpawnings {
 
 	public static void registerSpawns(BiomeLoadingEvent event) {
-		String[] moogle = CommonConfig.mobSpawnRate.get(0).split(",");
-		String[] pureblood = CommonConfig.mobSpawnRate.get(1).split(",");
-		String[] emblem = CommonConfig.mobSpawnRate.get(2).split(",");
-		String[] nobody = CommonConfig.mobSpawnRate.get(3).split(",");
+		String[] moogle = CommonConfig.mobSpawnRate.get().get(0).split(",");
+		String[] pureblood = CommonConfig.mobSpawnRate.get().get(1).split(",");
+		String[] emblem = CommonConfig.mobSpawnRate.get().get(2).split(",");
+		String[] nobody = CommonConfig.mobSpawnRate.get().get(3).split(",");
+		
 		if(event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
 			event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), Integer.parseInt(moogle[1]),Integer.parseInt(moogle[2]), Integer.parseInt(moogle[3])));
 		}

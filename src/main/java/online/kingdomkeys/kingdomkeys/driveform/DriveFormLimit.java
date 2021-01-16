@@ -77,7 +77,8 @@ public class DriveFormLimit extends DriveForm {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
-					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*CommonConfig.limitFormXPMultiplier.get())));
+					double mult = Double.parseDouble(CommonConfig.driveFormXPMultiplier.get().get(2).split(",")[1]);
+					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 				}
 			}

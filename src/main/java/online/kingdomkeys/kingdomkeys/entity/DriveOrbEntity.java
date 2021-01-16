@@ -46,9 +46,8 @@ public class DriveOrbEntity extends ItemDropEntity {
 		else {
 			playerData.addFP(finalValue);
 			if (playerData.getActiveDriveForm().equals(Strings.Form_Master)) {
-				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + ((value/10)*CommonConfig.masterFormXPMultiplier.get())));
-
-				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + value/10);
+				double mult = Double.parseDouble(CommonConfig.driveFormXPMultiplier.get().get(3).split(",")[1]);
+				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (value/10) * mult));
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			}
 		}
