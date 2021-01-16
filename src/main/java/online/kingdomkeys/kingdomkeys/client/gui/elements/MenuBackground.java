@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -183,7 +184,7 @@ public class MenuBackground extends Screen {
 		matrixStack.push();
 		{
 			String dimension = minecraft.player.world.getDimensionKey().getLocation().getPath().toUpperCase().replaceAll("_", " ");
-			ResourceLocation biomeLoc = minecraft.player.world.getBiome(minecraft.player.getPosition()).getRegistryName();
+			ResourceLocation biomeLoc = minecraft.world.func_241828_r().getRegistry(Registry.BIOME_KEY).getKey(minecraft.world.getBiome(minecraft.player.getPosition()));
 			String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
 			if (LanguageMap.getInstance().func_230506_b_(biome)) {
 				biome = Utils.translateToLocal(biome);
