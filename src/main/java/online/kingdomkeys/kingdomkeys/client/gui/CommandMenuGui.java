@@ -120,7 +120,7 @@ public class CommandMenuGui extends Screen {
 
 	public void drawCommandMenu(MatrixStack matrixStack, int width, int height) {
 		if(ModCapabilities.getPlayer(minecraft.player) != null) {
-			drawTop(matrixStack, width, height);
+			drawTop(matrixStack, width, height);			
 			drawAttack(matrixStack, width, height);
 			drawMagic(matrixStack, width, height);
 			drawItems(matrixStack, width, height);
@@ -138,6 +138,9 @@ public class CommandMenuGui extends Screen {
 			if (submenu == SUB_TARGET) {
 				drawSubTargetSelector(matrixStack, width, height);
 			}
+			
+			RenderSystem.disableBlend();
+
 		}
 	}
 	
@@ -164,7 +167,7 @@ public class CommandMenuGui extends Screen {
 		for (int i = 0; i < worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().size(); i++) {
 			matrixStack.push();
 			{
-				RenderSystem.color4f(1F, 1F, 1F, alpha);
+				//RenderSystem.color4f(1F, 1F, 1F, alpha);
 				int u;
 				int v;
 				int x;
@@ -183,11 +186,11 @@ public class CommandMenuGui extends Screen {
 						// Draw slot
 						blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 
-						RenderSystem.color4f(1, 1F, 1F, alpha);
-
+						//RenderSystem.color4f(1, 1F, 1F, alpha);
+						//RenderSystem.enableBlend();
 						// Draw Icon
 						blit(matrixStack, 60, 2, 140 + ((selected + 1) * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
-
+						//RenderSystem.disableBlend();
 					} else { // Not selected
 						textX = 5 + ClientConfig.cmTextXOffset.get();
 						blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
@@ -212,6 +215,7 @@ public class CommandMenuGui extends Screen {
 	
 
 	public void drawTop(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
 		matrixStack.push();
 		{
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
@@ -226,10 +230,12 @@ public class CommandMenuGui extends Screen {
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Command), 6, 4, getColor(0xFFFFFF,SUB_MAIN));
 		}
 		matrixStack.pop();
+		RenderSystem.disableBlend();
+
 	}
 
 	public void drawAttack(MatrixStack matrixStack, int width, int height) {
-		
+		RenderSystem.enableBlend();
 		matrixStack.push();
 		{
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
@@ -242,7 +248,7 @@ public class CommandMenuGui extends Screen {
 			matrixStack.scale(scale, scale, scale);
 
 			paintWithColorArray(matrixStack, normalModeColor, alpha);
-			ClientPlayerEntity player = Minecraft.getInstance().player;
+			ClientPlayerEntity player = minecraft.player;
 			if (selected == ATTACK) { // Selected
 				textX = 5 + ClientConfig.cmTextXOffset.get();
 				blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
@@ -277,9 +283,12 @@ public class CommandMenuGui extends Screen {
 			}			 
 		}
 		matrixStack.pop();
+		RenderSystem.disableBlend();
 	}
 
 	public void drawMagic(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
+
 		matrixStack.push();
 		{
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
@@ -301,7 +310,9 @@ public class CommandMenuGui extends Screen {
 				// Draw slot
 				blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, v + MENU_HEIGHT);
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
+				//RenderSystem.enableBlend();
 				blit(matrixStack, 60, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+				//RenderSystem.disableBlend();
 			} else { // Not selected
 				textX = ClientConfig.cmTextXOffset.get();
 				blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, v + MENU_HEIGHT);
@@ -309,13 +320,15 @@ public class CommandMenuGui extends Screen {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic), 6 + textX, 4, playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 :getColor(0xFFFFFF,SUB_MAIN));
-			
 
 		}
 		matrixStack.pop();
+		
+		RenderSystem.disableBlend();
 	}
 
 	public void drawItems(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
 		matrixStack.push();
 		{
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
@@ -347,9 +360,11 @@ public class CommandMenuGui extends Screen {
 
 		}
 		matrixStack.pop();
+		RenderSystem.disableBlend();
 	}
 
 	public void drawDrive(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
 		matrixStack.push();
 		{
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
@@ -384,8 +399,10 @@ public class CommandMenuGui extends Screen {
 			}
 		}
 		matrixStack.pop();
+		RenderSystem.disableBlend();
 	}
 	public void drawSubPortals(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		if (playerData.getPortalList() != null && !playerData.getPortalList().isEmpty()) {
 			// PORTAL TOP
@@ -443,9 +460,11 @@ public class CommandMenuGui extends Screen {
 				matrixStack.pop();
 			}
 		}
+		RenderSystem.disableBlend();
 	}
 	
 	private void drawSubMagic(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		if (playerData != null && playerData.getMagicList() != null && !playerData.getMagicList().isEmpty()) {
 			// MAGIC TOP
@@ -513,9 +532,11 @@ public class CommandMenuGui extends Screen {
 				matrixStack.pop();
 			}
 		}
+		RenderSystem.disableBlend();
 	}
 
 	private void drawSubDrive(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
@@ -587,5 +608,6 @@ public class CommandMenuGui extends Screen {
 				}
 			}
 		}
+		RenderSystem.disableBlend();
 	}
 }
