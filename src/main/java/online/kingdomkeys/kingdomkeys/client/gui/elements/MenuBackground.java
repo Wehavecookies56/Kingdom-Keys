@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -181,7 +182,15 @@ public class MenuBackground extends Screen {
 	public void drawBiomeDim(MatrixStack matrixStack) {
 		matrixStack.push();
 		{
-			String text = minecraft.player.world.getDimensionKey().getLocation().getPath().toString().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getRegistryName();
+			String dimension = minecraft.player.world.getDimensionKey().getLocation().getPath().toUpperCase().replaceAll("_", " ");
+			ResourceLocation biomeLoc = minecraft.player.world.getBiome(minecraft.player.getPosition()).getRegistryName();
+			String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
+			if (LanguageMap.getInstance().func_230506_b_(biome)) {
+				biome = Utils.translateToLocal(biome);
+			} else {
+				biome = biomeLoc.toString();
+			}
+			String text = dimension + " | " + biome;
 			drawString(matrixStack, minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 5, 0xF58B33);
 		}
 		matrixStack.pop();
