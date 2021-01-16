@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import net.minecraftforge.fml.config.ConfigTracker;
-import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import java.util.List;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -9,8 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.util.List;
+import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfigs {
@@ -43,19 +42,28 @@ public class ModConfigs {
     public static boolean corsairKeyboardLighting;
     public static int cmTextXOffset;
     public static boolean cmHeaderTextVisible;
+    public static int cmXScale;
 
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
+        bakeClient();
     }
 
     public static void setCmTextXOffset(int value) {
         CLIENT.cmTextXOffset.set(value);
+        bakeClient();
+    }
+    
+    public static void setCmXScale(int value) {
+        CLIENT.cmXScale.set(value);
+        bakeClient();
     }
 
     public static void bakeClient() {
         corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
+        cmXScale = CLIENT.cmXScale.get();
     }
 
     public static boolean oreGen;
