@@ -42,7 +42,7 @@ public class ModConfigs {
     public static boolean corsairKeyboardLighting;
     public static int cmTextXOffset;
     public static boolean cmHeaderTextVisible;
-    public static int cmXScale;
+    public static int cmXScale, cmXPos;
 
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
@@ -58,12 +58,18 @@ public class ModConfigs {
         CLIENT.cmXScale.set(value);
         bakeClient();
     }
+    
+    public static void setCmXPos(int value) {
+        CLIENT.cmXPos.set(value);
+        bakeClient();
+    }
 
     public static void bakeClient() {
         corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmXScale = CLIENT.cmXScale.get();
+        cmXPos = CLIENT.cmXPos.get();
     }
 
     public static boolean oreGen;

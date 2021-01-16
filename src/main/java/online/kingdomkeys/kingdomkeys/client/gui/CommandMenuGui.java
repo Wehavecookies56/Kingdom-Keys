@@ -119,24 +119,29 @@ public class CommandMenuGui extends Screen {
 
 	public void drawCommandMenu(MatrixStack matrixStack, int width, int height) {
 		if(ModCapabilities.getPlayer(minecraft.player) != null) {
-			drawTop(matrixStack, width, height);			
-			drawAttack(matrixStack, width, height);
-			drawMagic(matrixStack, width, height);
-			drawItems(matrixStack, width, height);
-			drawDrive(matrixStack, width, height);
-		
-			if (submenu == SUB_PORTALS) {
-				drawSubPortals(matrixStack, width, height);
+			matrixStack.push();
+			{
+				matrixStack.translate(ModConfigs.cmXPos, 0, 0);
+				drawTop(matrixStack, width, height);			
+				drawAttack(matrixStack, width, height);
+				drawMagic(matrixStack, width, height);
+				drawItems(matrixStack, width, height);
+				drawDrive(matrixStack, width, height);
+			
+				if (submenu == SUB_PORTALS) {
+					drawSubPortals(matrixStack, width, height);
+				}
+				if (submenu == SUB_MAGIC || submenu == SUB_TARGET) {
+					drawSubMagic(matrixStack, width, height);
+				}
+				if (submenu == SUB_DRIVE) {
+					drawSubDrive(matrixStack, width, height);
+				}
+				if (submenu == SUB_TARGET) {
+					drawSubTargetSelector(matrixStack, width, height);
+				}
 			}
-			if (submenu == SUB_MAGIC || submenu == SUB_TARGET) {
-				drawSubMagic(matrixStack, width, height);
-			}
-			if (submenu == SUB_DRIVE) {
-				drawSubDrive(matrixStack, width, height);
-			}
-			if (submenu == SUB_TARGET) {
-				drawSubTargetSelector(matrixStack, width, height);
-			}
+			matrixStack.pop();
 		}
 	}
 	
