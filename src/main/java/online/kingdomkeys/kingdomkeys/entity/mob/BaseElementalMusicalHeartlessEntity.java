@@ -60,7 +60,7 @@ public abstract class BaseElementalMusicalHeartlessEntity extends MonsterEntity 
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(getMaxHP());
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 
     }
 

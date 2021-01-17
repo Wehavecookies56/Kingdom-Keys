@@ -45,7 +45,7 @@ public class ShadowGlobEntity extends MonsterEntity implements IKHMob {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
         this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000.0D);
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(0.0D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
     }
 
     @Override

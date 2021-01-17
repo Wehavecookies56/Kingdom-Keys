@@ -1,9 +1,13 @@
 package online.kingdomkeys.kingdomkeys;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.google.common.collect.ImmutableList;
+import net.minecraft.world.gen.feature.jigsaw.*;
+import net.minecraft.world.gen.feature.structure.*;
 import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,8 +27,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -153,41 +155,34 @@ public class KingdomKeys {
 		DeferredWorkQueue.runLater(PacketHandler::register);
 		DeferredWorkQueue.runLater(MobSpawnings::addSpawns);
 		DeferredWorkQueue.runLater(ModEntities::registerPlacements);
-		addMoogleHouse();
+		DeferredWorkQueue.runLater(this::addMoogleHouse);
 	}
 
 	public void addMoogleHouse() {
-		List v = new ArrayList();
-		v.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_plains"),2)));
-		List s = new ArrayList();
-		s.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_snowy"),2)));
-		List t = new ArrayList();
-		t.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_taiga"),2)));
-		List sa = new ArrayList();
-		sa.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_savanna"),2)));
-		List d = new ArrayList();
-		d.add((new Pair<>(new SingleJigsawPiece("kingdomkeys:village/moogle_house_desert"),2)));
-		
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/plains/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return v; }
-		});
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/desert/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return d; }
-		});
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/savanna/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return sa; }
-		});
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/taiga/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return t; }
-		});
-		JigsawJank.create().append(new ResourceLocation("minecraft", "village/snowy/houses"), new Supplier<List<Pair<JigsawPiece, Integer>>>() {
-			@Override
-			public List<Pair<JigsawPiece, Integer>> get() { return s; }
-		});
+		PlainsVillagePools.init();
+		DesertVillagePools.init();
+		SavannaVillagePools.init();
+		SnowyVillagePools.init();
+		TaigaVillagePools.init();
+		addPieceToPattern(new ResourceLocation("village/plains/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
+		addPieceToPattern(new ResourceLocation("village/desert/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
+		addPieceToPattern(new ResourceLocation("village/savanna/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
+		addPieceToPattern(new ResourceLocation("village/snowy/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
+		addPieceToPattern(new ResourceLocation("village/taiga/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
+	}
+
+	public void addPieceToPattern(ResourceLocation pattern, ResourceLocation structure, int weight) {
+		JigsawPattern pat = JigsawManager.REGISTRY.get(pattern);
+		List<Pair<JigsawPiece, Integer>> newList = new ArrayList<>(pat.rawTemplates);
+		newList.add(Pair.of(new SingleJigsawPiece(structure.toString(), ImmutableList.of(), JigsawPattern.PlacementBehaviour.RIGID), weight));
+		pat.rawTemplates = ImmutableList.copyOf(newList);
+		pat.jigsawPieces.clear();
+		for(Pair<JigsawPiece, Integer> pair : pat.rawTemplates) {
+			for(int integer = 0; integer < pair.getSecond(); integer = integer + 1) {
+				pat.jigsawPieces.add(pair.getFirst().setPlacementBehaviour(pair.getFirst().getPlacementBehaviour()));
+			}
+		}
+		JigsawManager.REGISTRY.register(pat);
 	}
 
 	@SubscribeEvent

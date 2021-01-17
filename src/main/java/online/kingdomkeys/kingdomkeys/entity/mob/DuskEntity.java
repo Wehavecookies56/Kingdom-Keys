@@ -51,7 +51,7 @@ public class DuskEntity extends MonsterEntity implements IKHMob {
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
 		this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1000.0D);
-		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 	}
 
 	@Override
