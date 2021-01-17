@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -13,8 +14,11 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tileentity.EndGatewayTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -67,24 +71,37 @@ public class LanceEntity extends ThrowableEntity{
 			this.remove();
 		}
 
-		if (ticksExisted > 2)
-			world.addParticle(ParticleTypes.CRIT, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
-		if (!stopped) {
+		if (!isStopped()) {
+			if (ticksExisted > 2)
+				world.addParticle(ParticleTypes.CRIT, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+
 			if (this.isOnGround()) {
 				this.setOnGround(false);
 				this.setMotion(this.getMotion().mul((double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F)));
 			}
 
-			/*AxisAlignedBB axisalignedbb = this.getBoundingBox().expand(this.getMotion()).grow(1.0D);
+			RayTraceResult raytraceresult = ProjectileHelper.func_234618_a_(this, this::func_230298_a_);
+		      boolean flag = false;
+		      if (raytraceresult.getType() == RayTraceResult.Type.BLOCK) {
+		         BlockPos blockpos = ((BlockRayTraceResult)raytraceresult).getPos();
+		         BlockState blockstate = this.world.getBlockState(blockpos);
+		         if (blockstate.isIn(Blocks.NETHER_PORTAL)) {
+		            this.setPortal(blockpos);
+		            flag = true;
+		         } else if (blockstate.isIn(Blocks.END_GATEWAY)) {
+		            TileEntity tileentity = this.world.getTileEntity(blockpos);
+		            if (tileentity instanceof EndGatewayTileEntity && EndGatewayTileEntity.func_242690_a(this)) {
+		               ((EndGatewayTileEntity)tileentity).teleportEntity(this);
+		            }
 
-			if (raytraceresult.getType() != RayTraceResult.Type.MISS) {
-				if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(((BlockRayTraceResult) raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) {
-					this.setPortal(((BlockRayTraceResult) raytraceresult).getPos());
-				} else if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-					this.onImpact(raytraceresult);
-				}
-			}*/
+		            flag = true;
+		         }
+		      }
+
+		      if (raytraceresult.getType() != RayTraceResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+		         this.onImpact(raytraceresult);
+		      }
 
 			Vector3d vec3d = this.getMotion();
 			double d0 = this.getPosX() + vec3d.x;
@@ -109,17 +126,19 @@ public class LanceEntity extends ThrowableEntity{
 
 			this.setPosition(d0, d1, d2);
 		}
+		//super.tick();
+
+
 	}
 	
 	public void stopLance(){
-		stopped = true;
+		setStopped(true);
 		this.setMotion(0, 0, 0);
 	}
 	
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
 		if (!world.isRemote) {
-
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;
 
@@ -134,13 +153,22 @@ public class LanceEntity extends ThrowableEntity{
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != func_234616_v_()) {
+					//target.setFire(5);
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 10);
 					stopLance();
 				}
-			} else { // Block (not ERTR)				
-				stopLance();
+			} else { // Block (not ERTR)
+				if(brtResult != null) {
+					//System.out.println(world.getBlockState(brtResult.getPos()).getBlockState());
+					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
+					//System.out.println("goin through");	
+					} else {
+						stopLance();	
+					}
+				}
 			}
 		}
+
 
 	}
 
@@ -153,6 +181,7 @@ public class LanceEntity extends ThrowableEntity{
 	}
 	
 	private static final DataParameter<String> MODEL = EntityDataManager.createKey(LanceEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Boolean> STOPPED = EntityDataManager.createKey(LanceEntity.class, DataSerializers.BOOLEAN);
 	
 	public String getModel() {
 		return model;
@@ -163,31 +192,50 @@ public class LanceEntity extends ThrowableEntity{
 		this.model = name;
 	}
 
+	public boolean isStopped() {
+		return stopped;
+	}
+
+	public void setStopped(boolean stopped) {
+		this.dataManager.set(STOPPED, stopped);
+		this.stopped = stopped;
+	}
+
+	
 	@Override
 	public void notifyDataManagerChange(DataParameter<?> key) {
 		if (key.equals(MODEL)) {
 			this.model = this.getModelDataManager();
+		}
+		if (key.equals(STOPPED)) {
+			this.stopped = this.getStoppedDataManager();
 		}
 	}
 	
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		compound.putString("Model", this.getModel());
+		compound.putBoolean("Stopped", this.isStopped());
 	}
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
 		this.setModel(compound.getString("Model"));
+		this.setStopped(compound.getBoolean("Stopped"));
 	}
 	
 
 	@Override
 	protected void registerData() {
 		this.dataManager.register(MODEL, "");
+		this.dataManager.register(STOPPED, false);
 	}
 
 	public String getModelDataManager() {
 		return this.dataManager.get(MODEL);
+	}
+	public boolean getStoppedDataManager() {
+		return this.dataManager.get(STOPPED);
 	}
 	
 }
