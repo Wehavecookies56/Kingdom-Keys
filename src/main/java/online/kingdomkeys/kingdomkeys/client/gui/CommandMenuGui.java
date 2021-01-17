@@ -64,7 +64,7 @@ public class CommandMenuGui extends Screen {
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {// && !minecraft.ingameGUI.getChatGUI().getChatOpen()) {
 			event.getMatrixStack().push();
 			{
-				drawCommandMenu(event.getMatrixStack(),minecraft.getMainWindow().getScaledWidth(), minecraft.getMainWindow().getScaledHeight());
+				drawCommandMenu(event.getMatrixStack(), minecraft.getMainWindow().getScaledWidth(), minecraft.getMainWindow().getScaledHeight());
 			}
 			event.getMatrixStack().pop();
 		}
@@ -146,6 +146,7 @@ public class CommandMenuGui extends Screen {
 	}
 	
 	private void drawSubTargetSelector(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
 		if(worldData.getPartyFromMember(minecraft.player.getUniqueID()) == null) {
 			submenu = SUB_MAGIC;
@@ -208,6 +209,7 @@ public class CommandMenuGui extends Screen {
 			}
 			matrixStack.pop();
 		}
+		RenderSystem.disableBlend();
 	}
 
 	
@@ -226,21 +228,25 @@ public class CommandMenuGui extends Screen {
 	}
 	
 	private void drawSelected(MatrixStack matrixStack) {
+		RenderSystem.enableBlend();
 		matrixStack.push();
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, MENU_HEIGHT);
 		}
 		matrixStack.pop();	
+		RenderSystem.disableBlend();
 	}
 
 	private void drawUnselected(MatrixStack matrixStack) {
+		RenderSystem.enableBlend();
 		matrixStack.push();
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, 0 + MENU_HEIGHT);
 		}
-		matrixStack.pop();		
+		matrixStack.pop();	
+		RenderSystem.disableBlend();
 	}
 
 	private void drawIcon(MatrixStack matrixStack, int selected) {
@@ -512,15 +518,12 @@ public class CommandMenuGui extends Screen {
 				matrixStack.push();
 				{
 					RenderSystem.color4f(1F, 1F, 1F, alpha);
-					int u;
-					int v;
 					int x;
 					x = 10;
 
 					minecraft.textureManager.bindTexture(texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (playerData.getMagicList().size() - i)), 0);
 					matrixStack.scale(scale, scale, scale);
-						v = 0;
 
 						paintWithColorArray(matrixStack, magicMenuColor, alpha);
 						if (magicSelected == i) {
@@ -528,7 +531,6 @@ public class CommandMenuGui extends Screen {
 
 							// Draw slot
 							drawSelected(matrixStack);
-
 							RenderSystem.color4f(1F, 1F, 1F, alpha);
 
 							// Draw Icon
