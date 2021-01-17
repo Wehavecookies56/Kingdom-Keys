@@ -113,25 +113,17 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
                 if (EntityHelper.getState(theEntity) == 0) {
                     this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
-
-                    if (world.rand.nextInt(100) + world.rand.nextDouble() <= 45) {
+                    if (world.rand.nextInt(100) + world.rand.nextDouble() <= 45 && this.theEntity.getDistance(target) < 10) {
                         EntityHelper.setState(this.theEntity, 1);
 
                         this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.theEntity.getLookController().setLookPositionWithEntity(target, 0F, 0F);
                         if(!world.isRemote) {
-	                       /* double d0 = this.theEntity.getDistanceSq(this.theEntity.getAttackTarget());
-	                        float f = MathHelper.sqrt(MathHelper.sqrt(d0));
-	                        double d1 = this.theEntity.getAttackTarget().getPosX() - this.theEntity.getPosX();
-	                        double d2 = this.theEntity.getAttackTarget().getBoundingBox().minY + (double) (this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double) (this.theEntity.getHeight() / 2.0F));
-	                        double d3 = this.theEntity.getAttackTarget().getPosZ() - this.theEntity.getPosZ();*/
-
                             LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
-                            lightningboltentity.moveForced(this.theEntity.getPositionVec());
+                            lightningboltentity.moveForced(target.getPositionVec());
                             world.addEntity(lightningboltentity);
                         }
-                    }
-                    else {
+                    } else {
                         if (world.rand.nextInt(100) + world.rand.nextDouble() <= 50) {
                             if (theEntity.getDistance(theEntity.getAttackTarget()) < 8) {
                                 EntityHelper.setState(this.theEntity, 2);
@@ -142,8 +134,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                                     enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
                             } else
                                 return;
-                        }
-                        else {
+                        } else {
                             EntityHelper.setState(this.theEntity, 3);
 
                             this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);

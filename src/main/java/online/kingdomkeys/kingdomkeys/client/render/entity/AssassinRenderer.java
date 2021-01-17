@@ -26,7 +26,7 @@ public class AssassinRenderer extends MobRenderer<AssassinEntity, AssassinModel<
     public void render(AssassinEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
     	matrixStackIn.push();
         {
-        	matrixStackIn.translate(0, -0.9, 0);
+        	//matrixStackIn.translate(0, -0.9, 0);
 	    	if (EntityHelper.getState(entityIn) == 1) {
 	    		matrixStackIn.translate(0, -1.5F, 0);
 	    	} else if(EntityHelper.getState(entityIn) == 2){
