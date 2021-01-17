@@ -732,10 +732,10 @@ public class EntityEvents {
 						
 						double value = mob.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-						playerData.addExperience(player, (int)exp /* * MainConfig.entities.xpMultiplier */);
+						playerData.addExperience(player, (int) ((int)exp * ModConfigs.xpMultiplier), true);
 											
 						if (event.getEntity() instanceof WitherEntity) {
-							playerData.addExperience(player, 1500);
+							playerData.addExperience(player, 1500, true);
 						}
 						
 					}

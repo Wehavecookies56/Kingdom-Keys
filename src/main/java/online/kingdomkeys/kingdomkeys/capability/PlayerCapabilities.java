@@ -20,13 +20,11 @@ import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.lib.LevelStats;
-import online.kingdomkeys.kingdomkeys.lib.PortalData;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
@@ -92,10 +90,23 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void addExperience(PlayerEntity player, int exp) {
+	public void addExperience(PlayerEntity player, int exp, boolean shareXP) {
 		if (player != null) {
 			if (this.level < 100) {
-				this.exp += exp;
+				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+				if(party != null && shareXP) { //If player is in a party and first to get EXP
+					double sharedXP = (exp * (ModConfigs.partyXPShare / 100) * 2); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
+					sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
+
+					for(Party.Member member : party.getMembers()) {
+						PlayerEntity ally = player.world.getPlayerByUuid(member.getUUID());
+						ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false); //Give EXP to other players with the false param to prevent getting in a loop
+					}
+					//Not adding the exp here as it will iterate through the party and this user is already in the party
+				} else {
+					this.exp += exp;
+
+				}
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					levelUpStatsAndDisplayMessage(player);
