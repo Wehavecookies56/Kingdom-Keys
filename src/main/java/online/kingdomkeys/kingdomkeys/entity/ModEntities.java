@@ -49,13 +49,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRendere
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.HPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MunnyRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.BlizzardEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.FireEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.GravityEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.*;
 import online.kingdomkeys.kingdomkeys.client.render.org.ChakramEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
@@ -242,6 +236,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE.get(), FireEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD.get(), BlizzardEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDER.get(), ThunderEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNET.get(), MagnetEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_WATER.get(), WaterEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), GravityEntityRenderer.FACTORY);
