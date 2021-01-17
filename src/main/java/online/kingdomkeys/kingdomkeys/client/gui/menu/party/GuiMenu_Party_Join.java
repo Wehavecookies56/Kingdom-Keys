@@ -54,14 +54,16 @@ public class GuiMenu_Party_Join extends MenuBackground {
 			String[] data = string.split(":");
 			String partyName = data[1].substring(data[1].indexOf("]")+2);
 			Party p = worldData.getPartyFromName(partyName);
-			if(p.getMembers().size() < p.getSize()) {
-				PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
-				p.addMember(minecraft.player.getUniqueID(), minecraft.player.getDisplayName().getFormattedText());
+			if (p != null) {
+				if (p.getMembers().size() < p.getSize()) {
+					PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
+					p.addMember(minecraft.player.getUniqueID(), minecraft.player.getDisplayName().getFormattedText());
 
-				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-				minecraft.displayGuiScreen(new GuiMenu_Party_Member());
-			} else {
-				System.out.println("Full");
+					minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					minecraft.displayGuiScreen(new GuiMenu_Party_Member());
+				} else {
+					System.out.println("Full");
+				}
 			}
 		}
 		updateButtons();
