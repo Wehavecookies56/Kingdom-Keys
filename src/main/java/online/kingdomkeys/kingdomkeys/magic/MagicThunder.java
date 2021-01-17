@@ -16,7 +16,7 @@ public class MagicThunder extends Magic {
 	@Override
 	public void onUse(PlayerEntity player) {
 		ThunderEntity thunderController = new ThunderEntity(player.world, player);
-		thunderController.setCaster(player.getDisplayName().getFormattedText());
+		thunderController.setCaster(player.getUniqueID());
 		player.world.addEntity(thunderController);
 		player.swingArm(Hand.MAIN_HAND);
 	}

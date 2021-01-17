@@ -14,8 +14,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 
 public class FireEntity extends ThrowableEntity {
 
@@ -82,9 +84,12 @@ public class FireEntity extends ThrowableEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getThrower()) {
-					target.setFire(10);
-					float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+					Party p = ModCapabilities.getWorld(getThrower().world).getPartyFromMember(getThrower().getUniqueID());
+					if(p.getMember(target.getUniqueID()) == null) {
+						target.setFire(10);
+						float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
+						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+					}
 					remove();
 				}
 			} else { // Block (not ERTR)

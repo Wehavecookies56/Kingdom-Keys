@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.Entity;
@@ -35,26 +37,16 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 
 public class ThunderBoltEntity extends ThrowableEntity {
 	private int lightningState;
 	public long boltVertex;
 	private int boltLivingTime;
 	private boolean effectOnly;
-	private PlayerEntity player;
-	String caster;
-
-	/*public ThunderBoltEntity(World worldIn, double x, double y, double z, boolean effectOnlyIn) {
-		      super(EntityType.LIGHTNING_BOLT, worldIn);
-		      this.ignoreFrustumCheck = true;
-		      this.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
-		      this.lightningState = 2;
-		      this.boltVertex = this.rand.nextLong();
-		      this.boltLivingTime = this.rand.nextInt(3) + 1;
-		      this.effectOnly = effectOnlyIn;
-		   }*/
 
 	public ThunderBoltEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -72,7 +64,7 @@ public class ThunderBoltEntity extends ThrowableEntity {
 
 	public ThunderBoltEntity(World world, PlayerEntity player, double x, double y, double z) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), player, world);
-		this.player = player;
+		setCaster(player.getUniqueID());
 		this.ignoreFrustumCheck = true;
 	      this.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
 	      this.lightningState = 2;
@@ -116,15 +108,19 @@ public class ThunderBoltEntity extends ThrowableEntity {
 			} else if (!this.effectOnly) {
 				double d0 = 3.0D;
 				List<Entity> list = this.world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.getPosX() - 2.0D, this.getPosY() - 2.0D, this.getPosZ() - 2.0D, this.getPosX() + 2.0D, this.getPosY() + 6.0D + 2.0D, this.getPosZ() + 2.0D), Entity::isAlive);
-
-				for (Entity entity : list) {
-					
-					if (entity != getThrower()) {
-						float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
-						entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
-						//System.out.println(dmg);
+				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getThrower().getUniqueID());
+				if(casterParty != null) {
+					for(Party.Member m : casterParty.getMembers()) {
+						list.remove(world.getPlayerByUuid(m.getUUID()));
 					}
-					
+				} else {
+					list.remove(getThrower());
+				}
+				for (Entity entity : list) {
+
+					float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
+					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+
 					if (entity instanceof PigEntity) {
 						ZombiePigmanEntity zombiepigmanentity = EntityType.ZOMBIE_PIGMAN.create(entity.world);
 						zombiepigmanentity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
@@ -155,13 +151,14 @@ public class ThunderBoltEntity extends ThrowableEntity {
 					
 					if(entity instanceof CreeperEntity) {
 						LightningBoltEntity lightningBoltEntity = new LightningBoltEntity(world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), true);
+						lightningBoltEntity.setCaster(getCaster() instanceof ServerPlayerEntity ? (ServerPlayerEntity)getCaster() : null);
 						//((ServerWorld) event.getWorld()).addLightningBolt(lightningBoltEntity);
 						entity.onStruckByLightning(lightningBoltEntity);
 					}
 				}
 
-				if (this.caster != null) {
-					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayerEntity)this.player, list);
+				if (getCaster() != null) {
+					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayerEntity)getCaster(), list);
 				}
 			}
 		}
@@ -179,40 +176,33 @@ public class ThunderBoltEntity extends ThrowableEntity {
 
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
-		compound.putString("caster", this.getCaster());
-	}
-
-	@Override
-	public void readAdditional(CompoundNBT compound) {
-		this.setCaster(compound.getString("caster"));
-	}
-
-	private static final DataParameter<String> CASTER = EntityDataManager.createKey(MagnetEntity.class, DataSerializers.STRING);
-
-	public String getCaster() {
-		return caster;
-	}
-
-	public void setCaster(String name) {
-		this.dataManager.set(CASTER, name);
-		this.caster = name;
-	}
-
-	@Override
-	public void notifyDataManagerChange(DataParameter<?> key) {
-		if (key.equals(CASTER)) {
-			this.caster = this.getCasterDataManager();
+		super.writeAdditional(compound);
+		if (this.dataManager.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
 		}
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(CASTER, "");
+	public void readAdditional(CompoundNBT compound) {
+		super.readAdditional(compound);
+		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 	}
 
-	public String getCasterDataManager() {
-		return this.dataManager.get(CASTER);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ThunderBoltEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+
+	public PlayerEntity getCaster() {
+		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
 	}
+
+	public void setCaster(UUID uuid) {
+		this.dataManager.set(OWNER, Optional.of(uuid));
+	}
+
+	@Override
+	protected void registerData() {
+		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
+	}
+
 	public IPacket<?> createSpawnPacket() {
 		return new SSpawnGlobalEntityPacket(this);
 	}

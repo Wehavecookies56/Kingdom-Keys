@@ -19,13 +19,13 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 
 public class GravityEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
-	PlayerEntity player;
 
 	public GravityEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -43,7 +43,6 @@ public class GravityEntity extends ThrowableEntity {
 
 	public GravityEntity(World world, PlayerEntity player) {
 		super(ModEntities.TYPE_GRAVITY.get(), player, world);
-		this.player = player;
 	}
 
 	@Override
@@ -89,6 +88,15 @@ public class GravityEntity extends ThrowableEntity {
 		}
 		if (!world.isRemote) {
 			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getThrower(), getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
+			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getThrower().getUniqueID());
+
+			if(casterParty != null) {
+				for(Party.Member m : casterParty.getMembers()) {
+					list.remove(world.getPlayerByUuid(m.getUUID()));
+				}
+			} else {
+				list.remove(getThrower());
+			}
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
