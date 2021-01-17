@@ -145,6 +145,7 @@ public class CommandMenuGui extends Screen {
 	}
 	
 	private void drawSubTargetSelector(int width, int height) {
+		RenderSystem.enableBlend();
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
 		if(worldData.getPartyFromMember(minecraft.player.getUniqueID()) == null) {
 			submenu = SUB_MAGIC;
@@ -207,6 +208,7 @@ public class CommandMenuGui extends Screen {
 			}
 			RenderSystem.popMatrix();
 		}
+		RenderSystem.disableBlend();
 	}
 
 	private void drawHeader(String text, int subMenu) {
@@ -224,22 +226,26 @@ public class CommandMenuGui extends Screen {
 	}
 
 	private void drawSelected() {
+		RenderSystem.enableBlend();
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scalef(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(5, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, MENU_HEIGHT);
 		}
 		RenderSystem.popMatrix();
+		RenderSystem.disableBlend();
 	}
 
 
 	private void drawUnselected() {
+		RenderSystem.enableBlend();
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.scalef(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(0, 0, TOP_WIDTH, 0, TOP_WIDTH, 0 + MENU_HEIGHT);
 		}
 		RenderSystem.popMatrix();
+		RenderSystem.disableBlend();
 	}
 
 	private void drawIcon(int selected) {
@@ -503,15 +509,12 @@ public class CommandMenuGui extends Screen {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.color4f(1F, 1F, 1F, alpha);
-					int u;
-					int v;
 					int x;
 					x = 10;
 
 					minecraft.textureManager.bindTexture(texture);
 					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * (playerData.getMagicList().size() - i)), 0);
 					RenderSystem.scalef(scale, scale, scale);
-					v = 0;
 
 					paintWithColorArray(magicMenuColor, alpha);
 					if (magicSelected == i) {
