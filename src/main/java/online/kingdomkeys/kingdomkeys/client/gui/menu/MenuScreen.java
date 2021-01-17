@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.abilities.MenuAbilitiesScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Member;
@@ -65,7 +66,7 @@ public class MenuScreen extends MenuBackground {
 		 * case CUSTOMIZE: GuiHelper.openCustomize(); break; case STATUS:
 		 * GuiHelper.openStatus(); break; case JOURNAL: GuiHelper.openReports(); break;*/
 		  case CONFIG:
-			//minecraft.displayGuiScreen(new GuiMenu_Synthesis()); 
+			minecraft.displayGuiScreen(new MenuConfigScreen());
 			break;
 		 
 		}
@@ -84,8 +85,8 @@ public class MenuScreen extends MenuBackground {
 		//int button_partyY = button_customizeY + 18;
 		int button_partyY = button_abilitiesY + 18;
 		int button_statusY = button_partyY + 18;
-		int button_journalY = button_statusY + 18;
-		int button_configY = button_journalY + 18;
+		//int button_journalY = button_statusY + 18;
+		int button_configY = button_statusY + 18;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 
@@ -104,9 +105,9 @@ public class MenuScreen extends MenuBackground {
 		addButton(status = new MenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, true, (e) -> {
 			action(STATUS);
 		}));
-		addButton(journal = new MenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, true, (e) -> {
-			action(JOURNAL);
-		}));
+		//addButton(journal = new MenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, true, (e) -> {
+		//	action(JOURNAL);
+		//}));
 		addButton(config = new MenuButton((int) buttonPosX, button_configY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, true, (e) -> {
 			action(CONFIG);
 		}));
@@ -128,7 +129,7 @@ public class MenuScreen extends MenuBackground {
 		party.visible = true;
 		status.visible = true;
 		journal.visible = false;
-		config.visible = false;
+		config.visible = true;
 		
 		customize.active = false;
 		journal.active = false;
