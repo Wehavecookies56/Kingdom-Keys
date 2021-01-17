@@ -16,7 +16,7 @@ public class MagicWater extends Magic {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player) {
+	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		WaterEntity shot = new WaterEntity(player.world, player);
 		shot.setCaster(player.getDisplayName().getString());
 		player.world.addEntity(shot);

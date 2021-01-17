@@ -15,7 +15,7 @@ public class MagicBlizzard extends Magic {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player) {
+	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		ThrowableEntity shot = new BlizzardEntity(player.world, player);
 		player.world.addEntity(shot);
 		shot.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);

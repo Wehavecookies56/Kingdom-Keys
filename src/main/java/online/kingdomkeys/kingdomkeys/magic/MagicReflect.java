@@ -18,7 +18,7 @@ public class MagicReflect extends Magic {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player) {
+	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setReflectTicks(40);
 		PacketHandler.syncToAllAround(player, playerData);
