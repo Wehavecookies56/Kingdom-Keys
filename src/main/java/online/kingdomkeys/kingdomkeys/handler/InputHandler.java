@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import org.lwjgl.glfw.GLFW;
@@ -467,7 +468,7 @@ public class InputHandler {
             if (this.targetsList.isEmpty()) {
             } else {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
-            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < 50) {
+            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < ModConfigs.partyRangeLimit) {
             		PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected), member.getUsername()));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;

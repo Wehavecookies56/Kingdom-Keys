@@ -96,7 +96,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			if (this.level < 100) {
 				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
-					double sharedXP = (exp * ((25F / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
+					double sharedXP = (exp * ((ModConfigs.partyXPShare / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
 					sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
 
 					for(Party.Member member : party.getMembers()) {
