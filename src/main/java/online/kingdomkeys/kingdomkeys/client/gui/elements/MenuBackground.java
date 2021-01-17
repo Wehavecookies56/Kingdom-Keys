@@ -179,7 +179,7 @@ public class MenuBackground extends Screen {
 	public void drawBiomeDim() {
 		RenderSystem.pushMatrix();
 		{
-			String text = minecraft.player.dimension.getRegistryName().getPath().toUpperCase() + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getDisplayName().getFormattedText();
+			String text = minecraft.player.dimension.getRegistryName().getPath().toUpperCase().replaceAll("_", " ") + " | " + minecraft.player.world.getBiome(minecraft.player.getPosition()).getDisplayName().getFormattedText();
 			drawString(minecraft.fontRenderer, text, width - minecraft.fontRenderer.getStringWidth(text) - 5, 5, 0xF58B33);
 		}
 		RenderSystem.popMatrix();
