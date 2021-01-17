@@ -747,9 +747,9 @@ public class EntityEvents {
 					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
 					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 2, entity.getMaxHealth() / 1.2)));
 					
-					int num = Utils.randomWithRange(1,100);
+					int num = Utils.randomWithRange(0, 99);
 
-					if(num <= 1) {
+					if(num <= ModConfigs.recipeDropChance) {
 						ItemEntity ie = new ItemEntity(player.world, x, y, z, new ItemStack(ModItems.recipe.get()));
 						player.world.addEntity(ie);
 					}
