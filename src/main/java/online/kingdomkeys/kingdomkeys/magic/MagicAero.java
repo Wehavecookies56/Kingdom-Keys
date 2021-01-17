@@ -17,12 +17,11 @@ public class MagicAero extends Magic {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player) {
+	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		playerData.setAeroTicks((int) (playerData.getMP() * 3));
+		playerData.setAeroTicks((int) (ModCapabilities.getPlayer(caster).getMaxMP() * 3));
 		PacketHandler.syncToAllAround(player, playerData);
-		player.swingArm(Hand.MAIN_HAND);
-
+		caster.swingArm(Hand.MAIN_HAND);
 	}
 
 }

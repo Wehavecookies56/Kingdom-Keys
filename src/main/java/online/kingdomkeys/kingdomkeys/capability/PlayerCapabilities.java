@@ -116,8 +116,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					levelUpStatsAndDisplayMessage(player);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
 				}
+				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
 			}
-			PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
 		}
 	}
 

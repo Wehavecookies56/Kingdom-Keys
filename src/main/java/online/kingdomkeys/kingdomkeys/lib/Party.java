@@ -94,7 +94,7 @@ public class Party {
 		return this.members;
 	}
 	
-	public int getMemberOrder(UUID memberUUID) {
+	public int getMemberIndex(UUID memberUUID) {
 		int i = 0;
 		for(i = 0; i<members.size();i++) {
 			if(members.get(i).getUUID().equals(memberUUID)) {

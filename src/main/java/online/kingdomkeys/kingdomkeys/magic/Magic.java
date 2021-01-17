@@ -33,8 +33,13 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     public boolean getHasToSelect() {
     	return hasToSelect;
     }
-    
-    public abstract void onUse(PlayerEntity player);
+
+    /**
+     * If player and caster are different it means the magic was casted from a target selector to another player in the party
+     * @param player
+     * @param caster
+     */
+    public abstract void onUse(PlayerEntity player, PlayerEntity caster);
 
 	public int getOrder() {
 		return order;

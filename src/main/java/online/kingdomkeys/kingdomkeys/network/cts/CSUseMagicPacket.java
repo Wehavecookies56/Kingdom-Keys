@@ -54,13 +54,12 @@ public class CSUseMagicPacket {
 					int cost = ModMagic.registry.getValue(new ResourceLocation(message.name)).getCost();
 					playerData.remMP(cost);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-					PlayerEntity targetEntity;
 					if(message.target.equals("")) {
-						targetEntity = player;
+						ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(player, player);
 					} else {
-						targetEntity = Utils.getPlayerByName(player.world, message.target);
+						PlayerEntity targetEntity = Utils.getPlayerByName(player.world, message.target);
+						ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity, player);
 					}
-	            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity);
 				}
 				
 				PacketHandler.syncToAllAround(player, playerData);

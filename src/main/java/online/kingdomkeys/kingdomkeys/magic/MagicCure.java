@@ -17,7 +17,7 @@ public class MagicCure extends Magic {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player) {
+	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		 //	PacketDispatcher.sendToAllAround(new SpawnCureParticles(this, 1), player, 64.0D);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		player.heal(playerData.getMaxHP()/3);
@@ -34,7 +34,7 @@ public class MagicCure extends Magic {
                 }
             }
         }*/
-		player.swingArm(Hand.MAIN_HAND);
+		caster.swingArm(Hand.MAIN_HAND);
 	}
 
 }

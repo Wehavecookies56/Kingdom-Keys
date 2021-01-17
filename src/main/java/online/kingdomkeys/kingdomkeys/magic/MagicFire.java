@@ -14,7 +14,7 @@ public class MagicFire extends Magic {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player) {
+	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		ThrowableEntity shot = new FireEntity(player.world, player);
 		player.world.addEntity(shot);
 		shot.shoot(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
@@ -22,7 +22,7 @@ public class MagicFire extends Magic {
 		// SoundCategory.MASTER, 1F, 1F);
 		// player.world.playSound(null, player.getPosition(),
 		// Utils.getShootSound(player, message.charged), SoundCategory.MASTER, 1F, 1F);
-		player.swingArm(Hand.MAIN_HAND);
+		caster.swingArm(Hand.MAIN_HAND);
 	}
 
 }

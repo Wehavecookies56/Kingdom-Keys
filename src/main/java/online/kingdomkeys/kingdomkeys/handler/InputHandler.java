@@ -414,7 +414,7 @@ public class InputHandler {
             	} else {
             		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagic.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
             			Party party = worldData.getPartyFromMember(player.getUniqueID());
-                        CommandMenuGui.targetSelected = party.getMemberOrder(player.getUniqueID());
+                        CommandMenuGui.targetSelected = party.getMemberIndex(player.getUniqueID());
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
     	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         return;
