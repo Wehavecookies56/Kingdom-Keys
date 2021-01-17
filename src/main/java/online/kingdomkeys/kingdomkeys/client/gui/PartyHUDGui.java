@@ -67,9 +67,9 @@ public class PartyHUDGui extends Screen {
 			}
 			
 			for(int i=0;i<allies.size();i++) {
-				Member ally = allies.get(i);
-				if(player.world.getPlayerByUuid(ally.getUUID()) != null){
-					PlayerEntity playerAlly = player.world.getPlayerByUuid(ally.getUUID());
+				Member member = allies.get(i);
+				PlayerEntity playerAlly = player.world.getPlayerByUuid(member.getUUID());
+				if(playerAlly != null){
 					renderFace(playerAlly,screenWidth, screenHeight, scale, i);
 				} else {
 					// When player in party but not loaded into this client
@@ -132,6 +132,8 @@ public class PartyHUDGui extends Screen {
 					RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
 					RenderSystem.scalef(scale, scale, scale);
 					String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getFormattedText();
+					if(playerAlly != null && minecraft.player.getDistance(playerAlly) >= 50)
+						drawCenteredString(minecraft.fontRenderer, "Out of range", 16, -20, 0xFFFFFF);
 					drawCenteredString(minecraft.fontRenderer, name, 16, -10, 0xFFFFFF);
 				}
 				RenderSystem.popMatrix();

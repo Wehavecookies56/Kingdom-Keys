@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -95,18 +96,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			if (this.level < 100) {
 				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
-					double sharedXP = (exp * (ModConfigs.partyXPShare / 100) * 2); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
+					double sharedXP = (exp * ((25F / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
 					sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
 
 					for(Party.Member member : party.getMembers()) {
-						PlayerEntity ally = player.world.getPlayerByUuid(member.getUUID());
-						ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false); //Give EXP to other players with the false param to prevent getting in a loop
-					}
-					//Not adding the exp here as it will iterate through the party and this user is already in the party
-				} else {
-					this.exp += exp;
+						for (ServerWorld world : player.world.getServer().getWorlds()) {
+							PlayerEntity ally = world.getPlayerByUuid(member.getUUID());
+							if (ally != null && ally != player) {
+								ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false); //Give EXP to other players with the false param to prevent getting in a loop
+								PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayerEntity)ally);
+							}
+						}
 
+					}
 				}
+				this.exp += exp;
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					levelUpStatsAndDisplayMessage(player);
