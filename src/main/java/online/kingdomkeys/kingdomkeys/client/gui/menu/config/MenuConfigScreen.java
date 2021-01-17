@@ -28,7 +28,7 @@ public class MenuConfigScreen extends MenuBackground {
     MenuButton back, commandMenuButton, hpButton;
     Button hideBarsButton, cmHeaderTextVisibleButton;
     MenuBox box;
-    TextFieldWidget cmTextXOffsetBox, cmXScaleBox;
+    TextFieldWidget cmTextXOffsetBox, cmXScaleBox, cmXPosBox;
 
     boolean cmHeaderTextVisible;
 
@@ -71,8 +71,32 @@ public class MenuConfigScreen extends MenuBackground {
         super.init();
         this.buttons.clear();
 
-        addButton(cmHeaderTextVisibleButton = new Button(box.x+99, (int) topBarHeight + 18, (int) (buttonWidth * 0.55F), 20, cmHeaderTextVisible+"", (e) -> { action("textHeaderVisibility"); }));
-        addButton(cmTextXOffsetBox = new TextFieldWidget(minecraft.fontRenderer, box.x+100, (int) (topBarHeight + 20 * 2), minecraft.fontRenderer.getStringWidth("#####"), 16, "test"){
+        addButton(cmXPosBox = new TextFieldWidget(minecraft.fontRenderer, box.x+100, (int) (topBarHeight + 20 * 1), minecraft.fontRenderer.getStringWidth("#####"), 16, "test"){
+            @Override
+            public boolean charTyped(char c, int i) {
+                if (Utils.isNumber(c) || c == '-') {
+                    String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+                    if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+                        super.charTyped(c, i);
+                        ModConfigs.setCmXPos(Utils.getInt(getText()));
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+                super.keyPressed(keyCode, scanCode, modifiers);
+                ModConfigs.setCmXPos(Utils.getInt(getText()));
+                return true;
+            }
+        });
+        addButton(cmHeaderTextVisibleButton = new Button(box.x+99, (int) topBarHeight + 38, (int) (buttonWidth * 0.55F), 20, cmHeaderTextVisible+"", (e) -> { action("textHeaderVisibility"); }));
+        addButton(cmTextXOffsetBox = new TextFieldWidget(minecraft.fontRenderer, box.x+100, (int) (topBarHeight + 20 * 3), minecraft.fontRenderer.getStringWidth("#####"), 16, "test"){
             @Override
             public boolean charTyped(char c, int i) {
                 if (Utils.isNumber(c) || c == '-') {
@@ -98,7 +122,7 @@ public class MenuConfigScreen extends MenuBackground {
             }
         });
 
-        addButton(cmXScaleBox = new TextFieldWidget(minecraft.fontRenderer, box.x+100, (int) (topBarHeight + 20 * 3), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+        addButton(cmXScaleBox = new TextFieldWidget(minecraft.fontRenderer, box.x+100, (int) (topBarHeight + 20 * 4), minecraft.fontRenderer.getStringWidth("#####"), 16, "test"){
             @Override
             public boolean charTyped(char c, int i) {
                 if (Utils.isNumber(c) || c == '-') {
@@ -133,12 +157,14 @@ public class MenuConfigScreen extends MenuBackground {
         cmTextXOffsetBox.setText(""+ModConfigs.cmTextXOffset);
         cmHeaderTextVisibleButton.setMessage(cmHeaderTextVisible+"");
         cmXScaleBox.setText(""+ModConfigs.cmXScale);
+        cmXPosBox.setText(""+ModConfigs.cmXPos);
 
         commandMenuList.add(cmHeaderTextVisibleButton);
         commandMenuList.add(cmTextXOffsetBox);
         commandMenuList.add(cmTextXOffsetBox);
         commandMenuList.add(cmHeaderTextVisibleButton);
         commandMenuList.add(cmXScaleBox);
+        commandMenuList.add(cmXPosBox);
         updateButtons();
     }
 
@@ -164,9 +190,10 @@ public class MenuConfigScreen extends MenuBackground {
             {
                 RenderSystem.translatef(box.x+8, box.y+4, 1);
                 drawString(minecraft.fontRenderer, Utils.translateToLocal("Command Menu"), 0, 0, 0xFF9900);
-                drawString(minecraft.fontRenderer, Utils.translateToLocal("Header Title: "), 12, 20, 0xFF9900);
-                drawString(minecraft.fontRenderer, Utils.translateToLocal("Text X Offset: "), 12, 20*2, 0xFF9900);
-                drawString(minecraft.fontRenderer, Utils.translateToLocal("X Scale: "), 12, 20*3, 0xFF9900);
+                drawString(minecraft.fontRenderer, Utils.translateToLocal("X Position"), 12, 20, 0xFF9900);
+                drawString(minecraft.fontRenderer, Utils.translateToLocal("Header Title: "), 12, 40, 0xFF9900);
+                drawString(minecraft.fontRenderer, Utils.translateToLocal("Text X Offset: "), 12, 60, 0xFF9900);
+                drawString(minecraft.fontRenderer, Utils.translateToLocal("X Scale: "), 12, 80, 0xFF9900);
             }
             RenderSystem.popMatrix();
 

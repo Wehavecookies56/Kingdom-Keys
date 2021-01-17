@@ -12,7 +12,8 @@ public class ClientConfig {
 
     public ForgeConfigSpec.IntValue cmTextXOffset;
     public ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
-    public ForgeConfigSpec.IntValue cmXScale;
+    public ForgeConfigSpec.IntValue cmXScale, cmXPos;
+
 
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -40,6 +41,11 @@ public class ClientConfig {
                 .comment("Command Menu X Scale %")
                 .translation(KingdomKeys.MODID + ".config.cm_x_scale")
                 .defineInRange("cmXScale", 100, -1000, 1000);
+
+        cmXPos = builder
+                .comment("Command Menu X Pos")
+                .translation(KingdomKeys.MODID + ".config.cm_x_scale")
+                .defineInRange("cmXPos", 0, -1000, 1000);
 
         builder.pop();
     }

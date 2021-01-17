@@ -117,25 +117,30 @@ public class CommandMenuGui extends Screen {
 
 	public void drawCommandMenu(int width, int height) {
 		if(ModCapabilities.getPlayer(minecraft.player) != null) {
-			drawTop(width, height);
-			drawAttack(width, height);
-			drawMagic(width, height);
-			drawItems(width, height);
-			drawDrive(width, height);
-		
-			if (submenu == SUB_PORTALS) {
-				drawSubPortals(width, height);
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.translatef(ModConfigs.cmXPos, 0, 0);
+				drawTop(width, height);
+				drawAttack(width, height);
+				drawMagic(width, height);
+				drawItems(width, height);
+				drawDrive(width, height);
+
+				if (submenu == SUB_PORTALS) {
+					drawSubPortals(width, height);
+				}
+				if (submenu == SUB_MAGIC || submenu == SUB_TARGET) {
+					drawSubMagic(width, height);
+				}
+				if (submenu == SUB_DRIVE) {
+					drawSubDrive(width, height);
+				}
+				if (submenu == SUB_TARGET) {
+					drawSubTargetSelector(width, height);
+				}
+				RenderSystem.disableBlend();
 			}
-			if (submenu == SUB_MAGIC || submenu == SUB_TARGET) {
-				drawSubMagic(width, height);
-			}
-			if (submenu == SUB_DRIVE) {
-				drawSubDrive(width, height);
-			}
-			if (submenu == SUB_TARGET) {
-				drawSubTargetSelector(width, height);
-			}
-			RenderSystem.disableBlend();
+			RenderSystem.popMatrix();
 		}
 	}
 	
