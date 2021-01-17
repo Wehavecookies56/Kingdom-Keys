@@ -16,7 +16,7 @@ public class MagicMagnet extends Magic {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player) {
+	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		MagnetEntity shot = new MagnetEntity(player.world, player);
 		shot.setCaster(player.getUniqueID());
 		player.world.addEntity(shot);

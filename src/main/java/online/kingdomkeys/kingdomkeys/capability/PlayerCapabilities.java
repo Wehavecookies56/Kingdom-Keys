@@ -126,15 +126,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					
 				} else {
 					this.exp += exp;
-
 				}
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					levelUpStatsAndDisplayMessage(player);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
 				}
+				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
+				//PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity) player);
 			}
-			PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
 		}
 	}
 

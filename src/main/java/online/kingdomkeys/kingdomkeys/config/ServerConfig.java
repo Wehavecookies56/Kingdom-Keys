@@ -43,7 +43,8 @@ public class ServerConfig {
                 .defineInRange("xpMultiplier", 1F, 0, 1000);
 
         partyXPShare = builder
-                .comment("XP Share in party (value used here will be used if the party size is 2, will be downscaled the bigger the party is)")
+              //  .comment("XP Share in party (value used here will be used if the party size is 2, will be downscaled the bigger the party is)")
+        		.comment("XP Share in party (killer gets 100%, the rest of party members the % specified here)")
                 .translation(KingdomKeys.MODID + ".config.party_xp_share")
                 .defineInRange("partyXPShare", 0F, 0, 100);
 
