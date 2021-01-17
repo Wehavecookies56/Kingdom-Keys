@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -21,7 +22,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
 
 
-    public RedNocturneEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public RedNocturneEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 

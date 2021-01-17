@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -149,38 +150,10 @@ public class KingdomKeys {
 		ModCapabilities.register();
 		ModBiomes.init();
 		//ModDimensions.init();
-		DeferredWorkQueue.runLater(() -> {
-			PacketHandler.register();
-		});
-		
+		DeferredWorkQueue.runLater(PacketHandler::register);
+		DeferredWorkQueue.runLater(MobSpawnings::addSpawns);
+		DeferredWorkQueue.runLater(ModEntities::registerPlacements);
 		addMoogleHouse();
-		
-		DeferredWorkQueue.runLater(() -> {
-			for(Biome b : ForgeRegistries.BIOMES){
-				if(b.getCategory() != Category.OCEAN) {
-					if(b.getDefaultTemperature() >= 0.3 && b.getDefaultTemperature() <= 1.0) {
-						b.getSpawns(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new SpawnListEntry(ModEntities.TYPE_MOOGLE.get(), 2, 0, 1));
-					}
-					
-					for(EntityType<?> entityType : ModEntities.pureblood) {
-						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-					}
-					for(EntityType<?> entityType : ModEntities.emblem) {
-						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-					}
-					for(EntityType<?> entityType : ModEntities.nobody) {
-						b.getSpawns(entityType.getClassification()).add(new SpawnListEntry(entityType, 2, 0, 1));
-					}
-				}
-				
-			}
-			//Remove all entity spawns added to the Dive to the Heart biome
-			Biome dtth = ForgeRegistries.BIOMES.getValue(new ResourceLocation(MODID, Strings.diveToTheHeart + "_biome"));
-			for (EntityClassification entityClassification : EntityClassification.values()) {
-				dtth.getSpawns(entityClassification).clear();
-			}
-		});
-
 	}
 
 	public void addMoogleHouse() {

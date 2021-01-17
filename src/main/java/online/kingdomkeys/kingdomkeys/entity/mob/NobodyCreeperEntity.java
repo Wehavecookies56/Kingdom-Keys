@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
@@ -13,9 +14,9 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
-public class NobodyCreeperEntity extends CreatureEntity implements IKHMob {
+public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
 
-    public NobodyCreeperEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public NobodyCreeperEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 

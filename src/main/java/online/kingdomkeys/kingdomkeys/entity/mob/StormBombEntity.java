@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -13,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class StormBombEntity extends BaseBombEntity {
 
-    public StormBombEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public StormBombEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 

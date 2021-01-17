@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
@@ -23,16 +24,16 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
-public abstract class BaseBombEntity extends CreatureEntity implements IKHMob, IEntityAdditionalSpawnData {
+public abstract class BaseBombEntity extends MonsterEntity implements IKHMob, IEntityAdditionalSpawnData {
 
     public int ticksToExplode;
 
-    protected BaseBombEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    protected BaseBombEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
         this.ticksToExplode = 100;
     }
 
-    public BaseBombEntity(EntityType<? extends CreatureEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public BaseBombEntity(EntityType<? extends MonsterEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(type, world);
     }
     

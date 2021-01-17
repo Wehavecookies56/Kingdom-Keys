@@ -15,6 +15,7 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.IWorld;
@@ -24,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class DarkballEntity extends CreatureEntity implements IKHMob {
+public class DarkballEntity extends MonsterEntity implements IKHMob {
 
     enum SpecialAttack {
         CHARGE,
@@ -40,7 +41,7 @@ public class DarkballEntity extends CreatureEntity implements IKHMob {
             DAMAGE_BERSERK = 5,
             DAMAGE_DARKCLOUD = 4;
 
-    public DarkballEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    public DarkballEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
