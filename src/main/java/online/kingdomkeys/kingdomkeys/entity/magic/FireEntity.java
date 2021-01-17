@@ -85,7 +85,7 @@ public class FireEntity extends ThrowableEntity {
 
 				if (target != func_234616_v_()) {
 					Party p = ModCapabilities.getWorld(func_234616_v_().world).getPartyFromMember(func_234616_v_().getUniqueID());
-					if(p.getMember(target.getUniqueID()) == null) {
+					if(p == null || p.getMember(target.getUniqueID()) == null) {
 						target.setFire(10);
 						float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
