@@ -128,11 +128,9 @@ public class MenuScreen extends MenuBackground {
 		customize.visible = false;
 		party.visible = true;
 		status.visible = true;
-		journal.visible = false;
 		config.visible = true;
 		
 		customize.active = false;
-		journal.active = false;
 	}
 
 	@Override
