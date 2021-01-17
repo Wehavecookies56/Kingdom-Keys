@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -142,7 +145,7 @@ public class EntityEvents {
 		}
 	}
 
-	boolean openedAlignment = false;
+	Map<UUID, Boolean> openedAlignment = new HashMap<>();
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
@@ -195,19 +198,21 @@ public class EntityEvents {
 				}
 			}
 
-			if (playerData.getAlignment() == Utils.OrgMember.NONE) {
-				boolean wearingOrgCloak = Utils.isWearingOrgRobes(event.player);
-				
-				if (wearingOrgCloak) {
-					if (!openedAlignment) {
-						if(!event.player.world.isRemote) {
-							PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
-
-							openedAlignment = true;
-						}
+			if(!event.player.world.isRemote) {
+				if (playerData.getAlignment() == Utils.OrgMember.NONE) {
+					if (!openedAlignment.containsKey(event.player.getUniqueID())) {
+						openedAlignment.put(event.player.getUniqueID(), false);
 					}
-				} else {
-					openedAlignment = false;
+					boolean wearingOrgCloak = Utils.isWearingOrgRobes(event.player);
+
+					if (wearingOrgCloak) {
+						if (!openedAlignment.get(event.player.getUniqueID())) {
+							PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
+							openedAlignment.put(event.player.getUniqueID(), true);
+						}
+					} else {
+						openedAlignment.put(event.player.getUniqueID(), false);
+					}
 				}
 			}
 		}
