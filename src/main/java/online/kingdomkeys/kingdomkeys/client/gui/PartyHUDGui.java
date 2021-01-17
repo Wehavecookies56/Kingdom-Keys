@@ -172,7 +172,7 @@ public class PartyHUDGui extends Screen {
 				{
 					RenderSystem.rotatef(180, 0, 0, 1);
 					RenderSystem.translatef(-4, -15, 1);
-					RenderSystem.scalef(scale/3*2, (scale*28) * val/max, 1);
+					RenderSystem.scalef(scale*0.66F, (scale*28) * val/max, 1);
 					this.blit(0, 0, 0, 77, 12, 1);
 				}
 				RenderSystem.popMatrix();

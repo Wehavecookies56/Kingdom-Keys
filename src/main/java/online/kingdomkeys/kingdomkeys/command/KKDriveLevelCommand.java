@@ -32,7 +32,8 @@ public class KKDriveLevelCommand extends BaseCommand{
 	private static final SuggestionProvider<CommandSource> SUGGEST_DRIVE_FORMS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation location : ModDriveForms.registry.getKeys()) {
-			list.add(location.toString());
+			if (!location.getPath().equals("form_anti"))
+				list.add(location.toString());
 		}
 		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};

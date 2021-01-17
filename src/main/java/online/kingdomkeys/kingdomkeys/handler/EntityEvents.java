@@ -609,64 +609,66 @@ public class EntityEvents {
 	// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
-		if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
-			LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
-			LivingEntity target = event.getEntityLiving();
+		if (!event.getEntityLiving().world.isRemote) {
+			if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
+				LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
+				LivingEntity target = event.getEntityLiving();
 
-			if(attacker instanceof PlayerEntity && target instanceof PlayerEntity) {
-				Party p = ModCapabilities.getWorld(attacker.world).getPartyFromMember(attacker.getUniqueID());
-				if(p.getMember(event.getEntityLiving().getUniqueID()) != null) {
-					event.setCanceled(true);
+				if (attacker instanceof PlayerEntity && target instanceof PlayerEntity) {
+					Party p = ModCapabilities.getWorld(attacker.world).getPartyFromMember(attacker.getUniqueID());
+					if (p.getMember(event.getEntityLiving().getUniqueID()) != null) {
+						event.setCanceled(true);
+					}
 				}
-			}
 			
 			/*if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 				event.setCanceled(true);
 				event.getEntityLiving().attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.MAIN_HAND, (PlayerEntity) attacker), event.getAmount());
 			}*/
-			
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
-			if (target instanceof PlayerEntity) {
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
 
-				if (playerData.getReflectTicks() > 0) { // If is casting reflect
-					if (!playerData.getReflectActive()) // If has been hit while casting reflect
-						playerData.setReflectActive(true);
-					event.setCanceled(true);
+				IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
+				if (target instanceof PlayerEntity) {
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
+
+					if (playerData.getReflectTicks() > 0) { // If is casting reflect
+						if (!playerData.getReflectActive()) // If has been hit while casting reflect
+							playerData.setReflectActive(true);
+						event.setCanceled(true);
+					}
+
+					if (playerData.isAbilityEquipped(Strings.mpRage)) {
+						playerData.addMP(event.getAmount());
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
+					}
+
+					if (playerData.isAbilityEquipped(Strings.damageDrive)) {
+						playerData.addDP(event.getAmount());
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
+					}
+
 				}
-				
-				if(playerData.isAbilityEquipped(Strings.mpRage)) {
-					playerData.addMP(event.getAmount());
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
-				}
 
-				if(playerData.isAbilityEquipped(Strings.damageDrive)) {
-					playerData.addDP(event.getAmount());
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
-				}
-
-			}
-
-			if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
-				PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
-				if (globalData.getStoppedTicks() > 0) {
-					float dmg = event.getAmount();
-					if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-						ItemStack stack = Utils.getKeybladeDamageStack(event.getSource(), source);
-						if(stack != null) {
-							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
-						}
+				if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
+					PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
+					if (globalData.getStoppedTicks() > 0) {
+						float dmg = event.getAmount();
+						if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+							ItemStack stack = Utils.getKeybladeDamageStack(event.getSource(), source);
+							if (stack != null) {
+								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
+							}
 						/*if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemMainhand());
 						} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
 							dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
 						}*/
-						if(dmg == 0) {
-							dmg = event.getAmount();
+							if (dmg == 0) {
+								dmg = event.getAmount();
+							}
 						}
+						globalData.addDamage((int) dmg);
+						event.setCanceled(true);
 					}
-					globalData.addDamage((int) dmg);
-					event.setCanceled(true);
 				}
 			}
 		}
