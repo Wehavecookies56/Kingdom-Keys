@@ -170,8 +170,11 @@ public class CommandMenuGui extends Screen {
 	}
 
 	private void drawIcon(MatrixStack matrixStack, int selected) {
+		RenderSystem.enableBlend();
 		RenderSystem.color4f(1F, 1F, 1F, alpha);
 		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15), 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+		RenderSystem.disableBlend();
+
 	}
 	
 	private String getCommandMenuName(int i) {
