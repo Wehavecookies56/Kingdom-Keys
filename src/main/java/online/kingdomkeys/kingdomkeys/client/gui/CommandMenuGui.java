@@ -171,7 +171,7 @@ public class CommandMenuGui extends Screen {
 
 	private void drawIcon(MatrixStack matrixStack, int selected) {
 		RenderSystem.color4f(1F, 1F, 1F, alpha);
-		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15), 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 	}
 	
 	private String getCommandMenuName(int i) {
@@ -425,7 +425,6 @@ public class CommandMenuGui extends Screen {
 
 					matrixStack.push();
 					{
-						RenderSystem.color4f(1F, 1F, 1F, alpha);
 						minecraft.textureManager.bindTexture(texture);
 						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
 						matrixStack.scale(scale, scale, scale);
@@ -442,7 +441,6 @@ public class CommandMenuGui extends Screen {
 							}
 						}
 					
-						RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
 						matrixStack.scale(scale, scale, scale);
 						if (submenu == SUB_DRIVE) {
 							drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(formName), textX, 4, color);
