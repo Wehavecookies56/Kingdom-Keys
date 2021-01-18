@@ -84,7 +84,14 @@
 	"gui.menu.status.formgauge": "Indicador de Forma",
 
 	"gui.menu.config": "Config",
-
+	"gui.menu.config.bg": "Fondo",
+	"gui.menu.config.command_menu": "Menú Comandos",
+	"gui.menu.config.x_scale": "Escala X",
+	"gui.menu.config.x_pos": "Posición X",
+	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",
+	"gui.menu.config.header_title": "Título de Cabecera",
+	"gui.menu.config.text_x_offset": "Pos. X del Texto extra",
+	
 
 	"gui.synthesis": "Sintetizador",
 	"gui.synthesis.synthesise": "Sintetizar",

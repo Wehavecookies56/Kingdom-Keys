@@ -84,6 +84,13 @@
 	"gui.menu.status.formgauge": "Form Gauge",
 	
 	"gui.menu.config": "Config",
+	"gui.menu.config.bg": "Background",
+	"gui.menu.config.command_menu": "Command Menu",
+	"gui.menu.config.x_scale": "X Scale",
+	"gui.menu.config.x_pos": "X Position",
+	"gui.menu.config.sub_x_offset": "Submenu X Offset",
+	"gui.menu.config.header_title": "Header Title",
+	"gui.menu.config.text_x_offset": "Text X Offset",
 
 
 	"gui.synthesis": "Item Workshop",
