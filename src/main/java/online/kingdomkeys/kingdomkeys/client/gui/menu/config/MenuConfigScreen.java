@@ -156,7 +156,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addButton(cmHeaderTextVisibleButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, (int) (buttonWidth * 0.55F), 20, new TranslationTextComponent(cmHeaderTextVisible+""), (e) -> { action("textHeaderVisibility"); }));
+		addButton(cmHeaderTextVisibleButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.fontRenderer.getStringWidth("#####")+2, 20, new TranslationTextComponent(cmHeaderTextVisible+""), (e) -> { action("textHeaderVisibility"); }));
 		addButton(cmTextXOffsetBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -207,10 +207,8 @@ public class MenuConfigScreen extends MenuBackground {
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
-		//drawSeparately = false;
 		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-
 
 		for(Widget b : commandMenuList) {
 			b.active = false;
@@ -238,13 +236,7 @@ public class MenuConfigScreen extends MenuBackground {
 			matrixStack.pop();
 			
 			break;
-			
 		
 		}
-
-		
-
-	
-	}
-	
+	}	
 }

@@ -382,7 +382,7 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("mosaic_stained_glass");
 		standardBlockItem("synthesis_table");
 		standardBlockItem("moogle_projector");
-
+	
 	}
 
     void standardMaterial(String name) {
@@ -413,6 +413,10 @@ public class ItemModels extends ItemModelProvider {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/"+ path + name);
 	}
 
+    void standardSpawnEggItem(String name) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/template_spawn_egg/");
+    }
+    
     @Override
     public String getName() {
         return "Item Models";

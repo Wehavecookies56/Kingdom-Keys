@@ -1029,6 +1029,30 @@
 	"entity.kingdomkeys.nobody_creeper": "Creeper (Nobody)",
 	"entity.kingdomkeys.dusk": "Dusk",
 	"entity.kingdomkeys.assassin": "Assassin",
+	
+	
+	"item.kingdomkeys.moogle_spawn_egg": "Spawn Moogle",
+	"item.kingdomkeys.shadow_spawn_egg": "Spawn Shadow",
+	"item.kingdomkeys.mega_shadow_spawn_egg": "Spawn MegaShadow",
+	"item.kingdomkeys.giga_shadow_spawn_egg": "Spawn GigaShadow",
+	"item.kingdomkeys.darkball_spawn_egg": "Spawn Darkball",
+	"item.kingdomkeys.shadow_glob_spawn_egg": "Spawn Shadow Glob",
+
+	"item.kingdomkeys.minute_bomb_spawn_egg": "Spawn Minute Bomb",
+	"item.kingdomkeys.skater_bomb_spawn_egg": "Spawn Skater Bomb",
+	"item.kingdomkeys.storm_bomb_spawn_egg": "Spawn Storm Bomb",
+	"item.kingdomkeys.detonator_spawn_egg": "Spawn Detonator",
+	
+	"item.kingdomkeys.red_nocturne_spawn_egg": "Spawn Red Nocturne",
+	"item.kingdomkeys.blue_rhapsody_spawn_egg": "Spawn Blue Rhapsody",
+	"item.kingdomkeys.yellow_opera_spawn_egg": "Spawn Yellow Opera",
+	"item.kingdomkeys.green_requiem_spawn_egg": "Spawn Green Requiem",
+	"item.kingdomkeys.large_body_spawn_egg": "Spawn Large Body",
+	"item.kingdomkeys.dire_plant_spawn_egg": "Spawn Dire Plant",
+
+	"item.kingdomkeys.nobody_creeper_spawn_egg": "Spawn Creeper (Nobody)",
+	"item.kingdomkeys.dusk_spawn_egg": "Spawn Dusk",
+	"item.kingdomkeys.assassin_spawn_egg": "Spawn Assassin",
 
 	"_comment": "Messages",
 	"message.magnet_blox.attract": "Attract Mode",
