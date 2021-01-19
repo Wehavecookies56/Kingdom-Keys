@@ -88,9 +88,11 @@ public class LockOnGui extends Screen {
 					if (target != null && scan[0] > 0 && scan[1] > 0) {
 						matrixStack.push();
 						{
+							RenderSystem.enableBlend();
 							matrixStack.translate(ModConfigs.lockOnXPos, ModConfigs.lockOnYPos, 0);
 							drawString(matrixStack, minecraft.fontRenderer, target.getName().getString(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getString()), 16, 0xFFFFFF);
 							drawHPBar(event, (LivingEntity) target);
+							RenderSystem.disableBlend();
 						}
 						matrixStack.pop();
 					}

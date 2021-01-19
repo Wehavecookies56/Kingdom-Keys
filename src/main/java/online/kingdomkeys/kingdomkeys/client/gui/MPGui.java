@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -55,22 +56,27 @@ public class MPGui extends Screen {
 			
 			mpBarWidth = (int) (playerData.getMP() * scaleactor);
 			int mpBarMaxWidth = (int) (playerData.getMaxMP() * scaleactor);
-
 			matrixStack.push();// MP Background
 			{
+				RenderSystem.enableBlend();
 				matrixStack.translate(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
-				matrixStack.translate((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
-				matrixStack.scale(scale, scale / 1.3F, scale);
-				drawMPBarBack(matrixStack, 0, 0, mpBarMaxWidth, scale);
-			}
-			matrixStack.pop();
-			
-			matrixStack.push();// MP Bar
-			{
-				matrixStack.translate(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
-				matrixStack.translate((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
-				matrixStack.scale(scale, scale / 1.3F, scale);
-				drawMPBarTop(matrixStack, 0, 0, (int) Math.ceil(mpBarWidth), scale);
+
+				matrixStack.push();// MP Background
+				{
+					matrixStack.translate((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
+					matrixStack.scale(scale, scale / 1.3F, scale);
+					drawMPBarBack(matrixStack, 0, 0, mpBarMaxWidth, scale);
+				}
+				matrixStack.pop();
+				
+				matrixStack.push();// MP Bar
+				{
+					matrixStack.translate((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
+					matrixStack.scale(scale, scale / 1.3F, scale);
+					drawMPBarTop(matrixStack, 0, 0, (int) Math.ceil(mpBarWidth), scale);
+				}
+				matrixStack.pop();
+				RenderSystem.disableBlend();
 			}
 			matrixStack.pop();
 		}

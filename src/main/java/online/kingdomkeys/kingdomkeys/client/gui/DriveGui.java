@@ -121,6 +121,7 @@ public class DriveGui extends Screen {
 
 				matrixStack.push();
 				{
+					RenderSystem.enableBlend();
 					matrixStack.translate(-20.3F + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
 
 					// Background
@@ -190,6 +191,7 @@ public class DriveGui extends Screen {
 						}
 					}
 					matrixStack.pop();
+					RenderSystem.disableBlend();
 				}
 			}
 		}
