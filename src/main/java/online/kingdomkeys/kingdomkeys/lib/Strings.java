@@ -286,7 +286,7 @@ public class Strings {
             Gui_CommandMenu_Items = Gui_CommandMenu + ".items",
             Gui_CommandMenu_Drive = Gui_CommandMenu + ".drive",
             Gui_CommandMenu_Limit = Gui_CommandMenu + ".limit",
-            Gui_CommandMenu_Drive_Revert = Gui_CommandMenu_Drive + ".revert",
+            Gui_CommandMenu_Drive_Revert = Gui_CommandMenu + ".revert",
             // Submenus
             Gui_CommandMenu_Magic_Title = Gui_CommandMenu_Magic + ".title",
             Gui_CommandMenu_Portals_Title = Gui_CommandMenu_Portal + ".title",

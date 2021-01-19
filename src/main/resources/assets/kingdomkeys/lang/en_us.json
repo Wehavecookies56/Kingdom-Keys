@@ -88,6 +88,9 @@
 	"gui.menu.config.command_menu": "Command Menu",
 	"gui.menu.config.hp": "HP Bar",
 	"gui.menu.config.mp": "MP Bar",
+	"gui.menu.config.dp": "DP Bar",
+	"gui.menu.config.player_skin": "Player Skin",
+	"gui.menu.config.lock_on_hp": "Target HP Bar",
 	
 	"gui.menu.config.x_scale": "X Scale",
 	"gui.menu.config.x_pos": "X Position",

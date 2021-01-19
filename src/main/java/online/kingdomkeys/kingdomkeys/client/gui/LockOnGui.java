@@ -16,6 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
@@ -42,10 +43,6 @@ public class LockOnGui extends Screen {
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
 		PlayerEntity player = minecraft.player;
-		// if
-		// (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS,
-		// null).getHudMode())
-		// return;
 		MatrixStack matrixStack = event.getMatrixStack();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (playerData != null) {
@@ -89,8 +86,13 @@ public class LockOnGui extends Screen {
 					int[] scan = playerData.getEquippedAbilityLevel(Strings.scan);
 					// If ability level > 0 and amount of equipped is > 0
 					if (target != null && scan[0] > 0 && scan[1] > 0) {
-						drawString(matrixStack, minecraft.fontRenderer, target.getName().getString(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getString()), 15, 0xFFFFFF);
-						drawHPBar(event, (LivingEntity) target);
+						matrixStack.push();
+						{
+							matrixStack.translate(ModConfigs.lockOnXPos, ModConfigs.lockOnYPos, 0);
+							drawString(matrixStack, minecraft.fontRenderer, target.getName().getString(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getString()), 16, 0xFFFFFF);
+							drawHPBar(event, (LivingEntity) target);
+						}
+						matrixStack.pop();
 					}
 
 					matrixStack.scale(scale, scale, scale);

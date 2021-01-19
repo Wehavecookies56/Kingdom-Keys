@@ -8,7 +8,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  */
 public class ClientConfig {
 
-   // public static boolean CORSAIR_KEYBOARD_LIGHTING;
     public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
     
     public ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
@@ -18,6 +17,12 @@ public class ClientConfig {
     public ForgeConfigSpec.IntValue hpXPos, hpYPos;
     
     public ForgeConfigSpec.IntValue mpXPos, mpYPos;
+    
+    public ForgeConfigSpec.IntValue dpXPos, dpYPos;
+    
+    public ForgeConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
+    
+    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos;
     
     
     ClientConfig(final ForgeConfigSpec.Builder builder) {
@@ -91,6 +96,48 @@ public class ClientConfig {
 	                .comment("Magic Bar Y Pos")
 	                .translation(KingdomKeys.MODID + ".config.mp_y_pos")
 	                .defineInRange("mpYPos", 0, -1000, 1000);
+	        
+	        builder.pop();
+	        
+	        builder.push("dp_bar");
+	        
+	        dpXPos = builder
+	                .comment("Drive Bar X Pos")
+	                .translation(KingdomKeys.MODID + ".config.dp_x_pos")
+	                .defineInRange("dpXPos", 0, -1000, 1000);
+	        
+	        dpYPos = builder
+	                .comment("Drive Bar Y Pos")
+	                .translation(KingdomKeys.MODID + ".config.dp_y_pos")
+	                .defineInRange("dpYPos", 0, -1000, 1000);
+	        
+	        builder.pop();
+	        
+	        builder.push("player_skin");
+	        
+	        playerSkinXPos = builder
+	                .comment("Player Skin X Pos")
+	                .translation(KingdomKeys.MODID + ".config.player_skin_x_pos")
+	                .defineInRange("playerSkinXPos", 0, -1000, 1000);
+	        
+	        playerSkinYPos = builder
+	                .comment("Player Skin Y Pos")
+	                .translation(KingdomKeys.MODID + ".config.player_skin_y_pos")
+	                .defineInRange("playerSkinYPos", 0, -1000, 1000);
+	        
+	        builder.pop();
+	        
+	        builder.push("lock_on");
+	        
+	        lockOnXPos = builder
+	                .comment("Lock On HP X Pos")
+	                .translation(KingdomKeys.MODID + ".config.lock_on_x_pos")
+	                .defineInRange("lockOnXPos", 0, -1000, 1000);
+	        
+	        lockOnYPos = builder
+	                .comment("Lock On HP Y Pos")
+	                .translation(KingdomKeys.MODID + ".config.lock_on_y_pos")
+	                .defineInRange("lockOnYPos", 0, -1000, 1000);
 	        
 	        builder.pop();
         

@@ -48,6 +48,12 @@ public class ModConfigs {
     
     public static int mpXPos, mpYPos;
     
+    public static int dpXPos, dpYPos;
+    
+    public static int playerSkinXPos, playerSkinYPos;
+    
+    public static int lockOnXPos, lockOnYPos;
+    
     //Command Menu
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
@@ -100,6 +106,39 @@ public class ModConfigs {
         CLIENT.mpYPos.set(value);
         bakeClient();
     }
+    
+    //DP
+    public static void setDpXPos(int value) {
+        CLIENT.dpXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setDpYPos(int value) {
+        CLIENT.dpYPos.set(value);
+        bakeClient();
+    }
+    
+  //Player Skin
+    public static void setPlayerSkinXPos(int value) {
+        CLIENT.playerSkinXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setPlayerSkinYPos(int value) {
+        CLIENT.playerSkinYPos.set(value);
+        bakeClient();
+    }
+    
+  //Lock On
+    public static void setLockOnXPos(int value) {
+        CLIENT.lockOnXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setLockOnYPos(int value) {
+        CLIENT.lockOnYPos.set(value);
+        bakeClient();
+    }
 
     public static void bakeClient() {
         corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
@@ -115,6 +154,15 @@ public class ModConfigs {
         
         mpXPos = CLIENT.mpXPos.get();
         mpYPos = CLIENT.mpYPos.get();
+        
+        dpXPos = CLIENT.dpXPos.get();
+        dpYPos = CLIENT.dpYPos.get();
+        
+        playerSkinXPos = CLIENT.playerSkinXPos.get();
+        playerSkinYPos = CLIENT.playerSkinYPos.get();
+        
+        lockOnXPos = CLIENT.lockOnXPos.get();
+        lockOnYPos = CLIENT.lockOnYPos.get();
     }
 
     public static boolean oreGen;

@@ -28,7 +28,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 	ActualWindow window = ActualWindow.COMMAND_MENU;
 	
-	MenuButton back, commandMenuButton, hpButton, mpButton;
+	MenuButton back, commandMenuButton, hpButton, mpButton, dpButton, playerSkinButton, lockOnButton;
 	Button backgroundButton;
 	MenuBox box;
 	
@@ -44,9 +44,23 @@ public class MenuConfigScreen extends MenuBackground {
 
 	//MP
 	TextFieldWidget mpXPosBox, mpYPosBox;
+
+	//DP
+	TextFieldWidget dpXPosBox, dpYPosBox;
+	
+	//PlayerSkin
+	TextFieldWidget playerSkinXPosBox, playerSkinYPosBox;
+
+	//Lock On
+	TextFieldWidget lockOnXPosBox, lockOnYPosBox;
+
+	
 	List<Widget> commandMenuList = new ArrayList<Widget>();
 	List<Widget> hpList = new ArrayList<Widget>();
 	List<Widget> mpList = new ArrayList<Widget>();
+	List<Widget> dpList = new ArrayList<Widget>();
+	List<Widget> playerSkinList = new ArrayList<Widget>();
+	List<Widget> lockOnList = new ArrayList<Widget>();
 	
 	int buttonsX = 0;
 	public MenuConfigScreen() {
@@ -91,12 +105,18 @@ public class MenuConfigScreen extends MenuBackground {
 		initCommandMenu();
 		initHP();
 		initMP();
+		initDP();
+		initPlayerSkin();
+		initLockOn();
 		
 		addButton(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (0 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
 		addButton(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (1 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
 		addButton(mpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.mp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.MP; }));
+		addButton(dpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (3 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.dp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.DRIVE; }));
+		addButton(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (4 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
+		addButton(lockOnButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (5 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.lock_on_hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.LOCK_ON_HP; }));
 
-		addButton(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (5 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (6 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		addButton(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
@@ -359,11 +379,210 @@ public class MenuConfigScreen extends MenuBackground {
 
 	}
 	
+	private void initDP() {
+		int pos = 0;
+		
+		addButton(dpXPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setDpXPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setDpXPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(dpYPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setDpYPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setDpYPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+
+		
+		dpXPosBox.setText(""+ModConfigs.dpXPos);
+		dpYPosBox.setText(""+ModConfigs.dpYPos);
+		
+		dpList.add(dpXPosBox);
+		dpList.add(dpYPosBox);
+
+	}
+	
+	private void initPlayerSkin() {
+		int pos = 0;
+		
+		addButton(playerSkinXPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setPlayerSkinXPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setPlayerSkinXPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(playerSkinYPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setPlayerSkinYPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setPlayerSkinYPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+
+		
+		playerSkinXPosBox.setText(""+ModConfigs.playerSkinXPos);
+		playerSkinYPosBox.setText(""+ModConfigs.playerSkinYPos);
+		
+		playerSkinList.add(playerSkinXPosBox);
+		playerSkinList.add(playerSkinYPosBox);
+
+	}
+	
+	private void initLockOn() {
+		int pos = 0;
+		
+		addButton(lockOnXPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setLockOnXPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setLockOnXPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(lockOnYPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setLockOnYPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setLockOnYPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+
+		
+		lockOnXPosBox.setText(""+ModConfigs.lockOnXPos);
+		lockOnYPosBox.setText(""+ModConfigs.lockOnYPos);
+		
+		lockOnList.add(lockOnXPosBox);
+		lockOnList.add(lockOnYPosBox);
+
+	}
+	
+	
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
 		hpButton.active = window != ActualWindow.HP;
 		mpButton.active = window != ActualWindow.MP;
+		dpButton.active = window != ActualWindow.DRIVE;
+		playerSkinButton.active = window != ActualWindow.PLAYER;
+		lockOnButton.active = window != ActualWindow.LOCK_ON_HP;
 		
 		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -379,6 +598,21 @@ public class MenuConfigScreen extends MenuBackground {
 		}
 		
 		for(Widget b : mpList) {
+			b.active = false;
+			b.visible = false;
+		}
+		
+		for(Widget b : dpList) {
+			b.active = false;
+			b.visible = false;
+		}
+		
+		for(Widget b : playerSkinList) {
+			b.active = false;
+			b.visible = false;
+		}
+
+		for(Widget b : lockOnList) {
 			b.active = false;
 			b.visible = false;
 		}
@@ -435,6 +669,60 @@ public class MenuConfigScreen extends MenuBackground {
 				int pos = 0;
 				matrixStack.translate(buttonsX, box.y+4, 1);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.mp"), 20, 0, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+			}
+			matrixStack.pop();
+			
+			break;
+			
+		case DRIVE:
+			for(Widget b : dpList) {
+				b.active = true;
+				b.visible = true;
+			}
+			
+			matrixStack.push();
+			{
+				int pos = 0;
+				matrixStack.translate(buttonsX, box.y+4, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.dp"), 20, 0, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+			}
+			matrixStack.pop();
+			
+			break;
+			
+		case PLAYER:
+			for(Widget b : playerSkinList) {
+				b.active = true;
+				b.visible = true;
+			}
+			
+			matrixStack.push();
+			{
+				int pos = 0;
+				matrixStack.translate(buttonsX, box.y+4, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+			}
+			matrixStack.pop();
+			
+			break;
+			
+		case LOCK_ON_HP:
+			for(Widget b : lockOnList) {
+				b.active = true;
+				b.visible = true;
+			}
+			
+			matrixStack.push();
+			{
+				int pos = 0;
+				matrixStack.translate(buttonsX, box.y+4, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 			}

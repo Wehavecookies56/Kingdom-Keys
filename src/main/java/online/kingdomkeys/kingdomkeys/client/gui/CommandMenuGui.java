@@ -186,7 +186,7 @@ public class CommandMenuGui extends Screen {
 		case ITEMS:
 			return Strings.Gui_CommandMenu_Items;
 		case DRIVE:
-			return Strings.Gui_CommandMenu_Drive;
+			return ModCapabilities.getPlayer(minecraft.player).getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert;
 		}
 		return "";
 	}
