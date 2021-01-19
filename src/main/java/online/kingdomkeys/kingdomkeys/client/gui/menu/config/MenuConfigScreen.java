@@ -28,14 +28,25 @@ public class MenuConfigScreen extends MenuBackground {
 
 	ActualWindow window = ActualWindow.COMMAND_MENU;
 	
-	MenuButton back, commandMenuButton, hpButton;
-	Button backgroundButton, cmHeaderTextVisibleButton;
+	MenuButton back, commandMenuButton, hpButton, mpButton;
+	Button backgroundButton;
 	MenuBox box;
-	TextFieldWidget cmTextXOffsetBox, cmXScaleBox, cmXPosBox, cmSubXOffsetBox;
 	
+	//Command Menu
+	TextFieldWidget cmTextXOffsetBox, cmXScaleBox, cmXPosBox, cmSubXOffsetBox;
+	Button cmHeaderTextVisibleButton;
 	boolean cmHeaderTextVisible;
+	
+	//HP
+	TextFieldWidget hpXPosBox, hpYPosBox;
+	Button hpShowHeartsButton;
+	boolean hpShowHearts;
 
-	List<Widget> commandMenuList = new ArrayList<Widget>(); 
+	//MP
+	TextFieldWidget mpXPosBox, mpYPosBox;
+	List<Widget> commandMenuList = new ArrayList<Widget>();
+	List<Widget> hpList = new ArrayList<Widget>();
+	List<Widget> mpList = new ArrayList<Widget>();
 	
 	int buttonsX = 0;
 	public MenuConfigScreen() {
@@ -54,28 +65,43 @@ public class MenuConfigScreen extends MenuBackground {
 			cmHeaderTextVisibleButton.setMessage(new TranslationTextComponent(cmHeaderTextVisible+""));
 			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
 			break;
+		case "hpShowHearts":
+			hpShowHearts = !hpShowHearts;
+			hpShowHeartsButton.setMessage(new TranslationTextComponent(hpShowHearts+""));
+			ModConfigs.setShowHearts(hpShowHearts);
+			break;
 		}
 		
 	}
 
-	
 
 	@Override
 	public void init() {
-		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
-
-		float boxPosX = (float) width * 0.2F;
+		float boxPosX = (float) width * 0.25F;
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.67F;
 		float middleHeight = (float) height * 0.6F;
 		
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 		buttonsX = box.x + 10;
-		System.out.println(buttonsX);
 		
 		super.init();
 		this.buttons.clear();
 		
+		initCommandMenu();
+		initHP();
+		initMP();
+		
+		addButton(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (0 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
+		addButton(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (1 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
+		addButton(mpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.mp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.MP; }));
+
+		addButton(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (5 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
+	}
+
+	private void initCommandMenu() {
+		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
 		int pos = 0;
 
 		addButton(cmXScaleBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
@@ -183,12 +209,6 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addButton(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (0 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
-		addButton(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (1 * 18), (int) buttonWidth, Utils.translateToLocal("HP Bar"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
-		addButton(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addButton(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
-
-		hpButton.active = false;
 		cmTextXOffsetBox.setText(""+ModConfigs.cmTextXOffset);
 		cmHeaderTextVisibleButton.setMessage(new TranslationTextComponent(cmHeaderTextVisible+""));
 		cmXScaleBox.setText(""+ModConfigs.cmXScale);
@@ -204,13 +224,161 @@ public class MenuConfigScreen extends MenuBackground {
 		commandMenuList.add(cmSubXOffsetBox);
 	}
 
+	private void initHP() {
+		hpShowHearts = ModConfigs.hpShowHearts;
+
+		int pos = 0;
+		
+		addButton(hpXPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setHpXPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setHpXPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(hpYPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setHpYPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setHpYPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.fontRenderer.getStringWidth("#####")+2, 20, new TranslationTextComponent(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
+
+		
+		hpXPosBox.setText(""+ModConfigs.hpXPos);
+		hpYPosBox.setText(""+ModConfigs.hpYPos);
+		hpShowHeartsButton.setMessage(new TranslationTextComponent(hpShowHearts+""));
+		
+		hpList.add(hpXPosBox);
+		hpList.add(hpYPosBox);
+		hpList.add(hpShowHeartsButton);
+
+	}
+	
+	private void initMP() {
+		int pos = 0;
+		
+		addButton(mpXPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setMpXPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setMpXPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(mpYPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setMpYPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setMpYPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+
+		
+		mpXPosBox.setText(""+ModConfigs.mpXPos);
+		mpYPosBox.setText(""+ModConfigs.mpYPos);
+		
+		mpList.add(mpXPosBox);
+		mpList.add(mpYPosBox);
+
+	}
+	
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
+		hpButton.active = window != ActualWindow.HP;
+		mpButton.active = window != ActualWindow.MP;
+		
 		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		for(Widget b : commandMenuList) {
+			b.active = false;
+			b.visible = false;
+		}
+		
+		for(Widget b : hpList) {
+			b.active = false;
+			b.visible = false;
+		}
+		
+		for(Widget b : mpList) {
 			b.active = false;
 			b.visible = false;
 		}
@@ -232,6 +400,43 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
+			}
+			matrixStack.pop();
+			
+			break;
+			
+		case HP:
+			for(Widget b : hpList) {
+				b.active = true;
+				b.visible = true;
+			}
+			
+			matrixStack.push();
+			{
+				int pos = 0;
+				matrixStack.translate(buttonsX, box.y+4, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
+			}
+			matrixStack.pop();
+			
+			break;
+			
+		case MP:
+			for(Widget b : mpList) {
+				b.active = true;
+				b.visible = true;
+			}
+			
+			matrixStack.push();
+			{
+				int pos = 0;
+				matrixStack.translate(buttonsX, box.y+4, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.mp"), 20, 0, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 			}
 			matrixStack.pop();
 			

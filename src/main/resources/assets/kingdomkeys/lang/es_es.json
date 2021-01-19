@@ -86,11 +86,17 @@
 	"gui.menu.config": "Preferencias",
 	"gui.menu.config.bg": "Fondo",
 	"gui.menu.config.command_menu": "Menú Comandos",
+	"gui.menu.config.hp": "Barra HP",
+	"gui.menu.config.mp": "Barra MP",
+
 	"gui.menu.config.x_scale": "Escala X",
 	"gui.menu.config.x_pos": "Posición X",
+	"gui.menu.config.y_pos": "Posición Y",
 	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",
 	"gui.menu.config.header_title": "Título de Cabecera",
 	"gui.menu.config.text_x_offset": "Pos. X del Texto extra",
+	
+	"gui.menu.config.show_hearts": "Mostrar corazones",
 	
 
 	"gui.synthesis": "Sintetizador",

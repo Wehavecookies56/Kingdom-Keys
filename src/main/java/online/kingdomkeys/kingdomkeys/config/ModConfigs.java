@@ -40,10 +40,15 @@ public class ModConfigs {
     }
 
     public static boolean corsairKeyboardLighting;
-    public static int cmTextXOffset;
     public static boolean cmHeaderTextVisible;
-    public static int cmXScale, cmXPos, cmSubXOffset;
+    public static int cmTextXOffset, cmXScale, cmXPos, cmSubXOffset;
 
+    public static boolean hpShowHearts;
+    public static int hpXPos, hpYPos;
+    
+    public static int mpXPos, mpYPos;
+    
+    //Command Menu
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
         bakeClient();
@@ -68,6 +73,33 @@ public class ModConfigs {
         CLIENT.cmSubXOffset.set(value);
         bakeClient();
     }
+    
+    //HP
+    public static void setHpXPos(int value) {
+        CLIENT.hpXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setHpYPos(int value) {
+        CLIENT.hpYPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setShowHearts(boolean value) {
+        CLIENT.hpShowHearts.set(value);
+        bakeClient();
+    }
+    
+    //MP
+    public static void setMpXPos(int value) {
+        CLIENT.mpXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setMpYPos(int value) {
+        CLIENT.mpYPos.set(value);
+        bakeClient();
+    }
 
     public static void bakeClient() {
         corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
@@ -76,6 +108,13 @@ public class ModConfigs {
         cmXScale = CLIENT.cmXScale.get();
         cmXPos = CLIENT.cmXPos.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
+        
+        hpXPos = CLIENT.hpXPos.get();
+        hpYPos = CLIENT.hpYPos.get();
+        hpShowHearts = CLIENT.hpShowHearts.get();
+        
+        mpXPos = CLIENT.mpXPos.get();
+        mpYPos = CLIENT.mpYPos.get();
     }
 
     public static boolean oreGen;

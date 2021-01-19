@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
@@ -35,10 +36,6 @@ public class MPGui extends Screen {
 		PlayerEntity player = minecraft.player;
 		MatrixStack matrixStack = event.getMatrixStack();
 
-		if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
-			// if (!MainConfig.client.hud.EnableHeartsOnHUD)
-			// event.setCanceled(true);
-		}
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 
@@ -61,14 +58,16 @@ public class MPGui extends Screen {
 
 			matrixStack.push();// MP Background
 			{
+				matrixStack.translate(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
 				matrixStack.translate((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
 				matrixStack.scale(scale, scale / 1.3F, scale);
 				drawMPBarBack(matrixStack, 0, 0, mpBarMaxWidth, scale);
 			}
-
-			matrixStack.pop();// MP Bar
+			matrixStack.pop();
+			
+			matrixStack.push();// MP Bar
 			{
-				matrixStack.push();
+				matrixStack.translate(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
 				matrixStack.translate((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
 				matrixStack.scale(scale, scale / 1.3F, scale);
 				drawMPBarTop(matrixStack, 0, 0, (int) Math.ceil(mpBarWidth), scale);

@@ -86,11 +86,17 @@
 	"gui.menu.config": "Config",
 	"gui.menu.config.bg": "Background",
 	"gui.menu.config.command_menu": "Command Menu",
+	"gui.menu.config.hp": "HP Bar",
+	"gui.menu.config.mp": "MP Bar",
+	
 	"gui.menu.config.x_scale": "X Scale",
 	"gui.menu.config.x_pos": "X Position",
+	"gui.menu.config.y_pos": "Y Position",
 	"gui.menu.config.sub_x_offset": "Submenu X Offset",
 	"gui.menu.config.header_title": "Header Title",
 	"gui.menu.config.text_x_offset": "Text X Offset",
+	
+	"gui.menu.config.show_hearts": "Show hearts on HUD",
 
 
 	"gui.synthesis": "Item Workshop",
