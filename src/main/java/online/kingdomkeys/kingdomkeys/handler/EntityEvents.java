@@ -619,12 +619,7 @@ public class EntityEvents {
 						event.setCanceled(true);
 					}
 				}
-				
-				/*if(event.getSource().damageType.equals("player") && attacker.getHeldItemMainhand() != null && attacker.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-					event.setCanceled(true);
-					event.getEntityLiving().attackEntityFrom(KeybladeDamageSource.causeKeybladeDamage(Hand.MAIN_HAND, (PlayerEntity) attacker), event.getAmount());
-				}*/
-				
+								
 				IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
 				if (target instanceof PlayerEntity) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);

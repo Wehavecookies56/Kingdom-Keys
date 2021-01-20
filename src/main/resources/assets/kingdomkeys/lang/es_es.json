@@ -213,7 +213,7 @@
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Blox Normal",
 	"block.kingdomkeys.hard_blox": "Blox Duro",
-	"block.kingdomkeys.metal_blox": "Blox MetÍlico",
+	"block.kingdomkeys.metal_blox": "Blox Metálico",
 	"block.kingdomkeys.danger_blox": "Blox Peligroso",
 	"block.kingdomkeys.bounce_blox": "Blox de Rebote",
 	"block.kingdomkeys.blast_blox": "Blox Explosivo",
@@ -1010,8 +1010,8 @@
 	"item.kingdomkeys.ampoule": "Bombilla",
 
 	"_comment": "Entities",
-	"entities.kingdomkeys.blast_blox_primed": "Bloque Explosivo Prendido",
-	"entities.kingdomkeys.pair_blox": "Pair Blox",
+	"entities.kingdomkeys.blast_blox_primed": "Blox Explosivo Prendido",
+	"entities.kingdomkeys.pair_blox": "Blox de Pareja",
 
 	"entities.kingdomkeys.entity_fire": "Piro",
 	"entities.kingdomkeys.entity_blizzard": "Hielo",
