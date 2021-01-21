@@ -454,4 +454,14 @@ public class Utils {
 		fontRenderer.func_238418_a_(ITextProperties.func_240652_a_(text), x, y, len, color);
 	}
 
+	public static int getSlotFor(PlayerInventory inv, ItemStack stack) {
+      for(int i = 0; i < inv.getSizeInventory(); ++i) {
+         if (!inv.getStackInSlot(i).isEmpty() && ItemStack.areItemStacksEqual(stack, inv.getStackInSlot(i))) {
+            return i;
+         }
+      }
+
+      return -1;
+   }
+
 }
