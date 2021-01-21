@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseElementalMusicalHeartlessEn
 public class ElementalMusicalHeartlessRenderer extends MobRenderer<BaseElementalMusicalHeartlessEntity, ElementalMusicalHeartlessModel<BaseElementalMusicalHeartlessEntity>> { //my god that's a long one
 
     public static final ElementalMusicalHeartlessRenderer.Factory FACTORY = new ElementalMusicalHeartlessRenderer.Factory();
+    static final double MAX = 200;
 
     public ElementalMusicalHeartlessRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new ElementalMusicalHeartlessModel<>(), 0.35F);
@@ -32,6 +33,12 @@ public class ElementalMusicalHeartlessRenderer extends MobRenderer<BaseElemental
     @Override
     protected void preRenderCallback(BaseElementalMusicalHeartlessEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         matrixStackIn.scale(1F, 1F, 1F);
+        double pos = entitylivingbaseIn.ticksExisted % MAX / (MAX /2D);
+        if(entitylivingbaseIn.ticksExisted % MAX < (MAX / 2)) {
+        	matrixStackIn.translate(0, pos*0.6, 0);
+        } else {
+        	matrixStackIn.translate(0, (MAX - entitylivingbaseIn.ticksExisted % MAX) / (MAX / 2D) * 0.6, 0);
+        }
         super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
 

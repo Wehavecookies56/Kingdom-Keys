@@ -10,6 +10,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
@@ -26,12 +27,11 @@ public class HPGui extends Screen {
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
-		// return;
 		PlayerEntity player = minecraft.player;
 		if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
-			// if (!MainConfig.client.hud.EnableHeartsOnHUD)
-			// event.setCanceled(true);
+			if (!ModConfigs.hpShowHearts) {
+				event.setCanceled(true);
+			}
 		}
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
@@ -52,17 +52,26 @@ public class HPGui extends Screen {
 
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarBack(0, 0, hpBarMaxWidth, scale);
-			}
-			RenderSystem.popMatrix();
+				RenderSystem.enableBlend();
 
-			RenderSystem.pushMatrix();
-			{
-				RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarTop(0, 0, (int) Math.ceil(hpBarWidth), scale, player);
+				RenderSystem.translatef(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
+				RenderSystem.pushMatrix();
+				{
+					RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
+					RenderSystem.scalef(scale, scale, scale);
+					drawHPBarBack(0, 0, hpBarMaxWidth, scale);
+				}
+				RenderSystem.popMatrix();
+	
+				RenderSystem.pushMatrix();
+				{
+					RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
+					RenderSystem.scalef(scale, scale, scale);
+					drawHPBarTop(0, 0, (int) Math.ceil(hpBarWidth), scale, player);
+				}
+				RenderSystem.popMatrix();
+				RenderSystem.disableBlend();
+
 			}
 			RenderSystem.popMatrix();
 		}

@@ -82,8 +82,25 @@
 	"gui.menu.status.darkres": "Dark Resistance",
 	"gui.menu.status.formlevel": "Form Level",
 	"gui.menu.status.formgauge": "Form Gauge",
-
+	
 	"gui.menu.config": "Config",
+	"gui.menu.config.bg": "Background",
+	"gui.menu.config.command_menu": "Command Menu",
+	"gui.menu.config.hp": "HP Bar",
+	"gui.menu.config.mp": "MP Bar",
+	"gui.menu.config.dp": "DP Bar",
+	"gui.menu.config.player_skin": "Player Skin",
+	"gui.menu.config.lock_on_hp": "Target HP Bar",
+	
+	"gui.menu.config.x_scale": "X Scale",
+	"gui.menu.config.x_pos": "X Position",
+	"gui.menu.config.y_pos": "Y Position",
+	"gui.menu.config.sub_x_offset": "Submenu X Offset",
+	"gui.menu.config.header_title": "Header Title",
+	"gui.menu.config.text_x_offset": "Text X Offset",
+	
+	"gui.menu.config.show_hearts": "Show hearts on HUD",
+
 
 	"gui.synthesis": "Item Workshop",
 	"gui.synthesis.synthesise": "Synthesise Items",
@@ -1021,6 +1038,30 @@
 	"entity.kingdomkeys.nobody_creeper": "Creeper (Nobody)",
 	"entity.kingdomkeys.dusk": "Dusk",
 	"entity.kingdomkeys.assassin": "Assassin",
+	
+	
+	"item.kingdomkeys.moogle_spawn_egg": "Spawn Moogle",
+	"item.kingdomkeys.shadow_spawn_egg": "Spawn Shadow",
+	"item.kingdomkeys.mega_shadow_spawn_egg": "Spawn MegaShadow",
+	"item.kingdomkeys.giga_shadow_spawn_egg": "Spawn GigaShadow",
+	"item.kingdomkeys.darkball_spawn_egg": "Spawn Darkball",
+	"item.kingdomkeys.shadow_glob_spawn_egg": "Spawn Shadow Glob",
+
+	"item.kingdomkeys.minute_bomb_spawn_egg": "Spawn Minute Bomb",
+	"item.kingdomkeys.skater_bomb_spawn_egg": "Spawn Skater Bomb",
+	"item.kingdomkeys.storm_bomb_spawn_egg": "Spawn Storm Bomb",
+	"item.kingdomkeys.detonator_spawn_egg": "Spawn Detonator",
+	
+	"item.kingdomkeys.red_nocturne_spawn_egg": "Spawn Red Nocturne",
+	"item.kingdomkeys.blue_rhapsody_spawn_egg": "Spawn Blue Rhapsody",
+	"item.kingdomkeys.yellow_opera_spawn_egg": "Spawn Yellow Opera",
+	"item.kingdomkeys.green_requiem_spawn_egg": "Spawn Green Requiem",
+	"item.kingdomkeys.large_body_spawn_egg": "Spawn Large Body",
+	"item.kingdomkeys.dire_plant_spawn_egg": "Spawn Dire Plant",
+
+	"item.kingdomkeys.nobody_creeper_spawn_egg": "Spawn Creeper (Nobody)",
+	"item.kingdomkeys.dusk_spawn_egg": "Spawn Dusk",
+	"item.kingdomkeys.assassin_spawn_egg": "Spawn Assassin",
 
 	"_comment": "Messages",
 	"message.magnet_blox.attract": "Attract Mode",
@@ -1070,5 +1111,5 @@
 	"soa.confirm.5": "Is this the form you choose?",
 
 	"_comment": "Biomes",
-	"biome.kingdomkeys.dive_to_the_heart_biome": "Dive to the Heart"
+	"biome.kingdomkeys.dive_to_the_heart": "Dive to the Heart"
 }

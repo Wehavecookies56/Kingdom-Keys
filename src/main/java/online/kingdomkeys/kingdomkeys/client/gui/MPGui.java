@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
@@ -58,19 +59,28 @@ public class MPGui extends Screen {
 			mpBarWidth = (int) (playerData.getMP() * scaleFactor);
 			int mpBarMaxWidth = (int) (playerData.getMaxMP() * scaleFactor);
 
-			RenderSystem.pushMatrix();// MP Background
+			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
-				RenderSystem.scalef(scale, scale / 1.3F, scale);
-				drawMPBarBack(0, 0, mpBarMaxWidth, scale);
-			}
+				RenderSystem.enableBlend();
 
-			RenderSystem.popMatrix();// MP Bar
-			{
-				RenderSystem.pushMatrix();
-				RenderSystem.translatef((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
-				RenderSystem.scalef(scale, scale / 1.3F, scale);
-				drawMPBarTop(0, 0, (int) Math.ceil(mpBarWidth), scale);
+				RenderSystem.translatef(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
+				RenderSystem.pushMatrix();// MP Background
+				{
+					RenderSystem.translatef((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
+					RenderSystem.scalef(scale, scale / 1.3F, scale);
+					drawMPBarBack(0, 0, mpBarMaxWidth, scale);
+				}
+	
+				RenderSystem.popMatrix();// MP Bar
+				{
+					RenderSystem.pushMatrix();
+					RenderSystem.translatef((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
+					RenderSystem.scalef(scale, scale / 1.3F, scale);
+					drawMPBarTop(0, 0, (int) Math.ceil(mpBarWidth), scale);
+				}
+				RenderSystem.popMatrix();
+				RenderSystem.disableBlend();
+
 			}
 			RenderSystem.popMatrix();
 		}

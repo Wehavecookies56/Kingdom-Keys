@@ -202,8 +202,7 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
 		this.dataManager.register(EntityHelper.STATE, 0);
 	}
 
-    class MowdownGoal extends Goal
-    {
+    class MowdownGoal extends Goal {
         private LargeBodyEntity theEntity;
         private boolean canUseAttack = true;
         private final int ATTACK_MAX_TIMER = 50;
@@ -263,8 +262,7 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
         }
 
         @Override
-        public void tick()
-        {
+        public void tick() {
             if(theEntity.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
                 System.out.println("mowdown " + whileAttackTimer);

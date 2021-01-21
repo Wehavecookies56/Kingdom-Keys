@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -15,6 +14,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -118,7 +119,9 @@ public class DriveGui extends Screen {
 
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translatef(-20.3F, -2, 1);
+					RenderSystem.enableBlend();
+
+					RenderSystem.translatef(-20.3F + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
 
 					// Background
 					RenderSystem.pushMatrix();
@@ -187,6 +190,8 @@ public class DriveGui extends Screen {
 						}
 					}
 					RenderSystem.popMatrix();
+					RenderSystem.disableBlend();
+
 				}
 			}
 		}

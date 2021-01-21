@@ -616,7 +616,7 @@ public class EntityEvents {
 
 				if (attacker instanceof PlayerEntity && target instanceof PlayerEntity) {
 					Party p = ModCapabilities.getWorld(attacker.world).getPartyFromMember(attacker.getUniqueID());
-					if (p.getMember(event.getEntityLiving().getUniqueID()) != null) {
+					if (p != null && p.getMember(event.getEntityLiving().getUniqueID()) != null) {
 						event.setCanceled(true);
 					}
 				}

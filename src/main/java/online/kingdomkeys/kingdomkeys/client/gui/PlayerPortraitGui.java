@@ -11,6 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -54,7 +55,7 @@ public class PlayerPortraitGui extends Screen {
 
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translatef(-5, -1, 0);
+					RenderSystem.translatef(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
 
 					// HEAD
 					int headWidth = 32;

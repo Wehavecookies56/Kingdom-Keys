@@ -50,7 +50,7 @@ public class CommonConfig {
         mobSpawnRate = builder
                 .comment("Mob Spawn")
                 .translation(KingdomKeys.MODID + ".config.mob_spawn")
-                .defineList("mobSpawn", Lists.newArrayList("Moogle,2,0,1", "Pureblood,2,0,1", "Pureblood,2,0,1", "Nobody,2,0,1"), o -> o instanceof String);
+                .defineList("mobSpawn", Lists.newArrayList("Moogle,2,0,1", "Pureblood,2,0,1", "Emblem,2,0,1", "Nobody,2,0,1"), o -> o instanceof String);
 
         builder.pop();
 

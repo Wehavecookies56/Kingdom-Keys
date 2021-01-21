@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSLevelUpKeybladePacket {
 
@@ -63,7 +64,7 @@ public class CSLevelUpKeybladePacket {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				player.inventory.setInventorySlotContents(player.inventory.getSlotFor(message.stack), stack);
+				player.inventory.setInventorySlotContents(Utils.getSlotFor(player.inventory, message.stack), stack);
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);	
 		});

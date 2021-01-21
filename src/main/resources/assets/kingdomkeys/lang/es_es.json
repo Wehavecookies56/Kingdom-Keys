@@ -83,7 +83,24 @@
 	"gui.menu.status.formlevel": "Niv. de Forma",
 	"gui.menu.status.formgauge": "Indicador de Forma",
 
-	"gui.menu.config": "Config",
+	"gui.menu.config": "Preferencias",
+	"gui.menu.config.bg": "Fondo",
+	"gui.menu.config.command_menu": "Menú Comandos",
+	"gui.menu.config.hp": "Barra HP",
+	"gui.menu.config.mp": "Barra MP",
+	"gui.menu.config.dp": "Barra DP",
+	"gui.menu.config.player_skin": "Skin Jugador",
+	"gui.menu.config.lock_on_hp": "Barra HP Mob",
+
+	"gui.menu.config.x_scale": "Escala X",
+	"gui.menu.config.x_pos": "Posición X",
+	"gui.menu.config.y_pos": "Posición Y",
+	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",
+	"gui.menu.config.header_title": "Título de Cabecera",
+	"gui.menu.config.text_x_offset": "Pos. X del Texto extra",
+	
+	"gui.menu.config.show_hearts": "Mostrar corazones",
+	
 
 	"gui.synthesis": "Sintetizador",
 	"gui.synthesis.synthesise": "Sintetizar",
@@ -196,7 +213,7 @@
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Blox Normal",
 	"block.kingdomkeys.hard_blox": "Blox Duro",
-	"block.kingdomkeys.metal_blox": "Blox MetÍlico",
+	"block.kingdomkeys.metal_blox": "Blox Metálico",
 	"block.kingdomkeys.danger_blox": "Blox Peligroso",
 	"block.kingdomkeys.bounce_blox": "Blox de Rebote",
 	"block.kingdomkeys.blast_blox": "Blox Explosivo",
@@ -612,7 +629,7 @@
 	"item.kingdomkeys.invis_keyblade_chain": "Llavero de Llave Espada de Invi",
 	"item.kingdomkeys.iras_keyblade_chain": "Llavero de Llave Espada de Ira",
 	"item.kingdomkeys.jungle_king_chain": "Llavero de Artesana",
-	"item.kingdomkeys.keyblade_of_peoples_hearts_chain": "Llavero de Llave Espada del CorazÃ³n",
+	"item.kingdomkeys.keyblade_of_peoples_hearts_chain": "Llavero de Llave Espada del Corazón",
 	"item.kingdomkeys.kiblade_chain": "Llavero de Llave Espada χ",
 	"item.kingdomkeys.kingdom_key_chain": "Llavero de Cadena del Reino",
 	"item.kingdomkeys.kingdom_key_d_chain": "Llavero de Cadena del Reino D",
@@ -993,7 +1010,24 @@
 	"item.kingdomkeys.ampoule": "Bombilla",
 
 	"_comment": "Entities",
-	"entities.kingdomkeys.blast_blox_primed": "Bloque Explosivo Prendido",
+	"entities.kingdomkeys.blast_blox_primed": "Blox Explosivo Prendido",
+	"entities.kingdomkeys.pair_blox": "Blox de Pareja",
+
+	"entities.kingdomkeys.entity_fire": "Piro",
+	"entities.kingdomkeys.entity_blizzard": "Hielo",
+	"entities.kingdomkeys.entity_thunder": "Electro",
+	"entities.kingdomkeys.entity_thunderbolt": "Rayo Electro",
+	"entities.kingdomkeys.entity_gravity": "Gravedad",
+	"entities.kingdomkeys.entity_magnet": "Magneto",
+	"entities.kingdomkeys.entity_water": "Aqua",
+	"entities.kingdomkeys.entity_chakram": "Chakram",
+	"entities.kingdomkeys.entity_lance": "Lanza",
+	"entities.kingdomkeys.entity_org_portal": "Portal de la Organización",
+	"entities.kingdomkeys.entity_hp_orb": "Orbe de HP",
+	"entities.kingdomkeys.entity_mp_orb": "Orbe de MP",
+	"entities.kingdomkeys.entity_drive_orb": "Orbe de DP",
+	"entities.kingdomkeys.entity_munny": "Platines",
+
 
 	"entity.kingdomkeys.moogle": "Moguri",
 	"entity.kingdomkeys.shadow": "Sombra",
@@ -1016,6 +1050,31 @@
 
 	"entity.kingdomkeys.nobody_creeper": "Trepador",
 	"entity.kingdomkeys.dusk": "Umbrío",
+	"entity.kingdomkeys.assassin": "Asesino",
+	
+	
+	"item.kingdomkeys.moogle_spawn_egg": "Generar Moguri",
+	"item.kingdomkeys.shadow_spawn_egg": "Generar Sombra",
+	"item.kingdomkeys.mega_shadow_spawn_egg": "Generar MegaSombra",
+	"item.kingdomkeys.giga_shadow_spawn_egg": "Generar GigaSombra",
+	"item.kingdomkeys.darkball_spawn_egg": "Generar Bola oscura",
+	"item.kingdomkeys.shadow_glob_spawn_egg": "Generar Mole de Sombra",
+
+	"item.kingdomkeys.minute_bomb_spawn_egg": "Generar Minuto Explosivo",
+	"item.kingdomkeys.skater_bomb_spawn_egg": "Generar Bomba Patinadora",
+	"item.kingdomkeys.storm_bomb_spawn_egg": "Generar Bomba Tormentosa",
+	"item.kingdomkeys.detonator_spawn_egg": "Generar Detonador",
+	
+	"item.kingdomkeys.red_nocturne_spawn_egg": "Generar Nocturno Rojo",
+	"item.kingdomkeys.blue_rhapsody_spawn_egg": "Generar Rapsodia Azul",
+	"item.kingdomkeys.yellow_opera_spawn_egg": "Generar Ópera Amarilla",
+	"item.kingdomkeys.green_requiem_spawn_egg": "Generar Réquiem Verde",
+	"item.kingdomkeys.large_body_spawn_egg": "Generar Grandullón",
+	"item.kingdomkeys.dire_plant_spawn_egg": "Generar Mala Hierba",
+
+	"item.kingdomkeys.nobody_creeper_spawn_egg": "Generar Trepador",
+	"item.kingdomkeys.dusk_spawn_egg": "Generar Umbrío",
+	"item.kingdomkeys.assassin_spawn_egg": "Generar Asesino",
 
 	"_comment": "Messages",
 	"message.magnet_blox.attract": "Modo Atracción",

@@ -58,7 +58,6 @@ public class CommandMenuGui extends Screen {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		// if (minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode()) {
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {// && !minecraft.ingameGUI.getChatGUI().getChatOpen()) {
 			RenderSystem.pushMatrix();
 			{
@@ -66,7 +65,6 @@ public class CommandMenuGui extends Screen {
 			}
 			RenderSystem.popMatrix();
 		}
-		// }
 	}
 
 	float alpha = 1F;
@@ -114,18 +112,14 @@ public class CommandMenuGui extends Screen {
 			}
 		}
 	}
-
+	
 	public void drawCommandMenu(int width, int height) {
 		if(ModCapabilities.getPlayer(minecraft.player) != null) {
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef(ModConfigs.cmXPos, 0, 0);
-				drawTop(width, height);
-				drawAttack(width, height);
-				drawMagic(width, height);
-				drawItems(width, height);
-				drawDrive(width, height);
-
+				RenderSystem.translated(ModConfigs.cmXPos, 0, 0);
+				drawMain(width, height);
+			
 				if (submenu == SUB_PORTALS) {
 					drawSubPortals(width, height);
 				}
@@ -138,10 +132,87 @@ public class CommandMenuGui extends Screen {
 				if (submenu == SUB_TARGET) {
 					drawSubTargetSelector(width, height);
 				}
-				RenderSystem.disableBlend();
 			}
 			RenderSystem.popMatrix();
 		}
+	}
+	
+	private String getCommandMenuName(int i) {
+		switch(i) {
+		case ATTACK:
+			return Strings.Gui_CommandMenu_Attack;
+		case MAGIC:
+			return Strings.Gui_CommandMenu_Magic;
+		case ITEMS:
+			return Strings.Gui_CommandMenu_Items;
+		case DRIVE:
+			return ModCapabilities.getPlayer(minecraft.player).getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert;
+		}
+		return "";
+	}
+	
+	public void drawMain(int width, int height) {
+		RenderSystem.enableBlend();
+		//Header
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.color4f(1F, 1F, 1F, alpha);
+			minecraft.textureManager.bindTexture(texture);
+			RenderSystem.translatef(0, (height - MENU_HEIGHT * scale * TOP), 0);
+			RenderSystem.scalef(scale, scale, scale);
+			textX = 0;
+			paintWithColorArray(normalModeColor, alpha);
+			drawHeader(Strings.Gui_CommandMenu_Command, SUB_MAIN);
+		}
+		RenderSystem.popMatrix();
+		
+		//Slots
+		RenderSystem.pushMatrix();
+		{
+			int x = 0;
+			for(int i = 1; i <= ATTACK; i++) {
+				RenderSystem.pushMatrix();
+				{
+					minecraft.textureManager.bindTexture(texture);
+
+					RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * i), 0);
+					RenderSystem.scalef(scale, scale, scale);
+		
+					paintWithColorArray(normalModeColor, alpha);
+					ClientPlayerEntity player = minecraft.player;
+					if (selected == i) { // Selected
+						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawSelectedSlot();
+						if (selected == ATTACK && ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
+							drawIcon(selected+1);
+						} else {
+							drawIcon(selected);
+						}
+		
+					} else { // Not selected
+						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawUnselectedSlot();
+					}
+		
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+					
+					if(i == ATTACK) {
+						if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ArrowgunItem) {
+							ItemStack weapon = player.getHeldItemMainhand();
+							if (weapon.hasTag() && weapon.getTag().contains("ammo")) {
+								int ammo = weapon.getTag().getInt("ammo");
+								drawString(minecraft.fontRenderer, ammo + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) + (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 4, 0xFFFFFF);
+							}
+						}
+					}
+				}
+				RenderSystem.popMatrix();
+			}
+			
+		}
+		RenderSystem.popMatrix();
+		
+		RenderSystem.disableBlend();
 	}
 	
 	private void drawSubTargetSelector(int width, int height) {
@@ -168,21 +239,19 @@ public class CommandMenuGui extends Screen {
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.color4f(1F, 1F, 1F, alpha);
-				int u;
-				int v;
-
+				
 				minecraft.textureManager.bindTexture(texture);
 				RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUniqueID()).getMembers().size() - i)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				if (submenu == SUB_TARGET) {
-					v = 0;
+					
 					paintWithColorArray(targetModeColor, alpha);
 
 					if (targetSelected == i) {
 						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 						// Draw slot
-						drawSelected();
+						drawSelectedSlot();
 						RenderSystem.color4f(1F, 1F, 1F, alpha);
 
 						// Draw Icon
@@ -190,7 +259,7 @@ public class CommandMenuGui extends Screen {
 
 					} else { // Not selected
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-						drawUnselected();
+						drawUnselectedSlot();
 					}
 					// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
 					// 0xFF9900;
@@ -220,11 +289,9 @@ public class CommandMenuGui extends Screen {
 		if(ModConfigs.cmHeaderTextVisible) {
 			drawString(minecraft.fontRenderer, Utils.translateToLocal(text), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, getColor(0xFFFFFF,subMenu));
 		}
-		//blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
-		//drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(text), 6, 4, 0xFFFFFF);
 	}
 
-	private void drawSelected() {
+	private void drawSelectedSlot() {
 		RenderSystem.enableBlend();
 		RenderSystem.pushMatrix();
 		{
@@ -236,7 +303,7 @@ public class CommandMenuGui extends Screen {
 	}
 
 
-	private void drawUnselected() {
+	private void drawUnselectedSlot() {
 		RenderSystem.enableBlend();
 		RenderSystem.pushMatrix();
 		{
@@ -248,7 +315,10 @@ public class CommandMenuGui extends Screen {
 	}
 
 	private void drawIcon(int selected) {
+		RenderSystem.enableBlend();
+		RenderSystem.color4f(1F, 1F, 1F, alpha);
 		blit((int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15), 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+		RenderSystem.disableBlend();
 	}
 
 
@@ -268,166 +338,6 @@ public class CommandMenuGui extends Screen {
 		RenderSystem.disableBlend();
 	}
 
-	public void drawAttack(int width, int height) {
-		RenderSystem.enableBlend();
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.color4f(1F, 1F, 1F, alpha);
-			minecraft.textureManager.bindTexture(texture);
-
-			int v = 0;
-			int x = 0;
-
-			RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * ATTACK), 0);
-			RenderSystem.scalef(scale, scale, scale);
-
-			paintWithColorArray(normalModeColor, alpha);
-			ClientPlayerEntity player = minecraft.player;
-			if (selected == ATTACK) { // Selected
-				textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				drawSelected();
-				RenderSystem.color4f(1F, 1F, 1F, alpha);
-
-				// Draw Icon
-				if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
-					drawIcon(selected+1);
-				} else {
-					drawIcon(selected);
-				}
-
-			} else { // Not selected
-				textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				drawUnselected();
-			}
-
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Attack), textX, 4, getColor(0xFFFFFF,SUB_MAIN));
-			
-			if (player.getHeldItemMainhand() != null) {
-				if (player.getHeldItemMainhand().getItem() instanceof ArrowgunItem) {
-					ItemStack weapon = player.getHeldItemMainhand();
-					if (weapon.hasTag()) {
-						if (weapon.getTag().contains("ammo")) {
-							int ammo = weapon.getTag().getInt("ammo");
-							drawString(minecraft.fontRenderer, ammo + "", textX + TOP_WIDTH, 4, 0xFFFFFF);
-						}
-					}
-
-				}
-			}			 
-		}
-		RenderSystem.popMatrix();
-		RenderSystem.disableBlend();
-	}
-
-	public void drawMagic(int width, int height) {
-		RenderSystem.enableBlend();
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.color4f(1F, 1F, 1F, alpha);
-			minecraft.textureManager.bindTexture(texture);
-
-			int x = 0;
-
-			RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * MAGIC), 0);
-			RenderSystem.scalef(scale, scale, scale);
-
-			if (submenu != 0) {
-				RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
-			}
-			
-			paintWithColorArray(normalModeColor, alpha);
-			if (selected == MAGIC) { // Selected
-				textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				drawSelected();
-				RenderSystem.color4f(1F, 1F, 1F, alpha);
-
-				// Draw Icon
-				drawIcon(selected);
-			} else { // Not selected
-				textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				drawUnselected();
-			}
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Magic),textX, 4, playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 :getColor(0xFFFFFF,SUB_MAIN));
-
-		}
-		RenderSystem.popMatrix();
-		RenderSystem.disableBlend();
-	}
-
-	public void drawItems(int width, int height) {
-		RenderSystem.enableBlend();
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.color4f(1F, 1F, 1F, alpha);
-			minecraft.textureManager.bindTexture(texture);
-
-			int x = 0;
-
-			RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * ITEMS), 0);
-			RenderSystem.scalef(scale, scale, scale);
-
-			if (submenu != 0)
-				RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
-
-			paintWithColorArray(normalModeColor, alpha);
-			if (selected == ITEMS) { // Selected
-				textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				drawSelected();
-
-				RenderSystem.color4f(1F, 1F, 1F, alpha);
-				drawIcon(selected);
-			} else { // Not selected
-				textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				drawUnselected();
-			}
-
-			drawString(minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_CommandMenu_Items), textX, 4, getColor(0xFFFFFF,SUB_MAIN));
-
-		}
-		RenderSystem.popMatrix();
-		RenderSystem.disableBlend();
-	}
-
-	public void drawDrive(int width, int height) {
-		RenderSystem.enableBlend();
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.color4f(1F, 1F, 1F, alpha);
-			minecraft.textureManager.bindTexture(texture);
-
-			int v = 0;
-			int x = 0;
-
-			RenderSystem.translatef(x, (height - MENU_HEIGHT * scale * DRIVE), 0);
-			RenderSystem.scalef(scale, scale, scale);
-
-			if (submenu != 0)
-				RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
-
-			paintWithColorArray(normalModeColor, alpha);
-			if (selected == DRIVE) { // Selected
-				textX = 5 + (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				// Draw slot
-				drawSelected();
-				RenderSystem.color4f(1F, 1F, 1F, alpha);
-				drawIcon(selected);
-			} else { // Not selected
-				textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-				drawUnselected();
-			}
-
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			if (playerData != null) {
-				String text = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())?".drive":".revert";
-				int color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : 0xFFFFFF;
-				drawString(minecraft.fontRenderer, Utils.translateToLocal("gui.commandmenu"+text), textX, 4, getColor(color,SUB_MAIN));
-			}
-		}
-		RenderSystem.popMatrix();
-		RenderSystem.disableBlend();
-	}
 	public void drawSubPortals(int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -464,7 +374,7 @@ public class CommandMenuGui extends Screen {
 							int textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 	
 							// Draw slot
-							drawSelected();
+							drawSelectedSlot();
 
 							RenderSystem.color4f(1F, 1F, 1F, alpha);
 	
@@ -473,7 +383,7 @@ public class CommandMenuGui extends Screen {
 
 						} else { // Not selected
 							textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-							drawUnselected();
+							drawUnselectedSlot();
 						}
 						// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
 						// 0xFF9900;
@@ -521,7 +431,7 @@ public class CommandMenuGui extends Screen {
 						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 						// Draw slot
-						drawSelected();
+						drawSelectedSlot();
 
 						RenderSystem.color4f(1F, 1F, 1F, alpha);
 
@@ -530,7 +440,7 @@ public class CommandMenuGui extends Screen {
 
 					} else { // Not selected
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-						drawUnselected();
+						drawUnselectedSlot();
 					}
 
 					String magic = playerData.getMagicList().get(i);
@@ -603,7 +513,7 @@ public class CommandMenuGui extends Screen {
 								textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 								// Draw slot
-								drawSelected();
+								drawSelectedSlot();
 
 								RenderSystem.color4f(1F, 1F, 1F, alpha);
 
@@ -612,7 +522,7 @@ public class CommandMenuGui extends Screen {
 
 							} else { // Not selected
 								textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-								drawUnselected();
+								drawUnselectedSlot();
 							}
 						}
 						RenderSystem.color4f(0.3F, 0.3F, 0.3F, alpha);
