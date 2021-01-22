@@ -84,31 +84,18 @@ public class FireEntity extends ThrowableEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != func_234616_v_()) {
-					Party p = ModCapabilities.getWorld(func_234616_v_().world).getPartyFromMember(func_234616_v_().getUniqueID());
+					Party p = null;
+					if (func_234616_v_() != null) {
+						p = ModCapabilities.getWorld(func_234616_v_().world).getPartyFromMember(func_234616_v_().getUniqueID());
+					}
 					if(p == null || p.getMember(target.getUniqueID()) == null) {
 						target.setFire(10);
 						float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
 					}
-					remove();
 				}
-			} else { // Block (not ERTR)
-				/*
-				 * if (brtResult != null && rtRes.getType() == Type.BLOCK) {
-				 * 
-				 * } else { world.playSound(null, getPosition(), ModSounds.fistBounce,
-				 * SoundCategory.MASTER, 1F, 1F);
-				 * 
-				 * bounces++; if (brtResult.getFace() == Direction.NORTH || brtResult.getFace()
-				 * == Direction.SOUTH) { this.setMotion(getMotion().x, getMotion().y,
-				 * -getMotion().z); } else if (brtResult.getFace() == Direction.EAST ||
-				 * brtResult.getFace() == Direction.WEST) { this.setMotion(-getMotion().x,
-				 * getMotion().y, getMotion().z); } else if (brtResult.getFace() == Direction.UP
-				 * || brtResult.getFace() == Direction.DOWN) { this.setMotion(getMotion().x,
-				 * -getMotion().y, getMotion().z); } } } else { remove(); }
-				 */
-				remove();
 			}
+			remove();
 		}
 	}
 
