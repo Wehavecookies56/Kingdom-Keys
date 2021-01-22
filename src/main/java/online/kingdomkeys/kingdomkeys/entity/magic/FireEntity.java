@@ -84,31 +84,18 @@ public class FireEntity extends ThrowableEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getThrower()) {
-					Party p = ModCapabilities.getWorld(getThrower().world).getPartyFromMember(getThrower().getUniqueID());
-					if(p == null || p.getMember(target.getUniqueID()) == null) {
+					Party p = null;
+					if (getThrower() != null) {
+						p = ModCapabilities.getWorld(getThrower().world).getPartyFromMember(getThrower().getUniqueID());
+					}
+					if (p == null || p.getMember(target.getUniqueID()) == null) {
 						target.setFire(10);
 						float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
 					}
-					remove();
 				}
-			} else { // Block (not ERTR)
-				/*
-				 * if (brtResult != null && rtRes.getType() == Type.BLOCK) {
-				 * 
-				 * } else { world.playSound(null, getPosition(), ModSounds.fistBounce,
-				 * SoundCategory.MASTER, 1F, 1F);
-				 * 
-				 * bounces++; if (brtResult.getFace() == Direction.NORTH || brtResult.getFace()
-				 * == Direction.SOUTH) { this.setMotion(getMotion().x, getMotion().y,
-				 * -getMotion().z); } else if (brtResult.getFace() == Direction.EAST ||
-				 * brtResult.getFace() == Direction.WEST) { this.setMotion(-getMotion().x,
-				 * getMotion().y, getMotion().z); } else if (brtResult.getFace() == Direction.UP
-				 * || brtResult.getFace() == Direction.DOWN) { this.setMotion(getMotion().x,
-				 * -getMotion().y, getMotion().z); } } } else { remove(); }
-				 */
-				remove();
 			}
+			remove();
 		}
 	}
 
