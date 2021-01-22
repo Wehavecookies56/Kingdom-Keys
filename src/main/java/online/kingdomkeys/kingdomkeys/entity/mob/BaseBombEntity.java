@@ -101,10 +101,15 @@ public abstract class BaseBombEntity extends MonsterEntity implements IKHMob, IE
         super.tick();
     }
 
+    boolean hasExploded = false;
+
     public void explode() {
-        Explosion.Mode explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.world, this) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
-        this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), getExplosionStength(), false, explosion$mode);
-        this.remove();
+        if (!hasExploded) {
+            Explosion.Mode explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.world, this) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
+            this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), getExplosionStength(), false, explosion$mode);
+            this.remove();
+            hasExploded = true;
+        }
     }
 
     @Override
