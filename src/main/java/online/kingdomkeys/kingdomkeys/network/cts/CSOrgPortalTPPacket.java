@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
@@ -45,12 +46,13 @@ public class CSOrgPortalTPPacket {
 	public static void handle(CSOrgPortalTPPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-	    	//BlockPos pos = new BlockPos(message.x,message.y,message.z);
-            player.changeDimension(DimensionType.getById(message.dim), new BaseTeleporter(message.x,message.y,message.z));
-
-	       // new TeleporterOrgPortal((ServerWorld) player.world).teleport(player, pos, message.dim);
-	     //   player.setPosition(message.x,message.y,message.z);
-	    	//new TeleporterOrgPortal((ServerWorld) player.world).teleport(player, pos, message.dim);
+			if(player.dimension == DimensionType.getById(message.dim)) { //Seemless tp
+				ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
+				playerMP.setPositionAndUpdate(message.x+0.5, message.y, message.z+0.5);
+				playerMP.setMotion(0, 0, 0);
+			} else {
+				player.changeDimension(DimensionType.getById(message.dim), new BaseTeleporter(message.x,message.y,message.z));
+			}
 		});
 		ctx.get().setPacketHandled(true);
 	}

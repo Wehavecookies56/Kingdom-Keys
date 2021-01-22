@@ -80,7 +80,6 @@ public class FireEntity extends ThrowableEntity {
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getThrower()) {

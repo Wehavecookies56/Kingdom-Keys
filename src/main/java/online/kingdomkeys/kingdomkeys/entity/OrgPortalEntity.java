@@ -56,8 +56,11 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		if (this.ticksExisted > maxTicks) {
 			this.remove();
 		}
-		/*
-		 double rx = 1D;
+		
+        world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX()-1+rand.nextDouble()*2, getPosY() + rand.nextDouble()*4, getPosZ()-1+rand.nextDouble()*2, 0.0D, 0.0D, 0.0D);
+
+		
+		 /*double rx = 1D;
 		 double ry = 2D;
 		 for(int z = 1; z <= 360; z+=7) {
 	         for (int a = 1; a <= 360; a += 7) {
@@ -67,8 +70,8 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	            // world.addParticle(ParticleTypes.CLOUD, x, this.y + 1.25D, getPosZ, 0.0D, 0.0D, 0.0D);
 	             world.addParticle(ParticleTypes.DRAGON_BREATH, x, y, getPosZ(), 0.0D, 0.0D, 0.0D);
 	         }
-		 }
-		world.addParticle(ParticleTypes.CLOUD, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		 }*/
+		/*world.addParticle(ParticleTypes.CLOUD, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		double radiusX = 1D, radiusY = 3D, radiusZ = 1D;
 		double freq = 0.5D;
 		double X = getPosX(),Y = getPosY()-1, Z = getPosZ();
@@ -80,29 +83,29 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 					//}
 				}
 			}
-		}
-*/
+		}*/
+
 		super.tick();
 	}
 	
-	 @Override
-	    public void onCollideWithPlayer(PlayerEntity player) {
-	        if(shouldTeleport) {
-		        if(!this.isAlive())
-		            return;
-		        if(player != null){
-		            if (destinationPos != null) {
-		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
-		                	player.setPosition(destinationPos.getX(), destinationPos.getY(), destinationPos.getZ());
-		                	if(player.world.isRemote)
-		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5));
-		                }
-		            }
-		        }
-	        }
+	@Override
+	public void onCollideWithPlayer(PlayerEntity player) {
+		if (shouldTeleport) {
+			if (!this.isAlive())
+				return;
+			if (player != null) {
+				if (destinationPos != null) {
+					if (destinationPos.getX() != 0 && destinationPos.getY() != 0 && destinationPos.getZ() != 0) {
+						player.setPosition(destinationPos.getX(), destinationPos.getY(), destinationPos.getZ());
+						if (player.world.isRemote)
+							PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim, destinationPos.getX() + 0.5, destinationPos.getY() + 1, destinationPos.getZ() + 0.5));
+					}
+				}
+			}
+		}
 
-	        super.onCollideWithPlayer(player);
-	    }
+		super.onCollideWithPlayer(player);
+	}
 
 	public int getMaxTicks() {
 		return maxTicks;
@@ -148,7 +151,8 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
         buffer.writeInt(destinationPos.getY());
         buffer.writeInt(destinationPos.getZ());
         buffer.writeInt(destinationDim);
-        buffer.writeBoolean(shouldTeleport);	}
+        buffer.writeBoolean(shouldTeleport);	
+    }
 
 	@Override
 	public void readSpawnData(PacketBuffer additionalData) {

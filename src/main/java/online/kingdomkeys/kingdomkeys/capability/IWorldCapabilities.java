@@ -20,6 +20,9 @@ public interface IWorldCapabilities {
 	void removeParty(Party party);
 	Party getPartyFromName(String name);
 	Party getPartyFromLeader(UUID leaderId);
+	
+
+	
 	void read(CompoundNBT nbt);
 	CompoundNBT write(CompoundNBT nbt);
 }
