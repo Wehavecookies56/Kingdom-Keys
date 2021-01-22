@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 import java.util.LinkedHashMap;
+import java.util.UUID;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -341,37 +342,32 @@ public class CommandMenuGui extends Screen {
 	public void drawSubPortals(int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		if (playerData.getPortalList() != null && !playerData.getPortalList().isEmpty()) {
+		if (playerData.getPortalUUIDList() != null && !playerData.getPortalUUIDList().isEmpty()) {
 			// PORTAL TOP
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			RenderSystem.pushMatrix();
 			{
 				paintWithColorArray(portalMenuColor, alpha);
 				minecraft.textureManager.bindTexture(texture);
-				RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (playerData.getPortalList().size() + 1)), 0);
+				RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (playerData.getPortalUUIDList().size() + 1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				drawHeader(Strings.Gui_CommandMenu_Portals_Title, SUB_PORTALS);
 			}
 			RenderSystem.popMatrix();
 	
-			for (int i = 0; i < playerData.getPortalList().size(); i++) {
+			for (int i = 0; i < playerData.getPortalUUIDList().size(); i++) {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.color4f(1F, 1F, 1F, alpha);
-					int u;
-					int v;
-					int x2;
-					x2 = (portalSelected == i) ? 15 : 10;
 	
 					minecraft.textureManager.bindTexture(texture);
-					RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (playerData.getPortalList().size() - i)), 0);
+					RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (playerData.getPortalUUIDList().size() - i)), 0);
 					RenderSystem.scalef(scale, scale, scale);
 					if (submenu == SUB_PORTALS) {
-						v = 0;
 						paintWithColorArray(portalMenuColor, alpha);
 	
 						if (portalSelected == i) {
-							int textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+							textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 	
 							// Draw slot
 							drawSelectedSlot();
@@ -388,9 +384,11 @@ public class CommandMenuGui extends Screen {
 						// colour = Constants.getCost(spells.get(i)) < STATS.getMP() ? 0xFFFFFF :
 						// 0xFF9900;
 	
-						PortalData portal = playerData.getPortalList().get(i);
+						IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.world);
+						UUID portalUUID = playerData.getPortalUUIDList().get(i);
+						PortalData portal = worldData.getPortalFromUUID(portalUUID);
 						// String magicName = Constants.getMagicName(magic, level);
-						drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getShortCoords() + ""), textX, 4, 0xFFFFFF);
+						drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getShortCoords()), textX, 4, 0xFFFFFF);
 						RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					}
 				}
@@ -496,18 +494,11 @@ public class CommandMenuGui extends Screen {
 					RenderSystem.pushMatrix();
 					{
 						RenderSystem.color4f(1F, 1F, 1F, alpha);
-						int u;
-						int v;
-						int x2;
-						x2 = (driveSelected == i) ? 15 : 10;
-						v = (driveSelected == i) ? MENU_HEIGHT : 0;
-
 						minecraft.textureManager.bindTexture(texture);
 						RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
 						RenderSystem.scalef(scale, scale, scale);
 
 						if (submenu == SUB_DRIVE) {
-							v = 0;
 							paintWithColorArray(driveMenuColor, alpha);
 							if (driveSelected == i) {
 								textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;

@@ -40,7 +40,7 @@ public class SCSyncCapabilityPacket {
 	List<String> messages, dfMessages;
 	String driveForm;
 	
-    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
+    UUID[] orgPortalCoords = { new UUID(0,0), new UUID(0,0), new UUID(0,0) };
 
     List<ResourceLocation> recipeList = new ArrayList<>();
     List<String> magicList = new ArrayList<>();
@@ -83,7 +83,7 @@ public class SCSyncCapabilityPacket {
 		this.munny = capability.getMunny();
 		
 		for(byte i=0;i<3;i++) {
-        	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
+        	this.orgPortalCoords[i] = capability.getPortalUUIDFromIndex((byte)i);
         }
 		
 		this.recipeList = capability.getKnownRecipeList();
@@ -131,11 +131,7 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.munny);
 		
 		for(byte i=0;i<3;i++) {
-        	buffer.writeByte(this.orgPortalCoords[i].getPID());
-        	buffer.writeDouble(this.orgPortalCoords[i].getX());
-        	buffer.writeDouble(this.orgPortalCoords[i].getY());
-        	buffer.writeDouble(this.orgPortalCoords[i].getZ());
-        	buffer.writeInt(this.orgPortalCoords[i].getDimID());
+			buffer.writeUniqueId(this.orgPortalCoords[i]);
         }
 		
 		CompoundNBT recipes = new CompoundNBT();
@@ -244,11 +240,7 @@ public class SCSyncCapabilityPacket {
 		msg.munny = buffer.readInt();
 
 		for(byte i=0;i<3;i++) {
-    		msg.orgPortalCoords[i].setPID(buffer.readByte());
-    		msg.orgPortalCoords[i].setX(buffer.readDouble());
-    		msg.orgPortalCoords[i].setY(buffer.readDouble());
-    		msg.orgPortalCoords[i].setZ(buffer.readDouble());
-    		msg.orgPortalCoords[i].setDimID(buffer.readInt());
+    		msg.orgPortalCoords[i] = buffer.readUniqueId();
         }
 		
 		CompoundNBT recipesTag = buffer.readCompoundTag();
@@ -354,9 +346,9 @@ public class SCSyncCapabilityPacket {
 			playerData.setMessages(message.messages);
 			playerData.setDFMessages(message.dfMessages);
 
-			playerData.setPortalCoords((byte)0, message.orgPortalCoords[0]);
-			playerData.setPortalCoords((byte)1, message.orgPortalCoords[1]);
-			playerData.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+			playerData.setPortalCoordsUUID((byte)0, message.orgPortalCoords[0]);
+			playerData.setPortalCoordsUUID((byte)1, message.orgPortalCoords[1]);
+			playerData.setPortalCoordsUUID((byte)2, message.orgPortalCoords[2]);
 
 			playerData.setKnownRecipeList(message.recipeList);
 			playerData.setMagicList(message.magicList);

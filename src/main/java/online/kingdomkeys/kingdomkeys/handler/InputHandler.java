@@ -4,12 +4,8 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.lib.*;
-import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -37,12 +33,17 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
@@ -50,10 +51,13 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class InputHandler {
 
-    List<PortalData> portalCommands;
+    List<UUID> portalCommands;
     Map<String, int[]> driveFormsMap;
     List<String> magicsList;
     List<Member> targetsList;
@@ -382,8 +386,9 @@ public class InputHandler {
             } else {
                 // ModDriveForms.getDriveForm(player, world, (String)
                 // this.driveCommands.get(CommandMenuGui.driveselected));
-                if (!ModCapabilities.getPlayer(player).getRecharge()) {
-                    PortalData coords = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
+                if (!playerData.getRecharge()) {
+                    UUID portalUUID = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
+                    PortalData coords = worldData.getPortalFromUUID(portalUUID); 
                     if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
@@ -827,7 +832,7 @@ public class InputHandler {
         this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
         this.driveFormsMap.remove(DriveForm.NONE.toString());
         this.magicsList = ModCapabilities.getPlayer(mc.player).getMagicList();
-        this.portalCommands = ModCapabilities.getPlayer(mc.player).getPortalList();
+        this.portalCommands = ModCapabilities.getPlayer(mc.player).getPortalUUIDList();
         if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
         	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
         }

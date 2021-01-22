@@ -34,6 +34,7 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -67,7 +68,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
@@ -132,7 +133,7 @@ public class EntityEvents {
 				});
 				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayerEntity) player);
 
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
@@ -678,6 +679,9 @@ public class EntityEvents {
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
 		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
+		
+		System.out.println(event.getEntityLiving().world.isRemote+":"+worldData.getPortals());
+
 		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
 			worldData.setHeartlessSpawnLevel(1);
 		}
@@ -809,7 +813,7 @@ public class EntityEvents {
 
 		newPlayerData.setMagicList(oldPlayerData.getMagicList());
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
-		newPlayerData.setPortalList(oldPlayerData.getPortalList());
+		newPlayerData.setPortalUUIDList(oldPlayerData.getPortalUUIDList());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
 
@@ -846,9 +850,10 @@ public class EntityEvents {
 
 			toWorldData.setParties(fromWorldData.getParties());
 			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
+			toWorldData.setPortals(fromWorldData.getPortals());
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-			PacketHandler.sendTo(new SCSyncExtendedWorld(toWorldData), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncWorldCapability(toWorldData), (ServerPlayerEntity)player);
 		}
 	}
 

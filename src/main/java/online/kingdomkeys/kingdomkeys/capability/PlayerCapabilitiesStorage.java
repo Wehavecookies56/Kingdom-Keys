@@ -1,5 +1,11 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -9,11 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.capabilities.Capability;
-import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
-
-import java.util.Iterator;
-import java.util.Map;
 
 public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCapabilities> {
     @Override
@@ -104,11 +106,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
 
 
         for (byte i = 0; i < 3; i++) {
-            storage.putByte("Portal" + i + "N", instance.getPortalCoords(i).getPID());
-            storage.putDouble("Portal" + i + "X", instance.getPortalCoords(i).getX());
-            storage.putDouble("Portal" + i + "Y", instance.getPortalCoords(i).getY());
-            storage.putDouble("Portal" + i + "Z", instance.getPortalCoords(i).getZ());
-            storage.putInt("Portal" + i + "D", instance.getPortalCoords(i).getDimID());
+        	storage.putUniqueId("PortalID"+i,instance.getPortalUUIDFromIndex(i));
         }
 
         CompoundNBT parties = new CompoundNBT();
@@ -201,9 +199,9 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         unlocksCompound.keySet().forEach(key -> instance.unlockWeapon(ItemStack.read(unlocksCompound.getCompound(key))));
 
         for (byte i = 0; i < 3; i++) {
-            instance.setPortalCoords(i, new PortalData(storage.getByte("Portal" + i + "N"), storage.getDouble("Portal" + i + "X"), storage.getDouble("Portal" + i + "Y"), storage.getDouble("Portal" + i + "Z"), storage.getInt("Portal" + i + "D")));
+            instance.setPortalCoordsUUID(i, storage.getUniqueId("PortalID"+i));
         }
-
+    	
         Iterator<String> partyIt = storage.getCompound("parties").keySet().iterator();
         while (partyIt.hasNext()) {
             String key = (String) partyIt.next();

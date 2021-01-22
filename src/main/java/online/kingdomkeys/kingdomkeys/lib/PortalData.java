@@ -1,24 +1,40 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import java.util.UUID;
+
+import net.minecraft.nbt.CompoundNBT;
+
 public class PortalData {
-    byte pID;
+	UUID uuid;
+    String name;
     double x,y,z;
     int dimID;
 
-    public PortalData(byte pID, double x, double y, double z, int dimID) {
-        this.pID = pID;
+    public PortalData(UUID id, String name, double x, double y, double z, int dimID) {
+    	this.uuid = id;
+    	this.name = name;
         this.x = x;
         this.y = y;
         this.z = z;
         this.dimID = dimID;
     }
-
-    public byte getPID() {
-        return pID;
+    
+    public UUID getUUID() {
+    	return uuid;
     }
-    public void setPID(byte pID) {
-        this.pID = pID;
+    
+    public void setUUID(UUID id) {
+    	this.uuid = id;
     }
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+   
     public double getX() {
         return x;
     }
@@ -46,8 +62,26 @@ public class PortalData {
 
     public String getShortCoords() {
         //return x+", "+y+", "+z;
-        return String.valueOf(pID+1);
+        return name;
     }
+    
+    public CompoundNBT write() {
+		CompoundNBT portalNBT = new CompoundNBT();
+		portalNBT.putUniqueId("uuid", this.uuid);
+		portalNBT.putString("name", this.getName());
+		portalNBT.putDouble("x", this.x);
+		portalNBT.putDouble("y", this.y);
+		portalNBT.putDouble("z", this.z);
+		portalNBT.putInt("dim", this.dimID);
+		return portalNBT;
+	}
 
-
+	public void read(CompoundNBT nbt) {
+		this.setUUID(nbt.getUniqueId("uuid"));
+		this.setName(nbt.getString("name"));
+		this.setX(nbt.getDouble("x"));
+		this.setY(nbt.getDouble("y"));
+		this.setZ(nbt.getDouble("z"));
+		this.setDimID(nbt.getInt("dim"));
+	}
 }

@@ -1,6 +1,15 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.UUID;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,7 +24,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -24,13 +32,16 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.lib.*;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.lib.LevelStats;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -59,7 +70,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private List<String> messages = new ArrayList<>();
 	private List<String> dfMessages = new ArrayList<>();
 
-	private PortalData[] orgPortalCoords = { new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0), new PortalData((byte) 0, 0, 0, 0, 0) };
+	private UUID[] orgPortalUUIDs = { new UUID(0, 0), new UUID(0, 0), new UUID(0, 0) };
 
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 	private int hearts = 0;
@@ -633,22 +644,22 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	//region Organization
 
 	@Override
-	public PortalData getPortalCoords(byte pID) {
-		return orgPortalCoords[pID];
+	public UUID getPortalUUIDFromIndex(byte pID) {
+		return orgPortalUUIDs[pID];
 	}
 
 	@Override
-	public void setPortalCoords(byte pID, PortalData coords) {
-		orgPortalCoords[pID] = coords;
+	public void setPortalCoordsUUID(byte pID, UUID uuid) {
+		orgPortalUUIDs[pID] = uuid;
 	}
 
 	@Override
-	public List<PortalData> getPortalList() {
-		List<PortalData> list = new ArrayList<PortalData>();
+	public List<UUID> getPortalUUIDList() {
+		List<UUID> list = new ArrayList<UUID>();
 		for (byte i = 0; i < 3; i++) {
-			PortalData coords = getPortalCoords(i);
-			if (!(coords.getX() == 0 && coords.getY() == 0 && coords.getZ() == 0)) {
-				list.add(coords);
+			UUID uuid = getPortalUUIDFromIndex(i);
+			if (!(uuid.equals(new UUID(0,0)))) {
+				list.add(uuid);
 				// System.out.println(i+" Added portal: "+coords.getPID());
 			}
 		}
@@ -656,9 +667,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
-	public void setPortalList(List<PortalData> list) {
+	public void setPortalUUIDList(List<UUID> list) {
 		for (byte i = 0; i < list.size(); i++) {
-			orgPortalCoords[i] = list.get(i);
+			orgPortalUUIDs[i] = list.get(i);
 			/*System.out.println(list.get(i).getDimID());
 			System.out.println(list.get(i).getX());
 			System.out.println(list.get(i).getY());

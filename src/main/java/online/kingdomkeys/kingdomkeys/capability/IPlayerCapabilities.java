@@ -144,10 +144,10 @@ public interface IPlayerCapabilities {
 	boolean hasJumpedAerialDodge();
 	void setHasJumpedAerialDodge(boolean b);
 	
-	List<PortalData> getPortalList();
-	void setPortalList(List<PortalData> list);
-	PortalData getPortalCoords(byte pID);
-    void setPortalCoords(byte pID, PortalData coords);
+	List<UUID> getPortalUUIDList();
+	void setPortalUUIDList(List<UUID> list);
+	UUID getPortalUUIDFromIndex(byte pID);
+    void setPortalCoordsUUID(byte pID, UUID uuid);
     
     List<String> getPartiesInvited();
     void setPartiesInvited(List<String> list);

@@ -10,14 +10,14 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-public class SCSyncExtendedWorld {
+public class SCSyncWorldCapability {
 	
 	private CompoundNBT data;
 
-	public SCSyncExtendedWorld() {
+	public SCSyncWorldCapability() {
 	}
 	
-	public SCSyncExtendedWorld(IWorldCapabilities worldData) {
+	public SCSyncWorldCapability(IWorldCapabilities worldData) {
 		this.data = new CompoundNBT();
 		this.data = worldData.write(this.data);
 	}
@@ -26,13 +26,13 @@ public class SCSyncExtendedWorld {
 		buffer.writeCompoundTag(this.data);
 	}
 
-	public static SCSyncExtendedWorld decode(PacketBuffer buffer) {
-		SCSyncExtendedWorld msg = new SCSyncExtendedWorld();
+	public static SCSyncWorldCapability decode(PacketBuffer buffer) {
+		SCSyncWorldCapability msg = new SCSyncWorldCapability();
 		msg.data = buffer.readCompoundTag();
 		return msg;	
 	}
 
-	public static void handle(final SCSyncExtendedWorld message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(final SCSyncWorldCapability message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			World world = KingdomKeys.proxy.getClientWorld();
 			IWorldCapabilities worldData = ModCapabilities.getWorld(world);

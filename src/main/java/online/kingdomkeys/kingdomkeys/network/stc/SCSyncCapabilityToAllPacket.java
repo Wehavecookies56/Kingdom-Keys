@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
@@ -41,7 +42,7 @@ public class SCSyncCapabilityToAllPacket {
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
 	
-    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0),new PortalData((byte)0,0,0,0,0)};
+    UUID[] orgPortalCoords = { new UUID(0,0), new UUID(0,0), new UUID(0,0) };
 
 	
 	public SCSyncCapabilityToAllPacket() {
@@ -66,7 +67,7 @@ public class SCSyncCapabilityToAllPacket {
 		this.maxMP = capability.getMaxMP();
 		
         for(byte i=0;i<3;i++) {
-        	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
+        	this.orgPortalCoords[i] = capability.getPortalUUIDFromIndex((byte)i);
         }
 		
         this.magicList = capability.getMagicList();
@@ -96,11 +97,7 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeDouble(this.maxMP);
 		
 		for(byte i=0;i<3;i++) {
-        	buffer.writeByte(this.orgPortalCoords[i].getPID());
-        	buffer.writeDouble(this.orgPortalCoords[i].getX());
-        	buffer.writeDouble(this.orgPortalCoords[i].getY());
-        	buffer.writeDouble(this.orgPortalCoords[i].getZ());
-        	buffer.writeInt(this.orgPortalCoords[i].getDimID());
+			buffer.writeUniqueId(this.orgPortalCoords[i]);
         }
 		
 		CompoundNBT magics = new CompoundNBT();
@@ -144,11 +141,7 @@ public class SCSyncCapabilityToAllPacket {
 		msg.maxMP = buffer.readDouble();
 		
 		for(byte i=0;i<3;i++) {
-    		msg.orgPortalCoords[i].setPID(buffer.readByte());
-    		msg.orgPortalCoords[i].setX(buffer.readDouble());
-    		msg.orgPortalCoords[i].setY(buffer.readDouble());
-    		msg.orgPortalCoords[i].setZ(buffer.readDouble());
-    		msg.orgPortalCoords[i].setDimID(buffer.readInt());
+    		msg.orgPortalCoords[i] = buffer.readUniqueId();
         }
 		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
@@ -199,9 +192,9 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setMP(message.mp);
 				playerData.setMaxMP(message.maxMP);
 
-				playerData.setPortalCoords((byte)0, message.orgPortalCoords[0]);
-				playerData.setPortalCoords((byte)1, message.orgPortalCoords[1]);
-				playerData.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+				playerData.setPortalCoordsUUID((byte)0, message.orgPortalCoords[0]);
+				playerData.setPortalCoordsUUID((byte)1, message.orgPortalCoords[1]);
+				playerData.setPortalCoordsUUID((byte)2, message.orgPortalCoords[2]);
 
 				playerData.setMagicList(message.magicList);
 				playerData.setDriveFormMap(message.driveFormMap);
