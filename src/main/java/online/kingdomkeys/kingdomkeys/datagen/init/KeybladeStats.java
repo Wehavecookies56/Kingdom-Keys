@@ -2452,7 +2452,7 @@ public class KeybladeStats extends KeybladeProvider {
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1)
                     .addMaterial(Strings.SM_WrithingCrystal, 1)).build())
-            .desc("The Keyblade Aqua sFnotarted out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.");
+            .desc("The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.");
 
 		getBuilder(Strings.rejectionOfFate).keychain(Strings.rejectionOfFateChain).baseStats(4,0)
             .abilities("Treasure Magnet", "Formchange Extender")
