@@ -147,16 +147,14 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		if(destinationPos == null)
             return;
     	
-        buffer.writeInt(destinationPos.getX());
-        buffer.writeInt(destinationPos.getY());
-        buffer.writeInt(destinationPos.getZ());
+        buffer.writeBlockPos(new BlockPos(destinationPos.getX(),destinationPos.getY(),destinationPos.getZ()));
         buffer.writeInt(destinationDim);
         buffer.writeBoolean(shouldTeleport);	
     }
 
 	@Override
 	public void readSpawnData(PacketBuffer additionalData) {
-		destinationPos = new BlockPos(additionalData.readInt(),additionalData.readInt(),additionalData.readInt());
+		destinationPos = additionalData.readBlockPos();
     	destinationDim = additionalData.readInt();
     	shouldTeleport = additionalData.readBoolean();
     }

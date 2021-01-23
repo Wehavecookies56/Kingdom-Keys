@@ -50,13 +50,9 @@ public class OrgPortalBlock extends BaseBlock {
 
 			if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
 				if (worldIn.getTileEntity(pos) instanceof OrgPortalTileEntity) {
-
 					OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
 
 					if (te.getOwner() == null) { // Player clicks new portal
-						te.setOwner(player);
-						te.markDirty();
-
 						for (byte i = 0; i < 3; i++) {
 							UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
 							if (uuid.equals(new UUID(0,0))) {
@@ -70,7 +66,8 @@ public class OrgPortalBlock extends BaseBlock {
 							
 							IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 							worldData.addPortal(portalUUID, new PortalData(portalUUID, index+1+"", pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
-							PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
+							//PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
+							PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
 							
 							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal " + (index + 1)), true);
 							
@@ -78,6 +75,7 @@ public class OrgPortalBlock extends BaseBlock {
 							playerData.setPortalCoordsUUID((byte) index, portalUUID);
 							PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
 							te.setOwner(player);
+							te.markDirty();
 						} else {
 							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), true);
 						}
@@ -135,8 +133,9 @@ public class OrgPortalBlock extends BaseBlock {
 						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));
 					}
 					
-					PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(ModCapabilities.getWorld(player.world)));
+					PacketHandler.sendToAll(new SCSyncWorldCapability(ModCapabilities.getWorld(player.world)), player);
 					PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
+
 				}
 			}
 		}

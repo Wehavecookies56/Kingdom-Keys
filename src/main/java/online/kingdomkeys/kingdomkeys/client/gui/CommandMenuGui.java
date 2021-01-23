@@ -388,7 +388,8 @@ public class CommandMenuGui extends Screen {
 						UUID portalUUID = playerData.getPortalUUIDList().get(i);
 						PortalData portal = worldData.getPortalFromUUID(portalUUID);
 						// String magicName = Constants.getMagicName(magic, level);
-						drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getShortCoords()), textX, 4, 0xFFFFFF);
+						System.out.println(portal);
+						//drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getShortCoords()), textX, 4, 0xFFFFFF);
 						RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					}
 				}
