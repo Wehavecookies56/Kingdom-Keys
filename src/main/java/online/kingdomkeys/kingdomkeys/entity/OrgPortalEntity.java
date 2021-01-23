@@ -98,7 +98,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 					if (destinationPos.getX() != 0 && destinationPos.getY() != 0 && destinationPos.getZ() != 0) {
 						player.setPosition(destinationPos.getX(), destinationPos.getY(), destinationPos.getZ());
 						if (player.world.isRemote)
-							PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim, destinationPos.getX() + 0.5, destinationPos.getY() + 1, destinationPos.getZ() + 0.5));
+							PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim, destinationPos.getX(), destinationPos.getY() + 1, destinationPos.getZ()));
 					}
 				}
 			}

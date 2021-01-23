@@ -112,7 +112,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 	@Override
 	public UUID getOwnerIDFromUUID(UUID portalUUID) {
 		for(Entry<UUID, PortalData> p : portals.entrySet()) {
-			if(p.getValue().getUUID() == portalUUID) {
+			if(p.getValue().getUUID().equals(portalUUID)) {
 				return p.getValue().getOwnerID();
 			}
 		}

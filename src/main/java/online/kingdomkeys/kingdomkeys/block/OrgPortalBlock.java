@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.management.PlayerList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -106,15 +107,17 @@ public class OrgPortalBlock extends BaseBlock {
 		if (!worldIn.isRemote) {
 			if (worldIn.getTileEntity(pos) instanceof OrgPortalTileEntity) {
 				OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
-				if (te.getUUID() != null) {
+				UUID portalID = te.getUUID();
+				te.remove();
+				if (portalID != null) {
 					IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
-					UUID ownerUUID = worldData.getOwnerIDFromUUID(te.getUUID());
-					PlayerEntity player = worldIn.getPlayerByUuid(ownerUUID);
-
+					UUID ownerUUID = worldData.getOwnerIDFromUUID(portalID);
+					PlayerEntity player = worldIn.getServer().getPlayerList().getPlayerByUUID(ownerUUID);
+					
 					byte index = -1;
 					for (byte i = 0; i < 3; i++) {
 						UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
-						if(uuid.equals(te.getUUID())) {
+						if(uuid.equals(portalID)) {
 							index = i;
 							break;
 						}
