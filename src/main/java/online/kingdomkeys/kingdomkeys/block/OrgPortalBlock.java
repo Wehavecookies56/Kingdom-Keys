@@ -51,8 +51,9 @@ public class OrgPortalBlock extends BaseBlock {
 			if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
 				if (worldIn.getTileEntity(pos) instanceof OrgPortalTileEntity) {
 					OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
+					IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
 
-					if (te.getOwner() == null) { // Player clicks new portal
+					if (te.getUUID() == null) { // Player clicks new portal
 						for (byte i = 0; i < 3; i++) {
 							UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
 							if (uuid.equals(new UUID(0,0))) {
@@ -64,8 +65,7 @@ public class OrgPortalBlock extends BaseBlock {
 						if (index != -1) {
 							UUID portalUUID = UUID.randomUUID();
 							
-							IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
-							worldData.addPortal(portalUUID, new PortalData(portalUUID, index+1+"", pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId()));
+							worldData.addPortal(portalUUID, new PortalData(portalUUID, index+1+"", pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId(), player.getUniqueID()));
 							//PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 							PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
 							
@@ -74,26 +74,24 @@ public class OrgPortalBlock extends BaseBlock {
 							IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 							playerData.setPortalCoordsUUID((byte) index, portalUUID);
 							PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
-							te.setOwner(player);
+							te.setUUID(portalUUID);
 							te.markDirty();
 						} else {
 							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), true);
 						}
 						return ActionResultType.SUCCESS;
 
-					} else if (te.getOwner().equals(player.getUniqueID())) { // Player clicks his portal
+					} else if (worldData.getOwnerIDFromUUID(te.getUUID()).equals(player.getUniqueID())) { // Player clicks his portal
 						for (byte i = 0; i < 3; i++) {
 							UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
-							IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
-							PortalData coords = worldData.getPortalFromUUID(uuid);
-							if (coords.getX() == 0.0D && coords.getY() == 0.0D && coords.getZ() == 0.0D) {
+							if(uuid.equals(te.getUUID())) {
 								index = i;
 								break;
-							}
+							}	
 						}
-						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + index), true);
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + (index+1)), true);
 					} else {
-						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(te.getOwner()).getDisplayName().getFormattedText()), true);
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getFormattedText()), true);
 						return ActionResultType.SUCCESS;
 					}
 
@@ -106,19 +104,17 @@ public class OrgPortalBlock extends BaseBlock {
 	@Override
 	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!worldIn.isRemote) {
-			// System.out.println(world.getTileEntity(pos));
-
 			if (worldIn.getTileEntity(pos) instanceof OrgPortalTileEntity) {
 				OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
-				if (te.getOwner() != null) {
-					PlayerEntity player = worldIn.getPlayerByUuid(te.getOwner());
+				if (te.getUUID() != null) {
+					IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
+					UUID ownerUUID = worldData.getOwnerIDFromUUID(te.getUUID());
+					PlayerEntity player = worldIn.getPlayerByUuid(ownerUUID);
 
 					byte index = -1;
 					for (byte i = 0; i < 3; i++) {
 						UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
-						IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
-						PortalData coords = worldData.getPortalFromUUID(uuid);
-						if (coords.getX() == pos.getX() && coords.getY() == pos.getY() && coords.getZ() == pos.getZ()) {
+						if(uuid.equals(te.getUUID())) {
 							index = i;
 							break;
 						}

@@ -387,7 +387,8 @@ public class CommandMenuGui extends Screen {
 						} else { // Not selected
 							textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 							drawUnselectedSlot();
-						}	
+						}
+						
 						IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.world);
 						UUID portalUUID = playerData.getPortalUUIDList().get(i);
 						PortalData portal = worldData.getPortalFromUUID(portalUUID);

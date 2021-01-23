@@ -66,7 +66,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 
 			for (int i = 0; i < portals.size(); i++) {
 				CompoundNBT portalNBT = portals.getCompound(i);
-				PortalData portal = new PortalData(null, null, 0, 0, 0, 0);
+				PortalData portal = new PortalData(null, null, 0, 0, 0, 0, null);
 				portal.read(portalNBT);
 				portalList.put(portal.getUUID(), portal);
 			}
@@ -108,6 +108,17 @@ public class WorldCapabilities implements IWorldCapabilities {
 	public PortalData getPortalFromUUID(UUID uuid) {
 		return portals.getOrDefault(uuid, null);
 	}
+	
+	@Override
+	public UUID getOwnerIDFromUUID(UUID portalUUID) {
+		for(Entry<UUID, PortalData> p : portals.entrySet()) {
+			if(p.getValue().getUUID() == portalUUID) {
+				return p.getValue().getOwnerID();
+			}
+		}
+		return null;
+	}
+
 	
 	@Override
 	public int getHeartlessSpawnLevel() {
@@ -218,7 +229,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 
 		for (int i = 0; i < portals.size(); i++) {
 			CompoundNBT portalNBT = portals.getCompound(i);
-			PortalData portal = new PortalData(null, null, 0, 0, 0, 0);
+			PortalData portal = new PortalData(null, null, 0, 0, 0, 0, null);
 			portal.read(portalNBT);
 			this.portals.put(portal.getUUID(), portal);
 		}
@@ -244,4 +255,5 @@ public class WorldCapabilities implements IWorldCapabilities {
 		return nbt;
 	}
 
+	
 }

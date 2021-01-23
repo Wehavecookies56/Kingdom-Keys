@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class OrgPortalTileEntity extends TileEntity {
-	UUID ownerID;
+	UUID uuid;
 
 	public OrgPortalTileEntity() {
 		super(ModEntities.TYPE_ORG_PORTAL_TE.get());
@@ -17,23 +17,25 @@ public class OrgPortalTileEntity extends TileEntity {
 	@Override
 	public CompoundNBT write(CompoundNBT parentNBTTagCompound) {
 		super.write(parentNBTTagCompound);
-		if (ownerID != null)
-			parentNBTTagCompound.putUniqueId("owner", ownerID);
+		if (uuid != null)
+			parentNBTTagCompound.putUniqueId("uuid", uuid);
 		return parentNBTTagCompound;
 	}
 
 	@Override
 	public void read(CompoundNBT parentNBTTagCompound) {
 		super.read(parentNBTTagCompound);
-		ownerID = parentNBTTagCompound.getUniqueId("owner");
+		uuid = parentNBTTagCompound.getUniqueId("uuid");
 	}
 
-	public UUID getOwner() {
-		return ownerID;
+	public UUID getUUID() {
+		return uuid;
 	}
 
-	public void setOwner(PlayerEntity player) {
-		this.ownerID = player.getUniqueID();
+	public void setUUID(UUID uuid) {
+		this.uuid = uuid;
 	}
+	
+	
 	
 }

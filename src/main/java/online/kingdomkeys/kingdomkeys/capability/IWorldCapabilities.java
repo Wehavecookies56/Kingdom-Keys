@@ -33,4 +33,5 @@ public interface IWorldCapabilities {
 	void addPortal(UUID uuid, PortalData data);
 	boolean removePortal(UUID id);
 	PortalData getPortalFromUUID(UUID uuid);
+	UUID getOwnerIDFromUUID(UUID portalID);
 }

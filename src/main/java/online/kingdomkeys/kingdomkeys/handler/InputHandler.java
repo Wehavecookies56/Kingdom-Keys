@@ -389,7 +389,7 @@ public class InputHandler {
                 if (!playerData.getRecharge()) {
                     UUID portalUUID = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
                     PortalData coords = worldData.getPortalFromUUID(portalUUID); 
-                    if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) { //If the portal is not default coords
+                    if (!coords.getPos().equals(new BlockPos(0,0,0))) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
                         player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You don't have any portal destination"));
@@ -487,8 +487,8 @@ public class InputHandler {
     }
 
     private void summonPortal(PlayerEntity player, PortalData coords) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		BlockPos destination = new BlockPos(coords.getX(), coords.getY(), coords.getZ());
+		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		BlockPos destination = coords.getPos();
 
 		if (player.isSneaking()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
