@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -72,12 +73,14 @@ public class DriveFormFinal extends DriveForm {
 
 	@SubscribeEvent
 	public static void getFinalFormXP(LivingDeathEvent event) {
-		if (!event.getEntity().world.isRemote && (event.getEntity() instanceof EndermanEntity) || event.getEntity() instanceof IKHMob && ((IKHMob)event.getEntity()).getMobType() == EntityHelper.MobType.NOBODY) {			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+		if (!event.getEntity().world.isRemote && (event.getEntity() instanceof EndermanEntity) || event.getEntity() instanceof IKHMob && ((IKHMob)event.getEntity()).getMobType() == EntityHelper.MobType.NOBODY) {	
+			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), playerData.getDriveFormExp(playerData.getActiveDriveForm()) + 1);
+					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(4).split(",")[1]);
+					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}
 			}
