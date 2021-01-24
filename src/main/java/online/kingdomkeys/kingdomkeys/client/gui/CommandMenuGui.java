@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.UUID;
+import java.util.Map.Entry;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -274,25 +277,30 @@ public class CommandMenuGui extends Screen {
 	public void drawSubPortals(MatrixStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		if (playerData.getPortalUUIDList() != null && !playerData.getPortalUUIDList().isEmpty()) {
+
+		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.world);
+
+        List<UUID> portals = worldData.getAllPortalsFromOwnerID(minecraft.player.getUniqueID());
+        
+		if (portals != null && !portals.isEmpty()) {
 			// PORTAL TOP
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.push();
 			{
 				paintWithColorArray(matrixStack, portalMenuColor, alpha);
 				minecraft.textureManager.bindTexture(texture);
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (playerData.getPortalUUIDList().size() + 1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Portals_Title, SUB_PORTALS);
 			}
 			matrixStack.pop();
 	
 			if (submenu == SUB_PORTALS) {
-				for (int i = 0; i < playerData.getPortalUUIDList().size(); i++) {
+				for (int i = 0; i < portals.size(); i++) {
 					matrixStack.push();
 					{
 						minecraft.textureManager.bindTexture(texture);
-						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (playerData.getPortalUUIDList().size() - i)), 0);
+						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() - i)), 0);
 						matrixStack.scale(scale, scale, scale);
 						paintWithColorArray(matrixStack, portalMenuColor, alpha);
 						if (portalSelected == i) {
@@ -304,8 +312,7 @@ public class CommandMenuGui extends Screen {
 							drawUnselectedSlot(matrixStack);
 						}
 	
-						IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.world);
-						UUID portalUUID = playerData.getPortalUUIDList().get(i);
+						UUID portalUUID = portals.get(i);
 						PortalData portal = worldData.getPortalFromUUID(portalUUID);
 						if(portal != null)
 							drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(portal.getName()), textX, 4, 0xFFFFFF);

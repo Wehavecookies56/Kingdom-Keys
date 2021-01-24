@@ -803,7 +803,6 @@ public class EntityEvents {
 
 		newPlayerData.setMagicList(oldPlayerData.getMagicList());
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
-		newPlayerData.setPortalUUIDList(oldPlayerData.getPortalUUIDList());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
 
@@ -843,6 +842,7 @@ public class EntityEvents {
 
 			toWorldData.setParties(fromWorldData.getParties());
 			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
+			toWorldData.setPortals(fromWorldData.getPortals());
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			PacketHandler.sendTo(new SCSyncWorldCapability(toWorldData), (ServerPlayerEntity)player);

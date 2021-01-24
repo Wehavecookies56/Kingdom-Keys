@@ -3,9 +3,11 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.core.pattern.EqualsBaseReplacementConverter;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -829,22 +831,14 @@ public class InputHandler {
 
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
+        IWorldCapabilities worldData = ModCapabilities.getWorld(mc.world);
         this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
         this.driveFormsMap.remove(DriveForm.NONE.toString());
         this.magicsList = ModCapabilities.getPlayer(mc.player).getMagicList();
-        this.portalCommands = ModCapabilities.getPlayer(mc.player).getPortalUUIDList();
-        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
+        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
+        	
+        if(worldData.getPartyFromMember(mc.player.getUniqueID()) != null) {
         	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
         }
-        
-
-        /* this.attackCommands.clear();
-        IAbilities ABILITIES = player.getCapability(ModCapabilities.ABILITIES, null);
-        // for (int i = 0; i < ABILITIES.getEquippedAbilities().size(); i++) {
-        for (Ability ability : ABILITIES.getEquippedAbilities()) {
-            if (ability == ModAbilities.sonicBlade || ability == ModAbilities.strikeRaid) {
-                this.attackCommands.add(ability);
-            }
-        }*/
     }
 }

@@ -49,7 +49,8 @@ public class CSOrgPortalTPPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			ServerWorld serverWorld = player.world.getServer().getWorld(message.dim);
-            if(player.world.getDimensionKey().getLocation().equals(message.dim)) { //Seemless tp
+			System.out.println(player.world.getDimensionKey()+" : "+message.dim);
+            if(player.world.getDimensionKey().equals(message.dim)) { //Seemless tp
 				ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
 				playerMP.setPositionAndUpdate(message.x+0.5, message.y, message.z+0.5);
 				playerMP.setMotion(0, 0, 0);

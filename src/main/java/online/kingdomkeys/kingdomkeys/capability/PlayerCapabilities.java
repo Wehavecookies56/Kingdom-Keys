@@ -71,8 +71,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private List<String> messages = new ArrayList<>();
 	private List<String> dfMessages = new ArrayList<>();
 
-	private UUID[] orgPortalUUIDs = { new UUID(0, 0), new UUID(0, 0), new UUID(0, 0) };
-
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 	private int hearts = 0;
 	private Set<ItemStack> weaponUnlocks = new HashSet<>();
@@ -648,41 +646,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	//endregion
 
 	//region Organization
-
-	@Override
-	public UUID getPortalUUIDFromIndex(byte pID) {
-		return orgPortalUUIDs[pID];
-	}
-
-	@Override
-	public void setPortalCoordsUUID(byte pID, UUID uuid) {
-		orgPortalUUIDs[pID] = uuid;
-	}
-
-	@Override
-	public List<UUID> getPortalUUIDList() {
-		List<UUID> list = new ArrayList<UUID>();
-		for (byte i = 0; i < 3; i++) {
-			UUID uuid = getPortalUUIDFromIndex(i);
-			if (!(uuid.equals(new UUID(0,0)))) {
-				list.add(uuid);
-				// System.out.println(i+" Added portal: "+coords.getPID());
-			}
-		}
-		return list;
-	}
-	
-	@Override
-	public void setPortalUUIDList(List<UUID> list) {
-		for (byte i = 0; i < list.size(); i++) {
-			orgPortalUUIDs[i] = list.get(i);
-			/*System.out.println(list.get(i).getDimID());
-			System.out.println(list.get(i).getX());
-			System.out.println(list.get(i).getY());
-			System.out.println(list.get(i).getZ());
-			System.out.println(list.get(i).getPID());*/
-		}
-	}
 	
 	@Override
 	public int getHearts() {
