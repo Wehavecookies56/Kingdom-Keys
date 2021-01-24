@@ -28,7 +28,9 @@ public class ChakramEntity extends ThrowableEntity{
 	int maxTicks = 100;
 	boolean returning = false;
 	String model;
-	
+	int rotationPoint; //0 = x, 1 = y, 2 = z
+	float dmg;
+
 	public ChakramEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -43,10 +45,11 @@ public class ChakramEntity extends ThrowableEntity{
 		this.preventEntitySpawning = true;
 	}
 
-	public ChakramEntity(World world, PlayerEntity player, String model) {
+	public ChakramEntity(World world, PlayerEntity player, String model, float dmg) {
 		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
 		setShooter(player);
 		setModel(model);
+		this.dmg = dmg * 0.75F;
 	}
 
 	@Override
@@ -113,7 +116,7 @@ public class ChakramEntity extends ThrowableEntity{
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != func_234616_v_()) {
 					target.setFire(5);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 10);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg < 4 ? 4 : dmg);
 					setReturn();
 				}
 			} else { // Block (not ERTR)
@@ -139,6 +142,7 @@ public class ChakramEntity extends ThrowableEntity{
 	}
 	
 	private static final DataParameter<String> MODEL = EntityDataManager.createKey(ChakramEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Integer> ROTATION_POINT = EntityDataManager.createKey(ChakramEntity.class, DataSerializers.VARINT);
 	
 	public String getModel() {
 		return model;
@@ -148,32 +152,51 @@ public class ChakramEntity extends ThrowableEntity{
 		this.dataManager.set(MODEL, name);
 		this.model = name;
 	}
+	
+	public int getRotationPoint() {
+		return rotationPoint;
+	}
+	
+	public void setRotationPoint(int rotations) {
+		this.dataManager.set(ROTATION_POINT, rotations);
+		this.rotationPoint = rotations;
+	}
 
 	@Override
 	public void notifyDataManagerChange(DataParameter<?> key) {
 		if (key.equals(MODEL)) {
 			this.model = this.getModelDataManager();
 		}
+		if (key.equals(ROTATION_POINT)) {
+			this.rotationPoint = this.getRotationPointDataManager();
+		}
 	}
 	
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		compound.putString("Model", this.getModel());
+		compound.putInt("Rotation", this.getRotationPoint());
 	}
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
 		this.setModel(compound.getString("Model"));
+		this.setRotationPoint(compound.getInt("Rotation"));
 	}
 	
 
 	@Override
 	protected void registerData() {
 		this.dataManager.register(MODEL, "");
+		this.dataManager.register(ROTATION_POINT, 0);
 	}
 
 	public String getModelDataManager() {
 		return this.dataManager.get(MODEL);
+	}
+	
+	public int getRotationPointDataManager() {
+		return this.dataManager.get(ROTATION_POINT);
 	}
 	
 }

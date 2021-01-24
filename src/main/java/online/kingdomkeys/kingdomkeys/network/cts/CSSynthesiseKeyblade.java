@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -82,7 +82,7 @@ public class CSSynthesiseKeyblade {
 					if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
 						IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 						worldData.setHeartlessSpawnLevel(1);
-						PacketHandler.sendToAllPlayers(new SCSyncExtendedWorld(worldData));
+						PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);

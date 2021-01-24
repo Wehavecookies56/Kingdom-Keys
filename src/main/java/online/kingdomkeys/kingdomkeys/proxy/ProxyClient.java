@@ -19,23 +19,31 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.*;
-import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
+import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.LockOnGui;
+import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.PartyHUDGui;
+import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
+import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
+import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.DiveToTheHeartRenderInfo;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -179,10 +187,60 @@ public class ProxyClient implements IProxy {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void modelRegistry(ModelRegistryEvent event) {
-		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
-		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/zephyr"));
-		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/eternal_flames"));
-		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/burnout"));
+		//Lances
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.zephyr));
+    	
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aer));
+    	
+    	
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.asura));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.crux));
+    	
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.fellking));
+    	
+    	
+    	
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.scission));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.heavenfall));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aether));
+    	
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.hegemon));
+    	
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.yaksha));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.cynosura));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.dragonreign));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.lindworm));
+    	
+    	
+    	
+    	//Chakrams
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ashes));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.doldrums));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.delayedAction));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.diveBombers));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.combustion));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.moulinRouge));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.blazeOfGlory));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.prometheus));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ifrit));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.magmaOcean));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.volcanics));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.inferno));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.sizzlingEdge));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.corona));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ferrisWheel));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.burnout));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.omegaTrinity));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.outbreak));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.doubleEdge));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.wildfire));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.prominence));
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.eternalFlames));
+    	
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.conformers));
+    	
+        //Other
+    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
 		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
 		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
 	}

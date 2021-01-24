@@ -66,7 +66,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
@@ -129,7 +129,7 @@ public class EntityEvents {
 				});
 				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-				PacketHandler.sendTo(new SCSyncExtendedWorld(worldData), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayerEntity) player);
 
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
@@ -699,16 +699,16 @@ public class EntityEvents {
 					if (event.getEntity() instanceof IKHMob) {
 						IKHMob mob = (IKHMob) event.getEntity();
 						if (mob.getMobType() == MobType.HEARTLESS_EMBLEM) {
-							playerData.addHearts(20 * multiplier);
+							playerData.addHearts((int)((20 * multiplier) * ModConfigs.heartMultiplier));
 						}
 					} else if (event.getEntity() instanceof EnderDragonEntity || event.getEntity() instanceof WitherEntity) {
-						playerData.addHearts(1000 * multiplier);
+						playerData.addHearts((int)((1000 * multiplier) * ModConfigs.heartMultiplier));
 					} else if (event.getEntity() instanceof VillagerEntity) {
-						playerData.addHearts(5 * multiplier);
+						playerData.addHearts((int)((5 * multiplier) * ModConfigs.heartMultiplier));
 					} else if (event.getEntity() instanceof MonsterEntity) {
-						playerData.addHearts(2 * multiplier);
+						playerData.addHearts((int)((2 * multiplier) * ModConfigs.heartMultiplier));
 					} else {
-						playerData.addHearts(1 * multiplier);
+						playerData.addHearts((int)((1 * multiplier) * ModConfigs.heartMultiplier));
 					}
 				}
 				if(event.getEntityLiving() instanceof IKHMob) {
@@ -827,6 +827,9 @@ public class EntityEvents {
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
+
+		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
+
 	}
 	
 	@SubscribeEvent
@@ -842,7 +845,7 @@ public class EntityEvents {
 			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-			PacketHandler.sendTo(new SCSyncExtendedWorld(toWorldData), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncWorldCapability(toWorldData), (ServerPlayerEntity)player);
 		}
 	}
 

@@ -30,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 //TODO cleanup
 public class CommandMenuGui extends Screen {
@@ -169,24 +170,29 @@ public class CommandMenuGui extends Screen {
 		RenderSystem.disableBlend();
 	}
 
-	private void drawIcon(MatrixStack matrixStack, int selected) {
+	private void drawIcon(MatrixStack matrixStack, int selected, int subMenu) {
 		RenderSystem.enableBlend();
-		RenderSystem.color4f(1F, 1F, 1F, alpha);
+		if(subMenu == submenu) {
+			RenderSystem.color4f(1F, 1F, 1F, alpha);
+		} else {
+			RenderSystem.color4f(0.5F, 0.5F, 0.5F, alpha);
+		}
 		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15), 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 		RenderSystem.disableBlend();
 
 	}
 	
 	private String getCommandMenuName(int i) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		switch(i) {
 		case ATTACK:
-			return Strings.Gui_CommandMenu_Attack;
+			return playerData.getAlignment() == OrgMember.NONE ? Strings.Gui_CommandMenu_Attack : Strings.Gui_CommandMenu_Portal;
 		case MAGIC:
 			return Strings.Gui_CommandMenu_Magic;
 		case ITEMS:
 			return Strings.Gui_CommandMenu_Items;
 		case DRIVE:
-			return ModCapabilities.getPlayer(minecraft.player).getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert;
+			return playerData.getAlignment() == OrgMember.NONE ? (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert) : Strings.Gui_CommandMenu_Limit;
 		}
 		return "";
 	}
@@ -224,9 +230,9 @@ public class CommandMenuGui extends Screen {
 						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 						drawSelectedSlot(matrixStack);
 						if (selected == ATTACK && ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
-							drawIcon(matrixStack, selected+1);
+							drawIcon(matrixStack, selected+1, SUB_MAIN);
 						} else {
-							drawIcon(matrixStack, selected);
+							drawIcon(matrixStack, selected, SUB_MAIN);
 						}
 		
 					} else { // Not selected
@@ -234,7 +240,16 @@ public class CommandMenuGui extends Screen {
 						drawUnselectedSlot(matrixStack);
 					}
 		
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, getColor(0xFFFFFF,SUB_MAIN));
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+					int color = getColor(0xFFFFFF,SUB_MAIN);
+					if(i == MAGIC) {
+						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+					}
+					if(i == DRIVE) {//If it's an org member / in antiform / has no drive unlocked be gray
+						color = playerData.getAlignment() != OrgMember.NONE || playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+					}
+					
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, color);
 					
 					if(i == ATTACK) {
 						if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ArrowgunItem) {
@@ -282,7 +297,7 @@ public class CommandMenuGui extends Screen {
 						if (portalSelected == i) {
 							textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 							drawSelectedSlot(matrixStack);
-							drawIcon(matrixStack, selected);
+							drawIcon(matrixStack, selected, SUB_PORTALS);
 						} else { // Not selected
 							textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 							drawUnselectedSlot(matrixStack);
@@ -329,7 +344,7 @@ public class CommandMenuGui extends Screen {
 					if (targetSelected == i) {
 						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 						drawSelectedSlot(matrixStack);
-						drawIcon(matrixStack, selected);
+						drawIcon(matrixStack, selected, SUB_TARGET);
 					} else { // Not selected
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 						drawUnselectedSlot(matrixStack);
@@ -373,7 +388,7 @@ public class CommandMenuGui extends Screen {
 					if (magicSelected == i) {
 						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 						drawSelectedSlot(matrixStack);
-						drawIcon(matrixStack, selected);
+						drawIcon(matrixStack, selected, SUB_MAGIC);
 					} else { // Not selected
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 						drawUnselectedSlot(matrixStack);
@@ -437,7 +452,7 @@ public class CommandMenuGui extends Screen {
 							if (driveSelected == i) {
 								textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 								drawSelectedSlot(matrixStack);
-								drawIcon(matrixStack, selected);
+								drawIcon(matrixStack, selected, SUB_DRIVE);
 							} else { // Not selected
 								textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 								drawUnselectedSlot(matrixStack);

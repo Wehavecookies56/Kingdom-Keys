@@ -113,10 +113,13 @@
 
 	"gui.commandmenu.command": "COMANDOS",
 	"gui.commandmenu.attack": "Atacar",
+	"gui.commandmenu.portal": "Portal",
 	"gui.commandmenu.magic": "Magia",
 	"gui.commandmenu.items": "Objetos",
 	"gui.commandmenu.drive": "Fusión",
 	"gui.commandmenu.revert": "Revertir",
+	"gui.commandmenu.limit": "Límite",
+
 
 	"gui.commandmenu.portal.title": "Portales",
 	"gui.commandmenu.magic.title": "Magia",

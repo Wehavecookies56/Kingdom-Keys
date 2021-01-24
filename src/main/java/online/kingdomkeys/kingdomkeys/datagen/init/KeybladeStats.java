@@ -1282,7 +1282,7 @@ public class KeybladeStats extends KeybladeProvider {
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(15,10).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1)
                     .addMaterial(Strings.SM_WrithingCrystal, 1)).build())
-            .desc("An incomplete form of the legendary Keyblade, the Ã?â€¡-blade.");
+            .desc("An incomplete form of the legendary Keyblade, the χ-blade.");
 
 		getBuilder(Strings.invisKeyblade).keychain(Strings.invisKeybladeChain).baseStats(10,8)
             .abilities("Treasure Magnet", "Formchange Extender")

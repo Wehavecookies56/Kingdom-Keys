@@ -55,10 +55,26 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 				float a = 1;// MathHelper.clamp(1 - progress1, 0, 1);
 				float rgb = 1;// MathHelper.clamp(progress1, 0, 1);
 				
-				matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
-				matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90));
-				matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + rotation));
-				rotation+=10;
+				if(entity.getRotationPoint() == 0) {
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+					matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90));
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
+					matrixStackIn.rotate(Vector3f.XP.rotationDegrees(rotation));
+				}
+				
+				if(entity.getRotationPoint() == 1) {
+					
+				}
+				
+				if(entity.getRotationPoint() == 2) {
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+					matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90));
+					matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
+					matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(rotation));
+				}
+
+				
+				rotation+=20;
 
 				if(entity.ticksExisted > 1) {
 					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {

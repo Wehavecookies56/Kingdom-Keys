@@ -28,12 +28,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
 public class LanceEntity extends ThrowableEntity{
 
 	int maxTicks = 100;
 	String model;
 	boolean stopped = false;
+	int rotationPoint; //0 = x, 1 = y, 2 = z
+	float dmg = 0;
 	
 	public LanceEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -49,10 +52,11 @@ public class LanceEntity extends ThrowableEntity{
 		this.preventEntitySpawning = true;
 	}
 
-	public LanceEntity(World world, PlayerEntity player, String model) {
+	public LanceEntity(World world, PlayerEntity player, String model, float dmg) {
 		super(ModEntities.TYPE_LANCE.get(), player, world);
 		setShooter(player);
 		setModel(model);
+		this.dmg = dmg * 0.75F;
 	}
 
 	@Override
@@ -126,8 +130,6 @@ public class LanceEntity extends ThrowableEntity{
 
 			this.setPosition(d0, d1, d2);
 		}
-		//super.tick();
-
 
 	}
 	
@@ -154,8 +156,9 @@ public class LanceEntity extends ThrowableEntity{
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != func_234616_v_()) {
 					//target.setFire(5);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 10);
-					stopLance();
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg < 4 ? 4 : dmg);
+					dmg *= 0.8F;
+					//stopLance();
 				}
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
@@ -182,6 +185,7 @@ public class LanceEntity extends ThrowableEntity{
 	
 	private static final DataParameter<String> MODEL = EntityDataManager.createKey(LanceEntity.class, DataSerializers.STRING);
 	private static final DataParameter<Boolean> STOPPED = EntityDataManager.createKey(LanceEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> ROTATION_POINT = EntityDataManager.createKey(LanceEntity.class, DataSerializers.VARINT);
 	
 	public String getModel() {
 		return model;
@@ -201,6 +205,14 @@ public class LanceEntity extends ThrowableEntity{
 		this.stopped = stopped;
 	}
 
+	public int getRotationPoint() {
+		return rotationPoint;
+	}
+	
+	public void setRotationPoint(int rotations) {
+		this.dataManager.set(ROTATION_POINT, rotations);
+		this.rotationPoint = rotations;
+	}
 	
 	@Override
 	public void notifyDataManagerChange(DataParameter<?> key) {
@@ -210,18 +222,24 @@ public class LanceEntity extends ThrowableEntity{
 		if (key.equals(STOPPED)) {
 			this.stopped = this.getStoppedDataManager();
 		}
+		if (key.equals(ROTATION_POINT)) {
+			this.rotationPoint = this.getRotationPointDataManager();
+		}
 	}
 	
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		compound.putString("Model", this.getModel());
 		compound.putBoolean("Stopped", this.isStopped());
+		compound.putInt("Rotation", this.getRotationPoint());
+
 	}
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
 		this.setModel(compound.getString("Model"));
 		this.setStopped(compound.getBoolean("Stopped"));
+		this.setRotationPoint(compound.getInt("Rotation"));
 	}
 	
 
@@ -229,6 +247,7 @@ public class LanceEntity extends ThrowableEntity{
 	protected void registerData() {
 		this.dataManager.register(MODEL, "");
 		this.dataManager.register(STOPPED, false);
+		this.dataManager.register(ROTATION_POINT, 0);
 	}
 
 	public String getModelDataManager() {
@@ -236,6 +255,9 @@ public class LanceEntity extends ThrowableEntity{
 	}
 	public boolean getStoppedDataManager() {
 		return this.dataManager.get(STOPPED);
+	}
+	public int getRotationPointDataManager() {
+		return this.dataManager.get(ROTATION_POINT);
 	}
 	
 }

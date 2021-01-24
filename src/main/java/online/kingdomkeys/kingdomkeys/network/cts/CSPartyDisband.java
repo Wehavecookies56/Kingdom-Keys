@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncExtendedWorld;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 
 public class CSPartyDisband {
 	
@@ -61,7 +61,7 @@ public class CSPartyDisband {
 			if(p != null)
 				worldData.removeParty(p);
 			
-			PacketHandler.sendToAll(new SCSyncExtendedWorld(worldData), player);
+			PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

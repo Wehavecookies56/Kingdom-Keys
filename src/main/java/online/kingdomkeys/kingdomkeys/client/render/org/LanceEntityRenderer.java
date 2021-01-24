@@ -29,7 +29,6 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 
 	public static final Factory FACTORY = new LanceEntityRenderer.Factory();
 	Random rand = new Random();
-	float rotation = 0;
 	
 	public LanceEntityRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
@@ -45,7 +44,7 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentCullBlockType());
 			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
 
-			float scale = 0.03F;
+			float scale = 0.02F;
 
 			matrixStackIn.push();
 			{
@@ -56,8 +55,11 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 					float rgb = 1;
 					
 					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
-					matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 90));
-
+					if(entity.getRotationPoint() == 2)
+						matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 270));
+					else if(entity.getRotationPoint() == 0) {
+						matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 90));
+					}
 					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
 						buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 					}

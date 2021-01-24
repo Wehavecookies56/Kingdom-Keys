@@ -16,6 +16,7 @@ public class ServerConfig {
     public ForgeConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
 
     public ForgeConfigSpec.DoubleValue xpMultiplier;
+    public ForgeConfigSpec.DoubleValue heartMultiplier;
     public ForgeConfigSpec.DoubleValue partyXPShare;
 
     //public ForgeConfigSpec.DoubleValue valorFormXPMultiplier, wisdomFormXPMultiplier, limitFormXPMultiplier, masterFormXPMultiplier, finalFormXPMultiplier;
@@ -42,6 +43,11 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.xp_multiplier")
                 .defineInRange("xpMultiplier", 1F, 0, 1000);
 
+        heartMultiplier = builder
+                .comment("Hearts Multiplier")
+                .translation(KingdomKeys.MODID + ".config.heart_multiplier")
+                .defineInRange("heartMultiplier", 1F, 0, 1000);
+        
         partyXPShare = builder
               //  .comment("XP Share in party (value used here will be used if the party size is 2, will be downscaled the bigger the party is)")
         		.comment("XP Share in party (killer gets 100%, the rest of party members the % specified here)")
