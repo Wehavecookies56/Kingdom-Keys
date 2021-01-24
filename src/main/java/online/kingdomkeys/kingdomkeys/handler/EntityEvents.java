@@ -132,13 +132,6 @@ public class EntityEvents {
 					}
 				});
 				
-				List<UUID> portalUUID = playerData.getPortalUUIDList();
-				for(byte i = 0; i < portalUUID.size(); i++) {
-					if(worldData.getPortalFromUUID(portalUUID.get(i)) == null) {
-						playerData.setPortalCoordsUUID(i, new UUID(0,0));
-					}
-				}
-				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayerEntity) player);
 
@@ -817,7 +810,6 @@ public class EntityEvents {
 
 		newPlayerData.setMagicList(oldPlayerData.getMagicList());
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
-		newPlayerData.setPortalUUIDList(oldPlayerData.getPortalUUIDList());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
 

@@ -118,6 +118,18 @@ public class WorldCapabilities implements IWorldCapabilities {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<UUID> getAllPortalsFromOwnerID(UUID ownerID) {
+		List<UUID> portals = new ArrayList<UUID>();
+
+		for(Entry<UUID, PortalData> p : getPortals().entrySet()) {
+        	if(p.getValue().getOwnerID().equals(ownerID)) {
+        		portals.add(p.getValue().getUUID());
+        	}
+        }
+		return portals;
+	}
 
 	
 	@Override
@@ -255,5 +267,4 @@ public class WorldCapabilities implements IWorldCapabilities {
 		return nbt;
 	}
 
-	
 }

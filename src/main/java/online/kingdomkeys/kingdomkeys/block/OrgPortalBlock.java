@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -16,7 +17,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -47,34 +47,22 @@ public class OrgPortalBlock extends BaseBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
-			byte index = -1;
-
 			if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
 				if (worldIn.getTileEntity(pos) instanceof OrgPortalTileEntity) {
 					OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
 					IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
 
 					if (te.getUUID() == null) { // Player clicks new portal
-						for (byte i = 0; i < 3; i++) {
-							UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
-							if (uuid.equals(new UUID(0,0))) {
-								index = i;
-								break;
-							}
-						}
+						List<UUID> portals = worldData.getAllPortalsFromOwnerID(player.getUniqueID());
 
-						if (index != -1) {
+						if (portals.size() < 3) {
 							UUID portalUUID = UUID.randomUUID();
 							
-							worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal "+(index+1), pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId(), player.getUniqueID()));
-							//PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
+							worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId(), player.getUniqueID()));
 							PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
 							
-							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal " + (index + 1)), true);
-							
-							IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-							playerData.setPortalCoordsUUID((byte) index, portalUUID);
-							PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
+							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal"), true);
+
 							te.setUUID(portalUUID);
 							te.markDirty();
 							PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getPos()), (ServerPlayerEntity)player);
@@ -84,18 +72,17 @@ public class OrgPortalBlock extends BaseBlock {
 						return ActionResultType.SUCCESS;
 
 					} else if (worldData.getOwnerIDFromUUID(te.getUUID()).equals(player.getUniqueID())) { // Player clicks his portal
-						for (byte i = 0; i < 3; i++) {
-							UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
-							if(uuid.equals(te.getUUID())) {
-								index = i;
+						List<UUID> portals = worldData.getAllPortalsFromOwnerID(player.getUniqueID());
+						byte i = 0;
+						for (i = 0; i < portals.size(); i++) {
+							if (portals.get(i).equals(te.getUUID())) {
 								break;
-							}	
+							}
 						}
 						PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getPos()), (ServerPlayerEntity)player);
-
-						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + (index+1)), true);
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + (i+1)+": "+worldData.getPortalFromUUID(portals.get(i)).getName()), true);
 					} else {
-						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getFormattedText()), true);
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getString()), true);
 						return ActionResultType.SUCCESS;
 					}
 
@@ -120,20 +107,8 @@ public class OrgPortalBlock extends BaseBlock {
 
 					PlayerEntity player = worldIn.getServer().getPlayerList().getPlayerByUUID(ownerUUID);
 					if(player != null) { //Remove from player's menu
-						byte index = -1;
-						for (byte i = 0; i < 3; i++) {
-							UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
-							if(uuid.equals(portalID)) {
-								index = i;
-								player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
-								ModCapabilities.getPlayer(player).setPortalCoordsUUID((byte) index, new UUID(0,0));
-								break;
-							}
-						}
-						
 						PacketHandler.sendToAll(new SCSyncWorldCapability(ModCapabilities.getWorld(worldIn)), player);
-						PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
-
+						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
 					}
 				}
 			}

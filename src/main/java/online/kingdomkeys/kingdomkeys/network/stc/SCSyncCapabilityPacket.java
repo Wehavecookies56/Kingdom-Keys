@@ -40,8 +40,6 @@ public class SCSyncCapabilityPacket {
 	List<String> messages, dfMessages;
 	String driveForm;
 	
-    UUID[] orgPortalCoords = { new UUID(0,0), new UUID(0,0), new UUID(0,0) };
-
     List<ResourceLocation> recipeList = new ArrayList<>();
     List<String> magicList = new ArrayList<>();
 	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
@@ -81,11 +79,7 @@ public class SCSyncCapabilityPacket {
 		this.fp = capability.getFP();
 		this.antipoints=capability.getAntiPoints();
 		this.munny = capability.getMunny();
-		
-		for(byte i=0;i<3;i++) {
-        	this.orgPortalCoords[i] = capability.getPortalUUIDFromIndex((byte)i);
-        }
-		
+	
 		this.recipeList = capability.getKnownRecipeList();
 		this.magicList = capability.getMagicList();
 		this.driveFormMap = capability.getDriveFormMap();
@@ -129,10 +123,6 @@ public class SCSyncCapabilityPacket {
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
 		buffer.writeInt(this.munny);
-		
-		for(byte i=0;i<3;i++) {
-			buffer.writeUniqueId(this.orgPortalCoords[i]);
-        }
 		
 		CompoundNBT recipes = new CompoundNBT();
 		Iterator<ResourceLocation> recipesIt = recipeList.iterator();
@@ -239,10 +229,6 @@ public class SCSyncCapabilityPacket {
 		msg.antipoints = buffer.readInt();
 		msg.munny = buffer.readInt();
 
-		for(byte i=0;i<3;i++) {
-    		msg.orgPortalCoords[i] = buffer.readUniqueId();
-        }
-		
 		CompoundNBT recipesTag = buffer.readCompoundTag();
 		Iterator<String> recipesIt = recipesTag.keySet().iterator();
 		while (recipesIt.hasNext()) {
@@ -345,10 +331,6 @@ public class SCSyncCapabilityPacket {
 			playerData.setMunny(message.munny);
 			playerData.setMessages(message.messages);
 			playerData.setDFMessages(message.dfMessages);
-
-			playerData.setPortalCoordsUUID((byte)0, message.orgPortalCoords[0]);
-			playerData.setPortalCoordsUUID((byte)1, message.orgPortalCoords[1]);
-			playerData.setPortalCoordsUUID((byte)2, message.orgPortalCoords[2]);
 
 			playerData.setKnownRecipeList(message.recipeList);
 			playerData.setMagicList(message.magicList);

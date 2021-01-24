@@ -42,9 +42,6 @@ public class SCSyncCapabilityToAllPacket {
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
 	
-    UUID[] orgPortalCoords = { new UUID(0,0), new UUID(0,0), new UUID(0,0) };
-
-	
 	public SCSyncCapabilityToAllPacket() {
 	}
 
@@ -65,10 +62,6 @@ public class SCSyncCapabilityToAllPacket {
 		this.maxHP = capability.getMaxHP();
 		this.mp = capability.getMP();
 		this.maxMP = capability.getMaxMP();
-		
-        for(byte i=0;i<3;i++) {
-        	this.orgPortalCoords[i] = capability.getPortalUUIDFromIndex((byte)i);
-        }
 		
         this.magicList = capability.getMagicList();
 		this.driveFormMap = capability.getDriveFormMap();
@@ -95,10 +88,6 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeInt(this.maxHP);
 		buffer.writeDouble(this.mp);
 		buffer.writeDouble(this.maxMP);
-		
-		for(byte i=0;i<3;i++) {
-			buffer.writeUniqueId(this.orgPortalCoords[i]);
-        }
 		
 		CompoundNBT magics = new CompoundNBT();
 		Iterator<String> magicsIt = magicList.iterator();
@@ -139,10 +128,6 @@ public class SCSyncCapabilityToAllPacket {
 		msg.maxHP = buffer.readInt();
 		msg.mp = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();
-		
-		for(byte i=0;i<3;i++) {
-    		msg.orgPortalCoords[i] = buffer.readUniqueId();
-        }
 		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
 		Iterator<String> it = magicsTag.keySet().iterator();
@@ -191,10 +176,6 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setMaxHP(message.maxHP);
 				playerData.setMP(message.mp);
 				playerData.setMaxMP(message.maxMP);
-
-				playerData.setPortalCoordsUUID((byte)0, message.orgPortalCoords[0]);
-				playerData.setPortalCoordsUUID((byte)1, message.orgPortalCoords[1]);
-				playerData.setPortalCoordsUUID((byte)2, message.orgPortalCoords[2]);
 
 				playerData.setMagicList(message.magicList);
 				playerData.setDriveFormMap(message.driveFormMap);

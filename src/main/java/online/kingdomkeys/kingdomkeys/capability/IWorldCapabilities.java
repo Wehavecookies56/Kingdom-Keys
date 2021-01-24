@@ -34,4 +34,5 @@ public interface IWorldCapabilities {
 	boolean removePortal(UUID id);
 	PortalData getPortalFromUUID(UUID uuid);
 	UUID getOwnerIDFromUUID(UUID portalID);
+	List<UUID> getAllPortalsFromOwnerID(UUID uniqueID);
 }

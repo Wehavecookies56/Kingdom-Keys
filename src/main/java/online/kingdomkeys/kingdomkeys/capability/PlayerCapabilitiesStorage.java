@@ -104,11 +104,6 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         instance.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(weapon.getItem().getRegistryName().toString(), weapon.serializeNBT()));
         storage.put("org_weapons_unlocked", unlockedWeapons);
 
-
-        for (byte i = 0; i < 3; i++) {
-        	storage.putUniqueId("PortalID"+i,instance.getPortalUUIDFromIndex(i));
-        }
-
         CompoundNBT parties = new CompoundNBT();
         for (int i=0;i<instance.getPartiesInvited().size();i++) {
             parties.putInt(instance.getPartiesInvited().get(i),i);
@@ -197,10 +192,6 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         instance.equipWeapon(ItemStack.read(storage.getCompound("org_equipped_weapon")));
         CompoundNBT unlocksCompound = storage.getCompound("org_weapons_unlocked");
         unlocksCompound.keySet().forEach(key -> instance.unlockWeapon(ItemStack.read(unlocksCompound.getCompound(key))));
-
-        for (byte i = 0; i < 3; i++) {
-            instance.setPortalCoordsUUID(i, storage.getUniqueId("PortalID"+i));
-        }
     	
         Iterator<String> partyIt = storage.getCompound("parties").keySet().iterator();
         while (partyIt.hasNext()) {
