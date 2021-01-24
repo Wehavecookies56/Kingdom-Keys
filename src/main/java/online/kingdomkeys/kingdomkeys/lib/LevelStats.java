@@ -13,16 +13,16 @@ public class LevelStats {
                 cap.addAbility(Strings.scan, true);
                 break;
             case 3:
-                //cap.addAbility(Strings.highJump);
                 cap.addStrength(1);
                 break;
             case 4:
                 cap.addDefense(1);
+                cap.addMaxMP(4);
                 break;
             case 5:
                 cap.addStrength(1);
                 cap.addMaxHP(5);
-                cap.addMaxMP(5);
+              //  cap.addMaxMP(5);
                 // ABILITIES.unlockAbility(ModAbilities.guard);
                 break;
             case 6:
@@ -34,6 +34,7 @@ public class LevelStats {
                 break;
             case 8:
                 cap.addMagic(1);
+                cap.addMaxMP(4);
                 break;
             case 9:
                 cap.addStrength(1);
@@ -42,7 +43,7 @@ public class LevelStats {
                 cap.addMagic(1);
                 cap.addDefense(1);
                 cap.addMaxHP(5);
-                cap.addMaxMP(5);
+              //  cap.addMaxMP(5);
                 // ABILITIES.unlockAbility(ModAbilities.mpHaste);
                 break;
             case 11:
@@ -51,6 +52,7 @@ public class LevelStats {
             case 12:
                 cap.addMagic(1);
                 cap.addAbility(Strings.mpHaste, true);
+                cap.addMaxMP(4);
                 break;
             case 13:
                 cap.addStrength(1);
@@ -62,13 +64,14 @@ public class LevelStats {
             case 15:
                 cap.addStrength(1);
                 cap.addMaxHP(5);
-                cap.addMaxMP(5);
+             //   cap.addMaxMP(5);
                 cap.addAbility(Strings.damageDrive, true);
                 // ABILITIES.unlockAbility(ModAbilities.formBoost);
                 break;
             case 16:
                 cap.addMagic(1);
                 cap.addAbility(Strings.mpRage, true);
+                cap.addMaxMP(4);
                 break;
             case 17:
                 cap.addStrength(1);
@@ -80,10 +83,10 @@ public class LevelStats {
             case 19:
                 cap.addStrength(1);
                 break;
-            case 20:
+            case 20: //Up to lvl 20 every 5 levels u get twice the max mp (to make it match with the 20 extra to have 120)
                 cap.addMagic(1);
                 cap.addMaxHP(5);
-                cap.addMaxMP(5);
+                cap.addMaxMP(4);
                 // ABILITIES.unlockAbility(ModAbilities.mpHastera);
                 break;
             case 21:
@@ -377,10 +380,10 @@ public class LevelStats {
                 break;
         }
 
-        if (level % 5 == 0) {
+        if (level % 4 == 0) {
             player.setHealth(cap.getMaxHP());
             player.getFoodStats().addStats(20, 0);
-            cap.addMaxMP(5);
+            cap.addMaxMP(4);
             cap.setMP(cap.getMaxMP());
         }
 
