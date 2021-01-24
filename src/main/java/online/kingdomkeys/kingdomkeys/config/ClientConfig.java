@@ -23,6 +23,8 @@ public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
     public ForgeConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
     
     public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos;
+    
+    public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYOffset;
 
 
     ClientConfig(final ForgeConfigSpec.Builder builder) {
@@ -138,6 +140,25 @@ public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
                 .comment("Lock On HP Y Pos")
                 .translation(KingdomKeys.MODID + ".config.lock_on_y_pos")
                 .defineInRange("lockOnYPos", 0, -1000, 1000);
+        
+        builder.pop();
+        
+        builder.push("party");
+        
+        partyXPos = builder
+                .comment("Party HUD X Pos")
+                .translation(KingdomKeys.MODID + ".config.party_x_pos")
+                .defineInRange("partyXPos", 0, -1000, 1000);
+        
+        partyYPos = builder
+                .comment("Party HUD Y Pos")
+                .translation(KingdomKeys.MODID + ".config.party_y_pos")
+                .defineInRange("partyYPos", 0, -1000, 1000);
+        
+        partyYOffset = builder
+                .comment("Party HUD Y Offset")
+                .translation(KingdomKeys.MODID + ".config.party_y_offset")
+                .defineInRange("partyYOffset", 100, -1000, 1000);
         
         builder.pop();
     

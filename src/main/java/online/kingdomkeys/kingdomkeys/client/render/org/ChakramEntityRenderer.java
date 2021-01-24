@@ -75,7 +75,7 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 				}
 
 				
-				rotation+=10;
+				rotation+=20;
 
 				if(entity.ticksExisted > 1) {
 					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {

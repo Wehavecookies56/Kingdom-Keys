@@ -203,8 +203,8 @@ public class CommandMenuGui extends Screen {
 					if(i == MAGIC) {
 						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
 					}
-					if(i == DRIVE) {
-						color = playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+					if(i == DRIVE) {//If it's an org member / in antiform / has no drive unlocked be gray
+						color = playerData.getAlignment() != OrgMember.NONE || playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
 					}
 					
 					drawString(minecraft.fontRenderer, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, color);

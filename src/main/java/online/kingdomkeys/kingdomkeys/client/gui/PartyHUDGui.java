@@ -67,16 +67,21 @@ public class PartyHUDGui extends Screen {
 				}
 			}
 			
-			for(int i=0;i<allies.size();i++) {
-				Member member = allies.get(i);
-				PlayerEntity playerAlly = player.world.getPlayerByUuid(member.getUUID());
-				if(playerAlly != null){
-					renderFace(playerAlly,screenWidth, screenHeight, scale, i);
-				} else {
-					// When player in party but not loaded into this client
-					renderFace(null,screenWidth, screenHeight, scale, i);
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.translated(ModConfigs.partyXPos, ModConfigs.partyYPos, 0);
+				for(int i=0;i<allies.size();i++) {
+					Member member = allies.get(i);
+					PlayerEntity playerAlly = player.world.getPlayerByUuid(member.getUUID());
+					if(playerAlly != null){
+						renderFace(playerAlly,screenWidth, screenHeight, scale, i);
+					} else {
+						// When player in party but not loaded into this client
+						renderFace(null,screenWidth, screenHeight, scale, i);
+					}
 				}
 			}
+			RenderSystem.popMatrix();
 		}
 	}
 	
@@ -91,7 +96,7 @@ public class PartyHUDGui extends Screen {
 
 		RenderSystem.pushMatrix();
 		{
-			RenderSystem.translatef(-16, -screenHeight/4*(i+1), 0);
+			RenderSystem.translatef(-16, -screenHeight/4*((i+1) * ModConfigs.partyYOffset / 100f), 0);
 
 			// HEAD
 			int headWidth = 32;

@@ -54,6 +54,8 @@ public class ModConfigs {
 	    
 	    public static int lockOnXPos, lockOnYPos;
 	    
+	    public static int partyXPos, partyYPos, partyYOffset;
+	    
 	    //Command Menu
 	    public static void setCmHeaderTextVisible(boolean value) {
 	        CLIENT.cmHeaderTextVisible.set(value);
@@ -139,6 +141,23 @@ public class ModConfigs {
 	        CLIENT.lockOnYPos.set(value);
 	        bakeClient();
 	    }
+	    
+	    
+	  //Lock On
+	    public static void setPartyXPos(int value) {
+	        CLIENT.partyXPos.set(value);
+	        bakeClient();
+	    }
+	    
+	    public static void setPartyYPos(int value) {
+	        CLIENT.partyYPos.set(value);
+	        bakeClient();
+	    }
+	    
+	    public static void setPartyYOffset(int value) {
+	        CLIENT.partyYOffset.set(value);
+	        bakeClient();
+	    }
 
 	    public static void bakeClient() {
 	        corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
@@ -163,6 +182,10 @@ public class ModConfigs {
 	        
 	        lockOnXPos = CLIENT.lockOnXPos.get();
 	        lockOnYPos = CLIENT.lockOnYPos.get();
+	        
+	        partyXPos = CLIENT.partyXPos.get();
+	        partyYPos = CLIENT.partyYPos.get();
+	        partyYOffset = CLIENT.partyYOffset.get();
 	    }
 
 	    public static boolean oreGen;
@@ -184,6 +207,7 @@ public class ModConfigs {
 	    public static int partyRangeLimit;
 	    public static List<String> driveFormXPMultiplier;
 	    public static double xpMultiplier;
+	    public static double heartMultiplier;
 	    public static double partyXPShare;
 
 	    public static void bakeServer() {
@@ -191,6 +215,7 @@ public class ModConfigs {
 	        partyRangeLimit = SERVER.partyRangeLimit.get();
 	        driveFormXPMultiplier = (List<String>) SERVER.driveFormXPMultiplier.get();
 	        xpMultiplier = SERVER.xpMultiplier.get();
+	        heartMultiplier = SERVER.heartMultiplier.get();
 	        partyXPShare = SERVER.partyXPShare.get();
 	    }
 

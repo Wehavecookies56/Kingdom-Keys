@@ -31,6 +31,8 @@ public class LanceEntity extends ThrowableEntity{
 	int maxTicks = 100;
 	String model;
 	boolean stopped = false;
+	int rotationPoint; //0 = x, 1 = y, 2 = z
+
 	
 	public LanceEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -169,7 +171,8 @@ public class LanceEntity extends ThrowableEntity{
 		this.maxTicks = maxTicks;
 	}
 	
-	private static final DataParameter<String> MODEL = EntityDataManager.createKey(LanceEntity.class, DataSerializers.STRING);
+	private static final DataParameter<String> MODEL = EntityDataManager.createKey(ChakramEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Integer> ROTATION_POINT = EntityDataManager.createKey(ChakramEntity.class, DataSerializers.VARINT);
 	
 	public String getModel() {
 		return model;
@@ -179,32 +182,51 @@ public class LanceEntity extends ThrowableEntity{
 		this.dataManager.set(MODEL, name);
 		this.model = name;
 	}
+	
+	public int getRotationPoint() {
+		return rotationPoint;
+	}
+	
+	public void setRotationPoint(int rotations) {
+		this.dataManager.set(ROTATION_POINT, rotations);
+		this.rotationPoint = rotations;
+	}
 
 	@Override
 	public void notifyDataManagerChange(DataParameter<?> key) {
 		if (key.equals(MODEL)) {
 			this.model = this.getModelDataManager();
 		}
+		if (key.equals(ROTATION_POINT)) {
+			this.rotationPoint = this.getRotationPointDataManager();
+		}
+		
 	}
 	
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		compound.putString("Model", this.getModel());
+		compound.putInt("Rotation", this.getRotationPoint());
 	}
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
 		this.setModel(compound.getString("Model"));
+		this.setRotationPoint(compound.getInt("Rotation"));
 	}
 	
 
 	@Override
 	protected void registerData() {
 		this.dataManager.register(MODEL, "");
+		this.dataManager.register(ROTATION_POINT, 0);
 	}
 
 	public String getModelDataManager() {
 		return this.dataManager.get(MODEL);
 	}
 	
+	public int getRotationPointDataManager() {
+		return this.dataManager.get(ROTATION_POINT);
+	}
 }

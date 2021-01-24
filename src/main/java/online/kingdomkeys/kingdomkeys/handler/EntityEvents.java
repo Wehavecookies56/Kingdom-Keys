@@ -713,16 +713,16 @@ public class EntityEvents {
 					if (event.getEntity() instanceof IKHMob) {
 						IKHMob mob = (IKHMob) event.getEntity();
 						if (mob.getMobType() == MobType.HEARTLESS_EMBLEM) {
-							playerData.addHearts(20 * multiplier);
+							playerData.addHearts((int)((20 * multiplier) * ModConfigs.heartMultiplier));
 						}
 					} else if (event.getEntity() instanceof EnderDragonEntity || event.getEntity() instanceof WitherEntity) {
-						playerData.addHearts(1000 * multiplier);
+						playerData.addHearts((int)((1000 * multiplier) * ModConfigs.heartMultiplier));
 					} else if (event.getEntity() instanceof VillagerEntity) {
-						playerData.addHearts(5 * multiplier);
+						playerData.addHearts((int)((5 * multiplier) * ModConfigs.heartMultiplier));
 					} else if (event.getEntity() instanceof MonsterEntity) {
-						playerData.addHearts(2 * multiplier);
+						playerData.addHearts((int)((2 * multiplier) * ModConfigs.heartMultiplier));
 					} else {
-						playerData.addHearts(1 * multiplier);
+						playerData.addHearts((int)((1 * multiplier) * ModConfigs.heartMultiplier));
 					}
 				}
 				if(event.getEntityLiving() instanceof IKHMob) {

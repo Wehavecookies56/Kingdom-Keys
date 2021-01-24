@@ -35,37 +35,30 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 		if (!player.isSneaking()) {
 			if (player.getHeldItem(hand).getTag() != null && player.getHeldItem(hand).getTag().getInt("ammo") > 0) {
 				world.playSound(player, player.getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 1F);
-
-				// world.playSound(player.getPosX(), player.getPosY(), player.getPosZ(),
-				// ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 0.5F, 1F, false);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
-				bullet.shoot(player, player.rotationPitch, player.rotationYaw, 0, 4f, 0);
+				bullet.shoot(player, player.rotationPitch, player.rotationYaw, 0, 3F, 0);
 				world.addEntity(bullet);
 
-
 				// if (!player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {
-				player.swingArm(Hand.MAIN_HAND);
+				player.swingArm(hand);
 				tempAmmo = player.getHeldItem(hand).getTag().getInt("ammo") - 1;
-				/*
-				 * } else { tempAmmo = player.getHeldItem(hand).getTag().getInt("ammo"); }
-				 */
 				player.getHeldItem(hand).getTag().putInt("ammo", tempAmmo);
 			}
 
 		} else {
-			/*
-			 * if (player.getHeldItemMainhand().getItemDamage() == 0) { if (!world.isRemote)
-			 * { player.getHeldItemMainhand().setItemDamage(1);
-			 * player.inventory.setInventorySlotContents(player.inventory.currentItem,
-			 * player.getHeldItemMainhand()); player.world.playSound((EntityPlayer) null,
-			 * player.getPosition(), ModSounds.summon, SoundCategory.MASTER, 1.0f, 1.0f); }
-			 * } else { if (!world.isRemote) {
-			 * player.getHeldItemMainhand().setItemDamage(0);
-			 * player.inventory.setInventorySlotContents(player.inventory.currentItem,
-			 * player.getHeldItemMainhand()); player.world.playSound((EntityPlayer) null,
-			 * player.getPosition(), ModSounds.unsummon, SoundCategory.MASTER, 1.0f, 1.0f);
-			 * } }
-			 */
+			if(player.getHeldItem(hand).getTag().getInt("ammo") < ammo) {
+				player.getHeldItem(hand).getTag().putInt("reload", reload / player.getHeldItem(hand).getTag().getInt("ammo"));
+				player.getHeldItem(hand).getTag().putInt("ammo", 0);
+			} else {
+				//SNIPER MODE
+			}
+			/*if (player.getHeldItem(hand).getTag().getInt("reload") > 0) {
+				player.getHeldItem(hand).getTag().putInt("reload", player.getHeldItem(hand).getTag().getInt("reload") - 1);
+			} else {
+            	world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
+            	player.getHeldItem(hand).getTag().putInt("reload", reload);
+            	player.getHeldItem(hand).getTag().putInt("ammo", ammo);
+			}*/
 			return super.onItemRightClick(world, player, hand);
 		}
 

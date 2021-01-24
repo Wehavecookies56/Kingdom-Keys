@@ -97,7 +97,30 @@ public class ProxyClient implements IProxy {
         
         DeferredWorkQueue.runLater(() -> {
         	//Lances
-        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/zephyr"));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.zephyr));
+        	
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aer));
+        	
+        	
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.asura));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.crux));
+        	
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.fellking));
+        	
+        	
+        	
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.scission));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.heavenfall));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aether));
+        	
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.hegemon));
+        	
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.yaksha));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.cynosura));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.dragonreign));
+        	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.lindworm));
+        	
+        	
         	
         	//Chakrams
         	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ashes));
