@@ -806,10 +806,10 @@ public class EntityEvents {
 		newPlayerData.setMagic(oldPlayerData.getMagic());
 		newPlayerData.setDefense(oldPlayerData.getDefense());
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
-		newPlayerData.setMP(oldPlayerData.getMP());
+		//newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
 		newPlayerData.setDP(oldPlayerData.getDP());
-		newPlayerData.setFP(oldPlayerData.getFP());
+		//newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
 		newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
 
@@ -841,10 +841,13 @@ public class EntityEvents {
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
+		
+		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
+		
 	}
 	
 	@SubscribeEvent
-	public void onDimensionChanged(PlayerEvent.PlayerChangedDimensionEvent e) {
+	public void onDimensionChanged(PlayerEvent.PlayerChangedDimensionEvent e) { //Carries over the world data to the new dimension
 		PlayerEntity player = e.getPlayer();
 		if(!player.world.isRemote) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
