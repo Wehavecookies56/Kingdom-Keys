@@ -1,21 +1,21 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
-import java.util.UUID;
 
 import net.minecraft.util.SoundCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GuiMenu_Party_Kick extends MenuBackground {
 	
@@ -54,15 +54,19 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		if(string.startsWith("member:")) {
 			String[] data = string.split(":");
 			String name = data[1];
-			
-			UUID targetUUID = Utils.getPlayerByName(minecraft.world, name).getUniqueID();
-			PacketHandler.sendToServer(new CSPartyLeave(party, targetUUID));
-			party.removeMember(targetUUID);
+			Member member = null;
+			for(Member m : party.getMembers()) {
+				if(m.getUsername().equals(name)){
+					member = m;
+				}
+			}
+			if(member != null) {
+				PacketHandler.sendToServer(new CSPartyLeave(party, member.getUUID()));
+				party.removeMember(member.getUUID());
+			}
 			refreshMembers();
 
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			//minecraft.displayGuiScreen(new GuiMenu_Party_Member("Party Member"));
-			
+			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);			
 		}
 		updateButtons();
 	}

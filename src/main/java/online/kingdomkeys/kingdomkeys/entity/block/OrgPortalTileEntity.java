@@ -35,7 +35,5 @@ public class OrgPortalTileEntity extends TileEntity {
 	public void setUUID(UUID uuid) {
 		this.uuid = uuid;
 	}
-	
-	
-	
+		
 }

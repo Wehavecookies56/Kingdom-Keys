@@ -393,7 +393,7 @@ public class CommandMenuGui extends Screen {
 						UUID portalUUID = playerData.getPortalUUIDList().get(i);
 						PortalData portal = worldData.getPortalFromUUID(portalUUID);
 						if(portal != null)
-							drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getShortCoords()), textX, 4, 0xFFFFFF);
+							drawString(minecraft.fontRenderer, Utils.translateToLocal(portal.getName()), textX, 4, 0xFFFFFF);
 						RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					}
 				}

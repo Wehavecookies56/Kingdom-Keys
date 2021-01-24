@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -24,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -66,7 +66,7 @@ public class OrgPortalBlock extends BaseBlock {
 						if (index != -1) {
 							UUID portalUUID = UUID.randomUUID();
 							
-							worldData.addPortal(portalUUID, new PortalData(portalUUID, index+1+"", pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId(), player.getUniqueID()));
+							worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal "+(index+1), pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId(), player.getUniqueID()));
 							//PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 							PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
 							
@@ -77,6 +77,7 @@ public class OrgPortalBlock extends BaseBlock {
 							PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
 							te.setUUID(portalUUID);
 							te.markDirty();
+							PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getPos()), (ServerPlayerEntity)player);
 						} else {
 							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), true);
 						}
@@ -90,6 +91,8 @@ public class OrgPortalBlock extends BaseBlock {
 								break;
 							}	
 						}
+						PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getPos()), (ServerPlayerEntity)player);
+
 						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.YELLOW + "This is your portal " + (index+1)), true);
 					} else {
 						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUuid(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getFormattedText()), true);
@@ -112,29 +115,26 @@ public class OrgPortalBlock extends BaseBlock {
 				if (portalID != null) {
 					IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
 					UUID ownerUUID = worldData.getOwnerIDFromUUID(portalID);
-					PlayerEntity player = worldIn.getServer().getPlayerList().getPlayerByUUID(ownerUUID);
 					
-					byte index = -1;
-					for (byte i = 0; i < 3; i++) {
-						UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
-						if(uuid.equals(portalID)) {
-							index = i;
-							break;
-						}
-					}
-					System.out.println("R: " + index);
-					if (index != -1) {
-						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
-						UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(index);
-						ModCapabilities.getWorld(player.world).removePortal(uuid);
-						ModCapabilities.getPlayer(player).setPortalCoordsUUID((byte) index, new UUID(0,0));
-					} else {
-						player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"));
-					}
-					
-					PacketHandler.sendToAll(new SCSyncWorldCapability(ModCapabilities.getWorld(player.world)), player);
-					PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
+					ModCapabilities.getWorld(worldIn).removePortal(portalID);
 
+					PlayerEntity player = worldIn.getServer().getPlayerList().getPlayerByUUID(ownerUUID);
+					if(player != null) { //Remove from player's menu
+						byte index = -1;
+						for (byte i = 0; i < 3; i++) {
+							UUID uuid = ModCapabilities.getPlayer(player).getPortalUUIDFromIndex(i);
+							if(uuid.equals(portalID)) {
+								index = i;
+								player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
+								ModCapabilities.getPlayer(player).setPortalCoordsUUID((byte) index, new UUID(0,0));
+								break;
+							}
+						}
+						
+						PacketHandler.sendToAll(new SCSyncWorldCapability(ModCapabilities.getWorld(worldIn)), player);
+						PacketHandler.syncToAllAround(player, ModCapabilities.getPlayer(player));
+
+					}
 				}
 			}
 		}
