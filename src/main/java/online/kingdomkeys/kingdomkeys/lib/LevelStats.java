@@ -381,13 +381,16 @@ public class LevelStats {
         }
 
         if (level % 4 == 0) {
-            player.setHealth(cap.getMaxHP());
-            player.getFoodStats().addStats(20, 0);
             cap.addMaxMP(4);
             cap.setMP(cap.getMaxMP());
         }
-
-        if (level % 2 == 0) {
+        
+        if(level % 2 == 0) {
+            player.setHealth(cap.getMaxHP());
+            player.getFoodStats().addStats(20, 0);
+        }
+        
+        if (level % 3 == 0) {
             cap.addMaxAP(1);
         }
         
