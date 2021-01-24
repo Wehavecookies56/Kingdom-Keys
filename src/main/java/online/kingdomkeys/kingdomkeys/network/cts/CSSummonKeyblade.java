@@ -254,9 +254,18 @@ public class CSSummonKeyblade {
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
 			PlayerEntity player = event.getPlayer();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem) || ((droppedItem.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem())))) {
-				player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-				event.setCanceled(true);
+			if (droppedItem != null) {
+				if (playerData.getEquippedWeapon() != null) {
+					if ((droppedItem.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
+						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						event.setCanceled(true);
+						return;
+					}
+				}
+				if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem)) {
+					player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					event.setCanceled(true);
+				}
 			}
 		}
 	}

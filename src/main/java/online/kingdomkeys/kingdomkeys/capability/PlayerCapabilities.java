@@ -74,7 +74,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 	private int hearts = 0;
 	private Set<ItemStack> weaponUnlocks = new HashSet<>();
-	//Change this back to null when unlock system done
+
 	private ItemStack equippedWeapon = ItemStack.EMPTY;
 
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
@@ -729,7 +729,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		if (weapon != null) {
 			this.equippedWeapon = new ItemStack(weapon);
 		} else {
-			this.equippedWeapon = null;
+			this.equippedWeapon = ItemStack.EMPTY;
 		}
 	}
 
