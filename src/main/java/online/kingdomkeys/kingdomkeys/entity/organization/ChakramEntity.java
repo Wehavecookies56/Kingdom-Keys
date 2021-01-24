@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.organization;
 import java.util.List;
 
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -15,23 +16,23 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Rotations;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 public class ChakramEntity extends ThrowableEntity{
 
 	int maxTicks = 100;
 	boolean returning = false;
 	String model;
-	
+	int rotationPoint; //0 = x, 1 = y, 2 = z
+
 	public ChakramEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -50,6 +51,14 @@ public class ChakramEntity extends ThrowableEntity{
 		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
 		owner = player;
 		setModel(model);
+		setRotationPoint(2);
+	}
+	
+		public ChakramEntity(World world, PlayerEntity player, String model, int rot) {
+		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
+		owner = player;
+		setModel(model);
+		setRotationPoint(rot);
 	}
 
 	@Override
@@ -121,9 +130,9 @@ public class ChakramEntity extends ThrowableEntity{
 				}
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
-					System.out.println(world.getBlockState(brtResult.getPos()).getBlockState());
+					//System.out.println(world.getBlockState(brtResult.getPos()).getBlockState());
 					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
-					System.out.println("goin through");	
+					//	System.out.println("goin through");	
 					} else {
 						setReturn();	
 					}
@@ -142,6 +151,7 @@ public class ChakramEntity extends ThrowableEntity{
 	}
 	
 	private static final DataParameter<String> MODEL = EntityDataManager.createKey(ChakramEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Integer> ROTATION_POINT = EntityDataManager.createKey(ChakramEntity.class, DataSerializers.VARINT);
 	
 	public String getModel() {
 		return model;
@@ -151,32 +161,52 @@ public class ChakramEntity extends ThrowableEntity{
 		this.dataManager.set(MODEL, name);
 		this.model = name;
 	}
+	
+	public int getRotationPoint() {
+		return rotationPoint;
+	}
+	
+	public void setRotationPoint(int rotations) {
+		this.dataManager.set(ROTATION_POINT, rotations);
+		this.rotationPoint = rotations;
+	}
 
 	@Override
 	public void notifyDataManagerChange(DataParameter<?> key) {
 		if (key.equals(MODEL)) {
 			this.model = this.getModelDataManager();
 		}
+		if (key.equals(ROTATION_POINT)) {
+			this.rotationPoint = this.getRotationPointDataManager();
+		}
+		
 	}
 	
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
 		compound.putString("Model", this.getModel());
+		compound.putInt("Rotation", this.getRotationPoint());
 	}
 
 	@Override
 	public void readAdditional(CompoundNBT compound) {
 		this.setModel(compound.getString("Model"));
+		this.setRotationPoint(compound.getInt("Rotation"));
 	}
 	
 
 	@Override
 	protected void registerData() {
 		this.dataManager.register(MODEL, "");
+		this.dataManager.register(ROTATION_POINT, 0);
 	}
 
 	public String getModelDataManager() {
 		return this.dataManager.get(MODEL);
+	}
+	
+	public int getRotationPointDataManager() {
+		return this.dataManager.get(ROTATION_POINT);
 	}
 	
 }

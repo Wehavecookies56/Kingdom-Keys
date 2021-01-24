@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -45,7 +46,7 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentBlockType());
 			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
 
-			float scale = 0.03F; // (1.0f + poweringState) + (0.6f + poweringState) * progress0;
+			float scale = 0.03F;
 
 			matrixStackIn.push();
 			{
@@ -55,9 +56,25 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 				float a = 1;// MathHelper.clamp(1 - progress1, 0, 1);
 				float rgb = 1;// MathHelper.clamp(progress1, 0, 1);
 				
-				matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
-				matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90));
-				matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + rotation));
+				if(entity.getRotationPoint() == 0) {
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+					matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90));
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
+					matrixStackIn.rotate(Vector3f.XP.rotationDegrees(rotation));
+				}
+				
+				if(entity.getRotationPoint() == 1) {
+					
+				}
+				
+				if(entity.getRotationPoint() == 2) {
+					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+					matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90));
+					matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
+					matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(rotation));
+				}
+
+				
 				rotation+=10;
 
 				if(entity.ticksExisted > 1) {
@@ -66,8 +83,9 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 					}
 				}
 
-				matrixStackIn.pop();
 			}
+			matrixStackIn.pop();
+
 
 		}
 		matrixStackIn.pop();

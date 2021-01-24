@@ -686,9 +686,6 @@ public class EntityEvents {
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
 		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
-		
-		System.out.println(event.getEntityLiving().world.isRemote+":"+worldData.getPortals());
-
 		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
 			worldData.setHeartlessSpawnLevel(1);
 		}
