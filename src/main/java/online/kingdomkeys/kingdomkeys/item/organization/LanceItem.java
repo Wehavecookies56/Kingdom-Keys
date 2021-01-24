@@ -8,6 +8,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -23,7 +24,7 @@ public class LanceItem extends OrgWeaponItem implements IOrgWeapon {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
 		if (!player.getHeldItem(handIn).getTag().getBoolean("shot")) {
-	    	LanceEntity entity = new LanceEntity(worldIn, player, this.getRegistryName().getPath());
+	    	LanceEntity entity = new LanceEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgStrengthDamage(player, player.getHeldItem(handIn)));
 	    	switch(this.getRegistryName().getPath()) {
 	    	case Strings.lindworm:
 	    		entity.setRotationPoint(0);

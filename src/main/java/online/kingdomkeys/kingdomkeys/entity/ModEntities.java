@@ -102,6 +102,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SkaterBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.StormBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;

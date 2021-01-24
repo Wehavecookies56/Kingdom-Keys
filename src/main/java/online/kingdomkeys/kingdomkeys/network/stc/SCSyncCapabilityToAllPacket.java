@@ -183,35 +183,6 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setIsGliding(message.isGliding);
 				playerData.setAerialDodgeTicks(message.aerialDodgeTicks);
 				playerData.setHasJumpedAerialDodge(message.hasJumpedAD);
-				
-				/*LazyOptional<IPlayerCapabilities> playerData = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES);
-				playerData.ifPresent(cap -> cap.setLevel(message.level));
-				playerData.ifPresent(cap -> cap.setExperience(message.exp));
-				playerData.ifPresent(cap -> cap.setExperienceGiven(message.expGiven));
-				playerData.ifPresent(cap -> cap.setStrength(message.strength));
-				playerData.ifPresent(cap -> cap.setMagic(message.magic));
-				playerData.ifPresent(cap -> cap.setDefense(message.defense));
-				playerData.ifPresent(cap -> cap.setActiveDriveForm(message.driveForm));
-				playerData.ifPresent(cap -> cap.setAeroTicks(message.aeroTicks));
-				playerData.ifPresent(cap -> cap.setReflectTicks(message.reflectTicks));
-				playerData.ifPresent(cap -> cap.setDP(message.dp));
-				playerData.ifPresent(cap -> cap.setFP(message.fp));
-				playerData.ifPresent(cap -> cap.setAntiPoints(message.antipoints));
-				playerData.ifPresent(cap -> cap.setMaxHP(message.maxHP));
-				playerData.ifPresent(cap -> cap.setMP(message.mp));
-				playerData.ifPresent(cap -> cap.setMaxMP(message.maxMP));
-				
-				
-				playerData.ifPresent(cap -> cap.setPortalCoords((byte)0, message.orgPortalCoords[0]));
-				playerData.ifPresent(cap -> cap.setPortalCoords((byte)1, message.orgPortalCoords[1]));
-				playerData.ifPresent(cap -> cap.setPortalCoords((byte)2, message.orgPortalCoords[2]));
-				
-				playerData.ifPresent(cap -> cap.setMagicList(message.magicsList));
-				playerData.ifPresent(cap -> cap.setDriveFormMap(message.driveFormMap));
-
-				playerData.ifPresent(cap -> cap.setIsGliding(message.isGliding));
-				playerData.ifPresent(cap -> cap.setAerialDodgeTicks(message.aerialDodgeTicks));
-				playerData.ifPresent(cap -> cap.setHasJumpedAerialDodge(message.hasJumpedAD));*/
 			}
 		});
 		ctx.get().setPacketHandled(true);

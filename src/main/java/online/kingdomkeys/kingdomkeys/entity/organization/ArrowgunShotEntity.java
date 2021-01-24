@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.entity;
+package online.kingdomkeys.kingdomkeys.entity.organization;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

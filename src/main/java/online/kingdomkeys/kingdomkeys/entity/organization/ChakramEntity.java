@@ -32,6 +32,7 @@ public class ChakramEntity extends ThrowableEntity{
 	boolean returning = false;
 	String model;
 	int rotationPoint; //0 = x, 1 = y, 2 = z
+	float dmg;
 
 	public ChakramEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -47,19 +48,14 @@ public class ChakramEntity extends ThrowableEntity{
 		this.preventEntitySpawning = true;
 	}
 
-	public ChakramEntity(World world, PlayerEntity player, String model) {
+	public ChakramEntity(World world, PlayerEntity player, String model, float dmg) {
 		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
 		owner = player;
 		setModel(model);
 		setRotationPoint(2);
+		this.dmg = dmg * 0.75F;
 	}
 	
-		public ChakramEntity(World world, PlayerEntity player, String model, int rot) {
-		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
-		owner = player;
-		setModel(model);
-		setRotationPoint(rot);
-	}
 
 	@Override
 	public IPacket<?> createSpawnPacket() {
@@ -125,7 +121,7 @@ public class ChakramEntity extends ThrowableEntity{
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
 					target.setFire(5);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg < 4 ? 4 : dmg);
 					setReturn();
 				}
 			} else { // Block (not ERTR)

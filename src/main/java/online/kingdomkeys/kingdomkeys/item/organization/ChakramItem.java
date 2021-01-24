@@ -11,6 +11,7 @@ import net.minecraft.util.math.Rotations;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -26,7 +27,7 @@ public class ChakramItem extends OrgWeaponItem implements IOrgWeapon {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
 		if (!player.getHeldItem(handIn).getTag().getBoolean("shot")) {
-	    	ChakramEntity entity = new ChakramEntity(worldIn, player, this.getRegistryName().getPath());
+	    	ChakramEntity entity = new ChakramEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgStrengthDamage(player, player.getHeldItem(handIn)));
 	    	switch(this.getRegistryName().getPath()) {
 	    	case Strings.eternalFlames:
 	    	case Strings.prometheus:

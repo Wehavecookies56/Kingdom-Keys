@@ -32,7 +32,7 @@ public class LanceEntity extends ThrowableEntity{
 	String model;
 	boolean stopped = false;
 	int rotationPoint; //0 = x, 1 = y, 2 = z
-
+	float dmg;
 	
 	public LanceEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -48,10 +48,11 @@ public class LanceEntity extends ThrowableEntity{
 		this.preventEntitySpawning = true;
 	}
 
-	public LanceEntity(World world, PlayerEntity player, String model) {
+	public LanceEntity(World world, PlayerEntity player, String model, float dmg) {
 		super(ModEntities.TYPE_LANCE.get(), player, world);
 		owner = player;
 		setModel(model);
+		this.dmg = dmg;
 	}
 
 	@Override
@@ -153,7 +154,8 @@ public class LanceEntity extends ThrowableEntity{
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 10);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg < 4 ? 4 : dmg);
+					dmg *= 0.8F;
 					stopLance();
 				}
 			} else { // Block (not ERTR)				
