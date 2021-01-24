@@ -3,9 +3,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -46,13 +48,14 @@ public class CSOrgPortalTPPacket {
 	public static void handle(CSOrgPortalTPPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-	    	//BlockPos pos = new BlockPos(message.x,message.y,message.z);
 			ServerWorld serverWorld = player.world.getServer().getWorld(message.dim);
-            player.changeDimension(serverWorld, new BaseTeleporter(message.x,message.y,message.z));
-
-	       // new TeleporterOrgPortal((ServerWorld) player.world).teleport(player, pos, message.dim);
-	     //   player.setPosition(message.x,message.y,message.z);
-	    	//new TeleporterOrgPortal((ServerWorld) player.world).teleport(player, pos, message.dim);
+            if(player.world.getDimensionKey().getLocation().equals(message.dim)) { //Seemless tp
+				ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
+				playerMP.setPositionAndUpdate(message.x+0.5, message.y, message.z+0.5);
+				playerMP.setMotion(0, 0, 0);
+			} else {
+	            player.changeDimension(serverWorld, new BaseTeleporter(message.x,message.y,message.z));
+			}
 		});
 		ctx.get().setPacketHandled(true);
 	}

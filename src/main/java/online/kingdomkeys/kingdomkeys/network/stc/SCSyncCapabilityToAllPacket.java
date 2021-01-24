@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
@@ -12,13 +13,9 @@ import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.lib.PortalData;
 
 public class SCSyncCapabilityToAllPacket {
 
@@ -44,7 +41,7 @@ public class SCSyncCapabilityToAllPacket {
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
 	
-    PortalData[] orgPortalCoords = {new PortalData((byte)0,0,0,0, World.OVERWORLD),new PortalData((byte)0,0,0,0,World.OVERWORLD),new PortalData((byte)0,0,0,0,World.OVERWORLD)};
+    UUID[] orgPortalCoords = { new UUID(0,0), new UUID(0,0), new UUID(0,0) };
 
 	
 	public SCSyncCapabilityToAllPacket() {
@@ -69,7 +66,7 @@ public class SCSyncCapabilityToAllPacket {
 		this.maxMP = capability.getMaxMP();
 		
         for(byte i=0;i<3;i++) {
-        	this.orgPortalCoords[i] = capability.getPortalCoords((byte)i);
+        	this.orgPortalCoords[i] = capability.getPortalUUIDFromIndex((byte)i);
         }
 		
         this.magicList = capability.getMagicList();
@@ -99,11 +96,7 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeDouble(this.maxMP);
 		
 		for(byte i=0;i<3;i++) {
-        	buffer.writeByte(this.orgPortalCoords[i].getPID());
-        	buffer.writeDouble(this.orgPortalCoords[i].getX());
-        	buffer.writeDouble(this.orgPortalCoords[i].getY());
-        	buffer.writeDouble(this.orgPortalCoords[i].getZ());
-        	buffer.writeResourceLocation(this.orgPortalCoords[i].getDimID().getLocation());
+			buffer.writeUniqueId(this.orgPortalCoords[i]);
         }
 		
 		CompoundNBT magics = new CompoundNBT();
@@ -147,11 +140,7 @@ public class SCSyncCapabilityToAllPacket {
 		msg.maxMP = buffer.readDouble();
 		
 		for(byte i=0;i<3;i++) {
-    		msg.orgPortalCoords[i].setPID(buffer.readByte());
-    		msg.orgPortalCoords[i].setX(buffer.readDouble());
-    		msg.orgPortalCoords[i].setY(buffer.readDouble());
-    		msg.orgPortalCoords[i].setZ(buffer.readDouble());
-    		msg.orgPortalCoords[i].setDimID(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation()));
+    		msg.orgPortalCoords[i] = buffer.readUniqueId();
         }
 		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
@@ -202,9 +191,9 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setMP(message.mp);
 				playerData.setMaxMP(message.maxMP);
 
-				playerData.setPortalCoords((byte)0, message.orgPortalCoords[0]);
-				playerData.setPortalCoords((byte)1, message.orgPortalCoords[1]);
-				playerData.setPortalCoords((byte)2, message.orgPortalCoords[2]);
+				playerData.setPortalCoordsUUID((byte)0, message.orgPortalCoords[0]);
+				playerData.setPortalCoordsUUID((byte)1, message.orgPortalCoords[1]);
+				playerData.setPortalCoordsUUID((byte)2, message.orgPortalCoords[2]);
 
 				playerData.setMagicList(message.magicList);
 				playerData.setDriveFormMap(message.driveFormMap);

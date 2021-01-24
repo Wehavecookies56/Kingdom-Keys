@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -15,8 +18,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.util.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class WorldCapabilities implements IWorldCapabilities {
 
@@ -31,6 +35,12 @@ public class WorldCapabilities implements IWorldCapabilities {
 				parties.add(party.write());
 			}
 			storage.put("parties", parties);
+			
+			ListNBT portals = new ListNBT();
+			for (Entry<UUID, PortalData> entry : instance.getPortals().entrySet()) {
+				portals.add(entry.getValue().write());
+			}
+			storage.put("portals", portals);
 			
 			return storage;
 		}
@@ -50,12 +60,65 @@ public class WorldCapabilities implements IWorldCapabilities {
 				partiesList.add(party);
 			}
 			instance.setParties(partiesList);
+			
+			Map<UUID, PortalData> portalList = instance.getPortals();
+			ListNBT portals = storage.getList("portals", Constants.NBT.TAG_COMPOUND);
+
+			for (int i = 0; i < portals.size(); i++) {
+				CompoundNBT portalNBT = portals.getCompound(i);
+				PortalData portal = new PortalData(null, null, 0, 0, 0, null, null);
+				portal.read(portalNBT);
+				portalList.put(portal.getUUID(), portal);
+			}
+			instance.setPortals(portalList);
 		}
 	}
 	
 	List<Party> parties = new ArrayList<Party>();
 	int heartlessSpawnLevel = 0;
+	Map<UUID, PortalData> portals = new HashMap<UUID, PortalData>();
 
+	@Override
+	public Map<UUID, PortalData> getPortals() {
+		return portals;
+	}
+	
+	@Override
+	public void setPortals(Map<UUID, PortalData> portals) {
+		this.portals = portals;
+	}
+
+	@Override
+	public void addPortal(UUID uuid, PortalData data) {
+		this.portals.put(uuid, data);
+	}
+	
+	@Override
+	public boolean removePortal(UUID id) {
+        if (portals.containsKey(id)) {
+        	portals.remove(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
+	@Override
+	public PortalData getPortalFromUUID(UUID uuid) {
+		return portals.getOrDefault(uuid, null);
+	}
+	
+	@Override
+	public UUID getOwnerIDFromUUID(UUID portalUUID) {
+		for(Entry<UUID, PortalData> p : portals.entrySet()) {
+			if(p.getValue().getUUID().equals(portalUUID)) {
+				return p.getValue().getOwnerID();
+			}
+		}
+		return null;
+	}
+
+	
 	@Override
 	public int getHeartlessSpawnLevel() {
 		return heartlessSpawnLevel;
@@ -157,7 +220,17 @@ public class WorldCapabilities implements IWorldCapabilities {
 			this.parties.add(party);
 		}
 		
-		this.heartlessSpawnLevel = nbt.getInt("heartless");  
+		this.heartlessSpawnLevel = nbt.getInt("heartless");
+		
+		this.portals.clear();
+		ListNBT portals = nbt.getList("portals", Constants.NBT.TAG_COMPOUND);
+
+		for (int i = 0; i < portals.size(); i++) {
+			CompoundNBT portalNBT = portals.getCompound(i);
+			PortalData portal = new PortalData(null, null, 0, 0, 0, null, null);
+			portal.read(portalNBT);
+			this.portals.put(portal.getUUID(), portal);
+		}
 	}
 	
 	@Override
@@ -169,6 +242,13 @@ public class WorldCapabilities implements IWorldCapabilities {
 		nbt.put("parties", parties);
 		
 		nbt.putInt("heartless", this.heartlessSpawnLevel);
+		
+		ListNBT portals = new ListNBT();
+		for (Entry<UUID, PortalData> entry : getPortals().entrySet()) {
+			portals.add(entry.getValue().write());
+		}
+		nbt.put("portals", portals);
+		
 		return nbt;
 	}
 

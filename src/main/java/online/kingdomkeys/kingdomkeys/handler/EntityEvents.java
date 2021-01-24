@@ -803,7 +803,7 @@ public class EntityEvents {
 
 		newPlayerData.setMagicList(oldPlayerData.getMagicList());
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
-		newPlayerData.setPortalList(oldPlayerData.getPortalList());
+		newPlayerData.setPortalUUIDList(oldPlayerData.getPortalUUIDList());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
 

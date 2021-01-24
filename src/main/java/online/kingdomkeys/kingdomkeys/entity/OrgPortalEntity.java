@@ -58,32 +58,8 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		if (this.ticksExisted > maxTicks) {
 			this.remove();
 		}
-		/*
-		 double rx = 1D;
-		 double ry = 2D;
-		 for(int z = 1; z <= 360; z+=7) {
-	         for (int a = 1; a <= 360; a += 7) {
-	             double x = getPosX() + (rx * Math.cos(Math.toRadians(a)));
-	             double y = getPosY() + 2 + (ry * Math.sin(Math.toRadians(a)));
-	
-	            // world.addParticle(ParticleTypes.CLOUD, x, this.y + 1.25D, getPosZ, 0.0D, 0.0D, 0.0D);
-	             world.addParticle(ParticleTypes.DRAGON_BREATH, x, y, getPosZ(), 0.0D, 0.0D, 0.0D);
-	         }
-		 }
-		world.addParticle(ParticleTypes.CLOUD, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
-		double radiusX = 1D, radiusY = 3D, radiusZ = 1D;
-		double freq = 0.5D;
-		double X = getPosX(),Y = getPosY()-1, Z = getPosZ();
-		for (double x = X - radiusX; x <= X + radiusX; x += freq) {
-			for (double y = Y; y <= Y + radiusY; y += freq) {
-				for (double z = Z - radiusZ; z <= Z + radiusZ; z += freq) {
-					//if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-						world.addParticle(ParticleTypes.DRAGON_BREATH, x, y + 1, z, 0, 0, 0);
-					//}
-				}
-			}
-		}
-*/
+        world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX()-1+rand.nextDouble()*2, getPosY() + rand.nextDouble()*4, getPosZ()-1+rand.nextDouble()*2, 0.0D, 0.0D, 0.0D);
+
 		super.tick();
 	}
 	
@@ -146,15 +122,13 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		if(destinationPos == null)
             return;
     	
-        buffer.writeInt(destinationPos.getX());
-        buffer.writeInt(destinationPos.getY());
-        buffer.writeInt(destinationPos.getZ());
+        buffer.writeBlockPos(new BlockPos(destinationPos.getX(),destinationPos.getY(),destinationPos.getZ()));
         buffer.writeResourceLocation(destinationDim.getLocation());
         buffer.writeBoolean(shouldTeleport);	}
 
 	@Override
 	public void readSpawnData(PacketBuffer additionalData) {
-		destinationPos = new BlockPos(additionalData.readInt(),additionalData.readInt(),additionalData.readInt());
+		destinationPos = additionalData.readBlockPos();
     	destinationDim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, additionalData.readResourceLocation());
     	shouldTeleport = additionalData.readBoolean();
     }

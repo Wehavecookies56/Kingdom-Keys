@@ -4,8 +4,8 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
@@ -36,7 +36,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.CommonConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
@@ -58,7 +58,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class InputHandler {
 
-    List<PortalData> portalCommands;
+    List<UUID> portalCommands;
     Map<String, int[]> driveFormsMap;
     List<String> magicsList;
     List<Member> targetsList;
@@ -388,8 +388,9 @@ public class InputHandler {
                 // ModDriveForms.getDriveForm(player, world, (String)
                 // this.driveCommands.get(CommandMenuGui.driveselected));
                 if (!ModCapabilities.getPlayer(player).getRecharge()) {
-                    PortalData coords = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
-                    if (coords.getX() != 0 && coords.getY() != 0 && coords.getZ() != 0) { //If the portal is not default coords
+                    UUID portalUUID = this.portalCommands.get((byte) CommandMenuGui.portalSelected);
+                    PortalData coords = worldData.getPortalFromUUID(portalUUID); 
+                    if (!coords.getPos().equals(new BlockPos(0,0,0))) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
                         player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You don't have any portal destination"), Util.DUMMY_UUID);
@@ -487,8 +488,7 @@ public class InputHandler {
     }
 
     private void summonPortal(PlayerEntity player, PortalData coords) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		BlockPos destination = new BlockPos(coords.getX(), coords.getY(), coords.getZ());
+		BlockPos destination = coords.getPos();
 
 		if (player.isSneaking()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
@@ -832,7 +832,7 @@ public class InputHandler {
         this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
         this.driveFormsMap.remove(DriveForm.NONE.toString());
         this.magicsList = ModCapabilities.getPlayer(mc.player).getMagicList();
-        this.portalCommands = ModCapabilities.getPlayer(mc.player).getPortalList();
+        this.portalCommands = ModCapabilities.getPlayer(mc.player).getPortalUUIDList();
         if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
         	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
         }
