@@ -385,7 +385,7 @@ public class LevelStats {
             cap.setMP(cap.getMaxMP());
         }
         
-        if(level % 2 == 0) {
+        if(level % 5 == 0) {
             player.setHealth(cap.getMaxHP());
             player.getFoodStats().addStats(20, 0);
         }
