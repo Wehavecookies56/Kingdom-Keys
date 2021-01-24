@@ -1254,6 +1254,7 @@ public class KeybladeStats extends KeybladeProvider {
                     .addMaterial(Strings.SM_WrithingCrystal, 1)).build())
             .desc("A Keyblade with above-average reach that provides a balanced boost in Strength and Magic.");
 
+		/* disabled this as the χ is not generated correctly
 		getBuilder(Strings.incompleteKiblade).keychain(Strings.incompleteKibladeChain).baseStats(10,5)
             .abilities("Treasure Magnet", "Formchange Extender")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,6).withMaterials(new Recipe()
@@ -1283,7 +1284,7 @@ public class KeybladeStats extends KeybladeProvider {
                     .addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1)
                     .addMaterial(Strings.SM_WrithingCrystal, 1)).build())
             .desc("An incomplete form of the legendary Keyblade, the χ-blade.");
-
+		*/
 		getBuilder(Strings.invisKeyblade).keychain(Strings.invisKeybladeChain).baseStats(10,8)
             .abilities("Treasure Magnet", "Formchange Extender")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
