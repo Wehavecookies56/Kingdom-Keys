@@ -792,17 +792,16 @@ public class EntityEvents {
 		PlayerEntity nPlayer = event.getPlayer();
 		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
 		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
-		newPlayerData.setLevel(oldPlayerData.getLevel());
+		
+		newPlayerData.setLevel(oldPlayerData.getLevel());  
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
 		newPlayerData.setStrength(oldPlayerData.getStrength());
 		newPlayerData.setMagic(oldPlayerData.getMagic());
 		newPlayerData.setDefense(oldPlayerData.getDefense());
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
-		//newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
 		newPlayerData.setDP(oldPlayerData.getDP());
-		//newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
 		newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
 
@@ -810,8 +809,11 @@ public class EntityEvents {
 
 		newPlayerData.setMagicList(oldPlayerData.getMagicList());
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
-
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
+		newPlayerData.setAntiPoints(oldPlayerData.getAntiPoints());
+		newPlayerData.setActiveDriveForm(oldPlayerData.getActiveDriveForm());
+
+		newPlayerData.setPartiesInvited(oldPlayerData.getPartiesInvited());
 
 		newPlayerData.setKnownRecipeList(oldPlayerData.getKnownRecipeList());
 		newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
@@ -834,9 +836,15 @@ public class EntityEvents {
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
+	}
+	
+	@SubscribeEvent
+	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		PlayerEntity nPlayer = event.getPlayer();
+		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.world);
+
 		if(!nPlayer.world.isRemote)
-			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
-		
+			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayerEntity)nPlayer);
 	}
 	
 	@SubscribeEvent
@@ -844,14 +852,14 @@ public class EntityEvents {
 		PlayerEntity player = e.getPlayer();
 		if(!player.world.isRemote) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			
+
 			IWorldCapabilities fromWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
 			IWorldCapabilities toWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
 
 			toWorldData.setParties(fromWorldData.getParties());
 			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
 			toWorldData.setPortals(fromWorldData.getPortals());
-			
+
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			PacketHandler.sendTo(new SCSyncWorldCapability(toWorldData), (ServerPlayerEntity)player);
 		}
