@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -43,12 +42,16 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.entity.*;
+import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
+import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -58,19 +61,19 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -805,7 +808,11 @@ public class EntityEvents {
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
+		newPlayerData.setAntiPoints(oldPlayerData.getAntiPoints());
+		newPlayerData.setActiveDriveForm(oldPlayerData.getActiveDriveForm());
 
+		newPlayerData.setPartiesInvited(oldPlayerData.getPartiesInvited());
+		
 		newPlayerData.setKnownRecipeList(oldPlayerData.getKnownRecipeList());
 		newPlayerData.setMaterialMap(oldPlayerData.getMaterialMap());
 
@@ -829,6 +836,15 @@ public class EntityEvents {
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
 
+	}
+	
+	@SubscribeEvent
+	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		PlayerEntity nPlayer = event.getPlayer();
+		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.world);
+
+		if(!nPlayer.world.isRemote)		
+			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayerEntity)nPlayer);
 	}
 	
 	@SubscribeEvent
