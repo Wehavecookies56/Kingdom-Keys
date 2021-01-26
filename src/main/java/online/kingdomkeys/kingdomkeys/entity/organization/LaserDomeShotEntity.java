@@ -19,26 +19,28 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
-public class ArrowgunShotEntity extends ThrowableEntity {
+public class LaserDomeShotEntity extends ThrowableEntity {
 
-	int maxTicks = 120;
-
-	public ArrowgunShotEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	int maxTicks = 220;
+	float dmg;
+	
+	public LaserDomeShotEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ArrowgunShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
+	public LaserDomeShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_LASER_SHOT.get(), world);
 	}
 
-	public ArrowgunShotEntity(World world) {
-		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
+	public LaserDomeShotEntity(World world) {
+		super(ModEntities.TYPE_LASER_SHOT.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ArrowgunShotEntity(World world, LivingEntity player) {
-		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), player, world);
+	public LaserDomeShotEntity(World world, LivingEntity player, float dmg) {
+		super(ModEntities.TYPE_LASER_SHOT.get(), player, world);
+		this.dmg = dmg;
 	}
 
 	@Override
@@ -79,24 +81,13 @@ public class ArrowgunShotEntity extends ThrowableEntity {
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
 				if (target != getThrower()) {
-					float dmg = 0;
-					if(this.getThrower() instanceof PlayerEntity) {
-						PlayerEntity player = (PlayerEntity) this.getThrower();
-						IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-						if(player.getHeldItemMainhand() != null) {
-							dmg = DamageCalculation.getOrgStrengthDamage(player, player.getHeldItemMainhand()) / 2;
-						}
-					}
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
 					remove();
 				}
-			} else { // Block (not ERTR)
-				remove();
 			}
+			remove();
 		}
 	}
 

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.entity;
+package online.kingdomkeys.kingdomkeys.client.render.org;
 
 import javax.annotation.Nullable;
 
@@ -10,35 +10,39 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.FireModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
-import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntity> {
+public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEntity> {
 
-	public static final Factory FACTORY = new ArrowgunShotEntityRenderer.Factory();
+	public static final Factory FACTORY = new LaserDomeShotEntityRenderer.Factory();
 	private CubeModel model;
 
-	public ArrowgunShotEntityRenderer(EntityRendererManager renderManager) {
+	public LaserDomeShotEntityRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
         model = new CubeModel();
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(ArrowgunShotEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(LaserDomeShotEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		matrixStackIn.push();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);
     		matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
     		matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
-    		matrixStackIn.scale(0.1F, 0.1F, 0.8F);
+    		if(entity.getMotion().equals(new Vec3d(0,0,0))) {
+    			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
+
+    		} else {
+    			matrixStackIn.scale(0.2F, 0.2F, 0.8F);
+    		}
     		model.render(matrixStackIn, bufferIn.getBuffer(model.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 0.2F, 0.2F, 1F);
      	}
      	matrixStackIn.pop();
@@ -47,14 +51,14 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(ArrowgunShotEntity entity) {
+	public ResourceLocation getEntityTexture(LaserDomeShotEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<ArrowgunShotEntity> {
+	public static class Factory implements IRenderFactory<LaserDomeShotEntity> {
 		@Override
-		public EntityRenderer<? super ArrowgunShotEntity> createRenderFor(EntityRendererManager manager) {
-			return new ArrowgunShotEntityRenderer(manager);
+		public EntityRenderer<? super LaserDomeShotEntity> createRenderFor(EntityRendererManager manager) {
+			return new LaserDomeShotEntityRenderer(manager);
 		}
 	}
 }

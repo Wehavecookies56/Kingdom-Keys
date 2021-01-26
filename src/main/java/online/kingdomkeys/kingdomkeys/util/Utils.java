@@ -17,12 +17,15 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -477,13 +480,39 @@ public class Utils {
 	}
 
 	public static int getSlotFor(PlayerInventory inv, ItemStack stack) {
-	      for(int i = 0; i < inv.getSizeInventory(); ++i) {
-	         if (!inv.getStackInSlot(i).isEmpty() && ItemStack.areItemStacksEqual(stack, inv.getStackInSlot(i))) {
-	            return i;
-	         }
-	      }
+		for (int i = 0; i < inv.getSizeInventory(); ++i) {
+			if (!inv.getStackInSlot(i).isEmpty() && ItemStack.areItemStacksEqual(stack, inv.getStackInSlot(i))) {
+				return i;
+			}
+		}
 
-	      return -1;
-	   }
+		return -1;
+	}
+	
+	 /**
+     * From {@link LookController#getTargetPitch()}
+     * @param target
+     * @param entity
+     * @return
+     */
+	public static float getTargetPitch(Entity entity, Entity target) {
+        double xDiff = target.getPosX() - entity.getPosX();
+        double yDiff = target.getPosY() - entity.getPosY();
+        double zDiff = target.getPosZ() - entity.getPosZ();
+        double distance = MathHelper.sqrt(xDiff * xDiff + zDiff * zDiff);
+        return (float) (-(MathHelper.atan2(yDiff, distance) * (double)(180F / (float)Math.PI)));
+    }
+
+    /**
+     * From {@link LookController#getTargetYaw()}
+     * @param target
+     * @param playerEntity
+     * @return
+     */
+	public static float getTargetYaw(Entity entity, Entity target) {
+        double d0 = target.getPosX() - entity.getPosX();
+        double d1 = target.getPosZ() - entity.getPosZ();
+        return (float)-(MathHelper.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+    }
 
 }

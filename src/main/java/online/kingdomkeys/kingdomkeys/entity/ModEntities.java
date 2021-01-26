@@ -37,7 +37,6 @@ import online.kingdomkeys.kingdomkeys.client.render.block.MoogleProjectorRendere
 import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.PedestalRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.SoAPlatformRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.entity.ArrowgunShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.AssassinRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.BombRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DarkballRenderer;
@@ -65,8 +64,11 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.ArrowgunShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ChakramEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
@@ -105,6 +107,8 @@ import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
@@ -178,6 +182,12 @@ public class ModEntities {
     public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, EntityClassification.MONSTER, "dusk", 1F, 1.5F, NOBODY, 0xb8bdc4, 0xfcfcfc);
     public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, EntityClassification.MONSTER, "assassin", 1F, 1.5F, NOBODY, 0xc9c9c9, 0xd4ccff);
 
+    
+    //Limits
+    public static final RegistryObject<EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, LaserDomeCoreEntity::new, EntityClassification.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
+
+    
     /**
      * Helper method to create a new EntityType and set the registry name
      * @param factory The entity type factory
@@ -297,7 +307,9 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ARROWGUN_SHOT.get(), ArrowgunShotEntityRenderer.FACTORY);
 
-        
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
+
         //Tile Entities
         
         ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
