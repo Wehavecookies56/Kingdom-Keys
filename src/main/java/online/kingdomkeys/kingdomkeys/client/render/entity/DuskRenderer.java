@@ -27,7 +27,7 @@ public class DuskRenderer extends MobRenderer<DuskEntity, DuskModel<DuskEntity>>
 
     @Override
     protected void preRenderCallback(DuskEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-    	matrixStackIn.scale(1F, 1F, 1F);
+    	matrixStackIn.scale(1.2F, 1.2F, 1.2F);
     	super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
     

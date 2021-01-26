@@ -277,7 +277,7 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    if (!playerData.getRecharge() &&  playerData.getMaxMP() > 0 && (!this.magicsList.isEmpty() && (!playerData.getActiveDriveForm().equals("valor") && !playerData.getActiveDriveForm().equals("anti")))) {
+                    if (!playerData.getRecharge() &&  playerData.getMaxMP() > 0 && (!this.magicsList.isEmpty() && (!playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)))) {
                         CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -291,6 +291,9 @@ public class InputHandler {
 
             case CommandMenuGui.ITEMS: //Accessing ITEMS submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
+                    CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
                     //System.out.println("items");
                     /*if (!this.itemsCommands.isEmpty()) {
                         CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
@@ -464,6 +467,11 @@ public class InputHandler {
 	                CommandMenuGui.selected = CommandMenuGui.ATTACK;
 	                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	            } else {
+	                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+                    CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
 	            }
             }
         }

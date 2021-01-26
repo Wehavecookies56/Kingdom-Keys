@@ -123,12 +123,8 @@ public class DuskEntity extends MonsterEntity implements IKHMob {
 			if (theEntity.getAttackTarget() != null && canUseAttack) {
 				EntityHelper.setState(theEntity, 1);
 				LivingEntity target = this.theEntity.getAttackTarget();
-
 				this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
-
 				this.theEntity.getNavigator().tryMoveToXYZ(posToCharge[0], posToCharge[1], posToCharge[2], 10.0D);
-				System.out.println("@@");
-
 				canUseAttack = false;
 			}
 		}

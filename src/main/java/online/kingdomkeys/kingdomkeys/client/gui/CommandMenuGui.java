@@ -201,7 +201,10 @@ public class CommandMenuGui extends Screen {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int color = getColor(0xFFFFFF,SUB_MAIN);
 					if(i == MAGIC) {
-						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+					}
+					if(i == ITEMS) {
+						color = getColor(0x888888,SUB_MAIN);
 					}
 					if(i == DRIVE) {//If it's an org member / in antiform / has no drive unlocked be gray
 						color = playerData.getAlignment() != OrgMember.NONE || playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);

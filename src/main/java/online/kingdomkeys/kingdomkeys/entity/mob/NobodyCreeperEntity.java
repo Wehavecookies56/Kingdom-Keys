@@ -87,56 +87,51 @@ public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
             - we then check if the AI is usable, if yes we start the AI, otherwise we start the "cooldown"..aka this line : attackTimer--
             Assuming we return true startExecuting() will be called next
          */
-        @Override
-        public boolean shouldExecute()
-        {
-            if(theEntity.getAttackTarget() != null)
-            {
-                if(!canUseAttack)
-                {
-                    if(attackTimer > 0)
-                    {
-                        attackTimer--;
-                        return false;
-                    }
-                    else return true;
-                }
-                else return true;
-            }
-            else return false;
-        }
+		@Override
+		public boolean shouldExecute() {
+			if (theEntity.getAttackTarget() != null) {
+				if (!canUseAttack) {
+					if (attackTimer > 0) {
+						attackTimer--;
+						return false;
+					} else
+						return true;
+				} else
+					return true;
+			} else
+				return false;
+		}
 
         /*
             "Legacy code" from Shadows and older entities but basically if the ability is usable it's execution is not interrupted
          */
-        @Override
-        public boolean shouldContinueExecuting()
-        {
-            boolean flag = canUseAttack;
+		@Override
+		public boolean shouldContinueExecuting() {
+			boolean flag = canUseAttack;
 
-            return flag;
-        }
+			return flag;
+		}
 
         /*
             This is the initialization part after each cooldown
 
             It's also where we initialize where the pos for the spear attack will be placed
          */
-        @Override
-        public void startExecuting() {
-            canUseAttack = true;
-            if(EntityHelper.getState(theEntity) > 2)
-                attackTimer = 10 + world.rand.nextInt(5);
-            else
-                attackTimer = 20 + world.rand.nextInt(5);
-            EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.17D);
-            whileAttackTimer = 0;
-        }
+		@Override
+		public void startExecuting() {
+			canUseAttack = true;
+			if (EntityHelper.getState(theEntity) > 2)
+				attackTimer = 10 + world.rand.nextInt(5);
+			else
+				attackTimer = 20 + world.rand.nextInt(5);
+			EntityHelper.setState(theEntity, 0);
+			this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.17D);
+			whileAttackTimer = 0;
+		}
 
-        /*
-            The actual meat of this AI
-         */
+		/*
+		 * The actual meat of this AI
+		 */
         @Override
         public void tick() {
             if(theEntity.getAttackTarget() != null && canUseAttack) { // Like above we check again to see if the target is still alive (maybe it died so we need to check again)
@@ -166,17 +161,21 @@ public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
                                 return;
                             }
                         } else {
-                            //SPEAR
-	            			/*
-	            			 Same as with the sword, the only difference being we move the entity 4 blocks above the target location (for that sweet "falling from sky" effect)
-	            			 Also deals only 3 hearts for entities around 2 blocks around it (cuz it's a spear not a sword, smaller range)
-	            			 */
-                            EntityHelper.setState(theEntity, 2);
-                            this.theEntity.setPositionAndUpdate(target.getPosX(), target.getPosY() + 4, target.getPosZ());
-                            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
-
-                            for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 3))
-                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 6);
+                        	if(theEntity.getDistance(theEntity.getAttackTarget()) < 16) {
+	                            //SPEAR
+		            			/*
+		            			 Same as with the sword, the only difference being we move the entity 4 blocks above the target location (for that sweet "falling from sky" effect)
+		            			 Also deals only 3 hearts for entities around 2 blocks around it (cuz it's a spear not a sword, smaller range)
+		            			 */
+	                            EntityHelper.setState(theEntity, 2);
+	                            this.theEntity.setPositionAndUpdate(target.getPosX(), target.getPosY() + 4, target.getPosZ());
+	                            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+	
+	                            for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 2))
+	                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 6);
+                        	} else {
+                        		return;
+                        	}
                         }
                     }
                     else {

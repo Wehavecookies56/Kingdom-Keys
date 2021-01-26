@@ -265,7 +265,6 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
         public void tick() {
             if(theEntity.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                System.out.println("mowdown " + whileAttackTimer);
 
                 for(Entity t : EntityHelper.getEntitiesNear(this.theEntity, 0.2)) {
                     t.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), theEntity.isAngry ? this.theEntity.DAMAGE_MOWDOWN * 1.5f : this.theEntity.DAMAGE_MOWDOWN);
@@ -334,7 +333,6 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
             attackTimer = ATTACK_MAX_TIMER;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.CHARGE);
-            System.out.println("" + this.theEntity.getCurrentAttackState());
             EntityHelper.setState(theEntity, 1);
             LivingEntity target = this.theEntity.getAttackTarget();
             initialHealth = theEntity.getHealth();
@@ -347,8 +345,6 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
         public void tick() {
             if(theEntity.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                //System.out.println("charge " + whileAttackTimer);
-                LivingEntity target = this.theEntity.getAttackTarget();
                 this.theEntity.getNavigator().tryMoveToXYZ(posToCharge[0], posToCharge[1], posToCharge[2], theEntity.isAngry ? 2.3D : 2.0D);
 
                 if(whileAttackTimer > 70)
