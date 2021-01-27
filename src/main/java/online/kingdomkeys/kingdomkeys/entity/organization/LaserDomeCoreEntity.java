@@ -89,19 +89,19 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		switch(getTier()){
 		case 0:
 			this.radius = 7;
-			this.space = 16;
+			this.space = 24;
 			this.shotsPerTick = 1;
-			this.maxTicks = 120;
+			this.maxTicks = 140;
 			break;
 		case 1:
 			this.radius = 10;
-			this.space = 14;
+			this.space = 18;
 			this.shotsPerTick = 2;
 			this.maxTicks = 180;
 			break;
 		case 2:
-			this.radius = 13;
-			this.space = 11;
+			this.radius = 15;
+			this.space = 12;
 			this.shotsPerTick = 3;
 			this.maxTicks = 240;
 			break;
@@ -122,14 +122,15 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 				double y = Y + (radius * Math.cos(Math.toRadians(t)));
 				if(getCaster() != null) {
 					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg);
-					Vec3d vec3d = new Vec3d(getPosX(), getPosY(), getPosZ()).normalize();
+					/*Vec3d vec3d = new Vec3d(getPosX(), getPosY(), getPosZ()).normalize();
 					float f = MathHelper.sqrt(horizontalMag(vec3d));
-					// float yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z));
-					// float pitch = (float) (MathHelper.atan2(Math.sqrt(vec3d.z * vec3d.z + vec3d.x * vec3d.x),Math.PI));
+					float yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z));
+					float pitch = (float) (MathHelper.atan2(Math.sqrt(vec3d.z * vec3d.z + vec3d.x * vec3d.x),Math.PI));
 					float yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (double) (180F / (float) Math.PI));
-					float pitch = (float) (MathHelper.atan2(vec3d.y, (double) f) * (double) (180F / (float) Math.PI));
-					bullet.setPositionAndRotation(x, y, z, yaw, pitch);
+					float pitch = (float) (MathHelper.atan2(vec3d.y, (double) f) * (double) (180F / (float) Math.PI));*/
+					bullet.setPosition(x, y, z);
 					bullet.setMaxTicks(maxTicks-20);
+					bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
 					list.add(bullet);
 					world.addEntity(bullet);
 				}
@@ -140,31 +141,20 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 
 			
 		} else if(ticksExisted == 40) { // Get all targets right before starting to shoot
-			List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius,radius,radius));
-			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
-
-			if(casterParty != null) {
-				for(Party.Member m : casterParty.getMembers()) {
-					tempList.remove(world.getPlayerByUuid(m.getUUID()));
-				}
-			} else {
-				tempList.remove(getThrower());
-			}
-			
-			
-			for(Entity t : tempList) {
-				if(!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrbEntity)) {
-					targetList.add(t);
-				}
-			}
+			updateList();
 
 		} else if(ticksExisted > 40 && !targetList.isEmpty()) {
+			if(ticksExisted == 80) {
+				updateList();
+			}
+			
 			for(int i = 0; i < shotsPerTick; i++) {
 				int num;
 				do {
 					num = rand.nextInt(list.size());
-				} while(usedIndexes.contains(num));
+				} while(usedIndexes.contains(num) && usedIndexes.size() != list.size());
 				usedIndexes.add(num);
+				//System.out.println(usedIndexes.size() +" "+ list.size());
 				
 				Entity target = this;
 				int targetIndex = rand.nextInt(targetList.size());
@@ -180,6 +170,26 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		}
 
 		super.tick();
+	}
+
+	private void updateList() {
+		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius,radius,radius));
+		Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
+
+		if(casterParty != null) {
+			for(Party.Member m : casterParty.getMembers()) {
+				tempList.remove(world.getPlayerByUuid(m.getUUID()));
+			}
+		} else {
+			tempList.remove(getThrower());
+		}
+		
+		targetList.clear();
+		for(Entity t : tempList) {
+			if(!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrbEntity)) {
+				targetList.add(t);
+			}
+		}
 	}
 
 	@Override

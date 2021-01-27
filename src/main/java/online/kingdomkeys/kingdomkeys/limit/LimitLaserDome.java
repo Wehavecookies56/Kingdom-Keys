@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -21,9 +22,7 @@ public class LimitLaserDome extends Limit {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, int size) {
-		//Server side
-		System.out.println("Testing");
+	public void onUse(PlayerEntity player, LivingEntity target, int size) {
 		ItemStack stack = player.getHeldItemMainhand();
 		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.PLAYERS, 1F, 1F);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -33,10 +32,9 @@ public class LimitLaserDome extends Limit {
 		} else {
 			damage = (playerData.getStrength() + playerData.getMagic()) / 2 * 0.15F;
 		}
-		
-		System.out.println(size);
-		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.world, player, player, damage, size);
-		dome.setPosition(player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ());
+
+		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.world, player, target, damage, size);
+		dome.setPosition(target.getPosition().getX(), target.getPosition().getY(), target.getPosition().getZ());
 		player.world.addEntity(dome);
 	}
 }

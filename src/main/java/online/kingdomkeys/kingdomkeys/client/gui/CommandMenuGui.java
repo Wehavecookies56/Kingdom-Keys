@@ -190,10 +190,11 @@ public class CommandMenuGui extends Screen {
 		
 					paintWithColorArray(normalModeColor, alpha);
 					ClientPlayerEntity player = minecraft.player;
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (selected == i) { // Selected
 						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 						drawSelectedSlot();
-						if (selected == ATTACK && ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
+						if (selected == ATTACK && playerData.getAlignment() != Utils.OrgMember.NONE) {
 							drawIcon(selected+1, SUB_MAIN);
 						} else {
 							drawIcon(selected, SUB_MAIN);
@@ -204,7 +205,6 @@ public class CommandMenuGui extends Screen {
 						drawUnselectedSlot();
 					}
 					
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int color = getColor(0xFFFFFF,SUB_MAIN);
 					if(i == MAGIC) {
 						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
@@ -213,24 +213,14 @@ public class CommandMenuGui extends Screen {
 						color = getColor(0x888888,SUB_MAIN);
 					}
 					if(i == DRIVE) {//If it's an org member / in antiform / has no drive unlocked be gray
-						color = 0x888888;
+						color = getColor(0x888888,SUB_MAIN);
+						
 						if(playerData.getAlignment() != OrgMember.NONE) {
-							Limit limit = null;
-					        for(Limit val : ModLimits.registry.getValues()) {
-					        	if(val.getOwner() == playerData.getAlignment()) {
-					        		limit = val;
-					        		break;
-					        	}
-					        }
-
-							if(limit != null) {
-								if(playerData.getDP() >= limit.getLevels().get(0)) {
-									color = getColor(0xFFFFFF,SUB_MAIN);
-								}
-							}
+							//Checks for limit obtaining in the future?
+							color = getColor(0xFFFFFF,SUB_MAIN);
 						} else {
 							if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1) {
-								color = 0x888888;
+								color = getColor(0x888888,SUB_MAIN);
 							} else {
 								color = getColor(0xFFFFFF,SUB_MAIN);
 							}
@@ -385,8 +375,6 @@ public class CommandMenuGui extends Screen {
 
 	public void drawSubPortals(int width, int height) {
 		RenderSystem.enableBlend();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.world);
 
         List<UUID> portals = worldData.getAllPortalsFromOwnerID(minecraft.player.getUniqueID());
@@ -588,7 +576,7 @@ public class CommandMenuGui extends Screen {
 				RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() + 1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				paintWithColorArray(limitMenuColor, alpha);
-				drawHeader("Limit", SUB_LIMIT);
+				drawHeader(Strings.Gui_CommandMenu_Limit_Title, SUB_LIMIT);
 			}
 			RenderSystem.popMatrix();
 			
@@ -603,24 +591,22 @@ public class CommandMenuGui extends Screen {
 
 					paintWithColorArray(limitMenuColor, alpha);
 					if (limitSelected == i) {
-						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						textX = (int) (10 * ModConfigs.cmXScale / 100D* 1.3) + ModConfigs.cmTextXOffset;
 						drawSelectedSlot();
-
-						RenderSystem.color4f(1F, 1F, 1F, alpha);
 						drawIcon(selected, SUB_LIMIT);
 					} else { // Not selected
-						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						textX = (int) (5 * ModConfigs.cmXScale / 100D * 1.3) + ModConfigs.cmTextXOffset;
 						drawUnselectedSlot();
 					}
 
 					int limitCost = limit.getLevels().get(i);
-					int colour = playerData.getDP() >= limitCost ? 0xFFFFFF : 0x888888;
+					int color = playerData.getDP() >= limitCost ? 0xFFFFFF : 0x888888;
 
 					String name = limit.getTranslationKey();
-
-					drawString(minecraft.fontRenderer, Utils.translateToLocal(name)+" ("+limitCost+")", textX, 4, getColor(colour, SUB_LIMIT));
-					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-
+					RenderSystem.scalef(scale*0.7F, scale*0.9F, scale);
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(name), textX, 4, getColor(color, SUB_LIMIT));
+					RenderSystem.scalef(scale*1.3F, scale*1.1F, scale);
+					drawString(minecraft.fontRenderer, limitCost/100 + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) + (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 4, getColor(0xD1B000, SUB_LIMIT));
 				}
 				RenderSystem.popMatrix();
 			}

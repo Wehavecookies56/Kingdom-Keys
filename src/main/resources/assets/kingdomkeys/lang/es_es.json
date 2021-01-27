@@ -125,6 +125,7 @@
 	"gui.commandmenu.magic.title": "Magia",
 	"gui.commandmenu.items.title": "Objetos",
 	"gui.commandmenu.drive.title": "Formas",
+	"gui.commandmenu.limit.title": "Límites",
 
 	"gui.synthesisbag.upgrade": "Aumentar tamaño",
 	"gui.synthesisbag.munny": "Platines",
@@ -212,6 +213,9 @@
 	"ability.ability_fire_boost.desc": "Aumenta el daño de los ataques Piro.",
 	"ability.ability_blizzard_boost.name": "Extrahielo",
 	"ability.ability_blizzard_boost.desc": "Aumenta el daño de los ataques Hielo.",
+	
+	"_comment": "Limits",
+	"limit.laser_dome.name": "Cúpula Láser",
 
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Blox Normal",

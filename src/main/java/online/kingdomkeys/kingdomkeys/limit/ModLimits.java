@@ -34,7 +34,7 @@ public class ModLimits {
 		public static void registerLimits(RegistryEvent.Register<Limit> event) {
 			int order = 0;
 			event.getRegistry().registerAll(
-				new LimitLaserDome(KingdomKeys.MODID + ":" + Strings.LM_Prefix + Strings.LaserDome, order++, new int[] {100,300,500}, OrgMember.XEMNAS)
+				new LimitLaserDome(KingdomKeys.MODID + ":" + Strings.LaserDome, order++, new int[] {100,300,500}, OrgMember.XEMNAS)
 			);
 		}
 	}

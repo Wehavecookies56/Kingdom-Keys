@@ -28,9 +28,8 @@ public class Strings {
     public static final String
     		DF_Prefix = "form_";
     
- // Limits
+    // Limits
     public static final String
-    		LM_Prefix = "limit_",
     		LaserDome = "laser_dome";
     
     //Abilities
@@ -296,6 +295,7 @@ public class Strings {
             Gui_CommandMenu_Magic_Title = Gui_CommandMenu_Magic + ".title",
             Gui_CommandMenu_Portals_Title = Gui_CommandMenu_Portal + ".title",
             Gui_CommandMenu_Drive_Title = Gui_CommandMenu_Drive + ".title",
+            Gui_CommandMenu_Limit_Title = Gui_CommandMenu_Limit + ".title",
 
             // Menu
             Gui_Menu = "gui.menu",

@@ -38,11 +38,14 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.limit.Limit;
+import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
@@ -514,5 +517,17 @@ public class Utils {
         double d1 = target.getPosZ() - entity.getPosZ();
         return (float)-(MathHelper.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
     }
+
+	public static Limit getPlayerLimitAttack(PlayerEntity player) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		Limit limit = null;
+        for(Limit val : ModLimits.registry.getValues()) {
+        	if(val.getOwner() == playerData.getAlignment()) {
+        		limit = val;
+        		break;
+        	}
+        }
+        return limit;
+	}
 
 }

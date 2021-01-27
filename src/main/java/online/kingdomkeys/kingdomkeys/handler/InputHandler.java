@@ -361,6 +361,10 @@ public class InputHandler {
                             CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
                             mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                             return;
+                		} else {
+                            CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                			
                 		}
                 	}
                 }
@@ -437,22 +441,28 @@ public class InputHandler {
         }
         
         // Limits Submenu
-        if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
-            if (this.limit.getLevels().isEmpty()) {
-            } else {
-					/*String limitName = limits.getName();
-					Limit limit = ModLimits.registry.getValue(new ResourceLocation(limitName));*/
-					//(CommandMenuGui.limitSelected);
-					int limitSize = limit.getLevels().get(CommandMenuGui.limitSelected);
-					//limit.onUse(player, limitSize);
-        			PacketHandler.sendToServer(new CSUseLimitPacket(limit.getName(), CommandMenuGui.limitSelected));
-
+		if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
+			if (this.limit.getLevels().isEmpty()) {
+                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+			} else {
+				System.out.println(limit.getLevels().get(CommandMenuGui.limitSelected));
+				if(playerData.getDP() < limit.getLevels().get(CommandMenuGui.limitSelected)) {
+                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                    world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                
-            }
-        }
+				} else {
+					if(lockOn != null)
+						PacketHandler.sendToServer(new CSUseLimitPacket(lockOn, CommandMenuGui.limitSelected));
+					else
+						PacketHandler.sendToServer(new CSUseLimitPacket(CommandMenuGui.limitSelected));
+					CommandMenuGui.selected = CommandMenuGui.ATTACK;
+					CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+					world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				}
+			}
+		}
 
 
         //Items Submenu
@@ -865,11 +875,7 @@ public class InputHandler {
         this.driveFormsMap.remove(DriveForm.NONE.toString());
         this.magicsList = playerData.getMagicList();
         this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
-        for(Limit val : ModLimits.registry.getValues()) {
-        	if(val.getOwner() == playerData.getAlignment()) {
-        		this.limit = val;
-        	}
-        }
+		this.limit = Utils.getPlayerLimitAttack(mc.player);
         if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
         	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
         }

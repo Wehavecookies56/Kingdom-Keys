@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.limit;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -58,7 +59,7 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 		return owner;
 	}
 	
-	public abstract void onUse(PlayerEntity player, int size);
+	public abstract void onUse(PlayerEntity player, LivingEntity target, int size);
 
 
 	/*public void initDrive(PlayerEntity player) {
