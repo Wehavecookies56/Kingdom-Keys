@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.TargetGoal;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
@@ -10,10 +11,13 @@ public class ShadowGoal extends TargetGoal {
 	private final int MAX_DISTANCE_FOR_AI = 100, MAX_DISTANCE_FOR_LEAP = 10, MAX_DISTANCE_FOR_DASH = 25, MAX_DISTANCE_FOR_ATTACK = 5, TIME_BEFORE_NEXT_ATTACK = 70, TIME_OUTSIDE_THE_SHADOW = 70;
 	private int shadowTicks = 70, oldAi = -1, ticksUntilNextAttack;
 	private boolean canUseNextAttack = true;
+	private double originalAttackDamage;
 
 	public ShadowGoal(CreatureEntity creature) {
 		super(creature, true);
 		ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;
+        this.originalAttackDamage = this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+
 	}
 
 	@Override
@@ -24,7 +28,7 @@ public class ShadowGoal extends TargetGoal {
 					shadowTicks--;
 					if (shadowTicks <= 0) {
 						EntityHelper.setState(this.goalOwner, 1);
-						//shadowTicks = TIME_OUTSIDE_THE_SHADOW;
+	                    this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 						canUseNextAttack = false;
 					}
 				} else {
@@ -40,8 +44,9 @@ public class ShadowGoal extends TargetGoal {
 				if (shadowTicks >= TIME_OUTSIDE_THE_SHADOW) {
 					EntityHelper.setState(this.goalOwner, 0);
 					this.goalOwner.setInvulnerable(false);
-				//	this.goalOwner.setInvisible(false);
 					canUseNextAttack = true;
+                    this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
+
 				}
 			}
 
@@ -99,9 +104,11 @@ public class ShadowGoal extends TargetGoal {
 				if (this.goalOwner.world.rand.nextInt(2) == 0) {
 					EntityHelper.setState(this.goalOwner, 0);
 					this.goalOwner.setInvulnerable(false);
+                    this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 				} else {
 					EntityHelper.setState(this.goalOwner, 1);
 					this.goalOwner.setInvulnerable(true);
+                    this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 				}
 
 				canUseNextAttack = false;
@@ -143,9 +150,11 @@ public class ShadowGoal extends TargetGoal {
 				if (this.goalOwner.world.rand.nextInt(2) == 0) {
 					EntityHelper.setState(this.goalOwner, 0);
 					this.goalOwner.setInvulnerable(false);
+                    this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 				} else {
 					EntityHelper.setState(this.goalOwner, 1);
 					this.goalOwner.setInvulnerable(true);
+                    this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 				}
 
 				canUseNextAttack = false;
@@ -155,6 +164,7 @@ public class ShadowGoal extends TargetGoal {
 		}
 		EntityHelper.setState(this.goalOwner, 0);
 		this.goalOwner.setInvulnerable(false);
+        this.goalOwner.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 		return false;
 	}
 

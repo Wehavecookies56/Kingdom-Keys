@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -519,14 +520,16 @@ public class Utils {
     }
 
 	public static Limit getPlayerLimitAttack(PlayerEntity player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		Limit limit = null;
-        for(Limit val : ModLimits.registry.getValues()) {
+//		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		Limit limit = ModLimits.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+Strings.LaserDome));
+		//TODO change when we have more members
+       /* for(Limit val : ModLimits.registry.getValues()) {
+        	System.out.println(val.getName());
         	if(val.getOwner() == playerData.getAlignment()) {
         		limit = val;
         		break;
         	}
-        }
+        }*/
         return limit;
 	}
 

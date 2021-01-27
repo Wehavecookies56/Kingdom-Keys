@@ -73,6 +73,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 	private int hearts = 0;
 	private Set<ItemStack> weaponUnlocks = new HashSet<>();
+	private int limitCooldown = 0;
 
 	private ItemStack equippedWeapon = ItemStack.EMPTY;
 
@@ -735,6 +736,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setWeaponsUnlocked(Set<ItemStack> unlocks) {
 		this.weaponUnlocks = unlocks;
+	}
+	
+	@Override
+	public int getLimitCooldown() {
+		return limitCooldown;
+	}
+
+	@Override
+	public void setLimitCooldownTicks(int ticks) {
+		this.limitCooldown = ticks;
 	}
 
 	//endregion

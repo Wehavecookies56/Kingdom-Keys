@@ -57,6 +57,7 @@ public class SCSyncCapabilityPacket {
 	Utils.OrgMember alignment;
 	ItemStack equippedWeapon;
 	Set<ItemStack> unlocks;
+	int limitCooldown;
 	
 	public SCSyncCapabilityPacket() {
 	}
@@ -103,6 +104,7 @@ public class SCSyncCapabilityPacket {
 		this.alignment = capability.getAlignment();
 		this.equippedWeapon = capability.getEquippedWeapon();
 		this.unlocks = capability.getWeaponsUnlocked();
+		this.limitCooldown = capability.getLimitCooldown();
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -205,6 +207,7 @@ public class SCSyncCapabilityPacket {
 		buffer.writeItemStack(this.equippedWeapon);
 		buffer.writeInt(this.unlocks.size());
 		unlocks.forEach(buffer::writeItemStack);
+		buffer.writeInt(this.limitCooldown);
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -307,6 +310,7 @@ public class SCSyncCapabilityPacket {
 		for (int i = 0; i < unlockSize; ++i) {
 			msg.unlocks.add(buffer.readItemStack());
 		}
+		msg.limitCooldown = buffer.readInt();
 		return msg;
 	}
 
@@ -354,6 +358,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setAlignment(message.alignment);
 			playerData.equipWeapon(message.equippedWeapon);
 			playerData.setWeaponsUnlocked(message.unlocks);
+			playerData.setLimitCooldownTicks(message.limitCooldown);
 		});
 		ctx.get().setPacketHandled(true);
 	}

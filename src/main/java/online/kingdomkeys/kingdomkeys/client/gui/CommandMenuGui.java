@@ -217,7 +217,7 @@ public class CommandMenuGui extends Screen {
 						
 						if(playerData.getAlignment() != OrgMember.NONE) {
 							//Checks for limit obtaining in the future?
-							color = getColor(0xFFFFFF,SUB_MAIN);
+							color = playerData.getLimitCooldown() <= 0 ? getColor(0xFFFFFF,SUB_MAIN) : getColor(0x888888,SUB_MAIN);
 						} else {
 							if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1) {
 								color = getColor(0x888888,SUB_MAIN);
@@ -560,12 +560,7 @@ public class CommandMenuGui extends Screen {
 	private void drawSubLimits(int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		Limit limit = null;
-		for(Limit val : ModLimits.registry.getValues()) {
-        	if(val.getOwner() == playerData.getAlignment()) {
-        		limit = val;
-        	}
-        }		
+		Limit limit = Utils.getPlayerLimitAttack(minecraft.player);
 		
 		if (playerData != null && limit != null && !limit.getLevels().isEmpty()) {
 			// Limit TOP
@@ -606,7 +601,7 @@ public class CommandMenuGui extends Screen {
 					RenderSystem.scalef(scale*0.7F, scale*0.9F, scale);
 					drawString(minecraft.fontRenderer, Utils.translateToLocal(name), textX, 4, getColor(color, SUB_LIMIT));
 					RenderSystem.scalef(scale*1.3F, scale*1.1F, scale);
-					drawString(minecraft.fontRenderer, limitCost/100 + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) + (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 4, getColor(0xD1B000, SUB_LIMIT));
+					drawString(minecraft.fontRenderer, limitCost/100 + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) + (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 4, getColor(0x00FFFF, SUB_LIMIT));
 				}
 				RenderSystem.popMatrix();
 			}

@@ -53,6 +53,7 @@ public class CSUseLimitPacket {
 				int cost = limit.getLevels().get(message.level);
 				if (playerData.getDP() >= cost) {
 					playerData.remDP(cost);
+					playerData.setLimitCooldownTicks(600);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 					if(message.targetID > -1) {
 						limit.onUse(player, (LivingEntity) player.world.getEntityByID(message.targetID), message.level);

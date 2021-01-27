@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class DriveGui extends Screen {
 	
@@ -129,10 +130,14 @@ public class DriveGui extends Screen {
 						RenderSystem.translatef((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
 						RenderSystem.scalef(scale, scale, scale);
 
-						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							this.blit(15, 6, 0, 0, guiWidth, guiHeight);
+						if(playerData.getAlignment() == OrgMember.NONE) {
+							if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+								this.blit(15, 6, 0, 0, guiWidth, guiHeight);
+							} else {
+								this.blit(15, 6, 98, 0, guiWidth, guiHeight);
+							}
 						} else {
-							this.blit(15, 6, 98, 0, guiWidth, guiHeight);
+							this.blit(15, 6, 0, 68, guiWidth, guiHeight);
 						}
 					}
 					RenderSystem.popMatrix();
@@ -142,10 +147,14 @@ public class DriveGui extends Screen {
 						// Yellow meter
 						RenderSystem.translatef((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 						RenderSystem.scalef(scale, scale, scale);
-						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
+						if(playerData.getAlignment() == OrgMember.NONE) {
+							if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+								this.blit(14, 6, 0, 18, (int) currDrive, guiHeight);
+							} else {
+								this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
+							}
 						} else {
-							this.blit(14, 6, 98, 18, (int) currForm, guiHeight);
+							this.blit(14, 6, 0, 86, (int) currDrive, guiHeight);
 						}
 						
 						RenderSystem.popMatrix();
@@ -156,7 +165,11 @@ public class DriveGui extends Screen {
 							RenderSystem.translatef((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 							RenderSystem.scalef(scale, scale, scale);
 							int numPos = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? getCurrBar(dp == 1000 ? 900 : dp, (int) playerData.getMaxDP() / 100) * 10 : 100 + getCurrBar(fp, Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2) * 10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
-							this.blit(14, 6, numPos, 38, 10, guiHeight);
+							if(playerData.getAlignment() == OrgMember.NONE) {
+								this.blit(14, 6, numPos, 38, 10, guiHeight);
+							} else {
+								this.blit(14, 6, numPos, 106, 10, guiHeight);
+							}
 						}
 						RenderSystem.popMatrix();
 

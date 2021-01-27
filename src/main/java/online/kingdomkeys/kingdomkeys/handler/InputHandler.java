@@ -356,7 +356,7 @@ public class InputHandler {
 	                	}
                 	} else { //Org member Limits
                 		//Accessing Limits Submenu
-                		if(!limit.getLevels().isEmpty()) {
+                		if(!limit.getLevels().isEmpty() && playerData.getLimitCooldown() <= 0) {
                             CommandMenuGui.limitSelected = 0;
                             CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
                             mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
