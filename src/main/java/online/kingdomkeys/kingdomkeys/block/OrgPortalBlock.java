@@ -6,8 +6,10 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -45,6 +47,34 @@ public class OrgPortalBlock extends BaseBlock {
 	}
 
 	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+		if (!worldIn.isRemote) {
+			if (placer instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) placer;
+				OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getTileEntity(pos);
+				IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
+	
+				List<UUID> portals = worldData.getAllPortalsFromOwnerID(player.getUniqueID());
+	
+				if (portals.size() < 3) {
+					UUID portalUUID = UUID.randomUUID();
+	
+					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId(), player.getUniqueID()));
+					PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
+	
+					player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal"), true);
+	
+					te.setUUID(portalUUID);
+					te.markDirty();
+					PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getPos()), (ServerPlayerEntity) player);
+				} else {
+					player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), true);
+				}
+			}
+		}
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+	}
+	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (!worldIn.isRemote) {
 			if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
@@ -53,23 +83,7 @@ public class OrgPortalBlock extends BaseBlock {
 					IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
 
 					if (te.getUUID() == null) { // Player clicks new portal
-						List<UUID> portals = worldData.getAllPortalsFromOwnerID(player.getUniqueID());
-
-						if (portals.size() < 3) {
-							UUID portalUUID = UUID.randomUUID();
-							
-							worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId(), player.getUniqueID()));
-							PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
-							
-							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal"), true);
-
-							te.setUUID(portalUUID);
-							te.markDirty();
-							PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getPos()), (ServerPlayerEntity)player);
-						} else {
-							player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), true);
-						}
-						return ActionResultType.SUCCESS;
+						
 
 					} else if (worldData.getOwnerIDFromUUID(te.getUUID()).equals(player.getUniqueID())) { // Player clicks his portal
 						List<UUID> portals = worldData.getAllPortalsFromOwnerID(player.getUniqueID());

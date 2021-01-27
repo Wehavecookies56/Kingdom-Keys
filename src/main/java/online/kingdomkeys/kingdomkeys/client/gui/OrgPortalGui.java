@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 import java.util.Map;
 import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -24,6 +25,7 @@ public class OrgPortalGui extends Screen {
 	public OrgPortalGui(BlockPos pos) {
 		super(new TranslationTextComponent("Org Portal"));
 		this.pos = pos;
+		minecraft = Minecraft.getInstance();
 	}
 
 	@Override
@@ -37,10 +39,10 @@ public class OrgPortalGui extends Screen {
 		if (minecraft.player.world.getTileEntity(pos) != null && minecraft.player.world.getTileEntity(pos) instanceof OrgPortalTileEntity) {
 			OrgPortalTileEntity te = (OrgPortalTileEntity) minecraft.player.world.getTileEntity(pos);
 			UUID portalUUID = te.getUUID();
-			Map<UUID, PortalData> portals = ModCapabilities.getWorld(minecraft.player.world).getPortals();
-			String text = ModCapabilities.getWorld(minecraft.player.world).getPortalFromUUID(portalUUID).getName();
-
-			nameBox.setText(text);
+			if(portalUUID != null) {
+				String text = ModCapabilities.getWorld(minecraft.player.world).getPortalFromUUID(portalUUID).getName();
+				nameBox.setText(text);
+			}
 		}
 		super.init();
 	}

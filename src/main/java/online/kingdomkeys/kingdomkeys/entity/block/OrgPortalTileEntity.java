@@ -28,7 +28,8 @@ public class OrgPortalTileEntity extends TileEntity {
 	@Override
 	public void read(CompoundNBT parentNBTTagCompound) {
 		super.read(parentNBTTagCompound);
-		uuid = parentNBTTagCompound.getUniqueId("uuid");
+		if(parentNBTTagCompound.hasUniqueId("uuid"))
+			uuid = parentNBTTagCompound.getUniqueId("uuid");
 	}
 
 	public UUID getUUID() {
