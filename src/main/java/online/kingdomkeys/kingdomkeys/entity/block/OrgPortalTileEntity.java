@@ -30,7 +30,8 @@ public class OrgPortalTileEntity extends TileEntity {
 	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
 		super.read(state, nbt);
-		uuid = nbt.getUniqueId("uuid");
+		if(nbt.hasUniqueId("uuid"))
+			uuid = nbt.getUniqueId("uuid");
 	}
 
 	public UUID getUUID() {
