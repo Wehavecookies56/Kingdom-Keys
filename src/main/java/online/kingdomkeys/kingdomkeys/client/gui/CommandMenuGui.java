@@ -503,12 +503,7 @@ public class CommandMenuGui extends Screen {
 	private void drawSubLimits(MatrixStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		Limit limit = null;
-		for(Limit val : ModLimits.registry.getValues()) {
-        	if(val.getOwner() == playerData.getAlignment()) {
-        		limit = val;
-        	}
-        }		
+		Limit limit = Utils.getPlayerLimitAttack(minecraft.player);
 		
 		if (playerData != null && limit != null && !limit.getLevels().isEmpty()) {
 			// Limit TOP
