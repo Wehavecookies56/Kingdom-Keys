@@ -68,6 +68,8 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ChakramEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
@@ -106,6 +108,8 @@ import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
@@ -138,7 +142,7 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, EntityClassification.MISC,"entity_org_portal", 0.5F, 0.5F);
     
-    public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1F, 0.5F);
+    public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, EntityClassification.MISC,"entity_chakram", 1.3F, 0.5F);
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, EntityClassification.MISC,"entity_lance", 1F, 0.5F);
     
     public static final RegistryObject<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, HeartEntity::new, EntityClassification.MISC, "heart", 1F, 1F);
@@ -178,6 +182,10 @@ public class ModEntities {
     public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, EntityClassification.MONSTER, "nobody_creeper", 1F, 1.5F, NOBODY, 0xb8bdc4, 0xfcfcfc);
     public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, EntityClassification.MONSTER, "dusk", 1F, 1.5F, NOBODY, 0xb8bdc4, 0xfcfcfc);
     public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, EntityClassification.MONSTER, "assassin", 1F, 1.5F, NOBODY, 0xc9c9c9, 0xd4ccff);
+
+    //Limits
+    public static final RegistryObject<EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, LaserDomeCoreEntity::new, EntityClassification.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -299,6 +307,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ARROWGUN_SHOT.get(), ArrowgunShotEntityRenderer.FACTORY);
 
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
         
         //Tile Entities
         
@@ -331,25 +341,25 @@ public class ModEntities {
     }
 
     public static void registerPlacements() {
-        EntitySpawnPlacementRegistry.register(TYPE_ASSASSIN.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_BLUE_RHAPSODY.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_DARKBALL.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_DETONATOR.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_DIRE_PLANT.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
+    	EntitySpawnPlacementRegistry.register(TYPE_ASSASSIN.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
+        EntitySpawnPlacementRegistry.register(TYPE_BLUE_RHAPSODY.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_DARKBALL.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_DETONATOR.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_DIRE_PLANT.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
         EntitySpawnPlacementRegistry.register(TYPE_DUSK.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_GIGA_SHADOW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_GREEN_REQUIEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_LARGE_BODY.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_MEGA_SHADOW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_MINUTE_BOMB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
+        EntitySpawnPlacementRegistry.register(TYPE_GIGA_SHADOW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_GREEN_REQUIEM.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_LARGE_BODY.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_MEGA_SHADOW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_MINUTE_BOMB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
         EntitySpawnPlacementRegistry.register(TYPE_MOOGLE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CreatureEntity::canSpawnOn);
         EntitySpawnPlacementRegistry.register(TYPE_NOBODY_CREEPER.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_RED_NOCTURNE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_SHADOW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_SHADOW_GLOB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_SKATER_BOMB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_STORM_BOMB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
-        EntitySpawnPlacementRegistry.register(TYPE_YELLOW_OPERA.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
+        EntitySpawnPlacementRegistry.register(TYPE_RED_NOCTURNE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_SHADOW.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_SHADOW_GLOB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_SKATER_BOMB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_STORM_BOMB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        EntitySpawnPlacementRegistry.register(TYPE_YELLOW_OPERA.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);

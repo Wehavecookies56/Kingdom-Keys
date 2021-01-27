@@ -1,11 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.Map.Entry;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -31,6 +29,8 @@ import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.limit.Limit;
+import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -54,11 +54,11 @@ public class CommandMenuGui extends Screen {
 	int iconWidth = 10;
 	int textX = 0;
 
-	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6;
+	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6, SUB_LIMIT = 7;
 
 	public static final int NONE = 0;
 	public static int selected = ATTACK, targetSelected = 0;;
-	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0;
+	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0, limitSelected = 0;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
@@ -79,6 +79,7 @@ public class CommandMenuGui extends Screen {
 	float[] magicMenuColor = { 0.4F, 0F, 1F, SUB_MAGIC };
 	float[] itemsMenuColor = { 0.3F, 1F, 0.3F, SUB_ITEMS };
 	float[] driveMenuColor = { 0F, 1F, 1F, SUB_DRIVE };
+	float[] limitMenuColor = { 1F, 1F, 0F, SUB_LIMIT };
 	float[] targetModeColor = { 0.04F, 0.2F, 1F, SUB_TARGET};
 
 
@@ -130,6 +131,9 @@ public class CommandMenuGui extends Screen {
 				}
 				if (submenu == SUB_DRIVE) {
 					drawSubDrive(matrixStack, width, height);
+				}
+				if (submenu == SUB_LIMIT) {
+					drawSubLimits(matrixStack, width, height);
 				}
 				if (submenu == SUB_TARGET) {
 					drawSubTargetSelector(matrixStack, width, height);
@@ -247,10 +251,24 @@ public class CommandMenuGui extends Screen {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int color = getColor(0xFFFFFF,SUB_MAIN);
 					if(i == MAGIC) {
-						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+					}
+					if(i == ITEMS) {
+						color = getColor(0x888888,SUB_MAIN);
 					}
 					if(i == DRIVE) {//If it's an org member / in antiform / has no drive unlocked be gray
-						color = playerData.getAlignment() != OrgMember.NONE || playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+						color = getColor(0x888888,SUB_MAIN);
+						
+						if(playerData.getAlignment() != OrgMember.NONE) {
+							//Checks for limit obtaining in the future?
+							color = playerData.getLimitCooldownTicks() <= 0 ? getColor(0xFFFFFF,SUB_MAIN) : getColor(0x888888,SUB_MAIN);
+						} else {
+							if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1) {
+								color = getColor(0x888888,SUB_MAIN);
+							} else {
+								color = getColor(0xFFFFFF,SUB_MAIN);
+							}
+						}
 					}
 					
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, color);
@@ -477,6 +495,65 @@ public class CommandMenuGui extends Screen {
 					}
 					matrixStack.pop();
 				}
+			}
+		}
+		RenderSystem.disableBlend();
+	}
+	
+	private void drawSubLimits(MatrixStack matrixStack, int width, int height) {
+		RenderSystem.enableBlend();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		Limit limit = null;
+		for(Limit val : ModLimits.registry.getValues()) {
+        	if(val.getOwner() == playerData.getAlignment()) {
+        		limit = val;
+        	}
+        }		
+		
+		if (playerData != null && limit != null && !limit.getLevels().isEmpty()) {
+			// Limit TOP
+			double x = 10 * ModConfigs.cmSubXOffset / 100D;
+			matrixStack.push();
+			{
+				minecraft.textureManager.bindTexture(texture);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() + 1)), 0);
+				matrixStack.scale(scale, scale, scale);
+				paintWithColorArray(matrixStack, limitMenuColor, alpha);
+				drawHeader(matrixStack, Strings.Gui_CommandMenu_Limit_Title, SUB_LIMIT);
+			}
+			matrixStack.pop();
+			
+			for (int i = 0; i < limit.getLevels().size(); i++) {
+				matrixStack.push();
+				{
+					//RenderSystem.color4f(1F, 1F, 1F, alpha);
+
+					minecraft.textureManager.bindTexture(texture);
+					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() - i)), 0);
+					matrixStack.scale(scale, scale, scale);
+
+					paintWithColorArray(matrixStack, limitMenuColor, alpha);
+					if (limitSelected == i) {
+						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawSelectedSlot(matrixStack);
+						drawIcon(matrixStack, selected, SUB_LIMIT);
+					} else { // Not selected
+						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawUnselectedSlot(matrixStack);
+					}
+
+
+					int limitCost = limit.getLevels().get(i);
+					int color = playerData.getDP() >= limitCost ? 0xFFFFFF : 0x888888;
+
+					String name = limit.getTranslationKey();
+					matrixStack.scale(scale*0.7F, scale*0.9F, scale);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(name), textX, 4, getColor(color, SUB_LIMIT));
+					matrixStack.scale(scale*1.3F, scale*1.1F, scale);
+					drawString(matrixStack, minecraft.fontRenderer, limitCost/100 + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) + (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 4, getColor(0x00FFFF, SUB_LIMIT));
+
+				}
+				matrixStack.pop();
 			}
 		}
 		RenderSystem.disableBlend();

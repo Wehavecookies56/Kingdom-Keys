@@ -210,4 +210,6 @@ public interface IPlayerCapabilities {
 	void equipWeapon(String registryName);
 	Set<ItemStack> getWeaponsUnlocked();
 	void setWeaponsUnlocked(Set<ItemStack> unlocks);
+	int getLimitCooldownTicks();
+	void setLimitCooldownTicks(int ticks);
 }

@@ -74,6 +74,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
 	private int hearts = 0;
 	private Set<ItemStack> weaponUnlocks = new HashSet<>();
+	private int limitCooldownTicks = 0;
+
 
 	private ItemStack equippedWeapon = ItemStack.EMPTY;
 
@@ -352,7 +354,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxDP(double dp) {
-		this.maxDP = Math.min(this.maxDP + dp, 900);
+		this.maxDP = Math.min(this.maxDP + dp, 1000);
 	}
 
 	@Override
@@ -742,6 +744,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setWeaponsUnlocked(Set<ItemStack> unlocks) {
 		this.weaponUnlocks = unlocks;
 	}
+	
+	@Override
+	public int getLimitCooldownTicks() {
+		return limitCooldownTicks;
+	}
+
+	@Override
+	public void setLimitCooldownTicks(int ticks) {
+		this.limitCooldownTicks = ticks;
+	}
 
 	//endregion
 
@@ -1051,6 +1063,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setSacrificePedestal(BlockPos pos) {
 		sacrificePedestal = pos;
 	}
+
+	
 
 	//endregion
 

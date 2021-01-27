@@ -118,6 +118,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
                 mats.remove(pair.getKey().toString());
         }
         storage.put("materials", mats);
+        storage.putInt("limitCooldownTicks", instance.getLimitCooldownTicks());
 
         return storage;
     }
@@ -203,5 +204,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
             String mat = (String) materialsIt.next();
             instance.getMaterialMap().put(mat.toString(), storage.getCompound("materials").getInt(mat));
         }
+        
+        instance.setLimitCooldownTicks(storage.getInt("limitCooldownTicks"));
     }
 }

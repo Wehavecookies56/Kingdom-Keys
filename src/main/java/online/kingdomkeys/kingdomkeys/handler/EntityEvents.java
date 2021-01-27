@@ -24,6 +24,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -152,68 +153,77 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent event) {
-		if(ticks >= Integer.MAX_VALUE) {
-			ticks = Integer.MIN_VALUE;
-		}
-		ticks++;
-		
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-		if (playerData != null) {
-			//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
-			if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);
-			}
-			
-			if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
-				if (playerData.getFP() > 0) {
-					playerData.setFP(playerData.getFP() - 0.3);
-				} else {
-					playerData.setActiveDriveForm(DriveForm.NONE.toString());
-					event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-					if(!event.player.world.isRemote) {
-						PacketHandler.syncToAllAround(event.player, playerData);
-					}
-				}
-			} else if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-				ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).updateDrive(event.player);
+		if(event.phase == Phase.START) {
+			if(ticks >= Integer.MAX_VALUE) {
+				ticks = Integer.MIN_VALUE;
 			}
 		
-			// MP Recharge system
-			if (playerData.getRecharge()) {
-				if (playerData.getMP() >= playerData.getMaxMP()) { //Has recharged fully
-					playerData.setRecharge(false);
-					playerData.setMP(playerData.getMaxMP());
-				} else { //Still recharging
-					// if (event.player.ticksExisted % 1 == 0)
-					//System.out.println((Utils.getMPHasteValue(playerData)/10) + 1);
-					playerData.addMP(playerData.getMaxMP()/500 * ((Utils.getMPHasteValue(playerData)/10) + 2));
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+			if (playerData != null) {
+				//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
+				if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);
 				}
 				
-				//PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
-
-			} else { // Not on recharge
-				if (playerData.getMP() <= 0 && playerData.getMaxMP() > 0) {
-					playerData.setRecharge(true);
-					if(!event.player.world.isRemote) {
+				if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+					if (playerData.getFP() > 0) {
+						playerData.setFP(playerData.getFP() - 0.3);
+					} else {
+						playerData.setActiveDriveForm(DriveForm.NONE.toString());
+						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						if(!event.player.world.isRemote) {
+							PacketHandler.syncToAllAround(event.player, playerData);
+						}
+					}
+				} else if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+					ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).updateDrive(event.player);
+				}
+			
+				//Limit recharge system
+				if(playerData.getLimitCooldownTicks() > 0 && !event.player.world.isRemote) {
+					playerData.setLimitCooldownTicks(playerData.getLimitCooldownTicks() - 1);
+					if(playerData.getLimitCooldownTicks() <= 0) {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
 					}
 				}
-			}
-
-			if(!event.player.world.isRemote) {
-				if (playerData.getAlignment() == Utils.OrgMember.NONE) {
-					if (!openedAlignment.containsKey(event.player.getUniqueID())) {
-						openedAlignment.put(event.player.getUniqueID(), false);
+				
+				// MP Recharge system
+				if (playerData.getRecharge()) {
+					if (playerData.getMP() >= playerData.getMaxMP()) { //Has recharged fully
+						playerData.setRecharge(false);
+						playerData.setMP(playerData.getMaxMP());
+					} else { //Still recharging
+						// if (event.player.ticksExisted % 1 == 0)
+						//System.out.println((Utils.getMPHasteValue(playerData)/10) + 1);
+						playerData.addMP(playerData.getMaxMP()/500 * ((Utils.getMPHasteValue(playerData)/10) + 2));
 					}
-					boolean wearingOrgCloak = Utils.isWearingOrgRobes(event.player);
-
-					if (wearingOrgCloak) {
-						if (!openedAlignment.get(event.player.getUniqueID())) {
-							PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
-							openedAlignment.put(event.player.getUniqueID(), true);
+					
+					//PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
+	
+				} else { // Not on recharge
+					if (playerData.getMP() <= 0 && playerData.getMaxMP() > 0) {
+						playerData.setRecharge(true);
+						if(!event.player.world.isRemote) {
+							PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
 						}
-					} else {
-						openedAlignment.put(event.player.getUniqueID(), false);
+					}
+				}
+	
+				if(!event.player.world.isRemote) {
+					if (playerData.getAlignment() == Utils.OrgMember.NONE) {
+						if (!openedAlignment.containsKey(event.player.getUniqueID())) {
+							openedAlignment.put(event.player.getUniqueID(), false);
+						}
+						boolean wearingOrgCloak = Utils.isWearingOrgRobes(event.player);
+	
+						if (wearingOrgCloak) {
+							if (!openedAlignment.get(event.player.getUniqueID())) {
+								PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayerEntity) event.player);
+								openedAlignment.put(event.player.getUniqueID(), true);
+							}
+						} else {
+							openedAlignment.put(event.player.getUniqueID(), false);
+						}
 					}
 				}
 			}
@@ -830,6 +840,7 @@ public class EntityEvents {
 		newPlayerData.setAlignment(oldPlayerData.getAlignment());
 		newPlayerData.equipWeapon(oldPlayerData.getEquippedWeapon());
 		newPlayerData.setWeaponsUnlocked(oldPlayerData.getWeaponsUnlocked());
+		newPlayerData.setLimitCooldownTicks(oldPlayerData.getLimitCooldownTicks());
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());

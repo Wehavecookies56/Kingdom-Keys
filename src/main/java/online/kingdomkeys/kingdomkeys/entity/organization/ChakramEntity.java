@@ -49,7 +49,7 @@ public class ChakramEntity extends ThrowableEntity{
 		super(ModEntities.TYPE_CHAKRAM.get(), player, world);
 		setShooter(player);
 		setModel(model);
-		this.dmg = dmg * 0.75F;
+		this.dmg = dmg;
 	}
 
 	@Override
@@ -73,10 +73,9 @@ public class ChakramEntity extends ThrowableEntity{
 		}
 
 		if (ticksExisted > 2)
-			world.addParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			world.addParticle(ParticleTypes.FLAME, getPosX(), getPosY()+0.25, getPosZ(), 0, 0, 0);
 
 		if (returning) {
-		//	this.rotationYaw = (rotation + 1) % 360;
 			List entityTagetList = this.world.getEntitiesWithinAABB(Entity.class, this.getBoundingBox().grow(1.0D, 1.0D, 1.0D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
 				Entity entityTarget = (Entity) entityTagetList.get(i);
@@ -100,7 +99,6 @@ public class ChakramEntity extends ThrowableEntity{
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
 		if (!world.isRemote) {
-
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;
 

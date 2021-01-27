@@ -124,6 +124,7 @@
 	"gui.commandmenu.magic.title": "Magic",
 	"gui.commandmenu.items.title": "Items",
 	"gui.commandmenu.drive.title": "Forms",
+	"gui.commandmenu.limit.title": "Limits",
 
 	"gui.synthesisbag.upgrade": "Upgrade size",
 	"gui.synthesisbag.munny": "Munny",
@@ -211,6 +212,9 @@
 	"ability.ability_fire_boost.desc": "Increases damage done with fire-based attacks.",
 	"ability.ability_blizzard_boost.name": "Blizzard Boost",
 	"ability.ability_blizzard_boost.desc": "Increases damage done with blizzard-based attacks.",
+	
+	"_comment": "Limits",
+	"limit.laser_dome.name": "Laser Dome",
 
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Normal Blox",
