@@ -17,6 +17,7 @@ public class ServerConfig {
     public ForgeConfigSpec.DoubleValue xpMultiplier;
     public ForgeConfigSpec.DoubleValue heartMultiplier;
     public ForgeConfigSpec.DoubleValue partyXPShare;
+   // public ForgeConfigSpec.ConfigValue<List<? extends Integer>> limitLaserDomeCosts;
 
     //public ForgeConfigSpec.DoubleValue valorFormXPMultiplier, wisdomFormXPMultiplier, limitFormXPMultiplier, masterFormXPMultiplier, finalFormXPMultiplier;
 
@@ -57,6 +58,15 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.drive_form_xp_multiplier")
                 .defineList("driveFormXPMultiplier", Lists.newArrayList("Valor,1", "Wisdom,1", "Limit,1", "Master,1", "Final,1"), o -> o instanceof String);
 
+        builder.pop();
+        
+        builder.push("limits");
+
+       /* limitLaserDomeCosts = builder
+                .comment("Laser Dome Costs")
+                .translation(KingdomKeys.MODID + ".config.laser_dome_cost")
+                .defineList("laserDomeCosts",Lists.newArrayList(100,300,500), o -> o instanceof Integer);
+*/
         builder.pop();
     }
 

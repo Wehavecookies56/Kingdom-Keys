@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
+import java.util.List;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,8 +19,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class LimitLaserDome extends Limit {
 
-	public LimitLaserDome(String registryName, int order, int[] levels, OrgMember owner) {
-		super(registryName, order, levels, owner);
+	public LimitLaserDome(String registryName, int order, int[] limitLaserDomeCosts, OrgMember owner) {
+		super(registryName, order, limitLaserDomeCosts, owner);
 	}
 
 	@Override

@@ -209,6 +209,8 @@ public class ModConfigs {
 	    public static double xpMultiplier;
 	    public static double heartMultiplier;
 	    public static double partyXPShare;
+	    //public static List<Integer> limitLaserDomeCosts;
+	    
 
 	    public static void bakeServer() {
 	        recipeDropChance = SERVER.recipeDropChance.get();
@@ -217,6 +219,7 @@ public class ModConfigs {
 	        xpMultiplier = SERVER.xpMultiplier.get();
 	        heartMultiplier = SERVER.heartMultiplier.get();
 	        partyXPShare = SERVER.partyXPShare.get();
+	       // limitLaserDomeCosts = (List<Integer>) SERVER.limitLaserDomeCosts.get();
 	    }
 
 

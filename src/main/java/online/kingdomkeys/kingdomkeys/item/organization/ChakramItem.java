@@ -60,6 +60,12 @@ public class ChakramItem extends OrgWeaponItem implements IOrgWeapon {
 				player.world.addEntity(entity);
 				player.world.playSound(player, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
 				entity.shoot(player, player.rotationPitch, player.rotationYaw, 0, (1F + (dmgMult * 2)), 0);
+				
+				if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
+					player.swingArm(Hand.MAIN_HAND);
+				} else if(player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() == this) {
+					player.swingArm(Hand.OFF_HAND);
+				}
     		}
     	}
     }
