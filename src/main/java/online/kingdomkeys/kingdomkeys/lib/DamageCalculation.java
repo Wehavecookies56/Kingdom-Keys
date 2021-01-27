@@ -72,7 +72,6 @@ public class DamageCalculation {
     public static float getOrgMagicDamage(PlayerEntity player, int level, IOrgWeapon weapon) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
             float damage = 0;
             float finalDamage = 0;
 
@@ -178,25 +177,6 @@ public class DamageCalculation {
 
                 damage = (float) org.getStrength() + playerData.getStrength();
 
-                switch (playerData.getActiveDriveForm()) {
-                    case Strings.Form_Valor:
-                        damage = (float) (damage * 1.5);
-                        break;
-                    case Strings.Form_Limit:
-                        damage = (float) (damage * 1.2);
-                        break;
-                    case Strings.Form_Master:
-                        damage = (float) (damage * 1.5);
-                        break;
-                    case Strings.Form_Final:
-                        damage = (float) (damage * 1.7);
-                        break;
-                }
-
-               /* if (weapon.getItem() instanceof ItemClaymore) {
-                    if (weapon.getItemDamage() == 1)
-                        damage *= 1.25F;
-                }*/
                 finalDamage = damage + getSharpnessDamage(stack); //(float) (damage * MainConfig.items.damageMultiplier);
             }
             return finalDamage;

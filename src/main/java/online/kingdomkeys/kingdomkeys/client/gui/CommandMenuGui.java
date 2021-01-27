@@ -28,6 +28,8 @@ import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.limit.Limit;
+import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -51,11 +53,11 @@ public class CommandMenuGui extends Screen {
 	int iconWidth = 10;
 	int textX = 0;
 
-	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6;
+	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6, SUB_LIMIT = 7;
 
 	public static final int NONE = 0;
 	public static int selected = ATTACK, targetSelected = 0;;
-	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0;
+	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0, limitSelected = 0;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
@@ -80,6 +82,7 @@ public class CommandMenuGui extends Screen {
 	float[] magicMenuColor = { 0.4F, 0F, 1F, SUB_MAGIC };
 	float[] itemsMenuColor = { 0.3F, 1F, 0.3F, SUB_ITEMS };
 	float[] driveMenuColor = { 0F, 1F, 1F, SUB_DRIVE };
+	float[] limitMenuColor = { 1F, 1F, 0F, SUB_LIMIT };
 	float[] targetModeColor = { 0.04F, 0.2F, 1F, SUB_TARGET};
 
 
@@ -131,6 +134,9 @@ public class CommandMenuGui extends Screen {
 				}
 				if (submenu == SUB_DRIVE) {
 					drawSubDrive(width, height);
+				}
+				if (submenu == SUB_LIMIT) {
+					drawSubLimits(width, height);
 				}
 				if (submenu == SUB_TARGET) {
 					drawSubTargetSelector(width, height);
@@ -207,7 +213,28 @@ public class CommandMenuGui extends Screen {
 						color = getColor(0x888888,SUB_MAIN);
 					}
 					if(i == DRIVE) {//If it's an org member / in antiform / has no drive unlocked be gray
-						color = playerData.getAlignment() != OrgMember.NONE || playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1 ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+						color = 0x888888;
+						if(playerData.getAlignment() != OrgMember.NONE) {
+							Limit limit = null;
+					        for(Limit val : ModLimits.registry.getValues()) {
+					        	if(val.getOwner() == playerData.getAlignment()) {
+					        		limit = val;
+					        		break;
+					        	}
+					        }
+
+							if(limit != null) {
+								if(playerData.getDP() >= limit.getLevels().get(0)) {
+									color = getColor(0xFFFFFF,SUB_MAIN);
+								}
+							}
+						} else {
+							if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1) {
+								color = 0x888888;
+							} else {
+								color = getColor(0xFFFFFF,SUB_MAIN);
+							}
+						}
 					}
 					
 					drawString(minecraft.fontRenderer, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, color);
@@ -537,6 +564,65 @@ public class CommandMenuGui extends Screen {
 					}
 					RenderSystem.popMatrix();
 				}
+			}
+		}
+		RenderSystem.disableBlend();
+	}
+	
+	private void drawSubLimits(int width, int height) {
+		RenderSystem.enableBlend();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		Limit limit = null;
+		for(Limit val : ModLimits.registry.getValues()) {
+        	if(val.getOwner() == playerData.getAlignment()) {
+        		limit = val;
+        	}
+        }		
+		
+		if (playerData != null && limit != null && !limit.getLevels().isEmpty()) {
+			// Limit TOP
+			double x = 10 * ModConfigs.cmSubXOffset / 100D;
+			RenderSystem.pushMatrix();
+			{
+				minecraft.textureManager.bindTexture(texture);
+				RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() + 1)), 0);
+				RenderSystem.scalef(scale, scale, scale);
+				paintWithColorArray(limitMenuColor, alpha);
+				drawHeader("Limit", SUB_LIMIT);
+			}
+			RenderSystem.popMatrix();
+			
+			for (int i = 0; i < limit.getLevels().size(); i++) {
+				RenderSystem.pushMatrix();
+				{
+					RenderSystem.color4f(1F, 1F, 1F, alpha);
+
+					minecraft.textureManager.bindTexture(texture);
+					RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() - i)), 0);
+					RenderSystem.scalef(scale, scale, scale);
+
+					paintWithColorArray(limitMenuColor, alpha);
+					if (limitSelected == i) {
+						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawSelectedSlot();
+
+						RenderSystem.color4f(1F, 1F, 1F, alpha);
+						drawIcon(selected, SUB_LIMIT);
+					} else { // Not selected
+						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawUnselectedSlot();
+					}
+
+					int limitCost = limit.getLevels().get(i);
+					int colour = playerData.getDP() >= limitCost ? 0xFFFFFF : 0x888888;
+
+					String name = limit.getTranslationKey();
+
+					drawString(minecraft.fontRenderer, Utils.translateToLocal(name)+" ("+limitCost+")", textX, 4, getColor(colour, SUB_LIMIT));
+					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+				}
+				RenderSystem.popMatrix();
 			}
 		}
 		RenderSystem.disableBlend();

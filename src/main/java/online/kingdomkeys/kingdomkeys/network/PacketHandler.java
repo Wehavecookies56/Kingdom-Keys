@@ -42,6 +42,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
@@ -121,6 +122,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSetAlignment.class, CSSetAlignment::encode, CSSetAlignment::decode, CSSetAlignment::handle);
 		HANDLER.registerMessage(packetID++, CSUnlockEquipOrgWeapon.class, CSUnlockEquipOrgWeapon::encode, CSUnlockEquipOrgWeapon::decode, CSUnlockEquipOrgWeapon::handle);
 		HANDLER.registerMessage(packetID++, CSSetOrgPortalName.class, CSSetOrgPortalName::encode, CSSetOrgPortalName::decode, CSSetOrgPortalName::handle);
+		HANDLER.registerMessage(packetID++, CSUseLimitPacket.class, CSUseLimitPacket::encode, CSUseLimitPacket::decode, CSUseLimitPacket::handle);
+
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

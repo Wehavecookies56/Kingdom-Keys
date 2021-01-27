@@ -41,6 +41,10 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 	Set<Integer> usedIndexes = new HashSet<Integer>();
 	float dmg;
 	
+	float radius;
+	int space;
+	int shotsPerTick;
+	
 	public LaserDomeCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -55,11 +59,14 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public LaserDomeCoreEntity(World world, PlayerEntity player, LivingEntity target, float dmg) {
+	public LaserDomeCoreEntity(World world, PlayerEntity player, LivingEntity target, float dmg, int size) {
 		super(ModEntities.TYPE_LASER_DOME.get(), player, world);
 		setCaster(player.getUniqueID());
 		setTarget(target.getUniqueID());
+		setTier(size);
 		this.dmg = dmg;
+		
+		
 	}
 
 	@Override
@@ -74,10 +81,30 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 
 	@Override
 	public void tick() {
-		int r = 13;
 
 		if (this.ticksExisted > maxTicks || getCaster() == null) {
 			this.remove();
+		}
+		
+		switch(getTier()){
+		case 0:
+			this.radius = 7;
+			this.space = 16;
+			this.shotsPerTick = 1;
+			this.maxTicks = 120;
+			break;
+		case 1:
+			this.radius = 10;
+			this.space = 14;
+			this.shotsPerTick = 2;
+			this.maxTicks = 180;
+			break;
+		case 2:
+			this.radius = 13;
+			this.space = 11;
+			this.shotsPerTick = 3;
+			this.maxTicks = 240;
+			break;
 		}
 
 		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
@@ -89,10 +116,10 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 			double Z = getPosZ();
 
 			double t = ticksExisted * 5;  
-			for(int s = 1; s < 360; s+=12) {
-				double x = X + (r * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double z = Z + (r * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double y = Y + (r * Math.cos(Math.toRadians(t)));
+			for(int s = 1; s < 360; s+=space) {
+				double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double y = Y + (radius * Math.cos(Math.toRadians(t)));
 				if(getCaster() != null) {
 					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg);
 					Vec3d vec3d = new Vec3d(getPosX(), getPosY(), getPosZ()).normalize();
@@ -102,6 +129,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 					float yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (double) (180F / (float) Math.PI));
 					float pitch = (float) (MathHelper.atan2(vec3d.y, (double) f) * (double) (180F / (float) Math.PI));
 					bullet.setPositionAndRotation(x, y, z, yaw, pitch);
+					bullet.setMaxTicks(maxTicks-20);
 					list.add(bullet);
 					world.addEntity(bullet);
 				}
@@ -112,7 +140,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 
 			
 		} else if(ticksExisted == 40) { // Get all targets right before starting to shoot
-			List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(r,r,r));
+			List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius,radius,radius));
 			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
 
 			if(casterParty != null) {
@@ -131,7 +159,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 			}
 
 		} else if(ticksExisted > 40 && !targetList.isEmpty()) {
-			for(int i = 0; i < 2; i++) {
+			for(int i = 0; i < shotsPerTick; i++) {
 				int num;
 				do {
 					num = rand.nextInt(list.size());
@@ -173,6 +201,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		if (this.dataManager.get(OWNER) != null) {
 			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
 			compound.putString("TargetUUID", this.dataManager.get(TARGET).get().toString());
+			compound.putInt("Tier", this.dataManager.get(TIER));
 		}
 	}
 
@@ -181,10 +210,12 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		super.readAdditional(compound);
 		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 		this.dataManager.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
+		this.dataManager.set(TIER, compound.getInt("Tier"));
 	}
 	
 	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(LaserDomeCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 	private static final DataParameter<Optional<UUID>> TARGET = EntityDataManager.createKey(LaserDomeCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Integer> TIER = EntityDataManager.createKey(LaserDomeCoreEntity.class, DataSerializers.VARINT);
 	
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
@@ -201,10 +232,19 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 	public void setTarget(UUID uuid) {
 		this.dataManager.set(TARGET, Optional.of(uuid));
 	}
+	
+	public int getTier() {
+		return this.dataManager.get(TIER);
+	}
 
+	public void setTier(int tier) {
+		this.dataManager.set(TIER, tier);
+	}
+	
 	@Override
 	protected void registerData() {
 		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
 		this.dataManager.register(TARGET, Optional.of(new UUID(0L, 0L)));
+		this.dataManager.register(TIER, 0);
 	}
 }

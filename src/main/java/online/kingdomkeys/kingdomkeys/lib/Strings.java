@@ -28,6 +28,11 @@ public class Strings {
     public static final String
     		DF_Prefix = "form_";
     
+ // Limits
+    public static final String
+    		LM_Prefix = "limit_",
+    		LaserDome = "laser_dome";
+    
     //Abilities
     public static final String
     		AB_Prefix = "ability_",
