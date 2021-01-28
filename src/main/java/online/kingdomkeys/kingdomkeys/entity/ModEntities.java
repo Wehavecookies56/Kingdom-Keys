@@ -66,6 +66,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ArrowgunShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ChakramEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.FireRingCoreEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRenderer;
@@ -106,6 +107,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.StormBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.FireRingCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
@@ -187,6 +189,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, LaserDomeCoreEntity::new, EntityClassification.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
 
+    public static final RegistryObject<EntityType<FireRingCoreEntity>> TYPE_FIRE_RING = createEntityType(FireRingCoreEntity::new, FireRingCoreEntity::new, EntityClassification.MISC,"entity_fire_ring_core", 0.5F, 0.5F);
+   // public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_FIRE_CHAKRAM = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_fire_chakram", 0.5F, 0.5F);
     
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -309,6 +313,8 @@ public class ModEntities {
 
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
+        
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE_RING.get(), FireRingCoreEntityRenderer.FACTORY);
 
         //Tile Entities
         

@@ -11,6 +11,8 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -22,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
@@ -35,9 +36,7 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -47,13 +46,16 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.CommonConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.entity.*;
+import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
+import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -70,11 +72,11 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSoA;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -320,12 +322,6 @@ public class EntityEvents {
 				if(shouldHandleHighJump(player, playerData)) {
 					handleHighJump(player, playerData);
 				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-					//handleQuickRun(player, playerData);
-				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
-					//handleDodgeRoll(player, playerData);
-				}
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
 					handleAerialDodge(player, playerData);
 				}
@@ -488,6 +484,7 @@ public class EntityEvents {
 						if (playerData.getIsGliding()) {
 							playerData.setIsGliding(false);
 							PacketHandler.sendToServer(new CSSetGlidingPacket(false));
+							//player.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.5D);
 						}
 					}
 				} else { // If touches the ground
@@ -505,22 +502,18 @@ public class EntityEvents {
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			Vec3d motion = player.getMotion();
 			player.setMotion(motion.x, glide, motion.z);
+			//player.getAttribute(SharedMonsterAttributes.FLYING_SPEED).applyModifier(new AttributeModifier("generic.flyingSpeed", 2.0D, Operation.MULTIPLY_TOTAL));
 		}
 	}
 	
 	@SubscribeEvent
 	public void entityPickup(EntityItemPickupEvent event) {
 		if(event.getPlayer().inventory.hasItemStack(new ItemStack(ModItems.synthesisBag.get()))) {
-			if(event.getItem().getItem() != null && event.getItem().getItem().getItem() instanceof SynthesisItem) {
-				//ItemStack stack = event.getItem().getItem();
-				//System.out.println("Pickup: "+stack.getDisplayName().getFormattedText()+" x"+stack.getCount());
-				//event.setCanceled(true);
-				
+			if(event.getItem().getItem() != null && event.getItem().getItem().getItem() instanceof SynthesisItem) {				
 				for (int i = 0; i < event.getPlayer().inventory.getSizeInventory(); i++) {
 					ItemStack bag = event.getPlayer().inventory.getStackInSlot(i);
 					if (!ItemStack.areItemStacksEqual(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.synthesisBag.get()) {
-						//	System.out.println("Found bag");
 							IItemHandler inv = bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
 							addSynthesisMaterialToBag(inv, event, bag);
 						}
@@ -758,7 +751,7 @@ public class EntityEvents {
 					entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, Utils.randomWithRange(5, 15)));
 					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
 					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
-					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 2, entity.getMaxHealth() / 1.2)));
+					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() * 0.3F, entity.getMaxHealth() * 0.5F)));
 					
 					int num = Utils.randomWithRange(0, 99);
 
