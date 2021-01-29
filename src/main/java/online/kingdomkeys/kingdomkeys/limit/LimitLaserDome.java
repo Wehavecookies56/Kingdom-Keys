@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
-import java.util.List;
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -26,7 +24,7 @@ public class LimitLaserDome extends Limit {
 	@Override
 	public void onUse(PlayerEntity player, LivingEntity target, int size) {
 		ItemStack stack = player.getHeldItemMainhand();
-		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.PLAYERS, 1F, 1F);
+		player.world.playSound(null, player.getPosition(), ModSounds.portal.get(), SoundCategory.PLAYERS, 1F, 1F);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {

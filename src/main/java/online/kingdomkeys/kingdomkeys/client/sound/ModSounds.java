@@ -37,6 +37,8 @@ public class ModSounds {
             arrowgunReload = registerSound("arrowgunreload"),
             summon = registerSound("summon"),
             unsummon = registerSound("unsummon"),
+            portal = registerSound("portal"),
+            laser = registerSound("laser"),
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records.birth_by_sleep_a_link_to_the_future"),
             Record_Darkness_of_the_Unknown = registerSound("records.darkness_of_the_unknown"),

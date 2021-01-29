@@ -529,7 +529,6 @@ public class InputHandler {
 
 		if (player.isSneaking()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
-			player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 		} else {
 			RayTraceResult rtr = InputHandler.getMouseOverExtended(100);
 			if (rtr != null && rtr instanceof BlockRayTraceResult) {
@@ -538,9 +537,7 @@ public class InputHandler {
 				double reachSq = 100 * 100;
 				if (reachSq >= distanceSq) {
 					PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getPos().up(), destination, coords.getDimID()));
-					player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				}
-
 			}
 		}
 	}

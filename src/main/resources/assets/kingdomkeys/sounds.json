@@ -74,6 +74,20 @@
 			{"name": "kingdomkeys:munny", "stream": false }
 		]
 	},
+	
+	"laser": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:laser", "stream": false }
+		]
+	},
+	
+	"portal": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:portal", "stream": false }
+		]
+	},
 
 	"records.dream_drop_distance_the_next_awakening": {
 		"category": "record",
