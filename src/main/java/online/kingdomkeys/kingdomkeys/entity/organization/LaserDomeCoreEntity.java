@@ -21,14 +21,13 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -41,6 +40,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 	Set<Integer> usedIndexes = new HashSet<Integer>();
 	float dmg;
 	
+	double dmgMult;
 	float radius;
 	int space;
 	int shotsPerTick;
@@ -65,8 +65,6 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		setTarget(target.getUniqueID());
 		setTier(size);
 		this.dmg = dmg;
-		
-		
 	}
 
 	@Override
@@ -81,7 +79,6 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 
 	@Override
 	public void tick() {
-
 		if (this.ticksExisted > maxTicks || getCaster() == null) {
 			this.remove();
 		}
@@ -106,6 +103,8 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 			this.maxTicks = 240;
 			break;
 		}
+		this.dmgMult = ModConfigs.limitLaserDomeMult.get(getTier());
+
 
 		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
@@ -121,13 +120,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 				double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 				double y = Y + (radius * Math.cos(Math.toRadians(t)));
 				if(getCaster() != null) {
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg);
-					/*Vec3d vec3d = new Vec3d(getPosX(), getPosY(), getPosZ()).normalize();
-					float f = MathHelper.sqrt(horizontalMag(vec3d));
-					float yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z));
-					float pitch = (float) (MathHelper.atan2(Math.sqrt(vec3d.z * vec3d.z + vec3d.x * vec3d.x),Math.PI));
-					float yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (double) (180F / (float) Math.PI));
-					float pitch = (float) (MathHelper.atan2(vec3d.y, (double) f) * (double) (180F / (float) Math.PI));*/
+					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
 					bullet.setPosition(x, y, z);
 					bullet.setMaxTicks(maxTicks-20);
 					bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
@@ -154,7 +147,6 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 					num = rand.nextInt(list.size());
 				} while(usedIndexes.contains(num) && usedIndexes.size() != list.size());
 				usedIndexes.add(num);
-				//System.out.println(usedIndexes.size() +" "+ list.size());
 				
 				Entity target = this;
 				int targetIndex = rand.nextInt(targetList.size());
@@ -164,7 +156,6 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 					LaserDomeShotEntity bullet = list.get(num);
 					bullet.shoot(target.getPosX() - bullet.getPosX(), target.getPosY() - bullet.getPosY(), target.getPosZ() - bullet.getPosZ(), 2f, 0);
 					world.playSound(getCaster(), getCaster().getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 1F);
-
 				}
 			}
 		}

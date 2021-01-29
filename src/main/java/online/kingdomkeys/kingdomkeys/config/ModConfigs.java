@@ -194,6 +194,8 @@ public class ModConfigs {
 
 	    public static SpawningMode heartlessSpawningMode;
 	    public static List<String> mobSpawnRate;
+	   // public static List<Integer> limitLaserDomeCosts;
+	    public static List<Double> limitLaserDomeMult;
 
 	    public static void bakeCommon() {
 	        heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -201,6 +203,8 @@ public class ModConfigs {
 	        bloxGen = COMMON.bloxGen.get();
 	        debugConsoleOutput = COMMON.debugConsoleOutput.get();
 	        mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
+	        //limitLaserDomeCosts = (List<Integer>) COMMON.limitLaserDomeCosts.get();
+	        limitLaserDomeMult = (List<Double>) COMMON.limitLaserDomeMult.get();
 	    }
 
 	    public static int recipeDropChance;
@@ -209,8 +213,6 @@ public class ModConfigs {
 	    public static double xpMultiplier;
 	    public static double heartMultiplier;
 	    public static double partyXPShare;
-	    //public static List<Integer> limitLaserDomeCosts;
-	    
 
 	    public static void bakeServer() {
 	        recipeDropChance = SERVER.recipeDropChance.get();
@@ -219,7 +221,6 @@ public class ModConfigs {
 	        xpMultiplier = SERVER.xpMultiplier.get();
 	        heartMultiplier = SERVER.heartMultiplier.get();
 	        partyXPShare = SERVER.partyXPShare.get();
-	       // limitLaserDomeCosts = (List<Integer>) SERVER.limitLaserDomeCosts.get();
 	    }
 
 

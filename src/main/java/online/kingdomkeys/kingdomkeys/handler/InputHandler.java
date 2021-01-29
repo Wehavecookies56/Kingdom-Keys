@@ -871,13 +871,15 @@ public class InputHandler {
         Minecraft mc = Minecraft.getInstance();
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
         IWorldCapabilities worldData = ModCapabilities.getWorld(mc.world);
-        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
-        this.driveFormsMap.remove(DriveForm.NONE.toString());
-        this.magicsList = playerData.getMagicList();
-        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
-		this.limit = Utils.getPlayerLimitAttack(mc.player);
-        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
-        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+        if(playerData != null && worldData != null) {
+	        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
+	        this.driveFormsMap.remove(DriveForm.NONE.toString());
+	        this.magicsList = playerData.getMagicList();
+	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
+			this.limit = Utils.getPlayerLimitAttack(mc.player);
+	        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
+	        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+	        }
         }
     }
 }

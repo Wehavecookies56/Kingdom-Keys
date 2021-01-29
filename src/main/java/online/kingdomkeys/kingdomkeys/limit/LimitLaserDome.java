@@ -30,13 +30,13 @@ public class LimitLaserDome extends Limit {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
-			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, 1, (IOrgWeapon) stack.getItem())) / 2 * 0.15F;
+			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, 1, (IOrgWeapon) stack.getItem())) / 2;
 		} else {
-			damage = (playerData.getStrength() + playerData.getMagic()) / 2 * 0.15F;
+			damage = (playerData.getStrength() + playerData.getMagic()) / 2;
 		}
 
 		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.world, player, target, damage, size);
-		dome.setPosition(target.getPosition().getX(), target.getPosition().getY(), target.getPosition().getZ());
+		dome.setPosition(target.getPosX(), target.getPosY(), target.getPosZ());
 		player.world.addEntity(dome);
 	}
 }

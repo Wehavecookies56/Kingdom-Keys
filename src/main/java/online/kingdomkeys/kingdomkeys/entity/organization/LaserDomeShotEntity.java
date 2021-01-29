@@ -38,9 +38,9 @@ public class LaserDomeShotEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public LaserDomeShotEntity(World world, LivingEntity player, float dmg) {
+	public LaserDomeShotEntity(World world, LivingEntity player, double dmg) {
 		super(ModEntities.TYPE_LASER_SHOT.get(), player, world);
-		this.dmg = dmg;
+		this.dmg = (float)dmg;
 	}
 
 	@Override
@@ -84,6 +84,7 @@ public class LaserDomeShotEntity extends ThrowableEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getThrower()) {
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+					System.out.println(dmg);
 					remove();
 				}
 			}
