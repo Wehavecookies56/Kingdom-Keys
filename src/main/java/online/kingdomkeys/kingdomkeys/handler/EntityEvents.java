@@ -683,7 +683,9 @@ public class EntityEvents {
 
 		if (event.getEntityLiving() instanceof EnderDragonEntity) {
 			LivingEntity entity = event.getEntityLiving();
-			entity.world.addEntity(new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+			for(PlayerEntity p : entity.world.getPlayers()) {
+				entity.world.addEntity(new ItemEntity(entity.world, p.getPosX(), p.getPosY(), p.getPosZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+			}
 		}
 
 		if (!event.getEntity().world.isRemote) {
@@ -798,6 +800,7 @@ public class EntityEvents {
 		newPlayerData.setMagic(oldPlayerData.getMagic());
 		newPlayerData.setDefense(oldPlayerData.getDefense());
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
+		newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
 		newPlayerData.setDP(oldPlayerData.getDP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
