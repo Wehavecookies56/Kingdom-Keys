@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -15,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
 public class PlayerPortraitGui extends Screen {
@@ -52,6 +55,10 @@ public class PlayerPortraitGui extends Screen {
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 					RenderSystem.color4f(0.3F, 0.3F, 0.3F, 1F);
 				}
+				
+				if(Utils.isPlayerLowHP(minecraft.player)) {
+					RenderSystem.color4f(1F, 0.5F, 0.5F, 1F);
+				}
 
 				RenderSystem.pushMatrix();
 				{
@@ -74,21 +81,23 @@ public class PlayerPortraitGui extends Screen {
 					RenderSystem.popMatrix();
 
 					// HAT
-					int hatWidth = 32;
-					int hatHeight = 32;
-					float hatPosX = 16;
-					float hatPosY = 32;
-					float scaledHatPosX = hatPosX * scale;
-					float scaledHatPosY = hatPosY * scale;
-
-					RenderSystem.pushMatrix();
-					{
-						RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 160, 32, hatWidth, hatHeight);
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.HAT)){
+						int hatWidth = 32;
+						int hatHeight = 32;
+						float hatPosX = 16;
+						float hatPosY = 32;
+						float scaledHatPosX = hatPosX * scale;
+						float scaledHatPosY = hatPosY * scale;
+	
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+							RenderSystem.scalef(scale, scale, scale);
+							//minecraft.gameSettings.
+							this.blit(0, 0, 160, 32, hatWidth, hatHeight);
+						}
+						RenderSystem.popMatrix();
 					}
-					RenderSystem.popMatrix();
-
 					// BODY
 					int bodyWidth = 32;
 					int bodyHeight = 64;
@@ -106,21 +115,19 @@ public class PlayerPortraitGui extends Screen {
 					RenderSystem.popMatrix();
 
 					// JACKET
-					int jacketWidth = 32;
-					int jacketHeight = 64;
-					float jacketPosX = 16;
-					float jacketPosY = -32;
-					float scaledjacketPosX = jacketPosX * scale;
-					float scaledjacketPosY = jacketPosY * scale;
-
-					RenderSystem.pushMatrix();
-					{
-						RenderSystem.translatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 80, 148, bodyWidth, bodyHeight);
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.JACKET)){
+						float jacketPosX = 16;
+						float jacketPosY = -32;
+	
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
+							RenderSystem.scalef(scale, scale, scale);
+							this.blit(0, 0, 80, 148, bodyWidth, bodyHeight);
+						}
+						RenderSystem.popMatrix();
 					}
-					RenderSystem.popMatrix();
-
+					
 					// ARMS
 					int armWidth = 16;
 					int armHeight = 64;
@@ -162,22 +169,25 @@ public class PlayerPortraitGui extends Screen {
 					float scaledgloveLPosX = gloveLPosX * scale;
 					float scaledgloveLPosY = gloveLPosY * scale;
 
-					RenderSystem.pushMatrix();
-					{
-						RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.RIGHT_SLEEVE)){
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
+							RenderSystem.scalef(scale, scale, scale);
+							this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
+						}
+						RenderSystem.popMatrix();
 					}
-					RenderSystem.popMatrix();
-
-					RenderSystem.pushMatrix();
-					{
-						RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
-						RenderSystem.scalef(scale, scale, scale);
-						this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
+					
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.LEFT_SLEEVE)){
+						RenderSystem.pushMatrix();
+						{
+							RenderSystem.translatef((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
+							RenderSystem.scalef(scale, scale, scale);
+							this.blit(0, 0, 176, 150, gloveWidth, gloveHeight);
+						}
+						RenderSystem.popMatrix();
 					}
-					RenderSystem.popMatrix();
-
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
 					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {

@@ -73,12 +73,7 @@ public class AssassinGoal extends TargetGoal {
 	
 					}
 				}
-	
-				
-	
-				//EntityHelper.Dir dir = EntityHelper.get8Directions(this.goalOwner);
-				//int currentAi = this.goalOwner.world.rand.nextInt(2);
-	
+		
 				if (!canUseNextAttack) {
 					ticksUntilNextAttack--;
 					if (ticksUntilNextAttack <= 0) {
@@ -87,19 +82,6 @@ public class AssassinGoal extends TargetGoal {
 					}
 				}
 	
-				
-				/*if (oldAi != -1 && canUseNextAttack) {
-					if (currentAi == 0 && oldAi == 0)
-						currentAi = 1;
-					if (currentAi == 1 && oldAi == 1)
-						currentAi = 0;
-				}
-	
-				switch(currentAi) {
-				case 0:
-					
-					break;
-				}*/
 			}
 
 			return true;

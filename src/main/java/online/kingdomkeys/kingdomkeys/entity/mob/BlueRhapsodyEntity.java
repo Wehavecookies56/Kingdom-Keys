@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -61,18 +61,17 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         return super.attackEntityFrom(source, amount * multiplier);
     }
 
-    class BlueRhapsodyGoal extends Goal {
-        private BlueRhapsodyEntity theEntity;
+    class BlueRhapsodyGoal extends TargetGoal {
         private boolean canUseAttack = true;
         private int attackTimer = 5, whileAttackTimer;
 
         public BlueRhapsodyGoal(BlueRhapsodyEntity e) {
-            this.theEntity = e;
+        	super(e, true);
         }
 
         @Override
         public boolean shouldExecute() {
-            if (theEntity.getAttackTarget() != null) {
+            if (goalOwner.getAttackTarget() != null) {
                 if (!canUseAttack) {
                     if (attackTimer > 0) {
                         attackTimer--;
@@ -96,44 +95,44 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         public void startExecuting() {
             canUseAttack = true;
             attackTimer = 20 + world.rand.nextInt(5);
-            EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+            EntityHelper.setState(goalOwner, 0);
+            this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
         }
 
         @Override
         public void tick() {
-            if (theEntity.getAttackTarget() != null && canUseAttack) {
+            if (goalOwner.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                LivingEntity target = this.theEntity.getAttackTarget();
+                LivingEntity target = this.goalOwner.getAttackTarget();
 
-                if (EntityHelper.getState(theEntity) == 0) {
-                    this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
+                if (EntityHelper.getState(goalOwner) == 0) {
+                    this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
 
                     if (world.rand.nextInt(100) + world.rand.nextDouble() <= 75) {
-                        EntityHelper.setState(this.theEntity, 1);
+                        EntityHelper.setState(this.goalOwner, 1);
 
-                        this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
-                        this.theEntity.getLookController().setLookPositionWithEntity(target, 0F, 0F);
+                        this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                        this.goalOwner.getLookController().setLookPositionWithEntity(target, 0F, 0F);
 
-                        double d0 = this.theEntity.getDistanceSq(this.theEntity.getAttackTarget());
+                        double d0 = this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget());
                         float f = MathHelper.sqrt(MathHelper.sqrt(d0));
-                        double d1 = this.theEntity.getAttackTarget().getPosX() - this.theEntity.getPosX();
-                        double d2 = this.theEntity.getAttackTarget().getBoundingBox().minY + (double) (this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double) (this.theEntity.getHeight() / 2.0F));
-                        double d3 = this.theEntity.getAttackTarget().getPosZ() - this.theEntity.getPosZ();
-                        BlizzardEntity esfb = new BlizzardEntity(this.theEntity.world);
+                        double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
+                        double d2 = this.goalOwner.getAttackTarget().getBoundingBox().minY + (double) (this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F));
+                        double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
+                        BlizzardEntity esfb = new BlizzardEntity(this.goalOwner.world, goalOwner);
                         esfb.shoot(d1, d2, d3, 1, 0);
-                        esfb.setPosition(esfb.getPosX(), this.theEntity.getPosY() + (double) (this.theEntity.getHeight() / 2.0F) + 0.5D, esfb.getPosZ());
-                        this.theEntity.world.addEntity(esfb);
+                        esfb.setPosition(esfb.getPosX(), this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F) + 0.5D, esfb.getPosZ());
+                        this.goalOwner.world.addEntity(esfb);
                     }
                     else {
-                        if (theEntity.getDistance(theEntity.getAttackTarget()) < 8) {
-                            EntityHelper.setState(this.theEntity, 2);
+                        if (goalOwner.getDistance(goalOwner.getAttackTarget()) < 8) {
+                            EntityHelper.setState(this.goalOwner, 2);
 
-                            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                            this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
-                            for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
-                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
+                            for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.goalOwner, 4))
+                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.goalOwner), 4);
                         }
                         else
                             return;
@@ -141,15 +140,15 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
 
                 }
 
-                if (EntityHelper.getState(theEntity) == 2 && whileAttackTimer > 20) {
+                if (EntityHelper.getState(goalOwner) == 2 && whileAttackTimer > 20) {
                     canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    EntityHelper.setState(goalOwner, 0);
+                    this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
-                else if (EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 50) {
+                else if (EntityHelper.getState(goalOwner) == 1 && whileAttackTimer > 50) {
                     canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    EntityHelper.setState(goalOwner, 0);
+                    this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
             }
         }

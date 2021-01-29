@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 
 public class BlizzardEntity extends ThrowableEntity {
 
@@ -40,7 +41,7 @@ public class BlizzardEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public BlizzardEntity(World world, PlayerEntity player) {
+	public BlizzardEntity(World world, LivingEntity player) {
 		super(ModEntities.TYPE_BLIZZARD.get(), player, world);
 	}
 
@@ -91,27 +92,19 @@ public class BlizzardEntity extends ThrowableEntity {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
+
 				if (target != getThrower()) {
-					float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
-					//System.out.println(dmg);
-					remove();
-				}
-			} else { // Block (not ERTR)
-
-				if (brtResult != null && rtRes.getType() == Type.BLOCK) {
-					BlockPos hitPos = brtResult.getPos();
-					//System.out.println(world.getBlockState(hitPos).getBlockState());
-					if (world.getBlockState(hitPos).getBlockState() == Blocks.WATER.getDefaultState()) {
-						System.out.println("water");
+					Party p = null;
+					if (getThrower() != null) {
+						p = ModCapabilities.getWorld(getThrower().world).getPartyFromMember(getThrower().getUniqueID());
 					}
-				} else {
-					// world.playSound(null, getPosition(), ModSounds.fistBounce,
-					// SoundCategory.MASTER, 1F, 1F);
+					if (p == null || p.getMember(target.getUniqueID()) == null) {
+						float dmg = this.getThrower() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getThrower(), 1) : 2;
+						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg);
+					}
 				}
-
-				remove();
 			}
+			remove();
 		}
 
 	}

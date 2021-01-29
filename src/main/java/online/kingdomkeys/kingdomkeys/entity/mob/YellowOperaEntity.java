@@ -1,15 +1,14 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -21,160 +20,156 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
+	public YellowOperaEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
+		super(type, worldIn);
+	}
 
-    public YellowOperaEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
-        super(type, worldIn);
-    }
+	public YellowOperaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_YELLOW_OPERA.get(), spawnEntity, world);
+	}
 
-    public YellowOperaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-        super(ModEntities.TYPE_YELLOW_OPERA.get(), spawnEntity, world);
-    }
+	@Override
+	protected Goal goalToUse() {
+		return new YellowOperaGoal(this);
+	}
 
-    @Override
-    protected Goal goalToUse() {
-        return new YellowOperaGoal(this);
-    }
+	@Override
+	protected double getMaxHP() {
+		return 40.0D;
+	}
 
-    @Override
-    protected double getMaxHP() {
-        return 40.0D;
-    }
+	@Override
+	public Element getElementToUse() {
+		return Element.THUNDER;
+	}
 
-    @Override
-    public Element getElementToUse() {
-        return Element.THUNDER;
-    }
+	@OnlyIn(Dist.CLIENT)
+	@Override
+	public ResourceLocation getTexture() {
+		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/yellow_opera.png");
+	}
 
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public ResourceLocation getTexture() {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/yellow_opera.png");
-    }
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		float multiplier = 1;
+		// TODO elemental weakness, aero
+		// if(!this.world.isRemote) {
+		// if(source.getImmediateSource() instanceof )
+		// multiplier = 2;
+		// }
+		return super.attackEntityFrom(source, amount * multiplier);
+	}
 
-    @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        float multiplier = 1;
-        //TODO elemental weakness, aero
-        //if(!this.world.isRemote) {
-            //if(source.getImmediateSource() instanceof )
-                //multiplier = 2;
-        //}
-        return super.attackEntityFrom(source, amount * multiplier);
-    }
+	class YellowOperaGoal extends TargetGoal {
+		private boolean canUseAttack = true;
+		private int attackTimer = 5, whileAttackTimer;
+		private float initialHealth;
 
-    class YellowOperaGoal extends Goal {
-        private YellowOperaEntity theEntity;
-        private boolean canUseAttack = true;
-        private int attackTimer = 5, whileAttackTimer;
-        private float initialHealth;
+		public YellowOperaGoal(YellowOperaEntity e) {
+			super(e, true);
+		}
 
-        public YellowOperaGoal(YellowOperaEntity e) {
-            this.theEntity = e;
-        }
+		@Override
+		public boolean shouldExecute() {
+			if (goalOwner.getAttackTarget() != null) {
+				if (!canUseAttack) {
+					if (attackTimer > 0) {
+						attackTimer--;
+						return false;
+					} else
+						return true;
+				} else
+					return true;
+			} else
+				return false;
+		}
 
-        @Override
-        public boolean shouldExecute() {
-            if (theEntity.getAttackTarget() != null) {
-                if (!canUseAttack) {
-                    if (attackTimer > 0) {
-                        attackTimer--;
-                        return false;
-                    } else
-                        return true;
-                } else
-                    return true;
-            } else
-                return false;
-        }
+		@Override
+		public boolean shouldContinueExecuting() {
+			boolean flag = canUseAttack;
 
-        @Override
-        public boolean shouldContinueExecuting() {
-            boolean flag = canUseAttack;
+			return flag;
+		}
 
-            return flag;
-        }
+		@Override
+		public void startExecuting() {
+			canUseAttack = true;
+			attackTimer = 25 + world.rand.nextInt(5);
+			EntityHelper.setState(goalOwner, 0);
+			this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+			whileAttackTimer = 0;
+			initialHealth = goalOwner.getHealth();
+		}
 
-        @Override
-        public void startExecuting() {
-            canUseAttack = true;
-            attackTimer = 25 + world.rand.nextInt(5);
-            EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
-            whileAttackTimer = 0;
-            initialHealth = theEntity.getHealth();
-        }
+		@Override
+		public void tick() {
+			if (goalOwner.getAttackTarget() != null && canUseAttack) {
+				whileAttackTimer++;
+				LivingEntity target = this.goalOwner.getAttackTarget();
 
-        @Override
-        public void tick() {
-            if (theEntity.getAttackTarget() != null && canUseAttack) {
-                whileAttackTimer++;
-                LivingEntity target = this.theEntity.getAttackTarget();
+				if (EntityHelper.getState(goalOwner) == 0) {
+					this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
 
-                if (EntityHelper.getState(theEntity) == 0) {
-                    this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
+					if (world.rand.nextInt(100) + world.rand.nextDouble() <= 45 && this.goalOwner.getDistance(target) < 10) {
+						EntityHelper.setState(this.goalOwner, 1);
 
-                    if (world.rand.nextInt(100) + world.rand.nextDouble() <= 45 && this.theEntity.getDistance(target) < 10) {
-                        EntityHelper.setState(this.theEntity, 1);
+						this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+						this.goalOwner.getLookController().setLookPositionWithEntity(target, 0F, 0F);
+						if (!world.isRemote) {
 
-                        this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
-                        this.theEntity.getLookController().setLookPositionWithEntity(target, 0F, 0F);
-                        if(!world.isRemote) {
-	                      
+							LightningBoltEntity lightning = new LightningBoltEntity(this.goalOwner.world, target.getPosX(), target.getPosY(), target.getPosZ(), false);
+							((ServerWorld) world).addLightningBolt(lightning);
+						}
+					} else {
+						if (world.rand.nextInt(100) + world.rand.nextDouble() <= 50) {
+							if (goalOwner.getDistance(goalOwner.getAttackTarget()) < 8) {
+								EntityHelper.setState(this.goalOwner, 2);
 
-	                        LightningBoltEntity lightning = new LightningBoltEntity(this.theEntity.world, target.getPosX(), target.getPosY(), target.getPosZ(), false);
-	                        ((ServerWorld)world).addLightningBolt(lightning);
-                        }
-                    } else {
-                        if (world.rand.nextInt(100) + world.rand.nextDouble() <= 50) {
-                            if (theEntity.getDistance(theEntity.getAttackTarget()) < 8) {
-                                EntityHelper.setState(this.theEntity, 2);
+								this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
-                                this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+								for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.goalOwner, 4))
+									enemy.attackEntityFrom(DamageSource.causeMobDamage(this.goalOwner), 4);
+							} else
+								return;
+						} else {
+							EntityHelper.setState(this.goalOwner, 3);
 
-                                for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
-                                    enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
-                            } else
-                                return;
-                        } else {
-                            EntityHelper.setState(this.theEntity, 3);
+							this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
+							this.goalOwner.getNavigator().tryMoveToXYZ(target.getPosX(), target.getPosY(), target.getPosZ(), 3.0D);
 
-                            this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
-                            this.theEntity.getNavigator().tryMoveToXYZ(target.getPosX(), target.getPosY(), target.getPosZ(), 3.0D);
+							for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.goalOwner, 3))
+								enemy.attackEntityFrom(DamageSource.causeMobDamage(this.goalOwner), 4);
+						}
+					}
 
-                            for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 3))
-                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
-                        }
-                    }
+				}
 
-                }
+				if (EntityHelper.getState(goalOwner) == 3) {
+					if (whileAttackTimer > 50)
+						canUseAttack = false;
 
-                if (EntityHelper.getState(theEntity) == 3) {
-                    if (whileAttackTimer > 50)
-                        canUseAttack = false;
+					if (goalOwner.getPosition().getX() == (int) target.getPosX() && goalOwner.getPosition().getY() == (int) target.getPosY() && goalOwner.getPosition().getZ() == (int) target.getPosZ())
+						canUseAttack = false;
 
-                    if (theEntity.getPosition().getX() == (int) target.getPosX() && theEntity.getPosition().getY() == (int) target.getPosY() && theEntity.getPosition().getZ() == (int) target.getPosZ())
-                        canUseAttack = false;
+					if (goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < 3)
+						canUseAttack = false;
 
-                    if (theEntity.getDistanceSq(this.theEntity.getAttackTarget()) < 3)
-                        canUseAttack = false;
+					if (initialHealth > goalOwner.getHealth())
+						canUseAttack = false;
+				}
 
-                    if (initialHealth > theEntity.getHealth())
-                        canUseAttack = false;
-                }
+				if (EntityHelper.getState(goalOwner) == 2 && whileAttackTimer > 20) {
+					canUseAttack = false;
+					EntityHelper.setState(goalOwner, 0);
+					this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+				} else if (EntityHelper.getState(goalOwner) == 1 && whileAttackTimer > 50) {
+					canUseAttack = false;
+					EntityHelper.setState(goalOwner, 0);
+					this.goalOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+				}
+			}
+		}
 
-                if (EntityHelper.getState(theEntity) == 2 && whileAttackTimer > 20) {
-                    canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
-                }
-                else if (EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 50) {
-                    canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
-                }
-            }
-        }
-
-    }
+	}
 
 }

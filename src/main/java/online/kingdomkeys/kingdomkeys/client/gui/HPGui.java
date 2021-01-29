@@ -6,19 +6,25 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
 public class HPGui extends Screen {
-	int hpBarWidth;
+	float hpBarWidth, missingHpBarWidth;
 	int guiHeight = 10;
 
 	int counter = 0;
+	private int playerHealth;
+	private long lastSystemTime;
+	private int lastPlayerHealth;
 
 	public HPGui() {
 		super(new TranslationTextComponent(""));
@@ -47,27 +53,51 @@ public class HPGui extends Screen {
 			}
 			float scaleFactor = 1.5F;
 
-			hpBarWidth = (int) (player.getHealth() * scaleFactor);
+			hpBarWidth = (player.getHealth() * scaleFactor);
 			int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
+
+			int i = MathHelper.ceil(player.getHealth());
+			long j = Util.milliTime();
+			if (i < this.playerHealth && player.hurtResistantTime > 0) {
+				this.lastSystemTime = j;
+			} else if (i > this.playerHealth && player.hurtResistantTime > 0) {
+				this.lastSystemTime = j;
+			}
+
+			if (j - this.lastSystemTime > 1000L || this.playerHealth < player.getHealth()) { // If 1 second since last attack has passed update variables
+				this.playerHealth = i;
+				this.lastPlayerHealth = i;
+				this.lastSystemTime = j;
+			}
+
+			missingHpBarWidth = Math.max(((lastPlayerHealth - player.getHealth()) * scaleFactor),0);
 
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.enableBlend();
 
 				RenderSystem.translatef(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
-				RenderSystem.pushMatrix();
+				RenderSystem.pushMatrix(); // Bar Background
 				{
 					RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
 					RenderSystem.scalef(scale, scale, scale);
-					drawHPBarBack(0, 0, hpBarMaxWidth, scale);
+					drawHPBarBack(0, 0, hpBarMaxWidth, scale, player);
 				}
 				RenderSystem.popMatrix();
-	
-				RenderSystem.pushMatrix();
+
+				RenderSystem.pushMatrix(); // HP Bar
 				{
 					RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
 					RenderSystem.scalef(scale, scale, scale);
-					drawHPBarTop(0, 0, (int) Math.ceil(hpBarWidth), scale, player);
+					drawHPBarTop(0, 0, hpBarWidth, scale, player);
+				}
+				RenderSystem.popMatrix();
+
+				RenderSystem.pushMatrix(); // Red portion of the bar
+				{
+					RenderSystem.translatef((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
+					RenderSystem.scalef(scale, scale, scale);
+					drawDamagedHPBarTop(0, 0, missingHpBarWidth, scale, player);
 				}
 				RenderSystem.popMatrix();
 				RenderSystem.disableBlend();
@@ -77,7 +107,19 @@ public class HPGui extends Screen {
 		}
 	}
 
-	public void drawHPBarBack(int posX, int posY, int width, float scale) {
+	public void drawDamagedHPBarTop(int posX, int posY, float width, float scale, PlayerEntity player) {
+		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
+			RenderSystem.scalef(width, scale, 0);
+
+			blit(0, -1, 2, 22, 1, 8);
+		}
+		RenderSystem.popMatrix();
+	}
+
+	public void drawHPBarBack(int posX, int posY, float width, float scale, PlayerEntity player) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
@@ -95,7 +137,8 @@ public class HPGui extends Screen {
 			{
 				RenderSystem.translatef((posX + 2) * scale, posY * scale, 0);
 				RenderSystem.scalef(width, scale, 0);
-				blit(0, 0, 2, 0, 1, 12);
+				int v = Utils.isPlayerLowHP(player) ? 8 : 2;
+				blit(0, 0, v, 0, 1, 12);
 			}
 			RenderSystem.popMatrix();
 
@@ -112,14 +155,15 @@ public class HPGui extends Screen {
 
 	}
 
-	public void drawHPBarTop(int posX, int posY, int width, float scale, PlayerEntity player) {
+
+	public void drawHPBarTop(int posX, int posY, float width, float scale, PlayerEntity player) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
 			RenderSystem.scalef(width, scale, 0);
-			int v = player.getHealth() >= player.getMaxHealth() / 4 ? 12 : 22;
-			blit(0, -1, 2, v, 1, 8);
+
+			blit(0, -1, 2, 12, 1, 8);
 		}
 		RenderSystem.popMatrix();
 
