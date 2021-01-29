@@ -81,7 +81,7 @@ public class LanceEntity extends ThrowableEntity{
 		      }
 
 		      if (this.inGround) {
-		         this.inGround = false;
+		        // this.inGround = false;
 		         this.setMotion(this.getMotion().mul((double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F), (double)(this.rand.nextFloat() * 0.2F)));
 		      }
 
@@ -99,35 +99,43 @@ public class LanceEntity extends ThrowableEntity{
 		      
 
 		      if (raytraceresult.getType() != RayTraceResult.Type.MISS) {
-		         if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(((BlockRayTraceResult)raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) {
-		            this.setPortal(((BlockRayTraceResult)raytraceresult).getPos());
+		         if (raytraceresult.getType() == RayTraceResult.Type.BLOCK) {
+		        	if(this.world.getBlockState(((BlockRayTraceResult)raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) {
+		        		this.setPortal(((BlockRayTraceResult)raytraceresult).getPos());
+		        	} else {
+		        		//System.out.println(this.world.getBlockState(((BlockRayTraceResult)raytraceresult).getPos()).getBlock());
+		        		stopped = true;
+		        	}
 		         } else if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)){
 		            this.onImpact(raytraceresult);
 		         }
 		      }
 
-		      Vec3d vec3d = this.getMotion();
-		      double d0 = this.getPosX() + vec3d.x;
-		      double d1 = this.getPosY() + vec3d.y;
-		      double d2 = this.getPosZ() + vec3d.z;
-		      float f1;
-		      if (this.isInWater()) {
-		         for(int i = 0; i < 4; ++i) {
-		            this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
-		         }
-
-		         f1 = 0.8F;
-		      } else {
-		         f1 = 0.99F;
+		      if(!stopped) {
+			      Vec3d vec3d = this.getMotion();
+			      double d0 = this.getPosX() + vec3d.x;
+			      double d1 = this.getPosY() + vec3d.y;
+			      double d2 = this.getPosZ() + vec3d.z;
+			      float f1;
+			      if (this.isInWater()) {
+			         for(int i = 0; i < 4; ++i) {
+			            this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+			         }
+	
+			         f1 = 0.8F;
+			      } else {
+			         f1 = 0.99F;
+			      }
+	
+	
+			      this.setMotion(vec3d.scale((double)f1));
+			      if (!this.hasNoGravity()) {
+			         Vec3d vec3d1 = this.getMotion();
+			         this.setMotion(vec3d1.x, vec3d1.y - (double)this.getGravityVelocity(), vec3d1.z);
+			      }
+	
+			      this.setPosition(d0, d1, d2);
 		      }
-
-		      this.setMotion(vec3d.scale((double)f1));
-		      if (!this.hasNoGravity()) {
-		         Vec3d vec3d1 = this.getMotion();
-		         this.setMotion(vec3d1.x, vec3d1.y - (double)this.getGravityVelocity(), vec3d1.z);
-		      }
-
-		      this.setPosition(d0, d1, d2);
 		}
 	}
 	
@@ -156,10 +164,17 @@ public class LanceEntity extends ThrowableEntity{
 				if (target != getThrower()) {
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), dmg < 4 ? 4 : dmg);
 					dmg *= 0.8F;
-					stopLance();
+					//stopLance();
 				}
 			} else { // Block (not ERTR)				
-				stopLance();
+				if(brtResult != null) {
+					//System.out.println(world.getBlockState(brtResult.getPos()).getBlockState());
+					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
+					//	System.out.println("goin through");	
+					} else {
+						stopLance();	
+					}
+				}
 			}
 		}
 
