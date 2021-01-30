@@ -301,7 +301,7 @@ public class LockOnGui extends Screen {
 			if(target.isAlive()) {
 				RenderSystem.pushMatrix();
 				{ //Random -0.01F I needed
-					RenderSystem.translatef(posX + width - 14 - (11 * i) - 0.01F, posY + 9, 0);
+					RenderSystem.translatef(posX + width - 14 - (11 * i), posY + 9, 0);
 					RenderSystem.scalef(scale, scale, 0);
 					blit(2, 2, 17, 62, 13, 8);
 				}
