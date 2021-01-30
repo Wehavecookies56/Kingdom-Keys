@@ -146,7 +146,7 @@ public class LockOnGui extends Screen {
 				this.lastSystemTime = j;
 			}
 
-			if ((j - this.lastSystemTime > 1000000L || this.targetHealth < target.getHealth())) { // If 1 second since last attack has passed update variables
+			if ((j - this.lastSystemTime > 1000L || this.targetHealth < target.getHealth())) { // If 1 second since last attack has passed update variables
 				this.targetHealth = i;
 				this.lastTargetHealth = i;
 				this.lastSystemTime = j;
