@@ -527,14 +527,22 @@ public class InputHandler {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
 		} else {
 			RayTraceResult rtr = InputHandler.getMouseOverExtended(100);
-			if (rtr != null && rtr instanceof BlockRayTraceResult) {
-				BlockRayTraceResult brtr = (BlockRayTraceResult)rtr;
-				double distanceSq = player.getDistanceSq(brtr.getPos().getX(), brtr.getPos().getY(), brtr.getPos().getZ());
-				double reachSq = 100 * 100;
-				if (reachSq >= distanceSq) {
-					PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getPos().up(), destination, coords.getDimID()));
+			if (rtr != null) {
+				if(rtr instanceof BlockRayTraceResult) {
+					BlockRayTraceResult brtr = (BlockRayTraceResult)rtr;
+					double distanceSq = player.getDistanceSq(brtr.getPos().getX(), brtr.getPos().getY(), brtr.getPos().getZ());
+					double reachSq = 100 * 100;
+					if (reachSq >= distanceSq) {
+						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getPos().up(), destination, coords.getDimID()));
+					}
+				} else if(rtr instanceof EntityRayTraceResult) {
+					EntityRayTraceResult ertr = (EntityRayTraceResult)rtr;
+					double distanceSq = player.getDistanceSq(ertr.getEntity().getPosX(), ertr.getEntity().getPosY(), ertr.getEntity().getPosZ());
+					double reachSq = 100 * 100;
+					if (reachSq >= distanceSq) {
+						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(ertr.getEntity().getPosition(), destination, coords.getDimID()));
+					} 
 				}
-
 			}
 		}
 	}
