@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -89,7 +90,7 @@ public class HPGui extends Screen {
 				{
 					RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
 					RenderSystem.scalef(scale, scale, scale);
-					drawHPBarTop(0, 0, hpBarWidth, scale, player);
+					drawHPBarTop(0, 0, hpBarWidth, scale);
 				}
 				RenderSystem.popMatrix();
 
@@ -105,18 +106,6 @@ public class HPGui extends Screen {
 			}
 			RenderSystem.popMatrix();
 		}
-	}
-
-	public void drawDamagedHPBarTop(int posX, int posY, float width, float scale, PlayerEntity player) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-		RenderSystem.pushMatrix();
-		{
-			RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
-			RenderSystem.scalef(width, scale, 0);
-
-			blit(0, -1, 2, 22, 1, 8);
-		}
-		RenderSystem.popMatrix();
 	}
 
 	public void drawHPBarBack(int posX, int posY, float width, float scale, PlayerEntity player) {
@@ -155,8 +144,7 @@ public class HPGui extends Screen {
 
 	}
 
-
-	public void drawHPBarTop(int posX, int posY, float width, float scale, PlayerEntity player) {
+	public void drawHPBarTop(int posX, int posY, float width, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
@@ -167,6 +155,18 @@ public class HPGui extends Screen {
 		}
 		RenderSystem.popMatrix();
 
+	}
+	
+	public void drawDamagedHPBarTop(int posX, int posY, float width, float scale, LivingEntity player) {
+		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		RenderSystem.pushMatrix();
+		{
+			RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
+			RenderSystem.scalef(width, scale, 0);
+
+			blit(0, -1, 2, 22, 1, 8);
+		}
+		RenderSystem.popMatrix();
 	}
 
 }

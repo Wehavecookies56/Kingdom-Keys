@@ -8,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,14 +26,19 @@ public class LockOnGui extends Screen {
 
 	int hpGuiWidth = 173;
 	float hpBarWidth;
-	int hpPerBar;
+	float missingHpBarWidth;
+	float hpPerBar;
 	int hpBars;
 	int currentBar;
+	int oldBar;
 
 	int hpGuiHeight = 10;
 	int noborderguiwidth = 171;
 
 	float scale;
+	private float targetHealth;
+	private long lastSystemTime;
+	private float lastTargetHealth;
 
 	public LockOnGui() {
 		super(new TranslationTextComponent(""));
@@ -104,16 +111,9 @@ public class LockOnGui extends Screen {
 	}
 
 	public void drawHPBar(RenderGameOverlayEvent event, LivingEntity target) {
-		Minecraft mc = Minecraft.getInstance();
 		int screenWidth = minecraft.getMainWindow().getScaledWidth();
-		//int screenHeight = minecraft.getMainWindow().getScaledHeight();
-		// if (!Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
-		// return;
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-
-			float oneHeart = (noborderguiwidth / target.getMaxHealth());
-			//int currHealth = noborderguiwidth - (int) (oneHeart * target.getHealth());
 
 			hpPerBar = 20;
 			int widthMultiplier = 10;
@@ -130,23 +130,41 @@ public class LockOnGui extends Screen {
 				currentBar = (int) (target.getHealth() / hpPerBar) + 1;
 			}
 
-			int oneBar = (int) (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());// (int) (target.getMaxHealth() / hpBars);
+			float oneBar =  (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());// (int) (target.getMaxHealth() / hpBars);
 
 			if (target.getHealth() % hpPerBar == 0 && target.getHealth() != 0) {
 				hpBarWidth = oneBar * widthMultiplier;
 			} else {
-				hpBarWidth = (float) (Math.ceil(target.getHealth() % hpPerBar) * widthMultiplier);
+				hpBarWidth = (float) ((target.getHealth() % hpPerBar) * widthMultiplier);
 			}
 
-			int hpBarMaxWidth;
+			float i = (target.getHealth());
+			long j = Util.milliTime();
+			if (i < this.targetHealth && target.hurtResistantTime > 0) {
+				this.lastSystemTime = j;
+			} else if (i > this.targetHealth && target.hurtResistantTime > 0) {
+				this.lastSystemTime = j;
+			}
+
+			if ((j - this.lastSystemTime > 1000000L || this.targetHealth < target.getHealth())) { // If 1 second since last attack has passed update variables
+				this.targetHealth = i;
+				this.lastTargetHealth = i;
+				this.lastSystemTime = j;
+				oldBar = currentBar;
+				missingHpBarWidth = 0;
+			}
+
+			//Basically get the Max of the hp bar or 0 (so weird values don't show up) and then out of that a max of that and the missing hp of the bar(so it doesn't go above the limit)
+			missingHpBarWidth = Math.min(Math.max(((lastTargetHealth - target.getHealth())),0), hpPerBar - target.getHealth() % hpPerBar) % hpPerBar * widthMultiplier;
+			float hpBarMaxWidth;
+			
 			// Background HP width
 			if (target.getMaxHealth() >= hpPerBar) {
 				hpBarMaxWidth = oneBar * widthMultiplier;
 			} else {
-				hpBarMaxWidth = (int) (Math.ceil(target.getMaxHealth() % hpPerBar) * widthMultiplier);
+				hpBarMaxWidth = (target.getMaxHealth() % hpPerBar) * widthMultiplier;
 			}
 
-			// System.out.println(target.getHealth());
 			RenderSystem.pushMatrix();
 			{
 				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
@@ -158,13 +176,27 @@ public class LockOnGui extends Screen {
 			{
 				RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 2 * scale * 2, 1, 0);
 				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarTop(0, 0, (int) Math.ceil(hpBarWidth), scale);
+				drawHPBarTop(0, 0, hpBarWidth, scale);
 			}
 			RenderSystem.popMatrix();
+			RenderSystem.pushMatrix(); // Red portion of the bar
+			{			
+				RenderSystem.translatef((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 2 * scale * 2, 1, 0);
+				RenderSystem.scalef(scale, scale, scale);
+				drawDamagedHPBarTop(0, 0, missingHpBarWidth, scale, target);
+			}
+			RenderSystem.popMatrix();
+			RenderSystem.pushMatrix(); // Red bars
+			{
+				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
+				RenderSystem.scalef(scale, scale, scale);
+				drawDamagedHPBars(0, 0, hpBarMaxWidth, scale, target);
+			}
+			RenderSystem.popMatrix();			
 		}
 	}
 
-	public void drawHPBarBack(int posX, int posY, int width, float scale) {
+	public void drawHPBarBack(int posX, int posY, float width, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
@@ -219,8 +251,8 @@ public class LockOnGui extends Screen {
 
 	}
 
-	public void drawHPBarTop(int posX, int posY, int width, float scale) {
-		Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+	public void drawHPBarTop(int posX, int posY, float width, float scale) {
+		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
 			// HP Bar
@@ -233,16 +265,48 @@ public class LockOnGui extends Screen {
 			RenderSystem.popMatrix();
 
 			// HP Bars
-			for (int i = 0; i < currentBar - 1; i++) {
+			for (int i = 1; i < currentBar ; i++) {
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
+					RenderSystem.translatef(posX + width - 14 - (11 * i), posY + 9, 0);
 					RenderSystem.scalef(scale, scale, 0);
-					blit(2, 2, 2, 62, 16, 8);
+					blit(2, 2, 2, 62, 13, 8);
 				}
 				RenderSystem.popMatrix();
 			}
 		}
 		RenderSystem.popMatrix();
+	}
+
+	private void drawDamagedHPBarTop(int posX, int posY, float width, float scale, LivingEntity target) {
+		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		RenderSystem.pushMatrix();
+		{
+			// HP Bar
+			RenderSystem.pushMatrix();
+			{				
+				RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
+				RenderSystem.scalef(width, scale, 0);
+				blit(0, 0, 2, 22, 1, 8);
+			}
+			RenderSystem.popMatrix();
+			
+		}
+		RenderSystem.popMatrix();
+	}
+	
+	private void drawDamagedHPBars(int posX, int posY, float width, float scale, LivingEntity target) {
+		// HP Bars
+		for (int i = currentBar; i < oldBar; i++) {
+			if(target.isAlive()) {
+				RenderSystem.pushMatrix();
+				{ //Random -0.01F I needed
+					RenderSystem.translatef(posX + width - 14 - (11 * i) - 0.01F, posY + 9, 0);
+					RenderSystem.scalef(scale, scale, 0);
+					blit(2, 2, 17, 62, 13, 8);
+				}
+				RenderSystem.popMatrix();
+			}
+		}
 	}
 }
