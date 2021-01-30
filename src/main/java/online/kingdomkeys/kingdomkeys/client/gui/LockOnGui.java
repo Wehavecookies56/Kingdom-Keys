@@ -155,7 +155,7 @@ public class LockOnGui extends Screen {
 			}
 
 			//Basically get the Max of the hp bar or 0 (so weird values don't show up) and then out of that a max of that and the missing hp of the bar(so it doesn't go above the limit)
-			missingHpBarWidth = Math.min(Math.max(((lastTargetHealth - target.getHealth())),0), hpPerBar - target.getHealth() % hpPerBar) % hpPerBar * widthMultiplier;
+			missingHpBarWidth = target.getHealth() % hpPerBar == 0 ? 0 : Math.min(Math.max(((lastTargetHealth - target.getHealth())),0), hpPerBar - target.getHealth() % hpPerBar) % hpPerBar * widthMultiplier;
 			float hpBarMaxWidth;
 			
 			// Background HP width
