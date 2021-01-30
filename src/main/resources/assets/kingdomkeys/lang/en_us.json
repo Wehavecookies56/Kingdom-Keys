@@ -214,6 +214,7 @@
 	"ability.ability_blizzard_boost.desc": "Increases damage done with blizzard-based attacks.",
 	
 	"_comment": "Limits",
+	"limit.laser_circle.name": "Laser Circle",
 	"limit.laser_dome.name": "Laser Dome",
 
 	"_comment": "Blocks",

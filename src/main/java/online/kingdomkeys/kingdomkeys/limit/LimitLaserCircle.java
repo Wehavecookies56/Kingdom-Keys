@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -18,9 +19,9 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
-public class LimitLaserDome extends Limit {
+public class LimitLaserCircle extends Limit {
 
-	public LimitLaserDome(String registryName, int order, int cost, int cooldown, OrgMember owner) {
+	public LimitLaserCircle(String registryName, int order, int cost, int cooldown, OrgMember owner) {
 		super(registryName, order, cost, cooldown, owner);
 	}
 
@@ -39,7 +40,7 @@ public class LimitLaserDome extends Limit {
 			damage = (playerData.getStrength() + playerData.getMagic()) / 2;
 		}
 
-		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.world, player, target, damage);
+		LaserCircleCoreEntity dome = new LaserCircleCoreEntity(player.world, player, target, damage);
 		dome.setPosition(target.getPosX(), target.getPosY(), target.getPosZ());
 		player.world.addEntity(dome);
 	}

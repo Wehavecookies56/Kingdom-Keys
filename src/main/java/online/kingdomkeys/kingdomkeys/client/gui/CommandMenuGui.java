@@ -560,28 +560,28 @@ public class CommandMenuGui extends Screen {
 	private void drawSubLimits(int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		Limit limit = Utils.getPlayerLimitAttack(minecraft.player);
+		List<Limit> limits = Utils.getPlayerLimitAttacks(minecraft.player);
 		
-		if (playerData != null && limit != null && !limit.getLevels().isEmpty()) {
+		if (playerData != null && limits != null && !limits.isEmpty()) {
 			// Limit TOP
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			RenderSystem.pushMatrix();
 			{
 				minecraft.textureManager.bindTexture(texture);
-				RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() + 1)), 0);
+				RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (limits.size() + 1)), 0);
 				RenderSystem.scalef(scale, scale, scale);
 				paintWithColorArray(limitMenuColor, alpha);
 				drawHeader(Strings.Gui_CommandMenu_Limit_Title, SUB_LIMIT);
 			}
 			RenderSystem.popMatrix();
 			
-			for (int i = 0; i < limit.getLevels().size(); i++) {
+			for (int i = 0; i < limits.size(); i++) {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.color4f(1F, 1F, 1F, alpha);
 
 					minecraft.textureManager.bindTexture(texture);
-					RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() - i)), 0);
+					RenderSystem.translated(x, (height - MENU_HEIGHT * scale * (limits.size() - i)), 0);
 					RenderSystem.scalef(scale, scale, scale);
 
 					paintWithColorArray(limitMenuColor, alpha);
@@ -594,10 +594,10 @@ public class CommandMenuGui extends Screen {
 						drawUnselectedSlot();
 					}
 
-					int limitCost = limit.getLevels().get(i);
+					int limitCost = limits.get(i).getCost();
 					int color = playerData.getDP() >= limitCost ? 0xFFFFFF : 0x888888;
 
-					String name = limit.getTranslationKey();
+					String name = limits.get(i).getTranslationKey();
 					RenderSystem.scalef(scale*0.7F, scale*0.9F, scale);
 					drawString(minecraft.fontRenderer, Utils.translateToLocal(name), textX, 4, getColor(color, SUB_LIMIT));
 					RenderSystem.scalef(scale*1.3F, scale*1.1F, scale);

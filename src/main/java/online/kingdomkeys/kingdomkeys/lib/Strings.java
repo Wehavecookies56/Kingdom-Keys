@@ -30,6 +30,7 @@ public class Strings {
     
     // Limits
     public static final String
+    		LaserCircle = "laser_circle",
     		LaserDome = "laser_dome";
     
     //Abilities
