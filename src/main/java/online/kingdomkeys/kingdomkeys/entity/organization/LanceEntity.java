@@ -100,6 +100,8 @@ public class LanceEntity extends ThrowableEntity{
 		            }
 
 		            flag = true;
+		         } else {
+		        	 setStopped(true);
 		         }
 		      }
 
@@ -107,28 +109,30 @@ public class LanceEntity extends ThrowableEntity{
 		         this.onImpact(raytraceresult);
 		      }
 
-			Vector3d vec3d = this.getMotion();
-			double d0 = this.getPosX() + vec3d.x;
-			double d1 = this.getPosY() + vec3d.y;
-			double d2 = this.getPosZ() + vec3d.z;
-			float f1;
-			if (this.isInWater()) {
-				for (int i = 0; i < 4; ++i) {
-					this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+		      if(!stopped) {
+				Vector3d vec3d = this.getMotion();
+				double d0 = this.getPosX() + vec3d.x;
+				double d1 = this.getPosY() + vec3d.y;
+				double d2 = this.getPosZ() + vec3d.z;
+				float f1;
+				if (this.isInWater()) {
+					for (int i = 0; i < 4; ++i) {
+						this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+					}
+	
+					f1 = 0.8F;
+				} else {
+					f1 = 0.99F;
 				}
-
-				f1 = 0.8F;
-			} else {
-				f1 = 0.99F;
-			}
-
-			this.setMotion(vec3d.scale((double) f1));
-			if (!this.hasNoGravity()) {
-				Vector3d vec3d1 = this.getMotion();
-				this.setMotion(vec3d1.x, vec3d1.y - (double) this.getGravityVelocity(), vec3d1.z);
-			}
-
-			this.setPosition(d0, d1, d2);
+	
+				this.setMotion(vec3d.scale((double) f1));
+				if (!this.hasNoGravity()) {
+					Vector3d vec3d1 = this.getMotion();
+					this.setMotion(vec3d1.x, vec3d1.y - (double) this.getGravityVelocity(), vec3d1.z);
+				}
+	
+				this.setPosition(d0, d1, d2);
+		      }
 		}
 
 	}
