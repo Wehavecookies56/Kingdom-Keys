@@ -32,35 +32,35 @@ import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class LaserDomeCoreEntity extends ThrowableEntity {
+public class LaserCircleCoreEntity extends ThrowableEntity {
 
-	int maxTicks = 240;
+	int maxTicks = 70;
 	List<LaserDomeShotEntity> list = new ArrayList<LaserDomeShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
 	Set<Integer> usedIndexes = new HashSet<Integer>();
 	float dmg;
 
 	double dmgMult;
-	float radius = 15;
-	int space = 12;
-	int shotsPerTick = 3;
+	float radius = 4;
+	int space;
+	int shotsPerTick;
 
-	public LaserDomeCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public LaserCircleCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public LaserDomeCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_LASER_DOME.get(), world);
+	public LaserCircleCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_LASER_CIRCLE.get(), world);
 	}
 
-	public LaserDomeCoreEntity(World world) {
-		super(ModEntities.TYPE_LASER_DOME.get(), world);
+	public LaserCircleCoreEntity(World world) {
+		super(ModEntities.TYPE_LASER_CIRCLE.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public LaserDomeCoreEntity(World world, PlayerEntity player, LivingEntity target, float dmg) {
-		super(ModEntities.TYPE_LASER_DOME.get(), player, world);
+	public LaserCircleCoreEntity(World world, PlayerEntity player, LivingEntity target, float dmg) {
+		super(ModEntities.TYPE_LASER_CIRCLE.get(), player, world);
 		setCaster(player.getUniqueID());
 		setTarget(target.getUniqueID());
 		this.dmg = dmg;
@@ -82,7 +82,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 			this.remove();
 		}
 
-		this.dmgMult = ModConfigs.limitLaserDomeMult;
+		this.dmgMult = ModConfigs.limitLaserCircleMult;
 
 		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
 		// getPosZ(), 1, 1, 0);
@@ -93,56 +93,47 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		double Z = getPosZ();
 
 		if (getCaster() != null) {
-			if (ticksExisted >= 0 && ticksExisted < 20) {
-				double t = ticksExisted * 5;
-				for (int s = 1; s < 360; s += space) {
-					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
-					bullet.setPosition(x, y, z);
-					bullet.setMaxTicks(maxTicks - 20);
-					bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
-					list.add(bullet);
-					world.addEntity(bullet);
-				}
+			if (ticksExisted >= 0 && ticksExisted <= 40 && ticksExisted % 2 == 0) {
+				double x = X + (radius * Math.cos(Math.toRadians(ticksExisted * 9)));
+				double z = Z + (radius * Math.sin(Math.toRadians(ticksExisted * 9)));
+				LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
+				bullet.setPosition(x, Y + 1, z);
+				bullet.setMaxTicks(maxTicks);
+				bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY()+1, this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
+				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
+				list.add(bullet);
+				world.addEntity(bullet);
 
 				this.setMotion(0, 0, 0);
 				this.velocityChanged = true;
 
-			} else if (ticksExisted == 40) { // Get all targets right before starting to shoot
-				updateList();
-
-			} else if (ticksExisted > 40 && !targetList.isEmpty()) {
-				if (ticksExisted == 80) {
-					updateList();
-				}
-
-				for (int i = 0; i < shotsPerTick; i++) {
-					int num;
-					do {
-						num = rand.nextInt(list.size());
-					} while (usedIndexes.contains(num) && usedIndexes.size() != list.size());
-					usedIndexes.add(num);
-
-					Entity target = this;
-					int targetIndex = rand.nextInt(targetList.size());
-					target = targetList.get(targetIndex);
-
+				/*if(getTarget() != null) {
+					this.setPosition(getTarget().getPosX(), getTarget().getPosY(), getTarget().getPosZ());
+					updatePos(radius);
+				}*/
+			} else if (ticksExisted == 60) {
+				updateList();//Get all entities in the radius
+				Entity target = this;
+				if(targetList.size() > 1) {
+					targetList.remove(this);
+				} //If there are more entities than the controller remove it and track a random of the left ones
+				int targetIndex = rand.nextInt(targetList.size());
+				target = targetList.get(targetIndex);
+				
+				for (LaserDomeShotEntity bullet : list) {
 					if (target != null && target.isAlive() && getCaster() != null) {
-						LaserDomeShotEntity bullet = list.get(num);
-						bullet.shoot(target.getPosX() - bullet.getPosX(), target.getPosY() - bullet.getPosY(), target.getPosZ() - bullet.getPosZ(), 2f, 0);
 						world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
+						bullet.shoot(target.getPosX() - bullet.getPosX(), target.getPosY() - bullet.getPosY()+1, target.getPosZ() - bullet.getPosZ(), 1.5f, 0);
 					}
-
 				}
 			}
 		}
+
 		super.tick();
 	}
 
 	private void updatePos(float r) {
-		for (LaserDomeShotEntity shot : list) {
+		for(LaserDomeShotEntity shot : list) {
 			double x = getPosX() + (r * Math.cos(Math.toRadians(shot.ticksExisted * 9)));
 			double z = getPosZ() + (r * Math.sin(Math.toRadians(shot.ticksExisted * 9)));
 			shot.setPosition(x, getPosY() + 1, z);
@@ -199,8 +190,8 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		this.dataManager.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(LaserDomeCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<Optional<UUID>> TARGET = EntityDataManager.createKey(LaserDomeCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(LaserCircleCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Optional<UUID>> TARGET = EntityDataManager.createKey(LaserCircleCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;

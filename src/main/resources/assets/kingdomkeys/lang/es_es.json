@@ -215,6 +215,7 @@
 	"ability.ability_blizzard_boost.desc": "Aumenta el daño de los ataques Hielo.",
 	
 	"_comment": "Limits",
+	"limit.laser_circle.name": "Círculo Láser",
 	"limit.laser_dome.name": "Cúpula Láser",
 
 	"_comment": "Blocks",

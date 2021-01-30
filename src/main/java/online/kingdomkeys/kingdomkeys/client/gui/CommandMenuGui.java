@@ -503,28 +503,28 @@ public class CommandMenuGui extends Screen {
 	private void drawSubLimits(MatrixStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		Limit limit = Utils.getPlayerLimitAttack(minecraft.player);
+		List<Limit> limits = Utils.getPlayerLimitAttacks(minecraft.player);
 		
-		if (playerData != null && limit != null && !limit.getLevels().isEmpty()) {
+		if (playerData != null && limits != null && !limits.isEmpty()) {
 			// Limit TOP
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.push();
 			{
 				minecraft.textureManager.bindTexture(texture);
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() + 1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				paintWithColorArray(matrixStack, limitMenuColor, alpha);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Limit_Title, SUB_LIMIT);
 			}
 			matrixStack.pop();
 			
-			for (int i = 0; i < limit.getLevels().size(); i++) {
+			for (int i = 0; i < limits.size(); i++) {
 				matrixStack.push();
 				{
 					//RenderSystem.color4f(1F, 1F, 1F, alpha);
 
 					minecraft.textureManager.bindTexture(texture);
-					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limit.getLevels().size() - i)), 0);
+					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() - i)), 0);
 					matrixStack.scale(scale, scale, scale);
 
 					paintWithColorArray(matrixStack, limitMenuColor, alpha);
@@ -538,10 +538,10 @@ public class CommandMenuGui extends Screen {
 					}
 
 
-					int limitCost = limit.getLevels().get(i);
+					int limitCost = limits.get(i).getCost();
 					int color = playerData.getDP() >= limitCost ? 0xFFFFFF : 0x888888;
 
-					String name = limit.getTranslationKey();
+					String name = limits.get(i).getTranslationKey();
 					matrixStack.scale(scale*0.7F, scale*0.9F, scale);
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(name), textX, 4, getColor(color, SUB_LIMIT));
 					matrixStack.scale(scale*1.3F, scale*1.1F, scale);

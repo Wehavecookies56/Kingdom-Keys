@@ -64,8 +64,8 @@ public class InputHandler {
     Map<String, int[]> driveFormsMap;
     List<String> magicsList;
     List<Member> targetsList;
-    Limit limit;
-
+    List<Limit> limitsList;
+    
 
     public static LivingEntity lockOn = null;
 
@@ -169,7 +169,7 @@ public class InputHandler {
                  CommandMenuGui.limitSelected--;
                  CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
              } else if (CommandMenuGui.attackSelected <= 1) {
-                 CommandMenuGui.limitSelected = this.limit.getLevels().size() - 1;
+                 CommandMenuGui.limitSelected = this.limitsList.size() - 1;
              }
         }
     }
@@ -246,11 +246,11 @@ public class InputHandler {
         }
         //InsideLimits
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
-            if (CommandMenuGui.limitSelected < this.limit.getLevels().size() - 1) {
+            if (CommandMenuGui.limitSelected < this.limitsList.size() - 1) {
                 CommandMenuGui.limitSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
             } else {
-                if (CommandMenuGui.limitSelected >= this.limit.getLevels().size() - 1)
+                if (CommandMenuGui.limitSelected >= this.limitsList.size() - 1)
                     CommandMenuGui.limitSelected = 0;
             }
         }
@@ -357,7 +357,7 @@ public class InputHandler {
 						}
 					} else { // Org member Limits
 						// Accessing Limits Submenu
-                		if(!limit.getLevels().isEmpty() && playerData.getLimitCooldownTicks() <= 0) {
+                		if(!limitsList.isEmpty() && playerData.getLimitCooldownTicks() <= 0) {
 							CommandMenuGui.limitSelected = 0;
 							CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
 							mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -441,13 +441,13 @@ public class InputHandler {
         
      // Limits Submenu
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
-			if (this.limit.getLevels().isEmpty()) {
+			if (this.limitsList.isEmpty()) {
                 world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 			} else {
-				System.out.println(limit.getLevels().get(CommandMenuGui.limitSelected));
-				if(playerData.getDP() < limit.getLevels().get(CommandMenuGui.limitSelected)) {
+				System.out.println(limitsList.get(CommandMenuGui.limitSelected));
+				if(playerData.getDP() < limitsList.get(CommandMenuGui.limitSelected).getCost()) {
                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
@@ -879,7 +879,7 @@ public class InputHandler {
 	        this.driveFormsMap.remove(DriveForm.NONE.toString());
 	        this.magicsList = playerData.getMagicList();
 	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
-			this.limit = Utils.getPlayerLimitAttack(mc.player);
+			this.limitsList = Utils.getPlayerLimitAttacks(mc.player);
 	        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
 	        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
 	        }

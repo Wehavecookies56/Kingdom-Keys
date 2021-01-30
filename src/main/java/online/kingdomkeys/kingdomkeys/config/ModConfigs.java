@@ -194,7 +194,8 @@ public class ModConfigs {
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
-    public static List<Double> limitLaserDomeMult;
+    public static double limitLaserCircleMult;
+    public static double limitLaserDomeMult;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -202,7 +203,8 @@ public class ModConfigs {
         bloxGen = COMMON.bloxGen.get();
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
-        limitLaserDomeMult = (List<Double>) COMMON.limitLaserDomeMult.get();
+        limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
+        limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
     }
 
     public static int recipeDropChance;

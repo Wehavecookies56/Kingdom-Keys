@@ -23,7 +23,8 @@ public class CommonConfig {
     public ForgeConfigSpec.BooleanValue bloxGen;
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
-    public ForgeConfigSpec.ConfigValue<List<? extends Double>> limitLaserDomeMult;
+    public ForgeConfigSpec.DoubleValue limitLaserCircleMult;
+    public ForgeConfigSpec.DoubleValue limitLaserDomeMult;
 
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
 		builder.push("general");
@@ -66,10 +67,15 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.laser_dome_costs")
                 .defineList("laserDomeCosts",Lists.newArrayList(100,300,500), o -> o instanceof Integer);
         */
+        limitLaserCircleMult = builder
+                .comment("Laser Circle Damage Multiplier ((strength + magic) / 2 * multiplier)")
+                .translation(KingdomKeys.MODID + ".config.laser_dome_mult")
+                .defineInRange("laserCircleMult",2.0,0,100);
+        
         limitLaserDomeMult = builder
                 .comment("Laser Dome Damage Multiplier ((strength + magic) / 2 * multiplier)")
                 .translation(KingdomKeys.MODID + ".config.laser_dome_mult")
-                .defineList("laserDomeMult",Lists.newArrayList(0.15,0.2,0.3), o -> o instanceof Double);
+                .defineInRange("laserDomeMult",0.3,0,100);
 
         builder.pop();
     }

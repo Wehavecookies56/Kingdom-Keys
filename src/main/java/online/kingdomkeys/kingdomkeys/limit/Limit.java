@@ -13,23 +13,25 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 
 	String name;
 	int order;
-	int[] levels;
+	int cost;
+	int cooldown;
 
 	String translationKey;
 
 	OrgMember owner;
 
-	public Limit(ResourceLocation registryName, int order, int[] levels, OrgMember owner) {
+	public Limit(ResourceLocation registryName, int order, int cost, int cooldown, OrgMember owner) {
 		this.name = registryName.toString();
-		this.levels = levels;
+		this.cost = cost;
+		this.cooldown = cooldown;
 		setRegistryName(registryName);
 		this.order = order;
 		this.owner = owner;
 		translationKey = "limit." + getRegistryName().getPath() + ".name";
 	}
 
-	public Limit(String registryName, int order, int[] levels, OrgMember owner) {
-		this(new ResourceLocation(registryName), order, levels, owner);
+	public Limit(String registryName, int order, int cost, int cooldown, OrgMember owner) {
+		this(new ResourceLocation(registryName), order, cost, cooldown, owner);
 	}
 
 	public String getName() {
@@ -40,14 +42,14 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 		return translationKey;
 	}
 
-	public List<Integer> getLevels() {
-		List<Integer> list = new ArrayList<Integer>();
-		for (int l : levels) {
-			list.add(l);
-		}
-		return list;
+	public int getCost() {
+		return cost;
 	}
-
+	
+	public int getCooldown() {
+		return cooldown;
+	}
+	
 	public int getOrder() {
 		return order;
 	}
@@ -56,6 +58,6 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 		return owner;
 	}
 
-	public abstract void onUse(PlayerEntity player, LivingEntity target, int size);
+	public abstract void onUse(PlayerEntity player, LivingEntity target);
 
 }
