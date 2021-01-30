@@ -509,5 +509,9 @@ public class Utils {
         return limit;
 	}
 
+	public static boolean isPlayerLowHP(PlayerEntity player) {
+		return player.getHealth() < player.getMaxHealth() / 4;	
+	}
+
 
 }

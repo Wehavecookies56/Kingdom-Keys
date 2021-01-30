@@ -56,7 +56,7 @@ public class LanceEntity extends ThrowableEntity{
 		super(ModEntities.TYPE_LANCE.get(), player, world);
 		setShooter(player);
 		setModel(model);
-		this.dmg = dmg * 0.75F;
+		this.dmg = dmg;
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public class LanceEntity extends ThrowableEntity{
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
 					//System.out.println(world.getBlockState(brtResult.getPos()).getBlockState());
-					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
+					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
 					//System.out.println("goin through");	
 					} else {
 						stopLance();	

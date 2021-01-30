@@ -72,7 +72,8 @@ public class OrgPortalBlock extends BaseBlock {
 					player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "You have no empty slots for portals"), true);
 				}
 			}
-		}		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+		}		
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {

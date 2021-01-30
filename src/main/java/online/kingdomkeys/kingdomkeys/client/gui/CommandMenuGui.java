@@ -345,7 +345,7 @@ public class CommandMenuGui extends Screen {
 	private void drawSubTargetSelector(MatrixStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
-		if(worldData.getPartyFromMember(minecraft.player.getUniqueID()) == null) {
+		if(worldData == null || worldData.getPartyFromMember(minecraft.player.getUniqueID()) == null) {
 			submenu = SUB_MAGIC;
 			return;
 		}

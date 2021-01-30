@@ -149,7 +149,7 @@ public class WaterEntity extends ThrowableEntity {
 				}
 			} else { // Block (not ERTR)
 
-				if (brtResult != null && rtRes.getType() == Type.BLOCK) {
+				/*if (brtResult != null && rtRes.getType() == Type.BLOCK) {
 					BlockPos hitPos = brtResult.getPos();
 					System.out.println(world.getBlockState(hitPos).getBlockState());
 					if (world.getBlockState(hitPos).getBlockState() == Blocks.WATER.getDefaultState()) {
@@ -158,7 +158,7 @@ public class WaterEntity extends ThrowableEntity {
 				} else {
 					// world.playSound(null, getPosition(), ModSounds.fistBounce,
 					// SoundCategory.MASTER, 1F, 1F);
-				}
+				}*/
 
 				remove();
 			}

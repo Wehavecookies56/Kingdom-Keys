@@ -1,19 +1,16 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -63,19 +60,18 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
         return super.attackEntityFrom(source, amount * multiplier);
     }
 
-    class YellowOperaGoal extends Goal {
-        private YellowOperaEntity theEntity;
+    class YellowOperaGoal extends TargetGoal {
         private boolean canUseAttack = true;
         private int attackTimer = 5, whileAttackTimer;
         private float initialHealth;
 
         public YellowOperaGoal(YellowOperaEntity e) {
-            this.theEntity = e;
+        	super(e,true);
         }
 
         @Override
         public boolean shouldExecute() {
-            if (theEntity.getAttackTarget() != null) {
+            if (goalOwner.getAttackTarget() != null) {
                 if (!canUseAttack) {
                     if (attackTimer > 0) {
                         attackTimer--;
@@ -99,25 +95,25 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
         public void startExecuting() {
             canUseAttack = true;
             attackTimer = 25 + world.rand.nextInt(5);
-            EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+            EntityHelper.setState(goalOwner, 0);
+            this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
-            initialHealth = theEntity.getHealth();
+            initialHealth = goalOwner.getHealth();
         }
 
         @Override
         public void tick() {
-            if (theEntity.getAttackTarget() != null && canUseAttack) {
+            if (goalOwner.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                LivingEntity target = this.theEntity.getAttackTarget();
+                LivingEntity target = this.goalOwner.getAttackTarget();
 
-                if (EntityHelper.getState(theEntity) == 0) {
-                    this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
-                    if (world.rand.nextInt(100) + world.rand.nextDouble() <= 45 && this.theEntity.getDistance(target) < 10) {
-                        EntityHelper.setState(this.theEntity, 1);
+                if (EntityHelper.getState(goalOwner) == 0) {
+                    this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
+                    if (world.rand.nextInt(100) + world.rand.nextDouble() <= 45 && this.goalOwner.getDistance(target) < 10) {
+                        EntityHelper.setState(this.goalOwner, 1);
 
-                        this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
-                        this.theEntity.getLookController().setLookPositionWithEntity(target, 0F, 0F);
+                        this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                        this.goalOwner.getLookController().setLookPositionWithEntity(target, 0F, 0F);
                         if(!world.isRemote) {
                             LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
                             lightningboltentity.moveForced(target.getPositionVec());
@@ -125,51 +121,51 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                         }
                     } else {
                         if (world.rand.nextInt(100) + world.rand.nextDouble() <= 50) {
-                            if (theEntity.getDistance(theEntity.getAttackTarget()) < 8) {
-                                EntityHelper.setState(this.theEntity, 2);
+                            if (goalOwner.getDistance(goalOwner.getAttackTarget()) < 8) {
+                                EntityHelper.setState(this.goalOwner, 2);
 
-                                this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                                this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
-                                for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
-                                    enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
+                                for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.goalOwner, 4))
+                                    enemy.attackEntityFrom(DamageSource.causeMobDamage(this.goalOwner), 4);
                             } else
                                 return;
                         } else {
-                            EntityHelper.setState(this.theEntity, 3);
+                            EntityHelper.setState(this.goalOwner, 3);
 
-                            this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
-                            this.theEntity.getNavigator().tryMoveToXYZ(target.getPosX(), target.getPosY(), target.getPosZ(), 3.0D);
+                            this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
+                            this.goalOwner.getNavigator().tryMoveToXYZ(target.getPosX(), target.getPosY(), target.getPosZ(), 3.0D);
 
-                            for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 3))
-                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
+                            for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.goalOwner, 3))
+                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.goalOwner), 4);
                         }
                     }
 
                 }
 
-                if (EntityHelper.getState(theEntity) == 3) {
+                if (EntityHelper.getState(goalOwner) == 3) {
                     if (whileAttackTimer > 50)
                         canUseAttack = false;
 
-                    if (theEntity.getPosition().getX() == (int) target.getPosX() && theEntity.getPosition().getY() == (int) target.getPosY() && theEntity.getPosition().getZ() == (int) target.getPosZ())
+                    if (goalOwner.getPosition().getX() == (int) target.getPosX() && goalOwner.getPosition().getY() == (int) target.getPosY() && goalOwner.getPosition().getZ() == (int) target.getPosZ())
                         canUseAttack = false;
 
-                    if (theEntity.getDistanceSq(this.theEntity.getAttackTarget()) < 3)
+                    if (goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < 3)
                         canUseAttack = false;
 
-                    if (initialHealth > theEntity.getHealth())
+                    if (initialHealth > goalOwner.getHealth())
                         canUseAttack = false;
                 }
 
-                if (EntityHelper.getState(theEntity) == 2 && whileAttackTimer > 20) {
+                if (EntityHelper.getState(goalOwner) == 2 && whileAttackTimer > 20) {
                     canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    EntityHelper.setState(goalOwner, 0);
+                    this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
-                else if (EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 50) {
+                else if (EntityHelper.getState(goalOwner) == 1 && whileAttackTimer > 50) {
                     canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    EntityHelper.setState(goalOwner, 0);
+                    this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
             }
         }

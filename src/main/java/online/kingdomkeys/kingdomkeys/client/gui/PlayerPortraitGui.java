@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -16,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
 public class PlayerPortraitGui extends Screen {
@@ -54,6 +56,10 @@ public class PlayerPortraitGui extends Screen {
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 					RenderSystem.color4f(0.3F, 0.3F, 0.3F, 1F);
 				}
+				
+				if(Utils.isPlayerLowHP(minecraft.player)) {
+					RenderSystem.color4f(1F, 0.5F, 0.5F, 1F);
+				}
 
 				matrixStack.push();
 				{
@@ -76,21 +82,22 @@ public class PlayerPortraitGui extends Screen {
 					matrixStack.pop();
 
 					// HAT
-					int hatWidth = 32;
-					int hatHeight = 32;
-					float hatPosX = 16;
-					float hatPosY = 32;
-					float scaledHatPosX = hatPosX * scale;
-					float scaledHatPosY = hatPosY * scale;
-
-					matrixStack.push();
-					{
-						matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-						matrixStack.scale(scale, scale, scale);
-						this.blit(matrixStack, 0, 0, 160, 32, hatWidth, hatHeight);
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.HAT)){
+						int hatWidth = 32;
+						int hatHeight = 32;
+						float hatPosX = 16;
+						float hatPosY = 32;
+						float scaledHatPosX = hatPosX * scale;
+						float scaledHatPosY = hatPosY * scale;
+	
+						matrixStack.push();
+						{
+							matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 160, 32, hatWidth, hatHeight);
+						}
+						matrixStack.pop();
 					}
-					matrixStack.pop();
-
 					// BODY
 					int bodyWidth = 32;
 					int bodyHeight = 64;
@@ -108,21 +115,15 @@ public class PlayerPortraitGui extends Screen {
 					matrixStack.pop();
 
 					// JACKET
-					int jacketWidth = 32;
-					int jacketHeight = 64;
-					float jacketPosX = 16;
-					float jacketPosY = -32;
-					float scaledjacketPosX = jacketPosX * scale;
-					float scaledjacketPosY = jacketPosY * scale;
-
-					matrixStack.push();
-					{
-						matrixStack.translate((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
-						matrixStack.scale(scale, scale, scale);
-						this.blit(matrixStack, 0, 0, 80, 148, bodyWidth, bodyHeight);
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.JACKET)){	
+						matrixStack.push();
+						{
+							matrixStack.translate((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 80, 148, bodyWidth, bodyHeight);
+						}
+						matrixStack.pop();
 					}
-					matrixStack.pop();
-
 					// ARMS
 					int armWidth = 16;
 					int armHeight = 64;
@@ -134,22 +135,23 @@ public class PlayerPortraitGui extends Screen {
 					float armLPosY = -32;
 					float scaledArmLPosX = armLPosX * scale;
 					float scaledArmLPosY = armLPosY * scale;
-
-					matrixStack.push();
-					{
-						matrixStack.translate((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
-						matrixStack.scale(scale, scale, scale);
-						this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
-					}
-					matrixStack.pop();
-
-					matrixStack.push();
-					{
-						matrixStack.translate((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
-						matrixStack.scale(scale, scale, scale);
-						this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
-					}
-					matrixStack.pop();
+						matrixStack.push();
+						{
+							matrixStack.translate((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
+						}
+						matrixStack.pop();
+					
+					
+						matrixStack.push();
+						{
+							matrixStack.translate((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
+						}
+						matrixStack.pop();
+					
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
 					// GLOVES
@@ -163,23 +165,26 @@ public class PlayerPortraitGui extends Screen {
 					float gloveLPosY = -32;
 					float scaledgloveLPosX = gloveLPosX * scale;
 					float scaledgloveLPosY = gloveLPosY * scale;
-
-					matrixStack.push();
-					{
-						matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
-						matrixStack.scale(scale, scale, scale);
-						this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
+					
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.RIGHT_SLEEVE)){	
+						matrixStack.push();
+						{
+							matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
+						}
+						matrixStack.pop();
 					}
-					matrixStack.pop();
-
-					matrixStack.push();
-					{
-						matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
-						matrixStack.scale(scale, scale, scale);
-						this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
+					
+					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.LEFT_SLEEVE)){
+						matrixStack.push();
+						{
+							matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
+							matrixStack.scale(scale, scale, scale);
+							this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
+						}
+						matrixStack.pop();
 					}
-					matrixStack.pop();
-
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
 					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {

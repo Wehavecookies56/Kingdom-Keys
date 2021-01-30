@@ -64,11 +64,11 @@ public class CSAttackOffhandPacket {
 	    * called on it. Args: targetEntity
 	    */
 	   public static void attackTargetEntityWithCurrentItem(PlayerEntity player, Entity targetEntity) {
-	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
+	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) 
+	    	  return;
 	      if (targetEntity.canBeAttackedWithItem()) {
 	         if (!targetEntity.hitByEntity(player)) {
 	            float damage = DamageCalculation.getKBStrengthDamage(player, player.getHeldItemOffhand());
-	            System.out.println(damage);
 	            float f1;
 	            if (targetEntity instanceof LivingEntity) {
 	               f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), ((LivingEntity)targetEntity).getCreatureAttribute());

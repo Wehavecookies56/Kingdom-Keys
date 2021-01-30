@@ -96,7 +96,7 @@ public class SynthesisBagContainer extends Container {
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            System.out.println(maxSlots);
+
 			if (index < maxSlots) {
 				if (!this.mergeItemStack(itemstack1, maxSlots, this.inventorySlots.size(), true)) {
 					return ItemStack.EMPTY;

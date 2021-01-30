@@ -9,18 +9,16 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 
 public class BlizzardEntity extends ThrowableEntity {
 
@@ -40,7 +38,7 @@ public class BlizzardEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public BlizzardEntity(World world, PlayerEntity player) {
+	public BlizzardEntity(World world, LivingEntity player) {
 		super(ModEntities.TYPE_BLIZZARD.get(), player, world);
 	}
 
@@ -91,26 +89,19 @@ public class BlizzardEntity extends ThrowableEntity {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
+
 				if (target != func_234616_v_()) {
-					float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
-					remove();
-				}
-			} else { // Block (not ERTR)
-
-				if (brtResult != null && rtRes.getType() == Type.BLOCK) {
-					BlockPos hitPos = brtResult.getPos();
-					//System.out.println(world.getBlockState(hitPos).getBlockState());
-					if (world.getBlockState(hitPos).getBlockState() == Blocks.WATER.getDefaultState()) {
-						System.out.println("water");
+					Party p = null;
+					if (func_234616_v_() != null) {
+						p = ModCapabilities.getWorld(func_234616_v_().world).getPartyFromMember(func_234616_v_().getUniqueID());
 					}
-				} else {
-					// world.playSound(null, getPosition(), ModSounds.fistBounce,
-					// SoundCategory.MASTER, 1F, 1F);
+					if (p == null || p.getMember(target.getUniqueID()) == null) {
+						float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
+						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+					}
 				}
-
-				remove();
 			}
+			remove();
 		}
 
 	}

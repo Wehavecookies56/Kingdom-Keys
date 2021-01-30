@@ -602,6 +602,25 @@ public class EntityEvents {
 			if(ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
 				event.setAmount(ModCapabilities.getPlayer(player).getStrength());
 			}
+			
+			LivingEntity target = event.getEntityLiving();
+			if (target instanceof PlayerEntity) {
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
+
+				if (playerData.getReflectTicks() <= 0) { // If is casting reflect
+					if (playerData.isAbilityEquipped(Strings.mpRage)) {
+						playerData.addMP(event.getAmount() * 0.05F);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
+					}
+
+					if (playerData.isAbilityEquipped(Strings.damageDrive)) {
+						playerData.addDP(event.getAmount() * 0.05F);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
+					}
+				}
+
+			}
+			
 		}
 		
 		if(event.getEntityLiving() instanceof PlayerEntity) {
@@ -611,8 +630,7 @@ public class EntityEvents {
 			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense())));
 			if(playerData.getAeroTicks() > 0) {
 				playerData.remAeroTicks((int) damage * 2);
-				damage -= (damage * 30 / 100);
-				System.out.println(playerData.getAeroTicks());
+				damage -= (damage * 0.3);
 			}
 			event.setAmount(damage <= 0 ? 1 : damage);
 		}
@@ -633,7 +651,6 @@ public class EntityEvents {
 					}
 				}
 								
-				IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
 				if (target instanceof PlayerEntity) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
 	
@@ -642,19 +659,10 @@ public class EntityEvents {
 							playerData.setReflectActive(true);
 						event.setCanceled(true);
 					}
-					
-					if(playerData.isAbilityEquipped(Strings.mpRage)) {
-						playerData.addMP(event.getAmount());
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
-					}
-	
-					if(playerData.isAbilityEquipped(Strings.damageDrive)) {
-						playerData.addDP(event.getAmount());
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)target);
-					}
 	
 				}
 	
+				IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
 				if (globalData != null && event.getSource().getTrueSource() instanceof PlayerEntity) {
 					PlayerEntity source = (PlayerEntity) event.getSource().getTrueSource();
 					if (globalData.getStoppedTicks() > 0) {
@@ -691,7 +699,9 @@ public class EntityEvents {
 
 		if (event.getEntityLiving() instanceof EnderDragonEntity) {
 			LivingEntity entity = event.getEntityLiving();
-			entity.world.addEntity(new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+			for(PlayerEntity p : entity.world.getPlayers()) {
+				entity.world.addEntity(new ItemEntity(entity.world, p.getPosX(), p.getPosY(), p.getPosZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+			}
 		}
 
 		if (!event.getEntity().world.isRemote) {
@@ -754,7 +764,7 @@ public class EntityEvents {
 					entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, Utils.randomWithRange(5, 15)));
 					entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
 					entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
-					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 2, entity.getMaxHealth() / 1.2)));
+					entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F)));
 					
 					int num = Utils.randomWithRange(0,99);
 

@@ -525,7 +525,6 @@ public class InputHandler {
 
 		if (player.isSneaking()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
-			player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 		} else {
 			RayTraceResult rtr = InputHandler.getMouseOverExtended(100);
 			if (rtr != null && rtr instanceof BlockRayTraceResult) {
@@ -534,7 +533,6 @@ public class InputHandler {
 				double reachSq = 100 * 100;
 				if (reachSq >= distanceSq) {
 					PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getPos().up(), destination, coords.getDimID()));
-					player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				}
 
 			}
@@ -868,14 +866,15 @@ public class InputHandler {
         IWorldCapabilities worldData = ModCapabilities.getWorld(mc.world);
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 
-        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
-        this.driveFormsMap.remove(DriveForm.NONE.toString());
-        this.magicsList = playerData.getMagicList();
-        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
-		this.limit = Utils.getPlayerLimitAttack(mc.player);
-
-        if(worldData.getPartyFromMember(mc.player.getUniqueID()) != null) {
-        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+        if(playerData != null && worldData != null) {
+	        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
+	        this.driveFormsMap.remove(DriveForm.NONE.toString());
+	        this.magicsList = playerData.getMagicList();
+	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
+			this.limit = Utils.getPlayerLimitAttack(mc.player);
+	        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
+	        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+	        }
         }
     }
 }

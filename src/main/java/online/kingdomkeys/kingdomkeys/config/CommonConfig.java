@@ -23,6 +23,7 @@ public class CommonConfig {
     public ForgeConfigSpec.BooleanValue bloxGen;
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
+    public ForgeConfigSpec.ConfigValue<List<? extends Double>> limitLaserDomeMult;
 
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
 		builder.push("general");
@@ -47,7 +48,7 @@ public class CommonConfig {
         builder.push("spawning");
 
         heartlessSpawningMode = builder
-                .comment("Heartless spawning mode, AFTER_KEYCHAIN (after the first keychain is synthesized), AFTER_DRAGON (after the Ender Dragon is defeated)")
+                .comment("Heartless spawning mode: NEVER, ALWAYS, AFTER_KEYCHAIN (after the first keychain is synthesized), AFTER_DRAGON (after the Ender Dragon is defeated)")
                 .translation(KingdomKeys.MODID + ".config.heartless_spawning_mode")
                 .defineEnum("heartlessSpawningMode", SpawningMode.AFTER_KEYCHAIN);
 
@@ -58,6 +59,19 @@ public class CommonConfig {
 
         builder.pop();
         
+        builder.push("limits");
+
+        /*limitLaserDomeCosts = builder
+                .comment("Laser Dome Costs")
+                .translation(KingdomKeys.MODID + ".config.laser_dome_costs")
+                .defineList("laserDomeCosts",Lists.newArrayList(100,300,500), o -> o instanceof Integer);
+        */
+        limitLaserDomeMult = builder
+                .comment("Laser Dome Damage Multiplier ((strength + magic) / 2 * multiplier)")
+                .translation(KingdomKeys.MODID + ".config.laser_dome_mult")
+                .defineList("laserDomeMult",Lists.newArrayList(0.15,0.2,0.3), o -> o instanceof Double);
+
+        builder.pop();
     }
   
 }

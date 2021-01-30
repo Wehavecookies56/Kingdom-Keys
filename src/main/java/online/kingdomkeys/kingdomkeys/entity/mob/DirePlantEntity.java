@@ -6,11 +6,11 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.IWorld;
@@ -73,18 +73,17 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
         return EntityHelper.MobType.HEARTLESS_EMBLEM;
     }
 
-    class SeedGoal extends Goal {
-        private DirePlantEntity theEntity;
+    class SeedGoal extends TargetGoal {
         private boolean canUseAttack = true;
         private int attackTimer = 30;
 
         public SeedGoal(DirePlantEntity e) {
-            this.theEntity = e;
+        	super(e, true);
         }
 
         @Override
         public boolean shouldExecute() {
-            if(theEntity.getAttackTarget() != null) {
+            if(goalOwner.getAttackTarget() != null) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
                         attackTimer--;
@@ -108,42 +107,42 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
         public void startExecuting() {
             canUseAttack = true;
             attackTimer = 30;
-            EntityHelper.setState(theEntity, 0);
+            EntityHelper.setState(goalOwner, 0);
         }
 
         @Override
         public void tick() {
-            if(theEntity.getAttackTarget() != null && canUseAttack	) {
-                EntityHelper.setState(theEntity, 1);
-                LivingEntity target = this.theEntity.getAttackTarget();
+            if(goalOwner.getAttackTarget() != null && canUseAttack	) {
+                EntityHelper.setState(goalOwner, 1);
+                LivingEntity target = this.goalOwner.getAttackTarget();
 
-                this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
-                double d1 = this.theEntity.getAttackTarget().getPosX() - this.theEntity.getPosX();
-                double d2 = this.theEntity.getAttackTarget().getPosY() - this.theEntity.getPosY();//getBoundingBox().minY + (double)(this.theEntity.getAttackTarget().getHeight() / 2.0F) - (this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F));
-                double d3 = this.theEntity.getAttackTarget().getPosZ() - this.theEntity.getPosZ();
+                this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
+                double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
+                double d2 = this.goalOwner.getAttackTarget().getPosY() - this.goalOwner.getPosY();//getBoundingBox().minY + (double)(this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F));
+                double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
                 System.out.println("attack");
                 if(world.rand.nextInt(100) + 1 > EntityHelper.percentage(25, 100)) {
 
-                    SeedBulletEntity seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
+                    SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 1.2F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.theEntity.world.addEntity(seed);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    this.goalOwner.world.addEntity(seed);
                 }
                 else {
-                    SeedBulletEntity seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
+                    SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 1.2F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.theEntity.world.addEntity(seed);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    this.goalOwner.world.addEntity(seed);
 
-                    seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
+                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 0.7F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.theEntity.world.addEntity(seed);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    this.goalOwner.world.addEntity(seed);
 
-                    seed = new SeedBulletEntity(this.theEntity, this.theEntity.world);
+                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 0.5F, 0);
-                    seed.setPosition(seed.getPosX(), this.theEntity.getPosY() + (double)(this.theEntity.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.theEntity.world.addEntity(seed);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    this.goalOwner.world.addEntity(seed);
                 }
 
                 canUseAttack = false;
