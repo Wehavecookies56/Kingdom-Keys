@@ -69,7 +69,7 @@ public class CommonConfig {
         */
         limitLaserCircleMult = builder
                 .comment("Laser Circle Damage Multiplier ((strength + magic) / 2 * multiplier)")
-                .translation(KingdomKeys.MODID + ".config.laser_dome_mult")
+                .translation(KingdomKeys.MODID + ".config.laser_circle_mult")
                 .defineInRange("laserCircleMult",2.0,0,100);
         
         limitLaserDomeMult = builder
