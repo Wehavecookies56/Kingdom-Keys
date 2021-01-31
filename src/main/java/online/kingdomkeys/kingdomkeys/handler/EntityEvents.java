@@ -24,6 +24,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -34,6 +35,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -102,8 +104,8 @@ public class EntityEvents {
 			}
 			
 			if (!player.world.isRemote) { // Sync from server to client
-				player.setHealth(playerData.getMaxHP());
-				player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
+				/*player.setHealth(playerData.getMaxHP());
+				player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());*/
 				
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
@@ -801,6 +803,20 @@ public class EntityEvents {
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void onBlockBreak(BlockEvent.BreakEvent event) {
+		if(!event.getWorld().isRemote()) {
+			if(!event.getPlayer().isCreative()) {
+				if(event.getState().getBlock() == ModBlocks.prizeBlox.get()) {
+					event.getWorld().addEntity(new MunnyEntity((World) event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), Utils.randomWithRange(50, 200)));
+				} else if(event.getState().getBlock() == ModBlocks.rarePrizeBlox.get()) {
+					event.getWorld().addEntity(new MunnyEntity((World) event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), Utils.randomWithRange(300, 500)));
+				}
+			}
+		}
+	}
+
 
 	@SubscribeEvent
 	public void onPlayerClone(PlayerEvent.Clone event) {

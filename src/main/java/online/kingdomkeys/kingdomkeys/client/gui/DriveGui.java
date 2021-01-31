@@ -9,6 +9,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -172,7 +174,15 @@ public class DriveGui extends Screen {
 								blit(matrixStack, 14, 6, numPos, 38, 10, guiHeight);
 							} else {
 								blit(matrixStack, 14, 6, numPos, 106, 10, guiHeight);
-							}	
+							}
+							
+							/*
+							matrixStack.translate(20, 16, 0);
+							matrixStack.rotate(Vector3f.ZN.rotationDegrees(minecraft.player.ticksExisted*6 % 360));
+							
+							//matrixStack.translate(-10, 0, 0);
+							blit(matrixStack, 10, 0, 0, 29, 3, 3);
+*/
 						}
 						matrixStack.pop();
 
