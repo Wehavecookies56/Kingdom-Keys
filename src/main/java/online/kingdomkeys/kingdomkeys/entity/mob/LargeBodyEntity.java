@@ -1,22 +1,29 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.EntityPart;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, IKHMob {
+public class LargeBodyEntity extends MonsterEntity implements IKHMob {
 
     enum SpecialAttack {
         WAIT,
@@ -25,8 +32,6 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
         SHOCKWAVE;
     }
 
-    public EntityPart[] partsArray;
-    public EntityPart partBelly = new EntityPart(this, "strongzoneBelly");
     private SpecialAttack currentAttack, previousAttack;
     private int timeForNextAI = 80;
     private boolean isAngry = false;
@@ -43,7 +48,6 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
 
     public LargeBodyEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(ModEntities.TYPE_LARGE_BODY.get(), world);
-        this.partsArray = new EntityPart[] { partBelly };
     }
     
     @Override
@@ -81,9 +85,6 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
     public void tick() {
         super.tick();
 
-        //this.partBelly.size = new EntitySize(2.2F, 2.4F, false);
-        //this.partBelly.recalculateSize();
-
         int rotation = MathHelper.floor(this.getRotationYawHead() * 4.0F / 360.0F + 0.5D) & 3;
 
         if(this.getHealth() < this.getMaxHealth()/3)
@@ -116,86 +117,48 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
             //KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.8F);
         }
 
-      /*  if(EntityHelper.getState(this) != 10 || EntityHelper.getState(this) != 2)
-            newBellyPos(rotation);*/
     }
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-    	if(!world.isRemote) {
-    		System.out.println(this.canEntityBeSeen(source.getTrueSource()));
-    		//this.setNoAI(false);
-    		System.out.println("---------------------------");
-    		System.out.println("Attacked Yaw: "+Math.abs(this.attackedAtYaw % 360));
-    		System.out.println("Rotation Yaw: "+this.rotationYaw); //0-360
-    		System.out.println("Difference  : "+(rotationYaw - Math.abs(this.attackedAtYaw % 360)));
+		if(source.getTrueSource() instanceof LivingEntity) {
+    		Entity attacker = source.getImmediateSource();
+    		double d1 = attacker.getPosX() - this.getPosX();
+            double d0 = attacker.getPosZ() - this.getPosZ();
+            float attackYaw = (float)Math.toDegrees((MathHelper.atan2(d0, d1)));// Global degree the attack is coming from
+            float diff = MathHelper.wrapDegrees(attackYaw-rotationYaw);
 
-    		if(rotationYaw - Math.abs(this.attackedAtYaw % 360) > 90 && rotationYaw - (+Math.abs(this.attackedAtYaw % 360)) < 270) {
-    			System.out.println("BACK");
-    		} else {
-    			System.out.println("BLOCK");
-
-    			Entity entity1 = source.getTrueSource();
-    			double d1 = entity1.getPosX() - this.getPosX();
-
-                double d0;
-                for(d0 = entity1.getPosZ() - this.getPosZ(); d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
-                   d1 = (Math.random() - Math.random()) * 0.01D;
-                }
-                this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * (double)(180F / (float)Math.PI) - (double)this.rotationYaw);  
-                return false;
+    		if(diff > 30 && diff < 150) {
+    			if(attacker instanceof LivingEntity) {
+	                ((LivingEntity) attacker).knockBack(attacker, 0.8F, -d1, -d0);
+	                attacker.setMotion(attacker.getMotion().x, 0.5F, attacker.getMotion().z);
+    			}
+                return false;    		
     		}
-    	}
+		}
     	return super.attackEntityFrom(source, amount);
     }
-   /* private void newBellyPos(int rotation) {
-        switch(rotation) {
-            case 0:
-                this.partBelly.setPosition(this.getPosX(), this.getPosY(), this.getPosZ() + 0.8);
-                break;
-            case 1:
-                this.partBelly.setPosition(this.getPosX() - 0.8, this.getPosY(), this.getPosZ());
-                break;
-            case 2:
-                this.partBelly.setPosition(this.getPosX(), this.getPosY(), this.getPosZ() - 0.8);
-                break;
-            case 3:
-                this.partBelly.setPosition(this.getPosX() + 0.8, this.getPosY(), this.getPosZ());
-                break;
-        }
-        this.partBelly.tick();
-    }*/
 
-    public boolean attackEntityAsMob(Entity ent) {
-        int i = 0;
-        float j = 1;
+	public boolean attackEntityAsMob(Entity ent) {
+		int i = 0;
 
-        if(EntityHelper.getState(this) == 0) i = DAMAGE_HIT;
-        else if(EntityHelper.getState(this) == 1) i = DAMAGE_CHARGE;
-        else if(EntityHelper.getState(this) == 2) i = DAMAGE_MOWDOWN;
-        else if(EntityHelper.getState(this) == 3) i = DAMAGE_SHOCKWAVE;
+		if (EntityHelper.getState(this) == 0)
+			i = DAMAGE_HIT;
+		else if (EntityHelper.getState(this) == 1)
+			i = DAMAGE_CHARGE;
+		else if (EntityHelper.getState(this) == 2)
+			i = DAMAGE_MOWDOWN;
+		else if (EntityHelper.getState(this) == 3)
+			i = DAMAGE_SHOCKWAVE;
 
-        if(this.isAngry)
-            j = 1.5F;
+		if (this.isAngry)
+			i *= 1.5F;
 
-        return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i * j);
-    }
-
-    public boolean attackEntityFromPart(EntityPart part, DamageSource source, float damage) {
-        if(part.getPartName().contains("strongzone")) {
-            return false;
-        }
-
-        this.attackEntityFrom(source, damage);
-        return true;
-    }
+		return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i);
+	}
 
     public World getWorld() {
         return this.world;
-    }
-
-    public Entity[] getParts() {
-        return this.partsArray;
     }
 
     public void setCurrentAttackState(SpecialAttack state) {

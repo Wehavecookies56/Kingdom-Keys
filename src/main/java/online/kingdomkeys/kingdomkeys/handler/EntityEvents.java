@@ -24,7 +24,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -58,7 +57,6 @@ import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
-import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -632,29 +630,6 @@ public class EntityEvents {
 			if (event.getSource().getTrueSource() instanceof LivingEntity) { // If attacker is a LivingEntity
 				LivingEntity attacker = (LivingEntity) event.getSource().getTrueSource();
 				LivingEntity target = event.getEntityLiving();
-				
-				if(target instanceof LargeBodyEntity) {
-					/*
-					System.out.println("A: "+target.attackedAtYaw%360+" : R: "+target.rotationYaw+" : Diff: "+((target.rotationYaw) - (target.attackedAtYaw%360)));
-		    		if((target.rotationYaw) - (target.attackedAtYaw%360) > 45 && ((target.rotationYaw) - (target.attackedAtYaw%360)%360) < 225) {
-		    			System.out.println("back");
-		    			double d1 = attacker.getPosX() - target.getPosX();
-		                double d0;
-		                for(d0 = attacker.getPosZ() - target.getPosZ(); d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
-		                   d1 = (Math.random() - Math.random()) * 0.01D;
-		                }
-		                target.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * (double)(180F / (float)Math.PI) - (double)target.rotationYaw); 
-
-		    		} else {
-		    			double d1 = attacker.getPosX() - target.getPosX();
-		                double d0;
-		                for(d0 = attacker.getPosZ() - target.getPosZ(); d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
-		                   d1 = (Math.random() - Math.random()) * 0.01D;
-		                }
-		                target.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * (double)(180F / (float)Math.PI) - (double)target.rotationYaw); 
-		                event.setCanceled(true);
-		    		}*/
-				}
 
 				if (attacker instanceof PlayerEntity && target instanceof PlayerEntity) {
 					Party p = ModCapabilities.getWorld(attacker.world).getPartyFromMember(attacker.getUniqueID());
