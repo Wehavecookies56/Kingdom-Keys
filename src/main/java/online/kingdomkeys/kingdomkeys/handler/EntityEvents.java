@@ -879,6 +879,7 @@ public class EntityEvents {
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		PlayerEntity nPlayer = event.getPlayer();
 		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.world);
+		nPlayer.setHealth(ModCapabilities.getPlayer(nPlayer).getMaxHP());
 
 		if(!nPlayer.world.isRemote)		
 			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayerEntity)nPlayer);
