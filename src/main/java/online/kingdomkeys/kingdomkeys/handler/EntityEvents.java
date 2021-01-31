@@ -11,8 +11,6 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -27,6 +25,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -37,6 +36,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -106,8 +106,8 @@ public class EntityEvents {
 			}
 			
 			if (!player.world.isRemote) { // Sync from server to client
-				player.setHealth(playerData.getMaxHP());
-				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
+				/*player.setHealth(playerData.getMaxHP());
+				player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());*/
 				
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
@@ -785,6 +785,19 @@ public class EntityEvents {
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void onBlockBreak(BlockEvent.BreakEvent event) {
+		if(!event.getWorld().isRemote()) {
+			if(!event.getPlayer().isCreative()) {
+				if(event.getState().getBlock() == ModBlocks.prizeBlox.get()) {
+					event.getWorld().addEntity(new MunnyEntity((World) event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), Utils.randomWithRange(50, 200)));
+				} else if(event.getState().getBlock() == ModBlocks.rarePrizeBlox.get()) {
+					event.getWorld().addEntity(new MunnyEntity((World) event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), Utils.randomWithRange(300, 500)));
+				}
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onPlayerClone(PlayerEvent.Clone event) {
@@ -844,6 +857,7 @@ public class EntityEvents {
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		PlayerEntity nPlayer = event.getPlayer();
 		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.world);
+		nPlayer.setHealth(ModCapabilities.getPlayer(nPlayer).getMaxHP());
 
 		if(!nPlayer.world.isRemote)
 			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayerEntity)nPlayer);
