@@ -851,6 +851,8 @@ public class EntityEvents {
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
+		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
+
 	}
 	
 	@SubscribeEvent
