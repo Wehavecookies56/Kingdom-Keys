@@ -13,6 +13,7 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.EntityPart;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, IKHMob {
@@ -24,8 +25,8 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
         SHOCKWAVE;
     }
 
-    public PartEntity[] partsArray;
-    public PartEntity partBelly = new PartEntity(ModEntities.TYPE_LARGE_BODY.get(), this, "strongzoneBelly");
+    public EntityPart[] partsArray;
+    public EntityPart partBelly = new EntityPart(this, "strongzoneBelly");
     private SpecialAttack currentAttack, previousAttack;
     private int timeForNextAI = 80;
     private boolean isAngry = false;
@@ -42,7 +43,7 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
 
     public LargeBodyEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(ModEntities.TYPE_LARGE_BODY.get(), world);
-        this.partsArray = new PartEntity[] { partBelly };
+        this.partsArray = new EntityPart[] { partBelly };
     }
     
     @Override
@@ -80,8 +81,8 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
     public void tick() {
         super.tick();
 
-        this.partBelly.size = new EntitySize(2.2F, 2.4F, false);
-        this.partBelly.recalculateSize();
+        //this.partBelly.size = new EntitySize(2.2F, 2.4F, false);
+        //this.partBelly.recalculateSize();
 
         int rotation = MathHelper.floor(this.getRotationYawHead() * 4.0F / 360.0F + 0.5D) & 3;
 
@@ -115,11 +116,39 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
             //KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.8F);
         }
 
-        if(EntityHelper.getState(this) != 10 || EntityHelper.getState(this) != 2)
-            newBellyPos(rotation);
+      /*  if(EntityHelper.getState(this) != 10 || EntityHelper.getState(this) != 2)
+            newBellyPos(rotation);*/
     }
 
-    private void newBellyPos(int rotation) {
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+    	if(!world.isRemote) {
+    		System.out.println(this.canEntityBeSeen(source.getTrueSource()));
+    		//this.setNoAI(false);
+    		System.out.println("---------------------------");
+    		System.out.println("Attacked Yaw: "+Math.abs(this.attackedAtYaw % 360));
+    		System.out.println("Rotation Yaw: "+this.rotationYaw); //0-360
+    		System.out.println("Difference  : "+(rotationYaw - Math.abs(this.attackedAtYaw % 360)));
+
+    		if(rotationYaw - Math.abs(this.attackedAtYaw % 360) > 90 && rotationYaw - (+Math.abs(this.attackedAtYaw % 360)) < 270) {
+    			System.out.println("BACK");
+    		} else {
+    			System.out.println("BLOCK");
+
+    			Entity entity1 = source.getTrueSource();
+    			double d1 = entity1.getPosX() - this.getPosX();
+
+                double d0;
+                for(d0 = entity1.getPosZ() - this.getPosZ(); d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
+                   d1 = (Math.random() - Math.random()) * 0.01D;
+                }
+                this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * (double)(180F / (float)Math.PI) - (double)this.rotationYaw);  
+                return false;
+    		}
+    	}
+    	return super.attackEntityFrom(source, amount);
+    }
+   /* private void newBellyPos(int rotation) {
         switch(rotation) {
             case 0:
                 this.partBelly.setPosition(this.getPosX(), this.getPosY(), this.getPosZ() + 0.8);
@@ -135,7 +164,7 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
                 break;
         }
         this.partBelly.tick();
-    }
+    }*/
 
     public boolean attackEntityAsMob(Entity ent) {
         int i = 0;
@@ -152,7 +181,7 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
         return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i * j);
     }
 
-    public boolean attackEntityFromPart(PartEntity part, DamageSource source, float damage) {
+    public boolean attackEntityFromPart(EntityPart part, DamageSource source, float damage) {
         if(part.getPartName().contains("strongzone")) {
             return false;
         }
@@ -184,7 +213,6 @@ public class LargeBodyEntity extends MonsterEntity implements IMultiPartEntity, 
     public SpecialAttack getPreviousAttackState() {
         return this.previousAttack;
     }
-
 
     @Override
     public float getRenderScale() {
