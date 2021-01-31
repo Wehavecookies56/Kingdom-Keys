@@ -55,19 +55,22 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 			}
 
 		} else {
-			if(player.getHeldItem(hand).getTag().getInt("ammo") < ammo) {
-				player.getHeldItem(hand).getTag().putInt("reload", reload / player.getHeldItem(hand).getTag().getInt("ammo"));
-				player.getHeldItem(hand).getTag().putInt("ammo", 0);
-			} else {
-				//SNIPER MODE
+			CompoundNBT nbt = player.getHeldItem(hand).getTag();
+			if(nbt.getInt("reload") == reload && nbt.getInt("ammo") > 0) {
+				if(nbt.getInt("ammo") < ammo) {
+					nbt.putInt("reload", reload / nbt.getInt("ammo"));
+					nbt.putInt("ammo", 0);
+				} else {
+					//SNIPER MODE
+				}
+				/*if (player.getHeldItem(hand).getTag().getInt("reload") > 0) {
+					player.getHeldItem(hand).getTag().putInt("reload", player.getHeldItem(hand).getTag().getInt("reload") - 1);
+				} else {
+	            	world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
+	            	player.getHeldItem(hand).getTag().putInt("reload", reload);
+	            	player.getHeldItem(hand).getTag().putInt("ammo", ammo);
+				}*/
 			}
-			/*if (player.getHeldItem(hand).getTag().getInt("reload") > 0) {
-				player.getHeldItem(hand).getTag().putInt("reload", player.getHeldItem(hand).getTag().getInt("reload") - 1);
-			} else {
-            	world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
-            	player.getHeldItem(hand).getTag().putInt("reload", reload);
-            	player.getHeldItem(hand).getTag().putInt("ammo", ammo);
-			}*/
 			return super.onItemRightClick(world, player, hand);
 		}
 
