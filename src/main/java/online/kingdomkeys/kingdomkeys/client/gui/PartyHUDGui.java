@@ -159,7 +159,7 @@ public class PartyHUDGui extends Screen {
 				matrixStack.push();
 				{
 					matrixStack.scale(scale/3*2, scale, 1);
-					this.blit(matrixStack, 0, 0,0, 71, 12, 2);
+					this.blit(matrixStack, 0, 0,0, 72, 12, 2);
 				}
 				matrixStack.pop();
 				//Middle
@@ -167,7 +167,7 @@ public class PartyHUDGui extends Screen {
 				{
 					matrixStack.translate(0, 1, 1);
 					matrixStack.scale(scale/3*2, scale*28, 1);
-					this.blit(matrixStack, 0, 0, 0, 73, 12, 1);
+					this.blit(matrixStack, 0, 0, 0, 74, 12, 1);
 				}
 				matrixStack.pop();
 				//Bottom
@@ -175,7 +175,7 @@ public class PartyHUDGui extends Screen {
 				{
 					matrixStack.translate(0, 30, 1);
 					matrixStack.scale(scale/3*2, scale, 1);
-					this.blit(matrixStack, 0, -30, 0, 71, 12, 2);
+					this.blit(matrixStack, 0, -30, 0, 72, 12, 2);
 				}
 				matrixStack.pop();
 			
@@ -185,7 +185,7 @@ public class PartyHUDGui extends Screen {
 					matrixStack.rotate(Vector3f.ZP.rotation((float) Math.toRadians(180)));
 					matrixStack.translate(-4, -15, 1);
 					matrixStack.scale(scale*0.66F, (scale*28) * val/max, 1);
-					this.blit(matrixStack, 0, 0, 0, 77, 12, 1);
+					this.blit(matrixStack, 0, 0, 0, 78, 12, 1);
 				}
 				matrixStack.pop();
 				

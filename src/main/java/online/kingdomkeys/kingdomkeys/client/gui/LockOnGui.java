@@ -173,29 +173,11 @@ public class LockOnGui extends Screen {
 			{
 				drawHPBarBack(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale);
 				drawHPBarTop(matrixStack, (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
-				drawHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 				drawDamagedHPBarTop(matrixStack, (screenWidth - hpBarWidth - missingHpBarWidth - 2 * hpBarScale), 2 * hpBarScale, missingHpBarWidth, hpBarScale, target);
+				drawHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 				drawDamagedHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 			}
 			matrixStack.pop();
-			/*matrixStack.push();
-			{
-				matrixStack.translate((screenWidth - (hpBarWidth) * scale) - 2 * scale * 2, 1, 0);
-				matrixStack.scale(scale, scale, scale);
-			}
-			matrixStack.pop();
-			matrixStack.push(); // Red portion of the bar
-			{			
-				matrixStack.translate((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 2 * scale * 2, 1, 0);
-				matrixStack.scale(scale, scale, scale);
-			}
-			matrixStack.pop();
-			matrixStack.push(); // Red bars
-			{
-				matrixStack.translate((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
-				matrixStack.scale(scale, scale, scale);
-			}
-			matrixStack.pop();	*/
 		}
 	}
 
@@ -209,7 +191,6 @@ public class LockOnGui extends Screen {
 			// Left Margin
 			matrixStack.push();
 			{
-				//matrixStack.translate(scale * posX, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
 				blit(matrixStack, 0, 0, 0, 0, 2, 12);
 			}
@@ -246,7 +227,7 @@ public class LockOnGui extends Screen {
 			for (int i = 0; i < hpBars - 1; i++) {
 				matrixStack.push();
 				{
-					matrixStack.translate(width - 20*scale - (15*scale * (i + 1)), 12*scale, 0);
+					matrixStack.translate(width - 19*scale - (17*scale * (i + 1)), 12*scale, 0);
 					matrixStack.scale(scale, scale, 0);
 					blit(matrixStack, 0, 0, 0, 46, 17, 12);
 				}
@@ -281,9 +262,9 @@ public class LockOnGui extends Screen {
 			for (int i = 1; i < currentBar; i++) {
 				matrixStack.push();
 				{
-					matrixStack.translate(posX + width - 20*scale - (15*scale * (i)), posY + 12*scale, 0);
+					matrixStack.translate(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
 					matrixStack.scale(scale, scale, 0);
-					blit(matrixStack, 2, 2, 2, 62, 13, 8);
+					blit(matrixStack, 0, 0, 0, 60, 17, 12);
 				}
 				matrixStack.pop();
 			}
@@ -313,9 +294,9 @@ public class LockOnGui extends Screen {
 			for (int i = currentBar; i < oldBar; i++) {
 				matrixStack.push();
 				{
-					matrixStack.translate(posX + width - 20*scale - (15*scale * (i)), posY + 12*scale, 0);
+					matrixStack.translate(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
 					matrixStack.scale(scale, scale, 0);
-					blit(matrixStack, 2, 2, 17, 62, 13, 8);
+					blit(matrixStack, 0, 0, 17, 60, 17, 12);
 				}
 				matrixStack.pop();
 			}
