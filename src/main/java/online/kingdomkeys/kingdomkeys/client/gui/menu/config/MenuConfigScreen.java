@@ -52,7 +52,7 @@ public class MenuConfigScreen extends MenuBackground {
 	TextFieldWidget playerSkinXPosBox, playerSkinYPosBox;
 
 	//Lock On
-	TextFieldWidget lockOnXPosBox, lockOnYPosBox;
+	TextFieldWidget lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox;
 
 	//Party
 	TextFieldWidget partyXPosBox, partyYPosBox, partyYOffsetBox;
@@ -570,14 +570,68 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-
+		addButton(lockOnHPScaleBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setLockOnHPScale(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setLockOnHPScale(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(lockOnIconScaleBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setLockOnIconScale(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setLockOnIconScale(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
 		
 		lockOnXPosBox.setText(""+ModConfigs.lockOnXPos);
 		lockOnYPosBox.setText(""+ModConfigs.lockOnYPos);
+		lockOnHPScaleBox.setText(""+ModConfigs.lockOnHPScale);
+		lockOnIconScaleBox.setText(""+ModConfigs.lockOnIconScale);
 		
 		lockOnList.add(lockOnXPosBox);
 		lockOnList.add(lockOnYPosBox);
-
+		lockOnList.add(lockOnHPScaleBox);
+		lockOnList.add(lockOnIconScaleBox);
 	}
 	
 	private void initParty() {
@@ -829,6 +883,8 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.hp_scale"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
 			}
 			matrixStack.pop();
 			

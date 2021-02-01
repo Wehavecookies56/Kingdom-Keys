@@ -52,7 +52,7 @@ public class ModConfigs {
     
     public static int playerSkinXPos, playerSkinYPos;
     
-    public static int lockOnXPos, lockOnYPos;
+    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale;
     
     public static int partyXPos, partyYPos, partyYOffset;
 
@@ -137,9 +137,19 @@ public class ModConfigs {
         CLIENT.lockOnXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setLockOnYPos(int value) {
         CLIENT.lockOnYPos.set(value);
+        bakeClient();
+    }    
+
+    public static void setLockOnHPScale(int value) {
+        CLIENT.lockOnHPScale.set(value);
+        bakeClient();
+    }    
+
+    public static void setLockOnIconScale(int value) {
+        CLIENT.lockOnIconScale.set(value);
         bakeClient();
     }
     
@@ -182,6 +192,8 @@ public class ModConfigs {
         
         lockOnXPos = CLIENT.lockOnXPos.get();
         lockOnYPos = CLIENT.lockOnYPos.get();
+        lockOnHPScale = CLIENT.lockOnHPScale.get();
+        lockOnIconScale = CLIENT.lockOnIconScale.get();
 
         partyXPos = CLIENT.partyXPos.get();
         partyYPos = CLIENT.partyYPos.get();

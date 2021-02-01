@@ -90,7 +90,8 @@
 	"gui.menu.config.mp": "Barra MP",
 	"gui.menu.config.dp": "Barra DP",
 	"gui.menu.config.player_skin": "Skin Jugador",
-	"gui.menu.config.lock_on_hp": "Barra HP Mob",
+	"gui.menu.config.lock_on_hp": "Fijar mob",
+	"gui.menu.config.party": "Grupo",
 
 	"gui.menu.config.x_scale": "Escala X",
 	"gui.menu.config.x_pos": "Posición X",
@@ -98,6 +99,8 @@
 	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",
 	"gui.menu.config.header_title": "Título de Cabecera",
 	"gui.menu.config.text_x_offset": "Pos. X del Texto extra",
+	"gui.menu.config.hp_scale": "HP Bar Scale",
+	"gui.menu.config.icon_scale": "Lock On Icon Scale",
 	
 	"gui.menu.config.show_hearts": "Mostrar corazones",
 	
