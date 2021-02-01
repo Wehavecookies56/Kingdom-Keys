@@ -121,28 +121,30 @@ public class LockOnGui extends Screen {
 			hpPerBar = 20;
 			float widthMultiplier = 10 * hpBarScale;
 
+			float targetHealth = Math.min(target.getHealth(), target.getMaxHealth());
+
 			if (target.getMaxHealth() % hpPerBar == 0) {
 				hpBars = (int) (target.getMaxHealth() / hpPerBar);
 			} else {
 				hpBars = (int) (target.getMaxHealth() / hpPerBar) + 1;
 			}
 
-			if (target.getHealth() % hpPerBar == 0) {
-				currentBar = (int) (target.getHealth() / hpPerBar);
+			if (targetHealth % hpPerBar == 0) {
+				currentBar = (int) (targetHealth / hpPerBar);
 			} else {
-				currentBar = (int) (target.getHealth() / hpPerBar) + 1;
+				currentBar = (int) (targetHealth / hpPerBar) + 1;
 			}
 
 			float firstBar =  (target.getMaxHealth() > hpPerBar ? target.getMaxHealth() % hpPerBar : target.getMaxHealth());
 			float oneBar = (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());// (int) (target.getMaxHealth() / hpBars);
 
-			if (target.getHealth() % hpPerBar == 0 && target.getHealth() != 0) {
+			if (targetHealth % hpPerBar == 0 && targetHealth != 0) {
 				hpBarWidth = oneBar * widthMultiplier;
 			} else {
-				hpBarWidth = (float) ((target.getHealth() % hpPerBar) * widthMultiplier);
+				hpBarWidth = (float) ((targetHealth % hpPerBar) * widthMultiplier);
 			}
 
-			float i = (target.getHealth());
+			float i = (targetHealth);
 			long j = Util.milliTime();
 			if (i < this.targetHealth && target.hurtResistantTime > 0) {
 				this.lastSystemTime = j;
@@ -150,7 +152,7 @@ public class LockOnGui extends Screen {
 				this.lastSystemTime = j;
 			}
 
-			if ((j - this.lastSystemTime > 1000L || this.targetHealth < target.getHealth())) { // If 1 second since last attack has passed update variables
+			if ((j - this.lastSystemTime > 1000L || this.targetHealth < targetHealth)) { // If 1 second since last attack has passed update variables
 				this.targetHealth = i;
 				this.lastTargetHealth = i;
 				this.lastSystemTime = j;
@@ -159,12 +161,12 @@ public class LockOnGui extends Screen {
 			}
 
 			//Basically get the Max of the hp bar or 0 (so weird values don't show up) and then out of that a max of that and the missing hp of the bar(so it doesn't go above the limit)
-			missingHpBarWidth = target.getHealth() % hpPerBar == 0 ? 0 : Math.min(Math.max(((lastTargetHealth - target.getHealth())),0), hpPerBar - target.getHealth() % hpPerBar) % hpPerBar * widthMultiplier;
+			missingHpBarWidth = targetHealth % hpPerBar == 0 ? 0 : Math.min(Math.max(((lastTargetHealth - targetHealth)),0), hpPerBar - targetHealth % hpPerBar) % hpPerBar * widthMultiplier;
 			float hpBarMaxWidth;
 			
 			// Background HP width
 			if (target.getMaxHealth() >= hpPerBar) {
-				if(target.getHealth() + hpPerBar > target.getMaxHealth() && currentBar == (int) (target.getMaxHealth() / hpPerBar)+1) {
+				if(targetHealth + hpPerBar > target.getMaxHealth() && currentBar == (int) (target.getMaxHealth() / hpPerBar)+1) {
 					hpBarMaxWidth = (firstBar * widthMultiplier);
 				}else{
 					hpBarMaxWidth = (oneBar * widthMultiplier);
