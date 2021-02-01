@@ -22,7 +22,7 @@ public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
     
     public ForgeConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
     
-    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos;
+    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale;
     
     public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYOffset;
 
@@ -140,6 +140,16 @@ public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
                 .comment("Lock On HP Y Pos")
                 .translation(KingdomKeys.MODID + ".config.lock_on_y_pos")
                 .defineInRange("lockOnYPos", 0, -1000, 1000);
+        
+        lockOnHPScale = builder
+                .comment("Lock On HP Bar Scale")
+                .translation(KingdomKeys.MODID + ".config.lock_on_hp_scale")
+                .defineInRange("lockOnHPScale", 70, -1000, 1000);
+        
+        lockOnIconScale = builder
+                .comment("Lock On Icon Scale")
+                .translation(KingdomKeys.MODID + ".config.lock_on_icon_scale")
+                .defineInRange("lockOnIconScale", 75, -1000, 1000);
         
         builder.pop();
         

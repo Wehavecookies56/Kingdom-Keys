@@ -35,7 +35,9 @@ public class LockOnGui extends Screen {
 	int hpGuiHeight = 10;
 	int noborderguiwidth = 171;
 
-	float scale;
+	float lockOnScale;
+	float hpBarScale;
+
 	private float targetHealth;
 	private long lastSystemTime;
 	private float lastTargetHealth;
@@ -66,13 +68,14 @@ public class LockOnGui extends Screen {
 					int screenWidth = minecraft.getMainWindow().getScaledWidth();
 					int screenHeight = minecraft.getMainWindow().getScaledHeight();
 
-					scale = 0.75F;
+					lockOnScale = ModConfigs.lockOnIconScale/100F;
+					hpBarScale = ModConfigs.lockOnHPScale/100F;
 
 					// Icon
 					RenderSystem.pushMatrix();
 					{
-						RenderSystem.translatef((screenWidth / 2) - (guiWidth / 2) * scale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * scale / size - 0.5F, 0);
-						RenderSystem.scalef(scale / size, scale / size, scale / size);
+						RenderSystem.translatef((screenWidth / 2) - (guiWidth / 2) * lockOnScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * lockOnScale / size - 0.5F, 0);
+						RenderSystem.scalef(lockOnScale / size, lockOnScale / size, lockOnScale / size);
 						this.blit(0, 0, 0, 0, guiWidth, guiHeight);
 
 						minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
@@ -94,7 +97,7 @@ public class LockOnGui extends Screen {
 						{
 							RenderSystem.enableBlend();
 							RenderSystem.translatef(ModConfigs.lockOnXPos, ModConfigs.lockOnYPos, 0);
-							drawString(minecraft.fontRenderer, target.getName().getString(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getString()), 16, 0xFFFFFF);
+							drawString(minecraft.fontRenderer, target.getName().getString(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getString()), (int) (26*hpBarScale), 0xFFFFFF);
 							drawHPBar(event, (LivingEntity) target);
 							RenderSystem.disableBlend();
 
@@ -102,7 +105,7 @@ public class LockOnGui extends Screen {
 						RenderSystem.popMatrix();
 					}
 
-					RenderSystem.scalef(scale, scale, scale);
+					RenderSystem.scalef(hpBarScale, hpBarScale, hpBarScale);
 					RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 					RenderSystem.popMatrix();
 				}
@@ -116,7 +119,7 @@ public class LockOnGui extends Screen {
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 			hpPerBar = 20;
-			int widthMultiplier = 10;
+			float widthMultiplier = 10 * hpBarScale;
 
 			if (target.getMaxHealth() % hpPerBar == 0) {
 				hpBars = (int) (target.getMaxHealth() / hpPerBar);
@@ -167,43 +170,25 @@ public class LockOnGui extends Screen {
 
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarBack(0, 0, hpBarMaxWidth, scale);
-			}
-			RenderSystem.popMatrix();
-			RenderSystem.pushMatrix();
-			{
-				RenderSystem.translatef((screenWidth - (hpBarWidth) * scale) - 2 * scale * 2, 1, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawHPBarTop(0, 0, hpBarWidth, scale);
-			}
-			RenderSystem.popMatrix();
-			RenderSystem.pushMatrix(); // Red portion of the bar
-			{			
-				RenderSystem.translatef((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 2 * scale * 2, 1, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawDamagedHPBarTop(0, 0, missingHpBarWidth, scale, target);
-			}
-			RenderSystem.popMatrix();
-			RenderSystem.pushMatrix(); // Red bars
-			{
-				RenderSystem.translatef((screenWidth - hpBarMaxWidth * scale) - 2 * scale * 2, 1, 0);
-				RenderSystem.scalef(scale, scale, scale);
-				drawDamagedHPBars(0, 0, hpBarMaxWidth, scale, target);
+				drawHPBarBack( (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale);
+				drawHPBarTop( (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
+				drawHPBars( (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
+				drawDamagedHPBarTop( (screenWidth - hpBarWidth - missingHpBarWidth - 2 * hpBarScale), 2 * hpBarScale, missingHpBarWidth, hpBarScale, target);
+				drawDamagedHPBars( (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 			}
 			RenderSystem.popMatrix();			
 		}
 	}
 
-	public void drawHPBarBack(int posX, int posY, float width, float scale) {
+	public void drawHPBarBack(float posX, float posY, float width, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
+			RenderSystem.translatef(posX, posY, 0);
+
 			// Left Margin
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef(scale * posX, scale * posY, 0);
 				RenderSystem.scalef(scale, scale, 0);
 				blit(0, 0, 0, 0, 2, 12);
 			}
@@ -212,7 +197,7 @@ public class LockOnGui extends Screen {
 			// Background
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef((posX + 2) * scale, posY * scale, 0);
+				RenderSystem.translatef(2*scale, 0, 0);
 				RenderSystem.scalef(width, scale, 0);
 				blit(0, 0, 2, 0, 1, 12);
 			}
@@ -221,7 +206,7 @@ public class LockOnGui extends Screen {
 			// Right Margin
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef((posX + 2) * scale + width, scale * posY, 0);
+				RenderSystem.translatef(2 * scale + width, 0, 0);
 				RenderSystem.scalef(scale, scale, 0);
 				blit(0, 0, 3, 0, 2, 12);
 			}
@@ -230,7 +215,7 @@ public class LockOnGui extends Screen {
 			// HP Icon
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef(posX + width - 14, posY + 9, 0);
+				RenderSystem.translatef(width - 20*scale, 12*scale, 0);
 				RenderSystem.scalef(scale, scale, 0);
 				blit(1, 0, 0, 32, 23, 12);
 			}
@@ -240,7 +225,7 @@ public class LockOnGui extends Screen {
 			for (int i = 0; i < hpBars - 1; i++) {
 				RenderSystem.pushMatrix();
 				{
-					RenderSystem.translatef(posX + width - 14 - (11 * (i + 1)), posY + 9, 0);
+					RenderSystem.translatef(width - 19*scale - (17*scale * (i + 1)), 12*scale, 0);
 					RenderSystem.scalef(scale, scale, 0);
 					blit(0, 0, 0, 46, 17, 12);
 				}
@@ -251,41 +236,46 @@ public class LockOnGui extends Screen {
 
 	}
 
-	public void drawHPBarTop(int posX, int posY, float width, float scale) {
+	public void drawHPBarTop(float posX, float posY, float width, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
 			// HP Bar
 			RenderSystem.pushMatrix();
 			{
-				RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
+				RenderSystem.translatef(posX, posY, 0);
 				RenderSystem.scalef(width, scale, 0);
 				blit(0, 0, 2, 12, 1, 8);
 			}
 			RenderSystem.popMatrix();
-
-			// HP Bars
-			for (int i = 1; i < currentBar ; i++) {
-				RenderSystem.pushMatrix();
-				{
-					RenderSystem.translatef(posX + width - 14 - (11 * i), posY + 9, 0);
-					RenderSystem.scalef(scale, scale, 0);
-					blit(2, 2, 2, 62, 13, 8);
-				}
-				RenderSystem.popMatrix();
-			}
 		}
 		RenderSystem.popMatrix();
 	}
 
-	private void drawDamagedHPBarTop(int posX, int posY, float width, float scale, LivingEntity target) {
+	private void drawHPBars(float posX, float posY, float width, float scale, LivingEntity target) {
+		// HP Bars
+		if(target.isAlive()) {
+			// HP Bars
+			for (int i = 1; i < currentBar; i++) {
+				RenderSystem.pushMatrix();
+				{
+					RenderSystem.translatef(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
+					RenderSystem.scalef(scale, scale, 0);
+					blit(0, 0, 0, 60, 17, 12);
+				}
+				RenderSystem.popMatrix();
+			}
+		}
+	}
+	
+	private void drawDamagedHPBarTop(float posX, float posY, float width, float scale, LivingEntity target) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
 			// HP Bar
 			RenderSystem.pushMatrix();
 			{				
-				RenderSystem.translatef((posX + 2) * scale, (posY + 2) * scale, 0);
+				RenderSystem.translatef(posX, posY, 0);
 				RenderSystem.scalef(width, scale, 0);
 				blit(0, 0, 2, 22, 1, 8);
 			}
@@ -295,15 +285,15 @@ public class LockOnGui extends Screen {
 		RenderSystem.popMatrix();
 	}
 	
-	private void drawDamagedHPBars(int posX, int posY, float width, float scale, LivingEntity target) {
+	private void drawDamagedHPBars(float posX, float posY, float width, float scale, LivingEntity target) {
 		// HP Bars
 		for (int i = currentBar; i < oldBar; i++) {
 			if(target.isAlive()) {
 				RenderSystem.pushMatrix();
-				{ //Random -0.01F I needed
-					RenderSystem.translatef(posX + width - 14 - (11 * i), posY + 9, 0);
+				{ 
+					RenderSystem.translatef(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
 					RenderSystem.scalef(scale, scale, 0);
-					blit(2, 2, 17, 62, 13, 8);
+					blit(0, 0, 17, 60, 17, 12);
 				}
 				RenderSystem.popMatrix();
 			}

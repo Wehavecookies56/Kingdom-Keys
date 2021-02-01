@@ -155,7 +155,7 @@ public class PartyHUDGui extends Screen {
 				RenderSystem.pushMatrix();
 				{
 					RenderSystem.scalef(scale/3*2, scale, 1);
-					this.blit(0, 0, 0, 71, 12, 2);
+					this.blit(0, 0, 0, 72, 12, 2);
 				}
 				RenderSystem.popMatrix();
 				//Middle
@@ -163,7 +163,7 @@ public class PartyHUDGui extends Screen {
 				{
 					RenderSystem.translatef(0, 1, 1);
 					RenderSystem.scalef(scale/3*2, scale*28, 1);
-					this.blit(0, 0, 0, 73, 12, 1);
+					this.blit(0, 0, 0, 74, 12, 1);
 				}
 				RenderSystem.popMatrix();
 				//Bottom
@@ -171,7 +171,7 @@ public class PartyHUDGui extends Screen {
 				{
 					RenderSystem.translatef(0, 30, 1);
 					RenderSystem.scalef(scale/3*2, scale, 1);
-					this.blit(0, -30, 0, 71, 12, 2);
+					this.blit(0, -30, 0, 72, 12, 2);
 				}
 				RenderSystem.popMatrix();
 			
@@ -181,7 +181,7 @@ public class PartyHUDGui extends Screen {
 					RenderSystem.rotatef(180, 0, 0, 1);
 					RenderSystem.translatef(-4, -15, 1);
 					RenderSystem.scalef(scale*0.66F, (scale*28) * val/max, 1);
-					this.blit(0, 0, 0, 77, 12, 1);
+					this.blit(0, 0, 0, 78, 12, 1);
 				}
 				RenderSystem.popMatrix();
 				
