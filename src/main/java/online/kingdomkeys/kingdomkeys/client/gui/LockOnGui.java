@@ -133,7 +133,8 @@ public class LockOnGui extends Screen {
 				currentBar = (int) (target.getHealth() / hpPerBar) + 1;
 			}
 
-			float oneBar =  (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());// (int) (target.getMaxHealth() / hpBars);
+			float firstBar =  (target.getMaxHealth() > hpPerBar ? target.getMaxHealth() % hpPerBar : target.getMaxHealth());
+			float oneBar = (target.getMaxHealth() > hpPerBar ? hpPerBar : target.getMaxHealth());// (int) (target.getMaxHealth() / hpBars);
 
 			if (target.getHealth() % hpPerBar == 0 && target.getHealth() != 0) {
 				hpBarWidth = oneBar * widthMultiplier;
@@ -163,8 +164,12 @@ public class LockOnGui extends Screen {
 			
 			// Background HP width
 			if (target.getMaxHealth() >= hpPerBar) {
-				hpBarMaxWidth = oneBar * widthMultiplier;
-			} else {
+				if(target.getHealth() + hpPerBar > target.getMaxHealth() && currentBar == (int) (target.getMaxHealth() / hpPerBar)+1) {
+					hpBarMaxWidth = (firstBar * widthMultiplier);
+				}else{
+					hpBarMaxWidth = (oneBar * widthMultiplier);
+				}
+			} else { //Target has less than 20 hp
 				hpBarMaxWidth = (target.getMaxHealth() % hpPerBar) * widthMultiplier;
 			}
 
