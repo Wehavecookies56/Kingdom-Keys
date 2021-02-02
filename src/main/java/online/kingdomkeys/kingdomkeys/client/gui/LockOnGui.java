@@ -162,14 +162,19 @@ public class LockOnGui extends Screen {
 
 			//Basically get the Max of the hp bar or 0 (so weird values don't show up) and then out of that a max of that and the missing hp of the bar(so it doesn't go above the limit)
 			missingHpBarWidth = targetHealth % hpPerBar == 0 ? 0 : Math.min(Math.max(((lastTargetHealth - targetHealth)),0), hpPerBar - targetHealth % hpPerBar) % hpPerBar * widthMultiplier;
-			float hpBarMaxWidth;
+			float hpBarMaxWidth, bgHPBarMaxWidth = 0;
 			
 			// Background HP width
 			if (target.getMaxHealth() >= hpPerBar) {
-				if(targetHealth + hpPerBar > target.getMaxHealth() && currentBar == (int) (target.getMaxHealth() / hpPerBar)+1) {
+				if(targetHealth + hpPerBar > target.getMaxHealth() && currentBar == hpBars) { //If it's first bar
 					hpBarMaxWidth = (firstBar * widthMultiplier);
-				}else{
+					bgHPBarMaxWidth = hpPerBar * widthMultiplier;
+				} else if(currentBar == 1) {//If it's the last bar
 					hpBarMaxWidth = (oneBar * widthMultiplier);
+					bgHPBarMaxWidth = 0;
+				} else { //Middle bar in entity with hp > 20
+					hpBarMaxWidth = (oneBar * widthMultiplier);
+					bgHPBarMaxWidth = hpPerBar * widthMultiplier;
 				}
 			} else { //Target has less than 20 hp
 				hpBarMaxWidth = (target.getMaxHealth() % hpPerBar) * widthMultiplier;
@@ -177,7 +182,7 @@ public class LockOnGui extends Screen {
 
 			RenderSystem.pushMatrix();
 			{
-				drawHPBarBack( (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale);
+				drawHPBarBack((screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, (screenWidth - bgHPBarMaxWidth - 4 * hpBarScale), bgHPBarMaxWidth);
 				drawHPBarTop( (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
 				drawHPBars( (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 				drawDamagedHPBarTop( (screenWidth - hpBarWidth - missingHpBarWidth - 2 * hpBarScale), 2 * hpBarScale, missingHpBarWidth, hpBarScale, target);
@@ -187,12 +192,45 @@ public class LockOnGui extends Screen {
 		}
 	}
 
-	public void drawHPBarBack(float posX, float posY, float width, float scale) {
+	public void drawHPBarBack(float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.translatef(posX, posY, 0);
 
+			//Green bg bar render
+			RenderSystem.pushMatrix();
+			{
+				RenderSystem.translatef(bgPosX - posX, posY, 0);
+				// Left Margin
+				RenderSystem.pushMatrix();
+				{
+					RenderSystem.scaled(scale, scale, 0);
+					blit(0, 0, 0, 0, 2, 12);
+				}
+				RenderSystem.popMatrix();
+
+				// Background
+				RenderSystem.pushMatrix(); //Empty bg (last bar)
+				{
+					RenderSystem.translatef(2*scale, 0, 0);
+					RenderSystem.scalef(bgHPBarMaxWidth, scale, 0);
+					blit(0, 0, 14, 0, 1, 12);
+				}
+				RenderSystem.popMatrix();
+
+				// Right Margin
+				RenderSystem.pushMatrix();
+				{
+					RenderSystem.translatef(2 * scale + bgHPBarMaxWidth, 0, 0);
+					RenderSystem.scalef(scale, scale, 0);
+					blit(0, 0, 3, 0, 2, 12);
+				}
+				RenderSystem.popMatrix();
+			}
+			RenderSystem.popMatrix();
+
+			//Normal bar render
 			// Left Margin
 			RenderSystem.pushMatrix();
 			{
@@ -245,18 +283,14 @@ public class LockOnGui extends Screen {
 
 	public void drawHPBarTop(float posX, float posY, float width, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		// HP Bar
 		RenderSystem.pushMatrix();
 		{
-			// HP Bar
-			RenderSystem.pushMatrix();
-			{
-				RenderSystem.translatef(posX, posY, 0);
-				RenderSystem.scalef(width, scale, 0);
-				blit(0, 0, 2, 12, 1, 8);
-			}
-			RenderSystem.popMatrix();
+			RenderSystem.translatef(posX, posY, 0);
+			RenderSystem.scalef(width, scale, 0);
+			blit(0, 0, 2, 12, 1, 8);
 		}
-		RenderSystem.popMatrix();
+		RenderSystem.popMatrix();	
 	}
 
 	private void drawHPBars(float posX, float posY, float width, float scale, LivingEntity target) {
