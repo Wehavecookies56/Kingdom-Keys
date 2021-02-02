@@ -26,23 +26,11 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:soothing_gem"
+          "name": "kingdomkeys:betwixt_gem"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:blazing_gem"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:hungry_gem"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_gem"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:tranquility_gem"
+          "name": "kingdomkeys:sinister_gem"
         },
         {
           "type": "minecraft:item",
@@ -50,11 +38,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:remembrance_gem"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:lucid_gem"
+          "name": "kingdomkeys:writhing_gem"
         },
         {
           "type": "minecraft:item",
@@ -62,35 +46,11 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:writhing_gem"
+          "name": "kingdomkeys:betwixt_crystal"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_gem"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:frost_gem"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:soothing_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:blazing_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:hungry_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:tranquility_crystal"
+          "name": "kingdomkeys:sinister_crystal"
         },
         {
           "type": "minecraft:item",
@@ -98,11 +58,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:remembrance_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:lucid_crystal"
+          "name": "kingdomkeys:writhing_crystal"
         },
         {
           "type": "minecraft:item",
@@ -110,34 +66,22 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:writhing_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:frost_crystal"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:wellspring_crystal"
-        },
-        {
-          "type": "minecraft:item",
+          "weight": 3,
           "name": "kingdomkeys:orichalcum"
         },
         {
           "type": "minecraft:item",
+          "weight": 2,
           "name": "kingdomkeys:orichalcumplus"
         },
         {
           "type": "minecraft:item",
+          "weight": 3,
           "name": "kingdomkeys:manifest_illusion"
         },
         {
           "type": "minecraft:item",
+          "weight": 2,
           "name": "kingdomkeys:lost_illusion"
         },
         {

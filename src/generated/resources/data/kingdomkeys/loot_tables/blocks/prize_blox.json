@@ -46,23 +46,11 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:soothing_shard"
+          "name": "kingdomkeys:betwixt_shard"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:blazing_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:hungry_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:tranquility_shard"
+          "name": "kingdomkeys:sinister_shard"
         },
         {
           "type": "minecraft:item",
@@ -70,11 +58,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:remembrance_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:lucid_shard"
+          "name": "kingdomkeys:writhing_shard"
         },
         {
           "type": "minecraft:item",
@@ -82,39 +66,11 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:writhing_shard"
+          "name": "kingdomkeys:betwixt_stone"
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:frost_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:wellspring_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:soothing_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:blazing_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:hungry_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:twilight_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:tranquility_stone"
+          "name": "kingdomkeys:sinister_stone"
         },
         {
           "type": "minecraft:item",
@@ -122,11 +78,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:remembrance_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:lucid_stone"
+          "name": "kingdomkeys:writhing_stone"
         },
         {
           "type": "minecraft:item",
@@ -134,34 +86,26 @@
         },
         {
           "type": "minecraft:item",
-          "name": "kingdomkeys:writhing_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:betwixt_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:frost_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "kingdomkeys:wellspring_stone"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
+          "weight": 4,
           "name": "kingdomkeys:fluorite"
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 3,
           "name": "kingdomkeys:damascus"
         },
         {
           "type": "minecraft:item",
           "weight": 2,
           "name": "kingdomkeys:adamantite"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:electrum"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:orichalcum"
         }
       ]
     }
