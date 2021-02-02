@@ -164,14 +164,19 @@ public class LockOnGui extends Screen {
 
 			//Basically get the Max of the hp bar or 0 (so weird values don't show up) and then out of that a max of that and the missing hp of the bar(so it doesn't go above the limit)
 			missingHpBarWidth = targetHealth % hpPerBar == 0 ? 0 : Math.min(Math.max(((lastTargetHealth - targetHealth)),0), hpPerBar - targetHealth % hpPerBar) % hpPerBar * widthMultiplier;
-			float hpBarMaxWidth;
+			float hpBarMaxWidth, bgHPBarMaxWidth = 0;
 			
 			// Background HP width
 			if (target.getMaxHealth() >= hpPerBar) {
-				if(targetHealth + hpPerBar > target.getMaxHealth() && currentBar == (int) (target.getMaxHealth() / hpPerBar)+1) {
+				if(targetHealth + hpPerBar > target.getMaxHealth() && currentBar == hpBars) { //If it's first bar
 					hpBarMaxWidth = (firstBar * widthMultiplier);
-				}else{
+					bgHPBarMaxWidth = hpPerBar * widthMultiplier;
+				} else if(currentBar == 1) {//If it's the last bar
 					hpBarMaxWidth = (oneBar * widthMultiplier);
+					bgHPBarMaxWidth = 0;
+				} else { //Middle bar in entity with hp > 20
+					hpBarMaxWidth = (oneBar * widthMultiplier);
+					bgHPBarMaxWidth = hpPerBar * widthMultiplier;
 				}
 			} else { //Target has less than 20 hp
 				hpBarMaxWidth = (target.getMaxHealth() % hpPerBar) * widthMultiplier;
@@ -179,7 +184,7 @@ public class LockOnGui extends Screen {
 
 			matrixStack.push();
 			{
-				drawHPBarBack(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale);
+				drawHPBarBack(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, (screenWidth - bgHPBarMaxWidth - 4 * hpBarScale), bgHPBarMaxWidth);
 				drawHPBarTop(matrixStack, (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
 				drawDamagedHPBarTop(matrixStack, (screenWidth - hpBarWidth - missingHpBarWidth - 2 * hpBarScale), 2 * hpBarScale, missingHpBarWidth, hpBarScale, target);
 				drawHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
@@ -189,13 +194,46 @@ public class LockOnGui extends Screen {
 		}
 	}
 
-	public void drawHPBarBack(MatrixStack matrixStack, float posX, float posY, float width, float scale) {
+	public void drawHPBarBack(MatrixStack matrixStack, float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		
 		matrixStack.push();
 		{
 			matrixStack.translate(posX, posY, 0);
 
+			//Green bg bar render
+			matrixStack.push();
+			{
+				matrixStack.translate(bgPosX - posX, posY, 0);
+				// Left Margin
+				matrixStack.push();
+				{
+					matrixStack.scale(scale, scale, 0);
+					blit(matrixStack, 0, 0, 0, 0, 2, 12);
+				}
+				matrixStack.pop();
+
+				// Background
+				matrixStack.push(); //Empty bg (last bar)
+				{
+					matrixStack.translate(2*scale, 0, 0);
+					matrixStack.scale(bgHPBarMaxWidth, scale, 0);
+					blit(matrixStack, 0, 0, 14, 0, 1, 12);
+				}
+				matrixStack.pop();
+
+				// Right Margin
+				matrixStack.push();
+				{
+					matrixStack.translate(2 * scale + bgHPBarMaxWidth, 0, 0);
+					matrixStack.scale(scale, scale, 0);
+					blit(matrixStack, 0, 0, 3, 0, 2, 12);
+				}
+				matrixStack.pop();
+			}
+			matrixStack.pop();
+
+			//Normal bar render
 			// Left Margin
 			matrixStack.push();
 			{
@@ -221,7 +259,7 @@ public class LockOnGui extends Screen {
 				blit(matrixStack, 0, 0, 3, 0, 2, 12);
 			}
 			matrixStack.pop();
-
+			
 			// HP Icon
 			matrixStack.push();
 			{
@@ -247,18 +285,13 @@ public class LockOnGui extends Screen {
 	}
 
 	public void drawHPBarTop(MatrixStack matrixStack, float posX, float posY, float width, float scale) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));	
+		// HP Bar
 		matrixStack.push();
 		{
-			// HP Bar
-			matrixStack.push();
-			{
-				matrixStack.translate(posX, posY, 0);
-				matrixStack.scale(width, scale, 0);
-				blit(matrixStack, 0, 0, 2, 12, 1, 8);
-			}
-			matrixStack.pop();
-
+			matrixStack.translate(posX, posY, 0);
+			matrixStack.scale(width, scale, 0);
+			blit(matrixStack, 0, 0, 2, 12, 1, 8);
 		}
 		matrixStack.pop();
 	}
