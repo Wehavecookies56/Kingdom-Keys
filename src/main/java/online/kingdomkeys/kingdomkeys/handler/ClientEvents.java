@@ -104,20 +104,24 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Pre event) {
-		if(event.getEntity() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntity();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			//Glide animation
-			if(playerData.getIsGliding() && (player.getMotion().x != 0 && player.getMotion().z != 0 )) {
-				event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
-				event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
-				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
-			}
-			
-			//Aerial Dodge rotation
-			if(playerData.getAerialDodgeTicks() > 0) {
-				//System.out.println(player.getDisplayName().getFormattedText()+" "+playerData.getAerialDodgeTicks());
-				event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
+		if(event.getEntity() != null) {
+			if(event.getEntity() instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) event.getEntity();
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				if(playerData != null) {
+					//Glide animation
+					if(playerData.getIsGliding() && (player.getMotion().x != 0 && player.getMotion().z != 0 )) {
+						event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
+						event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
+						event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
+					}
+					
+					//Aerial Dodge rotation
+					if(playerData.getAerialDodgeTicks() > 0) {
+						//System.out.println(player.getDisplayName().getFormattedText()+" "+playerData.getAerialDodgeTicks());
+						event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
+					}
+				}
 			}
 		}
 	}
