@@ -23,10 +23,10 @@ public class HPGui extends Screen {
 	float hpBarWidth, missingHpBarWidth;
 	int guiHeight = 10;
 
-	int counter = 0;
-	private int playerHealth;
+	private float playerHealth;
 	private long lastSystemTime;
-	private int lastPlayerHealth;
+	private float lastPlayerHealth;
+	
 	public HPGui() {
 		super(new TranslationTextComponent(""));
 		minecraft = Minecraft.getInstance();
@@ -57,7 +57,7 @@ public class HPGui extends Screen {
 			hpBarWidth = (player.getHealth() * scaleFactor);
 			int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
 			
-			int i = MathHelper.ceil(player.getHealth());
+			float i = (player.getHealth());
 			long j = Util.milliTime();
 			if (i < this.playerHealth && player.hurtResistantTime > 0) {
 				this.lastSystemTime = j;

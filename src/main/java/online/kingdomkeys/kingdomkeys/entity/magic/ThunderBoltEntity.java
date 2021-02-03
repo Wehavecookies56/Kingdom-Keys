@@ -169,7 +169,7 @@ public class ThunderBoltEntity extends ThrowableEntity {
 						 LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.world);
 						 lightningBoltEntity.moveForced(Vector3d.copyCenteredHorizontally(entity.getPosition()));
 						 lightningBoltEntity.setCaster(getCaster() instanceof ServerPlayerEntity ? (ServerPlayerEntity)getCaster() : null);
-				            this.world.addEntity(lightningBoltEntity);
+				         this.world.addEntity(lightningBoltEntity);
 				            
 						/*LightningBoltEntity lightningBoltEntity = new LightningBoltEntity(world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), true);
 						entity.func_241841_a((ServerWorld) world, lightningBoltEntity);*/
