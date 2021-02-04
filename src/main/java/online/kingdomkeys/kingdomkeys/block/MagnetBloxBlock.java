@@ -29,6 +29,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnetBloxBlock extends BaseBlock{
 
@@ -86,7 +87,7 @@ public class MagnetBloxBlock extends BaseBlock{
         if (player.isCrouching()) {
             worldIn.setBlockState(pos, state.with(ATTRACT, !state.get(ATTRACT)));
             String message = state.get(ATTRACT) ? "message.magnet_blox.repel" : "message.magnet_blox.attract";
-            message = I18n.format(message);
+            message = Utils.translateToLocal(message);
             TextFormatting formatting = state.get(ATTRACT) ? TextFormatting.BLUE : TextFormatting.RED;
             message = formatting + message;
             player.sendStatusMessage(new StringTextComponent(message), true);
