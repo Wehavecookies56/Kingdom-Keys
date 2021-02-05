@@ -24,6 +24,9 @@ public class CommonConfig {
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public ForgeConfigSpec.BooleanValue bombExplodeWithFire;
+    
+    public ForgeConfigSpec.DoubleValue drivePointsMultiplier;
+    
     public ForgeConfigSpec.DoubleValue limitLaserCircleMult;
     public ForgeConfigSpec.DoubleValue limitLaserDomeMult;
 
@@ -46,10 +49,15 @@ public class CommonConfig {
                 .define("debugConsoleOutput", false);
         
         bombExplodeWithFire = builder
-                .comment("Enable debug console output")
+                .comment("Allow Bomb heartless to explode when lit on fire")
                 .translation(KingdomKeys.MODID + ".config.bomb_explode_with_fire")
                 .define("bombExplodeWithfire", true);
 
+        drivePointsMultiplier = builder
+                .comment("Drive Points Drop Multiplier")
+                .translation(KingdomKeys.MODID + ".config.drive_points_multiplier")
+                .defineInRange("drivePointsMultiplier",1.0,0,100);
+        
         builder.pop();
 
         builder.push("spawning");

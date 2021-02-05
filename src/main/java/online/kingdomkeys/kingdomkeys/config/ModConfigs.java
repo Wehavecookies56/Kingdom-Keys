@@ -208,6 +208,8 @@ public class ModConfigs {
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
     
+    public static double drivePointsMultiplier;
+
     public static double limitLaserCircleMult;
     public static double limitLaserDomeMult;
 
@@ -218,6 +220,9 @@ public class ModConfigs {
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
+        
+        drivePointsMultiplier = COMMON.drivePointsMultiplier.get();
+
         limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
         limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
     }
