@@ -59,6 +59,10 @@ public class LockOnGui extends Screen {
 				missingHpBarWidth = 0;
 				return;
 			} else {
+				if(player.getDistance(target) > 35){
+					InputHandler.lockOn = null;
+					return;
+				}
 				if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
 					event.setCanceled(true);
 				}

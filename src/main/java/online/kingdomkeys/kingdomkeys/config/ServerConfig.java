@@ -18,8 +18,9 @@ public class ServerConfig {
     public ForgeConfigSpec.DoubleValue xpMultiplier;
     public ForgeConfigSpec.DoubleValue heartMultiplier;
     public ForgeConfigSpec.DoubleValue partyXPShare;
-
-    //public ForgeConfigSpec.DoubleValue valorFormXPMultiplier, wisdomFormXPMultiplier, limitFormXPMultiplier, masterFormXPMultiplier, finalFormXPMultiplier;
+    
+    public ForgeConfigSpec.IntValue limitLaserCircleCost;
+    public ForgeConfigSpec.IntValue limitLaserDomeCost;
 
     ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -58,6 +59,20 @@ public class ServerConfig {
                 .comment("Drive Form XP Multiplier")
                 .translation(KingdomKeys.MODID + ".config.drive_form_xp_multiplier")
                 .defineList("driveFormXPMultiplier", Lists.newArrayList("Valor,1", "Wisdom,1", "Limit,1", "Master,1", "Final,1"), o -> o instanceof String);
+
+        builder.pop();
+        
+        builder.push("limits");
+
+        limitLaserCircleCost = builder
+                .comment("Laser Circle Cost")
+                .translation(KingdomKeys.MODID + ".config.laser_circle_cost")
+                .defineInRange("laserCircleCost",100,0,1000);
+        
+        limitLaserDomeCost = builder
+                .comment("Laser Dome Cost")
+                .translation(KingdomKeys.MODID + ".config.laser_dome_cost")
+                .defineInRange("laserDomeCost",400,0,1000);
 
         builder.pop();
     }

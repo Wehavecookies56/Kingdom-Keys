@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
@@ -91,11 +92,22 @@ public class ClientEvents {
 				if(globalData.getFlatTicks() > 0) {
 					eyeHeight = 0.2F;
 				} else {
-					eyeHeight = 1.62F;
-
-					if(player.isSneaking()) {
-						eyeHeight -= 0.3F;
-					}
+					switch(player.getPose()) {
+					case STANDING:
+						eyeHeight = 1.62F;
+						break;
+					case CROUCHING:
+						eyeHeight = 1.27F;
+						break;
+					case DYING:
+						eyeHeight = 0.3F;
+						break;
+					case SWIMMING:
+						eyeHeight = 0.4F;
+						break;
+					case SLEEPING:
+						eyeHeight = 0.2F;
+					}					
 				}
 				event.setNewEyeHeight(eyeHeight);
 			}

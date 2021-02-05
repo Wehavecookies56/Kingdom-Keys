@@ -283,7 +283,7 @@ public class GuiOverlay extends Screen {
 			}
 			matrixStack.pop();
 			
-//Form Abilities
+//Form Abilities	
 			matrixStack.push();
 			{
 				// Top
@@ -296,6 +296,7 @@ public class GuiOverlay extends Screen {
 					blit(matrixStack, 0, 0, 0, 51, 256, 36);
 				}
 				matrixStack.pop();
+				System.out.println(playerData+" "+driveForm);
 				String formName = Utils.translateToLocal(ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getTranslationKey());
 				showText(matrixStack, "LV.", 2 + (minecraft.fontRenderer.getStringWidth("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 				showText(matrixStack, "" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);

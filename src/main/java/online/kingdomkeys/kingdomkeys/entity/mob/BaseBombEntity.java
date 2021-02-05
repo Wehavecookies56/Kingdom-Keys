@@ -30,6 +30,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
@@ -97,7 +98,7 @@ public abstract class BaseBombEntity extends MonsterEntity implements IKHMob, IE
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if(!this.world.isRemote) {
-            if (isBurning() || source.getImmediateSource() instanceof FireEntity) {
+            if (ModConfigs.bombExplodeWithfire && (isBurning() || source.getImmediateSource() instanceof FireEntity)) {
                 explode();
             }
         }

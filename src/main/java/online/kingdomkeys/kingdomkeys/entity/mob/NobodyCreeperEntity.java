@@ -179,7 +179,7 @@ public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
 	                            this.theEntity.setPositionAndUpdate(target.getPosX(), target.getPosY() + 4, target.getPosZ());
 	                            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 	
-	                            for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 2))
+	                            for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 3))
 	                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 6);
                         	} else {
                         		return;
@@ -195,9 +195,9 @@ public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
 
                             for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 2.5))
                                 enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
-                        }
-                        else
+                        } else {
                             return;
+                        }
                     }
 
                 }
