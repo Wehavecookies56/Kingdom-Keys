@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "kingdomkeys:block/betwixt_ore",
+	  "kingdomkeys:block/blazing_ore",
+    "kingdomkeys:block/frost_ore",
+    "kingdomkeys:block/hungry_ore",
+    "kingdomkeys:block/lightning_ore",
+    "kingdomkeys:block/lucid_ore",
+    "kingdomkeys:block/blazing_ore_n",
+    "kingdomkeys:block/pulsing_ore",
+    "kingdomkeys:block/pulsing_ore_e",
+    "kingdomkeys:block/remembrance_ore",
+    "kingdomkeys:block/sinister_ore",
+    "kingdomkeys:block/soothing_ore",
+    "kingdomkeys:block/stormy_ore",
+    "kingdomkeys:block/tranquility_ore",
+    "kingdomkeys:block/twilight_ore",
+    "kingdomkeys:block/twilight_ore_n",
+    "kingdomkeys:block/wellspring_ore",
+    "kingdomkeys:block/wellspring_ore_n",
+    "kingdomkeys:block/writhing_ore",
+    "kingdomkeys:block/writhing_ore_e",
+    "kingdomkeys:block/writhing_ore_n"
+  ]
+}
