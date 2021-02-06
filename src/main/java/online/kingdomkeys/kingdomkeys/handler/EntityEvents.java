@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -27,6 +28,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -265,6 +267,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
+		//globalData.setFlatTicks(10);
 		IPlayerCapabilities playerData = null;
 		PlayerEntity player = null;
 		if (event.getEntityLiving() instanceof PlayerEntity) {
@@ -298,13 +301,19 @@ public class EntityEvents {
 			// Gravity
 			if (globalData.getFlatTicks() > 0) {
 				globalData.subFlatTicks(1);
-
+				
+				if(event.getEntityLiving() instanceof PlayerEntity) {
+					if(((PlayerEntity)event.getEntityLiving()).getForcedPose() != Pose.SWIMMING){
+						((PlayerEntity)event.getEntityLiving()).setForcedPose(Pose.SWIMMING);
+					}					
+					System.out.println(((PlayerEntity)event.getEntityLiving()).getPose());
+				}
+			
 				event.getEntityLiving().setMotion(0, -4, 0);
 				event.getEntityLiving().velocityChanged = true;
 
 				if (globalData.getFlatTicks() <= 0) {
 					globalData.setFlatTicks(0); // Just in case it goes below (shouldn't happen)
-					
 					
 					if (event.getEntityLiving() instanceof LivingEntity) {// This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
 						PacketHandler.syncToAllAround(event.getEntityLiving(), globalData);
@@ -314,6 +323,15 @@ public class EntityEvents {
 						}
 					}
 					
+				}
+			} else {
+				if(event.getEntityLiving() instanceof PlayerEntity) {
+					PlayerEntity pl = (PlayerEntity) event.getEntityLiving();
+					
+					if(pl.getForcedPose() == Pose.SWIMMING && !ModCapabilities.getPlayer(pl).getIsGliding()){
+						pl.setForcedPose(null);
+					}					
+					//System.out.println(pl.getPose());
 				}
 			}
 		}
@@ -508,7 +526,11 @@ public class EntityEvents {
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			Vector3d motion = player.getMotion();
 			player.setMotion(motion.x, glide, motion.z);
-		}
+
+			if(player.getForcedPose() != Pose.SWIMMING){
+				player.setForcedPose(Pose.SWIMMING);
+			}
+		} 
 	}
 	
 	@SubscribeEvent

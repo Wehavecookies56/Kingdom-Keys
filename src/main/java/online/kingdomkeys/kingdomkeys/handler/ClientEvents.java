@@ -81,59 +81,36 @@ public class ClientEvents {
 		
 	}
 	
-
-	@SubscribeEvent
-	public void changeHeight(EntityEvent.Size event) {
-		ClientPlayerEntity player = Minecraft.getInstance().player;
-		if(player != null) {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-			if(globalData != null) {
-				float eyeHeight = player.getEyeHeight();
-				if(globalData.getFlatTicks() > 0) {
-					eyeHeight = 0.2F;
-				} else {
-					switch(player.getPose()) {
-					case STANDING:
-						eyeHeight = 1.62F;
-						break;
-					case CROUCHING:
-						eyeHeight = 1.27F;
-						break;
-					case DYING:
-						eyeHeight = 0.3F;
-						break;
-					case SWIMMING:
-						eyeHeight = 0.4F;
-						break;
-					case SLEEPING:
-						eyeHeight = 0.2F;
-					}					
-				}
-				event.setNewEyeHeight(eyeHeight);
-			}
-		}
-	}
-	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Pre event) {
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof PlayerEntity) {
 				PlayerEntity player = (PlayerEntity) event.getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+
 				if(playerData != null) {
 					//Glide animation
 					if(playerData.getIsGliding() && (player.getMotion().x != 0 && player.getMotion().z != 0 )) {
-						event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
-						event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
-						event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
+						player.setPose(Pose.SWIMMING);
+						//event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(90));
+					//	event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(player.prevRotationYaw));
+						//event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.prevRotationYaw));
 					}
 					
 					//Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
 						//System.out.println(player.getDisplayName().getFormattedText()+" "+playerData.getAerialDodgeTicks());
+						player.setPose(Pose.SPIN_ATTACK);
+
 						event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
 					}
 				}
+				/*if(globalData != null) {
+					if(globalData.getFlatTicks() > 0) {
+						player.setPose(Pose.SWIMMING);
+					}
+				}*/
 			}
 		}
 	}

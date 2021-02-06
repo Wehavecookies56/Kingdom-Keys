@@ -96,13 +96,11 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 						} else {
 							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY() + 0.5, getPos().getZ() + 0.5);
 						}
-						// Attract
+
+						Vector3d pushDir = toVector3f(facing);
 						if (attract) {
-							Vector3d blockDir = blockPos.subtract(ePos);
-							e.setMotion(blockDir.normalize().mul(strength, strength, strength));
-							// Repel
+							e.setMotion(pushDir.normalize().mul(-strength, -strength, -strength));
 						} else {
-							Vector3d pushDir = toVector3f(facing);
 							e.setMotion(pushDir.normalize().mul(strength, strength, strength));
 						}
 					}
