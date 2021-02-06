@@ -400,7 +400,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getDriveFormLevel(String name) {
-		return driveForms.get(name)[0];
+		return driveForms.containsKey(name) ? driveForms.get(name)[0] : 0;
 	}
 
 	@Override

@@ -59,13 +59,13 @@ public class WeaponUnlockScreen extends Screen {
         drawString(matrixStack, font, "Hearts Cost: " + cost, (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
         drawString(matrixStack, font, "Current Hearts: " + playerData.getHearts(), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
         matrixStack.pop();
-        matrixStack.push();
-        matrixStack.translate((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
-        matrixStack.scale(5, 5, 5);
+        RenderSystem.pushMatrix();
+        RenderSystem.translatef((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
+        RenderSystem.scalef(5, 5, 5);
         RenderSystem.enableBlend();
         RenderSystem.color3f(0, 0, 0);
         Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(new ItemStack(weapons.get(current)), 0, 0);
-        matrixStack.pop();
+        RenderSystem.popMatrix();
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
     }
 

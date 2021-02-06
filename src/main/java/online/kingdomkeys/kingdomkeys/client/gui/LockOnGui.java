@@ -38,7 +38,7 @@ public class LockOnGui extends Screen {
 
 	float lockOnScale;
 	float hpBarScale;
-	
+	LivingEntity lastTrackedTarget;
 	private float targetHealth;
 	private long lastSystemTime;
 	private float lastTargetHealth;
@@ -56,8 +56,13 @@ public class LockOnGui extends Screen {
 		if (playerData != null) {
 			Entity target = InputHandler.lockOn;
 			if (target == null) {
+				missingHpBarWidth = 0;
 				return;
 			} else {
+				if(player.getDistance(target) > 35){
+					InputHandler.lockOn = null;
+					return;
+				}
 				if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
 					event.setCanceled(true);
 				}

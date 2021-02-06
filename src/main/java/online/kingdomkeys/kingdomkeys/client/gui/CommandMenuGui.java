@@ -537,7 +537,6 @@ public class CommandMenuGui extends Screen {
 						drawUnselectedSlot(matrixStack);
 					}
 
-
 					int limitCost = limits.get(i).getCost();
 					int color = playerData.getDP() >= limitCost ? 0xFFFFFF : 0x888888;
 

@@ -28,13 +28,15 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends BipedModel<T>,
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(!ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE)) {
-			String drive = ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm();
-			DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(drive));
-			
-			if (form.getTextureLocation() != null) {
-				IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(bufferIn, RenderType.getEntityCutoutNoCull(form.getTextureLocation()), false, false);
-				renderPlayer.getEntityModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+		if(entitylivingbaseIn != null && ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn) != null) {
+			if(!ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE)) {
+				String drive = ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm();
+				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(drive));
+				
+				if (form.getTextureLocation() != null) {
+					IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(bufferIn, RenderType.getEntityCutoutNoCull(form.getTextureLocation()), false, false);
+					renderPlayer.getEntityModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+				}
 			}
 		}
 	}

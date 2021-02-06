@@ -203,9 +203,13 @@ public class ModConfigs {
     public static boolean oreGen;
     public static boolean bloxGen;
     public static boolean debugConsoleOutput;
+    public static boolean bombExplodeWithfire;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
+    
+    public static double drivePointsMultiplier;
+
     public static double limitLaserCircleMult;
     public static double limitLaserDomeMult;
 
@@ -214,7 +218,11 @@ public class ModConfigs {
         oreGen = COMMON.oreGen.get();
         bloxGen = COMMON.bloxGen.get();
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
+        bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
+        
+        drivePointsMultiplier = COMMON.drivePointsMultiplier.get();
+
         limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
         limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
     }
@@ -225,6 +233,9 @@ public class ModConfigs {
     public static double xpMultiplier;
     public static double heartMultiplier;
     public static double partyXPShare;
+    
+    public static int limitLaserCircleCost;
+    public static int limitLaserDomeCost;
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
@@ -233,6 +244,10 @@ public class ModConfigs {
         xpMultiplier = SERVER.xpMultiplier.get();
         heartMultiplier = SERVER.heartMultiplier.get();
         partyXPShare = SERVER.partyXPShare.get();
+        
+        limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
+        limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
+
     }
 
 

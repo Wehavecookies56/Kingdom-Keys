@@ -66,7 +66,6 @@ public class InputHandler {
     List<Member> targetsList;
     List<Limit> limitsList;
     
-
     public static LivingEntity lockOn = null;
 
     public boolean antiFormCheck() {
@@ -265,9 +264,11 @@ public class InputHandler {
         //ExtendedWorldData worldData = ExtendedWorldData.get(world);
         IWorldCapabilities worldData = ModCapabilities.getWorld(world);
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        if(playerData == null || worldData == null)
+        	return;
         switch (CommandMenuGui.selected) {
             case CommandMenuGui.ATTACK: //Accessing ATTACK / PORTAL submenu
-                if (ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
+                if (playerData.getAlignment() != Utils.OrgMember.NONE) {
                     // Submenu of the portals
                     if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                         if (!this.portalCommands.isEmpty() && !playerData.getRecharge()) {
@@ -653,26 +654,18 @@ public class InputHandler {
                 
                 case LOCK_ON:
                     if (lockOn == null) {
-                        RayTraceResult rtr = getMouseOverExtended(100);
+                        int reach = 35;
+                        RayTraceResult rtr = getMouseOverExtended(reach);
                         if (rtr != null && rtr instanceof EntityRayTraceResult) {
                         	EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
                             if (ertr.getEntity() != null) {
-                                double distanceSq = player.getDistanceSq(ertr.getEntity());
-                                double reachSq = 100 * 100;
-                                if (reachSq >= distanceSq) {
+                                double distance = player.getDistance(ertr.getEntity());
+                                System.out.println(distance);
+                                if (reach >= distance) {
                                     if (ertr.getEntity() instanceof LivingEntity) {
                                         lockOn = (LivingEntity) ertr.getEntity();
-                                        //System.out.println(lockOn);
                                         player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                                    }/* else if (rtr.entityHit instanceof EntityPart) {
-                                        EntityPart part = (EntityPart) rtr.entityHit;
-                                        if (part.getParent() != null && part.getParent() instanceof EntityLivingBase) {
-                                            lockOn = (EntityLivingBase) part.getParent();
-                                            LockOn.target = (EntityLivingBase) part.getParent();
-                                            player.world.playSound((EntityPlayer) player, player.getPosition(), ModSounds.lockon, SoundCategory.MASTER, 1.0f, 1.0f);
-
-                                        }
-                                    }*/
+                                    }
                                 }
                             }
                         }

@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -21,6 +22,11 @@ public class LimitLaserDome extends Limit {
 		super(registryName, order, cost, cooldown, owner);
 	}
 
+	@Override
+	public int getCost() {
+		return ModConfigs.limitLaserDomeCost;
+	}
+	
 	@Override
 	public void onUse(PlayerEntity player, LivingEntity target) {
 		ItemStack stack = player.getHeldItemMainhand();

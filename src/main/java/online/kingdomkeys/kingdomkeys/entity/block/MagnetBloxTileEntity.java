@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -64,7 +65,7 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 						colors[1] = 0;
 						colors[2] = 1;
 					}
-					
+
 					for (double i = 0.7; i < range; i += 0.3) {
 						if (facing == Direction.NORTH) {
 							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
@@ -90,10 +91,10 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 					for (Entity e : entities) {
 						Vector3d ePos = e.getPositionVec();
 						Vector3d blockPos;
-						if(e instanceof LivingEntity) {
+						if (e instanceof LivingEntity) {
 							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY(), getPos().getZ() + 0.5);
 						} else {
-							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY()+0.5, getPos().getZ() + 0.5);
+							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY() + 0.5, getPos().getZ() + 0.5);
 						}
 						// Attract
 						if (attract) {
@@ -101,12 +102,16 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 							e.setMotion(blockDir.normalize().mul(strength, strength, strength));
 							// Repel
 						} else {
-							Vector3d pushDir = new Vector3d(facing.toVector3f());
+							Vector3d pushDir = toVector3f(facing);
 							e.setMotion(pushDir.normalize().mul(strength, strength, strength));
 						}
 					}
 				}
 			}
 		}
+	}
+
+	public Vector3d toVector3f(Direction facing) {
+		return new Vector3d((float) facing.getXOffset(), (float) facing.getYOffset(), (float) facing.getZOffset());
 	}
 }

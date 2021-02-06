@@ -23,6 +23,10 @@ public class CommonConfig {
     public ForgeConfigSpec.BooleanValue bloxGen;
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
+    public ForgeConfigSpec.BooleanValue bombExplodeWithFire;
+    
+    public ForgeConfigSpec.DoubleValue drivePointsMultiplier;
+    
     public ForgeConfigSpec.DoubleValue limitLaserCircleMult;
     public ForgeConfigSpec.DoubleValue limitLaserDomeMult;
 
@@ -43,7 +47,17 @@ public class CommonConfig {
                 .comment("Enable debug console output")
                 .translation(KingdomKeys.MODID + ".config.debug")
                 .define("debugConsoleOutput", false);
+        
+        bombExplodeWithFire = builder
+                .comment("Allow Bomb heartless to explode when lit on fire")
+                .translation(KingdomKeys.MODID + ".config.bomb_explode_with_fire")
+                .define("bombExplodeWithfire", true);
 
+        drivePointsMultiplier = builder
+                .comment("Drive Points Drop Multiplier")
+                .translation(KingdomKeys.MODID + ".config.drive_points_multiplier")
+                .defineInRange("drivePointsMultiplier",1.0,0,100);
+        
         builder.pop();
 
         builder.push("spawning");
@@ -61,12 +75,7 @@ public class CommonConfig {
         builder.pop();
         
         builder.push("limits");
-
-        /*limitLaserDomeCosts = builder
-                .comment("Laser Dome Costs")
-                .translation(KingdomKeys.MODID + ".config.laser_dome_costs")
-                .defineList("laserDomeCosts",Lists.newArrayList(100,300,500), o -> o instanceof Integer);
-        */
+        
         limitLaserCircleMult = builder
                 .comment("Laser Circle Damage Multiplier ((strength + magic) / 2 * multiplier)")
                 .translation(KingdomKeys.MODID + ".config.laser_circle_mult")
