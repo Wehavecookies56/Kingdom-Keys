@@ -24,6 +24,7 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public static final float[] MASTER_AERIAL_DODGE_BOOST = { 0, 1, 1, 1.2F, 1.2F, 1.4F, 1.4F, 1.6F };
 	public static final float[] FINAL_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.025F, 0.025F, 0.03F, 0.03F, 0.04F };
 	public static final float[] FINAL_GLIDE = { 0, -0.12F, -0.12F, -0.08F, -0.08F, -0.04F, -0.04F, -0.01F };
+	public static final float[] FINAL_GLIDE_SPEED = { 0, 0.11F, 0.11F, 0.25F, 0.25F, 0.5F, 0.5F, 0.7F };
 	String name;
 	int driveCost;
 	int ap;

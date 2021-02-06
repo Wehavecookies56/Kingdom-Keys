@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -327,11 +328,9 @@ public class EntityEvents {
 			} else {
 				if(event.getEntityLiving() instanceof PlayerEntity) {
 					PlayerEntity pl = (PlayerEntity) event.getEntityLiving();
-					
-					if(pl.getForcedPose() == Pose.SWIMMING && !ModCapabilities.getPlayer(pl).getIsGliding()){
+					if(pl.getForcedPose() != null && !ModCapabilities.getPlayer(pl).getIsGliding()){
 						pl.setForcedPose(null);
 					}					
-					//System.out.println(pl.getPose());
 				}
 			}
 		}
@@ -524,11 +523,17 @@ public class EntityEvents {
 		if (playerData.getIsGliding()) {
 			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final)-2 : playerData.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
+			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];;
 			Vector3d motion = player.getMotion();
-			player.setMotion(motion.x, glide, motion.z);
 
-			if(player.getForcedPose() != Pose.SWIMMING){
-				player.setForcedPose(Pose.SWIMMING);
+			if(Math.abs(motion.getX()) < limit && Math.abs(motion.getZ()) < limit)
+				player.setMotion(motion.getX()*1.1, motion.getY(), motion.getZ()*1.1);
+			
+			motion = player.getMotion();
+			player.setMotion(motion.getX(), glide, motion.getZ());
+
+			if(player.getForcedPose() != Pose.FALL_FLYING){
+				player.setForcedPose(Pose.FALL_FLYING);
 			}
 		} 
 	}
@@ -537,10 +542,6 @@ public class EntityEvents {
 	public void entityPickup(EntityItemPickupEvent event) {
 		if(event.getPlayer().inventory.hasItemStack(new ItemStack(ModItems.synthesisBag.get()))) {
 			if(event.getItem().getItem() != null && event.getItem().getItem().getItem() instanceof SynthesisItem) {
-				//ItemStack stack = event.getItem().getItem();
-				//System.out.println("Pickup: "+stack.getDisplayName().getFormattedText()+" x"+stack.getCount());
-				//event.setCanceled(true);
-				
 				for (int i = 0; i < event.getPlayer().inventory.getSizeInventory(); i++) {
 					ItemStack bag = event.getPlayer().inventory.getStackInSlot(i);
 					if (!ItemStack.areItemStacksEqual(bag, ItemStack.EMPTY)) {
