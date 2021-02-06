@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class ChakramEntity extends ThrowableEntity{
 
-	int maxTicks = 100;
+	int maxTicks = 120;
 	boolean returning = false;
 	String model;
 	int rotationPoint; //0 = x, 1 = y, 2 = z
@@ -72,6 +72,10 @@ public class ChakramEntity extends ThrowableEntity{
 			setReturn();
 		}
 
+		if(Math.max(Math.abs(getMotion().x),Math.max(Math.abs(getMotion().y),Math.abs(getMotion().z))) < 0.1) {
+			setReturn();
+		}
+
 		if (ticksExisted > 2)
 			world.addParticle(ParticleTypes.FLAME, getPosX(), getPosY()+0.25, getPosZ(), 0, 0, 0);
 
@@ -113,14 +117,16 @@ public class ChakramEntity extends ThrowableEntity{
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != func_234616_v_()) {
-					target.setFire(5);
+					//target.setFire(5);
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg < 4 ? 4 : dmg);
-					setReturn();
+					//setReturn();
+					setMotion(getMotion().scale(0.5));
+					dmg *= 0.9;
 				}
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
 					//System.out.println(world.getBlockState(brtResult.getPos()).getBlockState());
-					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
+					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.VINE) {
 					//System.out.println("goin through");	
 					} else {
 						setReturn();	

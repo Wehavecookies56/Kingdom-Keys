@@ -31,29 +31,20 @@ public class ClientEvents {
 
             double dx = player.getPosX() - target.getPosX();
             double dz = player.getPosZ() - target.getPosZ();
-           // double dy = player.posY - (target.posY - (target.height / 2.0F));
             double dy = player.getPosY() - (target.getPosY() + (target.getHeight() / 2.0F)-player.getHeight());
             double angle = Math.atan2(dz, dx) * 180 / Math.PI;
             double pitch = Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)) * 180 / Math.PI;
             double distance = player.getDistance(target);
-            float rYaw = (float) (angle - player.rotationYaw);
-            while (rYaw > 180) {
-                rYaw -= 360;
-            }
-            while (rYaw < -180) {
-                rYaw += 360;
-            }
-            rYaw += 90F;
+            
+            float rYaw = (float) MathHelper.wrapDegrees(angle - player.rotationYaw) + 90;
             float rPitch = (float) pitch - (float) (10.0F / Math.sqrt(distance)) + (float) (distance * Math.PI / 90);
-            //System.out.println(target.height + (target.height / 2.0F));
-          //  player.setHeadRotation(rYaw, (int) -(rPitch - player.rotationPitch));
             
             float f = player.rotationPitch;
             float f1 = player.rotationYaw;
+            
             player.rotationYaw = (float)((double)player.rotationYaw + (double)rYaw * 0.15D);
             player.rotationPitch = (float)((double)player.rotationPitch - (double)-(rPitch - player.rotationPitch) * 0.15D);
-            player.rotationPitch = MathHelper.clamp(player.rotationPitch, -90.0F, 90.0F);
-            player.prevRotationPitch += player.rotationPitch - f;
+            player.prevRotationPitch = player.rotationPitch - f;
             player.prevRotationYaw += player.rotationYaw - f1;
 
             if (player.getRidingEntity() != null) {

@@ -33,11 +33,8 @@ public class ChakramItem extends OrgWeaponItem implements IOrgWeapon {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity player, Hand handIn) {
 		ItemStack itemstack = player.getHeldItem(handIn);
-
 		player.setActiveHand(handIn);
-
 		return ActionResult.resultConsume(itemstack);
-
 	}
 
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
