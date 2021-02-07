@@ -307,7 +307,7 @@ public class EntityEvents {
 					if(((PlayerEntity)event.getEntityLiving()).getForcedPose() != Pose.SWIMMING){
 						((PlayerEntity)event.getEntityLiving()).setForcedPose(Pose.SWIMMING);
 					}					
-					System.out.println(((PlayerEntity)event.getEntityLiving()).getPose());
+					//System.out.println(((PlayerEntity)event.getEntityLiving()).getPose());
 				}
 			
 				event.getEntityLiving().setMotion(0, -4, 0);

@@ -170,13 +170,10 @@ public class ThunderBoltEntity extends ThrowableEntity {
 						 lightningBoltEntity.moveForced(Vector3d.copyCenteredHorizontally(entity.getPosition()));
 						 lightningBoltEntity.setCaster(getCaster() instanceof ServerPlayerEntity ? (ServerPlayerEntity)getCaster() : null);
 				         this.world.addEntity(lightningBoltEntity);
-				            
-						/*LightningBoltEntity lightningBoltEntity = new LightningBoltEntity(world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), true);
-						entity.func_241841_a((ServerWorld) world, lightningBoltEntity);*/
 					}
 				}
 				
-				System.out.println(list);
+				//System.out.println(list);
 
 				if (getCaster() != null) {
 					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayerEntity)getCaster(), list);
