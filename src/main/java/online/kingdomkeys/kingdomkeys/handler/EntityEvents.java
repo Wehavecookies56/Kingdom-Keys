@@ -914,15 +914,15 @@ public class EntityEvents {
 		if(!player.world.isRemote) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			IWorldCapabilities fromWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
+			/*IWorldCapabilities fromWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
 			IWorldCapabilities toWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
 
 			toWorldData.setParties(fromWorldData.getParties());
 			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
-			toWorldData.setPortals(fromWorldData.getPortals());
+			toWorldData.setPortals(fromWorldData.getPortals());*/
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-			PacketHandler.sendTo(new SCSyncWorldCapability(toWorldData), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()))), (ServerPlayerEntity)player);
 		}
 	}
 
