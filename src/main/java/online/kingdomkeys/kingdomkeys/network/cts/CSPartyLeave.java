@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSPartyLeave {
 	
@@ -47,7 +48,7 @@ public class CSPartyLeave {
 			Party p = worldData.getPartyFromName(message.name);
 			p.removeMember(message.playerUUID);
 			
-			PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
+			Utils.syncWorldData(player.world, worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

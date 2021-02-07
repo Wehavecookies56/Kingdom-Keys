@@ -19,7 +19,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -27,7 +26,6 @@ import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class OrgPortalBlock extends BaseBlock {
@@ -61,7 +59,7 @@ public class OrgPortalBlock extends BaseBlock {
 					UUID portalUUID = UUID.randomUUID();
 	
 					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY(), pos.getZ(), player.world.getDimensionKey(), player.getUniqueID()));
-					PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
+					Utils.syncWorldData(worldIn, worldData);
 	
 					player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal"), true);
 	
@@ -84,7 +82,6 @@ public class OrgPortalBlock extends BaseBlock {
 					IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
 
 					if (te.getUUID() == null) { // Player clicks new portal
-						
 
 					} else if (worldData.getOwnerIDFromUUID(te.getUUID()).equals(player.getUniqueID())) { // Player clicks his portal
 						List<UUID> portals = worldData.getAllPortalsFromOwnerID(player.getUniqueID());
@@ -122,7 +119,7 @@ public class OrgPortalBlock extends BaseBlock {
 
 					PlayerEntity player = worldIn.getServer().getPlayerList().getPlayerByUUID(ownerUUID);
 					if(player != null) { //Remove from player's menu
-						PacketHandler.sendToAll(new SCSyncWorldCapability(ModCapabilities.getWorld(worldIn)), player);
+						Utils.syncWorldData(worldIn, worldData);
 						player.sendStatusMessage(new TranslationTextComponent(TextFormatting.RED + "Portal destination disappeared"), true);
 					}
 				}

@@ -136,7 +136,7 @@ public class PacketHandler {
 		}
 	}
 	
-	public static <MSG> void sendToAll(MSG msg, PlayerEntity player) {
+	/*public static <MSG> void sendToAll(MSG msg, PlayerEntity player) {
 		MinecraftServer ms = player.getServer();
 		java.util.Iterator<ServerWorld> it = ms.getWorlds().iterator();
 		while(it.hasNext()) {
@@ -146,7 +146,7 @@ public class PacketHandler {
 			}
 		}
 		
-	}
+	}*/
 
 	public static <MSG> void sendToAllPlayers(MSG msg) {
 		HANDLER.send(PacketDistributor.ALL.noArg(), msg);

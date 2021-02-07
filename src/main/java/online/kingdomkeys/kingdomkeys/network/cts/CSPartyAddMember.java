@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSPartyAddMember {
 	
@@ -61,9 +62,8 @@ public class CSPartyAddMember {
 				PlayerEntity target = player.world.getPlayerByUuid(message.memberUUID);
 				ModCapabilities.getPlayer(target).removePartiesInvited(message.name);
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(target)), (ServerPlayerEntity)target);
-				//System.out.println(ModCapabilities.get(target).getPartiesInvited());
 			}
-			PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
+			Utils.syncWorldData(player.world, worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

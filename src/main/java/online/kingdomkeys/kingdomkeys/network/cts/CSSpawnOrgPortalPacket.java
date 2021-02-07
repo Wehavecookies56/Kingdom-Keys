@@ -63,7 +63,7 @@ public class CSSpawnOrgPortalPacket {
 			OrgPortalEntity destPortal = new OrgPortalEntity(player.world, player, message.destPos.up(), message.destPos, message.dimension, false);
 			player.world.addEntity(destPortal);
 			
-			PacketHandler.sendToAll(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension), player);
+			PacketHandler.sendToAllPlayers(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension));
 
 		});
 		ctx.get().setPacketHandled(true);

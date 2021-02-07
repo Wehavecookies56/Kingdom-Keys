@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSPartyCreate {
 	
@@ -65,7 +66,7 @@ public class CSPartyCreate {
 			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
 			Party party = new Party(message.name, message.uuid, message.username, message.priv, message.size); 
 			worldData.addParty(party);
-			PacketHandler.sendToAll(new SCSyncWorldCapability(worldData), player);
+			Utils.syncWorldData(player.world, worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}
