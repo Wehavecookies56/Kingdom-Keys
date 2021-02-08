@@ -57,6 +57,8 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
         if(!this.world.isRemote) {
             if(source.getImmediateSource() instanceof BlizzardEntity)
                 multiplier = 2;
+            if(source.getImmediateSource() instanceof FireEntity)
+            	return false;
         }
         return super.attackEntityFrom(source, amount * multiplier);
     }

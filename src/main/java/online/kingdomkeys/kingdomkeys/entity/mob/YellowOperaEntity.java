@@ -17,6 +17,9 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 
 public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
@@ -51,12 +54,13 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        float multiplier = 1;
-        //TODO elemental weakness, aero
-        //if(!this.world.isRemote) {
-            //if(source.getImmediateSource() instanceof )
-                //multiplier = 2;
-        //}
+    	float multiplier = 1;
+        if(!this.world.isRemote) {
+            //if(source.getImmediateSource() instanceof BlizzardEntity)
+              //  multiplier = 2;
+            if(source.getImmediateSource() instanceof ThunderBoltEntity)
+            	return false;
+        }
         return super.attackEntityFrom(source, amount * multiplier);
     }
 

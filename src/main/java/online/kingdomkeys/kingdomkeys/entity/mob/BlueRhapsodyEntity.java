@@ -57,6 +57,8 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         if(!this.world.isRemote) {
             if(source.getImmediateSource() instanceof FireEntity)
                 multiplier = 2;
+            if(source.getImmediateSource() instanceof BlizzardEntity)
+            	return false;
         }
         return super.attackEntityFrom(source, amount * multiplier);
     }
