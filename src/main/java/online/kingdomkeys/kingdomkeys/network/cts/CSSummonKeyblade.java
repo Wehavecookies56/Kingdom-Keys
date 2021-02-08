@@ -1,26 +1,17 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.Set;
 import java.util.function.Supplier;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -34,7 +25,6 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
@@ -180,13 +170,21 @@ public class CSSummonKeyblade {
 			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem))))) {
 				//DESUMMON
 				if (heldStack.getItem() instanceof KeybladeItem && orgWeapon == null) {
-					if (heldStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
+					if (heldStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) { //Keyblade user
 						chain.setTag(heldStack.getTag());
 						playerData.equipKeychain(DriveForm.NONE, chain);
 						player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
 						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					}
-				} else if (heldStack.getItem() instanceof OrgWeaponItem || heldStack.getItem() instanceof KeybladeItem) {
+				} else if (heldStack.getItem() instanceof OrgWeaponItem || heldStack.getItem() instanceof KeybladeItem) { //Org user
+					Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
+					for(ItemStack weapon : weapons) {
+						if(ItemStack.areItemsEqual(weapon, heldStack)) {
+							weapon.setTag(heldStack.getTag());
+							break;
+						}
+					}
+					playerData.setWeaponsUnlocked(weapons);
 					player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
 					player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				}
@@ -203,6 +201,13 @@ public class CSSummonKeyblade {
 							keyblade.setTag(chain.getTag());
 						} else {
 							keyblade = orgWeapon;
+							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
+							for(ItemStack weapon : weapons) {
+								if(ItemStack.areItemsEqual(weapon, keyblade)) {
+									keyblade.setTag(weapon.getTag());
+									break;
+								}
+							}
 						}
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);
 						player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -213,6 +218,13 @@ public class CSSummonKeyblade {
 							keyblade.setTag(chain.getTag());
 						} else {
 							keyblade = orgWeapon;
+							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
+							for(ItemStack weapon : weapons) {
+								if(ItemStack.areItemsEqual(weapon, keyblade)) {
+									keyblade.setTag(weapon.getTag());
+									break;
+								}
+							}
 						}
 						Utils.swapStack(player.inventory, player.inventory.getFirstEmptyStack(), player.inventory.currentItem);
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);

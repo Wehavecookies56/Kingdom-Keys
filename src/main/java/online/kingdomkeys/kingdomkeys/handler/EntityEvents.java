@@ -494,6 +494,8 @@ public class EntityEvents {
 	}
 
 	private void handleGlide(PlayerEntity player, IPlayerCapabilities playerData) {
+		if(player.isInWater() || player.isInLava())
+			return;
 		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
 			if (Minecraft.getInstance().player == player) { // Only the local player will send the packets
 				if (!player.isOnGround() && player.fallDistance > 0) {
