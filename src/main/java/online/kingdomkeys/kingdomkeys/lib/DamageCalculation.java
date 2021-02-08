@@ -105,7 +105,7 @@ public class DamageCalculation {
 
             float finalDamage = 0;
 
-            if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.MAIN_HAND), ItemStack.EMPTY)) {
+            if (player.getHeldItem(Hand.MAIN_HAND) != null && player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
             	if(player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem) {
                     finalDamage = getMagicDamage(player, level, player.getHeldItemMainhand());
             	} else if(player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof IOrgWeapon) {

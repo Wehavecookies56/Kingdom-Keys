@@ -19,20 +19,18 @@ public class Party {
 	private List<Member> members = new ArrayList<Member>();
 	private boolean priv;
 	private byte size;
-
+	private boolean friendlyFire;
+	
 	public Party() {
 		
 	}
-
-	/*public Party(String name, LivingEntity entity) {
-		this(name, entity.getUniqueID(), entity.getDisplayName().getFormattedText());
-	}*/
 
 	public Party(String name, UUID leaderId, String username, boolean priv, byte size) {
 		this.name = name;
 		this.addMember(leaderId, username).setIsLeader();
 		this.priv = priv;
 		this.size = size;
+		this.friendlyFire = false;
 	}
 
 	public void setName(String name) {
@@ -57,6 +55,14 @@ public class Party {
 	
 	public byte getSize() {
 		return this.size;
+	}	
+	
+	public void setFriendlyFire(boolean ff) {
+		this.friendlyFire = ff;
+	}
+	
+	public boolean getFriendlyFire() {
+		return this.friendlyFire;
 	}	
 	
 	public Member addMember(LivingEntity entity) {
@@ -109,6 +115,7 @@ public class Party {
 		partyNBT.putString("name", this.getName());
 		partyNBT.putBoolean("private", this.priv);
 		partyNBT.putByte("size", this.size);
+		partyNBT.putBoolean("ff", this.friendlyFire);
 		
 		ListNBT members = new ListNBT();
 		for (Party.Member member : this.getMembers()) {
@@ -127,6 +134,7 @@ public class Party {
 		this.setName(nbt.getString("name"));
 		this.setPriv(nbt.getBoolean("private"));
 		this.setSize(nbt.getByte("size"));
+		this.setFriendlyFire(nbt.getBoolean("ff"));
 
 		ListNBT members = nbt.getList("members", Constants.NBT.TAG_COMPOUND);
 		for (int j = 0; j < members.size(); j++) {

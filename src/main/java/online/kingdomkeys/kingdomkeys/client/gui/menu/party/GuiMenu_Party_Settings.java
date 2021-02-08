@@ -22,10 +22,10 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GuiMenu_Party_Settings extends MenuBackground {
 
-	boolean priv = false;
+	boolean priv = false, friendlyFire = false;
 	byte pSize = Party.PARTY_LIMIT;
 	
-	Button togglePriv, accept, size;
+	Button togglePriv, toggleFF, accept, size;
 	MenuButton back;
 		
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -48,11 +48,13 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		case "togglePriv":
 			priv = !priv;
 			break;
+		case "ff":
+			friendlyFire = !friendlyFire;
+			break;
 		case "accept":
-			//Accept Party creation
-			//Party localParty = worldData.getPartyFromName(name);
 			party.setPriv(priv);
 			party.setSize(pSize);
+			party.setFriendlyFire(friendlyFire);
 			PacketHandler.sendToServer(new CSPartySettings(party));
 			
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -75,10 +77,12 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 	private void updateButtons() {
 		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		togglePriv.setMessage(priv ? new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
+		toggleFF.setMessage(new TranslationTextComponent(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
 
 		
 		//TBName
 		togglePriv.visible = true;
+		toggleFF.visible = true;
 		accept.visible = true;
 		size.visible = true;
 	}
@@ -94,6 +98,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		priv = party.getPriv();
 		pSize = party.getSize();
+		friendlyFire = party.getFriendlyFire();
 		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -103,8 +108,8 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 
 		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("togglePriv"); }));
 		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, new TranslationTextComponent(pSize+""), (e) -> { action("size"); }));
-		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), (int) 130, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
-		//addButton(cancel = new Button((int) buttonPosX, button_statsY + (6 * 18), (int) buttonWidth, 20, Utils.translateToLocal("Cancel"), (e) -> { action("cancel"); }));
+		addButton(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("ff"); }));
+		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
 		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
@@ -119,7 +124,8 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 		
 		int buttonX = (int)(width*0.25);
-		drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.2), 0xFFFFFF);
+		drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.21), 0xFFFFFF);
+		drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("Friendly Fire"), buttonX, (int)(height * 0.21) + 38, 0xFFFFFF);
 	}
 	
 }

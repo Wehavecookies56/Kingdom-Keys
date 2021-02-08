@@ -92,7 +92,7 @@ public class GravityEntity extends ThrowableEntity {
 			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(func_234616_v_(), getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
 			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(func_234616_v_().getUniqueID());
 
-			if(casterParty != null) {
+			if(casterParty != null && !casterParty.getFriendlyFire()) {
 				for(Member m : casterParty.getMembers()) {
 					list.remove(world.getPlayerByUuid(m.getUUID()));
 				}

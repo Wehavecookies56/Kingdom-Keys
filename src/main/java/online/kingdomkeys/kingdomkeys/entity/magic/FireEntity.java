@@ -80,7 +80,6 @@ public class FireEntity extends ThrowableEntity {
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != func_234616_v_()) {
@@ -88,7 +87,7 @@ public class FireEntity extends ThrowableEntity {
 					if (func_234616_v_() != null) {
 						p = ModCapabilities.getWorld(func_234616_v_().world).getPartyFromMember(func_234616_v_().getUniqueID());
 					}
-					if(p == null || p.getMember(target.getUniqueID()) == null) {
+					if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setFire(10);
 						float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);

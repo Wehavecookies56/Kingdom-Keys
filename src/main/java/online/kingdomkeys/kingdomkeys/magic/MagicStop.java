@@ -26,7 +26,7 @@ public class MagicStop extends Magic {
 		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(6.0D, 3.0D, 6.0D).offset(-3.0D, -1.0D, -3.0D));
 		Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 
-		if(casterParty != null) {
+		if(casterParty != null && !casterParty.getFriendlyFire()) {
 			for(Member m : casterParty.getMembers()) {
 				list.remove(player.world.getPlayerByUuid(m.getUUID()));
 			}

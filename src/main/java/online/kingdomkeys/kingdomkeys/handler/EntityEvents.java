@@ -388,7 +388,7 @@ public class EntityEvents {
 					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
 					Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 
-					if(casterParty != null) {
+					if(casterParty != null && !casterParty.getFriendlyFire()) {
 						for(Member m : casterParty.getMembers()) {
 							list.remove(player.world.getPlayerByUuid(m.getUUID()));
 						}
@@ -673,7 +673,7 @@ public class EntityEvents {
 				
 				if(attacker instanceof PlayerEntity && target instanceof PlayerEntity) {
 					Party p = ModCapabilities.getWorld(attacker.world).getPartyFromMember(attacker.getUniqueID());
-					if(p != null && p.getMember(event.getEntityLiving().getUniqueID()) != null) {
+					if(p != null && p.getMember(event.getEntityLiving().getUniqueID()) != null && !p.getFriendlyFire()) {
 						event.setCanceled(true);
 					}
 				}

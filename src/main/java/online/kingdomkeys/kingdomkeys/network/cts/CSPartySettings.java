@@ -17,6 +17,7 @@ public class CSPartySettings {
 	String name;
 	boolean priv;
 	byte size;
+	boolean friendlyFire;
 	
 	public CSPartySettings() {}
 
@@ -24,15 +25,15 @@ public class CSPartySettings {
 		this.name = party.getName();
 		this.priv = party.getPriv();
 		this.size = party.getSize();
+		this.friendlyFire = party.getFriendlyFire();
 	}
 
 	public void encode(PacketBuffer buffer) {
 		buffer.writeInt(this.name.length());
 		buffer.writeString(this.name);
-		
 		buffer.writeBoolean(this.priv);
-		
 		buffer.writeByte(this.size);
+		buffer.writeBoolean(this.friendlyFire);
 	}
 
 	public static CSPartySettings decode(PacketBuffer buffer) {
@@ -41,6 +42,7 @@ public class CSPartySettings {
 		msg.name = buffer.readString(length);		
 		msg.priv = buffer.readBoolean();
 		msg.size = buffer.readByte();
+		msg.friendlyFire = buffer.readBoolean();
 		return msg;
 	}
 
@@ -51,6 +53,7 @@ public class CSPartySettings {
 			Party p = worldData.getPartyFromName(message.name);
 			p.setPriv(message.priv);
 			p.setSize(message.size);
+			p.setFriendlyFire(message.friendlyFire);
 			
 			Utils.syncWorldData(player.world, worldData);
 		});
