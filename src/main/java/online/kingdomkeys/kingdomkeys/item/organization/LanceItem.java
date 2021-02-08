@@ -46,7 +46,7 @@ public class LanceItem extends OrgWeaponItem implements IOrgWeapon {
     		if(ticks >= 10) {
 	    		PlayerEntity player = (PlayerEntity)entityLiving;
 	    		float dmgMult = Math.min(ticks, 30) / 20F;
-		    	LanceEntity entity = new LanceEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgStrengthDamage(player, stack));
+		    	LanceEntity entity = new LanceEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgPowerDamage(player, stack) * dmgMult);
 		    	switch(this.getRegistryName().getPath()) {
 		    	case Strings.lindworm:
 		    		entity.setRotationPoint(0);

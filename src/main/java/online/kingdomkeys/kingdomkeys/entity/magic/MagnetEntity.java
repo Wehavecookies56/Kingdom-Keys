@@ -93,7 +93,7 @@ public class MagnetEntity extends ThrowableEntity {
 			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(6.0D, 4.0D, 6.0D).offset(-3.0D, -2.0D, -3.0D));
 			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
 
-			if(casterParty != null && !casterParty.getFriendlyFire()) {
+			if(casterParty != null && !casterParty.getFriendlyFire()) { //Exclude members from AOE
 				for(Member m : casterParty.getMembers()) {
 					list.remove(world.getPlayerByUuid(m.getUUID()));
 				}
