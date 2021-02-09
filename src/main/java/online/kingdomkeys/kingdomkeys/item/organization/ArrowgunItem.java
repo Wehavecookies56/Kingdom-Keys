@@ -35,41 +35,31 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 		if (!player.isSneaking()) {
 			if (player.getHeldItem(hand).getTag() != null && player.getHeldItem(hand).getTag().getInt("ammo") > 0) {
 				world.playSound(player, player.getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 1F);
-
-				// world.playSound(player.getPosX(), player.getPosY(), player.getPosZ(),
-				// ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 0.5F, 1F, false);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
 				bullet.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 3F, 0);
-
-				//bullet.shoot(player.rotationPitch, player.rotationYaw, 0, 4f, 0);
 				world.addEntity(bullet);
 
-
-				// if (!player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {
 				player.swingArm(Hand.MAIN_HAND);
 				tempAmmo = player.getHeldItem(hand).getTag().getInt("ammo") - 1;
-				/*
-				 * } else { tempAmmo = player.getHeldItem(hand).getTag().getInt("ammo"); }
-				 */
+
 				player.getHeldItem(hand).getTag().putInt("ammo", tempAmmo);
+				if(tempAmmo == 0) {
+					player.getHeldItem(hand).getTag().putInt("ammo", ammo);
+					player.getCooldownTracker().setCooldown(this, reload);
+					System.out.println("reload");
+					world.playSound(null, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
+				}
 			}
 
 		} else {
 			CompoundNBT nbt = player.getHeldItem(hand).getTag();
-			if(nbt.getInt("reload") == reload && nbt.getInt("ammo") > 0) {
-				if(nbt.getInt("ammo") < ammo) {
-					nbt.putInt("reload", reload / nbt.getInt("ammo"));
-					nbt.putInt("ammo", 0);
-				} else {
-					//SNIPER MODE
-				}
-				/*if (player.getHeldItem(hand).getTag().getInt("reload") > 0) {
-					player.getHeldItem(hand).getTag().putInt("reload", player.getHeldItem(hand).getTag().getInt("reload") - 1);
-				} else {
-	            	world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
-	            	player.getHeldItem(hand).getTag().putInt("reload", reload);
-	            	player.getHeldItem(hand).getTag().putInt("ammo", ammo);
-				}*/
+
+			if (nbt.getInt("ammo") > 0) {
+				world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
+
+				player.getCooldownTracker().setCooldown(this, reload / nbt.getInt("ammo"));
+				player.getHeldItem(hand).getTag().putInt("ammo", ammo);
+
 			}
 			return super.onItemRightClick(world, player, hand);
 		}
@@ -78,24 +68,16 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-		if (entity instanceof PlayerEntity) {
+	public void inventoryTick(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected) {
+		if (entity instanceof PlayerEntity && !world.isRemote) {
 			PlayerEntity player = (PlayerEntity) entity;
 			if (!itemStack.hasTag()) {
 				itemStack.setTag(new CompoundNBT());
 				itemStack.getTag().putInt("ammo", ammo);
-				itemStack.getTag().putInt("reload", reload);
 			}
 
 			if (itemStack.getTag().getInt("ammo") == 0) {
-				if (itemStack.getTag().getInt("reload") > 0) {
-					itemStack.getTag().putInt("reload", itemStack.getTag().getInt("reload") - 1);
-				} else {
-	            	world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
-					itemStack.getTag().putInt("reload", reload);
-					itemStack.getTag().putInt("ammo", ammo);
-				}
-
+				
 			}
 		}
 	}

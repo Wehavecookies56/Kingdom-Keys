@@ -761,7 +761,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public boolean getIsGliding() {
-		return isGliding;
+		return getEquippedAbilityLevel(Strings.glide)[1] > 0 && isGliding;
 	}
 
 	@Override

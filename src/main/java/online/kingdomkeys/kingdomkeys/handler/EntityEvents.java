@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
-import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -29,7 +30,6 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -494,13 +494,13 @@ public class EntityEvents {
 	}
 
 	private void handleGlide(PlayerEntity player, IPlayerCapabilities playerData) {
-		if(player.isInWater() || player.isInLava())
+		if(player.isInWater() || player.isInLava() || player.isWet())
 			return;
 		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
 			if (Minecraft.getInstance().player == player) { // Only the local player will send the packets
-				if (!player.isOnGround() && player.fallDistance > 0) {
+				if (!player.isOnGround() && player.fallDistance > 0) { //Glide only when falling
 					if (Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown()) {
-						if (!playerData.getIsGliding()) {
+						if (!playerData.getIsGliding() && !(player.world.getBlockState(player.getPosition()).getBlock() instanceof FlowingFluidBlock) && !(player.world.getBlockState(player.getPosition().down()).getBlock() instanceof FlowingFluidBlock)) {
 							playerData.setIsGliding(true);// Set playerData clientside
 							playerData.setAerialDodgeTicks(0);
 							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set playerData serverside
@@ -534,8 +534,8 @@ public class EntityEvents {
 			motion = player.getMotion();
 			player.setMotion(motion.getX(), glide, motion.getZ());
 
-			if(player.getForcedPose() != Pose.FALL_FLYING){
-				player.setForcedPose(Pose.FALL_FLYING);
+			if(player.getForcedPose() != Pose.SWIMMING){
+				player.setForcedPose(Pose.SWIMMING);
 			}
 		} 
 	}

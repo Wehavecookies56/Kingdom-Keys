@@ -35,7 +35,6 @@ public class CSSetGlidingPacket {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setIsGliding(message.gliding);
-			//System.out.println("Setting "+message.gliding+" to "+player.getDisplayName().getFormattedText());
 			PacketHandler.syncToAllAround(player, playerData);
 		});
 		ctx.get().setPacketHandled(true);
