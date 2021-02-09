@@ -252,6 +252,16 @@ public class CSSummonKeyblade {
 					if (slot.inventory != player.inventory) {
 						if ((Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
 							slot.putStack(ItemStack.EMPTY);
+							if(stack.getItem() instanceof OrgWeaponItem) {
+								Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
+								for(ItemStack weapon : weapons) {
+									if(ItemStack.areItemsEqual(weapon, stack)) {
+										weapon.setTag(stack.getTag());
+										break;
+									}
+								}
+								playerData.setWeaponsUnlocked(weapons);
+							}
 							openContainer.detectAndSendChanges();
 							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 						}
@@ -269,6 +279,16 @@ public class CSSummonKeyblade {
 			if (droppedItem != null) {
 				if (playerData.getEquippedWeapon() != null) {
 					if ((droppedItem.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
+						if(droppedItem.getItem() instanceof OrgWeaponItem) {
+							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
+							for(ItemStack weapon : weapons) {
+								if(ItemStack.areItemsEqual(weapon, droppedItem)) {
+									weapon.setTag(droppedItem.getTag());
+									break;
+								}
+							}
+							playerData.setWeaponsUnlocked(weapons);
+						}
 						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 						event.setCanceled(true);
 						return;
