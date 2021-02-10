@@ -447,7 +447,7 @@ public class InputHandler {
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 			} else {
-				System.out.println(limitsList.get(CommandMenuGui.limitSelected));
+				//System.out.println(limitsList.get(CommandMenuGui.limitSelected));
 				if(playerData.getDP() < limitsList.get(CommandMenuGui.limitSelected).getCost()) {
                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -660,7 +660,7 @@ public class InputHandler {
                         	EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
                             if (ertr.getEntity() != null) {
                                 double distance = player.getDistance(ertr.getEntity());
-                                System.out.println(distance);
+                                //System.out.println(distance);
                                 if (reach >= distance) {
                                     if (ertr.getEntity() instanceof LivingEntity) {
                                         lockOn = (LivingEntity) ertr.getEntity();
