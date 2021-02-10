@@ -2,11 +2,8 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -16,18 +13,17 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 
 public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData{
 
 	int maxTicks = 100;
+	float radius = 0.5F;
 	
 	BlockPos destinationPos;
     RegistryKey<World> destinationDim;
@@ -67,23 +63,21 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		}
         world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX()-1+rand.nextDouble()*2, getPosY() + rand.nextDouble()*4, getPosZ()-1+rand.nextDouble()*2, 0.0D, 0.0D, 0.0D);
 
-
-		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
-
-		if (casterParty != null) {
-			for (Party.Member m : casterParty.getMembers()) {
-				tempList.remove(world.getPlayerByUuid(m.getUUID()));
-			}
-		} else {
-			tempList.remove(func_234616_v_());
-		}
-
-		targetList.clear();
+		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().grow(radius, radius, radius));
 		for (Entity t : tempList) {
-			if (!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrbEntity)) {
-				targetList.add(t);
-			}
+			if(shouldTeleport) {
+		        if(!this.isAlive())
+		            return;
+		        if(t != null){
+		            if (destinationPos != null) {
+		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
+		                	t.setPosition(destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5);
+		                	if(t instanceof PlayerEntity && world.isRemote)
+		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5));
+		                }
+		            }
+		        }
+	        }
 		}
     	
 
@@ -92,7 +86,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	
 	 @Override
 	    public void onCollideWithPlayer(PlayerEntity player) {
-	        if(shouldTeleport) {
+	        /*if(shouldTeleport) {
 		        if(!this.isAlive())
 		            return;
 		        if(player != null){
@@ -104,7 +98,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		                }
 		            }
 		        }
-	        }
+	        }*/
 
 	        super.onCollideWithPlayer(player);
 	    }

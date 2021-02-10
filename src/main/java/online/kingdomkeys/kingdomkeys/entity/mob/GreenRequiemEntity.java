@@ -11,6 +11,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -112,6 +113,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
                     if (world.rand.nextInt(100) + world.rand.nextDouble() <= 20) {
                         EntityHelper.setState(this.goalOwner, 1);
+						((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), goalOwner.getPosX(), goalOwner.getPosY()+goalOwner.getEyeHeight(), goalOwner.getPosZ(), 1, 0D, 1D, 0D, 1D);
 
                         this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
@@ -120,11 +122,11 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
                                 if (heartless instanceof IKHMob && ((IKHMob)heartless).getMobType() != EntityHelper.MobType.NPC) {
                                     if (heartless.getHealth() < heartless.getMaxHealth()) {
                                         heartless.heal(10);
-	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY() , heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX() + 0.3, heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX() - 0.3, heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
+										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX(), heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ()-0.5F, 1, 0D, 1D, 0D, 1D);
+										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX(), heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ()+0.5F, 1, 0D, 1D, 0D, 1D);
+										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX(), heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ(), 1, 0D, 1D, 0D, 1D);
+										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX()+0.5F, heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ(), 1, 0D, 1D, 0D, 1D);
+										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX()-0.5F, heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ(), 1, 0D, 1D, 0D, 1D);
                                     }
                                 }
                             }

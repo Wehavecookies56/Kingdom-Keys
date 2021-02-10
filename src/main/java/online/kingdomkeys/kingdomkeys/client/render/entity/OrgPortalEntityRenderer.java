@@ -45,7 +45,7 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 			matrixStackIn.push();
 			{
 
-				float a = 1;
+				float a = 0.9F;
 				float rgb = 1;
 
 				float ticks = entity.ticksExisted;
