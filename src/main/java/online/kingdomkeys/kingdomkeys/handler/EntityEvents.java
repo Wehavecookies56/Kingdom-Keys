@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -28,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -367,25 +367,23 @@ public class EntityEvents {
 
 				// Spawn particles
 				float radius = 1.5F;
-				double freq = 0.6;
 				double X = event.getEntityLiving().getPosX();
 				double Y = event.getEntityLiving().getPosY();
 				double Z = event.getEntityLiving().getPosZ();
 
-				for (double x = X - radius; x <= X + radius; x += freq) {
-					for (double y = Y - radius; y <= Y + radius; y += freq) {
-						for (double z = Z - radius; z <= Z + radius; z += freq) {
-							if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-								event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
-							}
-						}
+				for (int t = 1; t < 360; t += 20) {
+					for (int s = 1; s < 360; s += 20) {
+						double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+						double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+						double y = Y + (radius * Math.cos(Math.toRadians(t)));
+						event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 					}
 				}
 
 			} else { // When it finishes
 				if (playerData.getReflectActive()) {// If has been hit
 					// SPAWN ENTITY and apply damage
-					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(8.0D, 4.0D, 8.0D).offset(-4.0D, -1.0D, -4.0D));
+					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(4, 4, 4));
 					Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 
 					if(casterParty != null && !casterParty.getFriendlyFire()) {
@@ -394,13 +392,28 @@ public class EntityEvents {
 						}
 					}
 					
+					double X = event.getEntityLiving().getPosX();
+					double Y = event.getEntityLiving().getPosY();
+					double Z = event.getEntityLiving().getPosZ();
+
+					float radius = 3.5F;
+					System.out.println(event.getEntityLiving().world);
+
+					for (int t = 1; t < 360; t += 20) {
+						double x = X + (radius * Math.cos(Math.toRadians(t)));
+						double z = Z + (radius * Math.sin(Math.toRadians(t)));
+						((ServerWorld)event.getEntityLiving().world).spawnParticle(ParticleTypes.BUBBLE.getType(), x, Y + 1, z, 5, 0, 0, 0, 1);
+					}
+					
 					if (!list.isEmpty()) {
 						for (int i = 0; i < list.size(); i++) {
 							Entity e = (Entity) list.get(i);
 							if (e instanceof LivingEntity) {
-								e.attackEntityFrom(DamageSource.causePlayerDamage(player), 10);
+								e.attackEntityFrom(DamageSource.causePlayerDamage(player), DamageCalculation.getMagicDamage(player, 1));
 							}
 						}
+						player.world.playSound(null, player.getPosition(), ModSounds.reflect2.get(), SoundCategory.PLAYERS, 1F, 1F);
+
 					}
 					playerData.setReflectActive(false); // Restart reflect
 				}
@@ -413,18 +426,16 @@ public class EntityEvents {
 				if(player.ticksExisted % 5 == 0) {
 					// Spawn particles
 					float radius = 1F;
-					double freq = 0.5;
 					double X = event.getEntityLiving().getPosX();
 					double Y = event.getEntityLiving().getPosY();
 					double Z = event.getEntityLiving().getPosZ();
-	
-					for (double x = X - radius; x <= X + radius; x += freq) {
-						for (double y = Y - radius; y <= Y + radius; y += freq) {
-							for (double z = Z - radius; z <= Z + radius; z += freq) {
-								if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-									event.getEntityLiving().world.addParticle(ParticleTypes.ENCHANTED_HIT, x, y + 1, z, 0, 0, 0);
-								}
-							}
+
+					for (int t = 1; t < 360; t += 30) {
+						for (int s = 1; s < 360; s += 30) {
+							double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t))/2);
+							double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t))/2);
+							double y = Y + (radius * Math.cos(Math.toRadians(t)));
+							event.getEntityLiving().world.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 						}
 					}
 				}

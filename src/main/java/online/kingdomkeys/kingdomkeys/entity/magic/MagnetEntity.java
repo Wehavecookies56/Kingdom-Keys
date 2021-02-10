@@ -68,21 +68,18 @@ public class MagnetEntity extends ThrowableEntity {
 		// getPosZ(), 1, 1, 0);
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
-		if (ticksExisted >= 3 && ticksExisted % 4 == 0) {
-
-			int radius = 2;
-			double freq = 0.6;
+		if (ticksExisted >= 3 && ticksExisted % 2 == 0) {
+			float radius = 2F;
 			double X = getPosX();
 			double Y = getPosY();
 			double Z = getPosZ();
 
-			for (double x = X - radius; x <= X + radius; x += freq) {
-				for (double y = Y - radius; y <= Y + radius; y += freq) {
-					for (double z = Z - radius; z <= Z + radius; z += freq) {
-						if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-							world.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
-						}
-					}
+			for (int t = 1; t < 360; t += 30) {
+				for (int s = 1; s < 360 ; s += 30) {
+					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double y = Y + (radius * Math.cos(Math.toRadians(t)));
+					world.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 				}
 			}
 
@@ -90,7 +87,7 @@ public class MagnetEntity extends ThrowableEntity {
 			this.velocityChanged = true;
 			
 
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(6.0D, 4.0D, 6.0D).offset(-3.0D, -2.0D, -3.0D));
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(4,5,4));
 			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
 
 			if(casterParty != null && !casterParty.getFriendlyFire()) { //Exclude members from AOE

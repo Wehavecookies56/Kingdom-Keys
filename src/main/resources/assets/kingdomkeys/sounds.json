@@ -89,6 +89,20 @@
 		]
 	},
 	
+	"reflect1": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:reflect1", "stream": false }
+		]
+	},
+	
+	"reflect2": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:reflect2", "stream": false }
+		]
+	},
+	
 	"records.dream_drop_distance_the_next_awakening": {
 		"category": "record",
 		"sounds": [

@@ -154,7 +154,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius, radius, radius));
 		Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
 
-		if (casterParty != null) {
+		if(casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Party.Member m : casterParty.getMembers()) {
 				tempList.remove(world.getPlayerByUuid(m.getUUID()));
 			}

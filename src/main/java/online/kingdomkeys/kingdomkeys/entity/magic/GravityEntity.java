@@ -62,8 +62,6 @@ public class GravityEntity extends ThrowableEntity {
 			this.remove();
 		}
 
-		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
-		// getPosZ(), 1, 1, 0);
 		if (ticksExisted > 2)
 			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
@@ -72,24 +70,22 @@ public class GravityEntity extends ThrowableEntity {
 
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
-		int radius = 2;
-		double freq = 0.5;
+		float radius = 2F;
 		double X = getPosX();
 		double Y = getPosY();
 		double Z = getPosZ();
 
-		for (double x = X - radius; x <= X + radius; x += freq) {
-			for (double y = Y; y <= Y + radius; y += freq) {
-				for (double z = Z - radius; z <= Z + radius; z += freq) {
-					if ((X - x) * (X - x) + (Y - y) * (Y - y) + (Z - z) * (Z - z) <= radius * radius) {
-						world.addParticle(ParticleTypes.DRAGON_BREATH, x, y + 1, z, 0, 0, 0);
-					}
-				}
+		for (int t = 1; t < 360; t += 20) {
+			for (int s = 1; s < 360 ; s += 20) {
+				double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double y = Y + (radius * Math.cos(Math.toRadians(t)));
+				world.addParticle(ParticleTypes.DRAGON_BREATH, x, y, z, 0, -0.05, 0);
 			}
 		}
 		
 		if (!world.isRemote) {
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(func_234616_v_(), getBoundingBox().grow(2.0D, 2.0D, 2.0D).offset(-1.0D, -1.0D, -1.0D));
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(func_234616_v_(), getBoundingBox().grow(3.0D, 3.0D, 3.0D));
 			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(func_234616_v_().getUniqueID());
 
 			if(casterParty != null && !casterParty.getFriendlyFire()) {
@@ -105,9 +101,9 @@ public class GravityEntity extends ThrowableEntity {
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
 						IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
-						globalData.setFlatTicks(100); // Just in case it goes below (shouldn't happen)
+						globalData.setFlatTicks(100);
 						
-						if (e instanceof LivingEntity) // This should sync the state of this entity (player or mob) to all the clients around to stop render it flat
+						if (e instanceof LivingEntity)
 							PacketHandler.syncToAllAround((LivingEntity) e, globalData);
 
 						if(e instanceof ServerPlayerEntity)
@@ -117,18 +113,8 @@ public class GravityEntity extends ThrowableEntity {
 					}
 				}
 			}
-
 			remove();
-			
-			/*IGlobalCapabilities globalData = ModCapabilities.getGlobal(func_234616_v_());
-			globalData.setFlatTicks(100);
-			if(func_234616_v_() instanceof ServerPlayerEntity) {
-				PacketHandler.syncToAllAround((LivingEntity) func_234616_v_(), globalData);
-				PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) func_234616_v_());
-			}*/
 		}
-		
-		
 	}
 
 	public int getMaxTicks() {

@@ -110,17 +110,15 @@ public class WaterEntity extends ThrowableEntity {
 	        }
 
 		} else { //Projectile
-			func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 1F, 0);
+			func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 
 			velocityChanged = true;
 			for(double px = -0.3;px < 0.3;px+=0.1) {
 				for(double pz = -0.3;pz < 0.3;pz+=0.1) {
-					//world.addParticle(ParticleTypes.DRIPPING_WATER, getPosX()+px, getPosY(), getPosZ()+pz, 0, 0, 0);
 					world.addParticle(ParticleTypes.DOLPHIN, getPosX()+px, getPosY(), getPosZ()+pz, 0, 0, 0);
 				}
 			}
 
-		//world.addParticle(ParticleTypes.DRIPPING_WATER, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		}
 
 		super.tick();

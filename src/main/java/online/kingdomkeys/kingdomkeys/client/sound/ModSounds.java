@@ -39,6 +39,8 @@ public class ModSounds {
             unsummon = registerSound("unsummon"),
 			portal = registerSound("portal"),
 	        laser = registerSound("laser"),
+	        reflect1 = registerSound("reflect1"),
+	        reflect2 = registerSound("reflect2"),
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records.birth_by_sleep_a_link_to_the_future"),
             Record_Darkness_of_the_Unknown = registerSound("records.darkness_of_the_unknown"),
