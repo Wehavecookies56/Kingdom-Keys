@@ -15,6 +15,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
@@ -111,6 +113,7 @@ public class WaterEntity extends ThrowableEntity {
 
 		} else { //Projectile
 			func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_SWIM, SoundCategory.PLAYERS, 1F, 1F);
 
 			velocityChanged = true;
 			for(double px = -0.3;px < 0.3;px+=0.1) {
