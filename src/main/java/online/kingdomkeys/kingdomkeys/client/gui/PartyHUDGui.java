@@ -36,7 +36,7 @@ public class PartyHUDGui extends Screen {
 		super(new TranslationTextComponent(""));
 		minecraft = Minecraft.getInstance();
 	}
-	
+
 	public ResourceLocation getLocationSkin(PlayerEntity player) {
 		NetworkPlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUniqueID());
 		return networkplayerinfo == null ? DefaultPlayerSkin.getDefaultSkin(player.getUniqueID()) : networkplayerinfo.getLocationSkin();
@@ -49,58 +49,58 @@ public class PartyHUDGui extends Screen {
 			// if (!MainConfig.client.hud.EnableHeartsOnHUD)
 			// event.setCanceled(true);
 		}
-		
-		MatrixStack matrixStack = event.getMatrixStack(); 
-		if(event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+
+		MatrixStack matrixStack = event.getMatrixStack();
+		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			int screenWidth = minecraft.getMainWindow().getScaledWidth();
 			int screenHeight = minecraft.getMainWindow().getScaledHeight();
 
 			float scale = 0.5f;
-			
+
 			IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.world);
 			Party p = worldData.getPartyFromMember(player.getUniqueID());
-			if(p == null) {
+			if (p == null) {
 				return;
 			}
-			
+
 			List<Member> allies = new ArrayList<Member>();
 			allies.clear();
-			for(Member m : p.getMembers()) {
-				if(!m.getUUID().equals(player.getUniqueID())) {
+			for (Member m : p.getMembers()) {
+				if (!m.getUUID().equals(player.getUniqueID())) {
 					allies.add(m);
 				}
 			}
-			
+
 			matrixStack.push();
 			{
 				matrixStack.translate(ModConfigs.partyXPos, ModConfigs.partyYPos, 0);
-				for(int i=0;i<allies.size();i++) {
+				for (int i = 0; i < allies.size(); i++) {
 					Member member = allies.get(i);
 					PlayerEntity playerAlly = player.world.getPlayerByUuid(member.getUUID());
-					if(playerAlly != null){
-						renderFace(matrixStack, playerAlly,screenWidth, screenHeight, scale, i);
+					if (playerAlly != null) {
+						renderFace(matrixStack, playerAlly, screenWidth, screenHeight, scale, i);
 					} else {
 						// When player in party but not loaded into this client
-						renderFace(matrixStack, null,screenWidth, screenHeight, scale, i);
+						renderFace(matrixStack, null, screenWidth, screenHeight, scale, i);
 					}
 				}
 			}
 			matrixStack.pop();
 		}
 	}
-	
+
 	public void renderFace(MatrixStack matrixStack, PlayerEntity playerAlly, float screenWidth, float screenHeight, float scale, int i) {
 		ResourceLocation skin;
-		if(playerAlly != null) {
+		if (playerAlly != null) {
 			skin = getLocationSkin(playerAlly);
 		} else {
-			skin = new ResourceLocation("minecraft","textures/entity/steve.png");
+			skin = new ResourceLocation("minecraft", "textures/entity/steve.png");
 		}
 		minecraft.getTextureManager().bindTexture(skin);
 
 		matrixStack.push();
 		{
-			matrixStack.translate(-16, -screenHeight/4*((i+1) * ModConfigs.partyYOffset / 100f), 0);
+			matrixStack.translate(-16, -screenHeight / 4 * ((i + 1) * ModConfigs.partyYOffset / 100f), 0);
 
 			// HEAD
 			int headWidth = 32;
@@ -114,8 +114,11 @@ public class PartyHUDGui extends Screen {
 			{
 				matrixStack.translate((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
 				matrixStack.scale(scale, scale, scale);
-				if(playerAlly == null)
-					RenderSystem.color4f(0.2F,0.2F,0.2F,1F);
+				if (playerAlly == null) {
+					RenderSystem.color4f(0.2F, 0.2F, 0.2F, 1F);
+				} else {
+					RenderSystem.color4f(1F, 1F, 1F, 1F);
+				}
 
 				this.blit(matrixStack, 0, 0, 32, 32, headWidth, headHeight);
 			}
@@ -136,96 +139,96 @@ public class PartyHUDGui extends Screen {
 				this.blit(matrixStack, 0, 0, 160, 32, hatWidth, hatHeight);
 			}
 			matrixStack.pop();
-			
-				matrixStack.push();
-				{
-					matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
-					matrixStack.scale(scale, scale, scale);
-					String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
-					if(playerAlly != null && minecraft.player.getDistance(playerAlly) >= ModConfigs.partyRangeLimit)
-						drawCenteredString(matrixStack, minecraft.fontRenderer, "Out of range", 16, -20, 0xFFFFFF);
-					drawCenteredString(matrixStack, minecraft.fontRenderer, name, 16, -10, 0xFFFFFF);
-				}
-				matrixStack.pop();
-				
-			if(playerAlly != null) {
+
+			matrixStack.push();
+			{
+				matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
+				matrixStack.scale(scale, scale, scale);
+				String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
+				if (playerAlly != null && minecraft.player.getDistance(playerAlly) >= ModConfigs.partyRangeLimit)
+					drawCenteredString(matrixStack, minecraft.fontRenderer, "Out of range", 16, -20, 0xFFFFFF);
+				drawCenteredString(matrixStack, minecraft.fontRenderer, name, 16, -10, 0xFFFFFF);
+			}
+			matrixStack.pop();
+
+			if (playerAlly != null) {
 				matrixStack.translate((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
-				//HP
+				// HP
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
 				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 				matrixStack.translate(-4, 0, 1);
-				//Top
+				// Top
 				matrixStack.push();
 				{
-					matrixStack.scale(scale/3*2, scale, 1);
-					this.blit(matrixStack, 0, 0,0, 72, 12, 2);
+					matrixStack.scale(scale / 3 * 2, scale, 1);
+					this.blit(matrixStack, 0, 0, 0, 72, 12, 2);
 				}
 				matrixStack.pop();
-				//Middle
+				// Middle
 				matrixStack.push();
 				{
 					matrixStack.translate(0, 1, 1);
-					matrixStack.scale(scale/3*2, scale*28, 1);
+					matrixStack.scale(scale / 3 * 2, scale * 28, 1);
 					this.blit(matrixStack, 0, 0, 0, 74, 12, 1);
 				}
 				matrixStack.pop();
-				//Bottom
+				// Bottom
 				matrixStack.push();
 				{
 					matrixStack.translate(0, 30, 1);
-					matrixStack.scale(scale/3*2, scale, 1);
+					matrixStack.scale(scale / 3 * 2, scale, 1);
 					this.blit(matrixStack, 0, -30, 0, 72, 12, 2);
 				}
 				matrixStack.pop();
-			
-				//Bar
+
+				// Bar
 				matrixStack.push();
 				{
 					matrixStack.rotate(Vector3f.ZP.rotation((float) Math.toRadians(180)));
 					matrixStack.translate(-4, -15, 1);
-					matrixStack.scale(scale*0.66F, (scale*28) * val/max, 1);
+					matrixStack.scale(scale * 0.66F, (scale * 28) * val / max, 1);
 					this.blit(matrixStack, 0, 0, 0, 78, 12, 1);
 				}
 				matrixStack.pop();
-				
-				//MP
+
+				// MP
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerAlly);
-				if(playerData != null) {
+				if (playerData != null) {
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();
 					minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 					matrixStack.translate(20, 0, 1);
-					//Top
+					// Top
 					matrixStack.push();
 					{
-						matrixStack.scale(scale/3*2, scale, 1);
+						matrixStack.scale(scale / 3 * 2, scale, 1);
 						this.blit(matrixStack, 0, 0, 0, 58, 12, 2);
 					}
 					matrixStack.pop();
-					//Middle
+					// Middle
 					matrixStack.push();
 					{
 						matrixStack.translate(0, 1, 1);
-						matrixStack.scale(scale/3*2, scale*28, 1);
+						matrixStack.scale(scale / 3 * 2, scale * 28, 1);
 						this.blit(matrixStack, 0, 0, 0, 60, 12, 1);
 					}
 					matrixStack.pop();
-					//Bottom
+					// Bottom
 					matrixStack.push();
 					{
 						matrixStack.translate(0, 30, 1);
-						matrixStack.scale(scale/3*2, scale, 1);
+						matrixStack.scale(scale / 3 * 2, scale, 1);
 						this.blit(matrixStack, 0, -30, 0, 58, 12, 2);
 					}
 					matrixStack.pop();
-				
-					//Bar
+
+					// Bar
 					matrixStack.push();
 					{
 						matrixStack.rotate(Vector3f.ZP.rotation((float) Math.toRadians(180)));
 						matrixStack.translate(-4, -15, 1);
-						matrixStack.scale(scale/3*2, (scale*28) * val/max, 1);
+						matrixStack.scale(scale / 3 * 2, (scale * 28) * val / max, 1);
 						this.blit(matrixStack, 0, 0, 0, 64, 12, 1);
 					}
 					matrixStack.pop();
