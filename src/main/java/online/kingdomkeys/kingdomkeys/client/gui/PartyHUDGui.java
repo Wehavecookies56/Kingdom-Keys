@@ -77,12 +77,7 @@ public class PartyHUDGui extends Screen {
 				for (int i = 0; i < allies.size(); i++) {
 					Member member = allies.get(i);
 					PlayerEntity playerAlly = player.world.getPlayerByUuid(member.getUUID());
-					if (playerAlly != null) {
-						renderFace(matrixStack, playerAlly, screenWidth, screenHeight, scale, i);
-					} else {
-						// When player in party but not loaded into this client
-						renderFace(matrixStack, null, screenWidth, screenHeight, scale, i);
-					}
+					renderFace(matrixStack, playerAlly, screenWidth, screenHeight, scale, i);
 				}
 			}
 			matrixStack.pop();
