@@ -1,8 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -15,6 +19,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 
@@ -59,6 +66,26 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 			this.remove();
 		}
         world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX()-1+rand.nextDouble()*2, getPosY() + rand.nextDouble()*4, getPosZ()-1+rand.nextDouble()*2, 0.0D, 0.0D, 0.0D);
+
+
+		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius, radius, radius));
+		Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
+
+		if (casterParty != null) {
+			for (Party.Member m : casterParty.getMembers()) {
+				tempList.remove(world.getPlayerByUuid(m.getUUID()));
+			}
+		} else {
+			tempList.remove(func_234616_v_());
+		}
+
+		targetList.clear();
+		for (Entity t : tempList) {
+			if (!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrbEntity)) {
+				targetList.add(t);
+			}
+		}
+    	
 
 		super.tick();
 	}

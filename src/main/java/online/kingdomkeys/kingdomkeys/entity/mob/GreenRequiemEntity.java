@@ -1,17 +1,15 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,8 +17,6 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
 public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
@@ -43,7 +39,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public Element getElementToUse() {
-        return Element.BLIZZARD;
+        return Element.CURE;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -63,19 +59,18 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         return super.attackEntityFrom(source, amount * multiplier);
     }
 
-    class GreenRequiemGoal extends Goal {
-        private GreenRequiemEntity theEntity;
+    class GreenRequiemGoal extends TargetGoal {
         private boolean canUseAttack = true;
         private int attackTimer = 5, whileAttackTimer;
         private float initialHealth;
 
         public GreenRequiemGoal(GreenRequiemEntity e) {
-            this.theEntity = e;
+        	super(e, true);
         }
 
         @Override
         public boolean shouldExecute() {
-            if (theEntity.getAttackTarget() != null) {
+            if (goalOwner.getAttackTarget() != null) {
                 if (!canUseAttack) {
                     if (attackTimer > 0) {
                         attackTimer--;
@@ -99,40 +94,37 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         public void startExecuting() {
             canUseAttack = true;
             attackTimer = 25 + world.rand.nextInt(5);
-            EntityHelper.setState(theEntity, 0);
-            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+            EntityHelper.setState(goalOwner, 0);
+            this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
-            initialHealth = theEntity.getHealth();
+            initialHealth = goalOwner.getHealth();
         }
 
         @Override
         public void tick() {
-            if (theEntity.getAttackTarget() != null && canUseAttack) {
-                whileAttackTimer++;
-                LivingEntity target = this.theEntity.getAttackTarget();
+            if (goalOwner.getAttackTarget() != null && canUseAttack) {
 
-                if (EntityHelper.getState(theEntity) == 0) {
-                    this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F);
+                whileAttackTimer++;
+                LivingEntity target = this.goalOwner.getAttackTarget();
+
+                if (EntityHelper.getState(goalOwner) == 0) {
+                    this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
 
                     if (world.rand.nextInt(100) + world.rand.nextDouble() <= 20) {
-                        EntityHelper.setState(this.theEntity, 1);
+                        EntityHelper.setState(this.goalOwner, 1);
 
-                        this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+                        this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
-                        if(EntityHelper.getEntitiesNear(this.theEntity, 10).size() > 0) {
-                            for (LivingEntity heartless : EntityHelper.getEntitiesNear(this.theEntity, 10)) {
+                        if(EntityHelper.getEntitiesNear(this.goalOwner, 10).size() > 0) {
+                            for (LivingEntity heartless : EntityHelper.getEntitiesNear(this.goalOwner, 10)) {
                                 if (heartless instanceof IKHMob && ((IKHMob)heartless).getMobType() != EntityHelper.MobType.NPC) {
-                                    if (heartless.getHealth() < heartless.getMaxHealth() - 10)
-                                        heartless.setHealth(heartless.getHealth() + 10);
-                                    else if(heartless.getHealth() > heartless.getMaxHealth() - 10)
-                                        heartless.setHealth(heartless.getMaxHealth());
-
-                                    if(!this.theEntity.world.isRemote) {
-                                        this.theEntity.world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-                                        this.theEntity.world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY() , heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-                                        this.theEntity.world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-                                        this.theEntity.world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX() + 0.3, heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
-                                        this.theEntity.world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX() - 0.3, heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
+                                    if (heartless.getHealth() < heartless.getMaxHealth()) {
+                                        heartless.heal(10);
+	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
+	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY() , heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
+	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX(), heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
+	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX() + 0.3, heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
+	                                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, heartless.getPosX() - 0.3, heartless.getPosY(), heartless.getPosZ(), 0.0D, 1.0D, 0.0D);
                                     }
                                 }
                             }
@@ -141,10 +133,10 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
                 }
 
-                if (EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 50) {
+                if (EntityHelper.getState(goalOwner) == 1 && whileAttackTimer > 50) {
                     canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
-                    this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+                    EntityHelper.setState(goalOwner, 0);
+                    this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
             }
         }
