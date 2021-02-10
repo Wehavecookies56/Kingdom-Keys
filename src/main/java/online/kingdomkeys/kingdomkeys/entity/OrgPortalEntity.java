@@ -65,15 +65,16 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 
 		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().grow(radius, radius, radius));
 		for (Entity t : tempList) {
-			if(shouldTeleport) {
+			if(shouldTeleport && !(t instanceof OrgPortalEntity)) {
 		        if(!this.isAlive())
 		            return;
 		        if(t != null){
 		            if (destinationPos != null) {
 		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
-		                	t.setPosition(destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5);
+		                	double yOffset = t.getPosY() - this.getPosY();
+		                	t.setPosition(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5);
 		                	if(t instanceof PlayerEntity && world.isRemote)
-		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5));
+		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5));
 		                }
 		            }
 		        }
