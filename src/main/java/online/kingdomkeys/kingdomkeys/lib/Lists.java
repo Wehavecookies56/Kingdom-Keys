@@ -14,11 +14,9 @@ import online.kingdomkeys.kingdomkeys.item.organization.EtherealBladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class Lists {
-
+public class Lists {   
     public static List<ResourceLocation> keybladeRecipes = new ArrayList<>();
     public static List<ResourceLocation> itemRecipes = new ArrayList<>();
-    //public static List<ResourceLocation> allRecipes = new ArrayList<>();
 
     public static List<Item> Xemnas = new ArrayList<>();
     public static List<Item> Xigbar = new ArrayList<>();

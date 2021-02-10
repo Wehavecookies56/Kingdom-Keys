@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
+import online.kingdomkeys.kingdomkeys.block.KKOreBlock;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -528,5 +529,5 @@ public class Utils {
 		});
 		PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 	}
-
+	
 }
