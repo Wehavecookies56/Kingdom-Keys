@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
@@ -27,6 +28,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -57,10 +59,14 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.NobodyCreeperEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
@@ -736,19 +742,19 @@ public class EntityEvents {
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
 		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntityLiving().world);
-		if (event.getEntity() instanceof EnderDragonEntity && worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
-			worldData.setHeartlessSpawnLevel(1);
-		}
-
 		if (event.getEntityLiving() instanceof EnderDragonEntity) {
 			LivingEntity entity = event.getEntityLiving();
+			if (worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
+				worldData.setHeartlessSpawnLevel(1);
+			}
+
 			for(PlayerEntity p : entity.world.getPlayers()) {
 				entity.world.addEntity(new ItemEntity(entity.world, p.getPosX(), p.getPosY(), p.getPosZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
 			}
 		}
 
 		if (!event.getEntity().world.isRemote) {
-			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) {
+			if (event.getSource().getImmediateSource() instanceof PlayerEntity || event.getSource().getTrueSource() instanceof PlayerEntity) { //If the player kills
 				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
@@ -823,6 +829,46 @@ public class EntityEvents {
 			if(event.getEntity() instanceof MoogleEntity && event.getSource() == DamageSource.ANVIL) {
 				ItemEntity ie = new ItemEntity(event.getEntity().world, event.getEntity().getPosX(), event.getEntity().getPosY(), event.getEntity().getPosZ(), new ItemStack(ModBlocks.moogleProjector.get()));
 				event.getEntity().world.addEntity(ie);
+			}
+
+			if (event.getSource().getTrueSource() instanceof IKHMob) {
+				IKHMob killerMob = (IKHMob) event.getSource().getTrueSource();
+				if (!event.getSource().getTrueSource().hasCustomName() && (killerMob.getMobType() == MobType.HEARTLESS_EMBLEM || killerMob.getMobType() == MobType.HEARTLESS_PUREBLOOD)) {
+					if (event.getEntityLiving() instanceof PlayerEntity) { // If a player gets killed by a heartless
+						IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) event.getEntityLiving());
+
+						DuskEntity newDusk = new DuskEntity(ModEntities.TYPE_DUSK.get(), event.getSource().getTrueSource().world);
+						newDusk.setPosition(event.getEntityLiving().getPosition().getX(), event.getEntityLiving().getPosition().getY(), event.getEntityLiving().getPosition().getZ());
+						newDusk.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Nobody"));
+						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth(), newDusk.getMaxHealth()));
+						newDusk.heal(newDusk.getMaxHealth());
+						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(), newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						event.getSource().getTrueSource().world.addEntity(newDusk);
+						
+						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getTrueSource().world);
+						newShadow.setPosition(event.getEntityLiving().getPosition().getX(), event.getEntityLiving().getPosition().getY(), event.getEntityLiving().getPosition().getZ());
+						newShadow.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Heartless"));
+						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth(), newShadow.getMaxHealth()));
+						newShadow.heal(newShadow.getMaxHealth());
+						System.out.println(Math.max(playerData.getStrength(), newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(), newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						event.getSource().getTrueSource().world.addEntity(newShadow);
+						
+						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
+						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
+						event.getEntityLiving().world.addEntity(heart);
+
+					} else if (event.getEntityLiving() instanceof VillagerEntity) {
+						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getTrueSource().world);
+						newShadow.setPosition(event.getEntityLiving().getPosition().getX(), event.getEntityLiving().getPosition().getY(), event.getEntityLiving().getPosition().getZ());
+						event.getSource().getTrueSource().world.addEntity(newShadow);
+						
+						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
+						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
+						event.getEntityLiving().world.addEntity(heart);
+
+					}
+				}
 			}
 		}
 	}

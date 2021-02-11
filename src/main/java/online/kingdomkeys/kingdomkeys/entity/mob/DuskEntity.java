@@ -56,7 +56,7 @@ public class DuskEntity extends MonsterEntity implements IKHMob {
 				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.2D)
 				.createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
 				.createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 0.0D)
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
 				;
 	}

@@ -22,6 +22,7 @@ public class ShadowGoal extends TargetGoal {
 	@Override
 	public boolean shouldContinueExecuting() {
 		if (this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI) {
+			System.out.println(originalAttackDamage);
 			if (this.goalOwner.isOnGround()) {
 				if (!isInShadow()) {
 					shadowTicks--;

@@ -47,7 +47,6 @@ public class ShadowGlobEntity extends MonsterEntity implements IKHMob {
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 0.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 0.0D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
-
                 ;
     }
 
