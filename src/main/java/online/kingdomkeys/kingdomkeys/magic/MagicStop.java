@@ -4,9 +4,12 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -32,11 +35,17 @@ public class MagicStop extends Magic {
 			}
 		}
 		
+		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1F, 1F);
+		
         if (!list.isEmpty()) {
+    		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_BELL_RESONATE, SoundCategory.PLAYERS, 1F, 1F);
             for (int i = 0; i < list.size(); i++) {
                 Entity e = (Entity) list.get(i);
                 if (e instanceof LivingEntity) {
                 	IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
+                	if(e instanceof MobEntity) {
+                		((MobEntity) e).setNoAI(true);
+                	}
 					globalData.setStoppedTicks(100); //Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
                 	if(e instanceof ServerPlayerEntity)

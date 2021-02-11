@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.boss.WitherEntity;
@@ -291,6 +292,10 @@ public class EntityEvents {
 					if (globalData.getDamage() > 0 && globalData.getStopCaster() != null) {
 						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, globalData.getStopCaster())), globalData.getDamage()/2);
 					}
+					
+					if(event.getEntityLiving() instanceof MobEntity) {
+                		((MobEntity) event.getEntityLiving()).setNoAI(false);
+                	}
 
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
 						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) event.getEntityLiving());
