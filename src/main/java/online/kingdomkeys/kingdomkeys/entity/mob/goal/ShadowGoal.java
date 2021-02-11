@@ -21,6 +21,9 @@ public class ShadowGoal extends TargetGoal {
 
 	@Override
 	public boolean shouldContinueExecuting() {
+		if(this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() > 0)
+			this.originalAttackDamage = this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
+
 		if (this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI) {
 			System.out.println(originalAttackDamage);
 			if (this.goalOwner.isOnGround()) {
@@ -46,7 +49,6 @@ public class ShadowGoal extends TargetGoal {
 					this.goalOwner.setInvulnerable(false);
 					canUseNextAttack = true;
                     this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
-
 				}
 			}
 

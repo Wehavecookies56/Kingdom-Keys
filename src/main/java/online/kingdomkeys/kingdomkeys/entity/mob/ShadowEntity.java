@@ -47,7 +47,6 @@ public class ShadowEntity extends MonsterEntity implements IKHMob {
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VillagerEntity.class, true));
-		//this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
 		this.targetSelector.addGoal(4, new ShadowGoal(this));
     }
 
@@ -58,8 +57,8 @@ public class ShadowEntity extends MonsterEntity implements IKHMob {
                 .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
-
                 ;
+        
     }
 
     @Override

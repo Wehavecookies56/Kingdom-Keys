@@ -212,6 +212,9 @@ public class ModConfigs {
 
     public static double limitLaserCircleMult;
     public static double limitLaserDomeMult;
+    
+    public static boolean playerSpawnHeartless;
+    public static List<String> playerSpawnHeartlessData;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -225,6 +228,9 @@ public class ModConfigs {
 
         limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
         limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
+        playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
+        playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
+
     }
 
     public static int recipeDropChance;

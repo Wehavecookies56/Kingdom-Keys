@@ -831,27 +831,30 @@ public class EntityEvents {
 				event.getEntity().world.addEntity(ie);
 			}
 
-			if (event.getSource().getTrueSource() instanceof IKHMob) {
+			if (event.getSource().getTrueSource() instanceof IKHMob && ModConfigs.playerSpawnHeartless) {
 				IKHMob killerMob = (IKHMob) event.getSource().getTrueSource();
 				if (!event.getSource().getTrueSource().hasCustomName() && (killerMob.getMobType() == MobType.HEARTLESS_EMBLEM || killerMob.getMobType() == MobType.HEARTLESS_PUREBLOOD)) {
 					if (event.getEntityLiving() instanceof PlayerEntity) { // If a player gets killed by a heartless
 						IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) event.getEntityLiving());
 
+						String[] heartless = ModConfigs.playerSpawnHeartlessData.get(0).split(",");
+						String[] nobody = ModConfigs.playerSpawnHeartlessData.get(1).split(",");
+						
 						DuskEntity newDusk = new DuskEntity(ModEntities.TYPE_DUSK.get(), event.getSource().getTrueSource().world);
 						newDusk.setPosition(event.getEntityLiving().getPosition().getX(), event.getEntityLiving().getPosition().getY(), event.getEntityLiving().getPosition().getZ());
 						newDusk.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Nobody"));
-						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth(), newDusk.getMaxHealth()));
+						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(nobody[1]) / 100, newDusk.getMaxHealth()));
 						newDusk.heal(newDusk.getMaxHealth());
-						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(), newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newDusk);
 						
 						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getTrueSource().world);
 						newShadow.setPosition(event.getEntityLiving().getPosition().getX(), event.getEntityLiving().getPosition().getY(), event.getEntityLiving().getPosition().getZ());
 						newShadow.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Heartless"));
-						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth(), newShadow.getMaxHealth()));
+						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
 						System.out.println(Math.max(playerData.getStrength(), newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(), newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newShadow);
 						
 						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);

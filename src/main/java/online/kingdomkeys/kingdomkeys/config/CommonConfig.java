@@ -29,6 +29,9 @@ public class CommonConfig {
     
     public ForgeConfigSpec.DoubleValue limitLaserCircleMult;
     public ForgeConfigSpec.DoubleValue limitLaserDomeMult;
+    
+    public ForgeConfigSpec.BooleanValue playerSpawnHeartless;
+    public ForgeConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
 
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
 		builder.push("general");
@@ -68,10 +71,20 @@ public class CommonConfig {
                 .defineEnum("heartlessSpawningMode", SpawningMode.AFTER_KEYCHAIN);
 
         mobSpawnRate = builder
-                .comment("Mob Spawn")
+                .comment("Mob Spawn (name, weight, min, max)")
                 .translation(KingdomKeys.MODID + ".config.mob_spawn")
                 .defineList("mobSpawn", Lists.newArrayList("Moogle,2,0,1", "Pureblood,2,0,1", "Emblem,2,0,1", "Nobody,2,0,1"), o -> o instanceof String);
 
+        playerSpawnHeartless = builder
+                .comment("Allow a heartless and a nobody to spawn when a player gets killed by a heartless")
+                .translation(KingdomKeys.MODID + ".config.player_spawn_heartless")
+                .define("playerSpawnHeartless", true);
+        
+        playerSpawnHeartlessData = builder
+                .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")
+                .translation(KingdomKeys.MODID + ".config.player_spawn_heartless_Data")
+                .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), o -> o instanceof String);
+        
         builder.pop();
         
         builder.push("limits");
