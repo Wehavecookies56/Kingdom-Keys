@@ -278,8 +278,8 @@ public class CSSummonKeyblade {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if (droppedItem != null) {
 				if (playerData.getEquippedWeapon() != null) {
-					if ((droppedItem.getItem() instanceof OrgWeaponItem || playerData.getAlignment() != OrgMember.NONE || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
-						if(droppedItem.getItem() instanceof OrgWeaponItem || playerData.getAlignment() != OrgMember.NONE) {
+					if ((droppedItem.getItem() instanceof OrgWeaponItem || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE) || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
+						if(droppedItem.getItem() instanceof OrgWeaponItem || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE)) { //If weapon is org weapon || a keyblade && org member
 							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 							for(ItemStack weapon : weapons) {
 								if(ItemStack.areItemsEqual(weapon, droppedItem)) {
