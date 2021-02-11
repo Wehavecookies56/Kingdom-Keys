@@ -288,15 +288,15 @@ public class EntityEvents {
 				event.getEntityLiving().velocityChanged = true;
 
 				if (globalData.getStoppedTicks() <= 0) {
+					if(event.getEntityLiving() instanceof MobEntity) {
+                		((MobEntity) event.getEntityLiving()).setNoAI(false);
+                	}
+					
 					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
 					if (globalData.getDamage() > 0 && globalData.getStopCaster() != null) {
 						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, globalData.getStopCaster())), globalData.getDamage()/2);
 					}
 					
-					if(event.getEntityLiving() instanceof MobEntity) {
-                		((MobEntity) event.getEntityLiving()).setNoAI(false);
-                	}
-
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
 						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) event.getEntityLiving());
 					globalData.setDamage(0);
