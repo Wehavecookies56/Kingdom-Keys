@@ -183,22 +183,7 @@ public class DamageCalculation {
             return 0;
         }
     }
-    
-    public static float getOrgPowerDamage(PlayerEntity player, ItemStack stack) {
-        if (player != null) {
-        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            float damage = 0;
-            float finalDamage = 0;
-            if (stack.getItem() instanceof IOrgWeapon) {
-            	IOrgWeapon org = (IOrgWeapon) stack.getItem();
-                damage = (float) org.getStrength() + playerData.getStrength();
-                finalDamage = damage * getPowerDamage(stack); //(float) (damage * MainConfig.items.damageMultiplier);
-            }
-            return finalDamage;
-        } else {
-            return 0;
-        }
-    }
+  
     
     public static float getSharpnessDamage(ItemStack stack) {
 		ListNBT nbttaglist = stack.getEnchantmentTagList();
@@ -218,27 +203,4 @@ public class DamageCalculation {
     private static float getSharpnessDamageFromLevel(float lvl) {
 		return lvl / 2F + 0.5F;
 	}
-    
-
-    public static float getPowerDamage(ItemStack stack) {
-		ListNBT nbttaglist = stack.getEnchantmentTagList();
-    	float powerDamage = 0;
-		for (int i = 0; i < nbttaglist.size(); i++) {
-			String id = nbttaglist.getCompound(i).getString("id");
-			int lvl = nbttaglist.getCompound(i).getShort("lvl");
-
-			// System.out.println(Enchantment.getEnchantmentByID(id).getName());
-			if (id.equals("minecraft:power")) {
-				powerDamage = getPowerDamageFromLevel(lvl);
-			}
-		}
-
-		return powerDamage;
-
-    }
-    
-    private static float getPowerDamageFromLevel(float lvl) {
-		return (lvl + 1) * 0.25F;
-	}
-    
 }

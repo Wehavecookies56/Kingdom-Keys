@@ -43,7 +43,8 @@ public class ChakramItem extends OrgWeaponItem implements IOrgWeapon {
 			if (ticks >= 10) {
 				PlayerEntity player = (PlayerEntity) entityLiving;
 				float dmgMult = Math.min(ticks, 30) / 20F;
-				ChakramEntity entity = new ChakramEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgPowerDamage(player, stack) * dmgMult);
+				ChakramEntity entity = new ChakramEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgStrengthDamage(player, stack) * dmgMult);
+				System.out.println(DamageCalculation.getOrgStrengthDamage(player, stack) * dmgMult);
 				switch (this.getRegistryName().getPath()) {
 				case Strings.eternalFlames:
 				case Strings.prometheus:
