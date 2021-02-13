@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -84,9 +85,10 @@ public class GravityEntity extends ThrowableEntity {
 			}
 		}
 		
-		if (!world.isRemote) {
+		IWorldCapabilities worldData = ModCapabilities.getWorld(world);
+		if (!world.isRemote && func_234616_v_() != null && worldData != null) {
 			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(func_234616_v_(), getBoundingBox().grow(3.0D, 3.0D, 3.0D));
-			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(func_234616_v_().getUniqueID());
+			Party casterParty = worldData.getPartyFromMember(func_234616_v_().getUniqueID());
 
 			if(casterParty != null && !casterParty.getFriendlyFire()) {
 				for(Member m : casterParty.getMembers()) {
