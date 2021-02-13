@@ -122,9 +122,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					}
 					
 					//Adding the exp here as it will iterate through the party and this user won't get it there
+					if(getEquippedAbilityLevel(Strings.experienceBoost)[1] > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
+						exp *= 2;
+					}
 					this.exp += exp;
 					
-				} else {
+				} else { //Player not in a party or shareXP is false (command)
+					if(getEquippedAbilityLevel(Strings.experienceBoost)[1] > 0 && player.getHealth() <= player.getMaxHealth() / 2 && shareXP) { //if shareXP is false means it gets here because of the command
+						exp *= 2;
+					}
 					this.exp += exp;
 				}
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {

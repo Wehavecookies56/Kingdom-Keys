@@ -64,7 +64,6 @@ public class LevelStats {
                 cap.addStrength(1);
                 cap.addMaxHP(5);
                 cap.addAbility(Strings.damageDrive, true);
-                // ABILITIES.unlockAbility(ModAbilities.formBoost);
                 break;
             case 16:
                 cap.addMagic(1);
@@ -85,7 +84,6 @@ public class LevelStats {
                 cap.addMagic(1);
                 cap.addMaxHP(5);
                 cap.addMaxMP(4);
-                // ABILITIES.unlockAbility(ModAbilities.mpHastera);
                 break;
             case 21:
                 cap.addStrength(1);
@@ -116,6 +114,7 @@ public class LevelStats {
                 break;
             case 28:
                 cap.addMagic(1);
+                cap.addAbility(Strings.experienceBoost, true);
                 break;
             case 29:
                 cap.addStrength(1);
@@ -134,7 +133,6 @@ public class LevelStats {
                 break;
             case 33:
                 cap.addStrength(1);
-                // ABILITIES.unlockAbility(ModAbilities.driveConverter);
                 break;
             case 34:
                 cap.addMagic(1);

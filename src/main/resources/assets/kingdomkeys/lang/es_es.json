@@ -216,6 +216,9 @@
 	"ability.ability_fire_boost.desc": "Aumenta el daño de los ataques Piro.",
 	"ability.ability_blizzard_boost.name": "Extrahielo",
 	"ability.ability_blizzard_boost.desc": "Aumenta el daño de los ataques Hielo.",
+	"ability.ability_experience_boost.name": "Extraexperiencia",
+	"ability.ability_experience_boost.desc": "Si la VT cae a menos de la mitad, aumenta un 100% la experiencia ganada al vencer enemigos.",
+
 	
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Círculo Láser",

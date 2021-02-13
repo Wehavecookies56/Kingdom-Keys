@@ -60,7 +60,8 @@ public class Strings {
     		driveBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"drive_boost",
     		formBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"form_boost",
     		fireBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"fire_boost",
-    		blizzardBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzard_boost"
+    		blizzardBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzard_boost",
+    		experienceBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"experience_boost"
     		;
     
     // Synthesis Materials

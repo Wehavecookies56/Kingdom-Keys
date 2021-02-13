@@ -215,7 +215,9 @@
 	"ability.ability_fire_boost.desc": "Increases damage done with fire-based attacks.",
 	"ability.ability_blizzard_boost.name": "Blizzard Boost",
 	"ability.ability_blizzard_boost.desc": "Increases damage done with blizzard-based attacks.",
-	
+	"ability.ability_experience_boost.name": "Experience Boost",
+	"ability.ability_experience_boost.desc": "Increases experience gained by 100% when you are at half health or less.",
+
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Laser Circle",
 	"limit.laser_dome.name": "Laser Dome",

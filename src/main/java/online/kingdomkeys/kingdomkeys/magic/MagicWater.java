@@ -24,6 +24,9 @@ public class MagicWater extends Magic {
 		player.world.addEntity(shot);
 		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
 		player.swingArm(Hand.MAIN_HAND);
+		if(player.isBurning()) {
+			player.extinguish();
+		}
 	}
 
 }
