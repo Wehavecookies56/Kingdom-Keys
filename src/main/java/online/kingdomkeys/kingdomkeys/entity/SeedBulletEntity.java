@@ -14,7 +14,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class SeedBulletEntity extends ThrowableEntity {
 
     private LivingEntity ent;
-    private int ticks = 30;
+    private int ticks = 80;
 
     protected SeedBulletEntity(EntityType<? extends ThrowableEntity> type, World worldIn) {
         super(type, worldIn);

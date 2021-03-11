@@ -40,7 +40,8 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
+        super.registerGoals();
+       // this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(0, new SeedGoal(this));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
@@ -48,14 +49,14 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VillagerEntity.class, true));
 
     }
-
+    
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
         return MobEntity.registerAttributes()
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.0D)
                 .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
                 ;
     }
@@ -101,9 +102,7 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
 
         @Override
         public boolean shouldContinueExecuting() {
-            boolean flag = canUseAttack;
-
-            return flag;
+            return canUseAttack;
         }
 
         @Override
@@ -115,41 +114,62 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
 
         @Override
         public void tick() {
-            if(goalOwner.getAttackTarget() != null && canUseAttack	) {
+            if(goalOwner.getAttackTarget() != null && canUseAttack) {
                 EntityHelper.setState(goalOwner, 1);
                 LivingEntity target = this.goalOwner.getAttackTarget();
-
                 this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
                 double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
                 double d2 = this.goalOwner.getAttackTarget().getPosY() - this.goalOwner.getPosY();//getBoundingBox().minY + (double)(this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F));
                 double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
                 System.out.println("attack");
-                if(world.rand.nextInt(100) + 1 > EntityHelper.percentage(25, 100)) {
+                int num = world.rand.nextInt(100) + 1;
+                System.out.println(num);
+                if(num < 30) { //Single
+                    SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    seed.shoot(d1, d2, d3, 1.2F, 0);
+                    world.addEntity(seed);
+                    System.out.println("Single");
+                } else if(num < 60) { //Vertical
+                	SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed.shoot(d1, d2+1, d3, 1F, 0);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    goalOwner.world.addEntity(seed);
 
+                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed.shoot(d1, d2+2, d3, 1F, 0);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    goalOwner.world.addEntity(seed);
+
+                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed.shoot(d1, d2, d3, 1F, 0);
+                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    goalOwner.world.addEntity(seed);
+                    System.out.println("Vert");
+                } else { //Triple
                     SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 1.2F, 0);
                     seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.goalOwner.world.addEntity(seed);
-                }
-                else {
-                    SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
-                    seed.shoot(d1, d2, d3, 1.2F, 0);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.goalOwner.world.addEntity(seed);
+                    goalOwner.world.addEntity(seed);
 
                     seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 0.7F, 0);
                     seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.goalOwner.world.addEntity(seed);
+                    goalOwner.world.addEntity(seed);
 
                     seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 0.5F, 0);
                     seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    this.goalOwner.world.addEntity(seed);
-                }
+                    goalOwner.world.addEntity(seed);
+                    System.out.println("Triple");
 
+                }
+                System.out.println("USed attack");
                 canUseAttack = false;
+            } else {
+            	System.out.println("I would've crashed");
             }
+            
         }
 
     }

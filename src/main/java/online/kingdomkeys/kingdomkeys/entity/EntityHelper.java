@@ -20,7 +20,9 @@ public class EntityHelper {
 		e.getDataManager().set(STATE, i);
 	}
 
-	public static double percentage(double i, double j) {return (i * 100) / j;}
+	public static double percentage(double i, double j) {
+		return (i * 100) / j;
+	}
 
 	public static int getState(Entity e) {
 		return e.getDataManager().get(STATE);
