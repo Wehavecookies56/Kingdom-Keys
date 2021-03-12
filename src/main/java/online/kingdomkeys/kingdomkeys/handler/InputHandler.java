@@ -67,6 +67,7 @@ public class InputHandler {
     List<Limit> limitsList;
     
     public static LivingEntity lockOn = null;
+    public static int qrCooldown = 40;
 
     public boolean antiFormCheck() {
         Minecraft mc = Minecraft.getInstance();
@@ -681,8 +682,9 @@ public class InputHandler {
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		System.out.println(qrCooldown);
 		
-    	if (player.getMotion().x != 0 && player.getMotion().z != 0) { // If player is moving do dodge roll / quick run
+    	if (qrCooldown <= 0 && (player.getMotion().x != 0 && player.getMotion().z != 0)) { // If player is moving do dodge roll / quick run
 			if (player.isSprinting()) { //If player is sprinting do quick run
 				if (playerData.isAbilityEquipped(Strings.quickRun) || playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 					float yaw = player.rotationYaw;
@@ -695,17 +697,20 @@ public class InputHandler {
 					// Wisdom Form
 					if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						power = Constants.WISDOM_QR[wisdomLevel];
-						if (!player.isOnGround())
+						if (!player.isOnGround()) {
 							player.addVelocity(motionX * power / 2, 0, motionZ * power / 2);
+							qrCooldown = 20;
+						}
 					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
 						if (wisdomLevel > 2) {
 							power = Constants.WISDOM_QR[wisdomLevel - 2];
 						}
 					}
 
-					if (player.isOnGround())
+					if (player.isOnGround()) {
 						player.addVelocity(motionX * power, 0, motionZ * power);
-
+						qrCooldown = 20;
+					}
 				}
 			} else { //If player is moving without sprinting do dodge roll
 				if (playerData.isAbilityEquipped(Strings.dodgeRoll) || playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
@@ -721,6 +726,7 @@ public class InputHandler {
 
 					if (player.isOnGround()) {
 						player.addVelocity(player.getMotion().x * power, 0, player.getMotion().z * power);
+						qrCooldown = 20;
 						//PacketDispatcher.sendToServer(new InvinciblePacket(20));
 					}
 				}

@@ -68,7 +68,13 @@ public class ClientEvents {
 				yaw = event.getEntityLiving().rotationYaw;
 				pitch = event.getEntityLiving().rotationPitch;
 			}
-		}		
+		}
+		
+		if(event.getEntityLiving() == Minecraft.getInstance().player) {
+			if(InputHandler.qrCooldown > 0) {
+				InputHandler.qrCooldown -= 1;
+			}
+		}
 		
 	}
 	
