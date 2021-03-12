@@ -682,7 +682,6 @@ public class InputHandler {
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		System.out.println(qrCooldown);
 		
     	if (qrCooldown <= 0 && (player.getMotion().x != 0 && player.getMotion().z != 0)) { // If player is moving do dodge roll / quick run
 			if (player.isSprinting()) { //If player is sprinting do quick run

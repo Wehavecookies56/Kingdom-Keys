@@ -367,6 +367,8 @@ public class Strings {
 			Gui_Menu_Status_FormGauge = Gui_Menu_Status + ".formgauge",
 			Gui_Menu_Status_Button = Gui_Menu_Status + ".button",
 
+			Gui_Menu_Journal = Gui_Menu + ".journal",
+
             
             Gui_Menu_Config = Gui_Menu + ".config",
             Gui_Menu_Config_Title = Gui_Menu_Config + ".title",
