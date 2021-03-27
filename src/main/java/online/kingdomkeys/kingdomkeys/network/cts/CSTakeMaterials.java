@@ -45,9 +45,9 @@ public class CSTakeMaterials {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if(!ItemStack.areItemsEqual(message.stack, ItemStack.EMPTY)) {
 				Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+message.stack.getItem().getRegistryName().getPath()));
-				System.out.println(mat.getMaterialName());
+				//System.out.println(mat.getMaterialName());
 				if(playerData.getMaterialAmount(mat)<message.stack.getCount()) {
-					System.out.println("Client unsynced");
+					//System.out.println("Client unsynced");
 				} else {
 					playerData.removeMaterial(mat, message.stack.getCount());
 					player.inventory.addItemStackToInventory(message.stack);

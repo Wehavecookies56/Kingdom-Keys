@@ -125,7 +125,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		} else { // If ability is unequipped, equip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
 			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP()) {
-				System.out.println("Not enough AP");
+				//System.out.println("Not enough AP");
 				return;
 			} else {
 				lvlIncrease = 1;

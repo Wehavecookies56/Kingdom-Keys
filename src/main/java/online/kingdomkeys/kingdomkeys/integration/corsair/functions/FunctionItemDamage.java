@@ -30,7 +30,7 @@ public class FunctionItemDamage extends BaseKeyboardFunctions {
 			return CorsairUtils.defaultRGB;
 		}
 		ItemStack stack = player.getHeldItemOffhand();
-		System.out.println(stack);
+		//System.out.println(stack);
 		if (!ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
 			return new int[] { 0, 0, 255 };
 		}

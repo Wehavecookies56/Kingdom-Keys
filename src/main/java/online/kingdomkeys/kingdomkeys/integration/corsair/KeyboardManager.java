@@ -27,7 +27,7 @@ public class KeyboardManager {
 	public KeyboardManager() {
 		for (int i = 0; i < cue.getDeviceCount(); i++) {
 			DeviceInfo info = cue.getDeviceInfo(i);
-			System.out.println(info.getType());
+			//System.out.println(info.getType());
 			if (info.getType() == DeviceType.CDT_Keyboard) {
 				corsairKeyboard = true;
 			}

@@ -408,7 +408,7 @@ public class EntityEvents {
 					double Z = event.getEntityLiving().getPosZ();
 
 					float radius = 3.5F;
-					System.out.println(event.getEntityLiving().world);
+					//System.out.println(event.getEntityLiving().world);
 
 					for (int t = 1; t < 360; t += 20) {
 						double x = X + (radius * Math.cos(Math.toRadians(t)));
@@ -854,7 +854,7 @@ public class EntityEvents {
 						newShadow.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Heartless"));
 						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
-						System.out.println(Math.max(playerData.getStrength(), newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						//System.out.println(Math.max(playerData.getStrength(), newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newShadow);
 						

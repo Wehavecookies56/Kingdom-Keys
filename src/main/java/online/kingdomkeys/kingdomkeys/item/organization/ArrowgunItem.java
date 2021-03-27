@@ -46,7 +46,7 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 				if(tempAmmo == 0) {
 					player.getHeldItem(hand).getTag().putInt("ammo", ammo);
 					player.getCooldownTracker().setCooldown(this, reload);
-					System.out.println("reload");
+					//System.out.println("reload");
 					world.playSound(null, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
 				}
 			}
