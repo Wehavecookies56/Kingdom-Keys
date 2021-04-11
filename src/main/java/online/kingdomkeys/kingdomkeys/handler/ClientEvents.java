@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 
@@ -107,48 +108,71 @@ public class ClientEvents {
 	public static double focusGaugeTemp = 100;
 	int cost = 0;
 	
+	int cooldownTicks = 0;
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
-			if (event.player == mc.player) { // Only run this for the local client player
+			if (event.player == mc.player && cooldownTicks <= 0 && event.player.getHeldItemMainhand() != null && event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem) { // Only run this for the local client player
 				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-				//playerData.setFocus(100);
 
 				if (focusing) {
 					if (focusingTicks == 0) {
 						// Has started focusing
 						focusGaugeTemp = playerData.getFocus();
 						playerData.setShotlockEnemies(new ArrayList<Integer>());
+						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_start.get(), SoundCategory.PLAYERS, 1F, 1F);
+					}
+					
+					if(focusingTicks == 10) {
+						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_idle.get(), SoundCategory.PLAYERS, 1F, 1F);
 					}
 					focusingTicks++;
-					
+
 					if(focusGaugeTemp > 0)
 						focusGaugeTemp-=1;
-					System.out.println(focusGaugeTemp);
+					//System.out.println(focusGaugeTemp);
 					if (event.player.ticksExisted % 5 == 0 && focusGaugeTemp > 0) {
 						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
 						if (rt != null && rt instanceof EntityRayTraceResult) {
 							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
 							//System.out.println(ertr.getEntity());
-							playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
-							event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
-							cost = focusingTicks;
-							playerData.remFocus(cost);
-							System.out.println("Cost: "+cost);
+							if(ertr.getEntity() instanceof LivingEntity) {
+								playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
+								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon.get(), SoundCategory.PLAYERS, 1F, 1F);
+								cost = focusingTicks;
+							}
 						}
 					}
-				} else {
-					if (focusingTicks > 0) {
-						// Has stopped shotlocking
-						// Send packet to spawn entities and track enemies
-						//System.out.println(playerData.getShotlockEnemies());
-						if(!playerData.getShotlockEnemies().isEmpty())
-							PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
+					
+					if(mc.gameSettings.keyBindAttack.isKeyDown()) {
+						if (focusingTicks > 0) {
+							// Has stopped shotlocking
+							// Send packet to spawn entities and track enemies
+							//System.out.println(playerData.getShotlockEnemies());
+							if(!playerData.getShotlockEnemies().isEmpty()) {
+								playerData.remFocus(cost);
+								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_all.get(), SoundCategory.PLAYERS, 1F, 1F);
+								PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
+								cooldownTicks = 100;
+								focusing = false;
+
+							}
+						}
+						focusingTicks = 0;
+						focusGaugeTemp = playerData.getFocus();
 					}
+				} else {
 					focusingTicks = 0;
 					focusGaugeTemp = playerData.getFocus();
+
+					
+				}
+			} else {
+				if(cooldownTicks > 0) {
+					cooldownTicks--;
+
 				}
 			}
 		}

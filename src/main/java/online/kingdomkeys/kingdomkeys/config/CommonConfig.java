@@ -32,6 +32,8 @@ public class CommonConfig {
     
     public ForgeConfigSpec.BooleanValue playerSpawnHeartless;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
+    
+    public ForgeConfigSpec.DoubleValue shotlockMult;
 
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
 		builder.push("general");
@@ -99,6 +101,15 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.laser_dome_mult")
                 .defineInRange("laserDomeMult",0.3,0,100);
 
+        builder.pop();
+        
+        builder.push("shotlock");
+        
+        shotlockMult = builder
+                .comment("Shotlock Damage Multiplier (magic * multiplier)")
+                .translation(KingdomKeys.MODID + ".config.shotlock_mult")
+                .defineInRange("shotlockMult",0.4,0,100);
+        
         builder.pop();
     }
   

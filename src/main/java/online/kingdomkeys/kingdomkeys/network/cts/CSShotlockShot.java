@@ -61,9 +61,9 @@ public class CSShotlockShot {
 			core.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
 			player.world.addEntity(core);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			System.out.println(playerData.getFocus());
+			//System.out.println(playerData.getFocus());
 			playerData.remFocus(message.cost);
-			System.out.println(message.cost);
+			//System.out.println(message.cost);
 			PacketHandler.syncToAllAround(player, playerData);
 			
 		});

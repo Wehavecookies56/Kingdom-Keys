@@ -103,6 +103,41 @@
 		]
 	},
 	
+	"shotlock_lockon_start": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:shotlock_lockon_start", "stream": false }
+		]
+	},
+	
+	"shotlock_lockon_idle": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:shotlock_lockon_idle", "stream": false }
+		]
+	},
+	
+	"shotlock_lockon": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:shotlock_lockon", "stream": false }
+		]
+	},
+	
+	"shotlock_lockon_all": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:shotlock_lockon_all", "stream": false }
+		]
+	},
+	
+	"invincible_hit": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:invincible_hit", "stream": false }
+		]
+	},
+	
 	"records.dream_drop_distance_the_next_awakening": {
 		"category": "record",
 		"sounds": [

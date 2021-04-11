@@ -87,8 +87,8 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 			this.remove();
 		}
 
-		this.dmgMult = ModConfigs.limitLaserDomeMult;
-
+		this.dmgMult = ModConfigs.shotlockMult;
+System.out.println(dmg + " "+ dmgMult);
 		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
 		// getPosZ(), 1, 1, 0);
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
@@ -102,6 +102,7 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 			if (ticksExisted >= 0 && ticksExisted % 2 == 1) {
 				
 				Entity target = getTargets().get(i++);
+				if(target != null) {
 				ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg * dmgMult);
 				
 				bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
@@ -109,19 +110,8 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 				//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
 				list.add(bullet);
 				world.addEntity(bullet);
-				
-			}/* else if (ticksExisted > 20 && !targetList.isEmpty() && ticksExisted % 5 == 0) {
-				for (int i = 0; i < shotsPerTick; i++) {
-					
-					Entity target = targetList.get(i++);
-
-					if (target != null && target.isAlive() && getCaster() != null) {
-						ShotlockShotEntity bullet = list.get(i);
-						bullet.shoot(target.getPosX() - bullet.getPosX(), target.getPosY() - bullet.getPosY(), target.getPosZ() - bullet.getPosZ(), 2f, 0);
-					}
-
 				}
-			}*/
+			}
 			
 			if(getTargets().size() <= i) {
 				this.remove();

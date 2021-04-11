@@ -20,11 +20,13 @@ import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
@@ -140,6 +142,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
     		if(diff > 30 && diff < 150) {
     			if(attacker instanceof LivingEntity) {
 	                ((LivingEntity) attacker).applyKnockback(0.8F, -d1, -d0);
+					world.playSound(null, getPosition(), ModSounds.invincible_hit.get(), SoundCategory.PLAYERS, 1F, 1F);
 	                attacker.setMotion(attacker.getMotion().x, 0.5F, attacker.getMotion().z);
     			}
                 return false;    		

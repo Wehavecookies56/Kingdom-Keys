@@ -71,6 +71,14 @@ public class ShotlockGUI extends Screen {
 					}
 					matrixStack.pop();
 					
+					matrixStack.push();// Focus Cost Bar
+					{
+						matrixStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
+						matrixStack.scale(scale, scale, scale);
+						drawFocusCostBarTop(matrixStack, 0, 0, (int)(ClientEvents.focusGaugeTemp), playerData.getFocus(), scale);
+					}
+					matrixStack.pop();
+					
 					matrixStack.push();// Focus Bar
 					{
 						matrixStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
@@ -121,18 +129,31 @@ public class ShotlockGUI extends Screen {
 		}
 		matrixStack.pop();
 	}
-
+	
+	public void drawFocusCostBarTop(MatrixStack matrixStack, float posX, float posY, float amount, double focus, float scale) {
+		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
+		//amount = 100;
+		matrixStack.push();
+		{
+			//int w = (int) (amount * 100F / noborderguiwidth);
+			int h = (int) (focus * noborderguiheight / 100);
+			matrixStack.translate((posX) * scale, (posY + 2) * scale, 0);
+			matrixStack.scale(scale, scale, 0);
+			blit(matrixStack, 0, noborderguiheight-h - 1, 0, 207 - h, noborderguiwidth, h+2);
+		}
+		matrixStack.pop();
+	}
+	
 	public void drawFocusBarTop(MatrixStack matrixStack, float posX, float posY, float amount, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
 		//amount = 100;
 		matrixStack.push();
 		{
-			int w = (int) (amount * 100F / noborderguiwidth);
-			int h = (int) (amount * 100F / noborderguiheight);
-
+			//int w = (int) (amount * 100F / noborderguiwidth);
+			int h = (int) (amount * noborderguiheight / 100);
 			matrixStack.translate((posX) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(matrixStack, 0, noborderguiheight-h, 0, guiHeight + noborderguiheight - h, noborderguiwidth, h);
+			blit(matrixStack, 0, noborderguiheight-h - 1, 0, 138 - h, noborderguiwidth, h+2);
 		}
 		matrixStack.pop();
 	}

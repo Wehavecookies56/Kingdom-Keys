@@ -41,6 +41,11 @@ public class ModSounds {
 	        laser = registerSound("laser"),
 	        reflect1 = registerSound("reflect1"),
 	        reflect2 = registerSound("reflect2"),
+		    invincible_hit = registerSound("invincible_hit"),
+			shotlock_lockon_start = registerSound("shotlock_lockon_start"),
+			shotlock_lockon_idle = registerSound("shotlock_lockon_idle"),
+			shotlock_lockon = registerSound("shotlock_lockon"),
+			shotlock_lockon_all = registerSound("shotlock_lockon_all"),
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records.birth_by_sleep_a_link_to_the_future"),
             Record_Darkness_of_the_Unknown = registerSound("records.darkness_of_the_unknown"),

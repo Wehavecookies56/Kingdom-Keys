@@ -212,6 +212,7 @@ public class ModConfigs {
 
     public static double limitLaserCircleMult;
     public static double limitLaserDomeMult;
+    public static double shotlockMult;
     
     public static boolean playerSpawnHeartless;
     public static List<String> playerSpawnHeartlessData;
@@ -230,6 +231,7 @@ public class ModConfigs {
         limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
         playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
         playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
+        shotlockMult = COMMON.shotlockMult.get();
 
     }
 
