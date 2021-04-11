@@ -32,7 +32,7 @@ public class SCSyncCapabilityPacket {
 	private int munny = 0;
 	private int antipoints = 0;
 
-	private double MP, maxMP, dp, maxDP, fp;
+	private double MP, maxMP, dp, maxDP, fp, focus, maxFocus;
 	
 	private boolean recharge;
 
@@ -79,6 +79,8 @@ public class SCSyncCapabilityPacket {
 		this.fp = capability.getFP();
 		this.antipoints=capability.getAntiPoints();
 		this.munny = capability.getMunny();
+		this.focus = capability.getFocus();
+		this.maxFocus = capability.getMaxFocus();
 		
 		this.recipeList = capability.getKnownRecipeList();
 		this.magicList = capability.getMagicList();
@@ -124,6 +126,8 @@ public class SCSyncCapabilityPacket {
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
 		buffer.writeInt(this.munny);
+		buffer.writeDouble(this.focus);
+		buffer.writeDouble(this.maxFocus);
 		
 		CompoundNBT recipes = new CompoundNBT();
 		Iterator<ResourceLocation> recipesIt = recipeList.iterator();
@@ -230,6 +234,8 @@ public class SCSyncCapabilityPacket {
 		msg.fp = buffer.readDouble();
 		msg.antipoints = buffer.readInt();
 		msg.munny = buffer.readInt();
+		msg.focus = buffer.readDouble();
+		msg.maxFocus = buffer.readDouble();
 
 		CompoundNBT recipesTag = buffer.readCompoundTag();
 		Iterator<String> recipesIt = recipesTag.keySet().iterator();
@@ -332,6 +338,9 @@ public class SCSyncCapabilityPacket {
 			playerData.setFP(message.fp);
 			playerData.setMaxDP(message.maxDP);
 			playerData.setMunny(message.munny);
+			playerData.setFocus(message.focus);
+			playerData.setMaxFocus(message.maxFocus);
+
 			playerData.setMessages(message.messages);
 			playerData.setDFMessages(message.dfMessages);
 

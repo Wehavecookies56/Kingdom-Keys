@@ -6,6 +6,7 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -19,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 
@@ -103,42 +105,50 @@ public class ClientEvents {
 	public static boolean focusing = false;
 	int focusingTicks = 0;
 	public static double focusGaugeTemp = 100;
-
+	int cost = 0;
+	
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
-			//focusGaugeTemp = 100;
-			//System.out.println(focusGaugeTemp);
 			Minecraft mc = Minecraft.getInstance();
 			if (event.player == mc.player) { // Only run this for the local client player
 				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+				//playerData.setFocus(100);
+
 				if (focusing) {
 					if (focusingTicks == 0) {
 						// Has started focusing
-						focusGaugeTemp = 100;//playerData.getFocus();
+						focusGaugeTemp = playerData.getFocus();
 						playerData.setShotlockEnemies(new ArrayList<Integer>());
 					}
 					focusingTicks++;
 					
 					if(focusGaugeTemp > 0)
 						focusGaugeTemp-=1;
+					System.out.println(focusGaugeTemp);
 					if (event.player.ticksExisted % 5 == 0 && focusGaugeTemp > 0) {
 						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
 						if (rt != null && rt instanceof EntityRayTraceResult) {
 							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
-							System.out.println(ertr.getEntity());
+							//System.out.println(ertr.getEntity());
 							playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
+							event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
+							cost = focusingTicks;
+							playerData.remFocus(cost);
+							System.out.println("Cost: "+cost);
 						}
 					}
 				} else {
 					if (focusingTicks > 0) {
 						// Has stopped shotlocking
 						// Send packet to spawn entities and track enemies
-						System.out.println(playerData.getShotlockEnemies());
-						PacketHandler.sendToServer(new CSShotlockShot(playerData.getShotlockEnemies()));
+						//System.out.println(playerData.getShotlockEnemies());
+						if(!playerData.getShotlockEnemies().isEmpty())
+							PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
 					}
 					focusingTicks = 0;
+					focusGaugeTemp = playerData.getFocus();
 				}
 			}
 		}

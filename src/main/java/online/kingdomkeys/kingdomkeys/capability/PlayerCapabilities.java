@@ -59,7 +59,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	List<String> partyList = new ArrayList<>();
 
-	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 0, maxFocus = 100;
+	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 100, maxFocus = 100;
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
@@ -512,7 +512,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public double getFocus() {
-		return 0;
+		return focus;
 	}
 
 	@Override

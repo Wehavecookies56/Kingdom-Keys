@@ -132,7 +132,7 @@ public class ShotlockGUI extends Screen {
 
 			matrixStack.translate((posX) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(matrixStack, 0, noborderguiheight-h, 0, guiHeight + noborderguiheight - h, w, h);
+			blit(matrixStack, 0, noborderguiheight-h, 0, guiHeight + noborderguiheight - h, noborderguiwidth, h);
 		}
 		matrixStack.pop();
 	}

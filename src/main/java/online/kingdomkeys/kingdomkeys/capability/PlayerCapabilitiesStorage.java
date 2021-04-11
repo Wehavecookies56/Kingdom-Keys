@@ -30,6 +30,8 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.putInt("max_ap", instance.getMaxAP());
         storage.putDouble("mp", instance.getMP());
         storage.putDouble("max_mp", instance.getMaxMP());
+        storage.putDouble("focus", instance.getFocus());
+        storage.putDouble("max_focus", instance.getMaxFocus());
         storage.putBoolean("recharge", instance.getRecharge());
         storage.putDouble("dp", instance.getDP());
         storage.putDouble("max_dp", instance.getMaxDP());
@@ -136,6 +138,8 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         instance.setMaxAP(storage.getInt("max_ap"));
         instance.setMP(storage.getDouble("mp"));
         instance.setMaxMP(storage.getDouble("max_mp"));
+        instance.setFocus(storage.getDouble("focus"));
+        instance.setMaxFocus(storage.getDouble("max_focus"));
         instance.setRecharge(storage.getBoolean("recharge"));
         instance.setDP(storage.getDouble("dp"));
         instance.setMaxDP(storage.getDouble("max_dp"));

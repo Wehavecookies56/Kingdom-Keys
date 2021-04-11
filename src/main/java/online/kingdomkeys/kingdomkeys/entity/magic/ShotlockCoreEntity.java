@@ -29,13 +29,13 @@ import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ShotlockCoreEntity extends ThrowableEntity {
 
-	int maxTicks = 60;
+	int maxTicks = 260;
 	List<ShotlockShotEntity> list = new ArrayList<ShotlockShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
-	//Set<Integer> usedIndexes = new HashSet<Integer>();
 	float dmg;
 
 	double dmgMult;
@@ -62,7 +62,7 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 		setCaster(player.getUniqueID());
 		String targetIDS = "";
 		for(Entity t : targets) {
-			targetIDS+=","+t.getUniqueID();
+			targetIDS+=","+t.getEntityId();
 		}
 		setTarget(targetIDS.substring(1));
 		this.targetList = targets;
@@ -79,7 +79,7 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 		return 0F;
 	}
 	
-	//int targetIndex = 0;
+	int i = 0;
 
 	@Override
 	public void tick() {
@@ -98,32 +98,34 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 		double Z = getPosZ();
 
 		System.out.println(getTargets().size());
-		if (getCaster() != null) {
-			if (ticksExisted >= 0 && ticksExisted < 20) {
+		if (getCaster() != null && getTargets() != null && !getTargets().isEmpty() && getTargets().size() > i) {
+			if (ticksExisted >= 0 && ticksExisted % 2 == 1) {
 				
-				for(int i = 0; i < targetList.size();i++) {
-					Entity target = targetList.get(i);
-					ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg * dmgMult);
-					bullet.setPosition(this.getPosX(), this.getPosY(), this.getPosZ());
-					bullet.setMaxTicks(maxTicks + 20);
-					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
-					list.add(bullet);
-					world.addEntity(bullet);
-				}
-			}/* else if (ticksExisted > 20 && !targetList.isEmpty()) {
+				Entity target = getTargets().get(i++);
+				ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg * dmgMult);
+				
+				bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
+				bullet.setMaxTicks(maxTicks + 20);
+				//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
+				list.add(bullet);
+				world.addEntity(bullet);
+				
+			}/* else if (ticksExisted > 20 && !targetList.isEmpty() && ticksExisted % 5 == 0) {
 				for (int i = 0; i < shotsPerTick; i++) {
-					//Entity target = this;
-					//int targetIndex = rand.nextInt(targetList.size());
-					Entity target = targetList.get(targetIndex++);
+					
+					Entity target = targetList.get(i++);
 
 					if (target != null && target.isAlive() && getCaster() != null) {
 						ShotlockShotEntity bullet = list.get(i);
 						bullet.shoot(target.getPosX() - bullet.getPosX(), target.getPosY() - bullet.getPosY(), target.getPosZ() - bullet.getPosZ(), 2f, 0);
-						world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
 					}
 
 				}
 			}*/
+			
+			if(getTargets().size() <= i) {
+				this.remove();
+			}
 		}
 		super.tick();
 	}
@@ -200,10 +202,11 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 	public List<Entity> getTargets() {
 		List<Entity> list = new ArrayList<Entity>();
 		String[] ids = this.getDataManager().get(TARGETS).split(",");
-		System.out.println(this.getDataManager().get(TARGETS) + " : "+ ids.length);
+		//System.out.println(this.getDataManager().get(TARGETS) + " : "+ ids.length);
 		for(String id : ids) {
-			System.out.println(id);
-		//	list.add(world.entitEntitByID(UUID.fromString(id)));
+		//	System.out.println(id);
+			if(!id.equals(""))
+				list.add(world.getEntityByID(Integer.parseInt(id)));
 		}
 		return list;
 	}

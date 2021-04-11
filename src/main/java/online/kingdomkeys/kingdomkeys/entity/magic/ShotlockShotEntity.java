@@ -15,17 +15,19 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class ShotlockShotEntity extends ThrowableEntity {
 
-	int maxTicks = 220;
+	int maxTicks = 100;
 	float dmg;
 	Entity target;
 	
@@ -46,7 +48,7 @@ public class ShotlockShotEntity extends ThrowableEntity {
 	public ShotlockShotEntity(World world, LivingEntity player, Entity target, double dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_SHOT.get(), player, world);
 		this.dmg = (float)dmg;
-		setTarget(target.getUniqueID());
+		setTarget(target.getEntityId());
 	}
 
 	@Override
@@ -66,9 +68,12 @@ public class ShotlockShotEntity extends ThrowableEntity {
 		}
 		
 		if(ticksExisted > 1)
-			world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 0, 0);
-		if(ticksExisted % 4 == 0) {
+			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		
+		if(ticksExisted % 20 == 0) {
 			updateMovement();
+			world.playSound(null, getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
+
 			//System.out.println(getTarget());
 		}
 		
@@ -76,7 +81,9 @@ public class ShotlockShotEntity extends ThrowableEntity {
 	}
 
 	private void updateMovement() {
-		//this.shoot(this.target.getPosX(), this.target.getPosY(), this.target.getPosZ(), 1, 0);
+		System.out.println(getTarget());
+		if(getTarget() != null && getTarget().isAlive())
+			this.shoot(getTarget().getPosX() - this.getPosX(), getTarget().getPosY() - this.getPosY(), getTarget().getPosZ() - this.getPosZ(), 1, 0);
 	}
 
 	@Override
@@ -98,6 +105,7 @@ public class ShotlockShotEntity extends ThrowableEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != func_234616_v_()) {
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+					System.out.println(dmg);
 					remove();
 				}
 			}
@@ -118,7 +126,7 @@ public class ShotlockShotEntity extends ThrowableEntity {
 		super.writeAdditional(compound);
 		if (this.dataManager.get(OWNER) != null) {
 			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
-			compound.putString("TargetUUID", this.dataManager.get(TARGET).get().toString());
+			compound.putInt("TargetUUID", this.dataManager.get(TARGET));
 		}
 	}
 
@@ -126,11 +134,11 @@ public class ShotlockShotEntity extends ThrowableEntity {
 	public void readAdditional(CompoundNBT compound) {
 		super.readAdditional(compound);
 		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.dataManager.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
+		this.dataManager.set(TARGET, compound.getInt("TargetUUID"));
 	}
 
 	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ShotlockCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<Optional<UUID>> TARGET = EntityDataManager.createKey(ShotlockCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(ShotlockCoreEntity.class, DataSerializers.VARINT);
 
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
@@ -140,17 +148,17 @@ public class ShotlockShotEntity extends ThrowableEntity {
 		this.dataManager.set(OWNER, Optional.of(uuid));
 	}
 
-	public PlayerEntity getTarget() {
-		return this.getDataManager().get(TARGET).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(TARGET).get()) : null;
+	public Entity getTarget() {
+		return this.world.getEntityByID(this.getDataManager().get(TARGET));
 	}
 
-	public void setTarget(UUID uuid) {
-		this.dataManager.set(TARGET, Optional.of(uuid));
+	public void setTarget(int i) {
+		this.dataManager.set(TARGET, i);
 	}
 
 	@Override
 	protected void registerData() {
 		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.dataManager.register(TARGET, Optional.of(new UUID(0L, 0L)));
+		this.dataManager.register(TARGET, 0);
 	}
 }

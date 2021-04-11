@@ -172,6 +172,8 @@ public class EntityEvents {
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
+//			playerData.setFocus(100);
+//System.out.println(playerData.getFocus());*/
 				//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);
@@ -190,7 +192,6 @@ public class EntityEvents {
 				} else if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 					ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).updateDrive(event.player);
 				}
-			
 				//Limit recharge system
 				if(playerData.getLimitCooldownTicks() > 0 && !event.player.world.isRemote) {
 					playerData.setLimitCooldownTicks(playerData.getLimitCooldownTicks() - 1);
