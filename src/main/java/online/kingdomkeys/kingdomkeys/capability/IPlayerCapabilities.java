@@ -16,7 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -56,6 +55,19 @@ public interface IPlayerCapabilities {
 	double getMaxMP();
 	void setMaxMP(double maxMP);
 	void addMaxMP(double mp);
+	
+	double getFocus();
+	void setFocus(double focus);
+	void addFocus(double focus);
+	void remFocus(double cost);
+	
+	double getMaxFocus();
+	void setMaxFocus(double maxMP);
+	void addMaxFocus(double mp);
+	
+	void setShotlockEnemies(List<Integer> list);
+	List<Integer> getShotlockEnemies();
+	void addShotlockEnemy(Integer entity);
 	
 	double getDP();
 	void setDP(double dP);

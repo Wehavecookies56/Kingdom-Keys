@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -51,13 +52,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
 	List<String> magicList = new ArrayList<>();
+	List<Integer> shotlockEnemies;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<String, Integer> materials = new TreeMap<>();
 
 	List<String> partyList = new ArrayList<>();
 
-	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0;
+	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 0, maxFocus = 100;
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
@@ -508,6 +510,57 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.mp = Math.max(this.mp - amount, 0);
 	}
 
+	@Override
+	public double getFocus() {
+		return 0;
+	}
+
+	@Override
+	public void setFocus(double focus) {
+		this.focus = focus;
+	}
+
+	@Override
+	public void addFocus(double focus) {
+		this.focus = Math.min(this.focus+focus, getMaxFocus());
+	}
+
+	@Override
+	public void remFocus(double cost) {
+		this.focus = Math.max(focus-cost, 0);
+	}
+
+	@Override
+	public double getMaxFocus() {
+		return maxFocus;
+	}
+
+	@Override
+	public void setMaxFocus(double maxFocus) {
+		this.maxFocus = maxFocus;
+	}
+
+	@Override
+	public void addMaxFocus(double focus) {
+		this.focus += focus;
+	}
+	
+
+	@Override
+	public void setShotlockEnemies(List<Integer> list) {
+		this.shotlockEnemies = list;
+	}
+
+	@Override
+	public List<Integer> getShotlockEnemies() {
+		return shotlockEnemies;
+	}
+
+	@Override
+	public void addShotlockEnemy(Integer entity) {
+		this.shotlockEnemies.add(entity);
+	}
+	
 	@Override
 	public void setRecharge(boolean b) {
 		this.recharge = b;
@@ -1069,8 +1122,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setSacrificePedestal(BlockPos pos) {
 		sacrificePedestal = pos;
 	}
-
-	
 
 	//endregion
 

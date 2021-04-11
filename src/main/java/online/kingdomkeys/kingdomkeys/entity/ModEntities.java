@@ -63,6 +63,8 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.FireEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.GravityEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
@@ -84,6 +86,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
@@ -189,6 +193,9 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LaserCircleCoreEntity>> TYPE_LASER_CIRCLE = createEntityType(LaserCircleCoreEntity::new, LaserCircleCoreEntity::new, EntityClassification.MISC,"entity_laser_circle_core", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, LaserDomeCoreEntity::new, EntityClassification.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
+    
+    public static final RegistryObject<EntityType<ShotlockCoreEntity>> TYPE_SHOTLOCK_CORE = createEntityType(ShotlockCoreEntity::new, ShotlockCoreEntity::new, EntityClassification.MISC,"entity_shotlock_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ShotlockShotEntity>> TYPE_SHOTLOCK_SHOT = createEntityType(ShotlockShotEntity::new, ShotlockShotEntity::new, EntityClassification.MISC,"entity_shotlock_shot", 0.5F, 0.5F);
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -313,6 +320,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_CIRCLE.get(), LaserCircleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_CORE.get(), ShotlockEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_SHOT.get(), ShotlockShotEntityRenderer.FACTORY);
         
         //Tile Entities
         

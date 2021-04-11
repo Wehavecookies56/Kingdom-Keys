@@ -1,20 +1,26 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 
 public class ClientEvents {
 
@@ -89,6 +95,50 @@ public class ClientEvents {
 					if(playerData.getAerialDodgeTicks() > 0) {
 						event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
 					}
+				}
+			}
+		}
+	}
+	
+	public static boolean focusing = false;
+	int focusingTicks = 0;
+	public static double focusGaugeTemp = 100;
+
+	@SubscribeEvent
+	public void PlayerTick(PlayerTickEvent event) {
+		if (event.phase == Phase.END) {
+			//focusGaugeTemp = 100;
+			//System.out.println(focusGaugeTemp);
+			Minecraft mc = Minecraft.getInstance();
+			if (event.player == mc.player) { // Only run this for the local client player
+				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown();
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+				if (focusing) {
+					if (focusingTicks == 0) {
+						// Has started focusing
+						focusGaugeTemp = 100;//playerData.getFocus();
+						playerData.setShotlockEnemies(new ArrayList<Integer>());
+					}
+					focusingTicks++;
+					
+					if(focusGaugeTemp > 0)
+						focusGaugeTemp-=1;
+					if (event.player.ticksExisted % 5 == 0 && focusGaugeTemp > 0) {
+						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
+						if (rt != null && rt instanceof EntityRayTraceResult) {
+							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
+							System.out.println(ertr.getEntity());
+							playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
+						}
+					}
+				} else {
+					if (focusingTicks > 0) {
+						// Has stopped shotlocking
+						// Send packet to spawn entities and track enemies
+						System.out.println(playerData.getShotlockEnemies());
+						PacketHandler.sendToServer(new CSShotlockShot(playerData.getShotlockEnemies()));
+					}
+					focusingTicks = 0;
 				}
 			}
 		}
