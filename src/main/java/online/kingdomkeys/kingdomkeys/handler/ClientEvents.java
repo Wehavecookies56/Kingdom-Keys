@@ -125,15 +125,14 @@ public class ClientEvents {
 						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_start.get(), SoundCategory.PLAYERS, 1F, 1F);
 					}
 					
-					if(focusingTicks == 10) {
+					if(focusingTicks == 5) {
 						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_idle.get(), SoundCategory.PLAYERS, 1F, 1F);
 					}
 					focusingTicks++;
 
-					if(focusGaugeTemp > 0)
-						focusGaugeTemp-=1;
+					
 					//System.out.println(focusGaugeTemp);
-					if (event.player.ticksExisted % 5 == 0 && focusGaugeTemp > 0) {
+					if (focusingTicks % 4 == 1 && focusGaugeTemp > 0) {
 						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
 						if (rt != null && rt instanceof EntityRayTraceResult) {
 							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
@@ -145,6 +144,9 @@ public class ClientEvents {
 							}
 						}
 					}
+					
+					if(focusGaugeTemp > 0)
+						focusGaugeTemp-=1;
 					
 					if(mc.gameSettings.keyBindAttack.isKeyDown()) {
 						if (focusingTicks > 0) {

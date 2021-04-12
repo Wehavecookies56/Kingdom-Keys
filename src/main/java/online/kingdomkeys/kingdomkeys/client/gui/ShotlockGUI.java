@@ -132,28 +132,26 @@ public class ShotlockGUI extends Screen {
 	
 	public void drawFocusCostBarTop(MatrixStack matrixStack, float posX, float posY, float amount, double focus, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
-		//amount = 100;
 		matrixStack.push();
 		{
 			//int w = (int) (amount * 100F / noborderguiwidth);
 			int h = (int) (focus * noborderguiheight / 100);
 			matrixStack.translate((posX) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(matrixStack, 0, noborderguiheight-h - 1, 0, 207 - h, noborderguiwidth, h+2);
+			blit(matrixStack, 0, noborderguiheight-h, 0, 208 - h, noborderguiwidth, h);
 		}
 		matrixStack.pop();
 	}
 	
 	public void drawFocusBarTop(MatrixStack matrixStack, float posX, float posY, float amount, float scale) {
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
-		//amount = 100;
 		matrixStack.push();
 		{
 			//int w = (int) (amount * 100F / noborderguiwidth);
-			int h = (int) (amount * noborderguiheight / 100);
-			matrixStack.translate((posX) * scale, (posY + 2) * scale, 0);
+			int h = (int) (amount * noborderguiheight / 100F);
+			matrixStack.translate(posX * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(matrixStack, 0, noborderguiheight-h - 1, 0, 138 - h, noborderguiwidth, h+2);
+			blit(matrixStack, 0, noborderguiheight-h, 0, 139 - h, noborderguiwidth, h);
 		}
 		matrixStack.pop();
 	}
