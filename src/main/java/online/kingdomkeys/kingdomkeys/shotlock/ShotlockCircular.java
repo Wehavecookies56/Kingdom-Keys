@@ -27,8 +27,6 @@ public class ShotlockCircular extends Shotlock {
 
 	@Override
 	public void onUse(PlayerEntity player, List<Entity> targetList) {
-		ItemStack stack = player.getHeldItemMainhand();
-		player.world.playSound(null, player.getPosition(), ModSounds.portal.get(), SoundCategory.PLAYERS, 1F, 1F);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setLimitCooldownTicks(cooldown);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);

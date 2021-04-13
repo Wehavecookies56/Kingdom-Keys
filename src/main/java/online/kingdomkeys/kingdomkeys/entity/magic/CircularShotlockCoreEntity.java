@@ -93,16 +93,9 @@ public class CircularShotlockCoreEntity extends ThrowableEntity {
 					if(target != null) {
 						ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg);
 						
-						float r = 2;
-						/*double theta = 2*Math.PI/getTargets().size();
-						double x = X + (r * Math.cos(i * theta));
-						double y = Y + (r * Math.sin(i * theta));*/
+						float r = 3;
 						System.out.println(getCaster().rotationYaw);
-						double alpha = Math.toRadians(getCaster().rotationYaw);
-						//double x=X+r*Math.cos(alpha);
-						//double y=Y;
-						//double z=Z+r*Math.sin(alpha);
-						
+						double alpha = Math.toRadians(getCaster().rotationYaw);						
 						double theta = 2 * Math.PI / getTargets().size();
 						double x = X + r * ((Math.cos(i * theta) + Math.sin(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.cos(alpha) + (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));
 						double y = Y + r * ((Math.cos(alpha) * Math.sin(i * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(i * theta) * Math.sin(alpha));

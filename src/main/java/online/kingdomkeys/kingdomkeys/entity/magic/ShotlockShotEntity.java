@@ -69,7 +69,6 @@ public class ShotlockShotEntity extends ThrowableEntity {
 		
 		if(ticksExisted > 1) {
 			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
-			System.out.println("Spawned bullet at "+getPosX()+" "+getPosY()+" "+getPosZ());
 		}
 		
 		if(ticksExisted % 20 == 0) {
@@ -83,9 +82,10 @@ public class ShotlockShotEntity extends ThrowableEntity {
 	}
 
 	private void updateMovement() {
-		System.out.println(getTarget());
 		if(getTarget() != null && getTarget().isAlive())
-			this.shoot(getTarget().getPosX() - this.getPosX(), getTarget().getPosY() - this.getPosY(), getTarget().getPosZ() - this.getPosZ(), 1, 0);
+			this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F)-this.getHeight()) - getPosY(), getTarget().getPosZ() - this.getPosZ(), 1, 0);
+       // double dy = this.getPosY() - (getTarget().getPosY() + (getTarget().getHeight() / 2.0F)-this.getHeight());
+
 	}
 
 	@Override
