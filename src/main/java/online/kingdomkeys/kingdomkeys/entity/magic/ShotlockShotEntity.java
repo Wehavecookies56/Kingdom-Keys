@@ -67,8 +67,10 @@ public class ShotlockShotEntity extends ThrowableEntity {
 			this.remove();
 		}
 		
-		if(ticksExisted > 1)
+		if(ticksExisted > 1) {
 			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			System.out.println("Spawned bullet at "+getPosX()+" "+getPosY()+" "+getPosZ());
+		}
 		
 		if(ticksExisted % 20 == 0) {
 			updateMovement();
@@ -137,8 +139,8 @@ public class ShotlockShotEntity extends ThrowableEntity {
 		this.dataManager.set(TARGET, compound.getInt("TargetUUID"));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ShotlockCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(ShotlockCoreEntity.class, DataSerializers.VARINT);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.VARINT);
 
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;

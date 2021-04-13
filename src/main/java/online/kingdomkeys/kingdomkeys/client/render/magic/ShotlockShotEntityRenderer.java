@@ -17,7 +17,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
-import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
 
 @OnlyIn(Dist.CLIENT)

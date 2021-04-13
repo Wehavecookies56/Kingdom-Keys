@@ -172,7 +172,7 @@ public class EntityEvents {
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
-//			playerData.setFocus(100);
+			playerData.setFocus(100);
 //System.out.println(playerData.getFocus());*/
 				//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
@@ -206,8 +206,6 @@ public class EntityEvents {
 						playerData.setRecharge(false);
 						playerData.setMP(playerData.getMaxMP());
 					} else { //Still recharging
-						// if (event.player.ticksExisted % 1 == 0)
-						//System.out.println((Utils.getMPHasteValue(playerData)/10) + 1);
 						playerData.addMP(playerData.getMaxMP()/500 * ((Utils.getMPHasteValue(playerData)/10) + 2));
 					}
 					

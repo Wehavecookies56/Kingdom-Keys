@@ -33,6 +33,11 @@ public class Strings {
 			LaserCircle = "laser_circle",
        		LaserDome = "laser_dome";
        
+    // Shotlocks
+       public static final String
+       		DarkVolley = "dark_volley",
+       		CircularShotlock = "circular_shotlock";
+       
        //Abilities
     public static final String
     		AB_Prefix = "ability_",

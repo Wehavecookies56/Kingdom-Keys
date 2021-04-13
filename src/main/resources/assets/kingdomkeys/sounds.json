@@ -131,6 +131,13 @@
 		]
 	},
 	
+	"shotlock_shot": {
+		"category": "player",
+		"sounds": [
+			{"name": "kingdomkeys:shotlock_shot", "stream": false }
+		]
+	},
+	
 	"invincible_hit": {
 		"category": "player",
 		"sounds": [

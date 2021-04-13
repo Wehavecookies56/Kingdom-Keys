@@ -41,7 +41,6 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.block.KKOreBlock;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -55,6 +54,8 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 /**
@@ -506,7 +507,7 @@ public class Utils {
 		List<Limit> limits = new ArrayList<Limit>();
 		limits.add(ModLimits.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+Strings.LaserCircle)));
 		limits.add(ModLimits.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+Strings.LaserDome)));
-		//TODO change when we have more members
+		//TODO change when we have more member limits
        /* for(Limit val : ModLimits.registry.getValues()) {
         	System.out.println(val.getName());
         	if(val.getOwner() == playerData.getAlignment()) {
@@ -515,6 +516,10 @@ public class Utils {
         	}
         }*/
         return limits;
+	}
+	
+	public static Shotlock getPlayerShotlock(PlayerEntity player) {
+		return ModShotlocks.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+Strings.CircularShotlock));
 	}
 
 	public static boolean isPlayerLowHP(PlayerEntity player) {

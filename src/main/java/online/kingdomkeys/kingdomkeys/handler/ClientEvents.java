@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
@@ -24,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ClientEvents {
 
@@ -116,7 +117,7 @@ public class ClientEvents {
 			if (event.player == mc.player && cooldownTicks <= 0 && event.player.getHeldItemMainhand() != null && event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem) { // Only run this for the local client player
 				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-
+				Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
 				if (focusing) {
 					if (focusingTicks == 0) {
 						// Has started focusing
@@ -130,9 +131,8 @@ public class ClientEvents {
 					}
 					focusingTicks++;
 
-					
 					//System.out.println(focusGaugeTemp);
-					if (focusingTicks % 4 == 1 && focusGaugeTemp > 0) {
+					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
 						if (rt != null && rt instanceof EntityRayTraceResult) {
 							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
@@ -141,6 +141,9 @@ public class ClientEvents {
 								playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
 								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon.get(), SoundCategory.PLAYERS, 1F, 1F);
 								cost = focusingTicks;
+								if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
+									event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_all.get(), SoundCategory.PLAYERS, 1F, 1F);
+								}
 							}
 						}
 					}
@@ -152,14 +155,12 @@ public class ClientEvents {
 						if (focusingTicks > 0) {
 							// Has stopped shotlocking
 							// Send packet to spawn entities and track enemies
-							//System.out.println(playerData.getShotlockEnemies());
 							if(!playerData.getShotlockEnemies().isEmpty()) {
 								playerData.remFocus(cost);
-								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_all.get(), SoundCategory.PLAYERS, 1F, 1F);
+								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_shot.get(), SoundCategory.PLAYERS, 1F, 1F);
 								PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
 								cooldownTicks = 100;
 								focusing = false;
-
 							}
 						}
 						focusingTicks = 0;

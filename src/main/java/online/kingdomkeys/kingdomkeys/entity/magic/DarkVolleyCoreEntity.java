@@ -31,34 +31,29 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class ShotlockCoreEntity extends ThrowableEntity {
+public class DarkVolleyCoreEntity extends ThrowableEntity {
 
 	int maxTicks = 260;
 	List<ShotlockShotEntity> list = new ArrayList<ShotlockShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
 	float dmg;
 
-	double dmgMult;
-	float radius = 15;
-	int space = 12;
-	int shotsPerTick = 1;
-
-	public ShotlockCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public DarkVolleyCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ShotlockCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_SHOTLOCK_CORE.get(), world);
+	public DarkVolleyCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
 	}
 
-	public ShotlockCoreEntity(World world) {
-		super(ModEntities.TYPE_SHOTLOCK_CORE.get(), world);
+	public DarkVolleyCoreEntity(World world) {
+		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ShotlockCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_CORE.get(), player, world);
+	public DarkVolleyCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
+		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), player, world);
 		setCaster(player.getUniqueID());
 		String targetIDS = "";
 		for(Entity t : targets) {
@@ -87,29 +82,24 @@ public class ShotlockCoreEntity extends ThrowableEntity {
 			this.remove();
 		}
 
-		this.dmgMult = ModConfigs.shotlockMult;
-System.out.println(dmg + " "+ dmgMult);
-		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
-		// getPosZ(), 1, 1, 0);
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
 		double X = getPosX();
 		double Y = getPosY();
 		double Z = getPosZ();
 
-		System.out.println(getTargets().size());
 		if (getCaster() != null && getTargets() != null && !getTargets().isEmpty() && getTargets().size() > i) {
 			if (ticksExisted >= 0 && ticksExisted % 2 == 1) {
 				
 				Entity target = getTargets().get(i++);
 				if(target != null) {
-				ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg * dmgMult);
-				
-				bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
-				bullet.setMaxTicks(maxTicks + 20);
-				//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
-				list.add(bullet);
-				world.addEntity(bullet);
+					ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg);
+					
+					bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
+					bullet.setMaxTicks(maxTicks + 20);
+					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
+					list.add(bullet);
+					world.addEntity(bullet);
 				}
 			}
 			
@@ -119,35 +109,6 @@ System.out.println(dmg + " "+ dmgMult);
 		}
 		super.tick();
 	}
-
-	/*private void updatePos(float r) {
-		for (LaserDomeShotEntity shot : list) {
-			double x = getPosX() + (r * Math.cos(Math.toRadians(shot.ticksExisted * 9)));
-			double z = getPosZ() + (r * Math.sin(Math.toRadians(shot.ticksExisted * 9)));
-			shot.setPosition(x, getPosY() + 1, z);
-			shot.shoot(this.getPosX() - shot.getPosX(), this.getPosY() - shot.getPosY(), this.getPosZ() - shot.getPosZ(), 0.001f, 0);
-		}
-	}
-
-	private void updateList() {
-		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
-
-		if(casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Party.Member m : casterParty.getMembers()) {
-				tempList.remove(world.getPlayerByUuid(m.getUUID()));
-			}
-		} else {
-			tempList.remove(func_234616_v_());
-		}
-
-		targetList.clear();
-		for (Entity t : tempList) {
-			if (!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrbEntity)) {
-				targetList.add(t);
-			}
-		}
-	}*/
 
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
@@ -178,8 +139,8 @@ System.out.println(dmg + " "+ dmgMult);
 		this.dataManager.set(TARGETS, compound.getString("TargetUUID"));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ShotlockCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(ShotlockCoreEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.STRING);
 
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;

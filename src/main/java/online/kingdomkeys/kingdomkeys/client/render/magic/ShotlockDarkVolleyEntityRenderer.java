@@ -13,23 +13,23 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
-import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class ShotlockEntityRenderer extends EntityRenderer<ShotlockCoreEntity> {
+public class ShotlockDarkVolleyEntityRenderer extends EntityRenderer<DarkVolleyCoreEntity> {
 
-	public static final Factory FACTORY = new ShotlockEntityRenderer.Factory();
+	public static final Factory FACTORY = new ShotlockDarkVolleyEntityRenderer.Factory();
 	BlizzardModel shot;
 
-	public ShotlockEntityRenderer(EntityRendererManager renderManager, BlizzardModel fist) {
+	public ShotlockDarkVolleyEntityRenderer(EntityRendererManager renderManager, BlizzardModel fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(ShotlockCoreEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(DarkVolleyCoreEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -47,14 +47,14 @@ public class ShotlockEntityRenderer extends EntityRenderer<ShotlockCoreEntity> {
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(ShotlockCoreEntity entity) {
+	public ResourceLocation getEntityTexture(DarkVolleyCoreEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<ShotlockCoreEntity> {
+	public static class Factory implements IRenderFactory<DarkVolleyCoreEntity> {
 		@Override
-		public EntityRenderer<? super ShotlockCoreEntity> createRenderFor(EntityRendererManager manager) {
-			return new ShotlockEntityRenderer(manager, new BlizzardModel());
+		public EntityRenderer<? super DarkVolleyCoreEntity> createRenderFor(EntityRendererManager manager) {
+			return new ShotlockDarkVolleyEntityRenderer(manager, new BlizzardModel());
 		}
 	}
 }

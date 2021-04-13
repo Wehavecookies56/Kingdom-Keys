@@ -6,13 +6,17 @@ import java.util.function.Supplier;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSShotlockShot {
 	
@@ -51,19 +55,18 @@ public class CSShotlockShot {
 	public static void handle(CSShotlockShot message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
+
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			Shotlock shotlock = Utils.getPlayerShotlock(player);
+			
 			List<Entity> targets = new ArrayList<Entity>();
 			for(int enemyID : message.shotlockEnemies) {
 				Entity target = player.world.getEntityByID(enemyID);
 				targets.add(target);
 			}
 
-			ShotlockCoreEntity core = new ShotlockCoreEntity(player.world, player, targets, DamageCalculation.getMagicDamage(player, 1));
-			core.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
-			player.world.addEntity(core);
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			//System.out.println(playerData.getFocus());
+			shotlock.onUse(player, targets);
 			playerData.remFocus(message.cost);
-			//System.out.println(message.cost);
 			PacketHandler.syncToAllAround(player, playerData);
 			
 		});

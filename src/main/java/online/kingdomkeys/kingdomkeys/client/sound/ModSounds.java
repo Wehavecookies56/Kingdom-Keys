@@ -46,6 +46,7 @@ public class ModSounds {
 			shotlock_lockon_idle = registerSound("shotlock_lockon_idle"),
 			shotlock_lockon = registerSound("shotlock_lockon"),
 			shotlock_lockon_all = registerSound("shotlock_lockon_all"),
+			shotlock_shot = registerSound("shotlock_shot"),
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records.birth_by_sleep_a_link_to_the_future"),
             Record_Darkness_of_the_Unknown = registerSound("records.darkness_of_the_unknown"),

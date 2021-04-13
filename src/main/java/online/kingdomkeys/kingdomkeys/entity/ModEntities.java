@@ -63,7 +63,8 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.FireEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.GravityEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockCircularEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockDarkVolleyEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
@@ -83,10 +84,11 @@ import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.CircularShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
@@ -194,7 +196,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, LaserDomeCoreEntity::new, EntityClassification.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     
-    public static final RegistryObject<EntityType<ShotlockCoreEntity>> TYPE_SHOTLOCK_CORE = createEntityType(ShotlockCoreEntity::new, ShotlockCoreEntity::new, EntityClassification.MISC,"entity_shotlock_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, DarkVolleyCoreEntity::new, EntityClassification.MISC,"entity_shotlock_volley_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<CircularShotlockCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(CircularShotlockCoreEntity::new, CircularShotlockCoreEntity::new, EntityClassification.MISC,"entity_shotlock_circular_core", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ShotlockShotEntity>> TYPE_SHOTLOCK_SHOT = createEntityType(ShotlockShotEntity::new, ShotlockShotEntity::new, EntityClassification.MISC,"entity_shotlock_shot", 0.5F, 0.5F);
 
     /**
@@ -320,7 +323,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_CIRCLE.get(), LaserCircleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_CORE.get(), ShotlockEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_DARK_VOLLEY.get(), ShotlockDarkVolleyEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_CIRCULAR.get(), ShotlockCircularEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_SHOT.get(), ShotlockShotEntityRenderer.FACTORY);
         
         //Tile Entities
