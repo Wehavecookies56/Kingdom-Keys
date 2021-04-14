@@ -21,18 +21,18 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class CSShotlockShot {
 	
 	List<Integer> shotlockEnemies;
-	int cost;
+	double cost;
 	
 	public CSShotlockShot() {}
 
-	public CSShotlockShot(int cost, List<Integer> shotlockEnemies) {
+	public CSShotlockShot(double cost, List<Integer> shotlockEnemies) {
 		this.cost = cost;
 		this.shotlockEnemies = shotlockEnemies;
 	}
 
 
 	public void encode(PacketBuffer buffer) {
-		buffer.writeInt(this.cost);
+		buffer.writeDouble(this.cost);
 		buffer.writeInt(this.shotlockEnemies.size());
 		for(int i= 0; i< this.shotlockEnemies.size(); i++) {
 			buffer.writeInt(this.shotlockEnemies.get(i));
@@ -41,7 +41,7 @@ public class CSShotlockShot {
 
 	public static CSShotlockShot decode(PacketBuffer buffer) {
 		CSShotlockShot msg = new CSShotlockShot();
-		msg.cost = buffer.readInt();
+		msg.cost = buffer.readDouble();
 		int size = buffer.readInt();
 		msg.shotlockEnemies = new ArrayList<Integer>();
 

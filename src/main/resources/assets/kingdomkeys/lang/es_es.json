@@ -19,7 +19,7 @@
 
 	"_comment": "DeathMessages",
 	"keybladedamage.death": "%s ha sido víctima de %s",
-	
+
 	"_comment": "Menu",
 	"gui.menu.back": "Atrás",
 	"gui.menu.back.desc": "Vuelve al menú anterior.",
@@ -36,19 +36,17 @@
 	"gui.menu.main.button.journal": "Diario",
 	"gui.menu.main.button.config": "Preferencias",
 	"gui.menu.main.button.config.desc": "Configura varios aspectos gráficos de los elementos en pantalla.",
-
 	"gui.menu.main.munny": "Plantines",
 	"gui.menu.main.hearts": "Corazones",
 	"gui.menu.main.time": "Hora del Mundo",
 	"gui.menu.main.time.spent": "Tiempo total",
-
+	
 	"gui.menu.items": "Objetos",
 	"gui.menu.items.equipment": "Equipamiento",
 	"gui.menu.items.equipment.desc": "Equipa tu arma y varios equipables (no disponibles aún).",
 	"gui.menu.items.stock": "Inventario",
 	"gui.menu.items.stock.desc": "Revisa tu inventario.",
 	"gui.menu.items.equipment.weapon": "Arma",
-
 	"gui.menu.party": "Grupo",
 	"gui.menu.party.create": "Crear Grupo",
 	"gui.menu.party.create.desc": "Crea un nuevo grupo.",
@@ -56,7 +54,6 @@
 	"gui.menu.party.create.accessibility": "Accessibilidad y límite",
 	"gui.menu.party.create.accessibility.public": "Pública",
 	"gui.menu.party.create.accessibility.private": "Privada",
-
 	"gui.menu.party.join": "Unirte a Grupo",
 	"gui.menu.party.join.desc": "Únete a un grupo ya creado.",
 	"gui.menu.party.invite": "Invitar",
@@ -64,7 +61,6 @@
 	"gui.menu.party.kick": "Echar",
 	"gui.menu.party.disband": "Disolver",
 	"gui.menu.party.leave": "Abandonar",
-
 	"gui.menu.status": "Condición",
 	"gui.menu.status.level": "Nivel",
 	"gui.menu.status.totalexp": "Experiencia",
@@ -82,8 +78,7 @@
 	"gui.menu.status.darkres": "Resistancia Oscuridad",
 	"gui.menu.status.formlevel": "Niv. de Forma",
 	"gui.menu.status.formgauge": "Indicador de Forma",
-
-	"gui.menu.config": "Preferencias",
+	"gui.menu.config": "Preferencias",			 
 	"gui.menu.config.bg": "Fondo",
 	"gui.menu.config.command_menu": "Menú Comandos",
 	"gui.menu.config.hp": "Barra HP",
@@ -92,10 +87,12 @@
 	"gui.menu.config.player_skin": "Skin Jugador",
 	"gui.menu.config.lock_on_hp": "Fijar mob",
 	"gui.menu.config.party": "Grupo",
+	"gui.menu.config.focus": "Barra Tino",
 
 	"gui.menu.config.x_scale": "Escala X",
 	"gui.menu.config.x_pos": "Posición X",
 	"gui.menu.config.y_pos": "Posición Y",
+	"gui.menu.config.y_dist": "Y Distance",
 	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",
 	"gui.menu.config.header_title": "Título de Cabecera",
 	"gui.menu.config.text_x_offset": "Pos. X del Texto extra",
@@ -103,7 +100,7 @@
 	"gui.menu.config.icon_scale": "Lock On Icon Scale",
 	
 	"gui.menu.config.show_hearts": "Mostrar corazones",
-	
+
 
 	"gui.synthesis": "Sintetizador",
 	"gui.synthesis.synthesise": "Sintetizar",
@@ -122,7 +119,6 @@
 	"gui.commandmenu.drive": "Fusión",
 	"gui.commandmenu.revert": "Revertir",
 	"gui.commandmenu.limit": "Límite",
-
 
 	"gui.commandmenu.portal.title": "Portales",
 	"gui.commandmenu.magic.title": "Magia",
@@ -510,7 +506,6 @@
 	"item.kingdomkeys.guardian_bell": "Guardian de la Campana",
 	"item.kingdomkeys.guardian_soul": "Guardian del Alma",
 	"item.kingdomkeys.gull_wing": "Ala de Gaviota",
-	"item.kingdomkeys.gullwing": "Ala de Gaviota",
 	"item.kingdomkeys.heros_crest": "Emblema de Héroe",
 	"item.kingdomkeys.hidden_dragon": "Dragón Oculto",
 	"item.kingdomkeys.hyperdrive": "Hiperpropulsor",
@@ -755,7 +750,6 @@
 	"item.kingdomkeys.precision": "Precisión",
 	"item.kingdomkeys.dual_head": "Dos Cabezas",
 	"item.kingdomkeys.bahamut": "Bahamut",
-	"item.kingdomkeys.gullwing": "Ala de Gaviota",
 	"item.kingdomkeys.blue_frame": "Marco Azul",
 	"item.kingdomkeys.star_shell": "Bengala",
 	"item.kingdomkeys.sunrise": "Amanecer",
@@ -1041,7 +1035,6 @@
 	"entities.kingdomkeys.entity_mp_orb": "Orbe de MP",
 	"entities.kingdomkeys.entity_drive_orb": "Orbe de DP",
 	"entities.kingdomkeys.entity_munny": "Platines",
-
 
 	"entity.kingdomkeys.moogle": "Moguri",
 	"entity.kingdomkeys.shadow": "Sombra",

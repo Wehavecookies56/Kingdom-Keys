@@ -107,7 +107,7 @@ public class ClientEvents {
 	public static boolean focusing = false;
 	int focusingTicks = 0;
 	public static double focusGaugeTemp = 100;
-	int cost = 0;
+	double cost = 0;
 	
 	int cooldownTicks = 0;
 	@SubscribeEvent
@@ -134,13 +134,15 @@ public class ClientEvents {
 					//System.out.println(focusGaugeTemp);
 					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
+						
 						if (rt != null && rt instanceof EntityRayTraceResult) {
 							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
 							//System.out.println(ertr.getEntity());
 							if(ertr.getEntity() instanceof LivingEntity) {
 								playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
 								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon.get(), SoundCategory.PLAYERS, 1F, 1F);
-								cost = focusingTicks;
+								cost = playerData.getFocus() - focusGaugeTemp;
+								
 								if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
 									event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_all.get(), SoundCategory.PLAYERS, 1F, 1F);
 								}
@@ -149,7 +151,7 @@ public class ClientEvents {
 					}
 					
 					if(focusGaugeTemp > 0)
-						focusGaugeTemp-=1;
+						focusGaugeTemp-=0.8;
 					
 					if(mc.gameSettings.keyBindAttack.isKeyDown()) {
 						if (focusingTicks > 0) {

@@ -54,7 +54,9 @@ public class ModConfigs {
     
     public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale;
     
-    public static int partyXPos, partyYPos, partyYOffset;
+    public static int partyXPos, partyYPos, partyYDistance;
+    
+    public static int focusXPos, focusYPos;
 
     
     //Command Menu
@@ -164,11 +166,22 @@ public class ModConfigs {
         bakeClient();
     }
     
-    public static void setPartyYOffset(int value) {
-        CLIENT.partyYOffset.set(value);
+    public static void setPartyYDistance(int value) {
+        CLIENT.partyYDistance.set(value);
         bakeClient();
     }
 
+    //Focus
+    public static void setFocusXPos(int value) {
+        CLIENT.focusXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setFocusYPos(int value) {
+        CLIENT.focusYPos.set(value);
+        bakeClient();
+    }
+    
     public static void bakeClient() {
         corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
@@ -197,7 +210,10 @@ public class ModConfigs {
 
         partyXPos = CLIENT.partyXPos.get();
         partyYPos = CLIENT.partyYPos.get();
-        partyYOffset = CLIENT.partyYOffset.get();
+        partyYDistance = CLIENT.partyYDistance.get();
+        
+        focusXPos = CLIENT.focusXPos.get();
+        focusYPos = CLIENT.focusYPos.get();
     }
 
     public static boolean oreGen;

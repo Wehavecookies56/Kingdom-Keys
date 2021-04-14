@@ -23,12 +23,12 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class MenuConfigScreen extends MenuBackground {
 		
 	enum ActualWindow {
-		COMMAND_MENU, HP, MP, DRIVE, PLAYER, LOCK_ON_HP, PARTY
+		COMMAND_MENU, HP, MP, DRIVE, PLAYER, LOCK_ON_HP, PARTY, FOCUS
 	}
 
 	ActualWindow window = ActualWindow.COMMAND_MENU;
 	
-	MenuButton back, commandMenuButton, hpButton, mpButton, dpButton, playerSkinButton, lockOnButton, partyButton;
+	MenuButton back, commandMenuButton, hpButton, mpButton, dpButton, playerSkinButton, lockOnButton, partyButton, focusButton;
 	Button backgroundButton;
 	MenuBox box;
 	
@@ -55,8 +55,10 @@ public class MenuConfigScreen extends MenuBackground {
 	TextFieldWidget lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox;
 
 	//Party
-	TextFieldWidget partyXPosBox, partyYPosBox, partyYOffsetBox;
+	TextFieldWidget partyXPosBox, partyYPosBox, partyYDistanceBox;
 
+	//Focus
+	TextFieldWidget focusXPosBox, focusYPosBox;
 	
 	List<Widget> commandMenuList = new ArrayList<Widget>();
 	List<Widget> hpList = new ArrayList<Widget>();
@@ -65,6 +67,7 @@ public class MenuConfigScreen extends MenuBackground {
 	List<Widget> playerSkinList = new ArrayList<Widget>();
 	List<Widget> lockOnList = new ArrayList<Widget>();
 	List<Widget> partyList = new ArrayList<Widget>();
+	List<Widget> focusList = new ArrayList<Widget>();
 
 	int buttonsX = 0;
 	public MenuConfigScreen() {
@@ -113,7 +116,8 @@ public class MenuConfigScreen extends MenuBackground {
 		initPlayerSkin();
 		initLockOn();
 		initParty();
-
+		initFocus();
+		
 		addButton(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (0 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
 		addButton(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (1 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
 		addButton(mpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.mp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.MP; }));
@@ -121,8 +125,9 @@ public class MenuConfigScreen extends MenuBackground {
 		addButton(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (4 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
 		addButton(lockOnButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (5 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.lock_on_hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.LOCK_ON_HP; }));
 		addButton(partyButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (6 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.party"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PARTY; }));
+		addButton(focusButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.focus"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FOCUS; }));
 
-		addButton(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addButton(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		addButton(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
@@ -689,14 +694,14 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addButton(partyYOffsetBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+		addButton(partyYDistanceBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
 					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
 					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
 						super.charTyped(c, i);
-						ModConfigs.setPartyYOffset(Utils.getInt(getText()));
+						ModConfigs.setPartyYDistance(Utils.getInt(getText()));
 						return true;
 					} else {
 						return false;
@@ -709,7 +714,7 @@ public class MenuConfigScreen extends MenuBackground {
 			@Override
 			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setPartyYOffset(Utils.getInt(getText()));
+				ModConfigs.setPartyYDistance(Utils.getInt(getText()));
 				return true;
 			}
 			
@@ -717,12 +722,74 @@ public class MenuConfigScreen extends MenuBackground {
 		
 		partyXPosBox.setText(""+ModConfigs.partyXPos);
 		partyYPosBox.setText(""+ModConfigs.partyYPos);
-		partyYOffsetBox.setText(""+ModConfigs.partyYOffset);
+		partyYDistanceBox.setText(""+ModConfigs.partyYDistance);
 		
 		partyList.add(partyXPosBox);
 		partyList.add(partyYPosBox);
-		partyList.add(partyYOffsetBox);
+		partyList.add(partyYDistanceBox);
 
+	}
+	
+	private void initFocus() {
+		int pos = 0;
+		
+		addButton(focusXPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setFocusXPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setFocusXPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		addButton(focusYPosBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setFocusYPos(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setFocusYPos(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
+		focusXPosBox.setText(""+ModConfigs.focusXPos);
+		focusYPosBox.setText(""+ModConfigs.focusYPos);
+		
+		focusList.add(focusXPosBox);
+		focusList.add(focusYPosBox);
 	}
 	
 	
@@ -735,6 +802,7 @@ public class MenuConfigScreen extends MenuBackground {
 		playerSkinButton.active = window != ActualWindow.PLAYER;
 		lockOnButton.active = window != ActualWindow.LOCK_ON_HP;
 		partyButton.active = window != ActualWindow.PARTY;
+		focusButton.active = window != ActualWindow.FOCUS;
 
 		
 		box.draw(matrixStack);
@@ -771,6 +839,11 @@ public class MenuConfigScreen extends MenuBackground {
 		}
 		
 		for(Widget b : partyList) {
+			b.active = false;
+			b.visible = false;
+		}
+		
+		for(Widget b : focusList) {
 			b.active = false;
 			b.visible = false;
 		}
@@ -903,7 +976,25 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_offset"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
+			}
+			matrixStack.pop();
+			
+			break;
+			
+		case FOCUS:
+			for(Widget b : focusList) {
+				b.active = true;
+				b.visible = true;
+			}
+			
+			matrixStack.push();
+			{
+				int pos = 0;
+				matrixStack.translate(buttonsX, box.y+4, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.focus"), 20, 0, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 			}
 			matrixStack.pop();
 			

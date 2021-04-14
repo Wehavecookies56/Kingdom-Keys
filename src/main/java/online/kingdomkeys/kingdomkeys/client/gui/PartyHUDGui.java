@@ -95,7 +95,7 @@ public class PartyHUDGui extends Screen {
 
 		matrixStack.push();
 		{
-			matrixStack.translate(-16, -screenHeight / 4 * ((i + 1) * ModConfigs.partyYOffset / 100f), 0);
+			matrixStack.translate(-16, -screenHeight / 4 * ((i + 1) * ModConfigs.partyYDistance / 100f), 0);
 
 			// HEAD
 			int headWidth = 32;

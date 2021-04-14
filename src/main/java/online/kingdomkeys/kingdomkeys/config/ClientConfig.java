@@ -24,7 +24,9 @@ public class ClientConfig {
     
     public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale;
     
-    public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYOffset;
+    public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
+    
+    public ForgeConfigSpec.IntValue focusXPos, focusYPos;
 
     
     ClientConfig(final ForgeConfigSpec.Builder builder) {
@@ -165,10 +167,24 @@ public class ClientConfig {
 	                .translation(KingdomKeys.MODID + ".config.party_y_pos")
 	                .defineInRange("partyYPos", 0, -1000, 1000);
 	        
-	        partyYOffset = builder
+	        partyYDistance = builder
 	                .comment("Party HUD Y Offset")
 	                .translation(KingdomKeys.MODID + ".config.party_y_offset")
 	                .defineInRange("partyYOffset", 100, -1000, 1000);
+	        
+	        builder.pop();
+	        
+	        builder.push("focus");
+	        
+	        focusXPos = builder
+	                .comment("Focus HUD X Pos")
+	                .translation(KingdomKeys.MODID + ".config.focus_x_pos")
+	                .defineInRange("focusXPos", 0, -1000, 1000);
+	        
+	        focusYPos = builder
+	                .comment("Focus HUD Y Pos")
+	                .translation(KingdomKeys.MODID + ".config.focus_y_pos")
+	                .defineInRange("focusYPos", 0, -1000, 1000);
 	        
 	        builder.pop();
         

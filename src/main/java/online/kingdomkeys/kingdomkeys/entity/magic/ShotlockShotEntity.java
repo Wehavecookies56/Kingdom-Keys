@@ -6,6 +6,7 @@ import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,6 +20,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -71,11 +73,8 @@ public class ShotlockShotEntity extends ThrowableEntity {
 			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		}
 		
-		if(ticksExisted % 20 == 0) {
+		if(ticksExisted % 10 == 0) {
 			updateMovement();
-			world.playSound(null, getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
-
-			//System.out.println(getTarget());
 		}
 		
 		super.tick();
@@ -83,9 +82,7 @@ public class ShotlockShotEntity extends ThrowableEntity {
 
 	private void updateMovement() {
 		if(getTarget() != null && getTarget().isAlive())
-			this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F)-this.getHeight()) - getPosY(), getTarget().getPosZ() - this.getPosZ(), 1, 0);
-       // double dy = this.getPosY() - (getTarget().getPosY() + (getTarget().getHeight() / 2.0F)-this.getHeight());
-
+			this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F)-this.getHeight()) - getPosY() + 0.5, getTarget().getPosZ() - this.getPosZ(), 1, 0);
 	}
 
 	@Override

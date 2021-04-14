@@ -36,19 +36,17 @@
 	"gui.menu.main.button.journal": "Journal",
 	"gui.menu.main.button.config": "Config",
 	"gui.menu.main.button.config.desc": "Configure various graphical aspects of the HUD.",
-
 	"gui.menu.main.munny": "Munny",
 	"gui.menu.main.hearts": "Hearts",
 	"gui.menu.main.time": "World Time",
 	"gui.menu.main.time.spent": "Global Time",
-
+	
 	"gui.menu.items": "Items",
 	"gui.menu.items.equipment": "Equipment",
 	"gui.menu.items.equipment.desc": "Equip your weapon and various equipables (not yet available).",
 	"gui.menu.items.stock": "Stock",
 	"gui.menu.items.stock.desc": "Check your inventory.",
 	"gui.menu.items.equipment.weapon": "Weapon",
-
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
 	"gui.menu.party.create.desc": "Create a new party.",
@@ -56,7 +54,6 @@
 	"gui.menu.party.create.accessibility": "Accessibility and limit",
 	"gui.menu.party.create.accessibility.public": "Public",
 	"gui.menu.party.create.accessibility.private": "Private",
-
 	"gui.menu.party.join": "Join party",
 	"gui.menu.party.join.desc": "Join an already created party.",
 	"gui.menu.party.invite": "Invite",
@@ -64,7 +61,6 @@
 	"gui.menu.party.kick": "Kick",
 	"gui.menu.party.disband": "Disband",
 	"gui.menu.party.leave": "Leave",
-
 	"gui.menu.status": "Status",
 	"gui.menu.status.level": "Level",
 	"gui.menu.status.totalexp": "Experience",
@@ -82,7 +78,6 @@
 	"gui.menu.status.darkres": "Dark Resistance",
 	"gui.menu.status.formlevel": "Form Level",
 	"gui.menu.status.formgauge": "Form Gauge",
-	
 	"gui.menu.config": "Config",
 	"gui.menu.config.bg": "Background",
 	"gui.menu.config.command_menu": "Command Menu",
@@ -92,10 +87,12 @@
 	"gui.menu.config.player_skin": "Player Skin",
 	"gui.menu.config.lock_on_hp": "Lock On",
 	"gui.menu.config.party": "Party",
-	
+	"gui.menu.config.focus": "Focus Bar",
+
 	"gui.menu.config.x_scale": "X Scale",
 	"gui.menu.config.x_pos": "X Position",
 	"gui.menu.config.y_pos": "Y Position",
+	"gui.menu.config.y_dist": "Y Distance",
 	"gui.menu.config.sub_x_offset": "Submenu X Offset",
 	"gui.menu.config.header_title": "Header Title",
 	"gui.menu.config.text_x_offset": "Text X Offset",
@@ -745,6 +742,7 @@
 	"item.kingdomkeys.interdiction": "Interdiction",
 	"item.kingdomkeys.round_fan": "Round Fan",
 	"item.kingdomkeys.absolute": "Absolute",
+	
 	"item.kingdomkeys.standalone": "Standalone",
 	"item.kingdomkeys.killerbee": "Killerbee",
 	"item.kingdomkeys.stingray": "Stingray",
@@ -768,6 +766,7 @@
 	"item.kingdomkeys.sharpshooter": "Sharpshooter",
 	"item.kingdomkeys.dryer": "Dryer",
 	"item.kingdomkeys.trumpet": "Trumpet",
+	
 	"item.kingdomkeys.zephyr": "Zephyr",
 	"item.kingdomkeys.moonglade": "Moonglade",
 	"item.kingdomkeys.aer": "Aer",
@@ -792,6 +791,7 @@
 	"item.kingdomkeys.lindworm": "Lindworm",
 	"item.kingdomkeys.broom": "Broom",
 	"item.kingdomkeys.wyvern": "Wyvern",
+	
 	"item.kingdomkeys.tester_zero": "Tester Zero",
 	"item.kingdomkeys.product_one": "Product One",
 	"item.kingdomkeys.deep_freeze": "Deep Freeze",
@@ -816,6 +816,7 @@
 	"item.kingdomkeys.frozen_pride": "Frozen Pride",
 	"item.kingdomkeys.pot_lid": "Pot Lid",
 	"item.kingdomkeys.snowman": "Snowman",
+	
 	"item.kingdomkeys.reticence": "Reticence",
 	"item.kingdomkeys.goliath": "Goliath",
 	"item.kingdomkeys.copper_red": "Copper Red",
@@ -840,6 +841,7 @@
 	"item.kingdomkeys.skysplitter": "Skysplitter",
 	"item.kingdomkeys.bleep_bloop_bop": "Bleep Bloop Bop",
 	"item.kingdomkeys.monolith": "Monolith",
+	
 	"item.kingdomkeys.black_primer": "Black Primer",
 	"item.kingdomkeys.white_tome": "White Tome",
 	"item.kingdomkeys.illicit_research": "Illicit Research",
@@ -864,6 +866,7 @@
 	"item.kingdomkeys.book_of_retribution": "Book Of Retribution",
 	"item.kingdomkeys.midnight_snack": "Midnight Snack",
 	"item.kingdomkeys.dear_diary": "Dear Diary",
+	
 	"item.kingdomkeys.new_moon": "New Moon",
 	"item.kingdomkeys.werewolf": "Werewolf",
 	"item.kingdomkeys.artemis": "Artemis",
@@ -888,6 +891,7 @@
 	"item.kingdomkeys.lunatic": "Lunatic",
 	"item.kingdomkeys.just_desserts": "Just Desserts",
 	"item.kingdomkeys.bunnymoon": "Bunnymoon",
+	
 	"item.kingdomkeys.ashes": "Ashes",
 	"item.kingdomkeys.doldrums": "Doldrums",
 	"item.kingdomkeys.delayed_action": "Delayed Action",
@@ -912,6 +916,7 @@
 	"item.kingdomkeys.eternal_flames": "Eternal Flames",
 	"item.kingdomkeys.pizza_cut": "Pizza Cut",
 	"item.kingdomkeys.conformers": "Conformers",
+	
 	"item.kingdomkeys.basic_model": "Basic Model",
 	"item.kingdomkeys.tune_up": "Tune Up",
 	"item.kingdomkeys.quartet": "Quartet",
@@ -936,6 +941,7 @@
 	"item.kingdomkeys.arpeggio": "Arpeggio",
 	"item.kingdomkeys.prince_of_awesome": "Prince Of Awesome",
 	"item.kingdomkeys.after_school": "After School",
+	
 	"item.kingdomkeys.the_fool": "The Fool",
 	"item.kingdomkeys.the_magician": "The Magician",
 	"item.kingdomkeys.the_star": "The Star",
@@ -960,6 +966,7 @@
 	"item.kingdomkeys.fair_game": "Fair Game",
 	"item.kingdomkeys.finest_fantasy_13": "Finest Fantasy 13",
 	"item.kingdomkeys.high_rollers_secret": "High Rollers Secret",
+	
 	"item.kingdomkeys.fickle_erica": "Fickle Erica",
 	"item.kingdomkeys.jilted_anemone": "Jilted Anemone",
 	"item.kingdomkeys.proud_amaryllis": "Proud Amaryllis",
@@ -984,6 +991,7 @@
 	"item.kingdomkeys.graceful_dahlia": "Graceful Dahlia",
 	"item.kingdomkeys.stirring_ladle": "Stirring Ladle",
 	"item.kingdomkeys.dainty_bellflowers": "Dainty Bellflowers",
+	
 	"item.kingdomkeys.trancheuse": "Trancheuse",
 	"item.kingdomkeys.orage": "Orage",
 	"item.kingdomkeys.tourbillon": "Tourbillon",

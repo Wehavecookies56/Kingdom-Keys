@@ -61,7 +61,7 @@ public class ShotlockGUI extends Screen {
 				{
 	
 					RenderSystem.enableBlend();
-					matrixStack.translate(ModConfigs.mpXPos + 30, ModConfigs.mpYPos - 16, 0);
+					matrixStack.translate(ModConfigs.focusXPos + 30, ModConfigs.focusYPos - 16, 0);
 	
 					matrixStack.push();// Focus Background
 					{
