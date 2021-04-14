@@ -75,7 +75,6 @@ public class LanceEntity extends ThrowableEntity{
 			this.remove();
 		}
 
-
 		if (!isStopped()) {
 			if (ticksExisted > 2)
 				world.addParticle(ParticleTypes.CRIT, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
@@ -86,30 +85,30 @@ public class LanceEntity extends ThrowableEntity{
 			}
 
 			RayTraceResult raytraceresult = ProjectileHelper.func_234618_a_(this, this::func_230298_a_);
-		      boolean flag = false;
-		      if (raytraceresult.getType() == RayTraceResult.Type.BLOCK) {
-		         BlockPos blockpos = ((BlockRayTraceResult)raytraceresult).getPos();
-		         BlockState blockstate = this.world.getBlockState(blockpos);
-		         if (blockstate.isIn(Blocks.NETHER_PORTAL)) {
-		            this.setPortal(blockpos);
-		            flag = true;
-		         } else if (blockstate.isIn(Blocks.END_GATEWAY)) {
-		            TileEntity tileentity = this.world.getTileEntity(blockpos);
-		            if (tileentity instanceof EndGatewayTileEntity && EndGatewayTileEntity.func_242690_a(this)) {
-		               ((EndGatewayTileEntity)tileentity).teleportEntity(this);
-		            }
+			boolean flag = false;
+			if (raytraceresult.getType() == RayTraceResult.Type.BLOCK) {
+				BlockPos blockpos = ((BlockRayTraceResult) raytraceresult).getPos();
+				BlockState blockstate = this.world.getBlockState(blockpos);
+				if (blockstate.matchesBlock(Blocks.NETHER_PORTAL)) {
+					this.setPortal(blockpos);
+					flag = true;
+				} else if (blockstate.matchesBlock(Blocks.END_GATEWAY)) {
+					TileEntity tileentity = this.world.getTileEntity(blockpos);
+					if (tileentity instanceof EndGatewayTileEntity && EndGatewayTileEntity.func_242690_a(this)) {
+						((EndGatewayTileEntity) tileentity).teleportEntity(this);
+					}
 
-		            flag = true;
-		         } else {
-		        	 setStopped(true);
-		         }
-		      }
+					flag = true;
+				} else {
+					setStopped(true);
+				}
+			}
 
-		      if (raytraceresult.getType() != RayTraceResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-		         this.onImpact(raytraceresult);
-		      }
+			if (raytraceresult.getType() != RayTraceResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+				this.onImpact(raytraceresult);
+			}
 
-		      if(!stopped) {
+			if (!stopped) {
 				Vector3d vec3d = this.getMotion();
 				double d0 = this.getPosX() + vec3d.x;
 				double d1 = this.getPosY() + vec3d.y;
@@ -119,20 +118,20 @@ public class LanceEntity extends ThrowableEntity{
 					for (int i = 0; i < 4; ++i) {
 						this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
 					}
-	
+
 					f1 = 0.8F;
 				} else {
 					f1 = 0.99F;
 				}
-	
+
 				this.setMotion(vec3d.scale((double) f1));
 				if (!this.hasNoGravity()) {
 					Vector3d vec3d1 = this.getMotion();
 					this.setMotion(vec3d1.x, vec3d1.y - (double) this.getGravityVelocity(), vec3d1.z);
 				}
-	
+
 				this.setPosition(d0, d1, d2);
-		      }
+			}
 		}
 
 	}
@@ -158,9 +157,9 @@ public class LanceEntity extends ThrowableEntity{
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != func_234616_v_()) {
+				if (target != getShooter()) {
 					//target.setFire(5);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg < 4 ? 4 : dmg);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg < 4 ? 4 : dmg);
 					dmg *= 0.8F;
 					//stopLance();
 				}

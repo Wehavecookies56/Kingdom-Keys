@@ -86,16 +86,16 @@ public class GravityEntity extends ThrowableEntity {
 		}
 		
 		IWorldCapabilities worldData = ModCapabilities.getWorld(world);
-		if (!world.isRemote && func_234616_v_() != null && worldData != null) {
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(func_234616_v_(), getBoundingBox().grow(3.0D, 3.0D, 3.0D));
-			Party casterParty = worldData.getPartyFromMember(func_234616_v_().getUniqueID());
+		if (!world.isRemote && getShooter() != null && worldData != null) {
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getShooter(), getBoundingBox().grow(3.0D, 3.0D, 3.0D));
+			Party casterParty = worldData.getPartyFromMember(getShooter().getUniqueID());
 
 			if(casterParty != null && !casterParty.getFriendlyFire()) {
 				for(Member m : casterParty.getMembers()) {
 					list.remove(world.getPlayerByUuid(m.getUUID()));
 				}
 			} else {
-				list.remove(func_234616_v_());
+				list.remove(getShooter());
 			}
 			
 			if (!list.isEmpty()) {
@@ -111,7 +111,7 @@ public class GravityEntity extends ThrowableEntity {
 						if(e instanceof ServerPlayerEntity)
 							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) e);
 						
-						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 1);
+						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), 1);
 					}
 				}
 			}

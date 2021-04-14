@@ -248,18 +248,18 @@ public class AlignmentSelectionScreen extends Screen {
             prev.visible = false;
             select.visible = false;
             ok.x = (width / 2) - (ok.getWidth() / 2);
-            ok.y = (height / 2) - (ok.getHeightRealms() / 2) + font.FONT_HEIGHT + 2;
+            ok.y = (height / 2) - (ok.getHeight() / 2) + font.FONT_HEIGHT + 2;
         } else {
             ok.visible = false;
             next.visible = true;
             next.x = (width / 2) - (next.getWidth() / 2) + 128;
-            next.y = (height / 2) - (next.getHeightRealms() / 2);
+            next.y = (height / 2) - (next.getHeight() / 2);
             prev.visible = true;
             prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-            prev.y = (height / 2) - (prev.getHeightRealms() / 2);
+            prev.y = (height / 2) - (prev.getHeight() / 2);
             select.visible = true;
             select.x = (width / 2) - (select.getWidth() / 2);
-            select.y= (height / 2) - (select.getHeightRealms() / 2) + 90;
+            select.y= (height / 2) - (select.getHeight() / 2) + 90;
             confirm.visible = false;
             cancel.visible = false;
             if (confirmChoice) {
@@ -269,9 +269,9 @@ public class AlignmentSelectionScreen extends Screen {
                 prev.visible = false;
                 select.visible = false;
                 confirm.x = (width / 2) - (confirm.getWidth() / 2);
-                confirm.y = (height / 2) - (confirm.getHeightRealms() / 2) + 30;
+                confirm.y = (height / 2) - (confirm.getHeight() / 2) + 30;
                 cancel.x = (width / 2) - (cancel.getWidth() / 2);
-                cancel.y = (height / 2) - (cancel.getHeightRealms() / 2) + 32 + confirm.getHeightRealms();
+                cancel.y = (height / 2) - (cancel.getHeight() / 2) + 32 + confirm.getHeight();
             }
         }
     }

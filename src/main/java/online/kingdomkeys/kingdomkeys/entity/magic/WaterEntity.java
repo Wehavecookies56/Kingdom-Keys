@@ -94,7 +94,6 @@ public class WaterEntity extends ThrowableEntity {
 			double x2 = cx + (r * Math.cos(Math.toRadians(-a)));
 			double z2 = cz + (r * Math.sin(Math.toRadians(-a)));
 
-		//	System.out.println(a / 180 / 2);
 			world.addParticle(ParticleTypes.DRIPPING_WATER, x, (cy+0.5) - a / 1080D, z, 0.0D, 0.0D, 0.0D);
 			world.addParticle(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
 			
@@ -102,17 +101,17 @@ public class WaterEntity extends ThrowableEntity {
 			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
 
 	        if (!list.isEmpty() && list.get(0) != this) {
-				float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1);
+				float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1);
 	            for (int i = 0; i < list.size(); i++) {
 	                Entity e = (Entity) list.get(i);
 	                if (e instanceof LivingEntity) {
-						e.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.func_234616_v_()), dmg);
+						e.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getShooter()), dmg);
 	                }
 	            }
 	        }
 
 		} else { //Projectile
-			func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_SWIM, SoundCategory.PLAYERS, 1F, 1F);
 
 			velocityChanged = true;
@@ -149,14 +148,14 @@ public class WaterEntity extends ThrowableEntity {
 				if (target.isBurning()) {
 					target.extinguish();
 				} else {
-					if (target != func_234616_v_()) {
+					if (target != getShooter()) {
 						Party p = null;
-						if (func_234616_v_() != null) {
-							p = ModCapabilities.getWorld(func_234616_v_().world).getPartyFromMember(func_234616_v_().getUniqueID());
+						if (getShooter() != null) {
+							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 						}
 						if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
-							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1) : 2;
+							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 							remove();
 						}
 					}

@@ -110,14 +110,14 @@ public class ThunderEntity extends ThrowableEntity {
 			if (ticksExisted % 5 == 0) {
 				double radius = 2.0D;
 				List<Entity> list = this.world.getEntitiesInAABBexcluding(getCaster(), new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
-				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(func_234616_v_().getUniqueID());
+				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
 
 				if(casterParty != null && !casterParty.getFriendlyFire()) {
 					for(Member m : casterParty.getMembers()) {
 						list.remove(world.getPlayerByUuid(m.getUUID()));
 					}
 				} else {
-					list.remove(func_234616_v_());
+					list.remove(getShooter());
 				}
 				if (!list.isEmpty() && list.get(0) != this) {
 					for (int i = 0; i < list.size(); i++) {

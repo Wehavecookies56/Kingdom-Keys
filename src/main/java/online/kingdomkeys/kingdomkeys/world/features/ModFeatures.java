@@ -28,7 +28,7 @@ public class ModFeatures {
 
     public static final RegistryObject<Feature<BloxOreFeatureConfig>> BLOX = FEATURES.register("blox", () -> new BloxOreFeature(BloxOreFeatureConfig.CODEC));
 
-    public static final IRuleTestType<?> OVERWORLD_GROUND =  IRuleTestType.func_237129_a_("multiple_block_match", MultipleBlockMatchRuleTest.CODEC);
+    public static final IRuleTestType<?> OVERWORLD_GROUND =  IRuleTestType.register("multiple_block_match", MultipleBlockMatchRuleTest.CODEC);
 
     public static ConfiguredFeature<?, ?>
             //Nether
@@ -65,17 +65,17 @@ public class ModFeatures {
 
 
     private static ConfiguredFeature<?, ?> addBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.OVERWORLD, blocks, size)).range(height).square().func_242731_b(count);
+        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.OVERWORLD, blocks, size)).range(height).square().count(count);
         return register(registryName, feature);
     }
 
     private static ConfiguredFeature<?, ?> addEndBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.END, blocks, size)).range(height).square().func_242731_b(count);
+        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.END, blocks, size)).range(height).square().count(count);
         return register(registryName, feature);
     }
 
     private static ConfiguredFeature<?, ?> addOreFeature(ResourceLocation registryName, RuleTest fillerBlock, Block block, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = Feature.ORE.withConfiguration(new OreFeatureConfig(fillerBlock, block.getDefaultState(), size)).range(height).square().func_242731_b(count);
+        ConfiguredFeature<?, ?> feature = Feature.ORE.withConfiguration(new OreFeatureConfig(fillerBlock, block.getDefaultState(), size)).range(height).square().count(count);
         return register(registryName, feature);
     }
 

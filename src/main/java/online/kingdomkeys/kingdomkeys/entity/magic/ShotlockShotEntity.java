@@ -81,8 +81,16 @@ public class ShotlockShotEntity extends ThrowableEntity {
 	}
 
 	private void updateMovement() {
-		if(getTarget() != null && getTarget().isAlive())
-			this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F)-this.getHeight()) - getPosY() + 0.5, getTarget().getPosZ() - this.getPosZ(), 1, 0);
+		System.out.println(getTarget());
+
+		if(getTarget() != null) {
+			if(getTarget().isAlive()) {
+				this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F) - this.getHeight()) - getPosY() + 0.5, getTarget().getPosZ() - this.getPosZ(), 1, 0);
+			} else {
+				if(getShooter() != null)
+					this.setDirectionAndMovement(this, getShooter().rotationPitch, getShooter().rotationYaw, 0, 1, 0); // Work in progress
+			}
+		}
 	}
 
 	@Override
@@ -102,8 +110,8 @@ public class ShotlockShotEntity extends ThrowableEntity {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != func_234616_v_()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+				if (target != getShooter()) {
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 					System.out.println(dmg);
 					remove();
 				}

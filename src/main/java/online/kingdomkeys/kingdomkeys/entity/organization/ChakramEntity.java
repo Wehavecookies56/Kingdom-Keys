@@ -85,7 +85,7 @@ public class ChakramEntity extends ThrowableEntity{
 				Entity entityTarget = (Entity) entityTagetList.get(i);
 				if (entityTarget != null && entityTarget instanceof PlayerEntity) {
 					PlayerEntity owner = (PlayerEntity) entityTarget;
-					if (owner == func_234616_v_()) {
+					if (owner == getShooter()) {
 						this.remove();
 					}
 				}
@@ -96,8 +96,8 @@ public class ChakramEntity extends ThrowableEntity{
 
 	public void setReturn() {
 		returning = true;
-		if(func_234616_v_() != null)
-			shoot(this.func_234616_v_().getPosX() - this.getPosX(), this.func_234616_v_().getPosY() - this.getPosY() + 1.25, this.func_234616_v_().getPosZ() - this.getPosZ(), 2f, 0);
+		if(getShooter() != null)
+			shoot(this.getShooter().getPosX() - this.getPosX(), this.getShooter().getPosY() - this.getPosY() + 1.25, this.getShooter().getPosZ() - this.getPosZ(), 2f, 0);
 	}
 	
 	@Override
@@ -116,9 +116,9 @@ public class ChakramEntity extends ThrowableEntity{
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != func_234616_v_()) {
+				if (target != getShooter()) {
 					//target.setFire(5);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg < 4 ? 4 : dmg);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg < 4 ? 4 : dmg);
 					//setReturn();
 					setMotion(getMotion().scale(0.5));
 					dmg *= 0.9;

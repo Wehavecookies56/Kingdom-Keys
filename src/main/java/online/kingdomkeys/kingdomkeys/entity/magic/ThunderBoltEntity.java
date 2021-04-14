@@ -111,20 +111,20 @@ public class ThunderBoltEntity extends ThrowableEntity {
 			} else if (!this.effectOnly) {
 				double d0 = 3.0D;
 				List<Entity> list = this.world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.getPosX() - 2.0D, this.getPosY() - 2.0D, this.getPosZ() - 2.0D, this.getPosX() + 2.0D, this.getPosY() + 6.0D + 2.0D, this.getPosZ() + 2.0D), Entity::isAlive);
-				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(func_234616_v_().getUniqueID());
+				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
 
 				if(casterParty != null && !casterParty.getFriendlyFire()) {
 					for(Member m : casterParty.getMembers()) {
 						list.remove(world.getPlayerByUuid(m.getUUID()));
 					}
 				} else {
-					list.remove(func_234616_v_());
+					list.remove(getShooter());
 				}
 				
 				for (Entity entity : list) {
 					
-					float dmg = this.func_234616_v_() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.func_234616_v_(), 1) : 2;
-					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+					float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1) : 2;
+					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 					
 
 					if (entity instanceof PigEntity) {

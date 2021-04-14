@@ -95,7 +95,7 @@ public class MagnetEntity extends ThrowableEntity {
 					list.remove(world.getPlayerByUuid(m.getUUID()));
 				}
 			} else {
-				list.remove(func_234616_v_());
+				list.remove(getShooter());
 			}
 			
 			if (!list.isEmpty()) {

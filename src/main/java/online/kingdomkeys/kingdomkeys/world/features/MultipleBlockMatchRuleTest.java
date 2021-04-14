@@ -27,7 +27,7 @@ public class MultipleBlockMatchRuleTest extends RuleTest {
     @Override
     public boolean test(BlockState p_215181_1_, Random p_215181_2_) {
         for (Block b : blocks) {
-            if (p_215181_1_.isIn(b)) return true;
+            if (p_215181_1_.matchesBlock(b)) return true;
         }
         return false;
     }

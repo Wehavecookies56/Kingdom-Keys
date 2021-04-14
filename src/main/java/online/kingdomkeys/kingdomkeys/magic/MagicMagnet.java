@@ -20,7 +20,7 @@ public class MagicMagnet extends Magic {
 		MagnetEntity shot = new MagnetEntity(player.world, player);
 		shot.setCaster(player.getUniqueID());
 		player.world.addEntity(shot);
-		shot.func_234612_a_(player, -90, player.rotationYaw, 0, 1F, 0);
+		shot.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 

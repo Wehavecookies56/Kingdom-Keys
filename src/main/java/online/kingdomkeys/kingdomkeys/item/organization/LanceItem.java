@@ -57,7 +57,7 @@ public class LanceItem extends OrgWeaponItem implements IOrgWeapon {
 		    	player.world.addEntity(entity);
 
 				player.world.playSound(player, player.getPosition(), SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1F, 1F);
-				entity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, (1F + (dmgMult * 2)), 0);
+				entity.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, (1F + (dmgMult * 2)), 0);
 				
 				if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
 					player.swingArm(Hand.MAIN_HAND);

@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class BloxOreFeatureConfig implements IFeatureConfig {
     public static final Codec<BloxOreFeatureConfig> CODEC = RecordCodecBuilder.create((p_236568_0_) -> {
-        return p_236568_0_.group(RuleTest.field_237127_c_.fieldOf("target").forGetter((config) -> {
+        return p_236568_0_.group(RuleTest.CODEC.fieldOf("target").forGetter((config) -> {
             return config.target;
         }), BlockState.CODEC.listOf().fieldOf("states").forGetter((config) -> {
             return config.states;

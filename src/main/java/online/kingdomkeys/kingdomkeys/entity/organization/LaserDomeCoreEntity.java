@@ -159,7 +159,7 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 				tempList.remove(world.getPlayerByUuid(m.getUUID()));
 			}
 		} else {
-			tempList.remove(func_234616_v_());
+			tempList.remove(getShooter());
 		}
 
 		targetList.clear();

@@ -17,7 +17,7 @@ public class MagicGravity extends Magic {
 	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		ThrowableEntity shot = new GravityEntity(player.world, player);
 		player.world.addEntity(shot);
-		shot.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+		shot.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 

@@ -82,8 +82,8 @@ public class LaserDomeShotEntity extends ThrowableEntity {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != func_234616_v_()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), dmg);
+				if (target != getShooter()) {
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 					remove();
 				}
 			}

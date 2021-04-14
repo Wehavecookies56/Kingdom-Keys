@@ -36,7 +36,7 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 			if (player.getHeldItem(hand).getTag() != null && player.getHeldItem(hand).getTag().getInt("ammo") > 0) {
 				world.playSound(player, player.getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 1F);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
-				bullet.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0, 3F, 0);
+				bullet.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 3F, 0);
 				world.addEntity(bullet);
 
 				player.swingArm(Hand.MAIN_HAND);

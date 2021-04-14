@@ -79,9 +79,9 @@ public class CureEntity extends ThrowableEntity {
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != func_234616_v_()) {
+				if (target != getShooter()) {
 					target.setFire(10);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 10);
+					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), 10);
 					remove();
 				}
 			} else { // Block (not ERTR)
