@@ -25,7 +25,7 @@ public class ModShotlocks {
 		public static void registerLimits(RegistryEvent.Register<Shotlock> event) {
 			int order = 0;
 			event.getRegistry().registerAll(
-					new ShotlockDarkVolley(KingdomKeys.MODID + ":" + Strings.DarkVolley, order++, 5, 18),
+					new ShotlockDarkVolley(KingdomKeys.MODID + ":" + Strings.DarkVolley, order++, 2, 18),
 					new ShotlockCircular(KingdomKeys.MODID + ":" + Strings.CircularShotlock, order++, 3, 18)
 			);
 		}

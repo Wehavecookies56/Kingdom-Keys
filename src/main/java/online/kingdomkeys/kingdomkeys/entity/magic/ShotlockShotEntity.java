@@ -81,8 +81,6 @@ public class ShotlockShotEntity extends ThrowableEntity {
 	}
 
 	private void updateMovement() {
-		System.out.println(getTarget());
-
 		if(getTarget() != null) {
 			if(getTarget().isAlive()) {
 				this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F) - this.getHeight()) - getPosY() + 0.5, getTarget().getPosZ() - this.getPosZ(), 1, 0);
@@ -112,7 +110,6 @@ public class ShotlockShotEntity extends ThrowableEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getShooter()) {
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
-					System.out.println(dmg);
 					remove();
 				}
 			}

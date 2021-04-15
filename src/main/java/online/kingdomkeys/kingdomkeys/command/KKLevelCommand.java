@@ -78,7 +78,6 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
     		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
             playerData.setMaxMP(0);
             playerData.setMP(playerData.getMaxMP());
-            
             playerData.setMaxAP(10);
             
             playerData.setStrength(1);

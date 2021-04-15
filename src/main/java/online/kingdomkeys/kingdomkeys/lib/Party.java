@@ -12,17 +12,17 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.common.util.Constants;
 
 public class Party {
-	
-	public static final byte PARTY_LIMIT = 4;
+
+	public static final byte PARTY_LIMIT = 5;
 
 	private String name;
 	private List<Member> members = new ArrayList<Member>();
 	private boolean priv;
 	private byte size;
 	private boolean friendlyFire;
-	
+
 	public Party() {
-		
+
 	}
 
 	public Party(String name, UUID leaderId, String username, boolean priv, byte size) {
@@ -40,7 +40,7 @@ public class Party {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public void setPriv(boolean priv) {
 		this.priv = priv;
 	}
@@ -48,23 +48,23 @@ public class Party {
 	public boolean getPriv() {
 		return this.priv;
 	}
-	
+
 	public void setSize(byte size) {
 		this.size = size;
 	}
-	
+
 	public byte getSize() {
 		return this.size;
-	}	
-	
+	}
+
 	public void setFriendlyFire(boolean ff) {
 		this.friendlyFire = ff;
 	}
-	
+
 	public boolean getFriendlyFire() {
 		return this.friendlyFire;
-	}	
-	
+	}
+
 	public Member addMember(LivingEntity entity) {
 		return this.addMember(entity.getUniqueID(), entity.getDisplayName().getString());
 	}
@@ -99,11 +99,11 @@ public class Party {
 	public List<Member> getMembers() {
 		return this.members;
 	}
-	
+
 	public int getMemberIndex(UUID memberUUID) {
 		int i = 0;
-		for(i = 0; i<members.size();i++) {
-			if(members.get(i).getUUID().equals(memberUUID)) {
+		for (i = 0; i < members.size(); i++) {
+			if (members.get(i).getUUID().equals(memberUUID)) {
 				return i;
 			}
 		}
@@ -116,7 +116,7 @@ public class Party {
 		partyNBT.putBoolean("private", this.priv);
 		partyNBT.putByte("size", this.size);
 		partyNBT.putBoolean("ff", this.friendlyFire);
-		
+
 		ListNBT members = new ListNBT();
 		for (Party.Member member : this.getMembers()) {
 			CompoundNBT memberNBT = new CompoundNBT();
