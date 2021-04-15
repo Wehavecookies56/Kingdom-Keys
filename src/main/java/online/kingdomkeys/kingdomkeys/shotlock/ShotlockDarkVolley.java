@@ -34,13 +34,7 @@ public class ShotlockDarkVolley extends Shotlock {
 		playerData.setLimitCooldownTicks(cooldown);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 
-		float damage;
-		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
-			damage = (float) (DamageCalculation.getOrgMagicDamage(player, 1, (IOrgWeapon) stack.getItem()) * ModConfigs.shotlockMult);
-		} else {
-			damage = (float) (playerData.getMagic() * ModConfigs.shotlockMult);
-		}
-
+		float damage = (float) (DamageCalculation.getMagicDamage(player, 1) * ModConfigs.shotlockMult);
 		DarkVolleyCoreEntity core = new DarkVolleyCoreEntity(player.world, player, targetList, damage);
 		core.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
 		player.world.addEntity(core);

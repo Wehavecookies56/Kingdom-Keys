@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
@@ -62,10 +61,10 @@ import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.NobodyCreeperEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -653,6 +652,10 @@ public class EntityEvents {
 			}
 			
 			LivingEntity target = event.getEntityLiving();
+			
+			if(event.getSource().getImmediateSource() instanceof ShotlockShotEntity)
+				target.hurtResistantTime = 0;
+
 			if (target instanceof PlayerEntity) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
 

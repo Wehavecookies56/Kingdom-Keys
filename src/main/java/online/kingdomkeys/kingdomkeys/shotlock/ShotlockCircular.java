@@ -32,7 +32,6 @@ public class ShotlockCircular extends Shotlock {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 
 		float damage = (float) (DamageCalculation.getMagicDamage(player, 1) * ModConfigs.shotlockMult);
-		
 		CircularShotlockCoreEntity core = new CircularShotlockCoreEntity(player.world, player, targetList, damage);
 		core.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
 		player.world.addEntity(core);
