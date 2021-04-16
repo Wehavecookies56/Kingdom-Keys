@@ -174,7 +174,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
 				//System.out.println(playerData.getEquippedShotlock());
-				//playerData.addshotlockToList(KingdomKeys.MODID+":"+Strings.DarkVolley);
+				//playerData.addshotlockToList(KingdomKeys.MODID+":"+Strings.CircularShotlock);
 				//playerData.setFocus(100);
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);

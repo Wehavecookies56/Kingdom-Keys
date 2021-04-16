@@ -21,21 +21,21 @@ import java.util.function.Supplier;
 
 public class CSEquipShotlock {
 
-    ResourceLocation shotlock;
+	String shotlock;
 
     public CSEquipShotlock() {}
 
-    public CSEquipShotlock(ResourceLocation shotlock) {
+    public CSEquipShotlock(String shotlock) {
         this.shotlock = shotlock;
     }
 
     public void encode(PacketBuffer buffer) {
-        buffer.writeResourceLocation(shotlock);
+        buffer.writeString(shotlock,100);
     }
 
     public static CSEquipShotlock decode(PacketBuffer buffer) {
         CSEquipShotlock msg = new CSEquipShotlock();
-        msg.shotlock = buffer.readResourceLocation();
+        msg.shotlock = buffer.readString(100);
         return msg;
     }
 
@@ -43,8 +43,8 @@ public class CSEquipShotlock {
         ctx.get().enqueueWork(() -> {
             PlayerEntity player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            if(playerData.getShotlockList().contains(message.shotlock.toString())) {
-            	playerData.setEquippedShotlock(message.shotlock.toString());
+            if(playerData.getShotlockList().contains(message.shotlock) || message.shotlock.equals("")) {
+            	playerData.setEquippedShotlock(message.shotlock);
             }
            /* ItemStack stackToEquip = player.inventory.getStackInSlot(message.slotToEquipFrom);
             ItemStack stackPreviouslyEquipped = playerData.equipKeychain(message.shotlock, stackToEquip);

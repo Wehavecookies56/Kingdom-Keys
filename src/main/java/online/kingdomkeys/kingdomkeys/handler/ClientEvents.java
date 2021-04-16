@@ -114,7 +114,7 @@ public class ClientEvents {
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
-			if (event.player == mc.player && cooldownTicks <= 0 && event.player.getHeldItemMainhand() != null && event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem) { // Only run this for the local client player
+			if (event.player == mc.player && cooldownTicks <= 0 && event.player.getHeldItemMainhand() != null && event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem && Utils.getPlayerShotlock(mc.player) != null) { // Only run this for the local client player
 				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 				Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
@@ -177,7 +177,6 @@ public class ClientEvents {
 			} else {
 				if(cooldownTicks > 0) {
 					cooldownTicks--;
-
 				}
 			}
 		}

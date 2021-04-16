@@ -41,8 +41,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				PlayerEntity player = Minecraft.getInstance().player;
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				PacketHandler.sendToServer(new CSEquipShotlock(new ResourceLocation(shotlockName)));
+				PacketHandler.sendToServer(new CSEquipShotlock(shotlockName));
 			} else {
 				Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
 			}
@@ -66,9 +65,10 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		ItemCategory category = ItemCategory.TOOL;
 		
 		Shotlock shotlock = null;
-		if(shotlockName != null) {
+		if(shotlockName != null && !shotlockName.equals("")) {
 			shotlock = ModShotlocks.registry.getValue(new ResourceLocation(shotlockName));
 		}
+		
 		if (visible) {
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.setupGuiFlatDiffuseLighting();
@@ -89,7 +89,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			blit(matrixStack, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.pop();
 			String shName;
-			if (shotlock == null) { //Name to display
+			if (shotlock == null || shotlock.equals("")) { //Name to display
 				shName = "---";
 			} else {
 				shName = shotlock.getTranslationKey();

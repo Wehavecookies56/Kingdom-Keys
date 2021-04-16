@@ -67,8 +67,11 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedShotlockName),"N/A", buttonColour));
 		
+		if(equippedShotlock != null)
+			addButton(new MenuSelectShotlockButton("", (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+
 		for(String sName : Utils.getSortedShotlocks(playerData.getShotlockList())) {
-			if(!sName.equals(equippedShotlock.getName())) {
+			if(equippedShotlock == null || !sName.equals(equippedShotlock.getName())) {
 				addButton(new MenuSelectShotlockButton(sName, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 			}
 		}
