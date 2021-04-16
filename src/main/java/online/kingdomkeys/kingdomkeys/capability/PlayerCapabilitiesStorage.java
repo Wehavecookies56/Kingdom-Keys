@@ -79,9 +79,11 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         
         CompoundNBT shotlocks = new CompoundNBT();
         for (String shotlock : instance.getShotlockList()) {
-            magics.putInt(shotlock, 0);
+            shotlocks.putInt(shotlock, 0);
         }
         storage.put("shotlocks", shotlocks);
+        
+        storage.putString("equipped_shotlock", instance.getEquippedShotlock());
 
         CompoundNBT forms = new CompoundNBT();
         Iterator<Map.Entry<String, int[]>> driveFormsIt = instance.getDriveFormMap().entrySet().iterator();
@@ -186,6 +188,8 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
             //System.out.println("Read: " + key);
             instance.getShotlockList().add(key.toString());
         }
+        
+        instance.setEquippedShotlock(storage.getString("equipped_shotlock"));
 
         Iterator<String> driveFormsIt = storage.getCompound("drive_forms").keySet().iterator();
         while (driveFormsIt.hasNext()) {

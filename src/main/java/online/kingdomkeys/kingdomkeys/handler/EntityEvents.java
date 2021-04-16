@@ -44,6 +44,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -172,9 +173,9 @@ public class EntityEvents {
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
-			playerData.setFocus(100);
-//System.out.println(playerData.getFocus());*/
-				//System.out.println(event.player.world.isRemote+" "+playerData.getPartiesInvited());
+				//System.out.println(playerData.getEquippedShotlock());
+				//playerData.addshotlockToList(KingdomKeys.MODID+":"+Strings.DarkVolley);
+				//playerData.setFocus(100);
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);
 				}

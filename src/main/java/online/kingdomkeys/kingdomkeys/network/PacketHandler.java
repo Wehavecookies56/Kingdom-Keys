@@ -3,9 +3,7 @@ package online.kingdomkeys.kingdomkeys.network;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -18,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSAntiPointsPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShotlock;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
@@ -125,6 +124,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSetOrgPortalName.class, CSSetOrgPortalName::encode, CSSetOrgPortalName::decode, CSSetOrgPortalName::handle);
 		HANDLER.registerMessage(packetID++, CSUseLimitPacket.class, CSUseLimitPacket::encode, CSUseLimitPacket::decode, CSUseLimitPacket::handle);
 		HANDLER.registerMessage(packetID++, CSShotlockShot.class, CSShotlockShot::encode, CSShotlockShot::decode, CSShotlockShot::handle);
+		HANDLER.registerMessage(packetID++, CSEquipShotlock.class, CSEquipShotlock::encode, CSEquipShotlock::decode, CSEquipShotlock::handle);
 
 	}
 

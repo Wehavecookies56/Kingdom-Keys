@@ -218,6 +218,10 @@
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Laser Circle",
 	"limit.laser_dome.name": "Laser Dome",
+	
+	"_comment": "Shotlocks",
+	"shotlock.circular_shotlock.name": "Circular Shotlock",
+	"shotlock.dark_volley.name": "Dark Volley",
 
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Normal Blox",

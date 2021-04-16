@@ -215,10 +215,13 @@
 	"ability.ability_experience_boost.name": "Extraexperiencia",
 	"ability.ability_experience_boost.desc": "Si la VT cae a menos de la mitad, aumenta un 100% la experiencia ganada al vencer enemigos.",
 
-	
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Círculo Láser",
-	"limit.laser_dome.name": "Cúpula Láser",
+	"limit.laser_dome.name": "Cúpula Láser", 
+
+	"_comment": "Shotlocks",
+	"shotlock.circular_shotlock.name": "Tino Circular",
+	"shotlock.dark_volley.name": "Volea Umbría",									
 
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Blox Normal",

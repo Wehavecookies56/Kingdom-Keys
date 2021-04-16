@@ -25,12 +25,15 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipm
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuEquipmentButton extends Button {
 
     public Screen toOpen;
     ItemStack stack;
+    Shotlock shotlock;
     int colour, labelColour;
     MenuEquipmentScreen parent;
     String label;
@@ -53,6 +56,28 @@ public class MenuEquipmentButton extends Button {
 
     public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
         this(stack, x, y, colour, toOpen, category, parent);
+        this.hasLabel = true;
+        this.labelColour = labelColour;
+        this.label = label;
+    }
+    
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+        super(x, y, (int) (parent.width * 0.264f), 14, new TranslationTextComponent(""), b -> {
+            if (b.visible && b.active) {
+                Minecraft.getInstance().displayGuiScreen(((MenuEquipmentButton)b).toOpen);
+            }
+        });
+        this.stack = null;
+        this.shotlock = ModShotlocks.registry.getValue(new ResourceLocation(shotlock));
+        this.colour = colour;
+        this.toOpen = toOpen;
+        this.parent = parent;
+        hasLabel = false;
+        this.category = category;
+    }
+
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
+        this(shotlock, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;
         this.label = label;
@@ -120,7 +145,11 @@ public class MenuEquipmentButton extends Button {
                 }
                 drawString(matrixStack, fr, itemName, x + 15, y + 3, 0xFFFFFF);
             } else {
-                drawString(matrixStack, fr, "---", x + 15, y + 3, 0xFFFFFF);
+            	if(shotlock != null) {
+            		drawString(matrixStack, fr, Utils.translateToLocal(shotlock.getTranslationKey()), x + 15, y + 3, 0xFFFFFF);
+            	} else {
+            		drawString(matrixStack, fr, "---", x + 15, y + 3, 0xFFFFFF);	
+            	}
             }
             if (isHovered) {
                 mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

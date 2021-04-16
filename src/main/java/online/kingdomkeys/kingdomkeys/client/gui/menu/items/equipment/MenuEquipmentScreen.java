@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
 import java.awt.Color;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuEquipmentScreen extends MenuBackground {
 
@@ -56,7 +58,7 @@ public class MenuEquipmentScreen extends MenuBackground {
 
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
-
+        List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
 
         int itemHeight = 14;
 
@@ -76,6 +78,11 @@ public class MenuEquipmentScreen extends MenuBackground {
                 addButton(new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293));
             }
         });
+        
+        if (shotlocks != null) {
+            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x22FF22, new MenuShotlockSelectorScreen(new Color(31, 112, 35), 0x22FF22), ItemCategory.TOOL, this, "Shotlock", 0x81FE85);
+            addButton(shotlockSlot);
+        }
 
         //TODO the other slots, items, accesories, etc.
     }

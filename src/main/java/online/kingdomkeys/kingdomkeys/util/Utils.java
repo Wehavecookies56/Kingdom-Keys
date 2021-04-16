@@ -524,7 +524,8 @@ public class Utils {
 	}
 	
 	public static Shotlock getPlayerShotlock(PlayerEntity player) {
-		return ModShotlocks.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+Strings.DarkVolley));
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		return ModShotlocks.registry.getValue(new ResourceLocation(playerData.getEquippedShotlock()));
 	}
 
 	public static boolean isPlayerLowHP(PlayerEntity player) {

@@ -59,7 +59,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
     private TreeMap<String, Integer> materials = new TreeMap<>();
 
 	List<String> partyList = new ArrayList<>();
-
+	String equippedShotlock;
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 100, maxFocus = 100;
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
@@ -1146,6 +1146,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setSacrificePedestal(BlockPos pos) {
 		sacrificePedestal = pos;
+	}
+
+	@Override
+	public String getEquippedShotlock() {
+		// TODO Auto-generated method stub
+		return equippedShotlock;
+	}
+
+	@Override
+	public void setEquippedShotlock(String shotlock) {
+		this.equippedShotlock = shotlock;
 	}
 
 	//endregion
