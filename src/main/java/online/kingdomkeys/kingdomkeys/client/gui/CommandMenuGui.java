@@ -263,7 +263,7 @@ public class CommandMenuGui extends Screen {
 							//Checks for limit obtaining in the future?
 							color = playerData.getLimitCooldownTicks() <= 0 ? getColor(0xFFFFFF,SUB_MAIN) : getColor(0x888888,SUB_MAIN);
 						} else {
-							if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) || playerData.getDriveFormMap().size() <= 1) {
+							if((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles)|| playerData.getDriveFormMap().size() <= 1) {
 								color = getColor(0x888888,SUB_MAIN);
 							} else {
 								color = getColor(0xFFFFFF,SUB_MAIN);

@@ -271,6 +271,11 @@ public class Utils {
 		return list;
 	}
 
+	public static List<String> getSortedShotlocks(List<String> list) {
+		Collections.sort(list, (Comparator.comparingInt(a -> ModShotlocks.registry.getValue(new ResourceLocation(a)).getOrder())));
+		return list;
+	}
+	
 	public static PlayerEntity getPlayerByName(World world, String name) {
 		for (PlayerEntity p : world.getPlayers()) {
 			if (p.getDisplayName().getString().equals(name)) {

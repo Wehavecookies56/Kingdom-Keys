@@ -142,6 +142,11 @@ public interface IPlayerCapabilities {
 	void addMagicToList(String magic);
 	void removeMagicFromList(String magic);
 	
+	List<String> getShotlockList();
+	void setShotlockList(List<String> list);
+	void addshotlockToList(String magic);
+	void removeShotlockFromList(String magic);
+	
 	LinkedHashMap<String, int[]> getAbilityMap();
 	void setAbilityMap(LinkedHashMap<String,int[]> map);
 	void addAbility(String ability, boolean notification);

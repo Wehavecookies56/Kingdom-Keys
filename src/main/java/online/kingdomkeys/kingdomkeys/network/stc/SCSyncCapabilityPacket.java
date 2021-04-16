@@ -41,6 +41,7 @@ public class SCSyncCapabilityPacket {
 
 	List<ResourceLocation> recipeList = new ArrayList<>();
     List<String> magicList = new ArrayList<>();
+    List<String> shotlockList = new ArrayList<>();
 	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
 	LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
 	List<String> partyList = new ArrayList<>(10);
@@ -84,6 +85,7 @@ public class SCSyncCapabilityPacket {
 		
 		this.recipeList = capability.getKnownRecipeList();
 		this.magicList = capability.getMagicList();
+		this.shotlockList = capability.getShotlockList();
 		this.driveFormMap = capability.getDriveFormMap();
 		this.abilityMap = capability.getAbilityMap();
 		this.partyList = capability.getPartiesInvited();
@@ -144,6 +146,14 @@ public class SCSyncCapabilityPacket {
 			magics.putInt(m, 1);
 		}
 		buffer.writeCompoundTag(magics);
+		
+		CompoundNBT shotlocks = new CompoundNBT();
+		Iterator<String> shotlocksIt = shotlockList.iterator();
+		while (shotlocksIt.hasNext()) {
+			String m = shotlocksIt.next();
+			shotlocks.putInt(m, 1);
+		}
+		buffer.writeCompoundTag(shotlocks);
 		
 		CompoundNBT forms = new CompoundNBT();
 		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormMap.entrySet().iterator();
@@ -251,6 +261,13 @@ public class SCSyncCapabilityPacket {
 			msg.magicList.add(key);
 		}
 		
+		CompoundNBT shotlocksTag = buffer.readCompoundTag();
+		Iterator<String> shotlocksIt = shotlocksTag.keySet().iterator();
+		while (shotlocksIt.hasNext()) {
+			String key = (String) shotlocksIt.next();
+			msg.shotlockList.add(key);
+		}
+		
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();
 		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
 		while (driveFormsIt.hasNext()) {
@@ -346,6 +363,7 @@ public class SCSyncCapabilityPacket {
 
 			playerData.setKnownRecipeList(message.recipeList);
 			playerData.setMagicList(message.magicList);
+			playerData.setShotlockList(message.shotlockList);
 			playerData.setDriveFormMap(message.driveFormMap);
 			playerData.setAbilityMap(message.abilityMap);
 			playerData.setAntiPoints(message.antipoints);

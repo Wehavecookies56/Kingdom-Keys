@@ -350,7 +350,7 @@ public class InputHandler {
 	                        }
 	                	} else {//REVERT
 	                		//System.out.println("REVERT");
-	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) {
 	                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                		} else {
 			                	PacketHandler.sendToServer(new CSSetDriveFormPacket(DriveForm.NONE.toString()));

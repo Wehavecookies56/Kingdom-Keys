@@ -52,6 +52,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
 	List<String> magicList = new ArrayList<>();
+	List<String> shotlockList = new ArrayList<>();
 	List<Integer> shotlockEnemies;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
@@ -632,6 +633,30 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void removeMagicFromList(String magic) {
 		if (magicList.contains(magic)) {
 			magicList.remove(magic);
+		}
+	}
+	
+	@Override
+	public List<String> getShotlockList() {
+		return Utils.getSortedShotlocks(shotlockList);
+	}
+
+	@Override
+	public void setShotlockList(List<String> list) {
+		this.shotlockList = list;
+	}
+
+	@Override
+	public void addshotlockToList(String shotlock) {
+		if (!shotlockList.contains(shotlock)) {
+			shotlockList.add(shotlock);
+		}
+	}
+
+	@Override
+	public void removeShotlockFromList(String shotlock) {
+		if (shotlockList.contains(shotlock)) {
+			shotlockList.remove(shotlock);
 		}
 	}
 

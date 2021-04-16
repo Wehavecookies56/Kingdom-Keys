@@ -62,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
@@ -653,8 +654,9 @@ public class EntityEvents {
 			
 			LivingEntity target = event.getEntityLiving();
 			
-			if(event.getSource().getImmediateSource() instanceof ShotlockShotEntity)
+			if(event.getSource().getImmediateSource() instanceof ShotlockShotEntity || event.getSource().getImmediateSource() instanceof ThunderBoltEntity) {
 				target.hurtResistantTime = 0;
+			}
 
 			if (target instanceof PlayerEntity) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);

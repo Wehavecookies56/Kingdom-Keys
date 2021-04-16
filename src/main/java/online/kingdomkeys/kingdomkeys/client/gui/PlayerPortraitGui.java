@@ -54,7 +54,7 @@ public class PlayerPortraitGui extends Screen {
 
 			if (playerData != null) {
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
-					RenderSystem.color4f(0.3F, 0.3F, 0.3F, 1F);
+					RenderSystem.color4f(0.2F, 0.2F, 0.2F, 1F);
 				}
 				
 				if(Utils.isPlayerLowHP(minecraft.player)) {
