@@ -166,6 +166,9 @@ public class KKExpCommand extends BaseCommand{ //kk_exp <give/take/set> <amount>
             playerData.setDefense(1);
 			SoAState.applyStatsForChoices(playerData);
 
+			playerData.setEquippedShotlock("");
+			playerData.getShotlockList().clear();
+
             playerData.clearAbilities();
             playerData.addAbility(Strings.zeroExp, false);
 
