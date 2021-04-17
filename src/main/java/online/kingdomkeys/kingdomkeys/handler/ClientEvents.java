@@ -131,7 +131,9 @@ public class ClientEvents {
 						event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_idle.get(), SoundCategory.PLAYERS, 1F, 1F);
 					}
 					focusingTicks++;
-
+					
+					if(focusGaugeTemp > 0)
+						focusGaugeTemp-=0.8;
 					//System.out.println(focusGaugeTemp);
 					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
@@ -143,7 +145,7 @@ public class ClientEvents {
 								playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
 								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon.get(), SoundCategory.PLAYERS, 1F, 1F);
 								cost = playerData.getFocus() - focusGaugeTemp;
-								
+								System.out.println(cost);
 								if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
 									event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_all.get(), SoundCategory.PLAYERS, 1F, 1F);
 								}
@@ -151,8 +153,7 @@ public class ClientEvents {
 						}
 					}
 					
-					if(focusGaugeTemp > 0)
-						focusGaugeTemp-=0.8;
+					
 					
 					if(mc.gameSettings.keyBindAttack.isKeyDown()) {
 						if (focusingTicks > 0) {

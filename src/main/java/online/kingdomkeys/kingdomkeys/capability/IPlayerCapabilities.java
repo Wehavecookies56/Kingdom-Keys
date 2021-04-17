@@ -151,7 +151,7 @@ public interface IPlayerCapabilities {
 	
 	List<String> getShotlockList();
 	void setShotlockList(List<String> list);
-	void addshotlockToList(String shotlock);
+	void addshotlockToList(String shotlock, boolean notification);
 	void removeShotlockFromList(String shotlock);
 	
 	String getEquippedShotlock();

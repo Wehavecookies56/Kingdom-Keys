@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.entity.player.PlayerEntity;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 
 /** Mainly here just to reduce the size of {@link online.kingdomkeys.kingdomkeys.capability.PlayerCapabilities} */
@@ -47,6 +48,7 @@ public class LevelStats {
                 break;
             case 11:
                 cap.addStrength(1);
+                cap.addshotlockToList(KingdomKeys.MODID+":"+Strings.CircularShotlock, true);
                 break;
             case 12:
                 cap.addMagic(1);
@@ -118,6 +120,7 @@ public class LevelStats {
                 break;
             case 29:
                 cap.addStrength(1);
+                cap.addshotlockToList(KingdomKeys.MODID+":"+Strings.DarkVolley, true);
                 break;
             case 30:
                 cap.addMagic(1);

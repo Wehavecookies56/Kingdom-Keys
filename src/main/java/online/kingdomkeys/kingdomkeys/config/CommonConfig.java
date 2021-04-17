@@ -26,9 +26,17 @@ public class CommonConfig {
     public ForgeConfigSpec.BooleanValue bombExplodeWithFire;
     
     public ForgeConfigSpec.DoubleValue drivePointsMultiplier;
+    public ForgeConfigSpec.DoubleValue focusPointsMultiplier;
     
     public ForgeConfigSpec.DoubleValue limitLaserCircleMult;
     public ForgeConfigSpec.DoubleValue limitLaserDomeMult;
+    
+    public ForgeConfigSpec.IntValue hpDropProbability;
+    public ForgeConfigSpec.IntValue mpDropProbability;
+    public ForgeConfigSpec.IntValue munnyDropProbability;
+    public ForgeConfigSpec.IntValue driveDropProbability;
+    public ForgeConfigSpec.IntValue focusDropProbability;
+
     
     public ForgeConfigSpec.BooleanValue playerSpawnHeartless;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
@@ -63,6 +71,11 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.drive_points_multiplier")
                 .defineInRange("drivePointsMultiplier",1.0,0,100);
         
+        focusPointsMultiplier = builder
+                .comment("Focus Points Drop Multiplier")
+                .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
+                .defineInRange("focusPointsMultiplier",1.0,0,100);
+        
         builder.pop();
 
         builder.push("spawning");
@@ -86,6 +99,35 @@ public class CommonConfig {
                 .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")
                 .translation(KingdomKeys.MODID + ".config.player_spawn_heartless_Data")
                 .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), o -> o instanceof String);
+        
+        builder.pop();
+        
+        builder.push("drops");
+        
+        hpDropProbability = builder
+                .comment("HP Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.hp_drop_probability")
+                .defineInRange("hpDropProbability",80,0,100);
+        
+        mpDropProbability = builder
+                .comment("MP Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.mp_drop_probability")
+                .defineInRange("mpDropProbability",80,0,100);
+        
+        munnyDropProbability = builder
+                .comment("Munny Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.munny_drop_probability")
+                .defineInRange("munnyDropProbability",80,0,100);
+        
+        driveDropProbability = builder
+                .comment("Drive Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.drive_drop_probability")
+                .defineInRange("driveDropProbability",80,0,100);
+        
+        focusDropProbability = builder
+                .comment("Focus Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.focus_drop_probability")
+                .defineInRange("focusDropProbability",80,0,100);
         
         builder.pop();
         

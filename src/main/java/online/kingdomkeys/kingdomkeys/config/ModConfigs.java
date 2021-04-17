@@ -14,9 +14,9 @@ import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfigs {
 
-    private static ClientConfig CLIENT;
-    private static CommonConfig COMMON;
-    private static ServerConfig SERVER;
+    private static ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed
+    private static CommonConfig COMMON; //Stuff in both sides
+    private static ServerConfig SERVER; //Client stuff that needs to be synced from the server
     public static final ForgeConfigSpec CLIENT_SPEC;
     public static final ForgeConfigSpec COMMON_SPEC;
     public static final ForgeConfigSpec SERVER_SPEC;
@@ -225,6 +225,13 @@ public class ModConfigs {
     public static List<String> mobSpawnRate;
     
     public static double drivePointsMultiplier;
+    public static double focusPointsMultiplier;
+    
+    public static int hpDropProbability;
+    public static int mpDropProbability;
+    public static int munnyDropProbability;
+    public static int driveDropProbability;
+    public static int focusDropProbability;
 
     public static double limitLaserCircleMult;
     public static double limitLaserDomeMult;
@@ -242,12 +249,19 @@ public class ModConfigs {
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         
         drivePointsMultiplier = COMMON.drivePointsMultiplier.get();
+        focusPointsMultiplier = COMMON.focusPointsMultiplier.get();
 
         limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
         limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
         playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
         playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
         shotlockMult = COMMON.shotlockMult.get();
+        
+        hpDropProbability = COMMON.hpDropProbability.get();
+        mpDropProbability = COMMON.mpDropProbability.get();
+        munnyDropProbability = COMMON.munnyDropProbability.get();
+        driveDropProbability = COMMON.driveDropProbability.get();
+        focusDropProbability = COMMON.focusDropProbability.get();
 
     }
 

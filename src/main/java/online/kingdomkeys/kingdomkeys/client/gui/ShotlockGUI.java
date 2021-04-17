@@ -75,7 +75,7 @@ public class ShotlockGUI extends Screen {
 					{
 						matrixStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
 						matrixStack.scale(scale, scale, scale);
-						drawFocusCostBarTop(matrixStack, 0, 0, (int)(ClientEvents.focusGaugeTemp), playerData.getFocus(), scale);
+						drawFocusCostBarTop(matrixStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), playerData.getFocus(), scale);
 					}
 					matrixStack.pop();
 					
@@ -83,7 +83,7 @@ public class ShotlockGUI extends Screen {
 					{
 						matrixStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
 						matrixStack.scale(scale, scale, scale);
-						drawFocusBarTop(matrixStack, 0, 0, (int)(ClientEvents.focusGaugeTemp), scale);
+						drawFocusBarTop(matrixStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), scale);
 					}
 					matrixStack.pop();
 				}

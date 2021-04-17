@@ -55,6 +55,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.SeedBulletRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowGlobRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.drops.FocusOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.HPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MunnyRenderer;
@@ -136,6 +137,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<HPOrbEntity>> TYPE_HPORB = createEntityType(HPOrbEntity::new, HPOrbEntity::new, EntityClassification.MISC,"entity_hp_orb", 0.25F, 0.25F);
     public static final RegistryObject<EntityType<MPOrbEntity>> TYPE_MPORB = createEntityType(MPOrbEntity::new, MPOrbEntity::new, EntityClassification.MISC,"entity_mp_orb", 0.25F, 0.25F);
     public static final RegistryObject<EntityType<DriveOrbEntity>> TYPE_DRIVEORB = createEntityType(DriveOrbEntity::new, DriveOrbEntity::new, EntityClassification.MISC,"entity_drive_orb", 0.25F, 0.25F);
+    public static final RegistryObject<EntityType<FocusOrbEntity>> TYPE_FOCUSORB = createEntityType(FocusOrbEntity::new, FocusOrbEntity::new, EntityClassification.MISC,"entity_focus_orb", 0.25F, 0.25F);
 
     public static final RegistryObject<EntityType<FireEntity>> TYPE_FIRE = createEntityType(FireEntity::new, FireEntity::new, EntityClassification.MISC,"entity_fire", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
@@ -282,6 +284,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_HPORB.get(), HPOrbRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MPORB.get(), MPOrbRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_DRIVEORB.get(), DriveOrbRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_FOCUSORB.get(), FocusOrbRenderer.FACTORY);
+
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE.get(), FireEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD.get(), BlizzardEntityRenderer.FACTORY);

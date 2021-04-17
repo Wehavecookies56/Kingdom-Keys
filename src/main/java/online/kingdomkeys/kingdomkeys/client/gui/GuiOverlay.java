@@ -190,6 +190,14 @@ public class GuiOverlay extends Screen {
 					message = message.replace("A_", "");
 					x += 13;
 				}
+				
+				if(message.startsWith("S_")) {
+					minecraft.textureManager.bindTexture(menuTexture);
+					blit(matrixStack, (int)x, (int)y-2, 100, 102, 12, 12);
+					message = message.replace("S_", "");
+					x += 13;
+				}
+				
 				showText(matrixStack, Utils.translateToLocal(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
 			RenderSystem.color4f(1F, 1F, 1F, 1F);

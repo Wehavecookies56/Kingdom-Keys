@@ -85,6 +85,9 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
             playerData.setDefense(1);
 			SoAState.applyStatsForChoices(playerData);
 
+			playerData.setEquippedShotlock("");
+			playerData.getShotlockList().clear();
+			
 			playerData.clearAbilities();
             playerData.addAbility(Strings.zeroExp, false);
             
