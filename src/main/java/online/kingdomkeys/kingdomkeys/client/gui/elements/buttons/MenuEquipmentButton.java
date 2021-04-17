@@ -118,7 +118,7 @@ public class MenuEquipmentButton extends Button {
                     matrixStack.push();
                     {
                         matrixStack.scale(((gradientWidth + itemWidth + 5) * 2) / (32F), 1.1F, 1);
-                        blit(matrixStack, -13, i - 1, 166, 63, 32, 1);
+                        blit(matrixStack, -14, i - 1, 166, 63, 32, 1);
                     }
                     matrixStack.pop();
                 }

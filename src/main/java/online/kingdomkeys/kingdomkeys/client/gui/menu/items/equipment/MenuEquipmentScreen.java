@@ -81,7 +81,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         });
         
         if (shotlocks != null) {
-            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x11FF44, new MenuShotlockSelectorScreen(new Color(31, 112, 35), 0x22FF22), ItemCategory.TOOL, this, "Shotlock", 0x81FEAA);
+            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 68), 0x11FF44), ItemCategory.TOOL, this, "Shotlock", 0x81FEAA);
             addButton(shotlockSlot);
         }
         
