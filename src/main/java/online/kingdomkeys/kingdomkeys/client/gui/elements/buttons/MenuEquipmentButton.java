@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
@@ -222,7 +223,16 @@ public class MenuEquipmentButton extends Button {
                         //ArmorItem armour = (ArmorItem) stack.getItem();
                         //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)
                     } else if (stack.getItem() instanceof IOrgWeapon) {
-                        //eeTODO org
+                        //TODO org
+                    } else if (stack.getItem() instanceof KKPotionItem) {
+                    	 RenderSystem.pushMatrix();
+                         {
+                             RenderSystem.enableAlphaTest();
+                             RenderSystem.translatef(iconPosX, iconPosY, 0);
+                             RenderSystem.scalef((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
+                             mc.getItemRenderer().renderItemAndEffectIntoGUI(stack, 0, 0);
+                         }
+                         RenderSystem.popMatrix();
                     }
                 }
             }

@@ -694,7 +694,8 @@ public class EntityEvents {
 			
 		}
 		
-		if(event.getEntityLiving() instanceof PlayerEntity) {
+		//This is outside as it should apply the formula if you have been hit by non player too		
+		if(event.getEntityLiving() instanceof PlayerEntity) { 
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			

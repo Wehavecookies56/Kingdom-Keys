@@ -138,7 +138,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 	
 	public void drawPlayer(MatrixStack matrixStack, int order, Member member) {
 		float playerHeight = height * 0.45F;
-		float playerPosX = 150F+ (0.18F * (order) * width);
+		float playerPosX = 140F+ (0.18F * (order) * width);
 		float playerPosY = height * 0.7F;
 		
 		PlayerEntity player = Utils.getPlayerByName(minecraft.world, member.getUsername());
@@ -148,15 +148,20 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			matrixStack.push();
 			{
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-				if(member != null && player != null)
+				if(member != null && player != null) {
+					RenderSystem.pushMatrix();
+					RenderSystem.scalef(0.9F, 0.9F, 1.0F);
+
 					InventoryScreen.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+					RenderSystem.popMatrix();
+				}
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
 			}
 			matrixStack.pop();
 			matrixStack.push();
-			
+			matrixStack.scale(0.9F, 0.9F, 1);
 				RenderSystem.color3f(1, 1, 1);
-				matrixStack.translate(9, 1, 100);
+				matrixStack.translate(1, 20, 100);
 				RenderSystem.enableAlphaTest();
 				RenderSystem.enableBlend();
 				minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
@@ -178,7 +183,8 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			matrixStack.pop();
 			matrixStack.push();
 			{
-				matrixStack.translate(10, 2, 100);
+				matrixStack.scale(0.9F, 0.9F, 1);
+				matrixStack.translate(2, 20, 100);
 				
 				matrixStack.push();
 				{

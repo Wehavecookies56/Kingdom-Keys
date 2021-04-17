@@ -626,7 +626,7 @@ public class InputHandler {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
-            CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
+            CommandMenuGui.submenu = CommandMenuGui.selected == CommandMenuGui.MAGIC ? CommandMenuGui.SUB_MAGIC : CommandMenuGui.ITEMS;
             world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;

@@ -285,8 +285,15 @@
 	"item.kingdomkeys.ice_cream": "Helado de Sal Marina",
 	"item.kingdomkeys.synthesis_bag": "Bolsa de Síntesis",
 	"item.kingdomkeys.proof_of_heart": "Prueba de Corazón",
-	"item.kingdomkeys.kkpotion": "Poción",
-
+	"item.kingdomkeys.potion": "Poción",
+	"item.kingdomkeys.hi_potion": "Ultrapoción",
+	"item.kingdomkeys.mega_potion": "Omnipoción",
+	"item.kingdomkeys.ether": "Éter",
+	"item.kingdomkeys.hi_ether": "Ultraéter",
+	"item.kingdomkeys.mega_ether": "Omniéter",
+	"item.kingdomkeys.elixir": "Elixir",
+	"item.kingdomkeys.mega_lixir": "Omnielixir",
+	
 	"item.kingdomkeys.spellfire": "Hechizo de Piro",
 	"item.kingdomkeys.spellblizzard": "Hechizo de Hielo",
 	"item.kingdomkeys.spellwater": "Hechizo de Aqua",

@@ -168,9 +168,9 @@ public class KKPotionItem extends Item implements IItemCategory {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
     	if(all) {
-    		tooltip.add(new TranslationTextComponent("Restores: "+amount+ (percentage ? "% of your party's "+type.toString() : " "+type.toString().replace("_", " "))));
+    		tooltip.add(new TranslationTextComponent("Restores: "+amount+ (percentage ? "% of your party's "+type.toString().replace("_", " ") : " "+type.toString().replace("_", " "))));
     	} else {
-    		tooltip.add(new TranslationTextComponent("Restores: "+amount+ (percentage ? "% of your "+type.toString() : " "+type.toString().replace("_", " "))));
+    		tooltip.add(new TranslationTextComponent("Restores: "+amount+ (percentage ? "% of your "+type.toString().replace("_", " ") : " "+type.toString().replace("_", " "))));
     	}
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }

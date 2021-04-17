@@ -128,10 +128,10 @@ public class CommandMenuGui extends Screen {
 				if (submenu == SUB_PORTALS) {
 					drawSubPortals(matrixStack, width, height);
 				}
-				if (submenu == SUB_MAGIC || submenu == SUB_TARGET) {
+				if (submenu == SUB_MAGIC || submenu == SUB_TARGET && selected == MAGIC) {
 					drawSubMagic(matrixStack, width, height);
 				}
-				if (submenu == SUB_ITEMS) {
+				if (submenu == SUB_ITEMS || submenu == SUB_TARGET && selected == ITEMS) {
 					drawSubItems(matrixStack, width, height);
 				}
 				if (submenu == SUB_DRIVE) {
@@ -465,11 +465,7 @@ public class CommandMenuGui extends Screen {
 				drawHeader(matrixStack, "ITEMS", SUB_ITEMS);
 			}
 			matrixStack.pop();
-
 			
-			
-			//for (int i = 0; i < items.size(); i++) {
-				//int itemSlot = (int) items.entrySet().toArray()[i];
 			int c = 0;
 			for(Entry<Integer, ItemStack> entry : items.entrySet()) {
 				ItemStack itemStack = entry.getValue();
@@ -480,19 +476,18 @@ public class CommandMenuGui extends Screen {
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size() - c)), 0);
 					matrixStack.scale(scale, scale, scale);
 
-					if (submenu == SUB_ITEMS) {
-						paintWithColorArray(matrixStack, itemsMenuColor, alpha);
-						if (itemSelected == c) {
-							textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-							drawSelectedSlot(matrixStack);
-							drawIcon(matrixStack, selected, SUB_ITEMS);
-						} else { // Not selected
-							textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-							drawUnselectedSlot(matrixStack);
-						}
-						matrixStack.scale(scale, scale, scale);
-						drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(itemStack.getTranslationKey()), textX, 4, 0xFFFFFF);
+					paintWithColorArray(matrixStack, itemsMenuColor, alpha);
+					if (itemSelected == c) {
+						textX = (int) (10 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawSelectedSlot(matrixStack);
+						drawIcon(matrixStack, selected, SUB_ITEMS);
+					} else { // Not selected
+						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+						drawUnselectedSlot(matrixStack);
 					}
+					matrixStack.scale(scale, scale, scale);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(itemStack.getTranslationKey()), textX, 4, 0xFFFFFF);
+					
 				}
 				matrixStack.pop();
 				c++;

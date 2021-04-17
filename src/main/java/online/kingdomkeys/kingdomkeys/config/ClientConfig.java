@@ -170,7 +170,7 @@ public class ClientConfig {
 	        partyYDistance = builder
 	                .comment("Party HUD Y Offset")
 	                .translation(KingdomKeys.MODID + ".config.party_y_offset")
-	                .defineInRange("partyYOffset", 100, -1000, 1000);
+	                .defineInRange("partyYOffset", 60, -1000, 1000);
 	        
 	        builder.pop();
 	        

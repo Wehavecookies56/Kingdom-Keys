@@ -99,6 +99,14 @@ public class ItemModels extends ItemModelProvider {
 		standardItem(Strings.iceCream);
 		standardItem(Strings.emptyBottle);
 		standardItem(Strings.proofOfHeart);
+		standardItem(Strings.potion);
+		standardItem(Strings.hiPotion);
+		standardItem(Strings.megaPotion);
+		standardItem(Strings.ether);
+		standardItem(Strings.hiEther);
+		standardItem(Strings.megaEther);
+		standardItem(Strings.elixir);
+		standardItem(Strings.megaLixir);
 
 		standardDisc(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future);
 		standardDisc(Strings.Disc_Darkness_of_the_Unknown);

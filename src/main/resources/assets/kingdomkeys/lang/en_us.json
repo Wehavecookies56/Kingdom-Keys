@@ -285,7 +285,15 @@
 	"item.kingdomkeys.ice_cream": "Sea Salt Ice Cream",
 	"item.kingdomkeys.synthesis_bag": "Synthesis Bag",
 	"item.kingdomkeys.proof_of_heart": "Proof of Heart",
-	"item.kingdomkeys.kkpotion": "Potion",
+	"item.kingdomkeys.potion": "Potion",
+	"item.kingdomkeys.hi_potion": "Hi-Potion",
+	"item.kingdomkeys.mega_potion": "Mega-Potion",
+	"item.kingdomkeys.ether": "Ether",
+	"item.kingdomkeys.hi_ether": "Hi-Ether",
+	"item.kingdomkeys.mega_ether": "Mega-Ether",
+	"item.kingdomkeys.elixir": "Elixir",
+	"item.kingdomkeys.mega_lixir": "Megalixir",
+	
 
 	"item.kingdomkeys.spellfire": "Fire Spell",
 	"item.kingdomkeys.spellblizzard": "Blizzard Spell",

@@ -425,6 +425,15 @@ public class Strings {
     public static final String
         iceCream = "ice_cream",
         emptyBottle = "empty_bottle",
+        potion = "potion",
+        hiPotion = "hi_potion",
+        megaPotion = "mega_potion",
+		ether = "ether",
+        hiEther = "hi_ether",
+        megaEther = "mega_ether",
+        elixir = "elixir",
+        megaLixir = "mega_lixir",
+                
         synthesisBag = "synthesis_bag",
         
         SpellFire = "spellfire",

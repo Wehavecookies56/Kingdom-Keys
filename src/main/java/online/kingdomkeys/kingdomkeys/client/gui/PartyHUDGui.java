@@ -73,7 +73,7 @@ public class PartyHUDGui extends Screen {
 
 			matrixStack.push();
 			{
-				matrixStack.translate(ModConfigs.partyXPos, ModConfigs.partyYPos, 0);
+				matrixStack.translate(ModConfigs.partyXPos, ModConfigs.partyYPos - 100, 0);
 				for (int i = 0; i < allies.size(); i++) {
 					Member member = allies.get(i);
 					PlayerEntity playerAlly = player.world.getPlayerByUuid(member.getUUID());
@@ -94,8 +94,9 @@ public class PartyHUDGui extends Screen {
 		minecraft.getTextureManager().bindTexture(skin);
 
 		matrixStack.push();
-		{
-			matrixStack.translate(-16, -screenHeight / 4 * ((i + 1) * ModConfigs.partyYDistance / 100f), 0);
+		{			
+			//System.out.println(i+" "+((i + 1) * ModConfigs.partyYDistance / 100f));
+			matrixStack.translate(-16, -screenHeight / 4 * (i * ModConfigs.partyYDistance / 100f), 0);
 
 			// HEAD
 			int headWidth = 32;
