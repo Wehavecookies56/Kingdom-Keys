@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -539,6 +540,19 @@ public class Utils {
 			ModCapabilities.getWorld(sw).read(worldData.write(nbt));
 		});
 		PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
+	}
+
+	//Gets items excluding AIR
+	public static Map<Integer, ItemStack> getEquippedItems(Map<Integer, ItemStack> equippedItems) {
+		Map<Integer, ItemStack> finalMap = new HashMap<Integer, ItemStack>(equippedItems);
+		for(Entry<Integer, ItemStack> entry : equippedItems.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if(ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)){
+				finalMap.remove(entry.getKey());
+			}
+		}
+		
+		return finalMap;
 	}
 	
 }

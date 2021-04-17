@@ -67,6 +67,8 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 		RenderSystem.color4f(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.TOOL;
 		
+
+		
 		KKPotionItem potion;
 		if(ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof KKPotionItem)) {
 			potion = null;
@@ -117,8 +119,8 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 				matrixStack.pop();
 				
 				if(potion != null) {
-					float iconPosX = parent.width * 0.66F;
-					float iconPosY = parent.height * 0.1833F;
+					float iconPosX = parent.width * 0.682F;
+					float iconPosY = parent.height * 0.20F;
 					float iconHeight = parent.height * 0.3148F;
 					RenderHelper.disableStandardItemLighting();
 					RenderHelper.setupGuiFlatDiffuseLighting();

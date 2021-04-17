@@ -13,6 +13,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
@@ -39,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -52,6 +54,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -65,6 +68,7 @@ public class InputHandler {
     List<String> magicsList;
     List<Member> targetsList;
     List<Limit> limitsList;
+    Map<Integer, ItemStack> itemsList;
     
     public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
@@ -119,14 +123,14 @@ public class InputHandler {
                 CommandMenuGui.magicSelected = this.magicsList.size() - 1;
         }
         // InsideItems
-        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
-            if (CommandMenuGui.potionselected > 0) {
-                CommandMenuGui.potionselected--;
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
+            if (CommandMenuGui.itemSelected > 0) {
+                CommandMenuGui.itemSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
-            } else if (CommandMenuGui.potionselected <= 1) {
-                CommandMenuGui.potionselected = this.itemsCommands.size() - 1;
+            } else if (CommandMenuGui.itemSelected <= 1) {
+                CommandMenuGui.itemSelected = this.itemsList.size() - 1;
             }
-        }*/
+        }
         // InsideDrive
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             if (CommandMenuGui.driveSelected > 0) {
@@ -195,15 +199,15 @@ public class InputHandler {
                 CommandMenuGui.magicSelected = 0;
         }
         // InsideItems
-        /*else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
-            if (CommandMenuGui.potionselected < this.itemsCommands.size() - 1) {
-                CommandMenuGui.potionselected++;
+        else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
+            if (CommandMenuGui.itemSelected < this.itemsList.size() - 1) {
+                CommandMenuGui.itemSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
             } else {
-                if (CommandMenuGui.potionselected >= this.itemsCommands.size() - 1)
-                    CommandMenuGui.potionselected = 0;
+                if (CommandMenuGui.itemSelected >= this.itemsList.size() - 1)
+                    CommandMenuGui.itemSelected = 0;
             }
-        }*/
+        }
         // InsideDrive
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             if (CommandMenuGui.driveSelected < this.driveFormsMap.size() - 1) {
@@ -317,19 +321,15 @@ public class InputHandler {
 
             case CommandMenuGui.ITEMS: //Accessing ITEMS submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                	 CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                     
-                    //System.out.println("items");
-                    /*if (!this.itemsCommands.isEmpty()) {
+                    if (!this.itemsList.isEmpty()) {
                         CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
-                        CommandMenuGui.potionselected = 0;
-                        world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
+                        CommandMenuGui.itemSelected = 0;
+                        world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     } else {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                        world.playSound(player, player.getPosition(), ModSounds.error, SoundCategory.MASTER, 1.0f, 1.0f);
+                        world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     }
-                    return;*/
+                    return;
                 }
                 break;
 
@@ -410,36 +410,7 @@ public class InputHandler {
             }
         }
 
-        // Target Selector Submenu
-        if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (this.magicsList.isEmpty()) {
-            } else {/* if (!STATS.getRecharge() || Constants.getCost((String) this.magicsList.get(CommandMenuGui.magicselected)) == -1 && STATS.getMP() > 0) {
-               // Magic.getMagic(player, world, (String) this.magicsList.get(CommandMenuGui.magicselected));
-                CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;*/
-				String magic = magicsList.get(CommandMenuGui.magicSelected);
-				int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost();
-
-            	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
-                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                    CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                    CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            	} else {
-            		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagic.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
-            			Party party = worldData.getPartyFromMember(player.getUniqueID());
-                        CommandMenuGui.targetSelected = party.getMemberIndex(player.getUniqueID());
-                        CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
-    	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                        return;
-            		} else {
-            			PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
-                        CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                        CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            		}
-                    world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-    			}
-            }
-        }
+       
         
      // Limits Submenu
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
@@ -467,14 +438,39 @@ public class InputHandler {
 
         //Items Submenu
         if (CommandMenuGui.selected == CommandMenuGui.ITEMS && CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
-            /*if (this.itemsCommands.isEmpty()) {
-            } else if (!this.itemsCommands.isEmpty()) {
-                ItemKKPotion.getItem(player, world, (String) this.itemsCommands.get(CommandMenuGui.potionselected), CommandMenuGui.potionselected);
+            if (this.itemsList.isEmpty()) {
+            } else if (!this.itemsList.isEmpty()) {
+            	int slot = -1;
+            	int i = 0;
+            	for(Map.Entry<Integer, ItemStack> entry : itemsList.entrySet()) {
+            		if(CommandMenuGui.itemSelected == i) {
+            			slot = entry.getKey();
+            		}
+            		i++;
+            	}
 
-                CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                world.playSound(player, player.getPosition(), ModSounds.select, SoundCategory.MASTER, 1.0f, 1.0f);
-            }*/
+            	if(itemsList.get(slot) != null && itemsList.get(slot).getItem() instanceof KKPotionItem) {
+            		KKPotionItem potion = (KKPotionItem) itemsList.get(slot).getItem();
+            		//potion.potionEffect(player);
+        			Party party = worldData.getPartyFromMember(player.getUniqueID());
+
+            		if(potion.isGlobal() || party == null) {
+            			PacketHandler.sendToServer(new CSUseItemPacket(slot));
+            		} else {
+            			//Target selector
+            			CommandMenuGui.targetSelected = party.getMemberIndex(player.getUniqueID());
+                        CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
+    	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                        return;
+            		}
+            		CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                    CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+                    world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            	} else {
+                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            	}
+               
+            }
         }
         
         //Drive Submenu
@@ -504,7 +500,7 @@ public class InputHandler {
             }
         }
         
-        //Target Selector Submenu
+      //Magic Target Selector Submenu
         if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
             if (this.targetsList.isEmpty()) {
             } else {
@@ -518,6 +514,63 @@ public class InputHandler {
 	                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
             	}
 
+            }
+        }
+        
+      //Items Target Selector Submenu
+        if (CommandMenuGui.selected == CommandMenuGui.ITEMS && CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
+            if (this.targetsList.isEmpty()) {
+            } else {
+            	Member member = targetsList.get(CommandMenuGui.targetSelected);
+            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < ModConfigs.partyRangeLimit) {
+            		int slot = -1;
+                	int i = 0;
+                	for(Map.Entry<Integer, ItemStack> entry : itemsList.entrySet()) {
+                		if(CommandMenuGui.itemSelected == i) {
+                			slot = entry.getKey();
+                		}
+                		i++;
+                	}
+
+                	if(itemsList.get(slot) != null && itemsList.get(slot).getItem() instanceof KKPotionItem) {
+                		KKPotionItem potion = (KKPotionItem) itemsList.get(slot).getItem();
+                		PacketHandler.sendToServer(new CSUseItemPacket(slot, member.getUsername()));
+                	}
+            		CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            	} else {
+	                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            	}
+
+            }
+        }
+        
+        // Magic Submenu
+        if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
+            if (this.magicsList.isEmpty()) {
+            } else {
+				String magic = magicsList.get(CommandMenuGui.magicSelected);
+				int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost();
+
+            	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
+                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                    CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+            	} else {
+            		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagic.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
+            			Party party = worldData.getPartyFromMember(player.getUniqueID());
+                        CommandMenuGui.targetSelected = party.getMemberIndex(player.getUniqueID());
+                        CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
+    	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                        return;
+            		} else {
+            			PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
+                        CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                        CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+            		}
+                    world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+    			}
             }
         }
     }
@@ -881,6 +934,7 @@ public class InputHandler {
 	        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
 	        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
 	        }
+	        this.itemsList = Utils.getEquippedItems(playerData.getEquippedItems());
         }
     }
 }

@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
@@ -127,6 +128,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSShotlockShot.class, CSShotlockShot::encode, CSShotlockShot::decode, CSShotlockShot::handle);
 		HANDLER.registerMessage(packetID++, CSEquipShotlock.class, CSEquipShotlock::encode, CSEquipShotlock::decode, CSEquipShotlock::handle);
 		HANDLER.registerMessage(packetID++, CSEquipItems.class, CSEquipItems::encode, CSEquipItems::decode, CSEquipItems::handle);
+		HANDLER.registerMessage(packetID++, CSUseItemPacket.class, CSUseItemPacket::encode, CSUseItemPacket::decode, CSUseItemPacket::handle);
 
 
 	}

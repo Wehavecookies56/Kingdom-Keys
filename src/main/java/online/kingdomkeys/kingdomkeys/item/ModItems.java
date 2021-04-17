@@ -764,7 +764,14 @@ public class ModItems {
 
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties().group(KingdomKeys.miscGroup))),
 			
-			potion = createNewItem("kkpotion", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 30,false))
+			potion = createNewItem("potion", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 30, true, false)),
+			hiPotion = createNewItem("hi_potion", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 60, true, false)),
+			megaPotion = createNewItem("mega_potion", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 40,true, true)),
+			ether = createNewItem("ether", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 30,true, false)),
+			hiEther = createNewItem("hi_ether", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 60,true, false)),
+			megaEther = createNewItem("mega_ether", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 40,true, true)),
+			elixir = createNewItem("elixir", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP_and_MP, 100,true, false)),
+			megaElixir = createNewItem("mega_elixir", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP_and_MP, 100,true, true))
 	;
 
 

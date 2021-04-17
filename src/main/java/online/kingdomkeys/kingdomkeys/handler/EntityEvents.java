@@ -162,6 +162,8 @@ public class EntityEvents {
 				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayerEntity) player);
+	    		PacketHandler.syncToAllAround(player, playerData);
+
 
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
