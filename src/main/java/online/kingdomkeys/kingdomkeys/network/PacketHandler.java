@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAntiPointsPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShotlock;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
@@ -125,6 +126,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSUseLimitPacket.class, CSUseLimitPacket::encode, CSUseLimitPacket::decode, CSUseLimitPacket::handle);
 		HANDLER.registerMessage(packetID++, CSShotlockShot.class, CSShotlockShot::encode, CSShotlockShot::decode, CSShotlockShot::handle);
 		HANDLER.registerMessage(packetID++, CSEquipShotlock.class, CSEquipShotlock::encode, CSEquipShotlock::decode, CSEquipShotlock::handle);
+		HANDLER.registerMessage(packetID++, CSEquipItems.class, CSEquipItems::encode, CSEquipItems::decode, CSEquipItems::handle);
+
 
 	}
 

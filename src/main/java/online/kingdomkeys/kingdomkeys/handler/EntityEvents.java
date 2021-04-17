@@ -127,6 +127,21 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
 					
 					playerData.addAbility(Strings.zeroExp, false);
+					
+					/*HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
+					for(int i = 0 ; i < 4; i++) {
+						map.put(i,ItemStack.EMPTY);
+					}
+					playerData.equipAllItems(map, true);*/
+				}
+				
+				// TODO (done) Fix for retrocompatibility, remove in a few versions
+				if(playerData.getEquippedItems().size() == 0) {
+					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
+					for(int i = 0 ; i < 4; i++) {
+						map.put(i,ItemStack.EMPTY);
+					}
+					playerData.equipAllItems(map, true);
 				}
 				
 				//Fills the map with empty stacks for every form that requires one.
@@ -173,7 +188,6 @@ public class EntityEvents {
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
-				//System.out.println(playerData.getEquippedShotlock());
 				//playerData.addshotlockToList(KingdomKeys.MODID+":"+Strings.CircularShotlock);
 				//playerData.setFocus(100);
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) {

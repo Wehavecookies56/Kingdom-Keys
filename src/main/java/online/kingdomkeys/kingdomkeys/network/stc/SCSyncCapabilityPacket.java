@@ -48,6 +48,7 @@ public class SCSyncCapabilityPacket {
 	List<String> partyList = new ArrayList<>(10);
 	TreeMap<String, Integer> materialMap = new TreeMap<>();
 	Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
+	Map<Integer, ItemStack> items = new HashMap<>();
 	
 	SoAState soAstate, choice, sacrifice;
 	BlockPos choicePedestal, sacrificePedestal;
@@ -93,6 +94,7 @@ public class SCSyncCapabilityPacket {
 		this.partyList = capability.getPartiesInvited();
 		this.materialMap = capability.getMaterialMap();
 		this.keychains = capability.getEquippedKeychains();
+		this.items = capability.getEquippedItems();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
@@ -178,6 +180,10 @@ public class SCSyncCapabilityPacket {
 		CompoundNBT keychains = new CompoundNBT();
 		this.keychains.forEach((key, value) -> keychains.put(key.toString(), value.serializeNBT()));
 		buffer.writeCompoundTag(keychains);
+		
+		CompoundNBT items = new CompoundNBT();
+		this.items.forEach((key, value) -> items.put(key.toString(), value.serializeNBT()));
+		buffer.writeCompoundTag(items);
 
 		buffer.writeInt(partyList.size());
 		for(int i=0;i<partyList.size();i++) {
@@ -291,6 +297,9 @@ public class SCSyncCapabilityPacket {
 		CompoundNBT keychainsNBT = buffer.readCompoundTag();
 		keychainsNBT.keySet().forEach(key -> msg.keychains.put(new ResourceLocation(key), ItemStack.read((CompoundNBT) keychainsNBT.get(key))));
 		
+		CompoundNBT itemsNBT = buffer.readCompoundTag();
+		itemsNBT.keySet().forEach(key -> msg.items.put(Integer.parseInt(key), ItemStack.read((CompoundNBT) itemsNBT.get(key))));
+		
 		int amount = buffer.readInt();
 		msg.partyList = new ArrayList<String>();
 
@@ -377,6 +386,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setPartiesInvited(message.partyList);
 			playerData.setMaterialMap(message.materialMap);
 			playerData.equipAllKeychains(message.keychains, false);
+			playerData.equipAllItems(message.items, false);
 			playerData.setActiveDriveForm(message.driveForm);
 
 			playerData.setReturnDimension(message.returnDim);

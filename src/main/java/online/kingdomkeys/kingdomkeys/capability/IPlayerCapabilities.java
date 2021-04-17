@@ -137,6 +137,13 @@ public interface IPlayerCapabilities {
 	boolean canEquipKeychain(ResourceLocation form, ItemStack stack);
 	void setNewKeychain(ResourceLocation form, ItemStack stack);
 
+	Map<Integer, ItemStack> getEquippedItems();
+	ItemStack equipItem(int slot, ItemStack stack);
+	ItemStack getEquippedItem(int slot);
+	void equipAllItems(Map<Integer, ItemStack> Items, boolean force);
+	boolean canEquipItem(int slot, ItemStack stack);
+	void setNewItem(int slot, ItemStack stack);
+	
 	List<String> getMagicList();
 	void setMagicList(List<String> list);
 	void addMagicToList(String magic);
@@ -149,6 +156,7 @@ public interface IPlayerCapabilities {
 	
 	String getEquippedShotlock();
 	void setEquippedShotlock(String shotlock);
+
 	
 	LinkedHashMap<String, int[]> getAbilityMap();
 	void setAbilityMap(LinkedHashMap<String,int[]> map);

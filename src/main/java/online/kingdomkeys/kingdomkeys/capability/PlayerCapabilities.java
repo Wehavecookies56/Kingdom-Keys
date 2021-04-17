@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -83,6 +84,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private ItemStack equippedWeapon = ItemStack.EMPTY;
 
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
+	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 
 	//region Main stats, level, exp, str, mag, ap
 	@Override
@@ -728,6 +730,62 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			equippedKeychains.put(form, stack);
 		}
 	}
+	
+	//endregion
+
+	//region Items
+	
+	@Override
+	public Map<Integer, ItemStack> getEquippedItems() {
+		return equippedItems;
+	}
+
+	@Override
+	public ItemStack equipItem(int slot, ItemStack stack) {
+		//Item can be empty stack to unequip
+		if (canEquipItem(slot, stack)) {
+			ItemStack previous = getEquippedItem(slot);
+			equippedItems.put(slot, stack);
+			return previous;
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack getEquippedItem(int slot) {
+		if (equippedItems.containsKey(slot)) {
+			return equippedItems.get(slot);
+		}
+		return null;
+	}
+
+	@Override
+	public void equipAllItems(Map<Integer, ItemStack> Items, boolean force) {
+		//Any Items that cannot be equipped will be removed
+		if(!force)
+			Items.replaceAll((k,v) -> canEquipItem(k,v) ? v : ItemStack.EMPTY);
+		equippedItems = Items;
+	}
+
+	@Override
+	public boolean canEquipItem(int slot, ItemStack stack) {
+		if (getEquippedItem(slot) != null) {
+			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKPotionItem) {
+				//If there is more than 1 item in the stack don't handle it
+				if (stack.getCount() <= 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void setNewItem(int slot, ItemStack stack) {
+		if (!equippedItems.containsKey(slot)) {
+			equippedItems.put(slot, stack);
+		}
+	}
 
 	//endregion
 
@@ -1159,6 +1217,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.equippedShotlock = shotlock;
 	}
 
+	
 	//endregion
 
 }

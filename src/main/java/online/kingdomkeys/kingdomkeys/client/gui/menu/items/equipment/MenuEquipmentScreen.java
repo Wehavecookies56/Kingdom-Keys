@@ -59,6 +59,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
+        Map<Integer, ItemStack> items = playerData.getEquippedItems();
 
         int itemHeight = 14;
 
@@ -80,8 +81,22 @@ public class MenuEquipmentScreen extends MenuBackground {
         });
         
         if (shotlocks != null) {
-            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x22FF22, new MenuShotlockSelectorScreen(new Color(31, 112, 35), 0x22FF22), ItemCategory.TOOL, this, "Shotlock", 0x81FE85);
+            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x11FF44, new MenuShotlockSelectorScreen(new Color(31, 112, 35), 0x22FF22), ItemCategory.TOOL, this, "Shotlock", 0x81FEAA);
             addButton(shotlockSlot);
+        }
+        
+        if(items != null) {
+        	 items.entrySet().stream().forEachOrdered((entry) -> {
+                int slot = entry.getKey();
+                ItemStack item = entry.getValue();
+                MenuEquipmentButton potionSlot;
+                if(slot == 0) {
+                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this, "Item", 0x81FE85);
+                } else {
+                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this);
+                }
+            	addButton(potionSlot);
+             });
         }
 
         //TODO the other slots, items, accesories, etc.

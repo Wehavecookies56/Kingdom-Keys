@@ -762,7 +762,9 @@ public class ModItems {
 			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1))),
     		recipe = createNewItem("recipe", () -> new RecipeItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1))),
 
-			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties().group(KingdomKeys.miscGroup)))
+			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties().group(KingdomKeys.miscGroup))),
+			
+			potion = createNewItem("kkpotion", () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 30,false))
 	;
 
 

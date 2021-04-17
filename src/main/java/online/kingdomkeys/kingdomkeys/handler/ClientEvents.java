@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -114,7 +115,7 @@ public class ClientEvents {
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
-			if (event.player == mc.player && cooldownTicks <= 0 && event.player.getHeldItemMainhand() != null && event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem && Utils.getPlayerShotlock(mc.player) != null) { // Only run this for the local client player
+			if (event.player == mc.player && cooldownTicks <= 0 && event.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || event.player.getHeldItemMainhand().getItem() instanceof OrgWeaponItem) ) { // Only run this for the local client player
 				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 				Shotlock shotlock = Utils.getPlayerShotlock(mc.player);

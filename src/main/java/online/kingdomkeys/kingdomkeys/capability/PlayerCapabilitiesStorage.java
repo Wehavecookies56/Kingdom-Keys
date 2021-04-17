@@ -104,6 +104,10 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         CompoundNBT keychains = new CompoundNBT();
         instance.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.serializeNBT()));
         storage.put("keychains", keychains);
+        
+        CompoundNBT items = new CompoundNBT();
+        instance.getEquippedItems().forEach((slot, item) -> items.put(slot.toString(), item.serializeNBT()));
+        storage.put("items", items);
 
         storage.putInt("hearts", instance.getHearts());
         storage.putInt("org_alignment", instance.getAlignmentIndex());
@@ -207,6 +211,9 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
 
         CompoundNBT keychainsNBT = storage.getCompound("keychains");
         keychainsNBT.keySet().forEach((chain) -> instance.setNewKeychain(new ResourceLocation(chain), ItemStack.read(keychainsNBT.getCompound(chain))));
+        
+        CompoundNBT itemsNBT = storage.getCompound("items");
+        itemsNBT.keySet().forEach((slot) -> instance.setNewItem(Integer.parseInt(slot), ItemStack.read(itemsNBT.getCompound(slot))));
 
         instance.setHearts(storage.getInt("hearts"));
         instance.setAlignment(storage.getInt("org_alignment"));
