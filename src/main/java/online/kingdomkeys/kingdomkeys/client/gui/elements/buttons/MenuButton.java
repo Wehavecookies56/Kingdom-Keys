@@ -51,8 +51,8 @@ public class MenuButton extends MenuButtonBase {
 
 	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, boolean hasTooltip, Button.IPressable onPress) {
 		this(x, y, widthIn, buttonText, type, onPress);
-			if(hasTooltip)
-		this.tip = buttonText+".desc";
+		if(hasTooltip)
+			this.tip = buttonText+".desc";
 	}
 	public String getData() {
 		return data;

@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -20,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.organization.WeaponTreeSelectionScreen;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -64,21 +66,28 @@ public class MenuEquipmentScreen extends MenuBackground {
         int itemHeight = 14;
 
         AtomicInteger offset = new AtomicInteger();
-
-        if (keychains.get(DriveForm.NONE) != null) {
-            MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
+       
+        if (playerData.getAlignment() != Utils.OrgMember.NONE) {
+            MenuEquipmentButton firstslot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);            
             addButton(firstslot);
+
+        	//Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen(playerData.getAlignment()));
+        } else {
+	        if (keychains.get(DriveForm.NONE) != null) {
+	            MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
+	            addButton(firstslot);
+	        }
+	
+	        Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.getValue(f.getKey()).getOrder());
+	
+	        keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
+	            ResourceLocation form = entry.getKey();
+	            ItemStack keychain = entry.getValue();
+	            if (!form.equals(DriveForm.NONE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
+	                addButton(new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293));
+	            }
+	        });
         }
-
-        Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.getValue(f.getKey()).getOrder());
-
-        keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
-            ResourceLocation form = entry.getKey();
-            ItemStack keychain = entry.getValue();
-            if (!form.equals(DriveForm.NONE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
-                addButton(new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293));
-            }
-        });
         
         if (shotlocks != null) {
             MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 68), 0x11FF44), ItemCategory.TOOL, this, "Shotlock", 0x81FEAA);

@@ -44,11 +44,11 @@ public class MenuItemsScreen extends MenuBackground {
     }
 
     public void openItems(IPlayerCapabilities playerData) {
-        if (playerData.getAlignment() == Utils.OrgMember.NONE) {
+        //if (playerData.getAlignment() == Utils.OrgMember.NONE) {
             Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
-        } else {
-            Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen(playerData.getAlignment()));
-        }
+       // } else {
+        //    Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen(playerData.getAlignment()));
+       // }
     }
 
     @Override

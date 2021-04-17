@@ -24,7 +24,10 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -170,71 +173,90 @@ public class MenuEquipmentButton extends Button {
                 }
                 matrixStack.pop();
                 float iconPosX = parent.width * 0.6374F;
-                float iconPosY = parent.height * 0.1833F;
+                float iconPosY = parent.height * 0.17F;
                 float iconHeight = parent.height * 0.3148F;
                 if (stack != null) {
+                	ItemStack item;
                     if (stack.getItem() instanceof IKeychain) {
-                        ItemStack keyblade = new ItemStack(((IKeychain) stack.getItem()).toSummon());
-                        RenderSystem.pushMatrix();
-                        {
-                            RenderSystem.enableAlphaTest();
-                            RenderSystem.translatef(iconPosX, iconPosY, 0);
-                            RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-                            mc.getItemRenderer().renderItemAndEffectIntoGUI(keyblade, 0, 0);
-                        }
-                        RenderSystem.popMatrix();
-                        float strPosX = parent.width * 0.634F;
-                        float strPosY = parent.height * 0.5185F;
-                        float strNumPosX = parent.width * 0.77F;
-                        float magPosY = parent.height * 0.5657F;
-                        int strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
-                        int magic = ((IKeychain) stack.getItem()).toSummon().getMagic(stack);
-                        String strengthStr = String.valueOf(strength);
-                        String magicStr = String.valueOf(magic);
-                        IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-                        int totalStrength = playerData.getStrength() + strength;
-                        int totalMagic = playerData.getMagic() + magic;
-                        String openBracketStr = " [ ";
-                        String openBracketMag = " [ ";
-                        String totalStrengthStr = String.valueOf(totalStrength);
-                        String totalMagicStr = String.valueOf(totalMagic);
-                        if (totalStrengthStr.length() == 1) {
-                            openBracketStr += " ";
-                        }
-                        if (totalMagicStr.length() == 1) {
-                            openBracketMag += " ";
-                        }
+                    	item = new ItemStack(((IKeychain) stack.getItem()).toSummon());
+                    } else {
+                    	item = stack;
+                    }
+                    
+                    RenderSystem.pushMatrix();
+                    {
+                        RenderSystem.enableAlphaTest();
+                        RenderSystem.translatef(iconPosX, iconPosY, 0);
+                        RenderSystem.scalef((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
+                        mc.getItemRenderer().renderItemAndEffectIntoGUI(item, 0, 0);
+                    }
+                    RenderSystem.popMatrix();
+
+                    float strPosX = parent.width * 0.634F;
+                    float strPosY = parent.height * 0.56F;
+                    float strNumPosX = parent.width * 0.77F;
+                    float magPosY = parent.height * 0.60F;
+                    int strength = 0;
+                    int magic = 0;
+                    boolean showData = true;
+                    if (stack.getItem() instanceof IKeychain) {
+                    	strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
+                    	magic = ((IKeychain) stack.getItem()).toSummon().getMagic(stack);
+                    } else if (stack.getItem() instanceof KeybladeItem) {
+                    	strength = ((KeybladeItem) stack.getItem()).getStrength(stack);
+                    	magic = ((KeybladeItem) stack.getItem()).getMagic(stack);
+                    } else if(stack.getItem() instanceof IOrgWeapon) {
+                    	strength = ((OrgWeaponItem)stack.getItem()).getStrength();
+                    	magic = ((OrgWeaponItem)stack.getItem()).getMagic();
+                    } else if (stack.getItem() instanceof ArmorItem) {
+                        //ArmorItem armour = (ArmorItem) stack.getItem();
+                        //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)
+                    	showData = false;
+                    } else if (stack.getItem() instanceof KKPotionItem) {
+                     	showData = false;
+                    } else {
+                    	showData = false;
+                    }
+                    if(showData) {
+	                    String strengthStr = String.valueOf(strength);
+	                    String magicStr = String.valueOf(magic);
+	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+	                    int totalStrength = playerData.getStrength() + strength;
+	                    int totalMagic = playerData.getMagic() + magic;
+	                    String openBracketStr = " [ ";
+	                    String openBracketMag = " [ ";
+	                    String totalStrengthStr = String.valueOf(totalStrength);
+	                    String totalMagicStr = String.valueOf(totalMagic);
+	                    if (totalStrengthStr.length() == 1) {
+	                        openBracketStr += " ";
+	                    }
+	                    if (totalMagicStr.length() == 1) {
+	                        openBracketMag += " ";
+	                    }
 						drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) strPosY, 0xEE8603);
 						drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
 						drawString(matrixStack, fr, openBracketStr, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
 						drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
 						drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr) + fr.getStringWidth(totalStrengthStr), (int) strPosY, 0xBF6004);
-
+	
 						drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) magPosY, 0xEE8603);
 						drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
 						drawString(matrixStack, fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
 						drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
 						drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
-
-                        float tooltipPosX = parent.width * 0.3333F;
-                        float tooltipPosY = parent.height * 0.8F;
-                        Utils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
-                    } else if (stack.getItem() instanceof ArmorItem) {
-                        //ArmorItem armour = (ArmorItem) stack.getItem();
-                        //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)
-                    } else if (stack.getItem() instanceof IOrgWeapon) {
-                        //TODO org
-                    } else if (stack.getItem() instanceof KKPotionItem) {
-                    	 RenderSystem.pushMatrix();
-                         {
-                             RenderSystem.enableAlphaTest();
-                             RenderSystem.translatef(iconPosX, iconPosY, 0);
-                             RenderSystem.scalef((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
-                             mc.getItemRenderer().renderItemAndEffectIntoGUI(stack, 0, 0);
-                         }
-                         RenderSystem.popMatrix();
+	
+						if(stack.getItem() instanceof KeychainItem) {
+							float tooltipPosX = parent.width * 0.3333F;
+	                    	float tooltipPosY = parent.height * 0.8F;
+	                    	Utils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+						} else if(stack.getItem() instanceof KeybladeItem) {
+							float tooltipPosX = parent.width * 0.3333F;
+	                    	float tooltipPosY = parent.height * 0.8F;
+	                    	Utils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+						}
                     }
-                }
+                } 
+                
             }
             RenderHelper.enableStandardItemLighting();
             RenderSystem.color4f(1, 1, 1, 1);

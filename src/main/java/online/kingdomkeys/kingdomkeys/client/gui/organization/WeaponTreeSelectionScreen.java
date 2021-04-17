@@ -9,7 +9,7 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class WeaponTreeSelectionScreen extends Screen {
@@ -194,7 +194,7 @@ public class WeaponTreeSelectionScreen extends Screen {
                 break;
             case CANCEL:
                 //Go back
-                Minecraft.getInstance().displayGuiScreen(new MenuItemsScreen());
+                Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
                 break;
         }
         updateButtons();
