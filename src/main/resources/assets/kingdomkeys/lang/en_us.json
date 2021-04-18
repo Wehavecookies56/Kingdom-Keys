@@ -296,12 +296,12 @@
 	"item.kingdomkeys.elixir": "Elixir",
 	"item.kingdomkeys.mega_lixir": "Megalixir",
 	
-	"potion.desc.hp": "§aHP§f",
-	"potion.desc.mp": "§9MP§f",
-	"potion.desc.hpmp": "§aHP§f and §9MP§f",
-	"potion.desc.drive": "§eDrive§f",
-	"potion.desc.focus": "§6Focus§f",
-	"potion.desc.beginning": "Will restore",
+	"potion.desc.hp": "§aHP§r",
+	"potion.desc.mp": "§9MP§r",
+	"potion.desc.hpmp": "§aHP§r and §9MP§r",
+	"potion.desc.drive": "§eDrive§r",
+	"potion.desc.focus": "§6Focus§r",
+	"potion.desc.beginning": "Will restore %s%s %s ",
 	"potion.desc.toall": "to all your party members in range",
 	"potion.desc.toone": "to the chosen party member",
 	

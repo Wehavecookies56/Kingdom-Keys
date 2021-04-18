@@ -176,8 +176,8 @@ public class Utils {
 	 * @param name the unlocalized string to translate
 	 * @return the translated string
 	 */
-	public static String translateToLocal(String name) {
-		TranslationTextComponent translation = new TranslationTextComponent(name);
+	public static String translateToLocal(String name, Object... args) {
+		TranslationTextComponent translation = new TranslationTextComponent(name, args);
 		return translation.getString();
 	}
 

@@ -168,11 +168,10 @@ public class KKPotionItem extends Item implements IItemCategory {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-    	String beginning = Utils.translateToLocal("potion.desc.beginning");
     	String sType = Utils.translateToLocal("potion.desc."+type.toString().toLowerCase());
+    	String beginning = Utils.translateToLocal("potion.desc.beginning", (int)amount, percentage ? "%":"", sType);
     	String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
-    	
-    	tooltip.add(new TranslationTextComponent("§f"+beginning+" "+(int)amount+ (percentage ? "% "+sType : " "+sType)+" "+end));
+		tooltip.add(new TranslationTextComponent(beginning + end));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
