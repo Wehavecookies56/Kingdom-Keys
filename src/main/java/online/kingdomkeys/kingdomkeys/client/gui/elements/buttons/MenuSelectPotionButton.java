@@ -77,7 +77,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 		if (visible) {
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.setupGuiFlatDiffuseLighting();
-			float itemWidth = parent.width * 0.5F;
+			float itemWidth = parent.width * 0.3F;
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.push();
 			RenderSystem.enableBlend();
@@ -118,7 +118,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 				matrixStack.pop();
 				
 				if(potion != null) {
-					float iconPosX = parent.width * 0.682F;
+					float iconPosX = parent.width * 0.565F;
 					float iconPosY = parent.height * 0.20F;
 					float iconHeight = parent.height * 0.3148F;
 					RenderHelper.disableStandardItemLighting();

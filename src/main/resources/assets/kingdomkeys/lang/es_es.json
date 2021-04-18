@@ -222,7 +222,7 @@
 	"limit.laser_dome.name": "Cúpula Láser", 
 
 	"_comment": "Shotlocks",
-	"shotlock.circular_shotlock.name": "Tino Circular",
+	"shotlock.circular_shotlock.name": "Tiro Circular",
 	"shotlock.dark_volley.name": "Volea Umbría",									
 
 	"_comment": "Blocks",
@@ -295,6 +295,15 @@
 	"item.kingdomkeys.mega_ether": "Omniéter",
 	"item.kingdomkeys.elixir": "Elixir",
 	"item.kingdomkeys.mega_lixir": "Omnielixir",
+
+	"potion.desc.hp": "§aVT§f",
+	"potion.desc.mp": "§9PM§f",
+	"potion.desc.hpmp": "§aVT§f y §9PM§f",
+	"potion.desc.drive": "§eFusion§f",
+	"potion.desc.focus": "§6Tino§f",
+	"potion.desc.beginning": "Restaurará un",
+	"potion.desc.toall": "a todos los miembros del grupo en rango",
+	"potion.desc.toone": "al miembro del grupo elegido",
 	
 	"item.kingdomkeys.spellfire": "Hechizo de Piro",
 	"item.kingdomkeys.spellblizzard": "Hechizo de Hielo",

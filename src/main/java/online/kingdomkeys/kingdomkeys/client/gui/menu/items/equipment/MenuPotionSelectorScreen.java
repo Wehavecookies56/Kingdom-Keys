@@ -45,13 +45,13 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 	public void init() {
 		super.init();
         buttonWidth = ((float)width * 0.07F);
-		float keybladesX = width * 0.1432F;
+		float keybladesX = width * 0.2F;
 		float keybladesY = height * 0.175F;
-		float keybladesWidth = width * 0.5317F;
+		float keybladesWidth = width * 0.35F;
 		float keybladesHeight = height * 0.5972F;
-		float detailsX = width * 0.675F;
-		float detailsWidth = width * 0.1817F;
-		float listX = width * 0.1546F;
+		float detailsX = width * 0.55F;
+		float detailsWidth = width * 0.2F;
+		float listX = width * 0.21F;
 		float listY = height * 0.2546F;
 
 
@@ -63,7 +63,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		ItemStack equippedPotion = playerData.getEquippedItem(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
-		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ?  ((KKPotionItem) equippedPotion.getItem()).getTranslationKey() : "---";
+		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ? ((KKPotionItem) equippedPotion.getItem()).getTranslationKey() : "---";
 
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour));

@@ -57,7 +57,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			}
 		});
 		this.stack = stack;
-		width = (int) (parent.width * 0.264F);
+		width = (int) (parent.width * 0.29F);
 		height = 14;
 		this.colour = colour;
 		this.labelColour = 0xFFEB1C;
@@ -83,7 +83,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 		if (visible) {
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.setupGuiFlatDiffuseLighting();
-			float itemWidth = parent.width * 0.264F;
+			float itemWidth = parent.width * 0.292F;
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.push();
 			RenderSystem.enableBlend();

@@ -24,11 +24,12 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKPotionItem extends Item implements IItemCategory {
 	
 	public static enum PotionType {
-		HP, MP, HP_and_MP, DRIVE, FOCUS
+		HP, MP, HPMP, DRIVE, FOCUS
 	}
 	
 	PotionType type;
@@ -127,7 +128,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     		}
     		PacketHandler.syncToAllAround(player, playerData);
     		break;
-    	case HP_and_MP:
+    	case HPMP:
     		playerData = ModCapabilities.getPlayer(player);
     		mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
@@ -167,11 +168,11 @@ public class KKPotionItem extends Item implements IItemCategory {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-    	if(all) {
-    		tooltip.add(new TranslationTextComponent("Restores: "+amount+ (percentage ? "% of your party's "+type.toString().replace("_", " ") : " "+type.toString().replace("_", " "))));
-    	} else {
-    		tooltip.add(new TranslationTextComponent("Restores: "+amount+ (percentage ? "% of your "+type.toString().replace("_", " ") : " "+type.toString().replace("_", " "))));
-    	}
+    	String beginning = Utils.translateToLocal("potion.desc.beginning");
+    	String sType = Utils.translateToLocal("potion.desc."+type.toString().toLowerCase());
+    	String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
+    	
+    	tooltip.add(new TranslationTextComponent("§f"+beginning+" "+(int)amount+ (percentage ? "% "+sType : " "+sType)+" "+end));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

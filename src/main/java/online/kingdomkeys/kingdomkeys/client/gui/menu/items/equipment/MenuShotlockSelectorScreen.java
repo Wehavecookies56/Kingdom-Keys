@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
 
-	MenuBox keyblades, details;
+	MenuBox keyblades;//, details;
     Button back;
 
 	int buttonColour;
@@ -43,13 +43,13 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 	public void init() {
 		super.init();
         buttonWidth = ((float)width * 0.07F);
-		float keybladesX = width * 0.1432F;
+		float keybladesX = width * 0.2432F;
 		float keybladesY = height * 0.175F;
-		float keybladesWidth = width * 0.5317F;
+		float keybladesWidth = width * 0.5F;
 		float keybladesHeight = height * 0.5972F;
 		float detailsX = width * 0.675F;
 		float detailsWidth = width * 0.1817F;
-		float listX = width * 0.1546F;
+		float listX = width * 0.2546F;
 		float listY = height * 0.2546F;
 
 
@@ -65,7 +65,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		String equippedShotlockName = equippedShotlock == null ? "---" : equippedShotlock.getTranslationKey();
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedShotlockName),"N/A", buttonColour));
+		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedShotlockName),equippedShotlock == null ? "N/A" : "Max: "+equippedShotlock.getMaxLocks(), buttonColour));
 		
 		if(equippedShotlock != null)
 			addButton(new MenuSelectShotlockButton("", (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
@@ -77,14 +77,14 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		}
 
 		keyblades = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight, colour);
-		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight, colour);
+		//details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight, colour);
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
 		keyblades.draw(matrixStack);
-		details.draw(matrixStack);
+		//details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}

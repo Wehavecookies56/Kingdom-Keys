@@ -770,8 +770,8 @@ public class ModItems {
 			ether = createNewItem(Strings.ether, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 30,true, false)),
 			hiEther = createNewItem(Strings.hiEther, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 60,true, false)),
 			megaEther = createNewItem(Strings.megaEther, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 40,true, true)),
-			elixir = createNewItem(Strings.elixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP_and_MP, 100,true, false)),
-			megaLixir = createNewItem(Strings.megaLixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP_and_MP, 100,true, true))
+			elixir = createNewItem(Strings.elixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HPMP, 100,true, false)),
+			megaLixir = createNewItem(Strings.megaLixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HPMP, 100,true, true))
 	;
 
 
