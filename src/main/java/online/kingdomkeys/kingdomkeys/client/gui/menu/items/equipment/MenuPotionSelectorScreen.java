@@ -1,6 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -16,10 +20,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEquipmentButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectPotionButton;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -32,6 +34,8 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 	Color colour;
 	public int slot = -1;
 
+	public Map<KKPotionItem,Integer> addedItemsList = new HashMap<KKPotionItem, Integer>();
+	
 	public MenuPotionSelectorScreen(int slot, Color colour, int buttonColour) {
 		super(Strings.Gui_Menu_Items_Equipment_Weapon, new Color(0,0,255));
 		drawSeparately = true;
@@ -64,7 +68,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		ItemStack equippedPotion = playerData.getEquippedItem(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
 		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ? ((KKPotionItem) equippedPotion.getItem()).getTranslationKey() : "---";
-
+		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour));
 		if(slot >= 0) {
@@ -77,7 +81,14 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 			for (int i = 0; i < minecraft.player.inventory.getSizeInventory(); i++) {
 				if (!ItemStack.areItemStacksEqual(minecraft.player.inventory.getStackInSlot(i), ItemStack.EMPTY)) {
 					if (minecraft.player.inventory.getStackInSlot(i).getItem() instanceof KKPotionItem) {
-						addButton(new MenuSelectPotionButton(minecraft.player.inventory.getStackInSlot(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+						KKPotionItem item = (KKPotionItem) minecraft.player.inventory.getStackInSlot(i).getItem();
+						if(addedItemsList.containsKey(item)) {
+							int amount = addedItemsList.get(item);
+							addedItemsList.replace(item, amount+1);
+						} else {
+							addButton(new MenuSelectPotionButton(minecraft.player.inventory.getStackInSlot(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							addedItemsList.put((KKPotionItem) minecraft.player.inventory.getStackInSlot(i).getItem(), 1);
+						}
 					}
 				}
 			}

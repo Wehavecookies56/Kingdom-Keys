@@ -14,6 +14,7 @@ import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -51,7 +52,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			}
 		});
 		this.stack = stack;
-		width = (int) (parent.width * 0.5F);
+		width = (int) (parent.width * 0.3F);
 		height = 14;
 		this.colour = colour;
 		this.labelColour = 0xFFEB1C;
@@ -98,9 +99,10 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 				itemName = "---";
 			} else {
 				itemName = stack.getDisplayName().getString();
+				String amount = "x"+parent.addedItemsList.get(stack.getItem());
+				drawString(matrixStack, minecraft.fontRenderer,TextFormatting.YELLOW+ amount, x + width - minecraft.fontRenderer.getStringWidth(amount)-3, y + 3, 0xFFFFFF);
 			}
 			drawString(matrixStack, minecraft.fontRenderer, itemName, x + 15, y + 3, 0xFFFFFF);
-			
 			if (selected || isHovered) { //Render stuff on the right
 				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				matrixStack.push();
