@@ -88,6 +88,7 @@ public class CircularShotlockCoreEntity extends ThrowableEntity {
 		
 		if (getCaster() != null && getTargets() != null) {
 			if (ticksExisted == 1) {
+				world.playSound(null, this.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1, 1);
 				for(int i = 0; i< getTargets().size();i++) {
 					Entity target = getTargets().get(i);
 					if(target != null) {

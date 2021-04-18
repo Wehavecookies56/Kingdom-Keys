@@ -70,8 +70,6 @@ public class MenuEquipmentScreen extends MenuBackground {
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
             MenuEquipmentButton firstslot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);            
             addButton(firstslot);
-
-        	//Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen(playerData.getAlignment()));
         } else {
 	        if (keychains.get(DriveForm.NONE) != null) {
 	            MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
@@ -79,7 +77,6 @@ public class MenuEquipmentScreen extends MenuBackground {
 	        }
 	
 	        Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.getValue(f.getKey()).getOrder());
-	
 	        keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
 	            ResourceLocation form = entry.getKey();
 	            ItemStack keychain = entry.getValue();
@@ -90,7 +87,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         }
         
         if (shotlocks != null) {
-            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 68), 0x11FF44), ItemCategory.TOOL, this, "Shotlock", 0x81FEAA);
+            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 68), 0x11FF44), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
             addButton(shotlockSlot);
         }
         
@@ -100,7 +97,7 @@ public class MenuEquipmentScreen extends MenuBackground {
                 ItemStack item = entry.getValue();
                 MenuEquipmentButton potionSlot;
                 if(slot == 0) {
-                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this, "Item", 0x81FE85);
+                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this, Strings.Gui_Menu_Items_Equipment_Items, 0x81FE85);
                 } else {
                 	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this);
                 }

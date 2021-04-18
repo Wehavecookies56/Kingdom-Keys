@@ -10,6 +10,7 @@ import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -23,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
-import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuSelectPotionButton extends MenuButtonBase {
 
@@ -50,7 +51,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			}
 		});
 		this.stack = stack;
-		width = (int) (parent.width * 0.264F);
+		width = (int) (parent.width * 0.5F);
 		height = 14;
 		this.colour = colour;
 		this.labelColour = 0xFFEB1C;
@@ -65,10 +66,8 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.color4f(1, 1, 1, 1);
-		ItemCategory category = ItemCategory.TOOL;
-		
-
-		
+		ItemCategory category = ItemCategory.CONSUMABLE;
+				
 		KKPotionItem potion;
 		if(ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof KKPotionItem)) {
 			potion = null;
@@ -78,7 +77,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 		if (visible) {
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.setupGuiFlatDiffuseLighting();
-			float itemWidth = parent.width * 0.264F;
+			float itemWidth = parent.width * 0.5F;
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.push();
 			RenderSystem.enableBlend();
@@ -166,38 +165,14 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					drawString(matrixStack, fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
 					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
 					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
-
+*/
 					float tooltipPosX = parent.width * 0.3333F;
-					float tooltipPosY = parent.height * 0.8F;*/
-					//Utils.drawSplitString(minecraft.fontRenderer, potion.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
+					float tooltipPosY = parent.height * 0.8F;
+					Utils.drawSplitString(minecraft.fontRenderer, stack.getTooltip(minecraft.player, TooltipFlags.NORMAL).get(1).getString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.setupGuiFlatDiffuseLighting();
-			float labelWidth = parent.width * 0.1953F;
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			matrixStack.push();
-			{
-				RenderSystem.enableBlend();
-				//RenderSystem.enableAlpha();
-				RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
-				matrixStack.translate(x + width + 2.1F, y, 0);
-				matrixStack.scale(0.5F, 0.5F, 1);
-				blit(matrixStack, 0, 0, 219, 34, 15, 28);
-				
-				for (int i = 0; i < (labelWidth * 2) - (17 + 14); i++) {
-					blit(matrixStack, 14 + i, 0, 184, 34, 2, 28);
-				}
-				blit(matrixStack, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
-			}
-			matrixStack.pop();
-			String label = "N/A";
-			/*if (item != null && item.getKeyblade() instanceof KeybladeItem) {
-				KeybladeItem itemRealKeyblade = (KeybladeItem) item.getKeyblade();
-				label = (itemRealKeyblade.getAbility() != null) ? Utils.translateToLocal(itemRealKeyblade.getAbility().getName()): "N/A";
-			}*/
-			float centerX = (labelWidth / 2) - (minecraft.fontRenderer.getStringWidth(label) / 2);
-			drawString(matrixStack, minecraft.fontRenderer, label, (int) (x + width + centerX), y + 3, labelColour);
 		}
 		
 	}

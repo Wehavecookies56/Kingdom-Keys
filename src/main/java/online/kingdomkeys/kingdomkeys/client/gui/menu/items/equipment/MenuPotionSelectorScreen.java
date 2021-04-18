@@ -57,7 +57,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 
         addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
 
-		int itemHeight = 14;
+		int itemHeight = 15;
 
 		int pos = 0;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -66,7 +66,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ?  ((KKPotionItem) equippedPotion.getItem()).getTranslationKey() : "---";
 
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"N/A", buttonColour));
+		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour));
 		if(slot >= 0) {
 			if(!ItemStack.areItemStacksEqual(equippedPotion, ItemStack.EMPTY)) {
 				if (minecraft.player.inventory.getFirstEmptyStack() > -1) {

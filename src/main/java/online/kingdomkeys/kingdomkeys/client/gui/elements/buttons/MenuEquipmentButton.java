@@ -104,8 +104,8 @@ public class MenuEquipmentButton extends Button {
         isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
         Color col = Color.decode(String.valueOf(colour));
         RenderSystem.color4f(1, 1, 1, 1);
-        float labelWidth = parent.width * 0.1348F;
-        float gradientWidth = parent.width * 0.1515F;
+        float labelWidth = parent.width * 0.142F;
+        float gradientWidth = parent.width * 0.175F;
         if (visible) {
             float itemWidth = parent.width * 0.264F;
             mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

@@ -47,6 +47,8 @@
 	"gui.menu.items.stock": "Inventario",
 	"gui.menu.items.stock.desc": "Revisa tu inventario.",
 	"gui.menu.items.equipment.weapon": "Arma",
+	"gui.menu.items.equipment.shotlock": "Tiro Certero",
+	"gui.menu.items.equipment.items": "Objetos",
 	"gui.menu.party": "Grupo",
 	"gui.menu.party.create": "Crear Grupo",
 	"gui.menu.party.create.desc": "Crea un nuevo grupo.",

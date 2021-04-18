@@ -100,6 +100,7 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
 					list.add(bullet);
 					world.addEntity(bullet);
+					world.playSound(null, this.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1, 1);
 				}
 			}
 			

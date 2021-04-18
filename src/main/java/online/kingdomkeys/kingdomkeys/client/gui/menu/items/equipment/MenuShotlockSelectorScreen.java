@@ -55,7 +55,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 
         addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
 
-		int itemHeight = 14;
+		int itemHeight = 15;
 
 		
 		int pos = 0;

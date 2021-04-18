@@ -47,6 +47,8 @@
 	"gui.menu.items.stock": "Stock",
 	"gui.menu.items.stock.desc": "Check your inventory.",
 	"gui.menu.items.equipment.weapon": "Weapon",
+	"gui.menu.items.equipment.shotlock": "Shotlock",
+	"gui.menu.items.equipment.items": "Items",
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
 	"gui.menu.party.create.desc": "Create a new party.",
