@@ -33,7 +33,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CircularShotlockCoreEntity extends ThrowableEntity {
 
-	int maxTicks = 260;
+	int maxTicks = 100;
 	List<ShotlockShotEntity> list = new ArrayList<ShotlockShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
 	float dmg;

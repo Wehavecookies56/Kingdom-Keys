@@ -115,8 +115,8 @@ public class ClientEvents {
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
-			if (event.player == mc.player && cooldownTicks <= 0 && event.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || event.player.getHeldItemMainhand().getItem() instanceof OrgWeaponItem) ) { // Only run this for the local client player
-				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown();
+			if (event.player == mc.player && cooldownTicks <= 0) { // Only run this for the local client player
+				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown() && event.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || event.player.getHeldItemMainhand().getItem() instanceof OrgWeaponItem);
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 				Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
 				if (focusing) {
@@ -134,13 +134,12 @@ public class ClientEvents {
 					
 					if(focusGaugeTemp > 0)
 						focusGaugeTemp-=0.8;
-					//System.out.println(focusGaugeTemp);
+
 					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						RayTraceResult rt = InputHandler.getMouseOverExtended(100);
 						
 						if (rt != null && rt instanceof EntityRayTraceResult) {
 							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
-							//System.out.println(ertr.getEntity());
 							if(ertr.getEntity() instanceof LivingEntity) {
 								playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
 								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon.get(), SoundCategory.PLAYERS, 1F, 1F);
@@ -152,8 +151,6 @@ public class ClientEvents {
 							}
 						}
 					}
-					
-					
 					
 					if(mc.gameSettings.keyBindAttack.isKeyDown()) {
 						if (focusingTicks > 0) {
@@ -172,9 +169,7 @@ public class ClientEvents {
 					}
 				} else {
 					focusingTicks = 0;
-					focusGaugeTemp = playerData.getFocus();
-
-					
+					focusGaugeTemp = playerData.getFocus();					
 				}
 			} else {
 				if(cooldownTicks > 0) {

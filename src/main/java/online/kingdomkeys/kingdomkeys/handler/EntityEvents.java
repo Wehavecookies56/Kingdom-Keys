@@ -130,7 +130,7 @@ public class EntityEvents {
 					playerData.addAbility(Strings.zeroExp, false);
 				}
 				
-				if(!playerData.getKnownRecipeList().contains(ModItems.potion.get().getRegistryName())) {
+				if(!playerData.getKnownRecipeList().contains(ModItems.potion.get().getRegistryName())) { //TODO merge it with above in a few versions.
 					playerData.addKnownRecipe(ModItems.potion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiPotion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.megaPotion.get().getRegistryName());
