@@ -295,15 +295,20 @@
 	"item.kingdomkeys.mega_ether": "Omniéter",
 	"item.kingdomkeys.elixir": "Elixir",
 	"item.kingdomkeys.mega_lixir": "Omnielixir",
+	"item.kingdomkeys.drive_recovery": "Recarga de Fusión",
+	"item.kingdomkeys.hi_drive_recovery": "Recarga de Fusión+",
+	"item.kingdomkeys.refocuser": "Carga Tino",
+	"item.kingdomkeys.hi_refocuser": "UltraCarga Tino",
 
 	"potion.desc.hp": "§aVT§r",
 	"potion.desc.mp": "§9PM§r",
 	"potion.desc.hpmp": "§aVT§r y §9PM§r",
-	"potion.desc.drive": "§eFusion§r",
+	"potion.desc.drive": "§eFusión§r",
 	"potion.desc.focus": "§6Tino§r",
 	"potion.desc.beginning": "Restaurará %s%s de %s ",
 	"potion.desc.toall": "a todos los miembros del grupo en rango",
 	"potion.desc.toone": "al miembro del grupo elegido",
+	
 	
 	"item.kingdomkeys.spellfire": "Hechizo de Piro",
 	"item.kingdomkeys.spellblizzard": "Hechizo de Hielo",

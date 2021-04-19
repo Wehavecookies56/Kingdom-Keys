@@ -764,14 +764,18 @@ public class ModItems {
 
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties().group(KingdomKeys.miscGroup))),
 			
-			potion = createNewItem(Strings.potion, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 30, true, false)),
-			hiPotion = createNewItem(Strings.hiPotion, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 60, true, false)),
-			megaPotion = createNewItem(Strings.megaPotion, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HP, 40,true, true)),
-			ether = createNewItem(Strings.ether, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 30,true, false)),
-			hiEther = createNewItem(Strings.hiEther, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 60,true, false)),
-			megaEther = createNewItem(Strings.megaEther, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.MP, 40,true, true)),
-			elixir = createNewItem(Strings.elixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HPMP, 100,true, false)),
-			megaLixir = createNewItem(Strings.megaLixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1),KKPotionItem.PotionType.HPMP, 100,true, true))
+			potion = createNewItem(Strings.potion, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.HP, 30, true, false)),
+			hiPotion = createNewItem(Strings.hiPotion, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.HP, 60, true, false)),
+			megaPotion = createNewItem(Strings.megaPotion, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.HP, 40, true, true)),
+			ether = createNewItem(Strings.ether, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.MP, 30, true, false)), 
+			hiEther = createNewItem(Strings.hiEther, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.MP, 60, true, false)),
+			megaEther = createNewItem(Strings.megaEther, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.MP, 40, true, true)),
+			elixir = createNewItem(Strings.elixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.HPMP, 100, true, false)), 
+			megaLixir = createNewItem(Strings.megaLixir, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.HPMP, 100, true, true)),
+			driveRecovery = createNewItem(Strings.driveRecovery, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.DRIVE, 300, false, false)),
+			hiDriveRecovery = createNewItem(Strings.hiDriveRecovery, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.DRIVE, 1000, false, false)),
+			refocuser = createNewItem(Strings.refocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 40, true, false)),
+			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 100, true, false))
 	;
 
 

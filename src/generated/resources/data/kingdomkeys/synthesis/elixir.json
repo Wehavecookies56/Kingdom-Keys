@@ -1,0 +1,29 @@
+{
+  "output": {
+    "item": "kingdomkeys:elixir",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_sinister_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_frost_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_sinister_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_gem",
+      "quantity": "2"
+    }
+  ]
+}

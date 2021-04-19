@@ -1,0 +1,25 @@
+{
+  "output": {
+    "item": "kingdomkeys:refocuser",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_shard",
+      "quantity": "3"
+    }
+  ]
+}

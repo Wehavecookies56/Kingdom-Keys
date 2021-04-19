@@ -1,0 +1,25 @@
+{
+  "output": {
+    "item": "kingdomkeys:hi_potion",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lucid_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "3"
+    }
+  ]
+}

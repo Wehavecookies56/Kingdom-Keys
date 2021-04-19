@@ -107,6 +107,10 @@ public class ItemModels extends ItemModelProvider {
 		standardItem(Strings.megaEther);
 		standardItem(Strings.elixir);
 		standardItem(Strings.megaLixir);
+		standardItem(Strings.driveRecovery);
+		standardItem(Strings.hiDriveRecovery);
+		standardItem(Strings.refocuser);
+		standardItem(Strings.hiRefocuser);
 
 		standardDisc(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future);
 		standardDisc(Strings.Disc_Darkness_of_the_Unknown);

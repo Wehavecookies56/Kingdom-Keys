@@ -295,6 +295,10 @@
 	"item.kingdomkeys.mega_ether": "Mega-Ether",
 	"item.kingdomkeys.elixir": "Elixir",
 	"item.kingdomkeys.mega_lixir": "Megalixir",
+	"item.kingdomkeys.drive_recovery": "Drive Recovery",
+	"item.kingdomkeys.hi_drive_recovery": "High Drive Recovery",
+	"item.kingdomkeys.refocuser": "Refocuser",
+	"item.kingdomkeys.hi_refocuser": "Hi-Refocuser",
 	
 	"potion.desc.hp": "§aHP§r",
 	"potion.desc.mp": "§9MP§r",

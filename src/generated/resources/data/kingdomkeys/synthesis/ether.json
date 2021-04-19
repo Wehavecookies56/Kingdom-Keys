@@ -1,0 +1,21 @@
+{
+  "output": {
+    "item": "kingdomkeys:ether",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "2"
+    }
+  ]
+}

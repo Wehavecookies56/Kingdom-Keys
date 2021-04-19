@@ -429,7 +429,11 @@ public class Strings {
         megaEther = "mega_ether",
         elixir = "elixir",
         megaLixir = "mega_lixir",
-                
+        refocuser = "refocuser",
+        hiRefocuser = "hi_refocuser",
+        driveRecovery = "drive_recovery",   
+        hiDriveRecovery = "hi_drive_recovery",
+        
         synthesisBag = "synthesis_bag",
         
         SpellFire = "spellfire",

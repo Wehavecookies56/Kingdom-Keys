@@ -159,8 +159,57 @@ public class KKPotionItem extends Item implements IItemCategory {
     		PacketHandler.syncToAllAround(player, playerData);
     		break;
     	case DRIVE:
+    		playerData = ModCapabilities.getPlayer(player);
+    		float dpAmount = (float) (percentage ? playerData.getMaxDP() * amount / 100 : amount);
+    		playerData.addDP(dpAmount);
+    		player.world.playSound(null, player.getPosition(), ModSounds.potion.get(), SoundCategory.PLAYERS, 1, 1);
+    		if(all) {
+    			//Heal the rest of the party
+    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+    			Party party = worldData.getPartyFromMember(player.getUniqueID());
+    			if(party != null) {
+    				for(Member m : party.getMembers()) {
+    					if(!m.getUUID().equals(player.getUniqueID())) {
+    						PlayerEntity target = player.world.getPlayerByUuid(m.getUUID());
+    						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+    						if(target.getDistance(player) < ModConfigs.partyRangeLimit) {
+	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
+	    			        	targetData.addDP(dpAmount);
+	    			    		player.world.playSound(null, target.getPosition(), ModSounds.potion.get(), SoundCategory.PLAYERS, 1, 1);
+    						}
+    			    		PacketHandler.syncToAllAround(target, targetData);
+    					}
+    				}
+    			}
+    		}
+    		PacketHandler.syncToAllAround(player, playerData);
     		break;
     	case FOCUS:
+    		playerData = ModCapabilities.getPlayer(player);
+    		float focusAmount = (float) (percentage ? playerData.getMaxFocus() * amount / 100 : amount);
+    		playerData.addFocus(focusAmount);
+    		player.world.playSound(null, player.getPosition(), ModSounds.potion.get(), SoundCategory.PLAYERS, 1, 1);
+    		if(all) {
+    			//Heal the rest of the party
+    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+    			Party party = worldData.getPartyFromMember(player.getUniqueID());
+    			if(party != null) {
+    				for(Member m : party.getMembers()) {
+    					if(!m.getUUID().equals(player.getUniqueID())) {
+    						PlayerEntity target = player.world.getPlayerByUuid(m.getUUID());
+    						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+    						if(target.getDistance(player) < ModConfigs.partyRangeLimit) {
+	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
+	    			        	targetData.addFocus(focusAmount);
+	    			    		player.world.playSound(null, target.getPosition(), ModSounds.potion.get(), SoundCategory.PLAYERS, 1, 1);
+    						}
+    			    		PacketHandler.syncToAllAround(target, targetData);
+    					}
+    				}
+    			}
+    		}
+    		PacketHandler.syncToAllAround(player, playerData);
+
     		break;
     	}
     }

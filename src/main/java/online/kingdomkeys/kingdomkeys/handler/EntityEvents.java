@@ -128,12 +128,21 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
 					
 					playerData.addAbility(Strings.zeroExp, false);
-					
-					/*HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
-					for(int i = 0 ; i < 4; i++) {
-						map.put(i,ItemStack.EMPTY);
-					}
-					playerData.equipAllItems(map, true);*/
+				}
+				
+				if(!playerData.getKnownRecipeList().contains(ModItems.potion.get().getRegistryName())) {
+					playerData.addKnownRecipe(ModItems.potion.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.hiPotion.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.megaPotion.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.ether.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.hiEther.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.megaEther.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.elixir.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.megaLixir.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.driveRecovery.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.hiDriveRecovery.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.refocuser.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
 				}
 				
 				// TODO (done) Fix for retrocompatibility, remove in a few versions

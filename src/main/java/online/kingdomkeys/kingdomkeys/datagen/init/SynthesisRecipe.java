@@ -143,5 +143,23 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.SM_MythrilGem).output(Strings.SM_MythrilGem, 1).addType("item").addMaterial(Strings.SM_BetwixtCrystal, 1).addMaterial(Strings.SM_BetwixtGem, 3).addMaterial(Strings.SM_TwilightCrystal, 1).addMaterial(Strings.SM_TwilightGem, 3).addMaterial(Strings.SM_HungryStone, 1);
         getBuilder(Strings.SM_MythrilStone).output(Strings.SM_MythrilStone, 1).addType("item").addMaterial(Strings.SM_BetwixtStone, 1).addMaterial(Strings.SM_BetwixtShard, 3).addMaterial(Strings.SM_TwilightStone, 1).addMaterial(Strings.SM_TwilightShard, 3).addMaterial(Strings.SM_HungryShard, 1);
         getBuilder(Strings.SM_MythrilShard).output(Strings.SM_MythrilShard, 1).addType("item").addMaterial(Strings.SM_BetwixtStone, 1).addMaterial(Strings.SM_BetwixtShard, 3).addMaterial(Strings.SM_TwilightStone, 1).addMaterial(Strings.SM_TwilightShard, 3);
+        
+        getBuilder(Strings.potion).output(Strings.potion, 1).addType("item").addMaterial(Strings.SM_LucidShard, 2).addMaterial(Strings.SM_SoothingShard, 2).addMaterial(Strings.SM_PulsingShard, 2);
+        getBuilder(Strings.hiPotion).output(Strings.hiPotion, 1).addType("item").addMaterial(Strings.SM_LucidStone, 3).addMaterial(Strings.SM_SoothingStone, 3).addMaterial(Strings.SM_PulsingStone, 3).addMaterial(Strings.SM_HungryShard, 1);
+        getBuilder(Strings.megaPotion).output(Strings.megaPotion, 1).addType("item").addMaterial(Strings.SM_LucidGem, 3).addMaterial(Strings.SM_SoothingGem, 3).addMaterial(Strings.SM_PulsingGem, 3).addMaterial(Strings.SM_HungryGem, 1);
+        
+        getBuilder(Strings.ether).output(Strings.ether, 1).addType("item").addMaterial(Strings.SM_WellspringShard, 2).addMaterial(Strings.SM_LightningShard, 2).addMaterial(Strings.SM_WrithingShard, 2);
+        getBuilder(Strings.hiEther).output(Strings.hiEther, 1).addType("item").addMaterial(Strings.SM_PulsingStone, 3).addMaterial(Strings.SM_LightningStone, 3).addMaterial(Strings.SM_WrithingStone, 3).addMaterial(Strings.SM_HungryShard, 1);
+        getBuilder(Strings.megaEther).output(Strings.megaEther, 1).addType("item").addMaterial(Strings.SM_PulsingStone, 3).addMaterial(Strings.SM_LightningStone, 3).addMaterial(Strings.SM_WrithingStone, 3).addMaterial(Strings.SM_HungryGem, 1);
+        
+        getBuilder(Strings.elixir).output(Strings.elixir, 1).addType("item").addMaterial(Strings.SM_PulsingCrystal, 3).addMaterial(Strings.SM_FrostGem, 2).addMaterial(Strings.SM_SinisterStone, 2).addMaterial(Strings.SM_SinisterShard, 2).addMaterial(Strings.SM_HungryGem, 2);
+        getBuilder(Strings.megaLixir).output(Strings.megaLixir, 1).addType("item").addMaterial(Strings.SM_PulsingCrystal, 3).addMaterial(Strings.SM_FrostCrystal, 2).addMaterial(Strings.SM_SinisterCrystal, 2).addMaterial(Strings.SM_SinisterGem, 2).addMaterial(Strings.SM_HungryCrystal, 2);
+        
+        getBuilder(Strings.driveRecovery).output(Strings.driveRecovery, 1).addType("item").addMaterial(Strings.SM_MythrilShard, 3).addMaterial(Strings.SM_WrithingShard, 3).addMaterial(Strings.SM_FrostShard, 1).addMaterial(Strings.SM_LightningShard, 1);
+        getBuilder(Strings.hiDriveRecovery).output(Strings.hiDriveRecovery, 1).addType("item").addMaterial(Strings.SM_MythrilGem, 3).addMaterial(Strings.SM_WrithingGem, 3).addMaterial(Strings.SM_FrostGem, 1).addMaterial(Strings.SM_LightningGem, 1).addMaterial(Strings.SM_HungryCrystal, 1);
+        
+        getBuilder(Strings.refocuser).output(Strings.refocuser, 1).addType("item").addMaterial(Strings.SM_BlazingShard, 3).addMaterial(Strings.SM_LightningShard, 3).addMaterial(Strings.SM_LucidShard, 3).addMaterial(Strings.SM_HungryShard, 1);
+        getBuilder(Strings.hiRefocuser).output(Strings.hiRefocuser, 1).addType("item").addMaterial(Strings.SM_BlazingStone, 3).addMaterial(Strings.SM_LightningStone, 3).addMaterial(Strings.SM_LucidStone, 3).addMaterial(Strings.SM_HungryGem, 1);
+
     }
 }
