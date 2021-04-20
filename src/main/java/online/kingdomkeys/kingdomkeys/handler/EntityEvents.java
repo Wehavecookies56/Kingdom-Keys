@@ -145,6 +145,11 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
 				}
 				
+				if(playerData.getMaxFocus()<100) {
+					playerData.setMaxFocus(100);
+					playerData.setFocus(100);
+				}
+				
 				// TODO (done) Fix for retrocompatibility, remove in a few versions
 				if(playerData.getEquippedItems().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
@@ -966,7 +971,9 @@ public class EntityEvents {
 		newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
 		newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
-
+		newPlayerData.setFocus(oldPlayerData.getFocus());
+		newPlayerData.setMaxFocus(oldPlayerData.getMaxFocus());
+		
 		newPlayerData.setMunny(oldPlayerData.getMunny());
 
 		newPlayerData.setMagicList(oldPlayerData.getMagicList());

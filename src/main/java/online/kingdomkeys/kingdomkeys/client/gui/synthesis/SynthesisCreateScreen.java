@@ -89,7 +89,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		initItems();
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new SynthesisScreen())));
 		// addButton(scrollBar = new MenuScrollBar());
 		super.init();
 		
@@ -140,6 +139,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		addButton(create = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
 		}));
+		
+		addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new SynthesisScreen())));
+
 	}
 
 	@Override
