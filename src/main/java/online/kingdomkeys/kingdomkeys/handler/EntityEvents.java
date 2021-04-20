@@ -996,9 +996,14 @@ public class EntityEvents {
 		newPlayerData.equipWeapon(oldPlayerData.getEquippedWeapon());
 		newPlayerData.setWeaponsUnlocked(oldPlayerData.getWeaponsUnlocked());
 		newPlayerData.setLimitCooldownTicks(oldPlayerData.getLimitCooldownTicks());
+		
+		newPlayerData.setEquippedShotlock(oldPlayerData.getEquippedShotlock());
+		newPlayerData.setShotlockList(oldPlayerData.getShotlockList());
+		newPlayerData.equipAllItems(oldPlayerData.getEquippedItems(), true);
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
+		
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
 

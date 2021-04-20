@@ -118,6 +118,8 @@ public class ClientEvents {
 			if (event.player == mc.player && cooldownTicks <= 0) { // Only run this for the local client player
 				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown() && event.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || event.player.getHeldItemMainhand().getItem() instanceof OrgWeaponItem);
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+				if(playerData == null)
+					return;
 				Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
 				if (focusing) {
 					if (focusingTicks == 0) {
@@ -144,7 +146,7 @@ public class ClientEvents {
 								playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
 								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon.get(), SoundCategory.PLAYERS, 1F, 1F);
 								cost = playerData.getFocus() - focusGaugeTemp;
-								System.out.println(cost);
+
 								if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
 									event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_all.get(), SoundCategory.PLAYERS, 1F, 1F);
 								}
