@@ -145,10 +145,11 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
 				}
 				
-				if(playerData.getMaxFocus()<100) {
+				if(playerData.getMaxFocus()<100) { //TODO merge it with above in a few versions.
 					playerData.setMaxFocus(100);
 					playerData.setFocus(100);
 				}
+				
 				
 				// TODO (done) Fix for retrocompatibility, remove in a few versions
 				if(playerData.getEquippedItems().size() == 0) {

@@ -29,3 +29,5 @@ LICENSE
 LICENSE.txt
 README.md
 README.txt
+logs/latest.log
+logs/debug.log

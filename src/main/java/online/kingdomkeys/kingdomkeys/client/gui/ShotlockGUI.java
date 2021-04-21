@@ -106,6 +106,18 @@ public class ShotlockGUI extends Screen {
 							if(ClientEvents.focusGaugeTemp<= 0)
 								RenderSystem.color4f(1, 0, 0, 1);
 							this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
+							
+							if(ClientEvents.focusGaugeTemp> 0) {
+								minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+								double max = playerData.getFocus();
+								double actual = ClientEvents.focusGaugeTemp;
+								int topOffset = 25;
+								int botOffset = 31;
+								
+								int realGuiHeight = (guiHeight-botOffset) - topOffset;
+								int n = (int)(actual * realGuiHeight / max);
+								blit(matrixStack, 0, (guiHeight-botOffset)-n, 0, (guiHeight-botOffset ) - n, guiWidth, n);
+							}
 							RenderSystem.color4f(1, 1, 1, 1);
 
 						}
