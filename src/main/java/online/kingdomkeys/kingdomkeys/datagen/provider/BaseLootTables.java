@@ -59,9 +59,4 @@ public abstract class BaseLootTables extends LootTableProvider {
             }
         });
     }
-
-    @Override
-    public String getName() {
-        return "Kingdomkeys LootTables";
-    }
 }

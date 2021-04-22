@@ -5,6 +5,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
+import online.kingdomkeys.kingdomkeys.datagen.provider.KKAdvancementProvider;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
@@ -19,5 +20,6 @@ public class DataGeneration {
         generator.addProvider(new KeybladeStats(generator, event.getExistingFileHelper()));
         generator.addProvider(new LootTables(generator));
         generator.addProvider(new SynthesisRecipe(generator, event.getExistingFileHelper()));
+        generator.addProvider(new KKAdvancementProvider(generator));
     }
 }
