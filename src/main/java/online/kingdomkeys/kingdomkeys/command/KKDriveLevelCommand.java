@@ -41,7 +41,7 @@ public class KKDriveLevelCommand extends BaseCommand{
 	
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_drivelevel").requires(source -> source.hasPermissionLevel(3));
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_drivelevel").requires(source -> source.hasPermissionLevel(2));
 		
 		builder.then(Commands.literal("set")
 			.then(Commands.argument("form", StringArgumentType.string()).suggests(SUGGEST_DRIVE_FORMS)

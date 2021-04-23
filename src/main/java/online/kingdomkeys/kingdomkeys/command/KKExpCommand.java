@@ -31,7 +31,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class KKExpCommand extends BaseCommand{ //kk_exp <give/take/set> <amount> [player]
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_exp").requires(source -> source.hasPermissionLevel(3));
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_exp").requires(source -> source.hasPermissionLevel(2));
 		
 		builder.then(Commands.literal("set")
 			.then(Commands.argument("exp", IntegerArgumentType.integer(1,Integer.MAX_VALUE))

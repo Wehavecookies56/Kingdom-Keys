@@ -41,7 +41,7 @@ public class KKMaterialCommand extends BaseCommand{ //kk_material <give/take> <m
 	};
 
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {		
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_material").requires(source -> source.hasPermissionLevel(3));
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_material").requires(source -> source.hasPermissionLevel(2));
 				
 		builder.then(Commands.literal("give")
 				

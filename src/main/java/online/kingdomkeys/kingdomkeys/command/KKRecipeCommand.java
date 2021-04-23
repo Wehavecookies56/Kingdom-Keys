@@ -30,10 +30,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <recipe/all> [player]
-
-	// private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES =
-	// (p_198296_0_, p_198296_1_) ->
-	// ISuggestionProvider.suggestIterable(Lists.allRecipes, p_198296_1_);
 	private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
@@ -43,7 +39,7 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 	};
 
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_recipe").requires(source -> source.hasPermissionLevel(3));
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_recipe").requires(source -> source.hasPermissionLevel(2));
 
 		builder.then(Commands.literal("give").then(Commands.argument("recipe", StringArgumentType.string()).suggests(SUGGEST_RECIPES).then(Commands.argument("targets", EntityArgument.players()).executes(KKRecipeCommand::addRecipe)).executes(KKRecipeCommand::addRecipe)).then(Commands.literal("all").then(Commands.argument("targets", EntityArgument.players()).executes(KKRecipeCommand::addAllRecipes)).executes(KKRecipeCommand::addAllRecipes)));
 

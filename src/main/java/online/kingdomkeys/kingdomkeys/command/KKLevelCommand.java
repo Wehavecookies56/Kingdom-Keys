@@ -31,7 +31,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amount> [player]
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_level").requires(source -> source.hasPermissionLevel(3));
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_level").requires(source -> source.hasPermissionLevel(2));
 		
 		builder.then(Commands.literal("set")
 			.then(Commands.argument("level", IntegerArgumentType.integer(1,100))
