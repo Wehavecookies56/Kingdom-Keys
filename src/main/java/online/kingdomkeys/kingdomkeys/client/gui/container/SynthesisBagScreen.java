@@ -52,7 +52,7 @@ public class SynthesisBagScreen extends ContainerScreen<SynthesisBagContainer> {
 		if (bagLevel < 2) {
 			if(ModCapabilities.getPlayer(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
 				PacketHandler.sendToServer(new CSUpgradeSynthesisBagPacket());
-				onClose();
+				closeScreen();
 			}
 		}
 	}

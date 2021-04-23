@@ -92,11 +92,13 @@ public class GuiMenu_Party_Join extends MenuBackground {
 		}
 		
 		//Show private parties
+		int c = 0;
 		int j = 0;
 		for(j = 0;j<privateParties.size();j++) {
 			Party p = worldData.getPartyFromName(privateParties.get(j));
-			if(p != null)
-				addButton(parties[j] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
+			if(p != null) {
+				addButton(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
+			}
 		}
 		//Show the buttons to join public parties
 		List<Party> partiesList = worldData.getParties();
@@ -104,7 +106,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
 				Party p = partiesList.get(i);
 				if(!privateParties.contains(p.getName())){//TODO test this xD
-					addButton(parties[i+j] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
+					addButton(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
 				}
 			}
 		}

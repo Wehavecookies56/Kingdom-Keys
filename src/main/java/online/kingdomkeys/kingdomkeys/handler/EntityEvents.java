@@ -30,6 +30,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.client.event.GuiScreenEvent.MouseClickedEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -40,6 +41,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
@@ -1044,7 +1046,7 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()))), (ServerPlayerEntity)player);
 		}
 	}
-
+	
 	// Sync drive form on Start Tracking
 	@SubscribeEvent
 	public void playerStartedTracking(PlayerEvent.StartTracking e) {

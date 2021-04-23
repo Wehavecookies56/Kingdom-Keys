@@ -2,7 +2,9 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
+import net.minecraft.world.server.ServerWorld;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
@@ -18,7 +20,7 @@ public class MagicCure extends Magic {
 
 	@Override
 	public void onUse(PlayerEntity player, PlayerEntity caster) {
-		 //	PacketDispatcher.sendToAllAround(new SpawnCureParticles(this, 1), player, 64.0D);
+		((ServerWorld) player.world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), player.getPosX(), player.getPosY()+2.3D, player.getPosZ(), 5, 0D, 0D, 0D, 0D);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		player.heal(playerData.getMaxHP()/3);
 		
@@ -34,7 +36,7 @@ public class MagicCure extends Magic {
                 }
             }
         }*/
-		player.swingArm(Hand.MAIN_HAND);
+		caster.swingArm(Hand.MAIN_HAND);
 	}
 
 }

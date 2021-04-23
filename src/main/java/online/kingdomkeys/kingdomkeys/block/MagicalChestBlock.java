@@ -206,7 +206,8 @@ public class MagicalChestBlock extends ContainerBlock {
 				if (event.getState().hasTileEntity()) {
 					MagicalChestTileEntity te = (MagicalChestTileEntity) event.getWorld().getTileEntity(event.getPos());
 					if (te != null) {
-						if (!te.getOwner().equals(event.getPlayer().getGameProfile().getId())) {
+						//If player is not the same as the owner AND the chest has any keyblade assigned AND the player is in survival
+						if (!te.getOwner().equals(event.getPlayer().getGameProfile().getId()) && te.getKeyblade() != null && (event.getPlayer() != null && !event.getPlayer().isCreative())) {
 							event.setCanceled(true);
 						}
 					}

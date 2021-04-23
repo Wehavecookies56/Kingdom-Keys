@@ -22,7 +22,7 @@ public class MagicAero extends Magic {
 	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		//System.out.println(player.getDisplayName().getString() + " "+caster.getDisplayName().getString());
-		playerData.setAeroTicks((int) (ModCapabilities.getPlayer(caster).getMaxMP() * 3));
+		playerData.setAeroTicks((int) (ModCapabilities.getPlayer(caster).getMaxMP() * 4));
 		PacketHandler.syncToAllAround(player, playerData);
 		caster.swingArm(Hand.MAIN_HAND);
 	}

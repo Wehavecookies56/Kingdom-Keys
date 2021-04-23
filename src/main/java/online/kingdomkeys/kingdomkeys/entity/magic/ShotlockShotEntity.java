@@ -110,10 +110,17 @@ public class ShotlockShotEntity extends ThrowableEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getShooter()) {
 					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
-					remove();
+					super.remove();
 				}
 			}
 			remove();
+		}
+	}
+	
+	@Override
+	public void remove() {
+		if(ticksExisted > 20) {
+			super.remove();
 		}
 	}
 

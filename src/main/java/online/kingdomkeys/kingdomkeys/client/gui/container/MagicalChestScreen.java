@@ -30,9 +30,9 @@ public class MagicalChestScreen extends ContainerScreen<MagicalChestContainer> {
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
-        this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
-        super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
+    	this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
+        this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F, (float)(this.ySize - 93), 4210752);
+        //super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 
 	@Override

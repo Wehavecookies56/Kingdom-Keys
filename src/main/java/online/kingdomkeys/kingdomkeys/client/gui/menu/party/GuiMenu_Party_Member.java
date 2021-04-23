@@ -111,7 +111,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 	
 	public void drawPlayer(MatrixStack matrixStack, int order, Member member) {
 		float playerHeight = height * 0.45F;
-		float playerPosX = 150F+ (0.18F * (order) * width);
+		float playerPosX = 140F+ (0.18F * (order) * width);
 		float playerPosY = height * 0.7F;
 		
 		PlayerEntity player = Utils.getPlayerByName(minecraft.world, member.getUsername());
@@ -121,39 +121,43 @@ public class GuiMenu_Party_Member extends MenuBackground {
 			matrixStack.push();
 			{
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-				if(member != null && player != null)
+				if(member != null && player != null) {
+					RenderSystem.pushMatrix();
+					RenderSystem.scalef(0.9F, 0.9F, 1.0F);
+
 					InventoryScreen.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+					RenderSystem.popMatrix();
+				}
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
 			}
 			matrixStack.pop();
-			int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
-			int infoBoxPosY = (int) (height * 0.54F);
-
 			matrixStack.push();
-			{
+			matrixStack.scale(0.9F, 0.9F, 1);
 				RenderSystem.color3f(1, 1, 1);
-				matrixStack.translate(9, 1, 100);
+				matrixStack.translate(1, 20, 100);
 				RenderSystem.enableAlphaTest();
 				RenderSystem.enableBlend();
 				minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-				blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
+				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
+				int infoBoxPosY = (int) (height * 0.54F);
+				blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 12, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
-					blit(matrixStack, infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
+					blit(matrixStack, infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 2, 22);
 				}
 				blit(matrixStack, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
-				blit(matrixStack, infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
+				blit(matrixStack, infoBoxPosX, infoBoxPosY + 22, 123, 90, 4, 35);
 				for (int i = 0; i < infoBoxWidth + 8; i++) {
-					blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
+					blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 2, 35);
 				}
 				blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
 				RenderSystem.disableAlphaTest();
 				RenderSystem.disableBlend();
-			}
 			matrixStack.pop();
 			matrixStack.push();
 			{
-				matrixStack.translate(10, 2, 100);
+				matrixStack.scale(0.9F, 0.9F, 1);
+				matrixStack.translate(2, 20, 100);
 				
 				matrixStack.push();
 				{

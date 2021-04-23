@@ -27,7 +27,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	IWorldCapabilities worldData;
 	Party party;
 	
-	MenuButton[] players = new MenuButton[4];
+	MenuButton[] players = new MenuButton[Party.PARTY_LIMIT];
 	
 	public GuiMenu_Party_Kick() {
 		super(Strings.Gui_Menu_Party_Leader_Kick, new Color(0,0,255));

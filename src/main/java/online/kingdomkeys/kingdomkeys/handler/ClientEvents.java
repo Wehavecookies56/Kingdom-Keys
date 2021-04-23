@@ -10,6 +10,7 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -179,6 +180,17 @@ public class ClientEvents {
 				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void PlayerClick(ClickInputEvent event) {
+			if(event.isPickBlock()) {
+				Minecraft mc = Minecraft.getInstance();
+				if(mc.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || mc.player.getHeldItemMainhand().getItem() instanceof OrgWeaponItem)){
+					event.setCanceled(true);
+				}
+			}
+		
 	}
 
 }

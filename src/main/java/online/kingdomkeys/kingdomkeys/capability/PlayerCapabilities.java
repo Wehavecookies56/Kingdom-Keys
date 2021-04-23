@@ -116,12 +116,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					double sharedXP = (exp * ((ModConfigs.partyXPShare / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
 					//sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
 
-					for(Member member : party.getMembers()) {
-						for(RegistryKey<World> worldKey : player.world.getServer().func_240770_D_()) {
-							PlayerEntity ally = player.getServer().getWorld(worldKey).getPlayerByUuid(member.getUUID());
-							if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
-								ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false); //Give EXP to other players with the false param to prevent getting in a loop
-								PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayerEntity)ally);
+					if(sharedXP > 0) {
+						for(Member member : party.getMembers()) {
+							for(RegistryKey<World> worldKey : player.world.getServer().func_240770_D_()) {
+								PlayerEntity ally = player.getServer().getWorld(worldKey).getPlayerByUuid(member.getUUID());
+								if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
+									ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false); //Give EXP to other players with the false param to prevent getting in a loop
+									PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayerEntity)ally);
+								}
 							}
 						}
 					}
