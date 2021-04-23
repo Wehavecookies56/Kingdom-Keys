@@ -256,7 +256,7 @@ public class CommandMenuGui extends Screen {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int color = getColor(0xFFFFFF,SUB_MAIN);
 					if(i == MAGIC) {
-						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 || playerData.getMagicCooldownTicks() > 0 || playerData.getRecharge() || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
 					}
 					if(i == ITEMS) {
 						color = getColor(Utils.getEquippedItems(playerData.getEquippedItems()).size() > 0 ? 0xFFFFFF : 0x888888,SUB_MAIN);

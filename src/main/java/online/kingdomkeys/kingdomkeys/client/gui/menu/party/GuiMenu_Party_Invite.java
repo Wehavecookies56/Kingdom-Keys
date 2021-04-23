@@ -83,10 +83,8 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		for(int i = 0;i<buttons.size();i++) {
-			if(!buttons.get(i).getMessage().getString().startsWith("Back")) {
-				buttons.remove(i);
-			}
+		for(int i = 1;i<buttons.size();i++) {
+			buttons.remove(i);
 		}
 		
 		int c = 0;

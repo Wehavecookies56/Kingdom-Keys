@@ -208,9 +208,7 @@ public class EntityEvents {
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
-				//playerData.addshotlockToList(KingdomKeys.MODID+":"+Strings.CircularShotlock);
-				//playerData.setFocus(100);
-				if(!event.player.world.isRemote && event.player.ticksExisted == 5) {
+				if(!event.player.world.isRemote && event.player.ticksExisted == 5) { //TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);
 				}
 				
@@ -231,6 +229,14 @@ public class EntityEvents {
 				if(playerData.getLimitCooldownTicks() > 0 && !event.player.world.isRemote) {
 					playerData.setLimitCooldownTicks(playerData.getLimitCooldownTicks() - 1);
 					if(playerData.getLimitCooldownTicks() <= 0) {
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
+					}
+				}
+				
+				//Magic CD recharge system
+				if(playerData.getMagicCooldownTicks() > 0 && !event.player.world.isRemote) {
+					playerData.setMagicCooldownTicks(playerData.getMagicCooldownTicks() - 1);
+					if(playerData.getMagicCooldownTicks() <= 0) {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) event.player);
 					}
 				}
@@ -385,12 +391,12 @@ public class EntityEvents {
 				if(shouldHandleHighJump(player, playerData)) {
 					handleHighJump(player, playerData);
 				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+				/*if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 					//handleQuickRun(player, playerData);
 				}
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
 					//handleDodgeRoll(player, playerData);
-				}
+				}*/
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
 					handleAerialDodge(player, playerData);
 				}

@@ -1,5 +1,17 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Supplier;
+
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
@@ -13,12 +25,8 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.*;
-import java.util.function.Supplier;
 
 public class SCSyncCapabilityPacket {
 
@@ -60,6 +68,7 @@ public class SCSyncCapabilityPacket {
 	ItemStack equippedWeapon;
 	Set<ItemStack> unlocks;
 	int limitCooldownTicks;
+	int magicCooldownTicks;
 	
 	public SCSyncCapabilityPacket() {
 	}
@@ -112,6 +121,8 @@ public class SCSyncCapabilityPacket {
 		this.equippedWeapon = capability.getEquippedWeapon();
 		this.unlocks = capability.getWeaponsUnlocked();
 		this.limitCooldownTicks = capability.getLimitCooldownTicks();
+		this.magicCooldownTicks = capability.getMagicCooldownTicks();
+
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -231,6 +242,8 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.unlocks.size());
 		unlocks.forEach(buffer::writeItemStack);
 		buffer.writeInt(this.limitCooldownTicks);
+		buffer.writeInt(this.magicCooldownTicks);
+
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -348,6 +361,7 @@ public class SCSyncCapabilityPacket {
 			msg.unlocks.add(buffer.readItemStack());
 		}
 		msg.limitCooldownTicks = buffer.readInt();
+		msg.magicCooldownTicks = buffer.readInt();
 		return msg;
 	}
 
@@ -402,6 +416,9 @@ public class SCSyncCapabilityPacket {
 			playerData.equipWeapon(message.equippedWeapon);
 			playerData.setWeaponsUnlocked(message.unlocks);
 			playerData.setLimitCooldownTicks(message.limitCooldownTicks);
+			playerData.setMagicCooldownTicks(message.magicCooldownTicks);
+			
+			KingdomKeys.proxy.getClientPlayer().getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
 		});
 		ctx.get().setPacketHandled(true);
 	}

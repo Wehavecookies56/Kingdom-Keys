@@ -100,6 +100,9 @@ public interface IPlayerCapabilities {
 	void setAeroTicks(int i);
 	void remAeroTicks(int ticks);
 
+	void setMagicCooldownTicks(int ticks);
+	void remMagicCooldownTicks(int ticks);
+	int getMagicCooldownTicks();
 	
 	void setReflectTicks(int ticks);
 	void remReflectTicks(int ticks);

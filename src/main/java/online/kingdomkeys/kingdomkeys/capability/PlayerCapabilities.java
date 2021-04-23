@@ -48,7 +48,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
-	private int level = 1, exp = 0, expGiven = 0, strength = 1, magic = 1, defense = 1, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, reflectTicks = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, strength = 1, magic = 1, defense = 1, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, reflectTicks = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -1215,13 +1215,27 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public String getEquippedShotlock() {
-		// TODO Auto-generated method stub
 		return equippedShotlock;
 	}
 
 	@Override
 	public void setEquippedShotlock(String shotlock) {
 		this.equippedShotlock = shotlock;
+	}
+
+	@Override
+	public void setMagicCooldownTicks(int ticks) {
+		this.magicCooldown = ticks;
+	}
+
+	@Override
+	public void remMagicCooldownTicks(int ticks) {
+		this.magicCooldown = Math.max(magicCooldown - ticks, 0);
+	}
+
+	@Override
+	public int getMagicCooldownTicks() {
+		return this.magicCooldown;
 	}
 
 	

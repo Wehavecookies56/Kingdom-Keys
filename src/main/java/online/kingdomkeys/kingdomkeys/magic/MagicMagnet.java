@@ -1,11 +1,16 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.Hand;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class MagicMagnet extends Magic {
 
@@ -17,6 +22,10 @@ public class MagicMagnet extends Magic {
 
 	@Override
 	public void onUse(PlayerEntity player, PlayerEntity caster) {
+		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
+		casterData.setMagicCooldownTicks(40);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
+
 		MagnetEntity shot = new MagnetEntity(player.world, player);
 		shot.setCaster(player.getUniqueID());
 		player.world.addEntity(shot);

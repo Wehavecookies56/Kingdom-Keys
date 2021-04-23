@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -23,6 +24,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -143,7 +146,10 @@ public class ClientEvents {
 						
 						if (rt != null && rt instanceof EntityRayTraceResult) {
 							EntityRayTraceResult ertr = (EntityRayTraceResult) rt;
-							if(ertr.getEntity() instanceof LivingEntity) {
+							Party p = ModCapabilities.getWorld(mc.world).getPartyFromMember(event.player.getUniqueID());
+							LivingEntity target = (LivingEntity) ertr.getEntity();
+
+							if (p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 								playerData.addShotlockEnemy(ertr.getEntity().getEntityId());
 								event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon.get(), SoundCategory.PLAYERS, 1F, 1F);
 								cost = playerData.getFocus() - focusGaugeTemp;
@@ -152,6 +158,7 @@ public class ClientEvents {
 									event.player.world.playSound(event.player, event.player.getPosition(), ModSounds.shotlock_lockon_all.get(), SoundCategory.PLAYERS, 1F, 1F);
 								}
 							}
+							
 						}
 					}
 					
