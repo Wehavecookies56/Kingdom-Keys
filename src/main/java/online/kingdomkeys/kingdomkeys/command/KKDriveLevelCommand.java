@@ -79,9 +79,9 @@ public class KKDriveLevelCommand extends BaseCommand{
 
 			DriveForm formInstance = ModDriveForms.registry.getValue(new ResourceLocation(form));
 			
-			if(player != context.getSource().asPlayer()) {
+			
 				context.getSource().sendFeedback(new TranslationTextComponent("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
-			}
+			
 			player.sendMessage(new TranslationTextComponent("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level), Util.DUMMY_UUID);
 		}
 		return 1;

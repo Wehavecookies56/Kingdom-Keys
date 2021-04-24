@@ -19,9 +19,8 @@ public class BaseCommand {
 	 * @throws CommandSyntaxException
 	 */
 	public static Collection<ServerPlayerEntity> getPlayers(CommandContext<CommandSource> context, int numOfParams) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players;
+		Collection<ServerPlayerEntity> players = new ArrayList<>();
 		if(context.getInput().split(" ").length == numOfParams) {
-			players = new ArrayList<>();
 			players.add(context.getSource().asPlayer());
 		} else {
 			players = EntityArgument.getPlayers(context, "targets");

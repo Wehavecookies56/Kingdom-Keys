@@ -114,9 +114,9 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 			player.heal(playerData.getMaxHP());
 			playerData.setMP(playerData.getMaxMP());
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-			if(player != context.getSource().asPlayer()) {
+			
 				context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" level to "+level), true);
-			}
+			
 			player.sendMessage(new TranslationTextComponent("Your level is now "+level),Util.DUMMY_UUID);
 		}
 		return 1;
@@ -130,9 +130,9 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMunny(playerData.getMunny() + value);
-			if(player != context.getSource().asPlayer()) {
+			
 				context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getString()), true);
-			}
+			
 			player.sendMessage(new TranslationTextComponent("Your munny has been increased by "+value),Util.DUMMY_UUID);	
 		}
 		return 1;
@@ -146,9 +146,9 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMunny(playerData.getMunny() - value);
-			if(player != context.getSource().asPlayer()) {
+			
 				context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" munny from "+player.getDisplayName().getString()), true);
-			}
+			
 			player.sendMessage(new TranslationTextComponent("Your munny has been decreased by "+value),Util.DUMMY_UUID);
 		}
 		return 1;

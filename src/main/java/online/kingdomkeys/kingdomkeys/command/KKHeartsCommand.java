@@ -66,9 +66,9 @@ public class KKHeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <a
 	private static int setValue(CommandContext<CommandSource> context, int value, ServerPlayerEntity player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setHearts(value);
-		if(player != context.getSource().asPlayer()) {
+		
 			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
-		}
+		
 		player.sendMessage(new TranslationTextComponent("Your hearts have been set to "+value),Util.DUMMY_UUID);
 		return 1;
 	}
@@ -85,9 +85,9 @@ public class KKHeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <a
 	private static int addValue(CommandContext<CommandSource> context, int value, ServerPlayerEntity player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addHearts(value);
-		if(player != context.getSource().asPlayer()) {
+		
 			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
-		}
+		
 		player.sendMessage(new TranslationTextComponent("Your hearts have been increased by "+value),Util.DUMMY_UUID);
 		return 1;
 	}
@@ -105,9 +105,9 @@ public class KKHeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <a
 	private static int removeValue(CommandContext<CommandSource> context, int value, ServerPlayerEntity player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.removeHearts(value);
-		if(player != context.getSource().asPlayer()) {
+		
 			context.getSource().sendFeedback(new TranslationTextComponent("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
-		}
+		
 		player.sendMessage(new TranslationTextComponent("Your hearts have been decreased by "+value),Util.DUMMY_UUID);
 		return 1;
 	}

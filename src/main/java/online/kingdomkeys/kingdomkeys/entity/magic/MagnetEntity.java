@@ -64,8 +64,10 @@ public class MagnetEntity extends ThrowableEntity {
 			this.remove();
 		}
 
-		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
-		// getPosZ(), 1, 1, 0);
+		if(world == null || ModCapabilities.getWorld(world) == null || getCaster() == null)
+			return;
+		
+		
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
 		if (ticksExisted >= 3 && ticksExisted % 2 == 0) {
@@ -86,7 +88,7 @@ public class MagnetEntity extends ThrowableEntity {
 			this.setMotion(0, 0, 0);
 			this.velocityChanged = true;
 			
-
+			
 			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(4,5,4));
 			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
 

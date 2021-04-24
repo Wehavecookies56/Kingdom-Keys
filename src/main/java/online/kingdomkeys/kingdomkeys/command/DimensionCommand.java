@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.command;
 
-
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -33,10 +32,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class DimensionCommand extends BaseCommand {
-	
+
 	private static final SuggestionProvider<CommandSource> SUGGEST_DIMENSIONS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
-		//TODO find how to get all registered dimensions
+		// TODO find how to get all registered dimensions
 		list.add("overworld");
 		list.add("the_nether");
 		list.add("the_end");
@@ -44,50 +43,43 @@ public class DimensionCommand extends BaseCommand {
 		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 
+	public static void register(CommandDispatcher<CommandSource> dispatcher) {
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_dimension").requires(source -> source.hasPermissionLevel(2));
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_dimension").requires(source -> source.hasPermissionLevel(2));
+		builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS).then(Commands.argument("targets", EntityArgument.players()).executes(DimensionCommand::changeDim)).executes(DimensionCommand::changeDim));
 
-        builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS)
-	        .then(Commands.argument("targets", EntityArgument.players())
-	        		.executes(DimensionCommand::changeDim)
-	        	)
-			.executes(DimensionCommand::changeDim)
-        );
+		dispatcher.register(builder);
+		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+	}
 
-        dispatcher.register(builder);
-        KingdomKeys.LOGGER.warn("Registered command "+builder.getLiteral());
-    }
-
-    private static int changeDim(CommandContext<CommandSource> context) throws CommandSyntaxException {
-        Collection<ServerPlayerEntity> players = getPlayers(context, 2);
+	private static int changeDim(CommandContext<CommandSource> context) throws CommandSyntaxException {
+		Collection<ServerPlayerEntity> players = getPlayers(context, 2);
 		String dim = StringArgumentType.getString(context, "dim");
 		RegistryKey<World> dimension = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(dim));
-		
-		if(dimension == null) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Invalid dimension "+dim), true);
+
+		if (dimension == null) {
+			context.getSource().sendFeedback(new TranslationTextComponent("Invalid dimension " + dim), true);
 			return 1;
 		}
 		for (ServerPlayerEntity player : players) {
-        	BlockPos coords = getWorldCoords(player,dimension);
-            player.changeDimension(player.getServer().getWorld(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			
-			if(player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Teleported" +player.getDisplayName().getString()+" to dimension "+dimension.getRegistryName().toString()), true);
-			}
-			player.sendMessage(new TranslationTextComponent("You have been teleported to "+dimension.getLocation().toString()), Util.DUMMY_UUID);
-        }
-        return 1;
-    }
-    
-    private static BlockPos getWorldCoords(PlayerEntity player, RegistryKey<World> dimension) {
-    	if(dimension == ModDimensions.DIVE_TO_THE_HEART) {
-    		return new BlockPos(0,26,0);
-    	}
+			BlockPos coords = getWorldCoords(player, dimension);
+			player.changeDimension(player.getServer().getWorld(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+
+			context.getSource().sendFeedback(new TranslationTextComponent("Teleported" + player.getDisplayName().getString() + " to dimension " + dimension.getRegistryName().toString()), true);
+
+			player.sendMessage(new TranslationTextComponent("You have been teleported to " + dimension.getLocation().toString()), Util.DUMMY_UUID);
+		}
+		return 1;
+	}
+
+	private static BlockPos getWorldCoords(PlayerEntity player, RegistryKey<World> dimension) {
+		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
+			return new BlockPos(0, 26, 0);
+		}
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (dimension == playerData.getReturnDimension()) {
 			return new BlockPos(playerData.getReturnLocation());
 		}
 		return new BlockPos(0, 64, 0);
-    }
+	}
 }
