@@ -664,30 +664,19 @@ public class EntityEvents {
 		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 			
-			ItemStack heldOrgWeapon = null;
-			ItemStack stack = null;
+			ItemStack weapon = null;
+			System.out.println(event.getSource().damageType);
+			weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			
-			stack = Utils.getKeybladeDamageStack(event.getSource(), player);
-			
-			if(stack != null) {
-				float dmg = DamageCalculation.getKBStrengthDamage(player, stack);
-				event.setAmount(dmg);
-
-			} else {
-				if (player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
-					heldOrgWeapon = player.getHeldItemMainhand();
-				} else if(player.getHeldItemOffhand().getItem() instanceof IOrgWeapon) {
-					heldOrgWeapon = player.getHeldItemOffhand();
+			if(weapon != null) {
+				float dmg = 0;
+				if(weapon.getItem() instanceof KeybladeItem) {
+					dmg = DamageCalculation.getKBStrengthDamage(player, weapon);
+				} else if(weapon.getItem() instanceof IOrgWeapon) {
+					dmg = DamageCalculation.getOrgStrengthDamage(player, weapon);
 				}
-			}
-
-			
-			//if(ModCapabilities.getPlayer(player).getAlignment() != OrgMember.NONE && ModCapabilities.getPlayer(player).getAlignment() != OrgMember.ROXAS) {
-			if(heldOrgWeapon != null && event.getSource().getImmediateSource() instanceof PlayerEntity) {
-				float dmg = DamageCalculation.getOrgStrengthDamage(player, heldOrgWeapon);
 				event.setAmount(dmg);
 			}
-			//}
 			
 			if(ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
 				event.setAmount(ModCapabilities.getPlayer(player).getStrength());
@@ -764,7 +753,7 @@ public class EntityEvents {
 					if (globalData.getStoppedTicks() > 0) {
 						float dmg = event.getAmount();
 						if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-							ItemStack stack = Utils.getKeybladeDamageStack(event.getSource(), source);
+							ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
 							if(stack != null) {
 								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
 							}
@@ -832,7 +821,7 @@ public class EntityEvents {
 				}
 				if(event.getEntityLiving() instanceof IKHMob) {
 					IKHMob heartless = (IKHMob) event.getEntityLiving();
-					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && Utils.getKeybladeDamageStack(event.getSource(), player) != null && Utils.getKeybladeDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
+					if(heartless.getMobType() == MobType.HEARTLESS_EMBLEM && Utils.getWeaponDamageStack(event.getSource(), player) != null && Utils.getWeaponDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
 						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
 						heart.setPosition(event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY() + 1, event.getEntityLiving().getPosZ());
 						event.getEntityLiving().world.addEntity(heart);

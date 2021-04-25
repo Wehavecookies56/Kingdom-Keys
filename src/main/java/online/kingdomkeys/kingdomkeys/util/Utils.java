@@ -48,6 +48,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
@@ -188,15 +189,15 @@ public class Utils {
 	 * @param player
 	 * @return
 	 */
-	public static ItemStack getKeybladeDamageStack(DamageSource damageSource, PlayerEntity player) {
+	public static ItemStack getWeaponDamageStack(DamageSource damageSource, PlayerEntity player) {
 		switch (damageSource.damageType) {
 		case "player":
-			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
+			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem || player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
 				return player.getHeldItemMainhand();
 			}
 			break;
 		case "keybladeOffhand":
-			if (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
+			if (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem || player.getHeldItemOffhand().getItem() instanceof IOrgWeapon) {
 				return player.getHeldItemOffhand();
 			}
 		}
