@@ -7,9 +7,9 @@ public interface IGlobalCapabilities {
 	void subStoppedTicks(int time);
 	
 	//Stop damage
-	int getDamage();
-	void setDamage(int dmg);
-	void addDamage(int dmg);
+	float getDamage();
+	void setDamage(float dmg);
+	void addDamage(float dmg);
 	void setStopCaster(String name);
 	String getStopCaster();
 	

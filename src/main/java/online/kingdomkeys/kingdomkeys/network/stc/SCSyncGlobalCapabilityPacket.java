@@ -11,7 +11,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
-	private int stoppedTicks, stopDmg, flatTicks;
+	private int stoppedTicks, flatTicks;
+	private float stopDmg;
 
 	public SCSyncGlobalCapabilityPacket() {
 	}
@@ -24,14 +25,14 @@ public class SCSyncGlobalCapabilityPacket {
 
 	public void encode(PacketBuffer buffer) {
 		buffer.writeInt(this.stoppedTicks);
-		buffer.writeInt(this.stopDmg);
+		buffer.writeFloat(this.stopDmg);
 		buffer.writeInt(this.flatTicks);
 	}
 
 	public static SCSyncGlobalCapabilityPacket decode(PacketBuffer buffer) {
 		SCSyncGlobalCapabilityPacket msg = new SCSyncGlobalCapabilityPacket();
 		msg.stoppedTicks = buffer.readInt();
-		msg.stopDmg = buffer.readInt();
+		msg.stopDmg = buffer.readFloat();
 		msg.flatTicks = buffer.readInt();
 		return msg;
 	}

@@ -54,6 +54,8 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
@@ -315,12 +317,11 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
-		//globalData.setFlatTicks(10);
 		IPlayerCapabilities playerData = null;
 		PlayerEntity player = null;
 		if (event.getEntityLiving() instanceof PlayerEntity) {
 			player = (PlayerEntity) event.getEntityLiving();
-			playerData = ModCapabilities.getPlayer((PlayerEntity) event.getEntityLiving());
+			playerData = ModCapabilities.getPlayer(player);
 		}
 
 		//MinecraftForge.EVENT_BUS.post(new EntityEvent.EyeHeight(player, player.getPose(), player.getSize(player.getPose()), player.getHeight()));
@@ -339,8 +340,9 @@ public class EntityEvents {
                 	}
 					
 					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
+				//	System.out.println(globalData.getDamage());
 					if (globalData.getDamage() > 0 && globalData.getStopCaster() != null) {
-						event.getEntityLiving().attackEntityFrom(DamageSource.causePlayerDamage(Utils.getPlayerByName(event.getEntity().world, globalData.getStopCaster())), globalData.getDamage()/2);
+						event.getEntityLiving().attackEntityFrom(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().world, globalData.getStopCaster())), globalData.getDamage()/2);
 					}
 					
 					if (event.getEntityLiving() instanceof ServerPlayerEntity) // Packet to unfreeze client
@@ -391,12 +393,6 @@ public class EntityEvents {
 				if(shouldHandleHighJump(player, playerData)) {
 					handleHighJump(player, playerData);
 				}
-				/*if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-					//handleQuickRun(player, playerData);
-				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
-					//handleDodgeRoll(player, playerData);
-				}*/
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
 					handleAerialDodge(player, playerData);
 				}
@@ -611,7 +607,6 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().inventory.getStackInSlot(i);
 					if (!ItemStack.areItemStacksEqual(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.synthesisBag.get()) {
-						//	System.out.println("Found bag");
 							IItemHandler inv = bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
 							addSynthesisMaterialToBag(inv, event, bag);
 						}
@@ -665,10 +660,10 @@ public class EntityEvents {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 			
 			ItemStack weapon = null;
-			System.out.println(event.getSource().damageType);
 			weapon = Utils.getWeaponDamageStack(event.getSource(), player);
-			
-			if(weapon != null) {
+			//TODO issue
+			System.out.println(event.getSource());
+			if(weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
 				if(weapon.getItem() instanceof KeybladeItem) {
 					dmg = DamageCalculation.getKBStrengthDamage(player, weapon);
@@ -755,18 +750,19 @@ public class EntityEvents {
 						if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 							ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
 							if(stack != null) {
-								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
+								if(stack.getItem() instanceof KeybladeItem) {
+									dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
+								} else if(stack.getItem() instanceof IOrgWeapon){
+									dmg = DamageCalculation.getOrgStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), stack);
+								}
 							}
-							/*if(source.getHeldItemMainhand() != null && source.getHeldItemMainhand().getItem() instanceof KeybladeItem) {
-								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemMainhand());
-							} else if(source.getHeldItemOffhand() != null && source.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-								dmg = DamageCalculation.getKBStrengthDamage((PlayerEntity) event.getSource().getTrueSource(), source.getHeldItemOffhand());
-							}*/
+							
 							if(dmg == 0) {
 								dmg = event.getAmount();
 							}
 						}
-						globalData.addDamage((int) dmg);
+					//	System.out.println(dmg);
+						globalData.addDamage(dmg);
 						event.setCanceled(true);
 					}
 				}

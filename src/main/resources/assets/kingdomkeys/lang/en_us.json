@@ -20,6 +20,9 @@
 	"_comment": "DeathMessages",
 	"keybladedamage.death": "%s was slain by %s",
 
+	"_comment": "Container",
+	"container.magical_chest": "Magical Chest", 
+	
 	"_comment": "Menu",
 	"gui.menu.back": "Back",
 	"gui.menu.back.desc": "Go back to the previous menu.",
@@ -103,7 +106,7 @@
 	
 	"gui.menu.config.show_hearts": "Show hearts on HUD",
 
-
+	
 	"gui.synthesis": "Item Workshop",
 	"gui.synthesis.synthesise": "Synthesise Items",
 	"gui.synthesis.synthesise.create": "Create",
@@ -240,6 +243,7 @@
 	"block.kingdomkeys.org_portal": "Organization Portal",
 	"block.kingdomkeys.moogle_projector": "Moogle Projector",
 	"block.kingdomkeys.station_of_awakening_core": "Station of Awakening Platform Core",
+	"block.kingdomkeys.magical_chest": "Magical Chest",
 
 	"block.kingdomkeys.blazing_ore": "Blazing Ore",
 	"block.kingdomkeys.blazing_ore_n": "Blazing Ore",

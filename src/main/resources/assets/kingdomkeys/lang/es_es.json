@@ -20,6 +20,9 @@
 	"_comment": "DeathMessages",
 	"keybladedamage.death": "%s ha sido víctima de %s",
 
+	"_comment": "Container",
+	"container.magical_chest": "Cofre Mágico", 
+	
 	"_comment": "Menu",
 	"gui.menu.back": "Atrás",
 	"gui.menu.back.desc": "Vuelve al menú anterior.",
@@ -240,6 +243,7 @@
 	"block.kingdomkeys.org_portal": "Portal de la Organización",
 	"block.kingdomkeys.moogle_projector": "Proyector de Moguri",
 	"block.kingdomkeys.station_of_awakening_core": "Núcleo de Estación del Despertar",
+	"block.kingdomkeys.magical_chest": "Cofre Mágico",
 
 	"block.kingdomkeys.blazing_ore": "Mena Ígnea",
 	"block.kingdomkeys.blazing_ore_n": "Mena Ígnea",
