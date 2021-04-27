@@ -1,19 +1,22 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -23,14 +26,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -205,10 +207,121 @@ public class ClientEvents {
 			}
 		}
 	}
+
+	@SubscribeEvent
+	public void WorldRender(RenderWorldLastEvent event) {
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+			MatrixStack matrixStackIn = event.getMatrixStack();
+			EntityRendererManager renderManager = mc.getRenderManager();
+
+			if(playerData.getShotlockEnemies() != null) {
+				for (int entID : playerData.getShotlockEnemies()) {
+					Entity entityIn = mc.world.getEntityByID(entID);
+					//System.out.println(entityIn.getDisplayName().getString());
+					if (playerData.getShotlockEnemies().contains(entityIn.getEntityId())) {
+						float f = entityIn.getHeight();
+						matrixStackIn.push();
+						{							
+							ClientPlayerEntity player = mc.player;
+					        double x = (double) entityIn.getPosX() - (player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * (double) event.getPartialTicks());
+					        double y = (double) entityIn.getPosY() - (player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * (double) event.getPartialTicks());
+					        double z = (double) entityIn.getPosZ() - (player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * (double) event.getPartialTicks());
+							renderManager.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+							//System.out.println(x+" "+y+" "+z);
+					        matrixStackIn.translate(x, y, z);
+					        matrixStackIn.rotate(renderManager.getCameraOrientation());
+					        matrixStackIn.translate(0,-f,-entityIn.getWidth());
+					        matrixStackIn.scale(-0.001F, -0.001F, 0.001F);
+					        RenderSystem.enableBlend();
+							blit(matrixStackIn, -128, -128, 0, 0, 256, 256);
+
+						}
+						matrixStackIn.pop();
+					}
+				}
+			}
+		}
+
+	}
+	
+    public static void render(MatrixStack matrixStack, Entity e, float partialTicks) {
+        Color color = new Color(0);
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+        Entity player = Minecraft.getInstance().getRenderViewEntity();
+        double ix, iy, iz;
+        double x = (double) e.getPosX() - (player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * (double) partialTicks);
+        double y = (double) e.getPosY() - (player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * (double) partialTicks) + player.getHeight();
+        double z = (double) e.getPosZ() - (player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * (double) partialTicks);
+        ix = x;
+        iy = y;
+        iz = z;
+        float distance = (float) Math.sqrt((x + 0.5) * (x + 0.5) + y * y + (z + 0.5) * (z + 0.5));
+        float scaleDistance = 12.0f;
+        float scale = 0.02666667f;
+        float iconScale = (0.02666667f);//*5;
+        if (distance > 12.0f) {
+            int renderDistance = Minecraft.getInstance().gameSettings.renderDistanceChunks * 16;
+            if (distance > (float) renderDistance) {
+                float scaleFactor = (float) renderDistance /distance;
+                x *= scaleFactor;
+                y *= scaleFactor;
+                z *= scaleFactor;
+                // iy *= (MC.gameSettings.renderDistanceChunks * 16) / 18.0f;
+                //     iconScale *= renderDistance/12.0F;
+                scale *= (float) renderDistance / 12.0f;
+            } else {
+                iconScale *= (distance / scaleDistance);
+                scale *= distance / 12.0f;
+            }
+        }
+
+        //sound(GuiScreenKey.isSoundOn);
+        renderIcon(matrixStack, e, ix, iy, iz, red, green, blue, iconScale);
+        
+    }
+    
+    private static void renderIcon(MatrixStack matrix, Entity entity, double x, double y, double z, int red, int green, int blue, float scale) {
+        EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
+        scale *= 5;
+		renderManager.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+		matrix.push();
+        GL11.glNormal3f(0.0f, 1.0f, 0.0f);
+        matrix.translate(x + 0.5, y + 3, z + 0.5);
+       // RenderSystem.rotate(-renderManager.playerViewY, 0.0f, 1.0f, 0.0f);
+       // RenderSystem.rotate(renderManager.playerViewX, 1.0f, 0.0f, 0.0f);
+        matrix.scale(-scale, -scale, scale);
+        matrix.translate(0.0f, 10.0f, 0.0f);
+        matrix.scale(10.0f, 10.0f, 10.0f);
+        RenderSystem.disableLighting();
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+        RenderSystem.disableBlend();
+        RenderSystem.enableTexture();
+        
+        BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		bufferbuilder.pos(-0.5, -0.5, 0.0).tex(1.0F, 1.0F).color(red, green, blue, 255).endVertex();
+		bufferbuilder.pos(-0.5, 0.5, 0.0).tex(1.0F, 0.0F).color(red, green, blue, 255).endVertex();
+		bufferbuilder.pos(0.5, 0.5, 0.0).tex(0.0F, 0.0F).color(red, green, blue, 255).endVertex();
+		bufferbuilder.pos(0.5, -0.5, 0.0).tex(0.0F, 1.0F).color(red, green, blue, 255).endVertex();
+		bufferbuilder.finishDrawing();
+		RenderSystem.enableBlend();
+		WorldVertexBufferUploader.draw(bufferbuilder);
+		
+		RenderSystem.depthMask(true);
+		RenderSystem.enableDepthTest();
+		RenderSystem.enableLighting();
+		matrix.pop();
+    }
 	
 	@SubscribeEvent
 	public void EntityRender(RenderLivingEvent.Post event) {
-		Minecraft mc = Minecraft.getInstance();
+		return;
+		/*Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 			//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
@@ -229,7 +342,7 @@ public class ClientEvents {
 				}
 				matrixStackIn.pop();
 			}
-		}
+		}*/
 	}
 	
 	public void blit(MatrixStack matrixStack, int x, int y, int uOffset, int vOffset, int uWidth, int vHeight) {
