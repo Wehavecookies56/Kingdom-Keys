@@ -2,15 +2,21 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -24,14 +30,15 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
@@ -200,31 +207,54 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void EntityRender(RenderLivingEvent.Pre event) {
+	public void EntityRender(RenderLivingEvent.Post event) {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-			if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
+			//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
+			if(true) {
 				MatrixStack matrixStackIn = event.getMatrixStack();
 				LivingEntity entityIn = event.getEntity();
+				
 				EntityRendererManager renderManager = event.getRenderer().getRenderManager();
 				TranslationTextComponent displayNameIn = new TranslationTextComponent("o");
-				float f = entityIn.getHeight() + 0.5F;
-				int i = 0;
+				float f = entityIn.getHeight();
 				matrixStackIn.push();
 				{
 					matrixStackIn.translate(0.0D, (double) f, 0.0D);
 					matrixStackIn.rotate(renderManager.getCameraOrientation());
-					matrixStackIn.scale(-0.25F, -0.25F, 0.25F);
-
-					Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
-					FontRenderer fontrenderer = renderManager.getFontRenderer();
-					float f2 = (float) (-fontrenderer.getStringPropertyWidth(displayNameIn) / 2);
-					fontrenderer.func_243247_a(displayNameIn, f2, (float) i, 0x00FFFF, false, matrix4f, event.getBuffers(), false, 0, event.getLight());
+					matrixStackIn.scale(-0.001F, -0.001F, 0.001F);
+					event.getRenderer().getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+					blit(matrixStackIn,-128,-128,0,0,256,256);
 				}
 				matrixStackIn.pop();
 			}
 		}
+	}
+	
+	public void blit(MatrixStack matrixStack, int x, int y, int uOffset, int vOffset, int uWidth, int vHeight) {
+		blit(matrixStack, x, y, 0, (float) uOffset, (float) vOffset, uWidth, vHeight, 256, 256);
+	}
+
+	public static void blit(MatrixStack matrixStack, int x, int y, int blitOffset, float uOffset, float vOffset, int uWidth, int vHeight, int textureHeight, int textureWidth) {
+		innerBlit(matrixStack, x, x + uWidth, y, y + vHeight, blitOffset, uWidth, vHeight, uOffset, vOffset, textureWidth, textureHeight);
+	}
+
+	private static void innerBlit(MatrixStack matrixStack, int x1, int x2, int y1, int y2, int blitOffset, int uWidth, int vHeight, float uOffset, float vOffset, int textureWidth, int textureHeight) {
+		innerBlit(matrixStack.getLast().getMatrix(), x1, x2, y1, y2, blitOffset, (uOffset + 0.0F) / (float) textureWidth, (uOffset + (float) uWidth) / (float) textureWidth, (vOffset + 0.0F) / (float) textureHeight, (vOffset + (float) vHeight) / (float) textureHeight);
+	}
+
+	private static void innerBlit(Matrix4f matrix, int x1, int x2, int y1, int y2, int blitOffset, float minU, float maxU, float minV, float maxV) {
+		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		bufferbuilder.pos(matrix, (float) x1, (float) y2, (float) blitOffset).tex(minU, maxV).endVertex();
+		bufferbuilder.pos(matrix, (float) x2, (float) y2, (float) blitOffset).tex(maxU, maxV).endVertex();
+		bufferbuilder.pos(matrix, (float) x2, (float) y1, (float) blitOffset).tex(maxU, minV).endVertex();
+		bufferbuilder.pos(matrix, (float) x1, (float) y1, (float) blitOffset).tex(minU, minV).endVertex();
+		bufferbuilder.finishDrawing();
+		RenderSystem.enableBlend();
+		//RenderSystem.enableDepthTest();
+		WorldVertexBufferUploader.draw(bufferbuilder);
 	}
 	
 	@SubscribeEvent
