@@ -42,7 +42,7 @@ public class RagnarokShotEntityRenderer extends EntityRenderer<RagnarokShotEntit
     		} else {
     			matrixStackIn.scale(0.2F, 0.2F, 0.8F);
     		}
-    		model.render(matrixStackIn, bufferIn.getBuffer(model.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 0.4F, 0.1F, 1F);
+    		model.render(matrixStackIn, bufferIn.getBuffer(model.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 0.7F, 0.1F, 1F);
      	}
      	matrixStackIn.pop();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
