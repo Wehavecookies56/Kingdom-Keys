@@ -235,6 +235,7 @@ public class ModConfigs {
 
     public static double limitLaserCircleMult;
     public static double limitLaserDomeMult;
+    public static double limitArrowRainMult;
     public static double shotlockMult;
     
     public static boolean playerSpawnHeartless;
@@ -253,6 +254,7 @@ public class ModConfigs {
 
         limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
         limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
+        limitArrowRainMult = COMMON.limitArrowRainMult.get();
         playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
         playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
         shotlockMult = COMMON.shotlockMult.get();
@@ -274,6 +276,7 @@ public class ModConfigs {
     
     public static int limitLaserCircleCost;
     public static int limitLaserDomeCost;
+    public static int limitArrowRainCost;
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
@@ -285,6 +288,7 @@ public class ModConfigs {
         
         limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
         limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
+        limitArrowRainCost = SERVER.limitArrowRainCost.get();
 
     }
 

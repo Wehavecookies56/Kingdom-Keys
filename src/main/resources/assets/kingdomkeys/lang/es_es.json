@@ -223,6 +223,7 @@
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Círculo Láser",
 	"limit.laser_dome.name": "Cúpula Láser", 
+	"limit.arrow_rain.name": "Lluvia Flechada",
 
 	"_comment": "Shotlocks",
 	"shotlock.circular_shotlock.name": "Ragnarok",

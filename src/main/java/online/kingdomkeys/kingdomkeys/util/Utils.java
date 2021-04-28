@@ -512,8 +512,7 @@ public class Utils {
 	public static List<Limit> getPlayerLimitAttacks(PlayerEntity player) {
 //		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		List<Limit> limits = new ArrayList<Limit>();
-		limits.add(ModLimits.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+Strings.LaserCircle)));
-		limits.add(ModLimits.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+Strings.LaserDome)));
+		limits.addAll(ModLimits.registry.getValues());
 		//TODO change when we have more member limits
        /* for(Limit val : ModLimits.registry.getValues()) {
         	System.out.println(val.getName());

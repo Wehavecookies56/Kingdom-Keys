@@ -31,12 +31,13 @@ public class Strings {
     // Limits
        public static final String
 			LaserCircle = "laser_circle",
-       		LaserDome = "laser_dome";
+       		LaserDome = "laser_dome",
+       		ArrowRain = "arrow_rain";
        
     // Shotlocks
        public static final String
        		DarkVolley = "dark_volley",
-       		RagnarokShotlock = "circular_shotlock";
+       		Ragnarok = "circular_shotlock";
        
        //Abilities
     public static final String

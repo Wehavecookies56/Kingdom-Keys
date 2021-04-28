@@ -48,7 +48,7 @@ public class LevelStats {
                 break;
             case 11:
                 cap.addStrength(1);
-                cap.addshotlockToList(KingdomKeys.MODID+":"+Strings.RagnarokShotlock, true);
+                cap.addshotlockToList(KingdomKeys.MODID+":"+Strings.Ragnarok, true);
                 break;
             case 12:
                 cap.addMagic(1);

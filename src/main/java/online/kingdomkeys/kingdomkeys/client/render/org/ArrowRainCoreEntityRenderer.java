@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.shotlock;
+package online.kingdomkeys.kingdomkeys.client.render.org;
 
 import javax.annotation.Nullable;
 
@@ -13,23 +13,23 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ArrowRainCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class ShotlockCircularEntityRenderer extends EntityRenderer<RagnarokCoreEntity> {
+public class ArrowRainCoreEntityRenderer extends EntityRenderer<ArrowRainCoreEntity> {
 
-	public static final Factory FACTORY = new ShotlockCircularEntityRenderer.Factory();
+	public static final Factory FACTORY = new ArrowRainCoreEntityRenderer.Factory();
 	BlizzardModel shot;
 
-	public ShotlockCircularEntityRenderer(EntityRendererManager renderManager, BlizzardModel fist) {
+	public ArrowRainCoreEntityRenderer(EntityRendererManager renderManager, BlizzardModel fist) {
 		super(renderManager);
 		this.shot = fist;
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(RagnarokCoreEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(ArrowRainCoreEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -47,14 +47,14 @@ public class ShotlockCircularEntityRenderer extends EntityRenderer<RagnarokCoreE
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(RagnarokCoreEntity entity) {
+	public ResourceLocation getEntityTexture(ArrowRainCoreEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<RagnarokCoreEntity> {
+	public static class Factory implements IRenderFactory<ArrowRainCoreEntity> {
 		@Override
-		public EntityRenderer<? super RagnarokCoreEntity> createRenderFor(EntityRendererManager manager) {
-			return new ShotlockCircularEntityRenderer(manager, new BlizzardModel());
+		public EntityRenderer<? super ArrowRainCoreEntity> createRenderFor(EntityRendererManager manager) {
+			return new ArrowRainCoreEntityRenderer(manager, new BlizzardModel());
 		}
 	}
 }

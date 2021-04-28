@@ -223,6 +223,7 @@
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Laser Circle",
 	"limit.laser_dome.name": "Laser Dome",
+	"limit.arrow_rain.name": "Arrow Rain",
 	
 	"_comment": "Shotlocks",
 	"shotlock.circular_shotlock.name": "Ragnarok",

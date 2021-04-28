@@ -26,7 +26,7 @@ public class ModShotlocks {
 			int order = 0;
 			event.getRegistry().registerAll(
 					new ShotlockDarkVolley(KingdomKeys.MODID + ":" + Strings.DarkVolley, order++, 2, 18),
-					new ShotlockRagnarok(KingdomKeys.MODID + ":" + Strings.RagnarokShotlock, order++, 3, 16)
+					new ShotlockRagnarok(KingdomKeys.MODID + ":" + Strings.Ragnarok, order++, 3, 16)
 			);
 		}
 	}

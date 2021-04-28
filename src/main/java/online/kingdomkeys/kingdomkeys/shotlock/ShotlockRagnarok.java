@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -32,7 +32,7 @@ public class ShotlockRagnarok extends Shotlock {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 
 		float damage = (float) (DamageCalculation.getMagicDamage(player, 1) * ModConfigs.shotlockMult);
-		RagnarokShotlockCoreEntity core = new RagnarokShotlockCoreEntity(player.world, player, targetList, damage);
+		RagnarokCoreEntity core = new RagnarokCoreEntity(player.world, player, targetList, damage);
 		core.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
 		player.world.addEntity(core);
 	}

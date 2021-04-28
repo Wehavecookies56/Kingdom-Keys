@@ -30,6 +30,7 @@ public class CommonConfig {
     
     public ForgeConfigSpec.DoubleValue limitLaserCircleMult;
     public ForgeConfigSpec.DoubleValue limitLaserDomeMult;
+    public ForgeConfigSpec.DoubleValue limitArrowRainMult;
     
     public ForgeConfigSpec.IntValue hpDropProbability;
     public ForgeConfigSpec.IntValue mpDropProbability;
@@ -143,6 +144,11 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.laser_dome_mult")
                 .defineInRange("laserDomeMult",0.3,0,100);
 
+        limitArrowRainMult = builder
+                .comment("Arrow Rain Damage Multiplier ((strength + magic) / 2 * multiplier)")
+                .translation(KingdomKeys.MODID + ".config.arrow_rain_mult")
+                .defineInRange("arrowRainMult",2.0,0,100);
+        
         builder.pop();
         
         builder.push("shotlock");

@@ -21,6 +21,7 @@ public class ServerConfig {
     
     public ForgeConfigSpec.IntValue limitLaserCircleCost;
     public ForgeConfigSpec.IntValue limitLaserDomeCost;
+    public ForgeConfigSpec.IntValue limitArrowRainCost;
 
     ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -73,6 +74,11 @@ public class ServerConfig {
                 .comment("Laser Dome Cost")
                 .translation(KingdomKeys.MODID + ".config.laser_dome_cost")
                 .defineInRange("laserDomeCost",400,0,1000);
+        
+        limitArrowRainCost = builder
+                .comment("Laser Dome Cost")
+                .translation(KingdomKeys.MODID + ".config.arrow_rain_cost")
+                .defineInRange("arrowRainCost",300,0,1000);
 
         builder.pop();
     }

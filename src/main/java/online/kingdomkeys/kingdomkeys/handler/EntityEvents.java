@@ -120,10 +120,7 @@ public class EntityEvents {
 			
 			}
 			
-			if (!player.world.isRemote) { // Sync from server to client
-				/*player.setHealth(playerData.getMaxHP());
-				player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());*/
-				
+			if (!player.world.isRemote) { // Sync from server to client				
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					

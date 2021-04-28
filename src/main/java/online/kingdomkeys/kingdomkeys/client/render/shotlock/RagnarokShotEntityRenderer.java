@@ -19,12 +19,12 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class RagnarokShotlockShotEntityRenderer extends EntityRenderer<RagnarokShotEntity> {
+public class RagnarokShotEntityRenderer extends EntityRenderer<RagnarokShotEntity> {
 
-	public static final Factory FACTORY = new RagnarokShotlockShotEntityRenderer.Factory();
+	public static final Factory FACTORY = new RagnarokShotEntityRenderer.Factory();
 	private CubeModel model;
 
-	public RagnarokShotlockShotEntityRenderer(EntityRendererManager renderManager) {
+	public RagnarokShotEntityRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
         model = new CubeModel();
 		this.shadowSize = 0.25F;
@@ -57,7 +57,7 @@ public class RagnarokShotlockShotEntityRenderer extends EntityRenderer<RagnarokS
 	public static class Factory implements IRenderFactory<RagnarokShotEntity> {
 		@Override
 		public EntityRenderer<? super RagnarokShotEntity> createRenderFor(EntityRendererManager manager) {
-			return new RagnarokShotlockShotEntityRenderer(manager);
+			return new RagnarokShotEntityRenderer(manager);
 		}
 	}
 }
