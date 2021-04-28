@@ -67,12 +67,13 @@ import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
-import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
@@ -661,8 +662,6 @@ public class EntityEvents {
 			
 			ItemStack weapon = null;
 			weapon = Utils.getWeaponDamageStack(event.getSource(), player);
-			//TODO issue
-			System.out.println(event.getSource());
 			if(weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
 				if(weapon.getItem() instanceof KeybladeItem) {
@@ -679,7 +678,7 @@ public class EntityEvents {
 			
 			LivingEntity target = event.getEntityLiving();
 			
-			if(event.getSource().getImmediateSource() instanceof ShotlockShotEntity || event.getSource().getImmediateSource() instanceof ThunderBoltEntity) {
+			if(event.getSource().getImmediateSource() instanceof VolleyShotEntity || event.getSource().getImmediateSource() instanceof RagnarokShotEntity || event.getSource().getImmediateSource() instanceof ThunderBoltEntity) {
 				target.hurtResistantTime = 0;
 			}
 

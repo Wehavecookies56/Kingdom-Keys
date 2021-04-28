@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.entity.magic;
+package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,29 +31,29 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class DarkVolleyCoreEntity extends ThrowableEntity {
+public class RagnarokShotlockCoreEntity extends ThrowableEntity {
 
-	int maxTicks = 260;
-	List<ShotlockShotEntity> list = new ArrayList<ShotlockShotEntity>();
+	int maxTicks = 100;
+	List<RagnarokShotEntity> list = new ArrayList<RagnarokShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
 	float dmg;
 
-	public DarkVolleyCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public RagnarokShotlockCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public DarkVolleyCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
+	public RagnarokShotlockCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
 	}
 
-	public DarkVolleyCoreEntity(World world) {
-		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
+	public RagnarokShotlockCoreEntity(World world) {
+		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public DarkVolleyCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), player, world);
+	public RagnarokShotlockCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
+		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), player, world);
 		setCaster(player.getUniqueID());
 		String targetIDS = "";
 		for(Entity t : targets) {
@@ -74,8 +74,6 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 		return 0F;
 	}
 	
-	int i = 0;
-
 	@Override
 	public void tick() {
 		if (this.ticksExisted > maxTicks || getCaster() == null) {
@@ -85,27 +83,48 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
 		double X = getPosX();
-		double Y = getPosY();
+		double Y = getPosY()+1;
 		double Z = getPosZ();
-
-		if (getCaster() != null && getTargets() != null && !getTargets().isEmpty() && getTargets().size() > i) {
-			if (ticksExisted >= 0 && ticksExisted % 2 == 1) {
-				
-				Entity target = getTargets().get(i++);
-				if(target != null) {
-					ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg);
-					
-					bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
-					bullet.setMaxTicks(maxTicks + 20);
-					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
-					list.add(bullet);
-					world.addEntity(bullet);
-					world.playSound(null, this.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1, 1);
+		
+		if (getCaster() != null && getTargets() != null) {
+			if (ticksExisted == 1) {
+				world.playSound(null, this.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1, 1);
+				for(int i = 0; i< getTargets().size();i++) {
+					Entity target = getTargets().get(i);
+					if(target != null) {
+						RagnarokShotEntity bullet = new RagnarokShotEntity(world, getCaster(), target, dmg);
+						float r = 0.3F;
+						double alpha = Math.toRadians(getCaster().rotationYaw);						
+						double theta = 2 * Math.PI / getTargets().size();
+						double x = X + r * ((Math.cos(i * theta) + Math.sin(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.cos(alpha) + (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));
+						double y = Y + r * ((Math.cos(alpha) * Math.sin(i * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(i * theta) * Math.sin(alpha));
+						double z = Z + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta)) * Math.cos(alpha) + (Math.cos(i * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));
+						
+						bullet.setPosition(x,y,z);
+						bullet.setMaxTicks(maxTicks + 20);
+						//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
+						list.add(bullet);
+						world.addEntity(bullet);
+					}
 				}
-			}
-			
-			if(getTargets().size() <= i) {
-				this.remove();
+			} else if(ticksExisted > 1 && ticksExisted < 6) {
+				for(int i = 0; i< list.size();i++) {
+
+					RagnarokShotEntity bullet = list.get(i);
+					float posI = i + ticksExisted*2;
+					float r = 0.3F*ticksExisted;
+					System.out.println(ticksExisted+" "+r);
+					double alpha = Math.toRadians(getCaster().rotationYaw);						
+					double theta = 2 * Math.PI / getTargets().size();
+					double x = X + r * ((Math.cos(posI * theta) + Math.sin(alpha) * Math.sin(alpha) * (1 - Math.cos(posI * theta))) * Math.cos(alpha) + (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(posI * theta))) * Math.sin(alpha));
+					double y = Y + r * ((Math.cos(alpha) * Math.sin(posI * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(posI * theta) * Math.sin(alpha));
+					double z = Z + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(posI * theta)) * Math.cos(alpha) + (Math.cos(posI * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(posI * theta))) * Math.sin(alpha));
+					
+					bullet.setPosition(x,y,z);
+					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
+
+				
+				}
 			}
 		}
 		super.tick();
@@ -140,8 +159,8 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 		this.dataManager.set(TARGETS, compound.getString("TargetUUID"));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(RagnarokShotlockCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(RagnarokShotlockCoreEntity.class, DataSerializers.STRING);
 
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;

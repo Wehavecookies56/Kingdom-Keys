@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magic;
+package online.kingdomkeys.kingdomkeys.client.render.shotlock;
 
 import javax.annotation.Nullable;
 
@@ -13,8 +13,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
-import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ShotlockDarkVolleyEntityRenderer extends EntityRenderer<DarkVolleyCoreEntity> {

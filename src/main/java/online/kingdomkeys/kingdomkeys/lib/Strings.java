@@ -36,7 +36,7 @@ public class Strings {
     // Shotlocks
        public static final String
        		DarkVolley = "dark_volley",
-       		CircularShotlock = "circular_shotlock";
+       		RagnarokShotlock = "circular_shotlock";
        
        //Abilities
     public static final String

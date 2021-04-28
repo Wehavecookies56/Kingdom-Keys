@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
@@ -26,6 +26,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -210,7 +211,7 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void WorldRender(RenderWorldLastEvent event) {
-		Minecraft mc = Minecraft.getInstance();
+		/*Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 			MatrixStack matrixStackIn = event.getMatrixStack();
@@ -233,7 +234,8 @@ public class ClientEvents {
 					        matrixStackIn.translate(x, y, z);
 					        matrixStackIn.rotate(renderManager.getCameraOrientation());
 					        matrixStackIn.translate(0,-f,-entityIn.getWidth());
-					        matrixStackIn.scale(-0.001F, -0.001F, 0.001F);
+					        float scale = entityIn.getHeight() / 1000;
+					        matrixStackIn.scale(-scale, -scale, scale);
 					        RenderSystem.enableBlend();
 							blit(matrixStackIn, -128, -128, 0, 0, 256, 256);
 
@@ -242,7 +244,7 @@ public class ClientEvents {
 					}
 				}
 			}
-		}
+		}*/
 
 	}
 	
@@ -320,7 +322,8 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void EntityRender(RenderLivingEvent.Post event) {
-		return;
+		//Text
+
 		/*Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
@@ -336,13 +339,44 @@ public class ClientEvents {
 				{
 					matrixStackIn.translate(0.0D, (double) f, 0.0D);
 					matrixStackIn.rotate(renderManager.getCameraOrientation());
-					matrixStackIn.scale(-0.001F, -0.001F, 0.001F);
-					event.getRenderer().getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-					blit(matrixStackIn,-128,-128,0,0,256,256);
+					matrixStackIn.scale(-0.25F, -0.25F, 0.25F);
+
+					Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
+					FontRenderer fontrenderer = renderManager.getFontRenderer();
+					float f2 = (float) (-fontrenderer.getStringPropertyWidth(displayNameIn) / 2);
+					fontrenderer.func_243247_a(displayNameIn, f2, 0, 0x00FFFF, false, matrix4f, event.getBuffers(), false, 0, event.getLight());
 				}
 				matrixStackIn.pop();
 			}
 		}*/
+		
+		//Icon
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+			if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
+				//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
+				if(true) {
+					MatrixStack matrixStackIn = event.getMatrixStack();
+					LivingEntity entityIn = event.getEntity();
+					
+					EntityRendererManager renderManager = event.getRenderer().getRenderManager();
+					TranslationTextComponent displayNameIn = new TranslationTextComponent("o");
+					float f = entityIn.getHeight();
+					matrixStackIn.push();
+					{
+						matrixStackIn.translate(0.0D, (double) f/2, 0.0D);
+						matrixStackIn.rotate(renderManager.getCameraOrientation());
+						float scale = Math.max(entityIn.getHeight()/2, entityIn.getWidth()/2)/100;
+					//	System.out.println(scale);
+						matrixStackIn.scale(-scale, -scale, scale);
+						event.getRenderer().getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+						blit(matrixStackIn,-128,-128,0,0,256,256);
+					}
+					matrixStackIn.pop();
+				}
+			}
+		}
 	}
 	
 	public void blit(MatrixStack matrixStack, int x, int y, int uOffset, int vOffset, int uWidth, int vHeight) {
@@ -366,7 +400,6 @@ public class ClientEvents {
 		bufferbuilder.pos(matrix, (float) x1, (float) y1, (float) blitOffset).tex(minU, minV).endVertex();
 		bufferbuilder.finishDrawing();
 		RenderSystem.enableBlend();
-		//RenderSystem.enableDepthTest();
 		WorldVertexBufferUploader.draw(bufferbuilder);
 	}
 	

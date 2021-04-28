@@ -13,15 +13,15 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.entity.magic.CircularShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotlockCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
-public class ShotlockCircular extends Shotlock {
+public class ShotlockRagnarok extends Shotlock {
 
-	public ShotlockCircular(String registryName, int order, int cooldown, int max) {
+	public ShotlockRagnarok(String registryName, int order, int cooldown, int max) {
 		super(registryName, order, cooldown, max);
 	}
 
@@ -32,7 +32,7 @@ public class ShotlockCircular extends Shotlock {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 
 		float damage = (float) (DamageCalculation.getMagicDamage(player, 1) * ModConfigs.shotlockMult);
-		CircularShotlockCoreEntity core = new CircularShotlockCoreEntity(player.world, player, targetList, damage);
+		RagnarokShotlockCoreEntity core = new RagnarokShotlockCoreEntity(player.world, player, targetList, damage);
 		core.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
 		player.world.addEntity(core);
 	}

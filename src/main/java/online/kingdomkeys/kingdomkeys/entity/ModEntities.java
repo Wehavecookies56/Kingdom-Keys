@@ -64,9 +64,6 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.FireEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.GravityEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockCircularEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockDarkVolleyEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.ShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
@@ -75,6 +72,10 @@ import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserCircleEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.shotlock.RagnarokShotlockShotEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.shotlock.ShotlockCircularEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.shotlock.ShotlockDarkVolleyEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
@@ -85,12 +86,9 @@ import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.CircularShotlockCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
@@ -119,6 +117,10 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
@@ -199,8 +201,9 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     
     public static final RegistryObject<EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, DarkVolleyCoreEntity::new, EntityClassification.MISC,"entity_shotlock_volley_core", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<CircularShotlockCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(CircularShotlockCoreEntity::new, CircularShotlockCoreEntity::new, EntityClassification.MISC,"entity_shotlock_circular_core", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<ShotlockShotEntity>> TYPE_SHOTLOCK_SHOT = createEntityType(ShotlockShotEntity::new, ShotlockShotEntity::new, EntityClassification.MISC,"entity_shotlock_shot", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<RagnarokShotlockCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokShotlockCoreEntity::new, RagnarokShotlockCoreEntity::new, EntityClassification.MISC,"entity_shotlock_circular_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<VolleyShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createEntityType(VolleyShotEntity::new, VolleyShotEntity::new, EntityClassification.MISC,"entity_volley_shotlock_shot", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<RagnarokShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, RagnarokShotEntity::new, EntityClassification.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -329,7 +332,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_DARK_VOLLEY.get(), ShotlockDarkVolleyEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_CIRCULAR.get(), ShotlockCircularEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_SHOT.get(), ShotlockShotEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), RagnarokShotlockShotEntityRenderer.FACTORY);
         
         //Tile Entities
         

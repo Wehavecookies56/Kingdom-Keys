@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magic;
+package online.kingdomkeys.kingdomkeys.client.render.shotlock;
 
 import javax.annotation.Nullable;
 
@@ -13,11 +13,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
-import online.kingdomkeys.kingdomkeys.entity.magic.CircularShotlockCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotlockCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class ShotlockCircularEntityRenderer extends EntityRenderer<CircularShotlockCoreEntity> {
+public class ShotlockCircularEntityRenderer extends EntityRenderer<RagnarokShotlockCoreEntity> {
 
 	public static final Factory FACTORY = new ShotlockCircularEntityRenderer.Factory();
 	BlizzardModel shot;
@@ -29,7 +29,7 @@ public class ShotlockCircularEntityRenderer extends EntityRenderer<CircularShotl
 	}
 
 	@Override
-	public void render(CircularShotlockCoreEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(RagnarokShotlockCoreEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		/*matrixStackIn.push();
 		{
 			float r = 1, g = 0, b = 0;
@@ -47,13 +47,13 @@ public class ShotlockCircularEntityRenderer extends EntityRenderer<CircularShotl
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(CircularShotlockCoreEntity entity) {
+	public ResourceLocation getEntityTexture(RagnarokShotlockCoreEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<CircularShotlockCoreEntity> {
+	public static class Factory implements IRenderFactory<RagnarokShotlockCoreEntity> {
 		@Override
-		public EntityRenderer<? super CircularShotlockCoreEntity> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super RagnarokShotlockCoreEntity> createRenderFor(EntityRendererManager manager) {
 			return new ShotlockCircularEntityRenderer(manager, new BlizzardModel());
 		}
 	}

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.entity.magic;
+package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -27,28 +27,28 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class ShotlockShotEntity extends ThrowableEntity {
+public class RagnarokShotEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 	float dmg;
 	Entity target;
 	
-	public ShotlockShotEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public RagnarokShotEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ShotlockShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_SHOTLOCK_SHOT.get(), world);
+	public RagnarokShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world);
 	}
 
-	public ShotlockShotEntity(World world) {
-		super(ModEntities.TYPE_SHOTLOCK_SHOT.get(), world);
+	public RagnarokShotEntity(World world) {
+		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ShotlockShotEntity(World world, LivingEntity player, Entity target, double dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_SHOT.get(), player, world);
+	public RagnarokShotEntity(World world, LivingEntity player, Entity target, double dmg) {
+		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), player, world);
 		this.dmg = (float)dmg;
 		setTarget(target.getEntityId());
 	}
@@ -70,10 +70,30 @@ public class ShotlockShotEntity extends ThrowableEntity {
 		}
 		
 		if(ticksExisted > 1) {
-			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 0.4, 0.1);
 		}
 		
-		if(ticksExisted % 10 == 0) {
+		/*if(ticksExisted < 20) {
+			//Open
+			double X = getPosX();
+			double Y = getPosY();
+			double Z = getPosZ();
+			
+			float r = 2;
+			double alpha = Math.toRadians(getCaster().rotationYaw);						
+			double theta = 2 * Math.PI / getTargets().size();
+			double x = X + r * ((Math.cos(i * theta) + Math.sin(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.cos(alpha) + (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));
+			double y = Y + r * ((Math.cos(alpha) * Math.sin(i * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(i * theta) * Math.sin(alpha));
+			double z = Z + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta)) * Math.cos(alpha) + (Math.cos(i * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));*			double x = getCaster().getPosX() + X;
+			double y = getCaster().getPosY() + Y;
+			double z = getCaster().getPosZ() + Z;
+			
+			this.shoot(x,y,z,0.3F,0);
+			
+			//this.setPosition(x,y,z);
+			//this.setMaxTicks(maxTicks + 20);
+		}*/
+		if(ticksExisted % 10 == 0 && ticksExisted - 10 >= 6) {
 			updateMovement();
 		}
 		

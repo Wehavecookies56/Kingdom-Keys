@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render.magic;
+package online.kingdomkeys.kingdomkeys.client.render.shotlock;
 
 import javax.annotation.Nullable;
 
@@ -17,23 +17,23 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
-import online.kingdomkeys.kingdomkeys.entity.magic.DarkVolleyCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.ShotlockShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class ShotlockShotEntityRenderer extends EntityRenderer<ShotlockShotEntity> {
+public class VolleyShotlockShotEntityRenderer extends EntityRenderer<VolleyShotEntity> {
 
-	public static final Factory FACTORY = new ShotlockShotEntityRenderer.Factory();
+	public static final Factory FACTORY = new VolleyShotlockShotEntityRenderer.Factory();
 	private CubeModel model;
 
-	public ShotlockShotEntityRenderer(EntityRendererManager renderManager) {
+	public VolleyShotlockShotEntityRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
         model = new CubeModel();
 		this.shadowSize = 0.25F;
 	}
 
 	@Override
-	public void render(ShotlockShotEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(VolleyShotEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		matrixStackIn.push();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);
@@ -52,14 +52,14 @@ public class ShotlockShotEntityRenderer extends EntityRenderer<ShotlockShotEntit
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(ShotlockShotEntity entity) {
+	public ResourceLocation getEntityTexture(VolleyShotEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<ShotlockShotEntity> {
+	public static class Factory implements IRenderFactory<VolleyShotEntity> {
 		@Override
-		public EntityRenderer<? super ShotlockShotEntity> createRenderFor(EntityRendererManager manager) {
-			return new ShotlockShotEntityRenderer(manager);
+		public EntityRenderer<? super VolleyShotEntity> createRenderFor(EntityRendererManager manager) {
+			return new VolleyShotlockShotEntityRenderer(manager);
 		}
 	}
 }

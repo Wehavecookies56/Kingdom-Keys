@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.entity.magic;
+package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,29 +31,29 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class CircularShotlockCoreEntity extends ThrowableEntity {
+public class DarkVolleyCoreEntity extends ThrowableEntity {
 
-	int maxTicks = 100;
-	List<ShotlockShotEntity> list = new ArrayList<ShotlockShotEntity>();
+	int maxTicks = 260;
+	List<VolleyShotEntity> list = new ArrayList<VolleyShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
 	float dmg;
 
-	public CircularShotlockCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public DarkVolleyCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public CircularShotlockCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
+	public DarkVolleyCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
 	}
 
-	public CircularShotlockCoreEntity(World world) {
-		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
+	public DarkVolleyCoreEntity(World world) {
+		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public CircularShotlockCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), player, world);
+	public DarkVolleyCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
+		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), player, world);
 		setCaster(player.getUniqueID());
 		String targetIDS = "";
 		for(Entity t : targets) {
@@ -74,6 +74,8 @@ public class CircularShotlockCoreEntity extends ThrowableEntity {
 		return 0F;
 	}
 	
+	int i = 0;
+
 	@Override
 	public void tick() {
 		if (this.ticksExisted > maxTicks || getCaster() == null) {
@@ -83,31 +85,27 @@ public class CircularShotlockCoreEntity extends ThrowableEntity {
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
 		double X = getPosX();
-		double Y = getPosY()+1;
+		double Y = getPosY();
 		double Z = getPosZ();
-		
-		if (getCaster() != null && getTargets() != null) {
-			if (ticksExisted == 1) {
-				world.playSound(null, this.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1, 1);
-				for(int i = 0; i< getTargets().size();i++) {
-					Entity target = getTargets().get(i);
-					if(target != null) {
-						ShotlockShotEntity bullet = new ShotlockShotEntity(world, getCaster(), target, dmg);
-						
-						float r = 2;
-						double alpha = Math.toRadians(getCaster().rotationYaw);						
-						double theta = 2 * Math.PI / getTargets().size();
-						double x = X + r * ((Math.cos(i * theta) + Math.sin(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.cos(alpha) + (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));
-						double y = Y + r * ((Math.cos(alpha) * Math.sin(i * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(i * theta) * Math.sin(alpha));
-						double z = Z + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta)) * Math.cos(alpha) + (Math.cos(i * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));
-						
-						bullet.setPosition(x,y,z);
-						bullet.setMaxTicks(maxTicks + 20);
-						//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
-						list.add(bullet);
-						world.addEntity(bullet);
-					}
+
+		if (getCaster() != null && getTargets() != null && !getTargets().isEmpty() && getTargets().size() > i) {
+			if (ticksExisted >= 0 && ticksExisted % 2 == 1) {
+				
+				Entity target = getTargets().get(i++);
+				if(target != null) {
+					VolleyShotEntity bullet = new VolleyShotEntity(world, getCaster(), target, dmg);
+					
+					bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
+					bullet.setMaxTicks(maxTicks + 20);
+					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
+					list.add(bullet);
+					world.addEntity(bullet);
+					world.playSound(null, this.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1, 1);
 				}
+			}
+			
+			if(getTargets().size() <= i) {
+				this.remove();
 			}
 		}
 		super.tick();
@@ -142,8 +140,8 @@ public class CircularShotlockCoreEntity extends ThrowableEntity {
 		this.dataManager.set(TARGETS, compound.getString("TargetUUID"));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(CircularShotlockCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(CircularShotlockCoreEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.STRING);
 
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
