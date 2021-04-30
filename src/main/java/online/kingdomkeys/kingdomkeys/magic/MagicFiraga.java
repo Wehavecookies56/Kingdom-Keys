@@ -14,14 +14,14 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class MagicFiraga extends Magic {
 
-	public MagicFiraga(String registryName, int cost, int order) {
-		super(registryName, cost, false, order);
+	public MagicFiraga(String registryName, int cost, int maxLevel, int order) {
+		super(registryName, cost, false, maxLevel, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, PlayerEntity caster) {
+	public void onUse(PlayerEntity player, PlayerEntity caster, int level) {
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
 		casterData.setMagicCooldownTicks(20);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);

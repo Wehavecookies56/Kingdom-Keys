@@ -38,6 +38,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -52,7 +54,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
-	List<String> magicList = new ArrayList<>();
+	LinkedHashMap<String, Integer> magicList = new LinkedHashMap<>(); //Key = name, value=  {level}
 	List<String> shotlockList = new ArrayList<>();
 	List<Integer> shotlockEnemies;
 	List<ResourceLocation> recipeList = new ArrayList<>();
@@ -616,30 +618,30 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		return reflectActive;
 	}
 
-	@Override
-	public List<String> getMagicList() {
-		return Utils.getSortedMagics(magicList);
-	}
-
-	@Override
-	public void setMagicList(List<String> list) {
-		this.magicList = list;
-	}
-
-	@Override
-	public void addMagicToList(String magic) {
-		if (!magicList.contains(magic)) {
-			magicList.add(magic);
-		}
-	}
-
-	@Override
-	public void removeMagicFromList(String magic) {
-		if (magicList.contains(magic)) {
-			magicList.remove(magic);
-		}
-	}
 	
+	@Override
+	public LinkedHashMap<String, Integer> getMagicsMap() {
+		return magicList;//Utils.getSortedDriveForms(driveForms);
+	}
+
+	@Override
+	public void setMagicsMap(LinkedHashMap<String, Integer> map) {
+		this.magicList = map;
+	}
+
+	@Override
+	public int getMagicLevel(String name) {
+		return magicList.containsKey(name) ? magicList.get(name) : 0;
+	}
+
+	@Override
+	public void setMagicLevel(String name, int level) {
+		Magic magic = ModMagic.registry.getValue(new ResourceLocation(name));
+		if(level <= magic.getMaxLevel()) {
+			magicList.put(name, level);
+		}
+	}
+		
 	@Override
 	public List<String> getShotlockList() {
 		return Utils.getSortedShotlocks(shotlockList);

@@ -55,11 +55,13 @@ public class CSUseMagicPacket {
 					playerData.remMP(cost);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 
+					int level = 0;
+					
 					if(message.target.equals("")) {
-		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(player, player);
+		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(player, player, level);
 					} else {
 						PlayerEntity targetEntity = Utils.getPlayerByName(player.world, message.target);
-		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity, player);
+		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity, player, level);
 					}
 				}
 				

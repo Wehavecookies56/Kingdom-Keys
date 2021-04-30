@@ -10,20 +10,25 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     int cost;
     boolean hasToSelect;
     int order;
-
+    int maxLevel;
     String translationKey;
 
-    public Magic(String registryName, int cost, boolean hasToSelect, int order) {
+    public Magic(String registryName, int cost, boolean hasToSelect, int maxLevel, int order) {
     	this.name = registryName;
     	this.cost = cost;
     	this.hasToSelect = hasToSelect;
     	this.order = order;
+    	this.maxLevel = maxLevel;
         setRegistryName(registryName);
         translationKey = "magic." + new ResourceLocation(registryName).getPath() + ".name";
     }
 
     public String getTranslationKey() {
-        return translationKey;
+        return getTranslationKey(1);
+    }
+    
+    public String getTranslationKey(int level) {
+        return translationKey.replace(".name", level+".name");
     }
     
     public int getCost() {
@@ -39,10 +44,14 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
      * @param player
      * @param caster
      */
-    public abstract void onUse(PlayerEntity player, PlayerEntity caster);
+    public abstract void onUse(PlayerEntity player, PlayerEntity caster, int level);
 
 	public int getOrder() {
 		return order;
+	}
+	
+	public int getMaxLevel() {
+		return maxLevel;
 	}
 
 }

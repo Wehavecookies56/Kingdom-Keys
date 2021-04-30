@@ -123,7 +123,6 @@ public interface IPlayerCapabilities {
 	
 	LinkedHashMap<String, int[]> getDriveFormMap();
 	void setDriveFormMap(LinkedHashMap<String,int[]> map);
-
 	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);
     int getDriveFormExp(String drive);
@@ -147,10 +146,11 @@ public interface IPlayerCapabilities {
 	boolean canEquipItem(int slot, ItemStack stack);
 	void setNewItem(int slot, ItemStack stack);
 	
-	List<String> getMagicList();
-	void setMagicList(List<String> list);
-	void addMagicToList(String magic);
-	void removeMagicFromList(String magic);
+	LinkedHashMap<String, Integer> getMagicsMap();
+	void setMagicsMap(LinkedHashMap<String,Integer> map);
+
+	int getMagicLevel(String name);
+	void setMagicLevel(String name, int level);
 	
 	List<String> getShotlockList();
 	void setShotlockList(List<String> list);

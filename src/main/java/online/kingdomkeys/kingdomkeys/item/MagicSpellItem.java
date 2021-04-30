@@ -44,9 +44,9 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		if (!world.isRemote) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
-			if (playerData != null && playerData.getMagicList() != null) {
-				if (!playerData.getMagicList().contains(magic)) {
-					playerData.addMagicToList(magic);
+			if (playerData != null && playerData.getMagicsMap() != null) {
+				if (!playerData.getMagicsMap().containsKey(magic)) {
+					playerData.getMagicsMap().put(magic, 1);
 					if (!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
 						player.getHeldItemMainhand().shrink(1);
 					} else if (!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
@@ -54,7 +54,13 @@ public class MagicSpellItem extends Item implements IItemCategory {
 					}
 					player.sendMessage(new TranslationTextComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), Util.DUMMY_UUID);
 				} else {
-					player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey()) + " Already unlocked"), Util.DUMMY_UUID);
+					int actualLevel = playerData.getMagicLevel(magic);
+					if(actualLevel < magicInstance.getMaxLevel()) {
+						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey()) + " upgraded to level "+(actualLevel+1)), Util.DUMMY_UUID);
+						playerData.getMagicsMap().put(magic, actualLevel+1);
+					} else {
+						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey()) + " Already max level"), Util.DUMMY_UUID);
+					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			}

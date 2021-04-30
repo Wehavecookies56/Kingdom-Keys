@@ -966,7 +966,7 @@ public class EntityEvents {
 		
 		newPlayerData.setMunny(oldPlayerData.getMunny());
 
-		newPlayerData.setMagicList(oldPlayerData.getMagicList());
+		newPlayerData.setMagicsMap(oldPlayerData.getMagicsMap());
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());

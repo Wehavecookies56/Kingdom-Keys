@@ -35,7 +35,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -53,6 +52,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
@@ -268,9 +268,23 @@ public class Utils {
 		return map;
 	}
 
-	public static List<String> getSortedMagics(List<String> list) {
-		Collections.sort(list, (Comparator.comparingInt(a -> ModMagic.registry.getValue(new ResourceLocation(a)).getOrder())));
-		return list;
+	public static LinkedHashMap<String, Integer> getSortedMAgics(LinkedHashMap<String, Integer> magicsMap) {
+		List<Magic> list = new ArrayList<>();
+
+		Iterator<String> it = magicsMap.keySet().iterator();
+		while (it.hasNext()) {
+			String entry = it.next();
+			list.add(ModMagic.registry.getValue(new ResourceLocation(entry)));
+		}
+
+		Collections.sort(list, Comparator.comparingInt(Magic::getOrder));
+
+		LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+		for (int i = 0; i < list.size(); i++) {
+			map.put(list.get(i).getRegistryName().toString(), magicsMap.get(list.get(i).getRegistryName().toString()));
+		}
+
+		return map;
 	}
 
 	public static List<String> getSortedShotlocks(List<String> list) {

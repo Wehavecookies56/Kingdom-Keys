@@ -256,7 +256,7 @@ public class CommandMenuGui extends Screen {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int color = getColor(0xFFFFFF,SUB_MAIN);
 					if(i == MAGIC) {
-						color = playerData.getMagicList().isEmpty() || playerData.getMaxMP() == 0 || playerData.getMagicCooldownTicks() > 0 || playerData.getRecharge() || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+						color = playerData.getMagicsMap().isEmpty() || playerData.getMaxMP() == 0 || playerData.getMagicCooldownTicks() > 0 || playerData.getRecharge() || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
 					}
 					if(i == ITEMS) {
 						color = getColor(Utils.getEquippedItems(playerData.getEquippedItems()).size() > 0 ? 0xFFFFFF : 0x888888,SUB_MAIN);
@@ -399,24 +399,26 @@ public class CommandMenuGui extends Screen {
 	private void drawSubMagic(MatrixStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		if (playerData != null && playerData.getMagicList() != null && !playerData.getMagicList().isEmpty()) {
+		LinkedHashMap<String, Integer> magics = Utils.getSortedMAgics(playerData.getMagicsMap());
+
+		if (playerData != null && magics != null && !magics.isEmpty()) {
 			// MAGIC TOP
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.push();
 			{
 				minecraft.textureManager.bindTexture(texture);
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (playerData.getMagicList().size() + 1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				paintWithColorArray(matrixStack, magicMenuColor, alpha);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Magic_Title, SUB_MAGIC);				
 			}
 			matrixStack.pop();
 			
-			for (int i = 0; i < playerData.getMagicList().size(); i++) {
+			for (int i = 0; i < magics.size(); i++) {
 				matrixStack.push();
 				{
 					minecraft.textureManager.bindTexture(texture);
-					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (playerData.getMagicList().size() - i)), 0);
+					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() - i)), 0);
 					matrixStack.scale(scale, scale, scale);
 					paintWithColorArray(matrixStack, magicMenuColor, alpha);
 					if (magicSelected == i) {
@@ -428,7 +430,8 @@ public class CommandMenuGui extends Screen {
 						drawUnselectedSlot(matrixStack);
 					}
 
-					String magic = playerData.getMagicList().get(i);
+					String magic = (String) magics.keySet().toArray()[i];
+					int magicLevel = playerData.getMagicLevel(magic);
 					Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
 					int cost = magicInstance.getCost();
 					int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
@@ -436,7 +439,7 @@ public class CommandMenuGui extends Screen {
 					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
 						colour = 0x888888;
 					}
-					magic = magicInstance.getTranslationKey();
+					magic = magicInstance.getTranslationKey(magicLevel);
 					
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(magic), textX, 4, getColor(colour, SUB_MAGIC));
 				}

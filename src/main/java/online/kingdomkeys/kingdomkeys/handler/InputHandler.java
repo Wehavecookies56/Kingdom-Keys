@@ -65,7 +65,7 @@ public class InputHandler {
 
     List<UUID> portalCommands;
     Map<String, int[]> driveFormsMap;
-    List<String> magicsList;
+    Map<String, Integer> magicsMap;
     List<Member> targetsList;
     List<Limit> limitsList;
     Map<Integer, ItemStack> itemsList;
@@ -120,7 +120,7 @@ public class InputHandler {
                 CommandMenuGui.magicSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
             } else if (CommandMenuGui.magicSelected <= 1)
-                CommandMenuGui.magicSelected = this.magicsList.size() - 1;
+                CommandMenuGui.magicSelected = this.magicsMap.size() - 1;
         }
         // InsideItems
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
@@ -192,10 +192,10 @@ public class InputHandler {
         }
         // InsideMagic
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (CommandMenuGui.magicSelected < this.magicsList.size() - 1) {
+            if (CommandMenuGui.magicSelected < this.magicsMap.size() - 1) {
                 CommandMenuGui.magicSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-            } else if (CommandMenuGui.magicSelected >= this.magicsList.size() - 1)
+            } else if (CommandMenuGui.magicSelected >= this.magicsMap.size() - 1)
                 CommandMenuGui.magicSelected = 0;
         }
         // InsideItems
@@ -307,7 +307,7 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    if (!playerData.getRecharge() && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicsList.isEmpty() && (!playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)))) {
+                    if (!playerData.getRecharge() && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicsMap.isEmpty() && (!playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)))) {
                         CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                         mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -506,7 +506,7 @@ public class InputHandler {
             } else {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
             	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < ModConfigs.partyRangeLimit) {
-            		PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected), member.getUsername()));
+            		PacketHandler.sendToServer(new CSUseMagicPacket((String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected], member.getUsername()));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -548,9 +548,9 @@ public class InputHandler {
         
         // Magic Submenu
         if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (this.magicsList.isEmpty()) {
+            if (this.magicsMap.isEmpty()) {
             } else {
-				String magic = magicsList.get(CommandMenuGui.magicSelected);
+				String magic = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
 				int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost();
 
             	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
@@ -565,7 +565,7 @@ public class InputHandler {
     	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         return;
             		} else {
-            			PacketHandler.sendToServer(new CSUseMagicPacket(magicsList.get(CommandMenuGui.magicSelected)));
+            			PacketHandler.sendToServer(new CSUseMagicPacket((String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected]));
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             		}
@@ -926,9 +926,9 @@ public class InputHandler {
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 
         if(playerData != null && worldData != null) {
-	        this.driveFormsMap = Utils.getSortedDriveForms(ModCapabilities.getPlayer(mc.player).getDriveFormMap());
+	        this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap());
 	        this.driveFormsMap.remove(DriveForm.NONE.toString());
-	        this.magicsList = playerData.getMagicList();
+	        this.magicsMap = Utils.getSortedMAgics(playerData.getMagicsMap());
 	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
 			this.limitsList = Utils.getPlayerLimitAttacks(mc.player);
 	        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {

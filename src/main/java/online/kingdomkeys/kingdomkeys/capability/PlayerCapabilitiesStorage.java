@@ -72,8 +72,10 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.put("recipes", recipes);
 
         CompoundNBT magics = new CompoundNBT();
-        for (String magic : instance.getMagicList()) {
-            magics.putInt(magic, 0);
+        Iterator<Map.Entry<String, Integer>> magicsIt = instance.getMagicsMap().entrySet().iterator();
+        while (magicsIt.hasNext()) {
+            Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) magicsIt.next();
+            magics.putInt(pair.getKey().toString(), pair.getValue());
         }
         storage.put("magics", magics);
         
@@ -179,11 +181,10 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
             instance.getKnownRecipeList().add(new ResourceLocation(key));
         }
 
-        Iterator<String> magicIt = storage.getCompound("magics").keySet().iterator();
-        while (magicIt.hasNext()) {
-            String key = (String) magicIt.next();
-            //System.out.println("Read: " + key);
-            instance.getMagicList().add(key.toString());
+        Iterator<String> magicsIt = storage.getCompound("magics").keySet().iterator();
+        while (magicsIt.hasNext()) {
+            String magicName = (String) magicsIt.next();
+            instance.getMagicsMap().put(magicName.toString(), storage.getCompound("magics").getInt(magicName));
         }
         
         Iterator<String> shotlockIt = storage.getCompound("shotlocks").keySet().iterator();

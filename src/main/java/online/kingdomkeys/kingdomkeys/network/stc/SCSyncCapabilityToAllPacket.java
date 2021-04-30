@@ -34,7 +34,7 @@ public class SCSyncCapabilityToAllPacket {
 	double mp = 0, maxMP = 0;
 	
 	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<String,int[]>();
-	List<String> magicList = new ArrayList<String>();
+	LinkedHashMap<String,Integer> magicsMap = new LinkedHashMap<String,Integer>();
 
 	private double dp = 0, fp = 0;
 
@@ -62,7 +62,7 @@ public class SCSyncCapabilityToAllPacket {
 		this.mp = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		
-        this.magicList = capability.getMagicList();
+        this.magicsMap = capability.getMagicsMap();
 		this.driveFormMap = capability.getDriveFormMap();
 
 		this.isGliding = capability.getIsGliding();
@@ -89,10 +89,10 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeDouble(this.maxMP);
 		
 		CompoundNBT magics = new CompoundNBT();
-		Iterator<String> magicsIt = magicList.iterator();
+		Iterator<Map.Entry<String, Integer>> magicsIt = magicsMap.entrySet().iterator();
 		while (magicsIt.hasNext()) {
-			String m = magicsIt.next();
-			magics.putInt(m, 1);
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) magicsIt.next();
+			magics.putInt(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(magics);
 		
@@ -129,10 +129,10 @@ public class SCSyncCapabilityToAllPacket {
 		msg.maxMP = buffer.readDouble();
 		
 		CompoundNBT magicsTag = buffer.readCompoundTag();
-		Iterator<String> it = magicsTag.keySet().iterator();
-		while (it.hasNext()) {
-			String key = (String) it.next();
-			msg.magicList.add(key);
+		Iterator<String> magicsIt = magicsTag.keySet().iterator();
+		while (magicsIt.hasNext()) {
+			String magicName = (String) magicsIt.next();
+			msg.magicsMap.put(magicName, magicsTag.getInt(magicName));
 		}
 		
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();
@@ -176,7 +176,7 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setMP(message.mp);
 				playerData.setMaxMP(message.maxMP);
 
-				playerData.setMagicList(message.magicList);
+				playerData.setMagicsMap(message.magicsMap);
 				playerData.setDriveFormMap(message.driveFormMap);
 
 				playerData.setIsGliding(message.isGliding);

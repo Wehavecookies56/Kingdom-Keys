@@ -48,7 +48,7 @@ public class SCSyncCapabilityPacket {
 	String driveForm;
 
 	List<ResourceLocation> recipeList = new ArrayList<>();
-    List<String> magicList = new ArrayList<>();
+	LinkedHashMap<String,Integer> magicsMap = new LinkedHashMap<>();
     List<String> shotlockList = new ArrayList<>();
     String equippedShotlock;
 	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
@@ -95,7 +95,7 @@ public class SCSyncCapabilityPacket {
 		this.maxFocus = capability.getMaxFocus();
 		
 		this.recipeList = capability.getKnownRecipeList();
-		this.magicList = capability.getMagicList();
+		this.magicsMap = capability.getMagicsMap();
 		this.shotlockList = capability.getShotlockList();
 		this.equippedShotlock = capability.getEquippedShotlock();
 		this.driveFormMap = capability.getDriveFormMap();
@@ -155,10 +155,10 @@ public class SCSyncCapabilityPacket {
 		buffer.writeCompoundTag(recipes);
 
 		CompoundNBT magics = new CompoundNBT();
-		Iterator<String> magicsIt = magicList.iterator();
+		Iterator<Map.Entry<String, Integer>> magicsIt = magicsMap.entrySet().iterator();
 		while (magicsIt.hasNext()) {
-			String m = magicsIt.next();
-			magics.putInt(m, 1);
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) magicsIt.next();
+			magics.putInt(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(magics);
 		
@@ -280,8 +280,8 @@ public class SCSyncCapabilityPacket {
 		CompoundNBT magicsTag = buffer.readCompoundTag();
 		Iterator<String> magicsIt = magicsTag.keySet().iterator();
 		while (magicsIt.hasNext()) {
-			String key = (String) magicsIt.next();
-			msg.magicList.add(key);
+			String magicName = (String) magicsIt.next();
+			msg.magicsMap.put(magicName, magicsTag.getInt(magicName));
 		}
 		
 		CompoundNBT shotlocksTag = buffer.readCompoundTag();
@@ -391,7 +391,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setDFMessages(message.dfMessages);
 
 			playerData.setKnownRecipeList(message.recipeList);
-			playerData.setMagicList(message.magicList);
+			playerData.setMagicsMap(message.magicsMap);
 			playerData.setShotlockList(message.shotlockList);
 			playerData.setEquippedShotlock(message.equippedShotlock);
 			playerData.setDriveFormMap(message.driveFormMap);
