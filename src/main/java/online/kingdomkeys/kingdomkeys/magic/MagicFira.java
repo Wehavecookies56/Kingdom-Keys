@@ -2,16 +2,19 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
-public class MagicMagnet extends Magic {
+public class MagicFira extends Magic {
 
-	public MagicMagnet(String registryName, int cost, int order) {
+	public MagicFira(String registryName, int cost, int order) {
 		super(registryName, cost, false, order);
 		this.name = registryName;
 		// TODO Auto-generated constructor stub
@@ -20,13 +23,13 @@ public class MagicMagnet extends Magic {
 	@Override
 	public void onUse(PlayerEntity player, PlayerEntity caster) {
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
-		casterData.setMagicCooldownTicks(40);
+		casterData.setMagicCooldownTicks(20);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
 
-		MagnetEntity shot = new MagnetEntity(player.world, player);
-		shot.setCaster(player.getUniqueID());
+		ThrowableEntity shot = new FireEntity(player.world, player);
 		player.world.addEntity(shot);
-		shot.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);
+		shot.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+		player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
 		player.swingArm(Hand.MAIN_HAND);
 	}
 

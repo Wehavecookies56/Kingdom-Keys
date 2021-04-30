@@ -98,7 +98,7 @@ public class ArrowRainCoreEntity extends ThrowableEntity {
 				bullet.setMaxTicks(30);
 				bullet.shoot(0, 255, 0, 1f, 0);
 				world.addEntity(bullet);
-				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 0.6F);
+				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 0.6F);
 
 			} else if (ticksExisted > 40 && ticksExisted % 2 == 0) { // Get all targets right before starting to shoot
 				radius = Math.min((ticksExisted-34) / 10F, 20);
@@ -113,33 +113,8 @@ public class ArrowRainCoreEntity extends ThrowableEntity {
 					//list.add(bullet);
 					world.addEntity(bullet);
 				}
-				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
-
-				
-			}/* else if (ticksExisted > 40 && !targetList.isEmpty()) {
-				if (ticksExisted == 80) {
-					updateList();
-				}
-
-				for (int i = 0; i < shotsPerTick; i++) {
-					int num;
-					do {
-						num = rand.nextInt(list.size());
-					} while (usedIndexes.contains(num) && usedIndexes.size() != list.size());
-					usedIndexes.add(num);
-
-					Entity target = this;
-					int targetIndex = rand.nextInt(targetList.size());
-					target = targetList.get(targetIndex);
-
-					if (target != null && target.isAlive() && getCaster() != null) {
-						LaserDomeShotEntity bullet = list.get(num);
-						bullet.shoot(target.getPosX() - bullet.getPosX(), target.getPosY() - bullet.getPosY(), target.getPosZ() - bullet.getPosZ(), 2f, 0);
-						world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
-					}
-
-				}
-			}*/
+				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 1F);	
+			}
 		}
 		super.tick();
 	}
