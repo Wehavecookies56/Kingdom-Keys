@@ -122,10 +122,11 @@ public class LaserCircleCoreEntity extends ThrowableEntity {
 				
 				for (LaserDomeShotEntity bullet : list) {
 					if (target != null && target.isAlive() && getCaster() != null) {
-						world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
 						bullet.shoot(target.getPosX() - bullet.getPosX(), target.getPosY() - bullet.getPosY()+1, target.getPosZ() - bullet.getPosZ(), 1.5f, 0);
 					}
 				}
+				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
+
 			}
 		}
 

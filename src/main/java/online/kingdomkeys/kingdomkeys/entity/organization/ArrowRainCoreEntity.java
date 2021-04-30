@@ -102,18 +102,19 @@ public class ArrowRainCoreEntity extends ThrowableEntity {
 
 			} else if (ticksExisted > 40 && ticksExisted % 2 == 0) { // Get all targets right before starting to shoot
 				radius = Math.min((ticksExisted-34) / 10F, 20);
-				space = 20 + 8 - radius;
+				space = 20 + 6 - radius;
 				for (int s = 1; s < 360; s += space) {
-					double x = X + (radius * Math.cos(Math.toRadians(s+ticksExisted*2)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s+ticksExisted*2)));
+					double x = X + (radius * Math.cos(Math.toRadians(s)));
+					double z = Z + (radius * Math.sin(Math.toRadians(s)));
 					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
-					bullet.setPosition(X, Y + 30, Z);
+					bullet.setPosition(X, Y + 27, Z);
 					bullet.setMaxTicks(maxTicks);
-					bullet.shoot(x - bullet.getPosX(), this.getPosY() - bullet.getPosY()+1, z - bullet.getPosZ(), 2f, 0);
-					world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 0.3F, 1F);
+					bullet.shoot(x - bullet.getPosX(), this.getPosY() - bullet.getPosY()+1, z - bullet.getPosZ(), 2.5f, 0);
 					//list.add(bullet);
 					world.addEntity(bullet);
 				}
+				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
+
 				
 			}/* else if (ticksExisted > 40 && !targetList.isEmpty()) {
 				if (ticksExisted == 80) {
