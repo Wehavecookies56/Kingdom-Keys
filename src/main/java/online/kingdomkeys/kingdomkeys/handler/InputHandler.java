@@ -506,7 +506,9 @@ public class InputHandler {
             } else {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
             	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < ModConfigs.partyRangeLimit) {
-            		PacketHandler.sendToServer(new CSUseMagicPacket((String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected], member.getUsername()));
+            		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
+            		int level = playerData.getMagicLevel(magicName);
+            		PacketHandler.sendToServer(new CSUseMagicPacket(magicName, member.getUsername(), level));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
@@ -565,7 +567,9 @@ public class InputHandler {
     	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                         return;
             		} else {
-            			PacketHandler.sendToServer(new CSUseMagicPacket((String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected]));
+                		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
+                		int level = playerData.getMagicLevel(magicName);
+            			PacketHandler.sendToServer(new CSUseMagicPacket(magicName, level));
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             		}

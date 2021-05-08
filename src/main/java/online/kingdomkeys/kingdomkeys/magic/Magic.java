@@ -18,13 +18,13 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	this.cost = cost;
     	this.hasToSelect = hasToSelect;
     	this.order = order;
-    	this.maxLevel = maxLevel;
+    	this.maxLevel = maxLevel - 1;
         setRegistryName(registryName);
         translationKey = "magic." + new ResourceLocation(registryName).getPath() + ".name";
     }
 
     public String getTranslationKey() {
-        return getTranslationKey(1);
+        return getTranslationKey(0);
     }
     
     public String getTranslationKey(int level) {

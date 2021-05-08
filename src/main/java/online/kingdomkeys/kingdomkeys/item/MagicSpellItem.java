@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -46,20 +47,17 @@ public class MagicSpellItem extends Item implements IItemCategory {
 			Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
 			if (playerData != null && playerData.getMagicsMap() != null) {
 				if (!playerData.getMagicsMap().containsKey(magic)) {
-					playerData.getMagicsMap().put(magic, 1);
-					if (!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
-						player.getHeldItemMainhand().shrink(1);
-					} else if (!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
-						player.getHeldItemOffhand().shrink(1);
-					}
-					player.sendMessage(new TranslationTextComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), Util.DUMMY_UUID);
+					playerData.getMagicsMap().put(magic, 0);
+					takeItem(player);
+					player.sendStatusMessage(new TranslationTextComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(magic);
 					if(actualLevel < magicInstance.getMaxLevel()) {
-						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey()) + " upgraded to level "+(actualLevel+1)), Util.DUMMY_UUID);
+						player.sendStatusMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
 						playerData.getMagicsMap().put(magic, actualLevel+1);
+						takeItem(player);
 					} else {
-						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey()) + " Already max level"), Util.DUMMY_UUID);
+						player.sendStatusMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is already at the max level"), true);
 					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
@@ -68,10 +66,31 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		return ActionResult.resultSuccess(player.getHeldItem(hand));
 	}
 
+	private void takeItem(PlayerEntity player) {
+		if (!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
+			player.getHeldItemMainhand().shrink(1);
+		} else if (!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
+			player.getHeldItemOffhand().shrink(1);
+		}
+	}
+
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
-		tooltip.add(new TranslationTextComponent("Unlock " + Utils.translateToLocal(magicInstance.getTranslationKey())));
+		if(Minecraft.getInstance().player != null) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+	
+			int actualLevel = playerData.getMagicLevel(magic);
+			if(!playerData.getMagicsMap().containsKey(magic)) {
+				actualLevel--;
+			}
+			
+			if(actualLevel < magicInstance.getMaxLevel()) {
+				tooltip.add(new TranslationTextComponent("Unlock " + Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
+			} else {
+				tooltip.add(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is the max level"));
+			}
+		}
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 

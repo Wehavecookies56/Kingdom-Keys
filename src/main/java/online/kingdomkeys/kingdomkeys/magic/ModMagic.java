@@ -24,10 +24,7 @@ public class ModMagic {
 		@SubscribeEvent
 		public static void registerMagic(RegistryEvent.Register<Magic> event) {
 			int order = 0;
-			MagicFire fire = new MagicFire(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire", 10, 3, order++);
-			//MagicFira fira = new MagicFira(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fira", 20, order++);
-			//MagicFiraga firaga = new MagicFiraga(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "firaga", 50, order++);
-			
+			MagicFire fire = new MagicFire(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire", 10, 3, order++);		
 			MagicBlizzard blizzard = new MagicBlizzard(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard", 12, 3, order++);
 			MagicWater water = new MagicWater(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water", 12, 3, order++);
 			MagicThunder thunder = new MagicThunder(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder", 15, 3, order++);

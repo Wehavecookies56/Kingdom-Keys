@@ -332,13 +332,16 @@ public class EntityEvents {
 				event.getEntityLiving().setMotion(0, 0, 0);
 				event.getEntityLiving().velocityChanged = true;
 
+				if (event.getEntityLiving() instanceof MobEntity) {
+					((MobEntity) event.getEntityLiving()).setAttackTarget(null);
+				}
+
 				if (globalData.getStoppedTicks() <= 0) {
 					if(event.getEntityLiving() instanceof MobEntity) {
                 		((MobEntity) event.getEntityLiving()).setNoAI(false);
                 	}
 					
 					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
-				//	System.out.println(globalData.getDamage());
 					if (globalData.getDamage() > 0 && globalData.getStopCaster() != null) {
 						event.getEntityLiving().attackEntityFrom(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().world, globalData.getStopCaster())), globalData.getDamage()/2);
 					}

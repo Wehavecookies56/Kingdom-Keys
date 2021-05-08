@@ -17,17 +17,20 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 public class CSUseMagicPacket {
 	
 	String name, target;
+	int level;
 	
 	public CSUseMagicPacket() {}
 
-	public CSUseMagicPacket(String name) {
+	public CSUseMagicPacket(String name, int level) {
 		this.name = name;
 		this.target = "";
+		this.level = level;
 	}
 	
-	public CSUseMagicPacket(String name, String target) {
+	public CSUseMagicPacket(String name, String target, int level) {
 		this.name = name;
 		this.target = target;
+		this.level = level;
 	}
 
 	public void encode(PacketBuffer buffer) {
@@ -35,6 +38,7 @@ public class CSUseMagicPacket {
 		buffer.writeString(this.name);
 		buffer.writeInt(this.target.length());
 		buffer.writeString(this.target);
+		buffer.writeInt(this.level);
 	}
 
 	public static CSUseMagicPacket decode(PacketBuffer buffer) {
@@ -43,6 +47,7 @@ public class CSUseMagicPacket {
 		msg.name = buffer.readString(length);
 		length = buffer.readInt();
 		msg.target = buffer.readString(length);
+		msg.level = buffer.readInt();
 		return msg;
 	}
 
@@ -54,14 +59,12 @@ public class CSUseMagicPacket {
 					int cost = ModMagic.registry.getValue(new ResourceLocation(message.name)).getCost();
 					playerData.remMP(cost);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-
-					int level = 0;
 					
 					if(message.target.equals("")) {
-		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(player, player, level);
+		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(player, player, message.level);
 					} else {
 						PlayerEntity targetEntity = Utils.getPlayerByName(player.world, message.target);
-		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity, player, level);
+		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity, player, message.level);
 					}
 				}
 				

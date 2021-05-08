@@ -8,6 +8,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -27,14 +29,28 @@ public class MagicFire extends Magic {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
 		
 		switch(level) {
-		
+		case 0:
+			ThrowableEntity fire = new FireEntity(player.world, player);
+			player.world.addEntity(fire);
+			fire.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
+			player.swingArm(Hand.MAIN_HAND);
+			break;
+		case 1:
+			ThrowableEntity fira = new FiraEntity(player.world, player);
+			player.world.addEntity(fira);
+			fira.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
+			player.swingArm(Hand.MAIN_HAND);
+			break;
+		case 2:
+			ThrowableEntity firaga = new FiragaEntity(player.world, player);
+			player.world.addEntity(firaga);
+			firaga.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
+			player.swingArm(Hand.MAIN_HAND);
+			break;
 		}
-
-		ThrowableEntity shot = new FireEntity(player.world, player);
-		player.world.addEntity(shot);
-		shot.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
-		player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
-		player.swingArm(Hand.MAIN_HAND);
 	}
 
 }
