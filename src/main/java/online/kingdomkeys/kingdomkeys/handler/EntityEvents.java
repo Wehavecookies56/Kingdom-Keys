@@ -130,9 +130,7 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
 					
 					playerData.addAbility(Strings.zeroExp, false);
-				}
-				
-				if(!playerData.getKnownRecipeList().contains(ModItems.potion.get().getRegistryName())) { //TODO merge it with above in a few versions.
+					
 					playerData.addKnownRecipe(ModItems.potion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiPotion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.megaPotion.get().getRegistryName());
@@ -145,22 +143,23 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.hiDriveRecovery.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.refocuser.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
+					
 				}
 				
-				if(playerData.getMaxFocus()<100) { //TODO merge it with above in a few versions.
+				/*if(playerData.getMaxFocus()<100) { //TODO merge it with above in a few versions.
 					playerData.setMaxFocus(100);
 					playerData.setFocus(100);
-				}
+				}*/
 				
 				
 				// TODO (done) Fix for retrocompatibility, remove in a few versions
-				if(playerData.getEquippedItems().size() == 0) {
+			/*	if(playerData.getEquippedItems().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
 					for(int i = 0 ; i < 4; i++) {
 						map.put(i,ItemStack.EMPTY);
 					}
 					playerData.equipAllItems(map, true);
-				}
+				}*/
 				
 				//Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
@@ -391,20 +390,20 @@ public class EntityEvents {
 
 		if (playerData != null) {
 			// Drive Form abilities
-				if(shouldHandleHighJump(player, playerData)) {
-					handleHighJump(player, playerData);
-				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
-					handleAerialDodge(player, playerData);
-				}
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
-					handleGlide(player, playerData);
-				}
+			/*if(shouldHandleHighJump(player, playerData)) {
+				handleHighJump(player, playerData);
+			}
+			if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
+				handleAerialDodge(player, playerData);
+			}
+			if(playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
+				handleGlide(player, playerData);
+			}*/
 
-				//Rotation ticks should always be lost, this way we prevent the spinning animation on other players (hopefully)
-				if (playerData.getAerialDodgeTicks() > 0) {
-					playerData.setAerialDodgeTicks(playerData.getAerialDodgeTicks() - 1);
-				} 
+			//Rotation ticks should always be lost, this way we prevent the spinning animation on other players (hopefully)
+			if (playerData.getAerialDodgeTicks() > 0) {
+				playerData.setAerialDodgeTicks(playerData.getAerialDodgeTicks() - 1);
+			}
 				
 			//Reflect
 			if (playerData.getReflectTicks() > 0) {
@@ -488,118 +487,10 @@ public class EntityEvents {
 					}
 				}
 			} 
-		}
-	}
-	
-	private void handleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
-		boolean j = false;
-        if(player.world.isRemote) {
-            j = Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown();
-        }
-
-        if (j) {
-            if(player.getMotion().y > 0) {
-            	if(playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-	            	player.setMotion(player.getMotion().add(0,DriveForm.FINAL_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Final)],0));
-            	} else {
-            		//System.out.println(playerData.getDriveFormMap() != null);
-            		if(playerData.getActiveDriveForm() != null) {
-            			//System.out.println(playerData.getDriveFormLevel(Strings.Form_Valor));
-            			int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Valor)-2 : playerData.getDriveFormLevel(Strings.Form_Valor);//TODO eventually replace it with the skill
-	            		player.setMotion(player.getMotion().add(0,DriveForm.VALOR_JUMP_BOOST[jumpLevel],0));
-            		}
-	            }
-            }
-        }
-	}
-	
-	private boolean shouldHandleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
-		if(playerData.getDriveFormMap() == null)
-			return false;
-		if(playerData.getActiveDriveForm().equals(Strings.Form_Valor) || playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-			return true;
-		}
-
-		if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())
-				&& (playerData.getDriveFormMap().containsKey(Strings.Form_Valor)
-				&& playerData.getDriveFormLevel(Strings.Form_Valor) >= 3
-				&& playerData.getEquippedAbilityLevel(Strings.highJump) != null
-				&& playerData.getEquippedAbilityLevel(Strings.highJump)[1]>0)){
-			return true;
-		}
-		return false;
-	}
-
-	private void handleAerialDodge(PlayerEntity player, IPlayerCapabilities playerData) {
-		if (playerData.getAerialDodgeTicks() <= 0) {
-			if (player.isOnGround()) {
-				playerData.setHasJumpedAerialDodge(false);
-				playerData.setAerialDodgeTicks(0);
-			} else {
-				if (player.world.isRemote) {
-					if (player.getMotion().y < 0 && Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown() && !player.isSneaking()) {
-						if (!playerData.hasJumpedAerialDodge()) {
-							playerData.setHasJumpedAerialDodge(true);
-							player.jump();
-							int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Master)-2 : playerData.getDriveFormLevel(Strings.Form_Master);//TODO eventually replace it with the skill
-							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
-							player.setMotion(player.getMotion().mul(new Vector3d(boost, boost, boost)));
-							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private void handleGlide(PlayerEntity player, IPlayerCapabilities playerData) {
-		if(player.isInWater() || player.isInLava())
-			return;
-		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
-			Minecraft mc = Minecraft.getInstance();
-			if (mc.player == player) { // Only the local player will send the packets
-				if (!player.isOnGround() && player.fallDistance > 0) { //Glide only when falling
-					if (mc.gameSettings.keyBindJump.isKeyDown()) {
-						if (!playerData.getIsGliding() && !(player.world.getBlockState(player.getPosition()).getBlock() instanceof FlowingFluidBlock) && !(player.world.getBlockState(player.getPosition().down()).getBlock() instanceof FlowingFluidBlock)) {
-							playerData.setIsGliding(true);// Set playerData clientside
-							playerData.setAerialDodgeTicks(0);
-							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set playerData serverside
-							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 0)); // In case the player is still rotating stop it
-						}
-					} else { // If is no longer pressing space
-						if (playerData.getIsGliding()) {
-							playerData.setIsGliding(false);
-							PacketHandler.sendToServer(new CSSetGlidingPacket(false));
-						}
-					}
-				} else { // If touches the ground
-					if (playerData.getIsGliding()) {
-						playerData.setIsGliding(false);
-						PacketHandler.sendToServer(new CSSetGlidingPacket(false));
-						PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(false, 0)); // In case the player is still rotating stop it
-					}
-				}
-			}
-		}
-
-		if (playerData.getIsGliding()) {
-			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final)-2 : playerData.getDriveFormLevel(Strings.Form_Final);//TODO eventually replace it with the skill
-			float glide = DriveForm.FINAL_GLIDE[glideLevel];
-			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];;
-			Vector3d motion = player.getMotion();
-
-			if(Math.abs(motion.getX()) < limit && Math.abs(motion.getZ()) < limit)
-				player.setMotion(motion.getX()*1.1, motion.getY(), motion.getZ()*1.1);
 			
-			motion = player.getMotion();
-			player.setMotion(motion.getX(), glide, motion.getZ());
-
-			if(player.getForcedPose() != Pose.SWIMMING){
-				player.setForcedPose(Pose.SWIMMING);
-			}
-		} 
+		}
 	}
-	
+		
 	@SubscribeEvent
 	public void entityPickup(EntityItemPickupEvent event) {
 		if(event.getPlayer().inventory.hasItemStack(new ItemStack(ModItems.synthesisBag.get()))) {

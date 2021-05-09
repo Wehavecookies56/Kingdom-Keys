@@ -1,10 +1,15 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -16,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
@@ -84,6 +91,114 @@ public class DriveFormFinal extends DriveForm {
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public static void onLivingUpdate(LivingUpdateEvent event) {
+		if(event.getEntityLiving() instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+	
+			if (playerData != null) {
+				//Drive form speed
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+					if(player.isOnGround()) {
+						player.setMotion(player.getMotion().mul(new Vector3d(1.5, 1, 1.5)));
+					}
+				}
+				
+				// Drive Form abilities
+				if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+					handleHighJump(player, playerData);
+				}
+
+				if (playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
+					handleGlide(player, playerData);
+				}
+				
+				//Check if the player has the ability to cancel the variable
+				if(playerData.getIsGliding()) {
+					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getEquippedAbilityLevel(Strings.glide)[1] == 0) {
+						playerData.setIsGliding(false);
+						PacketHandler.sendToServer(new CSSetGlidingPacket(false));
+					}
+				}
+			}
+		}
+	}
+	
+	private static boolean shouldHandleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
+		//Base form is handled in Valor
+		if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private static void handleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
+		boolean j = false;
+		if (player.world.isRemote) {
+			j = Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown();
+		}
+
+		if (j) {
+			if (player.getMotion().y > 0) {
+				if (playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+					player.setMotion(player.getMotion().add(0, DriveForm.FINAL_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Final)], 0));
+				}
+			}
+		}
+	}
+	
+	private static void handleGlide(PlayerEntity player, IPlayerCapabilities playerData) {
+		if (player.isInWater() || player.isInLava())
+			return;
+		if (player.world.isRemote) {// Need to check if it's clientside for the keyboard key detection
+			Minecraft mc = Minecraft.getInstance();
+			if (mc.player == player) { // Only the local player will send the packets
+				if (!player.isOnGround() && player.fallDistance > 0) { // Glide only when falling
+					if (mc.gameSettings.keyBindJump.isKeyDown()) {
+						System.out.println(playerData.getIsGliding());
+						if (!playerData.getIsGliding() && !(player.world.getBlockState(player.getPosition()).getBlock() instanceof FlowingFluidBlock) && !(player.world.getBlockState(player.getPosition().down()).getBlock() instanceof FlowingFluidBlock)) {
+							playerData.setIsGliding(true);// Set playerData clientside
+							playerData.setAerialDodgeTicks(0);
+							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set playerData serverside
+							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 0)); // In case the player is still rotating stop it
+						}
+					} else { // If is no longer pressing space
+						if (playerData.getIsGliding()) {
+							playerData.setIsGliding(false);
+							PacketHandler.sendToServer(new CSSetGlidingPacket(false));
+						}
+					}
+				} else { // If touches the ground
+					if (playerData.getIsGliding()) {
+						playerData.setIsGliding(false);
+						PacketHandler.sendToServer(new CSSetGlidingPacket(false));
+						PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(false, 0)); // In case the player is still rotating stop it
+					}
+				}
+			}
+		}
+
+		if (playerData.getIsGliding()) {
+			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final) - 2 : playerData.getDriveFormLevel(Strings.Form_Final);// TODO eventually replace it with the skill
+			float glide = DriveForm.FINAL_GLIDE[glideLevel];
+			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
+			;
+			Vector3d motion = player.getMotion();
+
+			if (Math.abs(motion.getX()) < limit && Math.abs(motion.getZ()) < limit)
+				player.setMotion(motion.getX() * 1.1, motion.getY(), motion.getZ() * 1.1);
+
+			motion = player.getMotion();
+			player.setMotion(motion.getX(), glide, motion.getZ());
+
+			if (player.getForcedPose() != Pose.SWIMMING) {
+				player.setForcedPose(Pose.SWIMMING);
 			}
 		}
 	}
