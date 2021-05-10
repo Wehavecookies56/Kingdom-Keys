@@ -38,8 +38,12 @@ public class Strings {
        public static final String
        		DarkVolley = "dark_volley",
        		Ragnarok = "circular_shotlock";
+    
+    // Reaction Commands
+       public static final String
+       		autoValorRC = "rc_auto_valor";
        
-       //Abilities
+    // Abilities
     public static final String
     		AB_Prefix = "ability_",
     		//Action

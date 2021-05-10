@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -60,6 +61,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<String, Integer> materials = new TreeMap<>();
+    List<String> reactionList = new ArrayList<>();
 
 	List<String> partyList = new ArrayList<>();
 	String equippedShotlock = "";
@@ -1238,6 +1240,42 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public int getMagicCooldownTicks() {
 		return this.magicCooldown;
+	}
+
+	@Override
+	public List<String> getReactionCommands() {
+		// TODO Auto-generated method stub
+		return reactionList;
+	}
+
+	@Override
+	public void setReactionCommands(List<String> list) {
+		this.reactionList = list;
+		
+	}
+
+	@Override
+	public boolean addReactionCommand(String command, PlayerEntity player) {
+		if(this.reactionList.contains(command)) {
+			return false;
+		} else {
+			if(ModReactionCommands.registry.getValue(new ResourceLocation(command)).conditionsToAppear(player, player)) {
+				this.reactionList.add(command);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	@Override
+	public boolean removeReactionCommand(String command) {
+		if(this.reactionList.contains(command)) {
+			this.reactionList.remove(command);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	

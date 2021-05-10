@@ -243,4 +243,9 @@ public interface IPlayerCapabilities {
 	void setWeaponsUnlocked(Set<ItemStack> unlocks);
 	int getLimitCooldownTicks();
 	void setLimitCooldownTicks(int ticks);
+	
+	List<String> getReactionCommands();
+	void setReactionCommands(List<String> list);
+	boolean addReactionCommand(String command, PlayerEntity player);
+	boolean removeReactionCommand(String command);
 }

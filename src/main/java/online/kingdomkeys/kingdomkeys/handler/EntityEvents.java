@@ -47,6 +47,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -602,6 +603,10 @@ public class EntityEvents {
 				playerData.remAeroTicks((int) damage * 2);
 				damage -= (damage * 0.3);
 			}
+			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoValorRC, player);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+
+			//TODO 
 			event.setAmount(damage <= 0 ? 1 : damage);
 		}
 	}

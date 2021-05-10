@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -57,6 +58,9 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
@@ -69,6 +73,7 @@ public class InputHandler {
     List<Member> targetsList;
     List<Limit> limitsList;
     Map<Integer, ItemStack> itemsList;
+    List<String> reactionList = new ArrayList<String>();
     
     public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
@@ -649,93 +654,98 @@ public class InputHandler {
         PlayerEntity player = mc.player;
         World world = mc.world;
 
-        Keybinds key = getPressedKey();
-        if (key != null)
-            switch (key) {
-                case OPENMENU:
-    				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-                    if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
-                        if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART) {
-                            mc.displayGuiScreen(new NoChoiceMenuPopup());
-                        }
-                    } else {
-                        GuiHelper.openMenu();
-                    }
-                    break;
+		Keybinds key = getPressedKey();
+		if (key != null) {
+			switch (key) {
+			case OPENMENU:
+				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
+				if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
+					if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART) {
+						mc.displayGuiScreen(new NoChoiceMenuPopup());
+					}
+				} else {
+					GuiHelper.openMenu();
+				}
+				break;
 
-               /* case SHOW_GUI:
-                    MainConfig.toggleShowGUI();
-                    break;*/
+			/*
+			 * case SHOW_GUI: MainConfig.toggleShowGUI(); break;
+			 */
 
-                case SCROLL_UP:
-                   // if (!MainConfig.displayGUI())
-                     //   break;
-                	if(mc.currentScreen == null)
-                		commandUp();
-                    break;
+			case SCROLL_UP:
+				// if (!MainConfig.displayGUI())
+				// break;
+				if (mc.currentScreen == null)
+					commandUp();
+				break;
 
-                case SCROLL_DOWN:
-                  //  if (!MainConfig.displayGUI())
-                   //     break;
-                	if(mc.currentScreen == null)
-                		commandDown();
-                    break;
+			case SCROLL_DOWN:
+				// if (!MainConfig.displayGUI())
+				// break;
+				if (mc.currentScreen == null)
+					commandDown();
+				break;
 
-                case ENTER:
-                   /* if (!MainConfig.displayGUI())
-                        break;*/
-                	if(mc.currentScreen == null)
-                		commandEnter();
+			case ENTER:
+				/*
+				 * if (!MainConfig.displayGUI()) break;
+				 */
+				if (mc.currentScreen == null)
+					commandEnter();
 
-                    break;
+				break;
 
-                case BACK:
-                  //  if (!MainConfig.displayGUI())
-                  //      break;
-                	if(mc.currentScreen == null)
-                		commandBack();
-                    
-                    break;
-             
-                case SUMMON_KEYBLADE:
-                    if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
-                    } else {
-                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
-                    }
-                    break;/*
-                case SCROLL_ACTIVATOR:
-                    break;*/
-                case ACTION:
-                    commandAction();
-                    break;
-                
-                case LOCK_ON:
-                    if (lockOn == null) {
-                        int reach = 35;
-                        RayTraceResult rtr = getMouseOverExtended(reach);
-                        if (rtr != null && rtr instanceof EntityRayTraceResult) {
-                        	EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
-                            if (ertr.getEntity() != null) {
-                                double distance = player.getDistance(ertr.getEntity());
-                                //System.out.println(distance);
-                                if (reach >= distance) {
-                                    if (ertr.getEntity() instanceof LivingEntity) {
-                                        lockOn = (LivingEntity) ertr.getEntity();
-                                        player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        lockOn = null;
-                    }
-                    break;
+			case BACK:
+				// if (!MainConfig.displayGUI())
+				// break;
+				if (mc.currentScreen == null)
+					commandBack();
 
-            }
-    }
+				break;
 
-    private void commandAction() {
+			case SUMMON_KEYBLADE:
+				if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+					PacketHandler.sendToServer(new CSSummonKeyblade());
+				} else {
+					PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
+				}
+				break;/*
+						 * case SCROLL_ACTIVATOR: break;
+						 */
+			case ACTION:
+				commandAction();
+				break;
+
+			case LOCK_ON:
+				if (lockOn == null) {
+					int reach = 35;
+					RayTraceResult rtr = getMouseOverExtended(reach);
+					if (rtr != null && rtr instanceof EntityRayTraceResult) {
+						EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
+						if (ertr.getEntity() != null) {
+							double distance = player.getDistance(ertr.getEntity());
+							// System.out.println(distance);
+							if (reach >= distance) {
+								if (ertr.getEntity() instanceof LivingEntity) {
+									lockOn = (LivingEntity) ertr.getEntity();
+									player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+								}
+							}
+						}
+					}
+				} else {
+					lockOn = null;
+				}
+				break;
+
+			case REACTION_COMMAND:
+				reactionCommand();
+				break;
+			}
+		}
+	}
+
+	private void commandAction() {
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -821,6 +831,11 @@ public class InputHandler {
 	            commandEnter();
 	            event.setCanceled(true);
 	        }
+	        
+	        if (event.getButton() == Constants.MIDDLE_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
+	            commandSwapReaction();
+	            event.setCanceled(true);
+	        }
 	
 	        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
 	            commandBack();
@@ -829,7 +844,29 @@ public class InputHandler {
     	}
     }
 
-    @SubscribeEvent
+    private void commandSwapReaction() {
+    	if(this.reactionList != null && !this.reactionList.isEmpty()) {
+             if (CommandMenuGui.reactionSelected < this.reactionList.size() - 1) {
+                 CommandMenuGui.reactionSelected++;
+             } else {
+                 if (CommandMenuGui.reactionSelected >= this.reactionList.size() - 1)
+                     CommandMenuGui.reactionSelected = 0;
+             }
+    	}
+	}
+    
+    private void reactionCommand() {
+		Minecraft mc = Minecraft.getInstance();
+		PlayerEntity player = mc.player;
+		/*IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		String reactionName = playerData.getReactionCommands().get(CommandMenuGui.reactionSelected);
+		ReactionCommand reaction = ModReactionCommands.registry.getValue(new ResourceLocation(reactionName));
+		reaction.onUse(player, player);*/
+		PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected));
+		player.world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	}
+
+	@SubscribeEvent
     public void OnMouseWheelScroll(MouseScrollEvent event) {
     	Minecraft mc = Minecraft.getInstance();
         if (mc.isGameFocused() && KeyboardHelper.isScrollActivatorDown()) {
@@ -853,8 +890,9 @@ public class InputHandler {
         SUMMON_KEYBLADE("key.kingdomkeys.summonkeyblade", GLFW.GLFW_KEY_G),
         LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z),
         SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
-        ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X);
+        ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X),
         //TEST("key.kingdomkeys.test",GLFW.GLFW_KEY_K);
+    	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R);
 
         private final KeyBinding keybinding;
         Keybinds(String name, int defaultKey) {
@@ -939,6 +977,8 @@ public class InputHandler {
 	        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
 	        }
 	        this.itemsList = Utils.getEquippedItems(playerData.getEquippedItems());
+	        
+	        this.reactionList = playerData.getReactionCommands();
         }
     }
 }

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -60,7 +61,7 @@ public class CommandMenuGui extends Screen {
 
 	public static final int NONE = 0;
 	public static int selected = ATTACK, targetSelected = 0;;
-	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0, limitSelected = 0, itemSelected = 0;
+	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0, limitSelected = 0, itemSelected = 0, reactionSelected = 0;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
@@ -225,6 +226,36 @@ public class CommandMenuGui extends Screen {
 		}
 		matrixStack.pop();
 		
+		//Reaction command
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		List<String> list = playerData.getReactionCommands();
+		
+		for(int i = 0; i < list.size(); i++) {
+			matrixStack.push();
+			{
+				if(i == reactionSelected) {
+					RenderSystem.color4f(1F, 1F, 1F, alpha);
+				} else {
+					RenderSystem.color4f(0.4F, 0.4F, 0.4F, alpha);
+				}
+				minecraft.textureManager.bindTexture(texture);
+				matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP - (15*scale)*i), 0);
+				matrixStack.scale(scale, scale, scale);
+				textX = 0;
+				matrixStack.push();
+				{
+					matrixStack.scale(ModConfigs.cmXScale / 75F, 1, 1);
+					blit(matrixStack, 0, 0, 0, 15, TOP_WIDTH, TOP_HEIGHT);
+				}
+				matrixStack.pop();
+				
+				if(ModConfigs.cmHeaderTextVisible) {
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(list.get(i)), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
+				}
+			}
+			matrixStack.pop();
+		}
+		
 		//Slots
 		matrixStack.push();
 		{
@@ -253,7 +284,6 @@ public class CommandMenuGui extends Screen {
 						drawUnselectedSlot(matrixStack);
 					}
 		
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int color = getColor(0xFFFFFF,SUB_MAIN);
 					if(i == MAGIC) {
 						color = playerData.getMagicsMap().isEmpty() || playerData.getMaxMP() == 0 || playerData.getMagicCooldownTicks() > 0 || playerData.getRecharge() || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
@@ -299,8 +329,6 @@ public class CommandMenuGui extends Screen {
 
 	public void drawSubPortals(MatrixStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.world);
 
         List<UUID> portals = worldData.getAllPortalsFromOwnerID(minecraft.player.getUniqueID());

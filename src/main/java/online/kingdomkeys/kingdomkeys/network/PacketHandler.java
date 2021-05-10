@@ -46,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
@@ -129,7 +130,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSEquipShotlock.class, CSEquipShotlock::encode, CSEquipShotlock::decode, CSEquipShotlock::handle);
 		HANDLER.registerMessage(packetID++, CSEquipItems.class, CSEquipItems::encode, CSEquipItems::decode, CSEquipItems::handle);
 		HANDLER.registerMessage(packetID++, CSUseItemPacket.class, CSUseItemPacket::encode, CSUseItemPacket::decode, CSUseItemPacket::handle);
-
+		HANDLER.registerMessage(packetID++, CSUseReactionCommandPacket.class, CSUseReactionCommandPacket::encode, CSUseReactionCommandPacket::decode, CSUseReactionCommandPacket::handle);
 
 	}
 

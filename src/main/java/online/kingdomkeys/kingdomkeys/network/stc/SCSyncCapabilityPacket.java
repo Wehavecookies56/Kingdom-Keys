@@ -50,6 +50,7 @@ public class SCSyncCapabilityPacket {
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String,Integer> magicsMap = new LinkedHashMap<>();
     List<String> shotlockList = new ArrayList<>();
+    List<String> reactionList = new ArrayList<>();
     String equippedShotlock;
 	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
 	LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
@@ -122,6 +123,8 @@ public class SCSyncCapabilityPacket {
 		this.unlocks = capability.getWeaponsUnlocked();
 		this.limitCooldownTicks = capability.getLimitCooldownTicks();
 		this.magicCooldownTicks = capability.getMagicCooldownTicks();
+		
+		this.reactionList = capability.getReactionCommands();
 
 	}
 
@@ -243,7 +246,14 @@ public class SCSyncCapabilityPacket {
 		unlocks.forEach(buffer::writeItemStack);
 		buffer.writeInt(this.limitCooldownTicks);
 		buffer.writeInt(this.magicCooldownTicks);
-
+		
+		CompoundNBT reactions = new CompoundNBT();
+		Iterator<String> reactionsIt = reactionList.iterator();
+		while (reactionsIt.hasNext()) {
+			String s = reactionsIt.next();
+			reactions.putInt(s, 1);
+		}
+		buffer.writeCompoundTag(reactions);
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -362,6 +372,14 @@ public class SCSyncCapabilityPacket {
 		}
 		msg.limitCooldownTicks = buffer.readInt();
 		msg.magicCooldownTicks = buffer.readInt();
+		
+		CompoundNBT reactionsTag = buffer.readCompoundTag();
+		Iterator<String> reactionsIt = reactionsTag.keySet().iterator();
+		while (reactionsIt.hasNext()) {
+			String key = (String) reactionsIt.next();
+			msg.reactionList.add(key);
+		}
+		
 		return msg;
 	}
 
@@ -417,6 +435,8 @@ public class SCSyncCapabilityPacket {
 			playerData.setWeaponsUnlocked(message.unlocks);
 			playerData.setLimitCooldownTicks(message.limitCooldownTicks);
 			playerData.setMagicCooldownTicks(message.magicCooldownTicks);
+			
+			playerData.setReactionCommands(message.reactionList);
 			
 			KingdomKeys.proxy.getClientPlayer().getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
 		});
