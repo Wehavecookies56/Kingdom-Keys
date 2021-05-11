@@ -62,7 +62,7 @@ public class ReactionAutoForm extends ReactionCommand {
 			for(ReactionCommand rc : list) {
 				if(rc instanceof ReactionAutoForm) {
 					playerData.removeReactionCommand(rc.getName());
-					System.out.println("removed "+rc.getName());
+					//System.out.println("removed "+rc.getName());
 				}
 			}
 		}
@@ -75,7 +75,7 @@ public class ReactionAutoForm extends ReactionCommand {
 			if(Utils.isPlayerLowHP(player)) {
 				if(playerData.getDP() >= ModDriveForms.registry.getValue(new ResourceLocation(form)).getDriveCost()) {
 					if(playerData.getEquippedAbilityLevel(abilityName)[1] > 0) {
-						System.out.println(abilityName+" equipped");
+						//System.out.println(abilityName+" equipped");
 						return true;
 					}
 				}

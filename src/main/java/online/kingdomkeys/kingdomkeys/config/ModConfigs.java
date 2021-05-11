@@ -224,6 +224,8 @@ public class ModConfigs {
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
     
+    public static int driveHeal;
+
     public static double drivePointsMultiplier;
     public static double focusPointsMultiplier;
     
@@ -249,6 +251,8 @@ public class ModConfigs {
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         
+        driveHeal = COMMON.driveHeal.get();
+        
         drivePointsMultiplier = COMMON.drivePointsMultiplier.get();
         focusPointsMultiplier = COMMON.focusPointsMultiplier.get();
 
@@ -264,7 +268,8 @@ public class ModConfigs {
         munnyDropProbability = COMMON.munnyDropProbability.get();
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
-
+        
+        
     }
 
     public static int recipeDropChance;
@@ -289,7 +294,6 @@ public class ModConfigs {
         limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
         limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
         limitArrowRainCost = SERVER.limitArrowRainCost.get();
-
     }
 
 

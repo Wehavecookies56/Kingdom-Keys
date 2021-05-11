@@ -25,6 +25,8 @@ public class CommonConfig {
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public ForgeConfigSpec.BooleanValue bombExplodeWithFire;
     
+    public ForgeConfigSpec.IntValue driveHeal;
+    
     public ForgeConfigSpec.DoubleValue drivePointsMultiplier;
     public ForgeConfigSpec.DoubleValue focusPointsMultiplier;
     
@@ -67,6 +69,11 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.bomb_explode_with_fire")
                 .define("bombExplodeWithfire", true);
 
+        driveHeal = builder
+                .comment("Health % restored when using a drive form")
+                .translation(KingdomKeys.MODID + ".config.drive_heal")
+                .defineInRange("driveHeal",50,0,100);
+        
         drivePointsMultiplier = builder
                 .comment("Drive Points Drop Multiplier")
                 .translation(KingdomKeys.MODID + ".config.drive_points_multiplier")

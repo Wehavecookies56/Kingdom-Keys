@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
@@ -116,8 +117,10 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 			int cost = ModDriveForms.registry.getValue(new ResourceLocation(getName())).getDriveCost();
 			playerData.remDP(cost);
 			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
-			// Summon Keyblades
 			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
+
+			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
+			// Summon Keyblades
 			player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
 			PacketHandler.syncToAllAround(player, playerData);
