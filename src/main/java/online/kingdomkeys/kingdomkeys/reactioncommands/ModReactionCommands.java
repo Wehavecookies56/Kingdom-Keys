@@ -25,7 +25,11 @@ public class ModReactionCommands {
 		public static void registerLimits(RegistryEvent.Register<ReactionCommand> event) {
 			//int order = 0;
 			event.getRegistry().registerAll(
-					new ReactionAutoValor(KingdomKeys.MODID+":"+Strings.autoValorRC)
+					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoValorRC, Strings.autoValor, Strings.Form_Valor),
+					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoWisdomRC, Strings.autoWisdom, Strings.Form_Wisdom),
+					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoLimitRC, Strings.autoLimit, Strings.Form_Limit),
+					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoMasterRC, Strings.autoMaster, Strings.Form_Master),
+					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoFinalRC, Strings.autoFinal, Strings.Form_Final)
 			);
 		}
 	}

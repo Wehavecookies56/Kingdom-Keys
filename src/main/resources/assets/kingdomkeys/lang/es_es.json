@@ -307,6 +307,13 @@
 	"form.form_master.name": "Maestra",
 	"form.form_final.name": "Final",
 
+	"_comment": "Reaction Commands",
+	"reactioncommand.rc_auto_valor.name": "Auto-valiente",
+	"reactioncommand.rc_auto_wisdom.name": "Auto-sabia",
+	"reactioncommand.rc_auto_limit.name": "Auto-suma",
+	"reactioncommand.rc_auto_master.name": "Auto-maestra",
+	"reactioncommand.rc_auto_final.name": "Auto-final",
+
 	"_comment": "Items",
 	"item.kingdomkeys.recipe": "Receta",
 	"item.kingdomkeys.ice_cream": "Helado de Sal Marina",
@@ -333,7 +340,6 @@
 	"potion.desc.beginning": "Restaurará %s%s de %s ",
 	"potion.desc.toall": "a todos los miembros del grupo en rango",
 	"potion.desc.toone": "al miembro del grupo elegido",
-	
 	
 	"item.kingdomkeys.spellfire": "Hechizo de Piro",
 	"item.kingdomkeys.spellblizzard": "Hechizo de Hielo",

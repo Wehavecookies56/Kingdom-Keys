@@ -4,9 +4,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
 public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand> {
-
 	String name;
 	//int order;
 	//int cooldown;
@@ -17,7 +18,6 @@ public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand
 
 	public ReactionCommand(ResourceLocation registryName) {
 		this.name = registryName.toString();
-		//this.cooldown = cooldown;
 		//this.max = max;
 		setRegistryName(registryName);
 		//this.order = order;
@@ -35,20 +35,10 @@ public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand
 	public String getTranslationKey() {
 		return translationKey;
 	}
-	/*
-	public int getCooldown() {
-		return cooldown;
-	}*/
-	
-	/*public int getOrder() {
-		return order;
-	}*/
-	
-	/*public int getMaxLocks() {
-		return max;
-	}*/
 
 	public abstract void onUse(PlayerEntity player, LivingEntity target);
 	public abstract boolean conditionsToAppear(PlayerEntity player, LivingEntity target);
+	
+	
 
 }

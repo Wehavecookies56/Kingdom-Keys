@@ -41,7 +41,11 @@ public class Strings {
     
     // Reaction Commands
        public static final String
-       		autoValorRC = "rc_auto_valor";
+       		autoValorRC = "rc_auto_valor",
+       		autoWisdomRC = "rc_auto_wisdom",
+       		autoLimitRC = "rc_auto_limit",
+       		autoMasterRC = "rc_auto_master",
+       		autoFinalRC = "rc_auto_final";
        
     // Abilities
     public static final String

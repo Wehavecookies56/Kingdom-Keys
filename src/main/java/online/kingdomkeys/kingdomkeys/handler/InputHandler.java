@@ -845,6 +845,7 @@ public class InputHandler {
     }
 
     private void commandSwapReaction() {
+    	loadLists();
     	if(this.reactionList != null && !this.reactionList.isEmpty()) {
              if (CommandMenuGui.reactionSelected < this.reactionList.size() - 1) {
                  CommandMenuGui.reactionSelected++;
@@ -852,17 +853,16 @@ public class InputHandler {
                  if (CommandMenuGui.reactionSelected >= this.reactionList.size() - 1)
                      CommandMenuGui.reactionSelected = 0;
              }
+     		System.out.println(CommandMenuGui.reactionSelected);
+
     	}
 	}
     
     private void reactionCommand() {
 		Minecraft mc = Minecraft.getInstance();
 		PlayerEntity player = mc.player;
-		/*IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		String reactionName = playerData.getReactionCommands().get(CommandMenuGui.reactionSelected);
-		ReactionCommand reaction = ModReactionCommands.registry.getValue(new ResourceLocation(reactionName));
-		reaction.onUse(player, player);*/
 		PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected));
+		CommandMenuGui.reactionSelected = 0;
 		player.world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	}
 

@@ -247,13 +247,11 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.limitCooldownTicks);
 		buffer.writeInt(this.magicCooldownTicks);
 		
-		CompoundNBT reactions = new CompoundNBT();
-		Iterator<String> reactionsIt = reactionList.iterator();
-		while (reactionsIt.hasNext()) {
-			String s = reactionsIt.next();
-			reactions.putInt(s, 1);
+		buffer.writeInt(reactionList.size());
+		for(int i = 0; i < reactionList.size();i++) {
+			buffer.writeString(reactionList.get(i), 100);
 		}
-		buffer.writeCompoundTag(reactions);
+		
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -373,11 +371,9 @@ public class SCSyncCapabilityPacket {
 		msg.limitCooldownTicks = buffer.readInt();
 		msg.magicCooldownTicks = buffer.readInt();
 		
-		CompoundNBT reactionsTag = buffer.readCompoundTag();
-		Iterator<String> reactionsIt = reactionsTag.keySet().iterator();
-		while (reactionsIt.hasNext()) {
-			String key = (String) reactionsIt.next();
-			msg.reactionList.add(key);
+		int rSize = buffer.readInt();
+		for(int i = 0; i < rSize;i++) {
+			msg.reactionList.add(buffer.readString(100));
 		}
 		
 		return msg;

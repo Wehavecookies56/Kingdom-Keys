@@ -35,6 +35,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -56,6 +57,9 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionAutoForm;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -469,14 +473,9 @@ public class Utils {
 		// Capitalize first letter of string
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
 
-		// Run a loop till string
-		// string contains underscore
+		// Run a loop till string string contains underscore
 		while (str.contains("_")) {
-
-			// Replace the first occurrence
-			// of letter that present after
-			// the underscore, to capitalize
-			// form of next letter of underscore
+			// Replace the first occurrence of letter that present after the underscore, to capitalize form of next letter of underscore
 			str = str.replaceFirst("_[a-z]", String.valueOf(Character.toUpperCase(str.charAt(str.indexOf("_") + 1))));
 		}
 		str = str.substring(0, 1).toLowerCase() + str.substring(1);
@@ -568,5 +567,34 @@ public class Utils {
 		
 		return finalMap;
 	}
-	
+
+	public static IPlayerCapabilities chooseAutoForm(PlayerEntity player) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		
+		List<String> reactionCommands = playerData.getReactionCommands();
+		//Get if u already have an auto reaction command
+		
+		boolean hasAlready = false;
+		for(int i=0;i<reactionCommands.size();i++) {
+			ReactionCommand command = ModReactionCommands.registry.getValue(new ResourceLocation(reactionCommands.get(i)));
+			if(command instanceof ReactionAutoForm) {
+				hasAlready = true;
+				break;
+			}
+		}
+		
+		if(!hasAlready) {
+			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoFinalRC, player);
+			
+			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoMasterRC, player);
+			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoLimitRC, player);
+			
+			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoWisdomRC, player);
+			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoValorRC, player);
+
+		}
+
+		return playerData;
+	}
+		
 }

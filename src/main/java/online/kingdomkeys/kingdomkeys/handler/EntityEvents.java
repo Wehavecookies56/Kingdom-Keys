@@ -603,7 +603,8 @@ public class EntityEvents {
 				playerData.remAeroTicks((int) damage * 2);
 				damage -= (damage * 0.3);
 			}
-			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoValorRC, player);
+			
+			playerData = Utils.chooseAutoForm(player);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 
 			//TODO 
