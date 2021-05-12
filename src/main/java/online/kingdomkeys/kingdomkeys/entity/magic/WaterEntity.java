@@ -101,7 +101,8 @@ public class WaterEntity extends ThrowableEntity {
 			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
 
 	        if (!list.isEmpty() && list.get(0) != this) {
-				float dmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1);
+				float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
+				float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 	            for (int i = 0; i < list.size(); i++) {
 	                Entity e = (Entity) list.get(i);
 	                if (e instanceof LivingEntity) {
@@ -154,7 +155,8 @@ public class WaterEntity extends ThrowableEntity {
 							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 						}
 						if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1) : 2;
+							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
+							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 							remove();
 						}

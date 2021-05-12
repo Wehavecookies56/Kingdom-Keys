@@ -99,7 +99,7 @@ public class BlizzardEntity extends ThrowableEntity {
 							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 						}
 						if (p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1) : 2;
+							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) : 2;
 							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 						}
 					}

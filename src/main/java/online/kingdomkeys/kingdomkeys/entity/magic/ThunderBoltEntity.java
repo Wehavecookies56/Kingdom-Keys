@@ -84,15 +84,6 @@ public class ThunderBoltEntity extends ThrowableEntity {
 	 */
 	public void tick() {
 		super.tick();
-		/*if (this.lightningState == 2) {
-			this.world.playSound((PlayerEntity) null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.WEATHER, 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
-			this.world.playSound((PlayerEntity) null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT, SoundCategory.WEATHER, 2.0F, 0.5F + this.rand.nextFloat() * 0.2F);
-			Difficulty difficulty = this.world.getDifficulty();
-			if (difficulty == Difficulty.NORMAL || difficulty == Difficulty.HARD) {
-				//this.igniteBlocks(4);
-			}
-		}*/
-
 		--this.lightningState;
 		if (this.lightningState < 0) {
 			if (this.boltLivingTime == 0) {
@@ -121,11 +112,10 @@ public class ThunderBoltEntity extends ThrowableEntity {
 					list.remove(getShooter());
 				}
 				
-				for (Entity entity : list) {
-					
-					float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1) : 2;
+				for (Entity entity : list) {					
+					float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.2F;
+					float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
-					
 
 					if (entity instanceof PigEntity) {
 						if (world.getDifficulty() != Difficulty.PEACEFUL) {

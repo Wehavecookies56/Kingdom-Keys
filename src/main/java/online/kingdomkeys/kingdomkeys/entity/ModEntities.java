@@ -92,6 +92,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThundaraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
@@ -146,11 +148,13 @@ public class ModEntities {
     public static final RegistryObject<EntityType<FocusOrbEntity>> TYPE_FOCUSORB = createEntityType(FocusOrbEntity::new, FocusOrbEntity::new, EntityClassification.MISC,"entity_focus_orb", 0.25F, 0.25F);
 
     public static final RegistryObject<EntityType<FireEntity>> TYPE_FIRE = createEntityType(FireEntity::new, FireEntity::new, EntityClassification.MISC,"entity_fire", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, FiraEntity::new, EntityClassification.MISC,"entity_fira", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<FiragaEntity>> TYPE_FIRAGA = createEntityType(FiragaEntity::new, FiragaEntity::new, EntityClassification.MISC,"entity_firaga", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, FiraEntity::new, EntityClassification.MISC,"entity_fira", 0.8F, 0.8F);
+    public static final RegistryObject<EntityType<FiragaEntity>> TYPE_FIRAGA = createEntityType(FiragaEntity::new, FiragaEntity::new, EntityClassification.MISC,"entity_firaga", 1.2F, 1.2F);
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, ThundaraEntity::new, EntityClassification.MISC,"entity_thundara", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ThundagaEntity>> TYPE_THUNDAGA = createEntityType(ThundagaEntity::new, ThundagaEntity::new, EntityClassification.MISC,"entity_thundaga", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, ThunderBoltEntity::new, EntityClassification.MISC,"entity_thunderbolt", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MagnetEntity::new, EntityClassification.MISC,"entity_magnet", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
@@ -300,12 +304,14 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRAGA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD.get(), BlizzardEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDER.get(), ThunderEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDER.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDARA.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDAGA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNET.get(), MagnetEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATER.get(), WaterEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), GravityEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNET.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATER.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), InvisibleEntityRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MOOGLE.get(), MoogleRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW.get(), ShadowRenderer.FACTORY);

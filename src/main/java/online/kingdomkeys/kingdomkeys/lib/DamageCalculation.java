@@ -13,18 +13,14 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 
 public class DamageCalculation {
-    /*public static float fireMultiplier = 0.8F;
-    public static float blizzardMultiplier = 1;
-    public static float aeroMultiplier = 0.2F;*/
 
     /**
-     * Magic
+     * Magic KB
      */
-    public static float getMagicDamage(PlayerEntity player, int level, ItemStack stack) {
+    public static float getMagicDamage(PlayerEntity player, ItemStack stack) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         	float damage = 0;
-            float finalDamage = 0;
 
             KeybladeItem keyblade = null;
             if(stack.getItem() instanceof KeychainItem) {
@@ -38,68 +34,38 @@ public class DamageCalculation {
 	
 	            switch (playerData.getActiveDriveForm()) {
 	                case Strings.Form_Wisdom:
-	                    damage = damage * 2;
+	                    damage = damage * 1.5F;
 	                    break;
 	                case Strings.Form_Master:
-	                    damage = (float) (damage * 2.25);
+	                    damage = (float) (damage * 1.75);
 	                    break;
 	                case Strings.Form_Final:
-	                    damage = (float) (damage * 2.5);
+	                    damage = (float) (damage * 2F);
 	                    break;
 	            }
-	
-	            switch (level) {
-	                case 1:
-	                    finalDamage = damage;
-	                    break;
-	                case 2:
-	                    finalDamage = (float) (damage + (0.1 * damage));
-	                    break;
-	                case 3:
-	                    finalDamage = (float) (damage + (0.2 * damage));
-	                    break;
-	            }
-            }
 
-            return finalDamage;//TODO (float) (finalDamage * MainConfig.items.damageMultiplier);
+            }
+            return damage;
         } else {
             return 0;
         }
     }
     /**
-     * Magic
+     * Magic org
      */
-    public static float getOrgMagicDamage(PlayerEntity player, int level, IOrgWeapon weapon) {
+    public static float getOrgMagicDamage(PlayerEntity player, IOrgWeapon weapon) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
-            float damage = 0;
-            float finalDamage = 0;
-
-            damage = (float) (weapon.getMagic() + playerData.getMagic());
-
-            switch (level) {
-                case 1:
-                    finalDamage = damage;
-                    break;
-                case 2:
-                    finalDamage = (float) (damage + (0.1 * damage));
-                    break;
-                case 3:
-                    finalDamage = (float) (damage + (0.2 * damage));
-                    break;
-            }
-            //System.out.println("Magic: "+finalDamage);
-
-            return finalDamage; //(float) (finalDamage * MainConfig.items.damageMultiplier);
+            float damage = (float) (weapon.getMagic() + playerData.getMagic());
+            return damage;
         } else {
             return 0;
         }
     }
     /**
-     * Magic
+     * Magic generic
      */
-    public static float getMagicDamage(PlayerEntity player, int level) {
+    public static float getMagicDamage(PlayerEntity player) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
@@ -107,9 +73,9 @@ public class DamageCalculation {
 
             if (player.getHeldItem(Hand.MAIN_HAND) != null && player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
             	if(player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem) {
-                    finalDamage = getMagicDamage(player, level, player.getHeldItemMainhand());
+                    finalDamage = getMagicDamage(player, player.getHeldItemMainhand());
             	} else if(player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
-            		finalDamage = getOrgMagicDamage(player, level, (IOrgWeapon) player.getHeldItemMainhand().getItem());
+            		finalDamage = getOrgMagicDamage(player, (IOrgWeapon) player.getHeldItemMainhand().getItem());
             	}
             } else {
                 finalDamage = playerData.getMagic();

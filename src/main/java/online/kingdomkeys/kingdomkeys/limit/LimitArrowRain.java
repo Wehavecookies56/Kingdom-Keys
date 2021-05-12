@@ -41,7 +41,7 @@ public class LimitArrowRain extends Limit {
 
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
-			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, 1, (IOrgWeapon) stack.getItem())) / 2;
+			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, (IOrgWeapon) stack.getItem())) / 2;
 		} else {
 			damage = (playerData.getStrength() + playerData.getMagic()) / 2;
 		}

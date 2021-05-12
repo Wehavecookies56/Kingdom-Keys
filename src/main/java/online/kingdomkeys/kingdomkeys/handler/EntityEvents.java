@@ -457,7 +457,7 @@ public class EntityEvents {
 						for (int i = 0; i < list.size(); i++) {
 							Entity e = (Entity) list.get(i);
 							if (e instanceof LivingEntity) {
-								e.attackEntityFrom(DamageSource.causePlayerDamage(player), DamageCalculation.getMagicDamage(player, 1));
+								e.attackEntityFrom(DamageSource.causePlayerDamage(player), DamageCalculation.getMagicDamage(player));
 							}
 						}
 						player.world.playSound(null, player.getPosition(), ModSounds.reflect2.get(), SoundCategory.PLAYERS, 1F, 1F);

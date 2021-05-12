@@ -59,9 +59,13 @@ public class FiraEntity extends ThrowableEntity {
 
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(ticksExisted > 2) {
-			for (float i = 0; i < 1; i = i + 0.2F) {
-				for (float j = 0; j < 1; j = j + 0.2F) {
-					world.addParticle(ParticleTypes.FLAME, getPosX() - i/2, getPosY(), getPosZ()-j/2, 0, 0, 0);
+			float radius = 0.4F;
+			for (int t = 1; t < 360; t += 40) {
+				for (int s = 1; s < 360 ; s += 40) {
+					double x = getPosX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double z = getPosZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double y = getPosY() + (radius * Math.cos(Math.toRadians(t)));
+					world.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
 				}
 			}
 		}
@@ -94,7 +98,8 @@ public class FiraEntity extends ThrowableEntity {
 					}
 					if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setFire(10);
-						float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter(), 1) : 2;
+						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
+						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 					}
 				}

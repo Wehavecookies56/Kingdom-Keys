@@ -245,7 +245,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 			if(getKeybladeLevel(stack) > 0)
 				tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
 			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,1,stack)+"]"));
+			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getDescription()));
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();

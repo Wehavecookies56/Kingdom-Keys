@@ -31,27 +31,26 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
-public class ThunderEntity extends ThrowableEntity {
+public class ThundaraEntity extends ThrowableEntity {
 
-	int maxTicks = 25;
+	int maxTicks = 35;
 
-	public ThunderEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public ThundaraEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ThunderEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_THUNDER.get(), world);
+	public ThundaraEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_THUNDARA.get(), world);
 	}
 
-	public ThunderEntity(World world) {
-		super(ModEntities.TYPE_THUNDER.get(), world);
+	public ThundaraEntity(World world) {
+		super(ModEntities.TYPE_THUNDARA.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ThunderEntity(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_THUNDER.get(), player, world);
-		//setPosition(x, y + 10, z);
+	public ThundaraEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_THUNDARA.get(), player, world);
 		setCaster(player.getUniqueID());
 	}
 
@@ -68,7 +67,7 @@ public class ThunderEntity extends ThrowableEntity {
 		this.maxTicks = maxTicks;
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ThunderEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ThundaraEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
@@ -110,7 +109,7 @@ public class ThunderEntity extends ThrowableEntity {
 		
 		if (!world.isRemote && getCaster() != null) { // Only calculate and spawn lightning bolts server side
 			if(ticksExisted == 1) {
-				double radius = 2.0D;
+				double radius = 2.5D;
 				list = this.world.getEntitiesInAABBexcluding(getCaster(), new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
 				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
 
@@ -125,7 +124,7 @@ public class ThunderEntity extends ThrowableEntity {
 
 			}
 			
-			if (ticksExisted % 10 == 1) {
+			if (ticksExisted % 7 == 1) {
 				if (!list.isEmpty()) { //find random entity
 					int i = world.rand.nextInt(list.size());
 					Entity e = (Entity) list.get(i);

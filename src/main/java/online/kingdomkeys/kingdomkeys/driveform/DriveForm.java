@@ -118,8 +118,8 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 			playerData.remDP(cost);
 			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
 			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
-
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
+			
 			// Summon Keyblades
 			player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
