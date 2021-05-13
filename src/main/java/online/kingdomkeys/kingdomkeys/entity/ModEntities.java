@@ -59,14 +59,9 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.drops.FocusOrbRendere
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.HPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MunnyRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.BlizzardEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.GravityEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.InvisibleEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.WaterEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ArrowRainCoreEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ChakramEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
@@ -151,6 +146,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, FiraEntity::new, EntityClassification.MISC,"entity_fira", 0.8F, 0.8F);
     public static final RegistryObject<EntityType<FiragaEntity>> TYPE_FIRAGA = createEntityType(FiragaEntity::new, FiragaEntity::new, EntityClassification.MISC,"entity_firaga", 1.2F, 1.2F);
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
+   // public static final RegistryObject<EntityType<BlizzaraEntity>> TYPE_BLIZZARA = createEntityType(BlizzaraEntity::new, BlizzaraEntity::new, EntityClassification.MISC,"entity_blizzara", 0.5F, 0.5F);
+   // public static final RegistryObject<EntityType<BlizzagaEntity>> TYPE_BLIZZAGA = createEntityType(BlizzagaEntity::new, BlizzagaEntity::new, EntityClassification.MISC,"entity_blizzaga", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, ThundaraEntity::new, EntityClassification.MISC,"entity_thundara", 0.5F, 0.5F);

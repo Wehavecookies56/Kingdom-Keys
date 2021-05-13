@@ -9,6 +9,9 @@ import net.minecraft.util.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -26,11 +29,43 @@ public class MagicBlizzard extends Magic {
 		casterData.setMagicCooldownTicks(20);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
 
-		ThrowableEntity shot = new BlizzardEntity(player.world, player);
-		player.world.addEntity(shot);
-		shot.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
-		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
-		player.swingArm(Hand.MAIN_HAND);
+		switch(level) {
+		case 0:
+			ThrowableEntity blizzard = new BlizzardEntity(player.world, player);
+			player.world.addEntity(blizzard);
+			blizzard.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
+			player.swingArm(Hand.MAIN_HAND);
+			break;
+		case 1:
+			for(int i = -1; i < 2; i++) {
+				ThrowableEntity blizzara = new BlizzardEntity(player.world, player);
+				player.world.addEntity(blizzara);
+				blizzara.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw + i*6, 0, 2F, 0);
+				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
+			}
+			player.swingArm(Hand.MAIN_HAND);
+
+			break;
+		case 2:
+			for(int i = -1; i < 2; i++) {
+				ThrowableEntity blizzara = new BlizzardEntity(player.world, player);
+				player.world.addEntity(blizzara);
+				blizzara.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw + i*6, 0, 2F, 0);
+				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
+			}
+			for(int i = -1; i < 2; i++) {
+				ThrowableEntity blizzara = new BlizzardEntity(player.world, player);
+				player.world.addEntity(blizzara);
+				blizzara.setDirectionAndMovement(player, player.rotationPitch-5, player.rotationYaw + i*6, 0, 2F, 0);
+				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
+			}
+			player.swingArm(Hand.MAIN_HAND);
+
+			break;
+		}
+		
+		
 	}
 
 }

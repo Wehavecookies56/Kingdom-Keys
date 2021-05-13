@@ -251,10 +251,8 @@ public class CommandMenuGui extends Screen {
 				}
 				matrixStack.pop();
 				
-				if(ModConfigs.cmHeaderTextVisible) {
-					ReactionCommand command = ModReactionCommands.registry.getValue(new ResourceLocation(list.get(i)));
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
-				}
+				ReactionCommand command = ModReactionCommands.registry.getValue(new ResourceLocation(list.get(i)));
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);	
 			}
 			matrixStack.pop();
 		}

@@ -844,26 +844,27 @@ public class InputHandler {
     	}
     }
 
-    private void commandSwapReaction() {
-    	loadLists();
-    	if(this.reactionList != null && !this.reactionList.isEmpty()) {
-             if (CommandMenuGui.reactionSelected < this.reactionList.size() - 1) {
-                 CommandMenuGui.reactionSelected++;
-             } else {
-                 if (CommandMenuGui.reactionSelected >= this.reactionList.size() - 1)
-                     CommandMenuGui.reactionSelected = 0;
-             }
-     		System.out.println(CommandMenuGui.reactionSelected);
-
-    	}
+	private void commandSwapReaction() {
+		loadLists();
+		if (this.reactionList != null && !this.reactionList.isEmpty()) {
+			if (CommandMenuGui.reactionSelected < this.reactionList.size() - 1) {
+				CommandMenuGui.reactionSelected++;
+			} else {
+				if (CommandMenuGui.reactionSelected >= this.reactionList.size() - 1)
+					CommandMenuGui.reactionSelected = 0;
+			}
+		}
 	}
     
     private void reactionCommand() {
-		Minecraft mc = Minecraft.getInstance();
-		PlayerEntity player = mc.player;
-		PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected));
-		CommandMenuGui.reactionSelected = 0;
-		player.world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+    	loadLists();
+    	if(!reactionList.isEmpty()) {
+    		Minecraft mc = Minecraft.getInstance();
+    		PlayerEntity player = mc.player;
+			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected));
+			CommandMenuGui.reactionSelected = 0;
+			player.world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+		}
 	}
 
 	@SubscribeEvent

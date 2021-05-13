@@ -1,12 +1,11 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
@@ -26,11 +25,9 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.client.event.GuiScreenEvent.MouseClickedEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -41,13 +38,10 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -55,7 +49,6 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -85,8 +78,6 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -95,6 +86,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -190,7 +183,7 @@ public class EntityEvents {
 				/*
 				if (player.dimension.getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
 					PacketHandler.sendTo(new SCUpdateSoA(playerData), (ServerPlayerEntity) player);
-				}
+				}s
 				 */
 			}
 			PacketHandler.syncToAllAround(player, playerData);
@@ -208,6 +201,20 @@ public class EntityEvents {
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
+				//Check if rc conditions match
+				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
+				for(ReactionCommand rc : ModReactionCommands.registry.getValues()) {
+					if(rc.conditionsToAppear(event.player, event.player)) {
+						rcList.add(rc);
+					}
+				}
+				
+				playerData.setReactionCommands(new ArrayList<String>());
+				for(ReactionCommand rc : rcList) {
+					playerData.addReactionCommand(rc.getName(), event.player);
+				}
+
+				
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) { //TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);
 				}
@@ -390,17 +397,6 @@ public class EntityEvents {
 		}
 
 		if (playerData != null) {
-			// Drive Form abilities
-			/*if(shouldHandleHighJump(player, playerData)) {
-				handleHighJump(player, playerData);
-			}
-			if(playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
-				handleAerialDodge(player, playerData);
-			}
-			if(playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
-				handleGlide(player, playerData);
-			}*/
-
 			//Rotation ticks should always be lost, this way we prevent the spinning animation on other players (hopefully)
 			if (playerData.getAerialDodgeTicks() > 0) {
 				playerData.setAerialDodgeTicks(playerData.getAerialDodgeTicks() - 1);
@@ -603,12 +599,11 @@ public class EntityEvents {
 				playerData.remAeroTicks((int) damage * 2);
 				damage -= (damage * 0.3);
 			}
-			
-			playerData = Utils.chooseAutoForm(player);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-
-			//TODO 
+			
 			event.setAmount(damage <= 0 ? 1 : damage);
+			//playerData = Utils.chooseAutoForm(player);
+
 		}
 	}
 
