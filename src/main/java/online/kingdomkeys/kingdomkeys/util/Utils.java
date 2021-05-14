@@ -50,6 +50,8 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
@@ -595,6 +597,16 @@ public class Utils {
 		}
 
 		return playerData;
+	}
+
+	public static boolean isEntityInParty(Party party, Entity e) {
+		List<Member> list = party.getMembers();
+		for(Member m : list) {
+			if(m.getUUID().equals(e.getUniqueID())) {
+				return true;
+			}
+		}
+		return false;
 	}
 		
 }

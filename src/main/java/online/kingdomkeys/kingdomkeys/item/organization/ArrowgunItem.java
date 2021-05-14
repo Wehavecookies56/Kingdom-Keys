@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -9,10 +7,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -39,14 +34,13 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 				bullet.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 3F, 0);
 				world.addEntity(bullet);
 
-				player.swingArm(Hand.MAIN_HAND);
+				//player.swingArm(Hand.MAIN_HAND);
 				tempAmmo = player.getHeldItem(hand).getTag().getInt("ammo") - 1;
 
 				player.getHeldItem(hand).getTag().putInt("ammo", tempAmmo);
 				if(tempAmmo == 0) {
 					player.getHeldItem(hand).getTag().putInt("ammo", ammo);
 					player.getCooldownTracker().setCooldown(this, reload);
-					//System.out.println("reload");
 					world.playSound(null, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
 				}
 			}
@@ -59,7 +53,7 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 
 				player.getCooldownTracker().setCooldown(this, reload / nbt.getInt("ammo"));
 				player.getHeldItem(hand).getTag().putInt("ammo", ammo);
-
+				player.swingArm(Hand.MAIN_HAND);
 			}
 			return super.onItemRightClick(world, player, hand);
 		}

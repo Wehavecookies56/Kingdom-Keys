@@ -13,7 +13,6 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -61,7 +60,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		if (this.ticksExisted > maxTicks) {
 			this.remove();
 		}
-        world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX()-1+rand.nextDouble()*2, getPosY() + rand.nextDouble()*4, getPosZ()-1+rand.nextDouble()*2, 0.0D, 0.0D, 0.0D);
+		world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX() - 1 + rand.nextDouble() * 2, getPosY() + rand.nextDouble() * 4, getPosZ() - 1 + rand.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
 
 		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().grow(radius, radius, radius));
 		for (Entity t : tempList) {
@@ -81,30 +80,9 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		        }
 	        }
 		}
-    	
-
-		super.tick();
+    	super.tick();
 	}
 	
-	 @Override
-	    public void onCollideWithPlayer(PlayerEntity player) {
-	        /*if(shouldTeleport) {
-		        if(!this.isAlive())
-		            return;
-		        if(player != null){
-		            if (destinationPos != null) {
-		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
-		                	player.setPosition(destinationPos.getX(), destinationPos.getY(), destinationPos.getZ());
-		                	if(player.world.isRemote)
-		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1, destinationPos.getZ()+0.5));
-		                }
-		            }
-		        }
-	        }*/
-
-	        super.onCollideWithPlayer(player);
-	    }
-
 	public int getMaxTicks() {
 		return maxTicks;
 	}

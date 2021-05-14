@@ -54,10 +54,10 @@ public class MagicBlizzard extends Magic {
 				blizzara.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw + i*6, 0, 2F, 0);
 				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
 			}
-			for(int i = -1; i < 2; i++) {
+			for(int i = -1; i < 1; i++) {
 				ThrowableEntity blizzara = new BlizzardEntity(player.world, player);
 				player.world.addEntity(blizzara);
-				blizzara.setDirectionAndMovement(player, player.rotationPitch-5, player.rotationYaw + i*6, 0, 2F, 0);
+				blizzara.setDirectionAndMovement(player, player.rotationPitch-6, player.rotationYaw + i*6+3, 0, 2F, 0);
 				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
 			}
 			player.swingArm(Hand.MAIN_HAND);
