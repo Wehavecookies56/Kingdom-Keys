@@ -108,7 +108,7 @@ public class ArrowRainCoreEntity extends ThrowableEntity {
 					double z = Z + (radius * Math.sin(Math.toRadians(s)));
 					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
 					bullet.setPosition(X, Y + 27, Z);
-					bullet.setMaxTicks(maxTicks);
+					bullet.setMaxTicks(20);
 					bullet.shoot(x - bullet.getPosX(), this.getPosY() - bullet.getPosY()+1, z - bullet.getPosZ(), 2.5f, 0);
 					//list.add(bullet);
 					world.addEntity(bullet);
