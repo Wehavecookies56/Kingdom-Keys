@@ -85,6 +85,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.GravigaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.GraviraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
@@ -163,6 +165,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<MagneraEntity>> TYPE_MAGNERA = createEntityType(MagneraEntity::new, MagneraEntity::new, EntityClassification.MISC,"entity_magnera", 1.5F, 1.5F);
     public static final RegistryObject<EntityType<MagnegaEntity>> TYPE_MAGNEGA = createEntityType(MagnegaEntity::new, MagnegaEntity::new, EntityClassification.MISC,"entity_magnega", 2F, 2F);
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<GraviraEntity>> TYPE_GRAVIRA = createEntityType(GraviraEntity::new, GraviraEntity::new, EntityClassification.MISC,"entity_gravira", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<GravigaEntity>> TYPE_GRAVIGA = createEntityType(GravigaEntity::new, GravigaEntity::new, EntityClassification.MISC,"entity_graviga", 0.5F, 0.5F);
 
     public static final RegistryObject<EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, SeedBulletEntity::new, EntityClassification.MISC,"seed_bullet", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ArrowgunShotEntity>> TYPE_ARROWGUN_SHOT = createEntityType(ArrowgunShotEntity::new, ArrowgunShotEntity::new, EntityClassification.MISC,"arrowgun_shot", 0.1F, 0.1F);
@@ -321,6 +325,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_WATERA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_WATEGA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVIRA.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVIGA.get(), InvisibleEntityRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MOOGLE.get(), MoogleRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW.get(), ShadowRenderer.FACTORY);
