@@ -20,10 +20,12 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GravityEntity extends ThrowableEntity {
 
@@ -87,7 +89,7 @@ public class GravityEntity extends ThrowableEntity {
 		
 		IWorldCapabilities worldData = ModCapabilities.getWorld(world);
 		if (!world.isRemote && getShooter() != null && worldData != null) {
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getShooter(), getBoundingBox().grow(3.0D, 3.0D, 3.0D));
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getShooter(), getBoundingBox().grow(radius));
 			Party casterParty = worldData.getPartyFromMember(getShooter().getUniqueID());
 
 			if(casterParty != null && !casterParty.getFriendlyFire()) {
@@ -105,13 +107,16 @@ public class GravityEntity extends ThrowableEntity {
 						IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
 						globalData.setFlatTicks(100);
 						
+						if(Utils.isHostile(e)) {
+							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.2F;
+							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
+							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+						}
 						if (e instanceof LivingEntity)
 							PacketHandler.syncToAllAround((LivingEntity) e, globalData);
 
 						if(e instanceof ServerPlayerEntity)
 							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) e);
-						
-						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), 1);
 					}
 				}
 			}

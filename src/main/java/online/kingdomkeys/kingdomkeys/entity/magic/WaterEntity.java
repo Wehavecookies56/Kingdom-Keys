@@ -82,24 +82,22 @@ public class WaterEntity extends ThrowableEntity {
 			
 		} else if (ticksExisted < 50) { //Shield
 			setPosition(player.getPosX(), getPosY(), player.getPosZ());
-			double r = 1D;
+    		double radius = 1D;
 			double cx = getPosX();
 			double cy = getPosY();
 			double cz = getPosZ();
 
-			a+=30; //Speed and distance between particles
-			double x = cx + (r * Math.cos(Math.toRadians(a)));
-			double z = cz + (r * Math.sin(Math.toRadians(a)));
+			a+=40; //Speed and distance between particles
+			double x = cx + (radius * Math.cos(Math.toRadians(a)));
+			double z = cz + (radius * Math.sin(Math.toRadians(a)));
 
-			double x2 = cx + (r * Math.cos(Math.toRadians(-a)));
-			double z2 = cz + (r * Math.sin(Math.toRadians(-a)));
+			double x2 = cx + (radius * Math.cos(Math.toRadians(-a)));
+			double z2 = cz + (radius * Math.sin(Math.toRadians(-a)));
 
 			world.addParticle(ParticleTypes.DRIPPING_WATER, x, (cy+0.5) - a / 1080D, z, 0.0D, 0.0D, 0.0D);
 			world.addParticle(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
 			
-    		double radius = 2.0D;
-			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
-
+			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, player.getBoundingBox().grow(radius), Entity::isAlive);
 	        if (!list.isEmpty() && list.get(0) != this) {
 				float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
 				float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;

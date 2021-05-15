@@ -620,5 +620,9 @@ public class Utils {
 		}
 		return list2;
 	}
+
+	public static boolean isHostile(Entity e) {
+		return e instanceof MonsterEntity || e instanceof PlayerEntity;
+	}
 		
 }
