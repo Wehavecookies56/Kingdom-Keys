@@ -219,6 +219,9 @@
 	"ability.ability_blizzard_boost.desc": "Increases damage done with blizzard-based attacks.",
 	"ability.ability_experience_boost.name": "Experience Boost",
 	"ability.ability_experience_boost.desc": "Increases experience gained by 100% when you are at half health or less.",
+	"ability.ability_second_chance.name": "Second Chance",
+	"ability.ability_second_chance.desc": "Ensures 1 HP remains after taking massive damage.",
+
 
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Laser Circle",

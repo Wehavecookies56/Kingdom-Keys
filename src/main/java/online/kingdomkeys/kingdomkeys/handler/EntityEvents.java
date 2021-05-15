@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,12 +23,15 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.PlayerData;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -639,14 +643,25 @@ public class EntityEvents {
 			
 			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense())));
 			if(playerData.getAeroTicks() > 0) {
+				float resistMultiplier = playerData.getAeroLevel() == 0 ? 0.3F : playerData.getAeroLevel() == 1 ? 0.35F : playerData.getAeroLevel() == 2 ? 0.4F : 0;
+				
 				playerData.remAeroTicks((int) damage * 2);
-				damage -= (damage * 0.3);
+				damage -= (damage * resistMultiplier);
 			}
+			 //Second chance (will save the player from a damage that would've killed him  as long as he had 2 hp or more
+			if(playerData.isAbilityEquipped(Strings.secondChance)) {
+				if(damage >= player.getHealth() && player.getHealth() > 1) {
+					if(player.isPotionActive(Effects.REGENERATION)) {
+						player.removePotionEffect(Effects.REGENERATION);
+						player.potionsNeedUpdate = true;
+					}
+					damage = player.getHealth()-1;
+				}
+			}
+			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			
 			event.setAmount(damage <= 0 ? 1 : damage);
-			//playerData = Utils.chooseAutoForm(player);
-
 		}
 	}
 

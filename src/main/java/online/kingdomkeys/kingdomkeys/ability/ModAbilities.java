@@ -54,7 +54,8 @@ public class ModAbilities {
 				createAbility(Strings.formBoost, 3, AbilityType.SUPPORT),
 				createAbility(Strings.blizzardBoost, 3, AbilityType.SUPPORT),
 				createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
-				createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT)
+				createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
+				createAbility(Strings.secondChance, 4, AbilityType.SUPPORT)
 			);
 		}
 	}

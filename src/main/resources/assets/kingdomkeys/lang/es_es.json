@@ -219,6 +219,8 @@
 	"ability.ability_blizzard_boost.desc": "Aumenta el daño de los ataques Hielo.",
 	"ability.ability_experience_boost.name": "Extraexperiencia",
 	"ability.ability_experience_boost.desc": "Si la VT cae a menos de la mitad, aumenta un 100% la experiencia ganada al vencer enemigos.",
+	"ability.ability_second_chance.name": "Último Estertor",
+	"ability.ability_second_chance.desc": "Asegura un punto de vitalidad si recibes daños severos.",
 
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Círculo Láser",

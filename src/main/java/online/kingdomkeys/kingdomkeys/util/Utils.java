@@ -572,7 +572,7 @@ public class Utils {
 		return finalMap;
 	}
 
-	public static IPlayerCapabilities chooseAutoForm(PlayerEntity player) {
+	/*public static IPlayerCapabilities chooseAutoForm(PlayerEntity player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		
 		List<String> reactionCommands = playerData.getReactionCommands();
@@ -599,7 +599,7 @@ public class Utils {
 		}
 
 		return playerData;
-	}
+	}*/
 
 	public static boolean isEntityInParty(Party party, Entity e) {
 		List<Member> list = party.getMembers();

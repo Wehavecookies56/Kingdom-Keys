@@ -222,6 +222,7 @@ public class LevelStats {
                 break;
             case 56:
                 cap.addMagic(1);
+                cap.addAbility(Strings.secondChance, true);
                 break;
             case 57:
                 cap.addStrength(1);
