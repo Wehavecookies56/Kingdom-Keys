@@ -95,7 +95,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundaraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.WategaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
@@ -156,7 +156,7 @@ public class ModEntities {
    // public static final RegistryObject<EntityType<BlizzagaEntity>> TYPE_BLIZZAGA = createEntityType(BlizzagaEntity::new, BlizzagaEntity::new, EntityClassification.MISC,"entity_blizzaga", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WateraEntity>> TYPE_WATERA = createEntityType(WateraEntity::new, WateraEntity::new, EntityClassification.MISC,"entity_watera", 0.8F, 0.8F);
-    public static final RegistryObject<EntityType<WategaEntity>> TYPE_WATEGA = createEntityType(WategaEntity::new, WategaEntity::new, EntityClassification.MISC,"entity_watega", 1F, 1F);
+    public static final RegistryObject<EntityType<WatergaEntity>> TYPE_WATERGA = createEntityType(WatergaEntity::new, WatergaEntity::new, EntityClassification.MISC,"entity_waterga", 1F, 1F);
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, ThundaraEntity::new, EntityClassification.MISC,"entity_thundara", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundagaEntity>> TYPE_THUNDAGA = createEntityType(ThundagaEntity::new, ThundagaEntity::new, EntityClassification.MISC,"entity_thundaga", 0.5F, 0.5F);
@@ -323,7 +323,7 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNEGA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_WATER.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_WATERA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATEGA.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATERGA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVIRA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVIGA.get(), InvisibleEntityRenderer.FACTORY);

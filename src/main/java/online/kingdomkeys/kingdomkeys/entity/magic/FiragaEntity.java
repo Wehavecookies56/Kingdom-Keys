@@ -1,8 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -12,12 +16,18 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class FiragaEntity extends ThrowableEntity {
 
@@ -75,7 +85,6 @@ public class FiragaEntity extends ThrowableEntity {
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
 		if (!world.isRemote) {
-
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;
 
@@ -103,6 +112,33 @@ public class FiragaEntity extends ThrowableEntity {
 					}
 				}
 			}
+			
+			float radius = 2F;
+			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getShooter(), getBoundingBox().grow(radius));
+			Party casterParty = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
+
+			if(casterParty != null && !casterParty.getFriendlyFire()) {
+				for(Member m : casterParty.getMembers()) {
+					list.remove(world.getPlayerByUuid(m.getUUID()));
+				}
+			} else {
+				list.remove(getShooter());
+			}
+
+			((ServerWorld)world).spawnParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
+			
+			if (!list.isEmpty()) {
+				for (int i = 0; i < list.size(); i++) {
+					Entity e = (Entity) list.get(i);
+					if (e instanceof LivingEntity) {
+						e.setFire(15);
+						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
+						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
+						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+					}
+				}
+			}
+
 			remove();
 		}
 	}

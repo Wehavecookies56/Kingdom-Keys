@@ -27,28 +27,28 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class WategaEntity extends ThrowableEntity {
+public class WatergaEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 	PlayerEntity player;
 	String caster;
 
-	public WategaEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public WatergaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public WategaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_WATEGA.get(), world);
+	public WatergaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_WATERGA.get(), world);
 	}
 
-	public WategaEntity(World world) {
-		super(ModEntities.TYPE_WATEGA.get(), world);
+	public WatergaEntity(World world) {
+		super(ModEntities.TYPE_WATERGA.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public WategaEntity(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_WATEGA.get(), player, world);
+	public WatergaEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_WATERGA.get(), player, world);
 		this.player = player;
 	}
 

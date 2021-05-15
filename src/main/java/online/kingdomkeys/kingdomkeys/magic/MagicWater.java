@@ -7,7 +7,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.entity.magic.WategaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -41,9 +41,9 @@ public class MagicWater extends Magic {
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 2:
-			WategaEntity watega = new WategaEntity(player.world, player);
-			watega.setCaster(player.getDisplayName().getString());
-			player.world.addEntity(watega);
+			WatergaEntity waterga = new WatergaEntity(player.world, player);
+			waterga.setCaster(player.getDisplayName().getString());
+			player.world.addEntity(waterga);
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		}

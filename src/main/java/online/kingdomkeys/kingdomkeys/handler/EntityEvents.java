@@ -648,7 +648,8 @@ public class EntityEvents {
 				playerData.remAeroTicks((int) damage * 2);
 				damage -= (damage * resistMultiplier);
 			}
-			 //Second chance (will save the player from a damage that would've killed him  as long as he had 2 hp or more
+			
+			//Second chance (will save the player from a damage that would've killed him  as long as he had 2 hp or more
 			if(playerData.isAbilityEquipped(Strings.secondChance)) {
 				if(damage >= player.getHealth() && player.getHealth() > 1) {
 					if(player.isPotionActive(Effects.REGENERATION)) {
@@ -665,7 +666,7 @@ public class EntityEvents {
 		}
 	}
 
-	// Prevent attack when stopped
+	//Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
 		if(!event.getEntityLiving().world.isRemote) {
@@ -710,7 +711,7 @@ public class EntityEvents {
 								dmg = event.getAmount();
 							}
 						}
-					//	System.out.println(dmg);
+
 						globalData.addDamage(dmg);
 						event.setCanceled(true);
 					}
