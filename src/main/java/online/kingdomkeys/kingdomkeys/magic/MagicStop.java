@@ -31,8 +31,8 @@ public class MagicStop extends Magic {
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
 		casterData.setMagicCooldownTicks(20);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
-
-		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(6.0D, 3.0D, 6.0D).offset(-3.0D, -1.0D, -3.0D));
+		float radius = 2 + level;
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius,radius,radius));
 		Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 
 		if(casterParty != null && !casterParty.getFriendlyFire()) {
@@ -52,7 +52,7 @@ public class MagicStop extends Magic {
                 	if(e instanceof MobEntity) {
                 		((MobEntity) e).setNoAI(true);
                 	}
-					globalData.setStoppedTicks(100); //Stop
+					globalData.setStoppedTicks(100 + level * 20); //Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
                 	if(e instanceof ServerPlayerEntity)
                 		PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);

@@ -27,7 +27,9 @@ public class SCSyncCapabilityToAllPacket {
 			magic = 0,
 			defense = 0,
 			reflectTicks = 0,
+			reflectLevel = 0,
 			aeroTicks = 0,
+			aeroLevel = 0,
 			antipoints = 0,
 			maxHP = 20;
 	
@@ -54,7 +56,9 @@ public class SCSyncCapabilityToAllPacket {
 		this.defense = capability.getDefense();
 		this.driveForm = capability.getActiveDriveForm();
 		this.aeroTicks = capability.getAeroTicks();
+		this.aeroLevel = capability.getAeroLevel();
 		this.reflectTicks = capability.getReflectTicks();
+		this.reflectLevel = capability.getReflectLevel();
 		this.fp = capability.getFP();
 		this.dp = capability.getDP();
 		this.antipoints = capability.getAntiPoints();
@@ -80,7 +84,9 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeInt(this.defense);
 		buffer.writeString(this.driveForm);
 		buffer.writeInt(this.aeroTicks);
+		buffer.writeInt(this.aeroLevel);
 		buffer.writeInt(this.reflectTicks);
+		buffer.writeInt(this.reflectLevel);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.fp);
 		buffer.writeInt(this.antipoints);
@@ -120,7 +126,9 @@ public class SCSyncCapabilityToAllPacket {
 		msg.defense = buffer.readInt();
 		msg.driveForm = buffer.readString();
 		msg.aeroTicks = buffer.readInt();
+		msg.aeroLevel = buffer.readInt();
 		msg.reflectTicks = buffer.readInt();
+		msg.reflectLevel = buffer.readInt();
 		msg.dp = buffer.readDouble();
 		msg.fp = buffer.readDouble();
 		msg.antipoints = buffer.readInt();
@@ -167,8 +175,8 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setMagic(message.magic);
 				playerData.setDefense(message.defense);
 				playerData.setActiveDriveForm(message.driveForm);
-				playerData.setAeroTicks(message.aeroTicks);
-				playerData.setReflectTicks(message.reflectTicks);
+				playerData.setAeroTicks(message.aeroTicks, message.aeroLevel);
+				playerData.setReflectTicks(message.reflectTicks, message.reflectLevel);
 				playerData.setDP(message.dp);
 				playerData.setFP(message.fp);
 				playerData.setAntiPoints(message.antipoints);

@@ -22,7 +22,9 @@ public class MagicAero extends Magic {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		playerData.setAeroTicks((int) (ModCapabilities.getPlayer(caster).getMaxMP() * 4));
+		int time = (int) (ModCapabilities.getPlayer(caster).getMaxMP() * (4F + level/2F));
+		System.out.println(time+" : "+level);
+		playerData.setAeroTicks(time, level);
 		PacketHandler.syncToAllAround(player, playerData);
 		caster.swingArm(Hand.MAIN_HAND);
 	}

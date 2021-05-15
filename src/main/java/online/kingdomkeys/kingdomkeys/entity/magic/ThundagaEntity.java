@@ -102,19 +102,19 @@ public class ThundagaEntity extends ThrowableEntity {
 			this.remove();
 		}
 
-		if(getCaster() == null) {
+		if (getCaster() == null) {
 			remove();
 			return;
 		}
-		
+
 		if (!world.isRemote && getCaster() != null) { // Only calculate and spawn lightning bolts server side
-			if(ticksExisted == 1) {
+			if (ticksExisted == 1) {
 				double radius = 3.0D;
-				list = this.world.getEntitiesInAABBexcluding(getCaster(), new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
+				list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getCaster().getBoundingBox().grow(radius, radius, radius));
 				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
 
-				if(casterParty != null && !casterParty.getFriendlyFire()) {
-					for(Member m : casterParty.getMembers()) {
+				if (casterParty != null && !casterParty.getFriendlyFire()) {
+					for (Member m : casterParty.getMembers()) {
 						list.remove(world.getPlayerByUuid(m.getUUID()));
 					}
 				} else {
@@ -122,9 +122,9 @@ public class ThundagaEntity extends ThrowableEntity {
 				}
 				list.remove(this);
 			}
-			
+
 			if (ticksExisted % 5 == 1) {
-				if (!list.isEmpty()) { //find random entity
+				if (!list.isEmpty()) { // find random entity
 					int i = world.rand.nextInt(list.size());
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
@@ -165,7 +165,7 @@ public class ThundagaEntity extends ThrowableEntity {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

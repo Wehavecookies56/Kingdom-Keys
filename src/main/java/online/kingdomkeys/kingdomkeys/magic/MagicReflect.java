@@ -25,7 +25,7 @@ public class MagicReflect extends Magic {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		playerData.setReflectTicks(40);
+		playerData.setReflectTicks(40 + (level * 5), level);
 		player.world.playSound(null, player.getPosition(), ModSounds.reflect1.get(), SoundCategory.PLAYERS, 1F, 1F);
 		PacketHandler.syncToAllAround(player, playerData);
 		player.swingArm(Hand.MAIN_HAND);

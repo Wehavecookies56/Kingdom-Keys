@@ -96,15 +96,19 @@ public interface IPlayerCapabilities {
 	void setActiveDriveForm(String form);
 	String getActiveDriveForm();
 	
+	int getAeroLevel();
+	void setAeroLevel(int level);
 	int getAeroTicks();
-	void setAeroTicks(int i);
+	void setAeroTicks(int i, int level);
 	void remAeroTicks(int ticks);
 
 	void setMagicCooldownTicks(int ticks);
 	void remMagicCooldownTicks(int ticks);
 	int getMagicCooldownTicks();
 	
-	void setReflectTicks(int ticks);
+	int getReflectLevel();
+	void setReflectLevel(int level);
+	void setReflectTicks(int ticks, int level);
 	void remReflectTicks(int ticks);
 	int getReflectTicks();
 	void setReflectActive(boolean active);

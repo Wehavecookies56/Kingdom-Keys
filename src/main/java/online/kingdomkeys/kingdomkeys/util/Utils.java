@@ -20,7 +20,9 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.controller.LookController;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -607,6 +609,16 @@ public class Utils {
 			}
 		}
 		return false;
+	}
+
+	public static List<Entity> removeFriendlyEntities(List<Entity> list) {
+		List<Entity> list2 = new ArrayList<Entity>();
+		for(Entity e : list) {
+			if(e instanceof MonsterEntity || e instanceof PlayerEntity) {
+				list2.add((LivingEntity)e);
+			}
+		}
+		return list2;
 	}
 		
 }

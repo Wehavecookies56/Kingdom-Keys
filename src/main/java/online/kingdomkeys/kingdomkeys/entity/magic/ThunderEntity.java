@@ -111,7 +111,7 @@ public class ThunderEntity extends ThrowableEntity {
 		if (!world.isRemote && getCaster() != null) { // Only calculate and spawn lightning bolts server side
 			if(ticksExisted == 1) {
 				double radius = 2.0D;
-				list = this.world.getEntitiesInAABBexcluding(getCaster(), new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
+				list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getCaster().getBoundingBox().grow(radius, radius, radius));
 				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
 
 				if(casterParty != null && !casterParty.getFriendlyFire()) {

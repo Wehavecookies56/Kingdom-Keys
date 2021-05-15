@@ -14,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagicCure extends Magic {
@@ -44,7 +43,7 @@ public class MagicCure extends Magic {
 			if(worldData.getPartyFromMember(player.getUniqueID()) != null) {
 				//heal everyone including user
 				Party party = worldData.getPartyFromMember(player.getUniqueID());
-				List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(16.0D, 10.0D, 16.0D).offset(-8.0D, -5.0D, -8.0D));
+				List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(3,3,3));
 		        if (!list.isEmpty()) {
 		            for (int i = 0; i < list.size(); i++) {
 		                Entity e = (Entity) list.get(i);
@@ -62,7 +61,7 @@ public class MagicCure extends Magic {
 
 			if(worldData.getPartyFromMember(player.getUniqueID()) != null) {
 				Party party = worldData.getPartyFromMember(player.getUniqueID());
-				List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(16.0D, 10.0D, 16.0D).offset(-8.0D, -5.0D, -8.0D));
+				List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(4.0D, 4.0D, 4.0D));
 		        if (!list.isEmpty()) {
 		            for (int i = 0; i < list.size(); i++) {
 		                Entity e = (Entity) list.get(i);

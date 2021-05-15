@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -11,6 +12,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -18,6 +20,7 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
@@ -25,26 +28,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class MagnetEntity extends ThrowableEntity {
+public class MagneraEntity extends ThrowableEntity {
 
-	int maxTicks = 100;
+	int maxTicks = 150;
 
-	public MagnetEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public MagneraEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public MagnetEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_MAGNET.get(), world);
+	public MagneraEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_MAGNERA.get(), world);
 	}
 
-	public MagnetEntity(World world) {
-		super(ModEntities.TYPE_MAGNET.get(), world);
+	public MagneraEntity(World world) {
+		super(ModEntities.TYPE_MAGNERA.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public MagnetEntity(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_MAGNET.get(), player, world);
+	public MagneraEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_MAGNERA.get(), player, world);
 		setCaster(player.getUniqueID());
 	}
 
@@ -71,7 +74,7 @@ public class MagnetEntity extends ThrowableEntity {
 		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 
 		if (ticksExisted >= 3 && ticksExisted % 2 == 0) {
-			float radius = 2F;
+			float radius = 2.5F;
 			double X = getPosX();
 			double Y = getPosY();
 			double Z = getPosZ();
@@ -106,9 +109,16 @@ public class MagnetEntity extends ThrowableEntity {
 					if (e instanceof LivingEntity) {
 						double d = e.getPosX() - getPosX();
 						double d1 = e.getPosZ() - getPosZ();
+											
 						((LivingEntity) e).applyKnockback(1, d, d1);
 						if (e.getPosY() < this.getPosY() - 0.5) {
 							e.setMotion(e.getMotion().x, 0.5F, e.getMotion().z);
+						}
+						if(ticksExisted + 2 > maxTicks) {
+							if(e instanceof MonsterEntity || e instanceof PlayerEntity) {
+								e.attackEntityFrom(DamageSource.causePlayerDamage(getCaster()), DamageCalculation.getMagicDamage(getCaster())* 0.3F);
+							}
+							remove();
 						}
 					}
 				}
@@ -131,7 +141,7 @@ public class MagnetEntity extends ThrowableEntity {
 		this.maxTicks = maxTicks;
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(MagnetEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(MagneraEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
 	@Override
 	public void writeAdditional(CompoundNBT compound) {

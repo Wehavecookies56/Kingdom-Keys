@@ -27,28 +27,28 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class WaterEntity extends ThrowableEntity {
+public class WateraEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 	PlayerEntity player;
 	String caster;
 
-	public WaterEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public WateraEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public WaterEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_WATER.get(), world);
+	public WateraEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_WATERA.get(), world);
 	}
 
-	public WaterEntity(World world) {
-		super(ModEntities.TYPE_WATER.get(), world);
+	public WateraEntity(World world) {
+		super(ModEntities.TYPE_WATERA.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public WaterEntity(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_WATER.get(), player, world);
+	public WateraEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_WATERA.get(), player, world);
 		this.player = player;
 	}
 
@@ -101,7 +101,7 @@ public class WaterEntity extends ThrowableEntity {
 			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, new AxisAlignedBB(this.getPosX() - radius, this.getPosY() - radius, this.getPosZ() - radius, this.getPosX() + radius, this.getPosY() + 6.0D + radius, this.getPosZ() + radius), Entity::isAlive);
 
 	        if (!list.isEmpty() && list.get(0) != this) {
-				float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
+				float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.45F;
 				float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 	            for (int i = 0; i < list.size(); i++) {
 	                Entity e = (Entity) list.get(i);
@@ -116,7 +116,7 @@ public class WaterEntity extends ThrowableEntity {
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_SWIM, SoundCategory.PLAYERS, 1F, 1F);
 
 			velocityChanged = true;
-			float radius = 0.2F;
+			float radius = 0.3F;
 			for (int t = 1; t < 360; t += 30) {
 				for (int s = 1; s < 360 ; s += 30) {
 					double x = getPosX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
@@ -159,7 +159,7 @@ public class WaterEntity extends ThrowableEntity {
 							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 						}
 						if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
+							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.45F;
 							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 							remove();

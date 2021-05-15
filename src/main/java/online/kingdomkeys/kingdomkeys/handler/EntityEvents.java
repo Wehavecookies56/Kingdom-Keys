@@ -427,7 +427,23 @@ public class EntityEvents {
 			} else { // When it finishes
 				if (playerData.getReflectActive()) {// If has been hit
 					// SPAWN ENTITY and apply damage
-					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(4, 4, 4));
+					float dmgMult = 1;
+					float radius = 1;
+					switch(playerData.getReflectLevel()) {
+					case 0:
+						radius = 2.5F;
+						dmgMult = 0.3F;
+						break;
+					case 1:
+						radius = 3F;
+						dmgMult = 0.5F;
+						break;
+					case 2:
+						radius = 3.5F;
+						dmgMult = 0.7F;
+						break;
+					}
+					List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius, radius, radius));
 					Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 
 					if(casterParty != null && !casterParty.getFriendlyFire()) {
@@ -440,7 +456,6 @@ public class EntityEvents {
 					double Y = event.getEntityLiving().getPosY();
 					double Z = event.getEntityLiving().getPosZ();
 
-					float radius = 3.5F;
 					//System.out.println(event.getEntityLiving().world);
 
 					for (int t = 1; t < 360; t += 20) {
@@ -453,7 +468,7 @@ public class EntityEvents {
 						for (int i = 0; i < list.size(); i++) {
 							Entity e = (Entity) list.get(i);
 							if (e instanceof LivingEntity) {
-								e.attackEntityFrom(DamageSource.causePlayerDamage(player), DamageCalculation.getMagicDamage(player));
+								e.attackEntityFrom(DamageSource.causePlayerDamage(player), DamageCalculation.getMagicDamage(player) * dmgMult);
 							}
 						}
 						player.world.playSound(null, player.getPosition(), ModSounds.reflect2.get(), SoundCategory.PLAYERS, 1F, 1F);
@@ -483,6 +498,34 @@ public class EntityEvents {
 						}
 					}
 				}
+				if(playerData.getAeroLevel() == 1) {
+					if(player.ticksExisted % 20 == 0) {
+						float radius = 0.4F;
+						List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius, radius, radius));
+						if(!list.isEmpty()) {
+							list = Utils.removeFriendlyEntities(list);
+							for(Entity e : list) {
+								if(e instanceof LivingEntity) {
+									e.attackEntityFrom(DamageSource.causePlayerDamage(player), DamageCalculation.getMagicDamage(player)* 0.05F);
+								}
+							}
+						}
+					}
+				} else if(playerData.getAeroLevel() == 2) {
+					if(player.ticksExisted % 10 == 0) {
+						float radius = 0.6F;
+						List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius, radius, radius));
+						if(!list.isEmpty()) {
+							list = Utils.removeFriendlyEntities(list);
+							for(Entity e : list) {
+								if(e instanceof LivingEntity) {
+									e.attackEntityFrom(DamageSource.causePlayerDamage(player), DamageCalculation.getMagicDamage(player)* 0.1F);
+								}
+							}
+						}
+					}
+				}
+
 			} 
 			
 		}

@@ -51,7 +51,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
-	private int level = 1, exp = 0, expGiven = 0, strength = 1, magic = 1, defense = 1, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, reflectTicks = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, strength = 1, magic = 1, defense = 1, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -581,23 +581,45 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
+	public int getAeroLevel() {
+		return aeroLevel;
+	}
+
+	@Override
+	public void setAeroLevel(int level) {
+		this.aeroLevel = level;
+	}
+	
+	@Override
 	public int getAeroTicks() {
 		return aeroTicks;
 	}
 
 	@Override
-	public void setAeroTicks(int i) {
+	public void setAeroTicks(int i, int level) {
 		aeroTicks = i;
+		aeroLevel = level;
 	}
 	
 	@Override
 	public void remAeroTicks(int ticks) {
 		aeroTicks -= ticks;
 	}
+	
+	@Override
+	public int getReflectLevel() {
+		return reflectLevel;
+	}
 
 	@Override
-	public void setReflectTicks(int ticks) {
+	public void setReflectLevel(int level) {
+		this.reflectLevel = level;
+	}
+
+	@Override
+	public void setReflectTicks(int ticks, int level) {
 		reflectTicks = ticks;
+		reflectLevel = level;
 	}
 
 	@Override
@@ -1277,8 +1299,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			return false;
 		}
 	}
-
-	
 	//endregion
 
 }

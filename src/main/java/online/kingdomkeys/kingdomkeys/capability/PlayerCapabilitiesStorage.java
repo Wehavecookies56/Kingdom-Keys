@@ -39,7 +39,9 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.putString("drive_form", instance.getActiveDriveForm());
         storage.putInt("anti_points", instance.getAntiPoints());
         storage.putInt("aero_ticks", instance.getAeroTicks());
+        storage.putInt("aero_level", instance.getAeroLevel());
         storage.putInt("reflect_ticks", instance.getReflectTicks());
+        storage.putInt("reflect_level", instance.getReflectLevel());
         storage.putBoolean("reflect_active", instance.getReflectActive());
         storage.putInt("munny", instance.getMunny());
         storage.putByte("soa_state", instance.getSoAState().get());
@@ -160,8 +162,8 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         instance.setFP(storage.getDouble("fp"));
         instance.setActiveDriveForm(storage.getString("drive_form"));
         instance.setAntiPoints(storage.getInt("anti_points"));
-        instance.setAeroTicks(storage.getInt("aero_ticks"));
-        instance.setReflectTicks(storage.getInt("reflect_ticks"));
+        instance.setAeroTicks(storage.getInt("aero_ticks"), storage.getInt("aero_level"));
+        instance.setReflectTicks(storage.getInt("reflect_ticks"), storage.getInt("reflect_level"));
         instance.setReflectActive(storage.getBoolean("reflect_active"));
         instance.setMunny(storage.getInt("munny"));
         instance.setSoAState(SoAState.fromByte(storage.getByte("soa_state")));

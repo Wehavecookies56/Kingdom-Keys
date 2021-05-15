@@ -86,12 +86,16 @@ import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundaraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.WategaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.BlueRhapsodyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DarkballEntity;
@@ -149,11 +153,15 @@ public class ModEntities {
    // public static final RegistryObject<EntityType<BlizzaraEntity>> TYPE_BLIZZARA = createEntityType(BlizzaraEntity::new, BlizzaraEntity::new, EntityClassification.MISC,"entity_blizzara", 0.5F, 0.5F);
    // public static final RegistryObject<EntityType<BlizzagaEntity>> TYPE_BLIZZAGA = createEntityType(BlizzagaEntity::new, BlizzagaEntity::new, EntityClassification.MISC,"entity_blizzaga", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<WateraEntity>> TYPE_WATERA = createEntityType(WateraEntity::new, WateraEntity::new, EntityClassification.MISC,"entity_watera", 0.8F, 0.8F);
+    public static final RegistryObject<EntityType<WategaEntity>> TYPE_WATEGA = createEntityType(WategaEntity::new, WategaEntity::new, EntityClassification.MISC,"entity_watega", 1F, 1F);
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, ThundaraEntity::new, EntityClassification.MISC,"entity_thundara", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundagaEntity>> TYPE_THUNDAGA = createEntityType(ThundagaEntity::new, ThundagaEntity::new, EntityClassification.MISC,"entity_thundaga", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, ThunderBoltEntity::new, EntityClassification.MISC,"entity_thunderbolt", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MagnetEntity::new, EntityClassification.MISC,"entity_magnet", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MagnetEntity::new, EntityClassification.MISC,"entity_magnet", 1F, 1F);
+    public static final RegistryObject<EntityType<MagneraEntity>> TYPE_MAGNERA = createEntityType(MagneraEntity::new, MagneraEntity::new, EntityClassification.MISC,"entity_magnera", 1.5F, 1.5F);
+    public static final RegistryObject<EntityType<MagnegaEntity>> TYPE_MAGNEGA = createEntityType(MagnegaEntity::new, MagnegaEntity::new, EntityClassification.MISC,"entity_magnega", 2F, 2F);
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
 
     public static final RegistryObject<EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, SeedBulletEntity::new, EntityClassification.MISC,"seed_bullet", 0.5F, 0.5F);
@@ -307,7 +315,11 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDAGA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNET.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNERA.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNEGA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_WATER.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATERA.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATEGA.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), InvisibleEntityRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_MOOGLE.get(), MoogleRenderer.FACTORY);
