@@ -151,13 +151,13 @@ public class EntityEvents {
 				
 				
 				// TODO (done) Fix for retrocompatibility, remove in a few versions
-			/*	if(playerData.getEquippedItems().size() == 0) {
+				if(playerData.getEquippedItems().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
 					for(int i = 0 ; i < 4; i++) {
 						map.put(i,ItemStack.EMPTY);
 					}
 					playerData.equipAllItems(map, true);
-				}*/
+				}
 				
 				//Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
