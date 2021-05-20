@@ -7,9 +7,10 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.WaterzaEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -44,9 +45,14 @@ public class MagicWater extends Magic {
 			player.world.addEntity(waterga);
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
+		case 3:
+			WaterzaEntity waterza = new WaterzaEntity(player.world, player);
+			waterza.setCaster(player.getDisplayName().getString());
+			player.world.addEntity(waterza);
+			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
+			break;
 		}
 		
-		player.swingArm(Hand.MAIN_HAND);
 		if(player.isBurning()) {
 			player.extinguish();
 		}

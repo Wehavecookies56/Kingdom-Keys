@@ -9,9 +9,7 @@ import net.minecraft.util.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.BlizzazaEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -34,7 +32,6 @@ public class MagicBlizzard extends Magic {
 			player.world.addEntity(blizzard);
 			blizzard.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
-			player.swingArm(Hand.MAIN_HAND);
 			break;
 		case 1:
 			for(int i = -1; i < 2; i++) {
@@ -43,8 +40,6 @@ public class MagicBlizzard extends Magic {
 				blizzara.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw + i*6, 0, 2F, 0);
 				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
 			}
-			player.swingArm(Hand.MAIN_HAND);
-
 			break;
 		case 2:
 			for(int i = -1; i < 2; i++) {
@@ -59,8 +54,12 @@ public class MagicBlizzard extends Magic {
 				blizzara.setDirectionAndMovement(player, player.rotationPitch-6, player.rotationYaw + i*6+3, 0, 2F, 0);
 				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
 			}
-			player.swingArm(Hand.MAIN_HAND);
-
+			break;
+		case 3:
+			BlizzazaEntity blizzaza = new BlizzazaEntity(player.world, player);
+			player.world.addEntity(blizzaza);
+			blizzaza.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		}
 		

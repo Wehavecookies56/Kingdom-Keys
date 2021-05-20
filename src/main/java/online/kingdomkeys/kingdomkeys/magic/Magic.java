@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -72,6 +73,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	}
     	PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
     	magicUse(player, caster, level);
+    	caster.swing(Hand.MAIN_HAND, true);
     }
 
 	public int getOrder() {

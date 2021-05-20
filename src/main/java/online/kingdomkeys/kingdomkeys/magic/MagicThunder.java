@@ -7,6 +7,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundaraEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThundazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -19,7 +20,6 @@ public class MagicThunder extends Magic {
 
 	@Override
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
-		//super.onUse(player, caster, level);
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
 		casterData.setMagicCooldownTicks(50);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
@@ -29,21 +29,24 @@ public class MagicThunder extends Magic {
 			ThunderEntity thunderController = new ThunderEntity(player.world, player);
 			thunderController.setCaster(player.getUniqueID());
 			player.world.addEntity(thunderController);
-			player.swingArm(Hand.MAIN_HAND);
 			break;
 		case 1:
 			ThundaraEntity thundaraController = new ThundaraEntity(player.world, player);
 			thundaraController.setCaster(player.getUniqueID());
 			player.world.addEntity(thundaraController);
-			player.swingArm(Hand.MAIN_HAND);
 			break;
 		case 2:
 			ThundagaEntity thundagaController = new ThundagaEntity(player.world, player);
 			thundagaController.setCaster(player.getUniqueID());
 			player.world.addEntity(thundagaController);
-			player.swingArm(Hand.MAIN_HAND);
+			break;
+		case 3:
+			ThundazaEntity thundazaController = new ThundazaEntity(player.world, player);
+			thundazaController.setCaster(player.getUniqueID());
+			player.world.addEntity(thundazaController);
 			break;
 		}
+		
 	}
 
 }

@@ -114,31 +114,23 @@ public class FirazaEntity extends ThrowableEntity {
 			}
 			
 			float radius = 6F;
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getShooter(), getBoundingBox().grow(radius));
-			Party casterParty = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
-
-			if(casterParty != null && !casterParty.getFriendlyFire()) {
-				for(Member m : casterParty.getMembers()) {
-					list.remove(world.getPlayerByUuid(m.getUUID()));
-				}
-			} else {
-				list.remove(getShooter());
-			}
-
-			((ServerWorld)world).spawnParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
-			
-			if (!list.isEmpty()) {
-				for (int i = 0; i < list.size(); i++) {
-					Entity e = (Entity) list.get(i);
-					if (e instanceof LivingEntity) {
-						e.setFire(25);
-						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.8F;
-						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+			if(getShooter() instanceof PlayerEntity) {
+				List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty((PlayerEntity) getShooter(), radius);
+	
+				((ServerWorld)world).spawnParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
+				
+				if (!list.isEmpty()) {
+					for (int i = 0; i < list.size(); i++) {
+						Entity e = (Entity) list.get(i);
+						if (e instanceof LivingEntity) {
+							e.setFire(25);
+							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.8F;
+							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
+							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+						}
 					}
 				}
 			}
-
 			remove();
 		}
 	}

@@ -321,6 +321,40 @@ public class Utils {
 		return list;
 	}
 
+	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
+		List<Entity> list = entity.world.getEntitiesInAABBexcluding(entity, entity.getBoundingBox().grow(radius), Entity::isAlive);
+		List<LivingEntity> elList = new ArrayList<LivingEntity>();
+		for (Entity e : list) {
+			if (e instanceof LivingEntity) {
+				elList.add((LivingEntity) e);
+			}
+		}
+
+		return elList;
+	}
+
+	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(PlayerEntity player, float radius) {
+		List<Entity> list = player.world.getEntitiesInAABBexcluding(player, player.getBoundingBox().grow(radius), Entity::isAlive);
+		Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+
+		if (casterParty != null && !casterParty.getFriendlyFire()) {
+			for (Member m : casterParty.getMembers()) {
+				list.remove(player.world.getPlayerByUuid(m.getUUID()));
+			}
+		} else {
+			list.remove(player);
+		}
+
+		List<LivingEntity> elList = new ArrayList<LivingEntity>();
+		for (Entity e : list) {
+			if (e instanceof LivingEntity) {
+				elList.add((LivingEntity) e);
+			}
+		}
+
+		return elList;
+	}
+
 	public static String getResourceName(String text) {
 		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
 	}

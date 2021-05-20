@@ -30,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ThundagaEntity extends ThrowableEntity {
 
@@ -94,7 +95,7 @@ public class ThundagaEntity extends ThrowableEntity {
 		this.dataManager.register(OWNER, Optional.of(Util.DUMMY_UUID));
 	}
 
-	List<Entity> list = new ArrayList<Entity>();
+	List<LivingEntity> list = new ArrayList<LivingEntity>();
 
 	@Override
 	public void tick() {
@@ -106,20 +107,12 @@ public class ThundagaEntity extends ThrowableEntity {
 			remove();
 			return;
 		}
+		
+		float radius = 3.0F;
 
 		if (!world.isRemote && getCaster() != null) { // Only calculate and spawn lightning bolts server side
 			if (ticksExisted == 1) {
-				double radius = 3.0D;
-				list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getCaster().getBoundingBox().grow(radius, radius, radius));
-				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
-
-				if (casterParty != null && !casterParty.getFriendlyFire()) {
-					for (Member m : casterParty.getMembers()) {
-						list.remove(world.getPlayerByUuid(m.getUUID()));
-					}
-				} else {
-					list.remove(getShooter());
-				}
+				list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), radius);
 				list.remove(this);
 			}
 
@@ -128,6 +121,9 @@ public class ThundagaEntity extends ThrowableEntity {
 					int i = world.rand.nextInt(list.size());
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
+						if(!e.isAlive()) {
+							list.remove(e);
+						}
 						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), e.getPosX(), e.getPosY(), e.getPosZ());
 						shot.setCaster(getCaster().getUniqueID());
 						world.addEntity(shot);
@@ -142,8 +138,8 @@ public class ThundagaEntity extends ThrowableEntity {
 					int x = (int) getCaster().getPosX();
 					int z = (int) getCaster().getPosZ();
 
-					int posX = x + getCaster().world.rand.nextInt(6) - 3;
-					int posZ = z + getCaster().world.rand.nextInt(6) - 3;
+					int posX = (int) (x + getCaster().world.rand.nextInt((int) (radius*2)) - radius / 2)-1;
+					int posZ = (int) (z + getCaster().world.rand.nextInt((int) (radius*2)) - radius / 2)-1;
 
 					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), posX, getCaster().world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ);
 					shot.setCaster(getCaster().getUniqueID());

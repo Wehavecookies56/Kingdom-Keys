@@ -18,7 +18,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -32,27 +31,26 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class ThunderEntity extends ThrowableEntity {
+public class ThundazaEntity extends ThrowableEntity {
 
-	int maxTicks = 25;
+	int maxTicks = 45;
 
-	public ThunderEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public ThundazaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ThunderEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_THUNDER.get(), world);
+	public ThundazaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_THUNDAZA.get(), world);
 	}
 
-	public ThunderEntity(World world) {
-		super(ModEntities.TYPE_THUNDER.get(), world);
+	public ThundazaEntity(World world) {
+		super(ModEntities.TYPE_THUNDAZA.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public ThunderEntity(World world, PlayerEntity player) {
-		super(ModEntities.TYPE_THUNDER.get(), player, world);
-		//setPosition(x, y + 10, z);
+	public ThundazaEntity(World world, PlayerEntity player) {
+		super(ModEntities.TYPE_THUNDAZA.get(), player, world);
 		setCaster(player.getUniqueID());
 	}
 
@@ -69,7 +67,7 @@ public class ThunderEntity extends ThrowableEntity {
 		this.maxTicks = maxTicks;
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ThunderEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ThundazaEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 
 	@Override
 	public void writeAdditional(CompoundNBT compound) {
@@ -109,16 +107,16 @@ public class ThunderEntity extends ThrowableEntity {
 			return;
 		}
 		
-		float radius = 2F;
+		float radius = 6.0F;
 
 		if (!world.isRemote && getCaster() != null) { // Only calculate and spawn lightning bolts server side
 			if (ticksExisted == 1) {
 				list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), radius);
 				list.remove(this);
 			}
-			
-			if (ticksExisted % 10 == 1) {
-				if (!list.isEmpty()) { //find random entity
+
+			if (ticksExisted % 2 == 1) {
+				if (!list.isEmpty()) { // find random entity
 					int i = world.rand.nextInt(list.size());
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
@@ -162,7 +160,7 @@ public class ThunderEntity extends ThrowableEntity {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -113,7 +113,7 @@ public class ThunderBoltEntity extends ThrowableEntity {
 				}
 				
 				for (Entity entity : list) {					
-					float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.2F;
+					float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.1F;
 					float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 
