@@ -428,7 +428,7 @@ public class CommandMenuGui extends Screen {
 	private void drawSubMagic(MatrixStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		LinkedHashMap<String, Integer> magics = Utils.getSortedMAgics(playerData.getMagicsMap());
+		LinkedHashMap<String, int[]> magics = Utils.getSortedMagics(playerData.getMagicsMap());
 
 		if (playerData != null && magics != null && !magics.isEmpty()) {
 			// MAGIC TOP

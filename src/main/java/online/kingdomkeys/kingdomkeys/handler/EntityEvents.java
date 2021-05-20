@@ -23,7 +23,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -31,7 +30,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.PlayerData;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -46,6 +44,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -81,6 +80,8 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
@@ -91,6 +92,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionAutoForm;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -143,12 +145,6 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
 					
 				}
-				
-				/*if(playerData.getMaxFocus()<100) { //TODO merge it with above in a few versions.
-					playerData.setMaxFocus(100);
-					playerData.setFocus(100);
-				}*/
-				
 				
 				// TODO (done) Fix for retrocompatibility, remove in a few versions
 				if(playerData.getEquippedItems().size() == 0) {
@@ -208,7 +204,7 @@ public class EntityEvents {
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				for(ReactionCommand rc : ModReactionCommands.registry.getValues()) {
-					if(rc.conditionsToAppear(event.player, event.player)) {
+					if(rc instanceof ReactionAutoForm && rc.conditionsToAppear(event.player, event.player)) {
 						rcList.add(rc);
 					}
 				}
@@ -218,6 +214,17 @@ public class EntityEvents {
 					playerData.addReactionCommand(rc.getName(), event.player);
 				}
 
+				Iterator<Map.Entry<String, int[]>> magicsIt = playerData.getMagicsMap().entrySet().iterator();
+				while (magicsIt.hasNext()) {
+					Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
+					Magic magic = ModMagic.registry.getValue(new ResourceLocation(pair.getKey()));
+
+					if(magic.hasRC()) {
+						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= 5) {
+							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
+						}
+					}
+				}
 				
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) { //TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);

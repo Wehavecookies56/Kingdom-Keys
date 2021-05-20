@@ -18,14 +18,12 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagicCure extends Magic {
 
-	public MagicCure(String registryName, int cost, int maxLevel, int order) {
-		super(registryName, cost, true, maxLevel, order);
-		this.name = registryName;
-		// TODO Auto-generated constructor stub
+	public MagicCure(String registryName, int cost, int maxLevel, boolean hasRC, int order) {
+		super(registryName, cost, true, maxLevel, hasRC, order);
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		((ServerWorld) player.world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), player.getPosX(), player.getPosY()+2.3D, player.getPosZ(), 5, 0D, 0D, 0D, 0D);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);

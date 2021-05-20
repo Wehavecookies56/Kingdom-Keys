@@ -69,7 +69,7 @@ public class InputHandler {
 
     List<UUID> portalCommands;
     Map<String, int[]> driveFormsMap;
-    Map<String, Integer> magicsMap;
+    Map<String, int[]> magicsMap;
     List<Member> targetsList;
     List<Limit> limitsList;
     Map<Integer, ItemStack> itemsList;
@@ -971,7 +971,7 @@ public class InputHandler {
         if(playerData != null && worldData != null) {
 	        this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap());
 	        this.driveFormsMap.remove(DriveForm.NONE.toString());
-	        this.magicsMap = Utils.getSortedMAgics(playerData.getMagicsMap());
+	        this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
 	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
 			this.limitsList = Utils.getPlayerLimitAttacks(mc.player);
 	        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {

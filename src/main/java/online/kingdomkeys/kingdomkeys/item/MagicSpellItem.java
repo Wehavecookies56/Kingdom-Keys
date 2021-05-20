@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -14,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -24,14 +20,10 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats.Recipe;
-import online.kingdomkeys.kingdomkeys.lib.Lists;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagicSpellItem extends Item implements IItemCategory {
@@ -49,14 +41,14 @@ public class MagicSpellItem extends Item implements IItemCategory {
 			Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
 			if (playerData != null && playerData.getMagicsMap() != null) {
 				if (!playerData.getMagicsMap().containsKey(magic)) {
-					playerData.getMagicsMap().put(magic, 0);
+					playerData.getMagicsMap().put(magic, new int[] {0,0});
 					takeItem(player);
 					player.sendStatusMessage(new TranslationTextComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(magic);
 					if(actualLevel < magicInstance.getMaxLevel()) {
 						player.sendStatusMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
-						playerData.getMagicsMap().put(magic, actualLevel+1);
+						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
 						takeItem(player);
 					} else {
 						player.sendStatusMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is already at the max level"), true);

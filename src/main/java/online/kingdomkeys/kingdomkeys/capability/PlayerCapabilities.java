@@ -55,7 +55,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
-	LinkedHashMap<String, Integer> magicList = new LinkedHashMap<>(); //Key = name, value=  {level}
+	LinkedHashMap<String, int[]> magicList = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
 	List<String> shotlockList = new ArrayList<>();
 	List<Integer> shotlockEnemies;
 	List<ResourceLocation> recipeList = new ArrayList<>();
@@ -644,26 +644,52 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	
 	@Override
-	public LinkedHashMap<String, Integer> getMagicsMap() {
+	public LinkedHashMap<String, int[]> getMagicsMap() {
 		return magicList;//Utils.getSortedDriveForms(driveForms);
 	}
 
 	@Override
-	public void setMagicsMap(LinkedHashMap<String, Integer> map) {
+	public void setMagicsMap(LinkedHashMap<String, int[]> map) {
 		this.magicList = map;
 	}
-
+	
 	@Override
 	public int getMagicLevel(String name) {
-		return magicList.containsKey(name) ? magicList.get(name) : 0;
+		return magicList.containsKey(name) ? magicList.get(name)[0] : 0;
 	}
 
 	@Override
 	public void setMagicLevel(String name, int level) {
 		Magic magic = ModMagic.registry.getValue(new ResourceLocation(name));
 		if(level <= magic.getMaxLevel()) {
-			magicList.put(name, level);
+			int uses = getMagicUses(name);
+			magicList.put(name, new int[] {level, uses});
 		}
+	}
+
+	@Override
+	public int getMagicUses(String name) {
+		return magicList.get(name)[1];
+	}
+
+	@Override
+	public void setMagicUses(String name, int uses) {
+		Magic magic = ModMagic.registry.getValue(new ResourceLocation(name));
+		int level = getMagicLevel(name);
+		if(level <= magic.getMaxLevel()) {
+			magicList.put(name, new int[] {level, uses});
+			System.out.println(uses);
+		}
+	}
+	
+	@Override
+	public void addMagicUses(String name, int uses) {
+		setMagicUses(name, getMagicUses(name) + uses);
+	}
+
+	@Override
+	public void remMagicUses(String name, int uses) {
+		setMagicUses(name, getMagicUses(name) - uses);
 	}
 		
 	@Override
@@ -677,7 +703,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void addshotlockToList(String shotlock, boolean notification) {
+	public void addShotlockToList(String shotlock, boolean notification) {
 		Shotlock shotlockInstance = ModShotlocks.registry.getValue(new ResourceLocation(shotlock));
 		if(notification) {
 			messages.add("S_"+shotlockInstance.getTranslationKey());

@@ -1,24 +1,31 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public abstract class Magic extends ForgeRegistryEntry<Magic> {
 
     String name;
     int cost;
-    boolean hasToSelect;
+    boolean hasTargetSelector;
     int order;
     int maxLevel;
     String translationKey;
+    boolean hasRC;
 
-    public Magic(String registryName, int cost, boolean hasToSelect, int maxLevel, int order) {
+    public Magic(String registryName, int cost, boolean hasToSelect, int maxLevel, boolean hasRC, int order) {
     	this.name = registryName;
     	this.cost = cost;
-    	this.hasToSelect = hasToSelect;
+    	this.hasTargetSelector = hasToSelect;
     	this.order = order;
     	this.maxLevel = maxLevel - 1;
+    	this.hasRC = hasRC;
         setRegistryName(registryName);
         translationKey = "magic." + new ResourceLocation(registryName).getPath() + ".name";
     }
@@ -36,7 +43,16 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     }
     
     public boolean getHasToSelect() {
-    	return hasToSelect;
+    	return hasTargetSelector;
+    }
+    
+    public boolean hasRC() {
+    	return hasRC;
+    }
+    
+   
+    protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+
     }
     
     /**
@@ -44,7 +60,19 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
      * @param player
      * @param caster
      */
-    public abstract void onUse(PlayerEntity player, PlayerEntity caster, int level);
+    public final void onUse(PlayerEntity player, PlayerEntity caster, int level) {
+    	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
+    	if(hasRC()) {
+			int maxLevel = casterData.getMagicLevel(name);
+	    	if(level > maxLevel){ 
+				casterData.setMagicUses(name, 0);
+			} else {
+				casterData.addMagicUses(name, 1);
+			}
+    	}
+    	PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
+    	magicUse(player, caster, level);
+    }
 
 	public int getOrder() {
 		return order;

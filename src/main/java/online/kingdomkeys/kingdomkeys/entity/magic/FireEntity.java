@@ -66,7 +66,7 @@ public class FireEntity extends ThrowableEntity {
 
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
+		if (!world.isRemote && getShooter() != null) {
 
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;

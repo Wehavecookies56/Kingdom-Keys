@@ -36,7 +36,7 @@ public class SCSyncCapabilityToAllPacket {
 	double mp = 0, maxMP = 0;
 	
 	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<String,int[]>();
-	LinkedHashMap<String,Integer> magicsMap = new LinkedHashMap<String,Integer>();
+	LinkedHashMap<String,int[]> magicsMap = new LinkedHashMap<String,int[]>();
 
 	private double dp = 0, fp = 0;
 
@@ -95,10 +95,10 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeDouble(this.maxMP);
 		
 		CompoundNBT magics = new CompoundNBT();
-		Iterator<Map.Entry<String, Integer>> magicsIt = magicsMap.entrySet().iterator();
+		Iterator<Map.Entry<String, int[]>> magicsIt = magicsMap.entrySet().iterator();
 		while (magicsIt.hasNext()) {
-			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) magicsIt.next();
-			magics.putInt(pair.getKey().toString(), pair.getValue());
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
+			magics.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(magics);
 		
@@ -140,7 +140,7 @@ public class SCSyncCapabilityToAllPacket {
 		Iterator<String> magicsIt = magicsTag.keySet().iterator();
 		while (magicsIt.hasNext()) {
 			String magicName = (String) magicsIt.next();
-			msg.magicsMap.put(magicName, magicsTag.getInt(magicName));
+			msg.magicsMap.put(magicName, magicsTag.getIntArray(magicName));
 		}
 		
 		CompoundNBT driveFormsTag = buffer.readCompoundTag();

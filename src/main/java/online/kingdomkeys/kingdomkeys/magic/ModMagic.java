@@ -24,16 +24,16 @@ public class ModMagic {
 		@SubscribeEvent
 		public static void registerMagic(RegistryEvent.Register<Magic> event) {
 			int order = 0;
-			MagicFire fire = new MagicFire(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire", 10, 3, order++);		
-			MagicBlizzard blizzard = new MagicBlizzard(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard", 12, 3, order++);
-			MagicWater water = new MagicWater(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water", 12, 3, order++);
-			MagicThunder thunder = new MagicThunder(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder", 15, 3, order++);
-			MagicCure cure = new MagicCure(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure", 300, 3, order++);
-			MagicAero aero = new MagicAero(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero", 12, 3, order++);
-			MagicMagnet magnet = new MagicMagnet(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet", 15, 3, order++);
-			MagicReflect reflect = new MagicReflect(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect", 10, 3, order++);
-			MagicGravity gravity = new MagicGravity(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity", 14, 3, order++);
-			MagicStop stop = new MagicStop(KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop", 20, 3, order++);
+			MagicFire fire = new MagicFire(Strings.Magic_Fire, 10, 3, true, order++);		
+			MagicBlizzard blizzard = new MagicBlizzard(Strings.Magic_Blizzard, 12, 3, true, order++);
+			MagicWater water = new MagicWater(Strings.Magic_Water, 12, 3, true, order++);
+			MagicThunder thunder = new MagicThunder(Strings.Magic_Thunder, 15, 3, true, order++);
+			MagicCure cure = new MagicCure(Strings.Magic_Cure, 300, 3, false, order++);
+			MagicAero aero = new MagicAero(Strings.Magic_Aero, 12, 3, false, order++);
+			MagicMagnet magnet = new MagicMagnet(Strings.Magic_Magnet, 15, 3, false, order++);
+			MagicReflect reflect = new MagicReflect(Strings.Magic_Reflect, 10, 3, false, order++);
+			MagicGravity gravity = new MagicGravity(Strings.Magic_Gravity, 14, 3, false, order++);
+			MagicStop stop = new MagicStop(Strings.Magic_Stop, 20, 3, false, order++);
 
 			event.getRegistry().registerAll(fire, blizzard, water, thunder, cure, aero, magnet, reflect, gravity, stop);
 		}

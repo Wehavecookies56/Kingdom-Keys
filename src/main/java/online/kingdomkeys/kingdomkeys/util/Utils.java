@@ -276,7 +276,7 @@ public class Utils {
 		return map;
 	}
 
-	public static LinkedHashMap<String, Integer> getSortedMAgics(LinkedHashMap<String, Integer> magicsMap) {
+	public static LinkedHashMap<String, int[]> getSortedMagics(LinkedHashMap<String, int[]> magicsMap) {
 		List<Magic> list = new ArrayList<>();
 
 		Iterator<String> it = magicsMap.keySet().iterator();
@@ -287,7 +287,7 @@ public class Utils {
 
 		Collections.sort(list, Comparator.comparingInt(Magic::getOrder));
 
-		LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
 		for (int i = 0; i < list.size(); i++) {
 			map.put(list.get(i).getRegistryName().toString(), magicsMap.get(list.get(i).getRegistryName().toString()));
 		}

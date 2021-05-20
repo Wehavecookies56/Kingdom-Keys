@@ -150,15 +150,18 @@ public interface IPlayerCapabilities {
 	boolean canEquipItem(int slot, ItemStack stack);
 	void setNewItem(int slot, ItemStack stack);
 	
-	LinkedHashMap<String, Integer> getMagicsMap();
-	void setMagicsMap(LinkedHashMap<String,Integer> map);
-
+	LinkedHashMap<String, int[]> getMagicsMap();
+	void setMagicsMap(LinkedHashMap<String,int[]> map);
 	int getMagicLevel(String name);
 	void setMagicLevel(String name, int level);
+	int getMagicUses(String name);
+	void setMagicUses(String name, int uses);
+	void addMagicUses(String name, int uses);
+	void remMagicUses(String name, int uses);
 	
 	List<String> getShotlockList();
 	void setShotlockList(List<String> list);
-	void addshotlockToList(String shotlock, boolean notification);
+	void addShotlockToList(String shotlock, boolean notification);
 	void removeShotlockFromList(String shotlock);
 	
 	String getEquippedShotlock();
@@ -252,4 +255,5 @@ public interface IPlayerCapabilities {
 	void setReactionCommands(List<String> list);
 	boolean addReactionCommand(String command, PlayerEntity player);
 	boolean removeReactionCommand(String command);
+	
 }

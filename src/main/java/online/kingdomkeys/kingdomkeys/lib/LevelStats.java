@@ -48,7 +48,7 @@ public class LevelStats {
                 break;
             case 11:
                 cap.addStrength(1);
-                cap.addshotlockToList(KingdomKeys.MODID+":"+Strings.Ragnarok, true);
+                cap.addShotlockToList(KingdomKeys.MODID+":"+Strings.Ragnarok, true);
                 break;
             case 12:
                 cap.addMagic(1);
@@ -120,7 +120,7 @@ public class LevelStats {
                 break;
             case 29:
                 cap.addStrength(1);
-                cap.addshotlockToList(KingdomKeys.MODID+":"+Strings.DarkVolley, true);
+                cap.addShotlockToList(KingdomKeys.MODID+":"+Strings.DarkVolley, true);
                 break;
             case 30:
                 cap.addMagic(1);

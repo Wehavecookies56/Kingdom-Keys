@@ -10,25 +10,26 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FirazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class MagicFire extends Magic {
 
-	public MagicFire(String registryName, int cost, int maxLevel, int order) {
-		super(registryName, cost, false, maxLevel, order);
-		this.name = registryName;
-		// TODO Auto-generated constructor stub
+	public MagicFire(String registryName, int cost, int maxLevel, boolean hasRC, int order) {
+		super(registryName, cost, false, maxLevel, hasRC, order);
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
 		casterData.setMagicCooldownTicks(20);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
-		
-		switch(level) {
+		// System.out.println(casterData.getMagicUses(name));
+
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
+
+		switch (level) {
 		case 0:
 			ThrowableEntity fire = new FireEntity(player.world, player);
 			player.world.addEntity(fire);
@@ -50,7 +51,14 @@ public class MagicFire extends Magic {
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
 			player.swingArm(Hand.MAIN_HAND);
 			break;
+		case 3:
+			ThrowableEntity firaza = new FirazaEntity(player.world, player);
+			player.world.addEntity(firaza);
+			firaza.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 0.5F);
+			player.swingArm(Hand.MAIN_HAND);
+			break;
 		}
+		
 	}
-
 }

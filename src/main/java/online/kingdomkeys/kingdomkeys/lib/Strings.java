@@ -22,7 +22,18 @@ public class Strings {
 
     // Magics
     public static final String
-    		Mag_Prefix = "magic_";
+    		Mag_Prefix = "magic_",
+    		Magic_Fire = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire",
+    		Magic_Blizzard = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard",
+			Magic_Water = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water",
+			Magic_Thunder = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder",
+			Magic_Cure = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure",
+			Magic_Aero = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero",
+			Magic_Magnet = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet",
+			Magic_Reflect = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect",
+			Magic_Gravity = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity",
+			Magic_Stop = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop";
+																
     
     // Drive Forms
     public static final String
@@ -45,7 +56,8 @@ public class Strings {
        		autoWisdomRC = "rc_auto_wisdom",
        		autoLimitRC = "rc_auto_limit",
        		autoMasterRC = "rc_auto_master",
-       		autoFinalRC = "rc_auto_final";
+       		autoFinalRC = "rc_auto_final",
+       		firazaRC = "rc_firaga";
        
     // Abilities
     public static final String

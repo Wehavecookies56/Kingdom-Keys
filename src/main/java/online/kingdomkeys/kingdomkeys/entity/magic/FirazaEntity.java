@@ -29,26 +29,26 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class FiragaEntity extends ThrowableEntity {
+public class FirazaEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 
-	public FiragaEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public FirazaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public FiragaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
-		super(ModEntities.TYPE_FIRAGA.get(), world);
+	public FirazaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+		super(ModEntities.TYPE_FIRAZA.get(), world);
 	}
 
-	public FiragaEntity(World world) {
-		super(ModEntities.TYPE_FIRAGA.get(), world);
+	public FirazaEntity(World world) {
+		super(ModEntities.TYPE_FIRAZA.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public FiragaEntity(World world, LivingEntity player) {
-		super(ModEntities.TYPE_FIRAGA.get(), player, world);
+	public FirazaEntity(World world, LivingEntity player) {
+		super(ModEntities.TYPE_FIRAZA.get(), player, world);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class FiragaEntity extends ThrowableEntity {
 
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(ticksExisted > 2) {
-			float radius = 0.8F;
+			float radius = 1F;
 			for (int t = 1; t < 360; t += 30) {
 				for (int s = 1; s < 360 ; s += 30) {
 					double x = getPosX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
@@ -105,15 +105,15 @@ public class FiragaEntity extends ThrowableEntity {
 						p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 					}
 					if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-						target.setFire(15);
-						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.4F;
+						target.setFire(30);
+						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 1F;
 						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 					}
 				}
 			}
 			
-			float radius = 2F;
+			float radius = 6F;
 			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getShooter(), getBoundingBox().grow(radius));
 			Party casterParty = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 
@@ -125,14 +125,14 @@ public class FiragaEntity extends ThrowableEntity {
 				list.remove(getShooter());
 			}
 
-			((ServerWorld)world).spawnParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
+			((ServerWorld)world).spawnParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
 			
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
-						e.setFire(15);
-						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
+						e.setFire(25);
+						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.8F;
 						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
 						e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 					}

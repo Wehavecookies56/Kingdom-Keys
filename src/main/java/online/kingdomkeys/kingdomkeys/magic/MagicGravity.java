@@ -14,13 +14,12 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class MagicGravity extends Magic {
 
-	public MagicGravity(String registryName, int cost, int maxLevel, int order) {
-		super(registryName, cost, false, maxLevel, order);
-		this.name = registryName;
+	public MagicGravity(String registryName, int cost, int maxLevel, boolean hasRC, int order) {
+		super(registryName, cost, false, maxLevel, hasRC, order);
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
 		casterData.setMagicCooldownTicks(40);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);

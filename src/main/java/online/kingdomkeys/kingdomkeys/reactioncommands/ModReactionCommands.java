@@ -29,7 +29,11 @@ public class ModReactionCommands {
 					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoWisdomRC, Strings.autoWisdom, Strings.Form_Wisdom),
 					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoLimitRC, Strings.autoLimit, Strings.Form_Limit),
 					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoMasterRC, Strings.autoMaster, Strings.Form_Master),
-					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoFinalRC, Strings.autoFinal, Strings.Form_Final)
+					new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoFinalRC, Strings.autoFinal, Strings.Form_Final),
+					new ReactionMagic(Strings.Magic_Fire),
+					new ReactionMagic(Strings.Magic_Blizzard),
+					new ReactionMagic(Strings.Magic_Water),
+					new ReactionMagic(Strings.Magic_Thunder)
 			);
 		}
 	}

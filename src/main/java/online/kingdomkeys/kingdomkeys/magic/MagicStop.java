@@ -21,13 +21,12 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 
 public class MagicStop extends Magic {
 
-	public MagicStop(String registryName, int cost, int maxLevel, int order) {
-		super(registryName, cost, false, maxLevel, order);
-		this.name = registryName;
+	public MagicStop(String registryName, int cost, int maxLevel, boolean hasRC, int order) {
+		super(registryName, cost, false, maxLevel, hasRC, order);
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
 		casterData.setMagicCooldownTicks(20);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);

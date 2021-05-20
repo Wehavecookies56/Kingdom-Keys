@@ -48,7 +48,7 @@ public class SCSyncCapabilityPacket {
 	String driveForm;
 
 	List<ResourceLocation> recipeList = new ArrayList<>();
-	LinkedHashMap<String,Integer> magicsMap = new LinkedHashMap<>();
+	LinkedHashMap<String,int[]> magicsMap = new LinkedHashMap<>();
     List<String> shotlockList = new ArrayList<>();
     List<String> reactionList = new ArrayList<>();
     String equippedShotlock;
@@ -158,10 +158,10 @@ public class SCSyncCapabilityPacket {
 		buffer.writeCompoundTag(recipes);
 
 		CompoundNBT magics = new CompoundNBT();
-		Iterator<Map.Entry<String, Integer>> magicsIt = magicsMap.entrySet().iterator();
+		Iterator<Map.Entry<String, int[]>> magicsIt = magicsMap.entrySet().iterator();
 		while (magicsIt.hasNext()) {
-			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) magicsIt.next();
-			magics.putInt(pair.getKey().toString(), pair.getValue());
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
+			magics.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeCompoundTag(magics);
 		
@@ -289,7 +289,7 @@ public class SCSyncCapabilityPacket {
 		Iterator<String> magicsIt = magicsTag.keySet().iterator();
 		while (magicsIt.hasNext()) {
 			String magicName = (String) magicsIt.next();
-			msg.magicsMap.put(magicName, magicsTag.getInt(magicName));
+			msg.magicsMap.put(magicName, magicsTag.getIntArray(magicName));
 		}
 		
 		CompoundNBT shotlocksTag = buffer.readCompoundTag();
