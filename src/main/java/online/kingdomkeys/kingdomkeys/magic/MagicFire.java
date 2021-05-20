@@ -35,28 +35,24 @@ public class MagicFire extends Magic {
 			player.world.addEntity(fire);
 			fire.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
-			player.swingArm(Hand.MAIN_HAND);
 			break;
 		case 1:
 			ThrowableEntity fira = new FiraEntity(player.world, player);
 			player.world.addEntity(fira);
 			fira.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
-			player.swingArm(Hand.MAIN_HAND);
 			break;
 		case 2:
 			ThrowableEntity firaga = new FiragaEntity(player.world, player);
 			player.world.addEntity(firaga);
 			firaga.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
-			player.swingArm(Hand.MAIN_HAND);
 			break;
 		case 3:
 			ThrowableEntity firaza = new FirazaEntity(player.world, player);
 			player.world.addEntity(firaza);
 			firaza.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 0.5F);
-			player.swingArm(Hand.MAIN_HAND);
 			break;
 		}
 		
