@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -63,7 +64,8 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
      */
     public final void onUse(PlayerEntity player, PlayerEntity caster, int level) {
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
-    	if(hasRC()) {
+    	if(hasRC() && ModConfigs.magicUsesTimer != 1) {
+    		//System.out.println("Level");
 			int maxLevel = casterData.getMagicLevel(name);
 	    	if(level > maxLevel){ 
 				casterData.setMagicUses(name, 0);

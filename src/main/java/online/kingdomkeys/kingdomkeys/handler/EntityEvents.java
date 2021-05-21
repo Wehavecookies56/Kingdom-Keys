@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import net.minecraft.entity.Entity;
@@ -218,7 +219,7 @@ public class EntityEvents {
 				while (magicsIt.hasNext()) {
 					Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
 					Magic magic = ModMagic.registry.getValue(new ResourceLocation(pair.getKey()));
-
+//System.out.println(magic.getRegistryName().toString()+" "+playerData.getMagicUses(magic.getRegistryName().toString()));
 					if(magic.hasRC()) {
 						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= 5) {
 							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
@@ -296,6 +297,17 @@ public class EntityEvents {
 						}
 					}
 				}
+				
+				if(ModConfigs.magicUsesTimer > 1) {
+					if(event.player.ticksExisted % ModConfigs.magicUsesTimer == 0) {
+						for (Entry<String, int[]> entry : playerData.getMagicsMap().entrySet()) {
+							int uses = playerData.getMagicUses(entry.getKey());
+							if(uses > 0) {
+								playerData.remMagicUses(entry.getKey(), 1);
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -328,6 +340,8 @@ public class EntityEvents {
 				isHostiles = false;
 			}
 		}
+		
+		
 	}
 
 	@SubscribeEvent

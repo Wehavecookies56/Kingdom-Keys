@@ -678,7 +678,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		int level = getMagicLevel(name);
 		if(level <= magic.getMaxLevel()) {
 			magicList.put(name, new int[] {level, uses});
-			System.out.println(uses);
 		}
 	}
 	

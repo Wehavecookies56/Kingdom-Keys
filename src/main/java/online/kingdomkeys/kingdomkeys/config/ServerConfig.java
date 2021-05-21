@@ -18,6 +18,7 @@ public class ServerConfig {
     public ForgeConfigSpec.DoubleValue xpMultiplier;
     public ForgeConfigSpec.DoubleValue heartMultiplier;
     public ForgeConfigSpec.DoubleValue partyXPShare;
+    public ForgeConfigSpec.IntValue magicUsesTimer;
     
     public ForgeConfigSpec.IntValue limitLaserCircleCost;
     public ForgeConfigSpec.IntValue limitLaserDomeCost;
@@ -35,6 +36,11 @@ public class ServerConfig {
                 .comment("Party range limit")
                 .translation(KingdomKeys.MODID + ".config.party_range_limit")
                 .defineInRange("partyRangeLimit", 50, 1, 150);
+        
+        magicUsesTimer = builder
+                .comment("Magic uses timer in ticks (1 second = 20 ticks) 0 = magic uses won't decrease, 1 = disable grand magic. Used for grand magic so bigger number the longer it will take to substract an use so it will be easier to activate it")
+                .translation(KingdomKeys.MODID + ".config.magic_uses_timer")
+                .defineInRange("magicUsesTimer", 100, 0, 1200);
 
         builder.pop();
 

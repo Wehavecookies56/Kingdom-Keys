@@ -278,10 +278,12 @@ public class ModConfigs {
     public static double xpMultiplier;
     public static double heartMultiplier;
     public static double partyXPShare;
+    public static int magicUsesTimer;
     
     public static int limitLaserCircleCost;
     public static int limitLaserDomeCost;
     public static int limitArrowRainCost;
+    
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
@@ -290,6 +292,7 @@ public class ModConfigs {
         xpMultiplier = SERVER.xpMultiplier.get();
         heartMultiplier = SERVER.heartMultiplier.get();
         partyXPShare = SERVER.partyXPShare.get();
+        magicUsesTimer = SERVER.magicUsesTimer.get();
         
         limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
         limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
