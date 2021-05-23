@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -24,6 +26,7 @@ public class ReactionMagic extends ReactionCommand {
 		return magic;
 	}
 	
+    @OnlyIn(Dist.CLIENT)
 	@Override
 	public String getTranslationKey() {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);

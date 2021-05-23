@@ -67,7 +67,6 @@ public class FireEntity extends ThrowableEntity {
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
 		if (!world.isRemote && getShooter() != null) {
-
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;
 
@@ -89,8 +88,7 @@ public class FireEntity extends ThrowableEntity {
 					}
 					if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setFire(5);
-						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.2F;
-						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
+						float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.2F : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 					}
 				}

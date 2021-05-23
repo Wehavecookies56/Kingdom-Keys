@@ -8,6 +8,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
@@ -44,6 +45,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ThunderBoltEntity extends ThrowableEntity {
 	private int lightningState;
@@ -96,12 +98,12 @@ public class ThunderBoltEntity extends ThrowableEntity {
 			}
 		}
 
-		if (this.lightningState >= 0) {
+		if (this.lightningState >= 0 && getShooter() != null) {
 			if (this.world.isRemote) {
 				this.world.setTimeLightningFlash(2);
 			} else if (!this.effectOnly) {
-				double d0 = 3.0D;
-				List<Entity> list = this.world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.getPosX() - 2.0D, this.getPosY() - 2.0D, this.getPosZ() - 2.0D, this.getPosX() + 2.0D, this.getPosY() + 6.0D + 2.0D, this.getPosZ() + 2.0D), Entity::isAlive);
+				float radius = 2.0F;
+				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
 
 				if(casterParty != null && !casterParty.getFriendlyFire()) {
@@ -112,9 +114,8 @@ public class ThunderBoltEntity extends ThrowableEntity {
 					list.remove(getShooter());
 				}
 				
-				for (Entity entity : list) {					
-					float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.1F;
-					float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
+				for (LivingEntity entity : list) {
+					float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.1F : 2;
 					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 
 					if (entity instanceof PigEntity) {

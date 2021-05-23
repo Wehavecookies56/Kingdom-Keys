@@ -186,7 +186,15 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         Iterator<String> magicsIt = storage.getCompound("magics").keySet().iterator();
         while (magicsIt.hasNext()) {
             String magicName = (String) magicsIt.next();
-            instance.getMagicsMap().put(magicName.toString(), storage.getCompound("magics").getIntArray(magicName));
+            
+            int[] array;
+            if(storage.getCompound("magics").contains(magicName,99)) {
+            	System.out.println("Converting "+magicName+" data");
+            	array = new int[] { storage.getCompound("magics").getInt(magicName), 0 };
+            } else {
+            	array = storage.getCompound("magics").getIntArray(magicName);
+            }
+            instance.getMagicsMap().put(magicName.toString(), array);
         }
         
         Iterator<String> shotlockIt = storage.getCompound("shotlocks").keySet().iterator();

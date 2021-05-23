@@ -146,8 +146,8 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
 					
 				}
-				
-				// TODO (done) Fix for retrocompatibility, remove in a few versions
+							
+				// TODO (done) Fix for retrocompatibility, move above in a few versions
 				if(playerData.getEquippedItems().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
 					for(int i = 0 ; i < 4; i++) {

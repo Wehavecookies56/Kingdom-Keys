@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.reactioncommands;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
-import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
 public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand> {
 	String name;
@@ -32,6 +32,7 @@ public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand
 		return name;
 	}
 	
+    @OnlyIn(Dist.CLIENT)
 	public String getTranslationKey() {
 		return translationKey;
 	}
