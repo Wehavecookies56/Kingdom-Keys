@@ -62,7 +62,7 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
-    	//System.out.println(showWelcome);
+    	
         renderBackground(matrixStack);
         String line1 = "gui.org.line1";
         String line2 = "gui.org.line2";

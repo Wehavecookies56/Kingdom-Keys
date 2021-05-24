@@ -93,8 +93,8 @@ public class RecipeItem extends Item implements IItemCategory {
 			}
 		}
 		
-		//System.out.println(list.size());
-		//System.out.println(list);
+		
+		
 
 		if(list.size() == 0)
 			return;

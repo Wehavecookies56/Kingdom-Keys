@@ -42,7 +42,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 				Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(element.getAsString()));
 				// Make sure the item is valid
 				if (keychain != null) {
-					//System.out.println(json + " " + keychain);
+					
 					out.setKeychain(keychain);
 				}
 				break;

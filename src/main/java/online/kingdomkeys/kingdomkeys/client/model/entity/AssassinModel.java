@@ -223,7 +223,7 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 		if (ent.getDistanceSq(ent.prevPosX, ent.prevPosY, ent.prevPosZ) > 0) {
 			for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
 				ModelAnimation m = animation.get(i); 
-				//System.out.println(i + " " + m);
+				
 				if(m != null && m.model != null) {
 					if(m.increasing) { //animnation increase
 						m.actVal += 2;

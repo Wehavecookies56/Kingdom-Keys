@@ -87,7 +87,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		for(int i = 1;i<buttons.size();i++) {
-			//System.out.println(buttons.get(i).getMessage().getString());
+			
 			if(!buttons.get(i).getMessage().getString().startsWith("Refresh")) {
 				buttons.remove(i);
 			}

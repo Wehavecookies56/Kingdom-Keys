@@ -210,7 +210,7 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
     		this.leftLeg1.rotateAngleX = this.rightLeg1.rotateAngleX = 0;
     	}
     	
-    	//System.out.println(EntityHelper.getState(ent));
+    	
     	
     	if(EntityHelper.getState(ent) == 0) {
     		this.body.rotateAngleY = 0;

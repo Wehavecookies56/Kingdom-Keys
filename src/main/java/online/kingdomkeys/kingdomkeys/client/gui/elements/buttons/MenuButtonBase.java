@@ -8,7 +8,7 @@ public class MenuButtonBase extends Button {
 	boolean selected = false;
 	public MenuButtonBase(int widthIn, int heightIn, int width, int height, String text, IPressable onPress) {
 		super(widthIn, heightIn, width, height, new TranslationTextComponent(text), onPress);
-		//System.out.println(text);
+		
 	}
 
 	public void setSelected(boolean b) {

@@ -65,7 +65,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     public final void onUse(PlayerEntity player, PlayerEntity caster, int level) {
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
     	if(hasRC() && ModConfigs.magicUsesTimer != 1) {
-    		//System.out.println("Level");
+    		
 			int maxLevel = casterData.getMagicLevel(name);
 	    	if(level > maxLevel){ 
 				casterData.setMagicUses(name, 0);

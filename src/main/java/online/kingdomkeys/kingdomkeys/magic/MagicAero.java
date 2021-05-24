@@ -22,7 +22,6 @@ public class MagicAero extends Magic {
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		int time = (int) (ModCapabilities.getPlayer(caster).getMaxMP() * (4F + level/2F));
-		System.out.println(time+" : "+level);
 		playerData.setAeroTicks(time, level);
 		PacketHandler.syncToAllAround(player, playerData);
 		caster.swingArm(Hand.MAIN_HAND);

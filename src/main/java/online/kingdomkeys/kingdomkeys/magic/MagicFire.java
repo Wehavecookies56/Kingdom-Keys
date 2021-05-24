@@ -24,7 +24,7 @@ public class MagicFire extends Magic {
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
 		casterData.setMagicCooldownTicks(20);
-		// System.out.println(casterData.getMagicUses(name));
+		
 
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
 

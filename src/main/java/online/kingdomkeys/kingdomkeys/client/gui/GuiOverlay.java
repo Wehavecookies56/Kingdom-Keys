@@ -304,7 +304,7 @@ public class GuiOverlay extends Screen {
 					blit(matrixStack, 0, 0, 0, 51, 256, 36);
 				}
 				matrixStack.pop();
-				//System.out.println(playerData+" "+driveForm);
+				
 				String formName = Utils.translateToLocal(ModDriveForms.registry.getValue(new ResourceLocation(driveForm)).getTranslationKey());
 				showText(matrixStack, "LV.", 2 + (minecraft.fontRenderer.getStringWidth("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 				showText(matrixStack, "" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.fontRenderer.getStringWidth("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
@@ -341,7 +341,7 @@ public class GuiOverlay extends Screen {
 					RenderSystem.color4f(driveColor[0], driveColor[1], driveColor[2], 1F);
 					for (int i = 0; i < playerData.getDFMessages().size(); i++) {
 						String message = playerData.getDFMessages().get(i);
-						//System.out.println();
+						
 						float x = 33;
 						float y = minecraft.fontRenderer.FONT_HEIGHT * 1.1F * i; 
 						if(message.startsWith("A_")) {

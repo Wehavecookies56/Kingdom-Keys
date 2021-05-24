@@ -82,12 +82,12 @@ public class GuiMenu_Party_Member extends MenuBackground {
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		//System.out.println("Member 1: "+party);
+		
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.world);
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
 
-		//System.out.println("Member 2: "+party);
+		
 		if(party == null) {
 			GuiHelper.openMenu();
 			updateButtons();

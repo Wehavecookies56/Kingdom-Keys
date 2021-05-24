@@ -83,7 +83,7 @@ public class InputHandler {
         World world = mc.world;
         double random = Math.random();
         int ap = playerData.getAntiPoints();
-        //System.out.println("Antipoints: "+ap);
+        
         int prob = 0;
         if (ap > 0 && ap <= 4)
             prob = 0;
@@ -340,7 +340,7 @@ public class InputHandler {
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                 	if(playerData.getAlignment() == OrgMember.NONE) {
 	                	if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {//DRIVE
-	                        //System.out.println("drive submenu");
+	                        
 	                        if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
 	                        	
 	                        } else { //If is in a drive form other than antiform
@@ -352,7 +352,7 @@ public class InputHandler {
 	                        	}
 	                        }
 	                	} else {//REVERT
-	                		//System.out.println("REVERT");
+	                		
 	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) {
 	                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                		} else {
@@ -422,7 +422,7 @@ public class InputHandler {
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 			} else {
-				//System.out.println(limitsList.get(CommandMenuGui.limitSelected));
+				
 				if(playerData.getDP() < limitsList.get(CommandMenuGui.limitSelected).getCost()) {
                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -722,7 +722,7 @@ public class InputHandler {
 						EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
 						if (ertr.getEntity() != null) {
 							double distance = player.getDistance(ertr.getEntity());
-							// System.out.println(distance);
+							
 							if (reach >= distance) {
 								if (ertr.getEntity() instanceof LivingEntity) {
 									lockOn = (LivingEntity) ertr.getEntity();

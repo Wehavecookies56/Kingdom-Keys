@@ -50,7 +50,7 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onRenderTick(RenderTickEvent event) { //Lock on
-		//System.out.println(event.player.world.isRemote);
+		
 		PlayerEntity player = Minecraft.getInstance().player;
 		if(InputHandler.lockOn != null && player != null) {
 			if(InputHandler.lockOn.removed) {
@@ -218,7 +218,7 @@ public class ClientEvents {
 			if(playerData.getShotlockEnemies() != null) {
 				for (int entID : playerData.getShotlockEnemies()) {
 					Entity entityIn = mc.world.getEntityByID(entID);
-					//System.out.println(entityIn.getDisplayName().getString());
+					
 					if (playerData.getShotlockEnemies().contains(entityIn.getEntityId())) {
 						float f = entityIn.getHeight();
 						matrixStackIn.push();
@@ -228,7 +228,7 @@ public class ClientEvents {
 					        double y = (double) entityIn.getPosY() - (player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * (double) event.getPartialTicks());
 					        double z = (double) entityIn.getPosZ() - (player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * (double) event.getPartialTicks());
 							renderManager.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-							//System.out.println(x+" "+y+" "+z);
+							
 					        matrixStackIn.translate(x, y, z);
 					        matrixStackIn.rotate(renderManager.getCameraOrientation());
 					        matrixStackIn.translate(0,-f,-entityIn.getWidth());
@@ -366,7 +366,7 @@ public class ClientEvents {
 						matrixStackIn.translate(0.0D, (double) f/2, 0.0D);
 						matrixStackIn.rotate(renderManager.getCameraOrientation());
 						float scale = Math.max(entityIn.getHeight()/2, entityIn.getWidth()/2)/100;
-					//	System.out.println(scale);
+					
 						matrixStackIn.scale(-scale, -scale, scale);
 						event.getRenderer().getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
 						blit(matrixStackIn,-128,-128,0,0,256,256);

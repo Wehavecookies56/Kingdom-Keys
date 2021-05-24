@@ -126,7 +126,6 @@ public class SynthesisBagContainer extends Container {
 		if(!playerIn.world.isRemote) {
 			PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bagInv), (ServerPlayerEntity)playerIn);
 		}
-    	System.out.println(playerIn.world.isRemote+" "+bagInv.getStackInSlot(0));
     	super.onContainerClosed(playerIn);
     }*/
 

@@ -162,7 +162,7 @@ public class ThunderBoltEntity extends ThrowableEntity {
 					}
 				}
 				
-				//System.out.println(list);
+				
 
 				if (getCaster() != null) {
 					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayerEntity)getCaster(), list);

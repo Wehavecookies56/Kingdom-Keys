@@ -77,7 +77,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				ItemStack stack = player.inventory.getStackInSlot(i);
 				
 				if(!ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
-					//System.out.println(stack.getItem().getRegistryName().getPath());
+					
 					if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 						Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 						playerData.addMaterial(mat, stack.getCount());

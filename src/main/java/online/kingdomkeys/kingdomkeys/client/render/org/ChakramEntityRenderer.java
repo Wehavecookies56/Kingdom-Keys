@@ -94,7 +94,7 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 	@Override
 	public ResourceLocation getEntityTexture(ChakramEntity entity) {
 		String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
-		//System.out.println(name);
+		
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/"+name+".png");
 	}
 

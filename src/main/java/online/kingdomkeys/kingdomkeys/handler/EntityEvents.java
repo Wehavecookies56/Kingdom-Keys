@@ -230,7 +230,7 @@ public class EntityEvents {
 				while (magicsIt.hasNext()) {
 					Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
 					Magic magic = ModMagic.registry.getValue(new ResourceLocation(pair.getKey()));
-//System.out.println(magic.getRegistryName().toString()+" "+playerData.getMagicUses(magic.getRegistryName().toString()));
+
 					if(magic.hasRC()) {
 						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= 5) {
 							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
@@ -404,7 +404,7 @@ public class EntityEvents {
 					if(((PlayerEntity)event.getEntityLiving()).getForcedPose() != Pose.SWIMMING){
 						((PlayerEntity)event.getEntityLiving()).setForcedPose(Pose.SWIMMING);
 					}					
-					//System.out.println(((PlayerEntity)event.getEntityLiving()).getPose());
+					
 				}
 			
 				event.getEntityLiving().setMotion(0, -4, 0);
@@ -492,7 +492,7 @@ public class EntityEvents {
 					double Y = event.getEntityLiving().getPosY();
 					double Z = event.getEntityLiving().getPosZ();
 
-					//System.out.println(event.getEntityLiving().world);
+					
 
 					for (int t = 1; t < 360; t += 20) {
 						double x = X + (radius * Math.cos(Math.toRadians(t)));
@@ -873,7 +873,7 @@ public class EntityEvents {
 						newShadow.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Heartless"));
 						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
-						//System.out.println(Math.max(playerData.getStrength(), newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						
 						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newShadow);
 						
@@ -1024,7 +1024,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void playerStartedTracking(PlayerEvent.StartTracking e) {
 		if (e.getTarget() instanceof PlayerEntity) {
-			//System.out.println(e.getTarget());
+			
 			PlayerEntity targetPlayer = (PlayerEntity) e.getTarget();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, playerData);

@@ -77,7 +77,7 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 	@Override
 	public ResourceLocation getEntityTexture(LanceEntity entity) {
 		String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
-		//System.out.println(name);
+		
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/"+name+".png");
 	}
 

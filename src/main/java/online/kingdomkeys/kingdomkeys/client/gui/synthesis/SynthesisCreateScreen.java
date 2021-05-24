@@ -254,7 +254,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		RenderSystem.pushMatrix();
 		{
 			RenderSystem.translated(iconPosX + 20, height*0.2, 1);
-			//System.out.println(selected.getItem().getRegistryName());
+			
 			if(RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
 				Iterator<Entry<Material, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();

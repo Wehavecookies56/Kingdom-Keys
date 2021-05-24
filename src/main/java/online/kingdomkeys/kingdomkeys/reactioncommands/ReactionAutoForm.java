@@ -49,7 +49,7 @@ public class ReactionAutoForm extends ReactionCommand {
 			player.world.playSound(null, player.getPosition(), ModSounds.drive.get(), SoundCategory.PLAYERS, 1F, 1F);
 	    	//PacketHandler.sendToServer(new CSSetDriveFormPacket(form));
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			//System.out.println("Actual form: " + playerData.getActiveDriveForm() + ", Going to get form: " + message.form);
+			
 			
 			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
 				DriveForm forma = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
@@ -71,7 +71,7 @@ public class ReactionAutoForm extends ReactionCommand {
 			for(ReactionCommand rc : list) {
 				if(rc instanceof ReactionAutoForm) {
 					playerData.removeReactionCommand(rc.getName());
-					//System.out.println("removed "+rc.getName());
+					
 				}
 			}
 		}

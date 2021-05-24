@@ -39,7 +39,7 @@ public class CSSetEquippedAbilityPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			//System.out.println("adding/sub " + message.ability + " by " + message.level + " adding: " + newConsumedAP);
+			
 			playerData.addEquippedAbilityLevel(message.ability, message.level);
 		});
 		ctx.get().setPacketHandled(true);

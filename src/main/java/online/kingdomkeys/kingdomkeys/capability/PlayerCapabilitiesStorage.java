@@ -199,7 +199,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         Iterator<String> shotlockIt = storage.getCompound("shotlocks").keySet().iterator();
         while (shotlockIt.hasNext()) {
             String key = (String) shotlockIt.next();
-            //System.out.println("Read: " + key);
+            
             instance.getShotlockList().add(key.toString());
         }
         
@@ -208,14 +208,14 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         Iterator<String> driveFormsIt = storage.getCompound("drive_forms").keySet().iterator();
         while (driveFormsIt.hasNext()) {
             String driveFormName = (String) driveFormsIt.next();
-            //System.out.println("Read: " + driveFormName);
+            
             instance.getDriveFormMap().put(driveFormName.toString(), storage.getCompound("drive_forms").getIntArray(driveFormName));
         }
 
         Iterator<String> abilitiesIt = storage.getCompound("abilities").keySet().iterator();
         while (abilitiesIt.hasNext()) {
             String abilityName = (String) abilitiesIt.next();
-            //System.out.println("Read: " + abilityName);
+            
             instance.getAbilityMap().put(abilityName.toString(), storage.getCompound("abilities").getIntArray(abilityName));
         }
 

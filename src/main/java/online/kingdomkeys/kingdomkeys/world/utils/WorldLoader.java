@@ -36,10 +36,10 @@ public class WorldLoader {
 
             List<BlockState> blockStates = new ArrayList<>();
 
-            //System.out.println("Generating World with " + blocks.tagCount() + " blocks");
+            
             CompoundNBT firstBlock = blocks.getCompound(0);
             BlockPos firstPos = new BlockPos(firstBlock.getList("pos", 3).getInt(0), firstBlock.getList("pos", 3).getInt(1), firstBlock.getList("pos", 3).getInt(2));
-            //System.out.println("Starting with position " + firstPos.getX()+offset.getX() + " " + firstPos.getY()+offset.getY() + " " + firstPos.getZ()+offset.getZ());
+            
 
             for (int i = 0; i < palette.size(); i++) {
                 CompoundNBT block = palette.getCompound(i);
@@ -76,12 +76,12 @@ public class WorldLoader {
                         world.setBlockState(blockpos.down(), Blocks.DIRT.getDefaultState(), 2);*/
                 if (state.getBlock() == Blocks.CHEST) {
                     if (block.contains("nbt")) {
-                        //System.out.println("Chest NBT");
+                        
                         CompoundNBT nbtData = block.getCompound("nbt");
                         world.setBlockState(blockpos, state, 2);
                         ChestTileEntity te = (ChestTileEntity) ChestTileEntity.readTileEntity(state, nbtData);
                         world.setTileEntity(blockpos, te);
-                        //System.out.println(world.getTileEntity(blockpos));
+                        
                         if (nbtData.getString("id").equals("minecraft:chest")) {
 
                         }
@@ -91,7 +91,7 @@ public class WorldLoader {
                     world.setBlockState(blockpos, state, 2);
                 }
                 //world.setBlockState(blockpos, ModBlocks.KKChest.getDefaultState().withProperty(BlockKKChest.FACING, state.getValue(BlockChest.FACING)));
-                //System.out.println(i + ":" + state.getBlock() + " " + blockpos.getY());
+                
             }
         } catch (IOException e){
             e.printStackTrace();

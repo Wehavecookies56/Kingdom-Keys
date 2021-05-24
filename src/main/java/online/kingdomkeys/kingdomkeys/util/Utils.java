@@ -253,7 +253,7 @@ public class Utils {
 	}
 
 	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap) {
-		// System.out.println("UNSORTED: "+driveFormsMap);
+		
 		List<DriveForm> list = new ArrayList<>();
 
 		Iterator<String> it = driveFormsMap.keySet().iterator();

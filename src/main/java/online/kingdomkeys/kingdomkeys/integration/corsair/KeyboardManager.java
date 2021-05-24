@@ -27,7 +27,7 @@ public class KeyboardManager {
 	public KeyboardManager() {
 		for (int i = 0; i < cue.getDeviceCount(); i++) {
 			DeviceInfo info = cue.getDeviceInfo(i);
-			//System.out.println(info.getType());
+			
 			if (info.getType() == DeviceType.CDT_Keyboard) {
 				corsairKeyboard = true;
 			}
@@ -67,7 +67,7 @@ public class KeyboardManager {
 			return;
 		
 		if (!CorsairUtils.isEqualsArray(CorsairUtils.defaultRGB, colors)) {
-			// System.out.println("Setting default color");
+			
 			CorsairUtils.defaultRGB = colors;
 			resetKeyboard();
 		}
@@ -201,7 +201,7 @@ public class KeyboardManager {
 
 		final int[] rgbValue = keyFunction.getCallback().invoke(key, minecraft, minecraft.world, minecraft.player);
 		final int[] lastColor = key.getLastColor();
-		// System.out.println(key+" "+hsvColorValue);
+		
 
 		if (key.getShouldUpdate() || !CorsairUtils.isEqualsArray(lastColor, rgbValue)) {
 			key.setShouldUpdate(false);

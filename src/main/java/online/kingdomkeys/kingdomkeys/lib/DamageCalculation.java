@@ -104,7 +104,7 @@ public class DamageCalculation {
             if(keyblade != null) {
             
 	            damage = (float) (keyblade.getStrength(stack) + playerData.getStrength());
-	            //System.out.println(damage);
+	            
 	
 	            switch (playerData.getActiveDriveForm()) {
 	                case Strings.Form_Valor:
@@ -156,7 +156,7 @@ public class DamageCalculation {
 			String id = nbttaglist.getCompound(i).getString("id");
 			int lvl = nbttaglist.getCompound(i).getShort("lvl");
 
-			// System.out.println(Enchantment.getEnchantmentByID(id).getName());
+			
 			if (id.equals("minecraft:sharpness")) {
 				sharpnessDamage = getSharpnessDamageFromLevel(lvl);
 			}

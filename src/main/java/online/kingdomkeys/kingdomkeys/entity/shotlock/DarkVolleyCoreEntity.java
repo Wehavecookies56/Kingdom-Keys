@@ -147,9 +147,9 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 	public List<Entity> getTargets() {
 		List<Entity> list = new ArrayList<Entity>();
 		String[] ids = this.getDataManager().get(TARGETS).split(",");
-		//System.out.println(this.getDataManager().get(TARGETS) + " : "+ ids.length);
+		
 		for(String id : ids) {
-		//	System.out.println(id);
+		
 			if(!id.equals(""))
 				list.add(world.getEntityByID(Integer.parseInt(id)));
 		}

@@ -40,7 +40,7 @@ public class CSSetDriveFormPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			//System.out.println("Actual form: " + playerData.getActiveDriveForm() + ", Going to get form: " + message.form);
+			
 			if (message.form.equals(Strings.Form_Anti)) { //If target is antiform
 				playerData.setActiveDriveForm(Strings.Form_Anti);
 				playerData.setDP(0);

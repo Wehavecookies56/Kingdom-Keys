@@ -74,7 +74,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			boolean hasMaterials = true;
 			while(itMats.hasNext()) { //Check if the player has the materials
 				Entry<Material, Integer> m = itMats.next();
-				//System.out.println(m.getKey().getMaterialName()+" x"+m.getValue());
+				
 				if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
 					hasMaterials = false;
 				}
@@ -214,7 +214,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		{
 			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
 			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
-			//System.out.println(next.visible);
+			
 		}
 		matrixStack.pop();
 

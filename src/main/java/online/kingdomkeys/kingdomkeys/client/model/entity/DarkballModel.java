@@ -237,7 +237,7 @@ public class DarkballModel<T extends Entity> extends EntityModel<T> {
 		}
 
 		// if(EntityHelper.getState(ent) == 1)
-		// System.out.println(EntityHelper.getState(ent));
+		
 	}
 
 	protected float degToRad(double degrees) {

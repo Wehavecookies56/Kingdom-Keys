@@ -120,15 +120,15 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
                 double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
                 double d2 = this.goalOwner.getAttackTarget().getPosY() - this.goalOwner.getPosY();//getBoundingBox().minY + (double)(this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F));
                 double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
-                //System.out.println("attack");
+                
                 int num = world.rand.nextInt(100) + 1;
-                //System.out.println(num);
+                
                 if(num < 30) { //Single
                     SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
                     seed.shoot(d1, d2, d3, 1.2F, 0);
                     world.addEntity(seed);
-                    //System.out.println("Single");
+                    
                 } else if(num < 60) { //Vertical
                 	SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2+1, d3, 1F, 0);
@@ -144,7 +144,7 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
                     seed.shoot(d1, d2, d3, 1F, 0);
                     seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
                     goalOwner.world.addEntity(seed);
-                    //System.out.println("Vert");
+                    
                 } else { //Triple
                     SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
                     seed.shoot(d1, d2, d3, 1.2F, 0);
@@ -160,13 +160,13 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
                     seed.shoot(d1, d2, d3, 0.5F, 0);
                     seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
                     goalOwner.world.addEntity(seed);
-                    //System.out.println("Triple");
+                    
 
                 }
-                //System.out.println("USed attack");
+                
                 canUseAttack = false;
             } else {
-            	//System.out.println("I would've crashed");
+            	
             }
             
         }

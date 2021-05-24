@@ -64,7 +64,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 					minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					minecraft.displayGuiScreen(new GuiMenu_Party_Member());
 				} else {
-					//System.out.println("Full");
+					
 				}
 			}
 		}

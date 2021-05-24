@@ -40,7 +40,7 @@ public class CSSetAerialDodgeTicksPacket {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setHasJumpedAerialDodge(message.hasJumped);
 			playerData.setAerialDodgeTicks(message.ticks);
-			//System.out.println(message.gliding);
+			
 			PacketHandler.syncToAllAround(player, playerData);
 		});
 		ctx.get().setPacketHandled(true);

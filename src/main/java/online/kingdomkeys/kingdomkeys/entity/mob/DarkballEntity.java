@@ -206,7 +206,7 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         public void tick() {
             if(theEntity.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                //System.out.println("darkcloud " + whileAttackTimer);
+                
                 EntityHelper.setState(theEntity, 3);
                 LivingEntity target = this.theEntity.getAttackTarget();
                 for (int i = 0; i < 20; i++) {
@@ -291,7 +291,7 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         public void tick() {
             if(theEntity.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                //System.out.println("berserk " + whileAttackTimer);
+                
                 EntityHelper.setState(theEntity, 2);
                 for (int i = 0; i < 20; i++) {
                     double offsetX = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D; //3
@@ -376,7 +376,7 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         public void tick() {
             if(theEntity.getAttackTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                //System.out.println("charge " + whileAttackTimer);
+                
                 EntityHelper.setState(theEntity, 1);
                 LivingEntity target = this.theEntity.getAttackTarget();
                 this.theEntity.getNavigator().tryMoveToXYZ(posToCharge[0], posToCharge[1], posToCharge[2], 3.0D);
