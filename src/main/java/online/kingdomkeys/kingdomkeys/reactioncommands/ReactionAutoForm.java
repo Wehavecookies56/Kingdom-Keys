@@ -25,7 +25,7 @@ public class ReactionAutoForm extends ReactionCommand {
 	String form, abilityName;
 
 	public ReactionAutoForm(String registryName, String abilityName, String form) {
-		super(registryName);
+		super(registryName, true);
 		this.form = form;
 		this.abilityName = abilityName;
 	}

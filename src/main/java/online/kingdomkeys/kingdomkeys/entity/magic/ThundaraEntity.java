@@ -116,7 +116,7 @@ public class ThundaraEntity extends ThrowableEntity {
 				list.remove(this);
 			}
 
-			if (ticksExisted % 7 == 1) {
+			if (ticksExisted % 8 == 1) {
 				if (!list.isEmpty()) { // find random entity
 					int i = world.rand.nextInt(list.size());
 					Entity e = (Entity) list.get(i);

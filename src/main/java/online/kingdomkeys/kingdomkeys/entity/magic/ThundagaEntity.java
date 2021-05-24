@@ -34,7 +34,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ThundagaEntity extends ThrowableEntity {
 
-	int maxTicks = 45;
+	int maxTicks = 40;
 
 	public ThundagaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -116,7 +116,7 @@ public class ThundagaEntity extends ThrowableEntity {
 				list.remove(this);
 			}
 
-			if (ticksExisted % 5 == 1) {
+			if (ticksExisted % 6 == 1) {
 				if (!list.isEmpty()) { // find random entity
 					int i = world.rand.nextInt(list.size());
 					Entity e = (Entity) list.get(i);

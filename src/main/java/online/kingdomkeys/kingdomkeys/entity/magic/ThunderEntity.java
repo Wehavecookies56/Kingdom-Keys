@@ -34,7 +34,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ThunderEntity extends ThrowableEntity {
 
-	int maxTicks = 25;
+	int maxTicks = 20;
 
 	public ThunderEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);

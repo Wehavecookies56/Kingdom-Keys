@@ -204,11 +204,23 @@ public class EntityEvents {
 			if (playerData != null) {
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
+				
+				//Check commands from registry that need active check (can turn off based on conditions like drive forms when you are healed)
+				//Those will be available when joining the world too if the conditions are met
 				for(ReactionCommand rc : ModReactionCommands.registry.getValues()) {
-					if(rc instanceof ReactionAutoForm && rc.conditionsToAppear(event.player, event.player)) {
+					if(rc.needsConstantCheck() && rc.conditionsToAppear(event.player, event.player)) {
 						rcList.add(rc);
 					}
 				}
+
+				//Check commands in player list
+				for(String rcName : playerData.getReactionCommands()) {
+					ReactionCommand rc = ModReactionCommands.registry.getValue(new ResourceLocation(rcName));
+					if(rc.conditionsToAppear(event.player, event.player)) {
+						rcList.add(rc);
+					}
+				}
+				
 				
 				playerData.setReactionCommands(new ArrayList<String>());
 				for(ReactionCommand rc : rcList) {
@@ -801,10 +813,10 @@ public class EntityEvents {
 						
 						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-						playerData.addExperience(player, (int) ((int)exp * ModConfigs.xpMultiplier), true);
+						playerData.addExperience(player, (int) ((int)exp * ModConfigs.xpMultiplier), true, true);
 											
 						if (event.getEntity() instanceof WitherEntity) {
-							playerData.addExperience(player, 1500, true);
+							playerData.addExperience(player, 1500, true, true);
 						}
 						
 					}

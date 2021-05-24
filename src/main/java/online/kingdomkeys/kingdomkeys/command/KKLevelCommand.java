@@ -15,13 +15,16 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -92,8 +95,10 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
             playerData.addAbility(Strings.zeroExp, false);
             
 			while (playerData.getLevel() < level) {
-				playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false);
+				playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false, false);
 			}
+			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 1f, 1.0f);
+
 			
 			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 			Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
@@ -114,10 +119,9 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 			player.heal(playerData.getMaxHP());
 			playerData.setMP(playerData.getMaxMP());
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" level to "+level), true);
 			
-				context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" level to "+level), true);
-			
-			player.sendMessage(new TranslationTextComponent("Your level is now "+level),Util.DUMMY_UUID);
+			player.sendMessage(new TranslationTextComponent("Your level is now "+level), Util.DUMMY_UUID);
 		}
 		return 1;
 	}

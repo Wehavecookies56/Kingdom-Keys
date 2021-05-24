@@ -102,7 +102,7 @@ public class ThunderBoltEntity extends ThrowableEntity {
 			if (this.world.isRemote) {
 				this.world.setTimeLightningFlash(2);
 			} else if (!this.effectOnly) {
-				float radius = 2.0F;
+				float radius = 1.0F;
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
 
@@ -115,7 +115,7 @@ public class ThunderBoltEntity extends ThrowableEntity {
 				}
 				
 				for (LivingEntity entity : list) {
-					float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.1F : 2;
+					float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.02F : 2;
 					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
 
 					if (entity instanceof PigEntity) {

@@ -26,7 +26,7 @@ public interface IPlayerCapabilities {
 	
 	int getExperience();
 	void setExperience(int exp);
-	void addExperience(PlayerEntity player, int exp, boolean shareXP);
+	void addExperience(PlayerEntity player, int exp, boolean shareXP, boolean sound);
 
 	int getExperienceGiven();
 	void setExperienceGiven(int exp);
@@ -86,7 +86,7 @@ public interface IPlayerCapabilities {
 	void setMaxAP(int ap);
 	void addMaxAP(int ap);
 	
-    void levelUpStatsAndDisplayMessage(PlayerEntity player);
+    void levelUpStatsAndDisplayMessage(PlayerEntity player, boolean sound);
     void clearMessages();
 	void setMessages(List<String> messages);
     List<String> getMessages();

@@ -112,7 +112,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void addExperience(PlayerEntity player, int exp, boolean shareXP) {
+	public void addExperience(PlayerEntity player, int exp, boolean shareXP, boolean sound) {
 		if (player != null) {
 			if (this.level < 100) {
 				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
@@ -125,7 +125,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 							for(RegistryKey<World> worldKey : player.world.getServer().func_240770_D_()) {
 								PlayerEntity ally = player.getServer().getWorld(worldKey).getPlayerByUuid(member.getUUID());
 								if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
-									ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false); //Give EXP to other players with the false param to prevent getting in a loop
+									ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false, true); //Give EXP to other players with the false param to prevent getting in a loop
 									PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayerEntity)ally);
 								}
 							}
@@ -146,7 +146,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				}
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
-					levelUpStatsAndDisplayMessage(player);
+					levelUpStatsAndDisplayMessage(player, sound);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
 				}
 				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
@@ -199,7 +199,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public int getExpNeeded(int level, int currentExp) {
 		if (level == 100)
 			return 0;
-		double nextLevel = (double) (((level + 1.0) + 300.0 * (Math.pow(2.0, ((level + 1.0) / 7.0)))) * ((level + 1.0) * 0.25));
+		double nextLevel = 0;
+		if(level == 1)
+			nextLevel = 80; 
+		else
+			nextLevel = (double) (((level + 1.0) + 300.0 * (Math.pow(2.0, ((level + 1.0) / 7.0)))) * ((level + 1.0) * 0.25));
 		int needed = ((int) nextLevel - currentExp);
 		this.remainingExp = needed;
 		return remainingExp;
@@ -285,14 +289,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void levelUpStatsAndDisplayMessage(PlayerEntity player) {
+	public void levelUpStatsAndDisplayMessage(PlayerEntity player, boolean sound) {
 		this.getMessages().clear();
 		LevelStats.applyStatsForLevel(this.level, player, this);
 
 		// PacketDispatcher.sendTo(new SyncUnlockedAbilities(ABILITIES),
 		// (EntityPlayerMP) player);
 
-		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
+		if(sound)
+			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
 		PacketHandler.syncToAllAround(player, this);

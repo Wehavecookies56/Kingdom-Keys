@@ -18,7 +18,7 @@ public class ReactionMagic extends ReactionCommand {
 	String magic;
 
 	public ReactionMagic(String registryName) {
-		super(registryName);
+		super(registryName, false);
 		this.magic = registryName;
 	}
 	

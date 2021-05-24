@@ -15,13 +15,16 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -78,7 +81,9 @@ public class KKExpCommand extends BaseCommand { // kk_exp <give/take/set> <amoun
 			playerData.clearAbilities();
 			playerData.addAbility(Strings.zeroExp, false);
 
-			playerData.addExperience(player, exp, false);
+			playerData.addExperience(player, exp, false, false);
+			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 1f, 1.0f);
+
 
 			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 			Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
@@ -113,7 +118,9 @@ public class KKExpCommand extends BaseCommand { // kk_exp <give/take/set> <amoun
 
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.addExperience(player, value, false);
+			playerData.addExperience(player, value, false, false);
+			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 1f, 1.0f);
+
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 
 			context.getSource().sendFeedback(new TranslationTextComponent("Added " + value + " experience to " + player.getDisplayName().getString()), true);
@@ -150,7 +157,9 @@ public class KKExpCommand extends BaseCommand { // kk_exp <give/take/set> <amoun
 			playerData.clearAbilities();
 			playerData.addAbility(Strings.zeroExp, false);
 
-			playerData.addExperience(player, exp, false);
+			playerData.addExperience(player, exp, false, false);
+			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 1f, 1.0f);
+
 
 			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 			Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
