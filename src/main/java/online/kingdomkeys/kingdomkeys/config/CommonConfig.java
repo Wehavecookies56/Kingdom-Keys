@@ -1,13 +1,10 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 

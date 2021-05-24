@@ -10,7 +10,6 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {

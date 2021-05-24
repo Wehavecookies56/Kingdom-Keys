@@ -8,8 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
  * Str and Mag are integers

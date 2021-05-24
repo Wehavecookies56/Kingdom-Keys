@@ -7,7 +7,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
 public class StopDamageSource extends EntityDamageSource {
 	public StopDamageSource(String damageTypeIn, Entity damageSourceEntityIn) {

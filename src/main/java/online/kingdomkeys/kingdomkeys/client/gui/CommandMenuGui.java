@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

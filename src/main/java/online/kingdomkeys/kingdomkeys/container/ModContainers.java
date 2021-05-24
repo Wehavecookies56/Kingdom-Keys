@@ -17,8 +17,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.container.MagicalChestScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
 
-import java.util.Objects;
-
 public class ModContainers {
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, KingdomKeys.MODID);
 

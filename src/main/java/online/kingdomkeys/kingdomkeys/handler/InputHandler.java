@@ -59,8 +59,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
-import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
-import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;

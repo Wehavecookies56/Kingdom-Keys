@@ -11,9 +11,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 
 public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowModel<MegaShadowEntity>> {
 

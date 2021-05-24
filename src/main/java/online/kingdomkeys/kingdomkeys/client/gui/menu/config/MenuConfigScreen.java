@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.config;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;

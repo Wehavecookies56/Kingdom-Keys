@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
+import java.util.BitSet;
+import java.util.Random;
+
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.Dynamic;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ISeedReader;
@@ -10,11 +13,6 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-
-import java.util.BitSet;
-import java.util.Random;
-import java.util.function.Function;
 
 /**
  * Copy of {@link OreFeature} modified to use {@link BloxOreFeatureConfig} otherwise it is identical

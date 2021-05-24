@@ -9,7 +9,6 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
-import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 
 public class SCOpenAlignmentScreen {
 

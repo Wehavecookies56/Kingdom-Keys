@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.particle;
 
 import com.mojang.serialization.Codec;
+
 import net.minecraft.particles.ParticleType;
 
 public class ExpParticleType extends ParticleType<ExpParticleData> {

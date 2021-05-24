@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.utils;
 
+import java.util.Optional;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Direction;
@@ -9,8 +11,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-
-import java.util.Optional;
 
 /**
  * Created by Toby on 01/08/2016.

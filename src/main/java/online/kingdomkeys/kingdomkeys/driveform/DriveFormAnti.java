@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Mod;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class DriveFormAnti extends DriveForm {
 

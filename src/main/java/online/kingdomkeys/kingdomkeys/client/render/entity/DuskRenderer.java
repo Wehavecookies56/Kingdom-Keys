@@ -1,15 +1,14 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.entity.DarkballModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.DuskModel;
-import online.kingdomkeys.kingdomkeys.entity.mob.DarkballEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 
 public class DuskRenderer extends MobRenderer<DuskEntity, DuskModel<DuskEntity>> {

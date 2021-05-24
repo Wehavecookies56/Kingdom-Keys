@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.particle;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
+import java.util.function.Supplier;
+
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -9,8 +9,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.util.function.Supplier;
 
 public class ModParticles {
 	public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, KingdomKeys.MODID);

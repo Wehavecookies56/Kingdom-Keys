@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.render.block;
 
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -16,8 +19,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
-
-import javax.annotation.Nullable;
 
 /**
  * Mostly a copy of {@link net.minecraft.client.renderer.entity.TNTRenderer} with some small changes

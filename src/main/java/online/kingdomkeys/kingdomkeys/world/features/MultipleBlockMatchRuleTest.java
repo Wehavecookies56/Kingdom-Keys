@@ -1,15 +1,16 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
+import java.util.List;
+import java.util.Random;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.template.IRuleTestType;
 import net.minecraft.world.gen.feature.template.RuleTest;
-
-import java.util.List;
-import java.util.Random;
 
 public class MultipleBlockMatchRuleTest extends RuleTest {
     public static final Codec<MultipleBlockMatchRuleTest> CODEC = RecordCodecBuilder.create((p_237118_0_) -> {

@@ -1,11 +1,12 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.Objects;
+import java.util.function.Supplier;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.StainedGlassBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
@@ -13,9 +14,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import java.util.Objects;
-import java.util.function.Supplier;
 
 public class ModBlocks {
 

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.LivingEntity;

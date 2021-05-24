@@ -1,11 +1,15 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -21,10 +25,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.MagicalChestContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class MagicalChestTileEntity extends TileEntity implements INamedContainerProvider {
 	public static final int NUMBER_OF_SLOTS = 36;

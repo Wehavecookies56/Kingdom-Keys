@@ -14,7 +14,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowRainCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ArrowRainCoreEntityRenderer extends EntityRenderer<ArrowRainCoreEntity> {

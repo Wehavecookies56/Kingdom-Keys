@@ -1,13 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ISkyRenderHandler;
 
 @OnlyIn(Dist.CLIENT)
 public class DiveToTheHeartRenderInfo extends DimensionRenderInfo {

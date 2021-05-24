@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.function.Supplier;
+
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
-
-import java.util.function.Supplier;
 
 public class CSPedestalConfig {
 

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -8,9 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.DirePlantModel;
-import online.kingdomkeys.kingdomkeys.client.model.entity.DuskModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.DirePlantEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 
 public class DirePlantRenderer extends MobRenderer<DirePlantEntity, DirePlantModel<DirePlantEntity>> {
 

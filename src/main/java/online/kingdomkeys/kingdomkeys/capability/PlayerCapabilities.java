@@ -23,7 +23,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -199,11 +198,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public int getExpNeeded(int level, int currentExp) {
 		if (level == 100)
 			return 0;
-		double nextLevel = 0;
-		if(level == 1)
-			nextLevel = 80; 
-		else
-			nextLevel = (double) (((level + 1.0) + 300.0 * (Math.pow(2.0, ((level + 1.0) / 7.0)))) * ((level + 1.0) * 0.25));
+		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25));
 		int needed = ((int) nextLevel - currentExp);
 		this.remainingExp = needed;
 		return remainingExp;

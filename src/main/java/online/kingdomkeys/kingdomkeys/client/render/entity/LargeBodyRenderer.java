@@ -10,7 +10,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.LargeBodyModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
 
 public class LargeBodyRenderer extends MobRenderer<LargeBodyEntity, LargeBodyModel<LargeBodyEntity>> {
 

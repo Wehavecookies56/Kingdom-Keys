@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -23,10 +27,6 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class MagneraEntity extends ThrowableEntity {
 

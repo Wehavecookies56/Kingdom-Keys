@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -9,12 +10,9 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
-import online.kingdomkeys.kingdomkeys.client.model.entity.DarkballModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseBombEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.DarkballEntity;
 
 public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBombEntity>> {
 

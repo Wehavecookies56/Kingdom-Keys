@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
+import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 
 public class MPOrbRenderer extends EntityItemDropRenderer {
 	

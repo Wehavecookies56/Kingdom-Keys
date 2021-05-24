@@ -1,15 +1,18 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.*;
+import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
+import net.minecraft.world.gen.feature.template.RuleTest;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.*;
 
 /**
  * A modified copy of {@link OreFeatureConfig} so that multiple blockstates can be used

@@ -14,7 +14,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ShotlockCircularEntityRenderer extends EntityRenderer<RagnarokCoreEntity> {

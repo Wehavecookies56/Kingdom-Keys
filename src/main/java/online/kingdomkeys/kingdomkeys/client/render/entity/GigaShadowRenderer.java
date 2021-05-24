@@ -12,8 +12,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.GigaShadowEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 
 public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowModel<GigaShadowEntity>> {
 

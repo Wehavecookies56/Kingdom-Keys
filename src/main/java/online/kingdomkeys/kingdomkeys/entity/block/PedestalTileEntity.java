@@ -26,7 +26,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
 public class PedestalTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity {
 	public static final int NUMBER_OF_SLOTS = 1;

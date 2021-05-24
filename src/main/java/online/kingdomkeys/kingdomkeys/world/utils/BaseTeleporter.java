@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.world.utils;
 
+import java.util.function.Function;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.ITeleporter;
-
-import java.util.function.Function;
 
 public class BaseTeleporter implements ITeleporter {
 

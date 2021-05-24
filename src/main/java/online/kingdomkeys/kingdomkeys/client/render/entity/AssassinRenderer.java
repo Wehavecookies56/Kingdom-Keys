@@ -12,7 +12,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.AssassinModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.GigaShadowEntity;
 
 public class AssassinRenderer extends MobRenderer<AssassinEntity, AssassinModel<AssassinEntity>> {
 

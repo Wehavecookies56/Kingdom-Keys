@@ -1,15 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.particle;
 
+import java.awt.Color;
+import java.util.Locale;
+
+import javax.annotation.Nonnull;
+
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.math.MathHelper;
-
-import javax.annotation.Nonnull;
-import java.awt.*;
-import java.util.Locale;
 
 public class ExpParticleData implements IParticleData {
 

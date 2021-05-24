@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -45,7 +44,6 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.particle.ExpParticleData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;

@@ -7,11 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
-import online.kingdomkeys.kingdomkeys.item.organization.EtherealBladeItem;
-import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class Lists {   

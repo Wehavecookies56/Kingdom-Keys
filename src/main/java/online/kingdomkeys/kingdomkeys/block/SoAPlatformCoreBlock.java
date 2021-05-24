@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -13,13 +17,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.List;
 
 public class SoAPlatformCoreBlock extends BaseBlock {
 

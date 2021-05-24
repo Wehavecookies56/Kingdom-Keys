@@ -4,7 +4,13 @@ import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-import online.kingdomkeys.kingdomkeys.datagen.init.*;
+import online.kingdomkeys.kingdomkeys.datagen.init.BlockModels;
+import online.kingdomkeys.kingdomkeys.datagen.init.BlockStates;
+import online.kingdomkeys.kingdomkeys.datagen.init.ItemModels;
+import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
+import online.kingdomkeys.kingdomkeys.datagen.init.LootTables;
+import online.kingdomkeys.kingdomkeys.datagen.init.Recipes;
+import online.kingdomkeys.kingdomkeys.datagen.init.SynthesisRecipe;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKAdvancementProvider;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)

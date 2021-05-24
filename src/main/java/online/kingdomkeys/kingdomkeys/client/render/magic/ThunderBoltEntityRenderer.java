@@ -14,7 +14,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ThunderBoltEntityRenderer extends EntityRenderer<ThunderBoltEntity> {

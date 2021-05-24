@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
