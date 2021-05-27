@@ -18,8 +18,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagicCure extends Magic {
 
-	public MagicCure(String registryName, int cost, int maxLevel, boolean hasRC, int order) {
-		super(registryName, cost, true, maxLevel, hasRC, order);
+	public MagicCure(String registryName, int maxLevel, boolean hasRC, int order) {
+		super(registryName, true, maxLevel, hasRC, order);
 	}
 
 	@Override

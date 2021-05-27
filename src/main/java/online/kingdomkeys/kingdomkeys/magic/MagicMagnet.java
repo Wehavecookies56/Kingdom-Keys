@@ -1,28 +1,19 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Hand;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class MagicMagnet extends Magic {
 
-	public MagicMagnet(String registryName, int cost, int maxLevel, boolean hasRC, int order) {
-		super(registryName, cost, false, maxLevel, hasRC, order);
+	public MagicMagnet(String registryName, int maxLevel, boolean hasRC, int order) {
+		super(registryName, false, maxLevel, hasRC, order);
 	}
 
 	@Override
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
-		IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
-		casterData.setMagicCooldownTicks(40);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity)caster);
-
 		switch(level) {
 		case 0:
 			MagnetEntity magent = new MagnetEntity(player.world, player);

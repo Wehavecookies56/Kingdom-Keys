@@ -14,16 +14,16 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 public abstract class Magic extends ForgeRegistryEntry<Magic> {
 
     String name;
-    int cost;
     boolean hasTargetSelector;
     int order;
     int maxLevel;
     String translationKey;
     boolean hasRC;
+    
+	private MagicData data;	
 
-    public Magic(String registryName, int cost, boolean hasToSelect, int maxLevel, boolean hasRC, int order) {
+    public Magic(String registryName, boolean hasToSelect, int maxLevel, boolean hasRC, int order) {
     	this.name = registryName;
-    	this.cost = cost;
     	this.hasTargetSelector = hasToSelect;
     	this.order = order;
     	this.maxLevel = maxLevel - 1;
@@ -41,7 +41,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     }
     
     public int getCost() {
-    	return cost;
+    	return data.getCost();
     }
     
     public boolean getHasToSelect() {
@@ -52,6 +52,13 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	return hasRC;
     }
     
+    public MagicData getMagicData() {
+    	return data;
+    }
+    
+    public void setMagicData(MagicData data) {
+    	this.data = data;
+    }
    
     protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 
@@ -72,8 +79,10 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 			} else {
 				casterData.addMagicUses(name, 1);
 			}
-    	}
-    	PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
+    	}    	
+		casterData.setMagicCooldownTicks(data.getCooldown());
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
+
     	magicUse(player, caster, level);
     	caster.swing(Hand.MAIN_HAND, true);
     }

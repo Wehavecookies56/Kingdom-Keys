@@ -54,6 +54,7 @@ import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
@@ -194,6 +195,7 @@ public class KingdomKeys {
 		event.addListener(new OrganizationDataLoader());
 		event.addListener(new RecipeDataLoader());
 		event.addListener(new DriveFormDataLoader());
+		event.addListener(new MagicDataLoader());
 	}
 
 	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {

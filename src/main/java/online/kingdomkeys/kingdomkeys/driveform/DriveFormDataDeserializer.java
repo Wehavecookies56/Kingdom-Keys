@@ -35,6 +35,7 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 				break;
 			case "ap":
 				out.setAP(element.getAsInt());
+				break;
 			case "str_mult":
 				out.setStrMult(element.getAsFloat());
 				break;
