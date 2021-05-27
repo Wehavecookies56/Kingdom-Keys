@@ -21,9 +21,6 @@ public class DriveFormWisdom extends DriveForm {
 
 	public DriveFormWisdom(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
 		super(registryName, order, hasKeychain);
-		this.driveCost = 300;
-		this.ap = 1;
-		this.levelUpCosts = new int[] { 0, 20, 80, 152, 242, 350, 500 };
 		this.color = new float[] { 0F, 0F, 1F };
 		this.skinRL = skinRL;
 	}

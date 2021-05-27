@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
@@ -25,11 +26,8 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public static final float[] MASTER_AERIAL_DODGE_BOOST = { 0, 1, 1, 1.2F, 1.2F, 1.4F, 1.4F, 1.6F };
 	public static final float[] FINAL_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.025F, 0.025F, 0.03F, 0.03F, 0.055F };
 	public static final float[] FINAL_GLIDE = { 0, -0.12F, -0.12F, -0.08F, -0.08F, -0.04F, -0.04F, -0.01F };
-	public static final float[] FINAL_GLIDE_SPEED = { 0, 0.11F, 0.11F, 0.25F, 0.25F, 0.5F, 0.5F, 0.7F };
+	public static final float[] FINAL_GLIDE_SPEED = { 0, 0.4F, 0.4F, 0.5F, 0.5F, 0.6F, 0.6F, 0.7F };
 	String name;
-	int driveCost;
-	int ap;
-	int[] levelUpCosts;// {0,X,X,X,X,X,X}
 	int maxLevel;
 	int order;
 	float[] color;
@@ -38,6 +36,8 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	String translationKey;
 
 	boolean hasKeychain = false;
+
+	private DriveFormData data;	
 
 	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain) {
 		this.name = registryName.toString();
@@ -51,6 +51,14 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public DriveForm(String registryName, int order, boolean hasKeychain) {
 		this(new ResourceLocation(registryName), order, hasKeychain);
 	}
+	
+	public void setDriveFormData(DriveFormData data) {
+        this.data = data;
+    }
+
+    public DriveFormData getDriveFormData() {
+        return data;
+    }
 
 	public boolean hasKeychain() {
 		return hasKeychain;
@@ -63,15 +71,19 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public String getTranslationKey() { return translationKey; }
 
 	public int getDriveCost() {
-		return driveCost;
+		return data.getCost();
 	}
 
 	public int getFormAntiPoints() {
-		return ap;
+		return data.getAP();
 	}
 
 	public int[] getLevelUpCosts() {
-		return levelUpCosts;
+		if(data != null)
+			return data.getLevelUp();
+		else {
+			return new int[0];
+		}
 	}
 	
 	public int getOrder() {
@@ -91,15 +103,15 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public abstract String getDFAbilityForLevel(int driveFormLevel); // TODO make the ability registry
 
 	public int getLevelUpCost(int level) {
-		if (levelUpCosts != null)
-			return levelUpCosts[level - 1];
+		if (getLevelUpCosts() != null)
+			return getLevelUpCosts()[level - 1];
 		else
 			return -1;
 	}
 
 	public int getLevelFromExp(int exp) {
-		for (int i = 0; i < levelUpCosts.length; i++) {
-			if (levelUpCosts[i] > exp) {
+		for (int i = 0; i < getLevelUpCosts().length; i++) {
+			if (getLevelUpCosts()[i] > exp) {
 				return i;
 			}
 		}
@@ -165,6 +177,17 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		if(!player.world.isRemote) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}
+	}
+
+	public float getStrMult() {
+		return data.strMult;
+	}
+	
+	public float getMagMult() {
+		return data.magMult;
+	}
+	public float getSpeedMult() {
+		return data.speedMult;
 	}
 
 }

@@ -20,9 +20,6 @@ public class DriveFormLimit extends DriveForm {
 
 	public DriveFormLimit(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
 		super(registryName, order, hasKeychain);
-		this.driveCost = 400;
-		this.ap = 1;
-		this.levelUpCosts = new int[] {0, 3, 9, 21, 40, 63, 90};
 		this.color = new float[] { 0.6F, 0.3F, 1F };
 		this.skinRL = skinRL;
 	}

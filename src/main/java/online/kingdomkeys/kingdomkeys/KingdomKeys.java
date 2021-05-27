@@ -47,6 +47,7 @@ import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
+import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
@@ -192,6 +193,7 @@ public class KingdomKeys {
 		event.addListener(new KeybladeDataLoader());
 		event.addListener(new OrganizationDataLoader());
 		event.addListener(new RecipeDataLoader());
+		event.addListener(new DriveFormDataLoader());
 	}
 
 	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {

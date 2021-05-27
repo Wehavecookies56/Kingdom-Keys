@@ -59,8 +59,7 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
     }
 
     protected void generateAll(DirectoryCache cache) {
-        for (T
-                model : generatedModels.values()) {
+        for (T model : generatedModels.values()) {
             Path target = getPath(model);
             try {
                 IDataProvider.save(GSON, cache, model.toJson(), target);

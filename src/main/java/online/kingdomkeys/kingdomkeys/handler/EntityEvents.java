@@ -28,6 +28,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -179,12 +180,6 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
 				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), (ServerPlayerEntity)player);
-				//TODO dimension
-				/*
-				if (player.dimension.getId() == ModDimensions.DIVE_TO_THE_HEART_TYPE.getId()) {
-					PacketHandler.sendTo(new SCUpdateSoA(playerData), (ServerPlayerEntity) player);
-				}s
-				 */
 			}
 			PacketHandler.syncToAllAround(player, playerData);
 		}
@@ -363,9 +358,15 @@ public class EntityEvents {
 		if (event.getEntityLiving() instanceof PlayerEntity) {
 			player = (PlayerEntity) event.getEntityLiving();
 			playerData = ModCapabilities.getPlayer(player);
+			
+			//Drive form speed
+			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+            	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+				if(player.isOnGround()) {
+					player.setMotion(player.getMotion().mul(new Vector3d(form.getSpeedMult(), 1, form.getSpeedMult())));
+				}
+			}
 		}
-
-		//MinecraftForge.EVENT_BUS.post(new EntityEvent.EyeHeight(player, player.getPose(), player.getSize(player.getPose()), player.getHeight()));
 
 		if (globalData != null) {
 			// Stop

@@ -564,7 +564,7 @@ public class Utils {
        /* for(Limit val : ModLimits.registry.getValues()) {
         	System.out.println(val.getName());
         	if(val.getOwner() == playerData.getAlignment()) {
-        		limit = val;
+        		limits.add(val);
         		break;
         	}
         }*/

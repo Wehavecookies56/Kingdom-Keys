@@ -19,9 +19,6 @@ public class DriveFormMaster extends DriveForm {
 
 	public DriveFormMaster(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
 		super(registryName, order, hasKeychain);
-		this.driveCost = 400;
-		this.ap = 1;
-		this.levelUpCosts = new int[] {0, 60, 240, 456, 726, 1050, 1500};
 		this.color = new float[] { 1F, 0.7F, 0.1F };
 		this.skinRL = skinRL;
 	}
@@ -77,13 +74,6 @@ public class DriveFormMaster extends DriveForm {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {
-				//Drive form speed
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Master)) {
-					if(player.isOnGround()) {
-						player.setMotion(player.getMotion().mul(new Vector3d(1.5, 1, 1.5)));
-					}
-				}
-				
 				// Drive Form abilities								
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
 					handleAerialDodge(player, playerData);

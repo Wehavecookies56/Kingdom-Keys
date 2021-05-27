@@ -1,11 +1,18 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -29,19 +36,10 @@ public class DamageCalculation {
             
             if(keyblade != null) {
 	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic());
-	
-	            switch (playerData.getActiveDriveForm()) {
-	                case Strings.Form_Wisdom:
-	                    damage = damage * 1.5F;
-	                    break;
-	                case Strings.Form_Master:
-	                    damage = (float) (damage * 1.75);
-	                    break;
-	                case Strings.Form_Final:
-	                    damage = (float) (damage * 2F);
-	                    break;
+	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+	            	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+	            	damage *= form.getMagMult();
 	            }
-
             }
             return damage;
         } else {
@@ -78,7 +76,7 @@ public class DamageCalculation {
             } else {
                 finalDamage = playerData.getMagic();
             }
-            return finalDamage; //(float) (finalDamage * MainConfig.items.damageMultiplier);
+            return finalDamage;
         } else {
             return 0;
         }
@@ -104,26 +102,19 @@ public class DamageCalculation {
             if(keyblade != null) {
             
 	            damage = (float) (keyblade.getStrength(stack) + playerData.getStrength());
-	            
 	
-	            switch (playerData.getActiveDriveForm()) {
-	                case Strings.Form_Valor:
-	                    damage = (float) (damage * 1.5);
-	                    break;
-	                case Strings.Form_Limit:
-	                    damage = (float) (damage * 1.2);
-	                    break;
-	                case Strings.Form_Master:
-	                    damage = (float) (damage * 1.5);
-	                    break;
-	                case Strings.Form_Final:
-	                    damage = (float) (damage * 1.7);
-	                    break;
+	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+	            	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+	            	damage *= form.getStrMult();
 	            }
-
             }
-            finalDamage = damage + getSharpnessDamage(stack); //(float) (damage * MainConfig.items.damageMultiplier);
-            return finalDamage;
+            finalDamage = damage + getSharpnessDamage(stack);
+           
+            DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+            otherSymbols.setDecimalSeparator('.');
+            DecimalFormat df = new DecimalFormat("###.##",otherSymbols);
+            return Float.parseFloat(df.format(finalDamage));
+            
         } else {
             return 0;
         }
@@ -140,7 +131,7 @@ public class DamageCalculation {
             if (stack.getItem() instanceof IOrgWeapon) {
             	IOrgWeapon org = (IOrgWeapon) stack.getItem();
                 damage = (float) org.getStrength() + playerData.getStrength();
-                finalDamage = damage + getSharpnessDamage(stack); //(float) (damage * MainConfig.items.damageMultiplier);
+                finalDamage = damage + getSharpnessDamage(stack);
             }
             return finalDamage;
         } else {
@@ -155,7 +146,6 @@ public class DamageCalculation {
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			String id = nbttaglist.getCompound(i).getString("id");
 			int lvl = nbttaglist.getCompound(i).getShort("lvl");
-
 			
 			if (id.equals("minecraft:sharpness")) {
 				sharpnessDamage = getSharpnessDamageFromLevel(lvl);

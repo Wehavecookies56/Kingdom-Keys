@@ -29,9 +29,6 @@ public class DriveFormFinal extends DriveForm {
 
 	public DriveFormFinal(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
 		super(registryName, order, hasKeychain);
-		this.driveCost = 500;
-		this.ap = -10;
-		this.levelUpCosts = new int[] { 0, 20, 80, 152, 242, 350, 500 };
 		this.color = new float[] { 0.9F, 0.9F, 0.9F };
 		this.skinRL = skinRL;
 	}
@@ -101,13 +98,6 @@ public class DriveFormFinal extends DriveForm {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {
-				//Drive form speed
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-					if(player.isOnGround()) {
-						player.setMotion(player.getMotion().mul(new Vector3d(1.5, 1, 1.5)));
-					}
-				}
-				
 				// Drive Form abilities
 				if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
 					handleHighJump(player, playerData);
@@ -161,6 +151,8 @@ public class DriveFormFinal extends DriveForm {
 				if (!player.isOnGround() && player.fallDistance > 0) { // Glide only when falling
 					if (mc.gameSettings.keyBindJump.isKeyDown()) {
 						if (!playerData.getIsGliding() && !(player.world.getBlockState(player.getPosition()).getBlock() instanceof FlowingFluidBlock) && !(player.world.getBlockState(player.getPosition().down()).getBlock() instanceof FlowingFluidBlock)) {
+							player.jump();
+
 							playerData.setIsGliding(true);// Set playerData clientside
 							playerData.setAerialDodgeTicks(0);
 							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set playerData serverside
@@ -186,7 +178,7 @@ public class DriveFormFinal extends DriveForm {
 			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final) - 2 : playerData.getDriveFormLevel(Strings.Form_Final);// TODO eventually replace it with the skill
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
-			;
+			
 			Vector3d motion = player.getMotion();
 
 			if (Math.abs(motion.getX()) < limit && Math.abs(motion.getZ()) < limit)

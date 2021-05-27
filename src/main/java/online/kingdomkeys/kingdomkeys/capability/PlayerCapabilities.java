@@ -423,7 +423,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setDriveFormLevel(String name, int level) {
 		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(name));
-		if(level <= form.getMaxLevel()) {
+		if(level <= form.getMaxLevel() && !name.equals(DriveForm.NONE.toString())) {
 			int experience = form.getLevelUpCost(level);
 			driveForms.put(name, new int[] {level, experience});
 		}
