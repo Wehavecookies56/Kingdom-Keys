@@ -56,8 +56,6 @@ public class CSUseMagicPacket {
 			PlayerEntity player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
-					int cost = ModMagic.registry.getValue(new ResourceLocation(message.name)).getCost();
-					playerData.remMP(cost);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 					
 					if(message.target.equals("")) {

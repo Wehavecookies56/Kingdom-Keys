@@ -72,19 +72,22 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     public final void onUse(PlayerEntity player, PlayerEntity caster, int level) {
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
     	if(hasRC() && ModConfigs.magicUsesTimer != 1) {
-    		
 			int maxLevel = casterData.getMagicLevel(name);
 	    	if(level > maxLevel){ 
 				casterData.setMagicUses(name, 0);
 			} else {
 				casterData.addMagicUses(name, 1);
+				casterData.remMP(getCost());
 			}
-    	}    	
+    	} else {
+			casterData.remMP(getCost());
+    	}
 		casterData.setMagicCooldownTicks(data.getCooldown());
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
 
     	magicUse(player, caster, level);
     	caster.swing(Hand.MAIN_HAND, true);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
+
     }
 
 	public int getOrder() {

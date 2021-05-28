@@ -89,9 +89,8 @@ public class MenuCustomizeScreen extends MenuBackground {
 		}
 	}
 
-
 	private void select(Magic magic, int level) {
 		System.out.println("SLOT "+selectedShortcut+": "+ magic.getTranslationKey(level));
-		PacketHandler.sendToServer(new CSSetShortcutPacket(selectedShortcut, level, magic.getRegistryName().getPath()));
+		PacketHandler.sendToServer(new CSSetShortcutPacket(selectedShortcut, level, magic.getRegistryName().toString()));
 	}	
 }

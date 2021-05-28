@@ -59,6 +59,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseShortcutPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
@@ -653,6 +654,14 @@ public class InputHandler {
         World world = mc.world;
 
 		Keybinds key = getPressedKey();
+		if(KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge()) {
+				System.out.println(event.getKey() - 321);
+				PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
+			}
+			
+		}
 		if (key != null) {
 			switch (key) {
 			case OPENMENU:

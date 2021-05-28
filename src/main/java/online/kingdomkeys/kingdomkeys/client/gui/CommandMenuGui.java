@@ -16,6 +16,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.storage.PlayerData;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
@@ -143,6 +145,17 @@ public class CommandMenuGui extends Screen {
 				}
 				if (submenu == SUB_TARGET) {
 					drawSubTargetSelector(matrixStack, width, height);
+				}
+				if (submenu == SUB_MAIN && KeyboardHelper.isScrollActivatorDown()) {
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+					int i = 0;
+					for (Entry<Integer, String> entry : playerData.getShortcutsMap().entrySet()) {
+						String[] data = entry.getValue().split(",");
+						Magic magic = ModMagic.registry.getValue(new ResourceLocation(data[0]));
+						drawString(matrixStack, minecraft.fontRenderer, "ALT + "+(entry.getKey()+1)+ ": "+Utils.translateToLocal(magic.getTranslationKey(Integer.parseInt(data[1]))), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4 + i * 10, 0xFFFFFF);
+						i++;
+					}
+
 				}
 			}
 			matrixStack.pop();
