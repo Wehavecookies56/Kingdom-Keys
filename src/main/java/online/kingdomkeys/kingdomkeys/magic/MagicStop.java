@@ -46,7 +46,7 @@ public class MagicStop extends Magic {
 					if (e instanceof MobEntity) {
 						((MobEntity) e).setNoAI(true);
 					}
-					globalData.setStoppedTicks((int) (100 + level * 20 * getDamageMult())); // Stop
+					globalData.setStoppedTicks((int) (100 + level * 20 * getDamageMult(level))); // Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
 					if (e instanceof ServerPlayerEntity)
 						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);

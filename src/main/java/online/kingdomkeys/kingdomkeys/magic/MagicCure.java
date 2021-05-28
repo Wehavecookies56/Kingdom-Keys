@@ -31,11 +31,11 @@ public class MagicCure extends Magic {
 		float amount;
 		switch(level) {
 		case 0:
-			amount = playerData.getMaxHP()/3 * getDamageMult();
+			amount = playerData.getMaxHP()/3 * getDamageMult(level);
 			player.heal(amount);
 			break;
 		case 1:
-			amount = playerData.getMaxHP()/2 * getDamageMult();
+			amount = playerData.getMaxHP()/2 * getDamageMult(level);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUniqueID()) != null) {
@@ -54,7 +54,7 @@ public class MagicCure extends Magic {
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 2:
-			amount = playerData.getMaxHP() * getDamageMult();
+			amount = playerData.getMaxHP() * getDamageMult(level);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUniqueID()) != null) {

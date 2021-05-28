@@ -557,7 +557,8 @@ public class InputHandler {
             if (this.magicsMap.isEmpty()) {
             } else {
 				String magic = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
-				int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost();
+				int[] mag = magicsMap.get(magic);
+				int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost(mag[0]);
 
             	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);

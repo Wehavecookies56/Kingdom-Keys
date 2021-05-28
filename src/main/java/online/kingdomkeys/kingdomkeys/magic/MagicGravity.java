@@ -17,17 +17,17 @@ public class MagicGravity extends Magic {
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		switch(level) {
 		case 0:
-			ThrowableEntity gravity = new GravityEntity(player.world, player, getDamageMult());
+			ThrowableEntity gravity = new GravityEntity(player.world, player, getDamageMult(level));
 			player.world.addEntity(gravity);
 			gravity.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			break;
 		case 1:
-			ThrowableEntity gravira = new GraviraEntity(player.world, player, getDamageMult());
+			ThrowableEntity gravira = new GraviraEntity(player.world, player, getDamageMult(level));
 			player.world.addEntity(gravira);
 			gravira.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2.3F, 0);
 			break;
 		case 2:
-			ThrowableEntity graviga = new GravigaEntity(player.world, player, getDamageMult());
+			ThrowableEntity graviga = new GravigaEntity(player.world, player, getDamageMult(level));
 			player.world.addEntity(graviga);
 			graviga.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2.6F, 0);
 			break;

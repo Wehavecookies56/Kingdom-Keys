@@ -473,7 +473,8 @@ public class CommandMenuGui extends Screen {
 					String magic = (String) magics.keySet().toArray()[i];
 					int magicLevel = playerData.getMagicLevel(magic);
 					Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
-					int cost = magicInstance.getCost();
+					int[] mag = playerData.getMagicsMap().get(magic);
+					int cost = magicInstance.getCost(mag[0]);
 					int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 					
 					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {

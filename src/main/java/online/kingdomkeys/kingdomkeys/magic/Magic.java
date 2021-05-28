@@ -40,12 +40,12 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
         return translationKey.replace(".name", level+".name");
     }
     
-    public int getCost() {
-    	return data.getCost();
+    public int getCost(int lvl) {
+    	return data.getCost(lvl);
     }
     
-    public float getDamageMult() {
-    	return data.getDmgMult();
+    public float getDamageMult(int lvl) {
+    	return data.getDmgMult(lvl);
     }
     
     public boolean getHasToSelect() {
@@ -81,12 +81,12 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 				casterData.setMagicUses(name, 0);
 			} else {
 				casterData.addMagicUses(name, 1);
-				casterData.remMP(getCost());
+				casterData.remMP(getCost(level));
 			}
     	} else {
-			casterData.remMP(getCost());
+			casterData.remMP(getCost(level));
     	}
-		casterData.setMagicCooldownTicks(data.getCooldown());
+		casterData.setMagicCooldownTicks(data.getCooldown(level));
 
     	magicUse(player, caster, level);
     	caster.swing(Hand.MAIN_HAND, true);

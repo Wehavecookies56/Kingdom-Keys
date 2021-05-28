@@ -5,41 +5,42 @@ package online.kingdomkeys.kingdomkeys.magic;
  */
 public class MagicData {
 
-    float dmgMult;
-    int cost, cd;
+    float[] dmgMult = new float[4];
+    int[] cost = new int[4];
+    int[] cd = new int[4];
     
     public MagicData() {
 
     }
 
-    public MagicData(int cost, int cd, float dmgMult, float magMult) {
-    	this.cost = cost;
-    	this.cd = cd;
-		this.dmgMult = dmgMult;
+    public MagicData(int level, int cost, int cd, float dmgMult, float magMult) {
+    	this.cost[level] = cost;
+    	this.cd[level] = cd;
+		this.dmgMult[level] = dmgMult;
 	}
 
-    public int getCost() {
-		return cost;
+    public int getCost(int lvl) {
+		return cost[lvl];
 	}
 
-	public void setCost(int cost) {
-		this.cost = cost;
+	public void setCost(int lvl, int cost) {
+		this.cost[lvl] = cost;
 	}
 	
-	public int getCooldown() {
-		return cd;
+	public int getCooldown(int lvl) {
+		return cd[lvl];
 	}
 
-	public void setCooldown(int cd) {
-		this.cd = cd;
+	public void setCooldown(int lvl, int cd) {
+		this.cd[lvl] = cd;
 	}
 	
-	public float getDmgMult() {
-		return dmgMult;
+	public float getDmgMult(int lvl) {
+		return dmgMult[lvl];
 	}
 
-	public void setDmgMult(float dmgMult) {
-		this.dmgMult = dmgMult;
+	public void setDmgMult(int lvl, float dmgMult) {
+		this.dmgMult[lvl] = dmgMult;
 	}
 
 }

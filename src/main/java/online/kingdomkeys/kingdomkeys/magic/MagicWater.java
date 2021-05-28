@@ -18,25 +18,25 @@ public class MagicWater extends Magic {
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		switch(level) {
 		case 0:
-			WaterEntity water = new WaterEntity(player.world, player, getDamageMult());
+			WaterEntity water = new WaterEntity(player.world, player, getDamageMult(level));
 			water.setCaster(player.getDisplayName().getString());
 			player.world.addEntity(water);
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 1:
-			WateraEntity watera = new WateraEntity(player.world, player, getDamageMult());
+			WateraEntity watera = new WateraEntity(player.world, player, getDamageMult(level));
 			watera.setCaster(player.getDisplayName().getString());
 			player.world.addEntity(watera);
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 2:
-			WatergaEntity waterga = new WatergaEntity(player.world, player, getDamageMult());
+			WatergaEntity waterga = new WatergaEntity(player.world, player, getDamageMult(level));
 			waterga.setCaster(player.getDisplayName().getString());
 			player.world.addEntity(waterga);
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 3:
-			WaterzaEntity waterza = new WaterzaEntity(player.world, player, getDamageMult());
+			WaterzaEntity waterza = new WaterzaEntity(player.world, player, getDamageMult(level));
 			waterza.setCaster(player.getDisplayName().getString());
 			player.world.addEntity(waterza);
 			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.PLAYERS, 1F, 1F);

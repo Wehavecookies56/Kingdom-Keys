@@ -1,5 +1,22 @@
 {
-	"cost":15,
-	"cooldown":50,
-	"dmg_mult":1.0
+	"0": {
+		"cost":15,
+		"cooldown":50,
+		"dmg_mult":1.0
+	},
+	"1": {
+		"cost":15,
+		"cooldown":50,
+		"dmg_mult":1.0
+	},
+	"2": {
+		"cost":15,
+		"cooldown":50,
+		"dmg_mult":1.0
+	},
+	"3": {
+		"cost":15,
+		"cooldown":50,
+		"dmg_mult":1.0
+	}
 }
