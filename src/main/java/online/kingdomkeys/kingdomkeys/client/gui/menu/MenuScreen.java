@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.abilities.MenuAbilitiesScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.journal.MenuJournalScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader;
@@ -64,15 +64,16 @@ public class MenuScreen extends MenuBackground {
 		case STATUS:
 			minecraft.displayGuiScreen(new MenuStatusScreen());
 			break;
-		/*
-		 * case CUSTOMIZE: GuiHelper.openCustomize(); 
-		 * break;*/ 
-		
-		 case JOURNAL:
-			 minecraft.displayGuiScreen(new MenuJournalScreen());
-			 break;
-		  case CONFIG:
-			minecraft.displayGuiScreen(new MenuConfigScreen()); 
+
+		case CUSTOMIZE:
+			minecraft.displayGuiScreen(new MenuCustomizeScreen());
+			break;
+
+		case JOURNAL:
+			minecraft.displayGuiScreen(new MenuJournalScreen());
+			break;
+		case CONFIG:
+			minecraft.displayGuiScreen(new MenuCustomizeScreen());
 			break;
 		 
 		}
@@ -88,8 +89,8 @@ public class MenuScreen extends MenuBackground {
 		int button_itemsY = (int) topBarHeight + 5;
 		int button_abilitiesY = button_itemsY + 18;
 		int button_customizeY = button_abilitiesY + 18;
-		//int button_partyY = button_customizeY + 18;
-		int button_partyY = button_abilitiesY + 18;
+		int button_partyY = button_customizeY + 18;
+		//int button_partyY = button_abilitiesY + 18;
 		int button_statusY = button_partyY + 18;
 		int button_journalY = button_statusY + 18;
 		int button_configY = button_journalY + 18;
@@ -124,13 +125,13 @@ public class MenuScreen extends MenuBackground {
 	private void updateButtons() {
 		items.visible = true;
 		abilities.visible = true;
-		customize.visible = false;
+		customize.visible = true;
 		party.visible = true;
 		status.visible = true;
 		journal.visible = true;
 		config.visible = true;
 		
-		customize.active = false;
+		customize.active = true;
 		journal.active = true;
 	}
 

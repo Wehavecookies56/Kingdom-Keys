@@ -64,6 +64,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	List<String> partyList = new ArrayList<>();
 	String equippedShotlock = "";
+	
+	LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>(); //Key = magic name, value=  {position, level}
+	
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 100, maxFocus = 100;
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
@@ -1325,5 +1328,20 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 	//endregion
+
+	@Override
+	public LinkedHashMap<Integer,String> getShortcutsMap() {
+		return shortcutsMap;
+	}
+
+	@Override
+	public void setShortcutsMap(LinkedHashMap<Integer,String> map) {
+		this.shortcutsMap = map;
+	}
+	
+	@Override
+	public void changeShortcut(int position, String name, int level) {
+		this.shortcutsMap.put(position, name+","+level);
+	}
 
 }

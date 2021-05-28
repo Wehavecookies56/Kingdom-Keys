@@ -255,4 +255,9 @@ public interface IPlayerCapabilities {
 	boolean addReactionCommand(String command, PlayerEntity player);
 	boolean removeReactionCommand(String command);
 	
+	LinkedHashMap<Integer,String> getShortcutsMap();
+	void setShortcutsMap(LinkedHashMap<Integer,String> map);
+	void changeShortcut(int position, String name, int level);
+
+	
 }

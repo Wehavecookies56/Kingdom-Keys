@@ -34,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetOrgPortalName;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
@@ -131,6 +132,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSEquipItems.class, CSEquipItems::encode, CSEquipItems::decode, CSEquipItems::handle);
 		HANDLER.registerMessage(packetID++, CSUseItemPacket.class, CSUseItemPacket::encode, CSUseItemPacket::decode, CSUseItemPacket::handle);
 		HANDLER.registerMessage(packetID++, CSUseReactionCommandPacket.class, CSUseReactionCommandPacket::encode, CSUseReactionCommandPacket::decode, CSUseReactionCommandPacket::handle);
+		HANDLER.registerMessage(packetID++, CSSetShortcutPacket.class, CSSetShortcutPacket::encode, CSSetShortcutPacket::decode, CSSetShortcutPacket::handle);
 
 	}
 

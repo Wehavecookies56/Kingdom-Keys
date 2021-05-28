@@ -71,6 +71,9 @@ public class SCSyncCapabilityPacket {
 	int limitCooldownTicks;
 	int magicCooldownTicks;
 	
+	LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>();
+
+	
 	public SCSyncCapabilityPacket() {
 	}
 
@@ -125,6 +128,8 @@ public class SCSyncCapabilityPacket {
 		this.magicCooldownTicks = capability.getMagicCooldownTicks();
 		
 		this.reactionList = capability.getReactionCommands();
+		
+		this.shortcutsMap = capability.getShortcutsMap();
 
 	}
 
@@ -252,6 +257,15 @@ public class SCSyncCapabilityPacket {
 			buffer.writeString(reactionList.get(i), 100);
 		}
 		
+		CompoundNBT shortcuts = new CompoundNBT();
+         
+		Iterator<Map.Entry<Integer,String>> shortcutsIt = shortcutsMap.entrySet().iterator();
+		while (shortcutsIt.hasNext()) {
+			Map.Entry<Integer,String> pair = (Map.Entry<Integer,String>) shortcutsIt.next();
+			shortcuts.putString(pair.getKey().toString(), pair.getValue());
+		}
+		buffer.writeCompoundTag(shortcuts);
+		
 	}
 
 	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
@@ -376,6 +390,13 @@ public class SCSyncCapabilityPacket {
 			msg.reactionList.add(buffer.readString(100));
 		}
 		
+		CompoundNBT shortcutsTag = buffer.readCompoundTag();
+		Iterator<String> shortcutsIt = shortcutsTag.keySet().iterator();
+		while (shortcutsIt.hasNext()) {
+            int shortcutPos = Integer.parseInt(shortcutsIt.next());
+            msg.shortcutsMap.put(shortcutPos, shortcutsTag.getString(shortcutPos+""));
+		}
+		
 		return msg;
 	}
 
@@ -433,6 +454,7 @@ public class SCSyncCapabilityPacket {
 			playerData.setMagicCooldownTicks(message.magicCooldownTicks);
 			
 			playerData.setReactionCommands(message.reactionList);
+			playerData.setShortcutsMap(message.shortcutsMap);
 			
 			KingdomKeys.proxy.getClientPlayer().getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
 		});

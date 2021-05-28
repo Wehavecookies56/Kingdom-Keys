@@ -137,6 +137,14 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.put("materials", mats);
         storage.putInt("limitCooldownTicks", instance.getLimitCooldownTicks());
 
+        CompoundNBT shortcuts = new CompoundNBT();
+        Iterator<Map.Entry<Integer, String>> shortcutsIt = instance.getShortcutsMap().entrySet().iterator();
+        while (shortcutsIt.hasNext()) {
+            Map.Entry<Integer, String> pair = (Map.Entry<Integer, String>) shortcutsIt.next();
+            shortcuts.putString(pair.getKey().toString(), pair.getValue());
+        }
+        storage.put("shortcuts", shortcuts);
+        
         return storage;
     }
 
@@ -244,5 +252,12 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         }
         
         instance.setLimitCooldownTicks(storage.getInt("limitCooldownTicks"));
+        
+        Iterator<String> shortcutsIt = storage.getCompound("shortcuts").keySet().iterator();
+        while (shortcutsIt.hasNext()) {
+            int shortcutPos = Integer.parseInt(shortcutsIt.next());
+            instance.getShortcutsMap().put(shortcutPos, storage.getCompound("shortcuts").getString(shortcutPos+""));
+        }
+
     }
 }
