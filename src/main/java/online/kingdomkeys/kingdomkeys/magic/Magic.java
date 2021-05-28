@@ -44,6 +44,10 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	return data.getCost();
     }
     
+    public float getDamageMult() {
+    	return data.getDmgMult();
+    }
+    
     public boolean getHasToSelect() {
     	return hasTargetSelector;
     }

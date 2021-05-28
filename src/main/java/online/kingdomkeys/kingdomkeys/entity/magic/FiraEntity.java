@@ -22,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 public class FiraEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
+	float dmgMult = 1;
 
 	public FiraEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -37,8 +38,9 @@ public class FiraEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public FiraEntity(World world, LivingEntity player) {
+	public FiraEntity(World world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_FIRA.get(), player, world);
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -98,9 +100,8 @@ public class FiraEntity extends ThrowableEntity {
 					}
 					if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setFire(10);
-						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
-						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+						float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F : 2;
+						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 					}
 				}
 			}

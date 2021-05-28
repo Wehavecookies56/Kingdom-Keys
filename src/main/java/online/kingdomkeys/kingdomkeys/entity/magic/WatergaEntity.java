@@ -32,7 +32,8 @@ public class WatergaEntity extends ThrowableEntity {
 	int maxTicks = 100;
 	PlayerEntity player;
 	String caster;
-
+	float dmgMult = 1;
+	
 	public WatergaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -47,9 +48,10 @@ public class WatergaEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public WatergaEntity(World world, PlayerEntity player) {
+	public WatergaEntity(World world, PlayerEntity player, float dmgMult) {
 		super(ModEntities.TYPE_WATERGA.get(), player, world);
 		this.player = player;
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -158,9 +160,8 @@ public class WatergaEntity extends ThrowableEntity {
 							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 						}
 						if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.6F;
-							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.6F : 2;
+							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 							remove();
 						}
 					}

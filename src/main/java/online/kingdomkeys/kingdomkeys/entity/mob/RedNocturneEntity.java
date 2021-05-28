@@ -117,12 +117,10 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
                         this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.goalOwner.getLookController().setLookPositionWithEntity(target, 0F, 0F);
 
-                        double d0 = this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget());
-                        float f = MathHelper.sqrt(MathHelper.sqrt(d0));
                         double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
                         double d2 = this.goalOwner.getAttackTarget().getBoundingBox().minY + (double) (this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F));
                         double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
-                        FireEntity esfb = new FireEntity(this.goalOwner.world, this.goalOwner);
+                        FireEntity esfb = new FireEntity(this.goalOwner.world, this.goalOwner, 1F);
                         esfb.shoot(d1, d2, d3, 1, 0);
                         esfb.setPosition(esfb.getPosX(), this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F) + 0.5D, esfb.getPosZ());
                         this.goalOwner.world.addEntity(esfb);

@@ -19,25 +19,25 @@ public class MagicFire extends Magic {
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		switch (level) {
 		case 0:
-			ThrowableEntity fire = new FireEntity(player.world, player);
+			ThrowableEntity fire = new FireEntity(player.world, player, getDamageMult());
 			player.world.addEntity(fire);
 			fire.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 1:
-			ThrowableEntity fira = new FiraEntity(player.world, player);
+			ThrowableEntity fira = new FiraEntity(player.world, player, getDamageMult());
 			player.world.addEntity(fira);
 			fira.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 2:
-			ThrowableEntity firaga = new FiragaEntity(player.world, player);
+			ThrowableEntity firaga = new FiragaEntity(player.world, player, getDamageMult());
 			player.world.addEntity(firaga);
 			firaga.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
 			break;
 		case 3:
-			ThrowableEntity firaza = new FirazaEntity(player.world, player);
+			ThrowableEntity firaza = new FirazaEntity(player.world, player, getDamageMult());
 			player.world.addEntity(firaza);
 			firaza.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
 			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 0.5F);

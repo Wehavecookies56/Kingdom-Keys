@@ -30,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class GravigaEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
+	float dmgMult = 1;
 
 	public GravigaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -45,8 +46,9 @@ public class GravigaEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public GravigaEntity(World world, PlayerEntity player) {
+	public GravigaEntity(World world, PlayerEntity player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVIGA.get(), player, world);
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -108,9 +110,8 @@ public class GravigaEntity extends ThrowableEntity {
 						globalData.setFlatTicks(100);
 						
 						if(Utils.isHostile(e)) {
-							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.2F;
-							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.4F : 2;
+							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 						}
 						if (e instanceof LivingEntity)
 							PacketHandler.syncToAllAround((LivingEntity) e, globalData);

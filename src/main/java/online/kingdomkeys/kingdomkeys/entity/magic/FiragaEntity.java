@@ -27,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 public class FiragaEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
+	float dmgMult = 1;
 
 	public FiragaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -42,8 +43,9 @@ public class FiragaEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public FiragaEntity(World world, LivingEntity player) {
+	public FiragaEntity(World world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_FIRAGA.get(), player, world);
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -101,9 +103,8 @@ public class FiragaEntity extends ThrowableEntity {
 					}
 					if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setFire(15);
-						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.4F;
-						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+						float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.4F : 2;
+						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 					}
 				}
 			}

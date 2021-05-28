@@ -27,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class BlizzazaEntity extends ThrowableEntity {
 
 	int maxTicks = 120;
-
+	float dmgMult = 1;
 	public BlizzazaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -42,8 +42,9 @@ public class BlizzazaEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public BlizzazaEntity(World world, LivingEntity player) {
+	public BlizzazaEntity(World world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_BLIZZAZA.get(), player, world);
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -112,9 +113,8 @@ public class BlizzazaEntity extends ThrowableEntity {
 							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
 						}
 						if (p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 1.2F;
-							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 1.2F : 2;
+							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 						}
 					}
 				}

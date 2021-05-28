@@ -121,7 +121,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
                         double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
                         double d2 = this.goalOwner.getAttackTarget().getBoundingBox().minY + (double) (this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F));
                         double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
-                        BlizzardEntity esfb = new BlizzardEntity(this.goalOwner.world, goalOwner);
+                        BlizzardEntity esfb = new BlizzardEntity(this.goalOwner.world, goalOwner, 1);
                         esfb.shoot(d1, d2, d3, 1, 0);
                         esfb.setPosition(esfb.getPosX(), this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F) + 0.5D, esfb.getPosZ());
                         this.goalOwner.world.addEntity(esfb);

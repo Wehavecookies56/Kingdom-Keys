@@ -27,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class FirazaEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
+	float dmgMult = 1;
 
 	public FirazaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -42,8 +43,9 @@ public class FirazaEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public FirazaEntity(World world, LivingEntity player) {
+	public FirazaEntity(World world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_FIRAZA.get(), player, world);
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -101,9 +103,8 @@ public class FirazaEntity extends ThrowableEntity {
 					}
 					if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setFire(30);
-						float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 1F;
-						float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+						float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) : 2;
+						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 					}
 				}
 			}
@@ -119,9 +120,8 @@ public class FirazaEntity extends ThrowableEntity {
 						Entity e = (Entity) list.get(i);
 						if (e instanceof LivingEntity) {
 							e.setFire(25);
-							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.8F;
-							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.8F : 2;
+							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 						}
 					}
 				}

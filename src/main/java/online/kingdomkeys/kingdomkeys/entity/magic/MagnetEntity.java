@@ -28,7 +28,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 public class MagnetEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
-
+	float dmgMult = 1;
+	
 	public MagnetEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -43,9 +44,10 @@ public class MagnetEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public MagnetEntity(World world, PlayerEntity player) {
+	public MagnetEntity(World world, PlayerEntity player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNET.get(), player, world);
 		setCaster(player.getUniqueID());
+		this.dmgMult = dmgMult;
 	}
 
 	@Override

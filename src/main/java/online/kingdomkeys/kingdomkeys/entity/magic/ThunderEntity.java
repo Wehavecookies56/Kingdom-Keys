@@ -31,7 +31,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class ThunderEntity extends ThrowableEntity {
 
 	int maxTicks = 20;
-
+	float dmgMult = 1;
+	
 	public ThunderEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -46,10 +47,10 @@ public class ThunderEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public ThunderEntity(World world, PlayerEntity player) {
+	public ThunderEntity(World world, PlayerEntity player, float dmgMult) {
 		super(ModEntities.TYPE_THUNDER.get(), player, world);
-		//setPosition(x, y + 10, z);
 		setCaster(player.getUniqueID());
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -121,7 +122,7 @@ public class ThunderEntity extends ThrowableEntity {
 						if(!e.isAlive()) {
 							list.remove(e);
 						}
-						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), e.getPosX(), e.getPosY(), e.getPosZ());
+						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), e.getPosX(), e.getPosY(), e.getPosZ(), dmgMult);
 						shot.setCaster(getCaster().getUniqueID());
 						world.addEntity(shot);
 
@@ -138,7 +139,7 @@ public class ThunderEntity extends ThrowableEntity {
 					int posX = (int) (x + getCaster().world.rand.nextInt((int) (radius*2)) - radius / 2)-1;
 					int posZ = (int) (z + getCaster().world.rand.nextInt((int) (radius*2)) - radius / 2)-1;
 
-					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), posX, getCaster().world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ);
+					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), posX, getCaster().world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ, dmgMult);
 					shot.setCaster(getCaster().getUniqueID());
 					world.addEntity(shot);
 

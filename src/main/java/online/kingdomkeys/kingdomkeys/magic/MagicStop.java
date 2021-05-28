@@ -26,34 +26,34 @@ public class MagicStop extends Magic {
 	@Override
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		float radius = 2 + level;
-		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius,radius,radius));
+		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius, radius, radius));
 		Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 
-		if(casterParty != null && !casterParty.getFriendlyFire()) {
-			for(Member m : casterParty.getMembers()) {
+		if (casterParty != null && !casterParty.getFriendlyFire()) {
+			for (Member m : casterParty.getMembers()) {
 				list.remove(player.world.getPlayerByUuid(m.getUUID()));
 			}
 		}
-		
+
 		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1F, 1F);
-		
-        if (!list.isEmpty()) {
-    		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_BELL_RESONATE, SoundCategory.PLAYERS, 1F, 1F);
-            for (int i = 0; i < list.size(); i++) {
-                Entity e = (Entity) list.get(i);
-                if (e instanceof LivingEntity) {
-                	IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
-                	if(e instanceof MobEntity) {
-                		((MobEntity) e).setNoAI(true);
-                	}
-					globalData.setStoppedTicks(100 + level * 20); //Stop
+
+		if (!list.isEmpty()) {
+			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_BELL_RESONATE, SoundCategory.PLAYERS, 1F, 1F);
+			for (int i = 0; i < list.size(); i++) {
+				Entity e = (Entity) list.get(i);
+				if (e instanceof LivingEntity) {
+					IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
+					if (e instanceof MobEntity) {
+						((MobEntity) e).setNoAI(true);
+					}
+					globalData.setStoppedTicks((int) (100 + level * 20 * getDamageMult())); // Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
-                	if(e instanceof ServerPlayerEntity)
-                		PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);
-                }
-            }
-        }
-		player.swingArm(Hand.MAIN_HAND);	
+					if (e instanceof ServerPlayerEntity)
+						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);
+				}
+			}
+		}
+		player.swingArm(Hand.MAIN_HAND);
 	}
 
 }

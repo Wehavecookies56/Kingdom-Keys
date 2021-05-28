@@ -16,22 +16,22 @@ public class MagicThunder extends Magic {
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		switch(level) {
 		case 0:
-			ThunderEntity thunderController = new ThunderEntity(player.world, player);
+			ThunderEntity thunderController = new ThunderEntity(player.world, player, getDamageMult());
 			thunderController.setCaster(player.getUniqueID());
 			player.world.addEntity(thunderController);
 			break;
 		case 1:
-			ThundaraEntity thundaraController = new ThundaraEntity(player.world, player);
+			ThundaraEntity thundaraController = new ThundaraEntity(player.world, player, getDamageMult());
 			thundaraController.setCaster(player.getUniqueID());
 			player.world.addEntity(thundaraController);
 			break;
 		case 2:
-			ThundagaEntity thundagaController = new ThundagaEntity(player.world, player);
+			ThundagaEntity thundagaController = new ThundagaEntity(player.world, player, getDamageMult());
 			thundagaController.setCaster(player.getUniqueID());
 			player.world.addEntity(thundagaController);
 			break;
 		case 3:
-			ThundazaEntity thundazaController = new ThundazaEntity(player.world, player);
+			ThundazaEntity thundazaController = new ThundazaEntity(player.world, player, getDamageMult());
 			thundazaController.setCaster(player.getUniqueID());
 			player.world.addEntity(thundazaController);
 			break;

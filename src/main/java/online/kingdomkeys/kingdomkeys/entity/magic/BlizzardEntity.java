@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 public class BlizzardEntity extends ThrowableEntity {
 
 	int maxTicks = 120;
+	float dmgMult = 1;
 
 	public BlizzardEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -38,8 +39,9 @@ public class BlizzardEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public BlizzardEntity(World world, LivingEntity player) {
+	public BlizzardEntity(World world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_BLIZZARD.get(), player, world);
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -99,7 +101,7 @@ public class BlizzardEntity extends ThrowableEntity {
 						}
 						if (p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F : 2;
-							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 						}
 					}
 				}

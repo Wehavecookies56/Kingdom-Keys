@@ -27,11 +27,13 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnegaEntity extends ThrowableEntity {
 
 	int maxTicks = 200;
-
+	float dmgMult = 1;
+	
 	public MagnegaEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
@@ -46,9 +48,10 @@ public class MagnegaEntity extends ThrowableEntity {
 		this.preventEntitySpawning = true;
 	}
 
-	public MagnegaEntity(World world, PlayerEntity player) {
+	public MagnegaEntity(World world, PlayerEntity player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNEGA.get(), player, world);
 		setCaster(player.getUniqueID());
+		this.dmgMult = dmgMult;
 	}
 
 	@Override
@@ -116,8 +119,9 @@ public class MagnegaEntity extends ThrowableEntity {
 						}
 						
 						if(ticksExisted + 1 > maxTicks) {
-							if(e instanceof MonsterEntity || e instanceof PlayerEntity) {
-								e.attackEntityFrom(DamageSource.causePlayerDamage(getCaster()), DamageCalculation.getMagicDamage(getCaster())* 0.5F);
+							if(Utils.isHostile(e)) {
+								float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.5F : 2;
+								e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 							}
 							remove();
 						}

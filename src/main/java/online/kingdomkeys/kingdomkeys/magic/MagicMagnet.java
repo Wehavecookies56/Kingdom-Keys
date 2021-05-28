@@ -16,19 +16,19 @@ public class MagicMagnet extends Magic {
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		switch(level) {
 		case 0:
-			MagnetEntity magent = new MagnetEntity(player.world, player);
+			MagnetEntity magent = new MagnetEntity(player.world, player, getDamageMult());
 			magent.setCaster(player.getUniqueID());
 			player.world.addEntity(magent);
 			magent.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);
 			break;
 		case 1:
-			MagneraEntity magnera = new MagneraEntity(player.world, player);
+			MagneraEntity magnera = new MagneraEntity(player.world, player, getDamageMult());
 			magnera.setCaster(player.getUniqueID());
 			player.world.addEntity(magnera);
 			magnera.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);
 			break;
 		case 2:
-			MagnegaEntity magnega = new MagnegaEntity(player.world, player);
+			MagnegaEntity magnega = new MagnegaEntity(player.world, player, getDamageMult());
 			magnega.setCaster(player.getUniqueID());
 			player.world.addEntity(magnega);
 			magnega.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);
