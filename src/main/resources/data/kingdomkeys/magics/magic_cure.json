@@ -2,21 +2,25 @@
 	"0": {
 		"cost":300,
 		"cooldown":20,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"uses_to_gm":5
 	},
 	"1": {
 		"cost":300,
 		"cooldown":20,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"uses_to_gm":5
 	},
 	"2": {
 		"cost":300,
 		"cooldown":20,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"uses_to_gm":5
 	},
 	"3": {
 		"cost":300,
 		"cooldown":20,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"uses_to_gm":5
 	}
 }

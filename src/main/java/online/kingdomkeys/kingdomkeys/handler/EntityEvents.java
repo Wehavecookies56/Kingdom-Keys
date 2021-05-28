@@ -227,7 +227,7 @@ public class EntityEvents {
 					Magic magic = ModMagic.registry.getValue(new ResourceLocation(pair.getKey()));
 
 					if(magic.hasRC()) {
-						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= 5) {
+						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= magic.getUsesToGM(pair.getValue()[0])) {
 							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
 						}
 					}

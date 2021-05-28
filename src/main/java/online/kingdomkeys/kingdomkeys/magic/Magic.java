@@ -48,6 +48,10 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	return data.getDmgMult(lvl);
     }
     
+	public int getUsesToGM(int lvl) {
+		return data.getUsesToGM(lvl);
+	}
+    
     public boolean getHasToSelect() {
     	return hasTargetSelector;
     }
@@ -91,7 +95,6 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	magicUse(player, caster, level);
     	caster.swing(Hand.MAIN_HAND, true);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
-
     }
 
 	public int getOrder() {
