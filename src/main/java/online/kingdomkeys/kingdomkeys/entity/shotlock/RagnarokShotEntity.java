@@ -135,7 +135,7 @@ public class RagnarokShotEntity extends ThrowableEntity {
 	
 	@Override
 	public void remove() {
-		if(ticksExisted > 20) {
+		if(ticksExisted > 40) {
 			super.remove();
 		}
 	}

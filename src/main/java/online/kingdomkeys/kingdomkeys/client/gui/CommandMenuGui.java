@@ -152,7 +152,14 @@ public class CommandMenuGui extends Screen {
 					for (Entry<Integer, String> entry : playerData.getShortcutsMap().entrySet()) {
 						String[] data = entry.getValue().split(",");
 						Magic magic = ModMagic.registry.getValue(new ResourceLocation(data[0]));
-						drawString(matrixStack, minecraft.fontRenderer, "ALT + "+(entry.getKey()+1)+ ": "+Utils.translateToLocal(magic.getTranslationKey(Integer.parseInt(data[1]))), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4 + i * 10, 0xFFFFFF);
+						int cost = magic.getCost(Integer.parseInt(data[1]));
+						int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
+						
+						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
+							colour = 0x888888;
+						}
+
+						drawString(matrixStack, minecraft.fontRenderer, "ALT + " + (entry.getKey() + 1) + ": " + Utils.translateToLocal(magic.getTranslationKey(Integer.parseInt(data[1]))), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4 + i * 10, colour);
 						i++;
 					}
 

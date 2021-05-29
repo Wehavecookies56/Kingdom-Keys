@@ -17,7 +17,7 @@ public class MagicReflect extends Magic {
 	@Override
 	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		playerData.setReflectTicks((int) (40 + (level * 5) * getDamageMult(level)), level);
+		playerData.setReflectTicks((int) (40 + (level * 5)), level);
 		player.world.playSound(null, player.getPosition(), ModSounds.reflect1.get(), SoundCategory.PLAYERS, 1F, 1F);
 		PacketHandler.syncToAllAround(player, playerData);
 		player.swingArm(Hand.MAIN_HAND);

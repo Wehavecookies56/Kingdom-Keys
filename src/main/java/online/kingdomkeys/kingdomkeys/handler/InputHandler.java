@@ -657,7 +657,7 @@ public class InputHandler {
 		Keybinds key = getPressedKey();
 		if(KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge()) {
+			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
 				System.out.println(event.getKey() - 321);
 				PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
 			}
