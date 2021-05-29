@@ -27,8 +27,6 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
         JsonObject jsonObject = json.getAsJsonObject();
         jsonObject.entrySet().forEach(entry -> {
 			JsonElement element = entry.getValue();
-			System.out.println(jsonObject+" "+entry.getKey()+" "+element);
-			System.out.println();
 			switch (entry.getKey()) {
 			case "cost":
 				out.setCost(element.getAsInt());

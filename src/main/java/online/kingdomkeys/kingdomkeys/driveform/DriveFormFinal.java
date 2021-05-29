@@ -111,20 +111,12 @@ public class DriveFormFinal extends DriveForm {
 				if(playerData.getIsGliding()) {
 					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getEquippedAbilityLevel(Strings.glide)[1] == 0) {
 						playerData.setIsGliding(false);
-						PacketHandler.sendToServer(new CSSetGlidingPacket(false));
+						//if(player.world.isRemote)
+							//PacketHandler.sendToServer(new CSSetGlidingPacket(false));
 					}
 				}
 			}
 		}
-	}
-	
-	private static boolean shouldHandleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
-		//Base form is handled in Valor
-		if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-			return true;
-		}
-
-		return false;
 	}
 
 	private static void handleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {

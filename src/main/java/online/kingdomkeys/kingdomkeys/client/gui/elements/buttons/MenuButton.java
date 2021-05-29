@@ -144,7 +144,7 @@ public class MenuButton extends MenuButtonBase {
 
 	@Override
 	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-		if (isHovered)
+		if (isHovered && active)
 			return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
 		else
 			return false;

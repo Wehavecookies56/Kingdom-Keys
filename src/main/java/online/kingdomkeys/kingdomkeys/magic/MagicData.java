@@ -14,10 +14,11 @@ public class MagicData {
 
     }
 
-    public MagicData(int level, int cost, int cd, float dmgMult, float magMult) {
+    public MagicData(int level, int cost, int cd, float dmgMult, float magMult, int usesToGM) {
     	this.cost[level] = cost;
     	this.cd[level] = cd;
 		this.dmgMult[level] = dmgMult;
+		this.usesToGM[level] = usesToGM;
 	}
 
     public int getCost(int lvl) {

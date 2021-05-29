@@ -258,6 +258,7 @@ public interface IPlayerCapabilities {
 	LinkedHashMap<Integer,String> getShortcutsMap();
 	void setShortcutsMap(LinkedHashMap<Integer,String> map);
 	void changeShortcut(int position, String name, int level);
+	void removeShortcut(int position);
 
 	
 }

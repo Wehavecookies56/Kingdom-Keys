@@ -47,7 +47,11 @@ public class CSSetShortcutPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.changeShortcut(message.position, message.magic, message.level);
+			if(message.magic.equals("")) {
+				playerData.removeShortcut(message.position);
+			} else {
+				playerData.changeShortcut(message.position, message.magic, message.level);
+			}
 				
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			

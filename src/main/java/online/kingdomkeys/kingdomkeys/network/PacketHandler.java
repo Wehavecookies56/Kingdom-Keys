@@ -59,9 +59,11 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityToAllPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
@@ -95,6 +97,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCUpdateSoA.class, SCUpdateSoA::encode, SCUpdateSoA::decode, SCUpdateSoA::handle);
 		HANDLER.registerMessage(packetID++, SCOpenAlignmentScreen.class, SCOpenAlignmentScreen::encode, SCOpenAlignmentScreen::decode, SCOpenAlignmentScreen::handle);
 		HANDLER.registerMessage(packetID++, SCShowOrgPortalGUI.class, SCShowOrgPortalGUI::encode, SCShowOrgPortalGUI::decode, SCShowOrgPortalGUI::handle);
+		HANDLER.registerMessage(packetID++, SCSyncMagicData.class, SCSyncMagicData::encode, SCSyncMagicData::decode, SCSyncMagicData::handle);
+		HANDLER.registerMessage(packetID++, SCSyncDriveFormData.class, SCSyncDriveFormData::encode, SCSyncDriveFormData::decode, SCSyncDriveFormData::handle);
 
 
 		//ClientToServer

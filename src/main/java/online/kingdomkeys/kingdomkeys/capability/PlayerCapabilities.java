@@ -1344,4 +1344,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.shortcutsMap.put(position, name+","+level);
 	}
 
+	@Override
+	public void removeShortcut(int position) {
+		this.shortcutsMap.remove(position);
+		
+	}
 }

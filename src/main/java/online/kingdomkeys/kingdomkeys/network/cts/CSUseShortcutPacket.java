@@ -46,8 +46,6 @@ public class CSUseShortcutPacket {
 					String[] data = playerData.getShortcutsMap().get(message.index).split(",");
 					String magicName = data[0];
 					int level = Integer.parseInt(data[1]);
-	
-					System.out.println(magicName);
 					Magic magic = ModMagic.registry.getValue(new ResourceLocation(magicName));
 					magic.onUse(player, player, level);
 	

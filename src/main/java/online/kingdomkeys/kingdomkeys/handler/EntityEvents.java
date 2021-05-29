@@ -56,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
@@ -83,13 +84,16 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
@@ -180,6 +184,9 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayerEntity)player);
 				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), (ServerPlayerEntity) player);
+
 			}
 			PacketHandler.syncToAllAround(player, playerData);
 		}
@@ -231,7 +238,7 @@ public class EntityEvents {
 							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
 						}
 					}
-				}
+				}				
 				
 				if(!event.player.world.isRemote && event.player.ticksExisted == 5) { //TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)event.player);

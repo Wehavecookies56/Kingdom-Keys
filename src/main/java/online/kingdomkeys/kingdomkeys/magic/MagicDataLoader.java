@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.magic;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -20,8 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
 
 public class MagicDataLoader extends JsonReloadListener {
 
@@ -37,6 +38,9 @@ public class MagicDataLoader extends JsonReloadListener {
     public MagicDataLoader() {
         super(GSON_BUILDER, "magics");
     }
+    
+    public static List<String> names = new LinkedList<>();
+    public static List<String> dataList = new LinkedList<>();
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
@@ -44,7 +48,7 @@ public class MagicDataLoader extends JsonReloadListener {
         loadData(resourceManagerIn);
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-                PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);
+                PacketHandler.sendTo(new SCSyncMagicData(names,dataList), player);
             }
         }
     }
@@ -54,16 +58,22 @@ public class MagicDataLoader extends JsonReloadListener {
         String extension = ".json";
 
         for (ResourceLocation file : manager.getAllResourceLocations(folder, n -> n.endsWith(extension))) { //Get all .json files
-            ResourceLocation magicRL = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            Magic magic = ModMagic.registry.getValue(magicRL);
-
+            ResourceLocation magicName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
+			Magic magic = ModMagic.registry.getValue(magicName);
             try {
+            	BufferedReader br = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
+            	BufferedReader br2 = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
+            	String data = "";
+            	while(br.ready()) {
+            		data += br.readLine();
+            	}
+            	dataList.add(data);
             	MagicData result;
                 try {
-                    result = GSON_BUILDER.fromJson(new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream())), MagicData.class);
-                    //result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
+                    result = GSON_BUILDER.fromJson(br2, MagicData.class);
+                    names.add(magicName.toString());
+                   
                 } catch (JsonParseException e) {
-                	System.out.println(file+" is having issues "+magic);
                     KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).getLocation().toString(), e);
                     continue;
                 }
@@ -72,7 +82,6 @@ public class MagicDataLoader extends JsonReloadListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }
