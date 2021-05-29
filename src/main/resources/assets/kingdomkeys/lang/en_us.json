@@ -52,6 +52,7 @@
 	"gui.menu.items.equipment.weapon": "Weapon",
 	"gui.menu.items.equipment.shotlock": "Shotlock",
 	"gui.menu.items.equipment.items": "Items",
+	"gui.menu.customize": "Customize",
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
 	"gui.menu.party.create.desc": "Create a new party.",
@@ -222,12 +223,11 @@
 	"ability.ability_second_chance.name": "Second Chance",
 	"ability.ability_second_chance.desc": "Ensures 1 HP remains after taking massive damage.",
 
-
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Laser Circle",
 	"limit.laser_dome.name": "Laser Dome",
 	"limit.arrow_rain.name": "Arrow Rain",
-	
+
 	"_comment": "Shotlocks",
 	"shotlock.circular_shotlock.name": "Ragnarok",
 	"shotlock.dark_volley.name": "Dark Volley",
@@ -320,7 +320,7 @@
 	"reactioncommand.rc_auto_limit.name": "Auto Limit",
 	"reactioncommand.rc_auto_master.name": "Auto Master",
 	"reactioncommand.rc_auto_final.name": "Auto Final",
-	
+
 	"_comment": "Items",
 	"item.kingdomkeys.recipe": "Recipe",
 	"item.kingdomkeys.ice_cream": "Sea Salt Ice Cream",
@@ -338,7 +338,7 @@
 	"item.kingdomkeys.hi_drive_recovery": "High Drive Recovery",
 	"item.kingdomkeys.refocuser": "Refocuser",
 	"item.kingdomkeys.hi_refocuser": "Hi-Refocuser",
-	
+
 	"potion.desc.hp": "§aHP§r",
 	"potion.desc.mp": "§9MP§r",
 	"potion.desc.hpmp": "§aHP§r and §9MP§r",
@@ -347,7 +347,6 @@
 	"potion.desc.beginning": "Will restore %s%s %s ",
 	"potion.desc.toall": "to all your party members in range",
 	"potion.desc.toone": "to the chosen party member",
-	
 
 	"item.kingdomkeys.spellfire": "Fire Spell",
 	"item.kingdomkeys.spellblizzard": "Blizzard Spell",

@@ -90,7 +90,6 @@ public class VolleyShotEntity extends ThrowableEntity {
 	@Override
 	protected void onImpact(RayTraceResult rtRes) {
 		if (!world.isRemote) {
-
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;
 
