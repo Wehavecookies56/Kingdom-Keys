@@ -14,8 +14,6 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
-import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class CSUseShortcutPacket {
 

@@ -38,7 +38,6 @@ public class MenuCustomizeScreen extends MenuBackground {
 		super(Strings.Gui_Menu_Customize, new Color(0,0,255));
 		drawPlayerInfo = false;
 	}
-
 	
 	protected void action(String string) {
 		switch(string) {
@@ -46,9 +45,7 @@ public class MenuCustomizeScreen extends MenuBackground {
 			GuiHelper.openMenu();
 			break;
 		}
-		
 	}
-
 
 	@Override
 	public void init() {

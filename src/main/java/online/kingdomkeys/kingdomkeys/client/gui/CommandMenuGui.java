@@ -16,7 +16,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.storage.PlayerData;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

@@ -5,14 +5,11 @@ import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
-import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class CSSetShortcutPacket {
 	

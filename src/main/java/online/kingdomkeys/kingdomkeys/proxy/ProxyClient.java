@@ -42,7 +42,6 @@ import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.integration.corsair.KeyboardManager;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.DiveToTheHeartRenderInfo;
@@ -50,19 +49,10 @@ import online.kingdomkeys.kingdomkeys.world.dimension.DiveToTheHeartRenderInfo;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
 
-    public static KeyboardManager keyboardManager;
 	public static final Map<Item, BipedModel> armorModels = new HashMap<Item, BipedModel>();
 
     @Override
     public void setup(FMLCommonSetupEvent event) {
-
-        /*if (ClientConfig.CORSAIR_KEYBOARD_LIGHTING) {
-            keyboardManager = new KeyboardManager();
-            MinecraftForge.EVENT_BUS.register(new CorsairTickHandler(keyboardManager));
-            keyboardManager.showLogo();
-        }*/
-
-       // new ScrollCallbackWrapper().setup(Minecraft.getInstance());
         //MinecraftForge.EVENT_BUS.register(new HUDElementHandler());
         MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
         MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());

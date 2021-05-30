@@ -9,7 +9,6 @@ import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

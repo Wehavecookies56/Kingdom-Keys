@@ -5,7 +5,6 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
