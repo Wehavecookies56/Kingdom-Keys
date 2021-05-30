@@ -66,14 +66,14 @@ public class MenuCustomizeScreen extends MenuBackground {
 		
 		for(int i = 0; i< shortcuts.length;i++) {
 			int j = i;
-			addButton(shortcuts[i] = new MenuButton((int) buttonPosX, (int) topBarHeight +  (i * 18), (int) buttonWidth, "Shortcut "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
+			addButton(shortcuts[i] = new MenuButton((int) buttonPosX, (int) topBarHeight +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
 		}		
 		
 		//if(selectedShortcut > -1) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			int totalMagics = 0;
 			int magicType = 0;
-			addButton(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("Unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
+			addButton(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
 			for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
 				int level = entry.getValue()[0];
@@ -81,11 +81,9 @@ public class MenuCustomizeScreen extends MenuBackground {
 				while(level >= 0) {
 					int lvl = level;
 					addButton(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
-					//System.out.println("1: "+magic.getRegistryName().toString()+","+level);
 					magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
 					level--;
 					totalMagics++;
-				//	System.out.println(Utils.translateToLocal(magic.getTranslationKey(level)) + " " + level--);
 				}
 				magicType++;
 			}

@@ -53,6 +53,8 @@
 	"gui.menu.items.equipment.shotlock": "Shotlock",
 	"gui.menu.items.equipment.items": "Items",
 	"gui.menu.customize": "Customize",
+	"gui.menu.customize.shortcut": "Shortcut",
+	"gui.menu.customize.unequip": "Unequip",
 	"gui.menu.party": "Party",
 	"gui.menu.party.create": "Create party",
 	"gui.menu.party.create.desc": "Create a new party.",

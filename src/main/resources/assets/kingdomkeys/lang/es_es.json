@@ -53,6 +53,8 @@
 	"gui.menu.items.equipment.shotlock": "Tiro Certero",
 	"gui.menu.items.equipment.items": "Objetos",
 	"gui.menu.customize": "Configuración",
+	"gui.menu.customize.shortcut": "Atajo",
+	"gui.menu.customize.unequip": "Desequipar",
 	"gui.menu.party": "Grupo",
 	"gui.menu.party.create": "Crear Grupo",
 	"gui.menu.party.create.desc": "Crea un nuevo grupo.",
