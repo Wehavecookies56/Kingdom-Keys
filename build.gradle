@@ -16,7 +16,7 @@ apply plugin: 'maven-publish'
 def mcver = "1.16.5"
 version = '2.0.3.0'
 group = 'online.kingdomkeys.kingdomkeys'
-archivesBaseName = 'kingdomkeys'
+archivesBaseName = 'Kingdom Keys'
 
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
