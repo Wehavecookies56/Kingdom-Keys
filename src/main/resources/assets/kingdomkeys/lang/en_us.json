@@ -21,7 +21,8 @@
 	"keybladedamage.death": "%s was slain by %s",
 
 	"_comment": "Container",
-	"container.magical_chest": "Magical Chest", 
+	"container.magical_chest": "Magical Chest",
+	"container.pedestal": "Pedestal",
 	
 	"_comment": "Menu",
 	"gui.menu.back": "Back",

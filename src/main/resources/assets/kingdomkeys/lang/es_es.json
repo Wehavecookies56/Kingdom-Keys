@@ -22,7 +22,8 @@
 
 	"_comment": "Container",
 	"container.magical_chest": "Cofre Mágico", 
-	
+	"container.pedestal": "Pedestal",
+
 	"_comment": "Menu",
 	"gui.menu.back": "Atrás",
 	"gui.menu.back.desc": "Vuelve al menú anterior.",

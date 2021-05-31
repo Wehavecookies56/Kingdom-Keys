@@ -20,12 +20,14 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class WatergaEntity extends ThrowableEntity {
 
@@ -166,12 +168,40 @@ public class WatergaEntity extends ThrowableEntity {
 						}
 					}
 				}
-			} else { // Block (not ERTR)
-				remove();
 			}
-		}
+			
+			float radius = 2F;
+			if (getShooter() instanceof PlayerEntity) {
+				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
+				
+				for(int r = 1; r <= radius; r++) {
+					for (int t = 1; t < 360; t += 10) {
+						for (int s = 1; s < 360 ; s += 10) {
+							double x = getPosX() + (r * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+							double z = getPosZ() + (r * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+							double y = getPosY() + (r * Math.cos(Math.toRadians(t)));
+							((ServerWorld) world).spawnParticle(ParticleTypes.DRIPPING_WATER, x, y, z, 1, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.5);
+						}
+					}
+				}
 
+
+				if (!list.isEmpty()) {
+					for (int i = 0; i < list.size(); i++) {
+						LivingEntity e = list.get(i);
+						if (e.isBurning()) {
+							e.extinguish();
+						} else {
+							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.5F : 2;
+							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
+						}
+					}
+				}
+			}
+			remove();
+		}
 	}
+
 
 	public int getMaxTicks() {
 		return maxTicks;

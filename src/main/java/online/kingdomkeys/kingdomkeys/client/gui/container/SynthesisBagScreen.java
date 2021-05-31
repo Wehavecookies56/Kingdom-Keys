@@ -82,7 +82,7 @@ public class SynthesisBagScreen extends ContainerScreen<SynthesisBagContainer> {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-		String s = I18n.format("Synthesis Bag LV." + (bagLevel + 1));
+		String s = title.getString()+ " LV." + (bagLevel + 1);
 		font.drawString(matrixStack, s, xSize / 2 -17 / 2 - font.getStringWidth(s) / 2, 5, 4210752);
 		// font.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2,
 		// 4210752);

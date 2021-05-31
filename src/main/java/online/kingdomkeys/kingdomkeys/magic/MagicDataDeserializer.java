@@ -21,7 +21,6 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 	public MagicData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		MagicData out = new MagicData();
 		JsonObject jsonObject = json.getAsJsonObject();
-		System.out.println(jsonObject);
 
 		jsonObject.entrySet().forEach(entry -> {
 			JsonElement element = entry.getValue();

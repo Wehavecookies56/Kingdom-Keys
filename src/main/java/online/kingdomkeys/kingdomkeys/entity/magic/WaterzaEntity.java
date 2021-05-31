@@ -192,7 +192,7 @@ public class WaterzaEntity extends ThrowableEntity {
 						} else {
 							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 1.2F;
 							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
 						}
 					}
 				}

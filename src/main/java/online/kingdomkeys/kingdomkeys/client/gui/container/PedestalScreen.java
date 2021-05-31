@@ -82,9 +82,9 @@ public class PedestalScreen extends ContainerScreen<PedestalContainer> {
 
     @Override
     public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
-        this.renderHoveredTooltip(matrixStack, p_render_1_, p_render_2_);
+    	 this.renderBackground(matrixStack);
+         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
+         this.renderHoveredTooltip(matrixStack, p_render_1_, p_render_2_);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class PedestalScreen extends ContainerScreen<PedestalContainer> {
         this.font.drawString(matrixStack, "Rotation Speed " + String.format("%.2f", rotationSpeedSlider.getValue()), 60.0F, 55.0F, 4210752);
         this.font.drawString(matrixStack, "Bob Speed " + String.format("%.2f", bobSpeedSlider.getValue()), 60.0F, 67.0F, 4210752);
         this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
-        super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
+       // super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 
     @Override
