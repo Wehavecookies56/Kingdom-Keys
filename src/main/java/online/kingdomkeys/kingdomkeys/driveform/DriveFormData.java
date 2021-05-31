@@ -67,7 +67,6 @@ public class DriveFormData {
 	}
 	
 	public void setLevelUp(int[] levelup) {
-		System.out.println(levelup);
 		this.levelUp = levelup;
 	}
 

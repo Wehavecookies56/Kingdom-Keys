@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.abilities.MenuAbilitiesScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.journal.MenuJournalScreen;
@@ -73,7 +74,7 @@ public class MenuScreen extends MenuBackground {
 			minecraft.displayGuiScreen(new MenuJournalScreen());
 			break;
 		case CONFIG:
-			minecraft.displayGuiScreen(new MenuCustomizeScreen());
+			minecraft.displayGuiScreen(new MenuConfigScreen());
 			break;
 		 
 		}
