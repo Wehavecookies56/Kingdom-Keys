@@ -201,6 +201,7 @@ public class EntityEvents {
 				ticks = Integer.MIN_VALUE;
 			}
 		
+			//event.player.startSpinAttack(100);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
 				//Check if rc conditions match

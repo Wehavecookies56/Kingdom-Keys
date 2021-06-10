@@ -475,7 +475,9 @@ public class Strings {
         LevelUpWisdom = "levelupdrivewisdom",
         LevelUpLimit = "levelupdrivelimit",
         LevelUpMaster = "levelupdrivemaster",
-        LevelUpFinal = "levelupdrivefinal";
+        LevelUpFinal = "levelupdrivefinal",
+        
+        gummiShip = "gummiship";
     
     // Music Discs
     public static final String

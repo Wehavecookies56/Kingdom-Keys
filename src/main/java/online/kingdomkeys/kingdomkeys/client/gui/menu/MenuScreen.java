@@ -60,7 +60,6 @@ public class MenuScreen extends MenuBackground {
 					minecraft.displayGuiScreen(new GuiMenu_Party_Member());
 				}
 			}
-			//minecraft.displayGuiScreen(new GuiMenu_Party_Join("Party"));
 			break;
 		case STATUS:
 			minecraft.displayGuiScreen(new MenuStatusScreen());
@@ -73,6 +72,7 @@ public class MenuScreen extends MenuBackground {
 		case JOURNAL:
 			minecraft.displayGuiScreen(new MenuJournalScreen());
 			break;
+			
 		case CONFIG:
 			minecraft.displayGuiScreen(new MenuConfigScreen());
 			break;

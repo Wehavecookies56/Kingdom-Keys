@@ -46,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.DirePlantRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.DuskRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ElementalMusicalHeartlessRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.GigaShadowRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.GummiShipEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MegaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MoogleRenderer;
@@ -205,6 +206,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<BlueRhapsodyEntity>> TYPE_BLUE_RHAPSODY = createEntityType(BlueRhapsodyEntity::new, BlueRhapsodyEntity::new, EntityClassification.MONSTER, "blue_rhapsody", 1.0F, 2.0F, HEARTLESS_EMBLEM, Color.BLUE.getRGB(), Color.YELLOW.getRGB());
     public static final RegistryObject<EntityType<YellowOperaEntity>> TYPE_YELLOW_OPERA = createEntityType(YellowOperaEntity::new, YellowOperaEntity::new, EntityClassification.MONSTER, "yellow_opera", 1.0F, 2.0F, HEARTLESS_EMBLEM, Color.YELLOW.getRGB(), Color.YELLOW.getRGB());
     public static final RegistryObject<EntityType<GreenRequiemEntity>> TYPE_GREEN_REQUIEM = createEntityType(GreenRequiemEntity::new, GreenRequiemEntity::new, EntityClassification.MONSTER, "green_requiem", 1.0F, 2.0F, HEARTLESS_EMBLEM, Color.GREEN.getRGB(), Color.YELLOW.getRGB());
+    public static final RegistryObject<EntityType<GummiShipEntity>> TYPE_GUMMI_SHIP = createEntityType(GummiShipEntity::new, GummiShipEntity::new, EntityClassification.MISC, "gummi_ship", 5.0F, 5.0F);
 
     //TODO update textures to work with newer model, make magic for
     /*
@@ -379,6 +381,8 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), RagnarokShotEntityRenderer.FACTORY);
         
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
+        
         //Tile Entities
         
         ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
@@ -407,7 +411,10 @@ public class ModEntities {
         GlobalEntityTypeAttributes.put(TYPE_SKATER_BOMB.get(), SkaterBombEntity.registerAttributes().create());
         GlobalEntityTypeAttributes.put(TYPE_STORM_BOMB.get(), StormBombEntity.registerAttributes().create());
         GlobalEntityTypeAttributes.put(TYPE_YELLOW_OPERA.get(), YellowOperaEntity.registerAttributes().create());
+        //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
+
     }
+    
 
     public static void registerPlacements() {
     	EntitySpawnPlacementRegistry.register(TYPE_ASSASSIN.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawn);
