@@ -31,6 +31,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> imp
 		matrixStackIn.push();
 		{
 			matrixStackIn.translate(0, 2.5, 0);
+			matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 			String dataS = entityIn.getData();
 			if (dataS.contains(",")) {
 				String[] data = dataS.split(","); // "16711680,255,16711680,255,16711680".split(",");//dataS.split(";")

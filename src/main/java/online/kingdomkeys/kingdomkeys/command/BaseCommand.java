@@ -14,7 +14,7 @@ public class BaseCommand {
 	/**
 	 * 
 	 * @param context
-	 * @param numOfParams (has to be the same amounts of params (counting command) as when the function is called without target selector (/munny set 500 is 3)
+	 * @param numOfParams (has to be the same amounts of params (counting command) as when the function is called without target selector ("/munny set 500" is 3)
 	 * @return
 	 * @throws CommandSyntaxException
 	 */

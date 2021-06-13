@@ -1,5 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension;
-
+package online.kingdomkeys.kingdomkeys.world.dimension.battle_arena;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +17,22 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public class DiveToTheHeartBiomeProvider extends BiomeProvider {
+public class BattleArenaBiomeProvider extends BiomeProvider {
     public static void registerBiomeProvider() {
-        Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart_biome_source"), DiveToTheHeartBiomeProvider.CODEC);
+        Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(KingdomKeys.MODID, "battle_arena_biome_source"), BattleArenaBiomeProvider.CODEC);
     }
 
-    public static final Codec<DiveToTheHeartBiomeProvider> CODEC =
+    public static final Codec<BattleArenaBiomeProvider> CODEC =
             RecordCodecBuilder.create((instance) -> instance.group(
                     RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((vanillaLayeredBiomeSource) -> vanillaLayeredBiomeSource.BIOME_REGISTRY))
-            .apply(instance, instance.stable(DiveToTheHeartBiomeProvider::new)));
+            .apply(instance, instance.stable(BattleArenaBiomeProvider::new)));
 
     private final Registry<Biome> BIOME_REGISTRY;
     public static List<Biome> NONSTANDARD_BIOME = new ArrayList<>();
 
-    public static ResourceLocation BIOME = new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart");
+    public static ResourceLocation BIOME = new ResourceLocation(KingdomKeys.MODID, "battle_arena");
 
-    public DiveToTheHeartBiomeProvider(Registry<Biome> biomeRegistry) {
+    public BattleArenaBiomeProvider(Registry<Biome> biomeRegistry) {
         super(biomeRegistry.getEntries().stream()
                 .filter(entry -> entry.getKey().getLocation().getNamespace().equals(KingdomKeys.MODID))
                 .map(Map.Entry::getValue)
@@ -59,6 +58,6 @@ public class DiveToTheHeartBiomeProvider extends BiomeProvider {
     @Override
     @OnlyIn(Dist.CLIENT)
     public BiomeProvider getBiomeProvider(long seed) {
-        return new DiveToTheHeartBiomeProvider(this.BIOME_REGISTRY);
+        return new BattleArenaBiomeProvider(this.BIOME_REGISTRY);
     }
 }

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension;
+package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
 import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.math.vector.Vector3d;
@@ -7,7 +7,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class DiveToTheHeartRenderInfo extends DimensionRenderInfo {
-
 
     public DiveToTheHeartRenderInfo() {
         super(Float.NaN, true, FogType.NONE, true, true);

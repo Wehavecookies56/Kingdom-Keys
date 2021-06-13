@@ -82,7 +82,7 @@ public class LevelStats {
             case 19:
                 cap.addStrength(1);
                 break;
-            case 20: //Up to lvl 20 every 4 levels u get twice the max mp (that's why there is no more till lvl 100)
+            case 20: //Up to lvl 20 every 4 levels u get twice the max mp (that's why there is no more twice till lvl 100)
                 cap.addMagic(1);
                 cap.addMaxHP(5);
                 cap.addMaxMP(4);

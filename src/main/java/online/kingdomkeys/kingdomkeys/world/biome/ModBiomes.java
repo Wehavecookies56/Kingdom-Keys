@@ -8,10 +8,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ModBiomes {
 
-    public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, KingdomKeys.MODID);
+	public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, KingdomKeys.MODID);
 
-    static {
-        BIOMES.register("dive_to_the_heart", BiomeMaker::makeVoidBiome);
-    }
+	static {
+		BIOMES.register("dive_to_the_heart", BiomeMaker::makeVoidBiome);
+		BIOMES.register("battle_arena", BiomeMaker::makeVoidBiome);
+	}
 }
-

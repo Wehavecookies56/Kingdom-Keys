@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension;
+package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -12,6 +12,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 @Mod.EventBusSubscriber
 public class DiveToTheHeartDimension{

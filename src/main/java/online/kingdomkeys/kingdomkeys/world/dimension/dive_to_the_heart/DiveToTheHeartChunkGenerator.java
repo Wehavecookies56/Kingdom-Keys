@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension;
+package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

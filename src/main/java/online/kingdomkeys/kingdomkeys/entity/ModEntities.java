@@ -157,23 +157,25 @@ public class ModEntities {
     public static final RegistryObject<EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, FiraEntity::new, EntityClassification.MISC,"entity_fira", 0.8F, 0.8F);
     public static final RegistryObject<EntityType<FiragaEntity>> TYPE_FIRAGA = createEntityType(FiragaEntity::new, FiragaEntity::new, EntityClassification.MISC,"entity_firaga", 1.2F, 1.2F);
     public static final RegistryObject<EntityType<FirazaEntity>> TYPE_FIRAZA = createEntityType(FirazaEntity::new, FirazaEntity::new, EntityClassification.MISC,"entity_firaza", 1.2F, 1.2F);
+    
     public static final RegistryObject<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, BlizzardEntity::new, EntityClassification.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createEntityType(BlizzazaEntity::new, BlizzazaEntity::new, EntityClassification.MISC,"entity_blizzaza", 0.5F, 0.5F);
 
-   // public static final RegistryObject<EntityType<BlizzaraEntity>> TYPE_BLIZZARA = createEntityType(BlizzaraEntity::new, BlizzaraEntity::new, EntityClassification.MISC,"entity_blizzara", 0.5F, 0.5F);
-   // public static final RegistryObject<EntityType<BlizzagaEntity>> TYPE_BLIZZAGA = createEntityType(BlizzagaEntity::new, BlizzagaEntity::new, EntityClassification.MISC,"entity_blizzaga", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, WaterEntity::new, EntityClassification.MISC,"entity_water", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<WateraEntity>> TYPE_WATERA = createEntityType(WateraEntity::new, WateraEntity::new, EntityClassification.MISC,"entity_watera", 0.8F, 0.8F);
     public static final RegistryObject<EntityType<WatergaEntity>> TYPE_WATERGA = createEntityType(WatergaEntity::new, WatergaEntity::new, EntityClassification.MISC,"entity_waterga", 1F, 1F);
     public static final RegistryObject<EntityType<WaterzaEntity>> TYPE_WATERZA = createEntityType(WaterzaEntity::new, WaterzaEntity::new, EntityClassification.MISC,"entity_waterza", 1F, 1F);
+    
     public static final RegistryObject<EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, ThunderEntity::new, EntityClassification.MISC,"entity_thunder", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, ThundaraEntity::new, EntityClassification.MISC,"entity_thundara", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundagaEntity>> TYPE_THUNDAGA = createEntityType(ThundagaEntity::new, ThundagaEntity::new, EntityClassification.MISC,"entity_thundaga", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThundazaEntity>> TYPE_THUNDAZA = createEntityType(ThundazaEntity::new, ThundazaEntity::new, EntityClassification.MISC,"entity_thundaza", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, ThunderBoltEntity::new, EntityClassification.MISC,"entity_thunderbolt", 0.5F, 0.5F);
+    
     public static final RegistryObject<EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MagnetEntity::new, EntityClassification.MISC,"entity_magnet", 1F, 1F);
     public static final RegistryObject<EntityType<MagneraEntity>> TYPE_MAGNERA = createEntityType(MagneraEntity::new, MagneraEntity::new, EntityClassification.MISC,"entity_magnera", 1.5F, 1.5F);
     public static final RegistryObject<EntityType<MagnegaEntity>> TYPE_MAGNEGA = createEntityType(MagnegaEntity::new, MagnegaEntity::new, EntityClassification.MISC,"entity_magnega", 2F, 2F);
+    
     public static final RegistryObject<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, GravityEntity::new, EntityClassification.MISC,"entity_gravity", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<GraviraEntity>> TYPE_GRAVIRA = createEntityType(GraviraEntity::new, GraviraEntity::new, EntityClassification.MISC,"entity_gravira", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<GravigaEntity>> TYPE_GRAVIGA = createEntityType(GravigaEntity::new, GravigaEntity::new, EntityClassification.MISC,"entity_graviga", 0.5F, 0.5F);
