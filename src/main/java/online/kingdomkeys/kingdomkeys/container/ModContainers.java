@@ -13,6 +13,7 @@ import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.container.GummiEditorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.MagicalChestScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
@@ -23,7 +24,8 @@ public class ModContainers {
     public static final RegistryObject<ContainerType<?>>
         SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork),
         PEDESTAL = createContainer("pedestal_container", PedestalContainer::new),
-        MAGICAL_CHEST = createContainer("magical_chest", MagicalChestContainer::new)
+        MAGICAL_CHEST = createContainer("magical_chest", MagicalChestContainer::new),
+        GUMMI_EDITOR = createContainer("gummi_editor_container", GummiEditorContainer::new)
     ;
 
     public static <M extends Container> RegistryObject<ContainerType<?>> createContainer(String name, IContainerFactory<M> container) {
@@ -42,6 +44,7 @@ public class ModContainers {
         registerGUIFactory((ContainerType<SynthesisBagContainer>) (ModContainers.SYNTHESIS_BAG.get()), SynthesisBagScreen::new);
         registerGUIFactory((ContainerType<PedestalContainer>) (ModContainers.PEDESTAL.get()), PedestalScreen::new);
         registerGUIFactory((ContainerType<MagicalChestContainer>) (ModContainers.MAGICAL_CHEST.get()), MagicalChestScreen::new);
+        registerGUIFactory((ContainerType<GummiEditorContainer>) (ModContainers.GUMMI_EDITOR.get()), GummiEditorScreen::new);
     }
 
 }

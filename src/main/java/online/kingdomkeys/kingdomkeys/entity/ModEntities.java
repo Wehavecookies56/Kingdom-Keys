@@ -75,6 +75,7 @@ import online.kingdomkeys.kingdomkeys.client.render.shotlock.ShotlockDarkVolleyE
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.MoogleProjectorTileEntity;
@@ -390,6 +391,7 @@ public class ModEntities {
         ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
         ClientRegistry.bindTileEntityRenderer(TYPE_MOOGLE_PROJECTOR.get(), MoogleProjectorRenderer::new);
         ClientRegistry.bindTileEntityRenderer(TYPE_SOA_PLATFORM.get(), SoAPlatformRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
 
     }
 
@@ -448,4 +450,5 @@ public class ModEntities {
     public static final RegistryObject<TileEntityType<OrgPortalTileEntity>> TYPE_ORG_PORTAL_TE = TILE_ENTITIES.register("org_portal", () -> TileEntityType.Builder.create(OrgPortalTileEntity::new, ModBlocks.orgPortal.get()).build(null));
     public static final RegistryObject<TileEntityType<MoogleProjectorTileEntity>> TYPE_MOOGLE_PROJECTOR = TILE_ENTITIES.register("moogle_projector", () -> TileEntityType.Builder.create(MoogleProjectorTileEntity::new, ModBlocks.moogleProjector.get()).build(null));
     public static final RegistryObject<TileEntityType<SoAPlatformTileEntity>> TYPE_SOA_PLATFORM = TILE_ENTITIES.register("soa_platform", () -> TileEntityType.Builder.create(SoAPlatformTileEntity::new, ModBlocks.station_of_awakening_core.get()).build(null));
+    public static final RegistryObject<TileEntityType<GummiEditorTileEntity>> TYPE_GUMMI_EDITOR = TILE_ENTITIES.register("gummi_editor", () -> TileEntityType.Builder.create(GummiEditorTileEntity::new, ModBlocks.gummiEditor.get()).build(null));
 }
