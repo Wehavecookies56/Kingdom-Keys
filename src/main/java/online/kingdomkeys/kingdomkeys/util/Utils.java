@@ -472,6 +472,9 @@ public class Utils {
 				case Strings.mpHastera:
 					val += 4;
 					break;
+				case Strings.mpHastega:
+					val += 6;
+					break;
 				}
 			}
 

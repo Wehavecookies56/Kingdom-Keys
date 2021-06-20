@@ -81,6 +81,7 @@ public class Strings {
     		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan",
     		mpHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_haste",
     		mpHastera = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_hastera",
+    		mpHastega = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_hastega",
     		mpRage =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_rage",
     		damageDrive =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"damage_drive",
     		driveBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"drive_boost",
@@ -88,7 +89,8 @@ public class Strings {
     		fireBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"fire_boost",
     		blizzardBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzard_boost",
     		experienceBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"experience_boost",
-    		secondChance =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"second_chance"
+    		secondChance =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"second_chance",
+    		lightAndDarkness =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"light_and_darkness"
     		;
     
     // Synthesis Materials

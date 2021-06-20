@@ -208,7 +208,9 @@
 	"ability.ability_mp_haste.name": "Prisa MP",
 	"ability.ability_mp_haste.desc": "Si consumes todos los PM, aumenta la velocidad de recuperación de los mismos.",
 	"ability.ability_mp_hastera.name": "Prisa MP+",
-	"ability.ability_mp_hastera.desc": "Si consumes todos los PM, aumenta más la velocidad de recuperación de los mismos.",
+	"ability.ability_mp_hastera.desc": "Si consumes todos los PM, aumenta mucho la velocidad de recuperación de los mismos.",
+	"ability.ability_mp_hastega.name": "Prisa PM++",
+	"ability.ability_mp_hastega.desc": "Si consumes todos los PM, aumenta muchísimo la velocidad de recuperación de los mismos.",
 	"ability.ability_mp_rage.name": "Aspirar Daño",
 	"ability.ability_mp_rage.desc": "Recupera PM en proporción al daño que recibes.",
 	"ability.ability_damage_drive.name": "Fusión por daño",
@@ -1197,4 +1199,7 @@
 	"soa.confirm.mystic": "poder del hechicero.",
 	"soa.confirm.3": "Has renunciado al",
 	"soa.confirm.5": "¿Es esta la forma que quieres eligir?"
+
+	"_comment": "Biomes",
+	"biome.kingdomkeys.dive_to_the_heart": "Descenso al Corazón"													   
 }

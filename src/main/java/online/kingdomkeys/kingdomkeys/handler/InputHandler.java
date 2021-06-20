@@ -77,11 +77,22 @@ public class InputHandler {
     public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
 
-    public boolean antiFormCheck() {
+    public boolean antiFormCheck() { //Only checks if form is not final
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity player = mc.player;
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         World world = mc.world;
+
+        if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) {
+            PacketHandler.sendToServer(new CSSetDriveFormPacket(Strings.Form_Anti));
+    		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
+            CommandMenuGui.selected = CommandMenuGui.ATTACK;
+            CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+            world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+        	return true;
+        }
+        
         double random = Math.random();
         int ap = playerData.getAntiPoints();
         
@@ -101,8 +112,9 @@ public class InputHandler {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public void commandUp() {

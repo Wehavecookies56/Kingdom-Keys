@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -41,6 +42,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -118,6 +120,10 @@ public class ClientEvents {
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
 						event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(player.ticksExisted*80));
+					}
+					
+					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+						player.world.addParticle(ParticleTypes.SMOKE, player.getPosX()+player.world.rand.nextDouble() - 0.5D, player.getPosY()+player.world.rand.nextDouble() *2D, player.getPosZ()+player.world.rand.nextDouble() - 0.5D, 0, 0, 0);
 					}
 				}
 			}

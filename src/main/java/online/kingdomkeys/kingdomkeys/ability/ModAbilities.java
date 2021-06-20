@@ -48,6 +48,7 @@ public class ModAbilities {
 				createAbility(Strings.scan, 1, AbilityType.SUPPORT),
 				createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT),
 				createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT),
+				createAbility(Strings.mpHastega, 5, AbilityType.SUPPORT),
 				createAbility(Strings.mpRage, 3, AbilityType.SUPPORT),
 				createAbility(Strings.damageDrive, 3, AbilityType.SUPPORT),
 				createAbility(Strings.driveBoost, 3, AbilityType.SUPPORT),
@@ -55,7 +56,8 @@ public class ModAbilities {
 				createAbility(Strings.blizzardBoost, 3, AbilityType.SUPPORT),
 				createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
 				createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
-				createAbility(Strings.secondChance, 4, AbilityType.SUPPORT)
+				createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
+				createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT)
 			);
 		}
 	}

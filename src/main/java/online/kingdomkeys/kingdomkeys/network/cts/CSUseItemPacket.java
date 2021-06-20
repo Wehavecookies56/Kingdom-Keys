@@ -15,17 +15,18 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSUseItemPacket {
-	
+
 	int slot;
 	String target;
-	
-	public CSUseItemPacket() {}
+
+	public CSUseItemPacket() {
+	}
 
 	public CSUseItemPacket(int slot) {
 		this.slot = slot;
 		this.target = "";
 	}
-	
+
 	public CSUseItemPacket(int slot, String target) {
 		this.slot = slot;
 		this.target = target;
@@ -48,19 +49,19 @@ public class CSUseItemPacket {
 	public static void handle(CSUseItemPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-        		KKPotionItem potion = (KKPotionItem) playerData.getEquippedItem(message.slot).getItem();
-        		
-        		if(message.target.equals("")) {
-            		potion.potionEffect(player);
-				} else {
-					PlayerEntity targetEntity = Utils.getPlayerByName(player.world, message.target);
-	        		potion.potionEffect(targetEntity);
-				}
-        		playerData.equipItem(message.slot, ItemStack.EMPTY);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			KKPotionItem potion = (KKPotionItem) playerData.getEquippedItem(message.slot).getItem();
 
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-			
+			if (message.target.equals("")) {
+				potion.potionEffect(player);
+			} else {
+				PlayerEntity targetEntity = Utils.getPlayerByName(player.world, message.target);
+				potion.potionEffect(targetEntity);
+			}
+			playerData.equipItem(message.slot, ItemStack.EMPTY);
+
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+
 		});
 		ctx.get().setPacketHandled(true);
 	}

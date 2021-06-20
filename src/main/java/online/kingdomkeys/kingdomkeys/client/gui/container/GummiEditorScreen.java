@@ -32,8 +32,6 @@ public class GummiEditorScreen extends ContainerScreen<GummiEditorContainer> {
 
 	@Override
 	public void tick() {
-		// System.out.println(container.getSlot(0).getHasStack());
-
 		super.tick();
 	}
 
