@@ -26,6 +26,7 @@ public class ModDriveForms {
 			int order = 0;
 			event.getRegistry().registerAll(
 				new DriveFormNone(DriveForm.NONE.toString(), order++, true),
+				new DriveFormNone(DriveForm.SYNCH_BLADE.toString(), order++, true),
 				new DriveFormValor(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "valor",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/valor.png"), true),
 				new DriveFormWisdom(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "wisdom",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/wisdom.png"), false),
 				new DriveFormLimit(KingdomKeys.MODID + ":" + Strings.DF_Prefix + "limit",order++, new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/limit.png"), false),

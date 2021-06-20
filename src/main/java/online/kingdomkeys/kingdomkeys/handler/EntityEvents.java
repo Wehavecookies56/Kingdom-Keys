@@ -126,9 +126,10 @@ public class EntityEvents {
 			}
 			
 			if (!player.world.isRemote) { // Sync from server to client				
-				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { //One time event here :D
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
-					
+					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
+
 					playerData.addKnownRecipe(ModItems.mythril_shard.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.mythril_stone.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.mythril_gem.get().getRegistryName());
@@ -147,8 +148,12 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.driveRecovery.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiDriveRecovery.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.refocuser.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
-					
+					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());					
+				}
+				
+				//Added for old world retrocompatibility
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.SYNCH_BLADE.toString())) { 
+					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
 				}
 							
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
@@ -175,6 +180,11 @@ public class EntityEvents {
 						}
 					}
 				});
+				System.out.println(playerData.getEquippedKeychains());
+				System.out.println("XD");
+				/*if(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE) != null) {
+					playerData.setNewKeychain(DriveForm.SYNCH_BLADE, ItemStack.EMPTY);
+				}*/
 				
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayerEntity) player);
@@ -201,8 +211,7 @@ public class EntityEvents {
 				ticks = Integer.MIN_VALUE;
 			}
 		
-			//event.player.startSpinAttack(100);
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);			
 			if (playerData != null) {
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();

@@ -47,6 +47,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
@@ -134,8 +135,13 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 					ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
 					if (mainChain != null) {
 						ItemStack formChain = null;
-						if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()))
+						if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 							formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
+						} else {
+							if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+								formChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
+							}
+						}
 						if (formChain == null)
 							formChain = ItemStack.EMPTY;
 						UUID stackID = Utils.getID(stack);
@@ -149,6 +155,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 
 							if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
 								//This is either not your keychain or from an inactive form, either way it should not be here
+								System.out.println(formChainID);
+								//if(playerData.isAbilityEquipped(Strings.synchBlade))
 								player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
 								player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 							}
@@ -156,7 +164,6 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 							player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
 							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 						}
-
 
 						//Check for dupes
 						for (int i = 0; i < player.inventory.getSizeInventory(); i++) {

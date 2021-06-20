@@ -991,6 +991,7 @@ public class InputHandler {
         if(playerData != null && worldData != null) {
 	        this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap());
 	        this.driveFormsMap.remove(DriveForm.NONE.toString());
+	        this.driveFormsMap.remove(DriveForm.SYNCH_BLADE.toString());
 	        this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
 	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
 			this.limitsList = Utils.getPlayerLimitAttacks(mc.player);

@@ -57,7 +57,8 @@ public class ModAbilities {
 				createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
 				createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
 				createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
-				createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT)
+				createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
+				createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT)
 			);
 		}
 	}

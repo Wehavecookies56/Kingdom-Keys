@@ -20,6 +20,7 @@ public class LevelStats {
             case 4:
                 cap.addDefense(1);
                 cap.addMaxMP(4);
+                cap.addAbility(Strings.synchBlade, true);
                 break;
             case 5:
                 cap.addStrength(1);

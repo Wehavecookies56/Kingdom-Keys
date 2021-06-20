@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 
 	public static final ResourceLocation NONE = new ResourceLocation(KingdomKeys.MODID + ":none");
+	public static final ResourceLocation SYNCH_BLADE = new ResourceLocation(KingdomKeys.MODID + ":synch_blade");
 
 	// Level 0-7 (0 unused)
 	public static final float[] VALOR_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.03F, 0.03F, 0.04F, 0.04F, 0.06F };

@@ -552,6 +552,7 @@ public class CommandMenuGui extends Screen {
 
 		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
 		forms.remove(DriveForm.NONE.toString());
+		forms.remove(DriveForm.SYNCH_BLADE.toString());
 		
 		double x = 10 * ModConfigs.cmSubXOffset / 100D;
 		
@@ -569,7 +570,7 @@ public class CommandMenuGui extends Screen {
 
 			for (int i = 0; i < forms.size(); i++) {
 				String formName = (String) forms.keySet().toArray()[i];
-				if (!formName.equals(DriveForm.NONE.toString())) {
+				if (!formName.equals(DriveForm.NONE.toString()) && !formName.equals(DriveForm.SYNCH_BLADE.toString())) {
 					DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(formName));
 					int cost = form.getDriveCost();
 					int color = playerData.getDP() >= cost ? 0xFFFFFF : 0x888888;

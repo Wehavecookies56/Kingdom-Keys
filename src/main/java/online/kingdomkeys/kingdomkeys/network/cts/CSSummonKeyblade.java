@@ -117,6 +117,10 @@ public class CSSummonKeyblade {
 					KingdomKeys.LOGGER.fatal(".-.");
 					//.-. but why tho
 				}
+			} else {
+				if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+					extraChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
+				}
 			}
 			//TODO dual wield org weapons
 			int slotSummoned = Utils.findSummoned(player.inventory, chain, false);
