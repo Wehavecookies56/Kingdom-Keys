@@ -76,12 +76,18 @@ public class MenuEquipmentScreen extends MenuBackground {
         AtomicInteger hidden = new AtomicInteger(0);
         
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
-            MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);            
+            MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x555555, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xAAAAAA);            
             addButton(orgWeaponSlot);
             addButton(showKeybladesButton = new MenuButton((int)itemsX + (int)(width * 0.264F), (int) itemsY + offset.get()-4 + itemHeight * (offset.get() - 1)  - scrollOffset, (int)-5, new TranslationTextComponent("").getString(), MenuButton.ButtonType.BUTTON, b -> {minecraft.displayGuiScreen(new MenuEquipmentScreen(!showingKeyblades));}));
+            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getAlignment() == Utils.OrgMember.ROXAS)) {
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "Synch Blade", 0xFE8185);
+                addButton(sbSlot);
+            }
         } else {
         	showingKeyblades = true;
         }
+        
+        
         
         if (keychains.get(DriveForm.NONE) != null) {
             MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
@@ -90,29 +96,25 @@ public class MenuEquipmentScreen extends MenuBackground {
             firstslot.visible = showingKeyblades;
             hidden.getAndIncrement();
             
-            System.out.println(keychains.toString());
-            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade)) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "Synch Blade", 0xFE8185);
+            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "Synch Blade", 0xFE8185);
                 addButton(sbSlot);
-                sbSlot.active = showingKeyblades;
-                sbSlot.visible = showingKeyblades;
                 hidden.getAndIncrement();
             }
         }
         
+       
 
         Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.getValue(f.getKey()).getOrder());
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
-            System.out.println(form);
             if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
             	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293);
                 addButton(button);
                 hidden.getAndIncrement();
                 button.active = showingKeyblades;
                 button.visible = showingKeyblades;
-
             }
         });
         

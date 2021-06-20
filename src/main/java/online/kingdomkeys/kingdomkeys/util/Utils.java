@@ -253,7 +253,6 @@ public class Utils {
 	}
 
 	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap) {
-		
 		List<DriveForm> list = new ArrayList<>();
 
 		Iterator<String> it = driveFormsMap.keySet().iterator();
@@ -432,8 +431,7 @@ public class Utils {
 		inv.setInventorySlotContents(stack1, tempStack);
 	}
 
-	// Returns the category for the stack from the IItemCategory interface, the
-	// registry, else it returns MISC
+	// Returns the category for the stack from the IItemCategory interface, the registry, else it returns MISC
 	public static ItemCategory getCategoryForStack(ItemStack stack) {
 		ItemCategory category = ItemCategory.MISC;
 		if (stack.getItem() instanceof IItemCategory) {

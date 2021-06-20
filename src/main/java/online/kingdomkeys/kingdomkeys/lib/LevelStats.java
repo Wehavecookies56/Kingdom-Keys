@@ -20,7 +20,6 @@ public class LevelStats {
             case 4:
                 cap.addDefense(1);
                 cap.addMaxMP(4);
-                cap.addAbility(Strings.synchBlade, true);
                 break;
             case 5:
                 cap.addStrength(1);
@@ -201,7 +200,7 @@ public class LevelStats {
                 cap.addMagic(1);
                 cap.addDefense(1);
                 cap.addMaxHP(5);
-                // ABILITIES.unlockAbility(ModAbilities.mpHastega);
+                cap.addAbility(Strings.synchBlade, true);
                 break;
             case 51:
                 cap.addStrength(1);
