@@ -1039,29 +1039,41 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	
 
 	@Override
-	public boolean isAbilityEquipped(String string) {//First checks for weapon abilities
-		if(!ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE),ItemStack.EMPTY)) {
+	public boolean isAbilityEquipped(String string) {// First checks for weapon abilities
+		if (!ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { //Main keyblade
 			ItemStack stack = getEquippedKeychain(DriveForm.NONE);
 			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.NONE).getItem();
 			int level = weapon.toSummon().getKeybladeLevel(stack);
-			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(),level);
-			if(abilities.contains(string)) {
+			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
+			if (abilities.contains(string)) {
 				return true;
 			}
 		}
-		
-		if(abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.SYNCH_BLADE),ItemStack.EMPTY)) { //Check for synch blade ability to be equiped from the abilities menu
-			ItemStack stack = getEquippedKeychain(DriveForm.SYNCH_BLADE);
-			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem();
-			int level = weapon.toSummon().getKeybladeLevel(stack);
-			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(),level);
-			if(abilities.contains(string)) {
-				return true;
+		//SB Keyblade if user is base form
+		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu
+				ItemStack stack = getEquippedKeychain(DriveForm.SYNCH_BLADE);
+				IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem();
+				int level = weapon.toSummon().getKeybladeLevel(stack);
+				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
+				if (abilities.contains(string)) {
+					return true;
+				}
+			}
+		} else { //DF Keyblades if user is in their form
+			ItemStack stack = getEquippedKeychain(new ResourceLocation(getActiveDriveForm()));
+			if (stack != null) {
+				IKeychain weapon = (IKeychain) getEquippedKeychain(new ResourceLocation(getActiveDriveForm())).getItem();
+				int level = weapon.toSummon().getKeybladeLevel(stack);
+				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
+				if (abilities.contains(string)) {
+					return true;
+				}
 			}
 		}
-		
-		//If it's not in the weapon abilities checks normal abilities
-		if(abilityMap.containsKey(string)) {
+
+		// If it's not in the weapon abilities checks normal abilities
+		if (abilityMap.containsKey(string)) {
 			return abilityMap.get(string)[1] > 0;
 		}
 		return false;
