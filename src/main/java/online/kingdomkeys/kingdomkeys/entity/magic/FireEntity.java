@@ -72,6 +72,7 @@ public class FireEntity extends ThrowableEntity {
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;
 
+
 			if (rtRes instanceof EntityRayTraceResult) {
 				ertResult = (EntityRayTraceResult) rtRes;
 			}
