@@ -180,8 +180,6 @@ public class EntityEvents {
 						}
 					}
 				});
-				System.out.println(playerData.getEquippedKeychains());
-				System.out.println("XD");
 				/*if(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE) != null) {
 					playerData.setNewKeychain(DriveForm.SYNCH_BLADE, ItemStack.EMPTY);
 				}*/

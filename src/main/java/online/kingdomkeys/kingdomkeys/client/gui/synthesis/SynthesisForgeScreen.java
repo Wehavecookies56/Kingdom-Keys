@@ -17,6 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -282,20 +284,27 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			matrixStack.push();
 			{
 				matrixStack.translate(boxM.x+2, height*0.58, 1);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+kb.getKeybladeLevel(selected), 0, -10, 0xFFFF00);
-
-				if(kb.getKeybladeLevel(selected) < 10) {
-					int actualStr = kb.getStrength(kb.getKeybladeLevel(selected));
-					int nextStr = kb.getStrength(kb.getKeybladeLevel(selected)+1);
-					int actualMag = kb.getMagic(kb.getKeybladeLevel(selected));
-					int nextMag = kb.getMagic(kb.getKeybladeLevel(selected )+1);
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" -> "+nextStr, 0, 0, 0xFF0000);
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" -> "+nextMag, 0, 10, 0x4444FF);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+kb.getKeybladeLevel(selected), 0, -20, 0xFFFF00);
+				
+				int level = kb.getKeybladeLevel(selected);
+				if(level < 10) {
+					int actualStr = kb.getStrength(level);
+					int nextStr = kb.getStrength(level+1);
+					int actualMag = kb.getMagic(level);
+					int nextMag = kb.getMagic(level+1);
+					String nextAbility = kb.data.getAbility(level+1);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" -> "+nextStr, 0, -10, 0xFF0000);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" -> "+nextMag, 0, 0, 0x4444FF);
+					if(nextAbility != null) {
+						Ability a = ModAbilities.registry.getValue(new ResourceLocation(nextAbility));
+						if(a != null)
+							drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(a.getTranslationKey()), 0, 10, 0x44FF44);
+					}
 				} else {
 					int actualStr = kb.getStrength(kb.getKeybladeLevel(selected));
 					int actualMag = kb.getMagic(kb.getKeybladeLevel(selected));
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr, 0, 0, 0xFF0000);
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag, 0, 10, 0x4444FF);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr, 0, -10, 0xFF0000);
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag, 0, 0, 0x4444FF);
 				}
 			}
 			matrixStack.pop();

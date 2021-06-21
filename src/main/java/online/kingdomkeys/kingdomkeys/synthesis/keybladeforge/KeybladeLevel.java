@@ -19,7 +19,7 @@ public class KeybladeLevel {
     //The ability gained when upgrading to this level
     
     //TODO ability system and potentially multiple abilities here
-    String ability;
+    private String ability;
 
     public KeybladeLevel() { }
 
@@ -90,7 +90,7 @@ public class KeybladeLevel {
 			return this;
 		}
 
-		public KeybladeLevelBuilder withAbilty(String ability) {
+		public KeybladeLevelBuilder withAbility(String ability) {
 			this.ability = ability;
 			return this;
 		}

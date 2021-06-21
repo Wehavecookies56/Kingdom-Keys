@@ -1050,6 +1050,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 		}
 		
+		if(abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.SYNCH_BLADE),ItemStack.EMPTY)) { //Check for synch blade ability to be equiped from the abilities menu
+			ItemStack stack = getEquippedKeychain(DriveForm.SYNCH_BLADE);
+			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem();
+			int level = weapon.toSummon().getKeybladeLevel(stack);
+			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(),level);
+			if(abilities.contains(string)) {
+				return true;
+			}
+		}
+		
 		//If it's not in the weapon abilities checks normal abilities
 		if(abilityMap.containsKey(string)) {
 			return abilityMap.get(string)[1] > 0;

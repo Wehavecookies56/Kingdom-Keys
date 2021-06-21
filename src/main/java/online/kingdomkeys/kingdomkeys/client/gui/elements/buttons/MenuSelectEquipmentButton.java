@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import java.awt.Color;
+import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -141,12 +144,17 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					float strPosY = parent.height * 0.5185F;
 					float strNumPosX = parent.width * 0.78F;
 					float magPosY = parent.height * 0.5657F;
+                    float abiPosX = parent.width * 0.72F;
+                    float abiPosY = parent.height * 0.62F;
 					
 					String strengthStr = String.valueOf(((int) keyblade.getStrength(stack)));
 					String magicStr = String.valueOf(((int) keyblade.getMagic(stack)));
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int strength = playerData.getStrength() + ((int) keyblade.getStrength(stack));
 					int magic = playerData.getMagic() + ((int) keyblade.getMagic(stack));
+					int level = keyblade.getKeybladeLevel(stack);
+					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
+					
 					String totalStrengthStr = String.valueOf(strength);
                     String totalMagicStr = String.valueOf(magic);
 					String openBracketStr = " [ ";
@@ -172,6 +180,16 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
 					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
 
+					if(abilities.size() > 0) {
+						drawString(matrixStack, fr, new TranslationTextComponent("Abilities").getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
+						for(int i = 0; i < abilities.size();i++) {
+							Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(i)));
+			                minecraft.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+		                    blit(matrixStack, (int) strPosX-6, (int) abiPosY + ((i+1)*10)-3, 73, 102, 12, 12);
+							drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+10, (int) abiPosY + ((i+1)*10), 0xFFFFFF);
+						}
+					}
+					
 					float tooltipPosX = parent.width * 0.3333F;
 					float tooltipPosY = parent.height * 0.8F;
 					Utils.drawSplitString(minecraft.fontRenderer, keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);

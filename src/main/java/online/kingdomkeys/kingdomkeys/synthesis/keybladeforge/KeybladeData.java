@@ -44,7 +44,11 @@ public class KeybladeData {
     public int getMagic(int level) {
         return level == 0 ? baseMagic : levels.get(level-1).getMagic();
     }
-
+    
+    public String getAbility(int level) {
+        return levels.get(level-1).getAbility();
+    }
+    
     public String getDescription() {
         return description;
     }
