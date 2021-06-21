@@ -25,6 +25,7 @@ import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
@@ -654,6 +655,29 @@ public class Utils {
 
 	public static boolean isHostile(Entity e) {
 		return e instanceof MonsterEntity || e instanceof PlayerEntity;
+	}
+
+	public static List<String> getKeybladeAbilitiesAtLevel(Item item, int level) {
+		ArrayList<String> abilities = new ArrayList<String>();
+		if(item instanceof IKeychain) {
+			for (int i = level; i >= 0; i--) {
+				String a = ((IKeychain) item).toSummon().data.getLevelData(i).getAbility();
+				if(a != null)
+					abilities.add(a);
+
+			}
+		} else if(item instanceof KeybladeItem) {
+			/*if(((KeybladeItem) item).data.getBaseAbility() != null) {
+				abilities.add(((KeybladeItem) item).data.getBaseAbility());
+			}*/
+			for (int i = level; i >= 0; i--) {
+				String a = ((KeybladeItem) item).data.getLevelData(i).getAbility();
+				if(a != null)
+					abilities.add(a);
+			}
+		}
+		
+		return abilities;
 	}
 		
 }

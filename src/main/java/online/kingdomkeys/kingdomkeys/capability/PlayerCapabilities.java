@@ -1039,7 +1039,18 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	
 
 	@Override
-	public boolean isAbilityEquipped(String string) {
+	public boolean isAbilityEquipped(String string) {//First checks for weapon abilities
+		if(!ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE),ItemStack.EMPTY)) {
+			ItemStack stack = getEquippedKeychain(DriveForm.NONE);
+			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.NONE).getItem();
+			int level = weapon.toSummon().getKeybladeLevel(stack);
+			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(),level);
+			if(abilities.contains(string)) {
+				return true;
+			}
+		}
+		
+		//If it's not in the weapon abilities checks normal abilities
 		if(abilityMap.containsKey(string)) {
 			return abilityMap.get(string)[1] > 0;
 		}

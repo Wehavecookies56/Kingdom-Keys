@@ -3117,7 +3117,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that boasts superior Strength and ground combo speed.");
 
 		getBuilder(Strings.twoBecomeOne).keychain(Strings.twoBecomeOneChain).baseStats(6,3)
-            .abilities("Treasure Magnet", "Formchange Extender")
+            .abilities("kingdomkeys:ability_light_and_darkness")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,4).withMaterials(new Recipe()

@@ -17,6 +17,7 @@ public class KeybladeData {
 	public KeychainItem keychain;
     //The level 0 stats
     int baseStrength, baseMagic;
+    String baseAbility;
     //List of upgrades for the keyblade
     @Nullable List<KeybladeLevel> levels;
     //Description for the tooltip of the keyblade
@@ -58,6 +59,14 @@ public class KeybladeData {
     	} else {
     		this.keychain = null;
     	}
+    }
+    
+    public void setBaseAbility(String ability) {
+    	this.baseAbility = ability;
+    }
+    
+    public String getBaseAbility() {
+    	return baseAbility;
     }
 
     public KeychainItem getKeychain() {

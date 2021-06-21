@@ -6,7 +6,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 public class Ability extends ForgeRegistryEntry<Ability> {
 
 	public static enum AbilityType{
-		ACTION, GROWTH, SUPPORT
+		ACTION, GROWTH, SUPPORT, WEAPON
 	}
 	
     String name;

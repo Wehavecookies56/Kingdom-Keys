@@ -1,7 +1,6 @@
 {
   "abilities": [
-    "Treasure Magnet",
-    "Formchange Extender"
+    ""
   ],
   "keychain": "kingdomkeys:incomplete_kiblade_chain",
   "base_stats": {
@@ -21,7 +20,8 @@
           "material": "kingdomkeys:mat_fluorite",
           "quantity": 1
         }
-      ]
+      ],
+	  "ability": "kingdomkeys:ability_light_and_darkness"
     },
     {
       "str": 11,

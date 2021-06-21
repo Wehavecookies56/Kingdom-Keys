@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -17,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
@@ -25,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
@@ -82,8 +85,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int buttonPosX = (int) boxPosX + 10;
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = 100;
-		int i = 0;
 		
+		int i = 0;
 
 		for (i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
@@ -96,6 +99,17 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			abilities.get(i).visible = false;
 		}
 		
+		if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
+			List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
+			for(String a : abilitiesList) {
+				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+				if(ability != null) {
+					MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(ability.getTranslationKey()), AbilityType.WEAPON, (e) -> { });
+					abilities.add(aa);
+					aa.visible = false;
+				}
+			}
+		}
 		abilities.forEach(this::addButton);
 
         addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> GuiHelper.openMenu()));
@@ -125,7 +139,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		} else { // If ability is unequipped, equip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
 			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP()) {
-				
 				return;
 			} else {
 				lvlIncrease = 1;

@@ -32,7 +32,6 @@ public class KeybladeLevel {
         this.materials = keybladeLevelBuilder.materials;
     }
 
-
     public void setAbility(String ability) {
         this.ability = ability;
     }
@@ -49,7 +48,9 @@ public class KeybladeLevel {
         this.strength = strength;
     }
 
-    public String getAbility() { return this.ability; }
+	public String getAbility() {
+		return this.ability;
+	}
 
     public int getMagic() {
         return magic;
@@ -63,7 +64,7 @@ public class KeybladeLevel {
     	return materials;
     }
 
-    public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String... abilities) {
+    public KeybladeLevel(int strength, int magic, Map<Material, Integer> materials, String ability) {
         this.strength = strength;
         this.magic = magic;
         this.materials = materials;
@@ -83,29 +84,25 @@ public class KeybladeLevel {
 
         public KeybladeLevelBuilder() { }
 
-        public KeybladeLevelBuilder withStats(int str, int mag)
-        {
-            this.strength = str;
-            this.magic = mag;
-            return this;
-        }
+		public KeybladeLevelBuilder withStats(int str, int mag) {
+			this.strength = str;
+			this.magic = mag;
+			return this;
+		}
 
-        public KeybladeLevelBuilder withAbilties(String... abilities)
-        {
-            this.ability = abilities[0];
-            return this;
-        }
+		public KeybladeLevelBuilder withAbilty(String ability) {
+			this.ability = ability;
+			return this;
+		}
 
-        public KeybladeLevelBuilder withMaterials(KeybladeStats.Recipe recipe)
-        {
-            this.materials = recipe.asMap();
-            return this;
-        }
+		public KeybladeLevelBuilder withMaterials(KeybladeStats.Recipe recipe) {
+			this.materials = recipe.asMap();
+			return this;
+		}
 
-        public KeybladeLevel build()
-        {
-            return new KeybladeLevel(this);
-        }
-    }
+		public KeybladeLevel build() {
+			return new KeybladeLevel(this);
+		}
+	}
 }
 

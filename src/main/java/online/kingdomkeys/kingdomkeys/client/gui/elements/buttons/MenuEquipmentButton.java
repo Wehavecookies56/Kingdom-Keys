@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -17,6 +19,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -196,18 +200,25 @@ public class MenuEquipmentButton extends Button {
                     float strPosY = parent.height * 0.56F;
                     float strNumPosX = parent.width * 0.77F;
                     float magPosY = parent.height * 0.60F;
-                    int strength = 0;
-                    int magic = 0;
-                    boolean showData = true;
-                    if (stack.getItem() instanceof IKeychain) {
-                    	strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
-                    	magic = ((IKeychain) stack.getItem()).toSummon().getMagic(stack);
-                    } else if (stack.getItem() instanceof KeybladeItem) {
-                    	strength = ((KeybladeItem) stack.getItem()).getStrength(stack);
-                    	magic = ((KeybladeItem) stack.getItem()).getMagic(stack);
-                    } else if(stack.getItem() instanceof IOrgWeapon) {
-                    	strength = ((OrgWeaponItem)stack.getItem()).getStrength();
-                    	magic = ((OrgWeaponItem)stack.getItem()).getMagic();
+                    float abiPosX = parent.width * 0.7F;
+                    float abiPosY = parent.height * 0.65F;
+					int strength = 0;
+					int magic = 0;
+					List<String> abilities = new ArrayList<String>();
+					boolean showData = true;
+					if (stack.getItem() instanceof IKeychain) {
+						strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
+						magic = ((IKeychain) stack.getItem()).toSummon().getMagic(stack);
+						int level = ((IKeychain) stack.getItem()).toSummon().getKeybladeLevel(stack);
+						abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(),level);
+					} else if (stack.getItem() instanceof KeybladeItem) {
+						strength = ((KeybladeItem) stack.getItem()).getStrength(stack);
+						magic = ((KeybladeItem) stack.getItem()).getMagic(stack);
+						int level = ((KeybladeItem) stack.getItem()).getKeybladeLevel(stack);
+						abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
+					} else if (stack.getItem() instanceof IOrgWeapon) {
+						strength = ((OrgWeaponItem) stack.getItem()).getStrength();
+						magic = ((OrgWeaponItem)stack.getItem()).getMagic();
                     } else if (stack.getItem() instanceof ArmorItem) {
                         //ArmorItem armour = (ArmorItem) stack.getItem();
                         //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)
@@ -218,8 +229,10 @@ public class MenuEquipmentButton extends Button {
                     	showData = false;
                     }
                     if(showData) {
+                    	abilities.remove(null);
 	                    String strengthStr = String.valueOf(strength);
 	                    String magicStr = String.valueOf(magic);
+	                    
 	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 	                    int totalStrength = playerData.getStrength() + strength;
 	                    int totalMagic = playerData.getMagic() + magic;
@@ -245,6 +258,16 @@ public class MenuEquipmentButton extends Button {
 						drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
 						drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
 	
+						if(abilities.size() > 0) {
+							drawString(matrixStack, fr, new TranslationTextComponent("Abilities").getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
+							for(int i = 0; i < abilities.size();i++) {
+								Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(i)));
+				                mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			                    blit(matrixStack, (int) strPosX-6, (int) abiPosY + ((i+1)*10)-3, 73, 102, 12, 12);
+								drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+10, (int) abiPosY + ((i+1)*10), 0xFFFFFF);
+							}
+						}
+						
 						if(stack.getItem() instanceof KeychainItem) {
 							float tooltipPosX = parent.width * 0.3333F;
 	                    	float tooltipPosY = parent.height * 0.8F;

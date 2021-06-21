@@ -104,6 +104,8 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			case SUPPORT:
 				RenderSystem.color3f(0, 0.4F, 0);
 				break;
+			case WEAPON:
+				RenderSystem.color3f(0.4F, 0, 0);
 			}
 		}
 	}
@@ -133,7 +135,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		{
 			RenderSystem.color4f(1, 1, 1, 1);
 			
-			if(!equipped) {
+			if(!equipped && abilityType != AbilityType.WEAPON) {
 				blit(matrixStack, x+6, y+4, 74, 102, 12, 12);
 			} else {
 				blit(matrixStack, x+6, y+4, 87, 102, 12, 12);
@@ -158,7 +160,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 
 	@Override
 	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-		if(isHovered)
+		if(isHovered && abilityType != AbilityType.WEAPON)
 			return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
 		else 
 			return false;

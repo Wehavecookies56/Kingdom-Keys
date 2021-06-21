@@ -34,14 +34,12 @@ public class MenuEquipmentScreen extends MenuBackground {
     public MenuEquipmentScreen() {
         super(Strings.Gui_Menu_Items_Equipment, new Color(0,0,255));
         drawSeparately = true;
-//        minecraft = Minecraft.getInstance();
     }
     
     public MenuEquipmentScreen(boolean showingKeyblades) {
         super(Strings.Gui_Menu_Items_Equipment, new Color(0,0,255));
         drawSeparately = true;
         this.showingKeyblades = showingKeyblades;
-//        minecraft = Minecraft.getInstance();
     }
 
     int scrollOffset = 0;
@@ -86,9 +84,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         } else {
         	showingKeyblades = true;
         }
-        
-        
-        
+                
         if (keychains.get(DriveForm.NONE) != null) {
             MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
             addButton(firstslot);
@@ -103,8 +99,6 @@ public class MenuEquipmentScreen extends MenuBackground {
             }
         }
         
-       
-
         Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.getValue(f.getKey()).getOrder());
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();

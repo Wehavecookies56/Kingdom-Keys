@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
 /**
@@ -61,8 +62,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 				});
 				break;
 			case "levels":
-				// A keyblade without a keychain doesn't have upgrades so only read levels if it
-				// does have one
+				// A keyblade without a keychain doesn't have upgrades so only read levels if it does have one
 				if (out.keychain != null) {
 					List<KeybladeLevel> levels = new ArrayList<>();
 					JsonArray levelsArray = element.getAsJsonArray();
@@ -101,7 +101,12 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 								});
 								break;
 							case "ability":
-								level.setAbility(levelElement.getAsString());
+								if(ModAbilities.registry.containsKey(new ResourceLocation(levelElement.getAsString()))) {
+									level.setAbility(levelElement.getAsString());
+									System.out.println("Added ability "+levelElement.getAsString()+" for level "+level);
+								} else {
+									System.out.println("WTF");
+								}
 								break;
 							}
 						});
