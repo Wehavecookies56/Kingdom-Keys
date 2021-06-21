@@ -119,8 +119,13 @@ public class CSSummonKeyblade {
 				}
 			} else {
 				if(playerData.isAbilityEquipped(Strings.synchBlade)) {
-					extraChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
+					if(playerData.getAlignment() == OrgMember.NONE || playerData.getAlignment() == OrgMember.ROXAS) {
+						extraChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
+					} else {
+						extraChain = orgWeapon;
+					}
 				}
+			
 			}
 			//TODO dual wield org weapons
 			int slotSummoned = Utils.findSummoned(player.inventory, chain, false);
@@ -157,12 +162,22 @@ public class CSSummonKeyblade {
 				if (extraChain != null) {
 					if (!ItemStack.areItemStacksEqual(extraChain, ItemStack.EMPTY)) {
 						if (ItemStack.areItemStacksEqual(offHeldStack, ItemStack.EMPTY)) {
-							ItemStack keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
+							ItemStack keyblade;
+							if(extraChain.getItem() instanceof IKeychain) {
+								keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
+							} else {
+								keyblade = new ItemStack(extraChain.getItem());
+							}
 							keyblade.setTag(extraChain.getTag());
 							player.inventory.setInventorySlotContents(40, keyblade);
 							player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 						} else if (player.inventory.getFirstEmptyStack() > -1) {
-							ItemStack keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
+							ItemStack keyblade;
+							if(extraChain.getItem() instanceof IKeychain) {
+								keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
+							} else {
+								keyblade = new ItemStack(extraChain.getItem());
+							}
 							keyblade.setTag(extraChain.getTag());
 							Utils.swapStack(player.inventory, player.inventory.getFirstEmptyStack(), 40);
 							player.inventory.setInventorySlotContents(40, keyblade);
@@ -190,6 +205,9 @@ public class CSSummonKeyblade {
 					}
 					playerData.setWeaponsUnlocked(weapons);
 					player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
+					if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+						player.inventory.setInventorySlotContents(40, ItemStack.EMPTY);
+					}
 					player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 				}
 			} else if (slotSummoned > -1) {

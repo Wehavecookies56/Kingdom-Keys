@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.command.KKHeartsCommand;
 import online.kingdomkeys.kingdomkeys.command.KKLevelCommand;
 import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
 import online.kingdomkeys.kingdomkeys.command.KKMunnyCommand;
+import online.kingdomkeys.kingdomkeys.command.KKPayMunnyCommand;
 import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
@@ -175,6 +176,7 @@ public class KingdomKeys {
 		DimensionCommand.register(dispatcher);
 		KKHeartsCommand.register(dispatcher);
 		KKDrivePointsCommand.register(dispatcher);
+		KKPayMunnyCommand.register(dispatcher);
 	}
 
 	

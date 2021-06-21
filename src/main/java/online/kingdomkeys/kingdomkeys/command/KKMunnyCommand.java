@@ -40,10 +40,7 @@ public class KKMunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay
 								.executes(KKMunnyCommand::removeValue))
 						.executes(KKMunnyCommand::removeValue)));
 		
-		builder.then(Commands.literal("pay")
-				.then(Commands.argument("value", IntegerArgumentType.integer(1, Integer.MAX_VALUE))
-						.then(Commands.argument("targets", EntityArgument.players())
-							.executes(KKMunnyCommand::payValue))));
+	
 
 		dispatcher.register(builder);
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
@@ -106,29 +103,6 @@ public class KKMunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay
 		context.getSource().sendFeedback(new TranslationTextComponent("Taken " + value + " munny from " + player.getDisplayName().getString()), true);
 
 		player.sendMessage(new TranslationTextComponent("Your munny has been decreased by " + value), Util.DUMMY_UUID);
-		return 1;
-	}
-	
-	private static int payValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
-		int value = IntegerArgumentType.getInteger(context, "value");
-
-		for (ServerPlayerEntity player : players) {
-			payValue(context, value, player);
-		}
-		return 1;
-	}
-
-	private static int payValue(CommandContext<CommandSource> context, int value, ServerPlayerEntity player) throws CommandSyntaxException {
-		ServerPlayerEntity user = context.getSource().asPlayer();
-		IPlayerCapabilities userData = ModCapabilities.getPlayer(user);
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
-		userData.setMunny(userData.getMunny() - value);
-		playerData.setMunny(playerData.getMunny() + value);
-
-		context.getSource().sendFeedback(new TranslationTextComponent(user.getDisplayName().getString() + " paid " + value + " munny to " + player.getDisplayName().getString()), true);
-		player.sendMessage(new TranslationTextComponent("You paid " + value + " munny to " + player.getDisplayName().getString()), Util.DUMMY_UUID);
 		return 1;
 	}
 }
