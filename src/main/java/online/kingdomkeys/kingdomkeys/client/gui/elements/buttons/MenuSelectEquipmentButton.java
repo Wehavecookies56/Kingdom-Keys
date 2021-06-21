@@ -109,7 +109,38 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				itemName = new ItemStack(keyblade).getDisplayName().getString();
 			}
 			drawString(matrixStack, minecraft.fontRenderer, itemName, x + 15, y + 3, 0xFFFFFF);
-			
+			String ab = "N/A";
+			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			matrixStack.push();
+			{
+				RenderSystem.enableBlend();
+				//RenderSystem.enableAlpha();
+				RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+				matrixStack.translate(x + width + 2.1F, y, 0);
+				matrixStack.scale(0.5F, 0.5F, 1);
+				blit(matrixStack, 0, 0, 219, 34, 15, 28);
+				float labelWidth = parent.width * 0.1953F;
+
+				for (int i = 0; i < (labelWidth * 2) - (17 + 14); i++) {
+					blit(matrixStack, 14 + i, 0, 184, 34, 2, 28);
+				}
+				blit(matrixStack, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
+			}
+			matrixStack.pop();
+			if (keyblade != null) {
+				int level = keyblade.getKeybladeLevel(stack);
+				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade, level);
+				if (abilities.size() > 0) {
+					Ability a = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(0)));
+					ab = Utils.translateToLocal(a.getTranslationKey());
+				}
+			}
+
+			float labelWidth = parent.width * 0.1953F;
+
+			float centerX = (labelWidth / 2) - (minecraft.fontRenderer.getStringWidth(ab) / 2);
+			drawString(matrixStack, minecraft.fontRenderer, ab, (int) (x + width + centerX), y + 3, labelColour);
+		
 			if (selected || isHovered) { //Render stuff on the right
 				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				matrixStack.push();
@@ -152,8 +183,6 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					int strength = playerData.getStrength() + ((int) keyblade.getStrength(stack));
 					int magic = playerData.getMagic() + ((int) keyblade.getMagic(stack));
-					int level = keyblade.getKeybladeLevel(stack);
-					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
 					
 					String totalStrengthStr = String.valueOf(strength);
                     String totalMagicStr = String.valueOf(magic);
@@ -179,6 +208,9 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					drawString(matrixStack, fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
 					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
 					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
+					int level = keyblade.getKeybladeLevel(stack);
+
+					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
 
 					if(abilities.size() > 0) {
 						drawString(matrixStack, fr, new TranslationTextComponent("Abilities").getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
@@ -197,31 +229,10 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			}
 			RenderHelper.disableStandardItemLighting();
 			RenderHelper.setupGuiFlatDiffuseLighting();
-			float labelWidth = parent.width * 0.1953F;
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			matrixStack.push();
-			{
-				RenderSystem.enableBlend();
-				//RenderSystem.enableAlpha();
-				RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
-				matrixStack.translate(x + width + 2.1F, y, 0);
-				matrixStack.scale(0.5F, 0.5F, 1);
-				blit(matrixStack, 0, 0, 219, 34, 15, 28);
-				
-				for (int i = 0; i < (labelWidth * 2) - (17 + 14); i++) {
-					blit(matrixStack, 14 + i, 0, 184, 34, 2, 28);
-				}
-				blit(matrixStack, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
-			}
-			matrixStack.pop();
-			String label = "N/A";
-			/*if (item != null && item.getKeyblade() instanceof KeybladeItem) {
-				KeybladeItem itemRealKeyblade = (KeybladeItem) item.getKeyblade();
-				label = (itemRealKeyblade.getAbility() != null) ? Utils.translateToLocal(itemRealKeyblade.getAbility().getName()): "N/A";
-			}*/
-			float centerX = (labelWidth / 2) - (minecraft.fontRenderer.getStringWidth(label) / 2);
-			drawString(matrixStack, minecraft.fontRenderer, label, (int) (x + width + centerX), y + 3, labelColour);
+			
+			
 		}
+		
 		
 	}
 

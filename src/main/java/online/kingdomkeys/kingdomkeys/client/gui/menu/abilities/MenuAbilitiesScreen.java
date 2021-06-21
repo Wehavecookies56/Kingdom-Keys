@@ -79,16 +79,15 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		float boxPosX = (float) width * 0.2F;
 		float topBarHeight = (float) height * 0.17F;
-		float boxWidth = (float) width * 0.45F;
+		float boxWidth = (float) width * 0.5F;
 		float middleHeight = (float) height * 0.6F;
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 
-		int buttonPosX = (int) boxPosX + 10;
+		int buttonPosX = (int) (boxPosX * 1.4F);
 		int buttonPosY = (int) topBarHeight + 5;
-		int buttonWidth = 100;
+		int buttonWidth = (int) (boxWidth * 0.46F);
 		
 		int i = 0;
-
 		for (i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
@@ -122,7 +121,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(ability.getTranslationKey()), AbilityType.WEAPON, (e) -> {
 						});
 						abilities.add(aa);
-						System.out.println("added SB");
 						aa.visible = false;
 					}
 				}
@@ -138,7 +136,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(ability.getTranslationKey()), AbilityType.WEAPON, (e) -> {
 							});
 							abilities.add(aa);
-							System.out.println("Added df");
 							aa.visible = false;
 						}
 					}
@@ -160,9 +157,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		prev.visible = false;
 		next.visible = false;
 		
-		
 		itemsPerPage = (int) (middleHeight / 19);
-
 	}
 
 	private void action(Ability ability) {
@@ -275,7 +270,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int screenWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
 		int screenHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
 
-		int barWidth = 100;
+		int barWidth = (int)(width * 0.2F);
 		int posX = screenWidth - barWidth;
 		int posY = screenHeight - 100;
 		float scale = 1F;

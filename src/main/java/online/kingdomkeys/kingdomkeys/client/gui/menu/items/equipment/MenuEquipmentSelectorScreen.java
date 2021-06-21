@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
 import java.awt.Color;
+import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -10,6 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -57,7 +61,6 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
         addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
-
 		
 		int pos = 0;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -66,7 +69,13 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		String equippedKeychainName = (equippedKeychain != null && equippedKeychain.getItem() instanceof KeychainItem) ?  ((KeychainItem) equippedKeychain.getItem()).getKeyblade().getTranslationKey() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),"N/A", buttonColour));
+		List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(equippedKeychain.getItem(), ((IKeychain) equippedKeychain.getItem()).toSummon().getKeybladeLevel(equippedKeychain));
+		String ability = "N/A";
+		if(abilities.size() > 0) {
+			Ability a = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(0)));
+			ability = Utils.translateToLocal(a.getTranslationKey());
+		}
+		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour));
 		if(form != null) {
 			if (!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
 				if (minecraft.player.inventory.getFirstEmptyStack() > -1)

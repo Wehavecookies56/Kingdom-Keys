@@ -93,6 +93,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				System.err.println("Client: "+(kcItem.getKeybladeLevel(stack)+1));
 			}
 			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selected));
+			init();
 			selected = stack;
 			break;
 		}

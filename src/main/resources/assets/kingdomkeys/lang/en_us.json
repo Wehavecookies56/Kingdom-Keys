@@ -23,7 +23,7 @@
 	"_comment": "Container",
 	"container.magical_chest": "Magical Chest",
 	"container.pedestal": "Pedestal",
-	
+
 	"_comment": "Menu",
 	"gui.menu.back": "Back",
 	"gui.menu.back.desc": "Go back to the previous menu.",
@@ -223,12 +223,16 @@
 	"ability.ability_fire_boost.desc": "Increases damage done with fire-based attacks.",
 	"ability.ability_blizzard_boost.name": "Blizzard Boost",
 	"ability.ability_blizzard_boost.desc": "Increases damage done with blizzard-based attacks.",
+	"ability.ability_thunder_boost.name": "Thunder Boost",
+	"ability.ability_thunder_boost.desc": "Increases damage done with thunder-based attacks.",
 	"ability.ability_experience_boost.name": "Experience Boost",
 	"ability.ability_experience_boost.desc": "Increases experience gained by 100% when you are at half health or less.",
 	"ability.ability_second_chance.name": "Second Chance",
 	"ability.ability_second_chance.desc": "Ensures 1 HP remains after taking massive damage.",
 	"ability.ability_light_and_darkness.name": "Light & Darkness",
 	"ability.ability_light_and_darkness.desc": "",
+	"ability.ability_synch_blade.name": "Synch Blade",
+	"ability.ability_synch_blade.desc": "",
 
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Laser Circle",

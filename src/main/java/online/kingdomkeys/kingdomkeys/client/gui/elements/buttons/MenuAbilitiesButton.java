@@ -60,36 +60,38 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			if (isHovered && active) { //Hovered button
 				drawButton(matrixStack, isHovered);
 				drawString(matrixStack, minecraft.fontRenderer, getMessage().getString().substring(getMessage().getString().indexOf(":")+1), x + 20, y + 6, new Color(255, 255, 255).hashCode());
-				drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-				drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+				if(abilityType != AbilityType.WEAPON) {
+					drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+					drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+				}
 			} else {
 				if(active) {//Not hovered but fully visible
 					drawButton(matrixStack, isHovered);
 					drawString(matrixStack, minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(255, 255, 255).hashCode());
-					drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-					drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
-
+					if(abilityType != AbilityType.WEAPON) {
+						drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+						drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+					}
 				} else {//Not hovered and selected (not fully visible)
 					if(selected) {
 						drawButton(matrixStack, isHovered);
 						drawString(matrixStack, minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
-						drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
-						drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
-
+						if(abilityType != AbilityType.WEAPON) {
+							drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(255, 255, 0).hashCode());
+							drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(255,255,255).hashCode());
+						}
 					} else {
 						drawButton(matrixStack, isHovered);
 						drawString(matrixStack, minecraft.fontRenderer, getMessage(), x + 20, y + 6, new Color(100,100,100).hashCode());
-						drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(180, 180, 0).hashCode());
-						drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(180, 180, 180).hashCode());
-
+						if(abilityType != AbilityType.WEAPON) {
+							drawString(matrixStack, minecraft.fontRenderer, "AP", x +endWidth + middleWidth+ apMiddleWidth-5, y + 6, new Color(180, 180, 0).hashCode());
+							drawString(matrixStack, minecraft.fontRenderer, ap+"", x +endWidth + middleWidth+ apMiddleWidth+10, y + 6, new Color(180, 180, 180).hashCode());
+						}
 					}
 				}
 			}
 			matrixStack.pop();
-			
 		}
-		
-		
 	}
 	
 	private void renderColor() {
@@ -122,14 +124,15 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		}
 		matrixStack.pop();
 		
-		//AP Cost
-		RenderSystem.color3f(0.3F, 0.24F, 0);
-		blit(matrixStack, x+middleWidth+endWidth+10, y-1, 72, 117, endWidth, height);
-		for (int i = 0; i < apMiddleWidth; i++) {
-			blit(matrixStack, x +middleWidth+ i + endWidth+19, y, middleU, vPos, 1, height);
+		if(abilityType != AbilityType.WEAPON) {
+			//AP Cost
+			RenderSystem.color3f(0.3F, 0.24F, 0);
+			blit(matrixStack, x+middleWidth+endWidth+10, y-1, 72, 117, endWidth, height);
+			for (int i = 0; i < apMiddleWidth; i++) {
+				blit(matrixStack, x +middleWidth+ i + endWidth+19, y, middleU, vPos, 1, height);
+			}
+			blit(matrixStack, x + endWidth + middleWidth+apMiddleWidth +19, y, rightU, vPos, endWidth, height);
 		}
-		blit( matrixStack, x + endWidth + middleWidth+apMiddleWidth +19, y, rightU, vPos, endWidth, height);
-		
 		//Equipped/Unequipped icon
 		matrixStack.push();
 		{
