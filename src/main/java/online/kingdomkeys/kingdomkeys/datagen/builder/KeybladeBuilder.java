@@ -61,7 +61,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         return self();
     }
 
-    public T abilities(String ability) {
+    public T ability(String ability) {
         this.baseAbility = ability;
         return self();
     }

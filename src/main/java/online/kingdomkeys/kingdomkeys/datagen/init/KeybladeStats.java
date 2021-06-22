@@ -26,7 +26,7 @@ public class KeybladeStats extends KeybladeProvider {
     @Override
     protected void registerKeyblades() {
 		getBuilder(Strings.abaddonPlasma).keychain(Strings.abaddonPlasmaChain).baseStats(6,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
@@ -56,7 +56,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that lets you string together faster, incredibly long ground combos.");
 
 		getBuilder(Strings.abyssalTide).keychain(Strings.abyssalTideChain).baseStats(4,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,1).withMaterials(new Recipe()
@@ -86,7 +86,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that performs very well in midair. Excellent for taking on fliers.");
 
 		getBuilder(Strings.acedsKeyblade).keychain(Strings.acedsKeybladeChain).baseStats(10,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,9).withMaterials(new Recipe()
@@ -116,7 +116,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade owned by Ursus' Foreteller.");
 
 		getBuilder(Strings.allForOne).keychain(Strings.allForOneChain).baseStats(6,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,7).withMaterials(new Recipe()
@@ -146,7 +146,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that triggers fewer Reality Shifts, but compensates with a boost in Magic and more frequent critical hits.");
 
 		getBuilder(Strings.astralBlast).keychain(Strings.astralBlastChain).baseStats(6,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
@@ -176,7 +176,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that lets you string together longer ground and aerial combos.");
 
 		getBuilder(Strings.aubade).keychain(Strings.aubadeChain).baseStats(6,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
@@ -206,7 +206,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that draws forth its wielder's personality.");
 
 		getBuilder(Strings.avasKeyblade).keychain(Strings.avasKeybladeChain).baseStats(10,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,9).withMaterials(new Recipe()
@@ -236,7 +236,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade owned by Vulpeus' Foreteller.");
 
 		getBuilder(Strings.bondOfFlame).keychain(Strings.bondOfFlameChain).baseStats(8,8)
-            .abilities(Strings.fireBoost)
+            .ability(Strings.fireBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,9).withMaterials(new Recipe()
@@ -266,7 +266,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Enhances magic to increase damage dealt by fire-based attacks.");
 
 		getBuilder(Strings.brightcrest).keychain(Strings.brightcrestChain).baseStats(5,10)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,11).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,11).withMaterials(new Recipe()
@@ -296,7 +296,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an outstanding boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.");
 
 		getBuilder(Strings.chaosRipper).keychain(Strings.chaosRipperChain).baseStats(13,-2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(13,-1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,-1).withMaterials(new Recipe()
@@ -326,7 +326,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that does little for your Magic, but provides an outstanding boost in Strength.");
 
 		getBuilder(Strings.circleOfLife).keychain(Strings.circleOfLifeChain).baseStats(8,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,3).withMaterials(new Recipe()
@@ -356,7 +356,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has great strength, increasing MP restoration speed after MP is consumed.");
 
 		getBuilder(Strings.counterpoint).keychain(Strings.counterpointChain).baseStats(8,7)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,8).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,8).withMaterials(new Recipe()
@@ -386,7 +386,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.");
 
 		getBuilder(Strings.crabclaw).keychain(Strings.crabclawChain).baseStats(6,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,4).withMaterials(new Recipe()
@@ -416,7 +416,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Raises max MP by 1, and enhances magic and summon power. Also deals good physical damage.");
 
 		getBuilder(Strings.crownOfGuilt).keychain(Strings.crownOfGuiltChain).baseStats(5,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,9).withMaterials(new Recipe()
@@ -446,7 +446,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that boosts your Magic to give it incredible power.");
 
 		getBuilder(Strings.darkerThanDark).keychain(Strings.darkerThanDarkChain).baseStats(6,9)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,10).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,10).withMaterials(new Recipe()
@@ -476,7 +476,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that offers high Magic and combo reach.");
 
 		getBuilder(Strings.darkgnaw).keychain(Strings.darkgnawChain).baseStats(7,1)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,2).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,2).withMaterials(new Recipe()
@@ -506,7 +506,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.");
 
 		getBuilder(Strings.decisivePumpkin).keychain(Strings.decisivePumpkinChain).baseStats(12,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(12,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(13,3).withMaterials(new Recipe()
@@ -536,7 +536,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The greater number of combos landed, the more damage is dealt, leading to a strong finishing move!");
 
 		getBuilder(Strings.destinysEmbrace).keychain(Strings.destinysEmbraceChain).baseStats(4,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,4).withMaterials(new Recipe()
@@ -566,7 +566,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that makes it easier to land critical hits.");
 
 		getBuilder(Strings.diamondDust).keychain(Strings.diamondDustChain).baseStats(3,10)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,11).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,11).withMaterials(new Recipe()
@@ -596,7 +596,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Greatly enhances magic and summon power. Raises max MP by 3.");
 
 		getBuilder(Strings.divewing).keychain(Strings.divewingChain).baseStats(8,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,9).withMaterials(new Recipe()
@@ -626,7 +626,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.");
 
 		getBuilder(Strings.divineRose).keychain(Strings.divineRoseChain).baseStats(11,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(12,1).withMaterials(new Recipe()
@@ -656,7 +656,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A powerful weapon that is difficult to deflect. Capable of dealing a string of critical blows.");
 
 		getBuilder(Strings.dualDisc).keychain(Strings.dualDiscChain).baseStats(5,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,4).withMaterials(new Recipe()
@@ -686,7 +686,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.");
 
 		getBuilder(Strings.earthshaker).keychain(Strings.earthshakerChain).baseStats(4,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,1).withMaterials(new Recipe()
@@ -716,7 +716,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade Terra started out with. What it lacks in reach it makes up for with a slight boost in Strength.");
 
 		getBuilder(Strings.endOfPain).keychain(Strings.endOfPainChain).baseStats(10,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,9).withMaterials(new Recipe()
@@ -746,7 +746,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with high magical power and critical hit rate, but reduces the occurrence of Reality Shift.");
 
 		getBuilder(Strings.endsOfTheEarth).keychain(Strings.endsOfTheEarthChain).baseStats(8,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,5).withMaterials(new Recipe()
@@ -776,7 +776,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A well-balanced Keyblade that provides an extra boost to all your stats.");
 
 		getBuilder(Strings.fairyHarp).keychain(Strings.fairyHarpChain).baseStats(6,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,5).withMaterials(new Recipe()
@@ -806,7 +806,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.");
 
 		getBuilder(Strings.fairyStars).keychain(Strings.fairyStarsChain).baseStats(2,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(2,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,3).withMaterials(new Recipe()
@@ -836,7 +836,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that provides a balanced boost in Strength and Magic.");
 
 		getBuilder(Strings.fatalCrest).keychain(Strings.fatalCrestChain).baseStats(6,10)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,11).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,11).withMaterials(new Recipe()
@@ -866,7 +866,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Increases strength during MP Charge and allows unlimited chaining of combos.");
 
 		getBuilder(Strings.fenrir).keychain(Strings.fenrirChain).baseStats(14,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(15,3).withMaterials(new Recipe()
@@ -896,7 +896,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has great range and strength, but maximum ground and midair combos are decreased by 1.");
 
 		getBuilder(Strings.ferrisGear).keychain(Strings.ferrisGearChain).baseStats(5,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,5).withMaterials(new Recipe()
@@ -926,7 +926,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.");
 
 		getBuilder(Strings.bondOftheBlaze).keychain(Strings.bondOfTheBlazeChain).baseStats(8,6)
-            .abilities(Strings.fireBoost)
+            .ability(Strings.fireBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,7).withMaterials(new Recipe()
@@ -956,7 +956,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade wielded by Lea.");
 
 		getBuilder(Strings.followTheWind).keychain(Strings.followTheWindChain).baseStats(6,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,3).withMaterials(new Recipe()
@@ -986,7 +986,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Draws in nearby orbs.");
 
 		getBuilder(Strings.frolicFlame).keychain(Strings.frolicFlameChain).baseStats(4,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,5).withMaterials(new Recipe()
@@ -1016,7 +1016,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A well-balanced Keyblade that provides an extra boost to all of your stats.");
 
 		getBuilder(Strings.glimpseOfDarkness).keychain(Strings.glimpseOfDarknessChain).baseStats(6,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
@@ -1046,7 +1046,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that possesses very high Strength. Effective against tough enemies.");
 
 		getBuilder(Strings.guardianBell).keychain(Strings.guardianBellChain).baseStats(4,5)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,6).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,6).withMaterials(new Recipe()
@@ -1076,7 +1076,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an extra boost in Magic.");
 
 		getBuilder(Strings.guardianSoul).keychain(Strings.guardianSoulChain).baseStats(10,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,3).withMaterials(new Recipe()
@@ -1106,7 +1106,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has great strength, increasing the amount of damage dealt from Reaction Commands.");
 
 		getBuilder(Strings.gulasKeyblade).keychain(Strings.gulasKeybladeChain).baseStats(10,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,9).withMaterials(new Recipe()
@@ -1136,7 +1136,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade owned by Leopardos' Foreteller.");
 
 		getBuilder(Strings.gullWing).keychain(Strings.gullWingChain).baseStats(4,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,7).withMaterials(new Recipe()
@@ -1166,7 +1166,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Greatly increases the amount of experience gained when defeating an enemy at a critical moment.");
 
 		getBuilder(Strings.herosCrest).keychain(Strings.herosCrestChain).baseStats(8,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,1).withMaterials(new Recipe()
@@ -1196,7 +1196,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Increases the damage of the finishing move in the air relative to the number of hits in the combo.");
 
 		getBuilder(Strings.hiddenDragon).keychain(Strings.hiddenDragonChain).baseStats(4,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,5).withMaterials(new Recipe()
@@ -1226,7 +1226,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Restores MP relative to the amount of damage taken.");
 
 		getBuilder(Strings.hyperdrive).keychain(Strings.hyperdriveChain).baseStats(5,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,5).withMaterials(new Recipe()
@@ -1287,7 +1287,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("An incomplete form of the legendary Keyblade, the χ-blade.");
 		*/
 		getBuilder(Strings.invisKeyblade).keychain(Strings.invisKeybladeChain).baseStats(10,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,9).withMaterials(new Recipe()
@@ -1317,7 +1317,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade owned by Anguis' Foreteller.");
 
 		getBuilder(Strings.irasKeyblade).keychain(Strings.irasKeybladeChain).baseStats(10,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,9).withMaterials(new Recipe()
@@ -1347,7 +1347,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade owned by Unicornis' Foreteller.");
 
 		getBuilder(Strings.jungleKing).keychain(Strings.jungleKingChain).baseStats(5,1)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,2).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,2).withMaterials(new Recipe()
@@ -1377,7 +1377,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has a long reach, but seldom deals critical blows.");
 
 		getBuilder(Strings.keybladeOfPeoplesHearts).keychain(Strings.keybladeOfPeoplesHeartsChain).baseStats(5,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,3).withMaterials(new Recipe()
@@ -1407,7 +1407,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A keyblade with the ability to unlock a person's heart, releasing the darkness within.");
 
 		getBuilder(Strings.kiblade).keychain(Strings.kibladeChain).baseStats(25,15)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(25,16).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(26,16).withMaterials(new Recipe()
@@ -1437,7 +1437,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A legendary weapon, the original Keyblade which all other are imperfectly modeled after.");
 
 		getBuilder(Strings.kingdomKey).keychain(Strings.kingdomKeyChain).baseStats(4,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,4).withMaterials(new Recipe()
@@ -1467,7 +1467,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The key chain attached draws out the Keyblade's true form and power.");
 
 		getBuilder(Strings.kingdomKeyD).keychain(Strings.kingdomKeyDChain).baseStats(4,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,4).withMaterials(new Recipe()
@@ -1497,7 +1497,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.");
 
 		getBuilder(Strings.knockoutPunch).keychain(Strings.knockoutPunchChain).baseStats(8,5)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,6).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,6).withMaterials(new Recipe()
@@ -1527,7 +1527,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that lands fewer critical hits, but compensates with a Strength boost and more frequent Reality Shifts.");
 
 		getBuilder(Strings.ladyLuck).keychain(Strings.ladyLuckChain).baseStats(6,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,7).withMaterials(new Recipe()
@@ -1557,7 +1557,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.");
 
 		getBuilder(Strings.leviathan).keychain(Strings.leviathanChain).baseStats(4,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,1).withMaterials(new Recipe()
@@ -1587,7 +1587,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that performs extremely well in midair. Outstanding for taking on fliers.");
 
 		getBuilder(Strings.lionheart).keychain(Strings.lionheartChain).baseStats(9,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,3).withMaterials(new Recipe()
@@ -1617,7 +1617,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.");
 
 		getBuilder(Strings.lostMemory).keychain(Strings.lostMemoryChain).baseStats(10,7)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,8).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,8).withMaterials(new Recipe()
@@ -1647,7 +1647,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
 
 		getBuilder(Strings.lunarEclipse).keychain(Strings.lunarEclipseChain).baseStats(7,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,9).withMaterials(new Recipe()
@@ -1677,7 +1677,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that boosts versatility by greatly boosting both Strength and Magic.");
 
 		getBuilder(Strings.markOfAHero).keychain(Strings.markOfAHeroChain).baseStats(7,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,1).withMaterials(new Recipe()
@@ -1707,7 +1707,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.");
 
 		getBuilder(Strings.mastersDefender).keychain(Strings.mastersDefenderChain).baseStats(12,10)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(12,11).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(13,11).withMaterials(new Recipe()
@@ -1737,7 +1737,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Master Eraqus's Keyblade. All of its stats are high.");
 
 		getBuilder(Strings.maverickFlare).keychain(Strings.maverickFlareChain).baseStats(6,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
@@ -1767,7 +1767,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that offers high Strength and ground combo speed.");
 
 		getBuilder(Strings.metalChocobo).keychain(Strings.metalChocoboChain).baseStats(8,-2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,-1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,-1).withMaterials(new Recipe()
@@ -1797,7 +1797,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Possesses incredible power and reach, but reduces max MP by 1. Rarely deals critical blows.");
 
 		getBuilder(Strings.midnightRoar).keychain(Strings.midnightRoarChain).baseStats(6,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
@@ -1827,7 +1827,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that possesses high Strength. Useful against tough enemies.");
 
 		getBuilder(Strings.mirageSplit).keychain(Strings.mirageSplitChain).baseStats(8,5)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,6).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,6).withMaterials(new Recipe()
@@ -1857,7 +1857,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade formed from a Reality Shift in The World That Never Was.");
 
 		getBuilder(Strings.missingAche).keychain(Strings.missingAcheChain).baseStats(3,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,1).withMaterials(new Recipe()
@@ -1887,7 +1887,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that lets you string together faster, longer ground combos.");
 
 		getBuilder(Strings.monochrome).keychain(Strings.monochromeChain).baseStats(8,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,1).withMaterials(new Recipe()
@@ -1917,7 +1917,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Increases the effect of restoration items used on the field.");
 
 		getBuilder(Strings.moogleOGlory).keychain(Strings.moogleOGloryChain).baseStats(10,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,9).withMaterials(new Recipe()
@@ -1947,9 +1947,9 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Kupo.");
 
 		getBuilder(Strings.mysteriousAbyss).keychain(Strings.mysteriousAbyssChain).baseStats(6,6)
-            .abilities("")
+            .ability(Strings.blizzardBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,7).withMaterials(new Recipe()
-                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).withAbility(Strings.blizzardBoost).build())
+                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 3)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,8).withMaterials(new Recipe()
@@ -1977,7 +1977,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Enhances magic to increase damage dealt by blizzard-based attacks.");
 
 		getBuilder(Strings.nightmaresEnd).keychain(Strings.nightmaresEndChain).baseStats(9,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,4).withMaterials(new Recipe()
@@ -2007,7 +2007,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade formed from a Reality Shift in The World That Never Was.");
 
 		getBuilder(Strings.nightmaresEndAndMirageSplit).keychain(Strings.nightmaresEndAndMirageSplitChain).baseStats(20,9)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(20,10).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(21,10).withMaterials(new Recipe()
@@ -2037,7 +2037,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade formed by combining both the Mirage Split and Nightmare's End.");
 
 		getBuilder(Strings.noName).keychain(Strings.noNameChain).baseStats(13,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(13,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,7).withMaterials(new Recipe()
@@ -2067,7 +2067,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade weilded by Master Xehanort.");
 
 		getBuilder(Strings.noNameBBS).keychain(Strings.noNameBBSChain).baseStats(11,10)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,11).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(12,11).withMaterials(new Recipe()
@@ -2097,9 +2097,9 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.");
 
 		getBuilder(Strings.oathkeeper).keychain(Strings.oathkeeperChain).baseStats(8,4)
-            .abilities(Strings.formBoost)
+            .ability(Strings.formBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,5).withMaterials(new Recipe()
-                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).withAbility(Strings.formBoost).build())
+                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 3)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,6).withMaterials(new Recipe()
@@ -2127,9 +2127,9 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Enhances magic and increases the duration of a Drive Form.");
 
 		getBuilder(Strings.oblivion).keychain(Strings.oblivionChain).baseStats(10,-1)
-            .abilities(Strings.driveBoost)
+            .ability(Strings.driveBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,0).withMaterials(new Recipe()
-                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).withAbility(Strings.driveBoost).build())
+                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,0).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 3)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,1).withMaterials(new Recipe()
@@ -2157,7 +2157,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has great strength, and allows the Drive Gauge to restore quickly during MP Charge.");
 
 		getBuilder(Strings.oceansRage).keychain(Strings.oceansRageChain).baseStats(6,5)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,6).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,6).withMaterials(new Recipe()
@@ -2187,7 +2187,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that lands fewer critical hits, but compensates with a boost in Magic and more frequent Reality Shifts.");
 
 		getBuilder(Strings.olympia).keychain(Strings.olympiaChain).baseStats(9,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,1).withMaterials(new Recipe()
@@ -2217,7 +2217,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A powerful weapon that is difficult to deflect. Capable of inflicting mighty critical blows.");
 
 		getBuilder(Strings.omegaWeapon).keychain(Strings.omegaWeaponChain).baseStats(7,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,4).withMaterials(new Recipe()
@@ -2247,7 +2247,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A formidable weapon with exceptional capabilities.");
 
 		getBuilder(Strings.ominousBlight).keychain(Strings.ominousBlightChain).baseStats(4,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,1).withMaterials(new Recipe()
@@ -2277,7 +2277,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that lets you string together faster, much longer ground combos.");
 
 		getBuilder(Strings.oneWingedAngel).keychain(Strings.oneWingedAngelChain).baseStats(7,-4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,-3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,-3).withMaterials(new Recipe()
@@ -2307,7 +2307,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.");
 
 		getBuilder(Strings.painOfSolitude).keychain(Strings.painOfSolitudeChain).baseStats(3,1)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,2).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,2).withMaterials(new Recipe()
@@ -2337,9 +2337,9 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that boosts your Magic to give it more power.");
 
 		getBuilder(Strings.photonDebugger).keychain(Strings.photonDebuggerChain).baseStats(6,4)
-            .abilities("")
+            .ability(Strings.thunderBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,5).withMaterials(new Recipe()
-                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).withAbility(Strings.thunderBoost).build())
+                    .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 3)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,6).withMaterials(new Recipe()
@@ -2367,7 +2367,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Increases damage done by thunder-based attacks.");
 
 		getBuilder(Strings.pixiePetal).keychain(Strings.pixiePetalChain).baseStats(3,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,7).withMaterials(new Recipe()
@@ -2397,7 +2397,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.");
 
 		getBuilder(Strings.pumpkinhead).keychain(Strings.pumpkinheadChain).baseStats(7,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,1).withMaterials(new Recipe()
@@ -2427,7 +2427,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has a long reach and the ability to deal a string of critical blows.");
 
 		getBuilder(Strings.rainfell).keychain(Strings.rainfellChain).baseStats(2,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(2,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,3).withMaterials(new Recipe()
@@ -2457,7 +2457,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.");
 
 		getBuilder(Strings.rejectionOfFate).keychain(Strings.rejectionOfFateChain).baseStats(4,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,1).withMaterials(new Recipe()
@@ -2487,7 +2487,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that enables your attacks to reach a wide area and deal immense damage.");
 
 		getBuilder(Strings.royalRadiance).keychain(Strings.royalRadianceChain).baseStats(14,10)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,11).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(15,11).withMaterials(new Recipe()
@@ -2517,7 +2517,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
 
 		getBuilder(Strings.rumblingRose).keychain(Strings.rumblingRoseChain).baseStats(10,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,1).withMaterials(new Recipe()
@@ -2547,7 +2547,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has great strength, allowing finishing combo moves to be unleashed successively.");
 
 		getBuilder(Strings.shootingStar).keychain(Strings.shootingStarChain).baseStats(3,5)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,6).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,6).withMaterials(new Recipe()
@@ -2577,7 +2577,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with an emphasis on Magic.");
 
 		getBuilder(Strings.signOfInnocence).keychain(Strings.signOfInnocenceChain).baseStats(5,1)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,2).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,2).withMaterials(new Recipe()
@@ -2607,7 +2607,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that boosts your Magic to give it a lot more power.");
 
 		getBuilder(Strings.silentDirge).keychain(Strings.silentDirgeChain).baseStats(5,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,3).withMaterials(new Recipe()
@@ -2637,7 +2637,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that provides versatility by boosting both Strength and Magic. ");
 
 		getBuilder(Strings.skullNoise).keychain(Strings.skullNoiseChain).baseStats(4,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,5).withMaterials(new Recipe()
@@ -2667,7 +2667,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that provides a balanced boost in Strength and Magic.");
 
 		getBuilder(Strings.sleepingLion).keychain(Strings.sleepingLionChain).baseStats(10,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,7).withMaterials(new Recipe()
@@ -2697,7 +2697,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Well-balanced with strength and magic, increasing maximum ground-based combos by 1.");
 
 		getBuilder(Strings.soulEater).keychain(Strings.soulEaterChain).baseStats(8,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,1).withMaterials(new Recipe()
@@ -2727,7 +2727,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A sword that swims with darkness. Possesses high Strength.");
 
 		getBuilder(Strings.spellbinder).keychain(Strings.spellbinderChain).baseStats(4,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,9).withMaterials(new Recipe()
@@ -2757,7 +2757,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Raises max MP by 2, and significantly enhances magic and summon power.");
 
 		getBuilder(Strings.starSeeker).keychain(Strings.starSeekerChain).baseStats(6,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,4).withMaterials(new Recipe()
@@ -2787,7 +2787,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Increases maximum combo by 1 when in midair.");
 
 		getBuilder(Strings.starlight).keychain(Strings.starlightChain).baseStats(6,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,4).withMaterials(new Recipe()
@@ -2817,7 +2817,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A basic Keyblade which is associated with the force of Light.");
 
 		getBuilder(Strings.stormfall).keychain(Strings.stormfallChain).baseStats(7,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,7).withMaterials(new Recipe()
@@ -2847,7 +2847,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A well-balanced Keyblade that provides an extra boost to all your stats.");
 
 		getBuilder(Strings.strokeOfMidnight).keychain(Strings.strokeOfMidnightChain).baseStats(2,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(2,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,3).withMaterials(new Recipe()
@@ -2877,7 +2877,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that makes it easier to land critical hits.");
 
 		getBuilder(Strings.sweetDreams).keychain(Strings.sweetDreamsChain).baseStats(9,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,7).withMaterials(new Recipe()
@@ -2907,7 +2907,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an extra boost in Strength and makes it easier to land critical hits.");
 
 		getBuilder(Strings.sweetMemories).keychain(Strings.sweetMemoriesChain).baseStats(0,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(0,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(1,9).withMaterials(new Recipe()
@@ -2937,7 +2937,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Although it does not enhance attack strength, it increases the drop rate of items.");
 
 		getBuilder(Strings.sweetstack).keychain(Strings.sweetstackChain).baseStats(9,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,7).withMaterials(new Recipe()
@@ -2967,7 +2967,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that provides an extra boost in Strength and ensures every strike is a critical hit.");
 
 		getBuilder(Strings.threeWishes).keychain(Strings.threeWishesChain).baseStats(6,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,3).withMaterials(new Recipe()
@@ -2997,7 +2997,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A powerful weapon that is difficult to deflect.");
 
 		getBuilder(Strings.totalEclipse).keychain(Strings.totalEclipseChain).baseStats(5,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
@@ -3027,7 +3027,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that possesses extreme Strength. Devastates tough enemies.");
 
 		getBuilder(Strings.treasureTrove).keychain(Strings.treasureTroveChain).baseStats(3,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,3).withMaterials(new Recipe()
@@ -3057,7 +3057,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade that makes up for its poor reach with a balanced boost in Strength and Magic.");
 
 		getBuilder(Strings.trueLightsFlight).keychain(Strings.trueLightsFlightChain).baseStats(5,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
@@ -3087,7 +3087,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that enables your attacks to reach a wide area and deal heavy damage.");
 
 		getBuilder(Strings.twilightBlaze).keychain(Strings.twilightBlazeChain).baseStats(6,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,1).withMaterials(new Recipe()
@@ -3117,7 +3117,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon that boasts superior Strength and ground combo speed.");
 
 		getBuilder(Strings.twoBecomeOne).keychain(Strings.twoBecomeOneChain).baseStats(6,3)
-            .abilities("kingdomkeys:ability_light_and_darkness")
+            .ability("kingdomkeys:ability_light_and_darkness")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,4).withMaterials(new Recipe()
@@ -3147,7 +3147,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A weapon of great strength and magic that has a special effect.");
 
 		getBuilder(Strings.ultimaWeaponBBS).keychain(Strings.ultimaWeaponBBSChain).baseStats(8,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,4).withMaterials(new Recipe()
@@ -3177,7 +3177,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The most powerful of Keyblades.");
 
 		getBuilder(Strings.ultimaWeaponDDD).keychain(Strings.ultimaWeaponDDDChain).baseStats(8,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,4).withMaterials(new Recipe()
@@ -3207,7 +3207,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("An outstanding Keyblade that boosts all stats, and makes it easy to both land critical hits and trigger Reality Shifts.");
 
 		getBuilder(Strings.ultimaWeaponKH1).keychain(Strings.ultimaWeaponKH1Chain).baseStats(8,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,4).withMaterials(new Recipe()
@@ -3237,7 +3237,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The ultimate Keyblade. Raises max MP by 2, and possesses maximum power and attributes.");
 
 		getBuilder(Strings.ultimaWeaponKH2).keychain(Strings.ultimaWeaponKH2Chain).baseStats(8,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,4).withMaterials(new Recipe()
@@ -3267,7 +3267,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade above all others, holding all power and will increase MP restoration rate, once all MP has been consumed.");
 
 		getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.ultimaWeaponKH3Chain).baseStats(8,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,4).withMaterials(new Recipe()
@@ -3297,7 +3297,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The supreme Keyblade.");
 
 		getBuilder(Strings.umbrella).keychain(Strings.umbrellaChain).baseStats(2,0)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(2,1).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,1).withMaterials(new Recipe()
@@ -3327,7 +3327,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("This looks awfully familiar...");
 
 		getBuilder(Strings.unbound).keychain(Strings.unboundChain).baseStats(14,7)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,8).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(15,8).withMaterials(new Recipe()
@@ -3357,7 +3357,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Keyblade perfection. It boosts all stats, while making it easy to land critical hits and even easier to trigger Reality Shifts.");
 
 		getBuilder(Strings.victoryLine).keychain(Strings.victoryLineChain).baseStats(5,1)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,2).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,2).withMaterials(new Recipe()
@@ -3387,7 +3387,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with above-average reach that makes it easier to land critical hits.");
 
 		getBuilder(Strings.voidGear).keychain(Strings.voidGearChain).baseStats(14,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(15,7).withMaterials(new Recipe()
@@ -3417,7 +3417,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.");
 		
 		getBuilder(Strings.voidGearRemnant).keychain(Strings.voidGearRemnantChain).baseStats(14,6)
-	        .abilities("")
+	        .ability("")
 	        .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,7).withMaterials(new Recipe()
 	                .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(15,7).withMaterials(new Recipe()
@@ -3447,7 +3447,7 @@ public class KeybladeStats extends KeybladeProvider {
 	        .desc("A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.");
 
 		getBuilder(Strings.wayToTheDawn).keychain(Strings.wayToTheDawnChain).baseStats(7,3)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(7,4).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,4).withMaterials(new Recipe()
@@ -3477,7 +3477,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Deals various attacks.");
 
 		getBuilder(Strings.waywardWind).keychain(Strings.waywardWindChain).baseStats(3,1)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(3,2).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,2).withMaterials(new Recipe()
@@ -3507,7 +3507,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade Ventus started out with. What it lacks in reach it makes up for with a slight boost in Strength.");
 
 		getBuilder(Strings.winnersProof).keychain(Strings.winnersProofChain).baseStats(10,14)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,15).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,15).withMaterials(new Recipe()
@@ -3537,7 +3537,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has high strength and hold's an excellent magic power. When the enemies are defeated, experience points are not gained.");
 
 		getBuilder(Strings.wishingLamp).keychain(Strings.wishingLampChain).baseStats(8,6)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(8,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(9,7).withMaterials(new Recipe()
@@ -3567,7 +3567,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Wishes come true by increasing the drop rate of munny, HP and MP orbs.");
 
 		getBuilder(Strings.wishingStar).keychain(Strings.wishingStarChain).baseStats(5,2)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,3).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(6,3).withMaterials(new Recipe()
@@ -3597,7 +3597,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("Has a short reach, but always finishes up a combo attack with a powerful critical blow.");
 
 		getBuilder(Strings.youngXehanortsKeyblade).keychain(Strings.youngXehanortsKeybladeChain).baseStats(13,8)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(13,9).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(14,9).withMaterials(new Recipe()
@@ -3627,7 +3627,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade weilded by Young Xehanort.");
 
 		getBuilder(Strings.zeroOne).keychain(Strings.zeroOneChain).baseStats(10,4)
-            .abilities("")
+            .ability("")
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(10,5).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(11,5).withMaterials(new Recipe()
