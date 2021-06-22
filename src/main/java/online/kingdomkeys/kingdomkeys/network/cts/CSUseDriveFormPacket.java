@@ -13,14 +13,14 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class CSSetDriveFormPacket {
+public class CSUseDriveFormPacket {
 
 	String form;
 
-	public CSSetDriveFormPacket() {
+	public CSUseDriveFormPacket() {
 	}
 
-	public CSSetDriveFormPacket(String form) {
+	public CSUseDriveFormPacket(String form) {
 		this.form = form;
 	}
 
@@ -29,14 +29,14 @@ public class CSSetDriveFormPacket {
 		buffer.writeString(this.form);
 	}
 
-	public static CSSetDriveFormPacket decode(PacketBuffer buffer) {
-		CSSetDriveFormPacket msg = new CSSetDriveFormPacket();
+	public static CSUseDriveFormPacket decode(PacketBuffer buffer) {
+		CSUseDriveFormPacket msg = new CSUseDriveFormPacket();
 		int length = buffer.readInt();
 		msg.form = buffer.readString(length);
 		return msg;
 	}
 
-	public static void handle(CSSetDriveFormPacket message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSUseDriveFormPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -56,7 +56,6 @@ public class CSSetDriveFormPacket {
 					form.initDrive(player);
 				}
 			}
-
 		});
 		ctx.get().setPacketHandled(true);
 	}

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -45,8 +46,8 @@ public class KeybladeData {
         return level == 0 ? baseMagic : levels.get(level-1).getMagic();
     }
     
-    public String getAbility(int level) {
-        return levels.get(level-1).getAbility();
+    public String getLevelAbility(int level) {
+        return level == 0 ? baseAbility : levels.get(level-1).getAbility();
     }
     
     public String getDescription() {

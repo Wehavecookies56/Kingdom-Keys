@@ -51,7 +51,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetDriveFormPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
@@ -84,7 +84,8 @@ public class InputHandler {
         World world = mc.world;
 
         if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) {
-            PacketHandler.sendToServer(new CSSetDriveFormPacket(Strings.Form_Anti));
+        	PacketHandler.sendToServer(new CSSummonKeyblade(true));
+            PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
     		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -105,7 +106,7 @@ public class InputHandler {
             prob = 25;
 
         if (random * 100 < prob) {
-            PacketHandler.sendToServer(new CSSetDriveFormPacket(Strings.Form_Anti));
+            PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
     		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -369,7 +370,7 @@ public class InputHandler {
 	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) {
 	                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                		} else {
-			                	PacketHandler.sendToServer(new CSSetDriveFormPacket(DriveForm.NONE.toString()));
+			                	PacketHandler.sendToServer(new CSUseDriveFormPacket(DriveForm.NONE.toString()));
 			            		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                		}
 						}
@@ -497,11 +498,11 @@ public class InputHandler {
             	if (playerData.getDP() >= driveForm.getDriveCost()) {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
-	                	PacketHandler.sendToServer(new CSSetDriveFormPacket(formName));
+	                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
 	            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                } else {
 	                    if (!antiFormCheck()) {
-		                	PacketHandler.sendToServer(new CSSetDriveFormPacket(formName));
+		                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
 		            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                    }
 	                }

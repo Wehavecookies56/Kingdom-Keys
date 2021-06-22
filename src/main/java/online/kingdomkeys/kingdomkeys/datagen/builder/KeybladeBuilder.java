@@ -17,7 +17,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
     private ResourceLocation keychain;
     private int baseStr, baseMag;
     private String desc;
-    private String[] baseAbilities;
+    private String baseAbility;
     private ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
 
     public KeybladeBuilder(Object o, Object o1) {
@@ -61,8 +61,8 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         return self();
     }
 
-    public T abilities(String... abilities) {
-        this.baseAbilities = abilities;
+    public T abilities(String ability) {
+        this.baseAbility = ability;
         return self();
     }
 
@@ -76,9 +76,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         JsonObject root = new JsonObject();
         JsonObject baseStat = new JsonObject();
         JsonArray levels = new JsonArray();
-        JsonArray abilities = new JsonArray();
-        Arrays.stream(baseAbilities).forEach(abilities::add);
-        root.add("abilities", abilities);
+        root.addProperty("ability", baseAbility);
 
         if (this.keychain != null) {
             root.addProperty("keychain", this.keychain.toString());

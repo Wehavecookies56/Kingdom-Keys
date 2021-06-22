@@ -659,20 +659,21 @@ public class Utils {
 
 	public static List<String> getKeybladeAbilitiesAtLevel(Item item, int level) {
 		ArrayList<String> abilities = new ArrayList<String>();
+		KeybladeItem keyblade = null;
 		if(item instanceof IKeychain) {
-			for (int i = level; i > 0; i--) {
-				String a = ((IKeychain) item).toSummon().data.getAbility(i);
-				if(a != null)
-					abilities.add(a);
-			}
+			keyblade = ((IKeychain) item).toSummon();
 		} else if(item instanceof KeybladeItem) {
-			for (int i = level; i > 0; i--) {
-				String a = ((KeybladeItem) item).data.getAbility(i);
+			keyblade = ((KeybladeItem) item);
+		}
+		
+		if(keyblade != null) {
+			for (int i = 0; i <= level; i++) {
+				//System.out.println(keyblade.getName().getString()+" "+ i);
+				String a = keyblade.data.getLevelAbility(i);
 				if(a != null)
 					abilities.add(a);
 			}
 		}
-		
 		return abilities;
 	}
 		

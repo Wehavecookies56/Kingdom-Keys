@@ -139,7 +139,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			float labelWidth = parent.width * 0.1953F;
 
 			float centerX = (labelWidth / 2) - (minecraft.fontRenderer.getStringWidth(ab) / 2);
-			drawString(matrixStack, minecraft.fontRenderer, ab, (int) (x + width + centerX+2), y + 3, labelColour);
+			drawString(matrixStack, minecraft.fontRenderer, ab, (int) (x + width + centerX + 3), y + 3, labelColour);
 		
 			if (selected || isHovered) { //Render stuff on the right
 				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

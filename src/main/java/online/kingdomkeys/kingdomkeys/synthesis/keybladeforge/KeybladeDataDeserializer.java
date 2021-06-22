@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 
@@ -37,7 +38,19 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 		JsonObject jsonObject = json.getAsJsonObject();
 		jsonObject.entrySet().forEach(entry -> {
 			JsonElement element = entry.getValue();
+			List<String> abilities = new ArrayList<String>();
+
 			switch (entry.getKey()) {
+			case "ability":
+				// Get item from the registry using the supplied resource location
+				if(!element.getAsString().equals("")) {
+					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(element.getAsString()));
+					// Make sure the item is valid
+					if (ability != null) {
+						out.setBaseAbility(ability.getRegistryName().toString());
+					}
+				}
+				break;
 			case "keychain":
 				// Get item from the registry using the supplied resource location
 				Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(element.getAsString()));

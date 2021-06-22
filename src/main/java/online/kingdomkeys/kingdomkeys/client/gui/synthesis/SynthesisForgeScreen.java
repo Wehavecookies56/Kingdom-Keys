@@ -90,7 +90,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
 				minecraft.player.inventory.setInventorySlotContents(minecraft.player.inventory.getSlotFor(selected), stack);
-				System.err.println("Client: "+(kcItem.getKeybladeLevel(stack)+1));
 			}
 			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selected));
 			init();
@@ -135,15 +134,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-
-		/*Iterator<Entry<ResourceLocation, ItemStack>> it = playerData.getEquippedKeychains().entrySet().iterator();
-		while(it.hasNext()) {
-			Entry<ResourceLocation, ItemStack> entry = it.next();
-			if (entry.getValue().getItem() instanceof KeychainItem) {
-				items.add(entry.getValue());
-			}
-		}*/
 		
 		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 			if (player.inventory.getStackInSlot(i).getItem() instanceof KeychainItem) {
@@ -285,15 +275,14 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			matrixStack.push();
 			{
 				matrixStack.translate(boxM.x+2, height*0.58, 1);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+kb.getKeybladeLevel(selected), 0, -20, 0xFFFF00);
-				
 				int level = kb.getKeybladeLevel(selected);
 				if(level < 10) {
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+level+" -> "+(level+1), 0, -20, 0xFFFF00);				
 					int actualStr = kb.getStrength(level);
 					int nextStr = kb.getStrength(level+1);
 					int actualMag = kb.getMagic(level);
 					int nextMag = kb.getMagic(level+1);
-					String nextAbility = kb.data.getAbility(level+1);
+					String nextAbility = kb.data.getLevelAbility(level+1);
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" -> "+nextStr, 0, -10, 0xFF0000);
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" -> "+nextMag, 0, 0, 0x4444FF);
 					if(nextAbility != null) {
@@ -302,6 +291,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 							drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(a.getTranslationKey()), 0, 10, 0x44FF44);
 					}
 				} else {
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+level, 0, -20, 0xFFFF00);				
 					int actualStr = kb.getStrength(kb.getKeybladeLevel(selected));
 					int actualMag = kb.getMagic(kb.getKeybladeLevel(selected));
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr, 0, -10, 0xFF0000);
