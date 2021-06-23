@@ -215,7 +215,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
 
 					if(abilities.size() > 0) {
-						drawString(matrixStack, fr, new TranslationTextComponent("Abilities").getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
+						drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
 						for(int i = 0; i < abilities.size();i++) {
 							Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(i)));
 			                minecraft.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

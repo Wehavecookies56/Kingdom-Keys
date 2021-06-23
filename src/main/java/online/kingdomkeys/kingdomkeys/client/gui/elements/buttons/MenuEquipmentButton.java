@@ -200,7 +200,7 @@ public class MenuEquipmentButton extends Button {
                     float strPosY = parent.height * 0.56F;
                     float strNumPosX = parent.width * 0.77F;
                     float magPosY = parent.height * 0.60F;
-                    float abiPosX = parent.width * 0.7F;
+                    float abiPosX = parent.width * 0.685F;
                     float abiPosY = parent.height * 0.65F;
 					int strength = 0;
 					int magic = 0;
@@ -259,12 +259,12 @@ public class MenuEquipmentButton extends Button {
 						drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
 	
 						if(abilities.size() > 0) {
-							drawString(matrixStack, fr, new TranslationTextComponent("Abilities").getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
+							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(i)));
 				                mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			                    blit(matrixStack, (int) strPosX-6, (int) abiPosY + ((i+1)*10)-3, 73, 102, 12, 12);
-								drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+10, (int) abiPosY + ((i+1)*10), 0xFFFFFF);
+			                    blit(matrixStack, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
+								drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
 							}
 						}
 						

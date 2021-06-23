@@ -87,6 +87,7 @@
 	"gui.menu.status.darkres": "Dark Resistance",
 	"gui.menu.status.formlevel": "Form Level",
 	"gui.menu.status.formgauge": "Form Gauge",
+	"gui.menu.status.abilities": "Abilities",
 	"gui.menu.config": "Config",
 	"gui.menu.config.bg": "Background",
 	"gui.menu.config.command_menu": "Command Menu",

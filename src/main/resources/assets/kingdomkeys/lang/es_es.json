@@ -87,6 +87,7 @@
 	"gui.menu.status.darkres": "Resistancia Oscuridad",
 	"gui.menu.status.formlevel": "Niv. de Forma",
 	"gui.menu.status.formgauge": "Indicador de Forma",
+	"gui.menu.status.abilities": "Habilidades",
 	"gui.menu.config": "Preferencias",			 
 	"gui.menu.config.bg": "Fondo",
 	"gui.menu.config.command_menu": "Menú Comandos",
@@ -1204,7 +1205,7 @@
 	"soa.confirm.guardian": "poder del guardián.",
 	"soa.confirm.mystic": "poder del hechicero.",
 	"soa.confirm.3": "Has renunciado al",
-	"soa.confirm.5": "¿Es esta la forma que quieres eligir?"
+	"soa.confirm.5": "¿Es esta la forma que quieres eligir?",
 
 	"_comment": "Biomes",
 	"biome.kingdomkeys.dive_to_the_heart": "Descenso al Corazón"													   

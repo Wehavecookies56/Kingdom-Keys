@@ -78,7 +78,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             addButton(orgWeaponSlot);
             addButton(showKeybladesButton = new MenuButton((int)itemsX + (int)(width * 0.264F), (int) itemsY + offset.get()-4 + itemHeight * (offset.get() - 1)  - scrollOffset, (int)-5, new TranslationTextComponent("").getString(), MenuButton.ButtonType.BUTTON, b -> {minecraft.displayGuiScreen(new MenuEquipmentScreen(!showingKeyblades));}));
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getAlignment() == Utils.OrgMember.ROXAS)) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "Synch Blade", 0xFE8185);
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
                 addButton(sbSlot);
             }
         } else {
@@ -93,7 +93,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             hidden.getAndIncrement();
             
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "Synch Blade", 0xFE8185);
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
                 addButton(sbSlot);
                 hidden.getAndIncrement();
             }
