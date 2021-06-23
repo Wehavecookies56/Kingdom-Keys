@@ -111,6 +111,8 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			drawString(matrixStack, minecraft.fontRenderer, itemName, x + 15, y + 3, 0xFFFFFF);
 			String ab = "N/A";
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			float labelWidth = parent.width * 0.215F;
+
 			matrixStack.push();
 			{
 				RenderSystem.enableBlend();
@@ -119,7 +121,6 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				matrixStack.translate(x + width + 2.1F, y, 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				blit(matrixStack, 0, 0, 219, 34, 15, 28);
-				float labelWidth = parent.width * 0.1953F;
 
 				for (int i = 0; i < (labelWidth * 2) - (17 + 14); i++) {
 					blit(matrixStack, 14 + i, 0, 184, 34, 2, 28);
@@ -133,10 +134,11 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				if (abilities.size() > 0) {
 					Ability a = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(0)));
 					ab = Utils.translateToLocal(a.getTranslationKey());
+					if(abilities.size() > 1) {
+						ab+= " [+"+(abilities.size()-1)+"]";
+					}
 				}
 			}
-
-			float labelWidth = parent.width * 0.1953F;
 
 			float centerX = (labelWidth / 2) - (minecraft.fontRenderer.getStringWidth(ab) / 2);
 			drawString(matrixStack, minecraft.fontRenderer, ab, (int) (x + width + centerX + 3), y + 3, labelColour);
@@ -217,8 +219,8 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 						for(int i = 0; i < abilities.size();i++) {
 							Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(i)));
 			                minecraft.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-		                    blit(matrixStack, (int) strPosX-6, (int) abiPosY + ((i+1)*10)-3, 73, 102, 12, 12);
-							drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+10, (int) abiPosY + ((i+1)*10), 0xFFFFFF);
+		                    blit(matrixStack, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
+							drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
 						}
 					}
 					

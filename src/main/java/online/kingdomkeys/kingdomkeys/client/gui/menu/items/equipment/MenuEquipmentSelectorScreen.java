@@ -53,10 +53,9 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		float keybladesWidth = width * 0.5317F;
 		float keybladesHeight = height * 0.5972F;
 		float detailsX = width * 0.675F;
-		float detailsWidth = width * 0.1817F;
+		float detailsWidth = width * 0.2F;
 		float listX = width * 0.1546F;
 		float listY = height * 0.2546F;
-
 
         addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
 

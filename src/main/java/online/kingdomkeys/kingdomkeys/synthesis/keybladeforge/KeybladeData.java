@@ -46,6 +46,7 @@ public class KeybladeData {
         return level == 0 ? baseMagic : levels.get(level-1).getMagic();
     }
     
+    //Returns the base ability if level is 0
     public String getLevelAbility(int level) {
         return level == 0 ? baseAbility : levels.get(level-1).getAbility();
     }

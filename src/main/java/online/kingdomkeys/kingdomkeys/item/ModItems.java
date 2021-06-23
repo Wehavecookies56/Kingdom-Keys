@@ -775,9 +775,9 @@ public class ModItems {
 			driveRecovery = createNewItem(Strings.driveRecovery, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.DRIVE, 300, false, false)),
 			hiDriveRecovery = createNewItem(Strings.hiDriveRecovery, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.DRIVE, 1000, false, false)),
 			refocuser = createNewItem(Strings.refocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 40, true, false)),
-			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 100, true, false)),
+			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 100, true, false));
 			
-			gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
+			//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 	;
 
 
