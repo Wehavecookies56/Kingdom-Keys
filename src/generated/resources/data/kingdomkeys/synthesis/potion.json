@@ -1,4 +1,5 @@
 {
+  "cost": 100,
   "output": {
     "item": "kingdomkeys:potion",
     "quantity": 1,

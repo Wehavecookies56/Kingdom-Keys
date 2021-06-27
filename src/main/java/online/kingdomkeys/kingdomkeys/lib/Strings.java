@@ -415,7 +415,7 @@ public class Strings {
             Gui_Shop_Main_Buy = Gui_Shop_Main + ".buy",
             Gui_Shop_Main_Sell = Gui_Shop_Main + ".sell",
             Gui_Shop_Buy = Gui_Shop + ".buy",
-            Gui_Shop_Buy_Cost = Gui_Shop_Buy + ".cost",
+            Gui_Shop_Buy_Cost = Gui_Shop + ".cost",
             Gui_Shop_Buy_Quantity = Gui_Shop_Buy + ".quantity",
             Gui_Shop_Sell = Gui_Shop + ".sell",
             Gui_Shop_Sell_Price = Gui_Shop_Sell + ".price",

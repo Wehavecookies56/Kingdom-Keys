@@ -120,6 +120,7 @@
 	"gui.synthesis.materials": "Material List",
 	"gui.synthesis.materials.deposit": "Deposit",
 	"gui.synthesis.materials.take": "Take",
+	"gui.shop.cost": "Cost",
 
 	"gui.commandmenu.command": "COMMAND",
 	"gui.commandmenu.attack": "Attack",

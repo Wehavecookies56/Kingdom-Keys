@@ -1,4 +1,5 @@
 {
+  "cost": 3000,
   "output": {
     "item": "kingdomkeys:elixir",
     "quantity": 1,

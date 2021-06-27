@@ -23,7 +23,7 @@ public class KKMunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_munny").requires(source -> source.hasPermissionLevel(2));
 
 		builder.then(Commands.literal("set")
-				.then(Commands.argument("value", IntegerArgumentType.integer(1, Integer.MAX_VALUE))
+				.then(Commands.argument("value", IntegerArgumentType.integer(0, Integer.MAX_VALUE))
 						.then(Commands.argument("targets", EntityArgument.players())
 								.executes(KKMunnyCommand::setValue))
 						.executes(KKMunnyCommand::setValue)));

@@ -158,8 +158,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		if (selected != ItemStack.EMPTY) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
+			boolean enoughMunny = false;
 			if (RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
+				enoughMunny = playerData.getMunny() >= recipe.getCost();
 				create.visible = true;
 				Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();// item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				while (materials.hasNext()) {
@@ -170,7 +172,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				}
 			}
 
-			create.active = enoughMats;
+			create.active = enoughMats && enoughMunny;
 			if(minecraft.player.inventory.getFirstEmptyStack() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 				create.active = false;
 				create.setMessage(new TranslationTextComponent("No empty slot"));
@@ -224,9 +226,16 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		{
 			double offset = (boxM.getWidth()*0.1F);
 			RenderSystem.translated(boxM.x + offset/2, iconPosY, 1);
-			//matrixStack.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 1);
+			if(RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
+				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
+				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
+				drawString(matrixStack, minecraft.fontRenderer, line, boxM.getWidth() - minecraft.fontRenderer.getStringWidth(line) - 6, -8, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+			}
+			//RenderSystem.scalef((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
 			RenderSystem.scalef((float)(boxM.getWidth() / 20F - offset / 20F), (float)(boxM.getWidth() / 20F - offset / 20F), 1);
-			itemRenderer.renderItemIntoGUI(selected, 0, 0);
+			itemRenderer.renderItemIntoGUI(selected, 0, 5);
+			
 		}
 		RenderSystem.popMatrix();
 
@@ -268,6 +277,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
 					i++;
 				}
+				
+				
 			}
 		}
 		RenderSystem.popMatrix();

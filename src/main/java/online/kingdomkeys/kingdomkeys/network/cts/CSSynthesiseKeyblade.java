@@ -64,8 +64,9 @@ public class CSSynthesiseKeyblade {
 					}
 				}
 				
-				if(hasMaterials) { //If the player has the materials substract them and give the item
-				Iterator<Entry<Material, Integer>> ite = recipe.getMaterials().entrySet().iterator();
+				if(hasMaterials && playerData.getMunny() >= recipe.getCost()) { //If the player has the materials substract them and give the item
+					playerData.setMunny(playerData.getMunny() - recipe.getCost());
+					Iterator<Entry<Material, Integer>> ite = recipe.getMaterials().entrySet().iterator();
 					while(ite.hasNext()) {
 						Entry<Material, Integer> m = ite.next();
 						playerData.removeMaterial(m.getKey(), m.getValue());

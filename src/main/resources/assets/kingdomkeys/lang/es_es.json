@@ -40,7 +40,7 @@
 	"gui.menu.main.button.journal": "Diario",
 	"gui.menu.main.button.config": "Preferencias",
 	"gui.menu.main.button.config.desc": "Configura varios aspectos gráficos de los elementos en pantalla.",
-	"gui.menu.main.munny": "Plantines",
+	"gui.menu.main.munny": "Platines",
 	"gui.menu.main.hearts": "Corazones",
 	"gui.menu.main.time": "Hora del Mundo",
 	"gui.menu.main.time.spent": "Tiempo total",
@@ -120,6 +120,7 @@
 	"gui.synthesis.materials": "Materiales",
 	"gui.synthesis.materials.deposit": "Depositar",
 	"gui.synthesis.materials.take": "Sacar",
+	"gui.shop.cost": "Coste",
 
 	"gui.commandmenu.command": "COMANDOS",
 	"gui.commandmenu.attack": "Atacar",
