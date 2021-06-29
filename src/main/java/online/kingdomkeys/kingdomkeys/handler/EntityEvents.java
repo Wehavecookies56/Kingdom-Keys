@@ -122,7 +122,6 @@ public class EntityEvents {
 				} else if(worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.ALWAYS) {
 					worldData.setHeartlessSpawnLevel(1);
 				}
-			
 			}
 			
 			if (!player.world.isRemote) { // Sync from server to client				
@@ -148,7 +147,18 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.driveRecovery.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiDriveRecovery.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.refocuser.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());					
+					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.powerBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
+				}
+				
+				if(!playerData.getKnownRecipeList().contains(ModItems.powerBoost.get().getRegistryName())){
+					playerData.addKnownRecipe(ModItems.powerBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
 				}
 				
 				//Added for old world retrocompatibility
@@ -656,7 +666,7 @@ public class EntityEvents {
 			}
 			
 			if(ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
-				event.setAmount(ModCapabilities.getPlayer(player).getStrength());
+				event.setAmount(ModCapabilities.getPlayer(player).getStrength(true));
 			}
 			
 			LivingEntity target = event.getEntityLiving();
@@ -679,9 +689,7 @@ public class EntityEvents {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
 					}
 				}
-
 			}
-			
 		}
 		
 		//This is outside as it should apply the formula if you have been hit by non player too		
@@ -689,7 +697,7 @@ public class EntityEvents {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense())));
+			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense(true))));
 			if(playerData.getAeroTicks() > 0) {
 				float resistMultiplier = playerData.getAeroLevel() == 0 ? 0.3F : playerData.getAeroLevel() == 1 ? 0.35F : playerData.getAeroLevel() == 2 ? 0.4F : 0;
 				
@@ -881,7 +889,7 @@ public class EntityEvents {
 						newDusk.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Nobody"));
 						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(nobody[1]) / 100, newDusk.getMaxHealth()));
 						newDusk.heal(newDusk.getMaxHealth());
-						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newDusk);
 						
 						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getTrueSource().world);
@@ -890,7 +898,7 @@ public class EntityEvents {
 						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
 						
-						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newShadow);
 						
 						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
@@ -953,16 +961,20 @@ public class EntityEvents {
 		newPlayerData.setLevel(oldPlayerData.getLevel());
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
-		newPlayerData.setStrength(oldPlayerData.getStrength());
-		newPlayerData.setMagic(oldPlayerData.getMagic());
-		newPlayerData.setDefense(oldPlayerData.getDefense());
+		newPlayerData.setStrength(oldPlayerData.getStrength(false));
+		newPlayerData.setBoostStrength(oldPlayerData.getBoostStrength());
+		newPlayerData.setMagic(oldPlayerData.getMagic(false));
+		newPlayerData.setBoostMagic(oldPlayerData.getBoostMagic());
+		newPlayerData.setDefense(oldPlayerData.getDefense(false));
+		newPlayerData.setBoostDefense(oldPlayerData.getBoostDefense());
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
 		newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
 		newPlayerData.setDP(oldPlayerData.getDP());
 		newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
-		newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
+		newPlayerData.setMaxAP(oldPlayerData.getMaxAP(false));
+		newPlayerData.setBoostMaxAP(oldPlayerData.getBoostMaxAP());
 		newPlayerData.setFocus(oldPlayerData.getFocus());
 		newPlayerData.setMaxFocus(oldPlayerData.getMaxFocus());
 		
@@ -1003,6 +1015,7 @@ public class EntityEvents {
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
+		newPlayerData.setShortcutsMap(oldPlayerData.getShortcutsMap());
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
 

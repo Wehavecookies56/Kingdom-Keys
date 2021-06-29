@@ -161,5 +161,9 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.refocuser).output(Strings.refocuser, 1).addCost(250).addType("item").addMaterial(Strings.SM_BlazingShard, 3).addMaterial(Strings.SM_LightningShard, 3).addMaterial(Strings.SM_LucidShard, 3).addMaterial(Strings.SM_HungryShard, 1);
         getBuilder(Strings.hiRefocuser).output(Strings.hiRefocuser, 1).addCost(500).addType("item").addMaterial(Strings.SM_BlazingStone, 3).addMaterial(Strings.SM_LightningStone, 3).addMaterial(Strings.SM_LucidStone, 3).addMaterial(Strings.SM_HungryGem, 1);
 
+        getBuilder(Strings.powerBoost).output(Strings.powerBoost, 1).addCost(6000).addType("item").addMaterial(Strings.SM_MythrilCrystal, 1).addMaterial(Strings.SM_BlazingCrystal, 3).addMaterial(Strings.SM_LightningCrystal, 3).addMaterial(Strings.SM_LucidCrystal, 3).addMaterial(Strings.SM_HungryCrystal, 1);
+        getBuilder(Strings.magicBoost).output(Strings.magicBoost, 1).addCost(6000).addType("item").addMaterial(Strings.SM_MythrilGem, 1).addMaterial(Strings.SM_PulsingCrystal, 3).addMaterial(Strings.SM_WrithingCrystal, 3).addMaterial(Strings.SM_FrostCrystal, 3).addMaterial(Strings.SM_HungryCrystal, 1);
+        getBuilder(Strings.defenseBoost).output(Strings.defenseBoost, 1).addCost(4000).addType("item").addMaterial(Strings.SM_MythrilCrystal, 1).addMaterial(Strings.SM_BlazingCrystal, 3).addMaterial(Strings.SM_LightningCrystal, 3).addMaterial(Strings.SM_LucidCrystal, 3);
+        getBuilder(Strings.apBoost).output(Strings.apBoost, 1).addCost(4000).addType("item").addMaterial(Strings.SM_MythrilGem, 1).addMaterial(Strings.SM_PulsingCrystal, 3).addMaterial(Strings.SM_WrithingCrystal, 3).addMaterial(Strings.SM_FrostCrystal, 3);
     }
 }

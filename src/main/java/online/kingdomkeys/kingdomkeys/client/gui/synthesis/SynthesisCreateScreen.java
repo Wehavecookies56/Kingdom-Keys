@@ -18,6 +18,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -76,11 +78,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	public void init() {
 		float boxPosX = (float) width * 0.1437F;
 		float topBarHeight = (float) height * 0.17F;
-		float boxWidth = (float) width * 0.35F;
+		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.46F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.46F), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
 		
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
@@ -122,7 +124,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
 
 		for (int i = 0; i < items.size(); i++) {
-			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), false));
+			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.28F), false));
 		}
 		
 		inventory.forEach(this::addButton);
@@ -233,8 +235,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				drawString(matrixStack, minecraft.fontRenderer, line, boxM.getWidth() - minecraft.fontRenderer.getStringWidth(line) - 6, -8, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
 			//RenderSystem.scalef((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
-			RenderSystem.scalef((float)(boxM.getWidth() / 20F - offset / 20F), (float)(boxM.getWidth() / 20F - offset / 20F), 1);
-			itemRenderer.renderItemIntoGUI(selected, 0, 5);
+			RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
+			itemRenderer.renderItemIntoGUI(selected, 2, 3);
 			
 		}
 		RenderSystem.popMatrix();
@@ -252,9 +254,18 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			
 			matrixStack.push();
 			{
-				matrixStack.translate(boxM.x+10, height*0.58, 1);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), 0, 0, 0xFF0000);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0), 0, 10, 0x4444FF);
+				matrixStack.translate(boxM.x+20, height*0.58, 1);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), 0, -20, 0xFF0000);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0), 0, -10, 0x4444FF);
+
+				String nextAbility = kb.data.getLevelAbility(0);
+				if(nextAbility != null) {
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities), 0, 0, 0xFFFF44);
+
+					Ability a = ModAbilities.registry.getValue(new ResourceLocation(nextAbility));
+					if(a != null)
+						drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(a.getTranslationKey()), -10, 10, 0x44FF44);
+				}
 			}
 			matrixStack.pop();
 		}

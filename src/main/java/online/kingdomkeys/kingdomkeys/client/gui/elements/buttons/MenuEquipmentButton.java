@@ -234,8 +234,8 @@ public class MenuEquipmentButton extends Button {
 	                    String magicStr = String.valueOf(magic);
 	                    
 	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-	                    int totalStrength = playerData.getStrength() + strength;
-	                    int totalMagic = playerData.getMagic() + magic;
+	                    int totalStrength = playerData.getStrength(true) + strength;
+	                    int totalMagic = playerData.getMagic(true) + magic;
 	                    String openBracketStr = " [ ";
 	                    String openBracketMag = " [ ";
 	                    String totalStrengthStr = String.valueOf(totalStrength);

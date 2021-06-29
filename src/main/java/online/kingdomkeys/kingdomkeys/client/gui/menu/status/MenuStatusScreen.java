@@ -137,19 +137,20 @@ public class MenuStatusScreen extends MenuBackground {
 		addButton(stats_player = new MenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
 
 		int i = 0;
-		for (i = 0; i < playerData.getDriveFormMap().size()-1; i++) {
-			List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
-			forms.remove(DriveForm.NONE.toString());
+		
+		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
+		forms.remove(DriveForm.NONE.toString());
+		forms.remove(DriveForm.SYNCH_BLADE.toString());
+
+		for (i = 0; i < forms.size(); i++) {
 			String formName = forms.get(i);
-			//if (!formName.equals(DriveForm.NONE.toString())) {
-				String name = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getTranslationKey();
-				MenuButton b = new MenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(name), ButtonType.SUBBUTTON, (e) -> {
-					action(formName);
-				});
-				b.setData(formName);
-				dfStats.add(b);
-				addButton(b);
-			//}
+			String name = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getTranslationKey();
+			MenuButton b = new MenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(name), ButtonType.SUBBUTTON, (e) -> {
+				action(formName);
+			});
+			b.setData(formName);
+			dfStats.add(b);
+			addButton(b);
 		}
 		addButton(stats_back = new MenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
@@ -163,13 +164,13 @@ public class MenuStatusScreen extends MenuBackground {
 		
 		addButton(hp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_HP),"" + (int) minecraft.player.getMaxHealth(), 0x008800));
 		addButton(mp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_MP),"" + (int) playerData.getMaxMP(), 0x008800));
-		addButton(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP),"" + Utils.getConsumedAP(playerData)+"/"+playerData.getMaxAP(), 0x008800));
+		addButton(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP),"" + Utils.getConsumedAP(playerData)+"/"+playerData.getMaxAP(true), 0x008800));
 		addButton(driveGauge = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_DriveGauge),"" + (int) playerData.getMaxDP()/100, 0x008800));
 		
 		c=0;
-		addButton(str = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),"" + playerData.getStrength(), 0x880000));
-		addButton(mag = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),"" + playerData.getMagic(), 0x880000));
-		addButton(def = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),"" + playerData.getDefense(), 0x880000));
+		addButton(str = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),"" + playerData.getStrength(true), 0x880000));
+		addButton(mag = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),"" + playerData.getMagic(true), 0x880000));
+		addButton(def = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),"" + playerData.getDefense(true), 0x880000));
 		
 		addButton(fRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_FireRes),"0%", 0x887700));
 		addButton(bRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardRes),"0%", 0x887700));

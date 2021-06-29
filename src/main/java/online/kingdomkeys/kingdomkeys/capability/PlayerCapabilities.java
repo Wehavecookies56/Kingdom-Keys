@@ -50,7 +50,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
-	private int level = 1, exp = 0, expGiven = 0, strength = 1, magic = 1, defense = 1, maxHp = 20, remainingExp = 0, maxAP = 10, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, strength = 1, boostStr = 0, magic = 1, boostMag = 0, defense = 1, boostDef = 0, maxHp = 20, remainingExp = 0, maxAP = 10, boostMaxAP = 0, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -168,8 +168,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public int getStrength() {
-		return strength;
+	public int getStrength(boolean combined) {
+		return combined ? strength + boostStr : strength;
 	}
 
 	@Override
@@ -178,8 +178,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public int getMagic() {
-		return magic;
+	public int getMagic(boolean combined) {
+		return combined ? magic + boostMag : magic;
 	}
 
 	@Override
@@ -188,8 +188,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public int getDefense() {
-		return defense;
+	public int getDefense(boolean combined) {
+		return combined ? defense + boostDef : defense;
 	}
 
 	@Override
@@ -242,8 +242,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public int getMaxAP() {
-		return maxAP;
+	public int getMaxAP(boolean combined) {
+		return combined ? maxAP + boostMaxAP : maxAP;
 	}
 
 	@Override
@@ -1385,5 +1385,45 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void removeShortcut(int position) {
 		this.shortcutsMap.remove(position);
 		
+	}
+
+	@Override
+	public int getBoostStrength() {
+		return boostStr;
+	}
+
+	@Override
+	public void setBoostStrength(int str) {
+		boostStr = str;
+	}
+
+	@Override
+	public int getBoostMagic() {
+		return boostMag;
+	}
+
+	@Override
+	public void setBoostMagic(int mag) {
+		boostMag = mag;
+	}
+
+	@Override
+	public int getBoostDefense() {
+		return boostDef;
+	}
+
+	@Override
+	public void setBoostDefense(int def) {
+		boostDef = def;
+	}
+
+	@Override
+	public int getBoostMaxAP() {
+		return boostMaxAP;
+	}
+
+	@Override
+	public void setBoostMaxAP(int ap) {
+		boostMaxAP = ap;
 	}
 }

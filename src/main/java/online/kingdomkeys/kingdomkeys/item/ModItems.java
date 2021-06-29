@@ -775,8 +775,13 @@ public class ModItems {
 			driveRecovery = createNewItem(Strings.driveRecovery, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.DRIVE, 300, false, false)),
 			hiDriveRecovery = createNewItem(Strings.hiDriveRecovery, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.DRIVE, 1000, false, false)),
 			refocuser = createNewItem(Strings.refocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 40, true, false)),
-			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 100, true, false));
+			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), KKPotionItem.PotionType.FOCUS, 100, true, false)),
 			
+    		powerBoost = createNewItem(Strings.powerBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.powerBoost)),
+			magicBoost = createNewItem(Strings.magicBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.magicBoost)),
+			defenseBoost = createNewItem(Strings.defenseBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.defenseBoost)),
+			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.apBoost));
+    				
 			//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 	;
 

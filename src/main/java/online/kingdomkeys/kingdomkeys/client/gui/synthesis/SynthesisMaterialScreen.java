@@ -153,7 +153,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getTranslationKey()));
 
 		for (int i = 0; i < items.size(); i++) {
-			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), true));
+			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.3255F), true));
 		}
 		
 		inventory.forEach(this::addButton);

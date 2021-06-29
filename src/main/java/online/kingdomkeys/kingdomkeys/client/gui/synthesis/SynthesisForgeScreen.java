@@ -143,7 +143,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
 
 		for (int i = 0; i < items.size(); i++) {
-			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), false));
+			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.3255F), false));
 		}
 		
 		inventory.forEach(this::addButton);

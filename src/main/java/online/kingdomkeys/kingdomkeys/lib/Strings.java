@@ -482,7 +482,13 @@ public class Strings {
         LevelUpMaster = "levelupdrivemaster",
         LevelUpFinal = "levelupdrivefinal",
         
-        gummiShip = "gummiship";
+        gummiShip = "gummiship",
+        
+        powerBoost = "powerboost",
+        magicBoost = "magicboost",
+        defenseBoost = "defenseboost",
+        apBoost = "apboost";
+    	
     
     // Music Discs
     public static final String

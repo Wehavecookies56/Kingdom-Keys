@@ -131,10 +131,10 @@ public class MenuStockScreen extends MenuFilterable {
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
         for (int i = 0; i < items.size(); i += 2) {
         	//Left col
-            inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7),true));
+            inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7), (int)(width * 0.3255F), true));
             if (i + 1 < items.size()) {
             	//Right col
-                inventory.add(new MenuStockItem(this, items.get(i + 1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),true));
+                inventory.add(new MenuStockItem(this, items.get(i + 1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),(int)(width * 0.3255F), true));
             }
         }
         inventory.forEach(this::addButton);

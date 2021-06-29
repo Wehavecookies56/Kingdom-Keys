@@ -33,10 +33,10 @@ public class SCSyncCapabilityPacket {
 	int level = 0;
 	private int exp = 0;
 	private int expGiven = 0;
-	private int strength = 0;
-	private int magic = 0;
-	private int defense = 0;
-	private int maxHp, maxAP;
+	private int strength = 0, boostStr = 0;
+	private int magic = 0, boostMag = 0;
+	private int defense = 0, boostDef = 0;
+	private int maxHp, maxAP=0, boostMaxAP = 0;
 	private int munny = 0;
 	private int antipoints = 0;
 
@@ -81,15 +81,15 @@ public class SCSyncCapabilityPacket {
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
 		this.expGiven = capability.getExperienceGiven();
-		this.strength = capability.getStrength();
-		this.magic = capability.getMagic();
-		this.defense = capability.getDefense();
+		this.strength = capability.getStrength(false);
+		this.magic = capability.getMagic(false);
+		this.defense = capability.getDefense(false);
 		
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		this.recharge = capability.getRecharge();
 		this.maxHp = capability.getMaxHP();
-		this.maxAP = capability.getMaxAP();
+		this.maxAP = capability.getMaxAP(false);
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
 		this.fp = capability.getFP();
@@ -130,6 +130,11 @@ public class SCSyncCapabilityPacket {
 		this.reactionList = capability.getReactionCommands();
 		
 		this.shortcutsMap = capability.getShortcutsMap();
+		
+		this.boostStr = capability.getBoostStrength();
+		this.boostMag = capability.getBoostMagic();
+		this.boostDef = capability.getBoostDefense();
+		this.boostMaxAP = capability.getBoostMaxAP();
 
 	}
 
@@ -140,12 +145,17 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.strength);
 		buffer.writeInt(this.magic);
 		buffer.writeInt(this.defense);
-
+		
+		buffer.writeInt(this.boostStr);
+		buffer.writeInt(this.boostMag);
+		buffer.writeInt(this.boostDef);
+		
 		buffer.writeDouble(this.MP);
 		buffer.writeDouble(this.maxMP);
 		buffer.writeBoolean(this.recharge);
 		buffer.writeInt(this.maxHp);
 		buffer.writeInt(this.maxAP);
+		buffer.writeInt(this.boostMaxAP);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.maxDP);
 		buffer.writeDouble(this.fp);
@@ -277,6 +287,9 @@ public class SCSyncCapabilityPacket {
 		msg.strength = buffer.readInt();
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
+		msg.boostStr = buffer.readInt();
+		msg.boostMag = buffer.readInt();
+		msg.boostDef = buffer.readInt();
 
 		msg.MP = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();
@@ -284,6 +297,7 @@ public class SCSyncCapabilityPacket {
 		msg.maxHp = buffer.readInt();
 		// msg.choice1 = buffer.readString(40);
 		msg.maxAP = buffer.readInt();
+		msg.boostMaxAP = buffer.readInt();
 		msg.dp = buffer.readDouble();
 		msg.maxDP = buffer.readDouble();
 		msg.fp = buffer.readDouble();
@@ -410,11 +424,15 @@ public class SCSyncCapabilityPacket {
 			playerData.setStrength(message.strength);
 			playerData.setMagic(message.magic);
 			playerData.setDefense(message.defense);
+			playerData.setBoostStrength(message.boostStr);
+			playerData.setBoostMagic(message.boostMag);
+			playerData.setBoostDefense(message.boostDef);
 			playerData.setMP(message.MP);
 			playerData.setMaxMP(message.maxMP);
 			playerData.setRecharge(message.recharge);
 			playerData.setMaxHP(message.maxHp);
 			playerData.setMaxAP(message.maxAP);
+			playerData.setBoostMaxAP(message.boostMaxAP);
 			playerData.setDP(message.dp);
 			playerData.setFP(message.fp);
 			playerData.setMaxDP(message.maxDP);

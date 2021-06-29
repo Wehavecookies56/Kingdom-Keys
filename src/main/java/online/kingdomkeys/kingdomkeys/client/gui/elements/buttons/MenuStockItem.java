@@ -22,8 +22,8 @@ public class MenuStockItem extends Button {
     ItemStack stack;
     boolean selected, showAmount;
 
-    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, boolean showAmount) {
-        super(x, y, (int)(parent.width * 0.3255F), 14, new TranslationTextComponent(""), b -> {
+    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
+        super(x, y, width, 14, new TranslationTextComponent(""), b -> {
         	parent.action(stack);
         });
         this.parent = parent;
