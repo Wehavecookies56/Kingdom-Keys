@@ -21,6 +21,7 @@ public class MenuStockItem extends Button {
 	MenuFilterable parent;
     ItemStack stack;
     boolean selected, showAmount;
+    String customName = null;
 
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
         super(x, y, width, 14, new TranslationTextComponent(""), b -> {
@@ -30,6 +31,11 @@ public class MenuStockItem extends Button {
         this.stack = stack;
         this.showAmount = showAmount;
     }
+    
+    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount, String customName) {
+		this(parent,stack,x,y,width,showAmount);
+		this.customName = customName;
+	}
 
 	@Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -64,7 +70,7 @@ public class MenuStockItem extends Button {
                 blit(matrixStack, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
             matrixStack.pop();
-            drawString(matrixStack, mc.fontRenderer, stack.getDisplayName().getString(), x + 15, y + 3, 0xFFFFFF);
+            drawString(matrixStack, mc.fontRenderer, customName == null ? stack.getDisplayName().getString() : customName, x + 15, y + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(showAmount) {
 	            String count = new TranslationTextComponent("x%s ", stack.getCount()).getString();

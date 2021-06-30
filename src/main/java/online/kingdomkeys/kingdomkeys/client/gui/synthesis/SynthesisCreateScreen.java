@@ -50,7 +50,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	int itemsPerPage;
 	private MenuButton back;
 
-
 	public SynthesisCreateScreen() {
 		super("Synthesis", new Color(0, 255, 0));
 		drawSeparately = true;
@@ -237,7 +236,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			//RenderSystem.scalef((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
 			RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
 			itemRenderer.renderItemIntoGUI(selected, 2, 3);
-			
 		}
 		RenderSystem.popMatrix();
 

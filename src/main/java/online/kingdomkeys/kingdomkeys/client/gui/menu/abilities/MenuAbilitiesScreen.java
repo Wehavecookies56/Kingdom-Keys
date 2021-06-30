@@ -169,7 +169,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			lvlIncrease = -1;
 		} else { // If ability is unequipped, equip
 			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
-			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP()) {
+			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP(true)) {
 				return;
 			} else {
 				lvlIncrease = 1;
@@ -230,7 +230,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	
 	private void drawAP(MatrixStack matrixStack) {
 		int consumedAP = Utils.getConsumedAP(playerData);
-		int maxAP = playerData.getMaxAP();
+		int maxAP = playerData.getMaxAP(true);
 		hoveredAbility = null;
 		
 		//Get all the abilities and set their text
@@ -250,7 +250,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if(buttons.get(i) instanceof MenuAbilitiesButton) {
 				MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
 				
-				if (ability.getAPCost() > playerData.getMaxAP() - consumedAP) {
+				if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
 					button.active = false;
 				}
 				
@@ -333,7 +333,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 				matrixStack.pop();
 			} else {
-				if(consumedAP + requiredAP <= playerData.getMaxAP()) {
+				if(consumedAP + requiredAP <= playerData.getMaxAP(true)) {
 					// Bar going to increase (blue section when hovering unequipped ability)
 					matrixStack.push();
 					{
