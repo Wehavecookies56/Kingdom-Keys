@@ -231,7 +231,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
 				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
-				drawString(matrixStack, minecraft.fontRenderer, line, boxM.getWidth() - minecraft.fontRenderer.getStringWidth(line) - 6, -8, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				drawString(matrixStack, minecraft.fontRenderer, line, boxM.getWidth() - minecraft.fontRenderer.getStringWidth(line) - 10, -8, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
 			//RenderSystem.scalef((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
 			RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);

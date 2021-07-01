@@ -662,6 +662,12 @@ public class EntityEvents {
 				} else if(weapon.getItem() instanceof IOrgWeapon) {
 					dmg = DamageCalculation.getOrgStrengthDamage(player, weapon);
 				}
+				
+				if(player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger()) {
+					dmg *= ModConfigs.critMult;
+				}
+				
+				System.out.println(dmg);
 				event.setAmount(dmg);
 			}
 			

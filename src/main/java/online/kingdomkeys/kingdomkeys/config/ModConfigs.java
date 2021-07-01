@@ -239,6 +239,7 @@ public class ModConfigs {
     public static double limitLaserDomeMult;
     public static double limitArrowRainMult;
     public static double shotlockMult;
+    public static double critMult;
     
     public static boolean playerSpawnHeartless;
     public static List<String> playerSpawnHeartlessData;
@@ -262,6 +263,7 @@ public class ModConfigs {
         playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
         playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
         shotlockMult = COMMON.shotlockMult.get();
+        critMult = COMMON.critMult.get();
         
         hpDropProbability = COMMON.hpDropProbability.get();
         mpDropProbability = COMMON.mpDropProbability.get();

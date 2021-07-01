@@ -42,6 +42,7 @@ public class CommonConfig {
     public ForgeConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
     
     public ForgeConfigSpec.DoubleValue shotlockMult;
+    public ForgeConfigSpec.DoubleValue critMult;
 
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
 		builder.push("general");
@@ -81,6 +82,10 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
                 .defineInRange("focusPointsMultiplier",1.0,0,100);
         
+        critMult = builder
+                .comment("Critic Damage Multiplier")
+                .translation(KingdomKeys.MODID + ".config.crit_mult")
+                .defineInRange("shotlockMult",1.5,0,100);
         builder.pop();
 
         builder.push("spawning");
