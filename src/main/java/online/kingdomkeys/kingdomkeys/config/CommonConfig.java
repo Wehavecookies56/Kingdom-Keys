@@ -85,7 +85,7 @@ public class CommonConfig {
         critMult = builder
                 .comment("Critic Damage Multiplier")
                 .translation(KingdomKeys.MODID + ".config.crit_mult")
-                .defineInRange("shotlockMult",1.5,0,100);
+                .defineInRange("critMult",1.5,0,100);
         builder.pop();
 
         builder.push("spawning");
