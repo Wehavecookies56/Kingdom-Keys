@@ -88,6 +88,7 @@
 	"gui.menu.status.formlevel": "Niv. de Forma",
 	"gui.menu.status.formgauge": "Indicador de Forma",
 	"gui.menu.status.abilities": "Habilidades",
+	"gui.menu.status.ability": "Habilidad",
 	"gui.menu.config": "Preferencias",			 
 	"gui.menu.config.bg": "Fondo",
 	"gui.menu.config.command_menu": "Menú Comandos",

@@ -395,6 +395,7 @@ public class Strings {
 			Gui_Menu_Status_FormLevel = Gui_Menu_Status + ".formlevel",
 			Gui_Menu_Status_FormGauge = Gui_Menu_Status + ".formgauge",
 			Gui_Menu_Status_Abilities = Gui_Menu_Status + ".abilities",
+			Gui_Menu_Status_Ability = Gui_Menu_Status + ".ability",
 			Gui_Menu_Status_Button = Gui_Menu_Status + ".button",
 
 			Gui_Menu_Journal = Gui_Menu + ".journal",

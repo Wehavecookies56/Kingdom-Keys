@@ -58,7 +58,7 @@ public class MenuEquipmentButton extends Button {
         this.colour = colour;
         this.toOpen = toOpen;
         this.parent = parent;
-        hasLabel = false;
+        this.hasLabel = false;
         this.category = category;
     }
 

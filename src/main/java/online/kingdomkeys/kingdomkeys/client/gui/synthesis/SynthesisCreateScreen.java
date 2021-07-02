@@ -137,7 +137,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
-		addButton(create = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+		addButton(create = new Button((int) (boxM.x+3), (int) (height * 0.67), boxM.getWidth()-5, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
 		}));
 		
@@ -253,17 +253,23 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			matrixStack.push();
 			{
 				matrixStack.translate(boxM.x+20, height*0.58, 1);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), 0, -20, 0xFF0000);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0), 0, -10, 0x4444FF);
-
+				
+				int offset = 0;
 				String nextAbility = kb.data.getLevelAbility(0);
 				if(nextAbility != null) {
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities), 0, 0, 0xFFFF44);
+					String abilityHeader = Utils.translateToLocal(Strings.Gui_Menu_Status_Ability)+":";
+					drawString(matrixStack, minecraft.fontRenderer, abilityHeader, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityHeader)/2), 0, 0xFFFF44);
 
 					Ability a = ModAbilities.registry.getValue(new ResourceLocation(nextAbility));
-					if(a != null)
-						drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(a.getTranslationKey()), -10, 10, 0x44FF44);
+					if(a != null) {
+						String abilityName = Utils.translateToLocal(a.getTranslationKey());
+						drawString(matrixStack, minecraft.fontRenderer, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityName)/2), 10, 0x44FF44);
+						offset = -20;
+					}
 				}
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), 0, offset, 0xFF0000);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0), 0, offset+10, 0x4444FF);
+
 			}
 			matrixStack.pop();
 		}
