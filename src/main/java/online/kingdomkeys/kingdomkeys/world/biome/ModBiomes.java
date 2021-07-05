@@ -5,6 +5,7 @@ import net.minecraft.world.biome.BiomeMaker;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModBiomes {
 

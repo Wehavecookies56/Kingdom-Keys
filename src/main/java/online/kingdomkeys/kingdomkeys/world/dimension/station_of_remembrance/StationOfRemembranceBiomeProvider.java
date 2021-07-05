@@ -16,6 +16,7 @@ import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class StationOfRemembranceBiomeProvider extends BiomeProvider {
     public static void registerBiomeProvider() {
