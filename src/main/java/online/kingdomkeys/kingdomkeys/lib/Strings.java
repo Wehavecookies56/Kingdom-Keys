@@ -18,7 +18,8 @@ public class Strings {
     public static final String
     		twilightTown = "twilight_town",
     		destinyIslands = "destiny_islands",
-    		diveToTheHeart = "dive_to_the_heart";
+    		diveToTheHeart = "dive_to_the_heart",
+    		stationOfRemembrance = "station_of_remembrance";
 
     // Magics
     public static final String

@@ -11,7 +11,7 @@ public class ModBiomes {
 	public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(ForgeRegistries.BIOMES, KingdomKeys.MODID);
 
 	static {
-		BIOMES.register("dive_to_the_heart", BiomeMaker::makeVoidBiome);
-		BIOMES.register("battle_arena", BiomeMaker::makeVoidBiome);
+		BIOMES.register(Strings.diveToTheHeart, BiomeMaker::makeVoidBiome);
+		BIOMES.register(Strings.stationOfRemembrance, BiomeMaker::makeVoidBiome);
 	}
 }

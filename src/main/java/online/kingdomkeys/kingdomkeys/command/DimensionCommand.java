@@ -39,7 +39,7 @@ public class DimensionCommand extends BaseCommand {
 		list.add("the_nether");
 		list.add("the_end");
 		list.add(ModDimensions.DIVE_TO_THE_HEART.getLocation().toString());
-		list.add(ModDimensions.BATTLE_ARENA.getLocation().toString());
+		list.add(ModDimensions.STATION_OF_REMEMBRANCE.getLocation().toString());
 		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 
@@ -76,7 +76,7 @@ public class DimensionCommand extends BaseCommand {
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);
 		}
-		if (dimension == ModDimensions.BATTLE_ARENA) {
+		if (dimension == ModDimensions.STATION_OF_REMEMBRANCE) {
 			return new BlockPos(0, 26, 0);
 		}
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
