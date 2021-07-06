@@ -270,8 +270,7 @@ public class ModConfigs {
         munnyDropProbability = COMMON.munnyDropProbability.get();
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
-        
-        
+                
     }
 
     public static int recipeDropChance;

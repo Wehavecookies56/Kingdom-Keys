@@ -31,8 +31,8 @@ public class StationOfRemembranceChunkGenerator extends ChunkGenerator {
 
 	public static final Codec<StationOfRemembranceChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((surfaceChunkGenerator) -> surfaceChunkGenerator.biomeProvider), DimensionStructuresSettings.field_236190_a_.fieldOf("structures").forGetter((ChunkGenerator::func_235957_b_))).apply(instance, instance.stable(StationOfRemembranceChunkGenerator::new)));
     
-    private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
-    private static final ChunkPos SPAWN_CHUNK_POS = new ChunkPos(SPAWN_POS);
+   // private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
+   // private static final ChunkPos SPAWN_CHUNK_POS = new ChunkPos(SPAWN_POS);
 
     //x
     int width = 25;
@@ -108,7 +108,7 @@ public class StationOfRemembranceChunkGenerator extends ChunkGenerator {
 
     @Override
     public void func_230352_b_(IWorld worldIn, StructureManager structureManagerIn, IChunk chunkIn) {
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+       /* BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
         if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
             int startZ = chunkIn.getPos().getZStart() - (depth/2);
             int startX = chunkIn.getPos().getXStart() - (width/2);
@@ -125,7 +125,7 @@ public class StationOfRemembranceChunkGenerator extends ChunkGenerator {
                     }
                 }
             }
-        }
+        }*/
     }
 
     private void stateToPlace(char c, IWorld world, BlockPos.Mutable pos) {

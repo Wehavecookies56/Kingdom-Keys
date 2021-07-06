@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
@@ -28,6 +29,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -60,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.FocusOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
@@ -102,6 +105,7 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class EntityEvents {
 
@@ -1040,16 +1044,19 @@ public class EntityEvents {
 		PlayerEntity player = e.getPlayer();
 		if(!player.world.isRemote) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			
-			/*IWorldCapabilities fromWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
-			IWorldCapabilities toWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
-
-			toWorldData.setParties(fromWorldData.getParties());
-			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
-			toWorldData.setPortals(fromWorldData.getPortals());*/
+			ServerWorld world = player.getServer().getWorld(e.getTo());
+			if(e.getTo() == ModDimensions.STATION_OF_REMEMBRANCE) {
+				BlockPos blockPos = player.getPosition().down(2);
+				world.setBlockState(blockPos, ModBlocks.sorCore.get().getDefaultState(), 2);
+				if(world.getTileEntity(blockPos) instanceof SoRCoreTileEntity) {
+					SoRCoreTileEntity te = (SoRCoreTileEntity) world.getTileEntity(blockPos);
+					te.setUUID(player.getUniqueID());
+				}
+				
+			}
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()))), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(world)), (ServerPlayerEntity)player);
 		}
 	}
 	

@@ -30,7 +30,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
-public class DimensionCommand extends BaseCommand {
+public class KKDimensionCommand extends BaseCommand {
 
 	private static final SuggestionProvider<CommandSource> SUGGEST_DIMENSIONS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
@@ -46,7 +46,7 @@ public class DimensionCommand extends BaseCommand {
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_dimension").requires(source -> source.hasPermissionLevel(2));
 
-		builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS).then(Commands.argument("targets", EntityArgument.players()).executes(DimensionCommand::changeDim)).executes(DimensionCommand::changeDim));
+		builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS).then(Commands.argument("targets", EntityArgument.players()).executes(KKDimensionCommand::changeDim)).executes(KKDimensionCommand::changeDim));
 
 		dispatcher.register(builder);
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());

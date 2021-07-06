@@ -83,6 +83,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
@@ -451,4 +452,5 @@ public class ModEntities {
     public static final RegistryObject<TileEntityType<MoogleProjectorTileEntity>> TYPE_MOOGLE_PROJECTOR = TILE_ENTITIES.register("moogle_projector", () -> TileEntityType.Builder.create(MoogleProjectorTileEntity::new, ModBlocks.moogleProjector.get()).build(null));
     public static final RegistryObject<TileEntityType<SoAPlatformTileEntity>> TYPE_SOA_PLATFORM = TILE_ENTITIES.register("soa_platform", () -> TileEntityType.Builder.create(SoAPlatformTileEntity::new, ModBlocks.station_of_awakening_core.get()).build(null));
     public static final RegistryObject<TileEntityType<GummiEditorTileEntity>> TYPE_GUMMI_EDITOR = TILE_ENTITIES.register("gummi_editor", () -> TileEntityType.Builder.create(GummiEditorTileEntity::new, ModBlocks.gummiEditor.get()).build(null));
+    public static final RegistryObject<TileEntityType<SoRCoreTileEntity>> TYPE_SOR_CORE_TE = TILE_ENTITIES.register("sor_core", () -> TileEntityType.Builder.create(SoRCoreTileEntity::new, ModBlocks.sorCore.get()).build(null));
 }
