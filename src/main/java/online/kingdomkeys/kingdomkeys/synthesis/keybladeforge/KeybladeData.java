@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;

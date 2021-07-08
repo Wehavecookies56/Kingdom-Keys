@@ -30,7 +30,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
-public class DimensionCommand extends BaseCommand {
+public class KKDimensionCommand extends BaseCommand {
 
 	private static final SuggestionProvider<CommandSource> SUGGEST_DIMENSIONS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
@@ -39,14 +39,14 @@ public class DimensionCommand extends BaseCommand {
 		list.add("the_nether");
 		list.add("the_end");
 		list.add(ModDimensions.DIVE_TO_THE_HEART.getLocation().toString());
-		list.add(ModDimensions.BATTLE_ARENA.getLocation().toString());
+		list.add(ModDimensions.STATION_OF_REMEMBRANCE.getLocation().toString());
 		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_dimension").requires(source -> source.hasPermissionLevel(2));
 
-		builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS).then(Commands.argument("targets", EntityArgument.players()).executes(DimensionCommand::changeDim)).executes(DimensionCommand::changeDim));
+		builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS).then(Commands.argument("targets", EntityArgument.players()).executes(KKDimensionCommand::changeDim)).executes(KKDimensionCommand::changeDim));
 
 		dispatcher.register(builder);
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
@@ -76,7 +76,7 @@ public class DimensionCommand extends BaseCommand {
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);
 		}
-		if (dimension == ModDimensions.BATTLE_ARENA) {
+		if (dimension == ModDimensions.STATION_OF_REMEMBRANCE) {
 			return new BlockPos(0, 26, 0);
 		}
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);

@@ -44,8 +44,8 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.world.dimension.battle_arena.BattleArenaRenderInfo;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartRenderInfo;
+import online.kingdomkeys.kingdomkeys.world.dimension.station_of_remembrance.StationOfRemembranceRenderInfo;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
@@ -82,8 +82,8 @@ public class ProxyClient implements IProxy {
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
-		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart"), new DiveToTheHeartRenderInfo());
-		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, "battle_arena"), new BattleArenaRenderInfo());
+		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
+		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfRemembrance), new StationOfRemembranceRenderInfo());
 
         PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));

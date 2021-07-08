@@ -36,7 +36,7 @@ public class LimitLaserDome extends Limit {
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
 			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, (IOrgWeapon) stack.getItem())) / 2 * 0.15F;
 		} else {
-			damage = (playerData.getStrength() + playerData.getMagic()) / 2F;
+			damage = (playerData.getStrength(true) + playerData.getMagic(true)) / 2F;
 		}
 
 		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.world, player, target, damage);

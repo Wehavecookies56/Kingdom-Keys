@@ -12,9 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.GummiShipModel;
-import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
-import online.kingdomkeys.kingdomkeys.entity.SeedBulletEntity;
 
 public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> implements IRenderFactory<GummiShipEntity> {
 

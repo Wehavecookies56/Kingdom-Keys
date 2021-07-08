@@ -17,6 +17,7 @@ import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class DiveToTheHeartBiomeProvider extends BiomeProvider {
     public static void registerBiomeProvider() {
@@ -31,7 +32,7 @@ public class DiveToTheHeartBiomeProvider extends BiomeProvider {
     private final Registry<Biome> BIOME_REGISTRY;
     public static List<Biome> NONSTANDARD_BIOME = new ArrayList<>();
 
-    public static ResourceLocation BIOME = new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart");
+    public static ResourceLocation BIOME = new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart);
 
     public DiveToTheHeartBiomeProvider(Registry<Biome> biomeRegistry) {
         super(biomeRegistry.getEntries().stream()

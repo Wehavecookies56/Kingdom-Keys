@@ -49,9 +49,9 @@ public class SCSyncCapabilityToAllPacket {
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
 		this.expGiven = capability.getExperienceGiven();
-		this.strength = capability.getStrength();
-		this.magic = capability.getMagic();
-		this.defense = capability.getDefense();
+		this.strength = capability.getStrength(false);
+		this.magic = capability.getMagic(false);
+		this.defense = capability.getDefense(false);
 		this.driveForm = capability.getActiveDriveForm();
 		this.aeroTicks = capability.getAeroTicks();
 		this.aeroLevel = capability.getAeroLevel();

@@ -1,4 +1,5 @@
 {
+  "cost": 400,
   "output": {
     "item": "kingdomkeys:drive_recovery",
     "quantity": 1,

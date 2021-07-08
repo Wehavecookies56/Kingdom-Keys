@@ -145,6 +145,11 @@ public class ItemModels extends ItemModelProvider {
 
 		standardItem(Strings.synthesisBag);
 		standardItem("recipe");
+		
+		standardItem(Strings.powerBoost);
+		standardItem(Strings.magicBoost);
+		standardItem(Strings.defenseBoost);
+		standardItem(Strings.apBoost);
     }
 
 	private void keychains() {

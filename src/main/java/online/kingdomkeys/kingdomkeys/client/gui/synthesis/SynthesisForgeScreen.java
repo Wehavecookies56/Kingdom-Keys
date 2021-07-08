@@ -45,7 +45,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 
 	Button prev, next, upgrade;
-
 	int itemsPerPage = 10;
 	private MenuButton back;
 
@@ -103,11 +102,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	public void init() {
 		float boxPosX = (float) width * 0.1437F;
 		float topBarHeight = (float) height * 0.17F;
-		float boxWidth = (float) width * 0.35F;
+		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.46F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.46F), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
 		
 		//float filterPosX = width * 0.3F;
 		//float filterPosY = height * 0.02F;
@@ -143,7 +142,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
 
 		for (int i = 0; i < items.size(); i++) {
-			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), false));
+			if(items.get(i).getItem() instanceof KeychainItem) {
+				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false, ((KeychainItem)items.get(i).getItem()).toSummon().getName().getString()));
+			} else {
+				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false));
+			}
 		}
 		
 		inventory.forEach(this::addButton);
@@ -249,20 +252,13 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			//Icon
 			RenderSystem.pushMatrix();
 			{
-				double offset = ((boxM.getWidth() / 2) * 0F);
-				RenderSystem.translated(boxM.x + offset, iconPosY, 1);
-				RenderSystem.scalef((float)(boxM.getWidth() / 16 - offset / 16), (float)(boxM.getWidth()/16 - offset / 16), 1);
-				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 0, 0);
+				double offset = (boxM.getWidth()*0.1F);
+				RenderSystem.translated(boxM.x + offset/2, iconPosY, 1);
+				RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
+				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 2, 0);
 			}
 			RenderSystem.popMatrix();
-			/*matrixStack.push();
-			{
-				matrixStack.translated(boxM.x, iconPosY, 1);
-				matrixStack.scaled(4, 4, 4);
-				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 0, 0);
-			}
-			matrixStack.pop();*/
-
+			
 			//Description
 			matrixStack.push();
 			{
@@ -274,7 +270,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			
 			matrixStack.push();
 			{
-				matrixStack.translate(boxM.x+2, height*0.58, 1);
+				matrixStack.translate(boxM.x+10, height*0.58, 1);
 				int level = kb.getKeybladeLevel(selected);
 				if(level < 10) {
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+level+" -> "+(level+1), 0, -20, 0xFFFF00);				

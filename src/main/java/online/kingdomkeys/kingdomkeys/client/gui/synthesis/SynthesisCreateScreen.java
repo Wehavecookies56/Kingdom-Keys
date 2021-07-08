@@ -18,6 +18,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -48,7 +50,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	int itemsPerPage;
 	private MenuButton back;
 
-
 	public SynthesisCreateScreen() {
 		super("Synthesis", new Color(0, 255, 0));
 		drawSeparately = true;
@@ -76,11 +77,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	public void init() {
 		float boxPosX = (float) width * 0.1437F;
 		float topBarHeight = (float) height * 0.17F;
-		float boxWidth = (float) width * 0.35F;
+		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.46F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.46F), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
 		
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
@@ -122,7 +123,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));
 
 		for (int i = 0; i < items.size(); i++) {
-			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), false));
+			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.28F), false));
 		}
 		
 		inventory.forEach(this::addButton);
@@ -136,7 +137,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
-		addButton(create = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+		addButton(create = new Button((int) (boxM.x+3), (int) (height * 0.67), boxM.getWidth()-5, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
 		}));
 		
@@ -158,8 +159,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		if (selected != ItemStack.EMPTY) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
+			boolean enoughMunny = false;
 			if (RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
+				enoughMunny = playerData.getMunny() >= recipe.getCost();
 				create.visible = true;
 				Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();// item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				while (materials.hasNext()) {
@@ -170,7 +173,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				}
 			}
 
-			create.active = enoughMats;
+			create.active = enoughMats && enoughMunny;
 			if(minecraft.player.inventory.getFirstEmptyStack() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 				create.active = false;
 				create.setMessage(new TranslationTextComponent("No empty slot"));
@@ -224,9 +227,15 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		{
 			double offset = (boxM.getWidth()*0.1F);
 			RenderSystem.translated(boxM.x + offset/2, iconPosY, 1);
-			//matrixStack.scaled(boxM.getWidth() / 16 - offset / 16, boxM.getWidth()/16 - offset / 16, 1);
-			RenderSystem.scalef((float)(boxM.getWidth() / 20F - offset / 20F), (float)(boxM.getWidth() / 20F - offset / 20F), 1);
-			itemRenderer.renderItemIntoGUI(selected, 0, 0);
+			if(RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
+				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
+				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
+				drawString(matrixStack, minecraft.fontRenderer, line, boxM.getWidth() - minecraft.fontRenderer.getStringWidth(line) - 10, -8, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+			}
+			//RenderSystem.scalef((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
+			RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
+			itemRenderer.renderItemIntoGUI(selected, 2, 3);
 		}
 		RenderSystem.popMatrix();
 
@@ -243,9 +252,24 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			
 			matrixStack.push();
 			{
-				matrixStack.translate(boxM.x+10, height*0.58, 1);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), 0, 0, 0xFF0000);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0), 0, 10, 0x4444FF);
+				matrixStack.translate(boxM.x+20, height*0.58, 1);
+				
+				int offset = 0;
+				String nextAbility = kb.data.getLevelAbility(0);
+				if(nextAbility != null) {
+					String abilityHeader = Utils.translateToLocal(Strings.Gui_Menu_Status_Ability)+":";
+					drawString(matrixStack, minecraft.fontRenderer, abilityHeader, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityHeader)/2), 0, 0xFFFF44);
+
+					Ability a = ModAbilities.registry.getValue(new ResourceLocation(nextAbility));
+					if(a != null) {
+						String abilityName = Utils.translateToLocal(a.getTranslationKey());
+						drawString(matrixStack, minecraft.fontRenderer, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityName)/2), 10, 0x44FF44);
+						offset = -20;
+					}
+				}
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), 0, offset, 0xFF0000);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0), 0, offset+10, 0x4444FF);
+
 			}
 			matrixStack.pop();
 		}
@@ -268,6 +292,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					itemRenderer.renderItemIntoGUI(stack, -17, (i*16)-4);
 					i++;
 				}
+				
+				
 			}
 		}
 		RenderSystem.popMatrix();

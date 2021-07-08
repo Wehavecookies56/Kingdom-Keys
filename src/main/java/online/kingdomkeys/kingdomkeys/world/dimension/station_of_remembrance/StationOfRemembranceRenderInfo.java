@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.battle_arena;
+package online.kingdomkeys.kingdomkeys.world.dimension.station_of_remembrance;
 
 import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.math.vector.Vector3d;
@@ -6,9 +6,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BattleArenaRenderInfo extends DimensionRenderInfo {
+public class StationOfRemembranceRenderInfo extends DimensionRenderInfo {
 
-    public BattleArenaRenderInfo() {
+    public StationOfRemembranceRenderInfo() {
         super(Float.NaN, true, FogType.NONE, true, true);
         setSkyRenderHandler((ticks, partialTicks, matrixStack, world, mc) -> {});
     }

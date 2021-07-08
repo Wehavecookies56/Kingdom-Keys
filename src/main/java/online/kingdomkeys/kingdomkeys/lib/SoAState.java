@@ -32,25 +32,25 @@ public enum SoAState {
             SoAState sacrifice = playerData.getSacrificed();
             switch (choice) {
                 case WARRIOR:
-                    playerData.setStrength(playerData.getStrength() + 1);
+                    playerData.setStrength(playerData.getStrength(false) + 1);
                     break;
                 case GUARDIAN:
-                    playerData.setDefense(playerData.getDefense() + 1);
+                    playerData.setDefense(playerData.getDefense(false) + 1);
                     break;
                 case MYSTIC:
-                    playerData.setMagic(playerData.getMagic() + 1);
+                    playerData.setMagic(playerData.getMagic(false) + 1);
                     break;
             }
 
             switch (sacrifice) {
                 case WARRIOR:
-                    playerData.setStrength(playerData.getStrength() - 1);
+                    playerData.setStrength(playerData.getStrength(false) - 1);
                     break;
                 case GUARDIAN:
-                    playerData.setDefense(playerData.getDefense() - 1);
+                    playerData.setDefense(playerData.getDefense(false) - 1);
                     break;
                 case MYSTIC:
-                    playerData.setMagic(playerData.getMagic() - 1);
+                    playerData.setMagic(playerData.getMagic(false) - 1);
                     break;
             }
         }

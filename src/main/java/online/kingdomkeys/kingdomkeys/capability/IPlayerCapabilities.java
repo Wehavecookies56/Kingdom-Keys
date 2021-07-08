@@ -30,15 +30,15 @@ public interface IPlayerCapabilities {
 	int getExperienceGiven();
 	void setExperienceGiven(int exp);
 	
-	int getStrength();
+	int getStrength(boolean combined);
 	void setStrength(int str);
 	void addStrength(int str);
 	
-	int getMagic();
+	int getMagic(boolean combined);
 	void setMagic(int mag);
 	void addMagic(int mag);
 	
-	int getDefense();
+	int getDefense(boolean combined);
 	void setDefense(int def);
 	void addDefense(int def);
 	
@@ -81,7 +81,7 @@ public interface IPlayerCapabilities {
 	double getMaxDP();
 	void setMaxDP(double dP);
 		
-	int getMaxAP();
+	int getMaxAP(boolean combined);
 	void setMaxAP(int ap);
 	void addMaxAP(int ap);
 	
@@ -265,6 +265,16 @@ public interface IPlayerCapabilities {
 	void setShortcutsMap(LinkedHashMap<Integer,String> map);
 	void changeShortcut(int position, String name, int level);
 	void removeShortcut(int position);
+	
+	int getBoostStrength();
+	void setBoostStrength(int str);
+	int getBoostMagic();
+	void setBoostMagic(int str);
+	int getBoostDefense();
+	void setBoostDefense(int str);
+	int getBoostMaxAP();
+	void setBoostMaxAP(int str);
+	
 
 	
 }

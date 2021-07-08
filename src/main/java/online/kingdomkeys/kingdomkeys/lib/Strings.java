@@ -18,7 +18,8 @@ public class Strings {
     public static final String
     		twilightTown = "twilight_town",
     		destinyIslands = "destiny_islands",
-    		diveToTheHeart = "dive_to_the_heart";
+    		diveToTheHeart = "dive_to_the_heart",
+    		stationOfRemembrance = "station_of_remembrance";
 
     // Magics
     public static final String
@@ -395,6 +396,7 @@ public class Strings {
 			Gui_Menu_Status_FormLevel = Gui_Menu_Status + ".formlevel",
 			Gui_Menu_Status_FormGauge = Gui_Menu_Status + ".formgauge",
 			Gui_Menu_Status_Abilities = Gui_Menu_Status + ".abilities",
+			Gui_Menu_Status_Ability = Gui_Menu_Status + ".ability",
 			Gui_Menu_Status_Button = Gui_Menu_Status + ".button",
 
 			Gui_Menu_Journal = Gui_Menu + ".journal",
@@ -415,7 +417,7 @@ public class Strings {
             Gui_Shop_Main_Buy = Gui_Shop_Main + ".buy",
             Gui_Shop_Main_Sell = Gui_Shop_Main + ".sell",
             Gui_Shop_Buy = Gui_Shop + ".buy",
-            Gui_Shop_Buy_Cost = Gui_Shop_Buy + ".cost",
+            Gui_Shop_Buy_Cost = Gui_Shop + ".cost",
             Gui_Shop_Buy_Quantity = Gui_Shop_Buy + ".quantity",
             Gui_Shop_Sell = Gui_Shop + ".sell",
             Gui_Shop_Sell_Price = Gui_Shop_Sell + ".price",
@@ -482,7 +484,13 @@ public class Strings {
         LevelUpMaster = "levelupdrivemaster",
         LevelUpFinal = "levelupdrivefinal",
         
-        gummiShip = "gummiship";
+        gummiShip = "gummiship",
+        
+        powerBoost = "powerboost",
+        magicBoost = "magicboost",
+        defenseBoost = "defenseboost",
+        apBoost = "apboost";
+    	
     
     // Music Discs
     public static final String

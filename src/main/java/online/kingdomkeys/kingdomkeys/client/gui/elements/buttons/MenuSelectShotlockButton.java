@@ -10,7 +10,6 @@ import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -34,7 +33,6 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 	public MenuSelectShotlockButton(String shotlockName, int x, int y, int widthIn, MenuShotlockSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
-				PlayerEntity player = Minecraft.getInstance().player;
 				PacketHandler.sendToServer(new CSEquipShotlock(shotlockName));
 			} else {
 				Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
@@ -56,7 +54,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.color4f(1, 1, 1, 1);
-		ItemCategory category = ItemCategory.TOOL;
+		ItemCategory category = ItemCategory.SHOTLOCK;
 		
 		Shotlock shotlock = null;
 		if(shotlockName != null && !shotlockName.equals("")) {

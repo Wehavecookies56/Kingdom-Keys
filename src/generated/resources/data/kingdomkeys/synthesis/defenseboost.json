@@ -1,0 +1,26 @@
+{
+  "cost": 4000,
+  "output": {
+    "item": "kingdomkeys:defenseboost",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "1"
+    }
+  ]
+}

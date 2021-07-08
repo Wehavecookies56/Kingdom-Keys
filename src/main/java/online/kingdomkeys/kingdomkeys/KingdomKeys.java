@@ -35,7 +35,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
+import online.kingdomkeys.kingdomkeys.command.KKDimensionCommand;
 import online.kingdomkeys.kingdomkeys.command.KKDriveLevelCommand;
 import online.kingdomkeys.kingdomkeys.command.KKDrivePointsCommand;
 import online.kingdomkeys.kingdomkeys.command.KKExpCommand;
@@ -173,7 +173,7 @@ public class KingdomKeys {
 		KKLevelCommand.register(dispatcher);
 		KKDriveLevelCommand.register(dispatcher);
 		KKExpCommand.register(dispatcher);
-		DimensionCommand.register(dispatcher);
+		KKDimensionCommand.register(dispatcher);
 		KKHeartsCommand.register(dispatcher);
 		KKDrivePointsCommand.register(dispatcher);
 		KKPayMunnyCommand.register(dispatcher);

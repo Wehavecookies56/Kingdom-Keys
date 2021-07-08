@@ -35,7 +35,7 @@ public class DamageCalculation {
             }
             
             if(keyblade != null) {
-	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic());
+	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic(true));
 	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 	            	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 	            	damage *= form.getMagMult();
@@ -52,7 +52,7 @@ public class DamageCalculation {
     public static float getOrgMagicDamage(PlayerEntity player, IOrgWeapon weapon) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            float damage = (float) (weapon.getMagic() + playerData.getMagic());
+            float damage = (float) (weapon.getMagic() + playerData.getMagic(true));
             return damage;
         } else {
             return 0;
@@ -74,7 +74,7 @@ public class DamageCalculation {
             		finalDamage = getOrgMagicDamage(player, (IOrgWeapon) player.getHeldItemMainhand().getItem());
             	}
             } else {
-                finalDamage = playerData.getMagic();
+                finalDamage = playerData.getMagic(true);
             }
             return finalDamage;
         } else {
@@ -101,7 +101,7 @@ public class DamageCalculation {
             
             if(keyblade != null) {
             
-	            damage = (float) (keyblade.getStrength(stack) + playerData.getStrength());
+	            damage = (float) (keyblade.getStrength(stack) + playerData.getStrength(true));
 	
 	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 	            	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
@@ -130,7 +130,7 @@ public class DamageCalculation {
             float finalDamage = 0;
             if (stack.getItem() instanceof IOrgWeapon) {
             	IOrgWeapon org = (IOrgWeapon) stack.getItem();
-                damage = (float) org.getStrength() + playerData.getStrength();
+                damage = (float) org.getStrength() + playerData.getStrength(true);
                 finalDamage = damage + getSharpnessDamage(stack);
             }
             return finalDamage;

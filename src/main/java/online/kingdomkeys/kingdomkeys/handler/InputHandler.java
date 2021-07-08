@@ -51,10 +51,10 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseDriveFormPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
@@ -671,11 +671,17 @@ public class InputHandler {
 		if(KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-				System.out.println(event.getKey() - 321);
 				PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
 			}
-			
 		}
+		
+		if(KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+				PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49));
+			}
+		}
+		
 		if (key != null) {
 			switch (key) {
 			case OPENMENU:

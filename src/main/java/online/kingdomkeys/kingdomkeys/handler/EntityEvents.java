@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
@@ -28,6 +29,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -60,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.FocusOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
@@ -102,6 +105,7 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class EntityEvents {
 
@@ -122,7 +126,6 @@ public class EntityEvents {
 				} else if(worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.ALWAYS) {
 					worldData.setHeartlessSpawnLevel(1);
 				}
-			
 			}
 			
 			if (!player.world.isRemote) { // Sync from server to client				
@@ -155,7 +158,18 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.driveRecovery.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiDriveRecovery.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.refocuser.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());					
+					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.powerBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
+				}
+				
+				if(!playerData.getKnownRecipeList().contains(ModItems.powerBoost.get().getRegistryName())){
+					playerData.addKnownRecipe(ModItems.powerBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
 				}
 				
 				//Added for old world retrocompatibility
@@ -658,11 +672,15 @@ public class EntityEvents {
 				} else if(weapon.getItem() instanceof IOrgWeapon) {
 					dmg = DamageCalculation.getOrgStrengthDamage(player, weapon);
 				}
+				
+				if(player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger()) {
+					dmg *= ModConfigs.critMult;
+				}
 				event.setAmount(dmg);
 			}
 			
 			if(ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
-				event.setAmount(ModCapabilities.getPlayer(player).getStrength());
+				event.setAmount(ModCapabilities.getPlayer(player).getStrength(true));
 			}
 			
 			LivingEntity target = event.getEntityLiving();
@@ -685,9 +703,7 @@ public class EntityEvents {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
 					}
 				}
-
 			}
-			
 		}
 		
 		//This is outside as it should apply the formula if you have been hit by non player too		
@@ -695,7 +711,7 @@ public class EntityEvents {
 			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense())));
+			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense(true))));
 			if(playerData.getAeroTicks() > 0) {
 				float resistMultiplier = playerData.getAeroLevel() == 0 ? 0.3F : playerData.getAeroLevel() == 1 ? 0.35F : playerData.getAeroLevel() == 2 ? 0.4F : 0;
 				
@@ -887,7 +903,7 @@ public class EntityEvents {
 						newDusk.setCustomName(new TranslationTextComponent(event.getEntityLiving().getDisplayName().getString()+"'s Nobody"));
 						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(nobody[1]) / 100, newDusk.getMaxHealth()));
 						newDusk.heal(newDusk.getMaxHealth());
-						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newDusk);
 						
 						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getTrueSource().world);
@@ -896,7 +912,7 @@ public class EntityEvents {
 						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntityLiving().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
 						
-						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength() * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 						event.getSource().getTrueSource().world.addEntity(newShadow);
 						
 						HeartEntity heart = new HeartEntity(event.getEntityLiving().world);
@@ -959,16 +975,20 @@ public class EntityEvents {
 		newPlayerData.setLevel(oldPlayerData.getLevel());
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
-		newPlayerData.setStrength(oldPlayerData.getStrength());
-		newPlayerData.setMagic(oldPlayerData.getMagic());
-		newPlayerData.setDefense(oldPlayerData.getDefense());
+		newPlayerData.setStrength(oldPlayerData.getStrength(false));
+		newPlayerData.setBoostStrength(oldPlayerData.getBoostStrength());
+		newPlayerData.setMagic(oldPlayerData.getMagic(false));
+		newPlayerData.setBoostMagic(oldPlayerData.getBoostMagic());
+		newPlayerData.setDefense(oldPlayerData.getDefense(false));
+		newPlayerData.setBoostDefense(oldPlayerData.getBoostDefense());
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
 		newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
 		newPlayerData.setDP(oldPlayerData.getDP());
 		newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
-		newPlayerData.setMaxAP(oldPlayerData.getMaxAP());
+		newPlayerData.setMaxAP(oldPlayerData.getMaxAP(false));
+		newPlayerData.setBoostMaxAP(oldPlayerData.getBoostMaxAP());
 		newPlayerData.setFocus(oldPlayerData.getFocus());
 		newPlayerData.setMaxFocus(oldPlayerData.getMaxFocus());
 		
@@ -1009,6 +1029,7 @@ public class EntityEvents {
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
+		newPlayerData.setShortcutsMap(oldPlayerData.getShortcutsMap());
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
 
@@ -1029,16 +1050,19 @@ public class EntityEvents {
 		PlayerEntity player = e.getPlayer();
 		if(!player.world.isRemote) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			
-			/*IWorldCapabilities fromWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getFrom()));
-			IWorldCapabilities toWorldData = ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()));
-
-			toWorldData.setParties(fromWorldData.getParties());
-			toWorldData.setHeartlessSpawnLevel(fromWorldData.getHeartlessSpawnLevel());
-			toWorldData.setPortals(fromWorldData.getPortals());*/
+			ServerWorld world = player.getServer().getWorld(e.getTo());
+			if(e.getTo() == ModDimensions.STATION_OF_REMEMBRANCE) {
+				BlockPos blockPos = player.getPosition().down(2);
+				world.setBlockState(blockPos, ModBlocks.sorCore.get().getDefaultState(), 2);
+				if(world.getTileEntity(blockPos) instanceof SoRCoreTileEntity) {
+					SoRCoreTileEntity te = (SoRCoreTileEntity) world.getTileEntity(blockPos);
+					te.setUUID(player.getUniqueID());
+				}
+				
+			}
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(e.getPlayer().getServer().getWorld(e.getTo()))), (ServerPlayerEntity)player);
+			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(world)), (ServerPlayerEntity)player);
 		}
 	}
 	

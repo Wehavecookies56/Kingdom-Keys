@@ -1,4 +1,5 @@
 {
+  "cost": 200,
   "output": {
     "item": "kingdomkeys:hi_potion",
     "quantity": 1,

@@ -42,7 +42,7 @@ public class LimitArrowRain extends Limit {
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
 			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, (IOrgWeapon) stack.getItem())) / 2;
 		} else {
-			damage = (playerData.getStrength() + playerData.getMagic()) / 2;
+			damage = (playerData.getStrength(true) + playerData.getMagic(true)) / 2;
 		}
 
 		ArrowRainCoreEntity core = new ArrowRainCoreEntity(player.world, player, target, damage);
