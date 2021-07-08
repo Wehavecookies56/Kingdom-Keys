@@ -466,13 +466,13 @@ public class Utils {
 			if (playerData.isAbilityEquipped(entry.getKey())) {
 				switch (entry.getKey()) {
 				case Strings.mpHaste:
-					val += 2;
+					val += (2 * playerData.abilitiesEquipped(Strings.mpHaste));
 					break;
 				case Strings.mpHastera:
-					val += 4;
+					val += (4 * playerData.abilitiesEquipped(Strings.mpHastera));
 					break;
 				case Strings.mpHastega:
-					val += 6;
+					val += (6 * playerData.abilitiesEquipped(Strings.mpHastega));
 					break;
 				}
 			}

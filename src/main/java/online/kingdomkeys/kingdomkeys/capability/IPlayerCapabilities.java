@@ -173,7 +173,13 @@ public interface IPlayerCapabilities {
 	int[] getEquippedAbilityLevel(String string); 
 	void addEquippedAbilityLevel(String ability, int level);
 	boolean isAbilityEquipped(String string);
+	boolean isAbilityEquipped(String ability, int index);
 	void clearAbilities();
+	void equipAbilityToggle(String ability, int index);
+	void equipAbility(String ability, int index);
+	void unequipAbility(String ability, int index);
+	int getAbilityQuantity(String ability);
+	int abilitiesEquipped(String ability);
 
 	int getAntiPoints();
 	void setAntiPoints(int points);

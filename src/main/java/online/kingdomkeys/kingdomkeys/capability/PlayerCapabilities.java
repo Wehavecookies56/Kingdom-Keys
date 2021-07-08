@@ -1036,7 +1036,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		return new int[] {0,0};
 	}
-	
 
 	@Override
 	public boolean isAbilityEquipped(String string) {// First checks for weapon abilities
@@ -1080,11 +1079,72 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
+	public boolean isAbilityEquipped(String ability, int index) {
+		int indexConvert = (int) Math.pow(2, index);
+		if (abilityMap.containsKey(ability)) {
+			if (abilityMap.get(ability)[0] < index) {
+				return false;
+			} else {
+				return (abilityMap.get(ability)[1] & indexConvert) == indexConvert;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void equipAbilityToggle(String ability, int index) {
+		int indexConvert = (int) Math.pow(2, index);
+		if (abilityMap.containsKey(ability)) {
+			if (abilityMap.get(ability)[0] >= index) {
+				abilityMap.get(ability)[1] ^= indexConvert;
+			}
+		}
+	}
+
+	@Override
+	public void equipAbility(String ability, int index) {
+		int indexConvert = (int) Math.pow(2, index);
+		if (abilityMap.containsKey(ability)) {
+			if (abilityMap.get(ability)[0] >= index) {
+				abilityMap.get(ability)[1] |= indexConvert;
+			}
+		}
+	}
+
+	@Override
+	public void unequipAbility(String ability, int index) {
+		int indexConvert = (int) Math.pow(2, index);
+		if (abilityMap.containsKey(ability)) {
+			if (abilityMap.get(ability)[0] >= indexConvert) {
+				abilityMap.get(ability)[1] &= (~indexConvert);
+			}
+		}
+	}
+
+	@Override
 	public void addEquippedAbilityLevel(String ability, int level) {
 		//System.out.println(ability+": "+abilityMap.get(ability)[0]+" : "+(abilityMap.get(ability)[1]+level));
 		abilityMap.put(ability, new int[] {abilityMap.get(ability)[0], abilityMap.get(ability)[1]+level});
 	}
-	
+
+	@Override
+	public int getAbilityQuantity(String ability) {
+		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
+			return abilityMap.get(ability)[0]+1;
+		} else {
+			return 1;
+		}
+	}
+
+	@Override
+	public int abilitiesEquipped(String ability) {
+		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
+			return Integer.bitCount(abilityMap.get(ability)[1]);
+		} else {
+			return abilityMap.get(ability)[1];
+		}
+	}
+
 	@Override
 	public void clearAbilities() {
 		this.abilityMap.clear();

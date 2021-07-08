@@ -91,11 +91,20 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		for (i = 0; i < abilitiesMap.size(); i++) {
 			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
-			String path = new ResourceLocation(abilityName).getPath();
-			abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(path), ability.getType(), (e) -> {
-				action(ability);
-			}));
-			
+			//String path = new ResourceLocation(abilityName).getPath();
+			int level = abilitiesMap.get(abilityName)[0];
+			if (level == 0) {
+				abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
+					action(ability, 0);
+				}));
+			} else {
+				for (int j = 0; j < level; j++) {
+					int finalJ = j;
+					abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
+						action(ability, finalJ);
+					}));
+				}
+			}
 			abilities.get(i).visible = false;
 		}
 		
@@ -106,7 +115,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				if(ability != null) {
 					MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(ability.getTranslationKey()), AbilityType.WEAPON, (e) -> { });
 					abilities.add(aa);
-					System.out.println();
 					aa.visible = false;
 				}
 			}
@@ -160,27 +168,19 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		itemsPerPage = (int) (middleHeight / 19);
 	}
 
-	private void action(Ability ability) {
+	private void action(Ability ability, int index) {
 		String abilityName = ability.getRegistryName().toString();
 		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
-		int lvlIncrease = 0;
-		if (playerData.isAbilityEquipped(abilityName)) { // If ability is equipped, unequip
-			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Unequip(mc.player, ability));
-			lvlIncrease = -1;
-		} else { // If ability is unequipped, equip
-			// MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(mc.player, ability));
+		if (!playerData.isAbilityEquipped(abilityName, index)) {
 			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP()) {
 				return;
-			} else {
-				lvlIncrease = 1;
 			}
 		}
-		
-		if(lvlIncrease != 0) {
-			playerData.addEquippedAbilityLevel(abilityName, lvlIncrease);
-			PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, lvlIncrease));
-			init();
-		}
+		System.out.println(abilitiesMap.get(abilityName)[1]);
+		playerData.equipAbilityToggle(abilityName, index);
+		System.out.println("Equip: " + ability + ":" + index);
+		PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, index));
+		init();
 	}
 
 	@Override
@@ -234,33 +234,31 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		hoveredAbility = null;
 		
 		//Get all the abilities and set their text
-		for (int i = 0; i < abilitiesMap.size(); i++) {
-			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
+		for (int i = 0; i < abilities.size(); i++) {
+			String abilityName = abilities.get(i).getText();
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
-
-			abilities.get(i).equipped = playerData.isAbilityEquipped(abilityName);			
+			abilities.get(i).equipped = playerData.isAbilityEquipped(abilityName, abilitiesMap.get(abilityName)[0]);
 
 			String lvl = "";
-			if(ability.getType() == AbilityType.GROWTH) {
+			if (ability.getType() == AbilityType.GROWTH) {
 				int level = (playerData.getEquippedAbilityLevel(abilityName)[0]);
-     			lvl+= "_"+level;
+				lvl += "_" + level;
 			}
 			abilityName = ability.getTranslationKey();
 			String text = Utils.translateToLocal(new StringBuilder(abilityName).insert(abilityName.lastIndexOf('.'), lvl).toString());
-			if(buttons.get(i) instanceof MenuAbilitiesButton) {
+			if (buttons.get(i) instanceof MenuAbilitiesButton) {
 				MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
-				
+
 				if (ability.getAPCost() > playerData.getMaxAP() - consumedAP) {
 					button.active = false;
 				}
-				
-				if(playerData.isAbilityEquipped(ability.getRegistryName().toString())) {
+
+				if (playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
 					button.active = true;
 				}
-				
+
 				button.setMessage(new TranslationTextComponent(text));
 				button.setAP(ability.getAPCost());
-	
 				if (button.isHovered()) {
 					hoveredAbility = ability;
 				}

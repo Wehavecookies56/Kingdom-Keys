@@ -31,7 +31,9 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	private int apMiddleWidth;
 
 	AbilityType abilityType;
-	
+
+	private String text;
+
 	private boolean selected;
 	private int ap;
 	Minecraft minecraft;
@@ -39,6 +41,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	
 	public MenuAbilitiesButton(int x, int y, int widthIn, String buttonText, Ability.AbilityType type, Button.IPressable onPress) {
 		super(x, y, 22 + widthIn, 20, buttonText, onPress);
+		text = buttonText;
 		middleWidth = widthIn;
 		apMiddleWidth = widthIn/3;
 		abilityType = type;
@@ -179,6 +182,10 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public String getText() {
+		return text;
 	}
 
 	@Override

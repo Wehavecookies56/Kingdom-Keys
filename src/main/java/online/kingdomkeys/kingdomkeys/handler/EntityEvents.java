@@ -136,7 +136,14 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
 					
 					playerData.addAbility(Strings.zeroExp, false);
-					
+					//Testing ability stacking
+					playerData.addAbility(Strings.damageDrive, false);
+					playerData.addAbility(Strings.damageDrive, false);
+					playerData.addAbility(Strings.damageDrive, false);
+					playerData.equipAbilityToggle(Strings.damageDrive, 0);
+					playerData.equipAbilityToggle(Strings.damageDrive, 1);
+					playerData.equipAbilityToggle(Strings.damageDrive, 2);
+
 					playerData.addKnownRecipe(ModItems.potion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiPotion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.megaPotion.get().getRegistryName());
@@ -373,7 +380,6 @@ public class EntityEvents {
 		if (event.getEntityLiving() instanceof PlayerEntity) {
 			player = (PlayerEntity) event.getEntityLiving();
 			playerData = ModCapabilities.getPlayer(player);
-			
 			//Drive form speed
 			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
             	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
@@ -670,12 +676,12 @@ public class EntityEvents {
 
 				if (playerData.getReflectTicks() <= 0) { // If is casting reflect
 					if (playerData.isAbilityEquipped(Strings.mpRage)) {
-						playerData.addMP(event.getAmount() * 0.05F);
+						playerData.addMP((event.getAmount() * 0.05F) * playerData.abilitiesEquipped(Strings.mpRage));
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
 					}
 
 					if (playerData.isAbilityEquipped(Strings.damageDrive)) {
-						playerData.addDP(event.getAmount() * 0.05F);
+						playerData.addDP((event.getAmount() * 0.05F) * playerData.abilitiesEquipped(Strings.damageDrive));
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
 					}
 				}

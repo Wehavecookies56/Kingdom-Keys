@@ -40,7 +40,7 @@ public class CSSetEquippedAbilityPacket {
 			PlayerEntity player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			playerData.addEquippedAbilityLevel(message.ability, message.level);
+			playerData.equipAbilityToggle(message.ability, message.level);
 		});
 		ctx.get().setPacketHandled(true);
 	}
