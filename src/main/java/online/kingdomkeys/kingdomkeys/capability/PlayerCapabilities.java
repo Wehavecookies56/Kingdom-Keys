@@ -1138,8 +1138,37 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int abilitiesEquipped(String ability) {
+		int amount = 0;
+		//First check for keyblades having them
+		if (!ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { //Main keyblade
+			ItemStack stack = getEquippedKeychain(DriveForm.NONE);
+			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.NONE).getItem();
+			int level = weapon.toSummon().getKeybladeLevel(stack);
+			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
+			amount += Collections.frequency(abilities, ability);
+				
+		}
+		//SB Keyblade if user is base form
+		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu
+				ItemStack stack = getEquippedKeychain(DriveForm.SYNCH_BLADE);
+				IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem();
+				int level = weapon.toSummon().getKeybladeLevel(stack);
+				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
+				amount += Collections.frequency(abilities, ability);
+			}
+		} else { //DF Keyblades if user is in their form
+			ItemStack stack = getEquippedKeychain(new ResourceLocation(getActiveDriveForm()));
+			if (stack != null) {
+				IKeychain weapon = (IKeychain) getEquippedKeychain(new ResourceLocation(getActiveDriveForm())).getItem();
+				int level = weapon.toSummon().getKeybladeLevel(stack);
+				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
+				amount += Collections.frequency(abilities, ability);
+			}
+		}
+		
 		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
-			return Integer.bitCount(abilityMap.get(ability)[1]);
+			return amount + Integer.bitCount(abilityMap.get(ability)[1]);
 		} else {
 			return abilityMap.get(ability)[1];
 		}

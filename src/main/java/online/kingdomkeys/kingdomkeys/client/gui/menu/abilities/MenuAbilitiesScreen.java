@@ -47,6 +47,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	int itemsPerPage;
 
 	Ability hoveredAbility;
+	int hoveredIndex;
 	
 	public MenuAbilitiesScreen() {
 		super(Strings.Gui_Menu_Main_Button_Abilities, new Color(0,0,255));
@@ -93,14 +94,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
 			//String path = new ResourceLocation(abilityName).getPath();
 			int level = abilitiesMap.get(abilityName)[0];
-			if (level == 0) {
+			if (level == 0 || ability.getType() == AbilityType.GROWTH) {
 				abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
 					action(ability, 0);
 				}));
 			} else {
 				for (int j = 0; j < level; j++) {
 					int finalJ = j;
-					abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
+					abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, finalJ, ability.getType(), (e) -> {
 						action(ability, finalJ);
 					}));
 				}
@@ -108,25 +109,27 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			abilities.get(i).visible = false;
 		}
 		
+		//Main keyblade
 		if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
 			List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
 			for(String a : abilitiesList) {
 				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
 				if(ability != null) {
-					MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(ability.getTranslationKey()), AbilityType.WEAPON, (e) -> { });
+					MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
 					abilities.add(aa);
 					aa.visible = false;
 				}
 			}
 		}
 		
+		//Synch blade Keyblade
 		if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())){
 			if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
 				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE)));
 				for (String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
 					if (ability != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(ability.getTranslationKey()), AbilityType.WEAPON, (e) -> {
+						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth,  ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 						});
 						abilities.add(aa);
 						aa.visible = false;
@@ -141,7 +144,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					for (String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
 						if (ability != null) {
-							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(ability.getTranslationKey()), AbilityType.WEAPON, (e) -> {
+							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 							});
 							abilities.add(aa);
 							aa.visible = false;
@@ -171,15 +174,17 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	private void action(Ability ability, int index) {
 		String abilityName = ability.getRegistryName().toString();
 		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
+		//System.out.println("Index: "+index);
+
 		if (!playerData.isAbilityEquipped(abilityName, index)) {
 			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP(true)) {
 				return;
 			}
 		}
-		System.out.println(abilitiesMap.get(abilityName)[1]);
 		playerData.equipAbilityToggle(abilityName, index);
-		System.out.println("Equip: " + ability + ":" + index);
+		//System.out.println("Equip: " + abilityName + ":" + index);
 		PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, index));
+		//System.out.println(abilitiesMap.get(abilityName)[1]);
 		init();
 	}
 
@@ -219,6 +224,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		back.render(matrixStack, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
 			renderSelectedData(mouseX, mouseY, partialTicks);
+			//System.out.println(playerData.abilitiesEquipped(hoveredAbility.getRegistryName().toString()));
 		}
 	}
 
@@ -237,7 +243,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		for (int i = 0; i < abilities.size(); i++) {
 			String abilityName = abilities.get(i).getText();
 			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
-			abilities.get(i).equipped = playerData.isAbilityEquipped(abilityName, abilitiesMap.get(abilityName)[0]);
 
 			String lvl = "";
 			if (ability.getType() == AbilityType.GROWTH) {
@@ -250,10 +255,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
 
 				if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
-					button.active = false;
+					button.active = button.equipped;
 				}
 
-				if (playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
+				if (button.abilityType != AbilityType.WEAPON && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
 					button.active = true;
 				}
 
@@ -261,6 +266,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				button.setAP(ability.getAPCost());
 				if (button.isHovered()) {
 					hoveredAbility = ability;
+					hoveredIndex = button.index;
 				}
 			}
 		}
@@ -315,7 +321,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
-			if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString())) { // If hovering an equipped ability
+			if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString(),hoveredIndex)) { // If hovering an equipped ability
 				requiredAP *= -1;
 
 				// Bar going to decrease (dark yellow section when hovering equipped ability)

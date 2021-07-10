@@ -454,9 +454,7 @@ public class Utils {
 		while (it.hasNext()) {
 			Entry<String, int[]> entry = it.next();
 			Ability a = ModAbilities.registry.getValue(new ResourceLocation(entry.getKey()));
-			if (entry.getValue()[1] > 0) {
-				ap += a.getAPCost();
-			}
+			ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
 		}
 		return ap;
 	}

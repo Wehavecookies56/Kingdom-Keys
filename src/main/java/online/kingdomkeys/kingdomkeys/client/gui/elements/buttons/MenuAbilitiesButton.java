@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public class MenuAbilitiesButton extends MenuButtonBase {
@@ -30,7 +31,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	private int middleWidth;
 	private int apMiddleWidth;
 
-	AbilityType abilityType;
+	public AbilityType abilityType;
 
 	private String text;
 
@@ -38,6 +39,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	private int ap;
 	Minecraft minecraft;
 	public boolean equipped = false;
+	public int index = 0;
 	
 	public MenuAbilitiesButton(int x, int y, int widthIn, String buttonText, Ability.AbilityType type, Button.IPressable onPress) {
 		super(x, y, 22 + widthIn, 20, buttonText, onPress);
@@ -46,6 +48,11 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		apMiddleWidth = widthIn/3;
 		abilityType = type;
 		minecraft = Minecraft.getInstance();
+	}
+
+	public MenuAbilitiesButton(int buttonPosX, int buttonPosY, int buttonWidth, String abilityName, int finalJ, AbilityType type, Button.IPressable onPress) {
+		this(buttonPosX, buttonPosY, buttonWidth, abilityName, type, onPress);
+		index = finalJ;
 	}
 
 	@ParametersAreNonnullByDefault
@@ -140,7 +147,8 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		matrixStack.push();
 		{
 			RenderSystem.color4f(1, 1, 1, 1);
-			
+			//System.out.println(index);
+			equipped = ModCapabilities.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index);
 			if(!equipped && abilityType != AbilityType.WEAPON) {
 				blit(matrixStack, x+6, y+4, 74, 102, 12, 12);
 			} else {
@@ -158,7 +166,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 				for (int i = 0; i < middleWidth; i++)
 					blit(matrixStack, x + i + endWidth, y, middleU, selectedVPos, 1, height);
 				blit(matrixStack, x + endWidth + middleWidth, y, rightU, selectedVPos, endWidth, height);
-				}
+			}
 			matrixStack.pop();
 		}
 		

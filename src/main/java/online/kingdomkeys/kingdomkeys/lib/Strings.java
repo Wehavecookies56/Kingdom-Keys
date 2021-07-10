@@ -91,6 +91,7 @@ public class Strings {
     		blizzardBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzard_boost",
     		thunderBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"thunder_boost",
     		experienceBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"experience_boost",
+    		treasureMagnet =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"treasure_magnet",
     		secondChance =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"second_chance",
     		lightAndDarkness =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"light_and_darkness",
     		synchBlade =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"synch_blade"

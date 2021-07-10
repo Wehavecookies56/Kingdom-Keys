@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +28,9 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -62,7 +63,6 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
-import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.FocusOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
@@ -70,6 +70,7 @@ import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
@@ -338,6 +339,34 @@ public class EntityEvents {
 							openedAlignment.put(event.player.getUniqueID(), false);
 						}
 					}
+					
+					//Treasure Magnet
+					if(playerData.isAbilityEquipped(Strings.treasureMagnet)) {
+						double x = event.player.getPosX();
+						double y = event.player.getPosY() + 0.75;
+						double z = event.player.getPosZ();
+					
+						float range = 1 + playerData.abilitiesEquipped(Strings.treasureMagnet);
+						
+						List<ItemEntity> items = event.player.world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(x - range, y - range, z - range, x + range, y + range, z + range));
+						int pulled = 0;
+						for (ItemEntity item : items) {
+							if (pulled > 200) {
+								break;
+							}
+
+							Vector3d entityVector = new Vector3d(item.getPosX(), item.getPosY() - item.getYOffset() + item.getHeight() / 2, item.getPosZ());
+							Vector3d finalVector = new Vector3d(x, y, z).subtract(entityVector);
+
+							if (Math.sqrt(x * x + y * y + z * z) > 1) {
+								finalVector = finalVector.normalize();
+							}
+
+							item.setMotion(finalVector.mul(0.45F,0.45F,0.45F));
+							pulled++;
+						}
+					}
+					
 				}
 				
 				if(ModConfigs.magicUsesTimer > 1) {
@@ -355,8 +384,8 @@ public class EntityEvents {
 
 		if(ticks % 5 == 0) {
 			// Combat mode
-			List<Entity> entities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(16.0D, 10.0D, 16.0D).offset(-8.0D, -5.0D, -8.0D));
-			List<Entity> bossEntities = event.player.world.getEntitiesWithinAABBExcludingEntity(event.player, event.player.getBoundingBox().grow(150.0D, 100.0D, 150.0D).offset(-75.0D, -50.0D, -75.0D));
+			List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(event.player, 16);
+			List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(event.player, 150);
 			if (!bossEntities.isEmpty()) {
 				for (int i = 0; i < bossEntities.size(); i++) {
 					if (bossEntities.get(i) instanceof EnderDragonEntity || bossEntities.get(i) instanceof WitherEntity) {
@@ -382,8 +411,7 @@ public class EntityEvents {
 				isHostiles = false;
 			}
 		}
-		
-		
+				
 	}
 
 	@SubscribeEvent
