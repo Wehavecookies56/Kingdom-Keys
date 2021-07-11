@@ -461,25 +461,10 @@ public class Utils {
 
 	public static double getMPHasteValue(IPlayerCapabilities playerData) {
 		int val = 0;
-		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
-		Iterator<Entry<String, int[]>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, int[]> entry = it.next();
-			if (playerData.isAbilityEquipped(entry.getKey())) {
-				switch (entry.getKey()) {
-				case Strings.mpHaste:
-					val += (2 * playerData.abilitiesEquipped(Strings.mpHaste));
-					break;
-				case Strings.mpHastera:
-					val += (4 * playerData.abilitiesEquipped(Strings.mpHastera));
-					break;
-				case Strings.mpHastega:
-					val += (6 * playerData.abilitiesEquipped(Strings.mpHastega));
-					break;
-				}
-			}
-
-		}
+		val += (2 * playerData.abilitiesEquipped(Strings.mpHaste));
+		val += (4 * playerData.abilitiesEquipped(Strings.mpHastera));
+		val += (6 * playerData.abilitiesEquipped(Strings.mpHastega));
+		System.out.println(val);
 		return val;
 	}
 

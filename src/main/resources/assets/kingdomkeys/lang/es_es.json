@@ -354,6 +354,10 @@
 	"item.kingdomkeys.hi_drive_recovery": "Recarga de Fusión+",
 	"item.kingdomkeys.refocuser": "Carga Tino",
 	"item.kingdomkeys.hi_refocuser": "UltraCarga Tino",
+	"item.kingdomkeys.apboost": "Impulso Hábil",
+	"item.kingdomkeys.strengthboost": "Impulso de Vigor",
+	"item.kingdomkeys.magicboost": "Impulso Mágico",
+	"item.kingdomkeys.defenseboost": "Impulso Defensivo",
 
 	"potion.desc.hp": "§aVT§r",
 	"potion.desc.mp": "§9PM§r",

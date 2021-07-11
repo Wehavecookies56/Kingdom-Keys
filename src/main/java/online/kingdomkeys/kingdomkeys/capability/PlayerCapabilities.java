@@ -1086,7 +1086,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
-
 	@Override
 	public boolean isAbilityEquipped(String ability, int index) {
 		int indexConvert = (int) Math.pow(2, index);

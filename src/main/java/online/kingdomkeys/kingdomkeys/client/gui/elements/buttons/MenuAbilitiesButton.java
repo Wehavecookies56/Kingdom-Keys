@@ -166,7 +166,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 
 	@Override
 	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-		if(isHovered && abilityType != AbilityType.WEAPON)
+		if(isHovered && abilityType != AbilityType.WEAPON && !isVisual)
 			return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
 		else 
 			return false;

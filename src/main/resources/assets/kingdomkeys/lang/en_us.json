@@ -354,6 +354,10 @@
 	"item.kingdomkeys.hi_drive_recovery": "High Drive Recovery",
 	"item.kingdomkeys.refocuser": "Refocuser",
 	"item.kingdomkeys.hi_refocuser": "Hi-Refocuser",
+	"item.kingdomkeys.apboost": "AP Boost",
+	"item.kingdomkeys.strengthboost": "Strength Boost",
+	"item.kingdomkeys.magicboost": "Magic Boost",
+	"item.kingdomkeys.defenseboost": "Defense Boost",
 
 	"potion.desc.hp": "§aHP§r",
 	"potion.desc.mp": "§9MP§r",
