@@ -53,11 +53,11 @@
       "mag": 9,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
+          "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_damascus",
+          "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 1
         }
       ]
@@ -71,12 +71,12 @@
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 2
-        },
-        {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 2
         }
       ]
     },
@@ -89,12 +89,12 @@
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
-          "quantity": 3
-        },
-        {
           "material": "kingdomkeys:mat_damascus",
           "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 3
         }
       ]
     },
@@ -157,7 +157,7 @@
       "mag": 12,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_crystal",
+          "material": "kingdomkeys:mat_electrum",
           "quantity": 1
         },
         {
@@ -165,7 +165,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_electrum",
+          "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 1
         }
       ]

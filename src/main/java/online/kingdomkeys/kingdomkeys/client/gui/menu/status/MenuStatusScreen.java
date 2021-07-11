@@ -51,7 +51,6 @@ public class MenuStatusScreen extends MenuBackground {
 
 	private void updateButtons() {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		//String rlForm = KingdomKeys.MODID+":"+form; //form has no prefix (kingdomkeys:)
 
 		stats_player.active = !form.equals(DriveForm.NONE.toString()); //If form is empty we assume it's the player stats view
 		for(int i = 0; i < dfStats.size();i++) {//Iterate through all the buttons to update their state
@@ -73,14 +72,7 @@ public class MenuStatusScreen extends MenuBackground {
 			hp.visible = true;
 			mp.visible = true;
 			ap.visible = true;
-			driveGauge.visible = true;
-			/*str.visible = true;
-			mag.visible = true;
-			def.visible = true;
-			fRes.visible = true;
-			bRes.visible = true;
-			tRes.visible = true;
-			dRes.visible = true;	*/		
+			driveGauge.visible = true;	
 		} else {
 			dfLevel.visible = true;
 			dfExp.visible = true;
@@ -94,14 +86,6 @@ public class MenuStatusScreen extends MenuBackground {
 			mp.visible = false;
 			ap.visible = false;
 			driveGauge.visible = false;
-			/*str.visible = false;
-			mag.visible = false;
-			def.visible = false;
-			fRes.visible = false;
-			bRes.visible = false;
-			tRes.visible = false;
-			dRes.visible = false;*/
-		
 			 
 			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.getValue(new ResourceLocation(form)).getMaxLevel() ? 0 : ModDriveForms.registry.getValue(new ResourceLocation(form)).getLevelUpCost(playerData.getDriveFormLevel(form)+1) - playerData.getDriveFormExp(form);
 			dfLevel.setValue("" + playerData.getDriveFormLevel(form));
@@ -109,8 +93,6 @@ public class MenuStatusScreen extends MenuBackground {
 			dfNextLevel.setValue(""+remainingExp);
 			dfFormGauge.setValue(""+(2 + playerData.getDriveFormLevel(form)));
 		}
-		
-		//updateScreen();
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -35,14 +36,18 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuAbilitiesScreen extends MenuBackground {
+	String form = DriveForm.NONE.toString();
+
 	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	LinkedHashMap<String, int[]> abilitiesMap;
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 
 	MenuBox box;
 	Button prev, next;
-	MenuButton back;
+	MenuButton back, playerButton;
 	
+	List<MenuButton> driveSelector = new ArrayList<>();
+
 	int page = 0;
 	int itemsPerPage;
 
@@ -63,7 +68,16 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			page++;
 			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 			break;
+		case "back":
+			GuiHelper.openMenu();
+			break;
+		default:
+			System.out.println(string);
+			form = string;
+			init();
+			break;
 		}
+		updateButtons();
 
 	}
 	
@@ -82,15 +96,21 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		for(int i = 0; i < abilities.size(); i++) {
+		for(int i = 0; i < abilities.size(); i++) { //Somehow buttons get disabled so we reenable them all and allow the later check to calculate AP
 			MenuAbilitiesButton button = abilities.get(i);
 			button.active = true;
 		}
+		
+		playerButton.active = !form.equals(DriveForm.NONE.toString()); //If form is empty we assume it's the player stats view
+		for(int i = 0; i < driveSelector.size();i++) {//Iterate through all the buttons to update their state
+			driveSelector.get(i).active = !form.equals(driveSelector.get(i).getData()) && playerData.getDriveFormMap().containsKey(driveSelector.get(i).getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+			driveSelector.get(i).setSelected(!driveSelector.get(i).active); //Set it selected if it's not active (so it renders a bit to the right)
+		}
+
 	}
 
 	@Override
 	public void init() {
-		abilitiesMap = Utils.getSortedAbilities(playerData.getAbilityMap());
 		super.width = width;
 		super.height = height;
 		super.init();
@@ -109,66 +129,105 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = (int) (boxWidth * 0.46F);
 		
-		int i = 0;
-		for (i = 0; i < abilitiesMap.size(); i++) {
-			String abilityName = (String) abilitiesMap.keySet().toArray()[i];
-			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
-			//String path = new ResourceLocation(abilityName).getPath();
-			int level = abilitiesMap.get(abilityName)[0];
-			if (level == 0 || ability.getType() == AbilityType.GROWTH) {
-				abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
-					action(ability, 0);
-				}));
-			} else {
-				for (int j = 0; j < level; j++) {
-					int finalJ = j;
-					abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, finalJ, ability.getType(), (e) -> {
-						action(ability, finalJ);
+		
+		if (form.equals(DriveForm.NONE.toString())) {
+			abilitiesMap = Utils.getSortedAbilities(playerData.getAbilityMap());
+			
+			int i = 0;
+			for (i = 0; i < abilitiesMap.size(); i++) {
+				String abilityName = (String) abilitiesMap.keySet().toArray()[i];
+				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
+
+				int level = abilitiesMap.get(abilityName)[0];
+				if (level == 0 || ability.getType() == AbilityType.GROWTH) {
+					abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
+						action(ability, 0);
 					}));
+				} else {
+					for (int j = 0; j < level; j++) {
+						int finalJ = j;
+						abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, finalJ, ability.getType(), (e) -> {
+							action(ability, finalJ);
+						}));
+					}
 				}
+				abilities.get(i).visible = false;
 			}
-			abilities.get(i).visible = false;
-		}
-		
-		//Main keyblade
-		if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
-			List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
-			for(String a : abilitiesList) {
-				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
-				if(ability != null) {
-					MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
-					abilities.add(aa);
-					aa.visible = false;
-				}
-			}
-		}
-		
-		//Synch blade Keyblade
-		if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())){
-			if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
-				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE)));
-				for (String a : abilitiesList) {
+			
+			//Main keyblade
+			if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
+				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
+				for(String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
-					if (ability != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth,  ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-						});
+					if(ability != null) {
+						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
 						abilities.add(aa);
 						aa.visible = false;
 					}
 				}
 			}
-		} else { // Form keyblade abilities
-			if (ModDriveForms.registry.containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).hasKeychain()) {
-				if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(playerData.getActiveDriveForm()))) {
-					ItemStack itemStack = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
-					List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
+			
+			//Synch blade Keyblade
+			if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())){
+				if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
+					List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE)));
 					for (String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
 						if (ability != null) {
-							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth,  ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 							});
 							abilities.add(aa);
 							aa.visible = false;
+						}
+					}
+				}
+			} else { // Form keyblade abilities
+				if (ModDriveForms.registry.containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).hasKeychain()) {
+					if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(playerData.getActiveDriveForm()))) {
+						ItemStack itemStack = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
+						List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
+						for (String a : abilitiesList) {
+							Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+							if (ability != null) {
+								MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+								});
+								abilities.add(aa);
+								aa.visible = false;
+							}
+						}
+					}
+				}
+			}
+			
+		} else { //Drive form displays with disabled and equipped buttons
+			//TODO make list of abilities in the drive form data
+			
+			//Main keyblade
+			if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
+				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
+				for(String a : abilitiesList) {
+					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+					if(ability != null) {
+						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+						abilities.add(aa);
+						aa.visible = false;
+					}
+				}
+			}
+			// Selected Drive form 
+			if (ModDriveForms.registry.containsKey(new ResourceLocation(form)) && ModDriveForms.registry.getValue(new ResourceLocation(form)).hasKeychain()) {
+				if (playerData.getDriveFormMap().containsKey(form) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(form))) {
+					ItemStack itemStack = playerData.getEquippedKeychain(new ResourceLocation(form));
+					if(!ItemStack.areItemStacksEqual(itemStack, ItemStack.EMPTY)){
+						List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
+						for (String a : abilitiesList) {
+							Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+							if (ability != null) {
+								MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+								});
+								abilities.add(aa);
+								aa.visible = false;
+							}
 						}
 					}
 				}
@@ -176,8 +235,26 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 		
 		abilities.forEach(this::addButton);
+		itemsPerPage = (int) (middleHeight / 19);
+		
+		addButton(playerButton = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, minecraft.player.getDisplayName().getString(), MenuButton.ButtonType.BUTTON, b -> {action(DriveForm.NONE.toString());}));
+		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
+		forms.remove(DriveForm.NONE.toString());
+		forms.remove(DriveForm.SYNCH_BLADE.toString());
 
-        addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> GuiHelper.openMenu()));
+		int k = 0;
+		for (k = 0; k < forms.size(); k++) {
+			String formName = forms.get(k);
+			String name = ModDriveForms.registry.getValue(new ResourceLocation(formName)).getTranslationKey();
+			MenuButton b = new MenuButton((int) this.buttonPosX + 10, this.buttonPosY + ((1+k) * 18), (int) this.buttonWidth-10, Utils.translateToLocal(name), ButtonType.SUBBUTTON, (e) -> {
+				action(formName);
+			});
+			b.setData(formName);
+			driveSelector.add(b);
+			addButton(b);
+		}
+
+        addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
 
 		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
@@ -189,7 +266,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		prev.visible = false;
 		next.visible = false;
 		
-		itemsPerPage = (int) (middleHeight / 19);
+		updateButtons();
 	}
 
 	@Override
@@ -225,10 +302,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
 		next.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		playerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		back.render(matrixStack, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
 			renderSelectedData(mouseX, mouseY, partialTicks);
-			//System.out.println(playerData.abilitiesEquipped(hoveredAbility.getRegistryName().toString()));
 		}
 	}
 
@@ -255,6 +332,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 			abilityName = ability.getTranslationKey();
 			String text = Utils.translateToLocal(new StringBuilder(abilityName).insert(abilityName.lastIndexOf('.'), lvl).toString());
+			//System.out.println(buttons.get(i).getMessage().getString());
 			if (buttons.get(i) instanceof MenuAbilitiesButton) {
 				MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
 
@@ -362,7 +440,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				int percent = (consumedAP) * barWidth / maxAP;
 				if (requiredAP < 0)
 					percent = (consumedAP + requiredAP) * barWidth / maxAP;
-
 				
 				for (int j = 0; j < percent; j++)
 					blit(matrixStack, j + 7, 17, 163, 67, 1, 5);

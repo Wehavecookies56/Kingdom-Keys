@@ -1136,7 +1136,7 @@ public class KeybladeStats extends KeybladeProvider {
             .desc("The Keyblade owned by Leopardos' Foreteller.");
 
 		getBuilder(Strings.gullWing).keychain(Strings.gullWingChain).baseStats(4,6)
-            .ability("")
+            .ability(Strings.experienceBoost)
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(4,7).withMaterials(new Recipe()
                     .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
             .level( new KeybladeLevel.KeybladeLevelBuilder().withStats(5,7).withMaterials(new Recipe()
