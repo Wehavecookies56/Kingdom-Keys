@@ -106,10 +106,10 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 				Entry<String, int[]> entry = it.next();
 				int dfLevel = entry.getValue()[0];
 				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(entry.getKey()));
-				if(!form.getRegistryName().equals(DriveForm.NONE)) {
+				if(!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
 					for(int i=1;i<=dfLevel;i++) {
 						String baseAbility = form.getBaseAbilityForLevel(i);
-				     	if(!baseAbility.equals("")) {
+				     	if(baseAbility != null && !baseAbility.equals("")) {
 				     		playerData.addAbility(baseAbility, false);
 				     	}
 					}

@@ -135,14 +135,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					}
 					
 					//Adding the exp here as it will iterate through the party and this user won't get it there
-					if(getEquippedAbilityLevel(Strings.experienceBoost)[1] > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
-						exp *= 2;
+					if(abilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
+						exp *= (1 + abilitiesEquipped(Strings.experienceBoost));
 					}
 					this.exp += exp;
 					
 				} else { //Player not in a party or shareXP is false (command)
-					if(getEquippedAbilityLevel(Strings.experienceBoost)[1] > 0 && player.getHealth() <= player.getMaxHealth() / 2 && shareXP) { //if shareXP is false means it gets here because of the command
-						exp *= 2;
+					if(abilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2 && shareXP) { //if shareXP is false means it gets here because of the command
+						exp *= (1 + abilitiesEquipped(Strings.experienceBoost));
 					}
 					this.exp += exp;
 				}
@@ -1168,7 +1168,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		
 		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
-			return amount + Integer.bitCount(abilityMap.get(ability)[1]);
+			return amount + (abilityMap.containsKey(ability) ? Integer.bitCount(abilityMap.get(ability)[1]) : 0);
 		} else {
 			return abilityMap.get(ability)[1];
 		}

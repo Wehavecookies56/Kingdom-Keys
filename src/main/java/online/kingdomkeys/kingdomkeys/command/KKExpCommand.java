@@ -87,19 +87,19 @@ public class KKExpCommand extends BaseCommand { // kk_exp <give/take/set> <amoun
 
 			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 			Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
-			while (it.hasNext()) {
+			while(it.hasNext()) {
 				Entry<String, int[]> entry = it.next();
 				int dfLevel = entry.getValue()[0];
 				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(entry.getKey()));
-				for (int i = 1; i < dfLevel; i++) {
-					String baseAbility = form.getBaseAbilityForLevel(i);
-					if (!baseAbility.equals("")) {
-						playerData.addAbility(baseAbility, false);
+				if(!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
+					for(int i=1;i<=dfLevel;i++) {
+						String baseAbility = form.getBaseAbilityForLevel(i);
+				     	if(baseAbility != null && !baseAbility.equals("")) {
+				     		playerData.addAbility(baseAbility, false);
+				     	}
 					}
 				}
-
 			}
-
 			player.heal(playerData.getMaxHP());
 			playerData.setMP(playerData.getMaxMP());
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
