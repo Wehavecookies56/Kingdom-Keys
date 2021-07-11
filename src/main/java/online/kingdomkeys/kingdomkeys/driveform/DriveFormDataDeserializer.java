@@ -52,6 +52,15 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 				}
 				out.setLevelUp(levelsArray.stream().mapToInt(x->x).toArray());
 				break;
+			case "abilities":
+				JsonArray abilities = element.getAsJsonArray();
+				List<String> abilitiesArray = new ArrayList<String>();
+				
+				for(int i= 0; i < abilities.size(); i++) {
+					abilitiesArray.add(abilities.get(i).getAsString());
+				}
+				out.setAbilities(abilitiesArray);
+				break;
 			}
         });
       //  KingdomKeys.LOGGER.info("DESCRIPTION: {}", out.description);

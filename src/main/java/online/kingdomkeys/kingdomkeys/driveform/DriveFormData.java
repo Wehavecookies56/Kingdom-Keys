@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import java.util.List;
+
 /**
  * Stores the data loaded from the driveforms datapack
  */
@@ -8,6 +10,7 @@ public class DriveFormData {
     float strMult, magMult, speedMult;
     int cost, ap;
     int[] levelUp;
+    List<String> abilities;
     
     public DriveFormData() {
 
@@ -68,6 +71,14 @@ public class DriveFormData {
 	
 	public void setLevelUp(int[] levelup) {
 		this.levelUp = levelup;
+	}
+	
+	public List<String> getAbilities() {
+		return this.abilities;
+	}
+
+	public void setAbilities(List<String> array) {
+		this.abilities = array;
 	}
 
 }

@@ -226,6 +226,7 @@ public class EntityEvents {
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);			
 			if (playerData != null) {
+				//System.out.println(playerData.abilitiesEquipped(Strings.treasureMagnet));
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				

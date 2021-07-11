@@ -40,6 +40,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	Minecraft minecraft;
 	public boolean equipped = false;
 	public int index = 0;
+	public boolean isVisual = false;
 	
 	public MenuAbilitiesButton(int x, int y, int widthIn, String buttonText, Ability.AbilityType type, Button.IPressable onPress) {
 		super(x, y, 22 + widthIn, 20, buttonText, onPress);
@@ -139,7 +140,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		{
 			RenderSystem.color4f(1, 1, 1, 1);
 			//System.out.println(index);
-			equipped = ModCapabilities.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index);
+			equipped = ModCapabilities.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON) {
 				blit(matrixStack, x+6, y+4, 74, 102, 12, 12);
 			} else {

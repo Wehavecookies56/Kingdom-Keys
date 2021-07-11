@@ -72,7 +72,6 @@ public class DriveFormDataLoader extends JsonReloadListener {
                 try {
                     result = GSON_BUILDER.fromJson(br2, DriveFormData.class);
                     names.add(driveFormName.toString());
-                   
                 } catch (JsonParseException e) {
                     KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).getLocation().toString(), e);
                     continue;
