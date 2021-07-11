@@ -140,13 +140,6 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
 					
 					playerData.addAbility(Strings.zeroExp, false);
-					//Testing ability stacking
-					playerData.addAbility(Strings.damageDrive, false);
-					playerData.addAbility(Strings.damageDrive, false);
-					playerData.addAbility(Strings.damageDrive, false);
-					playerData.equipAbilityToggle(Strings.damageDrive, 0);
-					playerData.equipAbilityToggle(Strings.damageDrive, 1);
-					playerData.equipAbilityToggle(Strings.damageDrive, 2);
 
 					playerData.addKnownRecipe(ModItems.potion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiPotion.get().getRegistryName());

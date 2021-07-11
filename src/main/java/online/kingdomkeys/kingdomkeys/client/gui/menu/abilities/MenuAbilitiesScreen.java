@@ -66,6 +66,27 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 
 	}
+	
+	private void action(Ability ability, int index) {
+		String abilityName = ability.getRegistryName().toString();
+		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
+
+		if (!playerData.isAbilityEquipped(abilityName, index)) {
+			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP(true)) {
+				return;
+			}
+		}
+		playerData.equipAbilityToggle(abilityName, index);
+		PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, index));
+		updateButtons();
+	}
+
+	private void updateButtons() {
+		for(int i = 0; i < abilities.size(); i++) {
+			MenuAbilitiesButton button = abilities.get(i);
+			button.active = true;
+		}
+	}
 
 	@Override
 	public void init() {
@@ -171,23 +192,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		itemsPerPage = (int) (middleHeight / 19);
 	}
 
-	private void action(Ability ability, int index) {
-		String abilityName = ability.getRegistryName().toString();
-		int apCost = ModAbilities.registry.getValue(new ResourceLocation(abilityName)).getAPCost();
-		//System.out.println("Index: "+index);
-
-		if (!playerData.isAbilityEquipped(abilityName, index)) {
-			if (Utils.getConsumedAP(playerData) + apCost > playerData.getMaxAP(true)) {
-				return;
-			}
-		}
-		playerData.equipAbilityToggle(abilityName, index);
-		//System.out.println("Equip: " + abilityName + ":" + index);
-		PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, index));
-		//System.out.println(abilitiesMap.get(abilityName)[1]);
-		init();
-	}
-
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		box.draw(matrixStack);
@@ -258,7 +262,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					button.active = button.equipped;
 				}
 
-				if (button.abilityType != AbilityType.WEAPON && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
+				if (button.abilityType == AbilityType.WEAPON || playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
 					button.active = true;
 				}
 
