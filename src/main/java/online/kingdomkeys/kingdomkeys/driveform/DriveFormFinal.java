@@ -43,11 +43,11 @@ public class DriveFormFinal extends DriveForm {
 		case 3:
 			return Strings.glide;
 		case 4:
-			return "";
+			return Strings.formBoost;
 		case 5:
 			return Strings.glide;
 		case 6:
-			return "";
+			return Strings.formBoost;
 		case 7:
 			return Strings.glide;
 		}

@@ -34,7 +34,7 @@ public class DriveFormLimit extends DriveForm {
 		case 3:
 			return Strings.dodgeRoll;
 		case 4:
-			return "";
+			return Strings.treasureMagnet;
 		case 5:
 			return Strings.dodgeRoll;
 		case 6:

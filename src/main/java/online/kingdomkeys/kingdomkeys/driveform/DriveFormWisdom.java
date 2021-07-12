@@ -35,11 +35,11 @@ public class DriveFormWisdom extends DriveForm {
 		case 3:
 			return Strings.quickRun;
 		case 4:
-			return "";
+			return Strings.mpRage;
 		case 5:
 			return Strings.quickRun;
 		case 6:
-			return "";
+			return Strings.mpHaste;
 		case 7:
 			return Strings.quickRun;
 		}

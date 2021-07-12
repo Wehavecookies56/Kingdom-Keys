@@ -129,6 +129,7 @@ public class LevelStats {
                 break;
             case 31:
                 cap.addStrength(1);
+                cap.addAbility(Strings.treasureMagnet, true);
                 break;
             case 32:
                 cap.addStrength(1);
@@ -187,6 +188,7 @@ public class LevelStats {
                 break;
             case 47:
                 cap.addStrength(1);
+                cap.addAbility(Strings.treasureMagnet, true);
                 break;
             case 48:
                 cap.addStrength(1);
