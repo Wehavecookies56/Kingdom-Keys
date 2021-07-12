@@ -460,7 +460,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
 			if(hoveredType != AbilityType.WEAPON) {
-				if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString(),hoveredIndex)) { // If hovering an equipped ability
+				if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString(), hoveredIndex)) { // If hovering an equipped ability
 					requiredAP *= -1;
 	
 					// Bar going to decrease (dark yellow section when hovering equipped ability)

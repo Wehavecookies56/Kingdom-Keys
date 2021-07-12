@@ -257,7 +257,7 @@ public class LevelStats {
             case 65:
                 cap.addStrength(1);
                 cap.addMaxHP(5);
-                cap.addAbility(Strings.lightAndDarkness, true);
+                //cap.addAbility(Strings.lightAndDarkness, true);
                 break;
             case 66:
                 cap.addMagic(1);
