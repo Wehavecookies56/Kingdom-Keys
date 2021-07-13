@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 def mcver = "1.16.5"
-version = '2.0.4.0'
+version = '2.0.4.1'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
 

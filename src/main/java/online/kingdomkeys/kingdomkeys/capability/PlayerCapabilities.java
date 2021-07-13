@@ -1082,7 +1082,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
 			return amount + (abilityMap.containsKey(ability) ? Integer.bitCount(abilityMap.get(ability)[1]) : 0);
 		} else {
-			return abilityMap.get(ability)[1];
+			return abilityMap.containsKey(ability) ? abilityMap.get(ability)[1] : 0;
 		}
 	}
 
