@@ -340,7 +340,7 @@ public class EntityEvents {
 						double y = event.player.getPosY() + 0.75;
 						double z = event.player.getPosZ();
 					
-						float range = 1 + playerData.abilitiesEquipped(Strings.treasureMagnet);
+						float range = 1 + playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet);
 						
 						List<ItemEntity> items = event.player.world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(x - range, y - range, z - range, x + range, y + range, z + range));
 						int pulled = 0;
@@ -716,12 +716,12 @@ public class EntityEvents {
 
 				if (playerData.getReflectTicks() <= 0) { // If is casting reflect
 					if (playerData.isAbilityEquipped(Strings.mpRage)) {
-						playerData.addMP((event.getAmount() * 0.05F) * playerData.abilitiesEquipped(Strings.mpRage));
+						playerData.addMP((event.getAmount() * 0.05F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
 					}
 
 					if (playerData.isAbilityEquipped(Strings.damageDrive)) {
-						playerData.addDP((event.getAmount() * 0.05F) * playerData.abilitiesEquipped(Strings.damageDrive));
+						playerData.addDP((event.getAmount() * 0.05F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
 					}
 				}
@@ -986,7 +986,6 @@ public class EntityEvents {
 			}
 		}
 	}
-
 
 	@SubscribeEvent
 	public void onPlayerClone(PlayerEvent.Clone event) {

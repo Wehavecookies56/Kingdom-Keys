@@ -47,6 +47,7 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -135,14 +136,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					}
 					
 					//Adding the exp here as it will iterate through the party and this user won't get it there
-					if(abilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
-						exp *= (1 + abilitiesEquipped(Strings.experienceBoost));
+					if(getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
+						exp *= (1 + getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 					}
 					this.exp += exp;
 					
 				} else { //Player not in a party or shareXP is false (command)
-					if(abilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2 && shareXP) { //if shareXP is false means it gets here because of the command
-						exp *= (1 + abilitiesEquipped(Strings.experienceBoost));
+					if(getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2 && shareXP) { //if shareXP is false means it gets here because of the command
+						exp *= (1 + getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 					}
 					this.exp += exp;
 				}
@@ -1038,21 +1039,22 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public boolean isAbilityEquipped(String string) {// First checks for weapon abilities
-		return abilitiesEquipped(string) > 0;
+		return getNumberOfAbilitiesEquipped(string) > 0;
 	}
 	
 	@Override
-	public int abilitiesEquipped(String ability) {
+	public int getNumberOfAbilitiesEquipped(String ability) {
 		int amount = 0;
 		//First check for keyblades having them
-		if (!ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { //Main keyblade
+		if (getAlignment() == OrgMember.NONE && getEquippedKeychain(DriveForm.NONE) != null && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { // Main keyblade
 			ItemStack stack = getEquippedKeychain(DriveForm.NONE);
 			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.NONE).getItem();
 			int level = weapon.toSummon().getKeybladeLevel(stack);
 			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
-			amount += Collections.frequency(abilities, ability);
-				
+			amount += Collections.frequency(abilities, ability);		
 		}
+		//TODO check for org weapon abilities
+		
 		//SB Keyblade if user is base form
 		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu

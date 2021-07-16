@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amount> [player]
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
@@ -73,51 +74,14 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 		
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            
-			playerData.setLevel(1);
-			playerData.setExperience(0);
-			playerData.setMaxHP(20);
-            player.setHealth(playerData.getMaxHP());
-    		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
-            playerData.setMaxMP(0);
-            playerData.setMP(playerData.getMaxMP());
-            playerData.setMaxAP(10);
-            
-            playerData.setStrength(1);
-            playerData.setMagic(1);
-            playerData.setDefense(1);
-			SoAState.applyStatsForChoices(playerData);
-
-			playerData.setEquippedShotlock("");
-			playerData.getShotlockList().clear();
+            Utils.restartLevel(playerData, player);
 			
-			playerData.clearAbilities();
-            playerData.addAbility(Strings.zeroExp, false);
-            
 			while (playerData.getLevel() < level) {
 				playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false, false);
 			}
 			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 1f, 1.0f);
 
-			
-			LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
-			Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
-			while(it.hasNext()) {
-				Entry<String, int[]> entry = it.next();
-				int dfLevel = entry.getValue()[0];
-				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(entry.getKey()));
-				if(!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
-					for(int i=1;i<=dfLevel;i++) {
-						String baseAbility = form.getBaseAbilityForLevel(i);
-				     	if(baseAbility != null && !baseAbility.equals("")) {
-				     		playerData.addAbility(baseAbility, false);
-				     	}
-					}
-				}
-			}
-			
-			player.heal(playerData.getMaxHP());
-			playerData.setMP(playerData.getMaxMP());
+            Utils.restartLevel2(playerData, player);			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 			context.getSource().sendFeedback(new TranslationTextComponent("Set "+player.getDisplayName().getString()+" level to "+level), true);
 			
@@ -134,8 +98,7 @@ public class KKLevelCommand extends BaseCommand{ //kk_level <give/take/set> <amo
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMunny(playerData.getMunny() + value);
-			
-				context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getString()), true);
+			context.getSource().sendFeedback(new TranslationTextComponent("Added "+value+" munny to "+player.getDisplayName().getString()), true);
 			
 			player.sendMessage(new TranslationTextComponent("Your munny has been increased by "+value),Util.DUMMY_UUID);	
 		}

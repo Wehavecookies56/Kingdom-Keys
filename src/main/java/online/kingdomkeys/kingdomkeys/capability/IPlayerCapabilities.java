@@ -179,7 +179,7 @@ public interface IPlayerCapabilities {
 	void equipAbility(String ability, int index);
 	void unequipAbility(String ability, int index);
 	int getAbilityQuantity(String ability);
-	int abilitiesEquipped(String ability);
+	int getNumberOfAbilitiesEquipped(String ability);
 
 	int getAntiPoints();
 	void setAntiPoints(int points);

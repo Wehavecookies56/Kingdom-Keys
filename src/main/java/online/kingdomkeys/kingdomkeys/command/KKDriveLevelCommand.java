@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKDriveLevelCommand extends BaseCommand{ 
@@ -33,7 +34,7 @@ public class KKDriveLevelCommand extends BaseCommand{
 	private static final SuggestionProvider<CommandSource> SUGGEST_DRIVE_FORMS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation location : ModDriveForms.registry.getKeys()) {
-			if(!location.getPath().equals("form_anti"))
+			if(!location.toString().equals(Strings.Form_Anti) && !location.toString().equals(DriveForm.NONE.toString()) && !location.toString().equals(DriveForm.SYNCH_BLADE.toString()))
 				list.add(location.toString());
 		}
 		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
@@ -77,11 +78,9 @@ public class KKDriveLevelCommand extends BaseCommand{
 				playerData.setDriveFormExp(player, form, cost);
 			}
 
+			KKExpCommand.fix(playerData, player);
 			DriveForm formInstance = ModDriveForms.registry.getValue(new ResourceLocation(form));
-			
-			
-				context.getSource().sendFeedback(new TranslationTextComponent("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
-			
+			context.getSource().sendFeedback(new TranslationTextComponent("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
 			player.sendMessage(new TranslationTextComponent("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level), Util.DUMMY_UUID);
 		}
 		return 1;

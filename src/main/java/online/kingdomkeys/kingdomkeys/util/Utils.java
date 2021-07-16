@@ -22,6 +22,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -57,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
@@ -461,10 +463,9 @@ public class Utils {
 
 	public static double getMPHasteValue(IPlayerCapabilities playerData) {
 		int val = 0;
-		val += (2 * playerData.abilitiesEquipped(Strings.mpHaste));
-		val += (4 * playerData.abilitiesEquipped(Strings.mpHastera));
-		val += (6 * playerData.abilitiesEquipped(Strings.mpHastega));
-		System.out.println(val);
+		val += (2 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHaste));
+		val += (4 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastera));
+		val += (6 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastega));
 		return val;
 	}
 
@@ -663,7 +664,48 @@ public class Utils {
 		}
 		return abilities;
 	}
-	
-   
 
+	public static void restartLevel(IPlayerCapabilities playerData, PlayerEntity player) {
+		playerData.setLevel(1);
+		playerData.setExperience(0);
+		playerData.setMaxHP(20);
+        player.setHealth(playerData.getMaxHP());
+		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
+        playerData.setMaxMP(0);
+        playerData.setMP(playerData.getMaxMP());
+        playerData.setMaxAP(10);
+        
+        playerData.setStrength(1);
+        playerData.setMagic(1);
+        playerData.setDefense(1);
+		SoAState.applyStatsForChoices(playerData);
+
+		playerData.setEquippedShotlock("");
+		playerData.getShotlockList().clear();
+		
+		playerData.clearAbilities();
+        playerData.addAbility(Strings.zeroExp, false);
+	}
+	
+	public static void restartLevel2(IPlayerCapabilities playerData, PlayerEntity player) {
+		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
+		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
+		while(it.hasNext()) {
+			Entry<String, int[]> entry = it.next();
+			int dfLevel = entry.getValue()[0];
+			DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(entry.getKey()));
+			if(!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
+				for(int i=1;i<=dfLevel;i++) {
+					String baseAbility = form.getBaseAbilityForLevel(i);
+			     	if(baseAbility != null && !baseAbility.equals("")) {
+			     		playerData.addAbility(baseAbility, false);
+			     	}
+				}
+			}
+		}
+		
+		player.heal(playerData.getMaxHP());
+		playerData.setMP(playerData.getMaxMP());
+	}
+	
 }
