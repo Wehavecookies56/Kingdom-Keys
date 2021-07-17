@@ -38,8 +38,14 @@ public class Strings {
     
     // Drive Forms
     public static final String
-    		DF_Prefix = "form_";
-    
+    		DF_Prefix = "form_",
+            Form_Valor = KingdomKeys.MODID+":"+DF_Prefix+"valor",
+            Form_Wisdom = KingdomKeys.MODID+":"+DF_Prefix+"wisdom",
+            Form_Limit = KingdomKeys.MODID+":"+DF_Prefix+"limit",
+            Form_Master = KingdomKeys.MODID+":"+DF_Prefix+"master",
+            Form_Final = KingdomKeys.MODID+":"+DF_Prefix+"final",
+            Form_Anti = KingdomKeys.MODID+":"+DF_Prefix+"anti";
+            
     // Limits
        public static final String
 			LaserCircle = "laser_circle",
@@ -304,15 +310,6 @@ public class Strings {
 			Stats_LevelUp_DodgeRoll = "stats.levelUpDodgeRoll",
 			Stats_LevelUp_AerialDodge = "stats.levelUpAerialDodge",
 			Stats_LevelUp_Glide = "stats.levelUpGlide"*/;
-
-    //Forms
-    public static final String
-            Form_Valor = KingdomKeys.MODID+":form_valor",
-            Form_Wisdom = KingdomKeys.MODID+":form_wisdom",
-            Form_Limit = KingdomKeys.MODID+":form_limit",
-            Form_Master = KingdomKeys.MODID+":form_master",
-            Form_Final = KingdomKeys.MODID+":form_final",
-            Form_Anti = KingdomKeys.MODID+":form_anti";
 
     // Gui
     public static final String

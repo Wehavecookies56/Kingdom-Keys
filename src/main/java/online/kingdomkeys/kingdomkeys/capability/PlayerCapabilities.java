@@ -518,6 +518,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void addMaxMP(double mp) {
 		this.maxMP += mp;
+		setMP(getMaxMP());
 		messages.add(Strings.Stats_LevelUp_MP);
 	}
 
