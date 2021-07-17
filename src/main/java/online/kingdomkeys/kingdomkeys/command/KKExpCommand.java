@@ -63,9 +63,12 @@ public class KKExpCommand extends BaseCommand { // kk_exp <give/take/set> <amoun
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             Utils.restartLevel(playerData, player);
 
-			playerData.addExperience(player, exp, false, false);
-			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 1f, 1.0f);
-			
+			if(playerData.getSoAState() == SoAState.COMPLETE) {
+				playerData.addExperience(player, exp, false, false);
+				player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 1f, 1.0f);
+			} else {
+				context.getSource().sendFeedback(new TranslationTextComponent(player.getDisplayName().getString() + " has to make a choice first"), true);
+			}
             Utils.restartLevel2(playerData, player);			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 
@@ -114,7 +117,9 @@ public class KKExpCommand extends BaseCommand { // kk_exp <give/take/set> <amoun
 		int exp = playerData.getExperience();
 
 		Utils.restartLevel(playerData, player);
-		playerData.addExperience(player, exp, false, false);
+		if(playerData.getSoAState() == SoAState.COMPLETE) {
+			playerData.addExperience(player, exp, false, false);
+		}
         Utils.restartLevel2(playerData, player);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 

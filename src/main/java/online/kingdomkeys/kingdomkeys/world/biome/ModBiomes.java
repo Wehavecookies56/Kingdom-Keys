@@ -13,6 +13,6 @@ public class ModBiomes {
 
 	static {
 		BIOMES.register(Strings.diveToTheHeart, BiomeMaker::makeVoidBiome);
-		BIOMES.register(Strings.stationOfRemembrance, BiomeMaker::makeVoidBiome);
+		BIOMES.register(Strings.stationOfSorrow, BiomeMaker::makeVoidBiome);
 	}
 }

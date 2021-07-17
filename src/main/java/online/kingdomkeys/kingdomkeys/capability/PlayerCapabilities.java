@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addExperience(PlayerEntity player, int exp, boolean shareXP, boolean sound) {
-		if (player != null) {
+		if (player != null && getSoAState() == SoAState.COMPLETE) {
 			if (this.level < 100) {
 				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP

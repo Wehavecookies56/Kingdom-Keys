@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.station_of_remembrance;
+package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,15 +21,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public class StationOfRemembranceChunkGenerator extends ChunkGenerator {
+public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
     private DimensionStructuresSettings settings;
 
     public static void registerChunkGenerator() {
-		Registry.register(Registry.CHUNK_GENERATOR_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_remembrance_generator"), StationOfRemembranceChunkGenerator.CODEC);
+		Registry.register(Registry.CHUNK_GENERATOR_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_generator"), StationOfSorrowChunkGenerator.CODEC);
 	}
 
-	public static final Codec<StationOfRemembranceChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((surfaceChunkGenerator) -> surfaceChunkGenerator.biomeProvider), DimensionStructuresSettings.field_236190_a_.fieldOf("structures").forGetter((ChunkGenerator::func_235957_b_))).apply(instance, instance.stable(StationOfRemembranceChunkGenerator::new)));
+	public static final Codec<StationOfSorrowChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((surfaceChunkGenerator) -> surfaceChunkGenerator.biomeProvider), DimensionStructuresSettings.field_236190_a_.fieldOf("structures").forGetter((ChunkGenerator::func_235957_b_))).apply(instance, instance.stable(StationOfSorrowChunkGenerator::new)));
     
    // private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
    // private static final ChunkPos SPAWN_CHUNK_POS = new ChunkPos(SPAWN_POS);
@@ -70,11 +70,11 @@ public class StationOfRemembranceChunkGenerator extends ChunkGenerator {
             "0000000011441441100000000" +
     		"0000000000111110000000000";
 
-    public StationOfRemembranceChunkGenerator(BiomeProvider biomeSource, DimensionStructuresSettings dimensionStructuresSettings) {
+    public StationOfSorrowChunkGenerator(BiomeProvider biomeSource, DimensionStructuresSettings dimensionStructuresSettings) {
         this(biomeSource, biomeSource, dimensionStructuresSettings);
     }
 
-    private StationOfRemembranceChunkGenerator(BiomeProvider biomeSource, BiomeProvider biomeSource2, DimensionStructuresSettings dimensionStructuresSettings) {
+    private StationOfSorrowChunkGenerator(BiomeProvider biomeSource, BiomeProvider biomeSource2, DimensionStructuresSettings dimensionStructuresSettings) {
         super(biomeSource, biomeSource2, dimensionStructuresSettings, 0);
     }
     
@@ -86,7 +86,7 @@ public class StationOfRemembranceChunkGenerator extends ChunkGenerator {
     @Override
     @OnlyIn(Dist.CLIENT)
     public ChunkGenerator func_230349_a_(long seed) {
-        return new StationOfRemembranceChunkGenerator(this.biomeProvider.getBiomeProvider(seed), this.settings);
+        return new StationOfSorrowChunkGenerator(this.biomeProvider.getBiomeProvider(seed), this.settings);
     }
 
     @Override

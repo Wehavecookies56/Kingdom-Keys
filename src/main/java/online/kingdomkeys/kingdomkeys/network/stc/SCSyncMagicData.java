@@ -77,7 +77,6 @@ public class SCSyncMagicData {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();
 
-			System.out.println(player.ticksExisted);
 			for (int i = 0; i < message.names.size(); i++) {
 				Magic magic = ModMagic.registry.getValue(new ResourceLocation(message.names.get(i)));
 				String d = message.data.get(i);

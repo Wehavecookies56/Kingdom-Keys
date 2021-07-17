@@ -1072,7 +1072,7 @@ public class EntityEvents {
 		if(!player.world.isRemote) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			ServerWorld world = player.getServer().getWorld(e.getTo());
-			if(e.getTo() == ModDimensions.STATION_OF_REMEMBRANCE) {
+			if(e.getTo() == ModDimensions.STATION_OF_SORROW) {
 				BlockPos blockPos = player.getPosition().down(2);
 				world.setBlockState(blockPos, ModBlocks.sorCore.get().getDefaultState(), 2);
 				if(world.getTileEntity(blockPos) instanceof SoRCoreTileEntity) {

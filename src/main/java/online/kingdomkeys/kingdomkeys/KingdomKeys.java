@@ -54,6 +54,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
+import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -198,6 +199,7 @@ public class KingdomKeys {
 		event.addListener(new RecipeDataLoader());
 		event.addListener(new DriveFormDataLoader());
 		event.addListener(new MagicDataLoader());
+		event.addListener(new LevelingDataLoader());
 	}
 
 	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {

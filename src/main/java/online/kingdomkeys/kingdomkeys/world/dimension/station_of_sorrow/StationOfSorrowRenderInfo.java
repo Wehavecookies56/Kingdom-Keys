@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.station_of_remembrance;
+package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
 import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.math.vector.Vector3d;
@@ -6,9 +6,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class StationOfRemembranceRenderInfo extends DimensionRenderInfo {
+public class StationOfSorrowRenderInfo extends DimensionRenderInfo {
 
-    public StationOfRemembranceRenderInfo() {
+    public StationOfSorrowRenderInfo() {
         super(Float.NaN, true, FogType.NONE, true, true);
         setSkyRenderHandler((ticks, partialTicks, matrixStack, world, mc) -> {});
     }

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.station_of_remembrance;
+package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 @Mod.EventBusSubscriber
-public class StationOfRemembranceDimension{
+public class StationOfSorrowDimension{
     //Event Listeners//
 
     //Set the fog density to fade out the bottom of the platform
@@ -24,7 +24,7 @@ public class StationOfRemembranceDimension{
     public static void renderFog(EntityViewRenderEvent.FogDensity event) {
         World world = event.getInfo().getRenderViewEntity().world;
         if (world != null) {
-            if (world.getDimensionKey().equals(ModDimensions.STATION_OF_REMEMBRANCE)) {
+            if (world.getDimensionKey().equals(ModDimensions.STATION_OF_SORROW)) {
                 event.setDensity(0.03F);
                 event.setCanceled(true);
             }
@@ -36,7 +36,7 @@ public class StationOfRemembranceDimension{
     public static void onHurt(LivingHurtEvent event) {
         if (event.getEntityLiving() instanceof PlayerEntity) {
             if (!((PlayerEntity)event.getEntityLiving()).isCreative()) {
-                if (event.getEntityLiving().world.getDimensionKey().equals(ModDimensions.STATION_OF_REMEMBRANCE)) {
+                if (event.getEntityLiving().world.getDimensionKey().equals(ModDimensions.STATION_OF_SORROW)) {
                     event.setCanceled(true);
                 }
             }
@@ -47,7 +47,7 @@ public class StationOfRemembranceDimension{
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         if (!event.player.isCreative()) {
-            if (event.player.world.getDimensionKey().equals(ModDimensions.STATION_OF_REMEMBRANCE)) {
+            if (event.player.world.getDimensionKey().equals(ModDimensions.STATION_OF_SORROW)) {
                 if (event.player.getPosY() < 10) {
                     event.player.setPositionAndUpdate(0, 25, 0);
                 }
@@ -58,7 +58,7 @@ public class StationOfRemembranceDimension{
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getPlayer().world.getDimensionKey().equals(ModDimensions.STATION_OF_REMEMBRANCE)) {
+            if (event.getPlayer().world.getDimensionKey().equals(ModDimensions.STATION_OF_SORROW)) {
                 event.setCanceled(true);
             }
         }
@@ -67,7 +67,7 @@ public class StationOfRemembranceDimension{
     @SubscribeEvent
     public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().getDimensionKey().equals(ModDimensions.STATION_OF_REMEMBRANCE)) {
+            if (event.getWorld().getDimensionKey().equals(ModDimensions.STATION_OF_SORROW)) {
                 if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.pedestal.get()) {
                     if (event.getPlayer().isSneaking()) {
                         event.setCanceled(true);
@@ -82,7 +82,7 @@ public class StationOfRemembranceDimension{
     @SubscribeEvent
     public static void useItem(PlayerInteractEvent.RightClickItem event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().getDimensionKey().equals(ModDimensions.STATION_OF_REMEMBRANCE)) {
+            if (event.getWorld().getDimensionKey().equals(ModDimensions.STATION_OF_SORROW)) {
                 event.setCanceled(true);
             }
         }

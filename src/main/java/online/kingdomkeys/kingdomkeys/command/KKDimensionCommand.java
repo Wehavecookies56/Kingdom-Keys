@@ -39,7 +39,7 @@ public class KKDimensionCommand extends BaseCommand {
 		list.add("the_nether");
 		list.add("the_end");
 		list.add(ModDimensions.DIVE_TO_THE_HEART.getLocation().toString());
-		list.add(ModDimensions.STATION_OF_REMEMBRANCE.getLocation().toString());
+		list.add(ModDimensions.STATION_OF_SORROW.getLocation().toString());
 		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 
@@ -64,9 +64,7 @@ public class KKDimensionCommand extends BaseCommand {
 		for (ServerPlayerEntity player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getWorld(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-
 			context.getSource().sendFeedback(new TranslationTextComponent("Teleported" + player.getDisplayName().getString() + " to dimension " + dimension.getRegistryName().toString()), true);
-
 			player.sendMessage(new TranslationTextComponent("You have been teleported to " + dimension.getLocation().toString()), Util.DUMMY_UUID);
 		}
 		return 1;
@@ -76,7 +74,7 @@ public class KKDimensionCommand extends BaseCommand {
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);
 		}
-		if (dimension == ModDimensions.STATION_OF_REMEMBRANCE) {
+		if (dimension == ModDimensions.STATION_OF_SORROW) {
 			return new BlockPos(0, 26, 0);
 		}
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);

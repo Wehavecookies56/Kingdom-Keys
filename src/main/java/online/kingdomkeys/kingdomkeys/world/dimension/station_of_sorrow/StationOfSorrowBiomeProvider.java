@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.station_of_remembrance;
+package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +18,22 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-public class StationOfRemembranceBiomeProvider extends BiomeProvider {
+public class StationOfSorrowBiomeProvider extends BiomeProvider {
     public static void registerBiomeProvider() {
-        Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_remembrance_biome_source"), StationOfRemembranceBiomeProvider.CODEC);
+        Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_remembrance_biome_source"), StationOfSorrowBiomeProvider.CODEC);
     }
 
-    public static final Codec<StationOfRemembranceBiomeProvider> CODEC =
+    public static final Codec<StationOfSorrowBiomeProvider> CODEC =
             RecordCodecBuilder.create((instance) -> instance.group(
                     RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((vanillaLayeredBiomeSource) -> vanillaLayeredBiomeSource.BIOME_REGISTRY))
-            .apply(instance, instance.stable(StationOfRemembranceBiomeProvider::new)));
+            .apply(instance, instance.stable(StationOfSorrowBiomeProvider::new)));
 
     private final Registry<Biome> BIOME_REGISTRY;
     public static List<Biome> NONSTANDARD_BIOME = new ArrayList<>();
 
-    public static ResourceLocation BIOME = new ResourceLocation(KingdomKeys.MODID, Strings.stationOfRemembrance);
+    public static ResourceLocation BIOME = new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow);
 
-    public StationOfRemembranceBiomeProvider(Registry<Biome> biomeRegistry) {
+    public StationOfSorrowBiomeProvider(Registry<Biome> biomeRegistry) {
         super(biomeRegistry.getEntries().stream()
                 .filter(entry -> entry.getKey().getLocation().getNamespace().equals(KingdomKeys.MODID))
                 .map(Map.Entry::getValue)
@@ -59,6 +59,6 @@ public class StationOfRemembranceBiomeProvider extends BiomeProvider {
     @Override
     @OnlyIn(Dist.CLIENT)
     public BiomeProvider getBiomeProvider(long seed) {
-        return new StationOfRemembranceBiomeProvider(this.BIOME_REGISTRY);
+        return new StationOfSorrowBiomeProvider(this.BIOME_REGISTRY);
     }
 }
