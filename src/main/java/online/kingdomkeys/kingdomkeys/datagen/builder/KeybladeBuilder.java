@@ -17,6 +17,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
     private int baseStr, baseMag;
     private String desc;
     private String baseAbility;
+    private float reach;
     private ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
 
     public KeybladeBuilder(Object o, Object o1) {
@@ -65,6 +66,11 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         return self();
     }
 
+    public T reach(float reach) {
+    	this.reach = reach;
+    	return self();
+    }
+    
     @Override
     protected boolean exists() {
         return true;
@@ -76,7 +82,8 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         JsonObject baseStat = new JsonObject();
         JsonArray levels = new JsonArray();
         root.addProperty("ability", baseAbility);
-
+        root.addProperty("reach", reach);
+        
         if (this.keychain != null) {
             root.addProperty("keychain", this.keychain.toString());
         }

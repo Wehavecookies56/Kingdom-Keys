@@ -1,7 +1,6 @@
 {
-  "abilities": [
-    ""
-  ],
+  "ability":"",
+  "reach": 5.0,
   "keychain": "kingdomkeys:incomplete_kiblade_chain",
   "base_stats": {
     "str": 10,
