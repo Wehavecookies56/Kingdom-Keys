@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.network.PacketDispatcher;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -51,6 +52,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSExtendedReach;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
@@ -60,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseShortcutPacket;
+import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
@@ -603,7 +606,7 @@ public class InputHandler {
 		if (player.isSneaking()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
 		} else {
-			RayTraceResult rtr = InputHandler.getMouseOverExtended(100);
+			RayTraceResult rtr = getMouseOverExtended(100);
 			if (rtr != null) {
 				if(rtr instanceof BlockRayTraceResult) {
 					BlockRayTraceResult brtr = (BlockRayTraceResult)rtr;
@@ -868,8 +871,38 @@ public class InputHandler {
 	            commandBack();
 	            event.setCanceled(true);
 	        }
-    	}
-    }
+
+			if (mc.currentScreen == null && event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
+				PlayerEntity thePlayer = mc.player;
+				if (thePlayer != null) {
+					ItemStack itemstack = thePlayer.getHeldItemMainhand();
+					IExtendedReach ieri;
+					if (itemstack != null) {
+						if (itemstack.getItem() instanceof IExtendedReach) {
+							ieri = (IExtendedReach) itemstack.getItem();
+						} else {
+							ieri = null;
+						}
+
+						if (ieri != null) {
+							float reach = ieri.getReach();
+							RayTraceResult rtr = getMouseOverExtended(reach);
+							if (rtr != null) {
+								if (rtr instanceof EntityRayTraceResult) {
+									EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
+									if (ertr.getEntity() != null && ertr.getEntity().hurtResistantTime == 0) {
+										if (ertr.getEntity() != thePlayer) {
+											PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getEntityId()));
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 	private void commandSwapReaction() {
 		loadLists();

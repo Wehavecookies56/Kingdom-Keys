@@ -3,5 +3,6 @@
 		"str": 6,
 		"mag": 4
 	},
+	"reach": 6.0,
 	"description": "Test description"
 }

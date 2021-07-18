@@ -43,6 +43,9 @@ public class OrganizationDataDeserializer implements JsonDeserializer<Organizati
                     //Don't care if the string is empty or what it contains
                     out.setDescription(element.getAsString());
                     break;
+                case "reach":
+                	out.setReach(element.getAsFloat());
+                	break;
             }
         });
       //  KingdomKeys.LOGGER.info("DESCRIPTION: {}", out.description);

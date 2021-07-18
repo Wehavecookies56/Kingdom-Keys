@@ -56,10 +56,12 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 				Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(element.getAsString()));
 				// Make sure the item is valid
 				if (keychain != null) {
-					
 					out.setKeychain(keychain);
 				}
 				break;
+			case "reach":
+             	out.setReach(element.getAsFloat());
+             	break;
 			case "base_stats":
 				JsonObject statsObject = element.getAsJsonObject();
 				statsObject.entrySet().forEach(statsEntry -> {

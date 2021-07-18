@@ -46,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -53,9 +54,10 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class KeybladeItem extends SwordItem implements IItemCategory {
+public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedReach {
 
 	// Level 0 = no upgrades, will use base stats in the data file
 	public KeybladeData data;
@@ -194,7 +196,13 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 		if (world.isRemote && player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-			RayTraceResult rtr = Minecraft.getInstance().objectMouseOver;
+			RayTraceResult rtr;
+			if(player.getHeldItemOffhand().getItem() instanceof IExtendedReach) {
+				float reach = ((IExtendedReach) player.getHeldItemOffhand().getItem()).getReach();
+				rtr = InputHandler.getMouseOverExtended(Math.max(5,reach));
+			} else {
+				rtr = Minecraft.getInstance().objectMouseOver;
+			}
 			if (rtr != null) {
 				player.swingArm(Hand.OFF_HAND);
 
@@ -273,6 +281,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory {
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.TOOL;
+	}
+	
+	@Override
+	public float getReach() {
+		return data.getReach();
 	}
 
 	@Mod.EventBusSubscriber

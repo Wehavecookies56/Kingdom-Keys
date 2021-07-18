@@ -25,6 +25,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
 public class CSAttackOffhandPacket {
 
@@ -51,8 +52,20 @@ public class CSAttackOffhandPacket {
 		ctx.get().enqueueWork(() -> {
 			PlayerEntity player = ctx.get().getSender();
 			 Entity entity = player.world.getEntityByID(message.entityId);
-		        if (entity != null)
-		            attackTargetEntityWithCurrentItem(player, entity);
+		        if (entity != null) {
+		        	if (player.getHeldItemOffhand().getItem() instanceof IExtendedReach) {
+			            IExtendedReach theExtendedReachWeapon = (IExtendedReach) player.getHeldItemOffhand().getItem();
+			            double distanceSq = player.getDistanceSq(entity);
+			            float reach = Math.max(5,theExtendedReachWeapon.getReach());
+			            double reachSq = reach * reach;
+			            if (reachSq >= distanceSq) {
+				        	attackTargetEntityWithOffhandItem(player, entity);
+				            System.out.println(theExtendedReachWeapon.getReach());
+
+				        	System.out.println("Offhand extended (or not) attack");
+			            }
+			        }
+		        }
 		});
 		ctx.get().setPacketHandled(true);
 	}
@@ -62,7 +75,7 @@ public class CSAttackOffhandPacket {
 	    * Attacks for the player the targeted entity with the currently equipped item.  The equipped item has hitEntity
 	    * called on it. Args: targetEntity
 	    */
-	   public static void attackTargetEntityWithCurrentItem(PlayerEntity player, Entity targetEntity) {
+	   public static void attackTargetEntityWithOffhandItem(PlayerEntity player, Entity targetEntity) {
 	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) 
 	    	  return;
 	      if (targetEntity.canBeAttackedWithItem()) {

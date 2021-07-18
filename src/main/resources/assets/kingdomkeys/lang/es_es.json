@@ -112,7 +112,6 @@
 	
 	"gui.menu.config.show_hearts": "Mostrar corazones",
 
-
 	"gui.synthesis": "Sintetizador",
 	"gui.synthesis.synthesise": "Sintetizar",
 	"gui.synthesis.synthesise.create": "Crear",
@@ -201,7 +200,7 @@
 	"ability.ability_glide_1.name": "Planeador 1",
 	"ability.ability_glide_2.name": "Planeador 2",
 	"ability.ability_glide_3.name": "Planeador 3",
-	"ability.ability_glide_4.name": "Planeador MÁX",
+	"ability.ability_glide_4.name": "Superplaneador",
 	"ability.ability_glide.desc": "En el aire, mantén pulsada la tecla de salto para planear.",
 
 	"ability.ability_scan.name": "Libra",
@@ -550,8 +549,8 @@
 	"item.kingdomkeys.damascus": "Damasco",
 	"item.kingdomkeys.adamantite": "Adamantita",
 	"item.kingdomkeys.electrum": "Electrum",
-	"item.kingdomkeys.evanescent_crystal": "Cristal Evanescent",
-	"item.kingdomkeys.illusory_crystal": "Illusory Crystal",
+	"item.kingdomkeys.evanescent_crystal": "Cristal Evanescente",
+	"item.kingdomkeys.illusory_crystal": "Cristal Ilusorio",
 
 	"_comment": "Keyblades",
 	"item.kingdomkeys.abaddon_plasma": "Plasma de Abadón",
@@ -585,11 +584,12 @@
 	"item.kingdomkeys.fatal_crest": "Emblema Fatal",
 	"item.kingdomkeys.fenrir": "Fenrir",
 	"item.kingdomkeys.ferris_gear": "Noria Vivaz",
-	"item.kingdomkeys.followthe_wind": "Sigue al Viento",
+	"item.kingdomkeys.follow_the_wind": "Sigue al Viento",
 	"item.kingdomkeys.frolic_flame": "Llama Crepitante",
 	"item.kingdomkeys.glimpse_of_darkness": "Atsibo Oscuro",
 	"item.kingdomkeys.guardian_bell": "Tañido Guardián",
 	"item.kingdomkeys.guardian_soul": "Guardian del Alma",
+	"item.kingdomkeys.gulas_keyblade": "Llave espada de Gula",
 	"item.kingdomkeys.gull_wing": "Ala de Gaviota",
 	"item.kingdomkeys.heros_crest": "Emblema de Héroe",
 	"item.kingdomkeys.hidden_dragon": "Dragón Oculto",

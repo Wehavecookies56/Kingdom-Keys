@@ -18,6 +18,7 @@ public class KeybladeData {
     //The level 0 stats
     int baseStrength, baseMagic;
     String baseAbility;
+    float reach;
     //List of upgrades for the keyblade
     @Nullable List<KeybladeLevel> levels;
     //Description for the tooltip of the keyblade
@@ -94,26 +95,11 @@ public class KeybladeData {
         this.baseStrength = baseStrength;
     }
     
-    /*public String materialsToString(KeybladeLevel level) {
-    	String mat = "";
-    	for(Entry<Material, Integer> m : level.getMaterialList().entrySet()) {
-    		mat += m.getKey()+"?"+m.getValue();
-    	}
-    	return mat;
+    public float getReach() {
+        return reach;
     }
     
-    public String levelsToString(){
-    	String levels = ""; //Get a string from the levels
-    	for(int i = 0;i<this.levels.size();i++) {
-    		KeybladeLevel level = this.levels.get(i);
-    		levels+= ";"+level.getAbility()+";"+level.getStrength()+";"+level.getMagic()+";"+materialsToString(level);
-    	}
-    	return levels;
+    public void setReach(float reach) {
+        this.reach = reach;
     }
-    
-    @Override
-    public String toString() {
-    	String s = keychain.getRegistryName()+","+ levelsToString()+","+baseStrength+","+baseMagic+","+description;
-    	return super.toString();
-    }*/
 }

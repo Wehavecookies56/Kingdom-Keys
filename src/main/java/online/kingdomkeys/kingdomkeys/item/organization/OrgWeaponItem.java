@@ -17,8 +17,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
-public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon{
+public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon, IExtendedReach{
 
 	protected OrganizationData data;
 
@@ -59,6 +60,11 @@ public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon{
     public OrganizationData getOrganizationData() {
         return data;
     }
+    
+    @Override
+	public float getReach() {
+		return data.getReach();
+	}
 
     @OnlyIn(Dist.CLIENT)
     @Override

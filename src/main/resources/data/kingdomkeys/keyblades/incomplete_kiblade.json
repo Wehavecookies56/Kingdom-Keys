@@ -7,6 +7,7 @@
     "str": 10,
     "mag": 5
   },
+  "reach": 8.0,
   "levels": [
     {
       "str": 10,
@@ -34,9 +35,8 @@
           "material": "kingdomkeys:mat_fluorite",
           "quantity": 1
         }
-      ],
-	  "ability": "kingdomkeys:ability_light_and_darkness"
-    },
+      ]
+	},
     {
       "str": 11,
       "mag": 7,

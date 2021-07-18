@@ -6,14 +6,14 @@ package online.kingdomkeys.kingdomkeys.item.organization;
 public class OrganizationData {
 
     int baseStrength, baseMagic;
-    //Description for the tooltip of the keyblade
+    float reach;
     String description;
 
     public OrganizationData() {
 
     }
 
-    public OrganizationData(String description, int baseStrength, int baseMagic) {
+    public OrganizationData(String description, int baseStrength, int baseMagic, float reach) {
         this.description = description;
         this.baseStrength = baseStrength;
         this.baseMagic = baseMagic;
@@ -44,4 +44,13 @@ public class OrganizationData {
     public void setBaseStrength(int baseStrength) {
         this.baseStrength = baseStrength;
     }
+    
+    public float getReach() {
+        return reach;
+    }
+    
+    public void setReach(float reach) {
+        this.reach = reach;
+    }
+    
 }
