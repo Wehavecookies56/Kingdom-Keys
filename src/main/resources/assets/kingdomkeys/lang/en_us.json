@@ -246,6 +246,7 @@
 	"_comment": "Shotlocks",
 	"shotlock.circular_shotlock.name": "Ragnarok",
 	"shotlock.dark_volley.name": "Dark Volley",
+	"shotlock.prism_rain.name": "Prism Rain",
 
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Normal Blox",

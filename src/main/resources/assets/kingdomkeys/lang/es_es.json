@@ -245,7 +245,8 @@
 
 	"_comment": "Shotlocks",
 	"shotlock.circular_shotlock.name": "Ragnarok",
-	"shotlock.dark_volley.name": "Volea Umbría",									
+	"shotlock.dark_volley.name": "Volea Umbría",
+	"shotlock.prism_rain.name": "Chorro Irisado",	
 
 	"_comment": "Blocks",
 	"block.kingdomkeys.normal_blox": "Blox Normal",
