@@ -23,28 +23,28 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class RagnarokCoreEntity extends ThrowableEntity {
+public class PrismRainCoreEntity extends ThrowableEntity {
 
 	int maxTicks = 100;
 	List<RagnarokShotEntity> list = new ArrayList<RagnarokShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
 	float dmg;
 
-	public RagnarokCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public PrismRainCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
 		this.preventEntitySpawning = true;
 	}
 
-	public RagnarokCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public PrismRainCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
 	}
 
-	public RagnarokCoreEntity(World world) {
+	public PrismRainCoreEntity(World world) {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
 		this.preventEntitySpawning = true;
 	}
 
-	public RagnarokCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
+	public PrismRainCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), player, world);
 		setCaster(player.getUniqueID());
 		String targetIDS = "";
@@ -85,7 +85,7 @@ public class RagnarokCoreEntity extends ThrowableEntity {
 					Entity target = getTargets().get(i);
 					if(target != null) {
 						RagnarokShotEntity bullet = new RagnarokShotEntity(world, getCaster(), target, dmg);
-						bullet.setColor(16757273);
+						bullet.setColor(getColor(i%7));
 						float r = 0.3F;
 						double offset_amount = -1.5;
 						double alpha = Math.toRadians(getCaster().rotationYaw);                        
@@ -96,7 +96,6 @@ public class RagnarokCoreEntity extends ThrowableEntity {
 
 						bullet.setPosition(x,y,z);
 						bullet.setMaxTicks(maxTicks + 20);
-						//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
 						list.add(bullet);
 						world.addEntity(bullet);
 					}
@@ -118,6 +117,26 @@ public class RagnarokCoreEntity extends ThrowableEntity {
 			}
 		}
 		super.tick();
+	}
+
+	private int getColor(int i) {
+		switch(i) {
+		case 0:
+			return 0xFFFFFF;
+		case 1:
+			return 0xFF0000;
+		case 2:
+			return 0x00FF00;
+		case 3:
+			return 0x0000FF;
+		case 4:
+			return 0xFF00FF;
+		case 5:
+			return 0xFFFF00;
+		case 6:
+			return 0x00FFFF;
+		}
+		return 0;
 	}
 
 	@Override
@@ -149,8 +168,8 @@ public class RagnarokCoreEntity extends ThrowableEntity {
 		this.dataManager.set(TARGETS, compound.getString("TargetUUID"));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(RagnarokCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(RagnarokCoreEntity.class, DataSerializers.STRING);
+	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(PrismRainCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(PrismRainCoreEntity.class, DataSerializers.STRING);
 
 	public PlayerEntity getCaster() {
 		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;

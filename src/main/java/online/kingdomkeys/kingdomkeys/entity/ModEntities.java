@@ -69,9 +69,6 @@ import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserCircleEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.shotlock.RagnarokShotEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.shotlock.ShotlockCircularEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.shotlock.ShotlockDarkVolleyEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
@@ -131,7 +128,9 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.PrismRainCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
@@ -235,10 +234,12 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, EntityClassification.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createEntityType(ArrowRainCoreEntity::new, ArrowRainCoreEntity::new, EntityClassification.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
     
-    public static final RegistryObject<EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, DarkVolleyCoreEntity::new, EntityClassification.MISC,"entity_shotlock_volley_core", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<RagnarokCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokCoreEntity::new, RagnarokCoreEntity::new, EntityClassification.MISC,"entity_shotlock_circular_core", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<VolleyShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createEntityType(VolleyShotEntity::new, VolleyShotEntity::new, EntityClassification.MISC,"entity_volley_shotlock_shot", 0.5F, 0.5F);
-    public static final RegistryObject<EntityType<RagnarokShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, RagnarokShotEntity::new, EntityClassification.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
+	public static final RegistryObject<EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, DarkVolleyCoreEntity::new, EntityClassification.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
+	public static final RegistryObject<EntityType<RagnarokCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokCoreEntity::new, RagnarokCoreEntity::new, EntityClassification.MISC, "entity_shotlock_circular_core", 0.5F, 0.5F);
+	public static final RegistryObject<EntityType<PrismRainCoreEntity>> TYPE_PRISM_RAIN = createEntityType(PrismRainCoreEntity::new, PrismRainCoreEntity::new, EntityClassification.MISC, "entity_shotlock_prism_rain", 0.5F, 0.5F);
+
+	public static final RegistryObject<EntityType<BaseShotlockShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createEntityType(VolleyShotEntity::new, VolleyShotEntity::new, EntityClassification.MISC, "entity_volley_shotlock_shot", 0.5F, 0.5F);
+	public static final RegistryObject<EntityType<BaseShotlockShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, RagnarokShotEntity::new, EntityClassification.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -380,10 +381,10 @@ public class ModEntities {
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_DARK_VOLLEY.get(), ShotlockDarkVolleyEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_CIRCULAR.get(), ShotlockCircularEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_CIRCULAR.get(), InvisibleEntityRenderer.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), RagnarokShotEntityRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer.FACTORY);
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
         

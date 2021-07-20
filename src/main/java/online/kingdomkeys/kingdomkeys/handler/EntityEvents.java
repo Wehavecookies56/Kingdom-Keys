@@ -345,6 +345,9 @@ public class EntityEvents {
 						List<ItemEntity> items = event.player.world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(x - range, y - range, z - range, x + range, y + range, z + range));
 						int pulled = 0;
 						for (ItemEntity item : items) {
+							if(item.ticksExisted < 20) {
+								break;
+							}
 							if (pulled > 200) {
 								break;
 							}

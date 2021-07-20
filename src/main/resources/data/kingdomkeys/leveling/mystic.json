@@ -317,7 +317,10 @@
    },
    "69":{
       "str":1,
-      "ap":1
+      "ap":1,
+      "shotlocks":[
+         "kingdomkeys:prism_rain"
+      ]
    },
    "70":{
       "mag":1,

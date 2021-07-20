@@ -1,18 +1,11 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.awt.Color;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -20,14 +13,9 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class RagnarokShotEntity extends ThrowableEntity {
-
-	int maxTicks = 100;
-	float dmg;
-	Entity target;
+public class RagnarokShotEntity extends BaseShotlockShotEntity {
 	
 	public RagnarokShotEntity(EntityType<? extends ThrowableEntity> type, World world) {
 		super(type, world);
@@ -44,19 +32,7 @@ public class RagnarokShotEntity extends ThrowableEntity {
 	}
 
 	public RagnarokShotEntity(World world, LivingEntity player, Entity target, double dmg) {
-		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), player, world);
-		this.dmg = (float)dmg;
-		setTarget(target.getEntityId());
-	}
-
-	@Override
-	public IPacket<?> createSpawnPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravityVelocity() {
-		return 0F;
+		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world, player, target, dmg);
 	}
 
 	@Override
@@ -66,7 +42,8 @@ public class RagnarokShotEntity extends ThrowableEntity {
 		}
 		
 		if(ticksExisted > 1) {
-			world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 0.4, 0.1);
+			Color color = new Color(getColor());
+			world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
 		}
 		
 		/*if(ticksExisted < 20) {
@@ -140,52 +117,4 @@ public class RagnarokShotEntity extends ThrowableEntity {
 		}
 	}
 
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(OWNER) != null) {
-			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
-			compound.putInt("TargetUUID", this.dataManager.get(TARGET));
-		}
-	}
-
-	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.dataManager.set(TARGET, compound.getInt("TargetUUID"));
-	}
-
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.VARINT);
-
-	public PlayerEntity getCaster() {
-		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
-	}
-
-	public void setCaster(UUID uuid) {
-		this.dataManager.set(OWNER, Optional.of(uuid));
-	}
-
-	public Entity getTarget() {
-		return this.world.getEntityByID(this.getDataManager().get(TARGET));
-	}
-
-	public void setTarget(int i) {
-		this.dataManager.set(TARGET, i);
-	}
-
-	@Override
-	protected void registerData() {
-		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.dataManager.register(TARGET, 0);
-	}
 }

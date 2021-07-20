@@ -55,7 +55,8 @@ public class Strings {
     // Shotlocks
        public static final String
        		DarkVolley = "dark_volley",
-       		Ragnarok = "circular_shotlock";
+       		Ragnarok = "circular_shotlock",
+       		PrismRain = "prism_rain";       
     
     // Reaction Commands
        public static final String

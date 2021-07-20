@@ -87,7 +87,7 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 				Entity target = getTargets().get(i++);
 				if(target != null) {
 					VolleyShotEntity bullet = new VolleyShotEntity(world, getCaster(), target, dmg);
-					
+					bullet.setColor(4921675);
 					bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
 					bullet.setMaxTicks(maxTicks + 20);
 					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
