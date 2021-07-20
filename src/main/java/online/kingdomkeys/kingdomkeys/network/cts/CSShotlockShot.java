@@ -56,10 +56,13 @@ public class CSShotlockShot {
 			Shotlock shotlock = Utils.getPlayerShotlock(player);
 			
 			List<Entity> targets = new ArrayList<Entity>();
+			
 			for(int enemyID : message.shotlockEnemies) {
 				Entity target = player.world.getEntityByID(enemyID);
 				targets.add(target);
 			}
+			
+			playerData.setHasShotMaxShotlock(targets.size() == shotlock.getMaxLocks());
 
 			shotlock.onUse(player, targets);
 			playerData.remFocus(message.cost);

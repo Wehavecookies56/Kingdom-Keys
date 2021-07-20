@@ -59,6 +59,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	LinkedHashMap<String, int[]> magicList = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
 	List<String> shotlockList = new ArrayList<>();
 	List<Integer> shotlockEnemies;
+	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<String, Integer> materials = new TreeMap<>();
@@ -577,6 +578,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void addShotlockEnemy(Integer entity) {
 		this.shotlockEnemies.add(entity);
+	}
+	
+	@Override
+	public boolean hasShotMaxShotlock() {
+		return hasShotMaxShotlock;
+	}
+
+	@Override
+	public void setHasShotMaxShotlock(boolean val) {
+		this.hasShotMaxShotlock = val;
 	}
 	
 	@Override

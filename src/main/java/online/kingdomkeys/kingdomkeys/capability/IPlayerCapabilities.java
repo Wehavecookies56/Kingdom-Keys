@@ -67,6 +67,8 @@ public interface IPlayerCapabilities {
 	void setShotlockEnemies(List<Integer> list);
 	List<Integer> getShotlockEnemies();
 	void addShotlockEnemy(Integer entity);
+	boolean hasShotMaxShotlock();
+	void setHasShotMaxShotlock(boolean val);
 	
 	double getDP();
 	void setDP(double dP);
