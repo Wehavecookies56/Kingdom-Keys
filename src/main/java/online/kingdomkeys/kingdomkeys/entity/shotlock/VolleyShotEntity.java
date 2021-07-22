@@ -1,10 +1,13 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
+import java.awt.Color;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -40,7 +43,9 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 		}
 		
 		if(ticksExisted > 1) {
-			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			Color color = new Color(getColor());
+			world.addParticle(new RedstoneParticleData(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F), getPosX(), getPosY(), getPosZ(), 1,1,1);
+			//world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		}
 		
 		if(ticksExisted % 10 == 0) {

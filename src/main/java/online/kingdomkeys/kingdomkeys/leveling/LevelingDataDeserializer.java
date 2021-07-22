@@ -29,7 +29,6 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 			JsonElement element = entry.getValue();
 			int level = Integer.parseInt(entry.getKey());
 			JsonObject jsonObject2 = entry.getValue().getAsJsonObject();
-			System.out.println(jsonObject2);
 			jsonObject2.entrySet().forEach(entry2 -> {
 				JsonElement element2 = entry2.getValue();
 
@@ -49,7 +48,6 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 				case "maxhp":
 					out.setMaxHp(level, element2.getAsInt());
 					break;
-
 				case "maxmp":
 					out.setMaxMp(level, element2.getAsInt());
 					break;

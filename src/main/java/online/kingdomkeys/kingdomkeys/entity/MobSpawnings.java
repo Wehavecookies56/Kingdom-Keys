@@ -34,7 +34,7 @@ public class MobSpawnings {
 
 	public static void removeSpawns(BiomeLoadingEvent event) {
 		if (event.getName().equals(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart)) || event.getName().equals(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow))) {
-			//Remove all entity spawns added to the Dive to the Heart and Station of Remembrance biome
+			//Remove all entity spawns added to the Dive to the Heart and Station of Sorrow biome
 			for (EntityClassification entityClassification : EntityClassification.values()) {
 				event.getSpawns().getSpawner(entityClassification).clear();
 			}

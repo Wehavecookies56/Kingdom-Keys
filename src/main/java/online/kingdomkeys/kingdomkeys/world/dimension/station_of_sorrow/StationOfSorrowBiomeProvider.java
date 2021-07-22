@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class StationOfSorrowBiomeProvider extends BiomeProvider {
     public static void registerBiomeProvider() {
-        Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_remembrance_biome_source"), StationOfSorrowBiomeProvider.CODEC);
+        Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_biome_source"), StationOfSorrowBiomeProvider.CODEC);
     }
 
     public static final Codec<StationOfSorrowBiomeProvider> CODEC =

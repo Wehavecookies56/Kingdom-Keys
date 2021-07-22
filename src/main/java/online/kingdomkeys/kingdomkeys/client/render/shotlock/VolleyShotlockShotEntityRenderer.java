@@ -39,13 +39,9 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
     		matrixStackIn.translate(0, 0.05, 0);
     		matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
     		matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
-    		
-    		if(entity.getMotion().equals(new Vector3d(0,0,0))) {
-    			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
-    		} else {
-    			matrixStackIn.scale(0.2F, 0.2F, 0.8F);
-    		}
-    		
+			
+    		matrixStackIn.scale(0.3F, 0.3F, 0.3F);
+
     		Color color = new Color(entity.getColor());
     		model.render(matrixStackIn, bufferIn.getBuffer(model.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F);
      	}

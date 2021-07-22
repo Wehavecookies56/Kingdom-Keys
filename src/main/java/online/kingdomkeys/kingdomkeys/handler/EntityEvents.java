@@ -252,12 +252,13 @@ public class EntityEvents {
 					playerData.addReactionCommand(rc.getName(), event.player);
 				}
 
+				//Check for magics that you've been using enough to unlock Grand Magic
 				Iterator<Map.Entry<String, int[]>> magicsIt = playerData.getMagicsMap().entrySet().iterator();
 				while (magicsIt.hasNext()) {
 					Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
 					Magic magic = ModMagic.registry.getValue(new ResourceLocation(pair.getKey()));
 
-					if(magic.hasRC()) {
+					if(magic != null && magic.hasRC()) {
 						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= magic.getUsesToGM(pair.getValue()[0])) {
 							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
 						}

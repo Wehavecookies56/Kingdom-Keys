@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -43,7 +44,8 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 		
 		if(ticksExisted > 1) {
 			Color color = new Color(getColor());
-			world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
+			world.addParticle(new RedstoneParticleData(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F), getPosX(), getPosY(), getPosZ(), 1,1,1);
+			//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
 		}
 		
 		/*if(ticksExisted < 20) {
