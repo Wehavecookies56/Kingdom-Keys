@@ -245,8 +245,7 @@ public class EntityEvents {
 						rcList.add(rc);
 					}
 				}
-				
-				
+								
 				playerData.setReactionCommands(new ArrayList<String>());
 				for(ReactionCommand rc : rcList) {
 					playerData.addReactionCommand(rc.getName(), event.player);
@@ -254,12 +253,12 @@ public class EntityEvents {
 
 				//Check for magics that you've been using enough to unlock Grand Magic
 				Iterator<Map.Entry<String, int[]>> magicsIt = playerData.getMagicsMap().entrySet().iterator();
-				while (magicsIt.hasNext()) {
-					Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
-					Magic magic = ModMagic.registry.getValue(new ResourceLocation(pair.getKey()));
+				while (magicsIt.hasNext()) { //Get all magics the player has and iterate over them
+					Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next(); 
+					Magic magic = ModMagic.registry.getValue(new ResourceLocation(pair.getKey())); //Get the magic instance of it
 
-					if(magic != null && magic.hasRC()) {
-						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= magic.getUsesToGM(pair.getValue()[0])) {
+					if(magic != null && magic.getMagicData() != null && magic.hasRC()) { //If the magic exists and has data and has Grand Magic
+						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= magic.getUsesToGM(pair.getValue()[0])) {// If the actual uses is equals or above the required
 							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
 						}
 					}

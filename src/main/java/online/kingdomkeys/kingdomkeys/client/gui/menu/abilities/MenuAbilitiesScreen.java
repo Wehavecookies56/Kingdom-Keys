@@ -183,7 +183,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 			} else { // Form keyblade abilities
 				if (ModDriveForms.registry.containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).hasKeychain()) {
-					if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(playerData.getActiveDriveForm()))) {
+					if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
 						ItemStack itemStack = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
 						List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
 						for (String a : abilitiesList) {

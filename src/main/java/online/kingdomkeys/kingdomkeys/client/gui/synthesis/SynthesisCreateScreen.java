@@ -111,13 +111,17 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
 			ResourceLocation itemName = playerData.getKnownRecipeList().get(i);
 			Recipe recipe = RecipeRegistry.getInstance().getValue(itemName);
-			ItemStack stack = new ItemStack(recipe.getResult());
-
-			if (recipe.getResult() instanceof KeychainItem)
-				stack = new ItemStack(((KeychainItem) recipe.getResult()).getKeyblade());
-
-			if (filterItem(stack)) {
-				items.add(stack);
+			if(recipe != null) {
+				ItemStack stack = new ItemStack(recipe.getResult());
+	
+				if (recipe.getResult() instanceof KeychainItem)
+					stack = new ItemStack(((KeychainItem) recipe.getResult()).getKeyblade());
+	
+				if (filterItem(stack)) {
+					items.add(stack);
+				}
+			} else {
+				System.out.println(itemName +" is not a valid recipe, check it");
 			}
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDisplayName().getUnformattedComponentText()));

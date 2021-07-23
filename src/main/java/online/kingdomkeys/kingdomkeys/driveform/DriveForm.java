@@ -156,19 +156,19 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	}
 
 	public void updateDrive(PlayerEntity player) {
-		double formDecrease = 0.2;
 		if (!getRegistryName().equals(NONE)) {
+			double formDecrease = 0.2;
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData.isAbilityEquipped(Strings.formBoost))
-				formDecrease = .15;
+			for (int i = 0; i < playerData.getNumberOfAbilitiesEquipped(Strings.formBoost); i++) {
+				formDecrease /= 1.2;
+			}
 			if (playerData.getFP() > 0) {
+				System.out.println(formDecrease);
 				playerData.setFP(playerData.getFP() - formDecrease);
 			} else {
 				endDrive(player);
 			}
 		}
-		// Consume FP
-		// Check if FP <= 0 then end
 	}
 
 	public void endDrive(PlayerEntity player) {
