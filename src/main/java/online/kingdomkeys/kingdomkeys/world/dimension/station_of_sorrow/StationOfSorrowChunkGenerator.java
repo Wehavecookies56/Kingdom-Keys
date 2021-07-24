@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -9,6 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
@@ -16,6 +21,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.StructureSettings;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -101,12 +107,13 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public int getSpawnHeight() {
+    public int getSpawnHeight(LevelHeightAccessor lha) {
         return 0;
     }
 
     @Override
-    public void fillFromNoise(LevelAccessor worldIn, StructureFeatureManager structureManagerIn, ChunkAccess chunkIn) {
+	public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_156171_, StructureFeatureManager p_156172_, ChunkAccess p_156173_) {
+		return null;
        /* BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
         if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
             int startZ = chunkIn.getPos().getZStart() - (depth/2);
@@ -143,20 +150,22 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
             		pos.setY(pos.getY()+1);
             	}
                 break;
-            case '4':
-                world.setBlock(pos, Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState(), 2);
-                break;
-        }
-    }
+			case '4':
+				world.setBlock(pos, Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState(), 2);
+				break;
+			}
+		}
 
-    @Override
-    public int getBaseHeight(int x, int z, Heightmap.Types heightmapType) {
-        return 0;
-    }
+		@Override
+		public int getBaseHeight(int x, int z, Types heightmapType, LevelHeightAccessor p_156156_) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 
-    @Override
-    public BlockGetter getBaseColumn(int p_230348_1_, int p_230348_2_) {
-        return null;
-    }
-    
-}
+		@Override
+		public NoiseColumn getBaseColumn(int p_156150_, int p_156151_, LevelHeightAccessor p_156152_) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}

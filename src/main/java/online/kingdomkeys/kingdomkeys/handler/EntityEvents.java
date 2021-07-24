@@ -629,10 +629,10 @@ public class EntityEvents {
 		
 	@SubscribeEvent
 	public void entityPickup(EntityItemPickupEvent event) {
-		if(event.getPlayer().inventory.contains(new ItemStack(ModItems.synthesisBag.get()))) {
+		if(event.getPlayer().getInventory().contains(new ItemStack(ModItems.synthesisBag.get()))) {
 			if(event.getItem().getItem() != null && event.getItem().getItem().getItem() instanceof SynthesisItem) {
-				for (int i = 0; i < event.getPlayer().inventory.getContainerSize(); i++) {
-					ItemStack bag = event.getPlayer().inventory.getItem(i);
+				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
+					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.synthesisBag.get()) {
 							IItemHandler inv = bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
@@ -748,7 +748,7 @@ public class EntityEvents {
 				if(damage >= player.getHealth() && player.getHealth() > 1) {
 					if(player.hasEffect(MobEffects.REGENERATION)) {
 						player.removeEffect(MobEffects.REGENERATION);
-						player.effectsDirty = true;
+						player.effectsDirty = true; //TODO AT
 					}
 					damage = player.getHealth()-1;
 				}

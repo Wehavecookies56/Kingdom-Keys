@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -11,11 +14,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -155,12 +161,12 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public int getSpawnHeight() {
+    public int getSpawnHeight(LevelHeightAccessor lha) {
         return 0;
     }
 
     @Override
-    public void fillFromNoise(LevelAccessor worldIn, StructureFeatureManager structureManagerIn, ChunkAccess chunkIn) {
+	public CompletableFuture<ChunkAccess> fillFromNoise(Executor e, StructureFeatureManager sfm, ChunkAccess ca) {
         BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
         if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
             int startZ = chunkIn.getPos().getMinBlockZ() - (depth/2);
@@ -218,13 +224,13 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public int getBaseHeight(int x, int z, Heightmap.Types heightmapType) {
+	public int getBaseHeight(int p_156153_, int p_156154_, Types p_156155_, LevelHeightAccessor p_156156_) {
         return 0;
     }
 
     @Override
-    public BlockGetter getBaseColumn(int p_230348_1_, int p_230348_2_) {
+	public NoiseColumn getBaseColumn(int p_156150_, int p_156151_, LevelHeightAccessor p_156152_) {
         return null;
     }
-    
+
 }

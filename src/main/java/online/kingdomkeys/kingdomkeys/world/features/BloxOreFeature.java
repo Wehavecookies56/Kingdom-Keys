@@ -12,6 +12,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.OreFeature;
 
 /**
@@ -23,7 +24,12 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
     }
 
     @Override
-    public boolean place(WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos, BloxOreFeatureConfig config) {
+	public boolean place(FeaturePlaceContext<BloxOreFeatureConfig> fpc) {
+    	Random rand = fpc.random();
+    	BloxOreFeatureConfig config = fpc.config();
+    	BlockPos pos = fpc.origin();
+    	WorldGenLevel reader = fpc.level();
+    	
         float f = rand.nextFloat() * (float)Math.PI;
         float f1 = (float)config.size / 8.0F;
         int i = Mth.ceil(((float)config.size / 16.0F * 2.0F + 1.0F) / 2.0F);
@@ -132,4 +138,5 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
 
         return i > 0;
     }
+
 }

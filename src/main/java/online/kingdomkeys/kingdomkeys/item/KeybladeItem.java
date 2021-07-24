@@ -92,7 +92,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		return data.getMagic(getKeybladeLevel(stack));
 	}
 
-	public String getDescription() {
+	public String getWeaponDescription() {
 		return data.getDescription();
 	}
 
@@ -159,16 +159,16 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								//This is either not your keychain or from an inactive form, either way it should not be here
 								System.out.println(formChainID);
 								//if(playerData.isAbilityEquipped(Strings.synchBlade))
-								player.inventory.setItem(slot, ItemStack.EMPTY);
+								player.getInventory().setItem(slot, ItemStack.EMPTY);
 								player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							}
 						} else {
-							player.inventory.setItem(slot, ItemStack.EMPTY);
+							player.getInventory().setItem(slot, ItemStack.EMPTY);
 							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 
 						//Check for dupes
-						for (int i = 0; i < player.inventory.getContainerSize(); i++) {
+						for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
 							slot = itemSlot;
 							if (i == 40) {
 								if (ItemStack.matches(stack, player.getOffhandItem())) {
@@ -176,10 +176,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								}
 							}
 							if (i != slot) {
-								UUID id = Utils.getID(player.inventory.getItem(i));
-								if (id != null && player.inventory.getItem(i).getItem() instanceof KeybladeItem) {
-									if (id.equals(stackID) && i != player.inventory.selected) {
-										player.inventory.setItem(i, ItemStack.EMPTY);
+								UUID id = Utils.getID(player.getInventory().getItem(i));
+								if (id != null && player.getInventory().getItem(i).getItem() instanceof KeybladeItem) {
+									if (id.equals(stackID) && i != player.getInventory().selected) {
+										player.getInventory().setItem(i, ItemStack.EMPTY);
 										player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 									}
 								}
@@ -259,7 +259,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
 			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDescription()));
+			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getWeaponDescription()));
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				while(it.hasNext()) {

@@ -64,7 +64,7 @@ public class CSLevelUpKeybladePacket {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				player.inventory.setItem(Utils.getSlotFor(player.inventory, message.stack), stack);
+				player.getInventory().setItem(Utils.getSlotFor(player.getInventory(), message.stack), stack);
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);	
 		});

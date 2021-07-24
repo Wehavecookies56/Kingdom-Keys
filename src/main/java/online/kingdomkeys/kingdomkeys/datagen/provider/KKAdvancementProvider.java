@@ -15,9 +15,6 @@ public class KKAdvancementProvider extends AdvancementProvider {
         generator = generatorIn;
     }
 
-    public void run(HashCache cache) throws IOException {
-    }
-
     // used for logger. will be removed when advancements are done.
     public String getName() {
         return "KingdomKeys Advancements";

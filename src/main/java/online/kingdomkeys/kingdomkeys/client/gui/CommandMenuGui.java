@@ -207,6 +207,7 @@ public class CommandMenuGui extends Screen {
 		RenderSystem.enableBlend();
 		if(subMenu == submenu) {
 			RenderSystem.color4f(1F, 1F, 1F, alpha);
+			//RenderSystem.clearColor(1F, 1F, 1F, alpha);
 		} else {
 			RenderSystem.color4f(0.5F, 0.5F, 0.5F, alpha);
 		}

@@ -83,7 +83,7 @@ public class CSAttackOffhandPacket {
 	            float damage = DamageCalculation.getKBStrengthDamage(player, player.getOffhandItem());
 	            float f1;
 	            if (targetEntity instanceof LivingEntity) {
-	               f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), ((LivingEntity)targetEntity).getEnemyType());
+	               f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), ((LivingEntity)targetEntity).getMobType());
 	            } else {
 	               f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), MobType.UNDEFINED);
 	            }

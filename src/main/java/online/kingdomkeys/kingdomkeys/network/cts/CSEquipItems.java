@@ -41,9 +41,9 @@ public class CSEquipItems {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            ItemStack stackToEquip = player.inventory.getItem(message.slotToEquipFrom);
+            ItemStack stackToEquip = player.getInventory().getItem(message.slotToEquipFrom);
             ItemStack stackPreviouslyEquipped = playerData.equipItem(message.slotToEquipTo, stackToEquip);
-            player.inventory.setItem(message.slotToEquipFrom, stackPreviouslyEquipped);
+            player.getInventory().setItem(message.slotToEquipFrom, stackPreviouslyEquipped);
             PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
         });

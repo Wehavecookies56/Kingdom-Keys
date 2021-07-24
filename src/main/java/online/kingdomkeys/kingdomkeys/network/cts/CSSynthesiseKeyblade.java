@@ -49,7 +49,7 @@ public class CSSynthesiseKeyblade {
 	public static void handle(CSSynthesiseKeyblade message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			if(player.inventory.getFreeSlot() > -1) {
+			if(player.getInventory().getFreeSlot() > -1) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				
 				Item item = ForgeRegistries.ITEMS.getValue(message.name);
@@ -75,7 +75,7 @@ public class CSSynthesiseKeyblade {
 					Item i = recipe.getResult();
 					
 					int amount = recipe.getAmount();
-					player.inventory.add(new ItemStack(i,amount));
+					player.getInventory().add(new ItemStack(i,amount));
 					
 					if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
 						IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);

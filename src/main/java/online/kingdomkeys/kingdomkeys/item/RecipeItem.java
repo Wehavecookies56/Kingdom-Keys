@@ -143,7 +143,7 @@ public class RecipeItem extends Item implements IItemCategory {
 					if (recipe != null) {
 						String name;
 						if(recipe.getType().equals("keyblade")) {
-							KeychainItem item = (KeychainItem) recipe.getResult().getItem();
+							KeychainItem item = (KeychainItem) recipe.getResult().asItem();
 							name = new ItemStack(item.keyblade).getDescriptionId();
 						} else {
 							name = new ItemStack(recipe.getResult()).getDescriptionId();

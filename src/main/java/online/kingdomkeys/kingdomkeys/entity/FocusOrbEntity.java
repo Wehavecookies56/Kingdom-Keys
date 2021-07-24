@@ -50,7 +50,7 @@ public class FocusOrbEntity extends ItemDropEntity {
 					if(e instanceof FocusOrbEntity) {
 						if(this.tickCount > e.tickCount) {
 							this.value += e.value;
-							e.this.remove(false);
+							e.remove(false);
 						}
 					}
 				}

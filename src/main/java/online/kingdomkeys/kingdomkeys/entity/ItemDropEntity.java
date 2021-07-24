@@ -120,7 +120,7 @@ public abstract class ItemDropEntity extends Entity {
 	 * Called when the entity is attacked.
 	 */
 	public boolean hurt(DamageSource source, float amount) {
-		if (this.level.isClientSide || this.removed)
+		if (this.level.isClientSide || this.isRemoved())
 			return false; // Forge: Fixes MC-53850
 		if (this.isInvulnerableTo(source)) {
 			return false;

@@ -250,7 +250,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			{
 				String text = Utils.translateToLocal(selected.getDescriptionId());
 				drawString(matrixStack, minecraft.font, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-				Utils.drawSplitString(font, kb.getDescription(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
+				Utils.drawSplitString(font, kb.getWeaponDescription(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
 			}
 			matrixStack.popPose();
 			

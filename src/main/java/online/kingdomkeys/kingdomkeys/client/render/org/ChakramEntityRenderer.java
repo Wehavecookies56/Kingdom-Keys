@@ -55,10 +55,10 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 				float a = 1;// MathHelper.clamp(1 - progress1, 0, 1);
 				float rgb = 1;// MathHelper.clamp(progress1, 0, 1);
 				
-				if(entity.getRotationPoint() == 0) {
-					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot()O + (entity.getYRot() - entity.getYRot()O)));
+				if(entity.getRotationPoint() == 0) {//Here they had "O"
+					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot() + (entity.getYRot() - entity.getYRot())));
 					matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90));
-					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O)));
+					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getXRot() + (entity.getXRot() - entity.getXRot())));
 					matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotation));
 				}
 				
@@ -67,9 +67,9 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 				}
 				
 				if(entity.getRotationPoint() == 2) {
-					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot()O + (entity.getYRot() - entity.getYRot()O)));
+					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot() + (entity.getYRot() - entity.getYRot())));
 					matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(90));
-					matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O)));
+					matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot() + (entity.getXRot() - entity.getXRot())));
 					matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(rotation));
 				}
 

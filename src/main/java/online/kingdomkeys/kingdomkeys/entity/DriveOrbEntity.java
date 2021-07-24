@@ -69,7 +69,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 					if(e instanceof DriveOrbEntity) {
 						if(this.tickCount > e.tickCount) {
 							this.value += e.value;
-							e.this.remove(false);
+							e.remove(false);
 						}
 					}
 				}

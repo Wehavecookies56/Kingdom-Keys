@@ -11,6 +11,7 @@ import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
@@ -55,7 +56,7 @@ public class ClientEvents {
 		
 		Player player = Minecraft.getInstance().player;
 		if(InputHandler.lockOn != null && player != null) {
-			if(InputHandler.lockOn.removed) {
+			if(InputHandler.lockOn.isRemoved()) {
                 InputHandler.lockOn = null;
                 return;	
 			}
@@ -74,10 +75,10 @@ public class ClientEvents {
             float f = player.getXRot();
             float f1 = player.getYRot();
             
-            player.getYRot() = (float)((double)player.getYRot() + (double)rYaw * 0.15D);
-            player.getXRot() = (float)((double)player.getXRot() - (double)-(rPitch - player.getXRot()) * 0.15D);
-            player.getXRot()O = player.getXRot() - f;
-            player.getYRot()O += player.getYRot() - f1;
+            player.setYRot((float)((double)player.getYRot() + (double)rYaw * 0.15D));
+            player.setXRot((float)((double)player.getXRot() - (double)-(rPitch - player.getXRot()) * 0.15D));
+           // player.etXRot()O = player.getXRot() - f;
+           // player.getYRot()O += player.getYRot() - f1;
 
             if (player.getVehicle() != null) {
                 player.getVehicle().onPassengerTurned(player);
@@ -93,8 +94,8 @@ public class ClientEvents {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
 		if (globalData != null) {
 			if (globalData.getStoppedTicks() > 0) {
-				event.getEntityLiving().getXRot() = pitch;
-				event.getEntityLiving().getYRot() = yaw;
+				event.getEntityLiving().setXRot(pitch);
+				event.getEntityLiving().setYRot(yaw);
 				event.setCanceled(true);
 			} else {
 				yaw = event.getEntityLiving().getYRot();
@@ -397,7 +398,7 @@ public class ClientEvents {
 
 	private static void innerBlit(Matrix4f matrix, int x1, int x2, int y1, int y2, int blitOffset, float minU, float maxU, float minV, float maxV) {
 		BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-		bufferbuilder.begin(7, DefaultVertexFormat.POSITION_TEX);
+		bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX); // 7
 		bufferbuilder.vertex(matrix, (float) x1, (float) y2, (float) blitOffset).uv(minU, maxV).endVertex();
 		bufferbuilder.vertex(matrix, (float) x2, (float) y2, (float) blitOffset).uv(maxU, maxV).endVertex();
 		bufferbuilder.vertex(matrix, (float) x2, (float) y1, (float) blitOffset).uv(maxU, minV).endVertex();

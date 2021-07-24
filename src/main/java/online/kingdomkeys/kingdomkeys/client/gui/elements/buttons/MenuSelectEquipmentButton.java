@@ -226,7 +226,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					
 					float tooltipPosX = parent.width * 0.3333F;
 					float tooltipPosY = parent.height * 0.8F;
-					Utils.drawSplitString(minecraft.font, keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
+					Utils.drawSplitString(minecraft.font, keyblade.getWeaponDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			Lighting.turnOff();

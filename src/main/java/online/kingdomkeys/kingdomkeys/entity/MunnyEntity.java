@@ -53,7 +53,7 @@ public class MunnyEntity extends ItemDropEntity {
 					if(e instanceof MunnyEntity) {
 						if(this.tickCount > e.tickCount) {
 							this.value += e.value;
-							e.this.remove(false);
+							e.remove(false);
 						}
 					}
 				}

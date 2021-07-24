@@ -55,9 +55,9 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	}
 
 	@Override
-	public void this.remove(false) {
+	public void remove(boolean bool) {
 		if(tickCount > 20) {
-			super.this.remove(false);
+			super.remove(bool);
 		}
 	}
 

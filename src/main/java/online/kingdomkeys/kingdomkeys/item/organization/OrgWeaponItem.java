@@ -37,11 +37,11 @@ public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon, IEx
         return data.getMagic();
     }
 
-    public void setDescription(String description) {
+    public void setWeaponDescription(String description) {
         data.description = description;
     }
 
-    public String getDescription() {
+    public String getWeaponDescription() {
         return data.getDescription();
     }
 
@@ -73,7 +73,7 @@ public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon, IEx
             tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+""+getMember()));
             tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getStrength()+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
             tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic()+" ["+DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player,this)+"]"));
-            tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDescription()));
+            tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getWeaponDescription()));
         }
     }
 }

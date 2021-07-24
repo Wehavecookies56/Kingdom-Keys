@@ -37,13 +37,13 @@ public class CSDepositMaterials {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				for(int i = 0; i < player.inventory.getContainerSize();i++) {
-					ItemStack stack = player.inventory.getItem(i);					
+				for(int i = 0; i < player.getInventory().getContainerSize();i++) {
+					ItemStack stack = player.getInventory().getItem(i);					
 					if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
 						if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 							Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 							playerData.addMaterial(mat, stack.getCount());
-							player.inventory.setItem(i, ItemStack.EMPTY);
+							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
 						
 						//Bag

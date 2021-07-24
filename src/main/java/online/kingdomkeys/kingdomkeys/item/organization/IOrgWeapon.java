@@ -8,8 +8,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public interface IOrgWeapon {
     public Utils.OrgMember getMember();
 
-    public void setDescription(String description);
-    public String getDescription();
+    public void setWeaponDescription(String description);
+    public String getWeaponDescription();
 
     public void setOrganizationData(OrganizationData data);
     public OrganizationData getOrganizationData();

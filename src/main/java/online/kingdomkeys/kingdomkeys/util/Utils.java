@@ -19,7 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -467,8 +466,8 @@ public class Utils {
 
 	public static boolean isWearingOrgRobes(Player player) {
 		boolean wearingOrgCloak = true;
-		for (int i = 0; i < player.inventory.armor.size(); ++i) {
-			ItemStack itemStack = player.inventory.armor.get(i);
+		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
+			ItemStack itemStack = player.getInventory().armor.get(i);
 			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_")) {
 				wearingOrgCloak = false;
 				break;
@@ -526,7 +525,7 @@ public class Utils {
         double xDiff = target.getX() - entity.getX();
         double yDiff = target.getY() - entity.getY();
         double zDiff = target.getZ() - entity.getZ();
-        double distance = Mth.sqrt(xDiff * xDiff + zDiff * zDiff);
+        double distance = Mth.sqrt((float) (xDiff * xDiff + zDiff * zDiff));
         return (float) (-(Mth.atan2(yDiff, distance) * (double)(180F / (float)Math.PI)));
     }
 

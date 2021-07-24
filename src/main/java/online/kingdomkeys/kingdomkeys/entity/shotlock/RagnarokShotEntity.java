@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import java.awt.Color;
 
+import com.mojang.math.Vector3f;
+
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -12,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
@@ -42,8 +45,8 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 		}
 		
 		if(tickCount > 1) {
-			Color color = new Color(getColor());
-			level.addParticle(new DustParticleOptions(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F), getX(), getY(), getZ(), 1,1,1);
+			Vector3f col = new Vector3f(Vec3.fromRGB24(getColor()));
+			level.addParticle(new DustParticleOptions(col, 1F), getX(), getY(), getZ(), 1,1,1);
 			//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
 		}
 		
@@ -104,7 +107,7 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getOwner()) {
 					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
-					super.this.remove(false);
+					super.remove(false);
 				}
 			}
 			this.remove(false);
@@ -112,9 +115,9 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 	}
 	
 	@Override
-	public void this.remove(false) {
+	public void remove(boolean bool) {
 		if(tickCount > 40) {
-			super.this.remove(false);
+			super.remove(bool);
 		}
 	}
 

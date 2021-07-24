@@ -29,12 +29,7 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorContai
 	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
-
-	@Override
-	public void tick() {
-		super.tick();
-	}
-
+	
 	@Override
 	public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
 		this.renderBackground(matrixStack);

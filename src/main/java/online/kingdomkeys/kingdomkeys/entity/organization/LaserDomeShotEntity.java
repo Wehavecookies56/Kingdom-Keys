@@ -62,7 +62,7 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 		}
 
 		if (!this.level.isClientSide) {
-			this.setSharedFlag(6, this.isGlowing());
+			this.setSharedFlag(6, this.isCurrentlyGlowing());
 		}
 
 		this.baseTick();

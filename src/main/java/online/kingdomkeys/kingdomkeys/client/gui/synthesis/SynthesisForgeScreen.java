@@ -143,7 +143,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		for (int i = 0; i < items.size(); i++) {
 			if(items.get(i).getItem() instanceof KeychainItem) {
-				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false, ((KeychainItem)items.get(i).getItem()).toSummon().getDescription().getString()));
+				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false, ((KeychainItem)items.get(i).getItem()).toSummon().getWeaponDescription().getString()));
 			} else {
 				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false));
 			}
@@ -264,7 +264,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				String text = Utils.translateToLocal(kb.getDescriptionId());
 				drawString(matrixStack, minecraft.font, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-				Utils.drawSplitString(font, kb.getDescription(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
+				Utils.drawSplitString(font, kb.getWeaponDescription(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
 			}
 			matrixStack.popPose();
 			

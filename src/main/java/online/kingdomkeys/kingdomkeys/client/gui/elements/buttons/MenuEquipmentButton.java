@@ -271,11 +271,11 @@ public class MenuEquipmentButton extends Button {
 						if(stack.getItem() instanceof KeychainItem) {
 							float tooltipPosX = parent.width * 0.3333F;
 	                    	float tooltipPosY = parent.height * 0.8F;
-	                    	Utils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+	                    	Utils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getWeaponDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KeybladeItem) {
 							float tooltipPosX = parent.width * 0.3333F;
 	                    	float tooltipPosY = parent.height * 0.8F;
-	                    	Utils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+	                    	Utils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getWeaponDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     }
                 } 

@@ -56,6 +56,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 		return armorModel;
 	}
 
+	
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.EQUIPMENT;

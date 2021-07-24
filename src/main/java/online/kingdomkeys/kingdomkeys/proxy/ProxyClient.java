@@ -85,9 +85,9 @@ public class ProxyClient implements IProxy {
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
 
-        PlayerRenderer renderPlayer = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().get("default");
+        PlayerRenderer renderPlayer = (PlayerRenderer) Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
-		renderPlayer = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().get("slim");
+		renderPlayer = (PlayerRenderer) Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().get("slim");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
         ModContainers.registerGUIFactories();
 

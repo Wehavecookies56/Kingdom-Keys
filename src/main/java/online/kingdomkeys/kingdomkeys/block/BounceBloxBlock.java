@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -21,11 +22,11 @@ public class BounceBloxBlock extends BaseBlock {
 
 	// Negate fall damage when fallen on if the entity is not sneaking
 	@Override
-	public void fallOn(Level worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+	public void fallOn(Level worldIn, BlockState blockstate, BlockPos pos, Entity entityIn, float fallDistance) {
 		if (entityIn.isShiftKeyDown()) {
-			super.fallOn(worldIn, pos, entityIn, fallDistance);
+			super.fallOn(worldIn, blockstate, pos, entityIn, fallDistance);
 		} else {
-			entityIn.causeFallDamage(fallDistance, 0.0F);
+			entityIn.causeFallDamage(fallDistance, 0.0F, DamageSource.FALL);
 		}
 	}
 
@@ -50,14 +51,14 @@ public class BounceBloxBlock extends BaseBlock {
 			super.updateEntityAfterFallOn(worldIn, entityIn);
 		}
 	}
-
+	
 	// Bounce when walked on if the entity is not sneaking
 	@Override
-	public void stepOn(Level worldIn, BlockPos pos, Entity entityIn) {
+	public void stepOn(Level worldIn, BlockPos pos, BlockState blockstate, Entity entityIn) {
 		if (Math.abs(entityIn.getDeltaMovement().y()) < 0.1D && !entityIn.isCrouching()) {
 			bounce(entityIn);
 		}
-		super.stepOn(worldIn, pos, entityIn);
+		super.stepOn(worldIn, pos, blockstate, entityIn);
 	}
 
 	@SuppressWarnings("deprecation")

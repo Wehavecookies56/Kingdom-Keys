@@ -50,7 +50,7 @@ public class HPOrbEntity extends ItemDropEntity {
 					if(e instanceof HPOrbEntity) {
 						if(this.tickCount > e.tickCount) {
 							this.value += e.value;
-							e.this.remove(false);
+							e.remove(false);
 						}
 					}
 				}

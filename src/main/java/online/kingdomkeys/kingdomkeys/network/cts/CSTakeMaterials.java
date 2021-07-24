@@ -49,7 +49,7 @@ public class CSTakeMaterials {
 					
 				} else {
 					playerData.removeMaterial(mat, message.stack.getCount());
-					player.inventory.add(message.stack);
+					player.getInventory().add(message.stack);
 				}
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
