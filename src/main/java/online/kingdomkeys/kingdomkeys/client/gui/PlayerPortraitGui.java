@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.PlayerModelPart;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class PlayerPortraitGui extends Screen {
 
 	public PlayerPortraitGui() {
-		super(new TranslationTextComponent(""));
+		super(new TranslatableComponent(""));
 		minecraft = Minecraft.getInstance();
 	}
 
@@ -32,15 +32,15 @@ public class PlayerPortraitGui extends Screen {
 //        if (!MainConfig.displayGUI() || !minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		int screenWidth = minecraft.getMainWindow().getScaledWidth();
-		int screenHeight = minecraft.getMainWindow().getScaledHeight();
+		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			MatrixStack matrixStack = event.getMatrixStack(); 
+			PoseStack matrixStack = event.getMatrixStack(); 
 			RenderSystem.color3f(1, 1, 1);
-			ResourceLocation skin = minecraft.player.getLocationSkin();
-			minecraft.getTextureManager().bindTexture(skin);
+			ResourceLocation skin = minecraft.player.getSkinTextureLocation();
+			minecraft.getTextureManager().bindForSetup(skin);
 			float scale = 0.5f;
-			switch (minecraft.gameSettings.guiScale) {
+			switch (minecraft.options.guiScale) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85f;
 				break;
@@ -61,7 +61,7 @@ public class PlayerPortraitGui extends Screen {
 					RenderSystem.color4f(1F, 0.5F, 0.5F, 1F);
 				}
 
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 					matrixStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
 
@@ -73,16 +73,16 @@ public class PlayerPortraitGui extends Screen {
 					float scaledHeadPosX = headPosX * scale;
 					float scaledHeadPosY = headPosY * scale;
 
-					matrixStack.push();
+					matrixStack.pushPose();
 					{
 						matrixStack.translate((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
 						matrixStack.scale(scale, scale, scale);
 						this.blit(matrixStack, 0, 0, 32, 32, headWidth, headHeight);
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 
 					// HAT
-					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.HAT)){
+					if(minecraft.options.getModelParts().contains(PlayerModelPart.HAT)){
 						int hatWidth = 32;
 						int hatHeight = 32;
 						float hatPosX = 16;
@@ -90,13 +90,13 @@ public class PlayerPortraitGui extends Screen {
 						float scaledHatPosX = hatPosX * scale;
 						float scaledHatPosY = hatPosY * scale;
 	
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 160, 32, hatWidth, hatHeight);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					}
 					// BODY
 					int bodyWidth = 32;
@@ -106,23 +106,23 @@ public class PlayerPortraitGui extends Screen {
 					float scaledBodyPosX = bodyPosX * scale;
 					float scaledBodyPosY = bodyPosY * scale;
 
-					matrixStack.push();
+					matrixStack.pushPose();
 					{
 						matrixStack.translate((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
 						matrixStack.scale(scale, scale, scale);
 						this.blit(matrixStack, 0, 0, 80, 80, bodyWidth, bodyHeight);
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 
 					// JACKET
-					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.JACKET)){	
-						matrixStack.push();
+					if(minecraft.options.getModelParts().contains(PlayerModelPart.JACKET)){	
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 80, 148, bodyWidth, bodyHeight);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					}
 					// ARMS
 					int armWidth = 16;
@@ -135,22 +135,22 @@ public class PlayerPortraitGui extends Screen {
 					float armLPosY = -32;
 					float scaledArmLPosX = armLPosX * scale;
 					float scaledArmLPosY = armLPosY * scale;
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - armWidth * scale) - scaledArmRPosX, (screenHeight - armHeight * scale) - scaledArmRPosY, 0);
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					
 					
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - armWidth * scale) - scaledArmLPosX, (screenHeight - armHeight * scale) - scaledArmLPosY, 0);
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 176, 80, armWidth, armHeight);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
@@ -166,33 +166,33 @@ public class PlayerPortraitGui extends Screen {
 					float scaledgloveLPosX = gloveLPosX * scale;
 					float scaledgloveLPosY = gloveLPosY * scale;
 					
-					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.RIGHT_SLEEVE)){	
-						matrixStack.push();
+					if(minecraft.options.getModelParts().contains(PlayerModelPart.RIGHT_SLEEVE)){	
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					}
 					
-					if(minecraft.gameSettings.getModelParts().contains(PlayerModelPart.LEFT_SLEEVE)){
-						matrixStack.push();
+					if(minecraft.options.getModelParts().contains(PlayerModelPart.LEFT_SLEEVE)){
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 176, 150, gloveWidth, gloveHeight);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					}
 					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
 
 					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 						String driveName = playerData.getActiveDriveForm().substring(playerData.getActiveDriveForm().indexOf("_") + 1);
 						ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + driveName + ".png");
-						minecraft.textureManager.bindTexture(texture);
+						minecraft.textureManager.bindForSetup(texture);
 
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - 32 * scale) - 16 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
 							matrixStack.scale(2, 1, 1);
@@ -200,9 +200,9 @@ public class PlayerPortraitGui extends Screen {
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 80, 140, 32, 80);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - 16 * scale) - 48 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
 							matrixStack.scale(2, 1, 1);
@@ -210,9 +210,9 @@ public class PlayerPortraitGui extends Screen {
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 64, 140, 16, 80);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - 16 * scale) - 0 * scale, (screenHeight - 80 * scale) - -48 * scale, 0);
 							matrixStack.scale(2, 1, 1);
@@ -220,11 +220,11 @@ public class PlayerPortraitGui extends Screen {
 							matrixStack.scale(scale, scale, scale);
 							this.blit(matrixStack, 0, 0, 112, 140, 16, 80);
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 
 					}
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class DriveFormAnti extends DriveForm {
 

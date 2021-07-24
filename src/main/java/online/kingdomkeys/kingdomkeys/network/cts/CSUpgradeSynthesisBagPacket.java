@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -17,21 +17,21 @@ public class CSUpgradeSynthesisBagPacket {
 
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 	}
 
-	public static CSUpgradeSynthesisBagPacket decode(PacketBuffer buffer) {
+	public static CSUpgradeSynthesisBagPacket decode(FriendlyByteBuf buffer) {
 		CSUpgradeSynthesisBagPacket msg = new CSUpgradeSynthesisBagPacket();
 		return msg;
 	}
 
 	public static void handle(CSUpgradeSynthesisBagPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			ItemStack stack = player.getHeldItemMainhand();
-			CompoundNBT nbt = stack.getOrCreateTag();
+			ItemStack stack = player.getMainHandItem();
+			CompoundTag nbt = stack.getOrCreateTag();
 
 			int cost = Utils.getBagCosts(nbt.getInt("level"));
 			if(playerData.getMunny() >= cost) {

@@ -6,18 +6,18 @@ import org.apache.logging.log4j.Logger;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPatternRegistry;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.Pools;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
+import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool.Projection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -30,8 +30,8 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -83,21 +83,21 @@ public class KingdomKeys {
 	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
 	public static IProxy proxy = DistExecutor.safeRunForDist(() -> ProxyClient::new, () -> ProxyServer::new);
 
-	public static ItemGroup orgWeaponsGroup = new ItemGroup(Strings.organizationGroup) {
+	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
 		@Override
-		public ItemStack createIcon() {
+		public ItemStack makeIcon() {
 			return new ItemStack(ModItems.eternalFlames.get());
 		}
 	};
-	public static ItemGroup keybladesGroup = new ItemGroup(Strings.keybladesGroup) {
+	public static CreativeModeTab keybladesGroup = new CreativeModeTab(Strings.keybladesGroup) {
 		@Override
-		public ItemStack createIcon() {
+		public ItemStack makeIcon() {
 			return new ItemStack(ModItems.kingdomKey.get());
 		}
 	};
-	public static ItemGroup miscGroup = new ItemGroup(Strings.miscGroup) {
+	public static CreativeModeTab miscGroup = new CreativeModeTab(Strings.miscGroup) {
 		@Override
-		public ItemStack createIcon() {
+		public ItemStack makeIcon() {
 			return new ItemStack(ModBlocks.normalBlox.get());
 		}
 	};
@@ -157,16 +157,16 @@ public class KingdomKeys {
 	}
 
 	public void addPieceToPattern(ResourceLocation pattern, ResourceLocation structure, int weight) {
-		RegistryKey<JigsawPattern> key = RegistryKey.getOrCreateKey(Registry.JIGSAW_POOL_KEY, pattern);
-		JigsawPattern pat = WorldGenRegistries.JIGSAW_POOL.getValueForKey(key);
-		pat.rawTemplates.add(Pair.of(JigsawPiece.func_242849_a(structure.toString()).apply(PlacementBehaviour.RIGID), weight));
-		JigsawPatternRegistry.func_244094_a(pat);
+		ResourceKey<StructureTemplatePool> key = ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, pattern);
+		StructureTemplatePool pat = BuiltinRegistries.TEMPLATE_POOL.get(key);
+		pat.rawTemplates.add(Pair.of(StructurePoolElement.legacy(structure.toString()).apply(Projection.RIGID), weight));
+		Pools.register(pat);
 	}
 
 	
 	@SubscribeEvent
 	public void serverStarting(FMLServerStartingEvent event) {
-		CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
+		CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
 
 		KKMunnyCommand.register(dispatcher);
 		KKRecipeCommand.register(dispatcher);

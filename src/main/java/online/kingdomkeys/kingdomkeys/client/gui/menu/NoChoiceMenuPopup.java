@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
@@ -19,13 +19,13 @@ public class NoChoiceMenuPopup extends MenuPopup {
     @Override
     public void OK() {
         //teleport to SoA
-        PlayerEntity player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         playerData.setReturnDimension(player);
         playerData.setReturnLocation(player);
         playerData.setSoAState(SoAState.CHOICE);
         PacketHandler.sendToServer(new CSTravelToSoA());
-        Minecraft.getInstance().displayGuiScreen(null);
+        Minecraft.getInstance().setScreen(null);
         SoAMessages.INSTANCE.clearMessage();
         SoAMessages.INSTANCE.queueMessages(
                 new SoAMessages.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
@@ -39,7 +39,7 @@ public class NoChoiceMenuPopup extends MenuPopup {
     @Override
     public void CANCEL() {
         //close menu
-        Minecraft.getInstance().displayGuiScreen(null);
+        Minecraft.getInstance().setScreen(null);
     }
 
     @Override

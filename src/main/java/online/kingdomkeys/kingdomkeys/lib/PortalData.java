@@ -2,20 +2,20 @@ package online.kingdomkeys.kingdomkeys.lib;
 
 import java.util.UUID;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 public class PortalData {
 	UUID uuid, ownerID;
     String name;
     BlockPos pos;
-    RegistryKey<World> dimKey;
+    ResourceKey<Level> dimKey;
 
-    public PortalData(UUID id, String name, double x, double y, double z, RegistryKey<World> dimID, UUID ownerID) {
+    public PortalData(UUID id, String name, double x, double y, double z, ResourceKey<Level> dimID, UUID ownerID) {
     	this.uuid = id;
     	this.name = name;
     	this.pos = new BlockPos(x,y,z);
@@ -47,10 +47,10 @@ public class PortalData {
         this.pos = pos;
     }
    
-    public RegistryKey<World> getDimID() {
+    public ResourceKey<Level> getDimID() {
         return dimKey;
     }
-    public void setDimID(RegistryKey<World> dimID) {
+    public void setDimID(ResourceKey<Level> dimID) {
         this.dimKey = dimID;
     }
     
@@ -66,25 +66,25 @@ public class PortalData {
         return name;
     }
     
-    public CompoundNBT write() {
-		CompoundNBT portalNBT = new CompoundNBT();
-		portalNBT.putUniqueId("uuid", this.uuid);
+    public CompoundTag write() {
+		CompoundTag portalNBT = new CompoundTag();
+		portalNBT.putUUID("uuid", this.uuid);
 		portalNBT.putString("name", this.getName());
 		portalNBT.putDouble("x", this.pos.getX());
 		portalNBT.putDouble("y", this.pos.getY());
 		portalNBT.putDouble("z", this.pos.getZ());
-		portalNBT.putString("dim", this.dimKey.getLocation().toString());
-		portalNBT.putUniqueId("owner", this.ownerID);
+		portalNBT.putString("dim", this.dimKey.location().toString());
+		portalNBT.putUUID("owner", this.ownerID);
 		return portalNBT;
 	}
 
-	public void read(CompoundNBT nbt) {
-		this.setUUID(nbt.getUniqueId("uuid"));
+	public void read(CompoundTag nbt) {
+		this.setUUID(nbt.getUUID("uuid"));
 		this.setName(nbt.getString("name"));
 		this.setPos(new BlockPos(nbt.getDouble("x"),nbt.getDouble("y"), nbt.getDouble("z")));
 		ResourceLocation rl = new ResourceLocation(nbt.getString("dim"));
-		this.setDimID(RegistryKey.getOrCreateKey(Registry.WORLD_KEY,rl));
-		this.setOwnerID(nbt.getUniqueId("owner"));
+		this.setDimID(ResourceKey.create(Registry.DIMENSION_REGISTRY,rl));
+		this.setOwnerID(nbt.getUUID("owner"));
 	}
 
 }

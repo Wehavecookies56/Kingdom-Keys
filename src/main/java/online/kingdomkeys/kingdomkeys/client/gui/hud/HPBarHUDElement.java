@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.hud;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 public class HPBarHUDElement extends HUDElement {
 
@@ -9,7 +9,7 @@ public class HPBarHUDElement extends HUDElement {
     }
 
     @Override
-    public void drawElement(MatrixStack matrixStack, float partialTicks) {
+    public void drawElement(PoseStack matrixStack, float partialTicks) {
 
     }
 

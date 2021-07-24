@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class SCRecalculateEyeHeight {
@@ -12,19 +12,19 @@ public class SCRecalculateEyeHeight {
 	public SCRecalculateEyeHeight() {
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 	
 	}
 
-	public static SCRecalculateEyeHeight decode(PacketBuffer buffer) {
+	public static SCRecalculateEyeHeight decode(FriendlyByteBuf buffer) {
 		SCRecalculateEyeHeight msg = new SCRecalculateEyeHeight();
 		return msg;
 	}
 
 	public static void handle(final SCRecalculateEyeHeight message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();
-			player.recalculateSize();
+			Player player = KingdomKeys.proxy.getClientPlayer();
+			player.refreshDimensions();
 		});
 		ctx.get().setPacketHandled(true);
 	}

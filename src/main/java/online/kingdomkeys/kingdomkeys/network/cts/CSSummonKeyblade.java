@@ -3,18 +3,18 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -67,7 +67,7 @@ public class CSSummonKeyblade {
 		this.alignment = alignment;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeBoolean(forceDesummon);
 		buffer.writeBoolean(hasForm);
 		buffer.writeInt(alignment.ordinal());
@@ -75,7 +75,7 @@ public class CSSummonKeyblade {
 			buffer.writeResourceLocation(formToSummonFrom);
 	}
 
-	public static CSSummonKeyblade decode(PacketBuffer buffer) {
+	public static CSSummonKeyblade decode(FriendlyByteBuf buffer) {
 		CSSummonKeyblade msg = new CSSummonKeyblade();
 		msg.forceDesummon = buffer.readBoolean();
 		msg.hasForm = buffer.readBoolean();
@@ -87,7 +87,7 @@ public class CSSummonKeyblade {
 
 	public static void handle(CSSummonKeyblade message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			if(playerData.getActiveDriveForm().equals(Strings.Form_Anti))
@@ -104,8 +104,8 @@ public class CSSummonKeyblade {
 				}
 			}
 
-			ItemStack heldStack = player.getHeldItemMainhand();
-			ItemStack offHeldStack = player.getHeldItemOffhand();
+			ItemStack heldStack = player.getMainHandItem();
+			ItemStack offHeldStack = player.getOffhandItem();
 			ItemStack chain = playerData.getEquippedKeychain(DriveForm.NONE);
 			ItemStack extraChain = null;
 			if (message.formToSummonFrom != null) {
@@ -135,33 +135,33 @@ public class CSSummonKeyblade {
 			if (orgWeapon != null) {
 				slotSummoned = Utils.findSummoned(player.inventory, orgWeapon, true);
 			}
-			ItemStack summonedStack = slotSummoned > -1 ? player.inventory.getStackInSlot(slotSummoned) : ItemStack.EMPTY;
-			ItemStack summonedExtraStack = extraSlotSummoned > -1 ? player.inventory.getStackInSlot(extraSlotSummoned) : ItemStack.EMPTY;
+			ItemStack summonedStack = slotSummoned > -1 ? player.inventory.getItem(slotSummoned) : ItemStack.EMPTY;
+			ItemStack summonedExtraStack = extraSlotSummoned > -1 ? player.inventory.getItem(extraSlotSummoned) : ItemStack.EMPTY;
 			if (message.forceDesummon) {
 				heldStack = summonedStack;
-				if (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY)) {
+				if (!ItemStack.matches(heldStack, ItemStack.EMPTY)) {
 					offHeldStack = summonedExtraStack;
 				}
 			}
-			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(offHeldStack, ItemStack.EMPTY) && (Utils.hasID(offHeldStack)))) {
-				if (message.forceDesummon || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (ItemStack.areItemStacksEqual(heldStack, summonedStack)))) {
+			if ((message.forceDesummon) || (!ItemStack.matches(offHeldStack, ItemStack.EMPTY) && (Utils.hasID(offHeldStack)))) {
+				if (message.forceDesummon || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (ItemStack.matches(heldStack, summonedStack)))) {
 					if (offHeldStack.getItem() instanceof KeybladeItem) {
-						if (offHeldStack.getTag().getUniqueId("keybladeID").equals(extraChain.getTag().getUniqueId("keybladeID"))) {
+						if (offHeldStack.getTag().getUUID("keybladeID").equals(extraChain.getTag().getUUID("keybladeID"))) {
 							extraChain.setTag(offHeldStack.getTag());
 							playerData.equipKeychain(message.formToSummonFrom, extraChain);
-							player.inventory.setInventorySlotContents(extraSlotSummoned, ItemStack.EMPTY);
-							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+							player.inventory.setItem(extraSlotSummoned, ItemStack.EMPTY);
+							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 					}
 				}
 			} else if (extraSlotSummoned > -1) {
 				//SUMMON FROM ANOTHER SLOT
 				Utils.swapStack(player.inventory, 40, extraSlotSummoned);
-				player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			} else {
 				if (extraChain != null) {
-					if (!ItemStack.areItemStacksEqual(extraChain, ItemStack.EMPTY)) {
-						if (ItemStack.areItemStacksEqual(offHeldStack, ItemStack.EMPTY)) {
+					if (!ItemStack.matches(extraChain, ItemStack.EMPTY)) {
+						if (ItemStack.matches(offHeldStack, ItemStack.EMPTY)) {
 							ItemStack keyblade;
 							if(extraChain.getItem() instanceof IKeychain) {
 								keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
@@ -169,9 +169,9 @@ public class CSSummonKeyblade {
 								keyblade = new ItemStack(extraChain.getItem());
 							}
 							keyblade.setTag(extraChain.getTag());
-							player.inventory.setInventorySlotContents(40, keyblade);
-							player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-						} else if (player.inventory.getFirstEmptyStack() > -1) {
+							player.inventory.setItem(40, keyblade);
+							player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						} else if (player.inventory.getFreeSlot() > -1) {
 							ItemStack keyblade;
 							if(extraChain.getItem() instanceof IKeychain) {
 								keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
@@ -179,44 +179,44 @@ public class CSSummonKeyblade {
 								keyblade = new ItemStack(extraChain.getItem());
 							}
 							keyblade.setTag(extraChain.getTag());
-							Utils.swapStack(player.inventory, player.inventory.getFirstEmptyStack(), 40);
-							player.inventory.setInventorySlotContents(40, keyblade);
-							player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+							Utils.swapStack(player.inventory, player.inventory.getFreeSlot(), 40);
+							player.inventory.setItem(40, keyblade);
+							player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 					}
 				}
 			}
-			if ((message.forceDesummon) || (!ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem))))) {
+			if ((message.forceDesummon) || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem))))) {
 				//DESUMMON
 				if (heldStack.getItem() instanceof KeybladeItem && orgWeapon == null) {
-					if (heldStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) { //Keyblade user
+					if (heldStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) { //Keyblade user
 						chain.setTag(heldStack.getTag());
 						playerData.equipKeychain(DriveForm.NONE, chain);
-						player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
-						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						player.inventory.setItem(slotSummoned, ItemStack.EMPTY);
+						player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					}
 				} else if (heldStack.getItem() instanceof OrgWeaponItem || heldStack.getItem() instanceof KeybladeItem) { //Org user
 					Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 					for(ItemStack weapon : weapons) {
-						if(ItemStack.areItemsEqual(weapon, heldStack)) {
+						if(ItemStack.isSame(weapon, heldStack)) {
 							weapon.setTag(heldStack.getTag());
 							break;
 						}
 					}
 					playerData.setWeaponsUnlocked(weapons);
-					player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
+					player.inventory.setItem(slotSummoned, ItemStack.EMPTY);
 					if(playerData.isAbilityEquipped(Strings.synchBlade)) {
-						player.inventory.setInventorySlotContents(40, ItemStack.EMPTY);
+						player.inventory.setItem(40, ItemStack.EMPTY);
 					}
-					player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 				}
 			} else if (slotSummoned > -1) {
 				//SUMMON FROM ANOTHER SLOT
-				Utils.swapStack(player.inventory, player.inventory.currentItem, slotSummoned);
-				player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				Utils.swapStack(player.inventory, player.inventory.selected, slotSummoned);
+				player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			} else {
-				if (!ItemStack.areItemStacksEqual(chain, ItemStack.EMPTY) || orgWeapon != null) {
-					if (ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY)) {
+				if (!ItemStack.matches(chain, ItemStack.EMPTY) || orgWeapon != null) {
+					if (ItemStack.matches(heldStack, ItemStack.EMPTY)) {
 						ItemStack keyblade;
 						if (orgWeapon == null) {
 							keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());
@@ -225,15 +225,15 @@ public class CSSummonKeyblade {
 							keyblade = orgWeapon;
 							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 							for(ItemStack weapon : weapons) {
-								if(ItemStack.areItemsEqual(weapon, keyblade)) {
+								if(ItemStack.isSame(weapon, keyblade)) {
 									keyblade.setTag(weapon.getTag());
 									break;
 								}
 							}
 						}
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);
-						player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-					} else if (player.inventory.getFirstEmptyStack() > -1) {
+						player.inventory.setItem(player.inventory.selected, keyblade);
+						player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+					} else if (player.inventory.getFreeSlot() > -1) {
 						ItemStack keyblade;
 						if (orgWeapon == null) {
 							keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());
@@ -242,15 +242,15 @@ public class CSSummonKeyblade {
 							keyblade = orgWeapon;
 							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 							for(ItemStack weapon : weapons) {
-								if(ItemStack.areItemsEqual(weapon, keyblade)) {
+								if(ItemStack.isSame(weapon, keyblade)) {
 									keyblade.setTag(weapon.getTag());
 									break;
 								}
 							}
 						}
-						Utils.swapStack(player.inventory, player.inventory.getFirstEmptyStack(), player.inventory.currentItem);
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);
-						player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						Utils.swapStack(player.inventory, player.inventory.getFreeSlot(), player.inventory.selected);
+						player.inventory.setItem(player.inventory.selected, keyblade);
+						player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					}
 				}
 			}
@@ -263,29 +263,29 @@ public class CSSummonKeyblade {
 
 		@SubscribeEvent
 		public static void containerClose(PlayerContainerEvent.Close event) {
-			ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-			Container openContainer = event.getContainer();
-			Container playerContainer = player.container;
+			ServerPlayer player = (ServerPlayer) event.getPlayer();
+			AbstractContainerMenu openContainer = event.getContainer();
+			AbstractContainerMenu playerContainer = player.inventoryMenu;
 
 			if (!openContainer.equals(playerContainer)) {
-				openContainer.inventorySlots.forEach(slot -> {
-					ItemStack stack = slot.getStack();
+				openContainer.slots.forEach(slot -> {
+					ItemStack stack = slot.getItem();
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if (slot.inventory != player.inventory) {
+					if (slot.container != player.inventory) {
 						if ((Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
-							slot.putStack(ItemStack.EMPTY);
+							slot.set(ItemStack.EMPTY);
 							if(stack.getItem() instanceof OrgWeaponItem || (playerData.getAlignment() != Utils.OrgMember.NONE)) {
 								Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 								for(ItemStack weapon : weapons) {
-									if(ItemStack.areItemsEqual(weapon, stack)) {
+									if(ItemStack.isSame(weapon, stack)) {
 										weapon.setTag(stack.getTag());
 										break;
 									}
 								}
 								playerData.setWeaponsUnlocked(weapons);
 							}
-							openContainer.detectAndSendChanges();
-							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+							openContainer.broadcastChanges();
+							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 					}
 				});
@@ -296,7 +296,7 @@ public class CSSummonKeyblade {
 		public static void dropItem(ItemTossEvent event) {
 			ItemStack droppedItem = event.getEntityItem().getItem();
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
-			PlayerEntity player = event.getPlayer();
+			Player player = event.getPlayer();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if (droppedItem != null) {
 				if (playerData.getEquippedWeapon() != null) {
@@ -304,20 +304,20 @@ public class CSSummonKeyblade {
 						if(droppedItem.getItem() instanceof OrgWeaponItem || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE)) { //If weapon is org weapon || a keyblade && org member
 							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 							for(ItemStack weapon : weapons) {
-								if(ItemStack.areItemsEqual(weapon, droppedItem)) {
+								if(ItemStack.isSame(weapon, droppedItem)) {
 									weapon.setTag(droppedItem.getTag());
 									break;
 								}
 							}
 							playerData.setWeaponsUnlocked(weapons);
 						}
-						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						event.setCanceled(true);
 						return;
 					}
 				}
 				if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem)) {
-					player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					event.setCanceled(true);
 				}
 			}

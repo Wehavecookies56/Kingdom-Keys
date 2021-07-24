@@ -2,20 +2,20 @@ package online.kingdomkeys.kingdomkeys.client.gui.hud;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Widget Class for elements to display on the HUD e.g. Command Menu, HP bar, etc.
  * The X and Y position from {@link net.minecraft.client.gui.widget.Widget} shouldn't be changed outside of here as that is handled by {@link HUDElement#anchorElement()} for manually modifying the position use {@link HUDElement#setAnchoredPosition(int, int)}
  */
-public abstract class HUDElement extends Widget {
+public abstract class HUDElement extends AbstractWidget {
 
     //MC Instance for convenience
     protected Minecraft mcInstance;
@@ -28,7 +28,7 @@ public abstract class HUDElement extends Widget {
 
     public HUDElement(int anchoredPositionX, int anchoredPositionY, int elementWidth, int elementHeight, HUDAnchorPosition anchor, String name) {
         //Constructed with 0s as the position is later changed, the dimensions should be set manually
-        super(0, 0, elementWidth, elementHeight, new TranslationTextComponent(name));
+        super(0, 0, elementWidth, elementHeight, new TranslatableComponent(name));
         this.anchoredPositionX = anchoredPositionX;
         this.anchoredPositionY = anchoredPositionY;
         this.width = elementWidth;
@@ -40,7 +40,7 @@ public abstract class HUDElement extends Widget {
     /**
      * Use this to draw the element
      */
-    public abstract void drawElement(MatrixStack matrixStack, float partialTicks);
+    public abstract void drawElement(PoseStack matrixStack, float partialTicks);
 
     /**
      * Use this for the initialisation of the element
@@ -108,12 +108,12 @@ public abstract class HUDElement extends Widget {
      * @param posY The Y position relative to the position of the element
      * @param colour The text colour
      */
-    public void drawString(MatrixStack matrixStack, String string, int posX, int posY, Color colour) {
-        drawString(matrixStack, mcInstance.fontRenderer, string, this.x + posX, this.y + posY, colour.getRGB());
+    public void drawString(PoseStack matrixStack, String string, int posX, int posY, Color colour) {
+        drawString(matrixStack, mcInstance.font, string, this.x + posX, this.y + posY, colour.getRGB());
     }
 
     @Override
-    public void blit(MatrixStack matrixStack, int posX, int posY, int texU, int texV, int texWidth, int texHeight) {
+    public void blit(PoseStack matrixStack, int posX, int posY, int texU, int texV, int texWidth, int texHeight) {
         super.blit(matrixStack, this.x + posX, this.y + posY, texU, texV, texWidth, texHeight);
     }
 
@@ -127,8 +127,8 @@ public abstract class HUDElement extends Widget {
      * @param texWidth texture width
      * @param texHeight texture height
      */
-    public void bindAndBlit(MatrixStack matrixStack, ResourceLocation texture, int posX, int posY, int texU, int texV, int texWidth, int texHeight) {
-        mcInstance.getTextureManager().bindTexture(texture);
+    public void bindAndBlit(PoseStack matrixStack, ResourceLocation texture, int posX, int posY, int texU, int texV, int texWidth, int texHeight) {
+        mcInstance.getTextureManager().bindForSetup(texture);
         blit(matrixStack, posX, posY, texU, texV, texWidth, texHeight);
     }
 
@@ -144,28 +144,28 @@ public abstract class HUDElement extends Widget {
                 setPosition(this.x + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case TOP_CENTER:
-                setPosition(this.x + (mcInstance.getMainWindow().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(this.x + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case TOP_RIGHT:
-                setPosition(mcInstance.getMainWindow().getScaledWidth() - getWidth() + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, this.y + anchoredPositionY);
                 break;
             case BOTTOM_LEFT:
-                setPosition(this.x + anchoredPositionX, mcInstance.getMainWindow().getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.x + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_CENTER:
-                setPosition(this.x + (mcInstance.getMainWindow().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.getMainWindow().getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.x + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_RIGHT:
-                setPosition(mcInstance.getMainWindow().getScaledWidth() - getWidth() + anchoredPositionX, mcInstance.getMainWindow().getScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case CENTER_LEFT:
-                setPosition(this.x + anchoredPositionX, this.y + (mcInstance.getMainWindow().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.x + anchoredPositionX, this.y + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER:
-                setPosition(this.x + (mcInstance.getMainWindow().getScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + (mcInstance.getMainWindow().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.x + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER_RIGHT:
-                setPosition(mcInstance.getMainWindow().getScaledWidth() - getWidth() + anchoredPositionX, this.y + (mcInstance.getMainWindow().getScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, this.y + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
         }
     }
@@ -174,7 +174,7 @@ public abstract class HUDElement extends Widget {
      * Render the hud element here, might be redundant as drawElement can currently be called instead
      * @param partialTicks the partial ticks from the render event
      */
-    public void render(MatrixStack matrixStack, float partialTicks) {
+    public void render(PoseStack matrixStack, float partialTicks) {
         drawElement(matrixStack, partialTicks);
     }
     public abstract void tick();

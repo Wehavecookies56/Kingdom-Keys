@@ -7,34 +7,34 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.SwordItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -111,7 +111,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 	public void setKeybladeLevel(ItemStack stack, int level) {
 		if(!stack.hasTag()) {
-			stack.setTag(new CompoundNBT());
+			stack.setTag(new CompoundTag());
 		}
 		stack.getTag().putInt("level", level);
 	}
@@ -121,14 +121,14 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (entityIn instanceof PlayerEntity && !worldIn.isRemote) {
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		if (entityIn instanceof Player && !worldIn.isClientSide) {
 			if (Utils.hasID(stack)) {
-				PlayerEntity player = (PlayerEntity) entityIn;
+				Player player = (Player) entityIn;
 				//Stupid workaround for itemSlot being 0 for offhand slot
 				int slot = itemSlot;
 				if (slot == 0) {
-					if (ItemStack.areItemStacksEqual(stack, player.getHeldItemOffhand())) {
+					if (ItemStack.matches(stack, player.getOffhandItem())) {
 						slot = 40;
 					}
 				}
@@ -147,7 +147,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						if (formChain == null)
 							formChain = ItemStack.EMPTY;
 						UUID stackID = Utils.getID(stack);
-						if (!ItemStack.areItemStacksEqual(mainChain, ItemStack.EMPTY) || !ItemStack.areItemStacksEqual(formChain, ItemStack.EMPTY)) {
+						if (!ItemStack.matches(mainChain, ItemStack.EMPTY) || !ItemStack.matches(formChain, ItemStack.EMPTY)) {
 							UUID mainChainID = Utils.getID(mainChain);
 							UUID formChainID = Utils.getID(formChain);
 							if (mainChainID == null)
@@ -159,28 +159,28 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								//This is either not your keychain or from an inactive form, either way it should not be here
 								System.out.println(formChainID);
 								//if(playerData.isAbilityEquipped(Strings.synchBlade))
-								player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
-								player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+								player.inventory.setItem(slot, ItemStack.EMPTY);
+								player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							}
 						} else {
-							player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
-							player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+							player.inventory.setItem(slot, ItemStack.EMPTY);
+							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 
 						//Check for dupes
-						for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+						for (int i = 0; i < player.inventory.getContainerSize(); i++) {
 							slot = itemSlot;
 							if (i == 40) {
-								if (ItemStack.areItemStacksEqual(stack, player.getHeldItemOffhand())) {
+								if (ItemStack.matches(stack, player.getOffhandItem())) {
 									slot = 40;
 								}
 							}
 							if (i != slot) {
-								UUID id = Utils.getID(player.inventory.getStackInSlot(i));
-								if (id != null && player.inventory.getStackInSlot(i).getItem() instanceof KeybladeItem) {
-									if (id.equals(stackID) && i != player.inventory.currentItem) {
-										player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-										player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+								UUID id = Utils.getID(player.inventory.getItem(i));
+								if (id != null && player.inventory.getItem(i).getItem() instanceof KeybladeItem) {
+									if (id.equals(stackID) && i != player.inventory.selected) {
+										player.inventory.setItem(i, ItemStack.EMPTY);
+										player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 									}
 								}
 							}
@@ -193,86 +193,86 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		ItemStack itemstack = player.getHeldItem(hand);
-		if (world.isRemote && player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
-			RayTraceResult rtr;
-			if(player.getHeldItemOffhand().getItem() instanceof IExtendedReach) {
-				float reach = ((IExtendedReach) player.getHeldItemOffhand().getItem()).getReach();
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		ItemStack itemstack = player.getItemInHand(hand);
+		if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) {
+			HitResult rtr;
+			if(player.getOffhandItem().getItem() instanceof IExtendedReach) {
+				float reach = ((IExtendedReach) player.getOffhandItem().getItem()).getReach();
 				rtr = InputHandler.getMouseOverExtended(Math.max(5,reach));
 			} else {
-				rtr = Minecraft.getInstance().objectMouseOver;
+				rtr = Minecraft.getInstance().hitResult;
 			}
 			if (rtr != null) {
-				player.swingArm(Hand.OFF_HAND);
+				player.swing(InteractionHand.OFF_HAND);
 
 				if (rtr.getType() == Type.ENTITY) {
-					EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
-					if (!ItemStack.areItemStacksEqual(player.getHeldItem(Hand.OFF_HAND), ItemStack.EMPTY) && player.getHeldItem(Hand.OFF_HAND).getItem() instanceof KeybladeItem && hand == Hand.OFF_HAND) {
+					EntityHitResult ertr = (EntityHitResult) rtr;
+					if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
 						if (ertr.getEntity() != null) {
-							PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getEntityId()));
-							return ActionResult.resultSuccess(itemstack);
+							PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getId()));
+							return InteractionResultHolder.success(itemstack);
 						}
-						return ActionResult.resultFail(itemstack);
+						return InteractionResultHolder.fail(itemstack);
 					}
 				}
 			}
 		}
-		return super.onItemRightClick(world, player, hand);
+		return super.use(world, player, hand);
 	}
 	
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		World world = context.getWorld();
-		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		Player player = context.getPlayer();
 		
 		SoundEvent sound;
 		if (world.getBlockState(pos).getBlock() instanceof DoorBlock) {
-		      DoubleBlockHalf doubleblockhalf = world.getBlockState(pos).get(DoorBlock.HALF);
+		      DoubleBlockHalf doubleblockhalf = world.getBlockState(pos).getValue(DoorBlock.HALF);
 
 			if (doubleblockhalf == DoubleBlockHalf.UPPER) {
-				world.setBlockState(pos.down(), world.getBlockState(pos.down()).with(DoorBlock.OPEN, !world.getBlockState(pos.down()).get(DoorBlock.OPEN)));
-				sound = world.getBlockState(pos.down()).get(DoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
+				world.setBlockAndUpdate(pos.below(), world.getBlockState(pos.below()).setValue(DoorBlock.OPEN, !world.getBlockState(pos.below()).getValue(DoorBlock.OPEN)));
+				sound = world.getBlockState(pos.below()).getValue(DoorBlock.OPEN) ? SoundEvents.IRON_DOOR_CLOSE : SoundEvents.IRON_DOOR_OPEN;
 			} else {
-				world.setBlockState(pos, world.getBlockState(pos).with(DoorBlock.OPEN, !world.getBlockState(pos).get(DoorBlock.OPEN)));
-				sound = world.getBlockState(pos).get(DoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
+				world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(DoorBlock.OPEN, !world.getBlockState(pos).getValue(DoorBlock.OPEN)));
+				sound = world.getBlockState(pos).getValue(DoorBlock.OPEN) ? SoundEvents.IRON_DOOR_CLOSE : SoundEvents.IRON_DOOR_OPEN;
 			}
-			world.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
-			return ActionResultType.SUCCESS;
+			world.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0f, 1.0f);
+			return InteractionResult.SUCCESS;
 
 		} else if(world.getBlockState(pos).getBlock() instanceof TrapDoorBlock) {
-			world.setBlockState(pos, world.getBlockState(pos).with(TrapDoorBlock.OPEN, !world.getBlockState(pos).get(TrapDoorBlock.OPEN)));
-			sound = world.getBlockState(pos).get(TrapDoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
-			world.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
-			return ActionResultType.SUCCESS;
+			world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(TrapDoorBlock.OPEN, !world.getBlockState(pos).getValue(TrapDoorBlock.OPEN)));
+			sound = world.getBlockState(pos).getValue(TrapDoorBlock.OPEN) ? SoundEvents.IRON_DOOR_CLOSE : SoundEvents.IRON_DOOR_OPEN;
+			world.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0f, 1.0f);
+			return InteractionResult.SUCCESS;
 
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 	
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (data != null) {
 			if(getKeybladeLevel(stack) > 0)
-				tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
-			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getDescription()));
+				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
+			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDescription()));
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				while(it.hasNext()) {
 					Entry<Material, Integer> mat = it.next();
-					tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
+					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
 				}
 			}
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.getTag() != null) {
-				if (stack.getTag().hasUniqueId("keybladeID")) {
-					tooltip.add(new TranslationTextComponent(TextFormatting.RED + "DEBUG:"));
-					tooltip.add(new TranslationTextComponent(TextFormatting.WHITE + stack.getTag().getUniqueId("keybladeID").toString()));
+				if (stack.getTag().hasUUID("keybladeID")) {
+					tooltip.add(new TranslatableComponent(ChatFormatting.RED + "DEBUG:"));
+					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
 				}
 			}
 		}

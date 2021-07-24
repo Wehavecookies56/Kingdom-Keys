@@ -5,111 +5,110 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-//TODO localisable messages
-public class MagicalChestBlock extends ContainerBlock {
+public class MagicalChestBlock extends BaseEntityBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty BIG = BooleanProperty.create("big");
 
-	private static final VoxelShape collisionShapeEW = Block.makeCuboidShape(2.0D, 0.0D, 1.0D, 14.0D, 12.0D, 15.0D);
-	private static final VoxelShape collisionShapeNS = Block.makeCuboidShape(1.0D, 0.0D, 2.0D, 15.0D, 12.0D, 14.0D);
+	private static final VoxelShape collisionShapeEW = Block.box(2.0D, 0.0D, 1.0D, 14.0D, 12.0D, 15.0D);
+	private static final VoxelShape collisionShapeNS = Block.box(1.0D, 0.0D, 2.0D, 15.0D, 12.0D, 14.0D);
 
 	public MagicalChestBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(this.getDefaultState().with(BIG, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(BIG, false));
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("Can be locked with a keyblade"));
-		super.addInformation(stack, worldIn, tooltip, flagIn);
+	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+		tooltip.add(new TranslatableComponent("Can be locked with a keyblade"));
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite()).with(BIG, false);
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(BIG, false);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		super.fillStateContainer(builder);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 		builder.add(FACING, BIG);
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return getShape(state, world, pos, context);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (state.hasTileEntity() && worldIn.getTileEntity(pos) instanceof MagicalChestTileEntity) {
-			MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getTileEntity(pos);
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		if (state.hasTileEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
+			MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getBlockEntity(pos);
 			if (te != null) {
-				PlayerEntity player = (PlayerEntity) placer;
+				Player player = (Player) placer;
 				te.setOwner(player.getGameProfile().getId());
-				player.sendStatusMessage(new TranslationTextComponent("message.chest.lock"), true);
+				player.displayClientMessage(new TranslatableComponent("message.chest.lock"), true);
 			}
 		}
-		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+		super.setPlacedBy(worldIn, pos, state, placer, stack);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (worldIn.isRemote)
-			return ActionResultType.SUCCESS;
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+		if (worldIn.isClientSide)
+			return InteractionResult.SUCCESS;
 
-		INamedContainerProvider namedContainerProvider = this.getContainer(state, worldIn, pos);
+		MenuProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
-			if (!(player instanceof ServerPlayerEntity))
-				return ActionResultType.FAIL;
-			ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
-			if (state.hasTileEntity() && worldIn.getTileEntity(pos) instanceof MagicalChestTileEntity) {
-				MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getTileEntity(pos);
+			if (!(player instanceof ServerPlayer))
+				return InteractionResult.FAIL;
+			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
+			if (state.hasTileEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
+				MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getBlockEntity(pos);
 				if (te != null) {
 					UUID keyblade = te.getKeyblade();
-					ItemStack held = player.getHeldItem(handIn);
+					ItemStack held = player.getItemInHand(handIn);
 					if (held.getItem() instanceof KeybladeItem) {
 						UUID heldID = Utils.getID(held);
 						if (heldID != null) {
@@ -119,13 +118,13 @@ public class MagicalChestBlock extends ContainerBlock {
 										buf.writeBlockPos(pos);
 									});
 								} else {
-									player.sendStatusMessage(new TranslationTextComponent("message.chest.locked"), true);
+									player.displayClientMessage(new TranslatableComponent("message.chest.locked"), true);
 									//you can't open it with that keyblade message
 								}
 							} else {
 								//Set the keyblade ID to unlock
 								te.setKeyblade(heldID);
-								player.sendStatusMessage(new TranslationTextComponent("message.chest.keyblade_set"), true);
+								player.displayClientMessage(new TranslatableComponent("message.chest.keyblade_set"), true);
 							}
 						} else if (keyblade == null) {
 							//Chest is not locked and keyblade has no ID
@@ -138,40 +137,40 @@ public class MagicalChestBlock extends ContainerBlock {
 						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, buf -> {
 							buf.writeBlockPos(pos);
 						});
-						return ActionResultType.SUCCESS;
+						return InteractionResult.SUCCESS;
 					} else {
-						player.sendStatusMessage(new TranslationTextComponent("message.chest.locked"), true);
+						player.displayClientMessage(new TranslatableComponent("message.chest.locked"), true);
 					}
 				}
 			}
 
 		}
-		return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+		return super.use(state, worldIn, pos, player, handIn, hit);
 	}
 
 	@Deprecated
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
+	public RenderShape getRenderShape(BlockState state) {
+		return RenderShape.MODEL;
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		if (state.get(FACING) == Direction.NORTH || state.get(FACING) == Direction.SOUTH) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+		if (state.getValue(FACING) == Direction.NORTH || state.getValue(FACING) == Direction.SOUTH) {
 			return collisionShapeNS;
 		} else {
 			return collisionShapeEW;
 		}
 	}
 
-	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasTileEntity() && state.getBlock() != newState.getBlock()) {
-			world.getTileEntity(pos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+			world.getBlockEntity(pos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
 				for (int i = 0; i < inv.getSlots(); i++) {
-					spawnAsEntity(world, pos, inv.getStackInSlot(i));
+					popResource(world, pos, inv.getStackInSlot(i));
 				}
 			});
-			world.removeTileEntity(pos);
-			super.onReplaced(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
+			world.removeBlockEntity(pos);
+			super.onRemove(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
 		}
 	}
 
@@ -182,13 +181,13 @@ public class MagicalChestBlock extends ContainerBlock {
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return createNewTileEntity(world);
+	public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
+		return newBlockEntity(world);
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader worldIn) {
+	public BlockEntity newBlockEntity(BlockGetter worldIn) {
 		return ModEntities.TYPE_MAGICAL_CHEST.get().create();
 	}
 
@@ -199,7 +198,7 @@ public class MagicalChestBlock extends ContainerBlock {
 		public static void onBlockBreak(BlockEvent.BreakEvent event) {
 			if (event.getState().getBlock() == ModBlocks.magicalChest.get()) {
 				if (event.getState().hasTileEntity()) {
-					MagicalChestTileEntity te = (MagicalChestTileEntity) event.getWorld().getTileEntity(event.getPos());
+					MagicalChestTileEntity te = (MagicalChestTileEntity) event.getWorld().getBlockEntity(event.getPos());
 					if (te != null) {
 						//If player is not the same as the owner AND the chest has any keyblade assigned AND the player is in survival
 						if (!te.getOwner().equals(event.getPlayer().getGameProfile().getId()) && te.getKeyblade() != null && (event.getPlayer() != null && !event.getPlayer().isCreative())) {
@@ -213,21 +212,21 @@ public class MagicalChestBlock extends ContainerBlock {
 		//For sneaking interaction
 		@SubscribeEvent
 		public static void onBlockRightClick(PlayerInteractEvent.RightClickBlock event) {
-			PlayerEntity player = event.getPlayer();
+			Player player = event.getPlayer();
 			if (player.isCrouching()) {
-				ItemStack held = player.getHeldItem(event.getHand());
+				ItemStack held = player.getItemInHand(event.getHand());
 				if (held.getItem() instanceof KeybladeItem) {
 					BlockPos pos = event.getPos();
-					World world = event.getWorld();
+					Level world = event.getWorld();
 					BlockState state = world.getBlockState(pos);
 					if (state.getBlock() == ModBlocks.magicalChest.get()) {
-						MagicalChestTileEntity te = (MagicalChestTileEntity) world.getTileEntity(pos);
+						MagicalChestTileEntity te = (MagicalChestTileEntity) world.getBlockEntity(pos);
 						if (te != null) {
 							if (te.getKeyblade() != null) {
 								UUID heldID = Utils.getID(held);
 								if (heldID.equals(te.getKeyblade())) {
 									te.setKeyblade(null);
-									player.sendStatusMessage(new TranslationTextComponent("message.chest.unlocked"), true);
+									player.displayClientMessage(new TranslatableComponent("message.chest.unlocked"), true);
 								}
 							}
 						}

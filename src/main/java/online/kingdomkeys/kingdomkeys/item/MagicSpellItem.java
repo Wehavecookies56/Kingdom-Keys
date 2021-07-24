@@ -3,17 +3,17 @@ package online.kingdomkeys.kingdomkeys.item;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -35,42 +35,42 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		if (!world.isRemote) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		if (!world.isClientSide) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
 			if (playerData != null && playerData.getMagicsMap() != null) {
 				if (!playerData.getMagicsMap().containsKey(magic)) {
 					playerData.getMagicsMap().put(magic, new int[] {0,0});
 					takeItem(player);
-					player.sendStatusMessage(new TranslationTextComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
+					player.displayClientMessage(new TranslatableComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(magic);
 					if(actualLevel < magicInstance.getMaxLevel()) {
-						player.sendStatusMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
+						player.displayClientMessage(new TranslatableComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
 						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
 						takeItem(player);
 					} else {
-						player.sendStatusMessage(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is already at the max level"), true);
+						player.displayClientMessage(new TranslatableComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is already at the max level"), true);
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 			}
 		}
-		return ActionResult.resultSuccess(player.getHeldItem(hand));
+		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
-	private void takeItem(PlayerEntity player) {
-		if (!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
-			player.getHeldItemMainhand().shrink(1);
-		} else if (!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
-			player.getHeldItemOffhand().shrink(1);
+	private void takeItem(Player player) {
+		if (!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
+			player.getMainHandItem().shrink(1);
+		} else if (!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
+			player.getOffhandItem().shrink(1);
 		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
 		if(Minecraft.getInstance().player != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
@@ -81,12 +81,12 @@ public class MagicSpellItem extends Item implements IItemCategory {
 			}
 			
 			if(actualLevel < magicInstance.getMaxLevel()) {
-				tooltip.add(new TranslationTextComponent("Unlock " + Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
+				tooltip.add(new TranslatableComponent("Unlock " + Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
 			} else {
-				tooltip.add(new TranslationTextComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is the max level"));
+				tooltip.add(new TranslatableComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is the max level"));
 			}
 		}
-		super.addInformation(stack, worldIn, tooltip, flagIn);
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
 	@Override

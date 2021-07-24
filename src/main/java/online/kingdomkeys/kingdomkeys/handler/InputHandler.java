@@ -9,29 +9,28 @@ import java.util.UUID;
 
 import org.lwjgl.glfw.GLFW;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.PacketDispatcher;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -82,18 +81,18 @@ public class InputHandler {
 
     public boolean antiFormCheck() { //Only checks if form is not final
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-        World world = mc.world;
+        Level world = mc.level;
 
         if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) {
         	PacketHandler.sendToServer(new CSSummonKeyblade(true));
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
-    		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+    		player.level.playSound(player, player.blockPosition(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
         	return true;
         }
         
@@ -110,11 +109,11 @@ public class InputHandler {
 
         if (random * 100 < prob) {
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
-    		player.world.playSound(player, player.getPosition(), ModSounds.antidrive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+    		player.level.playSound(player, player.blockPosition(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
             return true;
         } else {
             return false;
@@ -123,7 +122,7 @@ public class InputHandler {
 
     public void commandUp() {
         Minecraft mc = Minecraft.getInstance();
-        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+        mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_move.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
         loadLists();
 
@@ -200,7 +199,7 @@ public class InputHandler {
 
     public void commandDown() {
         Minecraft mc = Minecraft.getInstance();
-        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+        mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_move.get(), SoundSource.MASTER, 1.0f, 1.0f);
         loadLists();
 
         // Mainmenu
@@ -282,8 +281,8 @@ public class InputHandler {
 
     public void commandEnter() {
     	Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
-        World world = mc.world;
+        Player player = mc.player;
+        Level world = mc.level;
         loadLists();
 
         //ExtendedWorldData worldData = ExtendedWorldData.get(world);
@@ -299,10 +298,10 @@ public class InputHandler {
                         if (!this.portalCommands.isEmpty() && !playerData.getRecharge()) {
                             CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
                             CommandMenuGui.portalSelected = 0;
-                            world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                            world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         } else {
                             CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                            world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                            world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         }
                         return;
                     }
@@ -330,11 +329,11 @@ public class InputHandler {
                     if (!playerData.getRecharge() && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicsMap.isEmpty() && (!playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)))) {
                         //CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-                        mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                        mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
                     } else {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                        world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                        world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     }
                 }
                 break;
@@ -344,10 +343,10 @@ public class InputHandler {
                     if (!this.itemsList.isEmpty()) {
                         CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
                         CommandMenuGui.itemSelected = 0;
-                        world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                        world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     } else {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                        world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                        world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     }
                     return;
                 }
@@ -364,17 +363,17 @@ public class InputHandler {
 	                        	if(!driveFormsMap.isEmpty()) {
 	                                CommandMenuGui.driveSelected = 0;
 	                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
-	                                mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                                mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                                return;
 	                        	}
 	                        }
 	                	} else {//REVERT
 	                		
 	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) {
-	                			player.world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                			player.level.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                		} else {
 			                	PacketHandler.sendToServer(new CSUseDriveFormPacket(DriveForm.NONE.toString()));
-			            		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			            		player.level.playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                		}
 						}
 					} else { // Org member Limits
@@ -382,7 +381,7 @@ public class InputHandler {
                 		if(!limitsList.isEmpty() && playerData.getLimitCooldownTicks() <= 0) {
 							CommandMenuGui.limitSelected = 0;
 							CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
-							mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+							mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							return;
 						}
 
@@ -420,12 +419,12 @@ public class InputHandler {
                     if (!coords.getPos().equals(new BlockPos(0,0,0))) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
-                        player.sendMessage(new TranslationTextComponent(TextFormatting.RED + "You don't have any portal destination"), Util.DUMMY_UUID);
+                        player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "You don't have any portal destination"), Util.NIL_UUID);
                     }
 
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                    world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                 }
             }
         }
@@ -435,13 +434,13 @@ public class InputHandler {
      // Limits Submenu
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
 			if (this.limitsList.isEmpty()) {
-                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 			} else {
 				
 				if(playerData.getDP() < limitsList.get(CommandMenuGui.limitSelected).getCost()) {
-                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 				} else {
@@ -451,7 +450,7 @@ public class InputHandler {
 						PacketHandler.sendToServer(new CSUseLimitPacket(CommandMenuGui.limitSelected));
 					CommandMenuGui.selected = CommandMenuGui.ATTACK;
 					CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-					world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+					world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 				}
 			}
 		}
@@ -472,22 +471,22 @@ public class InputHandler {
             	if(itemsList.get(slot) != null && itemsList.get(slot).getItem() instanceof KKPotionItem) {
             		KKPotionItem potion = (KKPotionItem) itemsList.get(slot).getItem();
             		//potion.potionEffect(player);
-        			Party party = worldData.getPartyFromMember(player.getUniqueID());
+        			Party party = worldData.getPartyFromMember(player.getUUID());
 
             		if(potion.isGlobal() || party == null) {
             			PacketHandler.sendToServer(new CSUseItemPacket(slot));
             		} else {
             			//Target selector
-            			CommandMenuGui.targetSelected = party.getMemberIndex(player.getUniqueID());
+            			CommandMenuGui.targetSelected = party.getMemberIndex(player.getUUID());
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
-    	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+    	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
             		}
             		CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                    world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	} else {
-                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
                
             }
@@ -502,20 +501,20 @@ public class InputHandler {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
-	            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	            		player.level.playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                } else {
 	                    if (!antiFormCheck()) {
 		                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
-		            		player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+		            		player.level.playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                    }
 	                }
 	                CommandMenuGui.selected = CommandMenuGui.ATTACK;
 	                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	 } else {
  	                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
                      CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                     world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                     world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
             }
         }
@@ -525,15 +524,15 @@ public class InputHandler {
             if (this.targetsList.isEmpty()) {
             } else {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
-            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < ModConfigs.partyRangeLimit) {
+            	if(world.getPlayerByUUID(member.getUUID()) != null && player.distanceTo(world.getPlayerByUUID(member.getUUID())) < ModConfigs.partyRangeLimit) {
             		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
             		int level = playerData.getMagicLevel(magicName);
             		PacketHandler.sendToServer(new CSUseMagicPacket(magicName, member.getUsername(), level));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	} else {
-	                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
 
             }
@@ -544,7 +543,7 @@ public class InputHandler {
             if (this.targetsList.isEmpty()) {
             } else {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
-            	if(world.getPlayerByUuid(member.getUUID()) != null && player.getDistance(world.getPlayerByUuid(member.getUUID())) < ModConfigs.partyRangeLimit) {
+            	if(world.getPlayerByUUID(member.getUUID()) != null && player.distanceTo(world.getPlayerByUUID(member.getUUID())) < ModConfigs.partyRangeLimit) {
             		int slot = -1;
                 	int i = 0;
                 	for(Map.Entry<Integer, ItemStack> entry : itemsList.entrySet()) {
@@ -560,9 +559,9 @@ public class InputHandler {
                 	}
             		CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	} else {
-	                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
 
             }
@@ -577,15 +576,15 @@ public class InputHandler {
 				int cost = ModMagic.registry.getValue(new ResourceLocation(magic)).getCost(mag[0]);
 
             	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
-                    world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             	} else {
-            		if(worldData.getPartyFromMember(player.getUniqueID()) != null && ModMagic.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
-            			Party party = worldData.getPartyFromMember(player.getUniqueID());
-                        CommandMenuGui.targetSelected = party.getMemberIndex(player.getUniqueID());
+            		if(worldData.getPartyFromMember(player.getUUID()) != null && ModMagic.registry.getValue(new ResourceLocation(magic)).getHasToSelect()) { //Open party target selector
+            			Party party = worldData.getPartyFromMember(player.getUUID());
+                        CommandMenuGui.targetSelected = party.getMemberIndex(player.getUUID());
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
-    	                world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+    	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
             		} else {
                 		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
@@ -594,33 +593,33 @@ public class InputHandler {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             		}
-                    world.playSound(player, player.getPosition(), ModSounds.menu_select.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
     			}
             }
         }
     }
 
-    private void summonPortal(PlayerEntity player, PortalData coords) {
+    private void summonPortal(Player player, PortalData coords) {
 		BlockPos destination = coords.getPos();
 
-		if (player.isSneaking()) {
-			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.getPosition(), destination, coords.getDimID()));
+		if (player.isShiftKeyDown()) {
+			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(player.blockPosition(), destination, coords.getDimID()));
 		} else {
-			RayTraceResult rtr = getMouseOverExtended(100);
+			HitResult rtr = getMouseOverExtended(100);
 			if (rtr != null) {
-				if(rtr instanceof BlockRayTraceResult) {
-					BlockRayTraceResult brtr = (BlockRayTraceResult)rtr;
-					double distanceSq = player.getDistanceSq(brtr.getPos().getX(), brtr.getPos().getY(), brtr.getPos().getZ());
+				if(rtr instanceof BlockHitResult) {
+					BlockHitResult brtr = (BlockHitResult)rtr;
+					double distanceSq = player.distanceToSqr(brtr.getBlockPos().getX(), brtr.getBlockPos().getY(), brtr.getBlockPos().getZ());
 					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
-						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getPos().up(), destination, coords.getDimID()));
+						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getBlockPos().above(), destination, coords.getDimID()));
 					}
-				} else if(rtr instanceof EntityRayTraceResult) {
-					EntityRayTraceResult ertr = (EntityRayTraceResult)rtr;
-					double distanceSq = player.getDistanceSq(ertr.getEntity().getPosX(), ertr.getEntity().getPosY(), ertr.getEntity().getPosZ());
+				} else if(rtr instanceof EntityHitResult) {
+					EntityHitResult ertr = (EntityHitResult)rtr;
+					double distanceSq = player.distanceToSqr(ertr.getEntity().getX(), ertr.getEntity().getY(), ertr.getEntity().getZ());
 					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
-						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(ertr.getEntity().getPosition(), destination, coords.getDimID()));
+						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(ertr.getEntity().blockPosition(), destination, coords.getDimID()));
 					} 
 				}
 			}
@@ -629,33 +628,33 @@ public class InputHandler {
 
 	public void commandBack() {
     	Minecraft mc = Minecraft.getInstance();
-    	mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-        PlayerEntity player = mc.player;
-        World world = mc.world;
+    	mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+        Player player = mc.player;
+        Level world = mc.level;
 
         if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN)
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
             CommandMenuGui.submenu = CommandMenuGui.selected == CommandMenuGui.MAGIC ? CommandMenuGui.SUB_MAGIC : CommandMenuGui.ITEMS;
-            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         }
         //CommandMenuGui.magicSelected = 0;
         CommandMenuGui.driveSelected = 0;
@@ -667,8 +666,8 @@ public class InputHandler {
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
-        World world = mc.world;
+        Player player = mc.player;
+        Level world = mc.level;
 
 		Keybinds key = getPressedKey();
 		if(KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
@@ -690,8 +689,8 @@ public class InputHandler {
 			case OPENMENU:
 				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 				if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
-					if (player.world.getDimensionKey() != ModDimensions.DIVE_TO_THE_HEART) {
-						mc.displayGuiScreen(new NoChoiceMenuPopup());
+					if (player.level.dimension() != ModDimensions.DIVE_TO_THE_HEART) {
+						mc.setScreen(new NoChoiceMenuPopup());
 					}
 				} else {
 					GuiHelper.openMenu();
@@ -705,14 +704,14 @@ public class InputHandler {
 			case SCROLL_UP:
 				// if (!MainConfig.displayGUI())
 				// break;
-				if (mc.currentScreen == null)
+				if (mc.screen == null)
 					commandUp();
 				break;
 
 			case SCROLL_DOWN:
 				// if (!MainConfig.displayGUI())
 				// break;
-				if (mc.currentScreen == null)
+				if (mc.screen == null)
 					commandDown();
 				break;
 
@@ -720,7 +719,7 @@ public class InputHandler {
 				/*
 				 * if (!MainConfig.displayGUI()) break;
 				 */
-				if (mc.currentScreen == null)
+				if (mc.screen == null)
 					commandEnter();
 
 				break;
@@ -728,7 +727,7 @@ public class InputHandler {
 			case BACK:
 				// if (!MainConfig.displayGUI())
 				// break;
-				if (mc.currentScreen == null)
+				if (mc.screen == null)
 					commandBack();
 
 				break;
@@ -749,16 +748,16 @@ public class InputHandler {
 			case LOCK_ON:
 				if (lockOn == null) {
 					int reach = 35;
-					RayTraceResult rtr = getMouseOverExtended(reach);
-					if (rtr != null && rtr instanceof EntityRayTraceResult) {
-						EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
+					HitResult rtr = getMouseOverExtended(reach);
+					if (rtr != null && rtr instanceof EntityHitResult) {
+						EntityHitResult ertr = (EntityHitResult) rtr;
 						if (ertr.getEntity() != null) {
-							double distance = player.getDistance(ertr.getEntity());
+							double distance = player.distanceTo(ertr.getEntity());
 							
 							if (reach >= distance) {
 								if (ertr.getEntity() instanceof LivingEntity) {
 									lockOn = (LivingEntity) ertr.getEntity();
-									player.world.playSound((PlayerEntity) player, player.getPosition(), ModSounds.lockon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+									player.level.playSound((Player) player, player.blockPosition(), ModSounds.lockon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 								}
 							}
 						}
@@ -777,15 +776,15 @@ public class InputHandler {
 
 	private void commandAction() {
 		Minecraft mc = Minecraft.getInstance();
-		PlayerEntity player = mc.player;
+		Player player = mc.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		
-    	if (qrCooldown <= 0 && (player.getMotion().x != 0 && player.getMotion().z != 0)) { // If player is moving do dodge roll / quick run
+    	if (qrCooldown <= 0 && (player.getDeltaMovement().x != 0 && player.getDeltaMovement().z != 0)) { // If player is moving do dodge roll / quick run
 			if (player.isSprinting()) { //If player is sprinting do quick run
 				if (playerData.isAbilityEquipped(Strings.quickRun) || playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
-					float yaw = player.rotationYaw;
-					float motionX = -MathHelper.sin(yaw / 180.0f * (float) Math.PI);
-					float motionZ = MathHelper.cos(yaw / 180.0f * (float) Math.PI);
+					float yaw = player.getYRot();
+					float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
+					float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
 
 					int wisdomLevel = playerData.getDriveFormLevel(Strings.Form_Wisdom);
 
@@ -794,7 +793,7 @@ public class InputHandler {
 					if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						power = Constants.WISDOM_QR[wisdomLevel];
 						if (!player.isOnGround()) {
-							player.addVelocity(motionX * power / 2, 0, motionZ * power / 2);
+							player.push(motionX * power / 2, 0, motionZ * power / 2);
 							qrCooldown = 20;
 						}
 					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
@@ -804,7 +803,7 @@ public class InputHandler {
 					}
 
 					if (player.isOnGround()) {
-						player.addVelocity(motionX * power, 0, motionZ * power);
+						player.push(motionX * power, 0, motionZ * power);
 						qrCooldown = 20;
 					}
 				}
@@ -821,7 +820,7 @@ public class InputHandler {
 					}
 
 					if (player.isOnGround()) {
-						player.addVelocity(player.getMotion().x * power, 0, player.getMotion().z * power);
+						player.push(player.getDeltaMovement().x * power, 0, player.getDeltaMovement().z * power);
 						qrCooldown = 20;
 						//PacketDispatcher.sendToServer(new InvinciblePacket(20));
 					}
@@ -856,7 +855,7 @@ public class InputHandler {
          */
 
     	Minecraft mc = Minecraft.getInstance();
-    	if(mc.world != null){
+    	if(mc.level != null){
 	        if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
 	            commandEnter();
 	            event.setCanceled(true);
@@ -872,10 +871,10 @@ public class InputHandler {
 	            event.setCanceled(true);
 	        }
 
-			if (mc.currentScreen == null && event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
-				PlayerEntity thePlayer = mc.player;
+			if (mc.screen == null && event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
+				Player thePlayer = mc.player;
 				if (thePlayer != null) {
-					ItemStack itemstack = thePlayer.getHeldItemMainhand();
+					ItemStack itemstack = thePlayer.getMainHandItem();
 					IExtendedReach ieri;
 					if (itemstack != null) {
 						if (itemstack.getItem() instanceof IExtendedReach) {
@@ -886,13 +885,13 @@ public class InputHandler {
 
 						if (ieri != null) {
 							float reach = ieri.getReach();
-							RayTraceResult rtr = getMouseOverExtended(reach);
+							HitResult rtr = getMouseOverExtended(reach);
 							if (rtr != null) {
-								if (rtr instanceof EntityRayTraceResult) {
-									EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
-									if (ertr.getEntity() != null && ertr.getEntity().hurtResistantTime == 0) {
+								if (rtr instanceof EntityHitResult) {
+									EntityHitResult ertr = (EntityHitResult) rtr;
+									if (ertr.getEntity() != null && ertr.getEntity().invulnerableTime == 0) {
 										if (ertr.getEntity() != thePlayer) {
-											PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getEntityId()));
+											PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getId()));
 										}
 									}
 								}
@@ -920,17 +919,17 @@ public class InputHandler {
     	loadLists();
     	if(!reactionList.isEmpty()) {
     		Minecraft mc = Minecraft.getInstance();
-    		PlayerEntity player = mc.player;
+    		Player player = mc.player;
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected));
 			CommandMenuGui.reactionSelected = 0;
-			player.world.playSound(player, player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			player.level.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 		}
 	}
 
 	@SubscribeEvent
     public void OnMouseWheelScroll(MouseScrollEvent event) {
     	Minecraft mc = Minecraft.getInstance();
-        if (mc.isGameFocused() && KeyboardHelper.isScrollActivatorDown()) {
+        if (mc.isWindowActive() && KeyboardHelper.isScrollActivatorDown()) {
         	event.setCanceled(true);
         	if(event.getScrollDelta() == Constants.WHEEL_DOWN) {
                 commandDown();
@@ -955,49 +954,49 @@ public class InputHandler {
         //TEST("key.kingdomkeys.test",GLFW.GLFW_KEY_K);
     	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R);
 
-        private final KeyBinding keybinding;
+        private final KeyMapping keybinding;
         Keybinds(String name, int defaultKey) {
-            keybinding = new KeyBinding(name, defaultKey, "key.categories.kingdomkeys");
+            keybinding = new KeyMapping(name, defaultKey, "key.categories.kingdomkeys");
         }
 
-        public KeyBinding getKeybind() {
+        public KeyMapping getKeybind() {
             return keybinding;
         }
 
         public boolean isPressed() {
-            return keybinding.isPressed();
+            return keybinding.consumeClick();
         }
     }
     
-    public static RayTraceResult getMouseOverExtended(float dist) {
+    public static HitResult getMouseOverExtended(float dist) {
 		Minecraft mc = Minecraft.getInstance();
-		Entity theRenderViewEntity = mc.getRenderViewEntity();
-		AxisAlignedBB theViewBoundingBox = new AxisAlignedBB(theRenderViewEntity.getPosX() - 0.5D, theRenderViewEntity.getPosY() - 0.0D, theRenderViewEntity.getPosZ() - 0.5D, theRenderViewEntity.getPosX() + 0.5D, theRenderViewEntity.getPosY() + 1.5D, theRenderViewEntity.getPosZ() + 0.5D);
-		RayTraceResult returnMOP = null;
-		if (mc.world != null) {
+		Entity theRenderViewEntity = mc.getCameraEntity();
+		AABB theViewBoundingBox = new AABB(theRenderViewEntity.getX() - 0.5D, theRenderViewEntity.getY() - 0.0D, theRenderViewEntity.getZ() - 0.5D, theRenderViewEntity.getX() + 0.5D, theRenderViewEntity.getY() + 1.5D, theRenderViewEntity.getZ() + 0.5D);
+		HitResult returnMOP = null;
+		if (mc.level != null) {
 			double var2 = dist;
 			returnMOP = theRenderViewEntity.pick(var2, 0, false);
 			double calcdist = var2;
-			Vector3d pos = theRenderViewEntity.getEyePosition(0);
+			Vec3 pos = theRenderViewEntity.getEyePosition(0);
 			var2 = calcdist;
 			if (returnMOP != null) {
-				calcdist = returnMOP.getHitVec().distanceTo(pos);
+				calcdist = returnMOP.getLocation().distanceTo(pos);
 			}
 
-			Vector3d lookvec = theRenderViewEntity.getLook(0);
-			Vector3d var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
+			Vec3 lookvec = theRenderViewEntity.getViewVector(0);
+			Vec3 var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
 			Entity pointedEntity = null;
 			float var9 = 1.0F;
 
-			List<Entity> list = mc.world.getEntitiesWithinAABBExcludingEntity(theRenderViewEntity, theViewBoundingBox.grow(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).grow(var9, var9, var9));
+			List<Entity> list = mc.level.getEntities(theRenderViewEntity, theViewBoundingBox.inflate(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).inflate(var9, var9, var9));
 			double d = calcdist;
 
 			for (Entity entity : list) {
-				if (entity.canBeCollidedWith()) {
-					float bordersize = entity.getCollisionBorderSize();
-					AxisAlignedBB aabb = new AxisAlignedBB(entity.getPosX() - entity.getWidth() / 2, entity.getPosY(), entity.getPosZ() - entity.getWidth() / 2, entity.getPosX() + entity.getWidth() / 2, entity.getPosY() + entity.getHeight(), entity.getPosZ() + entity.getWidth() / 2);
-					aabb.grow(bordersize, bordersize, bordersize);
-					Optional<Vector3d> mop0 = aabb.rayTrace(pos, var8);
+				if (entity.isPickable()) {
+					float bordersize = entity.getPickRadius();
+					AABB aabb = new AABB(entity.getX() - entity.getBbWidth() / 2, entity.getY(), entity.getZ() - entity.getBbWidth() / 2, entity.getX() + entity.getBbWidth() / 2, entity.getY() + entity.getBbHeight(), entity.getZ() + entity.getBbWidth() / 2);
+					aabb.inflate(bordersize, bordersize, bordersize);
+					Optional<Vec3> mop0 = aabb.clip(pos, var8);
 
 					if (aabb.contains(pos)) {
 						if (0.0D < d || d == 0.0D) {
@@ -1016,7 +1015,7 @@ public class InputHandler {
 			}
 
 			if (pointedEntity != null && (d < calcdist || returnMOP == null)) {
-				returnMOP = new EntityRayTraceResult(pointedEntity);
+				returnMOP = new EntityHitResult(pointedEntity);
 			}
 		}
 		return returnMOP;
@@ -1025,7 +1024,7 @@ public class InputHandler {
 
     public void loadLists() {
         Minecraft mc = Minecraft.getInstance();
-        IWorldCapabilities worldData = ModCapabilities.getWorld(mc.world);
+        IWorldCapabilities worldData = ModCapabilities.getWorld(mc.level);
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 
         if(playerData != null && worldData != null) {
@@ -1033,10 +1032,10 @@ public class InputHandler {
 	        this.driveFormsMap.remove(DriveForm.NONE.toString());
 	        this.driveFormsMap.remove(DriveForm.SYNCH_BLADE.toString());
 	        this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
-	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUniqueID());
+	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUUID());
 			this.limitsList = Utils.getPlayerLimitAttacks(mc.player);
-	        if(ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()) != null) {
-	        	this.targetsList = ModCapabilities.getWorld(mc.world).getPartyFromMember(mc.player.getUniqueID()).getMembers();
+	        if(ModCapabilities.getWorld(mc.level).getPartyFromMember(mc.player.getUUID()) != null) {
+	        	this.targetsList = ModCapabilities.getWorld(mc.level).getPartyFromMember(mc.player.getUUID()).getMembers();
 	        }
 	        this.itemsList = Utils.getEquippedItems(playerData.getEquippedItems());
 	        

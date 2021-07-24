@@ -7,14 +7,14 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -60,7 +60,7 @@ public abstract class MenuPopup extends Screen {
     }
 
     public MenuPopup() {
-        super(new TranslationTextComponent(""));
+        super(new TranslatableComponent(""));
     }
 
     int[] alpha;
@@ -69,13 +69,13 @@ public abstract class MenuPopup extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.scaledWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
-        this.scaledHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
+        this.scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        this.scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
         int buttonWidth = 50;
         int buttonX = (scaledWidth / 2) - (buttonWidth * 2);
-        int buttonY = (scaledHeight / 2) + -10 + (getTextToDisplay().size() * ((font.FONT_HEIGHT * 2) + 3));
-        this.addButton(ok = new MenuButton(buttonX, buttonY, buttonWidth, Utils.translateToLocal(OKString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.OK)));
-        this.addButton(cancel = new MenuButton(buttonX + (buttonWidth * 2), buttonY, buttonWidth, Utils.translateToLocal(CANCELString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.CANCEL)));
+        int buttonY = (scaledHeight / 2) + -10 + (getTextToDisplay().size() * ((font.lineHeight * 2) + 3));
+        this.addWidget(ok = new MenuButton(buttonX, buttonY, buttonWidth, Utils.translateToLocal(OKString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.OK)));
+        this.addWidget(cancel = new MenuButton(buttonX + (buttonWidth * 2), buttonY, buttonWidth, Utils.translateToLocal(CANCELString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.CANCEL)));
         ok.visible = false;
         ok.active = false;
         cancel.visible = false;
@@ -86,8 +86,8 @@ public abstract class MenuPopup extends Screen {
         Arrays.fill(alpha, 0);
     }
 
-    protected void renderTextBackground(MatrixStack matrixStack, FontRenderer fontRendererIn, int yIn, int stringWidthIn) {
-        int i = Minecraft.getInstance().gameSettings.getTextBackgroundColor(0.0F);
+    protected void renderTextBackground(PoseStack matrixStack, Font fontRendererIn, int yIn, int stringWidthIn) {
+        int i = Minecraft.getInstance().options.getBackgroundColor(0.0F);
         if (i != 0) {
             int j = -stringWidthIn / 2;
             fill(matrixStack, j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
@@ -99,14 +99,14 @@ public abstract class MenuPopup extends Screen {
     int scaledHeight;
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         float startY = -10.0F;
-        matrixStack.push();
-        matrixStack.translate((float) (this.scaledWidth / 2), (float) (this.scaledHeight / 2) - ((startY + ((getTextToDisplay().size()-1) * (font.FONT_HEIGHT + 3))) / 2F), 0.0F);
+        matrixStack.pushPose();
+        matrixStack.translate((float) (this.scaledWidth / 2), (float) (this.scaledHeight / 2) - ((startY + ((getTextToDisplay().size()-1) * (font.lineHeight + 3))) / 2F), 0.0F);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.scale(2.0F, 2.0F, 2.0F);
 
         for (int i = 0; i < getTextToDisplay().size(); i++) {
@@ -116,18 +116,18 @@ public abstract class MenuPopup extends Screen {
                 alpha[i] = (int) (f5 * 255.0F / (float) this.titleFadeIn);
             }
             if (timer[i] == -1) alpha[i] = 255;
-            alpha[i] = MathHelper.clamp(alpha[i], 0, 255);
+            alpha[i] = Mth.clamp(alpha[i], 0, 255);
             if (alpha[i] > 8) {
                 int l1 = alpha[i] << 24 & -16777216;
-                int i2 = font.getStringWidth(Utils.translateToLocal(getTextToDisplay().get(i)));
-                this.renderTextBackground(matrixStack, font, (int) (startY + (i * (font.FONT_HEIGHT + 3))), i2);
-                font.drawStringWithShadow(matrixStack, Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), startY + (i * (font.FONT_HEIGHT + 3)), 16777215 | l1);
+                int i2 = font.width(Utils.translateToLocal(getTextToDisplay().get(i)));
+                this.renderTextBackground(matrixStack, font, (int) (startY + (i * (font.lineHeight + 3))), i2);
+                font.drawShadow(matrixStack, Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), startY + (i * (font.lineHeight + 3)), 16777215 | l1);
             }
         }
 
-        matrixStack.pop();
+        matrixStack.popPose();
         RenderSystem.disableBlend();
-        matrixStack.pop();
+        matrixStack.popPose();
     }
 
     int titleDisplayTime = 35;

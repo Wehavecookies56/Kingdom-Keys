@@ -3,61 +3,61 @@ package online.kingdomkeys.kingdomkeys.entity.shotlock;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class BaseShotlockShotEntity extends ThrowableEntity{
+public class BaseShotlockShotEntity extends ThrowableProjectile{
 	
 	int maxTicks = 100;
 	public float dmg;
 	Entity target;
 
-	public BaseShotlockShotEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public BaseShotlockShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public BaseShotlockShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public BaseShotlockShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
 	}
 
-	public BaseShotlockShotEntity(World world) {
+	public BaseShotlockShotEntity(Level world) {
 		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public BaseShotlockShotEntity(EntityType<? extends ThrowableEntity> type, World world, LivingEntity player, Entity target, double dmg) {
+	public BaseShotlockShotEntity(EntityType<? extends ThrowableProjectile> type, Level world, LivingEntity player, Entity target, double dmg) {
 		super(type, player, world);
 		this.dmg = (float)dmg;
-		setTarget(target.getEntityId());
+		setTarget(target.getId());
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
-	public void remove() {
-		if(ticksExisted > 20) {
-			super.remove();
+	public void this.remove(false) {
+		if(tickCount > 20) {
+			super.this.remove(false);
 		}
 	}
 
@@ -70,56 +70,56 @@ public class BaseShotlockShotEntity extends ThrowableEntity{
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(OWNER) != null) {
-			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
-			compound.putInt("TargetUUID", this.dataManager.get(TARGET));
-			compound.putInt("Color", this.dataManager.get(COLOR));
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
+			compound.putInt("TargetUUID", this.entityData.get(TARGET));
+			compound.putInt("Color", this.entityData.get(COLOR));
 		}
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.dataManager.set(TARGET, compound.getInt("TargetUUID"));
-		this.dataManager.set(COLOR, compound.getInt("Color"));
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
+		this.entityData.set(TARGET, compound.getInt("TargetUUID"));
+		this.entityData.set(COLOR, compound.getInt("Color"));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.VARINT);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.INT);
 
-	public PlayerEntity getCaster() {
-		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	public Player getCaster() {
+		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
-		this.dataManager.set(OWNER, Optional.of(uuid));
+		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
 	public Entity getTarget() {
-		return this.world.getEntityByID(this.getDataManager().get(TARGET));
+		return this.level.getEntity(this.getEntityData().get(TARGET));
 	}
 
 	public void setTarget(int i) {
-		this.dataManager.set(TARGET, i);
+		this.entityData.set(TARGET, i);
 	}
 
 	public int getColor() {
-		return this.getDataManager().get(COLOR);
+		return this.getEntityData().get(COLOR);
 	}
 	
 	public void setColor(int color) {
-		this.dataManager.set(COLOR, color);
+		this.entityData.set(COLOR, color);
 	}
 	
 	@Override
-	protected void registerData() {
-		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.dataManager.register(TARGET, 0);
-		this.dataManager.register(COLOR, 0);
+	protected void defineSynchedData() {
+		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		this.entityData.define(TARGET, 0);
+		this.entityData.define(COLOR, 0);
 	}
 
 }

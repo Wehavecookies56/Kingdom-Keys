@@ -4,40 +4,40 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.monster.WitchEntity;
-import net.minecraft.entity.monster.ZombifiedPiglinEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Witch;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -45,40 +45,40 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class ThunderBoltEntity extends ThrowableEntity {
+public class ThunderBoltEntity extends ThrowableProjectile {
 	private int lightningState;
 	public long boltVertex;
 	private int boltLivingTime;
 	private boolean effectOnly;
 	float dmgMult = 1;
-	public ThunderBoltEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public ThunderBoltEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public ThunderBoltEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public ThunderBoltEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), world);
 	}
 
-	public ThunderBoltEntity(World world) {
+	public ThunderBoltEntity(Level world) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public ThunderBoltEntity(World world, PlayerEntity player, double x, double y, double z, float dmgMult) {
+	public ThunderBoltEntity(Level world, Player player, double x, double y, double z, float dmgMult) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), player, world);
-		setCaster(player.getUniqueID());
-		this.ignoreFrustumCheck = true;
-		this.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
+		setCaster(player.getUUID());
+		this.noCulling = true;
+		this.moveTo(x, y, z, 0.0F, 0.0F);
 		this.lightningState = 2;
-		this.boltVertex = this.rand.nextLong();
-		this.boltLivingTime = this.rand.nextInt(3) + 1;
+		this.boltVertex = this.random.nextLong();
+		this.boltLivingTime = this.random.nextInt(3) + 1;
 		this.effectOnly = false;
 		this.dmgMult = dmgMult;
 	}
 
-	public SoundCategory getSoundCategory() {
-		return SoundCategory.WEATHER;
+	public SoundSource getSoundSource() {
+		return SoundSource.WEATHER;
 	}
 
 	/**
@@ -89,83 +89,83 @@ public class ThunderBoltEntity extends ThrowableEntity {
 		--this.lightningState;
 		if (this.lightningState < 0) {
 			if (this.boltLivingTime == 0) {
-				this.remove();
-			} else if (this.lightningState < -this.rand.nextInt(10)) {
+				this.remove(false);
+			} else if (this.lightningState < -this.random.nextInt(10)) {
 				--this.boltLivingTime;
 				this.lightningState = 1;
-				this.boltVertex = this.rand.nextLong();
+				this.boltVertex = this.random.nextLong();
 				// this.igniteBlocks(0);
 			}
 		}
 
-		if (this.lightningState >= 0 && getShooter() != null) {
-			if (this.world.isRemote) {
-				this.world.setTimeLightningFlash(2);
+		if (this.lightningState >= 0 && getOwner() != null) {
+			if (this.level.isClientSide) {
+				this.level.setSkyFlashTime(2);
 			} else if (!this.effectOnly) {
 				float radius = 1.0F;
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
-				Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getShooter().getUniqueID());
+				Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getOwner().getUUID());
 
 				if (casterParty != null && !casterParty.getFriendlyFire()) {
 					for (Member m : casterParty.getMembers()) {
-						list.remove(world.getPlayerByUuid(m.getUUID()));
+						list.remove(level.getPlayerByUUID(m.getUUID()));
 					}
 				} else {
-					list.remove(getShooter());
+					list.remove(getOwner());
 				}
 
 				for (LivingEntity entity : list) {
-					float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.02F : 2;
-					entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
+					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.02F : 2;
+					entity.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 
-					if (entity instanceof PigEntity) {
-						if (world.getDifficulty() != Difficulty.PEACEFUL) {
-							PigEntity pig = (PigEntity) entity;
-							ZombifiedPiglinEntity zombifiedpiglinentity = EntityType.ZOMBIFIED_PIGLIN.create(world);
-							zombifiedpiglinentity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-							zombifiedpiglinentity.setLocationAndAngles(pig.getPosX(), pig.getPosY(), pig.getPosZ(), pig.rotationYaw, pig.rotationPitch);
-							zombifiedpiglinentity.setNoAI(pig.isAIDisabled());
-							zombifiedpiglinentity.setChild(pig.isChild());
+					if (entity instanceof Pig) {
+						if (level.getDifficulty() != Difficulty.PEACEFUL) {
+							Pig pig = (Pig) entity;
+							ZombifiedPiglin zombifiedpiglinentity = EntityType.ZOMBIFIED_PIGLIN.create(level);
+							zombifiedpiglinentity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
+							zombifiedpiglinentity.moveTo(pig.getX(), pig.getY(), pig.getZ(), pig.getYRot(), pig.getXRot());
+							zombifiedpiglinentity.setNoAi(pig.isNoAi());
+							zombifiedpiglinentity.setBaby(pig.isBaby());
 							if (pig.hasCustomName()) {
 								zombifiedpiglinentity.setCustomName(pig.getCustomName());
 								zombifiedpiglinentity.setCustomNameVisible(pig.isCustomNameVisible());
 							}
 
-							zombifiedpiglinentity.enablePersistence();
-							world.addEntity(zombifiedpiglinentity);
-							pig.remove();
+							zombifiedpiglinentity.setPersistenceRequired();
+							level.addFreshEntity(zombifiedpiglinentity);
+							pig.remove(false);
 						}
 					}
 
-					if (entity instanceof VillagerEntity) {
-						if (world.getDifficulty() != Difficulty.PEACEFUL) {
-							VillagerEntity villager = (VillagerEntity) entity;
+					if (entity instanceof Villager) {
+						if (level.getDifficulty() != Difficulty.PEACEFUL) {
+							Villager villager = (Villager) entity;
 
-							WitchEntity witchentity = EntityType.WITCH.create(world);
-							witchentity.setLocationAndAngles(villager.getPosX(), villager.getPosY(), villager.getPosZ(), villager.rotationYaw, villager.rotationPitch);
-							witchentity.onInitialSpawn((ServerWorld) world, world.getDifficultyForLocation(witchentity.getPosition()), SpawnReason.CONVERSION, (ILivingEntityData) null, (CompoundNBT) null);
-							witchentity.setNoAI(villager.isAIDisabled());
+							Witch witchentity = EntityType.WITCH.create(level);
+							witchentity.moveTo(villager.getX(), villager.getY(), villager.getZ(), villager.getYRot(), villager.getXRot());
+							witchentity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(witchentity.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null, (CompoundTag) null);
+							witchentity.setNoAi(villager.isNoAi());
 							if (villager.hasCustomName()) {
 								witchentity.setCustomName(villager.getCustomName());
 								witchentity.setCustomNameVisible(villager.isCustomNameVisible());
 							}
 
-							witchentity.enablePersistence();
-							world.addEntity(witchentity);
-							villager.remove();
+							witchentity.setPersistenceRequired();
+							level.addFreshEntity(witchentity);
+							villager.remove(false);
 						}
 					}
 
-					if (entity instanceof CreeperEntity) {
-						LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.world);
-						lightningBoltEntity.moveForced(Vector3d.copyCenteredHorizontally(entity.getPosition()));
-						lightningBoltEntity.setCaster(getCaster() instanceof ServerPlayerEntity ? (ServerPlayerEntity) getCaster() : null);
-						this.world.addEntity(lightningBoltEntity);
+					if (entity instanceof Creeper) {
+						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level);
+						lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(entity.blockPosition()));
+						lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
+						this.level.addFreshEntity(lightningBoltEntity);
 					}
 				}
 
 				if (getCaster() != null) {
-					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayerEntity) getCaster(), list);
+					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayer) getCaster(), list);
 				}
 			}
 		}
@@ -176,8 +176,8 @@ public class ThunderBoltEntity extends ThrowableEntity {
 	 * Checks if the entity is in range to render.
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public boolean isInRangeToRenderDist(double distance) {
-		double d0 = 64.0D * getRenderDistanceWeight();
+	public boolean shouldRenderAtSqrDistance(double distance) {
+		double d0 = 64.0D * getViewScale();
 		return distance < d0 * d0;
 	}
 
@@ -189,42 +189,42 @@ public class ThunderBoltEntity extends ThrowableEntity {
 	 * this.setCaster(compound.getUniqueId("caster")); }
 	 */
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ThunderBoltEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(ThunderBoltEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(OWNER) != null) {
-			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 		}
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 	}
 
-	public PlayerEntity getCaster() {
-		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	public Player getCaster() {
+		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
-		this.dataManager.set(OWNER, Optional.of(uuid));
+		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(OWNER, Optional.of(Util.DUMMY_UUID));
+	protected void defineSynchedData() {
+		this.entityData.define(OWNER, Optional.of(Util.NIL_UUID));
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult result) {
+	protected void onHit(HitResult result) {
 		// TODO Auto-generated method stub
 	}
 }

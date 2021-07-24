@@ -8,24 +8,24 @@ import java.util.stream.Collectors;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryLookupCodec;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.RegistryLookupCodec;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-public class StationOfSorrowBiomeProvider extends BiomeProvider {
+public class StationOfSorrowBiomeProvider extends BiomeSource {
     public static void registerBiomeProvider() {
-        Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_biome_source"), StationOfSorrowBiomeProvider.CODEC);
+        Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_biome_source"), StationOfSorrowBiomeProvider.CODEC);
     }
 
     public static final Codec<StationOfSorrowBiomeProvider> CODEC =
             RecordCodecBuilder.create((instance) -> instance.group(
-                    RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((vanillaLayeredBiomeSource) -> vanillaLayeredBiomeSource.BIOME_REGISTRY))
+                    RegistryLookupCodec.create(Registry.BIOME_REGISTRY).forGetter((vanillaLayeredBiomeSource) -> vanillaLayeredBiomeSource.BIOME_REGISTRY))
             .apply(instance, instance.stable(StationOfSorrowBiomeProvider::new)));
 
     private final Registry<Biome> BIOME_REGISTRY;
@@ -34,12 +34,12 @@ public class StationOfSorrowBiomeProvider extends BiomeProvider {
     public static ResourceLocation BIOME = new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow);
 
     public StationOfSorrowBiomeProvider(Registry<Biome> biomeRegistry) {
-        super(biomeRegistry.getEntries().stream()
-                .filter(entry -> entry.getKey().getLocation().getNamespace().equals(KingdomKeys.MODID))
+        super(biomeRegistry.entrySet().stream()
+                .filter(entry -> entry.getKey().location().getNamespace().equals(KingdomKeys.MODID))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList()));
 
-        NONSTANDARD_BIOME = this.biomes.stream()
+        NONSTANDARD_BIOME = this.possibleBiomes.stream()
                 .filter(biome -> biomeRegistry.getKey(biome) != BIOME)
                 .collect(Collectors.toList());
 
@@ -48,17 +48,17 @@ public class StationOfSorrowBiomeProvider extends BiomeProvider {
 
     @Override
     public Biome getNoiseBiome(int x, int y, int z) {
-        return biomes.get(0);
+        return possibleBiomes.get(0);
     }
 
     @Override
-    protected Codec<? extends BiomeProvider> getBiomeProviderCodec() {
+    protected Codec<? extends BiomeSource> codec() {
         return CODEC;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public BiomeProvider getBiomeProvider(long seed) {
+    public BiomeSource withSeed(long seed) {
         return new StationOfSorrowBiomeProvider(this.BIOME_REGISTRY);
     }
 }

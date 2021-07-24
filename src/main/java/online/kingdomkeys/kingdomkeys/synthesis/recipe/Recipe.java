@@ -6,9 +6,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 /**
  * Stores the data loaded from the keyblades datapack
  */
-public class Recipe implements INBTSerializable<CompoundNBT> {
+public class Recipe implements INBTSerializable<CompoundTag> {
     @Nullable Map<Material, Integer> materials;
     @Nullable Item result;
     @Nullable int amount;
@@ -80,8 +80,8 @@ public class Recipe implements INBTSerializable<CompoundNBT> {
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT nbt = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		CompoundTag nbt = new CompoundTag();
 
 		nbt.putString("regname", getRegistryName().toString());
 		nbt.putString("result", result.getRegistryName().toString());
@@ -99,7 +99,7 @@ public class Recipe implements INBTSerializable<CompoundNBT> {
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT nbt) {
+	public void deserializeNBT(CompoundTag nbt) {
 		this.setResult(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("result"))), nbt.getInt("amount"));
 		this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));

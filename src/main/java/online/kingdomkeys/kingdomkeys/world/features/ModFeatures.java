@@ -3,20 +3,20 @@ package online.kingdomkeys.kingdomkeys.world.features;
 import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
-import net.minecraft.world.gen.feature.template.IRuleTestType;
-import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -28,7 +28,7 @@ public class ModFeatures {
 
     public static final RegistryObject<Feature<BloxOreFeatureConfig>> BLOX = FEATURES.register("blox", () -> new BloxOreFeature(BloxOreFeatureConfig.CODEC));
 
-    public static final IRuleTestType<?> OVERWORLD_GROUND =  IRuleTestType.register("multiple_block_match", MultipleBlockMatchRuleTest.CODEC);
+    public static final RuleTestType<?> OVERWORLD_GROUND =  RuleTestType.register("multiple_block_match", MultipleBlockMatchRuleTest.CODEC);
 
     public static ConfiguredFeature<?, ?>
             //Nether
@@ -65,40 +65,40 @@ public class ModFeatures {
 
 
     private static ConfiguredFeature<?, ?> addBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.OVERWORLD, blocks, size)).range(height).square().count(count);
+        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().configured(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.OVERWORLD, blocks, size)).range(height).squared().count(count);
         return register(registryName, feature);
     }
 
     private static ConfiguredFeature<?, ?> addEndBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.END, blocks, size)).range(height).square().count(count);
+        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().configured(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.END, blocks, size)).range(height).squared().count(count);
         return register(registryName, feature);
     }
 
     private static ConfiguredFeature<?, ?> addOreFeature(ResourceLocation registryName, RuleTest fillerBlock, Block block, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = Feature.ORE.withConfiguration(new OreFeatureConfig(fillerBlock, block.getDefaultState(), size)).range(height).square().count(count);
+        ConfiguredFeature<?, ?> feature = Feature.ORE.configured(new OreConfiguration(fillerBlock, block.defaultBlockState(), size)).range(height).squared().count(count);
         return register(registryName, feature);
     }
 
     private static ConfiguredFeature<?, ?> addEndOre(ResourceLocation registryName, Block block, int size, int height, int count) {
-        final RuleTest END = new BlockMatchRuleTest(Blocks.END_STONE);
+        final RuleTest END = new BlockMatchTest(Blocks.END_STONE);
         return addOreFeature(registryName, END, block, size, height, count);
     }
 
     private static ConfiguredFeature<?, ?> addNetherOre(ResourceLocation registryName, Block block, int size, int height, int count) {
-        return addOreFeature(registryName, OreFeatureConfig.FillerBlockType.NETHERRACK, block, size, height, count);
+        return addOreFeature(registryName, OreConfiguration.Predicates.NETHERRACK, block, size, height, count);
     }
 
     private static ConfiguredFeature<?, ?> addOverworldOre(ResourceLocation registryName, Block block, int size, int height, int count) {
-        return addOreFeature(registryName, OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, block, size, height, count);
+        return addOreFeature(registryName, OreConfiguration.Predicates.NATURAL_STONE, block, size, height, count);
     }
 
-    private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(ResourceLocation key, ConfiguredFeature<FC, ?> configuredFeature) {
-        return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, key, configuredFeature);
+    private static <FC extends FeatureConfiguration> ConfiguredFeature<FC, ?> register(ResourceLocation key, ConfiguredFeature<FC, ?> configuredFeature) {
+        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, key, configuredFeature);
     }
 
     public static void registerConfiguredFeatures() {
-        final List<BlockState> BLOX_LIST = Arrays.asList(ModBlocks.normalBlox.get().getDefaultState(), ModBlocks.hardBlox.get().getDefaultState(), ModBlocks.metalBlox.get().getDefaultState(), ModBlocks.dangerBlox.get().getDefaultState());
-        final List<BlockState> PRIZE_BLOX_LIST = Arrays.asList(ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.rarePrizeBlox.get().getDefaultState(), ModBlocks.rarePrizeBlox.get().getDefaultState(), ModBlocks.dangerBlox.get().getDefaultState(), ModBlocks.blastBlox.get().getDefaultState());
+        final List<BlockState> BLOX_LIST = Arrays.asList(ModBlocks.normalBlox.get().defaultBlockState(), ModBlocks.hardBlox.get().defaultBlockState(), ModBlocks.metalBlox.get().defaultBlockState(), ModBlocks.dangerBlox.get().defaultBlockState());
+        final List<BlockState> PRIZE_BLOX_LIST = Arrays.asList(ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.rarePrizeBlox.get().defaultBlockState(), ModBlocks.rarePrizeBlox.get().defaultBlockState(), ModBlocks.dangerBlox.get().defaultBlockState(), ModBlocks.blastBlox.get().defaultBlockState());
 
         TWILIGHT_ORE_NETHER = addNetherOre(rl("twilight_ore_nether"), ModBlocks.twilightOreN.get(), 10, 100, 8);
         WELLSPRING_ORE_NETHER = addNetherOre(rl("wellspring_ore_nether"), ModBlocks.wellspringOreN.get(), 10, 100, 8);

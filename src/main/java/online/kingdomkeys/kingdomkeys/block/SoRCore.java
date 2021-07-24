@@ -1,16 +1,13 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.UUID;
-
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 
 public class SoRCore extends BaseBlock {
@@ -26,16 +23,16 @@ public class SoRCore extends BaseBlock {
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+	public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
 		return ModEntities.TYPE_SOR_CORE_TE.get().create();
 	}
 
 	
 	@Override
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		SoRCoreTileEntity te = (SoRCoreTileEntity) worldIn.getTileEntity(pos);
+	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+		SoRCoreTileEntity te = (SoRCoreTileEntity) worldIn.getBlockEntity(pos);
 		te.removeSoR();
-		te.remove();
+		te.setRemoved();
 	}
 
 

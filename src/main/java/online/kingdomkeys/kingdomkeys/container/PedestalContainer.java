@@ -1,22 +1,22 @@
 package online.kingdomkeys.kingdomkeys.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 
-public class PedestalContainer extends Container {
+public class PedestalContainer extends AbstractContainerMenu {
 
 	public final PedestalTileEntity TE;
-	private final IWorldPosCallable canInteractWith;
+	private final ContainerLevelAccess canInteractWith;
 
 	private static final int HOTBAR_SLOT_COUNT = 9;
 	private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
@@ -32,17 +32,17 @@ public class PedestalContainer extends Container {
 														// Titles
 	public static final int PLAYER_INVENTORY_YPOS = 51;
 
-	public PedestalContainer(final int windowID, final PlayerInventory playerInventory, final PedestalTileEntity tileEntity) {
+	public PedestalContainer(final int windowID, final Inventory playerInventory, final PedestalTileEntity tileEntity) {
 		super(ModContainers.PEDESTAL.get(), windowID);
 		TE = tileEntity;
-		canInteractWith = IWorldPosCallable.of(TE.getWorld(), TE.getPos());
+		canInteractWith = ContainerLevelAccess.create(TE.getLevel(), TE.getBlockPos());
 
 		int i,j;
 		//Pedestal slot
 		TE.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iih -> {
 			addSlot(new SlotItemHandler(iih, 0, 152, 9) {
 				@Override
-				public boolean isItemValid(ItemStack stack) {
+				public boolean mayPlace(ItemStack stack) {
 					return true; //stack.getItem() instanceof KeybladeItem;
 				}
 			});
@@ -61,8 +61,8 @@ public class PedestalContainer extends Container {
 		}
 	}
 
-	private static PedestalTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer buf) {
-		final TileEntity te = playerInventory.player.world.getTileEntity(buf.readBlockPos());
+	private static PedestalTileEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf buf) {
+		final BlockEntity te = playerInventory.player.level.getBlockEntity(buf.readBlockPos());
 		if (te instanceof PedestalTileEntity) {
 			return (PedestalTileEntity) te;
 		}
@@ -70,34 +70,34 @@ public class PedestalContainer extends Container {
 	}
 
 
-	public PedestalContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer buf) {
+	public PedestalContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf buf) {
 		this(windowId, playerInventory, getTileEntity(playerInventory, buf));
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn) {
-		return isWithinUsableDistance(canInteractWith, playerIn, ModBlocks.pedestal.get());
+	public boolean stillValid(Player playerIn) {
+		return stillValid(canInteractWith, playerIn, ModBlocks.pedestal.get());
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+	public ItemStack quickMoveStack(Player playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = this.inventorySlots.get(index);
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
+		Slot slot = this.slots.get(index);
+		if (slot != null && slot.hasItem()) {
+			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
 			if (index < PEDESTAL_SLOTS) {
-				if (!this.mergeItemStack(itemstack1, PEDESTAL_SLOTS, this.inventorySlots.size(), true)) {
+				if (!this.moveItemStackTo(itemstack1, PEDESTAL_SLOTS, this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.mergeItemStack(itemstack1, 0, PEDESTAL_SLOTS, false)) {
+			} else if (!this.moveItemStackTo(itemstack1, 0, PEDESTAL_SLOTS, false)) {
 				return ItemStack.EMPTY;
 			}
 
 			if (itemstack1.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
+				slot.set(ItemStack.EMPTY);
 			} else {
-				slot.onSlotChanged();
+				slot.setChanged();
 			}
 		}
 		return itemstack;

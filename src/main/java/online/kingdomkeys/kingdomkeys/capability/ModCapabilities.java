@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -22,7 +22,7 @@ public class ModCapabilities {
 	@CapabilityInject(IWorldCapabilities.class)
 	public static final Capability<IWorldCapabilities> WORLD_CAPABILITIES = null;
 
-	public static IPlayerCapabilities getPlayer(PlayerEntity player) {
+	public static IPlayerCapabilities getPlayer(Player player) {
 		LazyOptional<IPlayerCapabilities> playerData = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES, null);
 		return playerData.orElse(null);
 	}
@@ -32,7 +32,7 @@ public class ModCapabilities {
 		return globalData.orElse(null);
 	}
 	
-	public static IWorldCapabilities getWorld(World w) {
+	public static IWorldCapabilities getWorld(Level w) {
 		LazyOptional<IWorldCapabilities> worldData = w.getCapability(ModCapabilities.WORLD_CAPABILITIES, null);
 		return worldData.orElse(null);
 	}
@@ -48,13 +48,13 @@ public class ModCapabilities {
 	public void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof LivingEntity) {
 			event.addCapability(new ResourceLocation(KingdomKeys.MODID, "global_capabilities"), new GlobalCapabilitiesProvider());
-			if (event.getObject() instanceof PlayerEntity)
+			if (event.getObject() instanceof Player)
 				event.addCapability(new ResourceLocation(KingdomKeys.MODID, "player_capabilities"), new PlayerCapabilitiesProvider());
 		}
 	}
 
 	@SubscribeEvent
-	public void attachWorldCapabilities(AttachCapabilitiesEvent<World> event) {
+	public void attachWorldCapabilities(AttachCapabilitiesEvent<Level> event) {
 		event.addCapability(new ResourceLocation(KingdomKeys.MODID, "world_capabilities"), new WorldCapabilitiesProvider());
 	}
 

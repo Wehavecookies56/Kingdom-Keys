@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -51,26 +51,26 @@ public class AlignmentSelectionScreen extends Screen {
     private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     public AlignmentSelectionScreen() {
-        super(new TranslationTextComponent(""));
+        super(new TranslatableComponent(""));
         minecraft = Minecraft.getInstance();
     }
 
     @Override
-    public void renderBackground(MatrixStack matrixStack, int p_renderBackground_1_) {
+    public void renderBackground(PoseStack matrixStack, int p_renderBackground_1_) {
         super.renderBackground(matrixStack, p_renderBackground_1_);
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
     	
         renderBackground(matrixStack);
         String line1 = "gui.org.line1";
         String line2 = "gui.org.line2";
         String line3 = "gui.org.line3";
         if (showWelcome) {
-            drawCenteredString(matrixStack, font, new TranslationTextComponent(line1).getString(), (width / 2), height / 2 - font.FONT_HEIGHT * 3, 0xFFFFFF);
-            drawCenteredString(matrixStack, font, new TranslationTextComponent(line2).getString(), (width / 2), height / 2 - font.FONT_HEIGHT * 2, 0xFFFFFF);
-            drawCenteredString(matrixStack, font, new TranslationTextComponent(line3).getString(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, new TranslatableComponent(line1).getString(), (width / 2), height / 2 - font.lineHeight * 3, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, new TranslatableComponent(line2).getString(), (width / 2), height / 2 - font.lineHeight * 2, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, new TranslatableComponent(line3).getString(), (width / 2), height / 2 - font.lineHeight, 0xFFFFFF);
         } else {
             String name = "";
             String weapon = "";
@@ -158,24 +158,24 @@ public class AlignmentSelectionScreen extends Screen {
             }
 
             if (confirmChoice) {
-                drawCenteredString(matrixStack, font, new TranslationTextComponent("gui.org.line4", name).getString(), (width / 2), height / 2 - font.FONT_HEIGHT, 0xFFFFFF);
-                drawCenteredString(matrixStack, font, new TranslationTextComponent("gui.org.line5").getString(), (width / 2), height / 2, 0xFFFFFF);
+                drawCenteredString(matrixStack, font, new TranslatableComponent("gui.org.line4", name).getString(), (width / 2), height / 2 - font.lineHeight, 0xFFFFFF);
+                drawCenteredString(matrixStack, font, new TranslatableComponent("gui.org.line5").getString(), (width / 2), height / 2, 0xFFFFFF);
             } else {
-                matrixStack.push();
-                Minecraft.getInstance().getTextureManager().bindTexture(GLOW);
+                matrixStack.pushPose();
+                Minecraft.getInstance().getTextureManager().bindForSetup(GLOW);
                 RenderSystem.enableBlend();
                 blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-                matrixStack.pop();
-                matrixStack.push();
-                Minecraft.getInstance().getTextureManager().bindTexture(icons[current.ordinal()-1]);
+                matrixStack.popPose();
+                matrixStack.pushPose();
+                Minecraft.getInstance().getTextureManager().bindForSetup(icons[current.ordinal()-1]);
                 RenderSystem.enableBlend();
                 blit(matrixStack, (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
                 matrixStack.translate((width / 2) - (8) - 64, (height / 2) - 110, 0);
                 matrixStack.scale(0.5F, 0.5F, 0.5F);
                 blit(matrixStack, 0, 0, 0, 0, icon_width, icon_height);
-                matrixStack.pop();
+                matrixStack.popPose();
                 drawString(matrixStack, font, name, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110, 0xFFFFFF);
-                drawString(matrixStack, font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.FONT_HEIGHT * 2, 0xFFFFFF);
+                drawString(matrixStack, font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.lineHeight * 2, 0xFFFFFF);
             }
         }
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
@@ -183,12 +183,12 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void init() {
-        addButton(ok = new Button(0, 0, 50, 20, new TranslationTextComponent("gui.org.ok"), p -> actionPerformed(OK)));
-        addButton(confirm = new Button(0, 0, 60, 20, new TranslationTextComponent("gui.org.confirm"), p -> actionPerformed(CONFIRM)));
-        addButton(cancel = new Button(0, 0, 60, 20,  new TranslationTextComponent("gui.org.cancel"), p -> actionPerformed(CANCEL)));
-        addButton(next = new Button(0, 0, 20, 20, new TranslationTextComponent(">"), p -> actionPerformed(NEXT)));
-        addButton(prev = new Button(0, 0, 20, 20, new TranslationTextComponent("<"), p -> actionPerformed(PREV)));
-        addButton(select = new Button(0, 0, 70, 20,  new TranslationTextComponent("gui.org.select"), p -> actionPerformed(SELECT)));
+        addWidget(ok = new Button(0, 0, 50, 20, new TranslatableComponent("gui.org.ok"), p -> actionPerformed(OK)));
+        addWidget(confirm = new Button(0, 0, 60, 20, new TranslatableComponent("gui.org.confirm"), p -> actionPerformed(CONFIRM)));
+        addWidget(cancel = new Button(0, 0, 60, 20,  new TranslatableComponent("gui.org.cancel"), p -> actionPerformed(CANCEL)));
+        addWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
+        addWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
+        addWidget(select = new Button(0, 0, 70, 20,  new TranslatableComponent("gui.org.select"), p -> actionPerformed(SELECT)));
         updateButtons();
         super.init();
     }
@@ -225,7 +225,7 @@ public class AlignmentSelectionScreen extends Screen {
                 PacketHandler.sendToServer(new CSSetAlignment(current));
                 playerData = ModCapabilities.getPlayer(minecraft.player);
                 playerData.setAlignment(current);
-                Minecraft.getInstance().displayGuiScreen(null);
+                Minecraft.getInstance().setScreen(null);
                 if(playerData.getEquippedKeychain(DriveForm.NONE) != null) {
 					if(Utils.findSummoned(minecraft.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true));
@@ -248,7 +248,7 @@ public class AlignmentSelectionScreen extends Screen {
             prev.visible = false;
             select.visible = false;
             ok.x = (width / 2) - (ok.getWidth() / 2);
-            ok.y = (height / 2) - (ok.getHeight() / 2) + font.FONT_HEIGHT + 2;
+            ok.y = (height / 2) - (ok.getHeight() / 2) + font.lineHeight + 2;
         } else {
             ok.visible = false;
             next.visible = true;

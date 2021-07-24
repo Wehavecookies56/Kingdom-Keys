@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 /** Mainly here just to reduce the size of {@link online.kingdomkeys.kingdomkeys.capability.PlayerCapabilities} */
 public class LevelStats {
 
-    public static void applyStatsForLevel(int level, PlayerEntity player, IPlayerCapabilities cap) {
+    public static void applyStatsForLevel(int level, Player player, IPlayerCapabilities cap) {
     	if(cap.getSoAState() != SoAState.COMPLETE) {
     		return;
     	}

@@ -1,40 +1,40 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.TargetGoal;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SeedBulletEntity;
 
 //TODO fix seed bullet
-public class DirePlantEntity extends MonsterEntity implements IKHMob {
+public class DirePlantEntity extends Monster implements IKHMob {
 
-    public DirePlantEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
+    public DirePlantEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public DirePlantEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public DirePlantEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_DIRE_PLANT.get(), world);
     }
     
     @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+    	return ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
     }
 
     @Override
@@ -42,37 +42,37 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
         super.registerGoals();
        // this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(0, new SeedGoal(this));
-        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VillagerEntity.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
 
     }
     
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MobEntity.registerAttributes()
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.0D)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
-                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
-				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+    public static AttributeSupplier.Builder registerAttributes() {
+        return Mob.createLivingAttributes()
+                .add(Attributes.FOLLOW_RANGE, 35.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.0D)
+                .add(Attributes.MAX_HEALTH, 40.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
+                .add(Attributes.ATTACK_DAMAGE, 1.0D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
                 ;
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 4;
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(EntityHelper.STATE, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(EntityHelper.STATE, 0);
     }
 
     @Override
-    public EntityHelper.MobType getMobType() {
+    public EntityHelper.MobType getEnemyType() {
         return EntityHelper.MobType.HEARTLESS_EMBLEM;
     }
 
@@ -85,8 +85,8 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(goalOwner.getAttackTarget() != null) {
+        public boolean canUse() {
+            if(mob.getTarget() != null) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
                         attackTimer--;
@@ -100,66 +100,66 @@ public class DirePlantEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             return canUseAttack;
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             canUseAttack = true;
             attackTimer = 30;
-            EntityHelper.setState(goalOwner, 0);
+            EntityHelper.setState(mob, 0);
         }
 
         @Override
         public void tick() {
-            if(goalOwner.getAttackTarget() != null && canUseAttack) {
-                EntityHelper.setState(goalOwner, 1);
-                LivingEntity target = this.goalOwner.getAttackTarget();
-                this.goalOwner.getLookController().setLookPositionWithEntity(target, 30F, 30F);
-                double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
-                double d2 = this.goalOwner.getAttackTarget().getPosY() - this.goalOwner.getPosY();//getBoundingBox().minY + (double)(this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F));
-                double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
+            if(mob.getTarget() != null && canUseAttack) {
+                EntityHelper.setState(mob, 1);
+                LivingEntity target = this.mob.getTarget();
+                this.mob.getLookControl().setLookAt(target, 30F, 30F);
+                double d1 = this.mob.getTarget().getX() - this.mob.getX();
+                double d2 = this.mob.getTarget().getY() - this.mob.getY();//getBoundingBox().minY + (double)(this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F));
+                double d3 = this.mob.getTarget().getZ() - this.mob.getZ();
                 
-                int num = world.rand.nextInt(100) + 1;
+                int num = level.random.nextInt(100) + 1;
                 
                 if(num < 30) { //Single
-                    SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
+                    SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level);
+                    seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
                     seed.shoot(d1, d2, d3, 1.2F, 0);
-                    world.addEntity(seed);
+                    level.addFreshEntity(seed);
                     
                 } else if(num < 60) { //Vertical
-                	SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                	SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level);
                     seed.shoot(d1, d2+1, d3, 1F, 0);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    goalOwner.world.addEntity(seed);
+                    seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
+                    mob.level.addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level);
                     seed.shoot(d1, d2+2, d3, 1F, 0);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    goalOwner.world.addEntity(seed);
+                    seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
+                    mob.level.addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level);
                     seed.shoot(d1, d2, d3, 1F, 0);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    goalOwner.world.addEntity(seed);
+                    seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
+                    mob.level.addFreshEntity(seed);
                     
                 } else { //Triple
-                    SeedBulletEntity seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level);
                     seed.shoot(d1, d2, d3, 1.2F, 0);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    goalOwner.world.addEntity(seed);
+                    seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
+                    mob.level.addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level);
                     seed.shoot(d1, d2, d3, 0.7F, 0);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    goalOwner.world.addEntity(seed);
+                    seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
+                    mob.level.addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.goalOwner, this.goalOwner.world);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level);
                     seed.shoot(d1, d2, d3, 0.5F, 0);
-                    seed.setPosition(seed.getPosX(), this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F) + 0.3D, seed.getPosZ());
-                    goalOwner.world.addEntity(seed);
+                    seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
+                    mob.level.addFreshEntity(seed);
                     
 
                 }

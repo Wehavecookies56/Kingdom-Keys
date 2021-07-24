@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
@@ -55,6 +55,6 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 		return owner;
 	}
 
-	public abstract void onUse(PlayerEntity player, LivingEntity target);
+	public abstract void onUse(Player player, LivingEntity target);
 
 }

@@ -4,10 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -23,22 +23,22 @@ public class SCSyncSynthesisData {
 		this.recipes = recipes;
 	}
 	
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(recipes.size());
-		CompoundNBT compoundNBT = new CompoundNBT();
+		CompoundTag compoundNBT = new CompoundTag();
 		for(int i = 0; i < recipes.size(); i++) {
 			compoundNBT.put("recipe"+i, recipes.get(i).serializeNBT());
 		}
-		buffer.writeCompoundTag(compoundNBT);
+		buffer.writeNbt(compoundNBT);
 	}
 
-	public static SCSyncSynthesisData decode(PacketBuffer buffer) {
+	public static SCSyncSynthesisData decode(FriendlyByteBuf buffer) {
 		SCSyncSynthesisData msg = new SCSyncSynthesisData();
 		int size = buffer.readInt();
-		CompoundNBT compoundNBT = buffer.readCompoundTag();
+		CompoundTag compoundNBT = buffer.readNbt();
 		for (int i = 0; i < size; i++) {
 			Recipe r = new Recipe();
-			r.deserializeNBT((CompoundNBT) compoundNBT.get("recipe"+i));
+			r.deserializeNBT((CompoundTag) compoundNBT.get("recipe"+i));
 			msg.recipes.add(r);
 		}
 		return msg;	
@@ -46,7 +46,7 @@ public class SCSyncSynthesisData {
 
 	public static void handle(final SCSyncSynthesisData message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();
+			Player player = KingdomKeys.proxy.getClientPlayer();
 
 			RecipeRegistry.getInstance().clearRegistry();
 

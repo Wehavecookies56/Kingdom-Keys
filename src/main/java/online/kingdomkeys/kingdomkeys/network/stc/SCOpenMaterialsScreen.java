@@ -3,20 +3,20 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkDirection;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 
 public class SCOpenMaterialsScreen {
 
     public SCOpenMaterialsScreen() {}
 
-    public void encode(PacketBuffer buffer) {}
+    public void encode(FriendlyByteBuf buffer) {}
 
-    public static SCOpenMaterialsScreen decode(PacketBuffer buffer) { return new SCOpenMaterialsScreen(); }
+    public static SCOpenMaterialsScreen decode(FriendlyByteBuf buffer) { return new SCOpenMaterialsScreen(); }
 
     public static void handle(final SCOpenMaterialsScreen msg, Supplier<NetworkEvent.Context> ctx) {
         if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT)
@@ -28,7 +28,7 @@ public class SCOpenMaterialsScreen {
     public static class Client {
         @OnlyIn(Dist.CLIENT)
         public static void handle(SCOpenMaterialsScreen msg) {
-            Minecraft.getInstance().displayGuiScreen(new SynthesisMaterialScreen());
+            Minecraft.getInstance().setScreen(new SynthesisMaterialScreen());
         }
     }
 

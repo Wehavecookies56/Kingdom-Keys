@@ -7,24 +7,24 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -32,7 +32,7 @@ import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class LaserDomeCoreEntity extends ThrowableEntity {
+public class LaserDomeCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 240;
 	List<LaserDomeShotEntity> list = new ArrayList<LaserDomeShotEntity>();
@@ -45,94 +45,94 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 	int space = 12;
 	int shotsPerTick = 3;
 
-	public LaserDomeCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public LaserDomeCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public LaserDomeCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public LaserDomeCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_LASER_DOME.get(), world);
 	}
 
-	public LaserDomeCoreEntity(World world) {
+	public LaserDomeCoreEntity(Level world) {
 		super(ModEntities.TYPE_LASER_DOME.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public LaserDomeCoreEntity(World world, PlayerEntity player, LivingEntity target, float dmg) {
+	public LaserDomeCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_LASER_DOME.get(), player, world);
-		setCaster(player.getUniqueID());
-		setTarget(target.getUniqueID());
+		setCaster(player.getUUID());
+		setTarget(target.getUUID());
 		this.dmg = dmg;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks || getCaster() == null) {
-			this.remove();
+		if (this.tickCount > maxTicks || getCaster() == null) {
+			this.remove(false);
 		}
 
 		this.dmgMult = ModConfigs.limitLaserDomeMult;
 
 		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
 		// getPosZ(), 1, 1, 0);
-		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
-		double X = getPosX();
-		double Y = getPosY();
-		double Z = getPosZ();
+		double X = getX();
+		double Y = getY();
+		double Z = getZ();
 
 		if (getCaster() != null) {
-			if (ticksExisted >= 0 && ticksExisted < 20) {
-				double t = ticksExisted * 5;
+			if (tickCount >= 0 && tickCount < 20) {
+				double t = tickCount * 5;
 				for (int s = 1; s < 360; s += space) {
 					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = Y + (radius * Math.cos(Math.toRadians(t)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
-					bullet.setPosition(x, y, z);
+					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg * dmgMult);
+					bullet.setPos(x, y, z);
 					bullet.setMaxTicks(maxTicks - 20);
-					bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
+					bullet.shoot(this.getX() - bullet.getX(), this.getY() - bullet.getY(), this.getZ() - bullet.getZ(), 0.001f, 0);
 					list.add(bullet);
-					world.addEntity(bullet);
+					level.addFreshEntity(bullet);
 				}
 
-				this.setMotion(0, 0, 0);
-				this.velocityChanged = true;
+				this.setDeltaMovement(0, 0, 0);
+				this.hurtMarked = true;
 
-			} else if (ticksExisted == 40) { // Get all targets right before starting to shoot
+			} else if (tickCount == 40) { // Get all targets right before starting to shoot
 				updateList();
 
-			} else if (ticksExisted > 40 && !targetList.isEmpty()) {
-				if (ticksExisted == 80) {
+			} else if (tickCount > 40 && !targetList.isEmpty()) {
+				if (tickCount == 80) {
 					updateList();
 				}
 
 				for (int i = 0; i < shotsPerTick; i++) {
 					int num;
 					do {
-						num = rand.nextInt(list.size());
+						num = random.nextInt(list.size());
 					} while (usedIndexes.contains(num) && usedIndexes.size() != list.size());
 					usedIndexes.add(num);
 
 					Entity target = this;
-					int targetIndex = rand.nextInt(targetList.size());
+					int targetIndex = random.nextInt(targetList.size());
 					target = targetList.get(targetIndex);
 
 					if (target != null && target.isAlive() && getCaster() != null) {
 						LaserDomeShotEntity bullet = list.get(num);
-						bullet.shoot(target.getPosX() - (bullet.getPosX() + world.rand.nextDouble() - 0.5D), target.getPosY() - bullet.getPosY(), target.getPosZ() - (bullet.getPosZ() + world.rand.nextDouble() - 0.5D), 2f, 0);
-						world.playSound(getCaster(), getCaster().getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1F, 1F);
+						bullet.shoot(target.getX() - (bullet.getX() + level.random.nextDouble() - 0.5D), target.getY() - bullet.getY(), target.getZ() - (bullet.getZ() + level.random.nextDouble() - 0.5D), 2f, 0);
+						level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 
 				}
@@ -143,35 +143,35 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 
 	private void updatePos(float r) {
 		for (LaserDomeShotEntity shot : list) {
-			double x = getPosX() + (r * Math.cos(Math.toRadians(shot.ticksExisted * 9)));
-			double z = getPosZ() + (r * Math.sin(Math.toRadians(shot.ticksExisted * 9)));
-			shot.setPosition(x, getPosY() + 1, z);
-			shot.shoot(this.getPosX() - shot.getPosX(), this.getPosY() - shot.getPosY(), this.getPosZ() - shot.getPosZ(), 0.001f, 0);
+			double x = getX() + (r * Math.cos(Math.toRadians(shot.tickCount * 9)));
+			double z = getZ() + (r * Math.sin(Math.toRadians(shot.tickCount * 9)));
+			shot.setPos(x, getY() + 1, z);
+			shot.shoot(this.getX() - shot.getX(), this.getY() - shot.getY(), this.getZ() - shot.getZ(), 0.001f, 0);
 		}
 	}
 
 	private void updateList() {
-		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
+		List<Entity> tempList = level.getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
+		Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getCaster().getUUID());
 
 		if(casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Party.Member m : casterParty.getMembers()) {
-				tempList.remove(world.getPlayerByUuid(m.getUUID()));
+				tempList.remove(level.getPlayerByUUID(m.getUUID()));
 			}
 		} else {
-			tempList.remove(getShooter());
+			tempList.remove(getOwner());
 		}
 
 		targetList.clear();
 		for (Entity t : tempList) {
-			if (!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrbEntity)) {
+			if (!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrb)) {
 				targetList.add(t);
 			}
 		}
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
+	protected void onHit(HitResult rtRes) {
 
 	}
 
@@ -184,43 +184,43 @@ public class LaserDomeCoreEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(OWNER) != null) {
-			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
-			compound.putString("TargetUUID", this.dataManager.get(TARGET).get().toString());
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
+			compound.putString("TargetUUID", this.entityData.get(TARGET).get().toString());
 		}
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.dataManager.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
+		this.entityData.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(LaserDomeCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<Optional<UUID>> TARGET = EntityDataManager.createKey(LaserDomeCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(LaserDomeCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(LaserDomeCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
-	public PlayerEntity getCaster() {
-		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	public Player getCaster() {
+		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
-		this.dataManager.set(OWNER, Optional.of(uuid));
+		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
-	public PlayerEntity getTarget() {
-		return this.getDataManager().get(TARGET).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(TARGET).get()) : null;
+	public Player getTarget() {
+		return this.getEntityData().get(TARGET).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
 	}
 
 	public void setTarget(UUID uuid) {
-		this.dataManager.set(TARGET, Optional.of(uuid));
+		this.entityData.set(TARGET, Optional.of(uuid));
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.dataManager.register(TARGET, Optional.of(new UUID(0L, 0L)));
+	protected void defineSynchedData() {
+		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		this.entityData.define(TARGET, Optional.of(new UUID(0L, 0L)));
 	}
 }

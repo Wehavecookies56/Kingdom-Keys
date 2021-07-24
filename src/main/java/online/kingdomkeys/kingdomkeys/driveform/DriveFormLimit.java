@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -68,9 +68,9 @@ public class DriveFormLimit extends DriveForm {
 	
 	@SubscribeEvent
 	public static void getLimitFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof MonsterEntity) {
-			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+		if (!event.getEntity().level.isClientSide && event.getEntityLiving() instanceof Monster) {
+			if (event.getSource().getEntity() instanceof Player) {
+				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 				System.out.println("a");
@@ -80,7 +80,7 @@ public class DriveFormLimit extends DriveForm {
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					System.out.println(playerData.getDriveFormExp(Strings.Form_Limit));
 					playerData.setHasShotMaxShotlock(false);
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 				}
 			}
 		}

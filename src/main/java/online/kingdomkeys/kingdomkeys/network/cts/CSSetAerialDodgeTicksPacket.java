@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -22,12 +22,12 @@ public class CSSetAerialDodgeTicksPacket {
 		this.ticks = ticks;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeBoolean(hasJumped);
 		buffer.writeInt(this.ticks);
 	}
 
-	public static CSSetAerialDodgeTicksPacket decode(PacketBuffer buffer) {
+	public static CSSetAerialDodgeTicksPacket decode(FriendlyByteBuf buffer) {
 		CSSetAerialDodgeTicksPacket msg = new CSSetAerialDodgeTicksPacket();
 		msg.hasJumped = buffer.readBoolean();
 		msg.ticks = buffer.readInt();
@@ -36,7 +36,7 @@ public class CSSetAerialDodgeTicksPacket {
 
 	public static void handle(CSSetAerialDodgeTicksPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setHasJumpedAerialDodge(message.hasJumped);
 			playerData.setAerialDodgeTicks(message.ticks);

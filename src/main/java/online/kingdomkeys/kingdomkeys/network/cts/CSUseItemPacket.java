@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
@@ -32,35 +32,35 @@ public class CSUseItemPacket {
 		this.target = target;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.slot);
 		buffer.writeInt(this.target.length());
-		buffer.writeString(this.target);
+		buffer.writeUtf(this.target);
 	}
 
-	public static CSUseItemPacket decode(PacketBuffer buffer) {
+	public static CSUseItemPacket decode(FriendlyByteBuf buffer) {
 		CSUseItemPacket msg = new CSUseItemPacket();
 		msg.slot = buffer.readInt();
 		int length = buffer.readInt();
-		msg.target = buffer.readString(length);
+		msg.target = buffer.readUtf(length);
 		return msg;
 	}
 
 	public static void handle(CSUseItemPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			KKPotionItem potion = (KKPotionItem) playerData.getEquippedItem(message.slot).getItem();
 
 			if (message.target.equals("")) {
 				potion.potionEffect(player);
 			} else {
-				PlayerEntity targetEntity = Utils.getPlayerByName(player.world, message.target);
+				Player targetEntity = Utils.getPlayerByName(player.level, message.target);
 				potion.potionEffect(targetEntity);
 			}
 			playerData.equipItem(message.slot, ItemStack.EMPTY);
 
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 
 		});
 		ctx.get().setPacketHandled(true);

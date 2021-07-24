@@ -1,24 +1,24 @@
 package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class WeaponTreeSelectionScreen extends Screen {
     public WeaponTreeSelectionScreen() {
-        super(new TranslationTextComponent(""));
+        super(new TranslatableComponent(""));
     }
 
     public WeaponTreeSelectionScreen(Utils.OrgMember current) {
-        super(new TranslationTextComponent(""));
+        super(new TranslatableComponent(""));
         this.current = current;
     }
     Button cancel, next, prev, select;
@@ -50,12 +50,12 @@ public class WeaponTreeSelectionScreen extends Screen {
     private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     @Override
-    public void renderBackground(MatrixStack matrixStack, int p_renderBackground_1_) {
+    public void renderBackground(PoseStack matrixStack, int p_renderBackground_1_) {
         super.renderBackground(matrixStack, p_renderBackground_1_);
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
         renderBackground(matrixStack);
         String name = "";
         String weapon = "";
@@ -142,30 +142,30 @@ public class WeaponTreeSelectionScreen extends Screen {
                 break;
         }
         renderBackground(matrixStack);
-        matrixStack.push();
-        Minecraft.getInstance().getTextureManager().bindTexture(GLOW);
+        matrixStack.pushPose();
+        Minecraft.getInstance().getTextureManager().bindForSetup(GLOW);
         RenderSystem.enableBlend();
         blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-        matrixStack.pop();
-        matrixStack.push();
-        Minecraft.getInstance().getTextureManager().bindTexture(icons[current.ordinal()-1]);
+        matrixStack.popPose();
+        matrixStack.pushPose();
+        Minecraft.getInstance().getTextureManager().bindForSetup(icons[current.ordinal()-1]);
         RenderSystem.enableBlend();
         blit(matrixStack, (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
         matrixStack.translate((width / 2) - (8) - 64, (height / 2) - 110, 0);
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         blit(matrixStack, 0, 0, 0, 0, icon_width, icon_height);
-        matrixStack.pop();
+        matrixStack.popPose();
         drawString(matrixStack, font, name, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110, 0xFFFFFF);
-        drawString(matrixStack, font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.FONT_HEIGHT * 2, 0xFFFFFF);
+        drawString(matrixStack, font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.lineHeight * 2, 0xFFFFFF);
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
     }
 
     @Override
     public void init() {
-        addButton(cancel = new Button(0, 0, 50, 20, new TranslationTextComponent("Back"), p -> actionPerformed(CANCEL)));
-        addButton(next = new Button(0, 0, 20, 20, new TranslationTextComponent(">"), p -> actionPerformed(NEXT)));
-        addButton(prev = new Button(0, 0, 20, 20, new TranslationTextComponent("<"), p -> actionPerformed(PREV)));
-        addButton(select = new Button(0, 0, 50, 20, new TranslationTextComponent("Select"), p -> actionPerformed(SELECT)));
+        addWidget(cancel = new Button(0, 0, 50, 20, new TranslatableComponent("Back"), p -> actionPerformed(CANCEL)));
+        addWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
+        addWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
+        addWidget(select = new Button(0, 0, 50, 20, new TranslatableComponent("Select"), p -> actionPerformed(SELECT)));
         updateButtons();
         super.init();
     }
@@ -190,11 +190,11 @@ public class WeaponTreeSelectionScreen extends Screen {
                 break;
             case SELECT:
                 //Select the current member
-                Minecraft.getInstance().displayGuiScreen(new WeaponUnlockScreen(current));
+                Minecraft.getInstance().setScreen(new WeaponUnlockScreen(current));
                 break;
             case CANCEL:
                 //Go back
-                Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
+                Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
                 break;
         }
         updateButtons();

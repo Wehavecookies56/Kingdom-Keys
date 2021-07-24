@@ -4,22 +4,18 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class SoRCoreTileEntity extends TileEntity implements ITickableTileEntity {
+public class SoRCoreTileEntity extends BlockEntity implements TickableBlockEntity {
 	UUID userUUID;
 	int ticks = 0;
 	
@@ -28,18 +24,18 @@ public class SoRCoreTileEntity extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT parentNBTTagCompound) {
-		super.write(parentNBTTagCompound);
+	public CompoundTag save(CompoundTag parentNBTTagCompound) {
+		super.save(parentNBTTagCompound);
 		if (userUUID != null)
-			parentNBTTagCompound.putUniqueId("uuid", userUUID);
+			parentNBTTagCompound.putUUID("uuid", userUUID);
 		return parentNBTTagCompound;
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		if(nbt.hasUniqueId("uuid"))
-			userUUID = nbt.getUniqueId("uuid");
+	public void load(BlockState state, CompoundTag nbt) {
+		super.load(state, nbt);
+		if(nbt.hasUUID("uuid"))
+			userUUID = nbt.getUUID("uuid");
 	}
 
 	public UUID getUUID() {
@@ -48,35 +44,35 @@ public class SoRCoreTileEntity extends TileEntity implements ITickableTileEntity
 
 	public void setUUID(UUID uuid) {
 		this.userUUID = uuid;
-		markDirty();
+		setChanged();
 	}
 	
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT nbt = new CompoundNBT();
-		this.write(nbt);
-		return new SUpdateTileEntityPacket(this.getPos(), 1, nbt);
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		CompoundTag nbt = new CompoundTag();
+		this.save(nbt);
+		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 1, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
+	public CompoundTag getUpdateTag() {
+		return this.save(new CompoundTag());
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
+	public void handleUpdateTag(BlockState state, CompoundTag tag) {
+		this.load(state, tag);
 	}
 
 	@Override
 	public void tick() {
-		if(!world.isRemote) {
+		if(!level.isClientSide) {
 			System.out.println(ticks);
 			if(ticks == 0) {
 				spawnSoR();
@@ -124,14 +120,14 @@ public class SoRCoreTileEntity extends TileEntity implements ITickableTileEntity
 	    		"0000000000111110000000000";
 
 		public void spawnSoR() {
-			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-			int startZ = pos.getZ() - (sorDepth / 2);
-			int startX = pos.getX() - (sorWidth / 2);
+			BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
+			int startZ = worldPosition.getZ() - (sorDepth / 2);
+			int startX = worldPosition.getX() - (sorWidth / 2);
 
 			//for (int y = 0; y < baseY; ++y) {
-				for (int z = startZ; z <= pos.getZ() + (sorDepth / 2); ++z) {
-					for (int x = startX; x <= pos.getX() + (sorWidth / 2); ++x) {
-						blockpos$mutable.setPos(x, pos.getY(), z);
+				for (int z = startZ; z <= worldPosition.getZ() + (sorDepth / 2); ++z) {
+					for (int x = startX; x <= worldPosition.getX() + (sorWidth / 2); ++x) {
+						blockpos$mutable.set(x, worldPosition.getY(), z);
 						int strucX = x - startX;
 						int strucZ = z - startZ;
 						//if (y == 1) {
@@ -143,15 +139,15 @@ public class SoRCoreTileEntity extends TileEntity implements ITickableTileEntity
 			
 		}
 
-		private void stateToPlace(char c, BlockPos.Mutable pos) {
+		private void stateToPlace(char c, BlockPos.MutableBlockPos pos) {
 			switch (c) {
 			case '0':
 				return;
 			case '1':
-				world.setBlockState(pos, Blocks.QUARTZ_BLOCK.getDefaultState(), 2);
+				level.setBlock(pos, Blocks.QUARTZ_BLOCK.defaultBlockState(), 2);
 				break;
 			case '2':
-				world.setBlockState(pos, ModBlocks.sorCore.get().getDefaultState(), 2);
+				level.setBlock(pos, ModBlocks.sorCore.get().defaultBlockState(), 2);
 				break;
 			case '3':
 				/*for (int i = 0; i <= colHeight; i++) {
@@ -160,20 +156,20 @@ public class SoRCoreTileEntity extends TileEntity implements ITickableTileEntity
 				}*/
 				break;
 			case '4':
-				world.setBlockState(pos, Blocks.LIGHT_GRAY_CONCRETE.getDefaultState(), 2);
+				level.setBlock(pos, Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState(), 2);
 				break;
 			}
 		}
 		
 	public void removeSoR() {
-		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-		int startZ = this.pos.getZ() - (sorDepth / 2);
-		int startX = this.pos.getX() - (sorWidth / 2);
+		BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
+		int startZ = this.worldPosition.getZ() - (sorDepth / 2);
+		int startX = this.worldPosition.getX() - (sorWidth / 2);
 
-		for (int z = startZ; z <= this.pos.getZ() + (sorDepth / 2); ++z) {
-			for (int x = startX; x <= this.pos.getX() + (sorWidth / 2); ++x) {
-				blockpos$mutable.setPos(x, this.pos.getY(), z);
-				world.setBlockState(blockpos$mutable, Blocks.AIR.getDefaultState(), 2);
+		for (int z = startZ; z <= this.worldPosition.getZ() + (sorDepth / 2); ++z) {
+			for (int x = startX; x <= this.worldPosition.getX() + (sorWidth / 2); ++x) {
+				blockpos$mutable.set(x, this.worldPosition.getY(), z);
+				level.setBlock(blockpos$mutable, Blocks.AIR.defaultBlockState(), 2);
 			}
 		}
 	}

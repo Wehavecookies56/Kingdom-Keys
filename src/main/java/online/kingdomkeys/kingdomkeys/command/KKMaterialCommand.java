@@ -12,14 +12,14 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.ISuggestionProvider;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -32,16 +32,16 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class KKMaterialCommand extends BaseCommand { // kk_material <give/take> <material/all> <amount> [player]
 														// kk_material <take> <all> [player]
 
-	private static final SuggestionProvider<CommandSource> SUGGEST_MATERIALS = (p_198296_0_, p_198296_1_) -> {
+	private static final SuggestionProvider<CommandSourceStack> SUGGEST_MATERIALS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation actual : ModMaterials.registry.getKeys()) {
 			list.add(actual.toString());
 		}
-		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
+		return SharedSuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 
-	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_material").requires(source -> source.hasPermissionLevel(2));
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("kk_material").requires(source -> source.hasPermission(2));
 
 		builder.then(Commands.literal("give")
 
@@ -61,107 +61,107 @@ public class KKMaterialCommand extends BaseCommand { // kk_material <give/take> 
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
 	}
 
-	private static int addMaterial(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 4);
+	private static int addMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String materialName = StringArgumentType.getString(context, "material");
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Material material = ModMaterials.registry.getValue(new ResourceLocation(materialName));
 
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.addMaterial(material, amount);
 
-			context.getSource().sendFeedback(new TranslationTextComponent("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslationTextComponent("You have been given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "'"), Util.DUMMY_UUID);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			player.sendMessage(new TranslatableComponent("You have been given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "'"), Util.NIL_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
 
-	private static int takeMaterial(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 4);
+	private static int takeMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String materialName = StringArgumentType.getString(context, "material");
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Material material = ModMaterials.registry.getValue(new ResourceLocation(materialName));
 
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.removeMaterial(material, amount);
 
-			context.getSource().sendFeedback(new TranslationTextComponent("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslationTextComponent("x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' have been taken away from you"), Util.DUMMY_UUID);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			player.sendMessage(new TranslatableComponent("x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' have been taken away from you"), Util.NIL_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
 
-	private static int addAllMaterials(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 4);
+	private static int addAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 4);
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			for (Material material : ModMaterials.registry.getValues()) {
 				playerData.addMaterial(material, amount);
 			}
 
-			context.getSource().sendFeedback(new TranslationTextComponent("Given all materials to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Given all materials to " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslationTextComponent("You have been given all the materials"), Util.DUMMY_UUID);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			player.sendMessage(new TranslatableComponent("You have been given all the materials"), Util.NIL_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
 
-	private static int takeAllMaterials(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
+	private static int takeAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 3);
 
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.clearMaterials();
 
-			context.getSource().sendFeedback(new TranslationTextComponent("Taken all materials from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Taken all materials from " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslationTextComponent("Your materials have been taken away"), Util.DUMMY_UUID);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			player.sendMessage(new TranslatableComponent("Your materials have been taken away"), Util.NIL_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
 
-	private static int setMaterial(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 4);
+	private static int setMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String materialName = StringArgumentType.getString(context, "material");
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Material material = ModMaterials.registry.getValue(new ResourceLocation(materialName));
 
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMaterial(material, amount);
 
-			context.getSource().sendFeedback(new TranslationTextComponent("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslationTextComponent("Your '" + Utils.translateToLocal(material.getMaterialName()) + "' have been set to x" + amount), Util.DUMMY_UUID);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			player.sendMessage(new TranslatableComponent("Your '" + Utils.translateToLocal(material.getMaterialName()) + "' have been set to x" + amount), Util.NIL_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
 
-	private static int setAllMaterials(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 4);
+	private static int setAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 4);
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			for (Material material : ModMaterials.registry.getValues()) {
 				playerData.setMaterial(material, amount);
 			}
 
-			context.getSource().sendFeedback(new TranslationTextComponent("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
 
-			player.sendMessage(new TranslationTextComponent("You have been set all the materials to " + amount), Util.DUMMY_UUID);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+			player.sendMessage(new TranslatableComponent("You have been set all the materials to " + amount), Util.NIL_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}

@@ -3,26 +3,26 @@ package online.kingdomkeys.kingdomkeys.entity.organization;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class ArrowRainCoreEntity extends ThrowableEntity {
+public class ArrowRainCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 240;
 	float dmg;
@@ -31,87 +31,87 @@ public class ArrowRainCoreEntity extends ThrowableEntity {
 	float radius;
 	float space;
 
-	public ArrowRainCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public ArrowRainCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public ArrowRainCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public ArrowRainCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_ARROW_RAIN.get(), world);
 	}
 
-	public ArrowRainCoreEntity(World world) {
+	public ArrowRainCoreEntity(Level world) {
 		super(ModEntities.TYPE_ARROW_RAIN.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public ArrowRainCoreEntity(World world, PlayerEntity player, LivingEntity target, float dmg) {
+	public ArrowRainCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_ARROW_RAIN.get(), player, world);
-		setCaster(player.getUniqueID());
-		setTarget(target.getUniqueID());
+		setCaster(player.getUUID());
+		setTarget(target.getUUID());
 		this.dmg = dmg;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks || getCaster() == null) {
-			this.remove();
+		if (this.tickCount > maxTicks || getCaster() == null) {
+			this.remove(false);
 		}
 		
-		this.setMotion(0, 0, 0);
-		this.velocityChanged = true;
+		this.setDeltaMovement(0, 0, 0);
+		this.hurtMarked = true;
 
 		this.dmgMult = ModConfigs.limitArrowRainMult;
 
 		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
 		// getPosZ(), 1, 1, 0);
-		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
-		double X = getPosX();
-		double Y = getPosY();
-		double Z = getPosZ();
+		double X = getX();
+		double Y = getY();
+		double Z = getZ();
 
 		if (getCaster() != null) {
-			if (ticksExisted == 1) {
-				LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
-				bullet.setPosition(X, Y, Z);
+			if (tickCount == 1) {
+				LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg * dmgMult);
+				bullet.setPos(X, Y, Z);
 				bullet.setMaxTicks(30);
 				bullet.shoot(0, 255, 0, 1f, 0);
-				world.addEntity(bullet);
-				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 0.6F);
+				level.addFreshEntity(bullet);
+				level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 0.6F);
 
-			} else if (ticksExisted > 40 && ticksExisted % 2 == 0) { // Get all targets right before starting to shoot
-				radius = Math.min((ticksExisted-34) / 10F, 20);
+			} else if (tickCount > 40 && tickCount % 2 == 0) { // Get all targets right before starting to shoot
+				radius = Math.min((tickCount-34) / 10F, 20);
 				space = 20 + 6 - radius;
 				for (int s = 1; s < 360; s += space) {
 					double x = X + (radius * Math.cos(Math.toRadians(s)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(world, getCaster(), dmg * dmgMult);
-					bullet.setPosition(X, Y + 27, Z);
+					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg * dmgMult);
+					bullet.setPos(X, Y + 27, Z);
 					bullet.setMaxTicks(20);
-					bullet.shoot(x - bullet.getPosX(), this.getPosY() - bullet.getPosY()+1, z - bullet.getPosZ(), 2.5f, 0);
+					bullet.shoot(x - bullet.getX(), this.getY() - bullet.getY()+1, z - bullet.getZ(), 2.5f, 0);
 					//list.add(bullet);
-					world.addEntity(bullet);
+					level.addFreshEntity(bullet);
 				}
-				world.playSound(getCaster(), getCaster().getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 1F);	
+				level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);	
 			}
 		}
 		super.tick();
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
-		remove();
+	protected void onHit(HitResult rtRes) {
+		this.remove(false);
 	}
 
 	public int getMaxTicks() {
@@ -123,43 +123,43 @@ public class ArrowRainCoreEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(OWNER) != null) {
-			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
-			compound.putString("TargetUUID", this.dataManager.get(TARGET).get().toString());
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
+			compound.putString("TargetUUID", this.entityData.get(TARGET).get().toString());
 		}
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.dataManager.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
+		this.entityData.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(ArrowRainCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<Optional<UUID>> TARGET = EntityDataManager.createKey(ArrowRainCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(ArrowRainCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(ArrowRainCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
-	public PlayerEntity getCaster() {
-		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	public Player getCaster() {
+		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
-		this.dataManager.set(OWNER, Optional.of(uuid));
+		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
-	public PlayerEntity getTarget() {
-		return this.getDataManager().get(TARGET).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(TARGET).get()) : null;
+	public Player getTarget() {
+		return this.getEntityData().get(TARGET).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
 	}
 
 	public void setTarget(UUID uuid) {
-		this.dataManager.set(TARGET, Optional.of(uuid));
+		this.entityData.set(TARGET, Optional.of(uuid));
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.dataManager.register(TARGET, Optional.of(new UUID(0L, 0L)));
+	protected void defineSynchedData() {
+		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		this.entityData.define(TARGET, Optional.of(new UUID(0L, 0L)));
 	}
 }

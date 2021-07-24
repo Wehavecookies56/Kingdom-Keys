@@ -2,13 +2,13 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -44,37 +44,37 @@ public class MenuScreen extends MenuBackground {
 	protected void action(int buttonID) {
 		switch (buttonID) {
 		case ITEMS:
-			minecraft.displayGuiScreen(new MenuItemsScreen());
+			minecraft.setScreen(new MenuItemsScreen());
 			break;
 		case ABILITIES:
-			minecraft.displayGuiScreen(new MenuAbilitiesScreen());
+			minecraft.setScreen(new MenuAbilitiesScreen());
 			break;
 		case PARTY:
-			Party p = ModCapabilities.getWorld(minecraft.world).getPartyFromMember(minecraft.player.getUniqueID());
+			Party p = ModCapabilities.getWorld(minecraft.level).getPartyFromMember(minecraft.player.getUUID());
 			if(p == null) {
-				minecraft.displayGuiScreen(new GuiMenu_Party_None());
+				minecraft.setScreen(new GuiMenu_Party_None());
 			} else {
-				if(p.getLeader().getUUID().equals(minecraft.player.getUniqueID())){
-					minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
+				if(p.getLeader().getUUID().equals(minecraft.player.getUUID())){
+					minecraft.setScreen(new GuiMenu_Party_Leader());
 				} else {
-					minecraft.displayGuiScreen(new GuiMenu_Party_Member());
+					minecraft.setScreen(new GuiMenu_Party_Member());
 				}
 			}
 			break;
 		case STATUS:
-			minecraft.displayGuiScreen(new MenuStatusScreen());
+			minecraft.setScreen(new MenuStatusScreen());
 			break;
 
 		case CUSTOMIZE:
-			minecraft.displayGuiScreen(new MenuCustomizeScreen());
+			minecraft.setScreen(new MenuCustomizeScreen());
 			break;
 
 		case JOURNAL:
-			minecraft.displayGuiScreen(new MenuJournalScreen());
+			minecraft.setScreen(new MenuJournalScreen());
 			break;
 			
 		case CONFIG:
-			minecraft.displayGuiScreen(new MenuConfigScreen());
+			minecraft.setScreen(new MenuConfigScreen());
 			break;
 		 
 		}
@@ -98,25 +98,25 @@ public class MenuScreen extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 
-		addButton(items = new MenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, true, (e) -> {
+		addWidget(items = new MenuButton((int) buttonPosX, button_itemsY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, true, (e) -> {
 			action(ITEMS);
 		}));
-		addButton(abilities = new MenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, true, (e) -> {
+		addWidget(abilities = new MenuButton((int) buttonPosX, button_abilitiesY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, true, (e) -> {
 			action(ABILITIES);
 		}));
-		addButton(customize = new MenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, true, (e) -> {
+		addWidget(customize = new MenuButton((int) buttonPosX, button_customizeY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, true, (e) -> {
 			action(CUSTOMIZE);
 		}));
-		addButton(party = new MenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, true, (e) -> {
+		addWidget(party = new MenuButton((int) buttonPosX, button_partyY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, true, (e) -> {
 			action(PARTY);
 		}));
-		addButton(status = new MenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, true, (e) -> {
+		addWidget(status = new MenuButton((int) buttonPosX, button_statusY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, true, (e) -> {
 			action(STATUS);
 		}));
-		addButton(journal = new MenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, true, (e) -> {
+		addWidget(journal = new MenuButton((int) buttonPosX, button_journalY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, true, (e) -> {
 			action(JOURNAL);
 		}));
-		addButton(config = new MenuButton((int) buttonPosX, button_configY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, true, (e) -> {
+		addWidget(config = new MenuButton((int) buttonPosX, button_configY, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, true, (e) -> {
 			action(CONFIG);
 		}));
 
@@ -137,31 +137,31 @@ public class MenuScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		drawPlayer(matrixStack);
 	}
 
-	public void drawPlayer(MatrixStack matrixStack) {
+	public void drawPlayer(PoseStack matrixStack) {
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
-		matrixStack.push();
+		matrixStack.pushPose();
 		{
-			PlayerEntity player = minecraft.player;
+			Player player = minecraft.player;
 			// player.getSwingProgress(1);
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.drawEntityOnScreen((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+			InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
 		}
-		matrixStack.pop();
-		matrixStack.push();
+		matrixStack.popPose();
+		matrixStack.pushPose();
 		
 		RenderSystem.color3f(1, 1, 1);
 			matrixStack.translate(1, 1, 100);
 			RenderSystem.enableAlphaTest();
 			RenderSystem.enableBlend();
-			minecraft.getRenderManager().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			minecraft.getEntityRenderDispatcher().textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
 			int infoBoxPosX = (int) (width * 0.4354F);
 			int infoBoxPosY = (int) (height * 0.54F);
@@ -177,26 +177,26 @@ public class MenuScreen extends MenuBackground {
 			blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
 			RenderSystem.disableAlphaTest();
 			RenderSystem.disableBlend();
-		matrixStack.pop();
-		matrixStack.push();
+		matrixStack.popPose();
+		matrixStack.pushPose();
 		{
 			matrixStack.translate(2, 2, 100);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
-					matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.fontRenderer.FONT_HEIGHT / 2)), 1);
+					matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
 					// matrixStack.scale(0.75F, 0.75F, 1);
-					drawString(matrixStack, minecraft.fontRenderer, minecraft.player.getDisplayName().getString(), 0, 0, 0xFFFFFF);
+					drawString(matrixStack, minecraft.font, minecraft.player.getDisplayName().getString(), 0, 0, 0xFFFFFF);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 				
-				drawString(matrixStack,minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.fontRenderer.FONT_HEIGHT, 0x00FF00);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.fontRenderer.FONT_HEIGHT * 2), 0x4444FF);
+				drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
 			}
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 }

@@ -8,19 +8,19 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class KKPayMunnyCommand extends BaseCommand { // kk_paymunny <player> <value>
-	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_paymunny").requires(source -> source.hasPermissionLevel(0));
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("kk_paymunny").requires(source -> source.hasPermission(0));
 		
 		builder.then(Commands.argument("targets", EntityArgument.players())
 				.then(Commands.argument("value", IntegerArgumentType.integer(1, Integer.MAX_VALUE))
@@ -30,23 +30,23 @@ public class KKPayMunnyCommand extends BaseCommand { // kk_paymunny <player> <va
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
 	}
 
-	private static int payValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		ServerPlayerEntity user = context.getSource().asPlayer();
+	private static int payValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		ServerPlayer user = context.getSource().getPlayerOrException();
 		IPlayerCapabilities userData = ModCapabilities.getPlayer(user);
 
-		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context, 3);
 		int value = IntegerArgumentType.getInteger(context, "value");
 
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 			if(userData.getMunny() - (value * players.size()) >= 0) {
 				userData.setMunny(userData.getMunny() - value);
 				playerData.setMunny(playerData.getMunny() + value);
-				user.sendMessage(new TranslationTextComponent("You paid " + value + " munny to " + player.getDisplayName().getString()), Util.DUMMY_UUID);
-				player.sendMessage(new TranslationTextComponent("You got " + value + " munny from " + player.getDisplayName().getString()), Util.DUMMY_UUID);
+				user.sendMessage(new TranslatableComponent("You paid " + value + " munny to " + player.getDisplayName().getString()), Util.NIL_UUID);
+				player.sendMessage(new TranslatableComponent("You got " + value + " munny from " + player.getDisplayName().getString()), Util.NIL_UUID);
 			} else {
-				user.sendMessage(new TranslationTextComponent("You don't have enough munny (" + value + ") to pay " + player.getDisplayName().getString()), Util.DUMMY_UUID);
+				user.sendMessage(new TranslatableComponent("You don't have enough munny (" + value + ") to pay " + player.getDisplayName().getString()), Util.NIL_UUID);
 			}
 		}
 		return 1;

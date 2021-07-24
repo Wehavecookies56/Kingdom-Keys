@@ -2,49 +2,48 @@ package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import java.awt.Color;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class RagnarokShotEntity extends BaseShotlockShotEntity {
 	
-	public RagnarokShotEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public RagnarokShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public RagnarokShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public RagnarokShotEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world);
 	}
 
-	public RagnarokShotEntity(World world) {
+	public RagnarokShotEntity(Level world) {
 		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public RagnarokShotEntity(World world, LivingEntity player, Entity target, double dmg) {
+	public RagnarokShotEntity(Level world, LivingEntity player, Entity target, double dmg) {
 		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world, player, target, dmg);
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
-			this.remove();
+		if (this.tickCount > maxTicks) {
+			this.remove(false);
 		}
 		
-		if(ticksExisted > 1) {
+		if(tickCount > 1) {
 			Color color = new Color(getColor());
-			world.addParticle(new RedstoneParticleData(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F), getPosX(), getPosY(), getPosZ(), 1,1,1);
+			level.addParticle(new DustParticleOptions(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F), getX(), getY(), getZ(), 1,1,1);
 			//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
 		}
 		
@@ -68,7 +67,7 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 			//this.setPosition(x,y,z);
 			//this.setMaxTicks(maxTicks + 20);
 		}*/
-		if(ticksExisted % 10 == 0 && ticksExisted - 10 >= 6) {
+		if(tickCount % 10 == 0 && tickCount - 10 >= 6) {
 			updateMovement();
 		}
 		
@@ -78,44 +77,44 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 	private void updateMovement() {
 		if(getTarget() != null) {
 			if(getTarget().isAlive()) {
-				this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F) - this.getHeight()) - getPosY() + 0.5, getTarget().getPosZ() - this.getPosZ(), 1, 0);
+				this.shoot(getTarget().getX() - this.getX(), (getTarget().getY() + (getTarget().getBbHeight() / 2.0F) - this.getBbHeight()) - getY() + 0.5, getTarget().getZ() - this.getZ(), 1, 0);
 			} else {
-				if(getShooter() != null)
-					this.setDirectionAndMovement(this, getShooter().rotationPitch, getShooter().rotationYaw, 0, 1, 0); // Work in progress
+				if(getOwner() != null)
+					this.shootFromRotation(this, getOwner().getXRot(), getOwner().getYRot(), 0, 1, 0); // Work in progress
 			}
 		}
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
+	protected void onHit(HitResult rtRes) {
+		if (!level.isClientSide) {
 
-			EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
+			EntityHitResult ertResult = null;
+			BlockHitResult brtResult = null;
 
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
+			if (rtRes instanceof EntityHitResult) {
+				ertResult = (EntityHitResult) rtRes;
 			}
 
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
+			if (rtRes instanceof BlockHitResult) {
+				brtResult = (BlockHitResult) rtRes;
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getShooter()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
-					super.remove();
+				if (target != getOwner()) {
+					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
+					super.this.remove(false);
 				}
 			}
-			remove();
+			this.remove(false);
 		}
 	}
 	
 	@Override
-	public void remove() {
-		if(ticksExisted > 40) {
-			super.remove();
+	public void this.remove(false) {
+		if(tickCount > 40) {
+			super.this.remove(false);
 		}
 	}
 

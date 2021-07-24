@@ -1,44 +1,44 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MenuScrollBar extends Button {
 
 	int clickX, clickY, startX, startY, top, bottom;
 
-	public MenuScrollBar(int x, int y, int widthIn, String buttonText, Button.IPressable onPress) {
-		super(x, y, 22 + widthIn, 20, new TranslationTextComponent(buttonText), onPress);
+	public MenuScrollBar(int x, int y, int widthIn, String buttonText, Button.OnPress onPress) {
+		super(x, y, 22 + widthIn, 20, new TranslatableComponent(buttonText), onPress);
 		height = 10;
 		width = 14;
 		
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
-			Minecraft.getInstance().textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			matrixStack.push();
+			Minecraft.getInstance().textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			matrixStack.pushPose();
 			matrixStack.translate(x, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, -9, 41, 29, 14, 9);
-			matrixStack.pop();
-			matrixStack.push();
+			matrixStack.popPose();
+			matrixStack.pushPose();
 			matrixStack.translate(x, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, height, 41, 41, 14, 9);
-			matrixStack.pop();
+			matrixStack.popPose();
 			for (int i = 0; i < height; i++) {
-				matrixStack.push();
+				matrixStack.pushPose();
 				matrixStack.translate(x, y, 0);
 				matrixStack.scale(0.5F, 0.5F, 0);
 				blit(matrixStack, 0, i, 41, 39, 14, 1);
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
 		}
 	}

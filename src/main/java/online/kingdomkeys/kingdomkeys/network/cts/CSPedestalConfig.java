@@ -2,10 +2,10 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 
 public class CSPedestalConfig {
@@ -27,7 +27,7 @@ public class CSPedestalConfig {
         this.pause = pause;
     }
 
-    public void encode(PacketBuffer buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeBlockPos(this.tileEntityPos);
         buffer.writeFloat(this.rotationSpeed);
         buffer.writeFloat(this.bobSpeed);
@@ -38,7 +38,7 @@ public class CSPedestalConfig {
         buffer.writeBoolean(this.pause);
     }
 
-    public static CSPedestalConfig decode(PacketBuffer buffer) {
+    public static CSPedestalConfig decode(FriendlyByteBuf buffer) {
         CSPedestalConfig msg = new CSPedestalConfig();
         msg.tileEntityPos = buffer.readBlockPos();
         msg.rotationSpeed = buffer.readFloat();
@@ -53,14 +53,14 @@ public class CSPedestalConfig {
 
     public static void handle(CSPedestalConfig message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            World world = ctx.get().getSender().world;
-            PedestalTileEntity tileEntity = (PedestalTileEntity) world.getTileEntity(message.tileEntityPos);
+            Level world = ctx.get().getSender().level;
+            PedestalTileEntity tileEntity = (PedestalTileEntity) world.getBlockEntity(message.tileEntityPos);
             tileEntity.setSpeed(message.rotationSpeed, message.bobSpeed);
             tileEntity.saveTransforms(message.savedRotation, message.savedHeight);
             tileEntity.setScale(message.scale);
             tileEntity.setPause(message.pause);
             tileEntity.setBaseHeight(message.baseHeight);
-            world.notifyBlockUpdate(message.tileEntityPos, world.getBlockState(message.tileEntityPos), world.getBlockState(message.tileEntityPos), 2);
+            world.sendBlockUpdated(message.tileEntityPos, world.getBlockState(message.tileEntityPos), world.getBlockState(message.tileEntityPos), 2);
         });
         ctx.get().setPacketHandled(true);
     }

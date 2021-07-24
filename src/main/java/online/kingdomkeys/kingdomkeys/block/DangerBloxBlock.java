@@ -1,23 +1,23 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DangerBloxBlock extends BaseBlock {
 
     /** Smaller collision box otherwise {@link #onEntityCollision(BlockState, World, BlockPos, Entity)} doesn't trigger */
-    private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+    private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
     private float damage = 3.0F;
 
     public DangerBloxBlock(Properties properties) {
@@ -26,26 +26,26 @@ public class DangerBloxBlock extends BaseBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return collisionShape;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity) {
             LivingEntity entityLiving = (LivingEntity) entity;
-            if (ItemStack.areItemStacksEqual(entityLiving.getItemStackFromSlot(EquipmentSlotType.FEET), ItemStack.EMPTY)) {
-                entity.attackEntityFrom(DamageSource.MAGIC, damage);
+            if (ItemStack.matches(entityLiving.getItemBySlot(EquipmentSlot.FEET), ItemStack.EMPTY)) {
+                entity.hurt(DamageSource.MAGIC, damage);
             }
         } else {
-            entity.attackEntityFrom(DamageSource.MAGIC, damage);
+            entity.hurt(DamageSource.MAGIC, damage);
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        player.attackEntityFrom(DamageSource.MAGIC, damage);
+    public void attack(BlockState state, Level world, BlockPos pos, Player player) {
+        player.hurt(DamageSource.MAGIC, damage);
     }
 }

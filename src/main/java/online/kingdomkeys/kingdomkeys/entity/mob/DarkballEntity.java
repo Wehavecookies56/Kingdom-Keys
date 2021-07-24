@@ -2,32 +2,32 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class DarkballEntity extends MonsterEntity implements IKHMob {
+public class DarkballEntity extends Monster implements IKHMob {
 
     enum SpecialAttack {
         CHARGE,
@@ -43,17 +43,17 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
             DAMAGE_BERSERK = 5,
             DAMAGE_DARKCLOUD = 4;
 
-    public DarkballEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
+    public DarkballEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public DarkballEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public DarkballEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_DARKBALL.get(), world);
     }
 
     @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+    	return ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
     }
     
     @Override
@@ -62,70 +62,70 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         this.goalSelector.addGoal(0, new DarkCloudGoal(this));
         this.goalSelector.addGoal(1, new ChargeGoal(this));
         this.goalSelector.addGoal(1, new BerserkGoal(this));
-        this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VillagerEntity.class, true));
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
 
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MobEntity.registerAttributes()
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.22D)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 90.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
-				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+    public static AttributeSupplier.Builder registerAttributes() {
+        return Mob.createLivingAttributes()
+                .add(Attributes.FOLLOW_RANGE, 35.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.22D)
+                .add(Attributes.MAX_HEALTH, 90.0D)
+                .add(Attributes.ATTACK_DAMAGE, 1.0D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
                 ;
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 4;
     }
 
     @Override
-    protected void registerData() {
-    	super.registerData();
-    	this.dataManager.register(EntityHelper.STATE, 0);
+    protected void defineSynchedData() {
+    	super.defineSynchedData();
+    	this.entityData.define(EntityHelper.STATE, 0);
     }
 
     @Override
-    public EntityHelper.MobType getMobType() {
+    public EntityHelper.MobType getEnemyType() {
         return EntityHelper.MobType.HEARTLESS_PUREBLOOD;
     }
 
     @Override
-    public boolean doesEntityNotTriggerPressurePlate() {
+    public boolean isIgnoringBlockTriggers() {
         return true;
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource ds) {
         return false;
     }
 
-    protected void updateAITasks() {
-        LivingEntity target = this.getAttackTarget();
+    protected void customServerAiStep() {
+        LivingEntity target = this.getTarget();
 
         if(EntityHelper.getState(this) == 3)
             this.setInvulnerable(true);
         else
             this.setInvulnerable(false);
 
-        super.updateAITasks();
+        super.customServerAiStep();
     }
 
-    public boolean attackEntityAsMob(Entity ent) {
+    public boolean doHurtTarget(Entity ent) {
         int i;
         if(EntityHelper.getState(this) == 0) i = DAMAGE_HIT;
         else if(EntityHelper.getState(this) == 1) i = DAMAGE_CHARGE;
         else if(EntityHelper.getState(this) == 2) i = DAMAGE_BERSERK;
         else if(EntityHelper.getState(this) == 3) i = DAMAGE_HIT;
         else i = 0;
-        return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i);
+        return ent.hurt(DamageSource.mobAttack(this), i);
     }
 
     public void setCurrentAttackState(SpecialAttack state) {
@@ -155,8 +155,8 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(theEntity.getAttackTarget() != null && this.theEntity.getCurrentAttackState() == null) {
+        public boolean canUse() {
+            if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
                         attackTimer--;
@@ -171,14 +171,14 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.DARKCLOUD) {
-                if(theEntity.rand.nextFloat() <= 0.3f) return true;
+                if(theEntity.random.nextFloat() <= 0.3f) return true;
                 else return false;
             }
             return true;
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             boolean flag = canUseAttack;
 
             if(!flag) {
@@ -186,7 +186,7 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
                 this.theEntity.setCurrentAttackState(null);
                 EntityHelper.setState(theEntity, 0);
                 for(Entity p : EntityHelper.getEntitiesNear(theEntity, 1.4)) {
-                    p.attackEntityFrom(DamageSource.causeMobDamage(theEntity), theEntity.DAMAGE_DARKCLOUD);
+                    p.hurt(DamageSource.mobAttack(theEntity), theEntity.DAMAGE_DARKCLOUD);
                 }
             }
 
@@ -194,7 +194,7 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             canUseAttack = true;
             attackTimer = 50;
             whileAttackTimer = 0;
@@ -204,17 +204,17 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
 
         @Override
         public void tick() {
-            if(theEntity.getAttackTarget() != null && canUseAttack) {
+            if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer++;
                 
                 EntityHelper.setState(theEntity, 3);
-                LivingEntity target = this.theEntity.getAttackTarget();
+                LivingEntity target = this.theEntity.getTarget();
                 for (int i = 0; i < 20; i++) {
                     double offsetX = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D; //3
                     double offsetY = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
                     double offsetZ = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
 
-                    this.theEntity.getNavigator().tryMoveToXYZ(target.getPosition().getX(), target.getPosition().getY(), target.getPosition().getZ(), 1.5D);
+                    this.theEntity.getNavigation().moveTo(target.blockPosition().getX(), target.blockPosition().getY(), target.blockPosition().getZ(), 1.5D);
                     //TODO particles
                     //KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.8F);
                 }
@@ -242,8 +242,8 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(theEntity.getAttackTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.getDistanceSq(theEntity.getAttackTarget()) < 15) {
+        public boolean canUse() {
+            if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceToSqr(theEntity.getTarget()) < 15) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
                         attackTimer--;
@@ -258,14 +258,14 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.BERSERK) {
-                if(theEntity.rand.nextFloat() <= 0.5f) return true;
+                if(theEntity.random.nextFloat() <= 0.5f) return true;
                 else return false;
             }
             return true;
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             boolean flag = canUseAttack;
 
             if(!flag) {
@@ -278,18 +278,18 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             canUseAttack = true;
             attackTimer = 70;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.BERSERK);
             EntityHelper.setState(theEntity, 0);
-            pivotPosToBerserk = new double[] {theEntity.getPosition().getX(), theEntity.getPosition().getY(), theEntity.getPosition().getZ()};
+            pivotPosToBerserk = new double[] {theEntity.blockPosition().getX(), theEntity.blockPosition().getY(), theEntity.blockPosition().getZ()};
         }
 
         @Override
         public void tick() {
-            if(theEntity.getAttackTarget() != null && canUseAttack) {
+            if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer++;
                 
                 EntityHelper.setState(theEntity, 2);
@@ -298,8 +298,8 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
                     double offsetY = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
                     double offsetZ = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
 
-                    LivingEntity target = this.theEntity.getAttackTarget();
-                    this.theEntity.getNavigator().tryMoveToXYZ(pivotPosToBerserk[0] + offsetX, pivotPosToBerserk[1] + offsetY, pivotPosToBerserk[2] + offsetZ, 5.0D);
+                    LivingEntity target = this.theEntity.getTarget();
+                    this.theEntity.getNavigation().moveTo(pivotPosToBerserk[0] + offsetX, pivotPosToBerserk[1] + offsetY, pivotPosToBerserk[2] + offsetZ, 5.0D);
                     //TODO particles
                     //KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.5F);
                 }
@@ -323,8 +323,8 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(theEntity.getAttackTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.getDistanceSq(theEntity.getAttackTarget()) > 4) {
+        public boolean canUse() {
+            if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceToSqr(theEntity.getTarget()) > 4) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
                         attackTimer--;
@@ -339,14 +339,14 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.CHARGE) {
-                if(theEntity.rand.nextFloat() <= 0.1f) return true;
+                if(theEntity.random.nextFloat() <= 0.1f) return true;
                 else return false;
             }
             return true;
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             boolean flag = canUseAttack;
 
             if(!flag) {
@@ -359,35 +359,35 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             canUseAttack = true;
             attackTimer = 50;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.CHARGE);
             EntityHelper.setState(theEntity, 0);
-            LivingEntity target = this.theEntity.getAttackTarget();
+            LivingEntity target = this.theEntity.getTarget();
             initialHealth = theEntity.getHealth();
 
             if(target != null)
-                posToCharge = new double[] { target.getPosX(), target.getPosY(), target.getPosZ() };
+                posToCharge = new double[] { target.getX(), target.getY(), target.getZ() };
         }
 
         @Override
         public void tick() {
-            if(theEntity.getAttackTarget() != null && canUseAttack) {
+            if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer++;
                 
                 EntityHelper.setState(theEntity, 1);
-                LivingEntity target = this.theEntity.getAttackTarget();
-                this.theEntity.getNavigator().tryMoveToXYZ(posToCharge[0], posToCharge[1], posToCharge[2], 3.0D);
+                LivingEntity target = this.theEntity.getTarget();
+                this.theEntity.getNavigation().moveTo(posToCharge[0], posToCharge[1], posToCharge[2], 3.0D);
 
                 if(whileAttackTimer > 100)
                     canUseAttack = false;
 
-                if(theEntity.getPosition().getX() == (int)posToCharge[0] && theEntity.getPosition().getY() == (int)posToCharge[1] && theEntity.getPosition().getZ() == (int)posToCharge[2])
+                if(theEntity.blockPosition().getX() == (int)posToCharge[0] && theEntity.blockPosition().getY() == (int)posToCharge[1] && theEntity.blockPosition().getZ() == (int)posToCharge[2])
                     canUseAttack = false;
 
-                if(theEntity.getDistanceSq(this.theEntity.getAttackTarget()) < 3)
+                if(theEntity.distanceToSqr(this.theEntity.getTarget()) < 3)
                     canUseAttack = false;
 
                 if(initialHealth > theEntity.getHealth())

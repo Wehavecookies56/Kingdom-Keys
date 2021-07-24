@@ -4,11 +4,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -27,28 +27,28 @@ public class CSSetOrgPortalName {
     }
 
     
-    public void encode(PacketBuffer buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeBlockPos(pos);
         buffer.writeInt(name.length());
-        buffer.writeString(name, name.length());
+        buffer.writeUtf(name, name.length());
     }
 
-    public static CSSetOrgPortalName decode(PacketBuffer buffer) {
+    public static CSSetOrgPortalName decode(FriendlyByteBuf buffer) {
         CSSetOrgPortalName msg = new CSSetOrgPortalName();
         msg.pos = buffer.readBlockPos();
         int len = buffer.readInt();
-        msg.name = buffer.readString(len);
+        msg.name = buffer.readUtf(len);
         return msg;
     }
 
     public static void handle(CSSetOrgPortalName message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PlayerEntity player = ctx.get().getSender();
-            if(player.world.getTileEntity(message.pos) != null && player.world.getTileEntity(message.pos) instanceof OrgPortalTileEntity) {
-            	OrgPortalTileEntity te = (OrgPortalTileEntity) player.world.getTileEntity(message.pos);
+            Player player = ctx.get().getSender();
+            if(player.level.getBlockEntity(message.pos) != null && player.level.getBlockEntity(message.pos) instanceof OrgPortalTileEntity) {
+            	OrgPortalTileEntity te = (OrgPortalTileEntity) player.level.getBlockEntity(message.pos);
             	UUID portalUUID = te.getUUID();
-            	ModCapabilities.getWorld(player.world).getPortalFromUUID(portalUUID).setName(message.name);
-				PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(player.world)), (ServerPlayerEntity) player);            	
+            	ModCapabilities.getWorld(player.level).getPortalFromUUID(portalUUID).setName(message.name);
+				PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(player.level)), (ServerPlayer) player);            	
             }
         });
         ctx.get().setPacketHandled(true);

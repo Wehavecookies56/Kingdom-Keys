@@ -2,58 +2,58 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SavePointBlock extends BaseBlock {
-	private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
+	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
 
 	public SavePointBlock(Properties properties) {
 		super(properties);
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return collisionShape;
 	}
 
 	double a = 0;
 
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
 		// Tried to make animation here but random tick f*cks it all
 		super.animateTick(state, world, pos, random);
 	}
 	
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if(!worldIn.isRemote) {
-			player.setBedPosition(pos.add(0, 1, 0));
-			player.sendStatusMessage(new TranslationTextComponent("block.minecraft.bed.set_spawn"), true);
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+		if(!worldIn.isClientSide) {
+			player.setSleepingPos(pos.offset(0, 1, 0));
+			player.displayClientMessage(new TranslatableComponent("block.minecraft.bed.set_spawn"), true);
 
 		}
-		return ActionResultType.CONSUME;
+		return InteractionResult.CONSUME;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		if (entity instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) entity;
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			double r = 0.7D;
@@ -75,7 +75,7 @@ public class SavePointBlock extends BaseBlock {
 			if (a < 0)
 				a = 1800;
 				
-			if (playerData.getMP() < playerData.getMaxMP() || player.getHealth() < playerData.getMaxHP() || player.getFoodStats().getFoodLevel() < 20) { // TODO add the rest of things that you get back
+			if (playerData.getMP() < playerData.getMaxMP() || player.getHealth() < playerData.getMaxHP() || player.getFoodData().getFoodLevel() < 20) { // TODO add the rest of things that you get back
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.2, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.2, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.8, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
@@ -83,9 +83,9 @@ public class SavePointBlock extends BaseBlock {
 
 				playerData.addMP(1);
 				player.heal(1);
-				player.getFoodStats().addStats(1, 1);
+				player.getFoodData().eat(1, 1);
 			}
 		}
-		super.onEntityCollision(state, world, pos, entity);
+		super.entityInside(state, world, pos, entity);
 	}
 }

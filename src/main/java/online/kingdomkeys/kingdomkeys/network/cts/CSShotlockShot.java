@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -27,7 +27,7 @@ public class CSShotlockShot {
 	}
 
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeDouble(this.cost);
 		buffer.writeInt(this.shotlockEnemies.size());
 		for(int i= 0; i< this.shotlockEnemies.size(); i++) {
@@ -35,7 +35,7 @@ public class CSShotlockShot {
 		}
 	}
 
-	public static CSShotlockShot decode(PacketBuffer buffer) {
+	public static CSShotlockShot decode(FriendlyByteBuf buffer) {
 		CSShotlockShot msg = new CSShotlockShot();
 		msg.cost = buffer.readDouble();
 		int size = buffer.readInt();
@@ -50,7 +50,7 @@ public class CSShotlockShot {
 
 	public static void handle(CSShotlockShot message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			Shotlock shotlock = Utils.getPlayerShotlock(player);
@@ -58,7 +58,7 @@ public class CSShotlockShot {
 			List<Entity> targets = new ArrayList<Entity>();
 			
 			for(int enemyID : message.shotlockEnemies) {
-				Entity target = player.world.getEntityByID(enemyID);
+				Entity target = player.level.getEntity(enemyID);
 				targets.add(target);
 			}
 			

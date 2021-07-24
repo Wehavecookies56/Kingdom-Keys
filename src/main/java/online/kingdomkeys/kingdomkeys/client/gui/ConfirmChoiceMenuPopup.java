@@ -8,8 +8,8 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
@@ -58,7 +58,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
         //set choice
         Minecraft mc = Minecraft.getInstance();
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-        TileEntity te = mc.world.getTileEntity(pedestal);
+        BlockEntity te = mc.level.getBlockEntity(pedestal);
         if (state == SoAState.CONFIRM) {
             playerData.setSoAState(SoAState.COMPLETE);
             PacketHandler.sendToServer(new CSSetChoice(state, true));
@@ -84,7 +84,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
         if (state != SoAState.CONFIRM) {
             PacketHandler.sendToServer(new CSSetChoice(state, choice, pedestal));
         }
-        Minecraft.getInstance().displayGuiScreen(null);
+        Minecraft.getInstance().setScreen(null);
         if (state == SoAState.CHOICE) {
             SoAMessages.INSTANCE.clearMessage();
             SoAMessages.INSTANCE.queueMessages(
@@ -93,7 +93,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
             );
         }
         if (state == SoAState.SACRIFICE) {
-            Minecraft.getInstance().displayGuiScreen(new ConfirmChoiceMenuPopup(SoAState.CONFIRM, SoAState.NONE, new BlockPos(0, 0, 0)));
+            Minecraft.getInstance().setScreen(new ConfirmChoiceMenuPopup(SoAState.CONFIRM, SoAState.NONE, new BlockPos(0, 0, 0)));
         }
     }
 
@@ -108,8 +108,8 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
             );
             Minecraft mc = Minecraft.getInstance();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-            TileEntity teChoice = mc.world.getTileEntity(playerData.getChoicePedestal());
-            TileEntity teSacrifice = mc.world.getTileEntity(playerData.getSacrificePedestal());
+            BlockEntity teChoice = mc.level.getBlockEntity(playerData.getChoicePedestal());
+            BlockEntity teSacrifice = mc.level.getBlockEntity(playerData.getSacrificePedestal());
             playerData.setChoicePedestal(new BlockPos(0, 0, 0));
             playerData.setSacrificePedestal(new BlockPos(0, 0, 0));
             playerData.setChoice(SoAState.NONE);
@@ -123,7 +123,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
             }
             PacketHandler.sendToServer(new CSSetChoice(state, false));
         }
-        Minecraft.getInstance().displayGuiScreen(null);
+        Minecraft.getInstance().setScreen(null);
     }
 
     public String getStringForChoice(SoAState state) {

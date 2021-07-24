@@ -13,13 +13,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 
-public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements IDataProvider {
+public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements DataProvider {
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     protected final DataGenerator generator;
@@ -52,17 +52,17 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
     }
 
     @Override
-    public void act(DirectoryCache cache) throws IOException {
+    public void run(HashCache cache) throws IOException {
         clear();
         registerKeyblades();
         generateAll(cache);
     }
 
-    protected void generateAll(DirectoryCache cache) {
+    protected void generateAll(HashCache cache) {
         for (T model : generatedModels.values()) {
             Path target = getPath(model);
             try {
-                IDataProvider.save(GSON, cache, model.toJson(), target);
+                DataProvider.save(GSON, cache, model.toJson(), target);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

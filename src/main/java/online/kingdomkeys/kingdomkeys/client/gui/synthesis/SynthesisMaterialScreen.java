@@ -7,17 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -42,7 +42,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	MenuButton deposit,back;
 	Button prev,next, take;
 	MenuBox boxL, boxR;
-	TextFieldWidget amountBox;
+	EditBox amountBox;
 	
 	int page = 0;
 	int itemsPerPage = 14;
@@ -55,33 +55,33 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	@Override
     public void action(ItemStack stack) {
     	super.action(stack);
-		amountBox.setText(""+Math.min(64, stack.getCount()));
+		amountBox.setValue(""+Math.min(64, stack.getCount()));
 	}
 
 	protected void action(String string) {
 		switch(string) {
 		case "prev":
 			page--;
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		case "next":
 			page++;
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		case "deposit":
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			
-			ClientPlayerEntity player = minecraft.player;
+			LocalPlayer player = minecraft.player;
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for(int i = 0; i < player.inventory.getSizeInventory();i++) {
-				ItemStack stack = player.inventory.getStackInSlot(i);
+			for(int i = 0; i < player.inventory.getContainerSize();i++) {
+				ItemStack stack = player.inventory.getItem(i);
 				
-				if(!ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
+				if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
 					
 					if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 						Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 						playerData.addMaterial(mat, stack.getCount());
-						player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+						player.inventory.setItem(i, ItemStack.EMPTY);
 					}
 				}
 			}
@@ -89,15 +89,15 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 			break;
 		case "back":
-			minecraft.displayGuiScreen(new SynthesisScreen());
+			minecraft.setScreen(new SynthesisScreen());
 			break;
 		case "take":
-			if(!ItemStack.areItemsEqual(selected, ItemStack.EMPTY) && minecraft.player.inventory.getFirstEmptyStack() > -1) {
+			if(!ItemStack.isSame(selected, ItemStack.EMPTY) && minecraft.player.inventory.getFreeSlot() > -1) {
 				try { 
-					Integer.parseInt(amountBox.getText());
-					PacketHandler.sendToServer(new CSTakeMaterials(selected.getItem(), Integer.parseInt(amountBox.getText())));
+					Integer.parseInt(amountBox.getValue());
+					PacketHandler.sendToServer(new CSTakeMaterials(selected.getItem(), Integer.parseInt(amountBox.getValue())));
 				} catch (Exception e) {
-					System.out.println("NaN "+amountBox.getText());
+					System.out.println("NaN "+amountBox.getValue());
 				}
 			}
 			break;
@@ -150,7 +150,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(mat.getKey()));
 			items.add(new ItemStack(item,mat.getValue()));
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getTranslationKey()));
+		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDescriptionId()));
 
 		for (int i = 0; i < items.size(); i++) {
 			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.3255F), true));
@@ -158,22 +158,22 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		inventory.forEach(this::addButton);
 
-		addButton(prev = new Button((int) buttonPosX + 10, (int) (height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("<--")), (e) -> {
+		addWidget(prev = new Button((int) buttonPosX + 10, (int) (height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addButton(next = new Button((int) buttonPosX + 10 + 76, (int) (height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("-->")), (e) -> {
+		addWidget(next = new Button((int) buttonPosX + 10 + 76, (int) (height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> {
 			action("next");
 		}));
 		
 		prev.visible = false;
 		next.visible = false;
-		addButton(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
-		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addButton(amountBox = new TextFieldWidget(minecraft.fontRenderer, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")) {
+		addWidget(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
+		addWidget(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addWidget(amountBox = new EditBox(minecraft.font, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, new TranslatableComponent("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c)) {
-					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
 					if (Integer.parseInt(text) > 64) {
 						return false;
 					}
@@ -183,7 +183,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				return super.charTyped(c, i);
 			}
 		});
-		addButton(take = new Button((int) amountBox.x + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> { action("take"); }));
+		addWidget(take = new Button((int) amountBox.x + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> { action("take"); }));
 		take.visible = false;
 		updateButtons();
 	}
@@ -191,7 +191,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
 		boxL.draw(matrixStack);
 		boxR.draw(matrixStack);
@@ -200,17 +200,17 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
 		
-		if(minecraft.player.inventory.getFirstEmptyStack() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
+		if(minecraft.player.inventory.getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;
-			take.setMessage(new TranslationTextComponent("No empty slot"));
+			take.setMessage(new TranslatableComponent("No empty slot"));
 		}
 		
-		matrixStack.push();
+		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
-			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 		
 		for (int i = 0; i < inventory.size(); i++) {
 			inventory.get(i).active = false;
@@ -234,7 +234,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	}
 
 	@Override
-	protected void renderSelectedData(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	protected void renderSelectedData(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		amountBox.render(matrixStack, mouseX,  mouseY,  partialTicks);
 		take.render(matrixStack, mouseX, mouseY, partialTicks);
 		
@@ -245,20 +245,20 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		float iconPosX = boxR.x;
 		float iconPosY = boxR.y + 15;
 				
-		matrixStack.push();
+		matrixStack.pushPose();
 		{
-			String name = selected.getDisplayName().getString();
-			matrixStack.translate(boxR.x + (boxR.getWidth() / 2) - minecraft.fontRenderer.getStringWidth(name)/2, boxR.y+3, 1);
-			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(name), 0, 0, 0xFF9900);
+			String name = selected.getHoverName().getString();
+			matrixStack.translate(boxR.x + (boxR.getWidth() / 2) - minecraft.font.width(name)/2, boxR.y+3, 1);
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal(name), 0, 0, 0xFF9900);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 
 		RenderSystem.pushMatrix();
 		{
 			double offset = (boxR.getWidth()*0.2F);
 			RenderSystem.translated(iconPosX + offset/2, iconPosY, 1);
 			RenderSystem.scalef((float)(boxR.getWidth() / 16 - offset / 16), (float)(boxR.getWidth()/16 - offset / 16), 1);
-			itemRenderer.renderItemIntoGUI(selected, 0, 0);
+			itemRenderer.renderGuiItem(selected, 0, 0);
 		}
 		RenderSystem.popMatrix();
 

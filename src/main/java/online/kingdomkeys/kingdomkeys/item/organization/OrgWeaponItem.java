@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -24,7 +24,7 @@ public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon, IEx
 	protected OrganizationData data;
 
     public OrgWeaponItem() {
-        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().group(KingdomKeys.orgWeaponsGroup).maxStackSize(1));
+        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().tab(KingdomKeys.orgWeaponsGroup).stacksTo(1));
     }
 
     //Get strength from the data based on level
@@ -68,12 +68,12 @@ public abstract class OrgWeaponItem extends SwordItem implements IOrgWeapon, IEx
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (data != null) {
-            tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+""+getMember()));
-            tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getStrength()+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-            tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getMagic()+" ["+DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player,this)+"]"));
-            tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getDescription()));
+            tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+""+getMember()));
+            tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getStrength()+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+            tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic()+" ["+DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player,this)+"]"));
+            tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDescription()));
         }
     }
 }

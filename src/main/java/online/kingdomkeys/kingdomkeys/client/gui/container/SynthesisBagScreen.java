@@ -3,17 +3,17 @@ package online.kingdomkeys.kingdomkeys.client.gui.container;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
@@ -22,25 +22,25 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class SynthesisBagScreen extends ContainerScreen<SynthesisBagContainer> {
+public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagContainer> {
 
 	private static final String textureBase = KingdomKeys.MODID + ":textures/gui/synthesis_bag_";
 	int[] texHeight = { 140, 176, 212 };
 	int bagLevel = 0;
 	HiddenButton upgrade;
 
-	public SynthesisBagScreen(SynthesisBagContainer container, PlayerInventory playerInv, ITextComponent title) {
+	public SynthesisBagScreen(SynthesisBagContainer container, Inventory playerInv, Component title) {
 		super(container, playerInv, title);
 		minecraft = Minecraft.getInstance();
 	}
 
 	@Override
 	protected void init() {
-		CompoundNBT nbt = playerInventory.getCurrentItem().getOrCreateTag();
+		CompoundTag nbt = inventory.getSelected().getOrCreateTag();
 		bagLevel = nbt.getInt("level");
-		this.ySize = texHeight[bagLevel];
-		this.xSize = 193;
-		addButton(upgrade = new HiddenButton((width - xSize) / 2 + xSize - 20, (height / 2) - (ySize / 2) + 17, 18, 18, (e) -> {
+		this.imageHeight = texHeight[bagLevel];
+		this.imageWidth = 193;
+		addWidget(upgrade = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {
 			upgrade();
 		}));
 		
@@ -51,28 +51,28 @@ public class SynthesisBagScreen extends ContainerScreen<SynthesisBagContainer> {
 		if (bagLevel < 2) {
 			if(ModCapabilities.getPlayer(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
 				PacketHandler.sendToServer(new CSUpgradeSynthesisBagPacket());
-				closeScreen();
+				onClose();
 			}
 		}
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int x, int y, float partialTicks) {
+	public void render(PoseStack matrixStack, int x, int y, float partialTicks) {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, x, y, partialTicks);
-		this.renderHoveredTooltip(matrixStack, x, y);
-		List<ITextComponent> list = new ArrayList<ITextComponent>();
+		this.renderTooltip(matrixStack, x, y);
+		List<Component> list = new ArrayList<Component>();
 		upgrade.visible = bagLevel < 2;
 		
 		if(upgrade.visible) {
 			if (x >= upgrade.x && x <= upgrade.x + upgrade.getWidth()) {
 				if (y >= upgrade.y && y <= upgrade.y + upgrade.getHeight()) {
-					list.add(new TranslationTextComponent("gui.synthesisbag.upgrade"));					
-					list.add(new TranslationTextComponent(TextFormatting.YELLOW+ new TranslationTextComponent("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
+					list.add(new TranslatableComponent("gui.synthesisbag.upgrade"));					
+					list.add(new TranslatableComponent(ChatFormatting.YELLOW+ new TranslatableComponent("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
 					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
-						list.add(new TranslationTextComponent(TextFormatting.RED+ new TranslationTextComponent("gui.synthesisbag.notenoughmunny").getString()));
+						list.add(new TranslatableComponent(ChatFormatting.RED+ new TranslatableComponent("gui.synthesisbag.notenoughmunny").getString()));
 					}
-					func_243308_b(matrixStack, list, x, y);
+					renderComponentTooltip(matrixStack, list, x, y);
 				}
 			}
 		}
@@ -80,22 +80,22 @@ public class SynthesisBagScreen extends ContainerScreen<SynthesisBagContainer> {
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
+	protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
 		String s = title.getString()+ " LV." + (bagLevel + 1);
-		font.drawString(matrixStack, s, xSize / 2 -17 / 2 - font.getStringWidth(s) / 2, 5, 4210752);
+		font.draw(matrixStack, s, imageWidth / 2 -17 / 2 - font.width(s) / 2, 5, 4210752);
 		// font.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2,
 		// 4210752);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+	protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
 		Minecraft mc = Minecraft.getInstance();
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindTexture(new ResourceLocation(textureBase + bagLevel + ".png"));
+		mc.getTextureManager().bindForSetup(new ResourceLocation(textureBase + bagLevel + ".png"));
 
-		int xPos = (width - xSize) / 2;
-		int yPos = (height / 2) - (ySize / 2);
-		blit(matrixStack, xPos, yPos, 0, 0, xSize, ySize);
+		int xPos = (width - imageWidth) / 2;
+		int yPos = (height / 2) - (imageHeight / 2);
+		blit(matrixStack, xPos, yPos, 0, 0, imageWidth, imageHeight);
 
 		/*
 		 * for (Slot slot : container.inventorySlots) { if (slot instanceof

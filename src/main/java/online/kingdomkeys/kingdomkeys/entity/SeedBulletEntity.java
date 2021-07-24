@@ -1,66 +1,66 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
-public class SeedBulletEntity extends ThrowableEntity {
+public class SeedBulletEntity extends ThrowableProjectile {
 
     private LivingEntity ent;
     private int ticks = 80;
 
-    protected SeedBulletEntity(EntityType<? extends ThrowableEntity> type, World worldIn) {
+    protected SeedBulletEntity(EntityType<? extends ThrowableProjectile> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public SeedBulletEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public SeedBulletEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_SEED_BULLET.get(), world);
     }
 
-    protected SeedBulletEntity(double x, double y, double z, World worldIn) {
+    protected SeedBulletEntity(double x, double y, double z, Level worldIn) {
         super(ModEntities.TYPE_SEED_BULLET.get(), x, y, z, worldIn);
     }
 
-    public SeedBulletEntity(LivingEntity livingEntityIn, World worldIn) {
+    public SeedBulletEntity(LivingEntity livingEntityIn, Level worldIn) {
         super(ModEntities.TYPE_SEED_BULLET.get(), livingEntityIn, worldIn);
         this.ent = livingEntityIn;
     }
     
     @Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
     
     @Override
-    protected void onImpact(RayTraceResult result) {
-        if (result instanceof EntityRayTraceResult) {
-            ((EntityRayTraceResult) result).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, ent), 6);
+    protected void onHit(HitResult result) {
+        if (result instanceof EntityHitResult) {
+            ((EntityHitResult) result).getEntity().hurt(DamageSource.thrown(this, ent), 6);
         }
-        remove();
+        this.remove(false);
     }
 
     @Override
-    protected float getGravityVelocity() {
+    protected float getGravity() {
         return 0.0F;
     }
 
     @Override
     public void tick() {
-    	if(this.ticksExisted >= ticks) {
-    		this.remove();
+    	if(this.tickCount >= ticks) {
+    		this.remove(false);
     	}
     	super.tick();
     }
 
     @Override
-    protected void registerData() {
+    protected void defineSynchedData() {
 
     }
 }

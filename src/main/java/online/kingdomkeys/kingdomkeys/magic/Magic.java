@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -68,7 +68,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	this.data = data;
     }
    
-    protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+    protected void magicUse(Player player, Player caster, int level) {
 
     }
     
@@ -77,7 +77,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
      * @param player
      * @param caster
      */
-    public final void onUse(PlayerEntity player, PlayerEntity caster, int level) {
+    public final void onUse(Player player, Player caster, int level) {
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
     	if(hasRC() && ModConfigs.magicUsesTimer != 1) {
 			int maxLevel = casterData.getMagicLevel(name);
@@ -93,8 +93,8 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 		casterData.setMagicCooldownTicks(data.getCooldown(level));
 
     	magicUse(player, caster, level);
-    	caster.swing(Hand.MAIN_HAND, true);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
+    	caster.swing(InteractionHand.MAIN_HAND, true);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer) caster);
     }
 
 	public int getOrder() {

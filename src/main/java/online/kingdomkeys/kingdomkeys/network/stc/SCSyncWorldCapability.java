@@ -2,39 +2,39 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SCSyncWorldCapability {
 	
-	private CompoundNBT data;
+	private CompoundTag data;
 
 	public SCSyncWorldCapability() {
 	}
 	
 	public SCSyncWorldCapability(IWorldCapabilities worldData) {
-		this.data = new CompoundNBT();
+		this.data = new CompoundTag();
 		this.data = worldData.write(this.data);
 	}
 
-	public void encode(PacketBuffer buffer) {
-		buffer.writeCompoundTag(this.data);
+	public void encode(FriendlyByteBuf buffer) {
+		buffer.writeNbt(this.data);
 	}
 
-	public static SCSyncWorldCapability decode(PacketBuffer buffer) {
+	public static SCSyncWorldCapability decode(FriendlyByteBuf buffer) {
 		SCSyncWorldCapability msg = new SCSyncWorldCapability();
-		msg.data = buffer.readCompoundTag();
+		msg.data = buffer.readNbt();
 		return msg;	
 	}
 
 	public static void handle(final SCSyncWorldCapability message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			World world = KingdomKeys.proxy.getClientWorld();
+			Level world = KingdomKeys.proxy.getClientWorld();
 			IWorldCapabilities worldData = ModCapabilities.getWorld(world);
 			worldData.read(message.data);
 		});

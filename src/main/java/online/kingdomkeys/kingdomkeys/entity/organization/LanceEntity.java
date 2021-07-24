@@ -1,32 +1,32 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.EndGatewayTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.TheEndGatewayBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class LanceEntity extends ThrowableEntity{
+public class LanceEntity extends ThrowableProjectile{
 
 	int maxTicks = 100;
 	String model;
@@ -34,64 +34,64 @@ public class LanceEntity extends ThrowableEntity{
 	int rotationPoint; //0 = x, 1 = y, 2 = z
 	float dmg = 0;
 	
-	public LanceEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public LanceEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public LanceEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public LanceEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_LANCE.get(), world);
 	}
 
-	public LanceEntity(World world) {
+	public LanceEntity(Level world) {
 		super(ModEntities.TYPE_LANCE.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public LanceEntity(World world, PlayerEntity player, String model, float dmg) {
+	public LanceEntity(Level world, Player player, String model, float dmg) {
 		super(ModEntities.TYPE_LANCE.get(), player, world);
-		setShooter(player);
+		setOwner(player);
 		setModel(model);
 		this.dmg = dmg;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
-			this.remove();
+		if (this.tickCount > maxTicks) {
+			this.remove(false);
 		}
 
 		if (!isStopped()) {
-			if (ticksExisted > 2)
-				world.addParticle(ParticleTypes.CRIT, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			if (tickCount > 2)
+				level.addParticle(ParticleTypes.CRIT, getX(), getY(), getZ(), 0, 0, 0);
 
 			if (this.isOnGround()) {
 				this.setOnGround(false);
-				this.setMotion(this.getMotion().mul((double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F), (double) (this.rand.nextFloat() * 0.2F)));
+				this.setDeltaMovement(this.getDeltaMovement().multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
 			}
 
-			RayTraceResult raytraceresult = ProjectileHelper.func_234618_a_(this, this::func_230298_a_);
+			HitResult raytraceresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
 			boolean flag = false;
-			if (raytraceresult.getType() == RayTraceResult.Type.BLOCK) {
-				BlockPos blockpos = ((BlockRayTraceResult) raytraceresult).getPos();
-				BlockState blockstate = this.world.getBlockState(blockpos);
-				if (blockstate.matchesBlock(Blocks.NETHER_PORTAL)) {
-					this.setPortal(blockpos);
+			if (raytraceresult.getType() == HitResult.Type.BLOCK) {
+				BlockPos blockpos = ((BlockHitResult) raytraceresult).getBlockPos();
+				BlockState blockstate = this.level.getBlockState(blockpos);
+				if (blockstate.is(Blocks.NETHER_PORTAL)) {
+					this.handleInsidePortal(blockpos);
 					flag = true;
-				} else if (blockstate.matchesBlock(Blocks.END_GATEWAY)) {
-					TileEntity tileentity = this.world.getTileEntity(blockpos);
-					if (tileentity instanceof EndGatewayTileEntity && EndGatewayTileEntity.func_242690_a(this)) {
-						((EndGatewayTileEntity) tileentity).teleportEntity(this);
+				} else if (blockstate.is(Blocks.END_GATEWAY)) {
+					BlockEntity tileentity = this.level.getBlockEntity(blockpos);
+					if (tileentity instanceof TheEndGatewayBlockEntity && TheEndGatewayBlockEntity.canEntityTeleport(this)) {
+						((TheEndGatewayBlockEntity) tileentity).teleportEntity(this);
 					}
 
 					flag = true;
@@ -100,19 +100,19 @@ public class LanceEntity extends ThrowableEntity{
 				}
 			}
 
-			if (raytraceresult.getType() != RayTraceResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
-				this.onImpact(raytraceresult);
+			if (raytraceresult.getType() != HitResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+				this.onHit(raytraceresult);
 			}
 
 			if (!stopped) {
-				Vector3d vec3d = this.getMotion();
-				double d0 = this.getPosX() + vec3d.x;
-				double d1 = this.getPosY() + vec3d.y;
-				double d2 = this.getPosZ() + vec3d.z;
+				Vec3 vec3d = this.getDeltaMovement();
+				double d0 = this.getX() + vec3d.x;
+				double d1 = this.getY() + vec3d.y;
+				double d2 = this.getZ() + vec3d.z;
 				float f1;
 				if (this.isInWater()) {
 					for (int i = 0; i < 4; ++i) {
-						this.world.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+						this.level.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
 					}
 
 					f1 = 0.8F;
@@ -120,13 +120,13 @@ public class LanceEntity extends ThrowableEntity{
 					f1 = 0.99F;
 				}
 
-				this.setMotion(vec3d.scale((double) f1));
-				if (!this.hasNoGravity()) {
-					Vector3d vec3d1 = this.getMotion();
-					this.setMotion(vec3d1.x, vec3d1.y - (double) this.getGravityVelocity(), vec3d1.z);
+				this.setDeltaMovement(vec3d.scale((double) f1));
+				if (!this.isNoGravity()) {
+					Vec3 vec3d1 = this.getDeltaMovement();
+					this.setDeltaMovement(vec3d1.x, vec3d1.y - (double) this.getGravity(), vec3d1.z);
 				}
 
-				this.setPosition(d0, d1, d2);
+				this.setPos(d0, d1, d2);
 			}
 		}
 
@@ -134,35 +134,35 @@ public class LanceEntity extends ThrowableEntity{
 	
 	public void stopLance(){
 		setStopped(true);
-		this.setMotion(0, 0, 0);
+		this.setDeltaMovement(0, 0, 0);
 	}
 	
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
-			EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
+	protected void onHit(HitResult rtRes) {
+		if (!level.isClientSide) {
+			EntityHitResult ertResult = null;
+			BlockHitResult brtResult = null;
 
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
+			if (rtRes instanceof EntityHitResult) {
+				ertResult = (EntityHitResult) rtRes;
 			}
 
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
+			if (rtRes instanceof BlockHitResult) {
+				brtResult = (BlockHitResult) rtRes;
 			}
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getShooter()) {
+				if (target != getOwner()) {
 					//target.setFire(5);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg < 4 ? 4 : dmg);
+					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg < 4 ? 4 : dmg);
 					dmg *= 0.8F;
 					//stopLance();
 				}
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
 					
-					if(world.getBlockState(brtResult.getPos()).getBlock() == Blocks.TALL_GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.GRASS || world.getBlockState(brtResult.getPos()).getBlock() == Blocks.SUGAR_CANE) {
+					if(level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE) {
 					
 					} else {
 						stopLance();	
@@ -182,16 +182,16 @@ public class LanceEntity extends ThrowableEntity{
 		this.maxTicks = maxTicks;
 	}
 	
-	private static final DataParameter<String> MODEL = EntityDataManager.createKey(LanceEntity.class, DataSerializers.STRING);
-	private static final DataParameter<Boolean> STOPPED = EntityDataManager.createKey(LanceEntity.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Integer> ROTATION_POINT = EntityDataManager.createKey(LanceEntity.class, DataSerializers.VARINT);
+	private static final EntityDataAccessor<String> MODEL = SynchedEntityData.defineId(LanceEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<Boolean> STOPPED = SynchedEntityData.defineId(LanceEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(LanceEntity.class, EntityDataSerializers.INT);
 	
 	public String getModel() {
 		return model;
 	}
 
 	public void setModel(String name) {
-		this.dataManager.set(MODEL, name);
+		this.entityData.set(MODEL, name);
 		this.model = name;
 	}
 
@@ -200,7 +200,7 @@ public class LanceEntity extends ThrowableEntity{
 	}
 
 	public void setStopped(boolean stopped) {
-		this.dataManager.set(STOPPED, stopped);
+		this.entityData.set(STOPPED, stopped);
 		this.stopped = stopped;
 	}
 
@@ -209,12 +209,12 @@ public class LanceEntity extends ThrowableEntity{
 	}
 	
 	public void setRotationPoint(int rotations) {
-		this.dataManager.set(ROTATION_POINT, rotations);
+		this.entityData.set(ROTATION_POINT, rotations);
 		this.rotationPoint = rotations;
 	}
 	
 	@Override
-	public void notifyDataManagerChange(DataParameter<?> key) {
+	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
 		if (key.equals(MODEL)) {
 			this.model = this.getModelDataManager();
 		}
@@ -227,7 +227,7 @@ public class LanceEntity extends ThrowableEntity{
 	}
 	
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		compound.putString("Model", this.getModel());
 		compound.putBoolean("Stopped", this.isStopped());
 		compound.putInt("Rotation", this.getRotationPoint());
@@ -235,7 +235,7 @@ public class LanceEntity extends ThrowableEntity{
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		this.setModel(compound.getString("Model"));
 		this.setStopped(compound.getBoolean("Stopped"));
 		this.setRotationPoint(compound.getInt("Rotation"));
@@ -243,20 +243,20 @@ public class LanceEntity extends ThrowableEntity{
 	
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(MODEL, "");
-		this.dataManager.register(STOPPED, false);
-		this.dataManager.register(ROTATION_POINT, 0);
+	protected void defineSynchedData() {
+		this.entityData.define(MODEL, "");
+		this.entityData.define(STOPPED, false);
+		this.entityData.define(ROTATION_POINT, 0);
 	}
 
 	public String getModelDataManager() {
-		return this.dataManager.get(MODEL);
+		return this.entityData.get(MODEL);
 	}
 	public boolean getStoppedDataManager() {
-		return this.dataManager.get(STOPPED);
+		return this.entityData.get(STOPPED);
 	}
 	public int getRotationPointDataManager() {
-		return this.dataManager.get(ROTATION_POINT);
+		return this.entityData.get(ROTATION_POINT);
 	}
 	
 }

@@ -2,18 +2,18 @@ package online.kingdomkeys.kingdomkeys.client.render.org;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
@@ -24,40 +24,40 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
 	public static final Factory FACTORY = new LaserDomeShotEntityRenderer.Factory();
 	private CubeModel model;
 
-	public LaserDomeShotEntityRenderer(EntityRendererManager renderManager) {
+	public LaserDomeShotEntityRenderer(EntityRenderDispatcher renderManager) {
 		super(renderManager);
         model = new CubeModel();
-		this.shadowSize = 0.25F;
+		this.shadowRadius = 0.25F;
 	}
 
 	@Override
-	public void render(LaserDomeShotEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		matrixStackIn.push();
+	public void render(LaserDomeShotEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		matrixStackIn.pushPose();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);
-    		matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
-    		matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch)));
-    		if(entity.getMotion().equals(new Vector3d(0,0,0))) {
+    		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot()O + (entity.getYRot() - entity.getYRot()O)));
+    		matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O)));
+    		if(entity.getDeltaMovement().equals(new Vec3(0,0,0))) {
     			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
 
     		} else {
     			matrixStackIn.scale(0.2F, 0.2F, 0.8F);
     		}
-    		model.render(matrixStackIn, bufferIn.getBuffer(model.getRenderType(getEntityTexture(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 0.2F, 0.2F, 1F);
+    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 0.2F, 0.2F, 1F);
      	}
-     	matrixStackIn.pop();
+     	matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(LaserDomeShotEntity entity) {
+	public ResourceLocation getTextureLocation(LaserDomeShotEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
 	public static class Factory implements IRenderFactory<LaserDomeShotEntity> {
 		@Override
-		public EntityRenderer<? super LaserDomeShotEntity> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super LaserDomeShotEntity> createRenderFor(EntityRenderDispatcher manager) {
 			return new LaserDomeShotEntityRenderer(manager);
 		}
 	}

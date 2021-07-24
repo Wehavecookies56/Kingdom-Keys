@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -33,35 +33,35 @@ public class CSUseMagicPacket {
 		this.level = level;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.name.length());
-		buffer.writeString(this.name);
+		buffer.writeUtf(this.name);
 		buffer.writeInt(this.target.length());
-		buffer.writeString(this.target);
+		buffer.writeUtf(this.target);
 		buffer.writeInt(this.level);
 	}
 
-	public static CSUseMagicPacket decode(PacketBuffer buffer) {
+	public static CSUseMagicPacket decode(FriendlyByteBuf buffer) {
 		CSUseMagicPacket msg = new CSUseMagicPacket();
 		int length = buffer.readInt();
-		msg.name = buffer.readString(length);
+		msg.name = buffer.readUtf(length);
 		length = buffer.readInt();
-		msg.target = buffer.readString(length);
+		msg.target = buffer.readUtf(length);
 		msg.level = buffer.readInt();
 		return msg;
 	}
 
 	public static void handle(CSUseMagicPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 					
 					if(message.target.equals("")) {
 		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(player, player, message.level);
 					} else {
-						PlayerEntity targetEntity = Utils.getPlayerByName(player.world, message.target);
+						Player targetEntity = Utils.getPlayerByName(player.level, message.target);
 		            	ModMagic.registry.getValue(new ResourceLocation(message.name)).onUse(targetEntity, player, message.level);
 					}
 				}

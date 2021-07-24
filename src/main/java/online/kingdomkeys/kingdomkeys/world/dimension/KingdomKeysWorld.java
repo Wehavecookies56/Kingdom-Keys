@@ -1,18 +1,18 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.world.utils.WorldLoader;
 //Here for when we add worlds back
 public class KingdomKeysWorld {
 
     ResourceLocation worldFile;
-    World world;
+    Level world;
     int xOffset, yOffset, zOffset;
     WorldLoader loader;
 
-    public KingdomKeysWorld(ResourceLocation worldFile, World world) {
+    public KingdomKeysWorld(ResourceLocation worldFile, Level world) {
         this.worldFile = worldFile;
         this.world = world;
         this.xOffset = 0;
@@ -21,7 +21,7 @@ public class KingdomKeysWorld {
         loader = new WorldLoader();
     }
 
-    public KingdomKeysWorld(ResourceLocation worldFile, World world, int xOffset, int yOffset, int zOffset) {
+    public KingdomKeysWorld(ResourceLocation worldFile, Level world, int xOffset, int yOffset, int zOffset) {
         this.worldFile = worldFile;
         this.world = world;
         this.xOffset = xOffset;

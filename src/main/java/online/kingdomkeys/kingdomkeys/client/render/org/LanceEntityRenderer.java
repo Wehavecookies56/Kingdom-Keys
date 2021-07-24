@@ -4,23 +4,23 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 
@@ -30,52 +30,52 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 	public static final Factory FACTORY = new LanceEntityRenderer.Factory();
 	Random rand = new Random();
 	
-	public LanceEntityRenderer(EntityRendererManager renderManager) {
+	public LanceEntityRenderer(EntityRenderDispatcher renderManager) {
 		super(renderManager);
-		this.shadowSize = 0.25F;
+		this.shadowRadius = 0.25F;
 	}
 
 	@Override
-	public void render(LanceEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		matrixStackIn.push();
+	public void render(LanceEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		matrixStackIn.pushPose();
 		{
 			String name = entity.getModel();
 			
-			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentCullBlockType());
-			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
+			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
 
 			float scale = 0.02F;
 
-			matrixStackIn.push();
+			matrixStackIn.pushPose();
 			{
-				if(entity.ticksExisted > 1) {
+				if(entity.tickCount > 1) {
 					matrixStackIn.scale(scale, scale, scale);
 	
 					float a = 1;
 					float rgb = 1;
 					
-					matrixStackIn.rotate(Vector3f.YP.rotationDegrees(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw)));
+					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot()O + (entity.getYRot() - entity.getYRot()O)));
 					if(entity.getRotationPoint() == 2)
-						matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 270));
+						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O) + 270));
 					else if(entity.getRotationPoint() == 0) {
-						matrixStackIn.rotate(Vector3f.XN.rotationDegrees(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) + 90));
+						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O) + 90));
 					}
 					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
-						buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+						buffer.addVertexData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 					}
 				}
 
-				matrixStackIn.pop();
+				matrixStackIn.popPose();
 			}
 
 		}
-		matrixStackIn.pop();
+		matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(LanceEntity entity) {
+	public ResourceLocation getTextureLocation(LanceEntity entity) {
 		String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
 		
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/"+name+".png");
@@ -83,7 +83,7 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 
 	public static class Factory implements IRenderFactory<LanceEntity> {
 		@Override
-		public EntityRenderer<? super LanceEntity> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super LanceEntity> createRenderFor(EntityRenderDispatcher manager) {
 			return new LanceEntityRenderer(manager);
 		}
 	}

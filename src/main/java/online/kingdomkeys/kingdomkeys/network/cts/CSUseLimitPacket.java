@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
@@ -29,15 +29,15 @@ public class CSUseLimitPacket {
 
 	public CSUseLimitPacket(LivingEntity target, int level) {
 		this.index = level;
-		this.targetID = target.getEntityId();
+		this.targetID = target.getId();
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.index);
 		buffer.writeInt(this.targetID);
 	}
 
-	public static CSUseLimitPacket decode(PacketBuffer buffer) {
+	public static CSUseLimitPacket decode(FriendlyByteBuf buffer) {
 		CSUseLimitPacket msg = new CSUseLimitPacket();
 		msg.index = buffer.readInt();
 		msg.targetID = buffer.readInt();
@@ -46,16 +46,16 @@ public class CSUseLimitPacket {
 
 	public static void handle(CSUseLimitPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				Limit limit = Utils.getPlayerLimitAttacks(player).get(message.index);
 				int cost = limit.getCost();
 				if (playerData.getDP() >= cost) {
 					playerData.remDP(cost);
 					playerData.setLimitCooldownTicks(600);
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 					if(message.targetID > -1) {
-						limit.onUse(player, (LivingEntity) player.world.getEntityByID(message.targetID));
+						limit.onUse(player, (LivingEntity) player.level.getEntity(message.targetID));
 					} else {
 						limit.onUse(player, player);
 					}

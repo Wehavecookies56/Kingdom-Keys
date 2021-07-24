@@ -4,23 +4,23 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 
@@ -30,25 +30,25 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 	public static final Factory FACTORY = new OrgPortalEntityRenderer.Factory();
 	Random rand = new Random();
 	
-	public OrgPortalEntityRenderer(EntityRendererManager renderManager) {
+	public OrgPortalEntityRenderer(EntityRenderDispatcher renderManager) {
 		super(renderManager);
-		this.shadowSize = 0.25F;
+		this.shadowRadius = 0.25F;
 	}
 
 	@Override
-	public void render(OrgPortalEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		matrixStackIn.push();
+	public void render(OrgPortalEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		matrixStackIn.pushPose();
 		{
-			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentCullBlockType());
-			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
 
-			matrixStackIn.push();
+			matrixStackIn.pushPose();
 			{
 
 				float a = 0.9F;
 				float rgb = 1;
 
-				float ticks = entity.ticksExisted;
+				float ticks = entity.tickCount;
 		        if(ticks < 10) //Growing
 		        	matrixStackIn.scale(ticks*0.2f, ticks*0.2f, ticks*0.2f);
 		        else if(ticks > 90) //Disappearing
@@ -56,31 +56,31 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 		        else //Static size
 		        	matrixStackIn.scale(2.0f, 2.0f, 2.0f);
 		        
-				matrixStackIn.rotate(Vector3f.YN.rotationDegrees(Minecraft.getInstance().player.getPitchYaw().y));
+				matrixStackIn.mulPose(Vector3f.YN.rotationDegrees(Minecraft.getInstance().player.getRotationVector().y));
 				
 				for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
-					buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+					buffer.addVertexData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				
 
 			}
-			matrixStackIn.pop();
+			matrixStackIn.popPose();
 
 
 		}
-		matrixStackIn.pop();
+		matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(OrgPortalEntity entity) {
+	public ResourceLocation getTextureLocation(OrgPortalEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
 	public static class Factory implements IRenderFactory<OrgPortalEntity> {
 		@Override
-		public EntityRenderer<? super OrgPortalEntity> createRenderFor(EntityRendererManager manager) {
+		public EntityRenderer<? super OrgPortalEntity> createRenderFor(EntityRenderDispatcher manager) {
 			return new OrgPortalEntityRenderer(manager);
 		}
 	}

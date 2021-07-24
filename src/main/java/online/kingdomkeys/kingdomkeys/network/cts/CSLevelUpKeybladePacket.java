@@ -4,11 +4,11 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -30,19 +30,19 @@ public class CSLevelUpKeybladePacket {
 		this.stack = stack;
 	}
 
-	public void encode(PacketBuffer buffer) {
-		buffer.writeItemStack(stack);
+	public void encode(FriendlyByteBuf buffer) {
+		buffer.writeItem(stack);
 	}
 
-	public static CSLevelUpKeybladePacket decode(PacketBuffer buffer) {
+	public static CSLevelUpKeybladePacket decode(FriendlyByteBuf buffer) {
 		CSLevelUpKeybladePacket msg = new CSLevelUpKeybladePacket();
-		msg.stack = buffer.readItemStack();
+		msg.stack = buffer.readItem();
 		return msg;
 	}
 
 	public static void handle(CSLevelUpKeybladePacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			ItemStack stack = message.stack.copy();
@@ -64,9 +64,9 @@ public class CSLevelUpKeybladePacket {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				player.inventory.setInventorySlotContents(Utils.getSlotFor(player.inventory, message.stack), stack);
+				player.inventory.setItem(Utils.getSlotFor(player.inventory, message.stack), stack);
 			}
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);	
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);	
 		});
 		ctx.get().setPacketHandled(true);
 	}

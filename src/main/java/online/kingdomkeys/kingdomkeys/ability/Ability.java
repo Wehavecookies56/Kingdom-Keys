@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public class Ability extends ForgeRegistryEntry<Ability> {

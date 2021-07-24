@@ -3,33 +3,32 @@ package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
-    private DimensionStructuresSettings settings;
+    private StructureSettings settings;
 
     public static void registerChunkGenerator() {
-		Registry.register(Registry.CHUNK_GENERATOR_CODEC, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_generator"), StationOfSorrowChunkGenerator.CODEC);
+		Registry.register(Registry.CHUNK_GENERATOR, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_generator"), StationOfSorrowChunkGenerator.CODEC);
 	}
 
-	public static final Codec<StationOfSorrowChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((surfaceChunkGenerator) -> surfaceChunkGenerator.biomeProvider), DimensionStructuresSettings.field_236190_a_.fieldOf("structures").forGetter((ChunkGenerator::func_235957_b_))).apply(instance, instance.stable(StationOfSorrowChunkGenerator::new)));
+	public static final Codec<StationOfSorrowChunkGenerator> CODEC = RecordCodecBuilder.create((instance) -> instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((surfaceChunkGenerator) -> surfaceChunkGenerator.biomeSource), StructureSettings.CODEC.fieldOf("structures").forGetter((ChunkGenerator::getSettings))).apply(instance, instance.stable(StationOfSorrowChunkGenerator::new)));
     
    // private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
    // private static final ChunkPos SPAWN_CHUNK_POS = new ChunkPos(SPAWN_POS);
@@ -70,27 +69,27 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
             "0000000011441441100000000" +
     		"0000000000111110000000000";
 
-    public StationOfSorrowChunkGenerator(BiomeProvider biomeSource, DimensionStructuresSettings dimensionStructuresSettings) {
+    public StationOfSorrowChunkGenerator(BiomeSource biomeSource, StructureSettings dimensionStructuresSettings) {
         this(biomeSource, biomeSource, dimensionStructuresSettings);
     }
 
-    private StationOfSorrowChunkGenerator(BiomeProvider biomeSource, BiomeProvider biomeSource2, DimensionStructuresSettings dimensionStructuresSettings) {
+    private StationOfSorrowChunkGenerator(BiomeSource biomeSource, BiomeSource biomeSource2, StructureSettings dimensionStructuresSettings) {
         super(biomeSource, biomeSource2, dimensionStructuresSettings, 0);
     }
     
     @Override
-    protected Codec<? extends ChunkGenerator> func_230347_a_() {
+    protected Codec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public ChunkGenerator func_230349_a_(long seed) {
-        return new StationOfSorrowChunkGenerator(this.biomeProvider.getBiomeProvider(seed), this.settings);
+    public ChunkGenerator withSeed(long seed) {
+        return new StationOfSorrowChunkGenerator(this.biomeSource.withSeed(seed), this.settings);
     }
 
     @Override
-    public void generateSurface(WorldGenRegion p_225551_1_, IChunk p_225551_2_) {
+    public void buildSurfaceAndBedrock(WorldGenRegion p_225551_1_, ChunkAccess p_225551_2_) {
 
     }
 
@@ -102,12 +101,12 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public int getGroundHeight() {
+    public int getSpawnHeight() {
         return 0;
     }
 
     @Override
-    public void func_230352_b_(IWorld worldIn, StructureManager structureManagerIn, IChunk chunkIn) {
+    public void fillFromNoise(LevelAccessor worldIn, StructureFeatureManager structureManagerIn, ChunkAccess chunkIn) {
        /* BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
         if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
             int startZ = chunkIn.getPos().getZStart() - (depth/2);
@@ -128,35 +127,35 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
         }*/
     }
 
-    private void stateToPlace(char c, IWorld world, BlockPos.Mutable pos) {
+    private void stateToPlace(char c, LevelAccessor world, BlockPos.MutableBlockPos pos) {
         switch (c) {
             case '0':
                 return;
             case '1':
-                world.setBlockState(pos, Blocks.QUARTZ_BLOCK.getDefaultState(),2);
+                world.setBlock(pos, Blocks.QUARTZ_BLOCK.defaultBlockState(),2);
                 break;
             case '2':
-                world.setBlockState(pos, Blocks.QUARTZ_BRICKS.getDefaultState(), 2);
+                world.setBlock(pos, Blocks.QUARTZ_BRICKS.defaultBlockState(), 2);
                 break;
             case '3':
             	for(int i=-1; i < colHeight; i++) {
-            		world.setBlockState(pos, Blocks.QUARTZ_PILLAR.getDefaultState(), 2);
+            		world.setBlock(pos, Blocks.QUARTZ_PILLAR.defaultBlockState(), 2);
             		pos.setY(pos.getY()+1);
             	}
                 break;
             case '4':
-                world.setBlockState(pos, Blocks.LIGHT_GRAY_CONCRETE.getDefaultState(), 2);
+                world.setBlock(pos, Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState(), 2);
                 break;
         }
     }
 
     @Override
-    public int getHeight(int x, int z, Heightmap.Type heightmapType) {
+    public int getBaseHeight(int x, int z, Heightmap.Types heightmapType) {
         return 0;
     }
 
     @Override
-    public IBlockReader func_230348_a_(int p_230348_1_, int p_230348_2_) {
+    public BlockGetter getBaseColumn(int p_230348_1_, int p_230348_2_) {
         return null;
     }
     

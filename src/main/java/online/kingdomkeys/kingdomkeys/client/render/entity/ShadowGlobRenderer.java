@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowGlobModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
@@ -15,24 +15,24 @@ public class ShadowGlobRenderer extends MobRenderer<ShadowGlobEntity, ShadowGlob
 
     public static final ShadowGlobRenderer.Factory FACTORY = new ShadowGlobRenderer.Factory();
 
-    public ShadowGlobRenderer(EntityRendererManager renderManagerIn) {
+    public ShadowGlobRenderer(EntityRenderDispatcher renderManagerIn) {
         super(renderManagerIn, new ShadowGlobModel<>(), 0.35F);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(ShadowGlobEntity entity) {
+    public ResourceLocation getTextureLocation(ShadowGlobEntity entity) {
         return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow_glob.png");
     }
 
     @Override
-    protected void preRenderCallback(ShadowGlobEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+    protected void scale(ShadowGlobEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
     	matrixStackIn.scale(1F, 1F, 1F);
-    	super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+    	super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
     
     public static class Factory implements IRenderFactory<ShadowGlobEntity> {
         @Override
-        public EntityRenderer<? super ShadowGlobEntity> createRenderFor(EntityRendererManager entityRendererManager) {
+        public EntityRenderer<? super ShadowGlobEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
             return new ShadowGlobRenderer(entityRendererManager);
         }
     }

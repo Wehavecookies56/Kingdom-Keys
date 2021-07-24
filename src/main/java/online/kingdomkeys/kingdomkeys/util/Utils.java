@@ -13,45 +13,30 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.entity.ai.controller.LookController;
-import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.server.SEntityVelocityPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.Effects;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.stats.Stats;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextProperties;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -60,7 +45,6 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -70,8 +54,8 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
@@ -89,15 +73,15 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 public class Utils {
 
 	public static class ModelAnimation {
-		public ModelRenderer model;
-		public ModelRenderer modelCounterpart;
+		public ModelPart model;
+		public ModelPart modelCounterpart;
 		public float defVal;
 		public float minVal;
 		public float maxVal;
 		public float actVal;
 		public boolean increasing;
 
-		public ModelAnimation(ModelRenderer model, float defVal, float minVal, float maxVal, float actVal, boolean increasing, @Nullable ModelRenderer counterpart) {
+		public ModelAnimation(ModelPart model, float defVal, float minVal, float maxVal, float actVal, boolean increasing, @Nullable ModelPart counterpart) {
 			this.model = model;
 			this.defVal = defVal;
 			this.minVal = minVal;
@@ -190,7 +174,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocalFormatted(String name, Object... format) {
-		TranslationTextComponent translation = new TranslationTextComponent(name, format);
+		TranslatableComponent translation = new TranslatableComponent(name, format);
 		return translation.getString();
 	}
 
@@ -201,7 +185,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocal(String name, Object... args) {
-		TranslationTextComponent translation = new TranslationTextComponent(name, args);
+		TranslatableComponent translation = new TranslatableComponent(name, args);
 		return translation.getString();
 	}
 
@@ -212,16 +196,16 @@ public class Utils {
 	 * @param player
 	 * @return
 	 */
-	public static ItemStack getWeaponDamageStack(DamageSource damageSource, PlayerEntity player) {
-		switch (damageSource.damageType) {
+	public static ItemStack getWeaponDamageStack(DamageSource damageSource, Player player) {
+		switch (damageSource.msgId) {
 		case "player":
-			if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof KeybladeItem || player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
-				return player.getHeldItemMainhand();
+			if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon) {
+				return player.getMainHandItem();
 			}
 			break;
 		case "keybladeOffhand":
-			if (player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem || player.getHeldItemOffhand().getItem() instanceof IOrgWeapon) {
-				return player.getHeldItemOffhand();
+			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
+				return player.getOffhandItem();
 			}
 		}
 		return null;
@@ -314,8 +298,8 @@ public class Utils {
 		return list;
 	}
 	
-	public static PlayerEntity getPlayerByName(World world, String name) {
-		for (PlayerEntity p : world.getPlayers()) {
+	public static Player getPlayerByName(Level world, String name) {
+		for (Player p : world.players()) {
 			if (p.getDisplayName().getString().equals(name)) {
 				return p;
 			}
@@ -323,12 +307,12 @@ public class Utils {
 		return null;
 	}
 
-	public static List<PlayerEntity> getAllPlayers(MinecraftServer ms) {
-		List<PlayerEntity> list = new ArrayList<PlayerEntity>();
-		java.util.Iterator<ServerWorld> it = ms.getWorlds().iterator();
+	public static List<Player> getAllPlayers(MinecraftServer ms) {
+		List<Player> list = new ArrayList<Player>();
+		java.util.Iterator<ServerLevel> it = ms.getAllLevels().iterator();
 		while (it.hasNext()) {
-			ServerWorld world = it.next();
-			for (PlayerEntity p : world.getPlayers()) {
+			ServerLevel world = it.next();
+			for (Player p : world.players()) {
 				list.add(p);
 			}
 		}
@@ -336,7 +320,7 @@ public class Utils {
 	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
-		List<Entity> list = entity.world.getEntitiesInAABBexcluding(entity, entity.getBoundingBox().grow(radius), Entity::isAlive);
+		List<Entity> list = entity.level.getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
 		for (Entity e : list) {
 			if (e instanceof LivingEntity) {
@@ -347,13 +331,13 @@ public class Utils {
 		return elList;
 	}
 
-	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(PlayerEntity player, float radius) {
-		List<Entity> list = player.world.getEntitiesInAABBexcluding(player, player.getBoundingBox().grow(radius), Entity::isAlive);
-		Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, float radius) {
+		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
+		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
-				list.remove(player.world.getPlayerByUuid(m.getUUID()));
+				list.remove(player.level.getPlayerByUUID(m.getUUID()));
 			}
 		} else {
 			list.remove(player);
@@ -374,37 +358,37 @@ public class Utils {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void blitScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, int u, int v, int width, int height, float scaleX, float scaleY) {
-		matrixStack.push();
+	public static void blitScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, int u, int v, int width, int height, float scaleX, float scaleY) {
+		matrixStack.pushPose();
 		matrixStack.translate(x, y, 0);
 		matrixStack.scale(scaleX, scaleY, 1);
 		gui.blit(matrixStack, 0, 0, u, v, width, height);
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void blitScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, int u, int v, int width, int height, float scaleXY) {
+	public static void blitScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, int u, int v, int width, int height, float scaleXY) {
 		blitScaled(matrixStack, gui, x, y, u, v, width, height, scaleXY, scaleXY);
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void drawStringScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, String text, int colour, float scaleX, float scaleY) {
-		matrixStack.push();
+	public static void drawStringScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, String text, int colour, float scaleX, float scaleY) {
+		matrixStack.pushPose();
 		matrixStack.translate(x, y, 0);
 		matrixStack.scale(scaleX, scaleY, 1);
-		gui.drawString(matrixStack, Minecraft.getInstance().fontRenderer, text, 0, 0, colour);
-		matrixStack.pop();
+		gui.drawString(matrixStack, Minecraft.getInstance().font, text, 0, 0, colour);
+		matrixStack.popPose();
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void drawStringScaled(MatrixStack matrixStack, AbstractGui gui, float x, float y, String text, int colour, float scaleXY) {
+	public static void drawStringScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, String text, int colour, float scaleXY) {
 		drawStringScaled(matrixStack, gui, x, y, text, colour, scaleXY, scaleXY);
 	}
 
 	public static boolean hasID(ItemStack stack) {
 		if (stack.getItem() instanceof KeybladeItem || stack.getItem() instanceof IKeychain) {
 			if (stack.getTag() != null) {
-				if (stack.getTag().hasUniqueId("keybladeID")) {
+				if (stack.getTag().hasUUID("keybladeID")) {
 					return true;
 				}
 			}
@@ -414,16 +398,16 @@ public class Utils {
 
 	public static UUID getID(ItemStack stack) {
 		if (hasID(stack)) {
-			return stack.getTag().getUniqueId("keybladeID");
+			return stack.getTag().getUUID("keybladeID");
 		}
 		return null;
 	}
 
 	// Returns the inv slot if summoned keychain is found
-	public static int findSummoned(PlayerInventory inv, ItemStack chain, boolean orgWeapon) {
-		if (!ItemStack.areItemStacksEqual(chain, ItemStack.EMPTY)) {
-			for (int i = 0; i < inv.getSizeInventory(); i++) {
-				ItemStack slotStack = inv.getStackInSlot(i);
+	public static int findSummoned(Inventory inv, ItemStack chain, boolean orgWeapon) {
+		if (!ItemStack.matches(chain, ItemStack.EMPTY)) {
+			for (int i = 0; i < inv.getContainerSize(); i++) {
+				ItemStack slotStack = inv.getItem(i);
 				// Only check the tag for keyblades
 				if (slotStack.getItem() instanceof KeybladeItem) {
 					if (orgWeapon) {
@@ -432,7 +416,7 @@ public class Utils {
 					// Make sure it has a tag
 					if (hasID(slotStack)) {
 						// Compare the ID with the chain's
-						if (slotStack.getTag().getUniqueId("keybladeID").equals(chain.getTag().getUniqueId("keybladeID"))) {
+						if (slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
 							return i;
 						}
 					}
@@ -444,10 +428,10 @@ public class Utils {
 		return -1;
 	}
 
-	public static void swapStack(PlayerInventory inv, int stack1, int stack2) {
-		ItemStack tempStack = inv.getStackInSlot(stack2);
-		inv.setInventorySlotContents(stack2, inv.getStackInSlot(stack1));
-		inv.setInventorySlotContents(stack1, tempStack);
+	public static void swapStack(Inventory inv, int stack1, int stack2) {
+		ItemStack tempStack = inv.getItem(stack2);
+		inv.setItem(stack2, inv.getItem(stack1));
+		inv.setItem(stack1, tempStack);
 	}
 
 	// Returns the category for the stack from the IItemCategory interface, the registry, else it returns MISC
@@ -481,10 +465,10 @@ public class Utils {
 		return val;
 	}
 
-	public static boolean isWearingOrgRobes(PlayerEntity player) {
+	public static boolean isWearingOrgRobes(Player player) {
 		boolean wearingOrgCloak = true;
-		for (int i = 0; i < player.inventory.armorInventory.size(); ++i) {
-			ItemStack itemStack = player.inventory.armorInventory.get(i);
+		for (int i = 0; i < player.inventory.armor.size(); ++i) {
+			ItemStack itemStack = player.inventory.armor.get(i);
 			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_")) {
 				wearingOrgCloak = false;
 				break;
@@ -519,12 +503,12 @@ public class Utils {
 		return str;
 	}
 
-	public static void drawSplitString(FontRenderer fontRenderer, String text, int x, int y, int len, int color) {
-		fontRenderer.func_238418_a_(ITextProperties.func_240652_a_(text), x, y, len, color);
+	public static void drawSplitString(Font fontRenderer, String text, int x, int y, int len, int color) {
+		fontRenderer.drawWordWrap(FormattedText.of(text), x, y, len, color);
 	}
-	public static int getSlotFor(PlayerInventory inv, ItemStack stack) {
-		for (int i = 0; i < inv.getSizeInventory(); ++i) {
-			if (!inv.getStackInSlot(i).isEmpty() && ItemStack.areItemStacksEqual(stack, inv.getStackInSlot(i))) {
+	public static int getSlotFor(Inventory inv, ItemStack stack) {
+		for (int i = 0; i < inv.getContainerSize(); ++i) {
+			if (!inv.getItem(i).isEmpty() && ItemStack.matches(stack, inv.getItem(i))) {
 				return i;
 			}
 		}
@@ -539,11 +523,11 @@ public class Utils {
      * @return
      */
 	public static float getTargetPitch(Entity entity, Entity target) {
-        double xDiff = target.getPosX() - entity.getPosX();
-        double yDiff = target.getPosY() - entity.getPosY();
-        double zDiff = target.getPosZ() - entity.getPosZ();
-        double distance = MathHelper.sqrt(xDiff * xDiff + zDiff * zDiff);
-        return (float) (-(MathHelper.atan2(yDiff, distance) * (double)(180F / (float)Math.PI)));
+        double xDiff = target.getX() - entity.getX();
+        double yDiff = target.getY() - entity.getY();
+        double zDiff = target.getZ() - entity.getZ();
+        double distance = Mth.sqrt(xDiff * xDiff + zDiff * zDiff);
+        return (float) (-(Mth.atan2(yDiff, distance) * (double)(180F / (float)Math.PI)));
     }
 
     /**
@@ -553,12 +537,12 @@ public class Utils {
      * @return
      */
 	public static float getTargetYaw(Entity entity, Entity target) {
-        double d0 = target.getPosX() - entity.getPosX();
-        double d1 = target.getPosZ() - entity.getPosZ();
-        return (float)-(MathHelper.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+        double d0 = target.getX() - entity.getX();
+        double d1 = target.getZ() - entity.getZ();
+        return (float)-(Mth.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
     }
 
-	public static List<Limit> getPlayerLimitAttacks(PlayerEntity player) {
+	public static List<Limit> getPlayerLimitAttacks(Player player) {
 //		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		List<Limit> limits = new ArrayList<Limit>();
 		limits.addAll(ModLimits.registry.getValues());
@@ -573,19 +557,19 @@ public class Utils {
         return limits;
 	}
 	
-	public static Shotlock getPlayerShotlock(PlayerEntity player) {
+	public static Shotlock getPlayerShotlock(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		return ModShotlocks.registry.getValue(new ResourceLocation(playerData.getEquippedShotlock()));
 	}
 
-	public static boolean isPlayerLowHP(PlayerEntity player) {
+	public static boolean isPlayerLowHP(Player player) {
 		return player.getHealth() < player.getMaxHealth() / 4;	
 	}
 
 	
-	public static void syncWorldData(World world, IWorldCapabilities worldData) {
-		world.getServer().getWorlds().forEach(sw -> {
-			CompoundNBT nbt = new CompoundNBT();
+	public static void syncWorldData(Level world, IWorldCapabilities worldData) {
+		world.getServer().getAllLevels().forEach(sw -> {
+			CompoundTag nbt = new CompoundTag();
 			ModCapabilities.getWorld(sw).read(worldData.write(nbt));
 		});
 		PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
@@ -596,7 +580,7 @@ public class Utils {
 		Map<Integer, ItemStack> finalMap = new HashMap<Integer, ItemStack>(equippedItems);
 		for(Entry<Integer, ItemStack> entry : equippedItems.entrySet()) {
 			ItemStack stack = entry.getValue();
-			if(ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)){
+			if(ItemStack.matches(stack, ItemStack.EMPTY)){
 				finalMap.remove(entry.getKey());
 			}
 		}
@@ -636,7 +620,7 @@ public class Utils {
 	public static boolean isEntityInParty(Party party, Entity e) {
 		List<Member> list = party.getMembers();
 		for(Member m : list) {
-			if(m.getUUID().equals(e.getUniqueID())) {
+			if(m.getUUID().equals(e.getUUID())) {
 				return true;
 			}
 		}
@@ -646,7 +630,7 @@ public class Utils {
 	public static List<Entity> removeFriendlyEntities(List<Entity> list) {
 		List<Entity> list2 = new ArrayList<Entity>();
 		for(Entity e : list) {
-			if(e instanceof MonsterEntity || e instanceof PlayerEntity) {
+			if(e instanceof Monster || e instanceof Player) {
 				list2.add((LivingEntity)e);
 			}
 		}
@@ -654,7 +638,7 @@ public class Utils {
 	}
 
 	public static boolean isHostile(Entity e) {
-		return e instanceof MonsterEntity || e instanceof PlayerEntity;
+		return e instanceof Monster || e instanceof Player;
 	}
 
 	public static List<String> getKeybladeAbilitiesAtLevel(Item item, int level) {
@@ -677,7 +661,7 @@ public class Utils {
 		return abilities;
 	}
 
-	public static void restartLevel(IPlayerCapabilities playerData, PlayerEntity player) {
+	public static void restartLevel(IPlayerCapabilities playerData, Player player) {
 		playerData.setLevel(1);
 		playerData.setExperience(0);
 		playerData.setMaxHP(20);
@@ -699,7 +683,7 @@ public class Utils {
         playerData.addAbility(Strings.zeroExp, false);
 	}
 	
-	public static void restartLevel2(IPlayerCapabilities playerData, PlayerEntity player) {
+	public static void restartLevel2(IPlayerCapabilities playerData, Player player) {
 		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
 		while(it.hasNext()) {

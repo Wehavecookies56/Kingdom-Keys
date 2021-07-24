@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import java.io.IOException;
 
-import net.minecraft.data.AdvancementProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.advancements.AdvancementProvider;
 
 public class KKAdvancementProvider extends AdvancementProvider {
 
@@ -15,7 +15,7 @@ public class KKAdvancementProvider extends AdvancementProvider {
         generator = generatorIn;
     }
 
-    public void act(DirectoryCache cache) throws IOException {
+    public void run(HashCache cache) throws IOException {
     }
 
     // used for logger. will be removed when advancements are done.

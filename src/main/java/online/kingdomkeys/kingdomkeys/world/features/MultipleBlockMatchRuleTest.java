@@ -6,11 +6,11 @@ import java.util.Random;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.feature.template.IRuleTestType;
-import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 
 public class MultipleBlockMatchRuleTest extends RuleTest {
     public static final Codec<MultipleBlockMatchRuleTest> CODEC = RecordCodecBuilder.create((p_237118_0_) -> {
@@ -28,13 +28,13 @@ public class MultipleBlockMatchRuleTest extends RuleTest {
     @Override
     public boolean test(BlockState p_215181_1_, Random p_215181_2_) {
         for (Block b : blocks) {
-            if (p_215181_1_.matchesBlock(b)) return true;
+            if (p_215181_1_.is(b)) return true;
         }
         return false;
     }
 
     @Override
-    protected IRuleTestType<?> getType() {
+    protected RuleTestType<?> getType() {
         return ModFeatures.OVERWORLD_GROUND;
     }
 }

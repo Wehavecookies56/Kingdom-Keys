@@ -3,21 +3,21 @@ package online.kingdomkeys.kingdomkeys.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -35,10 +35,10 @@ public class RecipeItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		if (hand == Hand.MAIN_HAND) {
-			if (!world.isRemote) {
-				ItemStack stack = player.getHeldItemMainhand();
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		if (hand == InteractionHand.MAIN_HAND) {
+			if (!world.isClientSide) {
+				ItemStack stack = player.getMainHandItem();
 				if (stack.hasTag()) {
 					String[] recipes = { stack.getTag().getString("recipe1"), stack.getTag().getString("recipe2"), stack.getTag().getString("recipe3") };
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -51,35 +51,35 @@ public class RecipeItem extends Item implements IItemCategory {
 							ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(rl).getResult());							
 							if (recipe == null || !RecipeRegistry.getInstance().containsKey(rl)) { // If recipe is not valid
 								String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message), Util.DUMMY_UUID);
+								player.sendMessage(new TranslatableComponent(ChatFormatting.RED + message), Util.NIL_UUID);
 							} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
-								String message = "Recipe for " + Utils.translateToLocal(outputStack.getTranslationKey()) + " already learnt";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message), Util.DUMMY_UUID);
+								String message = "Recipe for " + Utils.translateToLocal(outputStack.getDescriptionId()) + " already learnt";
+								player.sendMessage(new TranslatableComponent(ChatFormatting.YELLOW + message), Util.NIL_UUID);
 							} else { // If recipe is not known, learn it
 								playerData.addKnownRecipe(rl);
 								consume = true;
-								String message = "Recipe " + Utils.translateToLocal(outputStack.getTranslationKey()) + " learnt successfully";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message), Util.DUMMY_UUID);
-								PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+								String message = "Recipe " + Utils.translateToLocal(outputStack.getDescriptionId()) + " learnt successfully";
+								player.sendMessage(new TranslatableComponent(ChatFormatting.GREEN + message), Util.NIL_UUID);
+								PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 							}
 						}
 					}
 
 					if (consume) {
-						player.getHeldItemMainhand().shrink(1);
+						player.getMainHandItem().shrink(1);
 					} else {
 						shuffleRecipes(stack, player);
 					}
 				} else {
-					player.sendStatusMessage(new TranslationTextComponent("Opened recipe"), true);
-					shuffleRecipes(stack, (PlayerEntity) player);
+					player.displayClientMessage(new TranslatableComponent("Opened recipe"), true);
+					shuffleRecipes(stack, (Player) player);
 				}
 			}
 		}
-		return super.onItemRightClick(world, player, hand);
+		return super.use(world, player, hand);
 	}
 
-	public void shuffleRecipes(ItemStack stack, PlayerEntity player) {
+	public void shuffleRecipes(ItemStack stack, Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 		ResourceLocation recipe1=null, recipe2=null, recipe3=null;
@@ -116,7 +116,7 @@ public class RecipeItem extends Item implements IItemCategory {
 
 		}
 
-		stack.setTag(new CompoundNBT());
+		stack.setTag(new CompoundTag());
 		if(recipe1 != null)
 			stack.getTag().putString("recipe1", recipe1.toString());
 		if(recipe2 != null)
@@ -126,7 +126,7 @@ public class RecipeItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		/*if (!stack.hasTag()) {
 			shuffleRecipes(stack, (PlayerEntity) entityIn);
 		}*/
@@ -134,7 +134,7 @@ public class RecipeItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (stack.hasTag()) {
 			for (int i = 1; i <= 3; i++) {
 				String recipeName = stack.getTag().getString("recipe" + i);
@@ -144,11 +144,11 @@ public class RecipeItem extends Item implements IItemCategory {
 						String name;
 						if(recipe.getType().equals("keyblade")) {
 							KeychainItem item = (KeychainItem) recipe.getResult().getItem();
-							name = new ItemStack(item.keyblade).getTranslationKey();
+							name = new ItemStack(item.keyblade).getDescriptionId();
 						} else {
-							name = new ItemStack(recipe.getResult()).getTranslationKey();
+							name = new ItemStack(recipe.getResult()).getDescriptionId();
 						}
-						tooltip.add(new TranslationTextComponent(Utils.translateToLocal(name)));
+						tooltip.add(new TranslatableComponent(Utils.translateToLocal(name)));
 					}
 				}
 			}

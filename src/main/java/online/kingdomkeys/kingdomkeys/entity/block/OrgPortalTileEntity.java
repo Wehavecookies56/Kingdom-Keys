@@ -4,14 +4,14 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class OrgPortalTileEntity extends TileEntity {
+public class OrgPortalTileEntity extends BlockEntity {
 	UUID uuid;
 
 	public OrgPortalTileEntity() {
@@ -19,18 +19,18 @@ public class OrgPortalTileEntity extends TileEntity {
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT parentNBTTagCompound) {
-		super.write(parentNBTTagCompound);
+	public CompoundTag save(CompoundTag parentNBTTagCompound) {
+		super.save(parentNBTTagCompound);
 		if (uuid != null)
-			parentNBTTagCompound.putUniqueId("uuid", uuid);
+			parentNBTTagCompound.putUUID("uuid", uuid);
 		return parentNBTTagCompound;
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		if(nbt.hasUniqueId("uuid"))
-			uuid = nbt.getUniqueId("uuid");
+	public void load(BlockState state, CompoundTag nbt) {
+		super.load(state, nbt);
+		if(nbt.hasUUID("uuid"))
+			uuid = nbt.getUUID("uuid");
 	}
 
 	public UUID getUUID() {
@@ -39,30 +39,30 @@ public class OrgPortalTileEntity extends TileEntity {
 
 	public void setUUID(UUID uuid) {
 		this.uuid = uuid;
-		markDirty();
+		setChanged();
 	}
 	
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT nbt = new CompoundNBT();
-		this.write(nbt);
-		return new SUpdateTileEntityPacket(this.getPos(), 1, nbt);
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		CompoundTag nbt = new CompoundTag();
+		this.save(nbt);
+		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 1, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
+	public CompoundTag getUpdateTag() {
+		return this.save(new CompoundTag());
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
+	public void handleUpdateTag(BlockState state, CompoundTag tag) {
+		this.load(state, tag);
 	}
 	
 }

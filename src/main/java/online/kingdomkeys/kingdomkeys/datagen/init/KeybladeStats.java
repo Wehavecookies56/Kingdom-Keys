@@ -8,9 +8,9 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fmllegacy.common.registry.GameRegistry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;

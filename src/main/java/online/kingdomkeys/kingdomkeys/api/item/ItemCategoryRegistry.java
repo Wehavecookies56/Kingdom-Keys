@@ -2,21 +2,21 @@ package online.kingdomkeys.kingdomkeys.api.item;
 
 import java.util.HashMap;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.PotionItem;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.SwordItem;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.SetTag;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ElytraItem;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -32,7 +32,7 @@ public class ItemCategoryRegistry {
     	ForgeRegistries.ITEMS.forEach(item -> {
     		if(item instanceof SwordItem || item instanceof PickaxeItem || item instanceof ShovelItem || item instanceof HoeItem || item instanceof AxeItem || item instanceof CrossbowItem || item instanceof BowItem) {
     			register(item, ItemCategory.TOOL);
-    		} else if(item.isFood() || item instanceof PotionItem) {
+    		} else if(item.isEdible() || item instanceof PotionItem) {
     			register(item, ItemCategory.CONSUMABLE);
     		} else if(item instanceof ArmorItem || item instanceof ElytraItem) {
     			register(item, ItemCategory.EQUIPMENT);
@@ -64,8 +64,8 @@ public class ItemCategoryRegistry {
         categories.put(block.getRegistryName().toString(), category);
     }
 
-    public static <T extends IForgeRegistryEntry<T>> void register(Tag<T> tag, ItemCategory category) {
-        tag.getAllElements().forEach(t -> {
+    public static <T extends IForgeRegistryEntry<T>> void register(SetTag<T> tag, ItemCategory category) {
+        tag.getValues().forEach(t -> {
             categories.put(t.getRegistryName().toString(), category);
         });
     }

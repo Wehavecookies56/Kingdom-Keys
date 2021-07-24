@@ -3,13 +3,13 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -29,38 +29,38 @@ public class CSPartyInvite {
 		this.playerUUID = playerUUID;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.name.length());
-		buffer.writeString(this.name);
+		buffer.writeUtf(this.name);
 				
-		buffer.writeUniqueId(this.playerUUID);
+		buffer.writeUUID(this.playerUUID);
 	}
 
-	public static CSPartyInvite decode(PacketBuffer buffer) {
+	public static CSPartyInvite decode(FriendlyByteBuf buffer) {
 		CSPartyInvite msg = new CSPartyInvite();
 		int length = buffer.readInt();
-		msg.name = buffer.readString(length);
+		msg.name = buffer.readUtf(length);
 				
-		msg.playerUUID = buffer.readUniqueId();
+		msg.playerUUID = buffer.readUUID();
 		return msg;
 	}
 
 	public static void handle(CSPartyInvite message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			
-			PlayerEntity target = player.world.getPlayerByUuid(message.playerUUID);
+			Player target = player.level.getPlayerByUUID(message.playerUUID);
 			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(target);
 			if(!targetPlayerData.getPartiesInvited().contains(message.name)) {
 				targetPlayerData.addPartiesInvited(message.name);
 				
-				IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+				IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 				Party p = worldData.getPartyFromName(message.name);
-				target.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()), Util.DUMMY_UUID);
+				target.sendMessage(new TranslatableComponent(ChatFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()), Util.NIL_UUID);
 			}
 			
 			
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(targetPlayerData), (ServerPlayerEntity)target);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(targetPlayerData), (ServerPlayer)target);
 		});
 		ctx.get().setPacketHandled(true);
 	}

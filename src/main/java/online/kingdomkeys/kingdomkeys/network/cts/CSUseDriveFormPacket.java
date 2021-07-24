@@ -2,10 +2,10 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -24,21 +24,21 @@ public class CSUseDriveFormPacket {
 		this.form = form;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.form.length());
-		buffer.writeString(this.form);
+		buffer.writeUtf(this.form);
 	}
 
-	public static CSUseDriveFormPacket decode(PacketBuffer buffer) {
+	public static CSUseDriveFormPacket decode(FriendlyByteBuf buffer) {
 		CSUseDriveFormPacket msg = new CSUseDriveFormPacket();
 		int length = buffer.readInt();
-		msg.form = buffer.readString(length);
+		msg.form = buffer.readUtf(length);
 		return msg;
 	}
 
 	public static void handle(CSUseDriveFormPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			if (message.form.equals(Strings.Form_Anti)) { //If target is antiform

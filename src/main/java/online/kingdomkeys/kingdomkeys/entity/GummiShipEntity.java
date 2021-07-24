@@ -1,33 +1,33 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 public class GummiShipEntity extends Entity {// PigEntity {
 
 	public final static int MAX_TICKS = 30;
 	private String data;
 
-	public GummiShipEntity(EntityType<? extends Entity> type, World world) {
+	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
 		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 	}
 
-	public GummiShipEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public GummiShipEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 	}
 
-	public GummiShipEntity(World world) {
+	public GummiShipEntity(Level world) {
 		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 	}
 
@@ -36,55 +36,55 @@ public class GummiShipEntity extends Entity {// PigEntity {
 		super.tick();
 	}
 
-	public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MobEntity.registerAttributes()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 20.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 1.0D)
-                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 0.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 0.0D)
-				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+	public static AttributeSupplier.Builder registerAttributes() {
+        return Mob.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MOVEMENT_SPEED, 1.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
+                .add(Attributes.FOLLOW_RANGE, 0.0D)
+                .add(Attributes.ATTACK_DAMAGE, 0.0D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
                 ;
     }
-	private static final DataParameter<String> DATA = EntityDataManager.createKey(GummiShipEntity.class, DataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.STRING);
 
 	public String getData() {
 		return data;
 	}
 
 	public void setData(String name) {
-		this.dataManager.set(DATA, name);
+		this.entityData.set(DATA, name);
 		this.data = name;
 	}
 
 	@Override
-	public void notifyDataManagerChange(DataParameter<?> key) {
+	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
 		if (key.equals(DATA)) {
 			this.data = this.getDataDataManager();
 		}
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		compound.putString("Data", this.getData());
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		this.setData(compound.getString("Data"));
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(DATA, "");
+	protected void defineSynchedData() {
+		this.entityData.define(DATA, "");
 	}
 
 	public String getDataDataManager() {
-		return this.dataManager.get(DATA);
+		return this.entityData.get(DATA);
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 

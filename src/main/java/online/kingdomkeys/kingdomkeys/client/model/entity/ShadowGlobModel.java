@@ -1,38 +1,38 @@
 package online.kingdomkeys.kingdomkeys.client.model.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.Entity;
 
 public class ShadowGlobModel<T extends Entity> extends EntityModel<T> {
-	public ModelRenderer Body1;
-	public ModelRenderer Body2;
-	public ModelRenderer Body3;
-	public ModelRenderer Body4;
-	public ModelRenderer Body5;
+	public ModelPart Body1;
+	public ModelPart Body2;
+	public ModelPart Body3;
+	public ModelPart Body4;
+	public ModelPart Body5;
 
 	public ShadowGlobModel()
 	{
-		this.textureWidth = 128;
-		this.textureHeight = 128;
-		this.Body1 = new ModelRenderer(this, 0, 0);
-		this.Body1.setRotationPoint(0.0F, 21.0F, 0.0F);
+		this.texWidth = 128;
+		this.texHeight = 128;
+		this.Body1 = new ModelPart(this, 0, 0);
+		this.Body1.setPos(0.0F, 21.0F, 0.0F);
 		this.Body1.addBox(-10.0F, 0.0F, -10.0F, 20, 3, 20, 0.0F);
-		this.Body5 = new ModelRenderer(this, 0, 0);
-		this.Body5.setRotationPoint(0.0F, -9.5F, 0.0F);
+		this.Body5 = new ModelPart(this, 0, 0);
+		this.Body5.setPos(0.0F, -9.5F, 0.0F);
 		this.Body5.addBox(-8.5F, -1.5F, -8.5F, 17, 3, 17, 0.0F);
-		this.Body2 = new ModelRenderer(this, 0, 0);
-		this.Body2.setRotationPoint(0.0F, -1.5F, 0.0F);
+		this.Body2 = new ModelPart(this, 0, 0);
+		this.Body2.setPos(0.0F, -1.5F, 0.0F);
 		this.Body2.addBox(-10.0F, -1.5F, -10.0F, 20, 3, 20, 0.0F);
-		this.Body3 = new ModelRenderer(this, 0, 0);
-		this.Body3.setRotationPoint(0.0F, -4.5F, 0.0F);
+		this.Body3 = new ModelPart(this, 0, 0);
+		this.Body3.setPos(0.0F, -4.5F, 0.0F);
 		this.Body3.addBox(-9.5F, -1.5F, -9.5F, 19, 3, 19, 0.0F);
-		this.Body4 = new ModelRenderer(this, 0, 0);
-		this.Body4.setRotationPoint(0.0F, -6.5F, 0.0F);
+		this.Body4 = new ModelPart(this, 0, 0);
+		this.Body4.setPos(0.0F, -6.5F, 0.0F);
 		this.Body4.addBox(-9.5F, -1.5F, -9.5F, 19, 2, 19, 0.0F);
 		this.Body1.addChild(this.Body5);
 		this.Body1.addChild(this.Body2);
@@ -41,7 +41,7 @@ public class ShadowGlobModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		this.Body1.render(matrixStackIn,bufferIn,packedLightIn,packedOverlayIn);
 	}
 	
@@ -49,8 +49,8 @@ public class ShadowGlobModel<T extends Entity> extends EntityModel<T> {
 	private int animType = 0;
 	private int animDir = 0;
 	
-	public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (!Minecraft.getInstance().isGamePaused())
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		if (!Minecraft.getInstance().isPaused())
 		{	
 			/*double[] animationBody2 = null;
 			double[] animationBody3 = null;
@@ -154,11 +154,11 @@ public class ShadowGlobModel<T extends Entity> extends EntityModel<T> {
 		return (float) (degrees * (double) Math.PI / 180);
 	}
 
-	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
+	public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z)
 	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		modelRenderer.getXRot() = x;
+		modelRenderer.getYRot() = y;
+		modelRenderer.zRot = z;
 	}
 
 }

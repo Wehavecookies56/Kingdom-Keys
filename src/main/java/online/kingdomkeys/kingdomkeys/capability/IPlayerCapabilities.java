@@ -6,15 +6,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -25,7 +25,7 @@ public interface IPlayerCapabilities {
 	
 	int getExperience();
 	void setExperience(int exp);
-	void addExperience(PlayerEntity player, int exp, boolean shareXP, boolean sound);
+	void addExperience(Player player, int exp, boolean shareXP, boolean sound);
 
 	int getExperienceGiven();
 	void setExperienceGiven(int exp);
@@ -87,7 +87,7 @@ public interface IPlayerCapabilities {
 	void setMaxAP(int ap);
 	void addMaxAP(int ap);
 	
-    void levelUpStatsAndDisplayMessage(PlayerEntity player, boolean sound);
+    void levelUpStatsAndDisplayMessage(Player player, boolean sound);
     void clearMessages();
 	void setMessages(List<String> messages);
     List<String> getMessages();
@@ -121,7 +121,7 @@ public interface IPlayerCapabilities {
 	void setMunny(int amount);
 	int getMunny();
 	
-	void displayDriveFormLevelUpMessage(PlayerEntity player, String driveForm);
+	void displayDriveFormLevelUpMessage(Player player, String driveForm);
     void clearDFMessages();
 	void setDFMessages(List<String> messages);
 	List<String> getDFMessages();
@@ -131,8 +131,8 @@ public interface IPlayerCapabilities {
 	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);
     int getDriveFormExp(String drive);
-    void setDriveFormExp(PlayerEntity player, String drive, int exp);
-	void addDriveFormExperience(String form, ServerPlayerEntity player, int driveExpNeeded);
+    void setDriveFormExp(Player player, String drive, int exp);
+	void addDriveFormExperience(String form, ServerPlayer player, int driveExpNeeded);
 
 	//Key: drive form registry key, Value: the keychain stack
     Map<ResourceLocation, ItemStack> getEquippedKeychains();
@@ -217,12 +217,12 @@ public interface IPlayerCapabilities {
 
 	//SoA choices
 
-	Vector3d getReturnLocation();
-	void setReturnLocation(PlayerEntity playerEntity);
-	void setReturnLocation(Vector3d location);
-	RegistryKey<World> getReturnDimension();
-	void setReturnDimension(PlayerEntity playerEntity);
-	void setReturnDimension(RegistryKey<World> type);
+	Vec3 getReturnLocation();
+	void setReturnLocation(Player playerEntity);
+	void setReturnLocation(Vec3 location);
+	ResourceKey<Level> getReturnDimension();
+	void setReturnDimension(Player playerEntity);
+	void setReturnDimension(ResourceKey<Level> type);
 
 	//The current state of the SoA
 	SoAState getSoAState();
@@ -260,7 +260,7 @@ public interface IPlayerCapabilities {
 	
 	List<String> getReactionCommands();
 	void setReactionCommands(List<String> list);
-	boolean addReactionCommand(String command, PlayerEntity player);
+	boolean addReactionCommand(String command, Player player);
 	boolean removeReactionCommand(String command);
 	
 	LinkedHashMap<Integer,String> getShortcutsMap();

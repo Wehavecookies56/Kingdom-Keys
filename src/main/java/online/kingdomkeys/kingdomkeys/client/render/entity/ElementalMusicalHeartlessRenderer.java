@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ElementalMusicalHeartlessModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseElementalMusicalHeartlessEntity;
 
@@ -16,30 +16,30 @@ public class ElementalMusicalHeartlessRenderer extends MobRenderer<BaseElemental
     public static final ElementalMusicalHeartlessRenderer.Factory FACTORY = new ElementalMusicalHeartlessRenderer.Factory();
     static final double MAX = 200;
 
-    public ElementalMusicalHeartlessRenderer(EntityRendererManager renderManagerIn) {
+    public ElementalMusicalHeartlessRenderer(EntityRenderDispatcher renderManagerIn) {
         super(renderManagerIn, new ElementalMusicalHeartlessModel<>(), 0.35F);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(BaseElementalMusicalHeartlessEntity entity) {
+    public ResourceLocation getTextureLocation(BaseElementalMusicalHeartlessEntity entity) {
         return entity.getTexture();
     }
 
     @Override
-    protected void preRenderCallback(BaseElementalMusicalHeartlessEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+    protected void scale(BaseElementalMusicalHeartlessEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
         matrixStackIn.scale(1F, 1F, 1F);
-        double pos = entitylivingbaseIn.ticksExisted % MAX / (MAX /2D);
-        if(entitylivingbaseIn.ticksExisted % MAX < (MAX / 2)) {
+        double pos = entitylivingbaseIn.tickCount % MAX / (MAX /2D);
+        if(entitylivingbaseIn.tickCount % MAX < (MAX / 2)) {
         	matrixStackIn.translate(0, pos*0.6, 0);
         } else {
-        	matrixStackIn.translate(0, (MAX - entitylivingbaseIn.ticksExisted % MAX) / (MAX / 2D) * 0.6, 0);
+        	matrixStackIn.translate(0, (MAX - entitylivingbaseIn.tickCount % MAX) / (MAX / 2D) * 0.6, 0);
         }
-        super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+        super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
 
     public static class Factory implements IRenderFactory<BaseElementalMusicalHeartlessEntity> {
         @Override
-        public EntityRenderer<? super BaseElementalMusicalHeartlessEntity> createRenderFor(EntityRendererManager entityRendererManager) {
+        public EntityRenderer<? super BaseElementalMusicalHeartlessEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
             return new ElementalMusicalHeartlessRenderer(entityRendererManager);
         }
     }

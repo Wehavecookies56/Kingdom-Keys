@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.material;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 //TODO Should be an API thing

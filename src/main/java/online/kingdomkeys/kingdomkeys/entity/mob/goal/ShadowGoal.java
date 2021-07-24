@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.TargetGoal;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public class ShadowGoal extends TargetGoal {
@@ -13,25 +13,25 @@ public class ShadowGoal extends TargetGoal {
 	private boolean canUseNextAttack = true;
 	private double originalAttackDamage;
 
-	public ShadowGoal(CreatureEntity creature) {
+	public ShadowGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;   
-		this.originalAttackDamage = this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
+		this.originalAttackDamage = this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
 	}
 
 	@Override
-	public boolean shouldContinueExecuting() {
-		if(this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() > 0)
-			this.originalAttackDamage = this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
+	public boolean canContinueToUse() {
+		if(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() > 0)
+			this.originalAttackDamage = this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
 
-		if (this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI) {
+		if (this.mob.getTarget() != null && this.mob.distanceToSqr(this.mob.getTarget()) < MAX_DISTANCE_FOR_AI) {
 		
-			if (this.goalOwner.isOnGround()) {
+			if (this.mob.isOnGround()) {
 				if (!isInShadow()) {
 					shadowTicks--;
 					if (shadowTicks <= 0) {
-						EntityHelper.setState(this.goalOwner, 1);
-	                    this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0.0D);
+						EntityHelper.setState(this.mob, 1);
+	                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 						canUseNextAttack = false;
 					}
 				} else {
@@ -40,20 +40,20 @@ public class ShadowGoal extends TargetGoal {
 			}
 
 			if (isInShadow()) {
-				this.goalOwner.setInvulnerable(true);
+				this.mob.setInvulnerable(true);
 				//this.goalOwner.setInvisible(true);
 				canUseNextAttack = false;
 				shadowTicks++;
 				if (shadowTicks >= TIME_OUTSIDE_THE_SHADOW) {
-					EntityHelper.setState(this.goalOwner, 0);
-					this.goalOwner.setInvulnerable(false);
+					EntityHelper.setState(this.mob, 0);
+					this.mob.setInvulnerable(false);
 					canUseNextAttack = true;
-                    this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
+                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 				}
 			}
 
-			EntityHelper.Dir dir = EntityHelper.get8Directions(this.goalOwner);
-			int currentAi = this.goalOwner.world.rand.nextInt(2);
+			EntityHelper.Dir dir = EntityHelper.get8Directions(this.mob);
+			int currentAi = this.mob.level.random.nextInt(2);
 
 			if (!canUseNextAttack) {
 				ticksUntilNextAttack--;
@@ -71,92 +71,92 @@ public class ShadowGoal extends TargetGoal {
 			}
 
 			// Leaping
-			if (this.goalOwner.isOnGround() && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) <= MAX_DISTANCE_FOR_LEAP && currentAi == 0 && canUseNextAttack) {
+			if (this.mob.isOnGround() && this.mob.distanceToSqr(this.mob.getTarget()) <= MAX_DISTANCE_FOR_LEAP && currentAi == 0 && canUseNextAttack) {
 				oldAi = 0;
 
-				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.5, 0));
+				this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.5, 0));
 
 				switch (dir) {
 				case NORTH:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -0.7));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0, -0.7));
 					break;
 				case NORTH_WEST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, -0.7));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(-0.7, 0, -0.7));
 					break;
 				case SOUTH:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 0.7));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0, 0.7));
 					break;
 				case NORTH_EAST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, -0.7));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.7, 0, -0.7));
 					break;
 				case WEST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, 0));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(-0.7, 0, 0));
 					break;
 				case SOUTH_WEST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-0.7, 0, 0.7));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(-0.7, 0, 0.7));
 					break;
 				case EAST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, 0));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.7, 0, 0));
 					break;
 				case SOUTH_EAST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0.7, 0, 0.7));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.7, 0, 0.7));
 					break;
 				}
 
-				if (this.goalOwner.world.rand.nextInt(2) == 0) {
-					EntityHelper.setState(this.goalOwner, 0);
-					this.goalOwner.setInvulnerable(false);
-                    this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
+				if (this.mob.level.random.nextInt(2) == 0) {
+					EntityHelper.setState(this.mob, 0);
+					this.mob.setInvulnerable(false);
+                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 				} else {
-					EntityHelper.setState(this.goalOwner, 1);
-					this.goalOwner.setInvulnerable(true);
-                    this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0D);
+					EntityHelper.setState(this.mob, 1);
+					this.mob.setInvulnerable(true);
+                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0D);
 				}
 
 				canUseNextAttack = false;
 			}
 
 			// Dash
-			if (this.goalOwner.isOnGround() && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) <= MAX_DISTANCE_FOR_DASH && currentAi == 1 && canUseNextAttack) {
+			if (this.mob.isOnGround() && this.mob.distanceToSqr(this.mob.getTarget()) <= MAX_DISTANCE_FOR_DASH && currentAi == 1 && canUseNextAttack) {
 				oldAi = 1;
 
-				this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0.2, 0));
+				this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.2, 0));
 
 				switch (dir) {
 				case NORTH:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, -1));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0, -1));
 					break;
 				case NORTH_WEST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, -1));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(-1, 0, -1));
 					break;
 				case SOUTH:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(0, 0, 1));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0, 1));
 					break;
 				case NORTH_EAST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, -1));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(1, 0, -1));
 					break;
 				case WEST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, 0));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(-1, 0, 0));
 					break;
 				case SOUTH_WEST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(-1, 0, 1));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(-1, 0, 1));
 					break;
 				case EAST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, 0));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(1, 0, 0));
 					break;
 				case SOUTH_EAST:
-					this.goalOwner.setMotion(this.goalOwner.getMotion().add(1, 0, 1));
+					this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(1, 0, 1));
 					break;
 				}
 
-				if (this.goalOwner.world.rand.nextInt(2) == 0) {
-					EntityHelper.setState(this.goalOwner, 0);
-					this.goalOwner.setInvulnerable(false);
-                    this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
+				if (this.mob.level.random.nextInt(2) == 0) {
+					EntityHelper.setState(this.mob, 0);
+					this.mob.setInvulnerable(false);
+                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 				} else {
-					EntityHelper.setState(this.goalOwner, 1);
-					this.goalOwner.setInvulnerable(true);
-                    this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0D);
+					EntityHelper.setState(this.mob, 1);
+					this.mob.setInvulnerable(true);
+                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0D);
 				}
 
 				canUseNextAttack = false;
@@ -164,25 +164,25 @@ public class ShadowGoal extends TargetGoal {
 
 			return true;
 		}
-		EntityHelper.setState(this.goalOwner, 0);
-		this.goalOwner.setInvulnerable(false);
-        this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
+		EntityHelper.setState(this.mob, 0);
+		this.mob.setInvulnerable(false);
+        this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 		return false;
 	}
 
 	@Override
-	public void startExecuting() {
-		EntityHelper.setState(this.goalOwner, 0);
-		this.goalOwner.setInvulnerable(false);
+	public void start() {
+		EntityHelper.setState(this.mob, 0);
+		this.mob.setInvulnerable(false);
 	}
 
 	private boolean isInShadow() {
-		return EntityHelper.getState(this.goalOwner) == 1;
+		return EntityHelper.getState(this.mob) == 1;
 	}
 
 	@Override
-	public boolean shouldExecute() {
-		return this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI;
+	public boolean canUse() {
+		return this.mob.getTarget() != null && this.mob.distanceToSqr(this.mob.getTarget()) < MAX_DISTANCE_FOR_AI;
 	}
 
 }

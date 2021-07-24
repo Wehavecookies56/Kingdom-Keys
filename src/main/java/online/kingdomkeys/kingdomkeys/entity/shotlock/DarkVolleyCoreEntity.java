@@ -5,52 +5,52 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class DarkVolleyCoreEntity extends ThrowableEntity {
+public class DarkVolleyCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 260;
 	List<VolleyShotEntity> list = new ArrayList<VolleyShotEntity>();
 	List<Entity> targetList = new ArrayList<Entity>();
 	float dmg;
 
-	public DarkVolleyCoreEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public DarkVolleyCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public DarkVolleyCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public DarkVolleyCoreEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
 	}
 
-	public DarkVolleyCoreEntity(World world) {
+	public DarkVolleyCoreEntity(Level world) {
 		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public DarkVolleyCoreEntity(World world, PlayerEntity player, List<Entity> targets, float dmg) {
+	public DarkVolleyCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), player, world);
-		setCaster(player.getUniqueID());
+		setCaster(player.getUUID());
 		String targetIDS = "";
 		for(Entity t : targets) {
-			targetIDS+=","+t.getEntityId();
+			targetIDS+=","+t.getId();
 		}
 		setTarget(targetIDS.substring(1));
 		this.targetList = targets;
@@ -58,12 +58,12 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 	
@@ -71,41 +71,41 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks || getCaster() == null) {
-			this.remove();
+		if (this.tickCount > maxTicks || getCaster() == null) {
+			this.remove(false);
 		}
 
-		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
-		double X = getPosX();
-		double Y = getPosY();
-		double Z = getPosZ();
+		double X = getX();
+		double Y = getY();
+		double Z = getZ();
 
 		if (getCaster() != null && getTargets() != null && !getTargets().isEmpty() && getTargets().size() > i) {
-			if (ticksExisted >= 0 && ticksExisted % 2 == 1) {
+			if (tickCount >= 0 && tickCount % 2 == 1) {
 				
 				Entity target = getTargets().get(i++);
 				if(target != null) {
-					VolleyShotEntity bullet = new VolleyShotEntity(world, getCaster(), target, dmg);
+					VolleyShotEntity bullet = new VolleyShotEntity(level, getCaster(), target, dmg);
 					bullet.setColor(4921675);
-					bullet.setPosition(Utils.randomWithRange(this.getPosX()-2, this.getPosX()+2), Utils.randomWithRange(this.getPosY()-2, this.getPosY()+2)+1F, Utils.randomWithRange(this.getPosZ()-2, this.getPosZ()+2));
+					bullet.setPos(Utils.randomWithRange(this.getX()-2, this.getX()+2), Utils.randomWithRange(this.getY()-2, this.getY()+2)+1F, Utils.randomWithRange(this.getZ()-2, this.getZ()+2));
 					bullet.setMaxTicks(maxTicks + 20);
 					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
 					list.add(bullet);
-					world.addEntity(bullet);
-					world.playSound(null, this.getPosition(), ModSounds.laser.get(), SoundCategory.PLAYERS, 1, 1);
+					level.addFreshEntity(bullet);
+					level.playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
 				}
 			}
 			
 			if(getTargets().size() <= i) {
-				this.remove();
+				this.remove(false);
 			}
 		}
 		super.tick();
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
+	protected void onHit(HitResult rtRes) {
 
 	}
 
@@ -118,51 +118,51 @@ public class DarkVolleyCoreEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(OWNER) != null) {
-			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
-			compound.putString("TargetsUUID", this.dataManager.get(TARGETS));
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
+			compound.putString("TargetsUUID", this.entityData.get(TARGETS));
 		}
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.dataManager.set(TARGETS, compound.getString("TargetUUID"));
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
+		this.entityData.set(TARGETS, compound.getString("TargetUUID"));
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	private static final DataParameter<String> TARGETS = EntityDataManager.createKey(DarkVolleyCoreEntity.class, DataSerializers.STRING);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.STRING);
 
-	public PlayerEntity getCaster() {
-		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	public Player getCaster() {
+		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
-		this.dataManager.set(OWNER, Optional.of(uuid));
+		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
 	public List<Entity> getTargets() {
 		List<Entity> list = new ArrayList<Entity>();
-		String[] ids = this.getDataManager().get(TARGETS).split(",");
+		String[] ids = this.getEntityData().get(TARGETS).split(",");
 		
 		for(String id : ids) {
 		
 			if(!id.equals(""))
-				list.add(world.getEntityByID(Integer.parseInt(id)));
+				list.add(level.getEntity(Integer.parseInt(id)));
 		}
 		return list;
 	}
 
 	public void setTarget(String lists) {
-		this.dataManager.set(TARGETS, lists);
+		this.entityData.set(TARGETS, lists);
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.dataManager.register(TARGETS, "");
+	protected void defineSynchedData() {
+		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		this.entityData.define(TARGETS, "");
 	}
 }

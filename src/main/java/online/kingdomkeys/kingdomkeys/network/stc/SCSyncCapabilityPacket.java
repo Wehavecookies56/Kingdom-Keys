@@ -11,17 +11,17 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -61,8 +61,8 @@ public class SCSyncCapabilityPacket {
 	
 	SoAState soAstate, choice, sacrifice;
 	BlockPos choicePedestal, sacrificePedestal;
-	Vector3d returnPos;
-	RegistryKey<World> returnDim;
+	Vec3 returnPos;
+	ResourceKey<Level> returnDim;
 
 	int hearts;
 	Utils.OrgMember alignment;
@@ -138,7 +138,7 @@ public class SCSyncCapabilityPacket {
 
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.exp);
 		buffer.writeInt(this.expGiven);
@@ -164,63 +164,63 @@ public class SCSyncCapabilityPacket {
 		buffer.writeDouble(this.focus);
 		buffer.writeDouble(this.maxFocus);
 		
-		CompoundNBT recipes = new CompoundNBT();
+		CompoundTag recipes = new CompoundTag();
 		Iterator<ResourceLocation> recipesIt = recipeList.iterator();
 		while (recipesIt.hasNext()) {
 			ResourceLocation r = recipesIt.next();
 			recipes.putString(r.toString(), r.toString());
 		}
-		buffer.writeCompoundTag(recipes);
+		buffer.writeNbt(recipes);
 
-		CompoundNBT magics = new CompoundNBT();
+		CompoundTag magics = new CompoundTag();
 		Iterator<Map.Entry<String, int[]>> magicsIt = magicsMap.entrySet().iterator();
 		while (magicsIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
 			magics.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
-		buffer.writeCompoundTag(magics);
+		buffer.writeNbt(magics);
 		
-		CompoundNBT shotlocks = new CompoundNBT();
+		CompoundTag shotlocks = new CompoundTag();
 		Iterator<String> shotlocksIt = shotlockList.iterator();
 		while (shotlocksIt.hasNext()) {
 			String s = shotlocksIt.next();
 			shotlocks.putInt(s, 1);
 		}
-		buffer.writeCompoundTag(shotlocks);
+		buffer.writeNbt(shotlocks);
 		
-		buffer.writeString(this.equippedShotlock, 100);
+		buffer.writeUtf(this.equippedShotlock, 100);
 		
-		CompoundNBT forms = new CompoundNBT();
+		CompoundTag forms = new CompoundTag();
 		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormMap.entrySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
 			forms.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
-		buffer.writeCompoundTag(forms);
+		buffer.writeNbt(forms);
 		
-		CompoundNBT abilities = new CompoundNBT();
+		CompoundTag abilities = new CompoundTag();
 		Iterator<Map.Entry<String, int[]>> abilitiesIt = abilityMap.entrySet().iterator();
 		while (abilitiesIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
 			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
-		buffer.writeCompoundTag(abilities);
+		buffer.writeNbt(abilities);
 
-		CompoundNBT keychains = new CompoundNBT();
+		CompoundTag keychains = new CompoundTag();
 		this.keychains.forEach((key, value) -> keychains.put(key.toString(), value.serializeNBT()));
-		buffer.writeCompoundTag(keychains);
+		buffer.writeNbt(keychains);
 		
-		CompoundNBT items = new CompoundNBT();
+		CompoundTag items = new CompoundTag();
 		this.items.forEach((key, value) -> items.put(key.toString(), value.serializeNBT()));
-		buffer.writeCompoundTag(items);
+		buffer.writeNbt(items);
 
 		buffer.writeInt(partyList.size());
 		for(int i=0;i<partyList.size();i++) {
 			buffer.writeInt(this.partyList.get(i).length());
-			buffer.writeString(this.partyList.get(i));
+			buffer.writeUtf(this.partyList.get(i));
 		}
 		
-		CompoundNBT materials = new CompoundNBT();
+		CompoundTag materials = new CompoundTag();
 		Iterator<Map.Entry<String, Integer>> materialsIt = materialMap.entrySet().iterator();
 		while (materialsIt.hasNext()) {
 			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
@@ -228,23 +228,23 @@ public class SCSyncCapabilityPacket {
 			if (materials.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
 				materials.remove(pair.getKey().toString());
 		}
-		buffer.writeCompoundTag(materials);
+		buffer.writeNbt(materials);
 		
 		buffer.writeInt(messages.size());
 		buffer.writeInt(dfMessages.size());
 
 		for (int i = 0; i < this.messages.size(); i++) {
-			buffer.writeString(this.messages.get(i));
+			buffer.writeUtf(this.messages.get(i));
 		}
 		
 		for (int i = 0; i < this.dfMessages.size(); i++) {
-			buffer.writeString(this.dfMessages.get(i));
+			buffer.writeUtf(this.dfMessages.get(i));
 		}
 		
 		buffer.writeInt(this.driveForm.length());
-		buffer.writeString(this.driveForm);
+		buffer.writeUtf(this.driveForm);
 		
-		buffer.writeResourceLocation(this.returnDim.getLocation());
+		buffer.writeResourceLocation(this.returnDim.location());
 		buffer.writeDouble(this.returnPos.x);
 		buffer.writeDouble(this.returnPos.y);
 		buffer.writeDouble(this.returnPos.z);
@@ -256,29 +256,29 @@ public class SCSyncCapabilityPacket {
 
 		buffer.writeInt(this.hearts);
 		buffer.writeInt(this.alignment.ordinal());
-		buffer.writeItemStack(this.equippedWeapon);
+		buffer.writeItem(this.equippedWeapon);
 		buffer.writeInt(this.unlocks.size());
-		unlocks.forEach(buffer::writeItemStack);
+		unlocks.forEach(buffer::writeItem);
 		buffer.writeInt(this.limitCooldownTicks);
 		buffer.writeInt(this.magicCooldownTicks);
 		
 		buffer.writeInt(reactionList.size());
 		for(int i = 0; i < reactionList.size();i++) {
-			buffer.writeString(reactionList.get(i), 100);
+			buffer.writeUtf(reactionList.get(i), 100);
 		}
 		
-		CompoundNBT shortcuts = new CompoundNBT();
+		CompoundTag shortcuts = new CompoundTag();
          
 		Iterator<Map.Entry<Integer,String>> shortcutsIt = shortcutsMap.entrySet().iterator();
 		while (shortcutsIt.hasNext()) {
 			Map.Entry<Integer,String> pair = (Map.Entry<Integer,String>) shortcutsIt.next();
 			shortcuts.putString(pair.getKey().toString(), pair.getValue());
 		}
-		buffer.writeCompoundTag(shortcuts);
+		buffer.writeNbt(shortcuts);
 		
 	}
 
-	public static SCSyncCapabilityPacket decode(PacketBuffer buffer) {
+	public static SCSyncCapabilityPacket decode(FriendlyByteBuf buffer) {
 		SCSyncCapabilityPacket msg = new SCSyncCapabilityPacket();
 
 		msg.level = buffer.readInt();
@@ -306,59 +306,59 @@ public class SCSyncCapabilityPacket {
 		msg.focus = buffer.readDouble();
 		msg.maxFocus = buffer.readDouble();
 
-		CompoundNBT recipesTag = buffer.readCompoundTag();
-		Iterator<String> recipesIt = recipesTag.keySet().iterator();
+		CompoundTag recipesTag = buffer.readNbt();
+		Iterator<String> recipesIt = recipesTag.getAllKeys().iterator();
 		while (recipesIt.hasNext()) {
 			String key = (String) recipesIt.next();
 			msg.recipeList.add(new ResourceLocation(key));
 		}
 		
-		CompoundNBT magicsTag = buffer.readCompoundTag();
-		Iterator<String> magicsIt = magicsTag.keySet().iterator();
+		CompoundTag magicsTag = buffer.readNbt();
+		Iterator<String> magicsIt = magicsTag.getAllKeys().iterator();
 		while (magicsIt.hasNext()) {
 			String magicName = (String) magicsIt.next();
 			msg.magicsMap.put(magicName, magicsTag.getIntArray(magicName));
 		}
 		
-		CompoundNBT shotlocksTag = buffer.readCompoundTag();
-		Iterator<String> shotlocksIt = shotlocksTag.keySet().iterator();
+		CompoundTag shotlocksTag = buffer.readNbt();
+		Iterator<String> shotlocksIt = shotlocksTag.getAllKeys().iterator();
 		while (shotlocksIt.hasNext()) {
 			String key = (String) shotlocksIt.next();
 			msg.shotlockList.add(key);
 		}
 		
-		msg.equippedShotlock = buffer.readString(100);
+		msg.equippedShotlock = buffer.readUtf(100);
 		
-		CompoundNBT driveFormsTag = buffer.readCompoundTag();
-		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
+		CompoundTag driveFormsTag = buffer.readNbt();
+		Iterator<String> driveFormsIt = driveFormsTag.getAllKeys().iterator();
 		while (driveFormsIt.hasNext()) {
 			String driveFormName = (String) driveFormsIt.next();
 			msg.driveFormMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
 		}
 		
-		CompoundNBT abilitiesTag = buffer.readCompoundTag();
-		Iterator<String> abilitiesIt = abilitiesTag.keySet().iterator();
+		CompoundTag abilitiesTag = buffer.readNbt();
+		Iterator<String> abilitiesIt = abilitiesTag.getAllKeys().iterator();
 		while (abilitiesIt.hasNext()) {
 			String abilityName = (String) abilitiesIt.next();
 			msg.abilityMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
 		}
 
-		CompoundNBT keychainsNBT = buffer.readCompoundTag();
-		keychainsNBT.keySet().forEach(key -> msg.keychains.put(new ResourceLocation(key), ItemStack.read((CompoundNBT) keychainsNBT.get(key))));
+		CompoundTag keychainsNBT = buffer.readNbt();
+		keychainsNBT.getAllKeys().forEach(key -> msg.keychains.put(new ResourceLocation(key), ItemStack.of((CompoundTag) keychainsNBT.get(key))));
 		
-		CompoundNBT itemsNBT = buffer.readCompoundTag();
-		itemsNBT.keySet().forEach(key -> msg.items.put(Integer.parseInt(key), ItemStack.read((CompoundNBT) itemsNBT.get(key))));
+		CompoundTag itemsNBT = buffer.readNbt();
+		itemsNBT.getAllKeys().forEach(key -> msg.items.put(Integer.parseInt(key), ItemStack.of((CompoundTag) itemsNBT.get(key))));
 		
 		int amount = buffer.readInt();
 		msg.partyList = new ArrayList<String>();
 
 		for(int i=0;i<amount;i++) {
 			int length = buffer.readInt();
-			msg.partyList.add(buffer.readString(length));
+			msg.partyList.add(buffer.readUtf(length));
 		}
 		
-		CompoundNBT materialsTag = buffer.readCompoundTag();
-		Iterator<String> materialsIt = materialsTag.keySet().iterator();
+		CompoundTag materialsTag = buffer.readNbt();
+		Iterator<String> materialsIt = materialsTag.getAllKeys().iterator();
 		while (materialsIt.hasNext()) {
 			String matName = (String) materialsIt.next();
 			msg.materialMap.put(matName, materialsTag.getInt(matName));
@@ -369,19 +369,19 @@ public class SCSyncCapabilityPacket {
 		
 		msg.messages = new ArrayList<String>();
 		for(int i = 0;i<msgSize;i++) {
-			msg.messages.add(buffer.readString(100));
+			msg.messages.add(buffer.readUtf(100));
 		}
 		
 		msg.dfMessages = new ArrayList<String>();
 		for(int i = 0;i<dfMsgSize;i++) {
-			msg.dfMessages.add(buffer.readString(100));
+			msg.dfMessages.add(buffer.readUtf(100));
 		}
 		
 		int length = buffer.readInt();
-		msg.driveForm = buffer.readString(length);
+		msg.driveForm = buffer.readUtf(length);
 		
-		msg.returnDim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation());
-		msg.returnPos = new Vector3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
+		msg.returnDim = ResourceKey.create(Registry.DIMENSION_REGISTRY, buffer.readResourceLocation());
+		msg.returnPos = new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
 		msg.soAstate = SoAState.fromByte(buffer.readByte());
 		msg.choice = SoAState.fromByte(buffer.readByte());
 		msg.sacrifice = SoAState.fromByte(buffer.readByte());
@@ -390,22 +390,22 @@ public class SCSyncCapabilityPacket {
 
 		msg.hearts = buffer.readInt();
 		msg.alignment = Utils.OrgMember.values()[buffer.readInt()];
-		msg.equippedWeapon = buffer.readItemStack();
+		msg.equippedWeapon = buffer.readItem();
 		msg.unlocks = new HashSet<>();
 		int unlockSize = buffer.readInt();
 		for (int i = 0; i < unlockSize; ++i) {
-			msg.unlocks.add(buffer.readItemStack());
+			msg.unlocks.add(buffer.readItem());
 		}
 		msg.limitCooldownTicks = buffer.readInt();
 		msg.magicCooldownTicks = buffer.readInt();
 		
 		int rSize = buffer.readInt();
 		for(int i = 0; i < rSize;i++) {
-			msg.reactionList.add(buffer.readString(100));
+			msg.reactionList.add(buffer.readUtf(100));
 		}
 		
-		CompoundNBT shortcutsTag = buffer.readCompoundTag();
-		Iterator<String> shortcutsIt = shortcutsTag.keySet().iterator();
+		CompoundTag shortcutsTag = buffer.readNbt();
+		Iterator<String> shortcutsIt = shortcutsTag.getAllKeys().iterator();
 		while (shortcutsIt.hasNext()) {
             int shortcutPos = Integer.parseInt(shortcutsIt.next());
             msg.shortcutsMap.put(shortcutPos, shortcutsTag.getString(shortcutPos+""));

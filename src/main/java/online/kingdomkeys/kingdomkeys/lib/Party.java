@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.Constants;
 
 public class Party {
@@ -66,7 +66,7 @@ public class Party {
 	}
 
 	public Member addMember(LivingEntity entity) {
-		return this.addMember(entity.getUniqueID(), entity.getDisplayName().getString());
+		return this.addMember(entity.getUUID(), entity.getDisplayName().getString());
 	}
 
 	public Member addMember(UUID uuid, String username) {
@@ -110,17 +110,17 @@ public class Party {
 		return -1;
 	}
 
-	public CompoundNBT write() {
-		CompoundNBT partyNBT = new CompoundNBT();
+	public CompoundTag write() {
+		CompoundTag partyNBT = new CompoundTag();
 		partyNBT.putString("name", this.getName());
 		partyNBT.putBoolean("private", this.priv);
 		partyNBT.putByte("size", this.size);
 		partyNBT.putBoolean("ff", this.friendlyFire);
 
-		ListNBT members = new ListNBT();
+		ListTag members = new ListTag();
 		for (Party.Member member : this.getMembers()) {
-			CompoundNBT memberNBT = new CompoundNBT();
-			memberNBT.putUniqueId("id", member.getUUID());
+			CompoundTag memberNBT = new CompoundTag();
+			memberNBT.putUUID("id", member.getUUID());
 			memberNBT.putString("username", member.getUsername());
 			memberNBT.putBoolean("isLeader", member.isLeader());
 			members.add(memberNBT);
@@ -130,16 +130,16 @@ public class Party {
 		return partyNBT;
 	}
 
-	public void read(CompoundNBT nbt) {
+	public void read(CompoundTag nbt) {
 		this.setName(nbt.getString("name"));
 		this.setPriv(nbt.getBoolean("private"));
 		this.setSize(nbt.getByte("size"));
 		this.setFriendlyFire(nbt.getBoolean("ff"));
 
-		ListNBT members = nbt.getList("members", Constants.NBT.TAG_COMPOUND);
+		ListTag members = nbt.getList("members", Constants.NBT.TAG_COMPOUND);
 		for (int j = 0; j < members.size(); j++) {
-			CompoundNBT memberNBT = members.getCompound(j);
-			Party.Member member = this.addMember(memberNBT.getUniqueId("id"), memberNBT.getString("username"));
+			CompoundTag memberNBT = members.getCompound(j);
+			Party.Member member = this.addMember(memberNBT.getUUID("id"), memberNBT.getString("username"));
 			if (memberNBT.getBoolean("isLeader"))
 				member.setIsLeader();
 		}
@@ -152,7 +152,7 @@ public class Party {
 		private boolean isLeader;
 
 		public Member(LivingEntity entity) {
-			this(entity.getUniqueID(), entity.getDisplayName().getString());
+			this(entity.getUUID(), entity.getDisplayName().getString());
 		}
 
 		public Member(UUID uuid, String username) {

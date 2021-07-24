@@ -1,48 +1,48 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.container.MagicalChestContainer;
 
-public class MagicalChestScreen extends ContainerScreen<MagicalChestContainer> {
+public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestContainer> {
 
 	private static final String texture = KingdomKeys.MODID+":textures/gui/magical_chest.png";
 
-    public MagicalChestScreen(MagicalChestContainer container, PlayerInventory inventory, ITextComponent title) {
+    public MagicalChestScreen(MagicalChestContainer container, Inventory inventory, Component title) {
         super(container, inventory, title);
-        this.ySize = 186;
+        this.imageHeight = 186;
 
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
-        this.renderHoveredTooltip(matrixStack, p_render_1_, p_render_2_);
+        this.renderTooltip(matrixStack, p_render_1_, p_render_2_);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-    	this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
-        this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F, (float)(this.ySize - 93), 4210752);
+    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
+    	this.font.draw(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
+        this.font.draw(matrixStack, this.inventory.getDisplayName().getString(), 8.0F, (float)(this.imageHeight - 93), 4210752);
         //super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
 		Minecraft mc = Minecraft.getInstance();
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindTexture(new ResourceLocation(texture));
+		mc.getTextureManager().bindForSetup(new ResourceLocation(texture));
 
-        int xPos = (width - xSize) / 2;
-		int yPos = (height / 2) - (ySize / 2);
-		blit(matrixStack, xPos, yPos, 0, 0, xSize, ySize);
+        int xPos = (width - imageWidth) / 2;
+		int yPos = (height / 2) - (imageHeight / 2);
+		blit(matrixStack, xPos, yPos, 0, 0, imageWidth, imageHeight);
 	}
 }

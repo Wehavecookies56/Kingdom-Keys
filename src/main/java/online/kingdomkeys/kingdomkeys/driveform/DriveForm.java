@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.driveform;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -123,7 +123,7 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		return maxLevel;
 	}
 
-	public void initDrive(PlayerEntity player) {
+	public void initDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setActiveDriveForm(getName());
@@ -134,28 +134,28 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
 			
 			// Summon Keyblades
-			player.world.playSound(player, player.getPosition(), ModSounds.drive.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			player.level.playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
 
-	private void pushEntities(PlayerEntity player) {
-		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(4.0D, 3.0D, 4.0D));
+	private void pushEntities(Player player) {
+		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);
 				if (e instanceof LivingEntity) {
-					double d = e.getPosX() - player.getPosX();
-					double d1 = e.getPosZ() - player.getPosZ();
-					((LivingEntity) e).applyKnockback(1, -d, -d1);
-					e.setMotion(e.getMotion().x, 0.7F, e.getMotion().z);
+					double d = e.getX() - player.getX();
+					double d1 = e.getZ() - player.getZ();
+					((LivingEntity) e).knockback(1, -d, -d1);
+					e.setDeltaMovement(e.getDeltaMovement().x, 0.7F, e.getDeltaMovement().z);
 				}
 			}
 		}
 	}
 
-	public void updateDrive(PlayerEntity player) {
+	public void updateDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
 			double formDecrease = 0.2;
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -171,11 +171,11 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		}
 	}
 
-	public void endDrive(PlayerEntity player) {
+	public void endDrive(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
-		player.world.playSound(player, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-		if(!player.world.isRemote) {
+		player.level.playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		if(!player.level.isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}

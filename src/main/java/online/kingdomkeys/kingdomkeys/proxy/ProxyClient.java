@@ -4,25 +4,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.DimensionSpecialEffects;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.world.DimensionRenderInfo;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
@@ -50,7 +50,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationO
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
 
-	public static final Map<Item, BipedModel> armorModels = new HashMap<Item, BipedModel>();
+	public static final Map<Item, HumanoidModel> armorModels = new HashMap<Item, HumanoidModel>();
 
     @Override
     public void setup(FMLCommonSetupEvent event) {
@@ -82,23 +82,23 @@ public class ProxyClient implements IProxy {
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
-		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
-		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
+		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
+		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
 
-        PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
+        PlayerRenderer renderPlayer = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().get("default");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
-		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
+		renderPlayer = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().get("slim");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
         ModContainers.registerGUIFactories();
 
         event.enqueueWork(() -> {
-			RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
-			RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.translucent());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.soADoor.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.pedestal.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.translucent());
         });
         
         ArmorModel top = new ArmorModel(0.5F);
@@ -240,13 +240,13 @@ public class ProxyClient implements IProxy {
 	}
 
 	@Override
-	public PlayerEntity getClientPlayer() {
+	public Player getClientPlayer() {
 		return Minecraft.getInstance().player;
 	}
 
 	@Override
-	public World getClientWorld() {
-		return Minecraft.getInstance().world;
+	public Level getClientWorld() {
+		return Minecraft.getInstance().level;
 	}
 
 	@Override

@@ -2,13 +2,13 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -28,32 +28,32 @@ public class CSTakeMaterials {
 		this.stack = new ItemStack(item,amount);
 	}
 	
-	public void encode(PacketBuffer buffer) {
-		buffer.writeItemStack(stack);
+	public void encode(FriendlyByteBuf buffer) {
+		buffer.writeItem(stack);
 	}
 
-	public static CSTakeMaterials decode(PacketBuffer buffer) {
+	public static CSTakeMaterials decode(FriendlyByteBuf buffer) {
 		CSTakeMaterials msg = new CSTakeMaterials();
-		msg.stack = buffer.readItemStack();
+		msg.stack = buffer.readItem();
 		return msg;
 	}
 
 	public static void handle(CSTakeMaterials message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(!ItemStack.areItemsEqual(message.stack, ItemStack.EMPTY)) {
+			if(!ItemStack.isSame(message.stack, ItemStack.EMPTY)) {
 				Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+message.stack.getItem().getRegistryName().getPath()));
 				
 				if(playerData.getMaterialAmount(mat)<message.stack.getCount()) {
 					
 				} else {
 					playerData.removeMaterial(mat, message.stack.getCount());
-					player.inventory.addItemStackToInventory(message.stack);
+					player.inventory.add(message.stack);
 				}
 			}
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-            PacketHandler.sendTo(new SCOpenMaterialsScreen(), (ServerPlayerEntity) player);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+            PacketHandler.sendTo(new SCOpenMaterialsScreen(), (ServerPlayer) player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

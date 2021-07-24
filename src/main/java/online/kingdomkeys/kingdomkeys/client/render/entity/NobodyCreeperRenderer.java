@@ -1,20 +1,20 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.NobodyCreeperModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -25,7 +25,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
     private ResourceLocation texture, swordTexture, spearTexture;
     public static final NobodyCreeperRenderer.Factory FACTORY = new NobodyCreeperRenderer.Factory();
 
-    public NobodyCreeperRenderer(EntityRendererManager renderManagerIn) {
+    public NobodyCreeperRenderer(EntityRenderDispatcher renderManagerIn) {
         super(renderManagerIn, new NobodyCreeperModel<>(), 0.35F);
         this.texture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper.png");
         this.swordTexture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper_sword.png");
@@ -33,7 +33,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
     }
 
     @Override
-    public ResourceLocation getEntityTexture(NobodyCreeperEntity entity) {
+    public ResourceLocation getTextureLocation(NobodyCreeperEntity entity) {
         if(EntityHelper.getState(entity) == 0 || EntityHelper.getState(entity) == 3)
             return this.texture;
         else if(EntityHelper.getState(entity) == 1)
@@ -44,21 +44,21 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
     }
 
     @Override
-    public void render(NobodyCreeperEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        matrixStackIn.push();
-        this.entityModel.swingProgress = this.getSwingProgress(entityIn, partialTicks);
+    public void render(NobodyCreeperEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+        matrixStackIn.pushPose();
+        this.model.attackTime = this.getAttackAnim(entityIn, partialTicks);
 
-        boolean shouldSit = entityIn.isPassenger() && (entityIn.getRidingEntity() != null && entityIn.getRidingEntity().shouldRiderSit());
-        this.entityModel.isSitting = shouldSit;
-        this.entityModel.isChild = entityIn.isChild();
-        float f = MathHelper.interpolateAngle(partialTicks, entityIn.prevRenderYawOffset, entityIn.renderYawOffset);
-        float f1 = MathHelper.interpolateAngle(partialTicks, entityIn.prevRotationYawHead, entityIn.rotationYawHead);
+        boolean shouldSit = entityIn.isPassenger() && (entityIn.getVehicle() != null && entityIn.getVehicle().shouldRiderSit());
+        this.model.riding = shouldSit;
+        this.model.young = entityIn.isBaby();
+        float f = Mth.rotLerp(partialTicks, entityIn.yBodyRotO, entityIn.yBodyRot);
+        float f1 = Mth.rotLerp(partialTicks, entityIn.yHeadRotO, entityIn.yHeadRot);
         float f2 = f1 - f;
-        if (shouldSit && entityIn.getRidingEntity() instanceof LivingEntity) {
-            LivingEntity livingentity = (LivingEntity)entityIn.getRidingEntity();
-            f = MathHelper.interpolateAngle(partialTicks, livingentity.prevRenderYawOffset, livingentity.renderYawOffset);
+        if (shouldSit && entityIn.getVehicle() instanceof LivingEntity) {
+            LivingEntity livingentity = (LivingEntity)entityIn.getVehicle();
+            f = Mth.rotLerp(partialTicks, livingentity.yBodyRotO, livingentity.yBodyRot);
             f2 = f1 - f;
-            float f3 = MathHelper.wrapDegrees(f2);
+            float f3 = Mth.wrapDegrees(f2);
             if (f3 < -85.0F) {
                 f3 = -85.0F;
             }
@@ -75,26 +75,26 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
             f2 = f1 - f;
         }
 
-        float f6 = MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch);
+        float f6 = Mth.lerp(partialTicks, entityIn.getXRot()O, entityIn.getXRot());
         if (entityIn.getPose() == Pose.SLEEPING) {
-            Direction direction = entityIn.getBedDirection();
+            Direction direction = entityIn.getBedOrientation();
             if (direction != null) {
                 float f4 = entityIn.getEyeHeight(Pose.STANDING) - 0.1F;
-                matrixStackIn.translate((double)((float)(-direction.getXOffset()) * f4), 0.0D, (double)((float)(-direction.getZOffset()) * f4));
+                matrixStackIn.translate((double)((float)(-direction.getStepX()) * f4), 0.0D, (double)((float)(-direction.getStepZ()) * f4));
             }
         }
 
-        float f7 = this.handleRotationFloat(entityIn, partialTicks);
-        this.applyRotations(entityIn, matrixStackIn, f7, f, partialTicks);
+        float f7 = this.getBob(entityIn, partialTicks);
+        this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks);
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
-        this.preRenderCallback(entityIn, matrixStackIn, partialTicks);
+        this.scale(entityIn, matrixStackIn, partialTicks);
         matrixStackIn.translate(0.0D, (double)-1.501F, 0.0D);
         float f8 = 0.0F;
         float f5 = 0.0F;
         if (!shouldSit && entityIn.isAlive()) {
-            f8 = MathHelper.lerp(partialTicks, entityIn.prevLimbSwingAmount, entityIn.limbSwingAmount);
-            f5 = entityIn.limbSwing - entityIn.limbSwingAmount * (1.0F - partialTicks);
-            if (entityIn.isChild()) {
+            f8 = Mth.lerp(partialTicks, entityIn.animationSpeedOld, entityIn.animationSpeed);
+            f5 = entityIn.animationPosition - entityIn.animationSpeed * (1.0F - partialTicks);
+            if (entityIn.isBaby()) {
                 f5 *= 3.0F;
             }
 
@@ -103,40 +103,40 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
             }
         }
 
-        this.entityModel.setLivingAnimations(entityIn, f5, f8, partialTicks);
-        this.entityModel.setRotationAngles(entityIn, f5, f8, f7, f2, f6);
-        boolean flag = this.isVisible(entityIn);
-        boolean flag1 = !flag && !entityIn.isInvisibleToPlayer(Minecraft.getInstance().player);
-        boolean flag2 = Minecraft.getInstance().isEntityGlowing(entityIn);
-        RenderType rendertype = this.func_230496_a_(entityIn, flag, flag1, flag2);
+        this.model.prepareMobModel(entityIn, f5, f8, partialTicks);
+        this.model.setupAnim(entityIn, f5, f8, f7, f2, f6);
+        boolean flag = this.isBodyVisible(entityIn);
+        boolean flag1 = !flag && !entityIn.isInvisibleTo(Minecraft.getInstance().player);
+        boolean flag2 = Minecraft.getInstance().shouldEntityAppearGlowing(entityIn);
+        RenderType rendertype = this.getRenderType(entityIn, flag, flag1, flag2);
         if (rendertype != null) {
-            IVertexBuilder ivertexbuilder = bufferIn.getBuffer(rendertype);
-            int i = getPackedOverlay(entityIn, this.getOverlayProgress(entityIn, partialTicks));
+            VertexConsumer ivertexbuilder = bufferIn.getBuffer(rendertype);
+            int i = getOverlayCoords(entityIn, this.getWhiteOverlayProgress(entityIn, partialTicks));
             //this.entityModel.render(matrixStackIn, ivertexbuilder, packedLightIn, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
             if(EntityHelper.getState(entityIn) == 0 || EntityHelper.getState(entityIn) == 3)
             {
-                entityModel.RightArmDetail.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
-                entityModel.BodyLower.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
-                entityModel.LeftArmDetail.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
+                model.RightArmDetail.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
+                model.BodyLower.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
+                model.LeftArmDetail.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
             }
             else if(EntityHelper.getState(entityIn) == 1)
-                entityModel.Sword_Handle1.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
+                model.Sword_Handle1.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
             else if(EntityHelper.getState(entityIn) == 2)
-                entityModel.Spear_Handle.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
+                model.Spear_Handle.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
         }
 
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
     }
 
     @Override
-    protected void preRenderCallback(NobodyCreeperEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+    protected void scale(NobodyCreeperEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
         matrixStackIn.scale(1F, 1F, 1F);
-        super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+        super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
     
     public static class Factory implements IRenderFactory<NobodyCreeperEntity> {
         @Override
-        public EntityRenderer<? super NobodyCreeperEntity> createRenderFor(EntityRendererManager entityRendererManager) {
+        public EntityRenderer<? super NobodyCreeperEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
             return new NobodyCreeperRenderer(entityRendererManager);
         }
     }

@@ -2,14 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -40,7 +40,7 @@ public class DriveGui extends Screen {
 	float decimalColor = 0F;
 
 	public DriveGui() {
-		super(new TranslationTextComponent(""));
+		super(new TranslatableComponent(""));
 		minecraft = Minecraft.getInstance();
 	}
 
@@ -71,7 +71,7 @@ public class DriveGui extends Screen {
 		 */
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		if (playerData != null) {
-			MatrixStack matrixStack = event.getMatrixStack();
+			PoseStack matrixStack = event.getMatrixStack();
 			double dp = playerData.getDP();
 			double fp = playerData.getFP();
 
@@ -99,14 +99,14 @@ public class DriveGui extends Screen {
 				int guiWidth = 95;
 				int guiBarWidth = 83;
 				int guiHeight = 18;
-				int screenWidth = minecraft.getMainWindow().getScaledWidth();
-				int screenHeight = minecraft.getMainWindow().getScaledHeight();
-				PlayerEntity player = minecraft.player;
+				int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+				int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+				Player player = minecraft.player;
 
-				minecraft.textureManager.bindTexture(texture);
+				minecraft.textureManager.bindForSetup(texture);
 
 				float scale = 0.65f;
-				switch (minecraft.gameSettings.guiScale) {
+				switch (minecraft.options.guiScale) {
 					case Constants.SCALE_AUTO:
 						scale = 0.85f;
 						break;
@@ -120,13 +120,13 @@ public class DriveGui extends Screen {
 				float posX = 52 * scale;
 				float posY = 20 * scale + 2;
 
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
 					matrixStack.translate(-20.3F + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
 
 					// Background
-					matrixStack.push();
+					matrixStack.pushPose();
 					{
 						matrixStack.translate((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
 						matrixStack.scale(scale, scale, scale);
@@ -141,9 +141,9 @@ public class DriveGui extends Screen {
 							this.blit(matrixStack, 15, 6, 0, 68, guiWidth, guiHeight);
 						}
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 
-					matrixStack.push();
+					matrixStack.pushPose();
 					{
 						// Yellow meter
 						matrixStack.translate((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
@@ -158,10 +158,10 @@ public class DriveGui extends Screen {
 							this.blit(matrixStack, 14, 6, 0, 86, (int) currDrive, guiHeight);
 						}
 						
-						matrixStack.pop();
+						matrixStack.popPose();
 
 						// Level Number
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
 							matrixStack.scale(scale, scale, scale);
@@ -182,11 +182,11 @@ public class DriveGui extends Screen {
 							blit(matrixStack, 10, 0, 0, 29, 3, 3);
 */
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 
 						// MAX Icon
 						if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							matrixStack.push();
+							matrixStack.pushPose();
 							{
 								if (doChange) {
 									decimalColor += CONS;
@@ -208,10 +208,10 @@ public class DriveGui extends Screen {
 								blit(matrixStack, 0, -3, 0, 57, 30, guiHeight);
 								RenderSystem.color3f(1, 1, 1);
 							}
-							matrixStack.pop();
+							matrixStack.popPose();
 						}
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 					RenderSystem.disableBlend();
 				}
 			}

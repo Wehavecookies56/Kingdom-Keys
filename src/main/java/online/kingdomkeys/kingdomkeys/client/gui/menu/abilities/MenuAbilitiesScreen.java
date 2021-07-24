@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
@@ -63,11 +63,11 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		switch (string) {
 		case "prev":
 			page--;
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		case "next":
 			page++;
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		case "back":
 			GuiHelper.openMenu();
@@ -155,7 +155,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 			
 			//Main keyblade
-			if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
+			if(!ItemStack.matches(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
 				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
 				for(String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
@@ -169,7 +169,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			
 			//Synch blade Keyblade
 			if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())){
-				if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
+				if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0 && !ItemStack.matches(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
 					List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE)));
 					for (String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
@@ -183,7 +183,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 			} else { // Form keyblade abilities
 				if (ModDriveForms.registry.containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm())).hasKeychain()) {
-					if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
+					if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && !ItemStack.matches(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
 						ItemStack itemStack = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
 						List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
 						for (String a : abilitiesList) {
@@ -258,7 +258,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 			
 			//Main keyblade
-			if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
+			if(!ItemStack.matches(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
 				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
 				for(String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
@@ -273,7 +273,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if (ModDriveForms.registry.containsKey(new ResourceLocation(form)) && ModDriveForms.registry.getValue(new ResourceLocation(form)).hasKeychain()) {
 				if (playerData.getDriveFormMap().containsKey(form) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(form))) {
 					ItemStack itemStack = playerData.getEquippedKeychain(new ResourceLocation(form));
-					if(!ItemStack.areItemStacksEqual(itemStack, ItemStack.EMPTY)){
+					if(!ItemStack.matches(itemStack, ItemStack.EMPTY)){
 						List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
 						for (String a : abilitiesList) {
 							Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
@@ -292,7 +292,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		abilities.forEach(this::addButton);
 		itemsPerPage = (int) (middleHeight / 19);
 		
-		addButton(playerButton = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, minecraft.player.getDisplayName().getString(), MenuButton.ButtonType.BUTTON, b -> {action(DriveForm.NONE.toString());}));
+		addWidget(playerButton = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, minecraft.player.getDisplayName().getString(), MenuButton.ButtonType.BUTTON, b -> {action(DriveForm.NONE.toString());}));
 		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
 		forms.remove(DriveForm.NONE.toString());
 		forms.remove(DriveForm.SYNCH_BLADE.toString());
@@ -306,15 +306,15 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			});
 			b.setData(formName);
 			driveSelector.add(b);
-			addButton(b);
+			addWidget(b);
 		}
 
-        addButton(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
+        addWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
 
-		addButton(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("<--")), (e) -> {
+		addWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addButton(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslationTextComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		addWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
 		
@@ -325,7 +325,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		drawAP(matrixStack);
@@ -334,12 +334,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		next.visible = page < abilities.size() / itemsPerPage;
 
 		//Page renderer
-		matrixStack.push();
+		matrixStack.pushPose();
 		{
 			matrixStack.translate(prev.x+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
-			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 
 		for (int i = 0; i < abilities.size(); i++) {
 			abilities.get(i).visible = false;
@@ -367,10 +367,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.22F;
 		float tooltipPosY = height * 0.77F;
-		Utils.drawSplitString(font, new TranslationTextComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
+		Utils.drawSplitString(font, new TranslatableComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
-	private void drawAP(MatrixStack matrixStack) {
+	private void drawAP(PoseStack matrixStack) {
 		int consumedAP = Utils.getConsumedAP(playerData);
 		int maxAP = playerData.getMaxAP(true);
 		hoveredAbility = null;
@@ -399,7 +399,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					button.active = true;
 				}
 
-				button.setMessage(new TranslationTextComponent(text));
+				button.setMessage(new TranslatableComponent(text));
 				button.setAP(ability.getAPCost());
 				if (button.isHovered()) {
 					hoveredAbility = ability;
@@ -409,53 +409,53 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 		}
 
-		int screenWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
-		int screenHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
+		int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+		int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
 		int barWidth = (int)(width * 0.2F);
 		int posX = screenWidth - barWidth;
 		int posY = screenHeight - 100;
 		float scale = 1F;
 		
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
 		// Global
-		matrixStack.push();
+		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX - 2) * scale - 20, posY * scale - 10, 0);
 
 			// Left
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				RenderSystem.color3f(1, 1, 1);
 				blit(matrixStack, 0, 0, 143, 67, 7, 25);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// Middle
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				RenderSystem.color3f(1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
 					blit(matrixStack, 7 + j, 0, 151, 67, 1, 25);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 			// Right
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				RenderSystem.color3f(1, 1, 1);
 				blit(matrixStack, 7 + barWidth, 0, 153, 67, 7, 25);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// Bar Background
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				RenderSystem.color3f(1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
 					blit(matrixStack, j + 7, 17, 161, 67, 1, 25);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
@@ -464,36 +464,36 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					requiredAP *= -1;
 	
 					// Bar going to decrease (dark yellow section when hovering equipped ability)
-					matrixStack.push();
+					matrixStack.pushPose();
 					{
 						int percent = (consumedAP) * barWidth / maxAP;
-						matrixStack.push();
+						matrixStack.pushPose();
 						// RenderSystem.color(1, 1, 1,);
 						for (int j = 0; j < percent; j++)
 							blit(matrixStack, j + 7, 17, 165, 67, 1, 5);
-						matrixStack.pop();
+						matrixStack.popPose();
 	
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 				} else {
 					if(consumedAP + requiredAP <= playerData.getMaxAP(true)) {
 						// Bar going to increase (blue section when hovering unequipped ability)
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-							matrixStack.push();
+							matrixStack.pushPose();
 							for (int j = 0; j < percent; j++)
 								blit(matrixStack, j + 7, 17, 167, 67, 1, 5);
-							matrixStack.pop();
+							matrixStack.popPose();
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					}
 				}
 			}
 			RenderSystem.color4f(1, 1, 1, 1F);
 
 			// Foreground
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				int percent = (consumedAP) * barWidth / maxAP;
 				if (requiredAP < 0)
@@ -502,18 +502,18 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				for (int j = 0; j < percent; j++)
 					blit(matrixStack, j + 7, 17, 163, 67, 1, 5);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// AP Text
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.scale(scale * 1.3F, scale * 1.1F, 0);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 			
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 	@Override

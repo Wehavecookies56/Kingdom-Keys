@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -26,18 +26,18 @@ public class CSPartySettings {
 		this.friendlyFire = party.getFriendlyFire();
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.name.length());
-		buffer.writeString(this.name);
+		buffer.writeUtf(this.name);
 		buffer.writeBoolean(this.priv);
 		buffer.writeByte(this.size);
 		buffer.writeBoolean(this.friendlyFire);
 	}
 
-	public static CSPartySettings decode(PacketBuffer buffer) {
+	public static CSPartySettings decode(FriendlyByteBuf buffer) {
 		CSPartySettings msg = new CSPartySettings();
 		int length = buffer.readInt();
-		msg.name = buffer.readString(length);		
+		msg.name = buffer.readUtf(length);		
 		msg.priv = buffer.readBoolean();
 		msg.size = buffer.readByte();
 		msg.friendlyFire = buffer.readBoolean();
@@ -46,14 +46,14 @@ public class CSPartySettings {
 
 	public static void handle(CSPartySettings message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+			Player player = ctx.get().getSender();
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 			Party p = worldData.getPartyFromName(message.name);
 			p.setPriv(message.priv);
 			p.setSize(message.size);
 			p.setFriendlyFire(message.friendlyFire);
 			
-			Utils.syncWorldData(player.world, worldData);
+			Utils.syncWorldData(player.level, worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -17,18 +17,18 @@ public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowMode
 
 	public static final MegaShadowRenderer.Factory FACTORY = new MegaShadowRenderer.Factory();
 
-	public MegaShadowRenderer(EntityRendererManager renderManagerIn) {
+	public MegaShadowRenderer(EntityRenderDispatcher renderManagerIn) {
 		super(renderManagerIn, new ShadowModel<>(1D), 1F);
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(MegaShadowEntity entity) {
+	public ResourceLocation getTextureLocation(MegaShadowEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
 	}
 
 	@Override
-	public void render(MegaShadowEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		matrixStackIn.push();
+	public void render(MegaShadowEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		matrixStackIn.pushPose();
         {
 	       
 	    	if (EntityHelper.getState(entityIn) == 1) {
@@ -36,18 +36,18 @@ public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowMode
 	        }
 	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     	}
-    	matrixStackIn.pop();
+    	matrixStackIn.popPose();
     }
 
 	@Override
-	protected void preRenderCallback(MegaShadowEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+	protected void scale(MegaShadowEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
 		matrixStackIn.scale(2.5F, 2.5F, 2.5F);
-		super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+		super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
 	}
 
 	public static class Factory implements IRenderFactory<MegaShadowEntity> {
 		@Override
-		public EntityRenderer<? super MegaShadowEntity> createRenderFor(EntityRendererManager entityRendererManager) {
+		public EntityRenderer<? super MegaShadowEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
 			return new MegaShadowRenderer(entityRendererManager);
 		}
 	}

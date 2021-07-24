@@ -1,19 +1,19 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class DetonatorEntity extends BaseBombEntity {
 
-    public DetonatorEntity(EntityType<? extends BaseBombEntity> type, World worldIn) {
+    public DetonatorEntity(EntityType<? extends BaseBombEntity> type, Level worldIn) {
         super(type, worldIn);
     }
 
@@ -23,12 +23,12 @@ public class DetonatorEntity extends BaseBombEntity {
         return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/detonator.png");
     }
 
-    public DetonatorEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public DetonatorEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_DETONATOR.get(), spawnEntity, world);
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return BaseBombEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 60.0D);
+    public static AttributeSupplier.Builder registerAttributes() {
+        return BaseBombEntity.registerAttributes().add(Attributes.MAX_HEALTH, 60.0D);
     }
 
     @Override

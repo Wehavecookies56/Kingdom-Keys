@@ -1,88 +1,88 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class CureEntity extends ThrowableEntity {
+public class CureEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
 
-	public CureEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public CureEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public CureEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public CureEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_FIRE.get(), world);
 	}
 
-	public CureEntity(World world) {
+	public CureEntity(Level world) {
 		super(ModEntities.TYPE_FIRE.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public CureEntity(World world, PlayerEntity player) {
+	public CureEntity(Level world, Player player) {
 		super(ModEntities.TYPE_FIRE.get(), player, world);
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
-			this.remove();
+		if (this.tickCount > maxTicks) {
+			this.remove(false);
 		}
 
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
-		if(ticksExisted > 2)
-			world.addParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		if(tickCount > 2)
+			level.addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0, 0);
 		
 		super.tick();
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
+	protected void onHit(HitResult rtRes) {
+		if (!level.isClientSide) {
 
-			EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
+			EntityHitResult ertResult = null;
+			BlockHitResult brtResult = null;
 
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
+			if (rtRes instanceof EntityHitResult) {
+				ertResult = (EntityHitResult) rtRes;
 			}
 
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
+			if (rtRes instanceof BlockHitResult) {
+				brtResult = (BlockHitResult) rtRes;
 			}
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getShooter()) {
-					target.setFire(10);
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), 10);
-					remove();
+				if (target != getOwner()) {
+					target.setSecondsOnFire(10);
+					target.hurt(DamageSource.thrown(this, this.getOwner()), 10);
+					this.remove(false);
 				}
 			} else { // Block (not ERTR)
 				/*
@@ -97,9 +97,9 @@ public class CureEntity extends ThrowableEntity {
 				 * brtResult.getFace() == Direction.WEST) { this.setMotion(-getMotion().x,
 				 * getMotion().y, getMotion().z); } else if (brtResult.getFace() == Direction.UP
 				 * || brtResult.getFace() == Direction.DOWN) { this.setMotion(getMotion().x,
-				 * -getMotion().y, getMotion().z); } } } else { remove(); }
+				 * -getMotion().y, getMotion().z); } } } else { this.remove(false); }
 				 */
-				remove();
+				this.remove(false);
 			}
 		}
 	}
@@ -113,17 +113,17 @@ public class CureEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		// compound.putInt("lvl", this.getLvl());
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		// this.setLvl(compound.getInt("lvl"));
 	}
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 		// TODO Auto-generated method stub
 
 	}

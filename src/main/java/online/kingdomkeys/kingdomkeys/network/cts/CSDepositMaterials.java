@@ -2,12 +2,12 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -25,25 +25,25 @@ public class CSDepositMaterials {
 	
 	public CSDepositMaterials() {}
 	
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 	}
 
-	public static CSDepositMaterials decode(PacketBuffer buffer) {
+	public static CSDepositMaterials decode(FriendlyByteBuf buffer) {
 		CSDepositMaterials msg = new CSDepositMaterials();
 		return msg;
 	}
 
 	public static void handle(CSDepositMaterials message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				for(int i = 0; i < player.inventory.getSizeInventory();i++) {
-					ItemStack stack = player.inventory.getStackInSlot(i);					
-					if(!ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
+				for(int i = 0; i < player.inventory.getContainerSize();i++) {
+					ItemStack stack = player.inventory.getItem(i);					
+					if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
 						if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 							Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 							playerData.addMaterial(mat, stack.getCount());
-							player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+							player.inventory.setItem(i, ItemStack.EMPTY);
 						}
 						
 						//Bag
@@ -54,18 +54,18 @@ public class CSDepositMaterials {
 						}
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-	            PacketHandler.sendTo(new SCOpenMaterialsScreen(), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+	            PacketHandler.sendTo(new SCOpenMaterialsScreen(), (ServerPlayer) player);
 		});
 		ctx.get().setPacketHandled(true);
 	}
 
-	private static void removeMaterial(IItemHandler bag, PlayerEntity player, int i) {
+	private static void removeMaterial(IItemHandler bag, Player player, int i) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         for (int j = 0; j < bag.getSlots(); j++) { //Check bag slots
             ItemStack bagItem = bag.getStackInSlot(j);
         	Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+bagItem.getItem().getRegistryName().getPath()));
-            if (!ItemStack.areItemStacksEqual(bagItem, ItemStack.EMPTY)) { //If current bag slot is filled
+            if (!ItemStack.matches(bagItem, ItemStack.EMPTY)) { //If current bag slot is filled
             	if(mat != null) {
             		playerData.addMaterial(mat, bag.getStackInSlot(j).getCount());
             		bag.extractItem(j, bag.getStackInSlot(j).getCount(), false);

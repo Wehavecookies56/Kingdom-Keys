@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class CommandMenuHUDElement extends HUDElement {
@@ -140,8 +140,8 @@ public class CommandMenuHUDElement extends HUDElement {
     }
 
     @Override
-    public void drawElement(MatrixStack matrixStack, float partialTicks) {
-        mcInstance.getTextureManager().bindTexture(TEXTURE);
+    public void drawElement(PoseStack matrixStack, float partialTicks) {
+        mcInstance.getTextureManager().bindForSetup(TEXTURE);
         blit(matrixStack, 0, 0, 0, 0, MENU_WIDTH, MENU_HEIGHT);
         drawString(matrixStack, "COMMANDS", 0, 0, Color.WHITE);
         float lerpedPos = previousTickPos + (currentTickPos - previousTickPos) * partialTicks;
@@ -175,7 +175,7 @@ public class CommandMenuHUDElement extends HUDElement {
         Color colour;
 
         public MenuItem(String name, Color colour) {
-            super(new TranslationTextComponent(""));
+            super(new TranslatableComponent(""));
             this.name = name;
             this.colour = colour;
         }

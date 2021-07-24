@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.leveling;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -14,13 +12,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
-import net.minecraft.client.resources.JsonReloadListener;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public class LevelingDataLoader extends JsonReloadListener {
+public class LevelingDataLoader extends SimpleJsonResourceReloadListener {
 
     //GSON builder with custom deserializer for keyblade data
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(LevelingData.class, new LevelingDataDeserializer()).setPrettyPrinting().create();
@@ -39,7 +37,7 @@ public class LevelingDataLoader extends JsonReloadListener {
     //public static List<String> dataList = new LinkedList<>();
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> objectIn, IResourceManager resourceManagerIn, IProfiler profilerIn) {
+    protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
         KingdomKeys.LOGGER.info("Loading levels data");
         loadData(resourceManagerIn);
         /*if (ServerLifecycleHooks.getCurrentServer() != null) {
@@ -49,11 +47,11 @@ public class LevelingDataLoader extends JsonReloadListener {
         }*/
     }
 
-    public void loadData(IResourceManager manager) {
+    public void loadData(ResourceManager manager) {
         String folder = "leveling";
         String extension = ".json";
 
-        for (ResourceLocation file : manager.getAllResourceLocations(folder, n -> n.endsWith(extension))) { //Get all .json files
+        for (ResourceLocation file : manager.listResources(folder, n -> n.endsWith(extension))) { //Get all .json files
             ResourceLocation levelName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
 			Level level = ModLevels.registry.getValue(levelName);
             try {

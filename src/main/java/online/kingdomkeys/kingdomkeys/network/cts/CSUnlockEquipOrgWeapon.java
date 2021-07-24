@@ -2,10 +2,10 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
@@ -31,15 +31,15 @@ public class CSUnlockEquipOrgWeapon {
         this.unlock = false;
     }
 
-    public void encode(PacketBuffer buffer) {
-        buffer.writeItemStack(weapon);
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeItem(weapon);
         buffer.writeInt(cost);
         buffer.writeBoolean(unlock);
     }
 
-    public static CSUnlockEquipOrgWeapon decode(PacketBuffer buffer) {
+    public static CSUnlockEquipOrgWeapon decode(FriendlyByteBuf buffer) {
         CSUnlockEquipOrgWeapon msg = new CSUnlockEquipOrgWeapon();
-        msg.weapon = buffer.readItemStack();
+        msg.weapon = buffer.readItem();
         msg.cost = buffer.readInt();
         msg.unlock = buffer.readBoolean();
         return msg;
@@ -47,7 +47,7 @@ public class CSUnlockEquipOrgWeapon {
 
     public static void handle(CSUnlockEquipOrgWeapon message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PlayerEntity player = ctx.get().getSender();
+            Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             if (message.unlock) {
                 if (playerData.getHearts() >= message.cost) {

@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 
 /**
  * Base class for other blocks for anything that is shared across every block

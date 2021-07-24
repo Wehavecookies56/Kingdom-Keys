@@ -4,19 +4,19 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
@@ -89,18 +89,18 @@ public class SoAPlatformCoreBlock extends BaseBlock {
             "00000111111100000";
 
     //Returns true if every block is present
-    public boolean checkStructure(BlockPos.Mutable corePos, World world, SoAPlatformTileEntity tileEntity) {
-        corePos.setPos(corePos.getX() - (width / 2), corePos.getY(), corePos.getZ() - (depth / 2));
-        BlockPos startPos = corePos.toImmutable();
+    public boolean checkStructure(BlockPos.MutableBlockPos corePos, Level world, SoAPlatformTileEntity tileEntity) {
+        corePos.set(corePos.getX() - (width / 2), corePos.getY(), corePos.getZ() - (depth / 2));
+        BlockPos startPos = corePos.immutable();
 
-        BlockState structureBlock = ModBlocks.mosaic_stained_glass.get().getDefaultState();
-        BlockState coreBlock = getDefaultState();
+        BlockState structureBlock = ModBlocks.mosaic_stained_glass.get().defaultBlockState();
+        BlockState coreBlock = defaultBlockState();
         for (int y = 0; y < height; ++y) {
-            corePos.setPos(corePos.getX(), startPos.getY() - y, corePos.getZ());
+            corePos.set(corePos.getX(), startPos.getY() - y, corePos.getZ());
             for (int z = 0; z < depth; ++z) {
-                corePos.setPos(corePos.getX(), corePos.getY(), startPos.getZ() + z);
+                corePos.set(corePos.getX(), corePos.getY(), startPos.getZ() + z);
                 for (int x = 0; x < width; ++x) {
-                    corePos.setPos(startPos.getX() + x, corePos.getY(), corePos.getZ());
+                    corePos.set(startPos.getX() + x, corePos.getY(), corePos.getZ());
                     //System.out.println("Check pos: " + corePos.getX() + ", " + corePos.getY() + ", " + corePos.getZ());
                     if (corePos.getY() == startPos.getY()) {
                         switch (structureTop.charAt(x + z * width)) {
@@ -113,7 +113,7 @@ public class SoAPlatformCoreBlock extends BaseBlock {
                                     tileEntity.clearPositions();
                                     return false;
                                 } else {
-                                    tileEntity.addPos(corePos.toImmutable());
+                                    tileEntity.addPos(corePos.immutable());
                                 }
                                 break;
                             case '2':
@@ -135,7 +135,7 @@ public class SoAPlatformCoreBlock extends BaseBlock {
                                     tileEntity.clearPositions();
                                     return false;
                                 } else {
-                                    tileEntity.addPos(corePos.toImmutable());
+                                    tileEntity.addPos(corePos.immutable());
                                 }
                                 break;
                         }
@@ -150,7 +150,7 @@ public class SoAPlatformCoreBlock extends BaseBlock {
                                     tileEntity.clearPositions();
                                     return false;
                                 } else {
-                                    tileEntity.addPos(corePos.toImmutable());
+                                    tileEntity.addPos(corePos.immutable());
                                 }
                                 break;
                         }
@@ -163,23 +163,23 @@ public class SoAPlatformCoreBlock extends BaseBlock {
 
     public SoAPlatformCoreBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState().with(STRUCTURE, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(STRUCTURE, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(STRUCTURE);
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return state.get(STRUCTURE) ? BlockRenderType.INVISIBLE : BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState state) {
+        return state.getValue(STRUCTURE) ? RenderShape.INVISIBLE : RenderShape.MODEL;
     }
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+    public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
         return new SoAPlatformTileEntity();
     }
 
@@ -189,43 +189,43 @@ public class SoAPlatformCoreBlock extends BaseBlock {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (worldIn.isRemote) {
-            return ActionResultType.SUCCESS;
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        if (worldIn.isClientSide) {
+            return InteractionResult.SUCCESS;
         } else {
-            final TileEntity te = worldIn.getTileEntity(pos);
+            final BlockEntity te = worldIn.getBlockEntity(pos);
             if (te instanceof SoAPlatformTileEntity) {
                 if (!((SoAPlatformTileEntity) te).isMultiblockFormed()) {
-                    if (player.getHeldItem(handIn).getItem() == ModItems.woodenStick.get()) {
+                    if (player.getItemInHand(handIn).getItem() == ModItems.woodenStick.get()) {
                         tryToFormPlatform((SoAPlatformTileEntity) te, worldIn, pos);
                     }
                 }
             }
         }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 
-    public void setBlockStates(World world, List<BlockPos> positions, boolean form) {
-        BlockState stateToSet = ModBlocks.mosaic_stained_glass.get().getDefaultState().with(MosaicStainedGlassBlock.STRUCTURE, form);
+    public void setBlockStates(Level world, List<BlockPos> positions, boolean form) {
+        BlockState stateToSet = ModBlocks.mosaic_stained_glass.get().defaultBlockState().setValue(MosaicStainedGlassBlock.STRUCTURE, form);
         positions.forEach(pos -> {
-            world.setBlockState(pos, stateToSet);
+            world.setBlockAndUpdate(pos, stateToSet);
         });
     }
 
-    public void tryToFormPlatform(SoAPlatformTileEntity tileEntity, World world, BlockPos pos) {
+    public void tryToFormPlatform(SoAPlatformTileEntity tileEntity, Level world, BlockPos pos) {
         //Check for shape here
-        boolean shapeCorrect = checkStructure(new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ()), world, tileEntity);
+        boolean shapeCorrect = checkStructure(new BlockPos.MutableBlockPos(pos.getX(), pos.getY(), pos.getZ()), world, tileEntity);
         if (shapeCorrect) {
             setBlockStates(world, tileEntity.structureBlockPosCache,true);
             tileEntity.setMultiblockFormed(true);
             BlockState state = world.getBlockState(pos);
-            world.setBlockState(pos, state.with(STRUCTURE, true));
+            world.setBlockAndUpdate(pos, state.setValue(STRUCTURE, true));
         }
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        TileEntity te = worldIn.getTileEntity(pos);
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        BlockEntity te = worldIn.getBlockEntity(pos);
         if (newState.getBlock() != ModBlocks.station_of_awakening_core.get()) {
             if (te != null) {
                 if (te instanceof SoAPlatformTileEntity) {
@@ -233,11 +233,11 @@ public class SoAPlatformCoreBlock extends BaseBlock {
                     if (soAPlatformTileEntity.isMultiblockFormed()) {
                         setBlockStates(worldIn, soAPlatformTileEntity.structureBlockPosCache, false);
                         soAPlatformTileEntity.setMultiblockFormed(false);
-                        worldIn.setBlockState(pos, state.with(STRUCTURE, false));
+                        worldIn.setBlockAndUpdate(pos, state.setValue(STRUCTURE, false));
                     }
                 }
             }
         }
-        super.onReplaced(state, worldIn, pos, newState, isMoving);
+        super.onRemove(state, worldIn, pos, newState, isMoving);
     }
 }

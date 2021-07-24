@@ -2,42 +2,42 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class CSOrgPortalTPPacket {
 
-	RegistryKey<World> dim;
+	ResourceKey<Level> dim;
     double x,y,z;
 
 	public CSOrgPortalTPPacket() {
 	}
 
-	public CSOrgPortalTPPacket(RegistryKey<World> dimension, double x, double y, double z) {
+	public CSOrgPortalTPPacket(ResourceKey<Level> dimension, double x, double y, double z) {
     	this.dim = dimension;
         this.x = x;
         this.y = y;
         this.z = z;
 	}
 
-	public void encode(PacketBuffer buffer) {
-		buffer.writeResourceLocation(dim.getLocation());
+	public void encode(FriendlyByteBuf buffer) {
+		buffer.writeResourceLocation(dim.location());
         buffer.writeDouble(x);
         buffer.writeDouble(y);
         buffer.writeDouble(z);
 	}
 
-	public static CSOrgPortalTPPacket decode(PacketBuffer buffer) {
+	public static CSOrgPortalTPPacket decode(FriendlyByteBuf buffer) {
 		CSOrgPortalTPPacket msg = new CSOrgPortalTPPacket();
 		//No idea if this how you should do this
-		msg.dim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation());
+		msg.dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, buffer.readResourceLocation());
 		msg.x = buffer.readDouble();
 		msg.y = buffer.readDouble();
 		msg.z = buffer.readDouble();
@@ -46,13 +46,13 @@ public class CSOrgPortalTPPacket {
 
 	public static void handle(CSOrgPortalTPPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
-			ServerWorld serverWorld = player.world.getServer().getWorld(message.dim);
+			Player player = ctx.get().getSender();
+			ServerLevel serverWorld = player.level.getServer().getLevel(message.dim);
 			
-            if(player.world.getDimensionKey().equals(message.dim)) { //Seemless tp
-				ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
-				playerMP.setPositionAndUpdate(message.x+0.5, message.y, message.z+0.5);
-				playerMP.setMotion(0, 0, 0);
+            if(player.level.dimension().equals(message.dim)) { //Seemless tp
+				ServerPlayer playerMP = (ServerPlayer) player;
+				playerMP.teleportTo(message.x+0.5, message.y, message.z+0.5);
+				playerMP.setDeltaMovement(0, 0, 0);
 			} else {
 	            player.changeDimension(serverWorld, new BaseTeleporter(message.x,message.y,message.z));
 			}

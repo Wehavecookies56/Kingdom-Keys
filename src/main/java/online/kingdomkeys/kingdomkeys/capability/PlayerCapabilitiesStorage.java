@@ -3,22 +3,22 @@ package online.kingdomkeys.kingdomkeys.capability;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 
 public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCapabilities> {
     @Override
-    public INBT writeNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side) {
-        CompoundNBT storage = new CompoundNBT();
+    public Tag writeNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side) {
+        CompoundTag storage = new CompoundTag();
         storage.putInt("level", instance.getLevel());
         storage.putInt("experience", instance.getExperience());
         storage.putInt("experience_given", instance.getExperienceGiven());
@@ -50,33 +50,33 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.putByte("soa_state", instance.getSoAState().get());
         storage.putByte("soa_choice", instance.getChosen().get());
         storage.putByte("soa_sacrifice", instance.getSacrificed().get());
-        CompoundNBT returnCompound = new CompoundNBT();
-        Vector3d pos = instance.getReturnLocation();
+        CompoundTag returnCompound = new CompoundTag();
+        Vec3 pos = instance.getReturnLocation();
         returnCompound.putDouble("x", pos.x);
         returnCompound.putDouble("y", pos.y);
         returnCompound.putDouble("z", pos.z);
         storage.put("soa_return_pos", returnCompound);
-        storage.putString("soa_return_dim", instance.getReturnDimension().getLocation().toString());
-        CompoundNBT choicePedestalCompound = new CompoundNBT();
+        storage.putString("soa_return_dim", instance.getReturnDimension().location().toString());
+        CompoundTag choicePedestalCompound = new CompoundTag();
         BlockPos choicePos = instance.getChoicePedestal();
         choicePedestalCompound.putInt("x", choicePos.getX());
         choicePedestalCompound.putInt("y", choicePos.getY());
         choicePedestalCompound.putInt("z", choicePos.getZ());
         storage.put("soa_choice_pedestal", choicePedestalCompound);
-        CompoundNBT sacrificePedestalCompound = new CompoundNBT();
+        CompoundTag sacrificePedestalCompound = new CompoundTag();
         BlockPos sacrificePos = instance.getSacrificePedestal();
         sacrificePedestalCompound.putInt("x", sacrificePos.getX());
         sacrificePedestalCompound.putInt("y", sacrificePos.getY());
         sacrificePedestalCompound.putInt("z", sacrificePos.getZ());
         storage.put("soa_sacrifice_pedestal", sacrificePedestalCompound);
 
-        CompoundNBT recipes = new CompoundNBT();
+        CompoundTag recipes = new CompoundTag();
         for (ResourceLocation recipe : instance.getKnownRecipeList()) {
             recipes.putString(recipe.toString(), recipe.toString());
         }
         storage.put("recipes", recipes);
 
-        CompoundNBT magics = new CompoundNBT();
+        CompoundTag magics = new CompoundTag();
         Iterator<Map.Entry<String, int[]>> magicsIt = instance.getMagicsMap().entrySet().iterator();
         while (magicsIt.hasNext()) {
             Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
@@ -84,7 +84,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         }
         storage.put("magics", magics);
         
-        CompoundNBT shotlocks = new CompoundNBT();
+        CompoundTag shotlocks = new CompoundTag();
         for (String shotlock : instance.getShotlockList()) {
             shotlocks.putInt(shotlock, 0);
         }
@@ -92,7 +92,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         
         storage.putString("equipped_shotlock", instance.getEquippedShotlock());
 
-        CompoundNBT forms = new CompoundNBT();
+        CompoundTag forms = new CompoundTag();
         Iterator<Map.Entry<String, int[]>> driveFormsIt = instance.getDriveFormMap().entrySet().iterator();
         while (driveFormsIt.hasNext()) {
             Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
@@ -100,7 +100,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         }
         storage.put("drive_forms", forms);
 
-        CompoundNBT abilities = new CompoundNBT();
+        CompoundTag abilities = new CompoundTag();
         Iterator<Map.Entry<String, int[]>> abilitiesIt = instance.getAbilityMap().entrySet().iterator();
         while (abilitiesIt.hasNext()) {
             Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
@@ -108,11 +108,11 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         }
         storage.put("abilities", abilities);
 
-        CompoundNBT keychains = new CompoundNBT();
+        CompoundTag keychains = new CompoundTag();
         instance.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.serializeNBT()));
         storage.put("keychains", keychains);
         
-        CompoundNBT items = new CompoundNBT();
+        CompoundTag items = new CompoundTag();
         instance.getEquippedItems().forEach((slot, item) -> items.put(slot.toString(), item.serializeNBT()));
         storage.put("items", items);
 
@@ -120,17 +120,17 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.putInt("org_alignment", instance.getAlignmentIndex());
         storage.put("org_equipped_weapon", instance.getEquippedWeapon().serializeNBT());
 
-        CompoundNBT unlockedWeapons = new CompoundNBT();
+        CompoundTag unlockedWeapons = new CompoundTag();
         instance.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(weapon.getItem().getRegistryName().toString(), weapon.serializeNBT()));
         storage.put("org_weapons_unlocked", unlockedWeapons);
 
-        CompoundNBT parties = new CompoundNBT();
+        CompoundTag parties = new CompoundTag();
         for (int i=0;i<instance.getPartiesInvited().size();i++) {
             parties.putInt(instance.getPartiesInvited().get(i),i);
         }
         storage.put("parties", parties);
 
-        CompoundNBT mats = new CompoundNBT();
+        CompoundTag mats = new CompoundTag();
         Iterator<Map.Entry<String, Integer>> materialsIt = instance.getMaterialMap().entrySet().iterator();
         while (materialsIt.hasNext()) {
             Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
@@ -141,7 +141,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         storage.put("materials", mats);
         storage.putInt("limitCooldownTicks", instance.getLimitCooldownTicks());
 
-        CompoundNBT shortcuts = new CompoundNBT();
+        CompoundTag shortcuts = new CompoundTag();
         Iterator<Map.Entry<Integer, String>> shortcutsIt = instance.getShortcutsMap().entrySet().iterator();
         while (shortcutsIt.hasNext()) {
             Map.Entry<Integer, String> pair = (Map.Entry<Integer, String>) shortcutsIt.next();
@@ -153,8 +153,8 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
     }
 
     @Override
-    public void readNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side, INBT nbt) {
-        CompoundNBT storage = (CompoundNBT) nbt;
+    public void readNBT(Capability<IPlayerCapabilities> capability, IPlayerCapabilities instance, Direction side, Tag nbt) {
+        CompoundTag storage = (CompoundTag) nbt;
         instance.setLevel(storage.getInt("level"));
         instance.setExperience(storage.getInt("experience"));
         instance.setExperienceGiven(storage.getInt("experience_given"));
@@ -184,21 +184,21 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         instance.setSoAState(SoAState.fromByte(storage.getByte("soa_state")));
         instance.setChoice(SoAState.fromByte(storage.getByte("soa_choice")));
         instance.setSacrifice(SoAState.fromByte(storage.getByte("soa_sacrifice")));
-        CompoundNBT returnCompound = storage.getCompound("soa_return_pos");
-        instance.setReturnLocation(new Vector3d(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
-        instance.setReturnDimension(RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(storage.getString("soa_return_dim"))));
-        CompoundNBT choicePedestal = storage.getCompound("soa_choice_pedestal");
+        CompoundTag returnCompound = storage.getCompound("soa_return_pos");
+        instance.setReturnLocation(new Vec3(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
+        instance.setReturnDimension(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(storage.getString("soa_return_dim"))));
+        CompoundTag choicePedestal = storage.getCompound("soa_choice_pedestal");
         instance.setChoicePedestal(new BlockPos(choicePedestal.getInt("x"), choicePedestal.getInt("y"), choicePedestal.getInt("z")));
-        CompoundNBT sacrificePedestal = storage.getCompound("soa_sacrifice_pedestal");
+        CompoundTag sacrificePedestal = storage.getCompound("soa_sacrifice_pedestal");
         instance.setSacrificePedestal(new BlockPos(sacrificePedestal.getInt("x"), sacrificePedestal.getInt("y"), sacrificePedestal.getInt("z")));
 
-        Iterator<String> recipesIt = storage.getCompound("recipes").keySet().iterator();
+        Iterator<String> recipesIt = storage.getCompound("recipes").getAllKeys().iterator();
         while (recipesIt.hasNext()) {
             String key = (String) recipesIt.next();
             instance.getKnownRecipeList().add(new ResourceLocation(key));
         }
 
-        Iterator<String> magicsIt = storage.getCompound("magics").keySet().iterator();
+        Iterator<String> magicsIt = storage.getCompound("magics").getAllKeys().iterator();
         while (magicsIt.hasNext()) {
             String magicName = (String) magicsIt.next();
             
@@ -212,7 +212,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
             instance.getMagicsMap().put(magicName.toString(), array);
         }
         
-        Iterator<String> shotlockIt = storage.getCompound("shotlocks").keySet().iterator();
+        Iterator<String> shotlockIt = storage.getCompound("shotlocks").getAllKeys().iterator();
         while (shotlockIt.hasNext()) {
             String key = (String) shotlockIt.next();
             
@@ -221,39 +221,39 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         
         instance.setEquippedShotlock(storage.getString("equipped_shotlock"));
 
-        Iterator<String> driveFormsIt = storage.getCompound("drive_forms").keySet().iterator();
+        Iterator<String> driveFormsIt = storage.getCompound("drive_forms").getAllKeys().iterator();
         while (driveFormsIt.hasNext()) {
             String driveFormName = (String) driveFormsIt.next();
             
             instance.getDriveFormMap().put(driveFormName.toString(), storage.getCompound("drive_forms").getIntArray(driveFormName));
         }
 
-        Iterator<String> abilitiesIt = storage.getCompound("abilities").keySet().iterator();
+        Iterator<String> abilitiesIt = storage.getCompound("abilities").getAllKeys().iterator();
         while (abilitiesIt.hasNext()) {
             String abilityName = (String) abilitiesIt.next();
             
             instance.getAbilityMap().put(abilityName.toString(), storage.getCompound("abilities").getIntArray(abilityName));
         }
 
-        CompoundNBT keychainsNBT = storage.getCompound("keychains");
-        keychainsNBT.keySet().forEach((chain) -> instance.setNewKeychain(new ResourceLocation(chain), ItemStack.read(keychainsNBT.getCompound(chain))));
+        CompoundTag keychainsNBT = storage.getCompound("keychains");
+        keychainsNBT.getAllKeys().forEach((chain) -> instance.setNewKeychain(new ResourceLocation(chain), ItemStack.of(keychainsNBT.getCompound(chain))));
         
-        CompoundNBT itemsNBT = storage.getCompound("items");
-        itemsNBT.keySet().forEach((slot) -> instance.setNewItem(Integer.parseInt(slot), ItemStack.read(itemsNBT.getCompound(slot))));
+        CompoundTag itemsNBT = storage.getCompound("items");
+        itemsNBT.getAllKeys().forEach((slot) -> instance.setNewItem(Integer.parseInt(slot), ItemStack.of(itemsNBT.getCompound(slot))));
 
         instance.setHearts(storage.getInt("hearts"));
         instance.setAlignment(storage.getInt("org_alignment"));
-        instance.equipWeapon(ItemStack.read(storage.getCompound("org_equipped_weapon")));
-        CompoundNBT unlocksCompound = storage.getCompound("org_weapons_unlocked");
-        unlocksCompound.keySet().forEach(key -> instance.unlockWeapon(ItemStack.read(unlocksCompound.getCompound(key))));
+        instance.equipWeapon(ItemStack.of(storage.getCompound("org_equipped_weapon")));
+        CompoundTag unlocksCompound = storage.getCompound("org_weapons_unlocked");
+        unlocksCompound.getAllKeys().forEach(key -> instance.unlockWeapon(ItemStack.of(unlocksCompound.getCompound(key))));
 
-        Iterator<String> partyIt = storage.getCompound("parties").keySet().iterator();
+        Iterator<String> partyIt = storage.getCompound("parties").getAllKeys().iterator();
         while (partyIt.hasNext()) {
             String key = (String) partyIt.next();
             instance.getPartiesInvited().add(key.toString());
         }
 
-        Iterator<String> materialsIt = storage.getCompound("materials").keySet().iterator();
+        Iterator<String> materialsIt = storage.getCompound("materials").getAllKeys().iterator();
         while (materialsIt.hasNext()) {
             String mat = (String) materialsIt.next();
             instance.getMaterialMap().put(mat.toString(), storage.getCompound("materials").getInt(mat));
@@ -261,7 +261,7 @@ public class PlayerCapabilitiesStorage implements Capability.IStorage<IPlayerCap
         
         instance.setLimitCooldownTicks(storage.getInt("limitCooldownTicks"));
         
-        Iterator<String> shortcutsIt = storage.getCompound("shortcuts").keySet().iterator();
+        Iterator<String> shortcutsIt = storage.getCompound("shortcuts").getAllKeys().iterator();
         while (shortcutsIt.hasNext()) {
             int shortcutPos = Integer.parseInt(shortcutsIt.next());
             instance.getShortcutsMap().put(shortcutPos, storage.getCompound("shortcuts").getString(shortcutPos+""));

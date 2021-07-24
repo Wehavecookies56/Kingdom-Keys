@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,18 +10,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
@@ -74,8 +73,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
-	private Vector3d returnPos = Vector3d.ZERO;
-	private RegistryKey<World> returnDim = World.OVERWORLD;
+	private Vec3 returnPos = Vec3.ZERO;
+	private ResourceKey<Level> returnDim = Level.OVERWORLD;
 
 	SoAState soAState = SoAState.NONE, choice = SoAState.NONE, sacrifice = SoAState.NONE;
 
@@ -117,21 +116,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void addExperience(PlayerEntity player, int exp, boolean shareXP, boolean sound) {
+	public void addExperience(Player player, int exp, boolean shareXP, boolean sound) {
 		if (player != null && getSoAState() == SoAState.COMPLETE) {
 			if (this.level < 100) {
-				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+				Party party = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
 					double sharedXP = (exp * ((ModConfigs.partyXPShare / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
 					//sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
 
 					if(sharedXP > 0) {
 						for(Member member : party.getMembers()) {
-							for(RegistryKey<World> worldKey : player.world.getServer().func_240770_D_()) {
-								PlayerEntity ally = player.getServer().getWorld(worldKey).getPlayerByUuid(member.getUUID());
+							for(ResourceKey<Level> worldKey : player.level.getServer().levelKeys()) {
+								Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 								if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
 									ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false, true); //Give EXP to other players with the false param to prevent getting in a loop
-									PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayerEntity)ally);
+									PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayer)ally);
 								}
 							}
 						}
@@ -152,9 +151,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					levelUpStatsAndDisplayMessage(player, sound);
-					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
+					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayer) player);
 				}
-				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayer) player);
 			}
 		}
 	}
@@ -289,7 +288,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void levelUpStatsAndDisplayMessage(PlayerEntity player, boolean sound) {
+	public void levelUpStatsAndDisplayMessage(Player player, boolean sound) {
 		this.getMessages().clear();
 		LevelStats.applyStatsForLevel(this.level, player, this);
 
@@ -297,9 +296,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// (EntityPlayerMP) player);
 
 		if(sound)
-			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
+			player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
 
 	}
@@ -310,7 +309,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void displayDriveFormLevelUpMessage(PlayerEntity player, String driveForm) {
+	public void displayDriveFormLevelUpMessage(Player player, String driveForm) {
 		this.getMessages().clear();
 		this.getDFMessages().clear();
 
@@ -338,12 +337,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			addAbility(baseAbility,name);
 		}
 
-		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
+		player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		// TODO Actually add abilities and then syncing
 		//addAbility(bfAbility);
 		// PacketDispatcher.sendTo(new SyncDriveData(player.getCapability(ModCapabilities.DRIVE_STATE, null)), (EntityPlayerMP) player);
 
-		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayer) player);
 	}
 
 	//endregion
@@ -444,7 +443,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void setDriveFormExp(PlayerEntity player, String name, int exp) {
+	public void setDriveFormExp(Player player, String name, int exp) {
 		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(name));
 		int oldLevel = getDriveFormLevel(name);
 		int driveLevel = form.getLevelFromExp(exp);
@@ -455,12 +454,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if(driveLevel == form.getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayer)player);
 			}
 		}
 	}
 
-	public void addDriveFormExperience(String drive, ServerPlayerEntity player, int value) {
+	public void addDriveFormExperience(String drive, ServerPlayer player, int value) {
 		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(drive));
 		int oldLevel = getDriveFormLevel(drive);
 		int driveLevel = form.getLevelFromExp(exp+value);
@@ -472,7 +471,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if(driveLevel == form.getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayer)player);
 			}
 		}
 	}
@@ -792,7 +791,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean canEquipKeychain(ResourceLocation form, ItemStack stack) {
 		if (getEquippedKeychain(form) != null) {
-			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) | stack.getItem() instanceof IKeychain) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) | stack.getItem() instanceof IKeychain) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
@@ -848,7 +847,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean canEquipItem(int slot, ItemStack stack) {
 		if (getEquippedItem(slot) != null) {
-			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKPotionItem) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKPotionItem) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
@@ -881,7 +880,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addHearts(int hearts) {
-		this.hearts = MathHelper.clamp(this.hearts + hearts, 0, Integer.MAX_VALUE);
+		this.hearts = Mth.clamp(this.hearts + hearts, 0, Integer.MAX_VALUE);
 	}
 
 	@Override
@@ -912,7 +911,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean isWeaponUnlocked(Item weapon) {
 		for (ItemStack stack : weaponUnlocks) {
-			if (stack.getItem() == weapon.getItem()) return true;
+			if (stack.getItem() == weapon.asItem()) return true;
 		}
 		return false;
 	}
@@ -1059,7 +1058,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public int getNumberOfAbilitiesEquipped(String ability) {
 		int amount = 0;
 		//First check for keyblades having them
-		if (getAlignment() == OrgMember.NONE && getEquippedKeychain(DriveForm.NONE) != null && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { // Main keyblade
+		if (getAlignment() == OrgMember.NONE && getEquippedKeychain(DriveForm.NONE) != null && !ItemStack.matches(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { // Main keyblade
 			ItemStack stack = getEquippedKeychain(DriveForm.NONE);
 			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.NONE).getItem();
 			int level = weapon.toSummon().getKeybladeLevel(stack);
@@ -1070,7 +1069,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		//SB Keyblade if user is base form
 		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu
+			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.matches(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu
 				ItemStack stack = getEquippedKeychain(DriveForm.SYNCH_BLADE);
 				IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem();
 				int level = weapon.toSummon().getKeybladeLevel(stack);
@@ -1079,7 +1078,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 		} else { //DF Keyblades if user is in their form
 			ItemStack stack = getEquippedKeychain(new ResourceLocation(getActiveDriveForm()));
-			if (stack != null && !ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
+			if (stack != null && !ItemStack.matches(stack, ItemStack.EMPTY)) {
 				IKeychain weapon = (IKeychain) getEquippedKeychain(new ResourceLocation(getActiveDriveForm())).getItem();
 				int level = weapon.toSummon().getKeybladeLevel(stack);
 				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
@@ -1299,32 +1298,32 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	//region SoA stuff
 
 	@Override
-	public Vector3d getReturnLocation() {
+	public Vec3 getReturnLocation() {
 		return this.returnPos;
 	}
 
 	@Override
-	public void setReturnLocation(PlayerEntity playerEntity) {
-		setReturnLocation(playerEntity.getPositionVec());
+	public void setReturnLocation(Player playerEntity) {
+		setReturnLocation(playerEntity.position());
 	}
 
 	@Override
-	public void setReturnLocation(Vector3d location) {
+	public void setReturnLocation(Vec3 location) {
 		this.returnPos = location;
 	}
 
 	@Override
-	public RegistryKey<World> getReturnDimension() {
+	public ResourceKey<Level> getReturnDimension() {
 		return this.returnDim;
 	}
 
 	@Override
-	public void setReturnDimension(PlayerEntity playerEntity) {
-		setReturnDimension(playerEntity.world.getDimensionKey());
+	public void setReturnDimension(Player playerEntity) {
+		setReturnDimension(playerEntity.level.dimension());
 	}
 
 	@Override
-	public void setReturnDimension(RegistryKey<World> type) {
+	public void setReturnDimension(ResourceKey<Level> type) {
 		this.returnDim = type;
 	}
 
@@ -1416,7 +1415,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public boolean addReactionCommand(String command, PlayerEntity player) {
+	public boolean addReactionCommand(String command, Player player) {
 		if(this.reactionList.contains(command)) {
 			return false;
 		} else {

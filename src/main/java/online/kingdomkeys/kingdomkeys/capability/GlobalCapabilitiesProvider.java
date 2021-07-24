@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class GlobalCapabilitiesProvider implements ICapabilitySerializable<CompoundNBT> {
+public class GlobalCapabilitiesProvider implements ICapabilitySerializable<CompoundTag> {
 	IGlobalCapabilities instance = ModCapabilities.GLOBAL_CAPABILITIES.getDefaultInstance();
 
 	@Override
@@ -15,12 +15,12 @@ public class GlobalCapabilitiesProvider implements ICapabilitySerializable<Compo
 	}
 
 	@Override
-	public CompoundNBT serializeNBT() {
-		return (CompoundNBT) ModCapabilities.GLOBAL_CAPABILITIES.getStorage().writeNBT(ModCapabilities.GLOBAL_CAPABILITIES, instance, null);
+	public CompoundTag serializeNBT() {
+		return (CompoundTag) ModCapabilities.GLOBAL_CAPABILITIES.getStorage().writeNBT(ModCapabilities.GLOBAL_CAPABILITIES, instance, null);
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT nbt) {
+	public void deserializeNBT(CompoundTag nbt) {
 		ModCapabilities.GLOBAL_CAPABILITIES.getStorage().readNBT(ModCapabilities.GLOBAL_CAPABILITIES, instance, null, nbt);
 	}
 

@@ -1,30 +1,30 @@
 package online.kingdomkeys.kingdomkeys.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 
-public class MagicalChestContainer extends Container {
+public class MagicalChestContainer extends AbstractContainerMenu {
 
     public final MagicalChestTileEntity TE;
 
-    private final IWorldPosCallable canInteractWith;
+    private final ContainerLevelAccess canInteractWith;
 
     private static final int CHEST_SLOTS = MagicalChestTileEntity.NUMBER_OF_SLOTS;
 
-    public MagicalChestContainer(final int windowID, final PlayerInventory playerInventory, final MagicalChestTileEntity tileEntity) {
+    public MagicalChestContainer(final int windowID, final Inventory playerInventory, final MagicalChestTileEntity tileEntity) {
         super(ModContainers.MAGICAL_CHEST.get(), windowID);
         TE = tileEntity;
-        canInteractWith = IWorldPosCallable.of(TE.getWorld(), TE.getPos());
+        canInteractWith = ContainerLevelAccess.create(TE.getLevel(), TE.getBlockPos());
 
         //Chest slots
         TE.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iih -> {
@@ -51,42 +51,42 @@ public class MagicalChestContainer extends Container {
 
     }
 
-    private static MagicalChestTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer buf) {
-        final TileEntity te = playerInventory.player.world.getTileEntity(buf.readBlockPos());
+    private static MagicalChestTileEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf buf) {
+        final BlockEntity te = playerInventory.player.level.getBlockEntity(buf.readBlockPos());
         if (te instanceof MagicalChestTileEntity) {
             return (MagicalChestTileEntity) te;
         }
         throw new IllegalStateException("Tile Entity mismatch with container");
     }
 
-    public MagicalChestContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer buf) {
+    public MagicalChestContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf buf) {
         this(windowId, playerInventory, getTileEntity(playerInventory, buf));
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return isWithinUsableDistance(canInteractWith, playerIn, ModBlocks.magicalChest.get());
+    public boolean stillValid(Player playerIn) {
+        return stillValid(canInteractWith, playerIn, ModBlocks.magicalChest.get());
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index < CHEST_SLOTS) {
-                if (!this.mergeItemStack(itemstack1, CHEST_SLOTS, this.inventorySlots.size(), true)) {
+                if (!this.moveItemStackTo(itemstack1, CHEST_SLOTS, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, CHEST_SLOTS, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, CHEST_SLOTS, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
         }
         return itemstack;

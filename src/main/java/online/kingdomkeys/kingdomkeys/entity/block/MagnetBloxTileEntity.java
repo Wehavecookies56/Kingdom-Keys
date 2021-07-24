@@ -2,22 +2,22 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import java.util.List;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEntity {
+public class MagnetBloxTileEntity extends BlockEntity implements TickableBlockEntity {
 	public MagnetBloxTileEntity() {
 		super(ModEntities.TYPE_MAGNET_BLOX.get());
 	}
@@ -30,14 +30,14 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 	int calculateActualRange(Direction facing, int range) {
 		int actualRange = range;
 		for (int i = 0; i < range; i++) {
-			BlockState current = world.getBlockState(pos.offset(facing, i + 1));
+			BlockState current = level.getBlockState(worldPosition.relative(facing, i + 1));
 			if (current.getBlock() == ModBlocks.ghostBlox.get()) {
-				if (current.get(GhostBloxBlock.VISIBLE)) {
+				if (current.getValue(GhostBloxBlock.VISIBLE)) {
 					actualRange = i;
 					break;
 				}
 			} else {
-				if (current.isSolid() && current.getBlock() != Blocks.AIR) {
+				if (current.canOcclude() && current.getBlock() != Blocks.AIR) {
 					actualRange = i;
 					break;
 				}
@@ -50,12 +50,12 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 	public void tick() {
 		ticks++;
 		// Don't do anything unless it's active
-		if (getBlockState().get(MagnetBloxBlock.ACTIVE)) {
-			Direction facing = getBlockState().get(MagnetBloxBlock.FACING);
-			int range = calculateActualRange(facing, getBlockState().get(MagnetBloxBlock.RANGE));
+		if (getBlockState().getValue(MagnetBloxBlock.ACTIVE)) {
+			Direction facing = getBlockState().getValue(MagnetBloxBlock.FACING);
+			int range = calculateActualRange(facing, getBlockState().getValue(MagnetBloxBlock.RANGE));
 			// Not very useful if it's 0
 			if (range > 0) {
-				boolean attract = getBlockState().get(MagnetBloxBlock.ATTRACT);
+				boolean attract = getBlockState().getValue(MagnetBloxBlock.ATTRACT);
 
 				if (ticks % 5 == 0) {
 					int[] colors = { 1, 0, 0 };
@@ -67,40 +67,40 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 
 					for (double i = 0.7; i < range; i += 0.3) {
 						if (facing == Direction.NORTH) {
-							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.EAST) {
-							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5 + i, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.SOUTH) {
-							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5 + i, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.WEST) {
-							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5 - i, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.UP) {
-							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5 + i, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5 + i, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.DOWN) {
-							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5 - i, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5 - i, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						}
 					}
 				}
 
-				List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(0, 0, 0, 1, 1, 1).expand(range * facing.getDirectionVec().getX(), range * facing.getDirectionVec().getY(), range * facing.getDirectionVec().getZ()).offset(pos));
+				List<Entity> entities = level.getEntitiesOfClass(Entity.class, new AABB(0, 0, 0, 1, 1, 1).expandTowards(range * facing.getNormal().getX(), range * facing.getNormal().getY(), range * facing.getNormal().getZ()).move(worldPosition));
 
 				// No reason to do anymore if there are no entities in range
 				if (!entities.isEmpty()) {
 					double strength = 0.75;
 					for (Entity e : entities) {
-						Vector3d ePos = e.getPositionVec();
-						Vector3d blockPos;
+						Vec3 ePos = e.position();
+						Vec3 blockPos;
 						if (e instanceof LivingEntity) {
-							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY(), getPos().getZ() + 0.5);
+							blockPos = new Vec3(getBlockPos().getX() + 0.5, getBlockPos().getY(), getBlockPos().getZ() + 0.5);
 						} else {
-							blockPos = new Vector3d(getPos().getX() + 0.5, getPos().getY() + 0.5, getPos().getZ() + 0.5);
+							blockPos = new Vec3(getBlockPos().getX() + 0.5, getBlockPos().getY() + 0.5, getBlockPos().getZ() + 0.5);
 						}
 
-						Vector3d pushDir = toVector3f(facing);
+						Vec3 pushDir = toVector3f(facing);
 						if (attract) {
-							e.setMotion(pushDir.normalize().mul(-strength, -strength, -strength));
+							e.setDeltaMovement(pushDir.normalize().multiply(-strength, -strength, -strength));
 						} else {
-							e.setMotion(pushDir.normalize().mul(strength, strength, strength));
+							e.setDeltaMovement(pushDir.normalize().multiply(strength, strength, strength));
 						}
 					}
 				}
@@ -108,7 +108,7 @@ public class MagnetBloxTileEntity extends TileEntity implements ITickableTileEnt
 		}
 	}
 
-	public Vector3d toVector3f(Direction facing) {
-		return new Vector3d((float) facing.getXOffset(), (float) facing.getYOffset(), (float) facing.getZOffset());
+	public Vec3 toVector3f(Direction facing) {
+		return new Vec3((float) facing.getStepX(), (float) facing.getStepY(), (float) facing.getStepZ());
 	}
 }

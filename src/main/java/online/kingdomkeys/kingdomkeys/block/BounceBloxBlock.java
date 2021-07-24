@@ -1,19 +1,19 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BounceBloxBlock extends BaseBlock {
-	private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 
 	public BounceBloxBlock(Properties properties) {
 		super(properties);
@@ -21,11 +21,11 @@ public class BounceBloxBlock extends BaseBlock {
 
 	// Negate fall damage when fallen on if the entity is not sneaking
 	@Override
-	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-		if (entityIn.isSneaking()) {
-			super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
+	public void fallOn(Level worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+		if (entityIn.isShiftKeyDown()) {
+			super.fallOn(worldIn, pos, entityIn, fallDistance);
 		} else {
-			entityIn.onLivingFall(fallDistance, 0.0F);
+			entityIn.causeFallDamage(fallDistance, 0.0F);
 		}
 	}
 
@@ -36,62 +36,62 @@ public class BounceBloxBlock extends BaseBlock {
 	 */
 	private void bounce(Entity entity) {
 		double bounceFactor = 1;
-		entity.setMotion(new Vector3d(entity.getMotion().getX(), bounceFactor, entity.getMotion().getZ()));
-		entity.move(MoverType.SELF, entity.getMotion());
+		entity.setDeltaMovement(new Vec3(entity.getDeltaMovement().x(), bounceFactor, entity.getDeltaMovement().z()));
+		entity.move(MoverType.SELF, entity.getDeltaMovement());
 		entity.fallDistance = 0;
 	}
 
 	// Bounce when landed on if the entity is not sneaking
 	@Override
-	public void onLanded(IBlockReader worldIn, Entity entityIn) {
-		if (Math.abs(entityIn.getMotion().getY()) < 0.1D && !entityIn.isCrouching()) {
+	public void updateEntityAfterFallOn(BlockGetter worldIn, Entity entityIn) {
+		if (Math.abs(entityIn.getDeltaMovement().y()) < 0.1D && !entityIn.isCrouching()) {
 			bounce(entityIn);
 		} else {
-			super.onLanded(worldIn, entityIn);
+			super.updateEntityAfterFallOn(worldIn, entityIn);
 		}
 	}
 
 	// Bounce when walked on if the entity is not sneaking
 	@Override
-	public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-		if (Math.abs(entityIn.getMotion().getY()) < 0.1D && !entityIn.isCrouching()) {
+	public void stepOn(Level worldIn, BlockPos pos, Entity entityIn) {
+		if (Math.abs(entityIn.getDeltaMovement().y()) < 0.1D && !entityIn.isCrouching()) {
 			bounce(entityIn);
 		}
-		super.onEntityWalk(worldIn, pos, entityIn);
+		super.stepOn(worldIn, pos, entityIn);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return collisionShape;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		double x = entity.getMotion().x;
-		double z = entity.getMotion().z;
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+		double x = entity.getDeltaMovement().x;
+		double z = entity.getDeltaMovement().z;
 		float force = 1;
 
 		if (entity instanceof LivingEntity && entity.isOnGround()) {
 			force = 3;
 		}
 
-		if (pos.south().equals(entity.getPosition()) || pos.south().down().equals(entity.getPosition())) {
+		if (pos.south().equals(entity.blockPosition()) || pos.south().below().equals(entity.blockPosition())) {
 			z = force;
-		} else if (pos.north().equals(entity.getPosition()) || pos.north().down().equals(entity.getPosition())) {
+		} else if (pos.north().equals(entity.blockPosition()) || pos.north().below().equals(entity.blockPosition())) {
 			z = -force;
 		}
 
-		if (pos.east().equals(entity.getPosition()) || pos.east().down().equals(entity.getPosition())) {
+		if (pos.east().equals(entity.blockPosition()) || pos.east().below().equals(entity.blockPosition())) {
 			x = force;
-		} else if (pos.west().equals(entity.getPosition()) || pos.west().down().equals(entity.getPosition())) {
+		} else if (pos.west().equals(entity.blockPosition()) || pos.west().below().equals(entity.blockPosition())) {
 			x = -force;
 		}
 
-		if (!entity.isSneaking()) {
-			entity.setMotion(new Vector3d(x, entity.getMotion().getY(), z));
+		if (!entity.isShiftKeyDown()) {
+			entity.setDeltaMovement(new Vec3(x, entity.getDeltaMovement().y(), z));
 		}
-		super.onEntityCollision(state, world, pos, entity);
+		super.entityInside(state, world, pos, entity);
 	}
 }

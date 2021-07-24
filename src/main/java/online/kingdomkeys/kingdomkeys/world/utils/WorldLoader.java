@@ -5,16 +5,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.StructureBlockTileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.entity.StructureBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.Constants;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -25,38 +25,38 @@ public class WorldLoader {
 
     }
 
-    public void processAndGenerateStructureFile(String file, ServerWorld world, BlockPos offset) {
+    public void processAndGenerateStructureFile(String file, ServerLevel world, BlockPos offset) {
         try {
             InputStream inputStream = getClass().getResourceAsStream("/assets/"+KingdomKeys.MODID+"/worlds/" + file + ".world");
-            CompoundNBT main = CompressedStreamTools.readCompressed(inputStream);
+            CompoundTag main = NbtIo.readCompressed(inputStream);
 
-            ListNBT palette = main.getList("palette", Constants.NBT.TAG_COMPOUND);
+            ListTag palette = main.getList("palette", Constants.NBT.TAG_COMPOUND);
 
-            ListNBT blocks = main.getList("blocks", Constants.NBT.TAG_COMPOUND);
+            ListTag blocks = main.getList("blocks", Constants.NBT.TAG_COMPOUND);
 
             List<BlockState> blockStates = new ArrayList<>();
 
             
-            CompoundNBT firstBlock = blocks.getCompound(0);
+            CompoundTag firstBlock = blocks.getCompound(0);
             BlockPos firstPos = new BlockPos(firstBlock.getList("pos", 3).getInt(0), firstBlock.getList("pos", 3).getInt(1), firstBlock.getList("pos", 3).getInt(2));
             
 
             for (int i = 0; i < palette.size(); i++) {
-                CompoundNBT block = palette.getCompound(i);
-                blockStates.add(NBTUtil.readBlockState(block));
+                CompoundTag block = palette.getCompound(i);
+                blockStates.add(NbtUtils.readBlockState(block));
             }
 
             for (int i = 0; i < blocks.size(); i++) {
-                CompoundNBT block = blocks.getCompound(i);
+                CompoundTag block = blocks.getCompound(i);
                 BlockPos blockpos = new BlockPos(block.getList("pos", 3).getInt(0)+offset.getX(), block.getList("pos", 3).getInt(1)+offset.getY(), block.getList("pos", 3).getInt(2)+offset.getZ());
                 BlockState state = blockStates.get(block.getInt("state"));
                 if (block.contains("nbt")) {
-                    CompoundNBT nbtData = block.getCompound("nbt");
-                    StructureBlockTileEntity.readTileEntity(state, nbtData);
+                    CompoundTag nbtData = block.getCompound("nbt");
+                    StructureBlockEntity.loadStatic(state, nbtData);
                 }
                 if (state.getBlock() == Blocks.OAK_DOOR) {
-                    if (world.getBlockState(blockpos.down()).getBlock() == Blocks.AIR) {
-                        world.setBlockState(blockpos.down(), Blocks.DIRT.getDefaultState(), 2);
+                    if (world.getBlockState(blockpos.below()).getBlock() == Blocks.AIR) {
+                        world.setBlock(blockpos.below(), Blocks.DIRT.defaultBlockState(), 2);
                     }
                 }
                 /*if (state.getBlock() == Blocks.TORCH && state.getValue(TorchBlock.FACING) == Direction.WEST)
@@ -77,10 +77,10 @@ public class WorldLoader {
                 if (state.getBlock() == Blocks.CHEST) {
                     if (block.contains("nbt")) {
                         
-                        CompoundNBT nbtData = block.getCompound("nbt");
-                        world.setBlockState(blockpos, state, 2);
-                        ChestTileEntity te = (ChestTileEntity) ChestTileEntity.readTileEntity(state, nbtData);
-                        world.setTileEntity(blockpos, te);
+                        CompoundTag nbtData = block.getCompound("nbt");
+                        world.setBlock(blockpos, state, 2);
+                        ChestBlockEntity te = (ChestBlockEntity) ChestBlockEntity.loadStatic(state, nbtData);
+                        world.setBlockEntity(blockpos, te);
                         
                         if (nbtData.getString("id").equals("minecraft:chest")) {
 
@@ -88,7 +88,7 @@ public class WorldLoader {
                     }
                 }
                 else {
-                    world.setBlockState(blockpos, state, 2);
+                    world.setBlock(blockpos, state, 2);
                 }
                 //world.setBlockState(blockpos, ModBlocks.KKChest.getDefaultState().withProperty(BlockKKChest.FACING, state.getValue(BlockChest.FACING)));
                 

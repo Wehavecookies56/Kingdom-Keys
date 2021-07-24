@@ -2,20 +2,20 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -27,79 +27,79 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class GraviraEntity extends ThrowableEntity {
+public class GraviraEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
 	
-	public GraviraEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public GraviraEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public GraviraEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public GraviraEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_GRAVIRA.get(), world);
 	}
 
-	public GraviraEntity(World world) {
+	public GraviraEntity(Level world) {
 		super(ModEntities.TYPE_GRAVIRA.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public GraviraEntity(World world, PlayerEntity player, float dmgMult) {
+	public GraviraEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVIRA.get(), player, world);
 		this.dmgMult = dmgMult;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
-			this.remove();
+		if (this.tickCount > maxTicks) {
+			this.remove(false);
 		}
 
-		if (ticksExisted > 2)
-			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		if (tickCount > 2)
+			level.addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
 
 		super.tick();
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
+	protected void onHit(HitResult rtRes) {
 		float radius = 2.5F;
-		double X = getPosX();
-		double Y = getPosY();
-		double Z = getPosZ();
+		double X = getX();
+		double Y = getY();
+		double Z = getZ();
 
 		for (int t = 1; t < 360; t += 20) {
 			for (int s = 1; s < 360 ; s += 20) {
 				double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 				double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 				double y = Y + (radius * Math.cos(Math.toRadians(t)));
-				world.addParticle(ParticleTypes.DRAGON_BREATH, x, y, z, 0, -0.05, 0);
+				level.addParticle(ParticleTypes.DRAGON_BREATH, x, y, z, 0, -0.05, 0);
 			}
 		}
 		
-		IWorldCapabilities worldData = ModCapabilities.getWorld(world);
-		if (!world.isRemote && getShooter() != null && worldData != null) {
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getShooter(), getBoundingBox().grow(radius));
-			Party casterParty = worldData.getPartyFromMember(getShooter().getUniqueID());
+		IWorldCapabilities worldData = ModCapabilities.getWorld(level);
+		if (!level.isClientSide && getOwner() != null && worldData != null) {
+			List<Entity> list = level.getEntities(getOwner(), getBoundingBox().inflate(radius));
+			Party casterParty = worldData.getPartyFromMember(getOwner().getUUID());
 
 			if(casterParty != null && !casterParty.getFriendlyFire()) {
 				for(Member m : casterParty.getMembers()) {
-					list.remove(world.getPlayerByUuid(m.getUUID()));
+					list.remove(level.getPlayerByUUID(m.getUUID()));
 				}
 			} else {
-				list.remove(getShooter());
+				list.remove(getOwner());
 			}
 			
 			if (!list.isEmpty()) {
@@ -110,18 +110,18 @@ public class GraviraEntity extends ThrowableEntity {
 						globalData.setFlatTicks(100);
 						
 						if(Utils.isHostile(e)) {
-							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F : 2;
-							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
+							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
+							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 						}
 						if (e instanceof LivingEntity)
 							PacketHandler.syncToAllAround((LivingEntity) e, globalData);
 
-						if(e instanceof ServerPlayerEntity)
-							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayerEntity) e);
+						if(e instanceof ServerPlayer)
+							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);
 					}
 				}
 			}
-			remove();
+			this.remove(false);
 		}
 	}
 
@@ -134,17 +134,17 @@ public class GraviraEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		// compound.putInt("lvl", this.getLvl());
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		// this.setLvl(compound.getInt("lvl"));
 	}
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 		// TODO Auto-generated method stub
 
 	}

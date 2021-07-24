@@ -2,14 +2,14 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -24,36 +24,36 @@ public class MagicStop extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(Player player, Player caster, int level) {
 		float radius = 2 + level;
-		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
+		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
-				list.remove(player.world.getPlayerByUuid(m.getUUID()));
+				list.remove(player.level.getPlayerByUUID(m.getUUID()));
 			}
 		}
 
-		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1F, 1F);
+		player.level.playSound(null, player.blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.PLAYERS, 1F, 1F);
 
 		if (!list.isEmpty()) {
-			player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_BELL_RESONATE, SoundCategory.PLAYERS, 1F, 1F);
+			player.level.playSound(null, player.blockPosition(), SoundEvents.BELL_RESONATE, SoundSource.PLAYERS, 1F, 1F);
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);
 				if (e instanceof LivingEntity) {
 					IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
-					if (e instanceof MobEntity) {
-						((MobEntity) e).setNoAI(true);
+					if (e instanceof Mob) {
+						((Mob) e).setNoAi(true);
 					}
 					globalData.setStoppedTicks((int) (100 + level * 20 * getDamageMult(level))); // Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
-					if (e instanceof ServerPlayerEntity)
-						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);
+					if (e instanceof ServerPlayer)
+						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) e);
 				}
 			}
 		}
-		player.swingArm(Hand.MAIN_HAND);
+		player.swing(InteractionHand.MAIN_HAND);
 	}
 
 }

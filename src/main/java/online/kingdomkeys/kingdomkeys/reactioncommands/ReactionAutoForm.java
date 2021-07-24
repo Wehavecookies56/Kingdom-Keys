@@ -3,10 +3,10 @@ package online.kingdomkeys.kingdomkeys.reactioncommands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -44,9 +44,9 @@ public class ReactionAutoForm extends ReactionCommand {
 	}
 	
 	@Override
-	public void onUse(PlayerEntity player, LivingEntity target) {
+	public void onUse(Player player, LivingEntity target) {
 		if(conditionsToAppear(player,target)) {
-			player.world.playSound(null, player.getPosition(), ModSounds.drive.get(), SoundCategory.PLAYERS, 1F, 1F);
+			player.level.playSound(null, player.blockPosition(), ModSounds.drive.get(), SoundSource.PLAYERS, 1F, 1F);
 	    	//PacketHandler.sendToServer(new CSSetDriveFormPacket(form));
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
@@ -78,7 +78,7 @@ public class ReactionAutoForm extends ReactionCommand {
 	}
 
 	@Override
-	public boolean conditionsToAppear(PlayerEntity player, LivingEntity target) {
+	public boolean conditionsToAppear(Player player, LivingEntity target) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if(playerData != null) {
 			if(Utils.isPlayerLowHP(player)) {

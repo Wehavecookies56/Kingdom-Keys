@@ -1,34 +1,34 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class LargeBodyEntity extends MonsterEntity implements IKHMob {
+public class LargeBodyEntity extends Monster implements IKHMob {
 
     enum SpecialAttack {
         WAIT,
@@ -47,17 +47,17 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
             DAMAGE_MOWDOWN = 5,
             DAMAGE_SHOCKWAVE = 4;
 
-    public LargeBodyEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
+    public LargeBodyEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public LargeBodyEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public LargeBodyEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_LARGE_BODY.get(), world);
     }
     
     @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+    	return ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
     }
 
     @Override
@@ -65,28 +65,28 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(0, new ChargeGoal(this));
         this.goalSelector.addGoal(1, new MowdownGoal(this));
-        this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, VillagerEntity.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
 
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MobEntity.registerAttributes()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 100.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15D)
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
-				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+    public static AttributeSupplier.Builder registerAttributes() {
+        return Mob.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.15D)
+                .add(Attributes.FOLLOW_RANGE, 35.0D)
+                .add(Attributes.ATTACK_DAMAGE, 1.0D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 
                 ;
     }
 
     @Override
-    public EntityHelper.MobType getMobType() {
+    public EntityHelper.MobType getEnemyType() {
         return EntityHelper.MobType.HEARTLESS_EMBLEM;
     }
 
@@ -94,7 +94,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
     public void tick() {
         super.tick();
 
-        int rotation = MathHelper.floor(this.getRotationYawHead() * 4.0F / 360.0F + 0.5D) & 3;
+        int rotation = Mth.floor(this.getYHeadRot() * 4.0F / 360.0F + 0.5D) & 3;
 
         if(this.getHealth() < this.getMaxHealth()/3)
             this.isAngry = true;
@@ -105,7 +105,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
         if(this.getPreviousAttackState() != SpecialAttack.WAIT && timeForNextAI > 0) {
             this.setCurrentAttackState(SpecialAttack.WAIT);
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
-            this.setAttackTarget(null);
+            this.setTarget(null);
             EntityHelper.setState(this, 10);
             timeForNextAI--;
         }
@@ -117,7 +117,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
             else
                 this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.15);
             EntityHelper.setState(this, 0);
-            this.setAttackTarget(null);
+            this.setTarget(null);
             timeForNextAI = 80;
         }
 
@@ -129,28 +129,28 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-    	if(source.getTrueSource() instanceof LivingEntity) {
-    		Entity attacker = source.getImmediateSource();
-    		double d1 = attacker.getPosX() - this.getPosX();
-            double d0 = attacker.getPosZ() - this.getPosZ();
-            float attackYaw = (float)Math.toDegrees((MathHelper.atan2(d0, d1)));// Global degree the attack is coming from
-            float diff = MathHelper.wrapDegrees(attackYaw-rotationYaw);
+    public boolean hurt(DamageSource source, float amount) {
+    	if(source.getEntity() instanceof LivingEntity) {
+    		Entity attacker = source.getDirectEntity();
+    		double d1 = attacker.getX() - this.getX();
+            double d0 = attacker.getZ() - this.getZ();
+            float attackYaw = (float)Math.toDegrees((Mth.atan2(d0, d1)));// Global degree the attack is coming from
+            float diff = Mth.wrapDegrees(attackYaw-getYRot());
 
     		if(diff > 30 && diff < 150) {
     			if(attacker instanceof LivingEntity) {
-	                ((LivingEntity) attacker).applyKnockback(0.8F, -d1, -d0);
-					world.playSound(null, getPosition(), ModSounds.invincible_hit.get(), SoundCategory.PLAYERS, 1F, 1F);
-	                attacker.setMotion(attacker.getMotion().x, 0.5F, attacker.getMotion().z);
+	                ((LivingEntity) attacker).knockback(0.8F, -d1, -d0);
+					level.playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);
+	                attacker.setDeltaMovement(attacker.getDeltaMovement().x, 0.5F, attacker.getDeltaMovement().z);
     			}
                 return false;    		
     		}
     	}
-    	return super.attackEntityFrom(source, amount);
+    	return super.hurt(source, amount);
     }
 
     
-    public boolean attackEntityAsMob(Entity ent) {
+    public boolean doHurtTarget(Entity ent) {
         int i = 0;
         float j = 1;
 
@@ -162,11 +162,11 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
         if(this.isAngry)
             j = 1.5F;
 
-        return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i * j);
+        return ent.hurt(DamageSource.mobAttack(this), i * j);
     }
 
-    public World getWorld() {
-        return this.world;
+    public Level getWorld() {
+        return this.level;
     }
 
     public void setCurrentAttackState(SpecialAttack state) {
@@ -187,19 +187,19 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
 
 
     @Override
-    public float getRenderScale() {
+    public float getScale() {
     	return 2;
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 4;
     }
     
     @Override
-	protected void registerData() {
-		super.registerData();
-		this.dataManager.register(EntityHelper.STATE, 0);
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(EntityHelper.STATE, 0);
 	}
 
     class MowdownGoal extends Goal {
@@ -216,8 +216,8 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(theEntity.getAttackTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.getDistance(theEntity.getAttackTarget()) < 5) {
+        public boolean canUse() {
+            if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceTo(theEntity.getTarget()) < 5) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
                         attackTimer--;
@@ -232,14 +232,14 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.MOWDOWN) {
-                if(theEntity.rand.nextFloat() <= 0.5f) return true;
+                if(theEntity.random.nextFloat() <= 0.5f) return true;
                 else return false;
             }
             return true;
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             boolean flag = canUseAttack;
 
             if(!flag) {
@@ -252,7 +252,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             canUseAttack = true;
             attackTimer = ATTACK_MAX_TIMER;
             whileAttackTimer = 0;
@@ -263,11 +263,11 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
 
         @Override
         public void tick() {
-            if(theEntity.getAttackTarget() != null && canUseAttack) {
+            if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer++;
 
                 for(Entity t : EntityHelper.getEntitiesNear(this.theEntity, 0.2)) {
-                    t.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), theEntity.isAngry ? this.theEntity.DAMAGE_MOWDOWN * 1.5f : this.theEntity.DAMAGE_MOWDOWN);
+                    t.hurt(DamageSource.mobAttack(this.theEntity), theEntity.isAngry ? this.theEntity.DAMAGE_MOWDOWN * 1.5f : this.theEntity.DAMAGE_MOWDOWN);
                 }
 
                 if(whileAttackTimer > 40)
@@ -292,8 +292,8 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(theEntity.getAttackTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.getDistanceSq(theEntity.getAttackTarget()) > 4) {
+        public boolean canUse() {
+            if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceToSqr(theEntity.getTarget()) > 4) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
                         attackTimer--;
@@ -308,14 +308,14 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.CHARGE) {
-                if(theEntity.rand.nextFloat() <= 0.2f) return true;
+                if(theEntity.random.nextFloat() <= 0.2f) return true;
                 else return false;
             }
             return true;
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             boolean flag = canUseAttack;
 
             if(!flag) {
@@ -328,35 +328,35 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             canUseAttack = true;
             attackTimer = ATTACK_MAX_TIMER;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.CHARGE);
             EntityHelper.setState(theEntity, 1);
-            LivingEntity target = this.theEntity.getAttackTarget();
+            LivingEntity target = this.theEntity.getTarget();
             initialHealth = theEntity.getHealth();
 
             if(target != null)
-                posToCharge = new double[] {target.getPosX(), target.getPosY(), target.getPosZ()};
+                posToCharge = new double[] {target.getX(), target.getY(), target.getZ()};
         }
 
         @Override
         public void tick() {
-            if(theEntity.getAttackTarget() != null && canUseAttack) {
+            if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer++;
-                LivingEntity target = this.theEntity.getAttackTarget();
-                this.theEntity.getNavigator().tryMoveToXYZ(posToCharge[0], posToCharge[1], posToCharge[2], theEntity.isAngry ? 2.3D : 2.0D);
+                LivingEntity target = this.theEntity.getTarget();
+                this.theEntity.getNavigation().moveTo(posToCharge[0], posToCharge[1], posToCharge[2], theEntity.isAngry ? 2.3D : 2.0D);
 
                 if(whileAttackTimer > 70)
                     canUseAttack = false;
 
-                if((theEntity.getPosition().getX() == (int)posToCharge[0] && theEntity.getPosition().getY() == (int)posToCharge[1] && theEntity.getPosition().getZ() == (int)posToCharge[2])
-                        || (theEntity.getPosition().getX() == (int)posToCharge[0] + 1 && theEntity.getPosition().getY() == (int)posToCharge[1] && theEntity.getPosition().getZ() == (int)posToCharge[2] + 1)
-                        || (theEntity.getPosition().getX() == (int)posToCharge[0] - 1 && theEntity.getPosition().getY() == (int)posToCharge[1] && theEntity.getPosition().getZ() == (int)posToCharge[2] - 1))
+                if((theEntity.blockPosition().getX() == (int)posToCharge[0] && theEntity.blockPosition().getY() == (int)posToCharge[1] && theEntity.blockPosition().getZ() == (int)posToCharge[2])
+                        || (theEntity.blockPosition().getX() == (int)posToCharge[0] + 1 && theEntity.blockPosition().getY() == (int)posToCharge[1] && theEntity.blockPosition().getZ() == (int)posToCharge[2] + 1)
+                        || (theEntity.blockPosition().getX() == (int)posToCharge[0] - 1 && theEntity.blockPosition().getY() == (int)posToCharge[1] && theEntity.blockPosition().getZ() == (int)posToCharge[2] - 1))
                     canUseAttack = false;
 
-                if(theEntity.getDistanceSq(this.theEntity.getAttackTarget()) < 2)
+                if(theEntity.distanceToSqr(this.theEntity.getTarget()) < 2)
                     canUseAttack = false;
 
                 if(initialHealth > theEntity.getHealth())

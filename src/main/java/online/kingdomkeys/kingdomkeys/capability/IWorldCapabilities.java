@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 
@@ -23,8 +23,8 @@ public interface IWorldCapabilities {
 	Party getPartyFromName(String name);
 	Party getPartyFromLeader(UUID leaderId);
 	
-	void read(CompoundNBT nbt);
-	CompoundNBT write(CompoundNBT nbt);
+	void read(CompoundTag nbt);
+	CompoundTag write(CompoundTag nbt);
 		
 	Map<UUID, PortalData> getPortals();
 	void setPortals(Map<UUID, PortalData> portals);

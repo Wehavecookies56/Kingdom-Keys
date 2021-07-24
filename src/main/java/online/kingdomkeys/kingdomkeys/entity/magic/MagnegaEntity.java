@@ -4,23 +4,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.Util;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -28,101 +28,101 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class MagnegaEntity extends ThrowableEntity {
+public class MagnegaEntity extends ThrowableProjectile {
 
 	int maxTicks = 200;
 	float dmgMult = 1;
 	
-	public MagnegaEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public MagnegaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public MagnegaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public MagnegaEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_MAGNEGA.get(), world);
 	}
 
-	public MagnegaEntity(World world) {
+	public MagnegaEntity(Level world) {
 		super(ModEntities.TYPE_MAGNEGA.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public MagnegaEntity(World world, PlayerEntity player, float dmgMult) {
+	public MagnegaEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNEGA.get(), player, world);
-		setCaster(player.getUniqueID());
+		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks || getCaster() == null) {
-			this.remove();
+		if (this.tickCount > maxTicks || getCaster() == null) {
+			this.remove(false);
 		}
 
-		if(world == null || ModCapabilities.getWorld(world) == null || getCaster() == null)
+		if(level == null || ModCapabilities.getWorld(level) == null || getCaster() == null)
 			return;
 		
 		
-		world.addParticle(ParticleTypes.BUBBLE, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
-		if (ticksExisted >= 5) {
+		if (tickCount >= 5) {
 			float radius = 3F;
-			double X = getPosX();
-			double Y = getPosY();
-			double Z = getPosZ();
+			double X = getX();
+			double Y = getY();
+			double Z = getZ();
 
 			for (int t = 1; t < 360; t += 30) {
 				for (int s = 1; s < 360 ; s += 30) {
-					double x = X + (radius * Math.cos(Math.toRadians(s+ticksExisted)) * Math.sin(Math.toRadians(t+ticksExisted)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s+ticksExisted)) * Math.sin(Math.toRadians(t+ticksExisted)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t+ticksExisted)));
-					world.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
+					double x = X + (radius * Math.cos(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
+					double z = Z + (radius * Math.sin(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
+					double y = Y + (radius * Math.cos(Math.toRadians(t+tickCount)));
+					level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 				}
 			}
 
-			this.setMotion(0, 0, 0);
-			this.velocityChanged = true;
+			this.setDeltaMovement(0, 0, 0);
+			this.hurtMarked = true;
 			
 			
-			List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(getCaster(), getBoundingBox().grow(radius,radius*2,radius));
-			Party casterParty = ModCapabilities.getWorld(world).getPartyFromMember(getCaster().getUniqueID());
+			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
+			Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getCaster().getUUID());
 
 			if(casterParty != null && !casterParty.getFriendlyFire()) { //Exclude members from AOE
 				for(Member m : casterParty.getMembers()) {
-					list.remove(world.getPlayerByUuid(m.getUUID()));
+					list.remove(level.getPlayerByUUID(m.getUUID()));
 				}
 			} else {
-				list.remove(getShooter());
+				list.remove(getOwner());
 			}
 			
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
-						double d = e.getPosX() - getPosX();
-						double d1 = e.getPosZ() - getPosZ();
+						double d = e.getX() - getX();
+						double d1 = e.getZ() - getZ();
 						
-						((LivingEntity) e).applyKnockback(1, d, d1);
-						if (e.getPosY() < this.getPosY() - 0.5) {
-							e.setMotion(e.getMotion().x, 0.5F, e.getMotion().z);
+						((LivingEntity) e).knockback(1, d, d1);
+						if (e.getY() < this.getY() - 0.5) {
+							e.setDeltaMovement(e.getDeltaMovement().x, 0.5F, e.getDeltaMovement().z);
 						}
 						
-						if(ticksExisted + 1 > maxTicks) {
+						if(tickCount + 1 > maxTicks) {
 							if(Utils.isHostile(e)) {
-								float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.5F : 2;
-								e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
+								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.5F : 2;
+								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 							}
-							remove();
+							this.remove(false);
 						}
 					}
 				}
@@ -133,7 +133,7 @@ public class MagnegaEntity extends ThrowableEntity {
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
+	protected void onHit(HitResult rtRes) {
 
 	}
 
@@ -145,32 +145,32 @@ public class MagnegaEntity extends ThrowableEntity {
 		this.maxTicks = maxTicks;
 	}
 
-	private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(MagnegaEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(MagnegaEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(OWNER) != null) {
-			compound.putString("OwnerUUID", this.dataManager.get(OWNER).get().toString());
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(OWNER) != null) {
+			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 		}
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 	}
 
-	public PlayerEntity getCaster() {
-		return this.getDataManager().get(OWNER).isPresent() ? this.world.getPlayerByUuid(this.getDataManager().get(OWNER).get()) : null;
+	public Player getCaster() {
+		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
-		this.dataManager.set(OWNER, Optional.of(uuid));
+		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(OWNER, Optional.of(Util.DUMMY_UUID));
+	protected void defineSynchedData() {
+		this.entityData.define(OWNER, Optional.of(Util.NIL_UUID));
 	}
 }

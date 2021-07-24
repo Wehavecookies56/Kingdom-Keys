@@ -2,65 +2,65 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class WaterEntity extends ThrowableEntity {
+public class WaterEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
-	PlayerEntity player;
+	Player player;
 	String caster;
 	float dmgMult = 1;
 	
-	public WaterEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public WaterEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public WaterEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public WaterEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_WATER.get(), world);
 	}
 
-	public WaterEntity(World world) {
+	public WaterEntity(Level world) {
 		super(ModEntities.TYPE_WATER.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public WaterEntity(World world, PlayerEntity player, float dmgMult) {
+	public WaterEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_WATER.get(), player, world);
 		this.player = player;
 		this.dmgMult = dmgMult;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 	
@@ -68,26 +68,26 @@ public class WaterEntity extends ThrowableEntity {
 
 	@Override
 	public void tick() {
-		for (PlayerEntity playerFromList : world.getPlayers()) {
+		for (Player playerFromList : level.players()) {
 			if(playerFromList.getDisplayName().getString().equals(getCaster())) {
 				player = playerFromList;
 				break;
 			}
 		}	
 		
-		if (this.ticksExisted > maxTicks || player == null) {
-			this.remove();
+		if (this.tickCount > maxTicks || player == null) {
+			this.remove(false);
 		}
 		
-		if(ticksExisted <= 1) {
-			this.setMotion(0, 0, 0);
+		if(tickCount <= 1) {
+			this.setDeltaMovement(0, 0, 0);
 			
-		} else if (ticksExisted < 50) { //Shield
-			setPosition(player.getPosX(), getPosY(), player.getPosZ());
+		} else if (tickCount < 50) { //Shield
+			setPos(player.getX(), getY(), player.getZ());
     		double radius = 1D;
-			double cx = getPosX();
-			double cy = getPosY();
-			double cz = getPosZ();
+			double cx = getX();
+			double cy = getY();
+			double cz = getZ();
 
 			a+=40; //Speed and distance between particles
 			double x = cx + (radius * Math.cos(Math.toRadians(a)));
@@ -96,33 +96,33 @@ public class WaterEntity extends ThrowableEntity {
 			double x2 = cx + (radius * Math.cos(Math.toRadians(-a)));
 			double z2 = cz + (radius * Math.sin(Math.toRadians(-a)));
 
-			world.addParticle(ParticleTypes.DRIPPING_WATER, x, (cy+0.5) - a / 1080D, z, 0.0D, 0.0D, 0.0D);
-			world.addParticle(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
+			level.addParticle(ParticleTypes.DRIPPING_WATER, x, (cy+0.5) - a / 1080D, z, 0.0D, 0.0D, 0.0D);
+			level.addParticle(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
 			
-			List<Entity> list = this.world.getEntitiesInAABBexcluding(player, player.getBoundingBox().grow(radius), Entity::isAlive);
+			List<Entity> list = this.level.getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
 	        if (!list.isEmpty() && list.get(0) != this) {
-				float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F;
-				float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
+				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
+				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
 	            for (int i = 0; i < list.size(); i++) {
 	                Entity e = (Entity) list.get(i);
 	                if (e instanceof LivingEntity) {
-						e.attackEntityFrom(DamageSource.causeThrownDamage(this, (PlayerEntity) this.getShooter()), dmg);
+						e.hurt(DamageSource.thrown(this, (Player) this.getOwner()), dmg);
 	                }
 	            }
 	        }
 
 		} else { //Projectile
-			setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
-			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_SWIM, SoundCategory.PLAYERS, 1F, 1F);
+			shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
+			player.level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_SWIM, SoundSource.PLAYERS, 1F, 1F);
 
-			velocityChanged = true;
+			hurtMarked = true;
 			float radius = 0.2F;
 			for (int t = 1; t < 360; t += 30) {
 				for (int s = 1; s < 360 ; s += 30) {
-					double x = getPosX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = getPosZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = getPosY() + (radius * Math.cos(Math.toRadians(t)));
-					world.addParticle(ParticleTypes.DOLPHIN, x, y, z, 0, 0, 0);
+					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+					level.addParticle(ParticleTypes.DOLPHIN, x, y, z, 0, 0, 0);
 				}
 			}
 
@@ -132,41 +132,41 @@ public class WaterEntity extends ThrowableEntity {
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
+	protected void onHit(HitResult rtRes) {
+		if (!level.isClientSide) {
 
-			EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
+			EntityHitResult ertResult = null;
+			BlockHitResult brtResult = null;
 
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
+			if (rtRes instanceof EntityHitResult) {
+				ertResult = (EntityHitResult) rtRes;
 			}
 
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
+			if (rtRes instanceof BlockHitResult) {
+				brtResult = (BlockHitResult) rtRes;
 			}
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
-				if (target.isBurning()) {
-					target.extinguish();
+				if (target.isOnFire()) {
+					target.clearFire();
 				} else {
-					if (target != getShooter()) {
+					if (target != getOwner()) {
 						Party p = null;
-						if (getShooter() != null) {
-							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
+						if (getOwner() != null) {
+							p = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
 						}
-						if(p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.3F : 2;
-							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
-							remove();
+						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
+							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
+							target.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							this.remove(false);
 						}
 					}
 				}
 			} else { // Block (not ERTR)
-				remove();
+				this.remove(false);
 			}
 		}
 
@@ -181,39 +181,39 @@ public class WaterEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		compound.putString("caster", this.getCaster());
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		this.setCaster(compound.getString("caster"));
 	}
 
-	private static final DataParameter<String> CASTER = EntityDataManager.createKey(MagnetEntity.class, DataSerializers.STRING);
+	private static final EntityDataAccessor<String> CASTER = SynchedEntityData.defineId(MagnetEntity.class, EntityDataSerializers.STRING);
 
 	public String getCaster() {
 		return caster;
 	}
 
 	public void setCaster(String name) {
-		this.dataManager.set(CASTER, name);
+		this.entityData.set(CASTER, name);
 		this.caster = name;
 	}
 
 	@Override
-	public void notifyDataManagerChange(DataParameter<?> key) {
+	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
 		if (key.equals(CASTER)) {
 			this.caster = this.getCasterDataManager();
 		}
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(CASTER, "");
+	protected void defineSynchedData() {
+		this.entityData.define(CASTER, "");
 	}
 
 	public String getCasterDataManager() {
-		return this.dataManager.get(CASTER);
+		return this.entityData.get(CASTER);
 	}
 }

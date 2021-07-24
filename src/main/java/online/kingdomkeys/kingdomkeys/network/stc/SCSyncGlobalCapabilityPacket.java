@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
@@ -23,13 +23,13 @@ public class SCSyncGlobalCapabilityPacket {
 		this.flatTicks = capability.getFlatTicks();
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.stoppedTicks);
 		buffer.writeFloat(this.stopDmg);
 		buffer.writeInt(this.flatTicks);
 	}
 
-	public static SCSyncGlobalCapabilityPacket decode(PacketBuffer buffer) {
+	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
 		SCSyncGlobalCapabilityPacket msg = new SCSyncGlobalCapabilityPacket();
 		msg.stoppedTicks = buffer.readInt();
 		msg.stopDmg = buffer.readFloat();

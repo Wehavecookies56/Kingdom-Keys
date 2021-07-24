@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -36,14 +36,14 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 	public GuiMenu_Party_Settings() {
 		super(Strings.Gui_Menu_Party_Leader_Settings, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.level);
 	}
 
 	protected void action(String string) {
 		switch(string) {
 		case "back":
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.setScreen(new GuiMenu_Party_Leader());
 			break;
 		case "togglePriv":
 			priv = !priv;
@@ -57,8 +57,8 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			party.setFriendlyFire(friendlyFire);
 			PacketHandler.sendToServer(new CSPartySettings(party));
 			
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Leader());
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.setScreen(new GuiMenu_Party_Leader());
 			
 			break;
 		case "size":
@@ -67,7 +67,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			} else {
 				pSize++;
 			}
-			size.setMessage(new TranslationTextComponent(pSize+""));
+			size.setMessage(new TranslatableComponent(pSize+""));
 			break;
 		}
 		
@@ -76,8 +76,8 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 
 	private void updateButtons() {
 		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		togglePriv.setMessage(priv ? new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
-		toggleFF.setMessage(new TranslationTextComponent(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
+		togglePriv.setMessage(priv ? new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
+		toggleFF.setMessage(new TranslatableComponent(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
 
 		
 		//TBName
@@ -93,9 +93,9 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		super.width = width;
 		super.height = height;
 		super.init();
-		this.buttons.clear();
+		this.clearWidgets();
 		
-		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		priv = party.getPriv();
 		pSize = party.getSize();
 		friendlyFire = party.getFriendlyFire();
@@ -106,26 +106,26 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 
-		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("togglePriv"); }));
-		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, new TranslationTextComponent(pSize+""), (e) -> { action("size"); }));
-		addButton(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("ff"); }));
-		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
-		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addWidget(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, new TranslatableComponent(""), (e) -> { action("togglePriv"); }));
+		addWidget(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, new TranslatableComponent(pSize+""), (e) -> { action("size"); }));
+		addWidget(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslatableComponent(""), (e) -> { action("ff"); }));
+		addWidget(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
+		addWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.world);
-		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		worldData = ModCapabilities.getWorld(minecraft.level);
+		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		
 		int buttonX = (int)(width*0.25);
-		drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.21), 0xFFFFFF);
-		drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("Friendly Fire"), buttonX, (int)(height * 0.21) + 38, 0xFFFFFF);
+		drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.21), 0xFFFFFF);
+		drawString(matrixStack, minecraft.font, Utils.translateToLocal("Friendly Fire"), buttonX, (int)(height * 0.21) + 38, 0xFFFFFF);
 	}
 	
 }

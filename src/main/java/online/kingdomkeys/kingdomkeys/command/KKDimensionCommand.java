@@ -11,19 +11,19 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.ISuggestionProvider;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.Util;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -32,19 +32,19 @@ import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class KKDimensionCommand extends BaseCommand {
 
-	private static final SuggestionProvider<CommandSource> SUGGEST_DIMENSIONS = (p_198296_0_, p_198296_1_) -> {
+	private static final SuggestionProvider<CommandSourceStack> SUGGEST_DIMENSIONS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		// TODO find how to get all registered dimensions
 		list.add("overworld");
 		list.add("the_nether");
 		list.add("the_end");
-		list.add(ModDimensions.DIVE_TO_THE_HEART.getLocation().toString());
-		list.add(ModDimensions.STATION_OF_SORROW.getLocation().toString());
-		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
+		list.add(ModDimensions.DIVE_TO_THE_HEART.location().toString());
+		list.add(ModDimensions.STATION_OF_SORROW.location().toString());
+		return SharedSuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 
-	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_dimension").requires(source -> source.hasPermissionLevel(2));
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("kk_dimension").requires(source -> source.hasPermission(2));
 
 		builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS).then(Commands.argument("targets", EntityArgument.players()).executes(KKDimensionCommand::changeDim)).executes(KKDimensionCommand::changeDim));
 
@@ -52,25 +52,25 @@ public class KKDimensionCommand extends BaseCommand {
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
 	}
 
-	private static int changeDim(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 2);
+	private static int changeDim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 2);
 		String dim = StringArgumentType.getString(context, "dim");
-		RegistryKey<World> dimension = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(dim));
+		ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(dim));
 
 		if (dimension == null) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Invalid dimension " + dim), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Invalid dimension " + dim), true);
 			return 1;
 		}
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
-			player.changeDimension(player.getServer().getWorld(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			context.getSource().sendFeedback(new TranslationTextComponent("Teleported" + player.getDisplayName().getString() + " to dimension " + dimension.getRegistryName().toString()), true);
-			player.sendMessage(new TranslationTextComponent("You have been teleported to " + dimension.getLocation().toString()), Util.DUMMY_UUID);
+			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			context.getSource().sendSuccess(new TranslatableComponent("Teleported" + player.getDisplayName().getString() + " to dimension " + dimension.getRegistryName().toString()), true);
+			player.sendMessage(new TranslatableComponent("You have been teleported to " + dimension.location().toString()), Util.NIL_UUID);
 		}
 		return 1;
 	}
 
-	private static BlockPos getWorldCoords(PlayerEntity player, RegistryKey<World> dimension) {
+	private static BlockPos getWorldCoords(Player player, ResourceKey<Level> dimension) {
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);
 		}
