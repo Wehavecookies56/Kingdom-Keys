@@ -1,0 +1,31 @@
+Build: 1.17.1-37.0.5 - Sat Jul 24 14:42:12 GMT 2021
+	supermartijn642:
+		Expose RenderStateShard inner classes (#7895)
+		
+		In 1.17, all of the inner classes of `RenderStateShard` (`RenderStateShard.OverlayStateShard`, `RenderStateShard.WriteMaskStateShard`, etc.) have been changed to protected. These classes are needed however to create new `RenderType.CompositeRenderType`'s using `RenderType.CompositeState.CompositeStateBuilder`.
+		Since these are protected inner classes, their constructors also can't be directly be obtained using `ObfuscationReflectionHelper`.
+		
+		Currently, any mod using custom `RenderType`'s will have to either:
+		- add their own access transformer for the inner classes, or
+		- extend `RenderStateShard` to access `RenderStateShard`'s inner classes, and extend `RenderType` to access `RenderType.CompositeRenderType`
+		
+		This PR changes the visibility of `RenderStateShard`'s inner classes to public in Forge's `accesstransformer.cfg`.
+
+	cyborgmas:
+		1.17 Fix InitGuiEvent (#7906)
+
+=========
+Build: 1.17.1-37.0.3 - Sat Jul 24 14:30:37 GMT 2021
+	cyborgmas:
+		added back attribute patches (#7886)
+
+=========
+Build: 1.17.1-37.0.2 - Sat Jul 24 00:26:10 GMT 2021
+	lexmanos:
+		Bump SecureJarHandler, and fix life cycle event's deferred work being on the incorrect thread/boot classloader.
+
+=========
+Build: 1.17.1-37.0.1 - Thu Jul 22 21:52:37 GMT 2021
+	lexmanos:
+		Bump SecureJarHandler to fix package meta issue. Closes #7881
+		Fix version.json having duplicate libraries.
