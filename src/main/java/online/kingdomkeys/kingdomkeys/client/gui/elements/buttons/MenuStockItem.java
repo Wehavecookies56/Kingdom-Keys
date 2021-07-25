@@ -40,7 +40,7 @@ public class MenuStockItem extends Button {
 	@Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-        RenderSystem.color4f(1, 1, 1, 1);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
             mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

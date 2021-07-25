@@ -54,13 +54,7 @@ public class BlastBloxRenderer extends EntityRenderer<BlastBloxEntity> {
     }
 
     public static void renderFlash(BlockState blockStateIn, PoseStack matrixStackIn, MultiBufferSource renderTypeBuffer, int combinedLight, boolean doFullBright) {
-        int i;
-        if (doFullBright) {
-            i = OverlayTexture.pack(OverlayTexture.u(1.0F), 10);
-        } else {
-            i = OverlayTexture.NO_OVERLAY;
-        }
-
+        int i =  doFullBright ? OverlayTexture.pack(OverlayTexture.u(1.0F), 10) : OverlayTexture.NO_OVERLAY;
         Minecraft.getInstance().getBlockRenderer().renderSingleBlock(blockStateIn, matrixStackIn, renderTypeBuffer, combinedLight, i);
     }
 

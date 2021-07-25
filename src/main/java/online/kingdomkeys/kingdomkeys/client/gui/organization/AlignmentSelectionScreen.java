@@ -227,7 +227,7 @@ public class AlignmentSelectionScreen extends Screen {
                 playerData.setAlignment(current);
                 Minecraft.getInstance().setScreen(null);
                 if(playerData.getEquippedKeychain(DriveForm.NONE) != null) {
-					if(Utils.findSummoned(minecraft.player.inventory, playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
+					if(Utils.findSummoned(minecraft.player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE), false) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true));
 				}
                 break;

@@ -178,7 +178,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			}
 
 			create.active = enoughMats && enoughMunny;
-			if(minecraft.player.inventory.getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
+			if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 				create.active = false;
 				create.setMessage(new TranslatableComponent("No empty slot"));
 			}

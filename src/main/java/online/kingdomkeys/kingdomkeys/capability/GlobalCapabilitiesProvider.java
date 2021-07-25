@@ -7,7 +7,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class GlobalCapabilitiesProvider implements ICapabilitySerializable<CompoundTag> {
-	IGlobalCapabilities instance = ModCapabilities.GLOBAL_CAPABILITIES.getDefaultInstance();
+	IGlobalCapabilities instance = new GlobalCapabilities();
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
@@ -16,12 +16,19 @@ public class GlobalCapabilitiesProvider implements ICapabilitySerializable<Compo
 
 	@Override
 	public CompoundTag serializeNBT() {
-		return (CompoundTag) ModCapabilities.GLOBAL_CAPABILITIES.getStorage().writeNBT(ModCapabilities.GLOBAL_CAPABILITIES, instance, null);
+		CompoundTag storage = new CompoundTag();
+		storage.putInt("ticks_stopped", instance.getStoppedTicks());
+		storage.putFloat("stop_dmg", instance.getDamage());
+		storage.putInt("ticks_flat", instance.getFlatTicks());
+		return storage;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
-		ModCapabilities.GLOBAL_CAPABILITIES.getStorage().readNBT(ModCapabilities.GLOBAL_CAPABILITIES, instance, null, nbt);
+		CompoundTag properties = (CompoundTag) nbt;
+		instance.setStoppedTicks(properties.getInt("ticks_stopped"));
+		instance.setDamage(properties.getFloat("stop_dmg"));
+		instance.setFlatTicks(properties.getInt("ticks_flat"));
 	}
 
 }

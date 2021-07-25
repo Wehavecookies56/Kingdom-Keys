@@ -30,7 +30,7 @@ public abstract class ItemDropEntity extends Entity {
 	public ItemDropEntity(EntityType<? extends Entity> type, Level worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
 		this.setPos(x, y, z);
-		this.getYRot() = (float) (this.random.nextDouble() * 360.0D);
+		this.setYRot((float) (this.random.nextDouble() * 360.0D));
 		this.setDeltaMovement((this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.random.nextDouble() * 0.2D * 2.0D, (this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
 		this.value = expValue;
 		this.delayBeforeCanPickup = 20;
@@ -97,7 +97,7 @@ public abstract class ItemDropEntity extends Entity {
 		float f = 0.98F;
 		if (this.onGround) {
 			BlockPos pos = new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ());
-			f = this.level.getBlockState(pos).getSlipperiness(this.level, pos, this) * 0.98F;
+			f = this.level.getBlockState(pos).getFriction(this.level, pos, this) * 0.98F;
 		}
 
 		this.setDeltaMovement(this.getDeltaMovement().multiply((double) f, 0.98D, (double) f));

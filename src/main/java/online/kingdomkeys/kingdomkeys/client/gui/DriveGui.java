@@ -193,7 +193,7 @@ public class DriveGui extends Screen {
 									if (decimalColor >= 1)
 										decimalColor = 0;
 									Color c = Color.getHSBColor(decimalColor, 1F, 1F);
-									RenderSystem.color3f(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F);
+									RenderSystem.setShaderColor(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F, 1.0F);
 
 									timeLastChange = (int) System.currentTimeMillis();
 									doChange = false;
@@ -206,7 +206,7 @@ public class DriveGui extends Screen {
 								matrixStack.translate(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (10 * scale)), 0);
 								matrixStack.scale(scale, scale, scale);
 								blit(matrixStack, 0, -3, 0, 57, 30, guiHeight);
-								RenderSystem.color3f(1, 1, 1);
+								RenderSystem.setShaderColor(1, 1, 1, 1);
 							}
 							matrixStack.popPose();
 						}

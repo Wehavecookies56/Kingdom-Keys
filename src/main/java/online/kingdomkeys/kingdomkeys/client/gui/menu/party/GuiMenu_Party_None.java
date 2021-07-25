@@ -125,10 +125,10 @@ public class GuiMenu_Party_None extends MenuBackground {
 		{
 			matrixStack.pushPose();
 			{
-				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null)
 					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
-				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
+				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();

@@ -44,7 +44,7 @@ public class PedestalRenderer extends BlockEntityRenderer<PedestalTileEntity> {
 	private void renderItem(PedestalTileEntity tileEntity, PoseStack matrixStack, MultiBufferSource buffer, float partialTicks, ItemStack toRender) {
 		matrixStack.pushPose();
 		{
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			float height, rotation;
 			if (!tileEntity.isPaused()) {
 				float lerpedTicks = tileEntity.previousTicks + (tileEntity.ticksExisted() - tileEntity.previousTicks) * partialTicks;

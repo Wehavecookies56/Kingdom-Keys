@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -47,4 +48,10 @@ public class CheckboxButton extends AbstractButton {
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
+
+	@Override
+	public void updateNarration(NarrationElementOutput p_169152_) {
+		// TODO Auto-generated method stub
+		
+	}
 }

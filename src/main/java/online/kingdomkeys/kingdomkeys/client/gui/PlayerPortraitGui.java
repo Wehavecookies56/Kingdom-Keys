@@ -36,7 +36,7 @@ public class PlayerPortraitGui extends Screen {
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			PoseStack matrixStack = event.getMatrixStack(); 
-			RenderSystem.color3f(1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			ResourceLocation skin = minecraft.player.getSkinTextureLocation();
 			minecraft.getTextureManager().bindForSetup(skin);
 			float scale = 0.5f;
@@ -54,11 +54,11 @@ public class PlayerPortraitGui extends Screen {
 
 			if (playerData != null) {
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
-					RenderSystem.color4f(0.2F, 0.2F, 0.2F, 1F);
+					RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
 				}
 				
 				if(Utils.isPlayerLowHP(minecraft.player)) {
-					RenderSystem.color4f(1F, 0.5F, 0.5F, 1F);
+					RenderSystem.setShaderColor(1F, 0.5F, 0.5F, 1F);
 				}
 
 				matrixStack.pushPose();
@@ -152,7 +152,7 @@ public class PlayerPortraitGui extends Screen {
 						}
 						matrixStack.popPose();
 					
-					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.setShaderColor(100.0F, 1.0F, 1.0F, 1.0F);
 
 					// GLOVES
 					int gloveWidth = 16;
@@ -185,7 +185,7 @@ public class PlayerPortraitGui extends Screen {
 						}
 						matrixStack.popPose();
 					}
-					RenderSystem.color4f(100.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.setShaderColor(100.0F, 1.0F, 1.0F, 1.0F);
 
 					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 						String driveName = playerData.getActiveDriveForm().substring(playerData.getActiveDriveForm().indexOf("_") + 1);

@@ -44,10 +44,10 @@ public class PartyHUDGui extends Screen {
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
 		Player player = minecraft.player;
-		if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
+		//if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
 			// if (!MainConfig.client.hud.EnableHeartsOnHUD)
 			// event.setCanceled(true);
-		}
+		//}
 
 		PoseStack matrixStack = event.getMatrixStack();
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
@@ -110,9 +110,9 @@ public class PartyHUDGui extends Screen {
 				matrixStack.translate((screenWidth - headWidth * scale) - scaledHeadPosX, (screenHeight - headHeight * scale) - scaledHeadPosY, 0);
 				matrixStack.scale(scale, scale, scale);
 				if (playerAlly == null) {
-					RenderSystem.color4f(0.2F, 0.2F, 0.2F, 1F);
+					RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
 				} else {
-					RenderSystem.color4f(1F, 1F, 1F, 1F);
+					RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 				}
 
 				this.blit(matrixStack, 0, 0, 32, 32, headWidth, headHeight);

@@ -97,13 +97,13 @@ public class ShotlockGUI extends Screen {
 
 					matrixStack.pushPose();
 					{
-						RenderSystem.pushMatrix();
+						//RenderSystem.pushMatrix();
 						{
 							minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus.png"));
 							matrixStack.translate((screenWidth / 2) - (guiWidth / 2) * focusScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * focusScale / size - 0.5F, 0);
 							matrixStack.scale(focusScale / size, focusScale / size, focusScale / size);
 							if(ClientEvents.focusGaugeTemp<= 0)
-								RenderSystem.color4f(1, 0, 0, 1);
+								RenderSystem.setShaderColor(1, 0, 0, 1);
 							this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 							
 							if(ClientEvents.focusGaugeTemp> 0) {
@@ -117,10 +117,10 @@ public class ShotlockGUI extends Screen {
 								int n = (int)(actual * realGuiHeight / max);
 								blit(matrixStack, 0, (guiHeight-botOffset)-n, 0, (guiHeight-botOffset ) - n, guiWidth, n);
 							}
-							RenderSystem.color4f(1, 1, 1, 1);
+							RenderSystem.setShaderColor(1, 1, 1, 1);
 
 						}
-						RenderSystem.popMatrix();
+						//RenderSystem.popMatrix();
 					}
 					matrixStack.popPose();
 				}

@@ -150,9 +150,9 @@ public class MenuScreen extends MenuBackground {
 		{
 			Player player = minecraft.player;
 			// player.getSwingProgress(1);
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.75F);
+			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 		}
 		matrixStack.popPose();
 		matrixStack.pushPose();

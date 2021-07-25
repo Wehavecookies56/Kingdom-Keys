@@ -90,7 +90,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 	@Override
 	protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
 		Minecraft mc = Minecraft.getInstance();
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindForSetup(new ResourceLocation(textureBase + bagLevel + ".png"));
 
 		int xPos = (width - imageWidth) / 2;

@@ -115,9 +115,10 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 	}
 
     @Override
-    public ItemStack clicked(int slot, int dragType, ClickType clickTypeIn, Player player) {
-        if (slot >= 0 && getSlot(slot).getItem() == player.getItemInHand(InteractionHand.MAIN_HAND)) return ItemStack.EMPTY;
-        return super.clicked(slot, dragType, clickTypeIn, player);
+    public void clicked(int slot, int dragType, ClickType clickTypeIn, Player player) {
+        if (slot >= 0 && getSlot(slot).getItem() == player.getItemInHand(InteractionHand.MAIN_HAND))
+        	return;
+        super.clicked(slot, dragType, clickTypeIn, player);
     }
     
   /*  @Override

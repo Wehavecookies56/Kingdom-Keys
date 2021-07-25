@@ -107,7 +107,7 @@ public class MenuEquipmentButton extends Button {
 
         isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
         Color col = Color.decode(String.valueOf(colour));
-        RenderSystem.color4f(1, 1, 1, 1);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         float labelWidth = parent.width * 0.142F;
         float gradientWidth = parent.width * 0.175F;
         if (visible) {
@@ -116,9 +116,9 @@ public class MenuEquipmentButton extends Button {
             matrixStack.pushPose();
             {
                 RenderSystem.enableBlend();
-                RenderSystem.enableAlphaTest();
-                Lighting.turnOff();
-                RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+               // RenderSystem.enableAlphaTest();
+               // Lighting.turnOff();
+                RenderSystem.setShaderColor(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
                 matrixStack.translate(x + 0.6F, y, 0);
                 matrixStack.scale(0.5F, 0.5F, 1);
                 //Gradient Background
@@ -139,7 +139,7 @@ public class MenuEquipmentButton extends Button {
                 }
                 //Right item slot
                 blit(matrixStack, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
-                RenderSystem.color4f(1, 1, 1, 1);
+                RenderSystem.setShaderColor(1, 1, 1, 1);
                 //Icon
                 blit(matrixStack, 6, 4, category.getU(), category.getV(), 20, 20);
             }
@@ -163,7 +163,7 @@ public class MenuEquipmentButton extends Button {
                 mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
-                    RenderSystem.enableAlphaTest();
+                   // RenderSystem.enableAlphaTest();
                     matrixStack.translate(x + 0.6F, y, 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
                     //Left selected
@@ -281,15 +281,15 @@ public class MenuEquipmentButton extends Button {
                 } 
                 
             }
-            Lighting.turnBackOn();
-            RenderSystem.color4f(1, 1, 1, 1);
+           // Lighting.turnBackOn();
+            RenderSystem.setShaderColor(1, 1, 1, 1);
             if (hasLabel) {
                 mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
-                    RenderSystem.enableAlphaTest();
-                    Lighting.turnOff();
-                    RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+                   // RenderSystem.enableAlphaTest();
+                   // Lighting.turnOff();
+                    RenderSystem.setShaderColor(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
                     matrixStack.translate(x - labelWidth, y, 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
 

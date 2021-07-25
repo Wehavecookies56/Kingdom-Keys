@@ -43,9 +43,9 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					PacketHandler.sendToServer(new CSEquipItems(parent.slot, slot));
-					ItemStack stackToEquip = player.inventory.getItem(slot);
+					ItemStack stackToEquip = player.getInventory().getItem(slot);
 					ItemStack stackPreviouslyEquipped = playerData.equipItem(parent.slot, stackToEquip);
-					player.inventory.setItem(slot, stackPreviouslyEquipped);
+					player.getInventory().setItem(slot, stackPreviouslyEquipped);
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}
@@ -66,7 +66,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
         Font fr = minecraft.font;
 		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
-		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.CONSUMABLE;
 				
 		KKPotionItem potion;
@@ -83,7 +83,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			RenderSystem.enableAlphaTest();
-			RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+			RenderSystem.setShaderColor(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
 			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
@@ -91,7 +91,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 				blit(matrixStack, 17 + i, 0, 184, 34, 2, 28);
 			}
 			blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			blit(matrixStack, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
 			String itemName;

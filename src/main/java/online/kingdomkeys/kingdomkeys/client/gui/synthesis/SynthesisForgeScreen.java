@@ -88,7 +88,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				minecraft.player.inventory.setItem(minecraft.player.inventory.findSlotMatchingItem(selected), stack);
+				minecraft.player.getInventory().setItem(minecraft.player.getInventory().findSlotMatchingItem(selected), stack);
 			}
 			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selected));
 			init();
@@ -134,9 +134,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		List<ItemStack> items = new ArrayList<>();
 		
-		for (int i = 0; i < player.inventory.getContainerSize(); i++) {
-			if (player.inventory.getItem(i).getItem() instanceof KeychainItem) {
-				items.add(player.inventory.getItem(i));
+		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+			if (player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
+				items.add(player.getInventory().getItem(i));
 			}
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents()));

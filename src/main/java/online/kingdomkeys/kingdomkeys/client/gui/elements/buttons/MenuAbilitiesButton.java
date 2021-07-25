@@ -100,16 +100,16 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		if (abilityType != null) {
 			switch (abilityType) {
 			case ACTION:
-				RenderSystem.color3f(0, 0, 0.4F);
+				RenderSystem.setShaderColor(0, 0, 0.4F,1);
 				break;
 			case GROWTH:
-				RenderSystem.color3f(0.4F, 0.4F, 0);
+				RenderSystem.setShaderColor(0.4F, 0.4F, 0,1);
 				break;
 			case SUPPORT:
-				RenderSystem.color3f(0, 0.4F, 0);
+				RenderSystem.setShaderColor(0, 0.4F, 0,1);
 				break;
 			case WEAPON:
-				RenderSystem.color3f(0.4F, 0, 0);
+				RenderSystem.setShaderColor(0.4F, 0, 0,1);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		
 		if(abilityType != AbilityType.WEAPON) {
 			//AP Cost
-			RenderSystem.color3f(0.3F, 0.24F, 0);
+			RenderSystem.setShaderColor(0.3F, 0.24F, 0,1);
 			blit(matrixStack, x+middleWidth+endWidth+10, y-1, 72, 117, endWidth, height);
 			for (int i = 0; i < apMiddleWidth; i++) {
 				blit(matrixStack, x +middleWidth+ i + endWidth+19, y, middleU, vPos, 1, height);
@@ -138,7 +138,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		//Equipped/Unequipped icon
 		matrixStack.pushPose();
 		{
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			//System.out.println(index);
 			equipped = ModCapabilities.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON) {
@@ -153,7 +153,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		if(hovered) {
 			matrixStack.pushPose();
 			{
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				blit(matrixStack, x, y, leftU, selectedVPos, endWidth, height);
 				for (int i = 0; i < middleWidth; i++)
 					blit(matrixStack, x + i + endWidth, y, middleU, selectedVPos, 1, height);

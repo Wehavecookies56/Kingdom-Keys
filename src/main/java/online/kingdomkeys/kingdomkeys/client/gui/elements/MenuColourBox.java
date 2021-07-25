@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -45,7 +46,7 @@ public class MenuColourBox extends AbstractWidget {
 		// height;
 		if (visible) {
 			matrixStack.pushPose();
-			RenderSystem.color3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
+			RenderSystem.setShaderColor(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 			minecraft.textureManager.bindForSetup(texture);
@@ -83,6 +84,12 @@ public class MenuColourBox extends AbstractWidget {
 	public void playDownSound(SoundManager soundHandlerIn) {
 		// soundHandlerIn.play(SimpleSound.master(ModSounds.menu_select.get(), 1.0F,
 		// 1.0F));
+	}
+
+	@Override
+	public void updateNarration(NarrationElementOutput p_169152_) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

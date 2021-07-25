@@ -123,9 +123,9 @@ public class MenuStockScreen extends MenuFilterable {
         addWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         List<ItemStack> items = new ArrayList<>();
-        for (int i = 0; i < player.inventory.getContainerSize(); i++) {
-            if (filterItem(player.inventory.getItem(i))) {
-                items.add(player.inventory.getItem(i));
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            if (filterItem(player.getInventory().getItem(i))) {
+                items.add(player.getInventory().getItem(i));
             }
         }
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents()));

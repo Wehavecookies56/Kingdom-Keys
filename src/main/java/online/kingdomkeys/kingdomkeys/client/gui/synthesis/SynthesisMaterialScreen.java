@@ -73,15 +73,15 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			
 			LocalPlayer player = minecraft.player;
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for(int i = 0; i < player.inventory.getContainerSize();i++) {
-				ItemStack stack = player.inventory.getItem(i);
+			for(int i = 0; i < player.getInventory().getContainerSize();i++) {
+				ItemStack stack = player.getInventory().getItem(i);
 				
 				if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
 					
 					if(ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
 						Material mat = ModMaterials.registry.getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
 						playerData.addMaterial(mat, stack.getCount());
-						player.inventory.setItem(i, ItemStack.EMPTY);
+						player.getInventory().setItem(i, ItemStack.EMPTY);
 					}
 				}
 			}
@@ -92,7 +92,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			minecraft.setScreen(new SynthesisScreen());
 			break;
 		case "take":
-			if(!ItemStack.isSame(selected, ItemStack.EMPTY) && minecraft.player.inventory.getFreeSlot() > -1) {
+			if(!ItemStack.isSame(selected, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
 					Integer.parseInt(amountBox.getValue());
 					PacketHandler.sendToServer(new CSTakeMaterials(selected.getItem(), Integer.parseInt(amountBox.getValue())));
@@ -200,7 +200,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
 		
-		if(minecraft.player.inventory.getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
+		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;
 			take.setMessage(new TranslatableComponent("No empty slot"));
 		}

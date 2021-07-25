@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Registry;
 import net.minecraft.locale.Language;
@@ -149,7 +150,7 @@ public class MenuBackground extends Screen {
 	}
 
 	private void clearButtons() {
-		for(AbstractWidget btn : buttons) {
+		for(GuiEventListener btn : children()) {
 			if(btn instanceof MenuButtonBase) {
 				((MenuButtonBase) btn).setSelected(false);
 			}
@@ -164,7 +165,7 @@ public class MenuBackground extends Screen {
 
 		for (int i = 0; i < sh; i += 3) {
 			matrixStack.pushPose();
-			RenderSystem.color3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+			RenderSystem.setShaderColor(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 			minecraft.textureManager.bindForSetup(menu);
@@ -223,14 +224,14 @@ public class MenuBackground extends Screen {
 		tip = null;
 
 		int i = 0;
-		for(AbstractWidget btn : buttons) {
+		for(GuiEventListener btn : children()) {
 			if(btn instanceof MenuButtonBase) {
 				i++;
-				if(btn.isHovered()) {
+				if(((MenuButtonBase)btn).isHovered()) {
 					selected = -1;
 					clearButtons();
 
-					if(btn instanceof MenuButton && btn.visible) {
+					if(btn instanceof MenuButton && ((MenuButtonBase) btn).visible) {
 						tip = ((MenuButton) btn).getTip();
 					}
 				}
@@ -238,14 +239,11 @@ public class MenuBackground extends Screen {
 		}
 		
 		if(tip != null) {
-			RenderSystem.pushMatrix();
-			{
-				RenderSystem.scalef(1.1F, 1.1F, 1F);
-				RenderSystem.translatef(0, -5, 0);
-				//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
-				Utils.drawSplitString(minecraft.font, Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
-			}
-			RenderSystem.popMatrix();
+			matrixStack.scale(1.1F, 1.1F, 1F);
+			matrixStack.translate(0, -5, 0);
+			//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
+			Utils.drawSplitString(minecraft.font, Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
+			
 		}
 		
 	}

@@ -63,10 +63,10 @@ public class BlizzazaEntity extends ThrowableProjectile {
 			this.remove(false);
 		}
 
-		if (level.getBlockState(blockPosition()).getBlockState() == Blocks.WATER.defaultBlockState()) {
+		if (level.getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
 			level.setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
 			this.remove(false);
-		} else if(level.getBlockState(blockPosition()).getBlockState() == Blocks.LAVA.defaultBlockState()){
+		} else if(level.getBlockState(blockPosition()) == Blocks.LAVA.defaultBlockState()){
 			level.setBlockAndUpdate(blockPosition(), Blocks.OBSIDIAN.defaultBlockState());
 			this.remove(false);
 		}

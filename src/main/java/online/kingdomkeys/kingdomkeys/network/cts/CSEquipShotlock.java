@@ -39,9 +39,9 @@ public class CSEquipShotlock {
             if(playerData.getShotlockList().contains(message.shotlock) || message.shotlock.equals("")) {
             	playerData.setEquippedShotlock(message.shotlock);
             }
-           /* ItemStack stackToEquip = player.inventory.getStackInSlot(message.slotToEquipFrom);
+           /* ItemStack stackToEquip = player.getInventory().getStackInSlot(message.slotToEquipFrom);
             ItemStack stackPreviouslyEquipped = playerData.equipKeychain(message.shotlock, stackToEquip);
-            player.inventory.setInventorySlotContents(message.slotToEquipFrom, stackPreviouslyEquipped);*/
+            player.getInventory().setInventorySlotContents(message.slotToEquipFrom, stackPreviouslyEquipped);*/
             PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
         });

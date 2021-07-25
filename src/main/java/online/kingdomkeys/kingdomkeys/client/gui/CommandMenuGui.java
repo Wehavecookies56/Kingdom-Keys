@@ -99,22 +99,22 @@ public class CommandMenuGui extends Screen {
 	private void paintWithColorArray(PoseStack matrixStack, float[] array, float alpha) {
 		if (EntityEvents.isHostiles) { //Red
 			if(submenu == array[3]) {
-				RenderSystem.color4f(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
+				RenderSystem.setShaderColor(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
 			} else {
-				RenderSystem.color4f(combatModeColor[0] / 2, array[1] / 2, combatModeColor[2] / 2, alpha);
+				RenderSystem.setShaderColor(combatModeColor[0] / 2, array[1] / 2, combatModeColor[2] / 2, alpha);
 			}
 		} else { //Blue/color
 			if (ModCapabilities.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) {
 				if (submenu == array[3]) {
-					RenderSystem.color4f(orgColor[0], orgColor[1], orgColor[2], alpha);
+					RenderSystem.setShaderColor(orgColor[0], orgColor[1], orgColor[2], alpha);
 				} else {
-					RenderSystem.color4f(orgColor[0] / 2, orgColor[1] / 2, orgColor[2] / 2, alpha);
+					RenderSystem.setShaderColor(orgColor[0] / 2, orgColor[1] / 2, orgColor[2] / 2, alpha);
 				}
 			} else {
 				if (submenu == array[3]) {
-					RenderSystem.color4f(array[0], array[1], array[2], alpha);
+					RenderSystem.setShaderColor(array[0], array[1], array[2], alpha);
 				} else {
-					RenderSystem.color4f(array[0] / 2, array[1] / 2, array[2] / 2, alpha);
+					RenderSystem.setShaderColor(array[0] / 2, array[1] / 2, array[2] / 2, alpha);
 				}
 			}
 		}
@@ -206,10 +206,10 @@ public class CommandMenuGui extends Screen {
 	private void drawIcon(PoseStack matrixStack, int selected, int subMenu) {
 		RenderSystem.enableBlend();
 		if(subMenu == submenu) {
-			RenderSystem.color4f(1F, 1F, 1F, alpha);
+			RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
 			//RenderSystem.clearColor(1F, 1F, 1F, alpha);
 		} else {
-			RenderSystem.color4f(0.5F, 0.5F, 0.5F, alpha);
+			RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, alpha);
 		}
 		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15), 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 		RenderSystem.disableBlend();
@@ -236,7 +236,7 @@ public class CommandMenuGui extends Screen {
 		//Header
 		matrixStack.pushPose();
 		{
-			RenderSystem.color4f(1F, 1F, 1F, alpha);
+			RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
 			minecraft.textureManager.bindForSetup(texture);
 			matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP), 0);
 			matrixStack.scale(scale, scale, scale);
@@ -254,9 +254,9 @@ public class CommandMenuGui extends Screen {
 			matrixStack.pushPose();
 			{
 				if(i == reactionSelected) {
-					RenderSystem.color4f(1F, 1F, 1F, alpha);
+					RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
 				} else {
-					RenderSystem.color4f(0.4F, 0.4F, 0.4F, alpha);
+					RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, alpha);
 				}
 				minecraft.textureManager.bindForSetup(texture);
 				matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP - (15*scale)*i), 0);
@@ -628,7 +628,7 @@ public class CommandMenuGui extends Screen {
 			for (int i = 0; i < limits.size(); i++) {
 				matrixStack.pushPose();
 				{
-					//RenderSystem.color4f(1F, 1F, 1F, alpha);
+					//RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
 
 					minecraft.textureManager.bindForSetup(texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() - i)), 0);

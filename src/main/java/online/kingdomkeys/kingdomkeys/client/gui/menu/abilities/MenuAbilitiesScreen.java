@@ -490,7 +490,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					}
 				}
 			}
-			RenderSystem.color4f(1, 1, 1, 1F);
+			RenderSystem.setShaderColor(1, 1, 1, 1F);
 
 			// Foreground
 			matrixStack.pushPose();

@@ -43,7 +43,7 @@ public class MenuBox extends AbstractWidget{
 
     public void draw(PoseStack matrixStack) {
         matrixStack.pushPose();
-        RenderSystem.color3f(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F);
+        RenderSystem.setShaderColor(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F, 1);
         RenderSystem.enableAlphaTest();
         RenderSystem.enableBlend();
         mc.textureManager.bindForSetup(texture);

@@ -81,7 +81,7 @@ public class MenuButton extends MenuButtonBase {
 
 		if (visible) {
 			matrixStack.pushPose();
-			RenderSystem.color3f(1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
@@ -107,7 +107,7 @@ public class MenuButton extends MenuButtonBase {
 					}
 				}
 			}
-			RenderSystem.color3f(1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			matrixStack.popPose();
 		}
 	}

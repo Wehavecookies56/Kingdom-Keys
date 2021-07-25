@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -86,10 +87,11 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		for(int i = 1;i<buttons.size();i++) {
-			
-			if(!buttons.get(i).getMessage().getString().startsWith("Refresh")) {
-				buttons.remove(i);
+		for(int i = 1;i<children().size();i++) {
+			if(children().get(i) instanceof MenuButtonBase) {
+				if(!((MenuButtonBase)children().get(i)).getMessage().getString().startsWith("Refresh")) {
+					children().remove(i);
+				}
 			}
 		}
 		
