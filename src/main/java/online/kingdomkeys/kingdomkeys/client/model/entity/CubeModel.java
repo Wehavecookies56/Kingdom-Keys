@@ -25,8 +25,8 @@ public class CubeModel extends Model {
     }
 
     private void setRotation(ModelPart model, float x, float y, float z) {
-        model.getXRot() = x;
-        model.getYRot() = y;
+        model.xRot = x;
+        model.yRot = y;
         model.zRot = z;
     }
 

@@ -60,14 +60,27 @@ public class MenuStockScreen extends MenuFilterable {
         float iconHeight = height * 0.1537F;
         
 		Minecraft mc = Minecraft.getInstance();
-        Lighting.turnOff();
-        RenderSystem.pushMatrix();
+       // Lighting.turnOff();
+		
+        PoseStack viewModelPose = RenderSystem.getModelViewStack();
+        viewModelPose.pushPose();
+        {
+	        viewModelPose.mulPoseMatrix(matrixStack.last().pose());
+	        viewModelPose.translate(iconPosX, iconPosY, 0);
+	        RenderSystem.applyModelViewMatrix();
+	        mc.getItemRenderer().renderAndDecorateItem(selected, 0, 0);
+        }
+        viewModelPose.popPose();
+        RenderSystem.applyModelViewMatrix();
+
+		
+       /* RenderSystem.pushMatrix();
         {
         	RenderSystem.translatef(iconPosX, iconPosY, 0);
         	RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
             mc.getItemRenderer().renderAndDecorateItem(selected, 0, 0);
         }
-        RenderSystem.popMatrix();
+        RenderSystem.popMatrix();*/
         
         drawString(matrixStack, mc.font, selected.getHoverName().getString(), (int) tooltipPosX + 50, (int) tooltipPosY + (mc.font.lineHeight * 0) + 5, 0xFFFFFF);
 

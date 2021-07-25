@@ -236,45 +236,45 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
 							m.increasing = true;
 						}
 					}
-					m.model.getXRot() = (float) Math.toRadians(m.actVal);
+					m.model.xRot = (float) Math.toRadians(m.actVal);
 					if(m.modelCounterpart != null) {
-						m.modelCounterpart.getXRot() = (float) Math.toRadians(m.defVal*2-m.actVal);
+						m.modelCounterpart.xRot = (float) Math.toRadians(m.defVal*2-m.actVal);
 					}
 				}
 			}
 		
 		} else {
-	    	this.leftLegTop.getXRot() = this.rightLegTop.getXRot() = (float) Math.toRadians(-35);
-			this.leftLegBot.getXRot() = this.rightLegBot.getXRot() = (float) Math.toRadians(10);
-			this.leftFootTop.getXRot() = this.rightFootTop.getXRot() = (float) Math.toRadians(25);
+	    	this.leftLegTop.xRot = this.rightLegTop.xRot = (float) Math.toRadians(-35);
+			this.leftLegBot.xRot = this.rightLegBot.xRot = (float) Math.toRadians(10);
+			this.leftFootTop.xRot = this.rightFootTop.xRot = (float) Math.toRadians(25);
 		}
 		
 		if (EntityHelper.getState(ent) == 0) { //Standing
 			//this.rightArm.rotateAngleX =  (float) Math.toRadians(0);
-			this.rightArm.getYRot() = (float) Math.toRadians(0);
+			this.rightArm.yRot = (float) Math.toRadians(0);
 			this.rightArm.zRot = (float) Math.toRadians(180);
 
-			this.leftArm.getXRot() =  (float) Math.toRadians(270);
-			this.leftArm.getYRot() = (float) Math.toRadians(0);
+			this.leftArm.xRot =  (float) Math.toRadians(270);
+			this.leftArm.yRot = (float) Math.toRadians(0);
 			this.leftArm.zRot = (float) Math.toRadians(0);
 			
 		} else if (EntityHelper.getState(ent) == 1) { //Underground
-			this.rightArm.getXRot() =  (float) Math.toRadians(270);
-			this.rightArm.getYRot() = (float) Math.toRadians(90 - ent.tickCount*50);
+			this.rightArm.xRot =  (float) Math.toRadians(270);
+			this.rightArm.yRot = (float) Math.toRadians(90 - ent.tickCount*50);
 			this.rightArm.zRot = (float) Math.toRadians(90);
 
-			this.leftArm.getXRot() =  (float) Math.toRadians(270);
-			this.leftArm.getYRot() = (float) Math.toRadians(-90 - ent.tickCount*50);
+			this.leftArm.xRot =  (float) Math.toRadians(270);
+			this.leftArm.yRot = (float) Math.toRadians(-90 - ent.tickCount*50);
 			this.leftArm.zRot = (float) Math.toRadians(90);
 			
 		} else if (EntityHelper.getState(ent) == 2) { //Exploding
-			this.leftLegTop.getXRot() = (float) Math.toRadians(-135);
-			this.rightLegTop.getXRot() = (float) Math.toRadians(-135);
-			this.leftLegBot.getXRot() = (float) Math.toRadians(90);
-			this.rightLegBot.getXRot() = (float) Math.toRadians(90);
+			this.leftLegTop.xRot = (float) Math.toRadians(-135);
+			this.rightLegTop.xRot = (float) Math.toRadians(-135);
+			this.leftLegBot.xRot = (float) Math.toRadians(90);
+			this.rightLegBot.xRot = (float) Math.toRadians(90);
 			
-			this.leftArm.getYRot() = (float) Math.toRadians(110);
-			this.rightArm.getYRot() = (float) Math.toRadians(110);
+			this.leftArm.yRot = (float) Math.toRadians(110);
+			this.rightArm.yRot = (float) Math.toRadians(110);
 		}
 
     }
@@ -293,8 +293,8 @@ public class AssassinModel<T extends Entity> extends EntityModel<T> {
      * This is a helper function from Tabula to set the rotation of model parts
      */
     public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.getXRot() = x;
-        modelRenderer.getYRot() = y;
+        modelRenderer.xRot = x;
+        modelRenderer.yRot = y;
         modelRenderer.zRot = z;
     }
 }

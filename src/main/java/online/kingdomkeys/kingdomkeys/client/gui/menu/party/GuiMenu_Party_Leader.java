@@ -151,7 +151,6 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				if(member != null && player != null) {
 					RenderSystem.pushMatrix();
 					RenderSystem.scalef(0.9F, 0.9F, 1.0F);
-
 					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 					RenderSystem.popMatrix();
 				}
@@ -160,7 +159,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			matrixStack.popPose();
 			matrixStack.pushPose();
 			matrixStack.scale(0.9F, 0.9F, 1);
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				matrixStack.translate(1, 20, 100);
 				RenderSystem.enableAlphaTest();
 				RenderSystem.enableBlend();
