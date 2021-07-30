@@ -48,7 +48,7 @@ public class MenuStockItem extends Button {
                 matrixStack.pushPose();
                 {
                     RenderSystem.enableBlend();
-                    RenderSystem.enableAlphaTest();
+                   // RenderSystem.enableAlphaTest();
                     matrixStack.translate(x + 0.6F, y, 0);
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);

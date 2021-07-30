@@ -50,7 +50,7 @@ public class GummiEditorBlock extends BaseEntityBlock {
 			if (!(player instanceof ServerPlayer))
 				return InteractionResult.FAIL;
 			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
-			if (state.hasTileEntity() && worldIn.getBlockEntity(pos) instanceof GummiEditorTileEntity) {
+			if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof GummiEditorTileEntity) {
 				GummiEditorTileEntity te = (GummiEditorTileEntity) worldIn.getBlockEntity(pos);
 				if (te != null) {
 					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
@@ -63,7 +63,7 @@ public class GummiEditorBlock extends BaseEntityBlock {
 	}
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.hasTileEntity() && state.getBlock() != newState.getBlock()) {
+		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
 			world.getBlockEntity(pos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					popResource(world, pos, inv.getStackInSlot(i));

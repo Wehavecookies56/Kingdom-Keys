@@ -52,7 +52,7 @@ public class WorldLoader {
                 BlockState state = blockStates.get(block.getInt("state"));
                 if (block.contains("nbt")) {
                     CompoundTag nbtData = block.getCompound("nbt");
-                    StructureBlockEntity.loadStatic(state, nbtData);
+                    StructureBlockEntity.loadStatic(blockpos, state, nbtData);
                 }
                 if (state.getBlock() == Blocks.OAK_DOOR) {
                     if (world.getBlockState(blockpos.below()).getBlock() == Blocks.AIR) {
@@ -79,9 +79,8 @@ public class WorldLoader {
                         
                         CompoundTag nbtData = block.getCompound("nbt");
                         world.setBlock(blockpos, state, 2);
-                        ChestBlockEntity te = (ChestBlockEntity) ChestBlockEntity.loadStatic(state, nbtData);
-                        world.setBlockEntity(blockpos, te);
-                        
+                        ChestBlockEntity te = (ChestBlockEntity) ChestBlockEntity.loadStatic(blockpos, state, nbtData);
+                        world.setBlockEntity(te);                        
                         if (nbtData.getString("id").equals("minecraft:chest")) {
 
                         }

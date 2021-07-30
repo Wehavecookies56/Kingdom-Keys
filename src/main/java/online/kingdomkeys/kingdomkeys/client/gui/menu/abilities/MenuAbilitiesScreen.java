@@ -116,8 +116,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		super.height = height;
 		super.init();
 
-		buttons.clear();
-		children.clear();
+		//buttons.clear();
+		children().clear();
 		abilities.clear();
 		
 		float boxPosX = (float) width * 0.2F;

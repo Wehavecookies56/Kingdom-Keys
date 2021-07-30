@@ -83,7 +83,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (state.hasTileEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
+		if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
 			MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getBlockEntity(pos);
 			if (te != null) {
 				Player player = (Player) placer;
@@ -104,7 +104,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 			if (!(player instanceof ServerPlayer))
 				return InteractionResult.FAIL;
 			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
-			if (state.hasTileEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
+			if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
 				MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getBlockEntity(pos);
 				if (te != null) {
 					UUID keyblade = te.getKeyblade();
@@ -163,7 +163,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 	}
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.hasTileEntity() && state.getBlock() != newState.getBlock()) {
+		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
 			world.getBlockEntity(pos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					popResource(world, pos, inv.getStackInSlot(i));
@@ -179,6 +179,10 @@ public class MagicalChestBlock extends BaseEntityBlock {
 		return true;
 	}
 
+	@Override
+	public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
+		return null;
+	}
 	@Nullable
 	@Override
 	public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
@@ -197,7 +201,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 		@SubscribeEvent
 		public static void onBlockBreak(BlockEvent.BreakEvent event) {
 			if (event.getState().getBlock() == ModBlocks.magicalChest.get()) {
-				if (event.getState().hasTileEntity()) {
+				if (event.getState().hasBlockEntity()) {
 					MagicalChestTileEntity te = (MagicalChestTileEntity) event.getWorld().getBlockEntity(event.getPos());
 					if (te != null) {
 						//If player is not the same as the owner AND the chest has any keyblade assigned AND the player is in survival

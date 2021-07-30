@@ -102,8 +102,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float invPosX = (float) width * 0.1494F;
 		float invPosY = (float) height * 0.1851F;
 		inventory.clear();
-		children.clear();
-		buttons.clear();
+		children().clear();
+
 		filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();

@@ -128,8 +128,7 @@ public class MenuStockScreen extends MenuFilterable {
         float invPosX = (float) width * 0.1594F;
         float invPosY = (float) height * 0.1851F;
         inventory.clear();
-        buttons.clear();
-        children.clear();
+        children().clear();
 
         filterBar.buttons.forEach(this::addButton);
         

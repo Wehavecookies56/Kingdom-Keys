@@ -97,7 +97,7 @@ public class GhostBloxBlock extends BaseBlock implements SimpleWaterloggedBlock 
     public boolean isSignalSource(BlockState state) {
         return false;
     }
-
+    
     @Override
     public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, @Nullable Direction side) {
         return false;

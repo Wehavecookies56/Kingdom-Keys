@@ -159,7 +159,7 @@ public class KingdomKeys {
 	public void addPieceToPattern(ResourceLocation pattern, ResourceLocation structure, int weight) {
 		ResourceKey<StructureTemplatePool> key = ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, pattern);
 		StructureTemplatePool pat = BuiltinRegistries.TEMPLATE_POOL.get(key);
-		pat.rawTemplates.add(Pair.of(StructurePoolElement.legacy(structure.toString()).apply(Projection.RIGID), weight));
+	//	pat.rawTemplates.add(Pair.of(StructurePoolElement.legacy(structure.toString()).apply(Projection.RIGID), weight));
 		Pools.register(pat);
 	}
 

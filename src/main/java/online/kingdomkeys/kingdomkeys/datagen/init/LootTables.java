@@ -8,10 +8,10 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTables;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import sun.jvm.hotspot.code.ConstantIntValue;
 
 public class LootTables extends BaseLootTables {
 
@@ -42,7 +42,7 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.savepoint.get());
         standardBlockLoot(ModBlocks.magicalChest.get());
         
-        lootTables.put(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantIntValue.exactly(1))
+        lootTables.put(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
         		.add(LootItem.lootTableItem(ModItems.fireSpell.get()).setWeight(1))
 	            .add(LootItem.lootTableItem(ModItems.blizzardSpell.get()).setWeight(1))
 	            .add(LootItem.lootTableItem(ModItems.waterSpell.get()).setWeight(1))
@@ -73,7 +73,7 @@ public class LootTables extends BaseLootTables {
 	            .add(LootItem.lootTableItem(ModItems.orichalcum.get()).setWeight(1))
         ));
         
-        lootTables.put(ModBlocks.rarePrizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantIntValue.exactly(1))
+        lootTables.put(ModBlocks.rarePrizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 	    		.add(LootItem.lootTableItem(ModItems.valorOrb.get()).setWeight(1))
 	    		.add(LootItem.lootTableItem(ModItems.wisdomOrb.get()).setWeight(1))
 	    		.add(LootItem.lootTableItem(ModItems.masterOrb.get()).setWeight(1))
@@ -127,7 +127,7 @@ public class LootTables extends BaseLootTables {
 	}
     
 	private void addOreLootTable(Block block, Item crystal, Item gem, Item stone, Item shard) {
-		 lootTables.put(block, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantIntValue.exactly(1))
+		 lootTables.put(block, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 	                .add(LootItem.lootTableItem(crystal).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)))
 	                .add(LootItem.lootTableItem(gem).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)))
 	                .add(LootItem.lootTableItem(stone).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)))

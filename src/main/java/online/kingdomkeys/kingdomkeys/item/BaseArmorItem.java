@@ -38,6 +38,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 		return null;//KingdomKeys.MODID + ":" + "textures/models/armor/ventus.png";
 	}
 
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@OnlyIn(Dist.CLIENT)

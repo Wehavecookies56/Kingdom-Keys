@@ -22,7 +22,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import sun.jvm.hotspot.code.ConstantIntValue;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 public abstract class BaseLootTables extends LootTableProvider {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -39,7 +39,7 @@ public abstract class BaseLootTables extends LootTableProvider {
 
     protected LootTable.Builder createStandardTable(String name, Block block) {
         LootPool.Builder builder = LootPool.lootPool()
-                .setRolls(ConstantIntValue.exactly(1))
+                .setRolls(ConstantValue.exactly(1))
                 .add(LootItem.lootTableItem(block));
         return LootTable.lootTable().withPool(builder);
     }
