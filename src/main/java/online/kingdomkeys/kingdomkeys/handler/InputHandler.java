@@ -857,9 +857,34 @@ public class InputHandler {
 
     	Minecraft mc = Minecraft.getInstance();
     	if(mc.world != null){
-	        if (event.getButton() == Constants.LEFT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
-	            commandEnter();
-	            event.setCanceled(true);
+	        if (event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
+	        	if(KeyboardHelper.isScrollActivatorDown()) {
+	        		commandEnter();
+		            event.setCanceled(true);
+	        	} else if(mc.currentScreen == null){
+	        		PlayerEntity thePlayer = mc.player;
+					if (thePlayer != null) {
+						ItemStack itemstack = thePlayer.getHeldItemMainhand();
+						if (itemstack != null) {
+							IExtendedReach ieri = itemstack.getItem() instanceof IExtendedReach ? (IExtendedReach) itemstack.getItem() : null; 
+							
+							if (ieri != null) {
+								float reach = ieri.getReach();
+								RayTraceResult rtr = getMouseOverExtended(reach);
+								if (rtr != null) {
+									if (rtr instanceof EntityRayTraceResult) {
+										EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
+										if (ertr.getEntity() != null && ertr.getEntity().hurtResistantTime == 0) {
+											if (ertr.getEntity() != thePlayer) {
+												PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getEntityId()));
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+	        	}
 	        }
 	        
 	        if (event.getButton() == Constants.MIDDLE_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
@@ -871,36 +896,6 @@ public class InputHandler {
 	            commandBack();
 	            event.setCanceled(true);
 	        }
-
-			if (mc.currentScreen == null && event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
-				PlayerEntity thePlayer = mc.player;
-				if (thePlayer != null) {
-					ItemStack itemstack = thePlayer.getHeldItemMainhand();
-					IExtendedReach ieri;
-					if (itemstack != null) {
-						if (itemstack.getItem() instanceof IExtendedReach) {
-							ieri = (IExtendedReach) itemstack.getItem();
-						} else {
-							ieri = null;
-						}
-
-						if (ieri != null) {
-							float reach = ieri.getReach();
-							RayTraceResult rtr = getMouseOverExtended(reach);
-							if (rtr != null) {
-								if (rtr instanceof EntityRayTraceResult) {
-									EntityRayTraceResult ertr = (EntityRayTraceResult) rtr;
-									if (ertr.getEntity() != null && ertr.getEntity().hurtResistantTime == 0) {
-										if (ertr.getEntity() != thePlayer) {
-											PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getEntityId()));
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 

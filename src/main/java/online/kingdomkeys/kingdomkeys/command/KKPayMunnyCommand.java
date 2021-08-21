@@ -34,20 +34,18 @@ public class KKPayMunnyCommand extends BaseCommand { // kk_paymunny <player> <va
 		ServerPlayerEntity user = context.getSource().asPlayer();
 		IPlayerCapabilities userData = ModCapabilities.getPlayer(user);
 
-		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
+		Collection<ServerPlayerEntity> players = EntityArgument.getPlayers(context, "targets");
 		int value = IntegerArgumentType.getInteger(context, "value");
-
-		for (ServerPlayerEntity player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
-			if(userData.getMunny() - (value * players.size()) >= 0) {
+		if(userData.getMunny() - (value * players.size()) >= 0) {
+			for (ServerPlayerEntity target : players) {
+				IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
 				userData.setMunny(userData.getMunny() - value);
-				playerData.setMunny(playerData.getMunny() + value);
-				user.sendMessage(new TranslationTextComponent("You paid " + value + " munny to " + player.getDisplayName().getString()), Util.DUMMY_UUID);
-				player.sendMessage(new TranslationTextComponent("You got " + value + " munny from " + player.getDisplayName().getString()), Util.DUMMY_UUID);
-			} else {
-				user.sendMessage(new TranslationTextComponent("You don't have enough munny (" + value + ") to pay " + player.getDisplayName().getString()), Util.DUMMY_UUID);
+				targetData.setMunny(targetData.getMunny() + value);
+				user.sendMessage(new TranslationTextComponent("You paid " + value + " munny to " + target.getDisplayName().getString()), Util.DUMMY_UUID);
+				target.sendMessage(new TranslationTextComponent("You got " + value + " munny from " + target.getDisplayName().getString()), Util.DUMMY_UUID);
 			}
+		} else {
+			user.sendMessage(new TranslationTextComponent("You don't have enough munny (" + value + ") to pay " + players.toString()), Util.DUMMY_UUID);	
 		}
 		return 1;
 	}

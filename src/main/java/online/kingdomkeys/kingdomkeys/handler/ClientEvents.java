@@ -212,7 +212,7 @@ public class ClientEvents {
 			}
 		}
 	}
-
+/*
 	@SubscribeEvent
 	public void WorldRender(RenderWorldLastEvent event) {
 		/*Minecraft mc = Minecraft.getInstance();
@@ -248,9 +248,9 @@ public class ClientEvents {
 					}
 				}
 			}
-		}*/
+		}
 
-	}
+	}*/
 	
     public static void render(MatrixStack matrixStack, Entity e, float partialTicks) {
         Color color = new Color(0);
