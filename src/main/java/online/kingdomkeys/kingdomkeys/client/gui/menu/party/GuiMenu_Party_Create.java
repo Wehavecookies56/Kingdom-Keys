@@ -52,7 +52,7 @@ public class GuiMenu_Party_Create extends MenuBackground {
 			priv = !priv;
 			break;
 		case "accept":
-			if(!tfName.getText().equals("")) { //Accept Party creation
+			if(!tfName.getText().equals("") && checkAvailable()) { //Accept Party creation
 				Party localParty = new Party(tfName.getText(), minecraft.player.getUniqueID(), minecraft.player.getName().getString(), priv, Byte.parseByte(size.getMessage().getString()));
 				PacketHandler.sendToServer(new CSPartyCreate(localParty));
 				
@@ -118,17 +118,19 @@ public class GuiMenu_Party_Create extends MenuBackground {
 				checkAvailable();
 				return true;
 			}
-
-			private void checkAvailable() {
-				if(tfName.getText() != null && !tfName.getText().equals("")) {
-					Party p = worldData.getPartyFromName(tfName.getText());
-					accept.active = p == null;					
-				}				
-			}
 			
 		});
 		
 		updateButtons();
+	}
+	
+	private boolean checkAvailable() {
+		if(tfName.getText() != null && !tfName.getText().equals("")) {
+			Party p = worldData.getPartyFromName(tfName.getText());
+			accept.active = p == null;	
+			return p == null;
+		}
+		return false;
 	}
 
 	@Override
