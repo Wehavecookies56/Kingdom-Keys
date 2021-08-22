@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -103,7 +104,29 @@ public class GuiMenu_Party_Create extends MenuBackground {
 		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20, new TranslationTextComponent(Party.PARTY_LIMIT+""), (e) -> { action("size"); }));
 		
-		addButton(tfName = new TextFieldWidget(minecraft.fontRenderer, (int)(width*0.25), (int)(height*0.25), 100, 15, new TranslationTextComponent("")));
+		addButton(tfName = new TextFieldWidget(minecraft.fontRenderer, (int)(width*0.25), (int)(height*0.25), 100, 15, new TranslationTextComponent("")) {
+			@Override
+			public boolean charTyped(char c, int i) {
+				super.charTyped(c, i);
+				checkAvailable();
+				return true;
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				checkAvailable();
+				return true;
+			}
+
+			private void checkAvailable() {
+				if(tfName.getText() != null && !tfName.getText().equals("")) {
+					Party p = worldData.getPartyFromName(tfName.getText());
+					accept.active = p == null;					
+				}				
+			}
+			
+		});
 		
 		updateButtons();
 	}

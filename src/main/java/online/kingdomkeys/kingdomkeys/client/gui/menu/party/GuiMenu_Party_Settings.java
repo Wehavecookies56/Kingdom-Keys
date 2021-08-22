@@ -96,21 +96,22 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		this.buttons.clear();
 		
 		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
-		priv = party.getPriv();
-		pSize = party.getSize();
-		friendlyFire = party.getFriendlyFire();
-		
-		float topBarHeight = (float) height * 0.17F;
-		int button_statsY = (int) topBarHeight + 5;
-		float buttonPosX = (float) width * 0.03F;
-		float buttonWidth = ((float) width * 0.1744F) - 20;
-
-
-		addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("togglePriv"); }));
-		addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, new TranslationTextComponent(pSize+""), (e) -> { action("size"); }));
-		addButton(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("ff"); }));
-		addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
-		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		if(party != null) {
+			priv = party.getPriv();
+			pSize = party.getSize();
+			friendlyFire = party.getFriendlyFire();
+			
+			float topBarHeight = (float) height * 0.17F;
+			int button_statsY = (int) topBarHeight + 5;
+			float buttonPosX = (float) width * 0.03F;
+			float buttonWidth = ((float) width * 0.1744F) - 20;
+	
+			addButton(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("togglePriv"); }));
+			addButton(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, new TranslationTextComponent(pSize+""), (e) -> { action("size"); }));
+			addButton(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslationTextComponent(""), (e) -> { action("ff"); }));
+			addButton(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
+			addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));			
+		}
 		
 		updateButtons();
 	}
