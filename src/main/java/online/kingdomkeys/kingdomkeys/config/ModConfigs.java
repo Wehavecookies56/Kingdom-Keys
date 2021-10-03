@@ -220,6 +220,7 @@ public class ModConfigs {
     public static boolean bloxGen;
     public static boolean debugConsoleOutput;
     public static boolean bombExplodeWithfire;
+    public static boolean keybladeOpenDoors;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
@@ -250,6 +251,7 @@ public class ModConfigs {
         bloxGen = COMMON.bloxGen.get();
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
+        keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         
         driveHeal = COMMON.driveHeal.get();

@@ -21,6 +21,7 @@ public class CommonConfig {
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public ForgeConfigSpec.BooleanValue bombExplodeWithFire;
+    public ForgeConfigSpec.BooleanValue keybladeOpenDoors;
     
     public ForgeConfigSpec.IntValue driveHeal;
     
@@ -66,6 +67,11 @@ public class CommonConfig {
                 .comment("Allow Bomb heartless to explode when lit on fire")
                 .translation(KingdomKeys.MODID + ".config.bomb_explode_with_fire")
                 .define("bombExplodeWithfire", true);
+        
+        keybladeOpenDoors = builder
+                .comment("Allow keyblades to open iron doors with right click")
+                .translation(KingdomKeys.MODID + ".config.keyblade_open_doors")
+                .define("keybladeOpenDoors", true);
 
         driveHeal = builder
                 .comment("Health % restored when using a drive form")
@@ -86,6 +92,7 @@ public class CommonConfig {
                 .comment("Critic Damage Multiplier")
                 .translation(KingdomKeys.MODID + ".config.crit_mult")
                 .defineInRange("critMult",1.5,0,100);
+        
         builder.pop();
 
         builder.push("spawning");

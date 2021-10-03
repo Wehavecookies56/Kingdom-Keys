@@ -97,6 +97,7 @@ public class ProxyClient implements IProxy {
 			RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
 			RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
 			RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.savepoint.get(), RenderType.getCutout());
 			RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
 			RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
         });

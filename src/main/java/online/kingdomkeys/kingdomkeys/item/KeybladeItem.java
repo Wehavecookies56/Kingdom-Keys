@@ -45,6 +45,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -223,30 +224,32 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		World world = context.getWorld();
-		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();
-		
-		SoundEvent sound;
-		if (world.getBlockState(pos).getBlock() instanceof DoorBlock) {
-		      DoubleBlockHalf doubleblockhalf = world.getBlockState(pos).get(DoorBlock.HALF);
-
-			if (doubleblockhalf == DoubleBlockHalf.UPPER) {
-				world.setBlockState(pos.down(), world.getBlockState(pos.down()).with(DoorBlock.OPEN, !world.getBlockState(pos.down()).get(DoorBlock.OPEN)));
-				sound = world.getBlockState(pos.down()).get(DoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
-			} else {
-				world.setBlockState(pos, world.getBlockState(pos).with(DoorBlock.OPEN, !world.getBlockState(pos).get(DoorBlock.OPEN)));
-				sound = world.getBlockState(pos).get(DoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
+		if(ModConfigs.keybladeOpenDoors) {
+			World world = context.getWorld();
+			BlockPos pos = context.getPos();
+			PlayerEntity player = context.getPlayer();
+	
+			SoundEvent sound;
+			if (world.getBlockState(pos).getBlock() instanceof DoorBlock) {
+				DoubleBlockHalf doubleblockhalf = world.getBlockState(pos).get(DoorBlock.HALF);
+	
+				if (doubleblockhalf == DoubleBlockHalf.UPPER) {
+					world.setBlockState(pos.down(), world.getBlockState(pos.down()).with(DoorBlock.OPEN, !world.getBlockState(pos.down()).get(DoorBlock.OPEN)));
+					sound = world.getBlockState(pos.down()).get(DoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
+				} else {
+					world.setBlockState(pos, world.getBlockState(pos).with(DoorBlock.OPEN, !world.getBlockState(pos).get(DoorBlock.OPEN)));
+					sound = world.getBlockState(pos).get(DoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
+				}
+				world.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+				return ActionResultType.SUCCESS;
+	
+			} else if (world.getBlockState(pos).getBlock() instanceof TrapDoorBlock) {
+				world.setBlockState(pos, world.getBlockState(pos).with(TrapDoorBlock.OPEN, !world.getBlockState(pos).get(TrapDoorBlock.OPEN)));
+				sound = world.getBlockState(pos).get(TrapDoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
+				world.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
+				return ActionResultType.SUCCESS;
+	
 			}
-			world.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
-			return ActionResultType.SUCCESS;
-
-		} else if(world.getBlockState(pos).getBlock() instanceof TrapDoorBlock) {
-			world.setBlockState(pos, world.getBlockState(pos).with(TrapDoorBlock.OPEN, !world.getBlockState(pos).get(TrapDoorBlock.OPEN)));
-			sound = world.getBlockState(pos).get(TrapDoorBlock.OPEN) ? SoundEvents.BLOCK_IRON_DOOR_CLOSE : SoundEvents.BLOCK_IRON_DOOR_OPEN;
-			world.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0f, 1.0f);
-			return ActionResultType.SUCCESS;
-
 		}
 		return ActionResultType.PASS;
 	}
