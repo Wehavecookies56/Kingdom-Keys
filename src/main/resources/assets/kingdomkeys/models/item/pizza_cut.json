@@ -1,6 +1,23 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/organization/pizza_cut"
-  }
+	"parent": "forge:item/default",
+	"loader": "forge:separate-perspective",
+	"textures": {
+
+	},
+	"base":	{
+	  "parent": "item/handheld",
+	  "textures": {
+	    "layer0": "kingdomkeys:item/organization/pizza_cut"
+	  }
+	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/pizza_cut"
+			}
+		}
+	}
+	
 }

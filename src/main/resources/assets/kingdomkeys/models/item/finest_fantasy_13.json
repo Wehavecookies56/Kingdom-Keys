@@ -1,50 +1,67 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/finestfantasy13.obj",
+	"loader": "forge:separate-perspective",
 	"textures": {
 
 	},
-	"display": {
-		"firstperson_righthand": {
-			"rotation": [0.0, 180.0, 0.0 ],
-			"translation": [0.0, 0.2, 0.0 ],
-			"scale": [0.0010000000474974513, 0.0010000000474974513, 0.0010000000474974513 ]
+	"base":	{
+		"parent": "forge:item/default",
+		"loader": "forge:obj",
+		"model": "kingdomkeys:models/item/keyblade/finestfantasy13.obj",
+		"textures": {
+	
 		},
-		"thirdperson_lefthand": {
-			"rotation": [0.0, 180.0, 0.0 ],
-			"translation": [0.0, 0.15, 0.0 ],
-			"scale": [7.999999797903001E-4, 7.999999797903001E-4, 7.999999797903001E-4 ]
+		"display": {
+			"firstperson_righthand": {
+				"rotation": [0.0, 180.0, 0.0 ],
+				"translation": [0.0, 0.2, 0.0 ],
+				"scale": [0.0010000000474974513, 0.0010000000474974513, 0.0010000000474974513 ]
+			},
+			"thirdperson_lefthand": {
+				"rotation": [0.0, 180.0, 0.0 ],
+				"translation": [0.0, 0.15, 0.0 ],
+				"scale": [7.999999797903001E-4, 7.999999797903001E-4, 7.999999797903001E-4 ]
+			},
+			"firstperson_lefthand": {
+				"rotation": [0.0, 180.0, 0.0 ],
+				"translation": [0.0, 0.2, 0.0 ],
+				"scale": [0.0010000000474974513, 0.0010000000474974513, 0.0010000000474974513 ]
+			},
+			"thirdperson_righthand": {
+				"rotation": [0.0, 180.0, 0.0 ],
+				"translation": [0.0, 0.15, 0.0 ],
+				"scale": [7.999999797903001E-4, 7.999999797903001E-4, 7.999999797903001E-4 ]
+			},
+			"gui": {
+				"rotation": [0.0, 180.0, 0.0 ],
+				"translation": [0.0, 0.0, 0.0 ],
+				"scale": [0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026 ]
+			},
+			"ground": {
+				"rotation": [45.0, 0.0, 0.0 ],
+				"translation": [0.0, 0.0, 0.0 ],
+				"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
+			},
+			"fixed": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [0.0, -0.25, 0.0 ],
+				"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+			}
 		},
-		"firstperson_lefthand": {
-			"rotation": [0.0, 180.0, 0.0 ],
-			"translation": [0.0, 0.2, 0.0 ],
-			"scale": [0.0010000000474974513, 0.0010000000474974513, 0.0010000000474974513 ]
-		},
-		"thirdperson_righthand": {
-			"rotation": [0.0, 180.0, 0.0 ],
-			"translation": [0.0, 0.15, 0.0 ],
-			"scale": [7.999999797903001E-4, 7.999999797903001E-4, 7.999999797903001E-4 ]
-		},
-		"gui": {
-			"rotation": [0.0, 180.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026 ]
-		},
-		"ground": {
-			"rotation": [45.0, 0.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
-		},
-		"fixed": {
-			"rotation": [0.0, 90.0, 0.0 ],
-			"translation": [0.0, -0.25, 0.0 ],
-			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+		"visibility": {
+			"object_1": "hide",
+			"object_2": "default",
+			"object_3": "show"
 		}
-	},
-	"visibility": {
-		"object_1": "hide",
-		"object_2": "default",
-		"object_3": "show"
 	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/finest_fantasy_13"
+			}
+		}
+	}
+	
 }

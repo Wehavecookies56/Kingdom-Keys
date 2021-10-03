@@ -1,6 +1,23 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/organization/cardinal_virtue"
-  }
+	"parent": "forge:item/default",
+	"loader": "forge:separate-perspective",
+	"textures": {
+
+	},
+	"base":	{
+	  "parent": "item/handheld",
+	  "textures": {
+	    "layer0": "kingdomkeys:item/organization/cardinal_virtue"
+	  }
+	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/cardinal_virtue"
+			}
+		}
+	}
+	
 }

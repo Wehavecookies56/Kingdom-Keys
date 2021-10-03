@@ -1,45 +1,62 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/interdiction.obj",
+	"loader": "forge:separate-perspective",
 	"textures": {
 
 	},
-	"display": {
-		"firstperson_righthand": {
-			"rotation": [0.0, 0.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.007, 0.007, 0.007 ]
+	"base":	{
+		"parent": "forge:item/default",
+		"loader": "forge:obj",
+		"model": "kingdomkeys:models/item/keyblade/interdiction.obj",
+		"textures": {
+	
 		},
-		"thirdperson_lefthand": {
-			"rotation": [-90.0, 0.0, 0.0 ],
-			"translation": [0.0, -2, 1 ],
-			"scale": [0.018, 0.018, 0.018 ]
-		},
-		"firstperson_lefthand": {
-			"rotation": [0.0, 0.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.007, 0.007, 0.007 ]
-		},
-		"thirdperson_righthand": {
-			"rotation": [-90.0, 0.0, 0.0 ],
-			"translation": [0.0, -2, 1 ],
-			"scale": [0.018, 0.018, 0.018 ]
-		},
-		"gui": {
-			"rotation": [0.0, 0.0, -45.0 ],
-			"translation": [-5.0, -5, 0.0 ],
-			"scale": [0.018, 0.018, 0.018 ]
-		},
-		"ground": {
-			"rotation": [45.0, 0.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.008, 0.008, 0.008 ]
-		},
-		"fixed": {
-			"rotation": [0.0, 90.0, 0.0 ],
-			"translation": [0.0, -7.5, 0.0 ],
-			"scale": [0.02, 0.02, 0.02 ]
+		"display": {
+			"firstperson_righthand": {
+				"rotation": [0.0, 0.0, 0.0 ],
+				"translation": [0.0, 0.0, 0.0 ],
+				"scale": [0.007, 0.007, 0.007 ]
+			},
+			"thirdperson_lefthand": {
+				"rotation": [-90.0, 0.0, 0.0 ],
+				"translation": [0.0, -2, 1 ],
+				"scale": [0.018, 0.018, 0.018 ]
+			},
+			"firstperson_lefthand": {
+				"rotation": [0.0, 0.0, 0.0 ],
+				"translation": [0.0, 0.0, 0.0 ],
+				"scale": [0.007, 0.007, 0.007 ]
+			},
+			"thirdperson_righthand": {
+				"rotation": [-90.0, 0.0, 0.0 ],
+				"translation": [0.0, -2, 1 ],
+				"scale": [0.018, 0.018, 0.018 ]
+			},
+			"gui": {
+				"rotation": [0.0, 0.0, -45.0 ],
+				"translation": [-5.0, -5, 0.0 ],
+				"scale": [0.018, 0.018, 0.018 ]
+			},
+			"ground": {
+				"rotation": [45.0, 0.0, 0.0 ],
+				"translation": [0.0, 0.0, 0.0 ],
+				"scale": [0.008, 0.008, 0.008 ]
+			},
+			"fixed": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [0.0, -7.5, 0.0 ],
+				"scale": [0.02, 0.02, 0.02 ]
+			}
 		}
 	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/interdiction"
+			}
+		}
+	}
+	
 }

@@ -1,6 +1,23 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "kingdomkeys:item/organization/hard_boiled_heat"
-  }
+	"parent": "forge:item/default",
+	"loader": "forge:separate-perspective",
+	"textures": {
+
+	},
+	"base":	{
+	  "parent": "item/handheld",
+	  "textures": {
+	    "layer0": "kingdomkeys:item/organization/hard_boiled_heat"
+	  }
+	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/hard_boiled_heat"
+			}
+		}
+	}
+	
 }

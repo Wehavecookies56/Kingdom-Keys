@@ -1,50 +1,67 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/quietbelladonna.obj",
+	"loader": "forge:separate-perspective",
 	"textures": {
 
 	},
-	"display": {
-		"firstperson_righthand": {
-			"rotation": [0.0, -90.0, 0.0 ],
-			"translation": [0.0, 0.3, 0.0 ],
-			"scale": [0.007000000216066837, 0.007000000216066837, 0.007000000216066837 ]
+	"base":	{
+		"parent": "forge:item/default",
+		"loader": "forge:obj",
+		"model": "kingdomkeys:models/item/keyblade/quietbelladonna.obj",
+		"textures": {
+	
 		},
-		"thirdperson_lefthand": {
-			"rotation": [0.0, 90.0, 0.0 ],
-			"translation": [0.0, 0.2, 0.0 ],
-			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+		"display": {
+			"firstperson_righthand": {
+				"rotation": [0.0, -90.0, 0.0 ],
+				"translation": [0.0, 0.3, 0.0 ],
+				"scale": [0.007000000216066837, 0.007000000216066837, 0.007000000216066837 ]
+			},
+			"thirdperson_lefthand": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [0.0, 0.2, 0.0 ],
+				"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+			},
+			"firstperson_lefthand": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [0.0, 0.3, 0.0 ],
+				"scale": [0.007000000216066837, 0.007000000216066837, 0.007000000216066837 ]
+			},
+			"thirdperson_righthand": {
+				"rotation": [0.0, -90.0, 0.0 ],
+				"translation": [0.0, 0.2, 0.0 ],
+				"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+			},
+			"gui": {
+				"rotation": [0.0, 0.0, 30.0 ],
+				"translation": [0.0, 0.0, 0.0 ],
+				"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
+			},
+			"ground": {
+				"rotation": [0.0, 0.0, -20.0 ],
+				"translation": [0.0, 0.3, 0.0 ],
+				"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
+			},
+			"fixed": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [0.0, -0.25, 0.0 ],
+				"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+			}
 		},
-		"firstperson_lefthand": {
-			"rotation": [0.0, 90.0, 0.0 ],
-			"translation": [0.0, 0.3, 0.0 ],
-			"scale": [0.007000000216066837, 0.007000000216066837, 0.007000000216066837 ]
-		},
-		"thirdperson_righthand": {
-			"rotation": [0.0, -90.0, 0.0 ],
-			"translation": [0.0, 0.2, 0.0 ],
-			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
-		},
-		"gui": {
-			"rotation": [0.0, 0.0, 30.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
-		},
-		"ground": {
-			"rotation": [0.0, 0.0, -20.0 ],
-			"translation": [0.0, 0.3, 0.0 ],
-			"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
-		},
-		"fixed": {
-			"rotation": [0.0, 90.0, 0.0 ],
-			"translation": [0.0, -0.25, 0.0 ],
-			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+		"visibility": {
+			"object_1": "hide",
+			"object_2": "default",
+			"object_3": "show"
 		}
-	},
-	"visibility": {
-		"object_1": "hide",
-		"object_2": "default",
-		"object_3": "show"
 	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/quiet_belladonna"
+			}
+		}
+	}
+	
 }
