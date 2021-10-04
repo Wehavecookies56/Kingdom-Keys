@@ -254,8 +254,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				double offset = (boxM.getWidth()*0.1F);
 				RenderSystem.translated(boxM.x + offset/2, iconPosY, 1);
-				RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
-				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 2, 0);
+				RenderSystem.scalef((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
+				RenderSystem.scalef(0.8F, 0.8F, 0.8F);
+				//RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
+				itemRenderer.renderItemIntoGUI(new ItemStack(kb), 2, -4);
 			}
 			RenderSystem.popMatrix();
 			
