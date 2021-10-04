@@ -34,8 +34,8 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 		matrixStackIn.pushPose();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);
-    		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot()O + (entity.getYRot() - entity.getYRot()O)));
-    		matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O)));
+    		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot() + (entity.getYRot() - entity.getYRot())));
+    		matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()+ (entity.getXRot() - entity.getXRot())));
     		matrixStackIn.scale(0.1F, 0.1F, 0.8F);
     		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 0.2F, 0.2F, 1F);
      	}

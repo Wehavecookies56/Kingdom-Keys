@@ -75,7 +75,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
             f2 = f1 - f;
         }
 
-        float f6 = Mth.lerp(partialTicks, entityIn.getXRot()O, entityIn.getXRot());
+        float f6 = Mth.lerp(partialTicks, entityIn.getXRot(), entityIn.getXRot());
         if (entityIn.getPose() == Pose.SLEEPING) {
             Direction direction = entityIn.getBedOrientation();
             if (direction != null) {

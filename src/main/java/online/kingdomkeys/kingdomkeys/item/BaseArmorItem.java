@@ -38,7 +38,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 		return null;//KingdomKeys.MODID + ":" + "textures/models/armor/ventus.png";
 	}
 
-	
+	/*
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@OnlyIn(Dist.CLIENT)
@@ -55,7 +55,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 			armorModel.leftLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
 		}
 		return armorModel;
-	}
+	}*/
 
 	
 	@Override

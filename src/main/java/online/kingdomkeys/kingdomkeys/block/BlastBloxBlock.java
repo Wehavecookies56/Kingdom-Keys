@@ -27,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.util.SetBlockStateFlags;
 
 /**
- * Some parts copied from {@link net.minecraft.block.TNTBlock}
+ * Some parts copied from {@link net.minecraft.blocks}
  */
 public class BlastBloxBlock extends BaseBlock {
 
@@ -36,6 +36,7 @@ public class BlastBloxBlock extends BaseBlock {
 
     public BlastBloxBlock(Properties properties) {
         super(properties);
+
     }
 
     //Explode if powered when placed

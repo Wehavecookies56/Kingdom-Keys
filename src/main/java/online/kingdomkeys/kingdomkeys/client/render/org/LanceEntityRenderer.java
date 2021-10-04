@@ -54,14 +54,14 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 					float a = 1;
 					float rgb = 1;
 					
-					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot()O + (entity.getYRot() - entity.getYRot()O)));
+					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.getYRot() + (entity.getYRot() - entity.getYRot())));
 					if(entity.getRotationPoint() == 2)
-						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O) + 270));
+						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot() + (entity.getXRot() - entity.getXRot()) + 270));
 					else if(entity.getRotationPoint() == 0) {
-						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()O + (entity.getXRot() - entity.getXRot()O) + 90));
+						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.getXRot()+ (entity.getXRot() - entity.getXRot()) + 90));
 					}
 					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
-						buffer.addVertexData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+						buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 					}
 				}
 

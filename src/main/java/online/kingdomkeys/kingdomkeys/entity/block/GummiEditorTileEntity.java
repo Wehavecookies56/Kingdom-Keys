@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
@@ -27,7 +27,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.GummiEditorContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class GummiEditorTileEntity extends BlockEntity implements MenuProvider, TickableBlockEntity {
+public class GummiEditorTileEntity extends BlockEntity implements MenuProvider, TickingBlockEntity {
 	public static final int NUMBER_OF_SLOTS = 1;
 	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
 
@@ -135,5 +135,5 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider, 
 	public void tick() {
 		
 	}
-	
+
 }
