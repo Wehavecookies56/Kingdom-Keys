@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/grim_muscari"
+				"layer0": "kingdomkeys:item/organization/grim_muscari"
 			}
 		}
 	}

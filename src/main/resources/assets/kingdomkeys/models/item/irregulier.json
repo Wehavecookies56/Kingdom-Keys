@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/irregulier"
+				"layer0": "kingdomkeys:item/organization/irregulier"
 			}
 		}
 	}

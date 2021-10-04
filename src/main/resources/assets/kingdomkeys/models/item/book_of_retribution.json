@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/book_of_retribution"
+				"layer0": "kingdomkeys:item/organization/book_of_retribution"
 			}
 		}
 	}

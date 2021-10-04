@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/madmans_vita"
+				"layer0": "kingdomkeys:item/organization/madmans_vita"
 			}
 		}
 	}

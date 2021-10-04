@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/fortissimo"
+				"layer0": "kingdomkeys:item/organization/fortissimo"
 			}
 		}
 	}

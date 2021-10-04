@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/clair_de_lune"
+				"layer0": "kingdomkeys:item/organization/clair_de_lune"
 			}
 		}
 	}

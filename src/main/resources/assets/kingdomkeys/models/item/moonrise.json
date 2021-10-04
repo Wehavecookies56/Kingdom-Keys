@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/moonrise"
+				"layer0": "kingdomkeys:item/organization/moonrise"
 			}
 		}
 	}

@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/paladin"
+				"layer0": "kingdomkeys:item/organization/paladin"
 			}
 		}
 	}

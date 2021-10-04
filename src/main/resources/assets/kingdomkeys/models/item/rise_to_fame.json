@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/rise_to_fame"
+				"layer0": "kingdomkeys:item/organization/rise_to_fame"
 			}
 		}
 	}

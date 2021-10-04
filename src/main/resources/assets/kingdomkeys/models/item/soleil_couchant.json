@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/soleil_couchant"
+				"layer0": "kingdomkeys:item/organization/soleil_couchant"
 			}
 		}
 	}

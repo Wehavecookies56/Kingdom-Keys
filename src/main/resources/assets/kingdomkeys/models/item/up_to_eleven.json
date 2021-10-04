@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/up_to_eleven"
+				"layer0": "kingdomkeys:item/organization/up_to_eleven"
 			}
 		}
 	}

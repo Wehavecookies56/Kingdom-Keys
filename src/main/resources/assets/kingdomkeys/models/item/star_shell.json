@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/star_shell"
+				"layer0": "kingdomkeys:item/organization/star_shell"
 			}
 		}
 	}

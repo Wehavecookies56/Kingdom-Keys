@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/king_of_the_night"
+				"layer0": "kingdomkeys:item/organization/king_of_the_night"
 			}
 		}
 	}

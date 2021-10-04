@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/quiet_belladonna"
+				"layer0": "kingdomkeys:item/organization/quiet_belladonna"
 			}
 		}
 	}

@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/prince_of_awesome"
+				"layer0": "kingdomkeys:item/organization/prince_of_awesome"
 			}
 		}
 	}

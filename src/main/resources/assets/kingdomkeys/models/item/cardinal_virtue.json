@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/cardinal_virtue"
+				"layer0": "kingdomkeys:item/organization/cardinal_virtue"
 			}
 		}
 	}

@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/atlas_of_omens"
+				"layer0": "kingdomkeys:item/organization/atlas_of_omens"
 			}
 		}
 	}

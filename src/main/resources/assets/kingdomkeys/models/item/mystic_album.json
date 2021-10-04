@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/mystic_album"
+				"layer0": "kingdomkeys:item/organization/mystic_album"
 			}
 		}
 	}

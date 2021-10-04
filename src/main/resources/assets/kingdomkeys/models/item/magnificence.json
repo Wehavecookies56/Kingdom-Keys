@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/magnificence"
+				"layer0": "kingdomkeys:item/organization/magnificence"
 			}
 		}
 	}

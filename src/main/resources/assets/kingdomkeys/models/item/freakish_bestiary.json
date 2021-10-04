@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/freakish_bestiary"
+				"layer0": "kingdomkeys:item/organization/freakish_bestiary"
 			}
 		}
 	}

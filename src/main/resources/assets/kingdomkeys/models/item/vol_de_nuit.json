@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/vol_de_nuit"
+				"layer0": "kingdomkeys:item/organization/vol_de_nuit"
 			}
 		}
 	}

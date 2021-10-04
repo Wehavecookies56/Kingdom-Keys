@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/radical_treatise"
+				"layer0": "kingdomkeys:item/organization/radical_treatise"
 			}
 		}
 	}

@@ -60,7 +60,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/ifrit"
+				"layer0": "kingdomkeys:item/organization/ifrit"
 			}
 		}
 	}

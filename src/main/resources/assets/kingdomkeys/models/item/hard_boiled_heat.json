@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/hard_boiled_heat"
+				"layer0": "kingdomkeys:item/organization/hard_boiled_heat"
 			}
 		}
 	}

@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/faithless_digitalis"
+				"layer0": "kingdomkeys:item/organization/faithless_digitalis"
 			}
 		}
 	}

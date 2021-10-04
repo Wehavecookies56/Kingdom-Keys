@@ -55,7 +55,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/zephyr"
+				"layer0": "kingdomkeys:item/organization/zephyr"
 			}
 		}
 	}

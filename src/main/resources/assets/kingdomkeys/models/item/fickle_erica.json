@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/fickle_erica"
+				"layer0": "kingdomkeys:item/organization/fickle_erica"
 			}
 		}
 	}

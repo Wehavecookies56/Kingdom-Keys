@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/noble_peony"
+				"layer0": "kingdomkeys:item/organization/noble_peony"
 			}
 		}
 	}

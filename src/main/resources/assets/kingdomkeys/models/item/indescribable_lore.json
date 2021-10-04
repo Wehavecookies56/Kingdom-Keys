@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/indescribable_lore"
+				"layer0": "kingdomkeys:item/organization/indescribable_lore"
 			}
 		}
 	}

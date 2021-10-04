@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/abandoned_dogma"
+				"layer0": "kingdomkeys:item/organization/abandoned_dogma"
 			}
 		}
 	}

@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/copper_red"
+				"layer0": "kingdomkeys:item/organization/copper_red"
 			}
 		}
 	}

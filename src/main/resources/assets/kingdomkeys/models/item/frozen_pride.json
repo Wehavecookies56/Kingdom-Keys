@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/frozen_pride"
+				"layer0": "kingdomkeys:item/organization/frozen_pride"
 			}
 		}
 	}

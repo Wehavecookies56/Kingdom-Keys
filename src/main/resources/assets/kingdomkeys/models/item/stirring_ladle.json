@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/stirring_ladle"
+				"layer0": "kingdomkeys:item/organization/stirring_ladle"
 			}
 		}
 	}

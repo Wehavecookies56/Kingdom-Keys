@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/the_moon"
+				"layer0": "kingdomkeys:item/organization/the_moon"
 			}
 		}
 	}

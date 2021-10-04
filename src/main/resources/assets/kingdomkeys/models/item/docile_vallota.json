@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/docile_vallota"
+				"layer0": "kingdomkeys:item/organization/docile_vallota"
 			}
 		}
 	}

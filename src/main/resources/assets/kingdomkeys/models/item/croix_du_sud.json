@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/croix_du_sud"
+				"layer0": "kingdomkeys:item/organization/croix_du_sud"
 			}
 		}
 	}

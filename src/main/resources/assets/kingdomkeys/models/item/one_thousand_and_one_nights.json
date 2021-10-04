@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/one_thousand_and_one_nights"
+				"layer0": "kingdomkeys:item/organization/one_thousand_and_one_nights"
 			}
 		}
 	}

@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/absolute_zero"
+				"layer0": "kingdomkeys:item/organization/absolute_zero"
 			}
 		}
 	}

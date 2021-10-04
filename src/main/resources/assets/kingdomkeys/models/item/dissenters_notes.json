@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/dissenters_notes"
+				"layer0": "kingdomkeys:item/organization/dissenters_notes"
 			}
 		}
 	}

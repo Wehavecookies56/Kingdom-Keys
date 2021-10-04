@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/proud_amaryllis"
+				"layer0": "kingdomkeys:item/organization/proud_amaryllis"
 			}
 		}
 	}

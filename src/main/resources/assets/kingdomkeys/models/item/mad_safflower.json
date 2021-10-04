@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/mad_safflower"
+				"layer0": "kingdomkeys:item/organization/mad_safflower"
 			}
 		}
 	}

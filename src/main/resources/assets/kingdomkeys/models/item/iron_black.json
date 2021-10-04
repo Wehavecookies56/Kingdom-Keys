@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/iron_black"
+				"layer0": "kingdomkeys:item/organization/iron_black"
 			}
 		}
 	}

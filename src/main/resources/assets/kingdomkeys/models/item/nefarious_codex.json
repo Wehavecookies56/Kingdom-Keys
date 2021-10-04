@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/nefarious_codex"
+				"layer0": "kingdomkeys:item/organization/nefarious_codex"
 			}
 		}
 	}

@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/lost_heterodoxy"
+				"layer0": "kingdomkeys:item/organization/lost_heterodoxy"
 			}
 		}
 	}

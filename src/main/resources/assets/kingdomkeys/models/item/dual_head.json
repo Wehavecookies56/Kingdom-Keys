@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/dual_head"
+				"layer0": "kingdomkeys:item/organization/dual_head"
 			}
 		}
 	}

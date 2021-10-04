@@ -15,7 +15,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/million_bucks"
+				"layer0": "kingdomkeys:item/organization/million_bucks"
 			}
 		}
 	}

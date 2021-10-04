@@ -59,7 +59,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/hallowed_lotus"
+				"layer0": "kingdomkeys:item/organization/hallowed_lotus"
 			}
 		}
 	}

@@ -55,7 +55,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/dive_bombers"
+				"layer0": "kingdomkeys:item/organization/dive_bombers"
 			}
 		}
 	}

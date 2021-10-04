@@ -56,7 +56,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/eternal_flames"
+				"layer0": "kingdomkeys:item/organization/eternal_flames"
 			}
 		}
 	}

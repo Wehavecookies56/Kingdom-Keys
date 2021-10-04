@@ -60,7 +60,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/blaze_of_glory"
+				"layer0": "kingdomkeys:item/organization/blaze_of_glory"
 			}
 		}
 	}
