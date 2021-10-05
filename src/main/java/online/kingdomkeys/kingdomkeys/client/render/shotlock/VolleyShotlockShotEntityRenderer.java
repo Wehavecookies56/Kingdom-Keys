@@ -23,11 +23,10 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
 @OnlyIn(Dist.CLIENT)
 public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotlockShotEntity> {
 
-	public static final Factory FACTORY = new VolleyShotlockShotEntityRenderer.Factory();
 	private CubeModel model;
 
-	public VolleyShotlockShotEntityRenderer(EntityRenderDispatcher renderManager) {
-		super(renderManager);
+	public VolleyShotlockShotEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
         model = new CubeModel();
 		this.shadowRadius = 0.25F;
 	}
@@ -53,12 +52,5 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
 	@Override
 	public ResourceLocation getTextureLocation(BaseShotlockShotEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	}
-
-	public static class Factory implements IRenderFactory<BaseShotlockShotEntity> {
-		@Override
-		public EntityRenderer<? super BaseShotlockShotEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new VolleyShotlockShotEntityRenderer(manager);
-		}
 	}
 }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fmlclient.registry.IRenderFactory;
@@ -13,10 +14,8 @@ import online.kingdomkeys.kingdomkeys.entity.mob.DirePlantEntity;
 
 public class DirePlantRenderer extends MobRenderer<DirePlantEntity, DirePlantModel<DirePlantEntity>> {
 
-    public static final DirePlantRenderer.Factory FACTORY = new DirePlantRenderer.Factory();
-
-    public DirePlantRenderer(EntityRenderDispatcher renderManagerIn) {
-        super(renderManagerIn, new DirePlantModel<>(), 0.35F);
+    public DirePlantRenderer(EntityRendererProvider.Context context) {
+        super(context, new DirePlantModel<>(), 0.35F);
     }
 
     @Override
@@ -28,12 +27,5 @@ public class DirePlantRenderer extends MobRenderer<DirePlantEntity, DirePlantMod
     protected void scale(DirePlantEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
     	matrixStackIn.scale(1F, 1F, 1F);
     	super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
-    }
-    
-    public static class Factory implements IRenderFactory<DirePlantEntity> {
-        @Override
-        public EntityRenderer<? super DirePlantEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-            return new DirePlantRenderer(entityRendererManager);
-        }
     }
 }

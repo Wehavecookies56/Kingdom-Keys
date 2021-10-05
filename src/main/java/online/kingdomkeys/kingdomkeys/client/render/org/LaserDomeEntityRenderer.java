@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,12 +19,8 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 @OnlyIn(Dist.CLIENT)
 public class LaserDomeEntityRenderer extends EntityRenderer<LaserDomeCoreEntity> {
 
-	public static final Factory FACTORY = new LaserDomeEntityRenderer.Factory();
-	BlizzardModel shot;
-
-	public LaserDomeEntityRenderer(EntityRenderDispatcher renderManager, BlizzardModel fist) {
-		super(renderManager);
-		this.shot = fist;
+	public LaserDomeEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
 		this.shadowRadius = 0.25F;
 	}
 
@@ -50,10 +47,4 @@ public class LaserDomeEntityRenderer extends EntityRenderer<LaserDomeCoreEntity>
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<LaserDomeCoreEntity> {
-		@Override
-		public EntityRenderer<? super LaserDomeCoreEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new LaserDomeEntityRenderer(manager, new BlizzardModel());
-		}
-	}
 }

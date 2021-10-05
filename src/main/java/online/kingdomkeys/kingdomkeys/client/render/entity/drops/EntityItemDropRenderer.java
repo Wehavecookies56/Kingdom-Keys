@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -20,8 +21,8 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 
 	ResourceLocation texture;
 
-	public EntityItemDropRenderer(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn);
+	public EntityItemDropRenderer(EntityRendererProvider.Context context) {
+		super(context);
 		this.shadowRadius = 0.15F;
 		this.shadowStrength = 0.75F;
 	}

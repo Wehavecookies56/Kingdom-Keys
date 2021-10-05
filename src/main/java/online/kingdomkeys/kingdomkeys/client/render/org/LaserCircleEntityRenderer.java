@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,12 +19,8 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 @OnlyIn(Dist.CLIENT)
 public class LaserCircleEntityRenderer extends EntityRenderer<LaserCircleCoreEntity> {
 
-	public static final Factory FACTORY = new LaserCircleEntityRenderer.Factory();
-	BlizzardModel shot;
-
-	public LaserCircleEntityRenderer(EntityRenderDispatcher renderManager, BlizzardModel fist) {
-		super(renderManager);
-		this.shot = fist;
+	public LaserCircleEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
 		this.shadowRadius = 0.25F;
 	}
 
@@ -48,12 +45,5 @@ public class LaserCircleEntityRenderer extends EntityRenderer<LaserCircleCoreEnt
 	@Override
 	public ResourceLocation getTextureLocation(LaserCircleCoreEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	}
-
-	public static class Factory implements IRenderFactory<LaserCircleCoreEntity> {
-		@Override
-		public EntityRenderer<? super LaserCircleCoreEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new LaserCircleEntityRenderer(manager, new BlizzardModel());
-		}
 	}
 }

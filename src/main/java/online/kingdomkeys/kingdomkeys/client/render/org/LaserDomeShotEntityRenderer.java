@@ -8,6 +8,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
@@ -21,11 +22,10 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 @OnlyIn(Dist.CLIENT)
 public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEntity> {
 
-	public static final Factory FACTORY = new LaserDomeShotEntityRenderer.Factory();
 	private CubeModel model;
 
-	public LaserDomeShotEntityRenderer(EntityRenderDispatcher renderManager) {
-		super(renderManager);
+	public LaserDomeShotEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
         model = new CubeModel();
 		this.shadowRadius = 0.25F;
 	}
@@ -53,12 +53,5 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
 	@Override
 	public ResourceLocation getTextureLocation(LaserDomeShotEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	}
-
-	public static class Factory implements IRenderFactory<LaserDomeShotEntity> {
-		@Override
-		public EntityRenderer<? super LaserDomeShotEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new LaserDomeShotEntityRenderer(manager);
-		}
 	}
 }

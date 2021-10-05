@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
@@ -26,12 +27,11 @@ import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
-	public static final Factory FACTORY = new HeartEntityRenderer.Factory();
 	Random rand = new Random();
 	float rotation = 0;
 	
-	public HeartEntityRenderer(EntityRenderDispatcher renderManager) {
-		super(renderManager);
+	public HeartEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
 		this.shadowRadius = 0.25F;
 	}
 
@@ -76,13 +76,5 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 	@Override
 	public ResourceLocation getTextureLocation(HeartEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/heart.png");
-	}
-
-
-	public static class Factory implements IRenderFactory<HeartEntity> {
-		@Override
-		public EntityRenderer<? super HeartEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new HeartEntityRenderer(manager);
-		}
 	}
 }

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.render.entity.drops;
 
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -9,11 +10,8 @@ import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 
 public class MPOrbRenderer extends EntityItemDropRenderer {
-	
-	public static final Factory FACTORY = new MPOrbRenderer.Factory();
-
-	public MPOrbRenderer(EntityRenderDispatcher renderManagerIn) {
-		super(renderManagerIn);
+	public MPOrbRenderer(EntityRendererProvider.Context context) {
+		super(context);
 	}
 
 	/**
@@ -25,10 +23,4 @@ public class MPOrbRenderer extends EntityItemDropRenderer {
 		return texture;
 	}
 
-	public static class Factory implements IRenderFactory<MPOrbEntity> {
-		@Override
-		public EntityRenderer<? super MPOrbEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-			return new MPOrbRenderer(entityRendererManager);
-		}
-	}
 }

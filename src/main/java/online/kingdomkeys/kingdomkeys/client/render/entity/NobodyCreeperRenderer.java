@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -23,10 +24,9 @@ import online.kingdomkeys.kingdomkeys.entity.mob.NobodyCreeperEntity;
 public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, NobodyCreeperModel<NobodyCreeperEntity>> {
 
     private ResourceLocation texture, swordTexture, spearTexture;
-    public static final NobodyCreeperRenderer.Factory FACTORY = new NobodyCreeperRenderer.Factory();
 
-    public NobodyCreeperRenderer(EntityRenderDispatcher renderManagerIn) {
-        super(renderManagerIn, new NobodyCreeperModel<>(), 0.35F);
+    public NobodyCreeperRenderer(EntityRendererProvider.Context context) {
+        super(context, new NobodyCreeperModel<>(), 0.35F);
         this.texture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper.png");
         this.swordTexture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper_sword.png");
         this.spearTexture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper_spear.png");
@@ -132,12 +132,5 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
     protected void scale(NobodyCreeperEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
         matrixStackIn.scale(1F, 1F, 1F);
         super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
-    }
-    
-    public static class Factory implements IRenderFactory<NobodyCreeperEntity> {
-        @Override
-        public EntityRenderer<? super NobodyCreeperEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-            return new NobodyCreeperRenderer(entityRendererManager);
-        }
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -20,11 +21,8 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 
 public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<MoogleEntity>> {
-
-    public static final MoogleRenderer.Factory FACTORY = new MoogleRenderer.Factory();
-
-    public MoogleRenderer(EntityRenderDispatcher renderManagerIn) {
-        super(renderManagerIn, new MoogleModel<>(), 0.35F);
+    public MoogleRenderer(EntityRendererProvider.Context context) {
+        super(context, new MoogleModel<>(), 0.35F);
     }
 
     @Override
@@ -61,12 +59,5 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
     @Override //probably is called getRenderType or something
     protected RenderType getRenderType(MoogleEntity p_230496_1_, boolean p_230496_2_, boolean p_230496_3_, boolean p_230496_4_) {
         return super.getRenderType(p_230496_1_, p_230496_2_, p_230496_3_, p_230496_4_);
-    }
-
-    public static class Factory implements IRenderFactory<MoogleEntity> {
-        @Override
-        public EntityRenderer<? super MoogleEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-            return new MoogleRenderer(entityRendererManager);
-        }
     }
 }

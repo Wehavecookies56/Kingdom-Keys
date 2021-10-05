@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fmlclient.registry.IRenderFactory;
@@ -16,10 +17,8 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseBombEntity;
 
 public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBombEntity>> {
 
-    public static final BombRenderer.Factory FACTORY = new BombRenderer.Factory();
-
-    public BombRenderer(EntityRenderDispatcher renderManagerIn) {
-        super(renderManagerIn, new BombModel<>(), 0.35F);
+    public BombRenderer(EntityRendererProvider.Context context) {
+        super(context, new BombModel<>(), 0.35F);
     }
 
     @Override
@@ -48,12 +47,5 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
             matrixStackIn.popPose();
         }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-    }
-
-    public static class Factory implements IRenderFactory<BaseBombEntity> {
-        @Override
-        public EntityRenderer<? super BaseBombEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-            return new BombRenderer(entityRendererManager);
-        }
     }
 }

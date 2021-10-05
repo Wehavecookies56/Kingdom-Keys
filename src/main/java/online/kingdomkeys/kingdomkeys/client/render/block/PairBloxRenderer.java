@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
@@ -26,16 +27,10 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 
-/**
- * Mostly a copy of {@link net.minecraft.client.renderer.entity.TNTRenderer}
- * with some small changes
- */
 @OnlyIn(Dist.CLIENT)
 public class PairBloxRenderer extends EntityRenderer<PairBloxEntity> {
 
-	public static final Factory FACTORY = new PairBloxRenderer.Factory();
-
-	public PairBloxRenderer(EntityRenderDispatcher renderManager) {
+	public PairBloxRenderer(EntityRendererProvider.Context renderManager) {
 		super(renderManager);
 		this.shadowRadius = 0.5F;
 	}
@@ -80,10 +75,4 @@ public class PairBloxRenderer extends EntityRenderer<PairBloxEntity> {
 		return TextureAtlas.LOCATION_BLOCKS;
 	}
 
-	public static class Factory implements IRenderFactory<PairBloxEntity> {
-		@Override
-		public EntityRenderer<? super PairBloxEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-			return new PairBloxRenderer(entityRendererManager);
-		}
-	}
 }

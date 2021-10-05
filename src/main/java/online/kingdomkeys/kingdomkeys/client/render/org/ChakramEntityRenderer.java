@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
@@ -26,13 +27,11 @@ import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
-
-	public static final Factory FACTORY = new ChakramEntityRenderer.Factory();
 	Random rand = new Random();
 	float rotation = 0;
 	
-	public ChakramEntityRenderer(EntityRenderDispatcher renderManager) {
-		super(renderManager);
+	public ChakramEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
 		this.shadowRadius = 0.25F;
 	}
 
@@ -96,12 +95,5 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 		String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
 		
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/"+name+".png");
-	}
-
-	public static class Factory implements IRenderFactory<ChakramEntity> {
-		@Override
-		public EntityRenderer<? super ChakramEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new ChakramEntityRenderer(manager);
-		}
 	}
 }

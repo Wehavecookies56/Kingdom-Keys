@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,12 +19,9 @@ import online.kingdomkeys.kingdomkeys.entity.organization.ArrowRainCoreEntity;
 @OnlyIn(Dist.CLIENT)
 public class ArrowRainCoreEntityRenderer extends EntityRenderer<ArrowRainCoreEntity> {
 
-	public static final Factory FACTORY = new ArrowRainCoreEntityRenderer.Factory();
-	BlizzardModel shot;
 
-	public ArrowRainCoreEntityRenderer(EntityRenderDispatcher renderManager, BlizzardModel fist) {
-		super(renderManager);
-		this.shot = fist;
+	public ArrowRainCoreEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
 		this.shadowRadius = 0.25F;
 	}
 
@@ -48,12 +46,5 @@ public class ArrowRainCoreEntityRenderer extends EntityRenderer<ArrowRainCoreEnt
 	@Override
 	public ResourceLocation getTextureLocation(ArrowRainCoreEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	}
-
-	public static class Factory implements IRenderFactory<ArrowRainCoreEntity> {
-		@Override
-		public EntityRenderer<? super ArrowRainCoreEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new ArrowRainCoreEntityRenderer(manager, new BlizzardModel());
-		}
 	}
 }

@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,12 +19,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 @OnlyIn(Dist.CLIENT)
 public class ThunderBoltEntityRenderer extends EntityRenderer<ThunderBoltEntity> {
 
-	public static final Factory FACTORY = new ThunderBoltEntityRenderer.Factory();
-	BlizzardModel shot;
-
-	public ThunderBoltEntityRenderer(EntityRenderDispatcher renderManager, BlizzardModel fist) {
-		super(renderManager);
-		this.shot = fist;
+	public ThunderBoltEntityRenderer(EntityRendererProvider.Context context ) {
+		super(context);
 		this.shadowRadius = 0.25F;
 	}
 
@@ -48,12 +45,5 @@ public class ThunderBoltEntityRenderer extends EntityRenderer<ThunderBoltEntity>
 	@Override
 	public ResourceLocation getTextureLocation(ThunderBoltEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	}
-
-	public static class Factory implements IRenderFactory<ThunderBoltEntity> {
-		@Override
-		public EntityRenderer<? super ThunderBoltEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new ThunderBoltEntityRenderer(manager, new BlizzardModel());
-		}
 	}
 }

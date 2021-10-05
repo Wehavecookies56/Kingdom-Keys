@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
@@ -20,16 +21,12 @@ import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 
-/**
- * Mostly a copy of {@link net.minecraft.client.renderer.entity.TNTRenderer} with some small changes
- */
+
 @OnlyIn(Dist.CLIENT)
 public class BlastBloxRenderer extends EntityRenderer<BlastBloxEntity> {
 
-    public static final Factory FACTORY = new BlastBloxRenderer.Factory();
-
-    public BlastBloxRenderer(EntityRenderDispatcher renderManager) {
-        super(renderManager);
+    public BlastBloxRenderer(EntityRendererProvider.Context context) {
+        super(context);
         this.shadowRadius = 0.5F;
     }
 
@@ -64,10 +61,4 @@ public class BlastBloxRenderer extends EntityRenderer<BlastBloxEntity> {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 
-    public static class Factory implements IRenderFactory<BlastBloxEntity> {
-        @Override
-        public EntityRenderer<? super BlastBloxEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-            return new BlastBloxRenderer(entityRendererManager);
-        }
-    }
 }

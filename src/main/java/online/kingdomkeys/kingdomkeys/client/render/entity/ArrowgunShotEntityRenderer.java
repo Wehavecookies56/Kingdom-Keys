@@ -8,6 +8,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,12 +20,10 @@ import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntity> {
-
-	public static final Factory FACTORY = new ArrowgunShotEntityRenderer.Factory();
 	private CubeModel model;
 
-	public ArrowgunShotEntityRenderer(EntityRenderDispatcher renderManager) {
-		super(renderManager);
+	public ArrowgunShotEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
         model = new CubeModel();
 		this.shadowRadius = 0.25F;
 	}
@@ -47,12 +46,5 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 	@Override
 	public ResourceLocation getTextureLocation(ArrowgunShotEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	}
-
-	public static class Factory implements IRenderFactory<ArrowgunShotEntity> {
-		@Override
-		public EntityRenderer<? super ArrowgunShotEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new ArrowgunShotEntityRenderer(manager);
-		}
 	}
 }

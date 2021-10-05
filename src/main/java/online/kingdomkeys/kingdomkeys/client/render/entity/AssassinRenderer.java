@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fmlclient.registry.IRenderFactory;
@@ -15,10 +16,8 @@ import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
 
 public class AssassinRenderer extends MobRenderer<AssassinEntity, AssassinModel<AssassinEntity>> {
 
-    public static final AssassinRenderer.Factory FACTORY = new AssassinRenderer.Factory();
-
-    public AssassinRenderer(EntityRenderDispatcher renderManagerIn) {
-        super(renderManagerIn, new AssassinModel<>(), 0.35F);
+    public AssassinRenderer(EntityRendererProvider.Context context) {
+        super(context, new AssassinModel<>(), 0.35F);
     }
 
     @Override
@@ -47,12 +46,5 @@ public class AssassinRenderer extends MobRenderer<AssassinEntity, AssassinModel<
     protected void scale(AssassinEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
     	matrixStackIn.scale(2,2,2);
     	super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
-    }
-    
-    public static class Factory implements IRenderFactory<AssassinEntity> {
-        @Override
-        public EntityRenderer<? super AssassinEntity> createRenderFor(EntityRenderDispatcher entityRendererManager) {
-            return new AssassinRenderer(entityRendererManager);
-        }
     }
 }

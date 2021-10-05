@@ -9,11 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.CreativeModeTab;
@@ -137,6 +135,7 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
+import org.w3c.dom.Attr;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
@@ -263,7 +262,7 @@ public class ModEntities {
                 .build(name);
         if (group != null) {
         	addToGroup(group, type);
-            ModItems.ITEMS.register(name+"_spawn_egg", () -> new SpawnEggItem(type, color1, color2, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+            ModItems.ITEMS.register(name+"_spawn_egg", () -> new SpawnEggItem((EntityType<? extends Mob>) type, color1, color2, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
         }
         
         return ENTITIES.register(name, () -> type);
@@ -284,7 +283,7 @@ public class ModEntities {
                 .build(name);
         if (group != null) {
         	addToGroup(group, type);
-            ModItems.ITEMS.register(name+"_spawn_egg", () -> new SpawnEggItem(type, color1, color2, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+            ModItems.ITEMS.register(name+"_spawn_egg", () -> new SpawnEggItem((EntityType<? extends Mob>) type, color1, color2, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
         }
 
         return ENTITIES.register(name, () -> type);
@@ -317,75 +316,75 @@ public class ModEntities {
     @OnlyIn(Dist.CLIENT)
     public static void registerModels() {
         //Entities
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX.get(), BlastBloxRenderer.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLAST_BLOX.get(), BlastBloxRenderer::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_PAIR_BLOX.get(), PairBloxRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MUNNY.get(), MunnyRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_HPORB.get(), HPOrbRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MPORB.get(), MPOrbRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_DRIVEORB.get(), DriveOrbRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_FOCUSORB.get(), FocusOrbRenderer.FACTORY);
+        EntityRenderers.register(TYPE_PAIR_BLOX.get(), PairBloxRenderer::new);
+        EntityRenderers.register(TYPE_MUNNY.get(), MunnyRenderer::new);
+        EntityRenderers.register(TYPE_HPORB.get(), HPOrbRenderer::new);
+        EntityRenderers.register(TYPE_MPORB.get(), MPOrbRenderer::new);
+        EntityRenderers.register(TYPE_DRIVEORB.get(), DriveOrbRenderer::new);
+        EntityRenderers.register(TYPE_FOCUSORB.get(), FocusOrbRenderer::new);
 
-        
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRE.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRAGA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_FIRAZA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZARD.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLIZZAZA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDER.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDARA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDAGA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDAZA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNET.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNERA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MAGNEGA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATER.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATERA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATERGA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_WATERZA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVITY.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVIRA.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_GRAVIGA.get(), InvisibleEntityRenderer.FACTORY);
-        
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MOOGLE.get(), MoogleRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW.get(), ShadowRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MEGA_SHADOW.get(), MegaShadowRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_GIGA_SHADOW.get(), GigaShadowRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_DARKBALL.get(), DarkballRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHADOW_GLOB.get(), ShadowGlobRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_LARGE_BODY.get(), LargeBodyRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_MINUTE_BOMB.get(), BombRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SKATER_BOMB.get(), BombRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_STORM_BOMB.get(), BombRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_DETONATOR.get(), BombRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_NOBODY_CREEPER.get(), NobodyCreeperRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_RED_NOCTURNE.get(), ElementalMusicalHeartlessRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_BLUE_RHAPSODY.get(), ElementalMusicalHeartlessRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_YELLOW_OPERA.get(), ElementalMusicalHeartlessRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_GREEN_REQUIEM.get(), ElementalMusicalHeartlessRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_DUSK.get(), DuskRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_ASSASSIN.get(), AssassinRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_DIRE_PLANT.get(), DirePlantRenderer.FACTORY);
 
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_HEART.get(), HeartEntityRenderer.FACTORY);
+        EntityRenderers.register(TYPE_FIRE.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_FIRA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_FIRAGA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_FIRAZA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_BLIZZARD.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_BLIZZAZA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_THUNDER.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_THUNDARA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_THUNDAGA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_THUNDAZA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer::new);
+        EntityRenderers.register(TYPE_MAGNET.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_MAGNERA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_MAGNEGA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_WATER.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_WATERA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_WATERGA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_WATERZA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_GRAVITY.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_GRAVIRA.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_GRAVIGA.get(), InvisibleEntityRenderer::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_CHAKRAM.get(), ChakramEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_LANCE.get(), LanceEntityRenderer.FACTORY);
+        EntityRenderers.register(TYPE_MOOGLE.get(), MoogleRenderer::new);
+        EntityRenderers.register(TYPE_SHADOW.get(), ShadowRenderer::new);
+        EntityRenderers.register(TYPE_MEGA_SHADOW.get(), MegaShadowRenderer::new);
+        EntityRenderers.register(TYPE_GIGA_SHADOW.get(), GigaShadowRenderer::new);
+        EntityRenderers.register(TYPE_DARKBALL.get(), DarkballRenderer::new);
+        EntityRenderers.register(TYPE_SHADOW_GLOB.get(), ShadowGlobRenderer::new);
+        EntityRenderers.register(TYPE_LARGE_BODY.get(), LargeBodyRenderer::new);
+        EntityRenderers.register(TYPE_MINUTE_BOMB.get(), BombRenderer::new);
+        EntityRenderers.register(TYPE_SKATER_BOMB.get(), BombRenderer::new);
+        EntityRenderers.register(TYPE_STORM_BOMB.get(), BombRenderer::new);
+        EntityRenderers.register(TYPE_DETONATOR.get(), BombRenderer::new);
+        EntityRenderers.register(TYPE_NOBODY_CREEPER.get(), NobodyCreeperRenderer::new);
+        EntityRenderers.register(TYPE_RED_NOCTURNE.get(), ElementalMusicalHeartlessRenderer::new);
+        EntityRenderers.register(TYPE_BLUE_RHAPSODY.get(), ElementalMusicalHeartlessRenderer::new);
+        EntityRenderers.register(TYPE_YELLOW_OPERA.get(), ElementalMusicalHeartlessRenderer::new);
+        EntityRenderers.register(TYPE_GREEN_REQUIEM.get(), ElementalMusicalHeartlessRenderer::new);
+        EntityRenderers.register(TYPE_DUSK.get(), DuskRenderer::new);
+        EntityRenderers.register(TYPE_ASSASSIN.get(), AssassinRenderer::new);
+        EntityRenderers.register(TYPE_DIRE_PLANT.get(), DirePlantRenderer::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_ARROWGUN_SHOT.get(), ArrowgunShotEntityRenderer.FACTORY);
+        EntityRenderers.register(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
+        EntityRenderers.register(TYPE_HEART.get(), HeartEntityRenderer::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_CIRCLE.get(), LaserCircleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_SHOTLOCK_CIRCULAR.get(), InvisibleEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer.FACTORY);
+        EntityRenderers.register(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
+        EntityRenderers.register(TYPE_LANCE.get(), LanceEntityRenderer::new);
+
+        EntityRenderers.register(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_ARROWGUN_SHOT.get(), ArrowgunShotEntityRenderer::new);
+
+        EntityRenderers.register(TYPE_LASER_CIRCLE.get(), LaserCircleEntityRenderer::new);
+        EntityRenderers.register(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer::new);
+        EntityRenderers.register(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer::new);
+        EntityRenderers.register(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer::new);
+        EntityRenderers.register(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_SHOTLOCK_CIRCULAR.get(), InvisibleEntityRenderer::new);
+        EntityRenderers.register(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
+        EntityRenderers.register(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new );
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
         
@@ -448,7 +447,7 @@ public class ModEntities {
     public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, KingdomKeys.MODID);
 
     public static final RegistryObject<BlockEntityType<MagnetBloxTileEntity>> TYPE_MAGNET_BLOX = TILE_ENTITIES.register("magnet_blox", () -> BlockEntityType.Builder.of(MagnetBloxTileEntity::new, ModBlocks.magnetBlox.get()).build(null));
-    public static final RegistryObject<BlockEntityType<PedestalTileEntity>> TYPE_PEDESTAL = TILE_ENTITIES.register("pedestal", () -> BlockEntityType.Builder.of(PedestalBlock::new, ModBlocks.pedestal);
+    public static final RegistryObject<BlockEntityType<PedestalTileEntity>> TYPE_PEDESTAL = TILE_ENTITIES.register("pedestal", () -> BlockEntityType.Builder.of(PedestalTileEntity::new, ModBlocks.pedestal.get()).build(null));
     public static final RegistryObject<BlockEntityType<MagicalChestTileEntity>> TYPE_MAGICAL_CHEST = TILE_ENTITIES.register("magical_chest", () -> BlockEntityType.Builder.of(MagicalChestTileEntity::new, ModBlocks.magicalChest.get()).build(null));
     public static final RegistryObject<BlockEntityType<OrgPortalTileEntity>> TYPE_ORG_PORTAL_TE = TILE_ENTITIES.register("org_portal", () -> BlockEntityType.Builder.of(OrgPortalTileEntity::new, ModBlocks.orgPortal.get()).build(null));
     public static final RegistryObject<BlockEntityType<MoogleProjectorTileEntity>> TYPE_MOOGLE_PROJECTOR = TILE_ENTITIES.register("moogle_projector", () -> BlockEntityType.Builder.of(MoogleProjectorTileEntity::new, ModBlocks.moogleProjector.get()).build(null));

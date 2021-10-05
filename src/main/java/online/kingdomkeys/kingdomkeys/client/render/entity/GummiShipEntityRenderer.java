@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fmlclient.registry.IRenderFactory;
@@ -14,12 +15,12 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.GummiShipModel;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 
-public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> implements IRenderFactory<GummiShipEntity> {
+public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 
 	int red = 96, green = 140, blue = 109, alpha = 255;
 	private GummiShipModel model;
 
-	public GummiShipEntityRenderer(EntityRenderDispatcher renderManager) {
+	public GummiShipEntityRenderer(EntityRendererProvider.Context renderManager) {
 		super(renderManager);
 		model = new GummiShipModel();
 	}
@@ -49,8 +50,9 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> imp
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/gummi.png");
 	}
 
-	@Override
+	//TODO fix this
+	/*@Override
 	public EntityRenderer<? super GummiShipEntity> createRenderFor(EntityRenderDispatcher manager) {
 		return new GummiShipEntityRenderer(manager);
-	}
+	}*/
 }

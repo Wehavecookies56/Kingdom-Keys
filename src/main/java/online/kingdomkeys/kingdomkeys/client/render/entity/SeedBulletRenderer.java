@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fmlclient.registry.IRenderFactory;
@@ -12,12 +13,12 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.SeedBulletEntity;
 
-public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> implements IRenderFactory<SeedBulletEntity> {
+public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity>{
 
     int red = 96, green = 140, blue = 109, alpha = 255;
     private CubeModel model;
 
-    public SeedBulletRenderer(EntityRenderDispatcher renderManager) {
+    public SeedBulletRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager);
         model = new CubeModel();
     }
@@ -34,10 +35,5 @@ public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> impleme
     @Override
     public ResourceLocation getTextureLocation(SeedBulletEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-    }
-
-    @Override
-    public EntityRenderer<? super SeedBulletEntity> createRenderFor(EntityRenderDispatcher manager) {
-        return new SeedBulletRenderer(manager);
     }
 }

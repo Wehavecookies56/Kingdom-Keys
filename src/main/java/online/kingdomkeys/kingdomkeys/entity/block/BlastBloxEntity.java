@@ -20,9 +20,6 @@ import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-/**
- * Mostly a copy of {@link net.minecraft.entity.item.TNTEntity} with some small changes
- */
 public class BlastBloxEntity extends Entity {
 
     private static final EntityDataAccessor<Integer> FUSE = SynchedEntityData.defineId(BlastBloxEntity.class, EntityDataSerializers.INT);
