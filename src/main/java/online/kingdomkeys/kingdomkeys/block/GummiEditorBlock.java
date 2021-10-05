@@ -79,19 +79,9 @@ public class GummiEditorBlock extends BaseEntityBlock {
 		return RenderShape.MODEL;
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
-	@Nullable
-	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
-		return newBlockEntity(world);
-	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockGetter worldIn) {
-		return new GummiEditorTileEntity();
+	public BlockEntity newBlockEntity( BlockPos blockPos, BlockState blockState) {
+		return new GummiEditorTileEntity(blockPos, blockState);
 	}
 }

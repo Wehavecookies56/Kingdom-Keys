@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -33,9 +35,10 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider, 
 
 	private ItemStack displayStack = ItemStack.EMPTY;
 
-	public GummiEditorTileEntity() {
-		super(ModEntities.TYPE_GUMMI_EDITOR.get());
+	public GummiEditorTileEntity(BlockPos blockPos, BlockState blockState) {
+		super(ModEntities.TYPE_GUMMI_EDITOR.get(), blockPos, blockState);
 	}
+
 
 	private IItemHandler createInventory() {
 		return new ItemStackHandler(NUMBER_OF_SLOTS) {
@@ -52,8 +55,8 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider, 
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load( compound);
 		CompoundTag invCompound = compound.getCompound("inv");
 		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
 		//CompoundNBT transformations = compound.getCompound("transforms");
@@ -118,7 +121,7 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider, 
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
+		this.load(pkt.getTag());
 	}
 
 	@Override
@@ -127,13 +130,18 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider, 
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundTag tag) {
-		this.load(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load( tag);
 	}
 
 	@Override
 	public void tick() {
 		
+	}
+
+	@Override
+	public BlockPos getPos() {
+		return this.getBlockPos();
 	}
 
 }

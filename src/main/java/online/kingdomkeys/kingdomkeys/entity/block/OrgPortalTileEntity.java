@@ -4,9 +4,11 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -14,8 +16,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 public class OrgPortalTileEntity extends BlockEntity {
 	UUID uuid;
 
-	public OrgPortalTileEntity() {
-		super(ModEntities.TYPE_ORG_PORTAL_TE.get());
+	public OrgPortalTileEntity(BlockPos pos, BlockState state) {
+		super(ModEntities.TYPE_ORG_PORTAL_TE.get(), pos, state);
 	}
 
 	@Override
@@ -27,8 +29,8 @@ public class OrgPortalTileEntity extends BlockEntity {
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag nbt) {
-		super.load(state, nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		if(nbt.hasUUID("uuid"))
 			uuid = nbt.getUUID("uuid");
 	}
@@ -52,7 +54,7 @@ public class OrgPortalTileEntity extends BlockEntity {
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
+		this.load(pkt.getTag());
 	}
 
 	@Override
@@ -61,8 +63,8 @@ public class OrgPortalTileEntity extends BlockEntity {
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundTag tag) {
-		this.load(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load(tag);
 	}
 	
 }

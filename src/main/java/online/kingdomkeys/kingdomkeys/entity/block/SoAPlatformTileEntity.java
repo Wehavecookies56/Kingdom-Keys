@@ -45,8 +45,8 @@ public class SoAPlatformTileEntity extends BlockEntity {
     }
     
     @Override
-    public void load(BlockState state, CompoundTag compound) {
-    	super.load(state, compound);
+    public void load(CompoundTag compound) {
+    	super.load(compound);
     	multiblockFormed = compound.getBoolean("formed");
         CompoundTag structureCompound = compound.getCompound("structure");
         int size = structureCompound.getInt("size");
@@ -78,7 +78,7 @@ public class SoAPlatformTileEntity extends BlockEntity {
 
     @Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
+		this.load(pkt.getTag());
 	}
 
     @Override
@@ -87,8 +87,8 @@ public class SoAPlatformTileEntity extends BlockEntity {
     }
     
     @Override
-    public void handleUpdateTag(BlockState state, CompoundTag tag) {
-    	this.load(state, tag);
+    public void handleUpdateTag(CompoundTag tag) {
+    	this.load( tag);
     }
 
     @Override

@@ -44,6 +44,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.lwjgl.system.CallbackI;
 
 public class MagicalChestBlock extends BaseEntityBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -174,25 +175,10 @@ public class MagicalChestBlock extends BaseEntityBlock {
 		}
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
-	@Override
-	public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-		return null;
-	}
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
-		return newBlockEntity(world);
-	}
-
-	@Nullable
-	@Override
-	public BlockEntity newBlockEntity(BlockGetter worldIn) {
-		return ModEntities.TYPE_MAGICAL_CHEST.get().create();
+	public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+		return new MagicalChestTileEntity(blockPos, blockState);
 	}
 
 	//Prevent block from breaking if player is not owner

@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import java.util.List;
-
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -17,9 +16,11 @@ import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class MagnetBloxTileEntity extends BlockEntity implements TickableBlockEntity {
-	public MagnetBloxTileEntity() {
-		super(ModEntities.TYPE_MAGNET_BLOX.get());
+import java.util.List;
+
+public class MagnetBloxTileEntity extends BlockEntity implements TickingBlockEntity {
+	public MagnetBloxTileEntity(BlockPos pos, BlockState state) {
+		super(ModEntities.TYPE_MAGNET_BLOX.get(), pos, state);
 	}
 
 	int ticks = 0;
@@ -106,6 +107,11 @@ public class MagnetBloxTileEntity extends BlockEntity implements TickableBlockEn
 				}
 			}
 		}
+	}
+
+	@Override
+	public BlockPos getPos() {
+		return this.getPos();
 	}
 
 	public Vec3 toVector3f(Direction facing) {

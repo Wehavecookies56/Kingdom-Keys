@@ -1,26 +1,25 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class SoRCoreTileEntity extends BlockEntity implements TickableBlockEntity {
+import javax.annotation.Nullable;
+import java.util.UUID;
+
+public class SoRCoreTileEntity extends BlockEntity implements TickingBlockEntity {
 	UUID userUUID;
 	int ticks = 0;
 	
-	public SoRCoreTileEntity() {
-		super(ModEntities.TYPE_SOR_CORE_TE.get());
+	public SoRCoreTileEntity(BlockPos blockPos, BlockState blockState) {
+		super(ModEntities.TYPE_SOR_CORE_TE.get(), blockPos, blockState);
 	}
 
 	@Override
@@ -32,8 +31,8 @@ public class SoRCoreTileEntity extends BlockEntity implements TickableBlockEntit
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag nbt) {
-		super.load(state, nbt);
+	public void load( CompoundTag nbt) {
+		super.load(nbt);
 		if(nbt.hasUUID("uuid"))
 			userUUID = nbt.getUUID("uuid");
 	}
@@ -57,7 +56,7 @@ public class SoRCoreTileEntity extends BlockEntity implements TickableBlockEntit
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
+		this.load(pkt.getTag());
 	}
 
 	@Override
@@ -66,8 +65,8 @@ public class SoRCoreTileEntity extends BlockEntity implements TickableBlockEntit
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundTag tag) {
-		this.load(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load( tag);
 	}
 
 	@Override
@@ -85,7 +84,12 @@ public class SoRCoreTileEntity extends BlockEntity implements TickableBlockEntit
 		}
 	}
 
-		//x
+	@Override
+	public BlockPos getPos() {
+		return null;
+	}
+
+	//x
 		int sorWidth = 25;
 	    //z
 	    int sorDepth = 25;

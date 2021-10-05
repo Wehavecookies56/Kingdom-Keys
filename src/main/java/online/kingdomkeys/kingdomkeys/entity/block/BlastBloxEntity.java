@@ -57,10 +57,6 @@ public class BlastBloxEntity extends Entity {
         this.entityData.define(FUSE, 40);
     }
 
-    @Override
-    protected boolean isMovementNoisy() {
-        return true;
-    }
 
     @Override
     public boolean isPickable() {

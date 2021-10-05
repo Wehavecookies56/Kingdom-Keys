@@ -47,11 +47,6 @@ public class PairBloxEntity extends Entity {
 	}
 
 	@Override
-	protected boolean isMovementNoisy() {
-		return true;
-	}
-
-	@Override
 	public boolean isPickable() {
 		return this.isAlive();
 	}

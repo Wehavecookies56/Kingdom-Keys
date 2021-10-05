@@ -1,11 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -15,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
@@ -27,7 +24,10 @@ import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class PedestalTileEntity extends BlockEntity implements MenuProvider, TickableBlockEntity {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+public class PedestalTileEntity extends BlockEntity implements MenuProvider, TickingBlockEntity {
 	public static final int NUMBER_OF_SLOTS = 1;
 	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
 
@@ -59,8 +59,8 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tic
 	//only changed on the client so it will not hide for other players
 	public boolean hide = false;
 
-	public PedestalTileEntity() {
-		super(ModEntities.TYPE_PEDESTAL.get());
+	public PedestalTileEntity(BlockPos blockPos, BlockState blockState) {
+		super(ModEntities.TYPE_PEDESTAL.get(), blockPos, blockState);
 	}
 
 	private IItemHandler createInventory() {
@@ -78,8 +78,8 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tic
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		CompoundTag invCompound = compound.getCompound("inv");
 		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
 		CompoundTag transformations = compound.getCompound("transforms");
@@ -234,6 +234,16 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tic
 		}
 	}
 
+	@Override
+	public boolean isRemoved() {
+		return false;
+	}
+
+	@Override
+	public BlockPos getPos() {
+		return this.worldPosition;
+	}
+
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
@@ -242,10 +252,11 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tic
 		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 1, nbt);
 	}
 
+	/*
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
-	}
+	public void onDataPacket(ClientboundBlockEntityDataPacket pkt) {
+		this.load( pkt.getTag());
+	}*/
 
 	@Override
 	public CompoundTag getUpdateTag() {
@@ -253,8 +264,8 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tic
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundTag tag) {
-		this.load(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load( tag);
 	}
 	
 }

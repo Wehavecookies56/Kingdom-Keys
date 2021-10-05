@@ -1,15 +1,14 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfigs {
@@ -302,7 +301,7 @@ public class ModConfigs {
 
 
     @SubscribeEvent
-    public static void configEvent(ModConfig.ModConfigEvent event) {
+    public static void configEvent(ModConfigEvent event) {
         KingdomKeys.LOGGER.info("LOAD CONFIG");
         if (event.getConfig().getSpec() == CLIENT_SPEC) {
             bakeClient();

@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -35,8 +36,8 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 	//Used to prevent others from breaking
 	private UUID owner;
 
-	public MagicalChestTileEntity() {
-		super(ModEntities.TYPE_MAGICAL_CHEST.get());
+	public MagicalChestTileEntity(BlockPos blockPos, BlockState blockState) {
+		super(ModEntities.TYPE_MAGICAL_CHEST.get(), blockPos, blockState);
 	}
 
 	private IItemHandler createInventory() {
@@ -79,8 +80,8 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 	
 	
 	@Override
-	public void load(BlockState state, CompoundTag compound) {
-		super.load(state, compound);
+	public void load(CompoundTag compound) {
+		super.load(compound);
 		CompoundTag invCompound = compound.getCompound("inv");
 	    inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
 	
@@ -102,7 +103,7 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(level.getBlockState(pkt.getPos()), pkt.getTag());
+		this.load(pkt.getTag());
 	}
 
 	@Override
@@ -111,8 +112,8 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundTag tag) {
-		this.load(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load(tag);
 	}
 
 	@Nonnull
