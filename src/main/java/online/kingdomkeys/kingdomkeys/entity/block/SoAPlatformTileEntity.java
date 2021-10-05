@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import org.lwjgl.system.CallbackI;
 
 public class SoAPlatformTileEntity extends BlockEntity {
 
@@ -30,8 +31,8 @@ public class SoAPlatformTileEntity extends BlockEntity {
         return multiblockFormed;
     }
 
-    public SoAPlatformTileEntity() {
-        super(ModEntities.TYPE_SOA_PLATFORM.get());
+    public SoAPlatformTileEntity(BlockPos pos, BlockState state) {
+        super(ModEntities.TYPE_SOA_PLATFORM.get(), pos, state);
     }
 
     public void clearPositions() {

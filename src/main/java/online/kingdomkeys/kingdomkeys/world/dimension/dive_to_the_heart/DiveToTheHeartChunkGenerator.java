@@ -168,13 +168,13 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     @Override
 	public CompletableFuture<ChunkAccess> fillFromNoise(Executor e, StructureFeatureManager sfm, ChunkAccess ca) {
         BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
-        if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
-            int startZ = chunkIn.getPos().getMinBlockZ() - (depth/2);
-            int startX = chunkIn.getPos().getMinBlockX() - (width/2);
+        if (distance(ca.getPos().x, ca.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
+            int startZ = ca.getPos().getMinBlockZ() - (depth/2);
+            int startX = ca.getPos().getMinBlockX() - (width/2);
 
             for (int y = 0; y < height; ++y) {
-                for (int z = startZ; z <= chunkIn.getPos().getMinBlockZ() + depth/2; ++z) {
-                    for (int x = startX; x <= chunkIn.getPos().getMinBlockX() + width/2; ++x) {
+                for (int z = startZ; z <= ca.getPos().getMinBlockZ() + depth/2; ++z) {
+                    for (int x = startX; x <= ca.getPos().getMinBlockX() + width/2; ++x) {
                         blockpos$mutable.set(x, SPAWN_POS.getY() - y, z);
                         int strucX = x - startX;
                         int strucZ = z - startZ;
