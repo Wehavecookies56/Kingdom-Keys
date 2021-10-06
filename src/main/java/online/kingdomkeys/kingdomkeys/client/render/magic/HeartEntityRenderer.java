@@ -59,7 +59,7 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 				matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(ticks*20));
 				
 				for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
-					buffer.addVertexData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+					buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				
 
