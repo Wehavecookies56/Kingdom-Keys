@@ -116,8 +116,8 @@ public class MenuEquipmentButton extends Button {
             matrixStack.pushPose();
             {
                 RenderSystem.enableBlend();
-               // RenderSystem.enableAlphaTest();
-               // Lighting.turnOff();
+               // 
+               // 
                 RenderSystem.setShaderColor(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
                 matrixStack.translate(x + 0.6F, y, 0);
                 matrixStack.scale(0.5F, 0.5F, 1);
@@ -163,7 +163,7 @@ public class MenuEquipmentButton extends Button {
                 mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
-                   // RenderSystem.enableAlphaTest();
+                   // 
                     matrixStack.translate(x + 0.6F, y, 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
                     //Left selected
@@ -187,14 +187,15 @@ public class MenuEquipmentButton extends Button {
                     	item = stack;
                     }
                     
-                    RenderSystem.pushMatrix();
+                    PoseStack posestack = RenderSystem.getModelViewStack();
+                    posestack.pushPose();
                     {
-                        RenderSystem.enableAlphaTest();
+                        //
                         RenderSystem.translatef(iconPosX, iconPosY, 0);
                         RenderSystem.scalef((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
                         mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);
                     }
-                    RenderSystem.popMatrix();
+                    posestack.popPose();
 
                     float strPosX = parent.width * 0.634F;
                     float strPosY = parent.height * 0.56F;
@@ -287,8 +288,8 @@ public class MenuEquipmentButton extends Button {
                 mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
-                   // RenderSystem.enableAlphaTest();
-                   // Lighting.turnOff();
+                   // 
+                   // 
                     RenderSystem.setShaderColor(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
                     matrixStack.translate(x - labelWidth, y, 0);
                     matrixStack.scale(0.5F, 0.5F, 1);

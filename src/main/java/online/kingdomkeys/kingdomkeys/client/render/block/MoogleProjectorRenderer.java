@@ -30,7 +30,7 @@ public class MoogleProjectorRenderer extends BlockEntityRenderer<MoogleProjector
 	        EntityRenderer<MoogleEntity> moogleRenderer = (EntityRenderer<MoogleEntity>) mc.getEntityRenderDispatcher().getRenderer(fakeMoogle);
 	        Vec3 vec3d = moogleRenderer.getRenderOffset(fakeMoogle, partialTicks);
 	        matrixStackIn.translate(0.5 + vec3d.x(), 0.0 + vec3d.y(), 0.5 + vec3d.z());
-	        RenderSystem.enableAlphaTest();
+	        
 	        {
 	        	RenderSystem.enableBlend();
 	        	{

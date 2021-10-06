@@ -159,7 +159,7 @@ public class MenuScreen extends MenuBackground {
 		
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 			matrixStack.translate(1, 1, 100);
-			//RenderSystem.enableAlphaTest();
+			//
 			RenderSystem.enableBlend();
 			minecraft.getEntityRenderDispatcher().textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
@@ -175,7 +175,7 @@ public class MenuScreen extends MenuBackground {
 				blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
 			}
 			blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
-			//RenderSystem.disableAlphaTest();
+			//
 			RenderSystem.disableBlend();
 		matrixStack.popPose();
 		matrixStack.pushPose();

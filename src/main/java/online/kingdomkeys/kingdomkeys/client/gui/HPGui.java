@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -32,10 +33,10 @@ public class HPGui extends Screen {
 	}
 
 	@SubscribeEvent
-	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
+	public void onRenderOverlayPost(RenderGameOverlayEvent.PreLayer event) {
 		Player player = minecraft.player;
 		PoseStack matrixStack = event.getMatrixStack();
-		if (event.getType().equals(RenderGameOverlayEvent.ElementType.HEALTH) && event.isCancelable()) {
+		if (event.getOverlay() == ForgeIngameGui.PLAYER_HEALTH_ELEMENT && event.isCancelable()) {
 			if (!ModConfigs.hpShowHearts) {
 				event.setCanceled(true);
 			}

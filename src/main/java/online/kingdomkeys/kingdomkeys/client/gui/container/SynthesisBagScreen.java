@@ -28,10 +28,12 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 	int[] texHeight = { 140, 176, 212 };
 	int bagLevel = 0;
 	HiddenButton upgrade;
-
+	Inventory inventory; //TODO idk is this ok?
+	
 	public SynthesisBagScreen(SynthesisBagContainer container, Inventory playerInv, Component title) {
 		super(container, playerInv, title);
 		minecraft = Minecraft.getInstance();
+		inventory = playerInv;
 	}
 
 	@Override

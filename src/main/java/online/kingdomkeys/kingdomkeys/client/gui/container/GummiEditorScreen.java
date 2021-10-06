@@ -40,7 +40,7 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorContai
 	@Override
 	protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
 		this.font.draw(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
-		this.font.draw(matrixStack, this.inventory.getDisplayName().getString(), 8.0F, (float) (this.imageHeight - 96 + 2), 4210752);
+		this.font.draw(matrixStack, this.playerInventoryTitle.getString(), 8.0F, (float) (this.imageHeight - 96 + 2), 4210752); //TODO check if it's this
 
 		// super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
 	}

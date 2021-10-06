@@ -84,13 +84,13 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			keyblade = ((IKeychain) stack.getItem()).toSummon();
 		}
 		if (visible) {
-			Lighting.turnOff();
+			
 			Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.292F;
 			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
-			RenderSystem.enableAlphaTest();
+			
 			RenderSystem.setShaderColor(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
 			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
@@ -148,7 +148,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
-					RenderSystem.enableAlphaTest();
+					//
 					matrixStack.translate(x + 0.6F, y, 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					blit(matrixStack, 0, 0, 128, 34, 18, 28);
@@ -163,11 +163,11 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					float iconPosX = parent.width * 0.66F;
 					float iconPosY = parent.height * 0.1833F;
 					float iconHeight = parent.height * 0.3148F;
-					Lighting.turnOff();
+					//
 					Lighting.setupForFlatItems();
 					RenderSystem.pushMatrix();
                     {
-                        RenderSystem.enableAlphaTest();
+                        
                         RenderSystem.translatef(iconPosX, iconPosY, 0);
                         RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
                         minecraft.getItemRenderer().renderAndDecorateItem(new ItemStack(keyblade), 0, 0);
@@ -229,7 +229,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					Utils.drawSplitString(minecraft.font, keyblade.getWeaponDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
-			Lighting.turnOff();
+			
 			Lighting.setupForFlatItems();
 			
 			

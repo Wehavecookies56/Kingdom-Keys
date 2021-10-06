@@ -31,7 +31,7 @@ public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestCont
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
     	this.font.draw(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.inventory.getDisplayName().getString(), 8.0F, (float)(this.imageHeight - 93), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle.getString(), 8.0F, (float)(this.imageHeight - 93), 4210752);
         //super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 

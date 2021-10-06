@@ -60,7 +60,7 @@ public class MenuStockScreen extends MenuFilterable {
         float iconHeight = height * 0.1537F;
         
 		Minecraft mc = Minecraft.getInstance();
-       // Lighting.turnOff();
+       // 
 		
         PoseStack viewModelPose = RenderSystem.getModelViewStack();
         viewModelPose.pushPose();

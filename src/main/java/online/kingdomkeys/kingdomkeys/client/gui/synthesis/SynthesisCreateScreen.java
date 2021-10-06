@@ -226,7 +226,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-		Lighting.turnOff();
+		
 		RenderSystem.pushMatrix();
 		{
 			double offset = (boxM.getWidth()*0.1F);

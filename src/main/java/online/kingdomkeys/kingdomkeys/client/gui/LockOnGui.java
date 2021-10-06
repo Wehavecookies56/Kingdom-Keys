@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -49,7 +50,7 @@ public class LockOnGui extends Screen {
 	}
 
 	@SubscribeEvent
-	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
+	public void onRenderOverlayPost(RenderGameOverlayEvent.PreLayer event) {
 		Player player = minecraft.player;
 		PoseStack matrixStack = event.getMatrixStack();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -63,7 +64,7 @@ public class LockOnGui extends Screen {
 					InputHandler.lockOn = null;
 					return;
 				}
-				if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
+				if (event.getOverlay() == ForgeIngameGui.CROSSHAIR_ELEMENT) {
 					event.setCanceled(true);
 				}
 				
