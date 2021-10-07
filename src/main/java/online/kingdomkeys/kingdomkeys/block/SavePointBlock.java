@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.block;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
@@ -87,5 +88,11 @@ public class SavePointBlock extends BaseBlock {
 			}
 		}
 		super.entityInside(state, world, pos, entity);
+	}
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction side) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

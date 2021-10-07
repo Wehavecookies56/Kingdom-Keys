@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -48,4 +49,10 @@ public class DangerBloxBlock extends BaseBlock {
     public void attack(BlockState state, Level world, BlockPos pos, Player player) {
         player.hurt(DamageSource.MAGIC, damage);
     }
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction side) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

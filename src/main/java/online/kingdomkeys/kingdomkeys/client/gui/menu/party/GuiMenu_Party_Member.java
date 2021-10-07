@@ -133,7 +133,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 			matrixStack.popPose();
 			matrixStack.pushPose();
 			matrixStack.scale(0.9F, 0.9F, 1);
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				matrixStack.translate(1, 20, 100);
 				RenderSystem.enableBlend();
 				minecraft.getEntityRenderDispatcher().textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

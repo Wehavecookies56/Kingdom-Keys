@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.block;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -67,6 +68,12 @@ public class MoogleProjectorBlock extends BaseBlock {
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
+	}
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction side) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

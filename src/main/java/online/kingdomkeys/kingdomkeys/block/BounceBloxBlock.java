@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -94,5 +95,11 @@ public class BounceBloxBlock extends BaseBlock {
 			entity.setDeltaMovement(new Vec3(x, entity.getDeltaMovement().y(), z));
 		}
 		super.entityInside(state, world, pos, entity);
+	}
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction side) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

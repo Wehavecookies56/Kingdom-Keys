@@ -76,4 +76,10 @@ public class SoADoorBlock extends BaseBlock {
 			return collisionShapeEW;
 		}
     }
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction side) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -289,7 +289,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 		}
 		
-		abilities.forEach(this::addButton);
+		//abilities.forEach(this::addButton);
 		itemsPerPage = (int) (middleHeight / 19);
 		
 		addWidget(playerButton = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, minecraft.player.getDisplayName().getString(), MenuButton.ButtonType.BUTTON, b -> {action(DriveForm.NONE.toString());}));
@@ -388,8 +388,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			abilityName = ability.getTranslationKey();
 			String text = Utils.translateToLocal(new StringBuilder(abilityName).insert(abilityName.lastIndexOf('.'), lvl).toString());
 			//System.out.println(buttons.get(i).getMessage().getString());
-			if (buttons.get(i) instanceof MenuAbilitiesButton) {
-				MenuAbilitiesButton button = (MenuAbilitiesButton) buttons.get(i);
+			if (children().get(i) instanceof MenuAbilitiesButton) {
+				MenuAbilitiesButton button = (MenuAbilitiesButton) children().get(i);
 
 				if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
 					button.active = button.equipped;
@@ -427,7 +427,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			// Left
 			matrixStack.pushPose();
 			{
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				blit(matrixStack, 0, 0, 143, 67, 7, 25);
 			}
 			matrixStack.popPose();
@@ -435,7 +435,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			// Middle
 			matrixStack.pushPose();
 			{
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
 					blit(matrixStack, 7 + j, 0, 151, 67, 1, 25);
 			}
@@ -443,7 +443,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			// Right
 			matrixStack.pushPose();
 			{
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				blit(matrixStack, 7 + barWidth, 0, 153, 67, 7, 25);
 			}
 			matrixStack.popPose();
@@ -451,7 +451,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			// Bar Background
 			matrixStack.pushPose();
 			{
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
 					blit(matrixStack, j + 7, 17, 161, 67, 1, 25);
 			}

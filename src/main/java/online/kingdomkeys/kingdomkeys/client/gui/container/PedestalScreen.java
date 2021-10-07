@@ -21,9 +21,11 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSPedestalConfig;
 public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
 
 	private static final String texture = KingdomKeys.MODID+":textures/gui/pedestal.png";
-
+	private Inventory inventory;
+	
     public PedestalScreen(PedestalContainer container, Inventory inventory, Component title) {
         super(container, inventory, title);
+        this.inventory = inventory;
 		this.imageHeight = 186;
 
     }

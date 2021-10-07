@@ -190,7 +190,6 @@ public class MenuEquipmentButton extends Button {
                     PoseStack posestack = RenderSystem.getModelViewStack();
                     posestack.pushPose();
                     {
-                        //
                         RenderSystem.translatef(iconPosX, iconPosY, 0);
                         RenderSystem.scalef((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
                         mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);

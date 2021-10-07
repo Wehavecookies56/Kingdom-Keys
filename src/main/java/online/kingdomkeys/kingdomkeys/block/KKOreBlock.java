@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.block;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class KKOreBlock extends BaseBlock {
@@ -34,5 +36,11 @@ public class KKOreBlock extends BaseBlock {
 	@Override
 	public int getExpDrop(BlockState state, net.minecraft.world.level.LevelReader reader, BlockPos pos, int fortune, int silktouch) {
 		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	}
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction side) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

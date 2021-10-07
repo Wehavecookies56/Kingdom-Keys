@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -112,5 +113,11 @@ public class MenuBox extends AbstractWidget{
     public void setHeight(int height) {
         this.height = height;
     }
+
+	@Override
+	public void updateNarration(NarrationElementOutput p_169152_) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

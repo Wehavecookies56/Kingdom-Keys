@@ -133,7 +133,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 			matrixStack.popPose();
 			matrixStack.pushPose();
 			
-				RenderSystem.color3f(1, 1, 1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 				matrixStack.translate(9, 1, 100);
 				
 				RenderSystem.enableBlend();
