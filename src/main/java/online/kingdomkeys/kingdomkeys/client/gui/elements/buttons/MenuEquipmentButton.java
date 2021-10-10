@@ -187,14 +187,14 @@ public class MenuEquipmentButton extends Button {
                     	item = stack;
                     }
                     
-                    PoseStack posestack = RenderSystem.getModelViewStack();
-                    posestack.pushPose();
+                    PoseStack posestack = RenderSystem.getModelViewStack(); //TODO Might not work
+                    matrixStack.pushPose();
                     {
-                        RenderSystem.translatef(iconPosX, iconPosY, 0);
-                        RenderSystem.scalef((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
+                    	posestack.translate(iconPosX, iconPosY, 0);
+                    	posestack.scale((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
                         mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);
                     }
-                    posestack.popPose();
+                    matrixStack.popPose();
 
                     float strPosX = parent.width * 0.634F;
                     float strPosY = parent.height * 0.56F;
@@ -307,7 +307,5 @@ public class MenuEquipmentButton extends Button {
                 drawString(matrixStack, fr, Utils.translateToLocal(label), (int) (x - labelWidth + centerX), y + 3, labelColour);
             }
         }
-
-
     }
 }

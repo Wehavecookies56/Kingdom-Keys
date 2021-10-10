@@ -82,7 +82,7 @@ public class PlayerPortraitGui extends Screen {
 					matrixStack.popPose();
 
 					// HAT
-					if(minecraft.options.getModelParts().contains(PlayerModelPart.HAT)){
+					if(minecraft.options.isModelPartEnabled(PlayerModelPart.HAT)){	
 						int hatWidth = 32;
 						int hatHeight = 32;
 						float hatPosX = 16;
@@ -115,7 +115,7 @@ public class PlayerPortraitGui extends Screen {
 					matrixStack.popPose();
 
 					// JACKET
-					if(minecraft.options.getModelParts().contains(PlayerModelPart.JACKET)){	
+					if(minecraft.options.isModelPartEnabled(PlayerModelPart.JACKET)){	
 						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - bodyWidth * scale) - scaledBodyPosX, (screenHeight - bodyHeight * scale) - scaledBodyPosY, 0);
@@ -166,7 +166,7 @@ public class PlayerPortraitGui extends Screen {
 					float scaledgloveLPosX = gloveLPosX * scale;
 					float scaledgloveLPosY = gloveLPosY * scale;
 					
-					if(minecraft.options.getModelParts().contains(PlayerModelPart.RIGHT_SLEEVE)){	
+					if(minecraft.options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE)){	
 						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveRPosX, (screenHeight - gloveHeight * scale) - scaledgloveRPosY, 0);
@@ -176,7 +176,7 @@ public class PlayerPortraitGui extends Screen {
 						matrixStack.popPose();
 					}
 					
-					if(minecraft.options.getModelParts().contains(PlayerModelPart.LEFT_SLEEVE)){
+					if(minecraft.options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE)){	
 						matrixStack.pushPose();
 						{
 							matrixStack.translate((screenWidth - gloveWidth * scale) - scaledgloveLPosX, (screenHeight - gloveHeight * scale) - scaledgloveLPosY, 0);
