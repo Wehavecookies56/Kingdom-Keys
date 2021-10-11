@@ -16,12 +16,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
-public class PedestalRenderer extends BlockEntityRenderer<PedestalTileEntity> {
+public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity> {
 
     private ItemRenderer renderItem;
 
     public PedestalRenderer(BlockEntityRenderDispatcher rendererDispatcherIn) {
-		super(rendererDispatcherIn);
 	}
 
 	@Override
