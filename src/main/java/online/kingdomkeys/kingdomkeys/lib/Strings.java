@@ -100,6 +100,7 @@ public class Strings {
     		experienceBoost =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"experience_boost",
     		treasureMagnet =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"treasure_magnet",
     		secondChance =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"second_chance",
+    		damageControl =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"damage_control",
     		lightAndDarkness =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"light_and_darkness",
     		synchBlade =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"synch_blade"
     		;
@@ -518,6 +519,7 @@ public class Strings {
         aubade = "aubade",
         avasKeyblade = "avas_keyblade",
         bondOfFlame = "bond_of_flame",
+        bondOfTheBlaze = "bond_of_the_blaze",
         brightcrest = "brightcrest",
         chaosRipper = "chaos_ripper",
         circleOfLife = "circle_of_life",
@@ -543,7 +545,6 @@ public class Strings {
         fatalCrest = "fatal_crest",
         fenrir = "fenrir",
         ferrisGear = "ferris_gear",
-        bondOftheBlaze = "bond_of_the_blaze",
         followTheWind = "follow_the_wind",
         frolicFlame = "frolic_flame",
         glimpseOfDarkness = "glimpse_of_darkness",

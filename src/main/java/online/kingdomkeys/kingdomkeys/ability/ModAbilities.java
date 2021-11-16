@@ -46,6 +46,7 @@ public class ModAbilities {
 				// Support
 				createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
 				createAbility(Strings.scan, 1, AbilityType.SUPPORT),
+				//createAbility(Strings.mpSafety, 1, AbilityType.SUPPORT),
 				createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT),
 				createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT),
 				createAbility(Strings.mpHastega, 5, AbilityType.SUPPORT),
@@ -59,6 +60,7 @@ public class ModAbilities {
 				createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
 				createAbility(Strings.treasureMagnet, 3, AbilityType.SUPPORT),
 				createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
+				createAbility(Strings.damageControl, 5, AbilityType.SUPPORT),
 				createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
 				createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT)
 			);

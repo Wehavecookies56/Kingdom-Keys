@@ -38,7 +38,7 @@ public class ModItems {
 			aubade = createKeybladeItem(Strings.aubade),
 			avasKeyblade = createKeybladeItem(Strings.avasKeyblade),
 			bondOfFlame = createKeybladeItem(Strings.bondOfFlame),
-			bondOfTheBlaze = createKeybladeItem(Strings.bondOftheBlaze),
+			bondOfTheBlaze = createKeybladeItem(Strings.bondOfTheBlaze),
 			brightcrest = createKeybladeItem(Strings.brightcrest),
 			chaosRipper = createKeybladeItem(Strings.chaosRipper),
 			circleOfLife = createKeybladeItem(Strings.circleOfLife),
