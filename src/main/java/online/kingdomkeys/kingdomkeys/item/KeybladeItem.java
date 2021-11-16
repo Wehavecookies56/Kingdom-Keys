@@ -49,6 +49,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
@@ -195,6 +196,29 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+		/*if(world.isRemote) {
+		try {
+			FileWriter fw = new FileWriter(new File("keyblades.txt"));
+			for(int i=0; i< Lists.keybladeRecipes.size(); i++) {
+				ResourceLocation name = Lists.keybladeRecipes.get(i);
+				fw.write(""
+						+ "\n[custom_weaponry.keyblade"+i+"]\n"
+						+ "\tarmor_ignorance = 1.25\n"
+						+ "\thit_at_once = 2\n"
+						+ "\timpact = 1.0\n"
+						+ "\t#Allowed Values: AXE, FIST, HOE, PICKAXE, SHOVEL, SWORD, SPEAR, GREATSWORD, KATANA, TACHI, LONGSWORD, DAGGER, BOW, CROSSBOW, TRIDENT\n"
+						+ "\tweapon_type = \"SWORD\"\n"
+						+ "\tregistry_name = \""+name.toString()+"\"\n"
+						+ "");
+			}
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}*/
+		
 		ItemStack itemstack = player.getHeldItem(hand);
 		if (world.isRemote && player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem) {
 			RayTraceResult rtr;

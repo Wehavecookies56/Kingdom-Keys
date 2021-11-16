@@ -44,7 +44,7 @@ public class MenuBox extends Widget{
     public void draw(MatrixStack matrixStack) {
         matrixStack.push();
         RenderSystem.color3f(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F);
-        RenderSystem.enableAlphaTest();
+        
         RenderSystem.enableBlend();
         mc.textureManager.bindTexture(texture);
         //Top left corner

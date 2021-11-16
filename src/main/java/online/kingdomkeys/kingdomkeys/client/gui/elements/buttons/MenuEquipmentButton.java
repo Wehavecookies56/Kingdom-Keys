@@ -116,7 +116,7 @@ public class MenuEquipmentButton extends Button {
             matrixStack.push();
             {
                 RenderSystem.enableBlend();
-                RenderSystem.enableAlphaTest();
+                
                 RenderHelper.disableStandardItemLighting();
                 RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
                 matrixStack.translate(x + 0.6F, y, 0);
@@ -163,7 +163,7 @@ public class MenuEquipmentButton extends Button {
                 mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.push();
                 {
-                    RenderSystem.enableAlphaTest();
+                    
                     matrixStack.translate(x + 0.6F, y, 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
                     //Left selected
@@ -189,7 +189,7 @@ public class MenuEquipmentButton extends Button {
                     
                     RenderSystem.pushMatrix();
                     {
-                        RenderSystem.enableAlphaTest();
+                        
                         RenderSystem.translatef(iconPosX, iconPosY, 0);
                         RenderSystem.scalef((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
                         mc.getItemRenderer().renderItemAndEffectIntoGUI(item, 0, 0);
@@ -287,7 +287,7 @@ public class MenuEquipmentButton extends Button {
                 mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.push();
                 {
-                    RenderSystem.enableAlphaTest();
+                    
                     RenderHelper.disableStandardItemLighting();
                     RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
                     matrixStack.translate(x - labelWidth, y, 0);

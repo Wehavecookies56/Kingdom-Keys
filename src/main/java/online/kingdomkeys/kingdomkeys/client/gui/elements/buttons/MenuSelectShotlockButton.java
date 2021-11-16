@@ -68,7 +68,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.push();
 			RenderSystem.enableBlend();
-			RenderSystem.enableAlphaTest();
+			
 			RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
 			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
@@ -93,7 +93,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 				matrixStack.push();
 				{
 					RenderSystem.enableBlend();
-					RenderSystem.enableAlphaTest();
+					
 					matrixStack.translate(x + 0.6F, y, 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					blit(matrixStack, 0, 0, 128, 34, 18, 28);

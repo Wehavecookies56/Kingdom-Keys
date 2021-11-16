@@ -92,7 +92,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             firstslot.visible = showingKeyblades;
             hidden.getAndIncrement();
             
-            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
+            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.getEquippedAbilityLevel(Strings.synchBlade)[1] > 0 && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
                 addButton(sbSlot);
                 hidden.getAndIncrement();
