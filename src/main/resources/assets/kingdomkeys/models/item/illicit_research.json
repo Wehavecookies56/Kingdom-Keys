@@ -1,23 +1,6 @@
 {
-	"parent": "forge:item/default",
-	"loader": "forge:separate-perspective",
-	"textures": {
-
-	},
-	"base":	{
-	  "parent": "item/handheld",
-	  "textures": {
-	    "layer0": "kingdomkeys:item/organization/illicit_research"
-	  }
-	}
-,
-	"perspectives": {
-		"gui": {
-			"parent": "item/generated",
-			"textures": {
-				"layer0": "kingdomkeys:item/organization/illicit_research"
-			}
-		}
-	}
-	
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/organization/illicit_research"
+  }
 }

@@ -1,23 +1,6 @@
 {
-	"parent": "forge:item/default",
-	"loader": "forge:separate-perspective",
-	"textures": {
-
-	},
-	"base":	{
-	  "parent": "item/handheld",
-	  "textures": {
-	    "layer0": "kingdomkeys:item/organization/octiron"
-	  }
-	}
-,
-	"perspectives": {
-		"gui": {
-			"parent": "item/generated",
-			"textures": {
-				"layer0": "kingdomkeys:item/organization/octiron"
-			}
-		}
-	}
-	
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/organization/octiron"
+  }
 }

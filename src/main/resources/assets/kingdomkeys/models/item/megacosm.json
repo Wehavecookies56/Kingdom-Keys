@@ -1,67 +1,50 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:separate-perspective",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/item/keyblade/megacosm.obj",
 	"textures": {
 
 	},
-	"base":	{
-		"parent": "forge:item/default",
-		"loader": "forge:obj",
-		"model": "kingdomkeys:models/item/keyblade/megacosm.obj",
-		"textures": {
-	
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
 		},
-		"display": {
-			"firstperson_righthand": {
-				"rotation": [0.0, 90.0, 0.0 ],
-				"translation": [0.0, 0.0, 0.0 ],
-				"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
-			},
-			"thirdperson_lefthand": {
-				"rotation": [0.0, -90.0, 0.0 ],
-				"translation": [0.0, 0.0, 0.05 ],
-				"scale": [0.014999999664723873, 0.014999999664723873, 0.014999999664723873 ]
-			},
-			"firstperson_lefthand": {
-				"rotation": [0.0, -90.0, 0.0 ],
-				"translation": [0.0, 0.0, 0.0 ],
-				"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
-			},
-			"thirdperson_righthand": {
-				"rotation": [0.0, 90.0, 0.0 ],
-				"translation": [-0.05, 0.0, 0.05 ],
-				"scale": [0.014999999664723873, 0.014999999664723873, 0.014999999664723873 ]
-			},
-			"gui": {
-				"rotation": [0.0, 0.0, -45.0 ],
-				"translation": [-0.3, -0.3, 0.0 ],
-				"scale": [0.006000000052154064, 0.006000000052154064, 0.006000000052154064 ]
-			},
-			"ground": {
-				"rotation": [45.0, 0.0, 0.0 ],
-				"translation": [0.0, 0.0, 0.0 ],
-				"scale": [0.00800000037997961, 0.00800000037997961, 0.00800000037997961 ]
-			},
-			"fixed": {
-				"rotation": [0.0, 90.0, 0.0 ],
-				"translation": [0.0, -0.25, 0.0 ],
-				"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
-			}
+		"thirdperson_lefthand": {
+			"rotation": [0.0, -90.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.05 ],
+			"scale": [0.014999999664723873, 0.014999999664723873, 0.014999999664723873 ]
 		},
-		"visibility": {
-			"object_1": "hide",
-			"object_2": "default",
-			"object_3": "show"
-		}
-	}
-,
-	"perspectives": {
+		"firstperson_lefthand": {
+			"rotation": [0.0, -90.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
+		},
+		"thirdperson_righthand": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [-0.05, 0.0, 0.05 ],
+			"scale": [0.014999999664723873, 0.014999999664723873, 0.014999999664723873 ]
+		},
 		"gui": {
-			"parent": "item/generated",
-			"textures": {
-				"layer0": "kingdomkeys:item/organization/megacosm"
-			}
+			"rotation": [0.0, 0.0, -45.0 ],
+			"translation": [-0.3, -0.3, 0.0 ],
+			"scale": [0.006000000052154064, 0.006000000052154064, 0.006000000052154064 ]
+		},
+		"ground": {
+			"rotation": [45.0, 0.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.00800000037997961, 0.00800000037997961, 0.00800000037997961 ]
+		},
+		"fixed": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [0.0, -0.25, 0.0 ],
+			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
 		}
+	},
+	"visibility": {
+		"object_1": "hide",
+		"object_2": "default",
+		"object_3": "show"
 	}
-	
 }

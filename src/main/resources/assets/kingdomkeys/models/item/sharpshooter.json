@@ -1,62 +1,45 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:separate-perspective",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/item/keyblade/sharpshooter.obj",
 	"textures": {
 
 	},
-	"base":	{
-		"parent": "forge:item/default",
-		"loader": "forge:obj",
-		"model": "kingdomkeys:models/item/keyblade/sharpshooter.obj",
-		"textures": {
-	
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [0.0, 180.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.01, 0.01, 0.01 ]
 		},
-		"display": {
-			"firstperson_righthand": {
-				"rotation": [0.0, 180.0, 0.0 ],
-				"translation": [0.0, 0.0, 0.0 ],
-				"scale": [0.01, 0.01, 0.01 ]
-			},
-			"thirdperson_lefthand": {
-				"rotation": [0.0, 180.0, 0.0 ],
-				"translation": [0.0, -0.05, 0.0 ],
-				"scale": [0.008, 0.008, 0.008 ]
-			},
-			"firstperson_lefthand": {
-				"rotation": [0.0, 180.0, 0.0 ],
-				"translation": [0.0, 0.0, 0.0 ],
-				"scale": [0.01, 0.01, 0.01 ]
-			},
-			"thirdperson_righthand": {
-				"rotation": [0.0, 180.0, 0.0 ],
-				"translation": [0.0, -0.05, 0.0 ],
-				"scale": [0.008, 0.008, 0.008 ]
-			},
-			"gui": {
-				"rotation": [0.0, 90.0, 0.0 ],
-				"translation": [-6.0, 0.0, 0.0 ],
-				"scale": [0.005, 0.005, 0.005 ]
-			},
-			"ground": {
-				"rotation": [0.0, 0.0, 0.0 ],
-				"translation": [0.0, 0.0, 0.0 ],
-				"scale": [0.01, 0.01, 0.01 ]
-			},
-			"fixed": {
-				"rotation": [0.0, 90.0, 0.0 ],
-				"translation": [0.0, -0.25, 0.0 ],
-				"scale": [0.01, 0.01, 0.01 ]
-			}
-		}
-	}
-,
-	"perspectives": {
+		"thirdperson_lefthand": {
+			"rotation": [0.0, 180.0, 0.0 ],
+			"translation": [0.0, -0.05, 0.0 ],
+			"scale": [0.008, 0.008, 0.008 ]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0.0, 180.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.01, 0.01, 0.01 ]
+		},
+		"thirdperson_righthand": {
+			"rotation": [0.0, 180.0, 0.0 ],
+			"translation": [0.0, -0.05, 0.0 ],
+			"scale": [0.008, 0.008, 0.008 ]
+		},
 		"gui": {
-			"parent": "item/generated",
-			"textures": {
-				"layer0": "kingdomkeys:item/organization/sharpshooter"
-			}
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [-6.0, 0.0, 0.0 ],
+			"scale": [0.005, 0.005, 0.005 ]
+		},
+		"ground": {
+			"rotation": [0.0, 0.0, 0.0 ],
+			"translation": [0.0, 0.0, 0.0 ],
+			"scale": [0.01, 0.01, 0.01 ]
+		},
+		"fixed": {
+			"rotation": [0.0, 90.0, 0.0 ],
+			"translation": [0.0, -0.25, 0.0 ],
+			"scale": [0.01, 0.01, 0.01 ]
 		}
 	}
-	
 }

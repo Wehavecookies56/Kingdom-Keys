@@ -1,23 +1,6 @@
 {
-	"parent": "forge:item/default",
-	"loader": "forge:separate-perspective",
-	"textures": {
-
-	},
-	"base":	{
-	  "parent": "item/handheld",
-	  "textures": {
-	    "layer0": "kingdomkeys:item/organization/fearsome_anise"
-	  }
-	}
-,
-	"perspectives": {
-		"gui": {
-			"parent": "item/generated",
-			"textures": {
-				"layer0": "kingdomkeys:item/organization/fearsome_anise"
-			}
-		}
-	}
-	
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "kingdomkeys:item/organization/fearsome_anise"
+  }
 }
