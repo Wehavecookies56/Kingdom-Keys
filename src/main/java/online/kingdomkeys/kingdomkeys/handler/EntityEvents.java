@@ -745,8 +745,8 @@ public class EntityEvents {
 			}
 			
 			//Damage Control
-			if(playerData.isAbilityEquipped(Strings.damageControl)) {
-				System.out.println("a");
+			if(Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
+				damage /= (1+playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 			}
 			
 			//Second chance (will save the player from a damage that would've killed him  as long as he had 2 hp or more

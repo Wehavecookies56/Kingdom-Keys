@@ -11,6 +11,7 @@
 	"key.kingdomkeys.showgui": "Mostrar HUD",
 	"key.kingdomkeys.summonkeyblade": "Invocar Llave Espada",
 	"key.kingdomkeys.lockon": "Fijar",
+	"key.kingdomkeys.reactioncommand": "Comando de Reacción",
 
 	"_comment": "Groups",
 	"itemGroup.kingdomkeys_misc": "Kingdom Keys: Misc",
@@ -217,6 +218,8 @@
 	"ability.ability_mp_hastega.desc": "Si consumes todos los PM, aumenta muchísimo la velocidad de recuperación de los mismos. Cuantos más activas, mayor efecto.",
 	"ability.ability_mp_rage.name": "Aspirar Daño",
 	"ability.ability_mp_rage.desc": "Recupera PM en proporción al daño que recibes. Si activas más, el efecto aumentará.",
+	"ability.ability_damage_control.name": "Control de Daño",
+	"ability.ability_damage_control.desc": "",
 	"ability.ability_damage_drive.name": "Fusión por daño",
 	"ability.ability_damage_drive.desc": "Llena el indicador de Fusión cada vez que sufres daño. La recarga es proporcional al daño recibido.",
 	"ability.ability_drive_boost.name": "Extrafusión",

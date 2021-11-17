@@ -160,7 +160,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				matrixStack.pop();
 				
 				if(keyblade != null) {
-					float iconPosX = parent.width * 0.66F;
+					float iconPosX = parent.width * 0.69F;
 					float iconPosY = parent.height * 0.1833F;
 					float iconHeight = parent.height * 0.3148F;
 					RenderHelper.disableStandardItemLighting();

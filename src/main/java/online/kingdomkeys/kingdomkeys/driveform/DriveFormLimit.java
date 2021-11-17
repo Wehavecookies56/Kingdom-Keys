@@ -75,7 +75,6 @@ public class DriveFormLimit extends DriveForm {
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Limit) && playerData.hasShotMaxShotlock()) {
 					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(2).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
-					System.out.println(playerData.getDriveFormExp(Strings.Form_Limit));
 					playerData.setHasShotMaxShotlock(false);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 				}

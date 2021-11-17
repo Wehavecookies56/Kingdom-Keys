@@ -217,6 +217,8 @@
 	"ability.ability_mp_hastega.desc": "Highly Increases MP restoration speed after MP is fully consumed.",
 	"ability.ability_mp_rage.name": "MP Rage",
 	"ability.ability_mp_rage.desc": "Restores MP relative to the amount of damage taken.",
+	"ability.ability_damage_control.name": "Damage Control",
+	"ability.ability_damage_control.desc": "",
 	"ability.ability_damage_drive.name": "Damage Drive",
 	"ability.ability_damage_drive.desc": "Restores the Drive Gauge every time damage is taken. The amount restored to the Drive Gauge is relative to the damage received.",
 	"ability.ability_drive_boost.name": "Drive Boost",

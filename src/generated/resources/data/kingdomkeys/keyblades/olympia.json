@@ -3,12 +3,12 @@
   "reach": 5.0,
   "keychain": "kingdomkeys:olympia_chain",
   "base_stats": {
-    "str": 9,
+    "str": 6,
     "mag": 0
   },
   "levels": [
     {
-      "str": 9,
+      "str": 6,
       "mag": 1,
       "recipe": [
         {
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "str": 10,
+      "str": 7,
       "mag": 1,
       "recipe": [
         {
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "str": 10,
+      "str": 7,
       "mag": 2,
       "recipe": [
         {
@@ -50,27 +50,23 @@
       ]
     },
     {
-      "str": 11,
+      "str": 8,
       "mag": 2,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_damascus",
+          "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_wellspring_stone",
+          "material": "kingdomkeys:mat_damascus",
           "quantity": 1
         }
       ]
     },
     {
-      "str": 11,
+      "str": 8,
       "mag": 3,
       "recipe": [
-        {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        },
         {
           "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 2
@@ -78,17 +74,17 @@
         {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
         }
       ]
     },
     {
-      "str": 12,
+      "str": 9,
       "mag": 3,
       "recipe": [
-        {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        },
         {
           "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 3
@@ -96,11 +92,15 @@
         {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
         }
       ]
     },
     {
-      "str": 12,
+      "str": 9,
       "mag": 4,
       "recipe": [
         {
@@ -118,9 +118,13 @@
       ]
     },
     {
-      "str": 13,
+      "str": 10,
       "mag": 4,
       "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
         {
           "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
@@ -128,17 +132,17 @@
         {
           "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:mat_writhing_stone",
-          "quantity": 2
         }
       ]
     },
     {
-      "str": 14,
-      "mag": 4,
+      "str": 10,
+      "mag": 5,
       "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
         {
           "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
@@ -146,27 +150,23 @@
         {
           "material": "kingdomkeys:mat_wellspring_gem",
           "quantity": 3
-        },
-        {
-          "material": "kingdomkeys:mat_writhing_stone",
-          "quantity": 2
         }
       ]
     },
     {
-      "str": 14,
+      "str": 11,
       "mag": 5,
       "recipe": [
-        {
-          "material": "kingdomkeys:mat_wellspring_crystal",
-          "quantity": 1
-        },
         {
           "material": "kingdomkeys:mat_electrum",
           "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_writhing_crystal",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 1
         }
       ]
