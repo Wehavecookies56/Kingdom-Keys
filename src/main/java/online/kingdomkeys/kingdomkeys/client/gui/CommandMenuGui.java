@@ -154,7 +154,7 @@ public class CommandMenuGui extends Screen {
 						int cost = magic.getCost(Integer.parseInt(data[1]));
 						int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 						
-						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
+						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) {
 							colour = 0x888888;
 						}
 

@@ -46,7 +46,11 @@ public class CSUseShortcutPacket {
 					String magicName = data[0];
 					int level = Integer.parseInt(data[1]);
 					Magic magic = ModMagic.registry.getValue(new ResourceLocation(magicName));
-					magic.onUse(player, player, level);
+					if(magic.getCost(level) < 300 && magic.getCost(level) >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) {
+						
+					} else {
+						magic.onUse(player, player, level);
+					}
 	
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}

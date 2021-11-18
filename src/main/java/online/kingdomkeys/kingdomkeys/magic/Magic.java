@@ -8,6 +8,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -68,7 +69,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	this.data = data;
     }
    
-    protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+    protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
 
     }
     
@@ -79,6 +80,8 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
      */
     public final void onUse(PlayerEntity player, PlayerEntity caster, int level) {
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
+    	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
+    	
     	if(hasRC() && ModConfigs.magicUsesTimer != 1) {
 			int maxLevel = casterData.getMagicLevel(name);
 	    	if(level > maxLevel){ 
@@ -91,8 +94,15 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 			casterData.remMP(getCost(level));
     	}
 		casterData.setMagicCooldownTicks(data.getCooldown(level));
-
-    	magicUse(player, caster, level);
+		
+		if(casterData.isAbilityEquipped(Strings.wizardsRuse)) {
+			double num = player.world.rand.nextDouble();
+			if(num < (0.25+(0.125*(casterData.getNumberOfAbilitiesEquipped(Strings.wizardsRuse)-1)))){
+				caster.heal(getCost(level)/2);
+			}
+		}
+		
+    	magicUse(player, caster, level, fullMPBlastMult);
     	caster.swing(Hand.MAIN_HAND, true);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
     }

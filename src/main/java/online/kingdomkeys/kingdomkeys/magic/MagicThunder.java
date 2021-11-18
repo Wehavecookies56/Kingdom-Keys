@@ -15,8 +15,9 @@ public class MagicThunder extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
 		float dmg = ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.thunderBoost) ? getDamageMult(level) * 1.2F : getDamageMult(level);
+		dmg *= fullMPBlastMult;
 
 		switch(level) {
 		case 0:

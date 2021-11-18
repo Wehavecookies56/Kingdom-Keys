@@ -24,7 +24,10 @@ public class MagicStop extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
+		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
+		dmg *= fullMPBlastMult;
+		
 		float radius = 2 + level;
 		List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(radius, radius, radius));
 		Party casterParty = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
@@ -46,7 +49,7 @@ public class MagicStop extends Magic {
 					if (e instanceof MobEntity) {
 						((MobEntity) e).setNoAI(true);
 					}
-					globalData.setStoppedTicks((int) (100 + level * 20 * getDamageMult(level))); // Stop
+					globalData.setStoppedTicks((int) (100 + level * 20 * dmg)); // Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
 					if (e instanceof ServerPlayerEntity)
 						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayerEntity) e);

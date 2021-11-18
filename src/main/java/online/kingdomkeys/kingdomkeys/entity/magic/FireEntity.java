@@ -72,7 +72,6 @@ public class FireEntity extends ThrowableEntity {
 			EntityRayTraceResult ertResult = null;
 			BlockRayTraceResult brtResult = null;
 
-
 			if (rtRes instanceof EntityRayTraceResult) {
 				ertResult = (EntityRayTraceResult) rtRes;
 			}
@@ -93,6 +92,7 @@ public class FireEntity extends ThrowableEntity {
 						target.setFire(5);
 						float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.2F : 2;
 						target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
+						System.out.println(dmg * dmgMult);
 					}
 				}
 			}

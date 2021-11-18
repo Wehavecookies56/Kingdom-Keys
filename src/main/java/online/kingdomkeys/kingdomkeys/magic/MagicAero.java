@@ -13,7 +13,7 @@ public class MagicAero extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		int time = (int) (ModCapabilities.getPlayer(caster).getMaxMP() * (4F + level/2F) * getDamageMult(level));
 		playerData.setAeroTicks(time, level);

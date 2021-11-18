@@ -13,22 +13,25 @@ public class MagicMagnet extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level) {
+	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
+		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
+		dmg *= fullMPBlastMult;
+		
 		switch(level) {
 		case 0:
-			MagnetEntity magent = new MagnetEntity(player.world, player, getDamageMult(level));
+			MagnetEntity magent = new MagnetEntity(player.world, player, dmg);
 			magent.setCaster(player.getUniqueID());
 			player.world.addEntity(magent);
 			magent.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);
 			break;
 		case 1:
-			MagneraEntity magnera = new MagneraEntity(player.world, player, getDamageMult(level));
+			MagneraEntity magnera = new MagneraEntity(player.world, player, dmg);
 			magnera.setCaster(player.getUniqueID());
 			player.world.addEntity(magnera);
 			magnera.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);
 			break;
 		case 2:
-			MagnegaEntity magnega = new MagnegaEntity(player.world, player, getDamageMult(level));
+			MagnegaEntity magnega = new MagnegaEntity(player.world, player, dmg);
 			magnega.setCaster(player.getUniqueID());
 			player.world.addEntity(magnega);
 			magnega.setDirectionAndMovement(player, -90, player.rotationYaw, 0, 1F, 0);

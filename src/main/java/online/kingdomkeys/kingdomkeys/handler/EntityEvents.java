@@ -744,6 +744,7 @@ public class EntityEvents {
 				damage -= (damage * resistMultiplier);
 			}
 			
+			playerData.addAbility(Strings.fullMPBlast, false);
 			//Damage Control
 			if(Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
 				damage /= (1+playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
