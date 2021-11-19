@@ -482,11 +482,11 @@ public class Recipes extends RecipeProvider {
                 .patternLine("LOL")
                 .patternLine("DAD")
                 .key('L', Blocks.IRON_BLOCK)
-                .key('A', ModItems.terra_Helmet.get())
+                .key('A', Items.DIAMOND_HELMET)
                 .key('D', Items.DRAGON_BREATH)
                 .key('O', Items.OBSIDIAN)
                 .setGroup("kingdomkeys")
-                .addCriterion("terra_helmet", InventoryChangeTrigger.Instance.forItems(ModItems.terra_Helmet.get()))
+                .addCriterion("diamond_helmet", InventoryChangeTrigger.Instance.forItems(Items.DIAMOND_HELMET))
                 .build(consumer);
 
         ShapedRecipeBuilder.shapedRecipe(ModItems.eraqus_Chestplate.get())
@@ -494,11 +494,11 @@ public class Recipes extends RecipeProvider {
                 .patternLine("DOD")
                 .patternLine("ODO")
                 .key('L', Blocks.IRON_BLOCK)
-                .key('A', ModItems.aqua_Chestplate.get())
+                .key('A', Items.DIAMOND_CHESTPLATE)
                 .key('D', Items.DRAGON_BREATH)
                 .key('O', Items.OBSIDIAN)
                 .setGroup("kingdomkeys")
-                .addCriterion("aqua_chestplate", InventoryChangeTrigger.Instance.forItems(ModItems.aqua_Chestplate.get()))
+                .addCriterion("diamond_chestplate", InventoryChangeTrigger.Instance.forItems(Items.DIAMOND_CHESTPLATE))
                 .build(consumer);
 
         ShapedRecipeBuilder.shapedRecipe(ModItems.eraqus_Leggings.get())
@@ -506,11 +506,11 @@ public class Recipes extends RecipeProvider {
                 .patternLine("DAD")
                 .patternLine("O O")
                 .key('L', Items.LAVA_BUCKET)
-                .key('A', ModItems.ventus_Leggings.get())
+                .key('A', Items.DIAMOND_LEGGINGS)
                 .key('D', Items.DRAGON_BREATH)
                 .key('O', Items.OBSIDIAN)
                 .setGroup("kingdomkeys")
-                .addCriterion("ventus_leggings", InventoryChangeTrigger.Instance.forItems(ModItems.ventus_Leggings.get()))
+                .addCriterion("diamond_leggings", InventoryChangeTrigger.Instance.forItems(Items.DIAMOND_LEGGINGS))
                 .build(consumer);
 
         ShapedRecipeBuilder.shapedRecipe(ModItems.eraqus_Boots.get())
@@ -529,8 +529,8 @@ public class Recipes extends RecipeProvider {
                 .patternLine("EAE")
                 .key('B', Items.BLACK_DYE)
                 .key('E', Items.GHAST_TEAR)
-                .key('A', Items.DIAMOND_HELMET)
-                .key('L', Blocks.REDSTONE_BLOCK)
+                .key('A', Items.LEATHER_HELMET)
+                .key('L', Items.RED_DYE)
                 .setGroup("kingdomkeys")
                 .addCriterion("ghast_tear", InventoryChangeTrigger.Instance.forItems(Items.GHAST_TEAR))
                 .build(consumer);
@@ -541,8 +541,8 @@ public class Recipes extends RecipeProvider {
                 .patternLine("LLL")
                 .key('B', Items.BLACK_DYE)
                 .key('E', Items.GHAST_TEAR)
-                .key('A', Items.DIAMOND_HELMET)
-                .key('L', Blocks.REDSTONE_BLOCK)
+                .key('A', Items.LEATHER_CHESTPLATE)
+                .key('L', Items.RED_DYE)
                 .setGroup("kingdomkeys")
                 .addCriterion("ghast_tear", InventoryChangeTrigger.Instance.forItems(Items.GHAST_TEAR))
                 .build(consumer);
@@ -553,8 +553,8 @@ public class Recipes extends RecipeProvider {
                 .patternLine("L L")
                 .key('B', Items.BLACK_DYE)
                 .key('E', Items.GHAST_TEAR)
-                .key('A', Items.DIAMOND_HELMET)
-                .key('L', Blocks.REDSTONE_BLOCK)
+                .key('A', Items.LEATHER_LEGGINGS)
+                .key('L', Items.RED_DYE)
                 .setGroup("kingdomkeys")
                 .addCriterion("ghast_tear", InventoryChangeTrigger.Instance.forItems(Items.GHAST_TEAR))
                 .build(consumer);
@@ -564,7 +564,7 @@ public class Recipes extends RecipeProvider {
                 .patternLine("LAL")
                 .key('B', Items.BLACK_DYE)
                 .key('E', Items.GHAST_TEAR)
-                .key('A', Items.DIAMOND_HELMET)
+                .key('A', Items.LEATHER_BOOTS)
                 .key('L', Items.LEATHER)
                 .setGroup("kingdomkeys")
                 .addCriterion("ghast_tear", InventoryChangeTrigger.Instance.forItems(Items.GHAST_TEAR))

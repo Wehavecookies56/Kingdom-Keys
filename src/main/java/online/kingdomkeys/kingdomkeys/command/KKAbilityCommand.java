@@ -20,46 +20,46 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <recipe/all> [player]
-	private static final SuggestionProvider<CommandSource> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> {
+public class KKAbilityCommand extends BaseCommand { /// kk_ability <give/take> <ability> [player]
+	private static final SuggestionProvider<CommandSource> SUGGEST_ABILITIES = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
-		for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
-			list.add(actual.getRegistryName().toString());
+		for (ResourceLocation actual : ModAbilities.registry.getKeys()) {
+			list.add(actual.toString());
 		}
 		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_recipe").requires(source -> source.hasPermissionLevel(2));
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_ability").requires(source -> source.hasPermissionLevel(2));
 
 		builder.then(Commands.literal("give")
-				.then(Commands.argument("recipe", StringArgumentType.string()).suggests(SUGGEST_RECIPES)
+				.then(Commands.argument("ability", StringArgumentType.string()).suggests(SUGGEST_ABILITIES)
 						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(KKRecipeCommand::addRecipe))
-						.executes(KKRecipeCommand::addRecipe))
-				.then(Commands.literal("all")
+								.executes(KKAbilityCommand::addAbility))
+						.executes(KKAbilityCommand::addAbility)) );
+				/*.then(Commands.literal("all")
 						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(KKRecipeCommand::addAllRecipes))
-						.executes(KKRecipeCommand::addAllRecipes)));
+								.executes(KKAbilityCommand::addAllRecipes))
+						.executes(KKAbilityCommand::addAllRecipes)));*/
 
 		builder.then(Commands.literal("take")
-				.then(Commands.argument("recipe", StringArgumentType.string())
-						.suggests(SUGGEST_RECIPES)
+				.then(Commands.argument("ability", StringArgumentType.string())
+						.suggests(SUGGEST_ABILITIES)
 						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(KKRecipeCommand::removeRecipe))
-						.executes(KKRecipeCommand::removeRecipe))
+								.executes(KKAbilityCommand::removeAbility))
+						.executes(KKAbilityCommand::removeAbility))
 				.then(Commands.literal("all")
 						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(KKRecipeCommand::removeAllRecipes))
-						.executes(KKRecipeCommand::removeAllRecipes))
+								.executes(KKAbilityCommand::removeAllAbilities))
+						.executes(KKAbilityCommand::removeAllAbilities))
 
 		);
 
@@ -67,39 +67,41 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
 	}
 
-	private static int addRecipe(CommandContext<CommandSource> context) throws CommandSyntaxException {
+	private static int addAbility(CommandContext<CommandSource> context) throws CommandSyntaxException {
 		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
-		String recipe = StringArgumentType.getString(context, "recipe");
+		String abilityName = StringArgumentType.getString(context, "ability");
 
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.addKnownRecipe(new ResourceLocation(recipe));
+			Ability a = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
+			playerData.addAbility(abilityName, true);
 			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getString()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been given '" + Utils.translateToLocal(recipe) + "' recipe"),Util.DUMMY_UUID);
+			player.sendMessage(new TranslationTextComponent("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
 
-	private static int removeRecipe(CommandContext<CommandSource> context) throws CommandSyntaxException {
+	private static int removeAbility(CommandContext<CommandSource> context) throws CommandSyntaxException {
 		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
-		String recipe = StringArgumentType.getString(context, "recipe");
+		String ability = StringArgumentType.getString(context, "ability");
 
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.removeKnownRecipe(new ResourceLocation(recipe));
+			playerData.removeAbility(ability);
 			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Removed recipe '" + Utils.translateToLocal(recipe) + "' from " + player.getDisplayName().getString()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your recipe '" + Utils.translateToLocal(recipe) + "' has been taken away"),Util.DUMMY_UUID);
+			Ability a = ModAbilities.registry.getValue(new ResourceLocation(ability));
+			player.sendMessage(new TranslationTextComponent("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
 	}
 
-	private static int addAllRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
+	/*private static int addAllRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
 		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
 
 		for (ServerPlayerEntity player : players) {
@@ -115,19 +117,19 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
-	}
+	}*/
 
-	private static int removeAllRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
+	private static int removeAllAbilities(CommandContext<CommandSource> context) throws CommandSyntaxException {
 		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
 
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.clearRecipes();
+			playerData.clearAbilities();
 
 			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Removed all recipes from " + player.getDisplayName().getString()), true);
+				context.getSource().sendFeedback(new TranslationTextComponent("Removed all abilities from " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("Your recipes have been taken away"),Util.DUMMY_UUID);
+			player.sendMessage(new TranslationTextComponent("Your abilities have been taken away"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;

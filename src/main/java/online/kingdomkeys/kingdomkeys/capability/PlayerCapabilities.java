@@ -431,9 +431,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		if(name.equals(DriveForm.NONE.toString()) || name.equals(DriveForm.SYNCH_BLADE.toString())){
 			driveForms.put(name, new int[] {level, 1});
 		} else {
-			if(level <= form.getMaxLevel()) {
-				int experience = form.getLevelUpCost(level);
-				driveForms.put(name, new int[] {level, experience});
+			if(level == 0) {
+				driveForms.remove(name);
+			} else {
+				if(level <= form.getMaxLevel()) {
+					int experience = form.getLevelUpCost(level);
+					driveForms.put(name, new int[] {level, experience});
+				}
 			}
 		}
 	}
@@ -681,9 +685,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setMagicLevel(String name, int level) {
 		Magic magic = ModMagic.registry.getValue(new ResourceLocation(name));
-		if(level <= magic.getMaxLevel()) {
-			int uses = getMagicUses(name);
-			magicList.put(name, new int[] {level, uses});
+		if(level == -1) {
+			magicList.remove(name);
+		} else {
+			if(level <= magic.getMaxLevel()) {
+				int uses = magicList.containsKey(name) ? getMagicUses(name) : 0;
+				magicList.put(name, new int[] {level, uses});
+			}
 		}
 	}
 
@@ -1039,6 +1047,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			abilityMap.put(ability, new int[]{abilityMap.get(ability)[0]+1,abilityMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped
 			abilityMap.put(ability, new int[]{1,0});
+		}
+	}
+
+	public void removeAbility(String ability) {
+		if(abilityMap.containsKey(ability)) {
+			abilityMap.put(ability, new int[] { abilityMap.get(ability)[0] - 1, 0 });
 		}
 	}
 

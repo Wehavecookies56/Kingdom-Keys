@@ -27,10 +27,12 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKDriveLevelCommand extends BaseCommand{ 
-//kk_level <give/take/set> <amount> [player]
+//kk_ <give/take/set> <amount> [player]
 	private static final SuggestionProvider<CommandSource> SUGGEST_DRIVE_FORMS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation location : ModDriveForms.registry.getKeys()) {
@@ -46,7 +48,7 @@ public class KKDriveLevelCommand extends BaseCommand{
 		
 		builder.then(Commands.literal("set")
 			.then(Commands.argument("form", StringArgumentType.string()).suggests(SUGGEST_DRIVE_FORMS)
-				.then(Commands.argument("level", IntegerArgumentType.integer(1,7))
+				.then(Commands.argument("level", IntegerArgumentType.integer(0,7))
 					.then(Commands.argument("targets", EntityArgument.players())
 						.executes(KKDriveLevelCommand::setValue)
 					)
@@ -67,18 +69,24 @@ public class KKDriveLevelCommand extends BaseCommand{
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             
-			playerData.setDriveFormLevel(form, 1);
-			playerData.setDriveFormExp(player, form, 0);
-			DriveForm drive = ModDriveForms.registry.getValue(new ResourceLocation(form));
-			playerData.setNewKeychain(new ResourceLocation(form), ItemStack.EMPTY);
-			playerData.getAbilityMap().remove(drive.getBaseAbilityForLevel(3));
-			
-			while (playerData.getDriveFormLevel(form) < level) {
-				int cost = drive.getLevelUpCost(playerData.getDriveFormLevel(form)+1);
-				playerData.setDriveFormExp(player, form, cost);
+			if(level == 0) {
+				playerData.setDriveFormLevel(form, 0);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
+			} else {
+				playerData.setDriveFormLevel(form, 1);
+				playerData.setDriveFormExp(player, form, 0);
+				DriveForm drive = ModDriveForms.registry.getValue(new ResourceLocation(form));
+				playerData.setNewKeychain(new ResourceLocation(form), ItemStack.EMPTY);
+				playerData.getAbilityMap().remove(drive.getBaseAbilityForLevel(3));
+				
+				while (playerData.getDriveFormLevel(form) < level) {
+					int cost = drive.getLevelUpCost(playerData.getDriveFormLevel(form)+1);
+					playerData.setDriveFormExp(player, form, cost);
+				}
 			}
 
 			KKExpCommand.fix(playerData, player);
+			
 			DriveForm formInstance = ModDriveForms.registry.getValue(new ResourceLocation(form));
 			context.getSource().sendFeedback(new TranslationTextComponent("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
 			player.sendMessage(new TranslationTextComponent("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level), Util.DUMMY_UUID);

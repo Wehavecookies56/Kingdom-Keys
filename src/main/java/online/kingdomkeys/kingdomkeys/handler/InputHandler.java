@@ -366,6 +366,9 @@ public class InputHandler {
 	                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
 	                                mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                                return;
+	                        	} else {
+	                                CommandMenuGui.selected = CommandMenuGui.ATTACK;
+	                                world.playSound(player, player.getPosition(), ModSounds.error.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 	                        	}
 	                        }
 	                	} else {//REVERT

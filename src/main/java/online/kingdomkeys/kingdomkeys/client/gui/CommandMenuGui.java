@@ -221,11 +221,15 @@ public class CommandMenuGui extends Screen {
 		case ATTACK:
 			return playerData.getAlignment() == OrgMember.NONE ? Strings.Gui_CommandMenu_Attack : Strings.Gui_CommandMenu_Portal;
 		case MAGIC:
-			return Strings.Gui_CommandMenu_Magic;
+			return playerData.getMagicsMap().size() > 0 ? Strings.Gui_CommandMenu_Magic : "???";
 		case ITEMS:
 			return Strings.Gui_CommandMenu_Items;
 		case DRIVE:
-			return playerData.getAlignment() == OrgMember.NONE ? (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert) : Strings.Gui_CommandMenu_Limit;
+			if(playerData.getAlignment() == OrgMember.NONE) {
+				return playerData.getDriveFormMap().size() > 2 ? (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert) : "???";
+			} else {
+				return Strings.Gui_CommandMenu_Limit;
+			}
 		}
 		return "";
 	}
@@ -309,17 +313,15 @@ public class CommandMenuGui extends Screen {
 					if(i == ITEMS) {
 						color = getColor(Utils.getEquippedItems(playerData.getEquippedItems()).size() > 0 ? 0xFFFFFF : 0x888888,SUB_MAIN);
 					}
-					if(i == DRIVE) {//If it's an org member / in antiform / has no drive unlocked be gray
-						color = getColor(0x888888,SUB_MAIN);
-						
-						if(playerData.getAlignment() != OrgMember.NONE) {
-							//Checks for limit obtaining in the future?
-							color = playerData.getLimitCooldownTicks() <= 0 ? getColor(0xFFFFFF,SUB_MAIN) : getColor(0x888888,SUB_MAIN);
+					if (i == DRIVE) {// If it's an org member / in antiform / has no drive unlocked be gray
+						if (playerData.getAlignment() != OrgMember.NONE) {
+							// Checks for limit obtaining in the future?
+							color = playerData.getLimitCooldownTicks() <= 0 ? getColor(0xFFFFFF, SUB_MAIN) : getColor(0x888888, SUB_MAIN);
 						} else {
-							if((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles)|| playerData.getDriveFormMap().size() <= 1) {
-								color = getColor(0x888888,SUB_MAIN);
+							if ((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) || playerData.getDriveFormMap().size() <= 2) {
+								color = getColor(0x888888, SUB_MAIN);
 							} else {
-								color = getColor(0xFFFFFF,SUB_MAIN);
+								color = getColor(0xFFFFFF, SUB_MAIN);
 							}
 						}
 					}

@@ -35,12 +35,15 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.command.KKAbilityCommand;
 import online.kingdomkeys.kingdomkeys.command.KKDimensionCommand;
 import online.kingdomkeys.kingdomkeys.command.KKDriveLevelCommand;
 import online.kingdomkeys.kingdomkeys.command.KKDrivePointsCommand;
 import online.kingdomkeys.kingdomkeys.command.KKExpCommand;
+import online.kingdomkeys.kingdomkeys.command.KKFocusPointsCommand;
 import online.kingdomkeys.kingdomkeys.command.KKHeartsCommand;
 import online.kingdomkeys.kingdomkeys.command.KKLevelCommand;
+import online.kingdomkeys.kingdomkeys.command.KKMagicLevelCommand;
 import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
 import online.kingdomkeys.kingdomkeys.command.KKMunnyCommand;
 import online.kingdomkeys.kingdomkeys.command.KKPayMunnyCommand;
@@ -172,12 +175,15 @@ public class KingdomKeys {
 		KKRecipeCommand.register(dispatcher);
 		KKMaterialCommand.register(dispatcher);
 		KKLevelCommand.register(dispatcher);
+		KKMagicLevelCommand.register(dispatcher);
 		KKDriveLevelCommand.register(dispatcher);
 		KKExpCommand.register(dispatcher);
 		KKDimensionCommand.register(dispatcher);
 		KKHeartsCommand.register(dispatcher);
 		KKDrivePointsCommand.register(dispatcher);
 		KKPayMunnyCommand.register(dispatcher);
+		KKFocusPointsCommand.register(dispatcher);
+		KKAbilityCommand.register(dispatcher);
 	}
 
 	
