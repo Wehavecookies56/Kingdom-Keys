@@ -14,10 +14,10 @@
       "item": "minecraft:ghast_tear"
     },
     "A": {
-      "item": "minecraft:diamond_helmet"
+      "item": "minecraft:leather_chestplate"
     },
     "L": {
-      "item": "minecraft:redstone_block"
+      "item": "minecraft:red_dye"
     }
   },
   "result": {

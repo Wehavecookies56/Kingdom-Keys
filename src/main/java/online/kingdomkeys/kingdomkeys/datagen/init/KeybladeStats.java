@@ -232,12 +232,12 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("The Keyblade wielded by Lea.");
 	
-	getBuilder(Strings.brightcrest).keychain(Strings.brightcrestChain).baseStats(6, 10).ability("").reach(6.0F)
+	getBuilder(Strings.brightcrest).keychain(Strings.brightcrestChain).baseStats(6, 10).ability("kingdomkeys:ability_full_mp_blast").reach(6.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(6, 11).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(7, 11).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 3)).build())
-	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(7, 12).withMaterials(new Recipe()
+	        .level(new KeybladeLevel.KeybladeLevelBuilder().withAbility("kingdomkeys:ability_wizards_ruse").withStats(7, 12).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 4)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(8, 12).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Damascus, 1).addMaterial(Strings.SM_WellspringStone, 1)).build())
@@ -281,7 +281,7 @@ public class KeybladeStats extends KeybladeProvider {
 	getBuilder(Strings.circleOfLife).keychain(Strings.circleOfLifeChain).baseStats(6, 2).ability("kingdomkeys:ability_mp_haste").reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(6, 3).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
-	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(7, 3).withMaterials(new Recipe()
+	        .level(new KeybladeLevel.KeybladeLevelBuilder().withAbility("kingdomkeys:ability_mp_thrift").withStats(7, 3).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 3)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(7, 4).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 4)).build())
@@ -2095,7 +2095,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("A sword that swims with darkness. Possesses high Strength.");
 	
-	getBuilder(Strings.spellbinder).keychain(Strings.spellbinderChain).baseStats(4, 8).ability("").reach(5.0F)
+	getBuilder(Strings.spellbinder).keychain(Strings.spellbinderChain).baseStats(4, 8).ability("kingdomkeys:ability_full_mp_blast").reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(4, 9).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(5, 9).withMaterials(new Recipe()
@@ -2417,7 +2417,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("A weapon of great strength and magic that has a special effect.");
 	
-	getBuilder(Strings.ultimaWeaponBBS).keychain(Strings.ultimaWeaponBBSChain).baseStats(10, 8).ability("").reach(5.0F)
+	getBuilder(Strings.ultimaWeaponBBS).keychain(Strings.ultimaWeaponBBSChain).baseStats(10, 8).ability(Strings.mpHastega).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(10, 9).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(11, 9).withMaterials(new Recipe()
@@ -2440,7 +2440,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("The most powerful of Keyblades.");
 	
-	getBuilder(Strings.ultimaWeaponDDD).keychain(Strings.ultimaWeaponDDDChain).baseStats(10, 8).ability("").reach(5.0F)
+	getBuilder(Strings.ultimaWeaponDDD).keychain(Strings.ultimaWeaponDDDChain).baseStats(10, 8).ability(Strings.mpHastega).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(10, 9).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(11, 9).withMaterials(new Recipe()
@@ -2463,7 +2463,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("An outstanding Keyblade that boosts all stats, and makes it easy to both land critical hits and trigger Reality Shifts.");
 	
-	getBuilder(Strings.ultimaWeaponKH1).keychain(Strings.ultimaWeaponKH1Chain).baseStats(10, 8).ability("").reach(5.0F)
+	getBuilder(Strings.ultimaWeaponKH1).keychain(Strings.ultimaWeaponKH1Chain).baseStats(10, 8).ability(Strings.mpHastega).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(10, 9).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(11, 9).withMaterials(new Recipe()
@@ -2486,7 +2486,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("The ultimate Keyblade. Raises max MP by 2, and possesses maximum power and attributes.");
 	
-	getBuilder(Strings.ultimaWeaponKH2).keychain(Strings.ultimaWeaponKH2Chain).baseStats(10, 8).ability("").reach(5.0F)
+	getBuilder(Strings.ultimaWeaponKH2).keychain(Strings.ultimaWeaponKH2Chain).baseStats(10, 8).ability(Strings.mpHastega).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(10, 9).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(11, 9).withMaterials(new Recipe()
@@ -2509,7 +2509,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("The Keyblade above all others, holding all power and will increase MP restoration rate, once all MP has been consumed.");
 	
-	getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.ultimaWeaponKH3Chain).baseStats(10, 8).ability("").reach(5.0F)
+	getBuilder(Strings.ultimaWeaponKH3).keychain(Strings.ultimaWeaponKH3Chain).baseStats(10, 8).ability(Strings.mpHastega).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(10, 9).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(11, 9).withMaterials(new Recipe()

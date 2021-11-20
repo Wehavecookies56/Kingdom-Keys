@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "terra_helmet": {
+    "diamond_helmet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:terra_helmet"
+            "item": "minecraft:diamond_helmet"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "terra_helmet",
+      "diamond_helmet",
       "has_the_recipe"
     ]
   ]

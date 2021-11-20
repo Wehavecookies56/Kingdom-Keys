@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "ventus_leggings": {
+    "diamond_leggings": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:ventus_leggings"
+            "item": "minecraft:diamond_leggings"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "ventus_leggings",
+      "diamond_leggings",
       "has_the_recipe"
     ]
   ]
