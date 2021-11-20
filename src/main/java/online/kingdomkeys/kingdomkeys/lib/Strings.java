@@ -108,7 +108,9 @@ public class Strings {
     		synchBlade = KingdomKeys.MODID+":"+Strings.AB_Prefix +"synch_blade",
     		driveConverter = KingdomKeys.MODID+":"+Strings.AB_Prefix +"drive_converter",
     		focusConverter = KingdomKeys.MODID+":"+Strings.AB_Prefix +"focus_converter",
-    		mpThrift = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_thrift"
+    		mpThrift = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_thrift",
+    		criticalBoost = KingdomKeys.MODID+":"+Strings.AB_Prefix +"critical_boost",
+    		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot"
     		;
     
     // Synthesis Materials

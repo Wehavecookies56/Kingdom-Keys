@@ -254,6 +254,10 @@
 	"ability.ability_wizards_ruse.desc": "Permite recuperar VT proporcional a los PM que consumes. Cuantas más activas, más posibilidades de que ocurra.",
 	"ability.ability_mp_thrift.name": "Ahorrar PM",
 	"ability.ability_mp_thrift.desc": "Reduce el coste mágico en un 20%. Cuantas más activas, mayor efecto.",
+	"ability.ability_critical_boost.name": "Extracríticos",
+	"ability.ability_critical_boost.desc": "Aumenta el daño inflingido por golpes críticos en un 10%. Cuantas más activas, mayor efecto.",
+	"ability.ability_jackpot.name": "Más Premios",
+	"ability.ability_jackpot.desc": "Incrementa el valor de los premios de VT, PM y Platines. Cuantas más activas, mayor efecto.",
 
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Círculo Láser",

@@ -174,7 +174,7 @@ public class EntityEvents {
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
 				if(playerData.getEquippedItems().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
-					for(int i = 0 ; i < 8; i++) {
+					for(int i = 0 ; i < 4; i++) {
 						map.put(i,ItemStack.EMPTY);
 					}
 					playerData.equipAllItems(map, true);
@@ -700,6 +700,7 @@ public class EntityEvents {
 				
 				if(player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger()) {
 					dmg *= ModConfigs.critMult;
+					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
 				event.setAmount(dmg);
 			}
@@ -892,12 +893,23 @@ public class EntityEvents {
 					double y = entity.getPosY();
 					double z = entity.getPosZ();
 					
-					if(entity.world.rand.nextInt(100) <= ModConfigs.munnyDropProbability)
-						entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, Utils.randomWithRange(5, 15)));
-					if(entity.world.rand.nextInt(100) <= ModConfigs.hpDropProbability)
-						entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
-					if(entity.world.rand.nextInt(100) <= ModConfigs.mpDropProbability)
-						entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
+					if(entity.world.rand.nextInt(100) <= ModConfigs.munnyDropProbability) {
+						int num = Utils.randomWithRange(5, 15);
+						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+						entity.world.addEntity(new MunnyEntity(event.getEntity().world, x, y, z, num));
+					}
+					
+					if(entity.world.rand.nextInt(100) <= ModConfigs.hpDropProbability) {
+						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
+						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+						entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, num));
+					}
+					
+					if(entity.world.rand.nextInt(100) <= ModConfigs.mpDropProbability) {
+						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
+						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+						entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z,num));
+					}
 					
 					if(entity.world.rand.nextInt(100) <= ModConfigs.driveDropProbability) {
 						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier);

@@ -1842,7 +1842,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.");
 	
-	getBuilder(Strings.pumpkinhead).keychain(Strings.pumpkinheadChain).baseStats(8, 0).ability("").reach(6.0F)
+	getBuilder(Strings.pumpkinhead).keychain(Strings.pumpkinheadChain).baseStats(8, 0).ability(Strings.criticalBoost).reach(6.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(8, 1).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(9, 1).withMaterials(new Recipe()
@@ -2716,7 +2716,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("Has high strength and hold's an excellent magic power. When the enemies are defeated, experience points are not gained.");
 	
-	getBuilder(Strings.wishingLamp).keychain(Strings.wishingLampChain).baseStats(8, 6).ability("").reach(5.0F)
+	getBuilder(Strings.wishingLamp).keychain(Strings.wishingLampChain).baseStats(8, 6).ability(Strings.jackpot).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(8, 7).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(9, 7).withMaterials(new Recipe()
