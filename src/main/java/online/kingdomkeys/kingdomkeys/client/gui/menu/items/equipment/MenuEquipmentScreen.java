@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -42,29 +41,13 @@ public class MenuEquipmentScreen extends MenuBackground {
         drawSeparately = true;
         this.showingKeyblades = showingKeyblades;
     }
-    
-	int totalButtons = 0;
 
     int scrollOffset = 0;
 
     boolean showingKeyblades = false;
-    
-    int itemHeight = 14;
-    AtomicInteger offset = new AtomicInteger();
-    AtomicInteger hidden = new AtomicInteger(0);
-    float itemsX = width * 0.31F;
-    float itemsY = height * 0.1907F;
-    int itemsPerPage = 0;
-    
     @Override
     public void init() {
         super.init();
-        itemsX = width * 0.31F;
-        itemsY = height * 0.1907F;
-        totalButtons = 0;
-        offset.set(0);
-        hidden.set(0);
-        
         buttonWidth = ((float)width * 0.07F);
         float listBoxX = width * 0.16F;
         float boxY = height * 0.174F;
@@ -75,23 +58,27 @@ public class MenuEquipmentScreen extends MenuBackground {
         listBox = new MenuBox((int) listBoxX, (int) boxY, (int) listBoxWidth, (int) boxHeight, new Color(76, 76, 76));
         detailsBox = new MenuBox((int) detailsX, (int) boxY, (int) detailsWidth, (int) boxHeight, new Color(76, 76, 76));
 
+        float itemsX = width * 0.31F;
+        float itemsY = height * 0.1907F;
 
-        super.addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
+        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
 
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
 
-		itemsPerPage = (int) (listBox.getHeight() / (itemHeight + 2));
-		System.out.println(itemsPerPage);
+        int itemHeight = 14;
 
+        AtomicInteger offset = new AtomicInteger();
+        AtomicInteger hidden = new AtomicInteger(0);
+        
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
-            MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, getNextY(), 0x555555, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xAAAAAA);            
+            MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x555555, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xAAAAAA);            
             addButton(orgWeaponSlot);
-            super.addButton(showKeybladesButton = new MenuButton((int)itemsX + (int)(width * 0.264F), (int) itemsY + offset.get()-4 + itemHeight * (offset.get() - 1), (int)-5, new TranslationTextComponent("").getString(), MenuButton.ButtonType.BUTTON, b -> {minecraft.displayGuiScreen(new MenuEquipmentScreen(!showingKeyblades));}));
+            addButton(showKeybladesButton = new MenuButton((int)itemsX + (int)(width * 0.264F), (int) itemsY + offset.get()-4 + itemHeight * (offset.get() - 1)  - scrollOffset, (int)-5, new TranslationTextComponent("").getString(), MenuButton.ButtonType.BUTTON, b -> {minecraft.displayGuiScreen(new MenuEquipmentScreen(!showingKeyblades));}));
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getAlignment() == Utils.OrgMember.ROXAS)) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - itemHeight * scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
                 addButton(sbSlot);
             }
         } else {
@@ -100,7 +87,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         
         //Slot main keyblade
         if (keychains.get(DriveForm.NONE) != null) {
-            MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, getNextY(), 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
+            MenuEquipmentButton firstslot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
             addButton(firstslot);
             firstslot.active = showingKeyblades;
             firstslot.visible = showingKeyblades;
@@ -108,7 +95,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             
             //Synch blade
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.getEquippedAbilityLevel(Strings.synchBlade)[1] > 0 && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - itemHeight * scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - scrollOffset, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
                 addButton(sbSlot);
                 hidden.getAndIncrement();
             }
@@ -120,7 +107,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
             if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
-            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, getNextY(), 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293);
+            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293);
                 addButton(button);
                 hidden.getAndIncrement();
                 button.active = showingKeyblades;
@@ -132,7 +119,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         	offset.set(offset.get() - hidden.get());
                 
         if (shotlocks != null) {
-            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, getNextY(), 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 68), 0x11FF44), ItemCategory.SHOTLOCK, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
+            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 68), 0x11FF44), ItemCategory.SHOTLOCK, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
             addButton(shotlockSlot);
         }
         
@@ -142,9 +129,9 @@ public class MenuEquipmentScreen extends MenuBackground {
                 ItemStack item = entry.getValue();
                 MenuEquipmentButton potionSlot;
                 if(slot == 0) {
-                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, getNextY(), 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this, Strings.Gui_Menu_Items_Equipment_Items, 0x81FE85);
+                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this, Strings.Gui_Menu_Items_Equipment_Items, 0x81FE85);
                 } else {
-                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, getNextY(), 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this);
+                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - scrollOffset, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this);
                 }
             	addButton(potionSlot);
              });
@@ -153,40 +140,11 @@ public class MenuEquipmentScreen extends MenuBackground {
         //TODO the other slots for accesories, etc.
     }
 
-    private int getNextY() {
-    	return (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - itemHeight * scrollOffset - scrollOffset;
-	}
-
-	@Override
-    protected <T extends Widget> T addButton(T button) {
-    	if(button.visible)
-    		totalButtons++;
-    	
-    	if(totalButtons > itemsPerPage + hidden.get())
-    		button.visible = false;
-    	System.out.println(totalButtons);
-    	return super.addButton(button);
-    }
-    
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
         listBox.draw(matrixStack);
         detailsBox.draw(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-    }
-    
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-    	if(delta > 0) {
-    		if(scrollOffset > 0)
-    			scrollOffset--;
-    	} else {
-    		scrollOffset++;
-    	}
-    	buttons.clear();
-    	init();
-    	
-    	return super.mouseScrolled(mouseX, mouseY, delta);
     }
 }
