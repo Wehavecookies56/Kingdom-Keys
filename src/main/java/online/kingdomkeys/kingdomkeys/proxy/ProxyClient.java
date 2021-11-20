@@ -89,7 +89,8 @@ public class ProxyClient implements IProxy {
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
 		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
 		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
-        ModContainers.registerGUIFactories();
+		
+		ModContainers.registerGUIFactories();
 
         event.enqueueWork(() -> {
 			RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());

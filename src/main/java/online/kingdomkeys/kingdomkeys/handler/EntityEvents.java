@@ -174,7 +174,7 @@ public class EntityEvents {
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
 				if(playerData.getEquippedItems().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
-					for(int i = 0 ; i < 4; i++) {
+					for(int i = 0 ; i < 8; i++) {
 						map.put(i,ItemStack.EMPTY);
 					}
 					playerData.equipAllItems(map, true);

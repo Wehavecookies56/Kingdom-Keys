@@ -27,6 +27,8 @@ public class ClientConfig {
     public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
     
     public ForgeConfigSpec.IntValue focusXPos, focusYPos;
+    
+    public ForgeConfigSpec.BooleanValue showDriveForms;
 
     
     ClientConfig(final ForgeConfigSpec.Builder builder) {
@@ -40,6 +42,11 @@ public class ClientConfig {
         builder.pop();
         
         builder.push("gui");
+        
+        	showDriveForms = builder
+                .comment("Drive Forms Visibility")
+                .translation(KingdomKeys.MODID + ".config.show_drive_forms")
+                .define("showDriveForms", true);
         
 	        builder.push("command_menu");
 	        

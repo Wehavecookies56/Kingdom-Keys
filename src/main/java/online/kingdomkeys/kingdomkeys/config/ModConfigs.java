@@ -58,6 +58,8 @@ public class ModConfigs {
     
     public static int focusXPos, focusYPos;
 
+	public static boolean showDriveForms;
+	
     
     //Command Menu
     public static void setCmHeaderTextVisible(boolean value) {
@@ -182,6 +184,11 @@ public class ModConfigs {
         bakeClient();
     }
     
+    public static void setShowDriveForms(boolean val) {
+        CLIENT.showDriveForms.set(val);
+        bakeClient();
+    }
+    
     public static void bakeClient() {
         corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
@@ -214,6 +221,8 @@ public class ModConfigs {
         
         focusXPos = CLIENT.focusXPos.get();
         focusYPos = CLIENT.focusYPos.get();
+        
+        showDriveForms = CLIENT.showDriveForms.get();
     }
 
     public static boolean oreGen;
@@ -285,8 +294,7 @@ public class ModConfigs {
     
     public static int limitLaserCircleCost;
     public static int limitLaserDomeCost;
-    public static int limitArrowRainCost;
-    
+    public static int limitArrowRainCost;    
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();

@@ -15,6 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
@@ -28,7 +29,7 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends BipedModel<T>,
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(entitylivingbaseIn != null && ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn) != null) {
+		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn) != null) {
 			if(!ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE)) {
 				String drive = ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm();
 				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(drive));

@@ -163,7 +163,6 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 				formDecrease /= 1.2;
 			}
 			if (playerData.getFP() > 0) {
-				System.out.println(formDecrease);
 				playerData.setFP(playerData.getFP() - formDecrease);
 			} else {
 				endDrive(player);
