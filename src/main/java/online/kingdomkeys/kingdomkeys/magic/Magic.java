@@ -41,8 +41,11 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
         return translationKey.replace(".name", level+".name");
     }
     
-    public int getCost(int lvl) {
-    	return data.getCost(lvl);
+    public double getCost(int lvl, PlayerEntity player) {
+    	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+    	double cost = data.getCost(lvl);
+    	cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+    	return Math.max(1, cost);
     }
     
     public float getDamageMult(int lvl) {
@@ -88,17 +91,17 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 				casterData.setMagicUses(name, 0);
 			} else {
 				casterData.addMagicUses(name, 1);
-				casterData.remMP(getCost(level));
+				casterData.remMP(getCost(level, player));
 			}
     	} else {
-			casterData.remMP(getCost(level));
+			casterData.remMP(getCost(level, player));
     	}
 		casterData.setMagicCooldownTicks(data.getCooldown(level));
 		
 		if(casterData.isAbilityEquipped(Strings.wizardsRuse)) {
 			double num = player.world.rand.nextDouble();
 			if(num < (0.25+(0.125*(casterData.getNumberOfAbilitiesEquipped(Strings.wizardsRuse)-1)))){
-				caster.heal(getCost(level)/2);
+				caster.heal((int) getCost(level, player)/2);
 			}
 		}
 		

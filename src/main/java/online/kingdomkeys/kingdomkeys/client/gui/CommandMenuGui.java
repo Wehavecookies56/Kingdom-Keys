@@ -151,7 +151,7 @@ public class CommandMenuGui extends Screen {
 					for (Entry<Integer, String> entry : playerData.getShortcutsMap().entrySet()) {
 						String[] data = entry.getValue().split(",");
 						Magic magic = ModMagic.registry.getValue(new ResourceLocation(data[0]));
-						int cost = magic.getCost(Integer.parseInt(data[1]));
+						double cost = magic.getCost(Integer.parseInt(data[1]), minecraft.player);
 						int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 						
 						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) {
@@ -482,7 +482,7 @@ public class CommandMenuGui extends Screen {
 					int magicLevel = playerData.getMagicLevel(magic);
 					Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
 					int[] mag = playerData.getMagicsMap().get(magic);
-					int cost = magicInstance.getCost(mag[0]);
+					double cost = magicInstance.getCost(mag[0], minecraft.player);
 					int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 					
 					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {

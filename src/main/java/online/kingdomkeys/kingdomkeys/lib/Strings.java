@@ -105,7 +105,10 @@ public class Strings {
     		wizardsRuse =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"wizards_ruse",
     		damageControl =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"damage_control",
     		lightAndDarkness =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"light_and_darkness",
-    		synchBlade =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"synch_blade"
+    		synchBlade = KingdomKeys.MODID+":"+Strings.AB_Prefix +"synch_blade",
+    		driveConverter = KingdomKeys.MODID+":"+Strings.AB_Prefix +"drive_converter",
+    		focusConverter = KingdomKeys.MODID+":"+Strings.AB_Prefix +"focus_converter",
+    		mpThrift = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_thrift"
     		;
     
     // Synthesis Materials

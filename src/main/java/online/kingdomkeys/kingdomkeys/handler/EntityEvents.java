@@ -744,7 +744,6 @@ public class EntityEvents {
 				damage -= (damage * resistMultiplier);
 			}
 			
-			playerData.addAbility(Strings.fullMPBlast, false);
 			//Damage Control
 			if(Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
 				damage /= (1+playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
@@ -899,10 +898,18 @@ public class EntityEvents {
 						entity.world.addEntity(new HPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
 					if(entity.world.rand.nextInt(100) <= ModConfigs.mpDropProbability)
 						entity.world.addEntity(new MPOrbEntity(event.getEntity().world, x, y, z, (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5)));
-					if(entity.world.rand.nextInt(100) <= ModConfigs.driveDropProbability)
-						entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier)));
-					if(entity.world.rand.nextInt(100) <= ModConfigs.focusDropProbability)
-					entity.world.addEntity(new FocusOrbEntity(event.getEntity().world, x, y, z, (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.focusPointsMultiplier)));
+					
+					if(entity.world.rand.nextInt(100) <= ModConfigs.driveDropProbability) {
+						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier);
+						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter)*0.5;
+						entity.world.addEntity(new DriveOrbEntity(event.getEntity().world, x, y, z, num));
+					}
+				
+					if(entity.world.rand.nextInt(100) <= ModConfigs.focusDropProbability) {
+						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.focusPointsMultiplier);
+						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.focusConverter)*0.25;
+						entity.world.addEntity(new FocusOrbEntity(event.getEntity().world, x, y, z, num));
+					}
 					
 					int num = Utils.randomWithRange(0,99);
 
