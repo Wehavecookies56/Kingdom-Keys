@@ -92,7 +92,10 @@
    "20":{
       "mag":1,
       "maxhp":5,
-      "maxmp":8
+      "maxmp":8,
+	  "abilities":[
+         "kingdomkeys:ability_jackpot"
+      ]
    },
    "21":{
       "str":1,
@@ -212,7 +215,10 @@
    },
    "44":{
       "mag":1,
-      "maxmp":4.0
+      "maxmp":4.0,
+	  "abilities":[
+         "kingdomkeys:ability_jackpot"
+      ]
    },
    "45":{
       "str":1,
@@ -342,7 +348,10 @@
    "72":{
       "mag":1,
       "maxmp":4.0,
-      "ap":1
+      "ap":1,
+	  "abilities":[
+         "kingdomkeys:ability_jackpot"
+      ]
    },
    "73":{
       "str":1
