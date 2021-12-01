@@ -40,19 +40,19 @@ public enum KKArmorMaterial implements IArmorMaterial {
 	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	ACED(KingdomKeys.MODID + ":aced", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	ACED(KingdomKeys.MODID + ":aced", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	AVA(KingdomKeys.MODID + ":ava", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	AVA(KingdomKeys.MODID + ":ava", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	GULA(KingdomKeys.MODID + ":gula", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	GULA(KingdomKeys.MODID + ":gula", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	INVI(KingdomKeys.MODID + ":invi", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	INVI(KingdomKeys.MODID + ":invi", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	IRA(KingdomKeys.MODID + ":ira", 5, new int[] { 4, 7, 9, 5 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	IRA(KingdomKeys.MODID + ":ira", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.fromItems(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	});
 	

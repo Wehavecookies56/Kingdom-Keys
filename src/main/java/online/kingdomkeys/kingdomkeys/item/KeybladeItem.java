@@ -49,7 +49,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
@@ -70,7 +69,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 	// TODO remove attack damage
 	public KeybladeItem(Item.Properties properties) {
-		super(new KeybladeItemTier(0), 0, 1, properties);
+		super(new KeybladeItemTier(0), 0, -1, properties);
 		this.properties = properties;
 	}
 
@@ -103,10 +102,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	public int getKeybladeLevel(ItemStack stack) {
-		if(stack.hasTag()) {
-			if(stack.getTag().contains("level")) {
-				return stack.getTag().getInt("level");
-			}			
+		if(stack.hasTag() && stack.getTag().contains("level")) {
+			return stack.getTag().getInt("level");
 		}
 		return 0;
 	}

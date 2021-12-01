@@ -469,7 +469,7 @@ public class Utils {
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.inventory.armorInventory.size(); ++i) {
 			ItemStack itemStack = player.inventory.armorInventory.get(i);
-			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_")) {
+			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_") && !itemStack.getItem().getRegistryName().getPath().startsWith("xemnas_") && !itemStack.getItem().getRegistryName().getPath().startsWith("anticoat_")) {
 				wearingOrgCloak = false;
 				break;
 			}

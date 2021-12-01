@@ -796,19 +796,10 @@ public class ModItems {
 	}
 
 	public static RegistryObject<Item> createKeybladeItem(String name) {
-		/*if(Lists.keyblades == null) {
-			Lists.keyblades = new ArrayList<RegistryObject<Item>>();
-		}*/
-		RegistryObject<Item> thing = ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1)));
-		//Lists.keyblades.add(thing);
-		return thing;
+		return ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1)));
 	}
 
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
-	}
-
-	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlotType slot) {
-		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, null));
 	}
 }
