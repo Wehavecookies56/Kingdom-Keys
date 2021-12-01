@@ -1,6 +1,0 @@
-# Created by Metasequoia
-
-newmtl mat1
-Ka 0.36894 0.36894 0.36894
-Kd 0.49192 0.49192 0.49192
-map_Kd kingdomkeys:item/models/keyblades/unicornisforetellerskeyblade

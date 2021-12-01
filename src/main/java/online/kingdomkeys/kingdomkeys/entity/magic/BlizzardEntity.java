@@ -13,8 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -28,10 +27,6 @@ public class BlizzardEntity extends ThrowableProjectile {
 	public BlizzardEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
-	}
-
-	public BlizzardEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_BLIZZARD.get(), world);
 	}
 
 	public BlizzardEntity(Level world) {

@@ -16,10 +16,8 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
 public class GigaShadowEntity extends Monster implements IKHMob {
@@ -27,11 +25,7 @@ public class GigaShadowEntity extends Monster implements IKHMob {
     public GigaShadowEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
     }
-
-    public GigaShadowEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_GIGA_SHADOW.get(), world);
-    }
-    
+        
     @Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
     	return ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;

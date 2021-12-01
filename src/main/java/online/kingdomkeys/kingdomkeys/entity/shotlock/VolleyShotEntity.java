@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import java.awt.Color;
-
 import com.mojang.math.Vector3f;
 
 import net.minecraft.core.particles.DustParticleOptions;

@@ -1,9 +1,0 @@
-{
-	"cost":400,
-	"ap":1,
-	"str_mult":1.2,
-	"mag_mult":1.2,
-	"speed_mult":1.3,
-	"level_up":[ 0, 60, 240, 456, 726, 1050, 1500 ],
-	"abilities":[ "kingdomkeys:ability_synch_blade", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_mp_hastera" ]
-}

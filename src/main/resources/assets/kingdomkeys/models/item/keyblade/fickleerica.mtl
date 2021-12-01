@@ -1,8 +1,0 @@
-# Blender MTL File: 'None'
-# Material Count: 1
-
-newmtl mat1
-Ka 0.600000 0.600000 0.600000
-Kd 0.800000 0.800000 0.800000
-d 1.000000
-map_Kd kingdomkeys:item/models/keyblades/fickleerica

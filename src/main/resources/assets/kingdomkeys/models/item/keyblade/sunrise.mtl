@@ -1,6 +1,0 @@
-# Created by Metasequoia
-
-newmtl mat1
-Ka 0.38353 0.38353 0.38353
-Kd 0.51137 0.51137 0.51137
-map_Kd kingdomkeys:item/models/keyblades/sunrise

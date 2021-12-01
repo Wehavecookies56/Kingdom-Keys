@@ -1,5 +1,0 @@
-{
-  "parent": "block/block",
-  "loader": "forge:obj",
-  "model": "kingdomkeys:models/entity/portal.obj"
-}

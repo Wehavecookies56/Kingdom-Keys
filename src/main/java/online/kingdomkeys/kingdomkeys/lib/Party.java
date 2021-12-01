@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.util.Constants;
 
 public class Party {
 

@@ -5,25 +5,19 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fmlclient.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class ThunderEntityRenderer extends EntityRenderer<ThunderEntity> {
 
-	public static final Factory FACTORY = new ThunderEntityRenderer.Factory();
-	BlizzardModel shot;
-
-	public ThunderEntityRenderer(EntityRenderDispatcher renderManager, BlizzardModel fist) {
-		super(renderManager);
-		this.shot = fist;
+	public ThunderEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
 		this.shadowRadius = 0.25F;
 	}
 
@@ -50,10 +44,4 @@ public class ThunderEntityRenderer extends EntityRenderer<ThunderEntity> {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	public static class Factory implements IRenderFactory<ThunderEntity> {
-		@Override
-		public EntityRenderer<? super ThunderEntity> createRenderFor(EntityRenderDispatcher manager) {
-			return new ThunderEntityRenderer(manager, new BlizzardModel());
-		}
-	}
 }

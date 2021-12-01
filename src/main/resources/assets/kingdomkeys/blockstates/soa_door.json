@@ -1,8 +1,0 @@
-{
-	"variants": {
-		"facing=north": { "model": "kingdomkeys:block/soa_door","y":0, "uvlock": true},
-		"facing=east": { "model": "kingdomkeys:block/soa_door","y":90, "uvlock": true},
-		"facing=south": { "model": "kingdomkeys:block/soa_door","y":180, "uvlock": true},
-		"facing=west": { "model": "kingdomkeys:block/soa_door","y":270, "uvlock": true}
-	}
-}

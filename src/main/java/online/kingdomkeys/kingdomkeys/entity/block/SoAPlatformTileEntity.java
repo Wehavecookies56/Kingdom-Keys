@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import org.lwjgl.system.CallbackI;
 
 public class SoAPlatformTileEntity extends BlockEntity {
 
