@@ -78,6 +78,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
+       // Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
 
 
         AtomicInteger offset = new AtomicInteger();
@@ -89,7 +90,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             totalButtons.add(orgWeaponSlot);
             addButton(orgWeaponSlot);
 
-            addButton(showKeybladesButton = new MenuButton((int)itemsX + (int)(width * 0.264F), (int) itemsY + offset.get()-4 + itemHeight * (offset.get() - 1) - transformedScroll, (int)-5, new TranslationTextComponent("").getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; init();}));
+            addButton(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY + 20, (int)45, new TranslationTextComponent("Keychains").getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; init();}));
             
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getAlignment() == Utils.OrgMember.ROXAS)) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
@@ -103,8 +104,10 @@ public class MenuEquipmentScreen extends MenuBackground {
         //Slot main keyblade
         if (keychains.get(DriveForm.NONE) != null) {
             MenuEquipmentButton firstSlot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
-            totalButtons.add(firstSlot);
             addButton(firstSlot);
+            
+            if(showingKeyblades)
+                totalButtons.add(firstSlot);
 
             firstSlot.active = showingKeyblades;
             firstSlot.visible = showingKeyblades;
@@ -127,10 +130,13 @@ public class MenuEquipmentScreen extends MenuBackground {
             ItemStack keychain = entry.getValue();
             if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
             	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293);
-            	totalButtons.add(button);
                 addButton(button);
 
                 hidden.getAndIncrement();
+               
+                if(showingKeyblades)
+                	totalButtons.add(button);
+
                 button.active = showingKeyblades;
                 button.visible = showingKeyblades;
             }
@@ -159,6 +165,9 @@ public class MenuEquipmentScreen extends MenuBackground {
                 addButton(potionSlot);
              });
         }
+        
+        //TODO the other slots for accesories, etc.
+        
 
         for(MenuEquipmentButton b : totalButtons) {
         	b.visible = false;
@@ -170,7 +179,7 @@ public class MenuEquipmentScreen extends MenuBackground {
 		}
 
         
-        //TODO the other slots for accesories, etc.
+       
     }
 
     @Override
