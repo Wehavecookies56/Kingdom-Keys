@@ -121,8 +121,6 @@ public class MenuBackground extends Screen {
     protected int buttonPosY;
     protected float buttonWidth;
 
-
-
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawBars(matrixStack);
@@ -131,7 +129,6 @@ public class MenuBackground extends Screen {
 		drawTip(matrixStack);
 		//RenderHelper.disableStandardItemLighting();
 		//drawBackground(width, height, drawPlayerInfo);
-		
 
 		matrixStack.push();
 		{
