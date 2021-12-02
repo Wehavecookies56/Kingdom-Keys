@@ -14,6 +14,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -27,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -197,13 +199,12 @@ public class MenuEquipmentButton extends Button {
                     RenderSystem.popMatrix();
 
                     float strPosX = parent.width * 0.634F;
-                    float strPosY = parent.height * 0.56F;
+                    float posY = parent.height * 0.56F;
                     float strNumPosX = parent.width * 0.77F;
-                    float magPosY = parent.height * 0.60F;
                     float abiPosX = parent.width * 0.685F;
-                    float abiPosY = parent.height * 0.65F;
 					int strength = 0;
 					int magic = 0;
+					int ap = 0;
 					List<String> abilities = new ArrayList<String>();
 					boolean showData = true;
 					if (stack.getItem() instanceof IKeychain) {
@@ -225,46 +226,85 @@ public class MenuEquipmentButton extends Button {
                     	showData = false;
                     } else if (stack.getItem() instanceof KKPotionItem) {
                      	showData = false;
+                    } else if (stack.getItem() instanceof KKAccessoryItem) {
+                     	ap = 1;
                     } else {
                     	showData = false;
                     }
                     if(showData) {
+                    	boolean showStr = true, showMag= true, showAP=true;
                     	abilities.remove(null);
 	                    String strengthStr = String.valueOf(strength);
 	                    String magicStr = String.valueOf(magic);
+	                    String apStr = String.valueOf(ap);
 	                    
 	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 	                    int totalStrength = playerData.getStrength(true) + strength;
 	                    int totalMagic = playerData.getMagic(true) + magic;
-	                    String openBracketStr = " [ ";
-	                    String openBracketMag = " [ ";
+	                    int totalAP =  playerData.getMaxAP(true) + ap;
+	                    String openBracket = " [ ";
+	                   
 	                    String totalStrengthStr = String.valueOf(totalStrength);
 	                    String totalMagicStr = String.valueOf(totalMagic);
+	                    String totalAPStr = String.valueOf(totalAP);
+	                    
 	                    if (totalStrengthStr.length() == 1) {
-	                        openBracketStr += " ";
+	                        openBracket += " ";
 	                    }
 	                    if (totalMagicStr.length() == 1) {
-	                        openBracketMag += " ";
+	                        openBracket += " ";
 	                    }
-						drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) strPosY, 0xEE8603);
-						drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
-						drawString(matrixStack, fr, openBracketStr, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
-						drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
-						drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr) + fr.getStringWidth(totalStrengthStr), (int) strPosY, 0xBF6004);
-	
-						drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) magPosY, 0xEE8603);
-						drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
-						drawString(matrixStack, fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
-						drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
-						drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
-	
+	                    
+	                    if (totalAPStr.length() == 1) {
+	                        openBracket += " ";
+	                    }
+	                    
+	                    
+	                    
+	                    if(stack.getItem() instanceof KKAccessoryItem) {
+	                    	showAP = true;
+	                    	showStr = strength != 0;
+	                    	showMag = magic != 0;
+	                    } else {
+	                    	showAP = false;
+	                    	showStr = true;
+	                    	showMag = true;
+	                    }
+	                    
+	                    if(showAP) {
+		                    drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
+							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(apStr), (int) posY, 0xBF6004);
+							drawString(matrixStack, fr, totalAPStr, (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalAPStr), (int) posY, 0xBF6004);
+							posY+=10;
+	                    }
+	                    
+	                    if(showStr) {
+							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
+							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) posY, 0xBF6004);
+							drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalStrengthStr), (int) posY, 0xBF6004);
+							posY+=10;
+	                    }
+	                    
+	                    if(showMag) {
+							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
+							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(magicStr), (int) posY, 0xBF6004);
+							drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalMagicStr), (int) posY, 0xBF6004);
+							posY+=10;
+	                    }
+	                    
 						if(abilities.size() > 0) {
-							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
+							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(i)));
 				                mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			                    blit(matrixStack, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
-								drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
+			                    blit(matrixStack, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
+								drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
 							}
 						}
 						
@@ -276,6 +316,10 @@ public class MenuEquipmentButton extends Button {
 							float tooltipPosX = parent.width * 0.3333F;
 	                    	float tooltipPosY = parent.height * 0.8F;
 	                    	Utils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+						} else if(stack.getItem() instanceof KKAccessoryItem) {
+							float tooltipPosX = parent.width * 0.3333F;
+	                    	float tooltipPosY = parent.height * 0.8F;
+	                    	//Utils.drawSplitString(fr,stack.getTooltip(Minecraft.getInstance().player, TooltipFlags.NORMAL).toString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     }
                 } 

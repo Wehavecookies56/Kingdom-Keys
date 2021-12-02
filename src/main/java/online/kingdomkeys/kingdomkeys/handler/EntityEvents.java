@@ -157,6 +157,14 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
+					
+					if(playerData.getEquippedItems().size() == 0) {
+						HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
+						for(int i = 0 ; i < 4; i++) {
+							map.put(i,ItemStack.EMPTY);
+						}
+						playerData.equipAllItems(map, true);
+					}
 				}
 				
 				if(!playerData.getKnownRecipeList().contains(ModItems.powerBoost.get().getRegistryName())){
@@ -172,12 +180,12 @@ public class EntityEvents {
 				}
 							
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
-				if(playerData.getEquippedItems().size() == 0) {
+				if(playerData.getEquippedAccessories().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
-					for(int i = 0 ; i < 4; i++) {
+					for(int i = 0 ; i < 3; i++) {
 						map.put(i,ItemStack.EMPTY);
 					}
-					playerData.equipAllItems(map, true);
+					playerData.equipAllAccessories(map, true);
 				}
 				
 				//Fills the map with empty stacks for every form that requires one.

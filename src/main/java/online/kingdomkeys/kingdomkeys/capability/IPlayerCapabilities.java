@@ -151,6 +151,13 @@ public interface IPlayerCapabilities {
 	boolean canEquipItem(int slot, ItemStack stack);
 	void setNewItem(int slot, ItemStack stack);
 	
+	Map<Integer, ItemStack> getEquippedAccessories();
+	ItemStack equipAccessory(int slot, ItemStack stack);
+	ItemStack getEquippedAccessory(int slot);
+	void equipAllAccessories(Map<Integer, ItemStack> accessories, boolean force);
+	boolean canEquipAccessory(int slot, ItemStack stack);
+	void setNewAccessory(int slot, ItemStack stack);
+	
 	LinkedHashMap<String, int[]> getMagicsMap();
 	void setMagicsMap(LinkedHashMap<String,int[]> map);
 	int getMagicLevel(String name);

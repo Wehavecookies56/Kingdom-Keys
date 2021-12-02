@@ -50,6 +50,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
@@ -298,6 +299,8 @@ public class Utils {
 		return list;
 	}
 	
+	
+	
 	public static PlayerEntity getPlayerByName(World world, String name) {
 		for (PlayerEntity p : world.getPlayers()) {
 			if (p.getDisplayName().getString().equals(name)) {
@@ -444,7 +447,28 @@ public class Utils {
 		}
 		return category;
 	}
-
+	
+	public static int getAccessoriesStat(IPlayerCapabilities playerData, String type) {
+		int res = 0;
+		for(Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
+			if(!ItemStack.areItemStacksEqual(entry.getValue(), ItemStack.EMPTY)) {
+				KKAccessoryItem accessory = (KKAccessoryItem)entry.getValue().getItem();
+				switch(type) {
+				case "ap":
+					res += accessory.getAp();
+					break;
+				case "str":
+					res += accessory.getStr();
+					break;
+				case "mag":
+					res += accessory.getMag();
+					break;
+				}
+			}
+		}
+		return res;
+	}
+	
 	public static int getConsumedAP(IPlayerCapabilities playerData) {
 		int ap = 0;
 		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();

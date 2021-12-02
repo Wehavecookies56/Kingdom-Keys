@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,6 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -32,6 +32,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -94,6 +95,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
+	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
 
 	//region Main stats, level, exp, str, mag, ap
 	@Override
@@ -245,8 +247,32 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getMaxAP(boolean combined) {
-		return combined ? maxAP + boostMaxAP : maxAP;
+		return combined ? maxAP + boostMaxAP + getAccessoriesAP("ap") : maxAP;
 	}
+
+	private int getAccessoriesAP(String type) {
+		int res = 0;
+		for(Entry<Integer, ItemStack> accessory : getEquippedAccessories().entrySet()) {
+			if(!ItemStack.areItemStacksEqual(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem) {
+				KKAccessoryItem a = (KKAccessoryItem) accessory.getValue().getItem();
+				switch(type) {
+				case "ap":
+					res += a.getAp();
+					break;
+				case "str":
+					res += a.getStr();
+					break;
+				case "mag":
+					res += a.getMag();
+					break;
+				}
+				
+			}
+		}
+		return res;
+	}
+	
+	
 
 	@Override
 	public void setMaxAP(int ap) {
@@ -870,6 +896,62 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setNewItem(int slot, ItemStack stack) {
 		if (!equippedItems.containsKey(slot)) {
 			equippedItems.put(slot, stack);
+		}
+	}
+
+	//endregion
+	
+	//region Accessories
+	
+	@Override
+	public Map<Integer, ItemStack> getEquippedAccessories() {
+		return equippedAccessories;
+	}
+
+	@Override
+	public ItemStack equipAccessory(int slot, ItemStack stack) {
+		//Item can be empty stack to unequip
+		if (canEquipAccessory(slot, stack)) {
+			ItemStack previous = getEquippedAccessory(slot);
+			equippedAccessories.put(slot, stack);
+			return previous;
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack getEquippedAccessory(int slot) {
+		if (equippedAccessories.containsKey(slot)) {
+			return equippedAccessories.get(slot);
+		}
+		return null;
+	}
+
+	@Override
+	public void equipAllAccessories(Map<Integer, ItemStack> accessories, boolean force) {
+		//Any Accessories that cannot be equipped will be removed
+		if(!force)
+			accessories.replaceAll((k,v) -> canEquipAccessory(k,v) ? v : ItemStack.EMPTY);
+		equippedAccessories = accessories;
+	}
+
+	@Override
+	public boolean canEquipAccessory(int slot, ItemStack stack) {
+		if (getEquippedAccessory(slot) != null) {
+			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
+				//If there is more than 1 item in the stack don't handle it
+				if (stack.getCount() <= 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void setNewAccessory(int slot, ItemStack stack) {
+		if (!equippedAccessories.containsKey(slot)) {
+			equippedAccessories.put(slot, stack);
 		}
 	}
 

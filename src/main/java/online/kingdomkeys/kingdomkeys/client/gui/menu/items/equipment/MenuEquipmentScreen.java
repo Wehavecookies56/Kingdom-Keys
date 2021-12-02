@@ -78,7 +78,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
-       // Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
+        Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
 
 
         AtomicInteger offset = new AtomicInteger();
@@ -151,6 +151,21 @@ public class MenuEquipmentScreen extends MenuBackground {
             addButton(shotlockSlot);
         }
         
+        if(accessories != null) {
+        	accessories.entrySet().stream().forEachOrdered((entry) -> {
+               int slot = entry.getKey();
+               ItemStack item = entry.getValue();
+               MenuEquipmentButton accessorySlot;
+               if(slot == 0) {
+            	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this, Utils.translateToLocal("Accessories"), 0x42ceff);
+               } else {
+            	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this);
+               }
+               totalButtons.add(accessorySlot);
+               addButton(accessorySlot);
+            });
+       }
+        
         if(items != null) {
         	 items.entrySet().stream().forEachOrdered((entry) -> {
                 int slot = entry.getKey();
@@ -166,6 +181,8 @@ public class MenuEquipmentScreen extends MenuBackground {
              });
         }
         
+        
+       
         //TODO the other slots for accesories, etc.
         
 
@@ -178,8 +195,6 @@ public class MenuEquipmentScreen extends MenuBackground {
 			b.visible = true;
 		}
 
-        
-       
     }
 
     @Override
@@ -198,8 +213,7 @@ public class MenuEquipmentScreen extends MenuBackground {
     	} else if (delta > 0 && scrollOffset > 0) {
     		scrollOffset--;
     	}
-    	
-    	System.out.println(scrollOffset);
+    
     	init();
     	return super.mouseScrolled(mouseX, mouseY, delta);
     }
