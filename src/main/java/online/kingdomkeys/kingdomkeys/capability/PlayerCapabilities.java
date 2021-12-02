@@ -1189,6 +1189,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				amount += Collections.frequency(list, ability);
 			}
 		}
+		
+		amount += Collections.frequency(Utils.getAccessoriesAbilities(this), ability);
 				
 		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
 			return amount + (abilityMap.containsKey(ability) ? Integer.bitCount(abilityMap.get(ability)[1]) : 0);

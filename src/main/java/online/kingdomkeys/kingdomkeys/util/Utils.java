@@ -469,6 +469,17 @@ public class Utils {
 		return res;
 	}
 	
+	public static List<String> getAccessoriesAbilities(IPlayerCapabilities playerData) {
+		List<String> res = new ArrayList<String>();
+		for(Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
+			if(!ItemStack.areItemStacksEqual(entry.getValue(), ItemStack.EMPTY)) {
+				KKAccessoryItem accessory = (KKAccessoryItem)entry.getValue().getItem();
+				res.addAll(accessory.getAbilities());
+			}
+		}
+		return res;
+	}
+	
 	public static int getConsumedAP(IPlayerCapabilities playerData) {
 		int ap = 0;
 		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();

@@ -230,6 +230,7 @@ public class MenuEquipmentButton extends Button {
                      	ap = ((KKAccessoryItem)stack.getItem()).getAp();
                      	strength = ((KKAccessoryItem)stack.getItem()).getStr();
                      	magic = ((KKAccessoryItem)stack.getItem()).getMag();
+                     	abilities = ((KKAccessoryItem)stack.getItem()).getAbilities();
                     } else {
                     	showData = false;
                     }

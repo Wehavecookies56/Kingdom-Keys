@@ -199,46 +199,24 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 			}
 			
+			List<String> abilitiesList = Utils.getAccessoriesAbilities(playerData);
+			for (String a : abilitiesList) {
+				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+				if (ability != null) {
+					MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.ACCESSORY, (e) -> {
+					});
+					abilities.add(aa);
+					aa.visible = false;
+				}
+			}
+			
 		} else { //Drive form displays with disabled and equipped buttons
-			
-			//Display base abilities not able to be modified
-			/*int i = 0;
-			for (i = 0; i < abilitiesMap.size(); i++) {
-				String abilityName = (String) abilitiesMap.keySet().toArray()[i];
-				Ability ability = ModAbilities.registry.getValue(new ResourceLocation(abilityName));
-				/*if(ability.getType() == AbilityType.GROWTH) { //Add only the growth ability
-					if(ability.getRegistryName().toString().equals(ModDriveForms.registry.getValue(new ResourceLocation(form)).getDFAbilityForLevel(1))) {
-						abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> { }));
-						abilities.get(i).visible = false;
-					}
-				}
-				if(ability.getType() == AbilityType.SUPPORT && !ability.getRegistryName().toString().equals(Strings.synchBlade)) { //Exclude base player's synch blade to prevent it being shown twice on forms
-					int level = abilitiesMap.get(abilityName)[0];
-					if (level == 0 || ability.getType() == AbilityType.GROWTH) {
-						abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> { }));
-					} else {
-						for (int j = 0; j < level; j++) {
-							int finalJ = j;
-							abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, finalJ, ability.getType(), (e) -> { }));
-						}
-					}
-					abilities.get(i).visible = false;
-				}
-			}*/
-			
 			//Display list of abilities in the drive form data
 			DriveForm driveForm = ModDriveForms.registry.getValue(new ResourceLocation(form));			
 			
 			String growth = driveForm.getDFAbilityForLevel(1);
 			Ability ab = ModAbilities.registry.getValue(new ResourceLocation(growth));
 			if (ab != null) {
-				/*int level = playerData.getEquippedAbilityLevel(growth)[0];
-				String lvl = "_" + (level+1);
-				
-				String abName = ab.getTranslationKey();
-				String text = new StringBuilder(abName).insert(abName.lastIndexOf('.'), lvl).toString();
-				System.out.println(text);*/
-				
 				MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, growth, ab.getType(), (e) -> {
 				});
 				abilities.add(aa);
@@ -395,7 +373,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					button.active = button.equipped;
 				}
 				
-				if (button.abilityType == AbilityType.WEAPON || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
+				if (button.abilityType == AbilityType.WEAPON || button.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
 					button.active = true;
 				}
 
@@ -459,7 +437,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
-			if(hoveredType != AbilityType.WEAPON) {
+			if(hoveredType != AbilityType.WEAPON && hoveredType != AbilityType.ACCESSORY) {
 				if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString(), hoveredIndex)) { // If hovering an equipped ability
 					requiredAP *= -1;
 	

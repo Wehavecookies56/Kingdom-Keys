@@ -784,7 +784,7 @@ public class ModItems {
 			
 			abilityRing = createNewItem("ability_ring", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 0, 0, null)),
 			aquamarineRing = createNewItem("aquamarine_ring", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 1, 0, null)),
-			cosmicArts = createNewItem("cosmic_arts", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 7, 1, 1, null));
+			cosmicArts = createNewItem("cosmic_arts", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 7, 2, 2, new String[] {Strings.scan,Strings.treasureMagnet}));
 
     				
 			//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));

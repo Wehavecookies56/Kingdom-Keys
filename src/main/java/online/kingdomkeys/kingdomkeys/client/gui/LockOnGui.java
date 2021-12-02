@@ -97,9 +97,10 @@ public class LockOnGui extends Screen {
 
 					matrixStack.push();
 
-					int[] scan = playerData.getEquippedAbilityLevel(Strings.scan);
+					//int[] scan = playerData.getEquippedAbilityLevel(Strings.scan);
 					// If ability level > 0 and amount of equipped is > 0
-					if (target != null && scan[0] > 0 && scan[1] > 0) {
+					//if (target != null && scan[0] > 0 && scan[1] > 0) {
+					if(target != null && playerData.isAbilityEquipped(Strings.scan)) {
 						matrixStack.push();
 						{
 							RenderSystem.enableBlend();

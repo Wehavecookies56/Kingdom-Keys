@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,7 +39,7 @@ public class KKAccessoryItem extends Item implements IItemCategory {
     	//String beginning = Utils.translateToLocal("potion.desc.beginning", (int)amount, percentage ? "%":"", sType);
     	//String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
 		//tooltip.add(new TranslationTextComponent(beginning + end));
-    	tooltip.add(new TranslationTextComponent(this.toString()));
+    	//tooltip.add(new TranslationTextComponent(this.toString()));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
     
@@ -65,8 +67,8 @@ public class KKAccessoryItem extends Item implements IItemCategory {
 		this.mag = mag;
 	}
 
-	public String[] getAbilities() {
-		return abilities;
+	public List<String> getAbilities() {
+		return abilities == null ? Lists.newArrayList() : Lists.newArrayList(abilities);
 	}
 
 	public void setAbilities(String[] abilities) {
@@ -80,6 +82,6 @@ public class KKAccessoryItem extends Item implements IItemCategory {
 
 	@Override
 	public String toString() {
-		return ap+" "+str+" "+mag;
+		return super.toString(); //ap+" "+str+" "+mag;
 	}
 }
