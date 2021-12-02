@@ -782,7 +782,9 @@ public class ModItems {
 			defenseBoost = createNewItem(Strings.defenseBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.defenseBoost)),
 			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.apBoost)),
 			
-			abilityRing = createNewItem("ability_ring", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 0, 0, null));
+			abilityRing = createNewItem("ability_ring", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 0, 0, null)),
+			aquamarineRing = createNewItem("aquamarine_ring", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 1, 0, null)),
+			cosmicArts = createNewItem("cosmic_arts", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 7, 1, 1, null));
 
     				
 			//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));

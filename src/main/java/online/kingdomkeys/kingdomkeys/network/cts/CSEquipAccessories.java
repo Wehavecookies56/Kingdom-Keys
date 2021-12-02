@@ -44,13 +44,18 @@ public class CSEquipAccessories {
             PlayerEntity player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             
-            int itemAP = 0;
+            int oldItemAP = 0;
+            int newItemAP = 0;
             if(!ItemStack.areItemStacksEqual(playerData.getEquippedAccessory(message.slotToEquipTo),ItemStack.EMPTY)){
-              	itemAP = ((KKAccessoryItem)playerData.getEquippedAccessory(message.slotToEquipTo).getItem()).getAp();
+              	oldItemAP = ((KKAccessoryItem)playerData.getEquippedAccessory(message.slotToEquipTo).getItem()).getAp();
+            }
+            
+            if(!ItemStack.areItemStacksEqual(player.inventory.getStackInSlot(message.slotToEquipFrom),ItemStack.EMPTY)){
+            	newItemAP = ((KKAccessoryItem)player.inventory.getStackInSlot(message.slotToEquipFrom).getItem()).getAp();
             }
 
             //System.out.println(Utils.getConsumedAP(playerData)+" "+playerData.getMaxAP(true)+" "+itemAP);
-            if(playerData.getMaxAP(true) - itemAP >= Utils.getConsumedAP(playerData) ) { 
+            if(playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) { 
 	            ItemStack stackToEquip = player.inventory.getStackInSlot(message.slotToEquipFrom);
 	            ItemStack stackPreviouslyEquipped = playerData.equipAccessory(message.slotToEquipTo, stackToEquip);
 	            player.inventory.setInventorySlotContents(message.slotToEquipFrom, stackPreviouslyEquipped);

@@ -227,7 +227,9 @@ public class MenuEquipmentButton extends Button {
                     } else if (stack.getItem() instanceof KKPotionItem) {
                      	showData = false;
                     } else if (stack.getItem() instanceof KKAccessoryItem) {
-                     	ap = 1;
+                     	ap = ((KKAccessoryItem)stack.getItem()).getAp();
+                     	strength = ((KKAccessoryItem)stack.getItem()).getStr();
+                     	magic = ((KKAccessoryItem)stack.getItem()).getMag();
                     } else {
                     	showData = false;
                     }
@@ -258,9 +260,7 @@ public class MenuEquipmentButton extends Button {
 	                    if (totalAPStr.length() == 1) {
 	                        openBracket += " ";
 	                    }
-	                    
-	                    
-	                    
+	                               
 	                    if(stack.getItem() instanceof KKAccessoryItem) {
 	                    	showAP = true;
 	                    	showStr = strength != 0;

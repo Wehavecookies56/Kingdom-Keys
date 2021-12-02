@@ -43,12 +43,19 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 					PlayerEntity player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
-					int itemAP = 0;
+					int oldItemAP = 0;
+					int newItemAP = 0;
+					
 		            if(!ItemStack.areItemStacksEqual(playerData.getEquippedAccessory(parent.slot),ItemStack.EMPTY)){
-		              	itemAP = ((KKAccessoryItem)playerData.getEquippedAccessory(parent.slot).getItem()).getAp();
+		              	oldItemAP = ((KKAccessoryItem)playerData.getEquippedAccessory(parent.slot).getItem()).getAp();
+		            }
+		            
+		            if(!ItemStack.areItemStacksEqual(player.inventory.getStackInSlot(slot),ItemStack.EMPTY)){
+		            	newItemAP = ((KKAccessoryItem)player.inventory.getStackInSlot(slot).getItem()).getAp();
 		            }
 
-		            if(playerData.getMaxAP(true) - itemAP >= Utils.getConsumedAP(playerData) ) { 
+		            System.out.println(Utils.getConsumedAP(playerData)+" "+oldItemAP+" : "+playerData.getMaxAP(true)+" "+newItemAP);
+		            if(playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) { 
 						ItemStack stackToEquip = player.inventory.getStackInSlot(slot);
 						ItemStack stackPreviouslyEquipped = playerData.equipAccessory(parent.slot, stackToEquip);
 						player.inventory.setInventorySlotContents(slot, stackPreviouslyEquipped);

@@ -173,7 +173,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getStrength(boolean combined) {
-		return combined ? strength + boostStr : strength;
+		return combined ? strength + boostStr + Utils.getAccessoriesStat(this, "str") : strength;
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getMagic(boolean combined) {
-		return combined ? magic + boostMag : magic;
+		return combined ? magic + boostMag + Utils.getAccessoriesStat(this, "mag"): magic;
 	}
 
 	@Override
