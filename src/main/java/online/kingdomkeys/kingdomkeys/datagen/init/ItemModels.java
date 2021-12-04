@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ItemModels extends ItemModelProvider {
@@ -150,6 +152,18 @@ public class ItemModels extends ItemModelProvider {
 		standardItem(Strings.magicBoost);
 		standardItem(Strings.defenseBoost);
 		standardItem(Strings.apBoost);
+		
+		standardItem(Strings.abilityRing);
+		standardItem(Strings.aquamarineRing);
+		standardItem(Strings.cosmicArts);
+		standardItem(Strings.executiveRing);
+		standardItem(Strings.fullBloom);
+		standardItem(Strings.fullBloomPlus);
+		standardItem(Strings.shadowArchive);
+		standardItem(Strings.shadowArchivePlus);
+		standardItem(Strings.drawRing);
+		standardItem(Strings.starCharm);
+
     }
 
 	private void keychains() {

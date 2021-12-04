@@ -497,7 +497,18 @@ public class Strings {
         powerBoost = "powerboost",
         magicBoost = "magicboost",
         defenseBoost = "defenseboost",
-        apBoost = "apboost";
+        apBoost = "apboost",
+        
+        abilityRing = "ability_ring",
+        aquamarineRing = "aquamarine_ring",
+		cosmicArts = "cosmic_arts",
+		executiveRing = "executive_ring",
+		fullBloom = "full_bloom",
+		fullBloomPlus = "full_bloom_plus",
+		shadowArchive = "shadow_archive",
+		shadowArchivePlus = "shadow_archive_plus",
+		drawRing = "draw_ring",
+		starCharm = "star_charm";
     	
     
     // Music Discs

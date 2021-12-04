@@ -782,12 +782,19 @@ public class ModItems {
 			defenseBoost = createNewItem(Strings.defenseBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.defenseBoost)),
 			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.apBoost)),
 			
-			abilityRing = createNewItem("ability_ring", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 0, 0, null)),
-			aquamarineRing = createNewItem("aquamarine_ring", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 1, 0, null)),
-			cosmicArts = createNewItem("cosmic_arts", () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 7, 2, 2, new String[] {Strings.scan,Strings.treasureMagnet}));
-
-    				
-			//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
+			abilityRing = createNewItem(Strings.abilityRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 0, 0, null)),
+			aquamarineRing = createNewItem(Strings.aquamarineRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 1, 0, null)),
+			cosmicArts = createNewItem(Strings.cosmicArts, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 7, 2, 2, new String[] {Strings.scan,Strings.treasureMagnet})),
+			executiveRing = createNewItem(Strings.executiveRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 30, 0, 0, null)),
+			fullBloom = createNewItem(Strings.fullBloom, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 3, 0, null)),
+			fullBloomPlus = createNewItem(Strings.fullBloomPlus, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 3, 0, new String[] {Strings.mpHaste})),
+			shadowArchive = createNewItem(Strings.shadowArchive, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 0, 3, null)),
+			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 0, 3, new String[] {Strings.mpRage})),
+    		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 0, 0, 0, new String[] {Strings.treasureMagnet})),
+    		//luckyRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 0, 0, 0, new String[] {Strings.lucky}));
+    		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 2, 2, null));
+			
+    		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 	;
 
 

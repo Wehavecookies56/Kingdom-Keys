@@ -165,5 +165,7 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.magicBoost).output(Strings.magicBoost, 1).addCost(6000).addType("item").addMaterial(Strings.SM_MythrilGem, 1).addMaterial(Strings.SM_PulsingCrystal, 3).addMaterial(Strings.SM_WrithingCrystal, 3).addMaterial(Strings.SM_FrostCrystal, 3).addMaterial(Strings.SM_HungryCrystal, 1);
         getBuilder(Strings.defenseBoost).output(Strings.defenseBoost, 1).addCost(4000).addType("item").addMaterial(Strings.SM_MythrilCrystal, 1).addMaterial(Strings.SM_BlazingCrystal, 3).addMaterial(Strings.SM_LightningCrystal, 3).addMaterial(Strings.SM_LucidCrystal, 3);
         getBuilder(Strings.apBoost).output(Strings.apBoost, 1).addCost(4000).addType("item").addMaterial(Strings.SM_MythrilGem, 1).addMaterial(Strings.SM_PulsingCrystal, 3).addMaterial(Strings.SM_WrithingCrystal, 3).addMaterial(Strings.SM_FrostCrystal, 3);
+        
+        getBuilder(Strings.apBoost).output(Strings.apBoost, 1).addCost(4000).addType("item").addMaterial(Strings.SM_MythrilGem, 1).addMaterial(Strings.SM_PulsingCrystal, 3).addMaterial(Strings.SM_WrithingCrystal, 3).addMaterial(Strings.SM_FrostCrystal, 3);
     }
 }

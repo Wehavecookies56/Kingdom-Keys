@@ -174,6 +174,20 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
 				}
 				
+				if(!playerData.getKnownRecipeList().contains(ModItems.abilityRing.get().getRegistryName())){
+					playerData.addKnownRecipe(ModItems.abilityRing.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.aquamarineRing.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.cosmicArts.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.executiveRing.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.fullBloom.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.fullBloomPlus.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.shadowArchive.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.shadowArchivePlus.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.drawRing.get().getRegistryName());
+					playerData.addKnownRecipe(ModItems.starCharm.get().getRegistryName());
+				}
+				
+				
 				//Added for old world retrocompatibility
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.SYNCH_BLADE.toString())) { 
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
