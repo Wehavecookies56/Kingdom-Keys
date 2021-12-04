@@ -369,6 +369,8 @@ public class Strings {
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
             
+            Gui_Menu_Items_Equipment_Weapon_Keyblades = Gui_Menu_Items_Equipment_Weapon + ".keyblades",
+            
             Gui_Menu_Customize = Gui_Menu + ".customize",
 
             Gui_Menu_Party = Gui_Menu + ".party",

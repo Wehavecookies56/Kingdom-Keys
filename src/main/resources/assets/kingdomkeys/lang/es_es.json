@@ -308,7 +308,7 @@
 	"block.kingdomkeys.twilight_ore": "Mena Crepuscular",
 	"block.kingdomkeys.twilight_ore_n": "Mena Crepuscular",
 
-	"_comment": "Magics",
+	"_comment": "Magic",
 	"magic.magic_fire0.name": "Piro",
 	"magic.magic_fire1.name": "Piro+",
 	"magic.magic_fire2.name": "Piro++",
@@ -388,7 +388,17 @@
 	"potion.desc.beginning": "Restaurará %s%s de %s ",
 	"potion.desc.toall": "a todos los miembros del grupo en rango",
 	"potion.desc.toone": "al miembro del grupo elegido",
-
+	"item.kingdomkeys.ability_ring": "Anillo Diestro",
+	"item.kingdomkeys.aquamarine_ring": "Anillo de Aguamarina",
+	"item.kingdomkeys.cosmic_arts": "Arte Cósmica",
+	"item.kingdomkeys.full_bloom": "Plenaflor",
+	"item.kingdomkeys.full_bloom_plus": "Plenaflor+",
+	"item.kingdomkeys.shadow_archive": "Códice Tenebroso",
+	"item.kingdomkeys.shadow_archive_plus": "Códice Tenebroso+",
+	"item.kingdomkeys.draw_ring": "Anillo Magnético",
+	"item.kingdomkeys.executive_ring": "Anillo Supremo",
+	"item.kingdomkeys.star_charm": "Talismán estelar",
+	
 	"item.kingdomkeys.spellfire": "Hechizo de Piro",
 	"item.kingdomkeys.spellblizzard": "Hechizo de Hielo",
 	"item.kingdomkeys.spellwater": "Hechizo de Aqua",
@@ -480,6 +490,31 @@
 	"item.kingdomkeys.xemnas_chestplate": "Abrigo de Xemnas",
 	"item.kingdomkeys.xemnas_leggings": "Pantalones de Xemnas",
 	"item.kingdomkeys.xemnas_boots": "Botas de Xemnas",
+
+	"item.kingdomkeys.aced_helmet": "Capucha de Aced",
+	"item.kingdomkeys.aced_chestplate": "Abrigo de Aced",
+	"item.kingdomkeys.aced_leggings": "Pantalones de Aced",
+	"item.kingdomkeys.aced_boots": "Botas de Aced",
+	
+	"item.kingdomkeys.ava_helmet": "Capucha de Ava",
+	"item.kingdomkeys.ava_chestplate": "Abrigo de Ava",
+	"item.kingdomkeys.ava_leggings": "Pantalones de Ava",
+	"item.kingdomkeys.ava_boots": "Botas de Ava",
+	
+	"item.kingdomkeys.gula_helmet": "Capucha de Gula",
+	"item.kingdomkeys.gula_chestplate": "Abrigo de Gula",
+	"item.kingdomkeys.gula_leggings": "Pantalones de Gula",
+	"item.kingdomkeys.gula_boots": "Botas de Gula",
+	
+	"item.kingdomkeys.invi_helmet": "Capucha de Invi",
+	"item.kingdomkeys.invi_chestplate": "Abrigo de Invi",
+	"item.kingdomkeys.invi_leggings": "Pantalones de Invi",
+	"item.kingdomkeys.invi_boots": "Botas de Invi",
+	
+	"item.kingdomkeys.ira_helmet": "Capucha de Ira",
+	"item.kingdomkeys.ira_chestplate": "Abrigo de Ira",
+	"item.kingdomkeys.ira_leggings": "Pantalones de Ira",
+	"item.kingdomkeys.ira_boots": "Botas de Ira",
 
 	"_comment": "Materials",
 	"item.kingdomkeys.blazing_shard": "Guijarro Ígneo",

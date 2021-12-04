@@ -112,7 +112,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 				RenderSystem.color3f(0.4F, 0, 0);
 				break;
 			case ACCESSORY:
-				RenderSystem.color3f(0F, 0.6F, 1F);
+				RenderSystem.color3f(0F, 0.5F, 0.7F);
 			}
 		}
 	}

@@ -783,8 +783,8 @@ public class ModItems {
 			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties().group(KingdomKeys.miscGroup), Strings.apBoost)),
 			
 			abilityRing = createNewItem(Strings.abilityRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 0, 0, null)),
-			aquamarineRing = createNewItem(Strings.aquamarineRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 1, 1, 0, null)),
-			cosmicArts = createNewItem(Strings.cosmicArts, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 7, 2, 2, new String[] {Strings.scan,Strings.treasureMagnet})),
+			aquamarineRing = createNewItem(Strings.aquamarineRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 3, 1, 0, null)),
+			cosmicArts = createNewItem(Strings.cosmicArts, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 7, 2, 2, null)),
 			executiveRing = createNewItem(Strings.executiveRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 30, 0, 0, null)),
 			fullBloom = createNewItem(Strings.fullBloom, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 3, 0, null)),
 			fullBloomPlus = createNewItem(Strings.fullBloomPlus, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 3, 0, new String[] {Strings.mpHaste})),

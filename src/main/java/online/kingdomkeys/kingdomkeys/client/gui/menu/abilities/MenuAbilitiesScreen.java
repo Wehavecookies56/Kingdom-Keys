@@ -34,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class MenuAbilitiesScreen extends MenuBackground {
 	String form = DriveForm.NONE.toString();
@@ -155,7 +156,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 			
 			//Main keyblade
-			if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
+			if(playerData.getAlignment() == OrgMember.NONE && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
 				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
 				for(String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));

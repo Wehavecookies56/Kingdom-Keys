@@ -2693,7 +2693,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("The Keyblade Ventus started out with. What it lacks in reach it makes up for with a slight boost in Strength.");
 	
-	getBuilder(Strings.winnersProof).keychain(Strings.winnersProofChain).baseStats(10, 12).ability("").reach(5.0F)
+	getBuilder(Strings.winnersProof).keychain(Strings.winnersProofChain).baseStats(10, 12).ability(Strings.zeroExp).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(10, 13).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(11, 13).withMaterials(new Recipe()

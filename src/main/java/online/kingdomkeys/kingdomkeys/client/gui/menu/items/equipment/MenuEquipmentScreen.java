@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class MenuEquipmentScreen extends MenuBackground {
 
@@ -72,25 +73,24 @@ public class MenuEquipmentScreen extends MenuBackground {
         float itemsX = width * 0.31F;
         float itemsY = height * 0.1907F;
 
-        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
-
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+
+        addButton(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
+
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
         Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
 
-
         AtomicInteger offset = new AtomicInteger();
         AtomicInteger hidden = new AtomicInteger(0);
-        
         
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
             MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x555555, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xAAAAAA);            
             totalButtons.add(orgWeaponSlot);
             addButton(orgWeaponSlot);
 
-            addButton(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY + 20, (int)45, new TranslationTextComponent("Keychains").getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; init();}));
+            addButton(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, new TranslationTextComponent(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; scrollOffset = 0; init();}));
             
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getAlignment() == Utils.OrgMember.ROXAS)) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);

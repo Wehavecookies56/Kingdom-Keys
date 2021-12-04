@@ -1,0 +1,30 @@
+{
+  "cost": 2600,
+  "output": {
+    "item": "kingdomkeys:shadow_archive_plus",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_remembrance_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lost_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_electrum",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_manifest_illusion",
+      "quantity": "1"
+    }
+  ]
+}

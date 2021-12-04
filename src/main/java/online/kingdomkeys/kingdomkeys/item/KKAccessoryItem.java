@@ -9,13 +9,18 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKAccessoryItem extends Item implements IItemCategory {
 	
@@ -35,11 +40,22 @@ public class KKAccessoryItem extends Item implements IItemCategory {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-    	//String sType = Utils.translateToLocal("potion.desc."+type.toString().toLowerCase());
-    	//String beginning = Utils.translateToLocal("potion.desc.beginning", (int)amount, percentage ? "%":"", sType);
-    	//String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
-		//tooltip.add(new TranslationTextComponent(beginning + end));
-    	//tooltip.add(new TranslationTextComponent(this.toString()));
+    	if(getAp() != 0) {
+    		tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+getAp()));
+    	}
+    	if(getStr() != 0) {
+    		tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+getStr()));
+    	}
+    	if(getMag() != 0) {
+    		tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+getMag()));
+    	}
+    	if(getAbilities().size() > 0) {
+			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
+    		for(String a : getAbilities()) {
+    			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+    			tooltip.add(new TranslationTextComponent("- "+Utils.translateToLocal(ability.getTranslationKey())));
+    		}
+    	}
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
     

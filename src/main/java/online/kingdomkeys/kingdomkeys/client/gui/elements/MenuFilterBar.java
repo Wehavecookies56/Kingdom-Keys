@@ -24,10 +24,10 @@ public class MenuFilterBar {
 
     MenuFilterable parent;
 
-    public MenuFilterButton all, consumable, tool, building, equipment, misc;
+    public MenuFilterButton all, consumable, tool, building, equipment, accessories, misc;
     public List<Button> buttons = new ArrayList<>();
 
-    int x, y, startX, allX, consumableX, toolX, buildingX, equipmentX, miscX, endX;
+    int x, y, startX, allX, consumableX, toolX, buildingX, equipmentX, accessoriesX, miscX, endX;
 
     public MenuFilterBar(int x, int y, MenuFilterable parent) {
         this.x = x;
@@ -38,7 +38,8 @@ public class MenuFilterBar {
         toolX = consumableX + buttonWidth;
         buildingX = toolX + buttonWidth;
         equipmentX = buildingX + buttonWidth;
-        miscX = equipmentX + buttonWidth;
+        accessoriesX = equipmentX + buttonWidth;
+        miscX = accessoriesX + buttonWidth;
         endX = miscX + buttonWidth;
         this.parent = parent;
     }
@@ -54,6 +55,7 @@ public class MenuFilterBar {
         buttons.add(tool = new MenuFilterButton(this, toolX, y, ItemCategory.TOOL));
         buttons.add(building = new MenuFilterButton(this, buildingX, y, ItemCategory.BUILDING));
         buttons.add(equipment = new MenuFilterButton(this, equipmentX, y, ItemCategory.EQUIPMENT));
+        buttons.add(accessories = new MenuFilterButton(this, accessoriesX, y, ItemCategory.ACCESSORIES));
         buttons.add(misc = new MenuFilterButton(this, miscX, y, ItemCategory.MISC));
     }
 

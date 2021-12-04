@@ -54,6 +54,7 @@
 	"gui.menu.items.stock": "Stock",
 	"gui.menu.items.stock.desc": "Check your inventory.",
 	"gui.menu.items.equipment.weapon": "Weapon",
+	"gui.menu.items.equipment.weapon.keyblades": "Keyblades",
 	"gui.menu.items.equipment.shotlock": "Shotlock",
 	"gui.menu.items.equipment.items": "Items",
 	"gui.menu.customize": "Customize",
@@ -150,7 +151,7 @@
 	"gui.proofofheart.leftorg": "You have left the Organization XIII",
 	"gui.proofofheart.unequip": "First unequip your Organization XIII armor",
 
-	"gui.org.line1": "By donning the Dark Robe you are now a member of Organization XIII.",																							   
+	"gui.org.line1": "By donning the Dark Robe you are now a member of Organization XIII.",
 	"gui.org.line2": "Choose a member of Organization XIII you align with.",
 	"gui.org.line3": "Your choice will determine the weapon you start with.",
 	"gui.org.line4": "You wish to align with %1$s?",
@@ -388,6 +389,17 @@
 	"potion.desc.beginning": "Will restore %s%s %s ",
 	"potion.desc.toall": "to all your party members in range",
 	"potion.desc.toone": "to the chosen party member",
+	
+	"item.kingdomkeys.ability_ring": "Ability Ring",
+	"item.kingdomkeys.aquamarine_ring": "Aquamarine Ring",
+	"item.kingdomkeys.cosmic_arts": "Cosmic Arts",
+	"item.kingdomkeys.full_bloom": "Full Bloom",
+	"item.kingdomkeys.full_bloom_plus": "Full Bloom+",
+	"item.kingdomkeys.shadow_archive": "Shadow Archive",
+	"item.kingdomkeys.shadow_archive_plus": "Shadow Archive+",
+	"item.kingdomkeys.draw_ring": "Draw Ring",
+	"item.kingdomkeys.executive_ring": "Executive Ring",
+	"item.kingdomkeys.star_charm": "Star Charm",
 
 	"item.kingdomkeys.spellfire": "Fire Spell",
 	"item.kingdomkeys.spellblizzard": "Blizzard Spell",
@@ -480,6 +492,31 @@
 	"item.kingdomkeys.xemnas_chestplate": "Xemnas Coat",
 	"item.kingdomkeys.xemnas_leggings": "Xemnas Leggings",
 	"item.kingdomkeys.xemnas_boots": "Xemnas Boots",
+	
+	"item.kingdomkeys.aced_helmet": "Aced Hood",
+	"item.kingdomkeys.aced_chestplate": "Aced Coat",
+	"item.kingdomkeys.aced_leggings": "Aced Leggings",
+	"item.kingdomkeys.aced_boots": "Aced Boots",
+	
+	"item.kingdomkeys.ava_helmet": "Ava Hood",
+	"item.kingdomkeys.ava_chestplate": "Ava Coat",
+	"item.kingdomkeys.ava_leggings": "Ava Leggings",
+	"item.kingdomkeys.ava_boots": "Ava Boots",
+	
+	"item.kingdomkeys.gula_helmet": "Gula Hood",
+	"item.kingdomkeys.gula_chestplate": "Gula Coat",
+	"item.kingdomkeys.gula_leggings": "Gula Leggings",
+	"item.kingdomkeys.gula_boots": "Gula Boots",
+	
+	"item.kingdomkeys.invi_helmet": "Invi Hood",
+	"item.kingdomkeys.invi_chestplate": "Invi Coat",
+	"item.kingdomkeys.invi_leggings": "Invi Leggings",
+	"item.kingdomkeys.invi_boots": "Invi Boots",
+	
+	"item.kingdomkeys.ira_helmet": "Ira Hood",
+	"item.kingdomkeys.ira_chestplate": "Ira Coat",
+	"item.kingdomkeys.ira_leggings": "Ira Leggings",
+	"item.kingdomkeys.ira_boots": "Ira Boots",
 
 	"_comment": "Materials",
 	"item.kingdomkeys.blazing_shard": "Blazing Shard",
