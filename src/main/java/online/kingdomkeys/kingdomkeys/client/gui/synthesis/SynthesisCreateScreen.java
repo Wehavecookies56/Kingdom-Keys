@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -244,39 +245,62 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		}
 		RenderSystem.popMatrix();
 
-		if (selected.getItem() != null && selected.getItem() instanceof KeybladeItem) {
-			KeybladeItem kb = (KeybladeItem) selected.getItem();
-
-			matrixStack.push();
-			{
-				String text = Utils.translateToLocal(selected.getTranslationKey());
-				drawString(matrixStack, minecraft.fontRenderer, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-				Utils.drawSplitString(font, kb.getDescription(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.fontRenderer.FONT_HEIGHT, (int) (width * 0.6F), 0xFFFFFF);
+		if (selected.getItem() != null && selected.getItem() instanceof KeybladeItem || selected.getItem() instanceof KKAccessoryItem) {
+			String desc = "";
+			String ability = "";
+			int str=0, mag=0, ap = 0;
+			if(selected.getItem() instanceof KeybladeItem) {
+				KeybladeItem kb = (KeybladeItem) selected.getItem();
+	
+				desc = kb.getDescription();
+				ability = kb.data.getLevelAbility(0);
+				str= kb.getStrength(0);
+				mag = kb.getMagic(0);
+			} else if(selected.getItem() instanceof KKAccessoryItem) {
+				KKAccessoryItem accessory = (KKAccessoryItem) selected.getItem();
+				ability = accessory.getAbilities().size()> 0 ? accessory.getAbilities().get(0) : null;
+				str= accessory.getStr();
+				mag = accessory.getMag();
+				ap = accessory.getAp();
 			}
-			matrixStack.pop();
 			
+				
 			matrixStack.push();
 			{
 				matrixStack.translate(boxM.x+20, height*0.58, 1);
 				
 				int offset = 0;
-				String nextAbility = kb.data.getLevelAbility(0);
-				if(nextAbility != null) {
-					String abilityHeader = Utils.translateToLocal(Strings.Gui_Menu_Status_Ability)+":";
-					drawString(matrixStack, minecraft.fontRenderer, abilityHeader, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityHeader)/2), 0, 0xFFFF44);
+				if(ability != null) {
+					//String abilityHeader = Utils.translateToLocal(Strings.Gui_Menu_Status_Ability)+":";
+					//drawString(matrixStack, minecraft.fontRenderer, abilityHeader, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityHeader)/2), 0, 0xFFFF44);
 
-					Ability a = ModAbilities.registry.getValue(new ResourceLocation(nextAbility));
+					Ability a = ModAbilities.registry.getValue(new ResourceLocation(ability));
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
-						drawString(matrixStack, minecraft.fontRenderer, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityName)/2), 10, 0x44FF44);
-						offset = -20;
+						drawString(matrixStack, minecraft.fontRenderer, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityName)/2), 10, 0xFFAA44);
+						offset = -10;
 					}
 				}
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), 0, offset, 0xFF0000);
-				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0), 0, offset+10, 0x4444FF);
+				if(str != 0)
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+str, 0, offset, 0xFF0000);
+				if(mag != 0)
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag, 0, offset+10, 0x4444FF);
+				if(ap != 0)
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag, 0, offset+10, 0x4444FF);
 
 			}
 			matrixStack.pop();
+			
+			if(!desc.equals("")) {
+				matrixStack.push();
+				{
+					String text = Utils.translateToLocal(selected.getTranslationKey());
+					drawString(matrixStack, minecraft.fontRenderer, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
+					Utils.drawSplitString(font, desc, (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.fontRenderer.FONT_HEIGHT, (int) (width * 0.6F), 0xFFFFFF);
+				}
+				matrixStack.pop();
+			}
+			
 		}
 
 		//Materials
