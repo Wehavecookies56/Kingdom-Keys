@@ -174,7 +174,7 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
 				}
 				
-				if(!playerData.getKnownRecipeList().contains(ModItems.abilityRing.get().getRegistryName())){
+				/*if(!playerData.getKnownRecipeList().contains(ModItems.abilityRing.get().getRegistryName())){
 					playerData.addKnownRecipe(ModItems.abilityRing.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.aquamarineRing.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.cosmicArts.get().getRegistryName());
@@ -185,7 +185,7 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.shadowArchivePlus.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.drawRing.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.starCharm.get().getRegistryName());
-				}
+				}*/
 				
 				
 				//Added for old world retrocompatibility

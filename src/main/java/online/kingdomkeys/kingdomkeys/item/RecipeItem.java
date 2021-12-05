@@ -68,55 +68,82 @@ public class RecipeItem extends Item implements IItemCategory {
 					if (consume) {
 						player.getHeldItemMainhand().shrink(1);
 					} else {
-						shuffleRecipes(stack, player);
+						shuffleRecipes(stack, player, stack.getTag().getString("type"));
 					}
-				} else {
-					player.sendStatusMessage(new TranslationTextComponent("Opened recipe"), true);
-					shuffleRecipes(stack, (PlayerEntity) player);
+				} else {					
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade");
+					List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item");
+					
+					List<String> types = new ArrayList<String>();
+					types.add("keyblade");
+					types.add("item");
+					if(missingKeyblades.size() == 0) {
+						types.remove("keyblade");
+					}
+					if(missingItems.size() == 0) {
+						types.remove("item");
+					}
+					
+					String type = "";
+					if(types.size() > 1) {
+						int num = world.rand.nextInt(types.size());
+						type = types.get(num);
+					} else {
+						type = types.get(0);
+					}
+					
+					player.sendStatusMessage(new TranslationTextComponent("Opened "+type+" recipe"), true);
+
+					
+					shuffleRecipes(stack, (PlayerEntity) player, type);
 				}
 			}
 		}
 		return super.onItemRightClick(world, player, hand);
 	}
 
-	public void shuffleRecipes(ItemStack stack, PlayerEntity player) {
+	public void shuffleRecipes(ItemStack stack, PlayerEntity player, String type) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 		ResourceLocation recipe1=null, recipe2=null, recipe3=null;
 		
-		List<ResourceLocation> list = new ArrayList<ResourceLocation>();
-		for(Recipe r : RecipeRegistry.getInstance().getValues()) {
-			if(!playerData.hasKnownRecipe(r.getRegistryName())) {
-				if(r.getType().equals("keyblade")) {
-					list.add(r.getRegistryName());
-				}
+		List<ResourceLocation> list;
+		switch(type) {
+		case "keyblade":
+			list = getMissingRecipes(playerData, "keyblade");
+			
+			if(list.size() == 0)
+				return;
+			
+			if(list.size() > 0) {
+				recipe1 = list.get(Utils.randomWithRange(0, list.size() - 1));
 			}
-		}
-		
-		
-		
+			
+			if(list.size() > 1) {
+				do {
+					recipe2 = list.get(Utils.randomWithRange(0, list.size() - 1));
+				} while(recipe2 == recipe1);
+			}
+			
+			if(list.size() > 2) {
+				do {
+					recipe3 = list.get(Utils.randomWithRange(0, list.size() - 1));
+				} while(recipe3 == recipe1 || recipe3 == recipe2);
 
-		if(list.size() == 0)
-			return;
-		
-		if(list.size() > 0) {
-			recipe1 = list.get(Utils.randomWithRange(0, list.size() - 1));
-		}
-		
-		if(list.size() > 1) {
-			do {
-				recipe2 = list.get(Utils.randomWithRange(0, list.size() - 1));
-			} while(recipe2 == recipe1);
-		}
-		
-		if(list.size() > 2) {
-			do {
-				recipe3 = list.get(Utils.randomWithRange(0, list.size() - 1));
-			} while(recipe3 == recipe1 || recipe3 == recipe2);
+			}
 
+			break;
+		case "item":
+			list = getMissingRecipes(playerData, "item");
+			if(list.size() > 0) {
+				recipe1 = list.get(Utils.randomWithRange(0, list.size() - 1));
+			}
+			break;
 		}
-
+		
 		stack.setTag(new CompoundNBT());
+		stack.getTag().putString("type", type);
 		if(recipe1 != null)
 			stack.getTag().putString("recipe1", recipe1.toString());
 		if(recipe2 != null)
@@ -125,12 +152,16 @@ public class RecipeItem extends Item implements IItemCategory {
 			stack.getTag().putString("recipe3", recipe3.toString());
 	}
 
-	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		/*if (!stack.hasTag()) {
-			shuffleRecipes(stack, (PlayerEntity) entityIn);
-		}*/
-		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+	private List<ResourceLocation> getMissingRecipes(IPlayerCapabilities playerData, String type) {
+		List<ResourceLocation> list = new ArrayList<ResourceLocation>();
+			for(Recipe r : RecipeRegistry.getInstance().getValues()) {
+				if(!playerData.hasKnownRecipe(r.getRegistryName())) {
+					if(r.getType().equals(type)) {
+						list.add(r.getRegistryName());
+					}
+				}
+			}
+		return list;
 	}
 
 	@Override
