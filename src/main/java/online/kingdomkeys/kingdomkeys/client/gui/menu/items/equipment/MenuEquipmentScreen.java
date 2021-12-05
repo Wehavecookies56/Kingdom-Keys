@@ -103,7 +103,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         
         //Slot main keyblade
         if (keychains.get(DriveForm.NONE) != null) {
-            MenuEquipmentButton firstSlot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
+            MenuEquipmentButton firstSlot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
             addButton(firstSlot);
             
             if(showingKeyblades)
@@ -115,7 +115,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             
             //Synch blade
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.getEquippedAbilityLevel(Strings.synchBlade)[1] > 0 && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
             	totalButtons.add(sbSlot);
                 addButton(sbSlot);
 
@@ -129,7 +129,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
             if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
-            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x003231, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x032F3C), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x069293);
+            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x00BBBB);
                 addButton(button);
 
                 hidden.getAndIncrement();

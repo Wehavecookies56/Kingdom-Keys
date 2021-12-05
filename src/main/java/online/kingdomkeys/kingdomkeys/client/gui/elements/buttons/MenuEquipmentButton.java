@@ -120,7 +120,7 @@ public class MenuEquipmentButton extends Button {
                 RenderSystem.enableBlend();
                 
                 RenderHelper.disableStandardItemLighting();
-                RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+                RenderSystem.color4f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
                 matrixStack.translate(x + 0.6F, y, 0);
                 matrixStack.scale(0.5F, 0.5F, 1);
                 //Gradient Background
@@ -334,7 +334,7 @@ public class MenuEquipmentButton extends Button {
                 {
                     
                     RenderHelper.disableStandardItemLighting();
-                    RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+                    RenderSystem.color4f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
                     matrixStack.translate(x - labelWidth, y, 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
 

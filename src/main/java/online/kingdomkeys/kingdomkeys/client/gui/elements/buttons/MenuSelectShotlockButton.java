@@ -69,7 +69,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			matrixStack.push();
 			RenderSystem.enableBlend();
 			
-			RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+			RenderSystem.color4f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
@@ -112,7 +112,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			{
 				RenderSystem.enableBlend();
 				//RenderSystem.enableAlpha();
-				RenderSystem.color4f(col.getRed() / 128F, col.getGreen() / 128F, col.getBlue() / 128F, 1);
+				RenderSystem.color4f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 				matrixStack.translate(x + width + 14F, y, 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				
