@@ -154,7 +154,11 @@ public class CommandMenuGui extends Screen {
 						double cost = magic.getCost(Integer.parseInt(data[1]), minecraft.player);
 						int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 						
-						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) {
+						if(playerData.isAbilityEquipped(Strings.extraCast) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
+							colour = 0xFFFFFF;
+						}
+						
+						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCooldownTicks() > 0) {
 							colour = 0x888888;
 						}
 
@@ -484,10 +488,15 @@ public class CommandMenuGui extends Screen {
 					int[] mag = playerData.getMagicsMap().get(magic);
 					double cost = magicInstance.getCost(mag[0], minecraft.player);
 					int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
+										
+					if(playerData.isAbilityEquipped(Strings.extraCast) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
+						colour = 0xFFFFFF;
+					}
 					
-					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
+					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || playerData.getMagicCooldownTicks() > 0) {
 						colour = 0x888888;
 					}
+					
 					magic = magicInstance.getTranslationKey(magicLevel);
 					
 					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(magic), textX, 4, getColor(colour, SUB_MAGIC));

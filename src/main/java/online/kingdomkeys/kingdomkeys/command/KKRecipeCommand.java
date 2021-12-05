@@ -48,7 +48,17 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 				.then(Commands.literal("all")
 						.then(Commands.argument("targets", EntityArgument.players())
 								.executes(KKRecipeCommand::addAllRecipes))
-						.executes(KKRecipeCommand::addAllRecipes)));
+						.executes(KKRecipeCommand::addAllRecipes))
+				.then(Commands.literal("keyblades")
+						.then(Commands.argument("targets", EntityArgument.players())
+								.executes(KKRecipeCommand::addAllKeybladeRecipes))
+						.executes(KKRecipeCommand::addAllKeybladeRecipes))
+				.then(Commands.literal("items")
+						.then(Commands.argument("targets", EntityArgument.players())
+								.executes(KKRecipeCommand::addAllItemRecipes))
+						.executes(KKRecipeCommand::addAllItemRecipes))
+				);
+			
 
 		builder.then(Commands.literal("take")
 				.then(Commands.argument("recipe", StringArgumentType.string())
@@ -60,6 +70,14 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 						.then(Commands.argument("targets", EntityArgument.players())
 								.executes(KKRecipeCommand::removeAllRecipes))
 						.executes(KKRecipeCommand::removeAllRecipes))
+				.then(Commands.literal("keyblades")
+						.then(Commands.argument("targets", EntityArgument.players())
+								.executes(KKRecipeCommand::removeAllKeybladeRecipes))
+						.executes(KKRecipeCommand::removeAllKeybladeRecipes))
+				.then(Commands.literal("items")
+						.then(Commands.argument("targets", EntityArgument.players())
+								.executes(KKRecipeCommand::removeAllItemRecipes))
+						.executes(KKRecipeCommand::removeAllItemRecipes))
 
 		);
 
@@ -116,18 +134,91 @@ public class KKRecipeCommand extends BaseCommand { /// kk_recipe <give/take> <re
 		}
 		return 1;
 	}
+	
+	private static int addAllKeybladeRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
+		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
+
+		for (ServerPlayerEntity player : players) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
+				if(actual.getType().equals("keyblade"))
+					playerData.addKnownRecipe(actual.getRegistryName());
+			}
+
+			if (player != context.getSource().asPlayer()) {
+				context.getSource().sendFeedback(new TranslationTextComponent("Added all keyblade recipes to " + player.getDisplayName().getString()), true);
+			}
+			player.sendMessage(new TranslationTextComponent("You have been given all the keyblade recipes"),Util.DUMMY_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+		}
+		return 1;
+	}
+
+	
+	private static int addAllItemRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
+		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
+
+		for (ServerPlayerEntity player : players) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
+				if(actual.getType().equals("item"))
+					playerData.addKnownRecipe(actual.getRegistryName());
+			}
+
+			if (player != context.getSource().asPlayer()) {
+				context.getSource().sendFeedback(new TranslationTextComponent("Added all item recipes to " + player.getDisplayName().getString()), true);
+			}
+			player.sendMessage(new TranslationTextComponent("You have been given all the item recipes"),Util.DUMMY_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+		}
+		return 1;
+	}
+
 
 	private static int removeAllRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
 		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
 
 		for (ServerPlayerEntity player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.clearRecipes();
+			playerData.clearRecipes("all");
 
 			if (player != context.getSource().asPlayer()) {
 				context.getSource().sendFeedback(new TranslationTextComponent("Removed all recipes from " + player.getDisplayName().getString()), true);
 			}
 			player.sendMessage(new TranslationTextComponent("Your recipes have been taken away"),Util.DUMMY_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+		}
+		return 1;
+	}
+	
+	private static int removeAllKeybladeRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
+		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
+
+		for (ServerPlayerEntity player : players) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			
+			playerData.clearRecipes("keyblade");
+
+			if (player != context.getSource().asPlayer()) {
+				context.getSource().sendFeedback(new TranslationTextComponent("Removed all keyblade recipes from " + player.getDisplayName().getString()), true);
+			}
+			player.sendMessage(new TranslationTextComponent("Your keyblade recipes have been taken away"),Util.DUMMY_UUID);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+		}
+		return 1;
+	}
+	
+	private static int removeAllItemRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
+		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
+
+		for (ServerPlayerEntity player : players) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			playerData.clearRecipes("item");
+
+			if (player != context.getSource().asPlayer()) {
+				context.getSource().sendFeedback(new TranslationTextComponent("Removed all item recipes from " + player.getDisplayName().getString()), true);
+			}
+			player.sendMessage(new TranslationTextComponent("Your item recipes have been taken away"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;

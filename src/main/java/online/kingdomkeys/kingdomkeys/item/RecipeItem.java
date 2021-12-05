@@ -89,8 +89,10 @@ public class RecipeItem extends Item implements IItemCategory {
 					if(types.size() > 1) {
 						int num = world.rand.nextInt(types.size());
 						type = types.get(num);
-					} else {
+					} else if(types.size() == 1){
 						type = types.get(0);
+					} else {
+						return super.onItemRightClick(world, player, hand);
 					}
 					
 					player.sendStatusMessage(new TranslationTextComponent("Opened "+type+" recipe"), true);

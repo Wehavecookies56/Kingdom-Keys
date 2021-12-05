@@ -68,6 +68,7 @@ public class ModAbilities {
 				createAbility(Strings.treasureMagnet, 3, AbilityType.SUPPORT),
 				createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
 				createAbility(Strings.wizardsRuse, 4, AbilityType.SUPPORT),
+				createAbility(Strings.extraCast, 3, AbilityType.SUPPORT),
 				createAbility(Strings.damageControl, 5, AbilityType.SUPPORT),
 				createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
 				createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT)

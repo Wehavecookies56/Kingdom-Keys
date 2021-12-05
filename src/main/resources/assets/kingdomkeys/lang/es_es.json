@@ -252,6 +252,8 @@
 	"ability.ability_full_mp_blast.desc": "Cuando tengas todos tus PM, se aumenta el poder de la primera habilidad mágica que uses en un 50%. Cuantas más activas, mayor efecto.",
 	"ability.ability_wizards_ruse.name": "Ardid de Hechicero",
 	"ability.ability_wizards_ruse.desc": "Permite recuperar VT proporcional a los PM que consumes. Cuantas más activas, más posibilidades de que ocurra.",
+	"ability.ability_extra_cast.name": "Un hechizo más",
+	"ability.ability_extra_cast.desc": "Permite usar una última magia antes de quedarte sin PM.",
 	"ability.ability_mp_thrift.name": "Ahorrar PM",
 	"ability.ability_mp_thrift.desc": "Reduce el coste mágico en un 20%. Cuantas más activas, mayor efecto.",
 	"ability.ability_critical_boost.name": "Extracríticos",

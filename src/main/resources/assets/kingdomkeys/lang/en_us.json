@@ -253,6 +253,8 @@
 	"ability.ability_full_mp_blast.desc": "When your MP is full, increase the power of your first magical ability by 50%. Stack the ability to increase the effect.",
 	"ability.ability_wizards_ruse.name": "Wizard's Ruse",
 	"ability.ability_wizards_ruse.desc": "Potentially recover HP proportionate to the MP you should expend. Stack the ability to increase the odds.",
+	"ability.ability_extra_cast.name": "Extra Cast",
+	"ability.ability_extra_cast.desc": "Allows the use of one last spell before running out of MP.",
 	"ability.ability_mp_thrift.name": "MP Thrift",
 	"ability.ability_mp_thrift.desc": "Decrease MP cost by 20%. Stack the ability to increaase the effect.",
 	"ability.ability_critical_boost.name": "Critical Boost",

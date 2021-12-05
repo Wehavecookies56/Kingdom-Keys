@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,8 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
@@ -555,8 +558,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void remMP(double amount) {
-		// TODO CHEAT MODE
-		this.mp = Math.max(this.mp - amount, 0);
+		if(isAbilityEquipped(Strings.extraCast)) {
+			if(amount >= this.maxMP) {
+				this.mp = Math.max(this.mp - amount, 0);
+			} else {
+				if(this.mp > 1 && this.mp - amount < 1) {
+					this.mp = 1;
+				}else {
+					this.mp = Math.max(this.mp - amount, 0);
+				}
+			}
+		} else {
+			this.mp = Math.max(this.mp - amount, 0);
+		}
 	}
 
 	@Override
@@ -1320,8 +1334,34 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
-	public void clearRecipes() {
-		this.recipeList.clear();
+	public void clearRecipes(String type) {
+		switch(type) {
+		case "all":
+			this.recipeList.clear();
+			break;
+		case "keyblade":
+			List<ResourceLocation> list = new ArrayList<ResourceLocation>();
+			for(ResourceLocation rl : recipeList) {
+				Recipe r = RecipeRegistry.getInstance().getValue(rl);
+				if(r.getType().equals("keyblade")) {
+					list.add(rl);
+				}
+			}
+			recipeList.removeAll(list);
+			break;
+			
+		case "item":
+			List<ResourceLocation> list2 = new ArrayList<ResourceLocation>();
+			for(ResourceLocation rl : recipeList) {
+				Recipe r = RecipeRegistry.getInstance().getValue(rl);
+				if(r.getType().equals("item")) {
+					list2.add(rl);
+				}
+			}
+			recipeList.removeAll(list2);
+			break;
+		}
+		
 	}
 	
 	 @Override

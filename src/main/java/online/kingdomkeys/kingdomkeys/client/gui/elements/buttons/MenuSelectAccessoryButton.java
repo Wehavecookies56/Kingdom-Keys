@@ -66,7 +66,6 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 		            	newItemAP = ((KKAccessoryItem)player.inventory.getStackInSlot(slot).getItem()).getAp();
 		            }
 
-		            System.out.println(Utils.getConsumedAP(playerData)+" "+oldItemAP+" : "+playerData.getMaxAP(true)+" "+newItemAP);
 		            if(playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) { 
 						ItemStack stackToEquip = player.inventory.getStackInSlot(slot);
 						ItemStack stackPreviouslyEquipped = playerData.equipAccessory(parent.slot, stackToEquip);

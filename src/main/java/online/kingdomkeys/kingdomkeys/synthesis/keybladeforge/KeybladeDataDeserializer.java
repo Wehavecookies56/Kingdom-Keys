@@ -119,9 +119,8 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 								String name = levelElement.getAsString();
 								if(ModAbilities.registry.containsKey(new ResourceLocation(name))) {
 									level.setAbility(levelElement.getAsString());
-									System.out.println("Added ability "+name+" for level "+level);
 								} else {
-									System.out.println("WTF");
+									System.out.println("Ability "+name+" does not exist");
 								}
 								break;
 							}

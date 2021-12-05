@@ -190,7 +190,10 @@
    },
    "38":{
       "mag":1,
-      "def":1
+      "def":1,
+	  "abilities":[
+         "kingdomkeys:ability_extra_cast"
+      ]
    },
    "39":{
       "str":1,

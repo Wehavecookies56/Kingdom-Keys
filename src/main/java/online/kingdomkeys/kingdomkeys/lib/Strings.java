@@ -103,6 +103,7 @@ public class Strings {
     		treasureMagnet =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"treasure_magnet",
     		secondChance =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"second_chance",
     		wizardsRuse =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"wizards_ruse",
+    		extraCast =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"extra_cast",
     		damageControl =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"damage_control",
     		lightAndDarkness =  KingdomKeys.MODID+":"+Strings.AB_Prefix +"light_and_darkness",
     		synchBlade = KingdomKeys.MODID+":"+Strings.AB_Prefix +"synch_blade",

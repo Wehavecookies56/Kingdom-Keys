@@ -213,7 +213,7 @@ public interface IPlayerCapabilities {
     void setKnownRecipeList(List<ResourceLocation> list);
 	void addKnownRecipe(ResourceLocation recipe);
 	void removeKnownRecipe(ResourceLocation recipe);
-	void clearRecipes();
+	void clearRecipes(String type);
 	
 	TreeMap<String, Integer> getMaterialMap();
 	void setMaterialMap(TreeMap<String, Integer> materialsMap);

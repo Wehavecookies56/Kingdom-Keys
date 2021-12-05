@@ -251,15 +251,15 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			int str=0, mag=0, ap = 0;
 			if(selected.getItem() instanceof KeybladeItem) {
 				KeybladeItem kb = (KeybladeItem) selected.getItem();
-	
 				desc = kb.getDescription();
 				ability = kb.data.getLevelAbility(0);
 				str= kb.getStrength(0);
 				mag = kb.getMagic(0);
+				
 			} else if(selected.getItem() instanceof KKAccessoryItem) {
 				KKAccessoryItem accessory = (KKAccessoryItem) selected.getItem();
-				ability = accessory.getAbilities().size()> 0 ? accessory.getAbilities().get(0) : null;
-				str= accessory.getStr();
+				ability = accessory.getAbilities().size() > 0 ? accessory.getAbilities().get(0) : null;
+				str = accessory.getStr();
 				mag = accessory.getMag();
 				ap = accessory.getAp();
 			}
