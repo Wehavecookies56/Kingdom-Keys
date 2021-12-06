@@ -1,0 +1,176 @@
+{
+  "ability": "",
+  "reach": 5.0,
+  "keychain": "kingdomkeys:wayward_wind_chain",
+  "base_stats": {
+    "str": 3,
+    "mag": 1
+  },
+  "levels": [
+    {
+      "str": 3,
+      "mag": 2,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 4,
+      "mag": 2,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 4,
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 5,
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 5,
+      "mag": 4,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "str": 6,
+      "mag": 4,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "str": 6,
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_writhing_gem",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 7,
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "str": 7,
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "str": 8,
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_crystal",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_electrum",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_crystal",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "description": "The Keyblade Ventus started out with. What it lacks in reach it makes up for with a slight boost in Strength."
+}

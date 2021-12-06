@@ -1,0 +1,176 @@
+{
+  "ability": "",
+  "reach": 6.5,
+  "keychain": "kingdomkeys:chaos_ripper_chain",
+  "base_stats": {
+    "str": 10,
+    "mag": -2
+  },
+  "levels": [
+    {
+      "str": 10,
+      "mag": -1,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 11,
+      "mag": -1,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 11,
+      "mag": 0,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_wellspring_shard",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 12,
+      "mag": 0,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 12,
+      "mag": 1,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "str": 13,
+      "mag": 1,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_stone",
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "str": 13,
+      "mag": 2,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_writhing_gem",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "str": 14,
+      "mag": 2,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "str": 14,
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "str": 15,
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:mat_writhing_crystal",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_electrum",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_wellspring_crystal",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "description": "A Keyblade with long reach that does little for your Magic, but provides an outstanding boost in Strength."
+}
