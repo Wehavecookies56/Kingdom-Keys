@@ -55,11 +55,9 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
+			
             args '--mod', 'kingdomkeys', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {

@@ -18,17 +18,19 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuScrollScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.WeaponTreeSelectionScreen;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-public class MenuEquipmentScreen extends MenuBackground {
+public class MenuEquipmentScreen extends MenuScrollScreen {
 
     MenuBox listBox, detailsBox;
     Button back, showKeybladesButton;
@@ -44,15 +46,10 @@ public class MenuEquipmentScreen extends MenuBackground {
         this.showingKeyblades = showingKeyblades;
     }
 
-    int scrollOffset = 0;
-    ArrayList<MenuEquipmentButton> totalButtons = new ArrayList<MenuEquipmentButton>();
-    int maxItems;
-
     boolean showingKeyblades = false;
     @Override
     public void init() {
-        super.init();
-        buttons.clear();
+    	buttons.clear();
         children.clear();
         totalButtons.clear();
         
@@ -65,14 +62,16 @@ public class MenuEquipmentScreen extends MenuBackground {
         float detailsX = listBoxX + listBoxWidth;
         listBox = new MenuBox((int) listBoxX, (int) boxY, (int) listBoxWidth, (int) boxHeight, new Color(76, 76, 76));
         detailsBox = new MenuBox((int) detailsX, (int) boxY, (int) detailsWidth, (int) boxHeight, new Color(76, 76, 76));
-
+        
         int itemHeight = 14;
         maxItems = (int) (listBox.getHeight() / itemHeight)-1;
-        int transformedScroll = scrollOffset * 15;
+        transformedScroll = scrollOffset * 15;
         
         float itemsX = width * 0.31F;
         float itemsY = height * 0.1907F;
-
+        buttonPosY = 48;
+        buttonPosX = 14.4F;
+        
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
         addButton(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.displayGuiScreen(new MenuItemsScreen())));
@@ -93,7 +92,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             addButton(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, new TranslationTextComponent(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; scrollOffset = 0; init();}));
             
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getAlignment() == Utils.OrgMember.ROXAS)) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x3C0002, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x3C0000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
             	totalButtons.add(sbSlot);
                 addButton(sbSlot);
             }
@@ -129,7 +128,8 @@ public class MenuEquipmentScreen extends MenuBackground {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
             if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.getValue(form).hasKeychain()) {
-            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x00BBBB);
+            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666
+            			), ItemCategory.TOOL, this, ModDriveForms.registry.getValue(form).getTranslationKey(), 0x00BBBB);
                 addButton(button);
 
                 hidden.getAndIncrement();
@@ -181,20 +181,8 @@ public class MenuEquipmentScreen extends MenuBackground {
              });
         }
         
-        
-       
         //TODO the other slots for accesories, etc.
-        
-
-        for(MenuEquipmentButton b : totalButtons) {
-        	b.visible = false;
-        }
-        
-		for (int i = scrollOffset; i < scrollOffset + maxItems && i < totalButtons.size(); i++) {
-			MenuEquipmentButton b = totalButtons.get(i);
-			b.visible = true;
-		}
-
+        super.init();
     }
 
     @Override
@@ -205,16 +193,5 @@ public class MenuEquipmentScreen extends MenuBackground {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
     
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-
-    	if(delta < 0 && scrollOffset < totalButtons.size() - maxItems) {
-    		scrollOffset++;
-    	} else if (delta > 0 && scrollOffset > 0) {
-    		scrollOffset--;
-    	}
-    
-    	init();
-    	return super.mouseScrolled(mouseX, mouseY, delta);
-    }
+   
 }
