@@ -1,13 +1,19 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/voidgear_remnant.obj",
-	"flip-v" : true,
+	"loader": "forge:separate-perspective",
 	"textures": {
 
 	},
-	"display": {
-		"firstperson_righthand": {
+	"base":	{
+		"parent": "forge:item/default",
+		"loader": "forge:obj",
+		"model": "kingdomkeys:models/item/keyblade/voidgear_remnant.obj",
+		"flip-v" : true,
+		"textures": {
+	
+		},
+		"display": {
+			"firstperson_righthand": {
 			"rotation": [180.0, 10.0, 190.0 ],
 			"translation": [0.0, -0.1, 0.0 ],
 			"scale": [0.013, 0.013, 0.013 ]
@@ -42,5 +48,15 @@
 			"translation": [0.0, -0.25, 0.0 ],
 			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
 		}
+		}
 	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/void_gear_remnant"
+			}
+		}
+	}	
 }
