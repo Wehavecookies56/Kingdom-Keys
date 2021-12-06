@@ -203,7 +203,16 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    String magicStr = String.valueOf(magic);
 	                    String apStr = String.valueOf(ap);
 	                    
+	                    int oldAP=0,oldStr=0,oldMag=0;
 	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+                    	ItemStack replacedItem = playerData.getEquippedAccessory(parent.slot);
+                    	if(!ItemStack.areItemStacksEqual(replacedItem, ItemStack.EMPTY) && replacedItem.getItem() instanceof KKAccessoryItem){
+                    		KKAccessoryItem oldAccessory = (KKAccessoryItem) replacedItem.getItem();
+                    		oldAP = oldAccessory.getAp();
+            				oldStr = oldAccessory.getStr();
+    						oldMag = oldAccessory.getMag();	
+                    	}
+                    	
 	                    int totalStrength = playerData.getStrength(true) + strength;
 	                    int totalMagic = playerData.getMagic(true) + magic;
 	                    int totalAP =  playerData.getMaxAP(true) + ap;
@@ -226,8 +235,8 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                               
 	                    if(stack.getItem() instanceof KKAccessoryItem) {
 	                    	showAP = true;
-	                    	showStr = strength != 0;
-	                    	showMag = magic != 0;
+	                    	showStr = strength != oldStr;
+	                    	showMag = magic != oldMag;
 	                    } else {
 	                    	showAP = false;
 	                    	showStr = true;
@@ -238,7 +247,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 		                    drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(apStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalAPStr, (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, (totalAP - oldAP)+"", (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket), (int) posY, oldAP > ap ? 0xFF0000 : 0x00AAFF);
 							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalAPStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
@@ -247,7 +256,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, (totalStrength - oldStr)+"", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket), (int) posY, oldStr > strength ? 0xFF0000 : 0x00AAFF);
 							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalStrengthStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
@@ -256,7 +265,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(magicStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, (totalMagic - oldMag)+"", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket), (int) posY, oldMag > magic ? 0xFF0000 : 0x00AAFF);
 							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalMagicStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }

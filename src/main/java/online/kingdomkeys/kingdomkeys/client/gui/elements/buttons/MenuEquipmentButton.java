@@ -276,7 +276,7 @@ public class MenuEquipmentButton extends Button {
 		                    drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(apStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalAPStr, (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, playerData.getMaxAP(true)+"", (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
 							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(apStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalAPStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
@@ -285,7 +285,7 @@ public class MenuEquipmentButton extends Button {
 							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, playerData.getStrength(true)+"", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
 							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalStrengthStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
@@ -294,7 +294,7 @@ public class MenuEquipmentButton extends Button {
 							drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.getStringWidth(magicStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
+							drawString(matrixStack, fr, playerData.getMagic(true)+"", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket), (int) posY, 0xFBEA21);
 							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracket) + fr.getStringWidth(totalMagicStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }

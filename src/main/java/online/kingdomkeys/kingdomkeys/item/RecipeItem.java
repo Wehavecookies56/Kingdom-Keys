@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -92,6 +91,7 @@ public class RecipeItem extends Item implements IItemCategory {
 					} else if(types.size() == 1){
 						type = types.get(0);
 					} else {
+						player.sendStatusMessage(new TranslationTextComponent("No more recipes to learn"), true);
 						return super.onItemRightClick(world, player, hand);
 					}
 					

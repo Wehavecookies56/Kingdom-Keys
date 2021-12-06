@@ -236,12 +236,12 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
 				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
-				drawString(matrixStack, minecraft.fontRenderer, line, boxM.getWidth() - minecraft.fontRenderer.getStringWidth(line) - 10, -8, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				drawString(matrixStack, minecraft.fontRenderer, line, boxM.getWidth() - minecraft.fontRenderer.getStringWidth(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
 			RenderSystem.scalef((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
 			RenderSystem.scalef(0.8F, 0.8F, 0.8F);
 			//RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
-			itemRenderer.renderItemIntoGUI(selected, 2, 1);
+			itemRenderer.renderItemIntoGUI(selected, 2, -2);
 		}
 		RenderSystem.popMatrix();
 
@@ -269,24 +269,21 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			{
 				matrixStack.translate(boxM.x+20, height*0.58, 1);
 				
-				int offset = 0;
+				int offset = -20;
+				
+				if(ap != 0)
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap, 0, offset+=10, 0xFFFF44);
+				if(str != 0)
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+str, 0, offset+=10, 0xFF0000);
+				if(mag != 0)
+					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag, 0, offset+=10, 0x4444FF);
 				if(ability != null) {
-					//String abilityHeader = Utils.translateToLocal(Strings.Gui_Menu_Status_Ability)+":";
-					//drawString(matrixStack, minecraft.fontRenderer, abilityHeader, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityHeader)/2), 0, 0xFFFF44);
-
 					Ability a = ModAbilities.registry.getValue(new ResourceLocation(ability));
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
-						drawString(matrixStack, minecraft.fontRenderer, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityName)/2), 10, 0xFFAA44);
-						offset = -10;
+						drawString(matrixStack, minecraft.fontRenderer, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.fontRenderer.getStringWidth(abilityName)/2), offset+=10, 0xFFAA44);
 					}
 				}
-				if(str != 0)
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+str, 0, offset, 0xFF0000);
-				if(mag != 0)
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag, 0, offset+10, 0x4444FF);
-				if(ap != 0)
-					drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag, 0, offset+10, 0x4444FF);
 
 			}
 			matrixStack.pop();
