@@ -8,8 +8,11 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
@@ -39,7 +42,7 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 
 				player.getHeldItem(hand).getTag().putInt("ammo", tempAmmo);
 				if(tempAmmo == 0) {
-					player.getHeldItem(hand).getTag().putInt("ammo", ammo);
+					player.getHeldItem(hand).getTag().putInt("ammo", getMaxAmmo(player));
 					player.getCooldownTracker().setCooldown(this, reload);
 					world.playSound(null, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
 				}
@@ -52,13 +55,21 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 				world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
 
 				player.getCooldownTracker().setCooldown(this, reload / nbt.getInt("ammo"));
-				player.getHeldItem(hand).getTag().putInt("ammo", ammo);
+				player.getHeldItem(hand).getTag().putInt("ammo", getMaxAmmo(player));
 				player.swingArm(Hand.MAIN_HAND);
 			}
 			return super.onItemRightClick(world, player, hand);
 		}
 
-		return super.onItemRightClick(world, player, hand);
+		return ActionResult.resultConsume(player.getHeldItem(hand));
+	}
+
+	private int getMaxAmmo(PlayerEntity player) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+			return ammo*2;
+		}
+		return ammo;
 	}
 
 	@Override
@@ -67,7 +78,7 @@ public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
 			PlayerEntity player = (PlayerEntity) entity;
 			if (!itemStack.hasTag()) {
 				itemStack.setTag(new CompoundNBT());
-				itemStack.getTag().putInt("ammo", ammo);
+				itemStack.getTag().putInt("ammo", getMaxAmmo(player));
 			}
 
 			if (itemStack.getTag().getInt("ammo") == 0) {

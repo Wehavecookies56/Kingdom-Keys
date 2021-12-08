@@ -119,7 +119,7 @@ public class CSSummonKeyblade {
 				}
 			} else {
 				if(playerData.isAbilityEquipped(Strings.synchBlade)) {
-					if(playerData.getAlignment() == OrgMember.NONE || playerData.getAlignment() == OrgMember.ROXAS) {
+					if(playerData.getAlignment() == OrgMember.NONE || playerData.getEquippedWeapon() != null && playerData.getEquippedWeapon().getItem() instanceof KeybladeItem) {
 						extraChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
 					} else {
 						extraChain = orgWeapon;
