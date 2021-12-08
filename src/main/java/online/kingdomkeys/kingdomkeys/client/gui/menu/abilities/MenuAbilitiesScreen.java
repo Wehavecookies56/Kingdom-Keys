@@ -156,14 +156,28 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 			
 			//Main keyblade
-			if(playerData.getAlignment() == OrgMember.NONE && !ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
-				List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
-				for(String a : abilitiesList) {
-					Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
-					if(ability != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
-						abilities.add(aa);
-						aa.visible = false;
+			if(playerData.getAlignment() == OrgMember.NONE) {
+				if(!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)){
+					List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.NONE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.NONE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.NONE)));
+					for(String a : abilitiesList) {
+						Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+						if(ability != null) {
+							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+							abilities.add(aa);
+							aa.visible = false;
+						}
+					}
+				}
+			} else if(playerData.getAlignment() == OrgMember.ROXAS) {
+				if(!ItemStack.areItemStacksEqual(playerData.getEquippedWeapon(), ItemStack.EMPTY)){
+					List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedWeapon().getItem(), 0);
+					for(String a : abilitiesList) {
+						Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
+						if(ability != null) {
+							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+							abilities.add(aa);
+							aa.visible = false;
+						}
 					}
 				}
 			}

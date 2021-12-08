@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -1169,14 +1169,20 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public int getNumberOfAbilitiesEquipped(String ability) {
 		int amount = 0;
 		//First check for keyblades having them
-		if (getAlignment() == OrgMember.NONE && getEquippedKeychain(DriveForm.NONE) != null && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { // Main keyblade
-			ItemStack stack = getEquippedKeychain(DriveForm.NONE);
-			IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.NONE).getItem();
-			int level = weapon.toSummon().getKeybladeLevel(stack);
-			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
-			amount += Collections.frequency(abilities, ability);		
+		if (getAlignment() == OrgMember.NONE) {
+			if(getEquippedKeychain(DriveForm.NONE) != null && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { // Main keyblade)
+				ItemStack stack = getEquippedKeychain(DriveForm.NONE);
+				IKeychain weapon = (IKeychain) stack.getItem();
+				int level = weapon.toSummon().getKeybladeLevel(stack);
+				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
+				amount += Collections.frequency(abilities, ability);
+			}
+		} else if(getAlignment() == OrgMember.ROXAS) {
+			if(getEquippedWeapon() != null && !ItemStack.areItemStacksEqual(getEquippedWeapon(), ItemStack.EMPTY)) { // Main keyblade)
+				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(getEquippedWeapon().getItem(), 0);
+				amount += Collections.frequency(abilities, ability);
+			}
 		}
-		//TODO check for org weapon abilities
 		
 		//SB Keyblade if user is base form
 		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {

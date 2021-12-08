@@ -77,7 +77,7 @@ public class SoRCoreTileEntity extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick() {
 		if(!world.isRemote) {
-			System.out.println(ticks);
+			//System.out.println(ticks);
 			if(ticks == 0) {
 				spawnSoR();
 			}

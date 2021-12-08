@@ -246,9 +246,9 @@ public class EntityEvents {
 				ticks = Integer.MIN_VALUE;
 			}
 		
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);			
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			if (playerData != null) {
-				//System.out.println(playerData.abilitiesEquipped(Strings.treasureMagnet));
+				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				

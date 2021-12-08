@@ -687,10 +687,10 @@ public class Utils {
 		
 		if(keyblade != null) {
 			for (int i = 0; i <= level; i++) {
-				//System.out.println(keyblade.getName().getString()+" "+ i);
 				String a = keyblade.data.getLevelAbility(i);
-				if(a != null)
+				if(a != null) {
 					abilities.add(a);
+				}
 			}
 		}
 		return abilities;

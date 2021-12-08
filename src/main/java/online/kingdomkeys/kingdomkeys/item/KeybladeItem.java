@@ -156,7 +156,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 							if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
 								//This is either not your keychain or from an inactive form, either way it should not be here
-								System.out.println(formChainID);
+								//System.out.println(formChainID);
 								//if(playerData.isAbilityEquipped(Strings.synchBlade))
 								player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
 								player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
