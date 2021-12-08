@@ -168,7 +168,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						}
 					}
 				}
-			} else if(playerData.getAlignment() == OrgMember.ROXAS) {
+			} else {
 				if(!ItemStack.areItemStacksEqual(playerData.getEquippedWeapon(), ItemStack.EMPTY)){
 					List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedWeapon().getItem(), 0);
 					for(String a : abilitiesList) {
