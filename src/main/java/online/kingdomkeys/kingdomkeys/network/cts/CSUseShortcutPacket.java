@@ -46,11 +46,15 @@ public class CSUseShortcutPacket {
 					String magicName = data[0];
 					int level = Integer.parseInt(data[1]);
 					Magic magic = ModMagic.registry.getValue(new ResourceLocation(magicName));
-					if(magic.getCost(level, player) < 300 && magic.getCost(level, player) >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) {
-						
+					double cost = magic.getCost(level, player);
+					
+					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCooldownTicks() > 0) {
+					
 					} else {
 						magic.onUse(player, player, level);
 					}
+					
+					
 	
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}

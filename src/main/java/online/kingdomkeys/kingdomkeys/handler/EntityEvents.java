@@ -1096,6 +1096,7 @@ public class EntityEvents {
 		newPlayerData.setEquippedShotlock(oldPlayerData.getEquippedShotlock());
 		newPlayerData.setShotlockList(oldPlayerData.getShotlockList());
 		newPlayerData.equipAllItems(oldPlayerData.getEquippedItems(), true);
+		newPlayerData.equipAllAccessories(oldPlayerData.getEquippedAccessories(), true);
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
