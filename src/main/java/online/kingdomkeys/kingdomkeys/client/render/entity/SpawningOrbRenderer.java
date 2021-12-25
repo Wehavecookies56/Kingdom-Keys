@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -15,25 +13,22 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 
-@OnlyIn(Dist.CLIENT)
-public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
+public class SpawningOrbRenderer extends EntityRenderer<SpawningOrbEntity> {
 
-	public static final Factory FACTORY = new OrgPortalEntityRenderer.Factory();
-	
-	public OrgPortalEntityRenderer(EntityRendererManager renderManager) {
-		super(renderManager);
-		this.shadowSize = 0.25F;
-	}
+    public static final SpawningOrbRenderer.Factory FACTORY = new SpawningOrbRenderer.Factory();
 
-	@Override
-	public void render(OrgPortalEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public SpawningOrbRenderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn);
+    }
+
+    @Override
+	public void render(SpawningOrbEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		matrixStackIn.push();
 		{
 			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentCullBlockType());
@@ -42,8 +37,7 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 			matrixStackIn.push();
 			{
 
-				float a = 0.9F;
-				float rgb = 1;
+				float[] rgb = entity.getEntityType().equals(MobType.NOBODY.name()) ? new float[] { 0.6F, 0.6F, 0.6F, 0.9F } : new float[] { 0.2F, 0.1F, 0.3F, 0.9F };
 
 				float ticks = entity.ticksExisted;
 		        if(ticks < 10) //Growing
@@ -53,13 +47,14 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 		        else //Static size
 		        	matrixStackIn.scale(2.0f, 2.0f, 2.0f);
 		        
+	        	matrixStackIn.scale(1.0f, 0.5f, 1.0f);
+
 				matrixStackIn.rotate(Vector3f.YN.rotationDegrees(Minecraft.getInstance().player.getPitchYaw().y));
 				
 				for (BakedQuad quad : model.getQuads(null, null, entity.world.rand, EmptyModelData.INSTANCE)) {
-					buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+					buffer.addVertexData(matrixStackIn.getLast(), quad, rgb[0], rgb[1], rgb[2], rgb[3], 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				
-
 			}
 			matrixStackIn.pop();
 
@@ -69,16 +64,16 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
-	@Nullable
-	@Override
-	public ResourceLocation getEntityTexture(OrgPortalEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	}
 
-	public static class Factory implements IRenderFactory<OrgPortalEntity> {
-		@Override
-		public EntityRenderer<? super OrgPortalEntity> createRenderFor(EntityRendererManager manager) {
-			return new OrgPortalEntityRenderer(manager);
-		}
-	}
+    @Override
+    public ResourceLocation getEntityTexture(SpawningOrbEntity entity) {
+        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/portal.png");
+    }
+
+    public static class Factory implements IRenderFactory<SpawningOrbEntity> {
+        @Override
+        public EntityRenderer<? super SpawningOrbEntity> createRenderFor(EntityRendererManager entityRendererManager) {
+            return new SpawningOrbRenderer(entityRendererManager);
+        }
+    }
 }

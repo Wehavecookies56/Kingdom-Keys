@@ -32,6 +32,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -308,6 +309,23 @@ public class Utils {
 			}
 		}
 		return null;
+	}
+	
+	public static PlayerEntity getClosestPlayer(Entity e) {
+		PlayerEntity nearest = null;
+		if(e.getServer() == null) {
+			return null;
+		}
+		for(PlayerEntity p : getAllPlayers(e.getServer())){
+			if(nearest == null) {
+				nearest = p;
+			}
+			
+			if(p.getDistance(e) < nearest.getDistance(e)) {
+				nearest = p;
+			}
+		}
+		return nearest;
 	}
 
 	public static List<PlayerEntity> getAllPlayers(MinecraftServer ms) {
@@ -738,6 +756,8 @@ public class Utils {
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
 	}
+
+	
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
 	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;

@@ -33,6 +33,10 @@ public class ShadowEntity extends MonsterEntity implements IKHMob {
         super(ModEntities.TYPE_SHADOW.get(), world);
     }
     
+    public ShadowEntity(World world) {
+        super(ModEntities.TYPE_SHADOW.get(), world);
+    }
+    
     @Override
     public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
     	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;

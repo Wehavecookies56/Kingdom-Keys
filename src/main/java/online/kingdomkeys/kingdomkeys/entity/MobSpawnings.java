@@ -21,7 +21,10 @@ public class MobSpawnings {
 		if (event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
 			event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), Integer.parseInt(moogle[1]), Integer.parseInt(moogle[2]), Integer.parseInt(moogle[3])));
 		}
-		for (EntityType<?> entityType : ModEntities.pureblood) {
+		
+		event.getSpawns().getSpawner(ModEntities.TYPE_SPAWNING_ORB.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_SPAWNING_ORB.get(), 100,1,3));
+
+		/*for (EntityType<?> entityType : ModEntities.pureblood) {
 			event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(pureblood[1]), Integer.parseInt(pureblood[2]), Integer.parseInt(pureblood[3])));
 		}
 		for (EntityType<?> entityType : ModEntities.emblem) {
@@ -29,7 +32,7 @@ public class MobSpawnings {
 		}
 		for (EntityType<?> entityType : ModEntities.nobody) {
 			event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(nobody[1]), Integer.parseInt(nobody[2]), Integer.parseInt(nobody[3])));
-		}
+		}*/
 	}
 
 	public static void removeSpawns(BiomeLoadingEvent event) {

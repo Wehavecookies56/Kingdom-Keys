@@ -95,6 +95,6 @@ public class SavePointBlock extends BaseBlock {
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return ModEntities.TYPE_SAVEPOINT_BLOX.get().create();
+		return ModEntities.TYPE_SAVEPOINT.get().create();
 	}
 }

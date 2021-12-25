@@ -54,8 +54,6 @@ public class CSUseShortcutPacket {
 						magic.onUse(player, player, level);
 					}
 					
-					
-	
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				}
 			}
