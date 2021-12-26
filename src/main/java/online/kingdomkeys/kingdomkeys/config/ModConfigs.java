@@ -238,7 +238,7 @@ public class ModConfigs {
     public static boolean keybladeOpenDoors;
 
     public static SpawningMode heartlessSpawningMode;
-    public static List<Integer> moogleSpawnRate;
+    public static List<String> moogleSpawnRate;
     public static List<String> mobSpawnRate;
     public static boolean mobLevelingUp;
     
@@ -269,7 +269,7 @@ public class ModConfigs {
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
-        moogleSpawnRate = (List<Integer>) COMMON.moogleSpawnRate.get();
+        moogleSpawnRate = (List<String>) COMMON.moogleSpawnRate.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         mobLevelingUp = COMMON.mobLevelingUp.get();
         

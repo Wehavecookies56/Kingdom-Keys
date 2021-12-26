@@ -31,7 +31,10 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return BaseElementalMusicalHeartlessEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D);
+        return BaseElementalMusicalHeartlessEntity.registerAttributes()
+        		.createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
+        		
     }
 
     @Override
@@ -121,7 +124,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
                         double d1 = this.goalOwner.getAttackTarget().getPosX() - this.goalOwner.getPosX();
                         double d2 = this.goalOwner.getAttackTarget().getBoundingBox().minY + (double) (this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F));
                         double d3 = this.goalOwner.getAttackTarget().getPosZ() - this.goalOwner.getPosZ();
-                        BlizzardEntity esfb = new BlizzardEntity(this.goalOwner.world, goalOwner, 1);
+                        BlizzardEntity esfb = new BlizzardEntity(this.goalOwner.world, goalOwner, (float) this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue());
                         esfb.shoot(d1, d2, d3, 1, 0);
                         esfb.setPosition(esfb.getPosX(), this.goalOwner.getPosY() + (double) (this.goalOwner.getHeight() / 2.0F) + 0.5D, esfb.getPosZ());
                         this.goalOwner.world.addEntity(esfb);

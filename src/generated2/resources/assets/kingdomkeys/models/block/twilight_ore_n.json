@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "kingdomkeys:block/twilight_ore_n"
-  }
-}

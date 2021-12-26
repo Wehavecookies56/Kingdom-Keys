@@ -1,6 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -21,6 +25,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -121,6 +126,8 @@ public abstract class BaseBombEntity extends MonsterEntity implements IKHMob, IE
         if (!hasExploded) {
             Explosion.Mode explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.world, this) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
             this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), getExplosionStength(), false, explosion$mode);
+            for (LivingEntity enemy : EntityHelper.getEntitiesNear(this, getExplosionStength()+1))
+                this.attackEntityAsMob(enemy);
             this.remove();
             hasExploded = true;
         }

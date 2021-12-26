@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 public class CommonConfig {
 
     public ForgeConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
-    public ForgeConfigSpec.ConfigValue<List<? extends Integer>> moogleSpawnRate;
+    public ForgeConfigSpec.ConfigValue<List<? extends String>> moogleSpawnRate;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
     
     public ForgeConfigSpec.BooleanValue mobLevelingUp;
@@ -109,7 +109,7 @@ public class CommonConfig {
         moogleSpawnRate = builder
                 .comment("Mob Spawn [weight, min, max]")
                 .translation(KingdomKeys.MODID + ".config.moogle_spawn")
-                .defineList("moogleSpawn", Lists.newArrayList(2,0,1), o -> o instanceof Integer);
+                .defineList("moogleSpawn", Lists.newArrayList("Moogle,2,0,1", "Enemies,200,1,5"), o -> o instanceof String);
         
         mobSpawnRate = builder
                 .comment("Mob Spawn chance in percentage [type, chance] (if they don't add up to 100 there would be enemies not spawning)")

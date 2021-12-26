@@ -79,7 +79,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
                 .createMutableAttribute(Attributes.MAX_HEALTH, 100.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15D)
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 5.0D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
 
                 ;
@@ -150,7 +150,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
     }
 
     
-    public boolean attackEntityAsMob(Entity ent) {
+    /*public boolean attackEntityAsMob(Entity ent) {
         int i = 0;
         float j = 1;
 
@@ -163,7 +163,7 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
             j = 1.5F;
 
         return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i * j);
-    }
+    }*/
 
     public World getWorld() {
         return this.world;
@@ -267,7 +267,8 @@ public class LargeBodyEntity extends MonsterEntity implements IKHMob {
                 whileAttackTimer++;
 
                 for(Entity t : EntityHelper.getEntitiesNear(this.theEntity, 0.2)) {
-                    t.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), theEntity.isAngry ? this.theEntity.DAMAGE_MOWDOWN * 1.5f : this.theEntity.DAMAGE_MOWDOWN);
+                	theEntity.attackEntityAsMob(t);
+                    //t.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), theEntity.isAngry ? this.theEntity.DAMAGE_MOWDOWN * 1.5f : this.theEntity.DAMAGE_MOWDOWN);
                 }
 
                 if(whileAttackTimer > 40)

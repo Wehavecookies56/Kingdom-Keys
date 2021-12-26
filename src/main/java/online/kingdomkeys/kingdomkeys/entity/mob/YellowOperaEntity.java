@@ -36,7 +36,10 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return BaseElementalMusicalHeartlessEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D);
+        return BaseElementalMusicalHeartlessEntity.registerAttributes()
+        		.createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
+        		
     }
 
     @Override
@@ -120,6 +123,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                             LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
                             lightningboltentity.moveForced(target.getPositionVec());
                             world.addEntity(lightningboltentity);
+                            this.goalOwner.attackEntityAsMob(target);
                         }
                     } else {
                         if (world.rand.nextInt(100) + world.rand.nextDouble() <= 50) {
@@ -129,7 +133,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                                 this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                                 for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.goalOwner, 4))
-                                    enemy.attackEntityFrom(DamageSource.causeMobDamage(this.goalOwner), 4);
+                                	goalOwner.attackEntityAsMob(enemy);
                             } else
                                 return;
                         } else {
@@ -139,7 +143,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                             this.goalOwner.getNavigator().tryMoveToXYZ(target.getPosX(), target.getPosY(), target.getPosZ(), 3.0D);
 
                             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.goalOwner, 3))
-                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.goalOwner), 4);
+                                this.goalOwner.attackEntityAsMob(enemy);
                         }
                     }
 

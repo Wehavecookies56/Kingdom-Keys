@@ -28,7 +28,9 @@ public class DetonatorEntity extends BaseBombEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return BaseBombEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 60.0D);
+        return BaseElementalMusicalHeartlessEntity.registerAttributes()
+        		.createMutableAttribute(Attributes.MAX_HEALTH, 60.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 
     @Override

@@ -35,7 +35,9 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return BaseElementalMusicalHeartlessEntity.registerAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D);
+        return BaseElementalMusicalHeartlessEntity.registerAttributes()
+        		.createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 
     @Override
@@ -121,7 +123,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
                             for (LivingEntity heartless : EntityHelper.getEntitiesNear(this.goalOwner, 10)) {
                                 if (heartless instanceof IKHMob && ((IKHMob)heartless).getMobType() != EntityHelper.MobType.NPC) {
                                     if (heartless.getHealth() < heartless.getMaxHealth()) {
-                                        heartless.heal(10);
+                                        heartless.heal((float) this.goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()/4);
 										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX(), heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ()-0.5F, 1, 0D, 1D, 0D, 1D);
 										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX(), heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ()+0.5F, 1, 0D, 1D, 0D, 1D);
 										((ServerWorld) world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getPosX(), heartless.getPosY()+heartless.getEyeHeight(), heartless.getPosZ(), 1, 0D, 1D, 0D, 1D);

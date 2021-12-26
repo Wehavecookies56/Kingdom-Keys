@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
@@ -13,7 +14,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class SeedBulletEntity extends ThrowableEntity {
 
-    private LivingEntity ent;
     private int ticks = 80;
 
     protected SeedBulletEntity(EntityType<? extends ThrowableEntity> type, World worldIn) {
@@ -30,7 +30,6 @@ public class SeedBulletEntity extends ThrowableEntity {
 
     public SeedBulletEntity(LivingEntity livingEntityIn, World worldIn) {
         super(ModEntities.TYPE_SEED_BULLET.get(), livingEntityIn, worldIn);
-        this.ent = livingEntityIn;
     }
     
     @Override
@@ -40,9 +39,12 @@ public class SeedBulletEntity extends ThrowableEntity {
     
     @Override
     protected void onImpact(RayTraceResult result) {
-        if (result instanceof EntityRayTraceResult) {
-            ((EntityRayTraceResult) result).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, ent), 6);
-        }
+    	if(!world.isRemote) {
+	        if (result instanceof EntityRayTraceResult){
+	        	Entity target = ((EntityRayTraceResult) result).getEntity();
+	            ((LivingEntity)getShooter()).attackEntityAsMob(target);
+	        }
+    	}
         remove();
     }
 

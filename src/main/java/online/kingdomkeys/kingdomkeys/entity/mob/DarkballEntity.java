@@ -108,7 +108,7 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
     }
 
     protected void updateAITasks() {
-        LivingEntity target = this.getAttackTarget();
+       // LivingEntity target = this.getAttackTarget();
 
         if(EntityHelper.getState(this) == 3)
             this.setInvulnerable(true);
@@ -118,15 +118,20 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
         super.updateAITasks();
     }
 
-    public boolean attackEntityAsMob(Entity ent) {
+    /*public boolean attackEntityAsMob(Entity ent) {
         int i;
-        if(EntityHelper.getState(this) == 0) i = DAMAGE_HIT;
-        else if(EntityHelper.getState(this) == 1) i = DAMAGE_CHARGE;
-        else if(EntityHelper.getState(this) == 2) i = DAMAGE_BERSERK;
-        else if(EntityHelper.getState(this) == 3) i = DAMAGE_HIT;
-        else i = 0;
+        if(EntityHelper.getState(this) == 0)
+        	i = DAMAGE_HIT;
+        else if(EntityHelper.getState(this) == 1) 
+        	i = DAMAGE_CHARGE;
+        else if(EntityHelper.getState(this) == 2) 
+        	i = DAMAGE_BERSERK;
+        else if(EntityHelper.getState(this) == 3)
+        	i = DAMAGE_HIT;
+        else 
+        	i = 0;
         return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i);
-    }
+    }*/
 
     public void setCurrentAttackState(SpecialAttack state) {
         this.currentAttack = state;
@@ -186,7 +191,8 @@ public class DarkballEntity extends MonsterEntity implements IKHMob {
                 this.theEntity.setCurrentAttackState(null);
                 EntityHelper.setState(theEntity, 0);
                 for(Entity p : EntityHelper.getEntitiesNear(theEntity, 1.4)) {
-                    p.attackEntityFrom(DamageSource.causeMobDamage(theEntity), theEntity.DAMAGE_DARKCLOUD);
+                	theEntity.attackEntityAsMob(p);
+                   // p.attackEntityFrom(DamageSource.causeMobDamage(theEntity), theEntity.DAMAGE_DARKCLOUD);
                 }
             }
 
