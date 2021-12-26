@@ -113,6 +113,8 @@
 	"gui.menu.config.text_x_offset": "Text X Offset",
 	"gui.menu.config.hp_scale": "HP Bar Scale",
 	"gui.menu.config.icon_scale": "Lock On Icon Scale",
+	"gui.menu.config.hp_per_bar": "HP Per Bar",
+
 	
 	"gui.menu.config.show_hearts": "Show hearts on HUD",
 
@@ -391,7 +393,7 @@
 	"potion.desc.beginning": "Will restore %s%s %s ",
 	"potion.desc.toall": "to all your party members in range",
 	"potion.desc.toone": "to the chosen party member",
-	
+
 	"item.kingdomkeys.ability_ring": "Ability Ring",
 	"item.kingdomkeys.aquamarine_ring": "Aquamarine Ring",
 	"item.kingdomkeys.cosmic_arts": "Cosmic Arts",
@@ -737,6 +739,9 @@
 	"item.kingdomkeys.wooden_stick": "Wooden Stick",
 	"item.kingdomkeys.young_xehanorts_keyblade": "Young Xehanort's Keyblade",
 	"item.kingdomkeys.zero_one": "Zero One",
+	"item.kingdomkeys.dream_sword": "Dream Sword",
+	"item.kingdomkeys.dream_staff": "Dream Staff",
+	"item.kingdomkeys.dream_shield": "Dream Shield",
 	
 	"_comment": "Keychains",
 	"item.kingdomkeys.abaddon_plasma_chain": "Abaddon Plasma Chain",
@@ -896,6 +901,7 @@
 	"item.kingdomkeys.precision": "Precision",
 	"item.kingdomkeys.dual_head": "Dual Head",
 	"item.kingdomkeys.bahamut": "Bahamut",
+	"item.kingdomkeys.gullwing": "Gullwing",
 	"item.kingdomkeys.blue_frame": "Blue Frame",
 	"item.kingdomkeys.star_shell": "Star Shell",
 	"item.kingdomkeys.sunrise": "Sunrise",

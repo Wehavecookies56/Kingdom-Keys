@@ -51,7 +51,7 @@ public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.17D)
                 .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
                 .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 0.0D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D)
 				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
 
                 ;
@@ -164,7 +164,8 @@ public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
                                 this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                                 for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
-                                    enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 8);
+                                	theEntity.attackEntityAsMob(enemy);
+                                    //enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 8);
                             } else {
                                 return;
                             }
@@ -180,7 +181,7 @@ public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
 	                            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 	
 	                            for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 3))
-	                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 6);
+                                	theEntity.attackEntityAsMob(enemy);
                         	} else {
                         		return;
                         	}

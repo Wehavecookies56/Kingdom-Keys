@@ -15,7 +15,11 @@ import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 public class CommonConfig {
 
     public ForgeConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
+    public ForgeConfigSpec.ConfigValue<List<? extends Integer>> moogleSpawnRate;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
+    
+    public ForgeConfigSpec.BooleanValue mobLevelingUp;
+
     public ForgeConfigSpec.BooleanValue oreGen;
     public ForgeConfigSpec.BooleanValue bloxGen;
 
@@ -102,15 +106,25 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.heartless_spawning_mode")
                 .defineEnum("heartlessSpawningMode", SpawningMode.AFTER_KEYCHAIN);
 
+        moogleSpawnRate = builder
+                .comment("Mob Spawn [weight, min, max]")
+                .translation(KingdomKeys.MODID + ".config.moogle_spawn")
+                .defineList("moogleSpawn", Lists.newArrayList(2,0,1), o -> o instanceof Integer);
+        
         mobSpawnRate = builder
-                .comment("Mob Spawn (name, weight, min, max)")
+                .comment("Mob Spawn chance in percentage [type, chance] (if they don't add up to 100 there would be enemies not spawning)")
                 .translation(KingdomKeys.MODID + ".config.mob_spawn")
-                .defineList("mobSpawn", Lists.newArrayList("Moogle,2,0,1", "Pureblood,2,0,1", "Emblem,2,0,1", "Nobody,2,0,1"), o -> o instanceof String);
+                .defineList("mobSpawn", Lists.newArrayList("Pureblood,35", "Emblem,35", "Nobody,30"), o -> o instanceof String);
 
         playerSpawnHeartless = builder
                 .comment("Allow a heartless and a nobody to spawn when a player gets killed by a heartless")
                 .translation(KingdomKeys.MODID + ".config.player_spawn_heartless")
                 .define("playerSpawnHeartless", true);
+        
+        mobLevelingUp = builder
+                .comment("Allow heartless and nobodies to spawn with levels according to players")
+                .translation(KingdomKeys.MODID + ".config.player_mob_leveling_up")
+                .define("mobLevelingUp", true);
         
         playerSpawnHeartlessData = builder
                 .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")

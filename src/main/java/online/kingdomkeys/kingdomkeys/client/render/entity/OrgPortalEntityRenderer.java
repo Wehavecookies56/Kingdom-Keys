@@ -21,6 +21,7 @@ import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 
 @OnlyIn(Dist.CLIENT)
 public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
@@ -42,8 +43,7 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 			matrixStackIn.push();
 			{
 
-				float a = 0.9F;
-				float rgb = 1;
+				float[] rgb = new float[] { 0.125F, 0.0F, 0.2F, 0.9F };
 
 				float ticks = entity.ticksExisted;
 		        if(ticks < 10) //Growing
@@ -56,13 +56,11 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 				matrixStackIn.rotate(Vector3f.YN.rotationDegrees(Minecraft.getInstance().player.getPitchYaw().y));
 				
 				for (BakedQuad quad : model.getQuads(null, null, entity.world.rand, EmptyModelData.INSTANCE)) {
-					buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+					buffer.addVertexData(matrixStackIn.getLast(), quad, rgb[0], rgb[1], rgb[2], rgb[3], 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				
-
 			}
 			matrixStackIn.pop();
-
 
 		}
 		matrixStackIn.pop();

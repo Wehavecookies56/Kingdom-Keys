@@ -76,6 +76,7 @@ import online.kingdomkeys.kingdomkeys.client.render.org.LaserCircleEntityRendere
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
@@ -202,7 +203,7 @@ public class ModEntities {
     //Mobs
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, EntityClassification.AMBIENT, "moogle", 0.6F, 1.5F, MobType.NPC, 0, 0xDACAB0, 0xC50033);
     
-    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "shadow", 0.5F, 0.7F, HEARTLESS_PUREBLOOD, 1, 0x000000, 0xFFFF00);
+    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "shadow", 0.5F, 0.7F, HEARTLESS_PUREBLOOD, 0, 0x000000, 0xFFFF00);
     public static final RegistryObject<EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MegaShadowEntity::new, EntityClassification.MONSTER, "mega_shadow", 1.5F, 1.7F, HEARTLESS_PUREBLOOD, 10, 0x000000, 0xAAAA00);
     public static final RegistryObject<EntityType<GigaShadowEntity>> TYPE_GIGA_SHADOW = createEntityType(GigaShadowEntity::new, GigaShadowEntity::new, EntityClassification.MONSTER, "giga_shadow", 2.5F, 2.7F, HEARTLESS_PUREBLOOD, 20, 0x000000, 0x666600);
     public static final RegistryObject<EntityType<DarkballEntity>> TYPE_DARKBALL = createEntityType(DarkballEntity::new, DarkballEntity::new, EntityClassification.MONSTER, "darkball", 1.5F, 2F, HEARTLESS_PUREBLOOD, 15, 0x000000, 0x6600FF);
@@ -230,11 +231,11 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, EntityClassification.MONSTER, "large_body", 1.3F, 1.6F, HEARTLESS_EMBLEM, 8, 0x4d177c, 0x29014c);
     //TODO make AI
     //public static final RegistryObject<EntityType<ShadowEntity>> TYPE_WHITE_MUSHROOM = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "white_mushroom", 0.5F, 0.5F, HEARTLESS_EMBLEM, 0xe3e5e8, 0xffffff);
-    public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.75F, 1.5F, HEARTLESS_EMBLEM, 4, 0x4ba04e, 0xedc2c2);
+    public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, EntityClassification.MONSTER, "dire_plant", 0.75F, 1.5F, HEARTLESS_EMBLEM, 0, 0x4ba04e, 0xedc2c2);
 
     //Nobodies
-    public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, EntityClassification.MONSTER, "nobody_creeper", 1F, 1.5F, NOBODY, 10, 0xb8bdc4, 0xfcfcfc);
-    public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, EntityClassification.MONSTER, "dusk", 1F, 1.5F, NOBODY, 2, 0xb8bdc4, 0xfcfcfc);
+    public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, EntityClassification.MONSTER, "nobody_creeper", 1F, 1.5F, NOBODY, 4, 0xb8bdc4, 0xfcfcfc);
+    public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, EntityClassification.MONSTER, "dusk", 1F, 1.5F, NOBODY, 0, 0xb8bdc4, 0xfcfcfc);
     public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, EntityClassification.MONSTER, "assassin", 1F, 1.5F, NOBODY, 15, 0xc9c9c9, 0xd4ccff);
 
     //Limits
@@ -434,22 +435,34 @@ public class ModEntities {
     }
     
     public static MonsterEntity getRandomEnemy(int level, World world) {
+		int purebloodChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(0).split(",")[1]);
+		int emblemChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(1).split(",")[1]);
+		int nobodyChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(2).split(",")[1]);
+		int num = world.rand.nextInt(100);
 		List<MonsterEntity> mobs = new ArrayList<MonsterEntity>();
-		for(Entry<EntityType<? extends Entity>, Integer> entry : pureblood.entrySet()) {
-			if(entry.getValue() <= level) {
-				mobs.add((MonsterEntity) entry.getKey().create(world));
+
+		if(num <= purebloodChance) {
+			for(Entry<EntityType<? extends Entity>, Integer> entry : pureblood.entrySet()) {
+				if(entry.getValue() <= level) {
+					mobs.add((MonsterEntity) entry.getKey().create(world));
+				}
 			}
-		}
-		for(Entry<EntityType<? extends Entity>, Integer> entry : emblem.entrySet()) {
-			if(entry.getValue() <= level) {
-				mobs.add((MonsterEntity) entry.getKey().create(world));
+		} else if(num > purebloodChance && num <= purebloodChance + emblemChance) {
+			for(Entry<EntityType<? extends Entity>, Integer> entry : emblem.entrySet()) {
+				if(entry.getValue() <= level) {
+					mobs.add((MonsterEntity) entry.getKey().create(world));
+				}
 			}
-		}
-		for(Entry<EntityType<? extends Entity>, Integer> entry : nobody.entrySet()) {
-			if(entry.getValue() <= level) {
-				mobs.add((MonsterEntity) entry.getKey().create(world));
+		} else if(num > purebloodChance + emblemChance && num <= purebloodChance + emblemChance + nobodyChance){
+			for(Entry<EntityType<? extends Entity>, Integer> entry : nobody.entrySet()) {
+				if(entry.getValue() <= level) {
+					mobs.add((MonsterEntity) entry.getKey().create(world));
+				}
 			}
+		} else {
+			System.out.println("No spawning");
 		}
+    	
 		return mobs.get(world.rand.nextInt(mobs.size()));		 
 	}
     

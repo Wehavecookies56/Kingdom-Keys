@@ -54,6 +54,7 @@
 	"gui.menu.items.stock": "Inventario",
 	"gui.menu.items.stock.desc": "Revisa tu inventario.",
 	"gui.menu.items.equipment.weapon": "Arma",
+	"gui.menu.items.equipment.weapon.keyblades": "Llaves Espada",
 	"gui.menu.items.equipment.shotlock": "Tiro Certero",
 	"gui.menu.items.equipment.items": "Objetos",
 	"gui.menu.customize": "Configuración",
@@ -110,8 +111,10 @@
 	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",
 	"gui.menu.config.header_title": "Título de Cabecera",
 	"gui.menu.config.text_x_offset": "Pos. X del Texto extra",
-	"gui.menu.config.hp_scale": "HP Bar Scale",
-	"gui.menu.config.icon_scale": "Lock On Icon Scale",
+	"gui.menu.config.hp_scale": "Escala de Batta de VT",
+	"gui.menu.config.icon_scale": "Escala del ícono fijación",
+	"gui.menu.config.hp_per_bar": "VT por barra",
+
 	
 	"gui.menu.config.show_hearts": "Mostrar corazones",
 
@@ -390,6 +393,7 @@
 	"potion.desc.beginning": "Restaurará %s%s de %s ",
 	"potion.desc.toall": "a todos los miembros del grupo en rango",
 	"potion.desc.toone": "al miembro del grupo elegido",
+
 	"item.kingdomkeys.ability_ring": "Anillo Diestro",
 	"item.kingdomkeys.aquamarine_ring": "Anillo de Aguamarina",
 	"item.kingdomkeys.cosmic_arts": "Arte Cósmica",
@@ -400,7 +404,7 @@
 	"item.kingdomkeys.draw_ring": "Anillo Magnético",
 	"item.kingdomkeys.executive_ring": "Anillo Supremo",
 	"item.kingdomkeys.star_charm": "Talismán estelar",
-	
+
 	"item.kingdomkeys.spellfire": "Hechizo de Piro",
 	"item.kingdomkeys.spellblizzard": "Hechizo de Hielo",
 	"item.kingdomkeys.spellwater": "Hechizo de Aqua",
@@ -735,6 +739,9 @@
 	"item.kingdomkeys.wooden_stick": "Palo de Madera",
 	"item.kingdomkeys.young_xehanorts_keyblade": "Llave Espada de Joven Xehanort",
 	"item.kingdomkeys.zero_one": "Cero y Uno",
+	"item.kingdomkeys.dream_sword": "Espada de Ensueño",
+	"item.kingdomkeys.dream_staff": "Bastón de Ensueño",
+	"item.kingdomkeys.dream_shield": "Escudo de Ensueño",
 	
 	"_comment": "Keychains",
 	"item.kingdomkeys.abaddon_plasma_chain": "Llavero de Plasma de Abadón",
@@ -894,6 +901,7 @@
 	"item.kingdomkeys.precision": "Precisión",
 	"item.kingdomkeys.dual_head": "Dos Cabezas",
 	"item.kingdomkeys.bahamut": "Bahamut",
+	"item.kingdomkeys.gullwing": "Ala de Gaviota",
 	"item.kingdomkeys.blue_frame": "Marco Azul",
 	"item.kingdomkeys.star_shell": "Bengala",
 	"item.kingdomkeys.sunrise": "Amanecer",

@@ -52,7 +52,7 @@ public class ModConfigs {
     
     public static int playerSkinXPos, playerSkinYPos;
     
-    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale;
+    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnHpPerBar;
     
     public static int partyXPos, partyYPos, partyYDistance;
     
@@ -157,6 +157,11 @@ public class ModConfigs {
         bakeClient();
     }
     
+    public static void setLockOnHpPerBar(int value) {
+        CLIENT.lockOnHpPerBar.set(Math.max(10, value));
+        bakeClient();
+    }
+    
     //Party
     public static void setPartyXPos(int value) {
         CLIENT.partyXPos.set(value);
@@ -214,6 +219,7 @@ public class ModConfigs {
         lockOnYPos = CLIENT.lockOnYPos.get();
         lockOnHPScale = CLIENT.lockOnHPScale.get();
         lockOnIconScale = CLIENT.lockOnIconScale.get();
+        lockOnHpPerBar = CLIENT.lockOnHpPerBar.get();
 
         partyXPos = CLIENT.partyXPos.get();
         partyYPos = CLIENT.partyYPos.get();
@@ -232,7 +238,9 @@ public class ModConfigs {
     public static boolean keybladeOpenDoors;
 
     public static SpawningMode heartlessSpawningMode;
+    public static List<Integer> moogleSpawnRate;
     public static List<String> mobSpawnRate;
+    public static boolean mobLevelingUp;
     
     public static int driveHeal;
 
@@ -261,7 +269,9 @@ public class ModConfigs {
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
+        moogleSpawnRate = (List<Integer>) COMMON.moogleSpawnRate.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
+        mobLevelingUp = COMMON.mobLevelingUp.get();
         
         driveHeal = COMMON.driveHeal.get();
         
@@ -281,7 +291,7 @@ public class ModConfigs {
         munnyDropProbability = COMMON.munnyDropProbability.get();
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
-                
+        
     }
 
     public static int recipeDropChance;

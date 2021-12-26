@@ -126,7 +126,7 @@ public class LockOnGui extends Screen {
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
-			hpPerBar = 20;
+			hpPerBar = ModConfigs.lockOnHpPerBar;
 			float widthMultiplier = 10 * hpBarScale;
 			
 			float targetHealth = Math.min(target.getHealth(), target.getMaxHealth());

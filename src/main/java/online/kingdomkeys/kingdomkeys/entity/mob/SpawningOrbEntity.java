@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
@@ -23,8 +22,11 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SpawningOrbEntity extends MonsterEntity {
@@ -39,13 +41,29 @@ public class SpawningOrbEntity extends MonsterEntity {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), world);
 			setEntityType(((IKHMob)this.mob).getMobType().name());
-
-			int level = playerData.getLevel() - world.rand.nextInt(6) + 2;
-			System.out.println(level);
-			level = Math.max(1, Math.min(100, level));
-			this.mob.setCustomName(new TranslationTextComponent(this.mob.getDisplayName().getString()+" Lv."+level));
-			this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * level/10, this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-			this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * level/10, this.mob.getMaxHealth()));
+			
+			if(ModConfigs.mobLevelingUp) {
+				int avgLevel = playerData.getLevel();
+				
+				if(ModCapabilities.getWorld(world).getPartyFromMember(player.getUniqueID())!= null) {
+					Party p = ModCapabilities.getWorld(world).getPartyFromMember(player.getUniqueID());
+					int total = 0;
+					int membersOnline = 0;
+					for(Member m : p.getMembers()) {
+						if(Utils.getPlayerByName(worldIn, m.getUsername())!= null){
+							total += ModCapabilities.getPlayer(Utils.getPlayerByName(worldIn, m.getUsername())).getLevel();
+							membersOnline++;
+						}
+					}
+					avgLevel = total / membersOnline;
+				}
+				
+				int level = avgLevel - world.rand.nextInt(6) + 2;
+				level = Math.max(1, Math.min(100, level));
+				this.mob.setCustomName(new TranslationTextComponent(this.mob.getDisplayName().getString()+" Lv."+level));
+				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * level/10, this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * level/10, this.mob.getMaxHealth()));
+			}
 		}
 	}
 
@@ -71,8 +89,7 @@ public class SpawningOrbEntity extends MonsterEntity {
 	@Override
 	public void tick() {
 		//System.out.println(getPosition());
-		if(ticksExisted == 1 && !world.isRemote) {
-			
+		if(ticksExisted == 1 && !world.isRemote && this.mob != null) {
 			setEntityType(((IKHMob)this.mob).getMobType().name());
 		}
 		BasicParticleType particle = getEntityType().equals(MobType.NOBODY.name()) ? ParticleTypes.END_ROD : ParticleTypes.DRAGON_BREATH;

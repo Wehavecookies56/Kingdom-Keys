@@ -22,7 +22,7 @@ public class ClientConfig {
     
     public ForgeConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
     
-    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale;
+    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnHpPerBar;
     
     public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
     
@@ -159,6 +159,11 @@ public class ClientConfig {
 	                .comment("Lock On Icon Scale")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_scale")
 	                .defineInRange("lockOnIconScale", 75, -1000, 1000);
+	        
+	        lockOnHpPerBar = builder
+	                .comment("Lock On HP per bar")
+	                .translation(KingdomKeys.MODID + ".config.lock_on_hp_per_bar")
+	                .defineInRange("lockOnHpPerBar", 40, 10, 100);
 	        
 	        builder.pop();
 	        

@@ -51,7 +51,7 @@ public class MenuConfigScreen extends MenuBackground {
 	TextFieldWidget playerSkinXPosBox, playerSkinYPosBox;
 
 	//Lock On
-	TextFieldWidget lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox;
+	TextFieldWidget lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox, lockOnHpPerBarBox;
 
 	//Party
 	TextFieldWidget partyXPosBox, partyYPosBox, partyYDistanceBox;
@@ -626,16 +626,44 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
+		addButton(lockOnHpPerBarBox = new TextFieldWidget(minecraft.fontRenderer, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.fontRenderer.getStringWidth("#####"), 16, new TranslationTextComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getText()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) <= 100 && Utils.getInt(text) >= 0) {
+						super.charTyped(c, i);
+						ModConfigs.setLockOnHpPerBar(Utils.getInt(getText()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setLockOnHpPerBar(Utils.getInt(getText()));
+				return true;
+			}
+			
+		});
+		
 		
 		lockOnXPosBox.setText(""+ModConfigs.lockOnXPos);
 		lockOnYPosBox.setText(""+ModConfigs.lockOnYPos);
 		lockOnHPScaleBox.setText(""+ModConfigs.lockOnHPScale);
 		lockOnIconScaleBox.setText(""+ModConfigs.lockOnIconScale);
+		lockOnHpPerBarBox.setText(""+ModConfigs.lockOnHpPerBar);
 		
 		lockOnList.add(lockOnXPosBox);
 		lockOnList.add(lockOnYPosBox);
 		lockOnList.add(lockOnHPScaleBox);
 		lockOnList.add(lockOnIconScaleBox);
+		lockOnList.add(lockOnHpPerBarBox);
 	}
 	
 	private void initParty() {
@@ -957,6 +985,7 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.hp_scale"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
 			}
 			matrixStack.pop();
 			

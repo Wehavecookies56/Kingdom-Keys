@@ -172,21 +172,7 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
-				}
-				
-				/*if(!playerData.getKnownRecipeList().contains(ModItems.abilityRing.get().getRegistryName())){
-					playerData.addKnownRecipe(ModItems.abilityRing.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.aquamarineRing.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.cosmicArts.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.executiveRing.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.fullBloom.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.fullBloomPlus.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.shadowArchive.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.shadowArchivePlus.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.drawRing.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.starCharm.get().getRegistryName());
-				}*/
-				
+				}				
 				
 				//Added for old world retrocompatibility
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.SYNCH_BLADE.toString())) { 
@@ -217,10 +203,7 @@ public class EntityEvents {
 						}
 					}
 				});
-				/*if(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE) != null) {
-					playerData.setNewKeychain(DriveForm.SYNCH_BLADE, ItemStack.EMPTY);
-				}*/
-				
+								
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayerEntity) player);
 	    		PacketHandler.syncToAllAround(player, playerData);
