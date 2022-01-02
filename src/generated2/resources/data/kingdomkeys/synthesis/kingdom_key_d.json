@@ -1,0 +1,18 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:kingdom_key_d_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_pulsing_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_gem",
+      "quantity": "1"
+    }
+  ]
+}

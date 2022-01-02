@@ -1,0 +1,26 @@
+{
+  "cost": 500,
+  "output": {
+    "item": "kingdomkeys:hi_refocuser",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_gem",
+      "quantity": "1"
+    }
+  ]
+}

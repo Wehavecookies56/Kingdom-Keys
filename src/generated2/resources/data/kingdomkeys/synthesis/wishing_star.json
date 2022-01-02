@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:wishing_star_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "2"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:ira_boots"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:aced_boots"
+  }
+}

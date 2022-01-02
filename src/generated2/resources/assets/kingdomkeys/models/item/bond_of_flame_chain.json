@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/bond_of_flame_chain"
+  }
+}

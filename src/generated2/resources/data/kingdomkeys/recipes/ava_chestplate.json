@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:aced_chestplate"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:ava_chestplate"
+  }
+}

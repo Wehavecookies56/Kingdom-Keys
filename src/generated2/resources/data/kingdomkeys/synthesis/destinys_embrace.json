@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:destinys_embrace_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_lightning_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "3"
+    }
+  ]
+}

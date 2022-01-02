@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/incomplete_kiblade_chain"
+  }
+}

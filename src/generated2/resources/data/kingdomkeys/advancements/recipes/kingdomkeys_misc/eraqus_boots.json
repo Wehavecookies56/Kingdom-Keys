@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:eraqus_boots"
+    ]
+  },
+  "criteria": {
+    "diamond_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:diamond_boots"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:eraqus_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "diamond_boots",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "LWL",
+    "EAE"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:white_dye"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "A": {
+      "item": "kingdomkeys:organization_helmet"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:xemnas_helmet"
+  }
+}

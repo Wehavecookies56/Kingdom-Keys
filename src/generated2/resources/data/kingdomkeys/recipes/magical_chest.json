@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "GNG",
+    "GCG",
+    "GNG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "C": {
+      "tag": "forge:chests"
+    },
+    "N": {
+      "item": "minecraft:nether_bricks"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:magical_chest"
+  }
+}

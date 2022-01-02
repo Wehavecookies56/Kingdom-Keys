@@ -1,0 +1,30 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:mythril_gem",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_betwixt_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_stone",
+      "quantity": "1"
+    }
+  ]
+}

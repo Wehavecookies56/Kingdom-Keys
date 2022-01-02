@@ -1,0 +1,30 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:mirage_split_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcum",
+      "quantity": "1"
+    }
+  ]
+}

@@ -4,10 +4,9 @@
 	"model": "kingdomkeys:models/block/savepoint.obj",
 	"transform":{
 		"translation": [ 0, 0.01, 1 ],
-		"scale": [ 1, 1, 1 ]
+		"scale": [ 1, 1, 1 ],
+		"rotation": [0, 0, 0]
 	},
 	"textures": {
-	},
-	"visibility": {
 	}
 }

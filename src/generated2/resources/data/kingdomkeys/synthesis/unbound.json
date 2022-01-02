@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:unbound_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_betwixt_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "3"
+    }
+  ]
+}

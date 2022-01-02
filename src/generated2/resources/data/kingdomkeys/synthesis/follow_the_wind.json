@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:follow_the_wind_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "2"
+    }
+  ]
+}

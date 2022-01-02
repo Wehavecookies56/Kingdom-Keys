@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:bond_of_flame_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_blazing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_shard",
+      "quantity": "5"
+    }
+  ]
+}

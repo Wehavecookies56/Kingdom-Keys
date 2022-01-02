@@ -1,0 +1,15 @@
+{
+	"parent": "forge:item/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/block/org_portal.obj",
+	"textures": {
+
+	},
+	"display": {
+		"gui": {
+			"rotation": [90.0, 0.0, 0 ],
+			"translation": [0, -16, 2 ],
+			"scale": [1,1,1]
+		}
+	}
+}

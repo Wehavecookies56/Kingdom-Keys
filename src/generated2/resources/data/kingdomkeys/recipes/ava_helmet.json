@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:aced_helmet"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:ava_helmet"
+  }
+}

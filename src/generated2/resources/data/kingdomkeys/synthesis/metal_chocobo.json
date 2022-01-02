@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:metal_chocobo_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_wellspring_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "5"
+    }
+  ]
+}

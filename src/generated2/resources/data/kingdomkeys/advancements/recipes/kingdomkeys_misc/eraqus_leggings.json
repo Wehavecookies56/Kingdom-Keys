@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:eraqus_leggings"
+    ]
+  },
+  "criteria": {
+    "diamond_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:diamond_leggings"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:eraqus_leggings"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "diamond_leggings",
+      "has_the_recipe"
+    ]
+  ]
+}

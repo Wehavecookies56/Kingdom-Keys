@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:divine_rose_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "4"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:starlight_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_mythril_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_gem",
+      "quantity": "3"
+    }
+  ]
+}

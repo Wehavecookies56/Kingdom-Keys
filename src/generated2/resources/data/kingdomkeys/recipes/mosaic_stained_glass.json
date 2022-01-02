@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "DGD",
+    "GIG",
+    "DGD"
+  ],
+  "key": {
+    "D": {
+      "tag": "forge:dyes"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:mosaic_stained_glass",
+    "count": 4
+  }
+}

@@ -8,7 +8,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 public class ShadowGoal extends TargetGoal {
 	// 1 - in Shadow ; 0 - in Overworld
 
-	private final int MAX_DISTANCE_FOR_AI = 100, MAX_DISTANCE_FOR_LEAP = 10, MAX_DISTANCE_FOR_DASH = 25, MAX_DISTANCE_FOR_ATTACK = 5, TIME_BEFORE_NEXT_ATTACK = 70, TIME_OUTSIDE_THE_SHADOW = 70;
+	private final int MAX_DISTANCE_FOR_AI = 100, MAX_DISTANCE_FOR_LEAP = 10, MAX_DISTANCE_FOR_DASH = 25, TIME_BEFORE_NEXT_ATTACK = 70, TIME_OUTSIDE_THE_SHADOW = 70;
 	private int shadowTicks = 70, oldAi = -1, ticksUntilNextAttack;
 	private boolean canUseNextAttack = true;
 	private double originalAttackDamage;

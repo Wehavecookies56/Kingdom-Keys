@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:ghost_blox"
+    ]
+  },
+  "criteria": {
+    "normalblox": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:normal_blox"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:ghost_blox"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "normalblox",
+      "has_the_recipe"
+    ]
+  ]
+}

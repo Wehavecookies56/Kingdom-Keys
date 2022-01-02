@@ -1,0 +1,113 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellfire"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellblizzard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellwater"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellthunder"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellcure"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellaero"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellmagnet"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellgravity"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellreflect"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:spellstop"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:betwixt_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:sinister_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:stormy_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:writhing_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:pulsing_shard"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:betwixt_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:sinister_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:stormy_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:writhing_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:pulsing_stone"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 4,
+          "name": "kingdomkeys:fluorite"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "kingdomkeys:damascus"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "kingdomkeys:adamantite"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:electrum"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:orichalcum"
+        }
+      ]
+    }
+  ]
+}

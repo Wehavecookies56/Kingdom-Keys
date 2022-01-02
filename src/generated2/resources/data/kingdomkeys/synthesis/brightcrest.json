@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:brightcrest_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_stone",
+      "quantity": "3"
+    }
+  ]
+}

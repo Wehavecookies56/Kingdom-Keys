@@ -8,8 +8,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -158,6 +162,7 @@ public class CSSummonKeyblade {
 				//SUMMON FROM ANOTHER SLOT
 				Utils.swapStack(player.inventory, 40, extraSlotSummoned);
 				player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
 			} else {
 				if (extraChain != null) {
 					if (!ItemStack.areItemStacksEqual(extraChain, ItemStack.EMPTY)) {
@@ -171,6 +176,8 @@ public class CSSummonKeyblade {
 							keyblade.setTag(extraChain.getTag());
 							player.inventory.setInventorySlotContents(40, keyblade);
 							player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+							spawnKeybladeParticles(player, Hand.OFF_HAND);
+
 						} else if (player.inventory.getFirstEmptyStack() > -1) {
 							ItemStack keyblade;
 							if(extraChain.getItem() instanceof IKeychain) {
@@ -214,6 +221,8 @@ public class CSSummonKeyblade {
 				//SUMMON FROM ANOTHER SLOT
 				Utils.swapStack(player.inventory, player.inventory.currentItem, slotSummoned);
 				player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+				spawnKeybladeParticles(player, Hand.MAIN_HAND);
+
 			} else {
 				if (!ItemStack.areItemStacksEqual(chain, ItemStack.EMPTY) || orgWeapon != null) {
 					if (ItemStack.areItemStacksEqual(heldStack, ItemStack.EMPTY)) {
@@ -231,8 +240,11 @@ public class CSSummonKeyblade {
 								}
 							}
 						}
+						//Summon when keyblade is unsummoned
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);
 						player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+						spawnKeybladeParticles(player, Hand.MAIN_HAND);
+
 					} else if (player.inventory.getFirstEmptyStack() > -1) {
 						ItemStack keyblade;
 						if (orgWeapon == null) {
@@ -248,14 +260,33 @@ public class CSSummonKeyblade {
 								}
 							}
 						}
+						//When does it happen?
 						Utils.swapStack(player.inventory, player.inventory.getFirstEmptyStack(), player.inventory.currentItem);
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, keyblade);
 						player.world.playSound(null, player.getPosition(), ModSounds.summon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+
 					}
 				}
 			}
 		});
 		ctx.get().setPacketHandled(true);
+	}
+
+	private static void spawnKeybladeParticles(PlayerEntity summoner, Hand hand) {
+		Vector3d userPos = new Vector3d(summoner.getPosX(), summoner.getPosY(), summoner.getPosZ());
+		Vector3d lHandCenter = new Vector3d(-0.4, -1.3D, -0.38D);
+		lHandCenter = lHandCenter.rotateYaw((float) Math.toRadians(-summoner.renderYawOffset));
+
+		Vector3d rHandCenter = new Vector3d(0.4, -1.3D, -0.38D);
+		rHandCenter = rHandCenter.rotateYaw((float) Math.toRadians(-summoner.renderYawOffset));
+        Vector3d v = null;
+        if(hand == Hand.MAIN_HAND) {
+        	v = userPos.add(-rHandCenter.x, rHandCenter.y, -rHandCenter.z);
+        } else {
+        	v = userPos.add(-lHandCenter.x,lHandCenter.y, -lHandCenter.z);
+        }
+        ((ServerWorld)summoner.world).spawnParticle(ParticleTypes.FIREWORK, v.x, summoner.getPosY() + 1, v.z, 80, 0,0,0, 0.2);
+        
 	}
 
 	@Mod.EventBusSubscriber

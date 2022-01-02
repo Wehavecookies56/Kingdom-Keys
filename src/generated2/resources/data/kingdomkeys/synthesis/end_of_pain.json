@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:end_of_pain_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "3"
+    }
+  ]
+}

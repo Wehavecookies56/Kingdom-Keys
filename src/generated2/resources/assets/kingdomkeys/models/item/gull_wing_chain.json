@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/gull_wing_chain"
+  }
+}

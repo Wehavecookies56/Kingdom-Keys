@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:ava_boots"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:gula_boots"
+  }
+}

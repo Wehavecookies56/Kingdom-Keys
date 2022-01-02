@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:sweet_memories_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_remembrance_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_shard",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "2"
+    }
+  ]
+}

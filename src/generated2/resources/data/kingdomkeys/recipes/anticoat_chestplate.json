@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "LAL",
+    "EPE",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "A": {
+      "item": "kingdomkeys:organization_chestplate"
+    },
+    "P": {
+      "item": "minecraft:purple_dye"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:anticoat_chestplate"
+  }
+}

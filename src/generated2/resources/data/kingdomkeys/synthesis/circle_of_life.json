@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:circle_of_life_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "3"
+    }
+  ]
+}

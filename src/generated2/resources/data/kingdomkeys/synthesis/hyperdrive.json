@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:hyperdrive_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_frost_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_gem",
+      "quantity": "2"
+    }
+  ]
+}

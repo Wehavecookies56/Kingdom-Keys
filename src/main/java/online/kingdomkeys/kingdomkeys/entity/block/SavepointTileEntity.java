@@ -25,7 +25,7 @@ public class SavepointTileEntity extends TileEntity implements ITickableTileEnti
 		double cy = pos.getY() + 0.5;
 		double cz = pos.getZ() + 0.5;
 
-		a -= 10; // Speed and distance between particles
+		a -= 5; // Speed and distance between particles
 		double x = cx + (r * Math.cos(Math.toRadians(a)));
 		double z = cz + (r * Math.sin(Math.toRadians(a)));
 
@@ -35,7 +35,7 @@ public class SavepointTileEntity extends TileEntity implements ITickableTileEnti
 		//((ServerWorld)world).spawnParticle(ParticleTypes.HAPPY_VILLAGER, x, (cy + 1) - (a / 1800), z, 1, 0, 0, 0,1);
 		//((ServerWorld)world).spawnParticle(ParticleTypes.HAPPY_VILLAGER, x2, (cy + 0.5) - (a / 1800), z2, 1, 0, 0, 0,1);
 
-		world.addParticle(ParticleTypes.HAPPY_VILLAGER, x, (cy + 1.3) - (a / 1800), z, 0.0D, 0.0D, 0.0D);
+		world.addParticle(ParticleTypes.HAPPY_VILLAGER, x, (cy - 0.5) - (-a / 1800), z, 0.0D, 0.0D, 0.0D);
 		world.addParticle(ParticleTypes.HAPPY_VILLAGER, x2, (cy + 0.5) - (a / 1800), z2, 0.0D, 0.0D, 0.0D);
 	}
 

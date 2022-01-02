@@ -9,7 +9,9 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -59,10 +61,12 @@ public class SavePointBlock extends BaseBlock {
 	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		//if(!worldIn.isRemote) {
-			player.setBedPosition(pos.add(0, 1, 0));
-			player.sendStatusMessage(new TranslationTextComponent("Spawn point set?"), true);
-		//}
+		if(!worldIn.isRemote) {
+			//player.setBedPosition(pos.add(0, 1, 0));
+			//((ServerPlayerEntity)player).server.getCommandManager().handleCommand(player.getCommandSource(), "spawnpoint "+player.getDisplayName().getString()+" "+pos.getX()+" "+pos.getY()+" "+pos.getZ());
+	    	((ServerPlayerEntity)player).func_242111_a(worldIn.getDimensionKey(), pos.up(), 0F, true, false);
+			player.sendStatusMessage(new TranslationTextComponent("block.minecraft.set_spawn"), true);
+		}
 		return ActionResultType.CONSUME;
 	}
 

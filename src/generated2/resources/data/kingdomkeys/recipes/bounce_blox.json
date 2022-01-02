@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "kingdomkeys",
+  "pattern": [
+    "NNN",
+    "NSN",
+    "NNN"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:slime_block"
+    },
+    "N": {
+      "item": "kingdomkeys:normal_blox"
+    }
+  },
+  "result": {
+    "item": "kingdomkeys:bounce_blox"
+  }
+}

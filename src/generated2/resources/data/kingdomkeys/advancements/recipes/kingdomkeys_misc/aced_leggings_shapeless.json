@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:aced_leggings_shapeless"
+    ]
+  },
+  "criteria": {
+    "ira_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:ira_leggings"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:aced_leggings_shapeless"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ira_leggings",
+      "has_the_recipe"
+    ]
+  ]
+}

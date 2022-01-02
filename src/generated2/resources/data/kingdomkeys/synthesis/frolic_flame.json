@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:frolic_flame_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_blazing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "1"
+    }
+  ]
+}

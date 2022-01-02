@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:metal_blox"
+    ]
+  },
+  "criteria": {
+    "hardblox": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:hard_blox"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:metal_blox"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hardblox",
+      "has_the_recipe"
+    ]
+  ]
+}

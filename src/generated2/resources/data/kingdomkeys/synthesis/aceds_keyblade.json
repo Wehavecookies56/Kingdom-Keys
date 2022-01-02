@@ -1,0 +1,34 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:aceds_keyblade_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_tranquility_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_tranquility_crystal",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:mat_tranquility_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_tranquility_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_lost_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_manifest_illusion",
+      "quantity": "1"
+    }
+  ]
+}

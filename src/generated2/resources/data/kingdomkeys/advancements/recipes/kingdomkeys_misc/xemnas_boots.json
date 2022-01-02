@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:xemnas_boots"
+    ]
+  },
+  "criteria": {
+    "organization_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:organization_boots"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:xemnas_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "organization_boots",
+      "has_the_recipe"
+    ]
+  ]
+}

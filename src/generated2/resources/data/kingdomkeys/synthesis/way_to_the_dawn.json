@@ -1,0 +1,26 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:way_to_the_dawn_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_gem",
+      "quantity": "4"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:mythril_stone",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_twilight_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_shard",
+      "quantity": "3"
+    }
+  ]
+}

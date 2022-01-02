@@ -5,7 +5,10 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -15,6 +18,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
@@ -44,6 +49,28 @@ public class OrgPortalBlock extends BaseBlock {
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return ModEntities.TYPE_ORG_PORTAL_TE.get().create();
 	}
+	
+	private static final VoxelShape collisionShape = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
+
+	@Override
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return collisionShape;
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+		return collisionShape;
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return Block.makeCuboidShape(0D, 0D, 0D, 16.0D, 2.0D, 16.0D);
+	}
+
+	@Override
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.MODEL;
+	}
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
@@ -58,7 +85,7 @@ public class OrgPortalBlock extends BaseBlock {
 				if (portals.size() < 3) {
 					UUID portalUUID = UUID.randomUUID();
 	
-					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY(), pos.getZ(), player.world.getDimensionKey(), player.getUniqueID()));
+					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY()-1, pos.getZ(), player.world.getDimensionKey(), player.getUniqueID()));
 					Utils.syncWorldData(worldIn, worldData);
 	
 					player.sendStatusMessage(new TranslationTextComponent(TextFormatting.GREEN + "This is now your portal"), true);

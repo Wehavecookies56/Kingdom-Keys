@@ -1,0 +1,30 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:ultima_weapon_bbs_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcumplus",
+      "quantity": "9"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_orichalcum",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "1"
+    }
+  ]
+}

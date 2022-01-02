@@ -1,0 +1,30 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:avas_keyblade_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_betwixt_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_crystal",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lost_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_shard",
+      "quantity": "2"
+    }
+  ]
+}

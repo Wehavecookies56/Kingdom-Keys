@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:oathkeeper_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_twilight_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "3"
+    }
+  ]
+}

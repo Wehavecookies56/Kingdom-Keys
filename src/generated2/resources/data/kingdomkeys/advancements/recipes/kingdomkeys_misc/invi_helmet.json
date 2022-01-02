@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:invi_helmet"
+    ]
+  },
+  "criteria": {
+    "gula_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "kingdomkeys:gula_helmet"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:invi_helmet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "gula_helmet",
+      "has_the_recipe"
+    ]
+  ]
+}

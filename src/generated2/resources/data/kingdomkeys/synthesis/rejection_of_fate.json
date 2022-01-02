@@ -1,0 +1,22 @@
+{
+  "cost": 0,
+  "output": {
+    "item": "kingdomkeys:rejection_of_fate_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_twilight_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_twilight_gem",
+      "quantity": "2"
+    }
+  ]
+}
