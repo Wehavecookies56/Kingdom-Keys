@@ -50,12 +50,6 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("twilight_ore");
 		standardCube("twilight_ore_n");
 
-		// others
-		//standardCube("org_portal");
-		//standardCube("mosaic_stained_glass");
-	//	standardCube("pedestal");
-	//	standardCube("soa_door");
-		//standardCube("savepoint");
 	}
 
 	public void standardCube(String name) {

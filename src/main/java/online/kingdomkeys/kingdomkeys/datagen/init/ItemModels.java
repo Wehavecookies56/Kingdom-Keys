@@ -382,7 +382,6 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("magnet_blox_on");
 		standardBlockItem("magnet_blox_off");
 		standardBlockItem("pair_blox");
-		standardBlockItem("org_portal");
 		standardBlockItem("magical_chest");
 		standardBlockItem("pedestal");
 		//standardBlockItem("moogle_projector");
@@ -411,7 +410,6 @@ public class ItemModels extends ItemModelProvider {
 		standardBlockItem("twilight_ore_n");
 
 		standardBlockItem("mosaic_stained_glass");
-		standardBlockItem("synthesis_table");
 		standardBlockItem("moogle_projector");
 	
 	}
