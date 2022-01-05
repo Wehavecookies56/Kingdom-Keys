@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -59,13 +60,14 @@ public class BlizzardEntity extends ThrowableEntity {
 		if (this.ticksExisted > maxTicks) {
 			this.remove();
 		}
-
-		if (world.getBlockState(getPosition()).getBlockState() == Blocks.WATER.getDefaultState()) {
-			world.setBlockState(getPosition(), Blocks.ICE.getDefaultState());
-			remove();
-		} else if(world.getBlockState(getPosition()).getBlockState() == Blocks.LAVA.getDefaultState()){
-			world.setBlockState(getPosition(), Blocks.OBSIDIAN.getDefaultState());
-			remove();
+		if(ModConfigs.blizzardChangeBlocks && !world.isRemote) {
+			if (world.getBlockState(getPosition()).getBlockState() == Blocks.WATER.getDefaultState()) {
+				world.setBlockState(getPosition(), Blocks.ICE.getDefaultState());
+				remove();
+			} else if(world.getBlockState(getPosition()).getBlockState() == Blocks.LAVA.getDefaultState()){
+				world.setBlockState(getPosition(), Blocks.OBSIDIAN.getDefaultState());
+				remove();
+			}
 		}
 
 		if (ticksExisted > 2)

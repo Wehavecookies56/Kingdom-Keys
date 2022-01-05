@@ -42,7 +42,7 @@ public class CommonConfig {
     public ForgeConfigSpec.IntValue driveDropProbability;
     public ForgeConfigSpec.IntValue focusDropProbability;
 
-    
+    public ForgeConfigSpec.BooleanValue blizzardChangeBlocks;
     public ForgeConfigSpec.BooleanValue playerSpawnHeartless;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
     
@@ -71,6 +71,11 @@ public class CommonConfig {
                 .comment("Allow Bomb heartless to explode when lit on fire")
                 .translation(KingdomKeys.MODID + ".config.bomb_explode_with_fire")
                 .define("bombExplodeWithfire", true);
+        
+        blizzardChangeBlocks = builder
+                .comment("Allow Blizzard to turn lava into obsidian and freeze water")
+                .translation(KingdomKeys.MODID + ".config.blizzard_change_blocks")
+                .define("blizzardChangeBlocks", true);
         
         keybladeOpenDoors = builder
                 .comment("Allow keyblades to open iron doors with right click")

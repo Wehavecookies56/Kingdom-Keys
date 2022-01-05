@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import java.util.Random;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -11,7 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -24,6 +24,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class SavePointBlock extends BaseBlock {
@@ -62,14 +63,15 @@ public class SavePointBlock extends BaseBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if(!worldIn.isRemote) {
-			//player.setBedPosition(pos.add(0, 1, 0));
-			//((ServerPlayerEntity)player).server.getCommandManager().handleCommand(player.getCommandSource(), "spawnpoint "+player.getDisplayName().getString()+" "+pos.getX()+" "+pos.getY()+" "+pos.getZ());
 	    	((ServerPlayerEntity)player).func_242111_a(worldIn.getDimensionKey(), pos.up(), 0F, true, false);
 			player.sendStatusMessage(new TranslationTextComponent("block.minecraft.set_spawn"), true);
+		} else {
+			player.playSound(ModSounds.savespawn.get(), 1F, 1F);
 		}
 		return ActionResultType.CONSUME;
 	}
 
+	UUID lastPlayedSoundPlayer = null;
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
@@ -78,6 +80,9 @@ public class SavePointBlock extends BaseBlock {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				
 			if (playerData.getMP() < playerData.getMaxMP() || player.getHealth() < playerData.getMaxHP() || player.getFoodStats().getFoodLevel() < 20) { // TODO add the rest of things that you get back
+				if(player.ticksExisted % 5 == 0) {
+					player.playSound(ModSounds.savepoint.get(), 1F, 1F);
+				}
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.2, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.2, 0.0D, 0.0D, 0.0D);
 				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.8, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);

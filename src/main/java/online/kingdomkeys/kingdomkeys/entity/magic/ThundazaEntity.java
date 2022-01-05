@@ -26,6 +26,7 @@ import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ThundazaEntity extends ThrowableEntity {
@@ -122,7 +123,9 @@ public class ThundazaEntity extends ThrowableEntity {
 						if(!e.isAlive()) {
 							list.remove(e);
 						}
-						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), e.getPosX(), e.getPosY(), e.getPosZ(), dmgMult);
+						float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.15F : 2;
+
+						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), e.getPosX(), e.getPosY(), e.getPosZ(), dmg * dmgMult);
 						shot.setCaster(getCaster().getUniqueID());
 						world.addEntity(shot);
 
@@ -138,8 +141,9 @@ public class ThundazaEntity extends ThrowableEntity {
 
 					int posX = (int) (x + getCaster().world.rand.nextInt((int) (radius*2)) - radius / 2)-1;
 					int posZ = (int) (z + getCaster().world.rand.nextInt((int) (radius*2)) - radius / 2)-1;
+					float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 0.15F : 2;
 
-					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), posX, getCaster().world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ, dmgMult);
+					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().world, getCaster(), posX, getCaster().world.getHeight(Type.WORLD_SURFACE, posX, posZ), posZ, dmg * dmgMult);
 					shot.setCaster(getCaster().getUniqueID());
 					world.addEntity(shot);
 

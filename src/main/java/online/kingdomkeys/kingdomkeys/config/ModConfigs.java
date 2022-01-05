@@ -260,6 +260,7 @@ public class ModConfigs {
     public static double critMult;
     
     public static boolean playerSpawnHeartless;
+    public static boolean blizzardChangeBlocks;
     public static List<String> playerSpawnHeartlessData;
 
     public static void bakeCommon() {
@@ -291,6 +292,7 @@ public class ModConfigs {
         munnyDropProbability = COMMON.munnyDropProbability.get();
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
+        blizzardChangeBlocks = COMMON.blizzardChangeBlocks.get();
         
     }
 
