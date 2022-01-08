@@ -340,7 +340,7 @@ public class EntityEvents {
 					}
 					
 					//Treasure Magnet
-					if(playerData.isAbilityEquipped(Strings.treasureMagnet)) {
+					if(playerData.isAbilityEquipped(Strings.treasureMagnet) && event.player.inventory.getFirstEmptyStack() > -1) {
 						double x = event.player.getPosX();
 						double y = event.player.getPosY() + 0.75;
 						double z = event.player.getPosZ();
@@ -693,8 +693,7 @@ public class EntityEvents {
 		if (event.getSource().getTrueSource() instanceof PlayerEntity) {
 			PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
 			
-			ItemStack weapon = null;
-			weapon = Utils.getWeaponDamageStack(event.getSource(), player);
+			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if(weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
 				if(weapon.getItem() instanceof KeybladeItem) {
@@ -714,28 +713,30 @@ public class EntityEvents {
 				event.setAmount(ModCapabilities.getPlayer(player).getStrength(true));
 			}
 			
-			LivingEntity target = event.getEntityLiving();
-			
-			if(event.getSource().getImmediateSource() instanceof VolleyShotEntity || event.getSource().getImmediateSource() instanceof RagnarokShotEntity || event.getSource().getImmediateSource() instanceof ThunderBoltEntity) {
-				target.hurtResistantTime = 0;
-			}
+		}
+		
+		LivingEntity target = event.getEntityLiving();
+		
+		if(event.getSource().getImmediateSource() instanceof VolleyShotEntity || event.getSource().getImmediateSource() instanceof RagnarokShotEntity || event.getSource().getImmediateSource() instanceof ThunderBoltEntity) {
+			target.hurtResistantTime = 0;
+		}
 
-			if (target instanceof PlayerEntity) {
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
+		if (target instanceof PlayerEntity) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) target);
 
-				if (playerData.getReflectTicks() <= 0) { // If is casting reflect
-					if (playerData.isAbilityEquipped(Strings.mpRage)) {
-						playerData.addMP((event.getAmount() * 0.05F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
-					}
+			if (playerData.getReflectTicks() <= 0) { // If is casting reflect
+				if (playerData.isAbilityEquipped(Strings.mpRage)) {
+					playerData.addMP((event.getAmount() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
+				}
 
-					if (playerData.isAbilityEquipped(Strings.damageDrive)) {
-						playerData.addDP((event.getAmount() * 0.05F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
-					}
+				if (playerData.isAbilityEquipped(Strings.damageDrive)) {
+					playerData.addDP((event.getAmount() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) target);
 				}
 			}
 		}
+		
 		
 		//This is outside as it should apply the formula if you have been hit by non player too		
 		if(event.getEntityLiving() instanceof PlayerEntity) { 

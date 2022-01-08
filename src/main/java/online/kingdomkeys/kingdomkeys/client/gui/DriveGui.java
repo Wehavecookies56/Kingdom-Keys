@@ -89,19 +89,12 @@ public class DriveGui extends Screen {
 				currDrive = guiLength;
 			}
 
-			/*
-			 * if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) { if
-			 * (!STATE.getActiveDriveName().equals("none") &&
-			 * !STATE.getActiveDriveName().equals(Strings.Form_Anti)) {
-			 * event.setCanceled(true); } }
-			 */
 			if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 				int guiWidth = 95;
 				int guiBarWidth = 83;
 				int guiHeight = 18;
 				int screenWidth = minecraft.getMainWindow().getScaledWidth();
 				int screenHeight = minecraft.getMainWindow().getScaledHeight();
-				PlayerEntity player = minecraft.player;
 
 				minecraft.textureManager.bindTexture(texture);
 
