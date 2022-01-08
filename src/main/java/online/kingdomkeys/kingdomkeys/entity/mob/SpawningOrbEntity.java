@@ -61,8 +61,8 @@ public class SpawningOrbEntity extends MonsterEntity {
 				int level = avgLevel - world.rand.nextInt(6) + 2;
 				level = Math.max(1, Math.min(100, level));
 				this.mob.setCustomName(new TranslationTextComponent(this.mob.getDisplayName().getString()+" Lv."+level));
-				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * level/10, this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * level/10, this.mob.getMaxHealth()));
+				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), this.mob.getMaxHealth()));
 			}
 		}
 	}

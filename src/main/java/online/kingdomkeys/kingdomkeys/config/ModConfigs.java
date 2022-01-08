@@ -261,6 +261,7 @@ public class ModConfigs {
     
     public static boolean playerSpawnHeartless;
     public static boolean blizzardChangeBlocks;
+    public static int mobLevelStats;
     public static List<String> playerSpawnHeartlessData;
 
     public static void bakeCommon() {
@@ -293,6 +294,8 @@ public class ModConfigs {
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
         blizzardChangeBlocks = COMMON.blizzardChangeBlocks.get();
+        
+        mobLevelStats = COMMON.mobLevelStats.get();
         
     }
 

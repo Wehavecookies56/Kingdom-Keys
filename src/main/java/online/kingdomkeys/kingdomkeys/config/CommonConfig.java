@@ -49,6 +49,8 @@ public class CommonConfig {
     public ForgeConfigSpec.DoubleValue shotlockMult;
     public ForgeConfigSpec.DoubleValue critMult;
 
+    public ForgeConfigSpec.IntValue mobLevelStats;
+    
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
 		builder.push("general");
 
@@ -135,6 +137,11 @@ public class CommonConfig {
                 .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")
                 .translation(KingdomKeys.MODID + ".config.player_spawn_heartless_Data")
                 .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), o -> o instanceof String);
+        
+        mobLevelStats = builder
+                .comment("Health % restored when using a drive form")
+                .translation(KingdomKeys.MODID + ".config.mob_level_stats")
+                .defineInRange("mobLevelStats",10,0,100);
         
         builder.pop();
         
