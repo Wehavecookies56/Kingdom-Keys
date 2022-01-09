@@ -309,7 +309,8 @@ public class ModConfigs {
     
     public static int limitLaserCircleCost;
     public static int limitLaserDomeCost;
-    public static int limitArrowRainCost;    
+    public static int limitArrowRainCost;
+    public static List<Integer> statsMultiplier;
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
@@ -323,6 +324,7 @@ public class ModConfigs {
         limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
         limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
         limitArrowRainCost = SERVER.limitArrowRainCost.get();
+        statsMultiplier = (List<Integer>) SERVER.statsMultiplier.get();
     }
 
 
@@ -330,10 +332,13 @@ public class ModConfigs {
     public static void configEvent(ModConfig.ModConfigEvent event) {
         KingdomKeys.LOGGER.info("LOAD CONFIG");
         if (event.getConfig().getSpec() == CLIENT_SPEC) {
+            KingdomKeys.LOGGER.info("LOAD CLIENT CONFIG");
             bakeClient();
         } else if (event.getConfig().getSpec() == COMMON_SPEC) {
+            KingdomKeys.LOGGER.info("LOAD COMMON CONFIG");
             bakeCommon();
         } else if (event.getConfig().getSpec() == SERVER_SPEC) {
+            KingdomKeys.LOGGER.info("LOAD SERVER CONFIG");
             bakeServer();
         }
     }

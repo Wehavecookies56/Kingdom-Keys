@@ -139,7 +139,7 @@ public class CommonConfig {
                 .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), o -> o instanceof String);
         
         mobLevelStats = builder
-                .comment("Health % restored when using a drive form")
+                .comment("Mob base stats multiplier out of 100% (default 10)")
                 .translation(KingdomKeys.MODID + ".config.mob_level_stats")
                 .defineInRange("mobLevelStats",10,0,100);
         

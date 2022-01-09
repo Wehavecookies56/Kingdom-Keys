@@ -176,7 +176,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getStrength(boolean combined) {
-		return combined ? strength + boostStr + Utils.getAccessoriesStat(this, "str") : strength;
+		return combined ? (strength + boostStr + Utils.getAccessoriesStat(this, "str")) * ModConfigs.statsMultiplier.get(0) / 100 : strength * ModConfigs.statsMultiplier.get(0) / 100;
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getMagic(boolean combined) {
-		return combined ? magic + boostMag + Utils.getAccessoriesStat(this, "mag"): magic;
+		return combined ? (magic + boostMag + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100: magic * ModConfigs.statsMultiplier.get(1) / 100;
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getDefense(boolean combined) {
-		return combined ? defense + boostDef : defense;
+		return combined ? (defense + boostDef) * ModConfigs.statsMultiplier.get(2) / 100 : defense * ModConfigs.statsMultiplier.get(2) / 100;
 	}
 
 	@Override

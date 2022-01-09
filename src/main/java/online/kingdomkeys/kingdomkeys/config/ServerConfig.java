@@ -14,6 +14,7 @@ public class ServerConfig {
     public ForgeConfigSpec.IntValue partyRangeLimit;
 
     public ForgeConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
+    public ForgeConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ForgeConfigSpec.DoubleValue xpMultiplier;
     public ForgeConfigSpec.DoubleValue heartMultiplier;
@@ -66,6 +67,11 @@ public class ServerConfig {
                 .comment("Drive Form XP Multiplier")
                 .translation(KingdomKeys.MODID + ".config.drive_form_xp_multiplier")
                 .defineList("driveFormXPMultiplier", Lists.newArrayList("Valor,1", "Wisdom,1", "Limit,1", "Master,1", "Final,1"), o -> o instanceof String);
+
+        statsMultiplier = builder
+                .comment("Strength, Magic and Defense multiplier in % for players")
+                .translation(KingdomKeys.MODID + ".config.stats_multiplier")
+                .defineList("statsMultiplier", Lists.newArrayList(100, 100, 100), o -> o instanceof Integer);
 
         builder.pop();
         
