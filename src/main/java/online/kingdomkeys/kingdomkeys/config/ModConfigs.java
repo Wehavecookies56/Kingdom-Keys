@@ -330,7 +330,6 @@ public class ModConfigs {
 
     @SubscribeEvent
     public static void configEvent(ModConfig.ModConfigEvent event) {
-        KingdomKeys.LOGGER.info("LOAD CONFIG");
         if (event.getConfig().getSpec() == CLIENT_SPEC) {
             KingdomKeys.LOGGER.info("LOAD CLIENT CONFIG");
             bakeClient();

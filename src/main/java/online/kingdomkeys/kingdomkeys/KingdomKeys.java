@@ -80,7 +80,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.0.6.1";
+	public static final String MODVER = "2.0.6.2";
 	public static final String MCVER = "1.16.5";
 
 	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
