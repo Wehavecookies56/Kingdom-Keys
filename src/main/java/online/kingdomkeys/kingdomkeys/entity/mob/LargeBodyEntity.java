@@ -28,7 +28,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class LargeBodyEntity extends MonsterEntity implements IKHMob {
+public class LargeBodyEntity extends BaseKHEntity {
 
     enum SpecialAttack {
         WAIT,

@@ -17,7 +17,7 @@ public class EntityHelper {
 	public static final DataParameter<Integer> STATE = EntityDataManager.<Integer>createKey(MobEntity.class, DataSerializers.VARINT);
 
 	public static void setState(Entity e, int i) {
-		e.getDataManager().set(STATE, i);
+		e.getDataManager().set(STATE, (int)i);
 	}
 
 	public static double percentage(double i, double j) {
@@ -25,6 +25,8 @@ public class EntityHelper {
 	}
 
 	public static int getState(Entity e) {
+		//System.out.print("Getting value ");
+		//System.out.println(e.getDataManager().get(STATE));
 		return e.getDataManager().get(STATE);
 	}
 
@@ -41,7 +43,7 @@ public class EntityHelper {
 	}
 
 	public enum MobType {
-		HEARTLESS_PUREBLOOD, HEARTLESS_EMBLEM, NOBODY, NPC;
+		HEARTLESS_PUREBLOOD, HEARTLESS_EMBLEM, NOBODY, NPC, BOSS;
 	}
 
 	public static Dir get8Directions(Entity e) {

@@ -27,7 +27,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class DarkballEntity extends MonsterEntity implements IKHMob {
+public class DarkballEntity extends BaseKHEntity {
+
 
     enum SpecialAttack {
         CHARGE,

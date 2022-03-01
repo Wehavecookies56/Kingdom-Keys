@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -53,6 +52,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.ElementalMusicalHeart
 import online.kingdomkeys.kingdomkeys.client.render.entity.GigaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.GummiShipEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.LargeBodyRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.MarluxiaRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MegaShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.MoogleRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.NobodyCreeperRenderer;
@@ -119,6 +119,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.GigaShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.GreenRequiemEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MinuteBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
@@ -219,7 +220,9 @@ public class ModEntities {
     public static final RegistryObject<EntityType<YellowOperaEntity>> TYPE_YELLOW_OPERA = createEntityType(YellowOperaEntity::new, YellowOperaEntity::new, EntityClassification.MONSTER, "yellow_opera", 1.0F, 2.0F, HEARTLESS_EMBLEM, 6, Color.YELLOW.getRGB(), Color.YELLOW.getRGB());
     public static final RegistryObject<EntityType<GreenRequiemEntity>> TYPE_GREEN_REQUIEM = createEntityType(GreenRequiemEntity::new, GreenRequiemEntity::new, EntityClassification.MONSTER, "green_requiem", 1.0F, 2.0F, HEARTLESS_EMBLEM, 6, Color.GREEN.getRGB(), Color.YELLOW.getRGB());
     public static final RegistryObject<EntityType<GummiShipEntity>> TYPE_GUMMI_SHIP = createEntityType(GummiShipEntity::new, GummiShipEntity::new, EntityClassification.MISC, "gummi_ship", 5.0F, 5.0F);
-    public static final RegistryObject<EntityType<SpawningOrbEntity>> TYPE_SPAWNING_ORB = createEntityType(SpawningOrbEntity::new, SpawningOrbEntity::new, EntityClassification.MONSTER, "spawning_orb", 1.0F,  2.0F);
+    public static final RegistryObject<EntityType<SpawningOrbEntity>> TYPE_SPAWNING_ORB = createEntityType(SpawningOrbEntity::new, SpawningOrbEntity::new, EntityClassification.MONSTER, "spawning_orb", 1.5F,  1.5F);
+    
+    public static final RegistryObject<EntityType<MarluxiaEntity>> TYPE_MARLUXIA = createEntityTypeImmuneToFire(MarluxiaEntity::new, MarluxiaEntity::new, EntityClassification.MONSTER, "marluxia", 1F, 2F);
 
     //TODO update textures to work with newer model, make magic for
     /*
@@ -400,6 +403,8 @@ public class ModEntities {
         
         RenderingRegistry.registerEntityRenderingHandler(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
         
+        RenderingRegistry.registerEntityRenderingHandler(TYPE_MARLUXIA.get(), MarluxiaRenderer.FACTORY);
+        
         //Tile Entities
         
         ClientRegistry.bindTileEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
@@ -432,6 +437,8 @@ public class ModEntities {
         
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
         GlobalEntityTypeAttributes.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().create());
+        
+        GlobalEntityTypeAttributes.put(TYPE_MARLUXIA.get(), MarluxiaEntity.registerAttributes().create());
     }
     
     public static MonsterEntity getRandomEnemy(int level, World world) {
@@ -460,7 +467,7 @@ public class ModEntities {
 				}
 			}
 		} else {
-			System.out.println("No spawning");
+			System.out.println("No spawning, config is not adding up to 100 percent");
 		}
     	
 		return mobs.get(world.rand.nextInt(mobs.size()));		 
@@ -487,6 +494,8 @@ public class ModEntities {
         EntitySpawnPlacementRegistry.register(TYPE_STORM_BOMB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
         EntitySpawnPlacementRegistry.register(TYPE_YELLOW_OPERA.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
         EntitySpawnPlacementRegistry.register(TYPE_SPAWNING_ORB.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
+        
+        EntitySpawnPlacementRegistry.register(TYPE_MARLUXIA.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MonsterEntity::canMonsterSpawnInLight);
     }
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, KingdomKeys.MODID);

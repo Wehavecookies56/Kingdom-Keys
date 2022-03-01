@@ -22,7 +22,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SeedBulletEntity;
 
 //TODO fix seed bullet
-public class DirePlantEntity extends MonsterEntity implements IKHMob {
+public class DirePlantEntity extends BaseKHEntity {
 
     public DirePlantEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);

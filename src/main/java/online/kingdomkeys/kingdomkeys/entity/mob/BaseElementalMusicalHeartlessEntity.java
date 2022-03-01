@@ -23,7 +23,7 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
-public abstract class BaseElementalMusicalHeartlessEntity extends MonsterEntity implements IKHMob {
+public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
 
     public enum Element {
         FIRE, BLIZZARD, THUNDER, AERO, CURE

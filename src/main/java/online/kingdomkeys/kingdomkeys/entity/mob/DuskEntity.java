@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class DuskEntity extends MonsterEntity implements IKHMob {
+public class DuskEntity extends BaseKHEntity {
 
 	public DuskEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
 		super(type, worldIn);

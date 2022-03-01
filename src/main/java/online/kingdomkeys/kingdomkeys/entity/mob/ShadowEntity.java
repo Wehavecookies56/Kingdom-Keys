@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
-public class ShadowEntity extends MonsterEntity implements IKHMob {
+public class ShadowEntity extends BaseKHEntity {
 
     public ShadowEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);

@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class ShadowGlobEntity extends MonsterEntity implements IKHMob {
+public class ShadowGlobEntity extends BaseKHEntity {
 
     public ShadowGlobEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);

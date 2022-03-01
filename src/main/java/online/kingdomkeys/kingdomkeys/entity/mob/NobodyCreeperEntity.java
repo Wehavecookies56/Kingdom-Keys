@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class NobodyCreeperEntity extends MonsterEntity implements IKHMob {
+public class NobodyCreeperEntity extends BaseKHEntity {
 
     public NobodyCreeperEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);

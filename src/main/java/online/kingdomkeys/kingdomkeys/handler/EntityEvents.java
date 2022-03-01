@@ -30,7 +30,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -62,6 +61,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.FocusOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
@@ -71,9 +71,15 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FirazaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
+import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
@@ -771,7 +777,31 @@ public class EntityEvents {
 			
 			event.setAmount(damage <= 0 ? 1 : damage);
 		}
+
+		if (event.getEntityLiving() instanceof BaseKHEntity) {
+			float damage = event.getAmount();
+			if (event.getEntityLiving() instanceof MarluxiaEntity) {
+				MarluxiaEntity mar = (MarluxiaEntity) event.getEntityLiving();
+				if (EntityHelper.getState(event.getEntityLiving()) == 1) { // If marly is armored
+					damage = event.getAmount() * 0.1F;
+					Entity ent = event.getSource().getImmediateSource();
+					if (ent instanceof FireEntity || ent instanceof FiraEntity || ent instanceof FiragaEntity || ent instanceof FirazaEntity) {
+						mar.marluxiaGoal.removeArmor(mar);
+					}
+				} else if (EntityHelper.getState(event.getEntityLiving()) == 2) {
+					if (event.getSource().getTrueSource() == mar.getAttackingEntity()) {
+						EntityHelper.setState(mar, 0);
+					}
+				}
+			}
+			int defense = ((BaseKHEntity)event.getEntityLiving()).getDefense();
+			System.out.println(defense+" "+damage);
+			damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
+			System.out.println(damage);
+			event.setAmount(damage);
+		}
 	}
+	
 
 	//Prevent attack when stopped
 	@SubscribeEvent
