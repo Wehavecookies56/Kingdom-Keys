@@ -83,9 +83,10 @@ public class RecipeItem extends Item implements IItemCategory {
 
 	private void learnRecipes(PlayerEntity player, ItemStack stack)
 	{
-		String[] recipes = { stack.getTag().getString("recipe1"), stack.getTag().getString("recipe2"), stack.getTag().getString("recipe3") };
+		final CompoundNBT stackTag = stack.getTag();
+		String[] recipes = { stackTag.getString("recipe1"), stackTag.getString("recipe2"), stackTag.getString("recipe3") };
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		// /give Abelatox kingdomkeys:recipe{recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:diamond"} 1
+		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
 
 		boolean consume = false;
 		for (String recipe : recipes) {
@@ -120,7 +121,7 @@ public class RecipeItem extends Item implements IItemCategory {
 		} else {
 			//try for fresh recipes, based on what type this stack was set to. No swapping from keyblade to item recipes etc.
 			//will fail successfully if none left.
-			shuffleRecipes(stack, player, stack.getTag().getString("type"));
+			shuffleRecipes(stack, player, stackTag.getString("type"));
 		}
 	}
 
