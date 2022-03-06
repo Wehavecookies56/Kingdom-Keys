@@ -38,38 +38,13 @@ public class RecipeItem extends Item implements IItemCategory {
 		if (hand == Hand.MAIN_HAND) {
 			if (!world.isRemote) {
 				ItemStack stack = player.getHeldItemMainhand();
+
+				//Allow recipes to be given with pre-set keyblades
+				//If a recipe already has a tag, it will try learn those
+				//If the player already has learnt them, the recipe item will be refreshed to try get new recipes.
 				if (stack.hasTag()) {
-					String[] recipes = { stack.getTag().getString("recipe1"), stack.getTag().getString("recipe2"), stack.getTag().getString("recipe3") };
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					// /give Abelatox kingdomkeys:recipe{recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:diamond"} 1
-
-					boolean consume = false;
-					for (String recipe : recipes) {
-						ResourceLocation rl = new ResourceLocation(recipe);
-						if (RecipeRegistry.getInstance().containsKey(rl)) {
-							ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(rl).getResult());							
-							if (recipe == null || !RecipeRegistry.getInstance().containsKey(rl)) { // If recipe is not valid
-								String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message), Util.DUMMY_UUID);
-							} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
-								String message = "Recipe for " + Utils.translateToLocal(outputStack.getTranslationKey()) + " already learnt";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message), Util.DUMMY_UUID);
-							} else { // If recipe is not known, learn it
-								playerData.addKnownRecipe(rl);
-								consume = true;
-								String message = "Recipe " + Utils.translateToLocal(outputStack.getTranslationKey()) + " learnt successfully";
-								player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message), Util.DUMMY_UUID);
-								PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-							}
-						}
-					}
-
-					if (consume) {
-						player.getHeldItemMainhand().shrink(1);
-					} else {
-						shuffleRecipes(stack, player, stack.getTag().getString("type"));
-					}
-				} else {					
+					learnRecipes(player, stack);
+				} else {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade");
 					List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item");
@@ -97,12 +72,57 @@ public class RecipeItem extends Item implements IItemCategory {
 					
 					player.sendStatusMessage(new TranslationTextComponent("Opened "+type+" recipe"), true);
 
-					
-					shuffleRecipes(stack, (PlayerEntity) player, type);
+					//Set up the recipe item with the given type
+					//We get here if there are recipes still available to learn.
+					shuffleRecipes(stack, player, type);
 				}
 			}
 		}
 		return super.onItemRightClick(world, player, hand);
+	}
+
+	private void learnRecipes(PlayerEntity player, ItemStack stack)
+	{
+		final CompoundNBT stackTag = stack.getTag();
+		String[] recipes = { stackTag.getString("recipe1"), stackTag.getString("recipe2"), stackTag.getString("recipe3") };
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
+
+		boolean consume = false;
+		for (String recipe : recipes) {
+			ResourceLocation rl = new ResourceLocation(recipe);
+			if (RecipeRegistry.getInstance().containsKey(rl)) {
+				ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(rl).getResult());
+				if (recipe == null || !RecipeRegistry.getInstance().containsKey(rl)) { // If recipe is not valid
+					String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
+					player.sendMessage(new TranslationTextComponent(TextFormatting.RED + message), Util.DUMMY_UUID);
+				} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
+					String message = "Recipe for " + Utils.translateToLocal(outputStack.getTranslationKey()) + " already learnt";
+					player.sendMessage(new TranslationTextComponent(TextFormatting.YELLOW + message), Util.DUMMY_UUID);
+				} else { // If recipe is not known, learn it
+					playerData.addKnownRecipe(rl);
+					consume = true;
+					String message = "Recipe " + Utils.translateToLocal(outputStack.getTranslationKey()) + " learnt successfully";
+					player.sendMessage(new TranslationTextComponent(TextFormatting.GREEN + message), Util.DUMMY_UUID);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+				}
+			}
+		}
+
+		if (consume) {
+			//remove all child tags so we don't contaminate the stack
+			//This will set the stack's tag field to null once all are removed.
+			stack.removeChildTag("recipe1");
+			stack.removeChildTag("recipe2");
+			stack.removeChildTag("recipe3");
+			stack.removeChildTag("type");
+			//reduce stack size by one.
+			player.getHeldItemMainhand().shrink(1);
+		} else {
+			//try for fresh recipes, based on what type this stack was set to. No swapping from keyblade to item recipes etc.
+			//will fail successfully if none left.
+			shuffleRecipes(stack, player, stackTag.getString("type"));
+		}
 	}
 
 	public void shuffleRecipes(ItemStack stack, PlayerEntity player, String type) {
@@ -143,15 +163,24 @@ public class RecipeItem extends Item implements IItemCategory {
 			}
 			break;
 		}
-		
-		stack.setTag(new CompoundNBT());
-		stack.getTag().putString("type", type);
+
+		stack.getOrCreateTag().putString("type", type);
+
+		//if any recipes are on this stack, such as already learned ones, they should get overwritten
 		if(recipe1 != null)
-			stack.getTag().putString("recipe1", recipe1.toString());
+			stack.getOrCreateTag().putString("recipe1", recipe1.toString());
 		if(recipe2 != null)
-			stack.getTag().putString("recipe2", recipe2.toString());
+			stack.getOrCreateTag().putString("recipe2", recipe2.toString());
 		if(recipe3 != null)
-			stack.getTag().putString("recipe3", recipe3.toString());
+			stack.getOrCreateTag().putString("recipe3", recipe3.toString());
+
+		//Call learn recipes immediately.
+		//This will remove all child tags and then reduce stack size by one
+		//recipe1 is not null if any recipes exist to learn
+		if (recipe1 != null)
+		{
+			learnRecipes(player, stack);
+		}
 	}
 
 	private List<ResourceLocation> getMissingRecipes(IPlayerCapabilities playerData, String type) {

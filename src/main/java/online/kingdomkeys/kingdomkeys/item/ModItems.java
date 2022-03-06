@@ -760,7 +760,7 @@ public class ModItems {
 			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new UpgradeDriveFormItem(new Item.Properties().group(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_final")),
 			
 			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1))),
-    		recipe = createNewItem("recipe", () -> new RecipeItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1))),
+    		recipe = createNewItem("recipe", () -> new RecipeItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(16))),
 
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties().group(KingdomKeys.miscGroup))),
 			
