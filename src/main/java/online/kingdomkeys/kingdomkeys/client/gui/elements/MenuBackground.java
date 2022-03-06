@@ -8,7 +8,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -18,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
@@ -39,6 +43,22 @@ public class MenuBackground extends Screen {
 	
 	//public static final int UP = Keybinds.SCROLL_UP.getKeybind().getKey().getKeyCode();
 	//public static final int DOWN = Keybinds.SCROLL_DOWN.getKeybind().getKey().getKeyCode();
+
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+	{
+		InputMappings.Input mouseKey = InputMappings.getInputByCode(keyCode, scanCode);
+		if (super.keyPressed(keyCode, scanCode, modifiers)) {
+			return true;
+		} else if (InputHandler.Keybinds.OPENMENU.getKeybind().isActiveAndMatches(mouseKey)) {
+			//Close screen if already open and pushed this key. Example copied from keyPressed of ContainerScreen
+			Minecraft mc = Minecraft.getInstance();
+			mc.world.playSound(mc.player, mc.player.getPosition(), ModSounds.menu_back.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			this.closeScreen();
+			return true;
+		}
+		return false;
+	}
 
 	/*@Override
 	public boolean keyPressed(int keyId, int p_keyPressed_2_, int p_keyPressed_3_) {

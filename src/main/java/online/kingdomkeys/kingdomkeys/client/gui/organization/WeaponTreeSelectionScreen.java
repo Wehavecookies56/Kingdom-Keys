@@ -50,6 +50,23 @@ public class WeaponTreeSelectionScreen extends Screen {
     private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta)
+    {
+        if (delta > 0 && prev.visible)
+        {
+            actionPerformed(PREV);
+            return true;
+        }
+        else if  (delta < 0 && next.visible)
+        {
+            actionPerformed(NEXT);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public void renderBackground(MatrixStack matrixStack, int p_renderBackground_1_) {
         super.renderBackground(matrixStack, p_renderBackground_1_);
     }
