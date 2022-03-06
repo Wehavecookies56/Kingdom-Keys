@@ -43,6 +43,23 @@ public class WeaponUnlockScreen extends Screen {
     private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta)
+    {
+        if (delta > 0 && prev.visible)
+        {
+            actionPerformed(PREV);
+            return true;
+        }
+        else if  (delta < 0 && next.visible)
+        {
+            actionPerformed(NEXT);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
         int cost = (int) (startCost + ((0.1 * startCost) * current));
         renderBackground(matrixStack);

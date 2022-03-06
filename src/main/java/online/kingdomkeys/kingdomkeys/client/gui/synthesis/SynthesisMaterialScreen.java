@@ -58,6 +58,23 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		amountBox.setText(""+Math.min(64, stack.getCount()));
 	}
 
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta)
+	{
+		if (delta > 0 && prev.visible)
+		{
+			action("prev");
+			return true;
+		}
+		else if  (delta < 0 && next.visible)
+		{
+			action("next");
+			return true;
+		}
+
+		return false;
+	}
+
 	protected void action(String string) {
 		switch(string) {
 		case "prev":
