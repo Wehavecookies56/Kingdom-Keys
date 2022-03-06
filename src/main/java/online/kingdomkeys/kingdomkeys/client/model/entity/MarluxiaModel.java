@@ -10,15 +10,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 /**
  * PlayerModel - Either Mojang or a mod author (Taken From Memory)
  * Created using Tabula 8.0.0
  */
 @OnlyIn(Dist.CLIENT)
-public class HumanoidModel<T extends Entity> extends BipedModel<LivingEntity> {
+public class MarluxiaModel<T extends Entity> extends BipedModel<LivingEntity> {
 
-    public HumanoidModel() {
+    public MarluxiaModel() {
 		super(0, 0, 64, 64);
         this.textureWidth = 64;
         this.textureHeight = 64;
@@ -47,7 +48,6 @@ public class HumanoidModel<T extends Entity> extends BipedModel<LivingEntity> {
     
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-    	// TODO Auto-generated method stub
     	super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
@@ -57,16 +57,36 @@ public class HumanoidModel<T extends Entity> extends BipedModel<LivingEntity> {
             modelRenderer.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         });
     }
-
-    @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {}
 */
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    /*public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
-    }*/
+    @Override
+    public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    	
+    	super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    	
+    	if(EntityHelper.getState(entityIn) == 1) {
+    		this.bipedRightArm.rotateAngleZ = (float) Math.toRadians(20);
+    		this.bipedLeftArm.rotateAngleZ = (float) Math.toRadians(-20);
+    		this.bipedLeftArm.rotateAngleX = (float) Math.toRadians(0);
+
+    		this.bipedRightLeg.rotateAngleX = 0;
+    		this.bipedLeftLeg.rotateAngleX = 0;
+    		
+    		this.bipedRightLeg.rotateAngleZ = (float) Math.toRadians(10);
+    		this.bipedLeftLeg.rotateAngleZ = (float) Math.toRadians(-10);	
+    	}
+    	
+    	if(EntityHelper.getState(entityIn) == 3) {
+    		this.bipedRightArm.rotateAngleZ = (float) Math.toRadians(20);
+    		this.bipedLeftArm.rotateAngleZ = (float) Math.toRadians(-20);
+    		this.bipedLeftArm.rotateAngleX = (float) Math.toRadians(0);
+    		this.bipedRightArm.rotateAngleX = (float) Math.toRadians(0);
+
+
+    		this.bipedRightLeg.rotateAngleX = 0;
+    		this.bipedLeftLeg.rotateAngleX = 0;
+    		
+    		this.bipedRightLeg.rotateAngleZ = (float) Math.toRadians(10);
+    		this.bipedLeftLeg.rotateAngleZ = (float) Math.toRadians(-10);	
+    	}
+    }
 }

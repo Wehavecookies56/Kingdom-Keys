@@ -780,8 +780,22 @@ public class EntityEvents {
 
 		if (event.getEntityLiving() instanceof BaseKHEntity) {
 			float damage = event.getAmount();
+			int defense = ((BaseKHEntity)event.getEntityLiving()).getDefense();
+			damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
+
 			if (event.getEntityLiving() instanceof MarluxiaEntity) {
 				MarluxiaEntity mar = (MarluxiaEntity) event.getEntityLiving();
+				if(EntityHelper.getState(event.getEntityLiving()) != 3) {
+					if(mar.marluxiaGoal.chasedTimes == 0) {
+						if(mar.getHealth() - damage <= 0) {
+							mar.marluxiaGoal.chasedTimes++;
+							EntityHelper.setState(mar, 3);
+							event.setAmount(mar.getHealth()-1);
+							mar.setInvulnerable(true);
+							return;
+						}
+					}
+				}
 				if (EntityHelper.getState(event.getEntityLiving()) == 1) { // If marly is armored
 					damage = event.getAmount() * 0.1F;
 					Entity ent = event.getSource().getImmediateSource();
@@ -791,14 +805,11 @@ public class EntityEvents {
 				} else if (EntityHelper.getState(event.getEntityLiving()) == 2) {
 					if (event.getSource().getTrueSource() == mar.getAttackingEntity()) {
 						EntityHelper.setState(mar, 0);
+						mar.setNoGravity(false);
 					}
 				}
 			}
-			int defense = ((BaseKHEntity)event.getEntityLiving()).getDefense();
-			System.out.println(defense+" "+damage);
-			damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
-			System.out.println(damage);
-			event.setAmount(damage);
+			event.setAmount(damage < 1 ? 1 : damage);
 		}
 	}
 	

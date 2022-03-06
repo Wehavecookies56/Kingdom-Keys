@@ -104,7 +104,7 @@ public class MarluxiaEntity extends BaseKHEntity {
 	
 	@Override
 	public int getDefense() {
-		return 250;
+		return 200;
 	}
 	
 }
