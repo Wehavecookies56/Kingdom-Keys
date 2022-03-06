@@ -17,7 +17,7 @@
       "item": "minecraft:dragon_breath"
     },
     "O": {
-      "item": "minecraft:obsidian"
+      "tag": "forge:obsidian"
     }
   },
   "result": {

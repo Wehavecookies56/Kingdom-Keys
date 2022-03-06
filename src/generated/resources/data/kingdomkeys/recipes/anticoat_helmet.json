@@ -7,7 +7,7 @@
   ],
   "key": {
     "P": {
-      "item": "minecraft:purple_dye"
+      "tag": "forge:dyes/purple"
     },
     "E": {
       "item": "minecraft:end_crystal"
@@ -16,7 +16,7 @@
       "item": "kingdomkeys:organization_helmet"
     },
     "L": {
-      "item": "minecraft:leather"
+      "tag": "forge:leather"
     }
   },
   "result": {

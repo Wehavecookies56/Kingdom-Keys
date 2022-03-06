@@ -8,7 +8,7 @@
   ],
   "key": {
     "O": {
-      "item": "minecraft:obsidian"
+      "tag": "forge:obsidian"
     },
     "A": {
       "item": "kingdomkeys:ventus_chestplate"

@@ -7,16 +7,16 @@
   ],
   "key": {
     "B": {
-      "item": "minecraft:black_dye"
+      "tag": "forge:dyes/black"
     },
     "E": {
-      "item": "minecraft:ender_pearl"
+      "tag": "forge:ender_pearls"
     },
     "A": {
       "item": "minecraft:leather_helmet"
     },
     "L": {
-      "item": "minecraft:leather"
+      "tag": "forge:leather"
     }
   },
   "result": {

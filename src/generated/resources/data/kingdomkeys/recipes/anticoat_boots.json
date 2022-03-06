@@ -7,13 +7,13 @@
   ],
   "key": {
     "L": {
-      "item": "minecraft:leather"
+      "tag": "forge:leather"
     },
     "A": {
       "item": "kingdomkeys:organization_boots"
     },
     "P": {
-      "item": "minecraft:purple_dye"
+      "tag": "forge:dyes/purple"
     },
     "E": {
       "item": "minecraft:end_crystal"

@@ -43,8 +43,9 @@ public class BlockStates extends BlockStateProvider {
         simpleBlock(ModBlocks.tranquilityOre.get());
         simpleBlock(ModBlocks.twilightOre.get());
         simpleBlock(ModBlocks.twilightOreN.get());
-        
-        simpleBlock(ModBlocks.mosaic_stained_glass.get());
+
+        //Has special design
+        //simpleBlock(ModBlocks.mosaic_stained_glass.get());
 
     }
 }

@@ -17,7 +17,7 @@
       "item": "minecraft:leather_leggings"
     },
     "L": {
-      "item": "minecraft:leather"
+      "tag": "forge:leather"
     }
   },
   "result": {
