@@ -8,7 +8,7 @@
   ],
   "key": {
     "B": {
-      "item": "minecraft:black_dye"
+      "tag": "forge:dyes/black"
     },
     "E": {
       "item": "minecraft:ghast_tear"
@@ -17,7 +17,7 @@
       "item": "minecraft:leather_leggings"
     },
     "L": {
-      "item": "minecraft:red_dye"
+      "tag": "forge:dyes/red"
     }
   },
   "result": {

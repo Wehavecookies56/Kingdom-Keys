@@ -8,13 +8,13 @@
   ],
   "key": {
     "L": {
-      "item": "minecraft:leather"
+      "tag": "forge:leather"
     },
     "A": {
       "item": "kingdomkeys:organization_chestplate"
     },
     "W": {
-      "item": "minecraft:white_dye"
+      "tag": "forge:dyes/white"
     },
     "E": {
       "item": "minecraft:end_crystal"

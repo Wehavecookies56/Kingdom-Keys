@@ -1,10 +1,18 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.*;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class BlockStates extends BlockStateProvider {
 
@@ -14,37 +22,97 @@ public class BlockStates extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(ModBlocks.blastBlox.get());
-        simpleBlock(ModBlocks.blazingOre.get());
-        simpleBlock(ModBlocks.blazingOreN.get());
-        simpleBlock(ModBlocks.bounceBlox.get());
-        simpleBlock(ModBlocks.soothingOre.get());
-        simpleBlock(ModBlocks.dangerBlox.get());
-        simpleBlock(ModBlocks.writhingOre.get());
-        simpleBlock(ModBlocks.writhingOreE.get());
-        simpleBlock(ModBlocks.writhingOreN.get());
-        simpleBlock(ModBlocks.betwixtOre.get());
-        simpleBlock(ModBlocks.wellspringOre.get());
-        simpleBlock(ModBlocks.wellspringOreN.get());
-        simpleBlock(ModBlocks.frostOre.get());
-        simpleBlock(ModBlocks.hardBlox.get());
-        simpleBlock(ModBlocks.lightningOre.get());
-        simpleBlock(ModBlocks.lucidOre.get());
-        simpleBlock(ModBlocks.metalBlox.get());
-        simpleBlock(ModBlocks.normalBlox.get());
-        simpleBlock(ModBlocks.pulsingOre.get());
-        simpleBlock(ModBlocks.pulsingOreE.get());
-        simpleBlock(ModBlocks.prizeBlox.get());
-        simpleBlock(ModBlocks.rarePrizeBlox.get());
-        simpleBlock(ModBlocks.remembranceOre.get());
-        simpleBlock(ModBlocks.hungryOre.get());
-        simpleBlock(ModBlocks.sinisterOre.get());
-        simpleBlock(ModBlocks.stormyOre.get());
-        simpleBlock(ModBlocks.tranquilityOre.get());
-        simpleBlock(ModBlocks.twilightOre.get());
-        simpleBlock(ModBlocks.twilightOreN.get());
-        
-        simpleBlock(ModBlocks.mosaic_stained_glass.get());
+        for (RegistryObject<Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
+            final Block block = itemRegistryObject.get();
+            String name = Objects.requireNonNull(block.getRegistryName()).getPath();
 
+            if (block instanceof GhostBloxBlock) {
+                getVariantBuilder(block).forAllStates(state -> {
+                    boolean active = state.get(GhostBloxBlock.VISIBLE);
+                    String modelName = active ? name + "_visible" : name + "_invisible";
+                    ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+
+                    ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all"))
+                            .texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
+
+                    builder.modelFile(blockModel);
+
+                    if (active) {
+                        this.simpleBlockItem(block, blockModel);
+                    }
+
+                    return builder.build();
+                });
+            }
+            else if (block instanceof PairBloxBlock) {
+                getVariantBuilder(block).forAllStates(state -> {
+                    int pairState = state.get(PairBloxBlock.PAIR);
+                    String modelName = name + "_" + pairState;
+                    ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+
+                    ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all"))
+                            .texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
+
+                    builder.modelFile(blockModel);
+
+                    if (pairState == 0) {
+                        this.simpleBlockItem(block, blockModel);
+                    }
+
+                    return builder.build();
+                });
+            }
+            else if (block instanceof MagnetBloxBlock) {
+                // skip
+                // This one was manually generated
+            }
+            else if (block instanceof OrgPortalBlock) {
+                //skip
+            }
+            else if (block instanceof SavePointBlock) {
+                //skip
+            }
+            else if (block instanceof SoRCore) {
+                //skip
+            }
+            else if (block instanceof SoAPlatformCoreBlock) {
+                //skip
+            }
+            else if (block instanceof SoADoorBlock) {
+                //skip
+            }
+            else if (block instanceof PedestalBlock) {
+                //skip
+            }
+            else if (block instanceof MoogleProjectorBlock) {
+                //skip
+            }
+            else if (block instanceof GummiEditorBlock) {
+                //skip
+            }
+            else if (block instanceof MagicalChestBlock) {
+                //skip
+            }
+            else if (block instanceof MosaicStainedGlassBlock) {
+                //skip
+            }
+            else {
+                simpleBlock(itemRegistryObject);
+            }
+        }
+
+    }
+
+    public void simpleBlock(Supplier<? extends Block> blockSupplier)
+    {
+        simpleBlock(blockSupplier.get());
+    }
+
+    @Override
+    public void simpleBlock(Block block, ModelFile model)
+    {
+        super.simpleBlock(block, model);
+        //create item model for block
+        this.simpleBlockItem(block, model);
     }
 }
