@@ -64,29 +64,35 @@ public class ItemModels extends ItemModelProvider {
 	{
 		final Block block = item.getBlock();
 		if (block instanceof GhostBloxBlock) {
-			standardBlockItem("ghost_blox_invisible");
-			standardBlockItem("ghost_blox_visible");
+			// generated as part of blockstates provider
+		}
+		else if (block instanceof PairBloxBlock) {
+			// generated as part of blockstates provider
 		}
 		else if (block instanceof MagnetBloxBlock) {
+			// manually generated version exists in main/resources
 			standardBlockItem("magnet_blox_on");
 			standardBlockItem("magnet_blox_off");
 		}
 		else if (block instanceof OrgPortalBlock) {
-			//skip
+			// Custom Model
+			// manually generated version exists in main/resources
 		}
 		else if (block instanceof SavePointBlock) {
-			//skip
+			// Custom Model
+			// manually generated version exists in main/resources
 		}
 		else if (block instanceof SoRCore) {
-			//skip
+			//skip - no texture/special block
 		}
 		else if (block instanceof SoAPlatformCoreBlock) {
-			//skip
+			//skip - no texture/special block
 		}
 		else if (block instanceof SoADoorBlock) {
-			//skip
+			//skip - no texture/special block?
 		}
 		else {
+			//fallback incase block item could not be generated as part of blockstates
 			standardBlockItem(path);
 		}
 	}

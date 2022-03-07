@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "visible=false,waterlogged=false": {
+      "model": "kingdomkeys:block/ghost_blox_invisible"
+    },
+    "visible=true,waterlogged=false": {
+      "model": "kingdomkeys:block/ghost_blox_visible"
+    },
+    "visible=false,waterlogged=true": {
+      "model": "kingdomkeys:block/ghost_blox_invisible"
+    },
+    "visible=true,waterlogged=true": {
+      "model": "kingdomkeys:block/ghost_blox_visible"
+    }
+  }
+}

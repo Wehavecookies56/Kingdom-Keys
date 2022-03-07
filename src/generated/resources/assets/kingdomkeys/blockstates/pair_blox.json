@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "pair=0": {
+      "model": "kingdomkeys:block/pair_blox_0"
+    },
+    "pair=1": {
+      "model": "kingdomkeys:block/pair_blox_1"
+    },
+    "pair=2": {
+      "model": "kingdomkeys:block/pair_blox_2"
+    }
+  }
+}
