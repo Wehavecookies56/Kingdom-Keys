@@ -14,7 +14,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -33,7 +32,6 @@ import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -218,8 +216,9 @@ public class MenuEquipmentButton extends Button {
 						int level = ((KeybladeItem) stack.getItem()).getKeybladeLevel(stack);
 						abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
 					} else if (stack.getItem() instanceof IOrgWeapon) {
-						strength = ((OrgWeaponItem) stack.getItem()).getStrength();
-						magic = ((OrgWeaponItem)stack.getItem()).getMagic();
+                        final IOrgWeapon orgWeapon = (IOrgWeapon) stack.getItem();
+                        strength = orgWeapon.getStrength();
+						magic = orgWeapon.getMagic();
                     } else if (stack.getItem() instanceof ArmorItem) {
                         //ArmorItem armour = (ArmorItem) stack.getItem();
                         //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)

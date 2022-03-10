@@ -12,10 +12,9 @@ import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class ChakramItem extends OrgWeaponItem implements IOrgWeapon {
+public class ChakramItem extends OrgSwordItem implements IOrgWeapon {
 
 	@Override
 	public Utils.OrgMember getMember() {

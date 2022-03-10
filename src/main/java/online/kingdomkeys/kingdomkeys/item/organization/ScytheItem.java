@@ -2,7 +2,7 @@ package online.kingdomkeys.kingdomkeys.item.organization;
 
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class ScytheItem extends OrgWeaponItem implements IOrgWeapon {
+public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
     private OrganizationData data;
 
     @Override

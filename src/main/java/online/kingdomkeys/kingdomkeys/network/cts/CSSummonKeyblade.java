@@ -27,7 +27,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
@@ -202,7 +201,7 @@ public class CSSummonKeyblade {
 						player.inventory.setInventorySlotContents(slotSummoned, ItemStack.EMPTY);
 						player.world.playSound(null, player.getPosition(), ModSounds.unsummon.get(), SoundCategory.MASTER, 1.0f, 1.0f);
 					}
-				} else if (heldStack.getItem() instanceof OrgWeaponItem || heldStack.getItem() instanceof KeybladeItem) { //Org user
+				} else if (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem) { //Org user
 					Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 					for(ItemStack weapon : weapons) {
 						if(ItemStack.areItemsEqual(weapon, heldStack)) {
@@ -303,9 +302,9 @@ public class CSSummonKeyblade {
 					ItemStack stack = slot.getStack();
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (slot.inventory != player.inventory) {
-						if ((Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof OrgWeaponItem || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
+						if ((Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof IOrgWeapon || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
 							slot.putStack(ItemStack.EMPTY);
-							if(stack.getItem() instanceof OrgWeaponItem || (playerData.getAlignment() != Utils.OrgMember.NONE)) {
+							if(stack.getItem() instanceof IOrgWeapon || (playerData.getAlignment() != Utils.OrgMember.NONE)) {
 								Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 								for(ItemStack weapon : weapons) {
 									if(ItemStack.areItemsEqual(weapon, stack)) {
@@ -331,8 +330,8 @@ public class CSSummonKeyblade {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if (droppedItem != null) {
 				if (playerData.getEquippedWeapon() != null) {
-					if ((droppedItem.getItem() instanceof OrgWeaponItem || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE) || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
-						if(droppedItem.getItem() instanceof OrgWeaponItem || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE)) { //If weapon is org weapon || a keyblade && org member
+					if ((droppedItem.getItem() instanceof IOrgWeapon || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE) || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
+						if(droppedItem.getItem() instanceof IOrgWeapon || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE)) { //If weapon is org weapon || a keyblade && org member
 							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 							for(ItemStack weapon : weapons) {
 								if(ItemStack.areItemsEqual(weapon, droppedItem)) {
