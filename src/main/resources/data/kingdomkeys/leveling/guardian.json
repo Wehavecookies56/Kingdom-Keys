@@ -266,7 +266,8 @@
    "53":{
       "str":1,
       "abilities":[
-         "kingdomkeys:ability_mp_hastega"
+         "kingdomkeys:ability_mp_hastega",
+         "kingdomkeys:ability_lucky_lucky"
       ]
    },
    "54":{

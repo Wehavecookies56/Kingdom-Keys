@@ -1,0 +1,34 @@
+{
+  "cost": 2600,
+  "output": {
+    "item": "kingdomkeys:lucky_ring",
+    "quantity": 1,
+    "type": "item"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_remembrance_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_manifest_illusion",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_shard",
+      "quantity": "9"
+    }
+  ]
+}

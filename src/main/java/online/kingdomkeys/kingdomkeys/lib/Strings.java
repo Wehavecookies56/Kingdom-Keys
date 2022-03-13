@@ -111,7 +111,8 @@ public class Strings {
     		focusConverter = KingdomKeys.MODID+":"+Strings.AB_Prefix +"focus_converter",
     		mpThrift = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_thrift",
     		criticalBoost = KingdomKeys.MODID+":"+Strings.AB_Prefix +"critical_boost",
-    		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot"
+    		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot",
+    		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky"
     		;
     
     // Synthesis Materials
@@ -511,6 +512,7 @@ public class Strings {
 		shadowArchive = "shadow_archive",
 		shadowArchivePlus = "shadow_archive_plus",
 		drawRing = "draw_ring",
+		luckyRing = "lucky_ring",
 		starCharm = "star_charm";
     	
     

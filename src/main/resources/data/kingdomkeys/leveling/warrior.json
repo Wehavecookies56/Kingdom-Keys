@@ -205,7 +205,10 @@
       "maxmp":4.0
    },
    "41":{
-      "str":1
+      "str":1,
+      "abilities":[
+         "kingdomkeys:ability_lucky_lucky"
+      ]
    },
    "42":{
       "mag":1,

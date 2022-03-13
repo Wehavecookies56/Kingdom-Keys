@@ -263,6 +263,8 @@
 	"ability.ability_critical_boost.desc": "Increases damage dealt by critical hits by 10%. Stack the ability to increase the effect.",
 	"ability.ability_jackpot.name": "Jackpot",
 	"ability.ability_jackpot.desc": "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.",
+	"ability.ability_lucky_lucky.name": "Lucky Lucky",
+	"ability.ability_lucky_lucky.desc": "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.",
 
 	"_comment": "Limits",
 	"limit.laser_circle.name": "Laser Circle",
@@ -407,6 +409,7 @@
 	"item.kingdomkeys.draw_ring": "Draw Ring",
 	"item.kingdomkeys.executive_ring": "Executive Ring",
 	"item.kingdomkeys.star_charm": "Star Charm",
+	"item.kingdomkeys.lucky_ring": "Lucky Ring",
 
 	"item.kingdomkeys.spellfire": "Fire Spell",
 	"item.kingdomkeys.spellblizzard": "Blizzard Spell",

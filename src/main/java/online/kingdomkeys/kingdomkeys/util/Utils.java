@@ -13,6 +13,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
@@ -21,6 +23,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -516,6 +520,20 @@ public class Utils {
 		val += (4 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastera));
 		val += (6 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastega));
 		return val;
+	}
+
+	public static void RefreshAbilityAttributes(PlayerEntity player, IPlayerCapabilities playerData){
+		if (player.world.isRemote)
+			return;
+
+		Multimap<Attribute, AttributeModifier> map = HashMultimap.create();
+
+		//Luck - affects things like chest loot, separate from looting or fortune.
+		AttributeModifier attributemodifier = new AttributeModifier(UUID.fromString("7faaa8a8-fee1-422c-8f85-6794042e8f09"), Strings.luckyLucky, playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADDITION);
+		map.put(Attributes.LUCK, attributemodifier);
+
+
+		player.getAttributeManager().reapplyModifiers(map);
 	}
 
 	public static boolean isWearingOrgRobes(PlayerEntity player) {

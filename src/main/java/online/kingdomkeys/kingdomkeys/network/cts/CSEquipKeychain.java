@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSEquipKeychain {
 
@@ -47,6 +48,8 @@ public class CSEquipKeychain {
             player.inventory.setInventorySlotContents(message.slotToEquipFrom, stackPreviouslyEquipped);
             PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayerEntity) player);
+
+            Utils.RefreshAbilityAttributes(player, playerData);
         });
         ctx.get().setPacketHandled(true);
     }

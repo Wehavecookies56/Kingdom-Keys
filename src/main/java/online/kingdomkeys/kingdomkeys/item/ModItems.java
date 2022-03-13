@@ -791,7 +791,7 @@ public class ModItems {
 			shadowArchive = createNewItem(Strings.shadowArchive, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 0, 3, null)),
 			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 0, 3, new String[] {Strings.mpRage})),
     		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 0, 0, 0, new String[] {Strings.treasureMagnet})),
-    		//luckyRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 0, 0, 0, new String[] {Strings.lucky}));
+    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 0, 0, 0, new String[] {Strings.luckyLucky})),
     		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1), 5, 2, 2, null));
 			
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));

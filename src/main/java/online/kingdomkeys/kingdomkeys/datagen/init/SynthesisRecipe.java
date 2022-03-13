@@ -175,6 +175,7 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.shadowArchive).output(Strings.shadowArchive, 1).addCost(2200).addType("item").addMaterial(Strings.SM_HungryStone, 3).addMaterial(Strings.SM_LostIllusion, 1).addMaterial(Strings.SM_ManifestIllusion, 1).addMaterial(Strings.SM_RemembranceCrystal, 1);
         getBuilder(Strings.shadowArchivePlus).output(Strings.shadowArchivePlus, 1).addCost(2600).addType("item").addMaterial(Strings.SM_HungryStone, 3).addMaterial(Strings.SM_LostIllusion, 1).addMaterial(Strings.SM_ManifestIllusion, 1).addMaterial(Strings.SM_RemembranceCrystal, 1).addMaterial(Strings.SM_Electrum, 1);
         getBuilder(Strings.drawRing).output(Strings.drawRing, 1).addCost(1200).addType("item").addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_TwilightGem, 3).addMaterial(Strings.SM_BetwixtStone, 3).addMaterial(Strings.SM_RemembranceShard, 5);
+        getBuilder(Strings.luckyRing).output(Strings.luckyRing, 1).addCost(2600).addType("item").addMaterial(Strings.SM_ManifestIllusion, 1).addMaterial(Strings.SM_RemembranceShard, 3).addMaterial(Strings.SM_SoothingGem, 3).addMaterial(Strings.SM_SoothingStone, 5).addMaterial(Strings.SM_SoothingShard, 9).addMaterial(Strings.SM_HungryCrystal, 1);
         getBuilder(Strings.starCharm).output(Strings.starCharm, 1).addCost(2000).addType("item").addMaterial(Strings.SM_MythrilCrystal, 1).addMaterial(Strings.SM_Adamantite, 2).addMaterial(Strings.SM_WellspringCrystal, 3).addMaterial(Strings.SM_SinisterCrystal, 3);
     }
 }
