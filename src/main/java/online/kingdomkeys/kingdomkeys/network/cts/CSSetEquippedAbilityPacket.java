@@ -7,6 +7,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSSetEquippedAbilityPacket {
 
@@ -41,6 +42,8 @@ public class CSSetEquippedAbilityPacket {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			playerData.equipAbilityToggle(message.ability, message.level);
+
+			Utils.RefreshAbilityAttributes(player, playerData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

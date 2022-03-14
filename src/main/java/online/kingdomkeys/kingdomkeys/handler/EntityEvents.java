@@ -36,11 +36,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -221,7 +218,9 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), (ServerPlayerEntity) player);
 				PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), (ServerPlayerEntity) player);
 
+				Utils.RefreshAbilityAttributes(player, playerData);
 			}
+
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
@@ -1127,6 +1126,7 @@ public class EntityEvents {
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
 		newPlayerData.setShortcutsMap(oldPlayerData.getShortcutsMap());
+		Utils.RefreshAbilityAttributes(nPlayer, newPlayerData);
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.world)), (ServerPlayerEntity)nPlayer);
 
@@ -1136,7 +1136,9 @@ public class EntityEvents {
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		PlayerEntity nPlayer = event.getPlayer();
 		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.world);
-		nPlayer.setHealth(ModCapabilities.getPlayer(nPlayer).getMaxHP());
+		final IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
+		nPlayer.setHealth(playerData.getMaxHP());
+		Utils.RefreshAbilityAttributes(nPlayer, playerData);
 
 		if(!nPlayer.world.isRemote)		
 			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayerEntity)nPlayer);
@@ -1155,9 +1157,9 @@ public class EntityEvents {
 					SoRCoreTileEntity te = (SoRCoreTileEntity) world.getTileEntity(blockPos);
 					te.setUUID(player.getUniqueID());
 				}
-				
 			}
-			
+
+			Utils.RefreshAbilityAttributes(player, playerData);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
 			PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(world)), (ServerPlayerEntity)player);
 		}
@@ -1171,6 +1173,17 @@ public class EntityEvents {
 			PlayerEntity targetPlayer = (PlayerEntity) e.getTarget();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, playerData);
+		}
+	}
+
+	@SubscribeEvent
+	public void looting(LootingLevelEvent event) {
+		if (event.getDamageSource() != null) {
+			if (event.getDamageSource().getTrueSource() instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) event.getDamageSource().getTrueSource();
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				event.setLootingLevel(event.getLootingLevel() + playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky));
+			}
 		}
 	}
 }

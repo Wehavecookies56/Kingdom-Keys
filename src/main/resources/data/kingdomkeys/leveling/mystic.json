@@ -462,7 +462,10 @@
    },
    "99":{
       "str":1,
-      "ap":1
+      "ap":1,
+      "abilities":[
+         "kingdomkeys:ability_lucky_lucky"
+      ]
    },
    "100":{
       "str":10,

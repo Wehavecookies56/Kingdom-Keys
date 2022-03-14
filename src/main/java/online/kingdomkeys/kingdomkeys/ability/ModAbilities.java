@@ -58,7 +58,7 @@ public class ModAbilities {
 				createAbility(Strings.formBoost, 3, AbilityType.SUPPORT),
 				createAbility(Strings.fullMPBlast, 2, AbilityType.SUPPORT),
 				createAbility(Strings.mpThrift, 2, AbilityType.SUPPORT),
-				//createAbility(Strings.luckyLucky, 5, AbilityType.SUPPORT),
+				createAbility(Strings.luckyLucky, 5, AbilityType.SUPPORT),
 				createAbility(Strings.jackpot, 4, AbilityType.SUPPORT),
 				createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
 				createAbility(Strings.blizzardBoost, 4, AbilityType.SUPPORT),

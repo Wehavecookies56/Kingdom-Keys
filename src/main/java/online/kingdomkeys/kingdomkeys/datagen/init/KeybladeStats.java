@@ -2233,7 +2233,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 	    .desc("A Keyblade with long reach that provides an extra boost in Strength and makes it easier to land critical hits.");
 	
-	getBuilder(Strings.sweetMemories).keychain(Strings.sweetMemoriesChain).baseStats(0, 6).ability("").reach(5.0F)
+	getBuilder(Strings.sweetMemories).keychain(Strings.sweetMemoriesChain).baseStats(0, 6).ability(Strings.luckyLucky).reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(0, 7).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(1, 7).withMaterials(new Recipe()

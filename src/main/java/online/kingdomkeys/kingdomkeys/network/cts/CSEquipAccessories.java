@@ -63,6 +63,7 @@ public class CSEquipAccessories {
             PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayerEntity) player);
 
+            Utils.RefreshAbilityAttributes(player, playerData);
         });
         ctx.get().setPacketHandled(true);
     }
