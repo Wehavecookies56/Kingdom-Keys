@@ -2,10 +2,7 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.*;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -44,7 +41,10 @@ public class ItemModels extends ItemModelProvider {
 				standardDisc(path);
 			}
 			else if (item instanceof KeybladeItem) {
-				//Keyblades have their own provider
+				//Keyblades already have models set up
+			}
+			else if (item instanceof ShieldItem) {
+				//shields already have models set up
 			}
 			else if (item instanceof SwordItem) {
 				//Wooden Keyblade/Stick

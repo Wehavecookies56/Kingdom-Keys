@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class LanceItem extends OrgWeaponItem implements IOrgWeapon {
+public class LanceItem extends OrgSwordItem implements IOrgWeapon {
 
     @Override
     public Utils.OrgMember getMember() {

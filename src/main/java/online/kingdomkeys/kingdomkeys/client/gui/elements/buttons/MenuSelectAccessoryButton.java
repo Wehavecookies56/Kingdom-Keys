@@ -12,7 +12,6 @@ import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
@@ -33,7 +32,6 @@ import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipAccessories;
@@ -180,8 +178,9 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 						int level = ((KeybladeItem) stack.getItem()).getKeybladeLevel(stack);
 						abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
 					} else if (stack.getItem() instanceof IOrgWeapon) {
-						strength = ((OrgWeaponItem) stack.getItem()).getStrength();
-						magic = ((OrgWeaponItem)stack.getItem()).getMagic();
+						final IOrgWeapon orgWeapon = (IOrgWeapon) stack.getItem();
+						strength = orgWeapon.getStrength();
+						magic = orgWeapon.getMagic();
                     } else if (stack.getItem() instanceof ArmorItem) {
                         //ArmorItem armour = (ArmorItem) stack.getItem();
                         //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)

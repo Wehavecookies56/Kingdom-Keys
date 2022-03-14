@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -28,7 +29,6 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
@@ -40,7 +40,6 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.organization.OrgWeaponItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -141,7 +140,7 @@ public class ClientEvents {
 		if (event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
 			if (event.player == mc.player && cooldownTicks <= 0) { // Only run this for the local client player
-				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown() && event.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || event.player.getHeldItemMainhand().getItem() instanceof OrgWeaponItem);
+				focusing = mc.gameSettings.keyBindPickBlock.isKeyDown() && event.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (event.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || event.player.getHeldItemMainhand().getItem() instanceof IOrgWeapon);
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 				if(playerData == null)
 					return;
@@ -411,7 +410,7 @@ public class ClientEvents {
 	public void PlayerClick(ClickInputEvent event) {
 		if(event.isPickBlock()) {
 			Minecraft mc = Minecraft.getInstance();
-			if(mc.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || mc.player.getHeldItemMainhand().getItem() instanceof OrgWeaponItem)){
+			if(mc.player.getHeldItemMainhand() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getHeldItemMainhand().getItem() instanceof KeybladeItem || mc.player.getHeldItemMainhand().getItem() instanceof IOrgWeapon)){
 				event.setCanceled(true);
 			}
 		}	

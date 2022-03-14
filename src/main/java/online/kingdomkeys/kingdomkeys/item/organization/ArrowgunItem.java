@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class ArrowgunItem extends OrgWeaponItem implements IOrgWeapon {
+public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 	int ammo = 10, reload = 30, tempAmmo;
 
 	/*

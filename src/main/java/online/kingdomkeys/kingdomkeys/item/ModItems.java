@@ -154,7 +154,7 @@ public class ModItems {
 			youngXehanortsKeyblade = createKeybladeItem(Strings.youngXehanortsKeyblade),
 			zeroOne = createKeybladeItem(Strings.zeroOne),
 
-			dreamShield = createNewItem(Strings.dreamShield, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1))),
+			dreamShield = createNewItem(Strings.dreamShield, () -> new KKShieldItem(new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1))),
 			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1))),
 			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1))),
 			
