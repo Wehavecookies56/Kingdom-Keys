@@ -65,7 +65,8 @@ public class ModBlocks {
             orgPortal = createNewBlock("org_portal", () -> new OrgPortalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
             moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.create(Material.IRON).setLightLevel((state) -> 6).notSolid().harvestLevel(0).hardnessAndResistance(2F,1F))),
             gummiEditor = createNewBlock("gummi_editor", () -> new GummiEditorBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
-            sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)))
+            sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F))),
+            dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.create(Material.IRON).harvestLevel(2).hardnessAndResistance(2.0F, 1.0F)))
     ;
 
     /**

@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "kingdomkeys:block/data_portal","y":0, "uvlock": true},
+		"facing=east": { "model": "kingdomkeys:block/data_portal","y":90, "uvlock": true},
+		"facing=south": { "model": "kingdomkeys:block/data_portal","y":180, "uvlock": true},
+		"facing=west": { "model": "kingdomkeys:block/data_portal","y":270, "uvlock": true}
+	}
+}

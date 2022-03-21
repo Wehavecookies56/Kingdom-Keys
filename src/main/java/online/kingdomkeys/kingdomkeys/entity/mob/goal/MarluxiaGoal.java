@@ -27,8 +27,8 @@ public class MarluxiaGoal extends TargetGoal {
 
 	private final int MAX_ARMOR_TICKS = 30 * 20, MAX_ARMOR_USES = 3;
 	private int armorTicks = 0, armorUses = 0;
-	private final int MAX_TP_TICKS = 80, MAX_TPs = 3;
-	private int tpTicks = 0, numOfTPs = 0;
+	private final int MAX_TP_TICKS = 80;
+	private int tpTicks = 0;
 	public int chasingTicks = 0, chasedTimes = 0;
 	
 	private int ticksToChooseAI = 0; //Ticks in base state after an attack happened
@@ -196,7 +196,6 @@ public class MarluxiaGoal extends TargetGoal {
 		} else {
 			EntityHelper.setState(goalOwner, 0);
 		}
-		numOfTPs++;
 	}
 
 	public void useArmor(MarluxiaEntity entity) {
@@ -216,7 +215,6 @@ public class MarluxiaGoal extends TargetGoal {
 	public void useTP(MarluxiaEntity entity) {
 		EntityHelper.setState(entity, 2);
 		tpTicks = 0;
-		numOfTPs = 0;
 	}
 	
 	@Override
