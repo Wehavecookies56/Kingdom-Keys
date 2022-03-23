@@ -70,7 +70,7 @@ public class KKDimensionCommand extends BaseCommand {
 		return 1;
 	}
 
-	private static BlockPos getWorldCoords(PlayerEntity player, RegistryKey<World> dimension) {
+	public static BlockPos getWorldCoords(PlayerEntity player, RegistryKey<World> dimension) {
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);
 		}

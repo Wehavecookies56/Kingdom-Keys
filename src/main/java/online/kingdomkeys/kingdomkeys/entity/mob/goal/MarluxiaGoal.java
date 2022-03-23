@@ -39,9 +39,19 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 	
 	double posX, posY, posZ;
+	boolean invulnerable = false;
 
 	@Override
 	public boolean shouldContinueExecuting() {
+		if(goalOwner.ticksExisted < 100) {
+			goalOwner.setMotion(0,0,0);
+			goalOwner.setInvulnerable(true);
+		}
+
+		if(goalOwner.ticksExisted == 100) {
+			goalOwner.setInvulnerable(false);
+		}
+		
 		if (this.goalOwner.getAttackTarget() != null) {
 			//Set AI to use
 			if(ticksToChooseAI <= 0 && EntityHelper.getState(goalOwner) == 0) {
@@ -77,11 +87,12 @@ public class MarluxiaGoal extends TargetGoal {
 			
 			return true;
 		} else { //If no target
-			if(goalOwner.hasNoGravity())
+			goalOwner.remove();
+			/*if(goalOwner.hasNoGravity())
 				goalOwner.setNoGravity(false);
 			if(EntityHelper.getState(goalOwner) == 0) {
 				EntityHelper.setState(goalOwner, 0);
-			}
+			}*/
 		}
 		
 		return false;

@@ -27,78 +27,67 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-
-//Thank you Curios for the example !
+//Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.
 
-public class FortuneBonusModifier extends LootModifier
-{
-    protected FortuneBonusModifier(ILootCondition[] conditions)
-    {
-        super(conditions);
-    }
+public class FortuneBonusModifier extends LootModifier {
+	protected FortuneBonusModifier(ILootCondition[] conditions) {
+		super(conditions);
+	}
 
-    @Nonnull
-    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
-    {
-        final String hasLuckyLuckyBonus = "HasLuckyLuckyBonus";
+	@Nonnull
+	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+		final String hasLuckyLuckyBonus = "HasLuckyLuckyBonus";
 
-        ItemStack tool = context.get(LootParameters.TOOL);
+		ItemStack tool = context.get(LootParameters.TOOL);
 
-        if (tool != null && (!tool.hasTag() || tool.getTag() == null || !tool.getTag().getBoolean(hasLuckyLuckyBonus)))
-        {
-            Entity entity = context.get(LootParameters.THIS_ENTITY);
-            BlockState blockState = context.get(LootParameters.BLOCK_STATE);
+		if (tool != null && (!tool.hasTag() || tool.getTag() == null || !tool.getTag().getBoolean(hasLuckyLuckyBonus))) {
+			Entity entity = context.get(LootParameters.THIS_ENTITY);
+			BlockState blockState = context.get(LootParameters.BLOCK_STATE);
 
-            if (blockState != null && entity instanceof PlayerEntity)
-            {
-                PlayerEntity player = (PlayerEntity) entity;
+			if (blockState != null && entity instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) entity;
 
-                //bonus for lucky amplifier.
-                IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-                int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+				// bonus for lucky amplifier.
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 
-                if (totalFortuneBonus > 0)
-                {
-                    ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();
+				if (totalFortuneBonus > 0) {
+					ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();
 
-                    fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
+					fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
 
-                    Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(fakeTool);
-                    enchantments.put(Enchantments.FORTUNE, EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, fakeTool) + totalFortuneBonus);
+					Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(fakeTool);
+					enchantments.put(Enchantments.FORTUNE, EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, fakeTool) + totalFortuneBonus);
 
-                    EnchantmentHelper.setEnchantments(enchantments, fakeTool);
+					EnchantmentHelper.setEnchantments(enchantments, fakeTool);
 
-                    LootContext.Builder builder = new LootContext.Builder(context);
-                    builder.withParameter(LootParameters.TOOL, fakeTool);
+					LootContext.Builder builder = new LootContext.Builder(context);
+					builder.withParameter(LootParameters.TOOL, fakeTool);
 
-                    LootContext newContext = builder.build(LootParameterSets.BLOCK);
-                    LootTable lootTable = context.getWorld().getServer().getLootTableManager().getLootTableFromLocation(blockState.getBlock().getLootTable());
+					LootContext newContext = builder.build(LootParameterSets.BLOCK);
+					LootTable lootTable = context.getWorld().getServer().getLootTableManager().getLootTableFromLocation(blockState.getBlock().getLootTable());
 
-                    return lootTable.generate(newContext);
-                }
-            }
-        }
+					return lootTable.generate(newContext);
+				}
+			}
+		}
 
-        //otherwise return the context that was passed in. no modification needed.
-        return generatedLoot;
-    }
+		// otherwise return the context that was passed in. no modification needed.
+		return generatedLoot;
+	}
 
-    public static class Serializer extends GlobalLootModifierSerializer<FortuneBonusModifier>
-    {
-        public Serializer()
-        {
-            KingdomKeys.LOGGER.info("LuckyLucky Fortune bonus modifier registered.");
-        }
+	public static class Serializer extends GlobalLootModifierSerializer<FortuneBonusModifier> {
+		public Serializer() {
+			KingdomKeys.LOGGER.info("LuckyLucky Fortune bonus modifier registered.");
+		}
 
-        public FortuneBonusModifier read(ResourceLocation location, JsonObject object, ILootCondition[] conditions)
-        {
-            return new FortuneBonusModifier(conditions);
-        }
+		public FortuneBonusModifier read(ResourceLocation location, JsonObject object, ILootCondition[] conditions) {
+			return new FortuneBonusModifier(conditions);
+		}
 
-        public JsonObject write(FortuneBonusModifier instance)
-        {
-            return this.makeConditions(instance.conditions);
-        }
-    }
+		public JsonObject write(FortuneBonusModifier instance) {
+			return this.makeConditions(instance.conditions);
+		}
+	}
 }
