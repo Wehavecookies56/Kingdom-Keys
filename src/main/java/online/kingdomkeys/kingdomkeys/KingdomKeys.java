@@ -59,6 +59,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
@@ -114,6 +115,7 @@ public class KingdomKeys {
 		ModSounds.SOUNDS.register(modEventBus);
 		ModEntities.TILE_ENTITIES.register(modEventBus);
         ModContainers.CONTAINERS.register(modEventBus);
+        ModLootModifier.LOOT_MODIFIERS.register(modEventBus);
 
         ModEntities.ENTITIES.register(modEventBus);
 

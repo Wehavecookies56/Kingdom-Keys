@@ -88,7 +88,7 @@ public class FortuneBonusModifier extends LootModifier
     {
         public Serializer()
         {
-            KingdomKeys.LOGGER.info("Fortune bonus modifier setting up");
+            KingdomKeys.LOGGER.info("LuckyLucky Fortune bonus modifier registered.");
         }
 
         public FortuneBonusModifier read(ResourceLocation location, JsonObject object, ILootCondition[] conditions)
