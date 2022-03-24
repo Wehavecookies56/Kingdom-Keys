@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 
@@ -46,10 +47,12 @@ public class MarluxiaGoal extends TargetGoal {
 		if(goalOwner.ticksExisted < 100) {
 			goalOwner.setMotion(0,0,0);
 			goalOwner.setInvulnerable(true);
+			goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0);			
 		}
 
 		if(goalOwner.ticksExisted == 100) {
 			goalOwner.setInvulnerable(false);
+			goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(11);
 		}
 		
 		if (this.goalOwner.getAttackTarget() != null) {
@@ -87,12 +90,15 @@ public class MarluxiaGoal extends TargetGoal {
 			
 			return true;
 		} else { //If no target
-			goalOwner.remove();
-			/*if(goalOwner.hasNoGravity())
-				goalOwner.setNoGravity(false);
-			if(EntityHelper.getState(goalOwner) == 0) {
-				EntityHelper.setState(goalOwner, 0);
-			}*/
+			if(ModConfigs.bossDespawnIfNoTarget) {
+				goalOwner.remove();
+			} else {
+				if(goalOwner.hasNoGravity())
+					goalOwner.setNoGravity(false);
+				if(EntityHelper.getState(goalOwner) == 0) {
+					EntityHelper.setState(goalOwner, 0);
+				}
+			}
 		}
 		
 		return false;

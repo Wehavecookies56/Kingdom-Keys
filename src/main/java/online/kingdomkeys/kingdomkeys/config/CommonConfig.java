@@ -51,6 +51,8 @@ public class CommonConfig {
 
     public ForgeConfigSpec.IntValue mobLevelStats;
     
+    public ForgeConfigSpec.BooleanValue bossDespawnIfNoTarget;
+    
     CommonConfig(final ForgeConfigSpec.Builder builder) {    	
 		builder.push("general");
 
@@ -143,6 +145,10 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.mob_level_stats")
                 .defineInRange("mobLevelStats",10,0,100);
         
+        bossDespawnIfNoTarget = builder
+        		 .comment("Make bosses despawn once his target disappears")
+                 .translation(KingdomKeys.MODID + ".config.boss_despawn_if_no_target")
+                 .define("bossDespawnIfNoTarget", true);
         builder.pop();
         
         builder.push("drops");

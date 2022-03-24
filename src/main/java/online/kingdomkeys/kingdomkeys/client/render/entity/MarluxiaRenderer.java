@@ -20,7 +20,7 @@ public class MarluxiaRenderer<T extends MobEntity, M extends BipedModel<T>> exte
 	public static final MarluxiaRenderer.Factory FACTORY = new MarluxiaRenderer.Factory();
 
 	public MarluxiaRenderer(EntityRendererManager renderManagerIn, M model) {
-		super(renderManagerIn, model, 1F);
+		super(renderManagerIn, model, 0.5F);
 	}
 
 	@Override
