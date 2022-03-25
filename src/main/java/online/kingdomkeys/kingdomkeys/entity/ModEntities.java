@@ -232,7 +232,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<GummiShipEntity>> TYPE_GUMMI_SHIP = createEntityType(GummiShipEntity::new, GummiShipEntity::new, MobCategory.MISC, "gummi_ship", 5.0F, 5.0F);
     public static final RegistryObject<EntityType<SpawningOrbEntity>> TYPE_SPAWNING_ORB = createEntityType(SpawningOrbEntity::new, SpawningOrbEntity::new, MobCategory.MONSTER, "spawning_orb", 1.5F,  1.5F);
     
-    public static final RegistryObject<EntityType<MarluxiaEntity>> TYPE_MARLUXIA = createEntityTypeImmuneToFire(MarluxiaEntity::new, MarluxiaEntity::new, MobCategory.MONSTER, "marluxia", 1F, 2F);
+    public static final RegistryObject<EntityType<MarluxiaEntity>> TYPE_MARLUXIA = createEntityTypeImmuneToFire(MarluxiaEntity::new, MarluxiaEntity::new, MobCategory.MONSTER, "marluxia", 1F, 1F);
 
     //TODO update textures to work with newer model, make magic for
     /*

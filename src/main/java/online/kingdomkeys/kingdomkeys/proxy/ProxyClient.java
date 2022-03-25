@@ -111,10 +111,33 @@ public class ProxyClient implements IProxy {
 		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
 		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
 
+<<<<<<< HEAD
 		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
 
 		armorModels.put(ModItems.terra_Helmet.get(), top);
+=======
+        event.enqueueWork(() -> {
+			RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
+			RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.dataPortal.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.savepoint.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.orgPortal.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
+        });
+        
+        ArmorModel top = new ArmorModel(0.5F);
+        ArmorModel bot = new ArmorModel(0.25F);
+        
+        VentusModel vTop = new VentusModel(0.5F);
+        VentusModel vBot = new VentusModel(0.25F);
+        
+        armorModels.put(ModItems.terra_Helmet.get(), top);
+>>>>>>> c0f039d4bf84b2420b8f976b162355760448d8f0
 		armorModels.put(ModItems.terra_Chestplate.get(), top);
 		armorModels.put(ModItems.terra_Leggings.get(), bot);
 		armorModels.put(ModItems.terra_Boots.get(), top);

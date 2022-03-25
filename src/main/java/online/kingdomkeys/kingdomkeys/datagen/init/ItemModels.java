@@ -32,72 +32,56 @@ public class ItemModels extends ItemModelProvider {
 
 			if (item instanceof BaseArmorItem) {
 				standardArmor(path);
-			}
-			else if (item instanceof KeychainItem) {
+			} else if (item instanceof KeychainItem) {
 				standardKeychain(path);
-			}
-			else if (item instanceof SynthesisItem) {
+			} else if (item instanceof SynthesisItem) {
 				standardMaterial(path);
-			}
-			else if (item instanceof BlockItem) {
+			} else if (item instanceof BlockItem) {
 				blockLogic((BlockItem) item, path);
-			}
-			else if (item instanceof KKRecordItem) {
+			} else if (item instanceof KKRecordItem) {
 				standardDisc(path);
-			}
-			else if (item instanceof KeybladeItem) {
-				//Keyblades already have models set up
-			}
-			else if (item instanceof ShieldItem) {
-				//shields already have models set up
-			}
-			else if (item instanceof SwordItem) {
-				//Wooden Keyblade/Stick
-			}
-			else if (item instanceof SpawnEggItem) {
-				//Spawn Egg
+			} else if (item instanceof KeybladeItem) {
+				// Keyblades already have models set up
+			} else if (item instanceof ShieldItem) {
+				// shields already have models set up
+			} else if (item instanceof SwordItem) {
+				// Wooden Keyblade/Stick
+			} else if (item instanceof SpawnEggItem) {
+				// Spawn Egg
 				// This
 				standardSpawnEggItem(path);
-			}
-			else {
+			} else {
 				standardItem(path);
 			}
 		}
     }
 
-	private void blockLogic(BlockItem item, String path)
-	{
+	private void blockLogic(BlockItem item, String path) {
 		final Block block = item.getBlock();
 		if (block instanceof GhostBloxBlock) {
 			// generated as part of blockstates provider
-		}
-		else if (block instanceof PairBloxBlock) {
+		} else if (block instanceof PairBloxBlock) {
 			// generated as part of blockstates provider
-		}
-		else if (block instanceof MagnetBloxBlock) {
+		} else if (block instanceof MagnetBloxBlock) {
 			// manually generated version exists in main/resources
 			standardBlockItem("magnet_blox_on");
 			standardBlockItem("magnet_blox_off");
-		}
-		else if (block instanceof OrgPortalBlock) {
+		} else if (block instanceof OrgPortalBlock) {
 			// Custom Model
 			// manually generated version exists in main/resources
-		}
-		else if (block instanceof SavePointBlock) {
+		} else if (block instanceof SavePointBlock) {
 			// Custom Model
 			// manually generated version exists in main/resources
-		}
-		else if (block instanceof SoRCore) {
-			//skip - no texture/special block
-		}
-		else if (block instanceof SoAPlatformCoreBlock) {
-			//skip - no texture/special block
-		}
-		else if (block instanceof SoADoorBlock) {
-			//skip - no texture/special block?
-		}
-		else {
-			//fallback incase block item could not be generated as part of blockstates
+		} else if (block instanceof SoRCore) {
+			// skip - no texture/special block
+		} else if (block instanceof SoAPlatformCoreBlock) {
+			// skip - no texture/special block
+		} else if (block instanceof SoADoorBlock) {
+			// skip - no texture/special block?
+		} else if (block instanceof DataPortalBlock) {
+			// skip - no texture/special block?
+		} else {
+			// fallback incase block item could not be generated as part of blockstates
 			standardBlockItem(path);
 		}
 	}

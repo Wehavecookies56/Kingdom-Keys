@@ -264,6 +264,8 @@ public class ModConfigs {
     public static boolean blizzardChangeBlocks;
     public static int mobLevelStats;
     public static List<String> playerSpawnHeartlessData;
+    
+    public static boolean bossDespawnIfNoTarget;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -297,7 +299,7 @@ public class ModConfigs {
         blizzardChangeBlocks = COMMON.blizzardChangeBlocks.get();
         
         mobLevelStats = COMMON.mobLevelStats.get();
-        
+        bossDespawnIfNoTarget = COMMON.bossDespawnIfNoTarget.get();
     }
 
     public static int recipeDropChance;

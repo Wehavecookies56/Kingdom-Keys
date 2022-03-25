@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.Mob;

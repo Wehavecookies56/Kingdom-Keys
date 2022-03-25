@@ -32,18 +32,6 @@ public class StationOfSorrowDimension{
         }
     }
 
-    //Prevent taking damage in this dimension
-    @SubscribeEvent
-    public static void onHurt(LivingHurtEvent event) {
-        if (event.getEntityLiving() instanceof Player) {
-            if (!((Player)event.getEntityLiving()).isCreative()) {
-                if (event.getEntityLiving().level.dimension().equals(ModDimensions.STATION_OF_SORROW)) {
-                    event.setCanceled(true);
-                }
-            }
-        }
-    }
-
     //Prevent player from falling off the platform
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
@@ -76,15 +64,6 @@ public class StationOfSorrowDimension{
                 } else {
                     event.setCanceled(true);
                 }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void useItem(PlayerInteractEvent.RightClickItem event) {
-        if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
-                event.setCanceled(true);
             }
         }
     }

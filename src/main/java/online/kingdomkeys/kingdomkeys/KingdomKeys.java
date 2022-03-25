@@ -56,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
 import online.kingdomkeys.kingdomkeys.command.KKMunnyCommand;
 import online.kingdomkeys.kingdomkeys.command.KKPayMunnyCommand;
 import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
+import online.kingdomkeys.kingdomkeys.command.KKWhisperInMyEarPinkHairMan;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
@@ -67,6 +68,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.proxy.IProxy;
@@ -199,6 +201,7 @@ public class KingdomKeys {
 		KKPayMunnyCommand.register(dispatcher);
 		KKFocusPointsCommand.register(dispatcher);
 		KKAbilityCommand.register(dispatcher);
+		KKWhisperInMyEarPinkHairMan.register(dispatcher);
 	}
 
 	

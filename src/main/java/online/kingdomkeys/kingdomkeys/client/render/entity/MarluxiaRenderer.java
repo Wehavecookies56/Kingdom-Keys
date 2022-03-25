@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 public class MarluxiaRenderer extends HumanoidMobRenderer<MarluxiaEntity, MarluxiaModel<MarluxiaEntity>> {
 
 	public MarluxiaRenderer(EntityRendererProvider.Context context) {
-		super(context, new MarluxiaModel<>(context.bakeLayer(MarluxiaModel.LAYER_LOCATION)), 1F);
+		super(context, new MarluxiaModel<>(context.bakeLayer(MarluxiaModel.LAYER_LOCATION)), 0.5F);
 	}
 
 	@Override

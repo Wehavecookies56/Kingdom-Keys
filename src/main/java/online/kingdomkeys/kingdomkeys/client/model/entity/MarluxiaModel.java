@@ -9,18 +9,13 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 
-/**
- * PlayerModel - Either Mojang or a mod author (Taken From Memory)
- * Created using Tabula 8.0.0
- */
+//TODO port new model
 @OnlyIn(Dist.CLIENT)
 public class MarluxiaModel<T extends LivingEntity> extends HumanoidModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "marluxia"), "main");
@@ -55,14 +50,15 @@ public class MarluxiaModel<T extends LivingEntity> extends HumanoidModel<T> {
         return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
+
     @Override
     public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-    	this.head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.hat.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.rightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        super.renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-    }
+		this.head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+		this.hat.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+		this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+		this.rightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+		super.renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+	}
 
    /* @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) { 

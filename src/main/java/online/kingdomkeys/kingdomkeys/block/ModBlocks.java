@@ -62,11 +62,14 @@ public class ModBlocks {
     		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new MosaicStainedGlassBlock(Block.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
        		//mosaic_stained_glass = createNewBlock("mosaic_stained_glass", Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F)),
        		//mosaic_stained_glass = createNewBlock("mosaircfdxc_stained_glass", () -> new KKGlassBlock(Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F))),
+
             station_of_awakening_core = createNewBlock("station_of_awakening_core", () -> new SoAPlatformCoreBlock(Block.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
             orgPortal = createNewBlock("org_portal", () -> new OrgPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
             moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.of(Material.METAL).lightLevel((state) -> 6).noOcclusion().strength(2F,1F))), //HL 0
             gummiEditor = createNewBlock("gummi_editor", () -> new GummiEditorBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
-            sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))) //HL 2
+            sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
+            dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F)))
+
     ;
 
     /**

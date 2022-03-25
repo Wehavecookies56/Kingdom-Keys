@@ -27,8 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-
-//Thank you Curios for the example !
+//Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.
 
 public class FortuneBonusModifier extends LootModifier
@@ -38,10 +37,9 @@ public class FortuneBonusModifier extends LootModifier
         super(conditions);
     }
 
-    @Nonnull
-    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
-    {
-        final String hasLuckyLuckyBonus = "HasLuckyLuckyBonus";
+	@Nonnull
+	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+		final String hasLuckyLuckyBonus = "HasLuckyLuckyBonus";
 
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
 
@@ -54,20 +52,19 @@ public class FortuneBonusModifier extends LootModifier
             {
                 Player player = (Player) entity;
 
-                //bonus for lucky amplifier.
-                IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-                int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+				// bonus for lucky amplifier.
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 
-                if (totalFortuneBonus > 0)
-                {
-                    ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();
+				if (totalFortuneBonus > 0) {
+					ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();
 
-                    fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
+					fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
 
                     Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(fakeTool);
                     enchantments.put(Enchantments.BLOCK_FORTUNE, EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, fakeTool) + totalFortuneBonus);
 
-                    EnchantmentHelper.setEnchantments(enchantments, fakeTool);
+					EnchantmentHelper.setEnchantments(enchantments, fakeTool);
 
                     LootContext.Builder builder = new LootContext.Builder(context);
                     builder.withParameter(LootContextParams.TOOL, fakeTool);
@@ -80,9 +77,9 @@ public class FortuneBonusModifier extends LootModifier
             }
         }
 
-        //otherwise return the context that was passed in. no modification needed.
-        return generatedLoot;
-    }
+		// otherwise return the context that was passed in. no modification needed.
+		return generatedLoot;
+	}
 
     public static class Serializer extends GlobalLootModifierSerializer<FortuneBonusModifier>
     {
@@ -96,9 +93,8 @@ public class FortuneBonusModifier extends LootModifier
             return new FortuneBonusModifier(conditions);
         }
 
-        public JsonObject write(FortuneBonusModifier instance)
-        {
-            return this.makeConditions(instance.conditions);
-        }
-    }
+		public JsonObject write(FortuneBonusModifier instance) {
+			return this.makeConditions(instance.conditions);
+		}
+	}
 }

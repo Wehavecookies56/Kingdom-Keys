@@ -1,0 +1,11 @@
+{
+	"parent": "forge:block/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/block/data_portal.obj",
+	"transform":{
+		"translation": [ -0.5, -1, -0.5 ],
+		"scale": [ 0.005, 0.005, 0.001 ]
+	},
+	"textures": {
+	}
+}

@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -35,6 +36,12 @@ public class MagicStop extends Magic {
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
 				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+			}
+		}
+		
+		for(Entity e : list) {
+			if(e instanceof MarluxiaEntity) {
+				list.remove(e);
 			}
 		}
 

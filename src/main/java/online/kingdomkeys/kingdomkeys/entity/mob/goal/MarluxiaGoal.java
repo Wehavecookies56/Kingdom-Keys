@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.mojang.math.Vector3f;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.server.level.ServerLevel;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 
@@ -27,8 +29,8 @@ public class MarluxiaGoal extends TargetGoal {
 
 	private final int MAX_ARMOR_TICKS = 30 * 20, MAX_ARMOR_USES = 3;
 	private int armorTicks = 0, armorUses = 0;
-	private final int MAX_TP_TICKS = 80, MAX_TPs = 3;
-	private int tpTicks = 0, numOfTPs = 0;
+	private final int MAX_TP_TICKS = 80;
+	private int tpTicks = 0;
 	public int chasingTicks = 0, chasedTimes = 0;
 	
 	private int ticksToChooseAI = 0; //Ticks in base state after an attack happened
@@ -39,9 +41,21 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 	
 	double posX, posY, posZ;
+	boolean invulnerable = false;
 
 	@Override
 	public boolean canContinueToUse() {
+		if(mob.tickCount < 100) {
+			mob.setDeltaMovement(0,0,0);
+			mob.setInvulnerable(true);
+			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0);
+		}
+
+		if(mob.tickCount == 100) {
+			mob.setInvulnerable(false);
+			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(11);
+		}
+		
 		if (this.mob.getTarget() != null) {
 			//Set AI to use
 			if(ticksToChooseAI <= 0 && EntityHelper.getState(mob) == 0) {
@@ -77,10 +91,14 @@ public class MarluxiaGoal extends TargetGoal {
 			
 			return true;
 		} else { //If no target
-			if(mob.isNoGravity())
-				mob.setNoGravity(false);
-			if(EntityHelper.getState(mob) == 0) {
-				EntityHelper.setState(mob, 0);
+			if(ModConfigs.bossDespawnIfNoTarget) {
+				mob.remove(Entity.RemovalReason.KILLED);
+			} else {
+				if(mob.isNoGravity())
+					mob.setNoGravity(false);
+				if(EntityHelper.getState(mob) == 0) {
+					EntityHelper.setState(mob, 0);
+				}
 			}
 		}
 		
@@ -196,7 +214,6 @@ public class MarluxiaGoal extends TargetGoal {
 		} else {
 			EntityHelper.setState(mob, 0);
 		}
-		numOfTPs++;
 	}
 
 	public void useArmor(MarluxiaEntity entity) {
@@ -216,7 +233,6 @@ public class MarluxiaGoal extends TargetGoal {
 	public void useTP(MarluxiaEntity entity) {
 		EntityHelper.setState(entity, 2);
 		tpTicks = 0;
-		numOfTPs = 0;
 	}
 	
 	@Override
