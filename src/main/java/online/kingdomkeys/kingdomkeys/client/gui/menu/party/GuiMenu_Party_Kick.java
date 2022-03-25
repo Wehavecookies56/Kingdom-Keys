@@ -2,9 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.util.SoundCategory;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -32,7 +33,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	public GuiMenu_Party_Kick() {
 		super(Strings.Gui_Menu_Party_Leader_Kick, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.level);
 	}
 
 	protected void action(String string) {
@@ -45,8 +46,8 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		
 		switch(string) {
 		case "back":
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-			minecraft.displayGuiScreen(new GuiMenu_Party_Leader());			
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.setScreen(new GuiMenu_Party_Leader());			
 			break;
 		case "refresh":
 			refreshMembers();
@@ -68,7 +69,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 			}
 			refreshMembers();
 
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_in.get(), SoundCategory.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			//minecraft.displayGuiScreen(new GuiMenu_Party_Member("Party Member"));
 			
 		}
@@ -80,23 +81,23 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	}
 
 	private void refreshMembers() {
-		worldData = ModCapabilities.getWorld(minecraft.world);
+		worldData = ModCapabilities.getWorld(minecraft.level);
 		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		for(int i = 1;i<buttons.size();i++) {
+		for(int i = 1;i<renderables.size();i++) {
 			
-			if(!buttons.get(i).getMessage().getString().startsWith("Refresh")) {
-				buttons.remove(i);
+			if(!((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("Refresh")) {
+				renderables.remove(i);
 			}
 		}
 		
 		//Show the buttons to join public parties
-		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		for(int i = 1; i < party.getMembers().size(); i++) {
-			addButton(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
+			addWidget(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((i-1) * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
 		}
 	
 	}	
@@ -107,23 +108,23 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		super.width = width;
 		super.height = height;
 		super.init();
-		this.buttons.clear();
+		this.renderables.clear();
 				
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addButton(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.world);
-		party = worldData.getPartyFromMember(minecraft.player.getUniqueID());
+		worldData = ModCapabilities.getWorld(minecraft.level);
+		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		refreshMembers();
 	}
 }

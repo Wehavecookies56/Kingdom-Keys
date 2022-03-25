@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.proxy;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class ProxyServer implements IProxy {
@@ -14,12 +14,12 @@ public class ProxyServer implements IProxy {
     }
 
 	@Override
-	public PlayerEntity getClientPlayer() {
+	public Player getClientPlayer() {
 		return null;
 	}
 
 	@Override
-	public World getClientWorld() {
+	public Level getClientWorld() {
 		return null;
 	}
 

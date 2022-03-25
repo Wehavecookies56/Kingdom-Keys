@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
 
@@ -14,10 +14,10 @@ public class SCOpenAlignmentScreen {
 
 	public SCOpenAlignmentScreen() { }
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 	}
 
-	public static SCOpenAlignmentScreen decode(PacketBuffer buffer) {
+	public static SCOpenAlignmentScreen decode(FriendlyByteBuf buffer) {
 		SCOpenAlignmentScreen msg = new SCOpenAlignmentScreen();
 		return msg;
 	}
@@ -31,7 +31,7 @@ public class SCOpenAlignmentScreen {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenAlignmentScreen message) {
-			KingdomKeys.proxy.getClientMCInstance().displayGuiScreen(new AlignmentSelectionScreen());
+			KingdomKeys.proxy.getClientMCInstance().setScreen(new AlignmentSelectionScreen());
 		}
 	}
 

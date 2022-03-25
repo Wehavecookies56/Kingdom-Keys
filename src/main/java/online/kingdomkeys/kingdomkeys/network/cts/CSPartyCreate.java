@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -28,29 +28,29 @@ public class CSPartyCreate {
 		this.size = party.getSize();
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.name.length());
-		buffer.writeString(this.name);
+		buffer.writeUtf(this.name);
 		
-		buffer.writeUniqueId(this.uuid);
+		buffer.writeUUID(this.uuid);
 		
 		buffer.writeInt(this.username.length());
-		buffer.writeString(this.username);
+		buffer.writeUtf(this.username);
 		
 		buffer.writeBoolean(this.priv);
 		
 		buffer.writeByte(this.size);
 	}
 
-	public static CSPartyCreate decode(PacketBuffer buffer) {
+	public static CSPartyCreate decode(FriendlyByteBuf buffer) {
 		CSPartyCreate msg = new CSPartyCreate();
 		int length = buffer.readInt();
-		msg.name = buffer.readString(length);
+		msg.name = buffer.readUtf(length);
 		
-		msg.uuid = buffer.readUniqueId();
+		msg.uuid = buffer.readUUID();
 		
 		length = buffer.readInt();
-		msg.username = buffer.readString(length);
+		msg.username = buffer.readUtf(length);
 		
 		msg.priv = buffer.readBoolean();
 		
@@ -60,11 +60,11 @@ public class CSPartyCreate {
 
 	public static void handle(CSPartyCreate message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+			Player player = ctx.get().getSender();
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 			Party party = new Party(message.name, message.uuid, message.username, message.priv, message.size); 
 			worldData.addParty(party);
-			Utils.syncWorldData(player.world, worldData);
+			Utils.syncWorldData(player.level, worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

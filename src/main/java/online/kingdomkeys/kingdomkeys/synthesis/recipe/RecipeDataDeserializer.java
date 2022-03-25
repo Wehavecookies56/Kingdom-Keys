@@ -11,11 +11,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
@@ -44,7 +44,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
                         int quantity = 0;
                         boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
 						if (valid) {
-                            m = GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
+                            m = ModMaterials.registry.get().getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
                             if (m == null) {
                                 throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
                             } else {

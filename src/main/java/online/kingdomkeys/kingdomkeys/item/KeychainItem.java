@@ -6,19 +6,19 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -32,7 +32,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	KeybladeItem keyblade;
 	
     public KeychainItem() {
-        super(new KeybladeItemTier(0), 0, 0, new Item.Properties().group(KingdomKeys.keybladesGroup).maxStackSize(1));
+        super(new KeybladeItemTier(0), 0, 0, new Item.Properties().tab(KingdomKeys.keybladesGroup).stacksTo(1));
     }
     
     public void setKeyblade(KeybladeItem kb) {
@@ -44,30 +44,30 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
     }
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (stack.getTag() != null) {
-			if (!stack.getTag().hasUniqueId("keybladeID"))
+			if (!stack.getTag().hasUUID("keybladeID"))
 				stack.setTag(setID(stack.getTag()));
 		} else {
-			stack.setTag(setID(new CompoundNBT()));
+			stack.setTag(setID(new CompoundTag()));
 		}
     	super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
-	public CompoundNBT setID(CompoundNBT nbt) {
-		nbt.putUniqueId("keybladeID", UUID.randomUUID());
+	public CompoundTag setID(CompoundTag nbt) {
+		nbt.putUUID("keybladeID", UUID.randomUUID());
 		return nbt;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		/*ItemStack stack = player.getHeldItem(hand);
 		if(!world.isRemote) {
 			if(stack != null && stack.getItem() == this) {
 				setKeybladeLevel(stack, getKeybladeLevel(stack)+1);
 			}
 		}*/
-		return super.onItemRightClick(world, player, hand);
+		return super.use(world, player, hand);
 	}
 	
 	public int getKeybladeLevel(ItemStack stack) {
@@ -81,26 +81,26 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 
 	public void setKeybladeLevel(ItemStack stack, int level) {
 		if(!stack.hasTag()) {
-			stack.setTag(new CompoundNBT());
+			stack.setTag(new CompoundTag());
 		}
 		stack.getTag().putInt("level", level);
 	}
 	
     @OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (getKeyblade() != null && getKeyblade().data != null) {
 			if(getKeyblade().getKeybladeLevel(stack) > 0)
-				tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
-			tooltip.add(new TranslationTextComponent(TextFormatting.RED+"Strength %s", getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslationTextComponent(TextFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
-			tooltip.add(new TranslationTextComponent(TextFormatting.WHITE+""+TextFormatting.ITALIC + getKeyblade().getDescription()));
+				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
+			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
+			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.getTag() != null) {
-				if (stack.getTag().hasUniqueId("keybladeID")) {
-					tooltip.add(new TranslationTextComponent(TextFormatting.RED + "DEBUG:"));
-					tooltip.add(new TranslationTextComponent(TextFormatting.WHITE + stack.getTag().getUniqueId("keybladeID").toString()));
+				if (stack.getTag().hasUUID("keybladeID")) {
+					tooltip.add(new TranslatableComponent(ChatFormatting.RED + "DEBUG:"));
+					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
 				}
 			}
 		}

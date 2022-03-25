@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.InteractionHand;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravigaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GraviraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
@@ -14,28 +14,28 @@ public class MagicGravity extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
+	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
 		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
 		dmg *= fullMPBlastMult;
 		
 		switch(level) {
 		case 0:
-			ThrowableEntity gravity = new GravityEntity(player.world, player, dmg);
-			player.world.addEntity(gravity);
-			gravity.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2F, 0);
+			ThrowableProjectile gravity = new GravityEntity(player.level, player, dmg);
+			player.level.addFreshEntity(gravity);
+			gravity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			break;
 		case 1:
-			ThrowableEntity gravira = new GraviraEntity(player.world, player, dmg);
-			player.world.addEntity(gravira);
-			gravira.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2.3F, 0);
+			ThrowableProjectile gravira = new GraviraEntity(player.level, player, dmg);
+			player.level.addFreshEntity(gravira);
+			gravira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.3F, 0);
 			break;
 		case 2:
-			ThrowableEntity graviga = new GravigaEntity(player.world, player, dmg);
-			player.world.addEntity(graviga);
-			graviga.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 2.6F, 0);
+			ThrowableProjectile graviga = new GravigaEntity(player.level, player, dmg);
+			player.level.addFreshEntity(graviga);
+			graviga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.6F, 0);
 			break;
 		}		
-		player.swingArm(Hand.MAIN_HAND);
+		player.swing(InteractionHand.MAIN_HAND);
 	}
 
 }

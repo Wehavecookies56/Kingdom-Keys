@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.network;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -150,9 +150,9 @@ public class PacketHandler {
 		HANDLER.sendToServer(msg);
 	}
 
-	public static <MSG> void sendTo(MSG msg, ServerPlayerEntity player) {
+	public static <MSG> void sendTo(MSG msg, ServerPlayer player) {
 		if (!(player instanceof FakePlayer)) {
-			HANDLER.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+			HANDLER.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
 		}
 	}
 	
@@ -172,18 +172,18 @@ public class PacketHandler {
 		HANDLER.send(PacketDistributor.ALL.noArg(), msg);
 	}
 
-	public static void syncToAllAround(PlayerEntity player, IPlayerCapabilities playerData) {
-		if (!player.world.isRemote) {
-			for (PlayerEntity playerFromList : player.world.getPlayers()) {
-				sendTo(new SCSyncCapabilityToAllPacket(player.getDisplayName().getString(), playerData), (ServerPlayerEntity) playerFromList);
+	public static void syncToAllAround(Player player, IPlayerCapabilities playerData) {
+		if (!player.level.isClientSide) {
+			for (Player playerFromList : player.level.players()) {
+				sendTo(new SCSyncCapabilityToAllPacket(player.getDisplayName().getString(), playerData), (ServerPlayer) playerFromList);
 			}
 		}
 	}
 	
 	public static void syncToAllAround(LivingEntity entity, IGlobalCapabilities globalData) {
-		if (!entity.world.isRemote) {
-			for (PlayerEntity playerFromList : entity.world.getPlayers()) {
-				sendTo(new SCSyncGlobalCapabilityToAllPacket(entity.getEntityId(), globalData), (ServerPlayerEntity) playerFromList);
+		if (!entity.level.isClientSide) {
+			for (Player playerFromList : entity.level.players()) {
+				sendTo(new SCSyncGlobalCapabilityToAllPacket(entity.getId(), globalData), (ServerPlayer) playerFromList);
 			}
 		}
 	}

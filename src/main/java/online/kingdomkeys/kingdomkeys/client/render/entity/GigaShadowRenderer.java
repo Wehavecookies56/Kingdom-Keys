@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -15,20 +15,20 @@ import online.kingdomkeys.kingdomkeys.entity.mob.GigaShadowEntity;
 
 public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowModel<GigaShadowEntity>> {
 
-    public static final GigaShadowRenderer.Factory FACTORY = new GigaShadowRenderer.Factory();
+    public GigaShadowRenderer(EntityRendererProvider.Context context) {
+        super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 1.5F);
+        model.CYCLES_PER_BLOCK = 1;
 
-    public GigaShadowRenderer(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ShadowModel<>(1D), 1.5F);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(GigaShadowEntity entity) {
+    public ResourceLocation getTextureLocation(GigaShadowEntity entity) {
         return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
     }
 
     @Override
-    public void render(GigaShadowEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-    	matrixStackIn.push();
+    public void render(GigaShadowEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+    	matrixStackIn.pushPose();
         {
 	       
 	    	if (EntityHelper.getState(entityIn) == 1) {
@@ -36,19 +36,12 @@ public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowMode
 	        }
 	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     	}
-    	matrixStackIn.pop();
+    	matrixStackIn.popPose();
     }
 
     @Override
-    protected void preRenderCallback(GigaShadowEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+    protected void scale(GigaShadowEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
     	matrixStackIn.scale(4F, 4F, 4F);
-    	super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
-    }
-    
-    public static class Factory implements IRenderFactory<GigaShadowEntity> {
-        @Override
-        public EntityRenderer<? super GigaShadowEntity> createRenderFor(EntityRendererManager entityRendererManager) {
-            return new GigaShadowRenderer(entityRendererManager);
-        }
+    	super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
 }

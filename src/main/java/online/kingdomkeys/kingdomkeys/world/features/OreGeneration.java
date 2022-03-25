@@ -1,8 +1,10 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -12,15 +14,15 @@ public class OreGeneration {
 	//local variable to reduce parameters
 	private static BiomeGenerationSettingsBuilder settingsBuilder;
 
-	public static void addOre(ConfiguredFeature<?, ?> feature) {
-		settingsBuilder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, feature);
+	public static void addOre(Holder<PlacedFeature> feature) {
+		settingsBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
 	}
 
 	public static void generateOre(BiomeLoadingEvent event) {
 		settingsBuilder = event.getGeneration();
 
 		//Nether
-		if (event.getCategory().equals(Biome.Category.NETHER)) {
+		if (event.getCategory().equals(Biome.BiomeCategory.NETHER)) {
 			if (ModConfigs.oreGen) {
 				addOre(ModFeatures.TWILIGHT_ORE_NETHER);
 				addOre(ModFeatures.WELLSPRING_ORE_NETHER);
@@ -29,7 +31,7 @@ public class OreGeneration {
 			}
 		}
 		//End
-		else if (event.getCategory().equals(Biome.Category.THEEND)) {
+		else if (event.getCategory().equals(Biome.BiomeCategory.THEEND)) {
 			if (ModConfigs.oreGen) {
 				addOre(ModFeatures.WRITHING_ORE_END);
 				addOre(ModFeatures.PULSING_ORE_END);

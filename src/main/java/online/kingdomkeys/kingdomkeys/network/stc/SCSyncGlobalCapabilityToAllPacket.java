@@ -3,10 +3,10 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
@@ -26,14 +26,14 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		this.flatTicks = capability.getFlatTicks();
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(id);
 		buffer.writeInt(this.stopTicks);
 		buffer.writeFloat(this.stopDmg);
 		buffer.writeInt(this.flatTicks);
 	}
 
-	public static SCSyncGlobalCapabilityToAllPacket decode(PacketBuffer buffer) {
+	public static SCSyncGlobalCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
 		SCSyncGlobalCapabilityToAllPacket msg = new SCSyncGlobalCapabilityToAllPacket();
 		msg.id = buffer.readInt();
 		msg.stopTicks = buffer.readInt();
@@ -45,7 +45,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 
 	public static void handle(final SCSyncGlobalCapabilityToAllPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			LivingEntity entity = (LivingEntity) Minecraft.getInstance().world.getEntityByID(message.id);
+			LivingEntity entity = (LivingEntity) Minecraft.getInstance().level.getEntity(message.id);
 			
 			if (entity != null) {
 				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);

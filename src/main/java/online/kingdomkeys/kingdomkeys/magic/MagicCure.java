@@ -2,14 +2,14 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.server.level.ServerLevel;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -23,10 +23,10 @@ public class MagicCure extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
-		((ServerWorld) player.world).spawnParticle(ParticleTypes.HAPPY_VILLAGER.getType(), player.getPosX(), player.getPosY()+2.3D, player.getPosZ(), 5, 0D, 0D, 0D, 0D);
+	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
+		((ServerLevel) player.level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY()+2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 
 		float amount;
 		switch(level) {
@@ -38,10 +38,10 @@ public class MagicCure extends Magic {
 			amount = playerData.getMaxHP()/2 * getDamageMult(level);
 			player.heal(amount);
 
-			if(worldData.getPartyFromMember(player.getUniqueID()) != null) {
+			if(worldData.getPartyFromMember(player.getUUID()) != null) {
 				//heal everyone including user
-				Party party = worldData.getPartyFromMember(player.getUniqueID());
-				List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(3,3,3));
+				Party party = worldData.getPartyFromMember(player.getUUID());
+				List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(3,3,3));
 		        if (!list.isEmpty()) {
 		            for (int i = 0; i < list.size(); i++) {
 		                Entity e = (Entity) list.get(i);
@@ -51,15 +51,15 @@ public class MagicCure extends Magic {
 		            }
 		        }
 			}
-			player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_SHOOT, SoundCategory.PLAYERS, 1F, 1F);
+			player.level.playSound(null, player.blockPosition(), SoundEvents.GHAST_SHOOT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 2:
 			amount = playerData.getMaxHP() * getDamageMult(level);
 			player.heal(amount);
 
-			if(worldData.getPartyFromMember(player.getUniqueID()) != null) {
-				Party party = worldData.getPartyFromMember(player.getUniqueID());
-				List<Entity> list = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(4.0D, 4.0D, 4.0D));
+			if(worldData.getPartyFromMember(player.getUUID()) != null) {
+				Party party = worldData.getPartyFromMember(player.getUUID());
+				List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(4.0D, 4.0D, 4.0D));
 		        if (!list.isEmpty()) {
 		            for (int i = 0; i < list.size(); i++) {
 		                Entity e = (Entity) list.get(i);
@@ -71,7 +71,7 @@ public class MagicCure extends Magic {
 			}
 			break;
 		}
-		caster.swingArm(Hand.MAIN_HAND);
+		caster.swing(InteractionHand.MAIN_HAND);
 	}
 
 }

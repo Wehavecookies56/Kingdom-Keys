@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -41,7 +41,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
         return translationKey.replace(".name", level+".name");
     }
     
-    public double getCost(int lvl, PlayerEntity player) {
+    public double getCost(int lvl, Player player) {
     	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
     	double cost = data.getCost(lvl);
     	cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
@@ -72,7 +72,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	this.data = data;
     }
    
-    protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
+    protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
 
     }
     
@@ -81,7 +81,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
      * @param player
      * @param caster
      */
-    public final void onUse(PlayerEntity player, PlayerEntity caster, int level) {
+    public final void onUse(Player player, Player caster, int level) {
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	
@@ -99,15 +99,15 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 		casterData.setMagicCooldownTicks(data.getCooldown(level));
 		
 		if(casterData.isAbilityEquipped(Strings.wizardsRuse)) {
-			double num = player.world.rand.nextDouble();
+			double num = player.level.random.nextDouble();
 			if(num < (0.25+(0.125*(casterData.getNumberOfAbilitiesEquipped(Strings.wizardsRuse)-1)))){
 				caster.heal((int) getCost(level, player)/2);
 			}
 		}
 		
     	magicUse(player, caster, level, fullMPBlastMult);
-    	caster.swing(Hand.MAIN_HAND, true);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayerEntity) caster);
+    	caster.swing(InteractionHand.MAIN_HAND, true);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer) caster);
     }
 
 	public int getOrder() {

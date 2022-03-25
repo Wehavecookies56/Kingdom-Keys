@@ -3,14 +3,14 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
@@ -32,13 +32,13 @@ public class SCUpdateSoA {
 		this.sacrificePos = playerData.getSacrificePedestal();
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeByte(this.state.get());
 		buffer.writeBlockPos(this.choicePos);
 		buffer.writeBlockPos(this.sacrificePos);
 	}
 
-	public static SCUpdateSoA decode(PacketBuffer buffer) {
+	public static SCUpdateSoA decode(FriendlyByteBuf buffer) {
 		SCUpdateSoA msg = new SCUpdateSoA();
 		msg.state = SoAState.fromByte(buffer.readByte());
 		msg.choicePos = buffer.readBlockPos();
@@ -55,10 +55,10 @@ public class SCUpdateSoA {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCUpdateSoA message) {
-			World world = Minecraft.getInstance().world;
+			Level world = Minecraft.getInstance().level;
 			//Turns out TEs aren't loaded at this point, so not entirely sure how to do this
-			TileEntity teChoice = world.getTileEntity(message.choicePos);
-			TileEntity teSacrifice = world.getTileEntity(message.sacrificePos);
+			BlockEntity teChoice = world.getBlockEntity(message.choicePos);
+			BlockEntity teSacrifice = world.getBlockEntity(message.sacrificePos);
 			if (teChoice != null) {
 				((PedestalTileEntity) teChoice).hide = true;
 			}
@@ -83,7 +83,7 @@ public class SCUpdateSoA {
 				);
 			}
 			if (message.state == SoAState.CONFIRM) {
-				Minecraft.getInstance().displayGuiScreen(new ConfirmChoiceMenuPopup(SoAState.CONFIRM, SoAState.NONE, new BlockPos(0, 0, 0)));
+				Minecraft.getInstance().setScreen(new ConfirmChoiceMenuPopup(SoAState.CONFIRM, SoAState.NONE, new BlockPos(0, 0, 0)));
 			}
 		}
 	}

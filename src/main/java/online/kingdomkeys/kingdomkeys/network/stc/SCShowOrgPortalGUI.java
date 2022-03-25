@@ -2,12 +2,12 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 
@@ -21,11 +21,11 @@ public class SCShowOrgPortalGUI {
 		this.pos = pos;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeBlockPos(pos);
 	}
 
-	public static SCShowOrgPortalGUI decode(PacketBuffer buffer) {
+	public static SCShowOrgPortalGUI decode(FriendlyByteBuf buffer) {
 		SCShowOrgPortalGUI msg = new SCShowOrgPortalGUI();
 		msg.pos = buffer.readBlockPos();
 		return msg;
@@ -40,7 +40,7 @@ public class SCShowOrgPortalGUI {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCShowOrgPortalGUI message) {
-			KingdomKeys.proxy.getClientMCInstance().displayGuiScreen(new OrgPortalGui(message.pos));
+			KingdomKeys.proxy.getClientMCInstance().setScreen(new OrgPortalGui(message.pos));
 		}
 	}
 

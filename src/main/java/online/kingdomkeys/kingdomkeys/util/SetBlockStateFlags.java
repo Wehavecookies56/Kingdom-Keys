@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.util;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-
 /**
- * Enum for flags used by {@link net.minecraft.world.World#setBlockState(BlockPos, BlockState, int)}
+ * Enum for flags used by setBlockState
  * Values are based on the comment for that method
  */
 public enum SetBlockStateFlags {

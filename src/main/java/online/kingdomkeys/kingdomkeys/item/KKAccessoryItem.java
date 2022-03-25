@@ -6,13 +6,13 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -39,24 +39,26 @@ public class KKAccessoryItem extends Item implements IItemCategory {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     	if(getAp() != 0) {
-    		tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+getAp()));
+    		tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+getAp()));
     	}
     	if(getStr() != 0) {
-    		tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+getStr()));
+    		tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+getStr()));
     	}
     	if(getMag() != 0) {
-    		tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+getMag()));
+    		tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+getMag()));
     	}
     	if(getAbilities().size() > 0) {
-			tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
+			tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
     		for(String a : getAbilities()) {
-    			Ability ability = ModAbilities.registry.getValue(new ResourceLocation(a));
-    			tooltip.add(new TranslationTextComponent("- "+Utils.translateToLocal(ability.getTranslationKey())));
+    			Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(a));
+				if (ability != null) {
+					tooltip.add(new TranslatableComponent("- " + Utils.translateToLocal(ability.getTranslationKey())));
+				}
     		}
     	}
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
     
     public int getAp() {

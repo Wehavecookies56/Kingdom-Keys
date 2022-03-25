@@ -1,33 +1,33 @@
 package online.kingdomkeys.kingdomkeys.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.InteractionHand;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public class SynthesisBagContainer extends Container {
+public class SynthesisBagContainer extends AbstractContainerMenu {
 
 	@ObjectHolder(KingdomKeys.MODID + ":synthesis_bag")
-	public static ContainerType<SynthesisBagContainer> TYPE;
+	public static MenuType<SynthesisBagContainer> TYPE;
 
-	public static SynthesisBagContainer fromNetwork(int windowId, PlayerInventory inv, PacketBuffer buf) {
-		Hand hand = buf.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
-		return new SynthesisBagContainer(windowId, inv, inv.player.getHeldItem(hand));
+	public static SynthesisBagContainer fromNetwork(int windowId, Inventory inv, FriendlyByteBuf buf) {
+		InteractionHand hand = buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+		return new SynthesisBagContainer(windowId, inv, inv.player.getItemInHand(hand));
 	}
 	
 	private final ItemStack bag;
 
-	public SynthesisBagContainer(int windowId, PlayerInventory playerInv, ItemStack bag) {
+	public SynthesisBagContainer(int windowId, Inventory playerInv, ItemStack bag) {
 		super(TYPE, windowId);
 		this.bag = bag;
 		int i;
@@ -35,7 +35,7 @@ public class SynthesisBagContainer extends Container {
 
 		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
 
-		CompoundNBT nbt = playerInv.getCurrentItem().getOrCreateTag();
+		CompoundTag nbt = playerInv.getSelected().getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
 		
 		int invStart = 0;
@@ -69,15 +69,15 @@ public class SynthesisBagContainer extends Container {
      }
     
     @Override
-    public boolean canInteractWith (PlayerEntity player) {
+    public boolean stillValid (Player player) {
         return true;
     }
     
     @Override
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+	public ItemStack quickMoveStack(Player playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		
-		CompoundNBT nbt = bag.getOrCreateTag();
+		CompoundTag nbt = bag.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
 		int maxSlots = 0;
 		switch(bagLevel) {
@@ -92,33 +92,37 @@ public class SynthesisBagContainer extends Container {
 			break;
 		}
 		
-		Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+		Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
 			if (index < maxSlots) {
-				if (!this.mergeItemStack(itemstack1, maxSlots, this.inventorySlots.size(), true)) {
+				if (!this.moveItemStackTo(itemstack1, maxSlots, this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.mergeItemStack(itemstack1, 0, maxSlots, false)) {
+			} else if (!this.moveItemStackTo(itemstack1, 0, maxSlots, false)) {
 				return ItemStack.EMPTY;
 			}
 
 			if (itemstack1.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
+				slot.set(ItemStack.EMPTY);
 			} else {
-				slot.onSlotChanged();
+				slot.setChanged();
 			}
 		}
 		return itemstack;
 	}
 
-    @Override
-    public ItemStack slotClick(int slot, int dragType, ClickType clickTypeIn, PlayerEntity player) {
-        if (slot >= 0 && getSlot(slot).getStack() == player.getHeldItem(Hand.MAIN_HAND)) return ItemStack.EMPTY;
-        return super.slotClick(slot, dragType, clickTypeIn, player);
+	@Override
+    public void clicked(int slot, int dragType, ClickType clickTypeIn, Player player) {
+        if (slot >= 0 && getSlot(slot).getItem() == player.getItemInHand(InteractionHand.MAIN_HAND)) {
+        	//TODO disable clicking item in slot !!!!!!
+		}
+
     }
+
+
     
   /*  @Override
     public void onContainerClosed(PlayerEntity playerIn) {

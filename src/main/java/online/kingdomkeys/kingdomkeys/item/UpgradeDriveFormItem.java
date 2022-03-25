@@ -2,18 +2,18 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -21,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class UpgradeDriveFormItem extends Item {
 	String formName;
@@ -31,11 +33,11 @@ public class UpgradeDriveFormItem extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {		
-		if (!world.isRemote) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {		
+		if (!world.isClientSide) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if (playerData != null && playerData.getDriveFormMap() != null) {
-				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(formName));
+				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
 				if (playerData.getDriveFormMap().containsKey(formName)) { // If you have the form add some exp
 					int level = playerData.getDriveFormMap().containsKey(formName) ? playerData.getDriveFormMap().get(formName)[0] + 1 : 1;
 					if (level <= 7) {
@@ -46,12 +48,12 @@ public class UpgradeDriveFormItem extends Item {
 						}
 						int newExp = exp - oldExp;
 						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
-						player.sendMessage(new TranslationTextComponent(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"), Util.DUMMY_UUID);
+						player.sendMessage(new TranslatableComponent(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"), Util.NIL_UUID);
 						
-						if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
-							player.getHeldItemMainhand().shrink(1);
-						} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
-							player.getHeldItemOffhand().shrink(1);
+						if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
+							player.getMainHandItem().shrink(1);
+						} else if(!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
+							player.getOffhandItem().shrink(1);
 						}
 						
 					}
@@ -59,25 +61,25 @@ public class UpgradeDriveFormItem extends Item {
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
 					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
-					player.sendMessage(new TranslationTextComponent("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), Util.DUMMY_UUID);
-					if(!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
-						player.getHeldItemMainhand().shrink(1);
-					} else if(!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
-						player.getHeldItemOffhand().shrink(1);
+					player.sendMessage(new TranslatableComponent("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), Util.NIL_UUID);
+					if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
+						player.getMainHandItem().shrink(1);
+					} else if(!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
+						player.getOffhandItem().shrink(1);
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 			}
 		}
-		return ActionResult.resultSuccess(player.getHeldItem(hand));
+		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(formName));
+	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
 		if (form != null) {
-			tooltip.add(new TranslationTextComponent("Upgrade " + Utils.translateToLocal(form.getTranslationKey())));
+			tooltip.add(new TranslatableComponent("Upgrade " + Utils.translateToLocal(form.getTranslationKey())));
 		}
-		super.addInformation(stack, worldIn, tooltip, flagIn);
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 }

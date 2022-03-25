@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -22,11 +22,11 @@ public class CSSetAlignment {
         this.alignment = alignment;
     }
 
-    public void encode(PacketBuffer buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(alignment.ordinal());
     }
 
-    public static CSSetAlignment decode(PacketBuffer buffer) {
+    public static CSSetAlignment decode(FriendlyByteBuf buffer) {
         CSSetAlignment msg = new CSSetAlignment();
         msg.alignment = Utils.OrgMember.values()[buffer.readInt()];
         return msg;
@@ -34,7 +34,7 @@ public class CSSetAlignment {
 
     public static void handle(CSSetAlignment message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PlayerEntity player = ctx.get().getSender();
+            Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             playerData.setAlignment(message.alignment);
             Item weapon = null;

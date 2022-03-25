@@ -3,21 +3,23 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.renderer.texture.Tickable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -27,7 +29,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class PedestalTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity {
+public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tickable {
 	public static final int NUMBER_OF_SLOTS = 1;
 	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
 
@@ -59,8 +61,8 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	//only changed on the client so it will not hide for other players
 	public boolean hide = false;
 
-	public PedestalTileEntity() {
-		super(ModEntities.TYPE_PEDESTAL.get());
+	public PedestalTileEntity(BlockPos pos, BlockState state) {
+		super(ModEntities.TYPE_PEDESTAL.get(), pos, state);
 	}
 
 	private IItemHandler createInventory() {
@@ -73,16 +75,16 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	}
 	
 	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return super.getRenderBoundingBox().expand(0, 5, 0);
+	public AABB getRenderBoundingBox() {
+		return super.getRenderBoundingBox().expandTowards(0, 5, 0);
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT compound) {
-		super.read(state, compound);
-		CompoundNBT invCompound = compound.getCompound("inv");
-		inventory.ifPresent(iih -> ((INBTSerializable<CompoundNBT>) iih).deserializeNBT(invCompound));
-		CompoundNBT transformations = compound.getCompound("transforms");
+	public void load(CompoundTag compound) {
+		super.load(compound);
+		CompoundTag invCompound = compound.getCompound("inv");
+		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
+		CompoundTag transformations = compound.getCompound("transforms");
 		rotationSpeed = transformations.getFloat("rotspeed");
 		bobSpeed = transformations.getFloat("bobspeed");
 		savedRotation = transformations.getFloat("savedrot");
@@ -91,17 +93,17 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		baseHeight = transformations.getFloat("baseheight");
 		pause = transformations.getBoolean("pause");
 		stationOfAwakeningMarker = compound.getBoolean("soa_marker");
-		displayStack = ItemStack.read(compound.getCompound("display_stack"));
+		displayStack = ItemStack.of(compound.getCompound("display_stack"));
 	}
-	
+
 	@Override
-	public CompoundNBT write(CompoundNBT compound) {
-		super.write(compound);
+	protected void saveAdditional(CompoundTag compound) {
+		super.saveAdditional(compound);
 		inventory.ifPresent(iih -> {
-			CompoundNBT invCompound = ((INBTSerializable<CompoundNBT>) iih).serializeNBT();
+			CompoundTag invCompound = ((INBTSerializable<CompoundTag>) iih).serializeNBT();
 			compound.put("inv", invCompound);
 		});
-		CompoundNBT transformations = new CompoundNBT();
+		CompoundTag transformations = new CompoundTag();
 		transformations.putFloat("rotspeed", rotationSpeed);
 		transformations.putFloat("bobspeed", bobSpeed);
 		transformations.putFloat("savedrot", savedRotation);
@@ -112,17 +114,16 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 		compound.put("transforms", transformations);
 		compound.putBoolean("soa_marker", stationOfAwakeningMarker);
 		compound.put("display_stack", displayStack.serializeNBT());
-		return compound;
 	}
 
 	@Override
-	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent("container.pedestal");
+	public Component getDisplayName() {
+		return new TranslatableComponent("container.pedestal");
 	}
 
 	@Nullable
 	@Override
-	public Container createMenu(int windowID, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+	public AbstractContainerMenu createMenu(int windowID, Inventory playerInventory, Player playerEntity) {
 		return new PedestalContainer(windowID, playerInventory, this);
 	}
 
@@ -137,7 +138,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	public void setStationOfAwakeningMarker(boolean marker) {
 		this.stationOfAwakeningMarker = marker;
-		markDirty();
+		setChanged();
 	}
 
 	public boolean isStationOfAwakeningMarker() {
@@ -150,7 +151,7 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	public void setDisplayStack(ItemStack displayStack) {
 		this.displayStack = displayStack;
-		markDirty();
+		setChanged();
 	}
 
 	public float getRotationSpeed() {
@@ -176,18 +177,18 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 	public void setSpeed(float rotationSpeed, float bobSpeed) {
 		this.rotationSpeed = rotationSpeed;
 		this.bobSpeed = bobSpeed;
-		markDirty();
+		setChanged();
 	}
 
 	public void saveTransforms(float savedRotation, float savedHeight) {
 		this.savedRotation = savedRotation;
 		this.savedHeight = savedHeight;
-		markDirty();
+		setChanged();
 	}
 
 	public void setPause(boolean pause) {
 		this.pause = pause;
-		markDirty();
+		setChanged();
 	}
 
 	public void setCurrentTransforms(float currentRotation, float currentHeight) {
@@ -236,25 +237,23 @@ public class PedestalTileEntity extends TileEntity implements INamedContainerPro
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT nbt = new CompoundNBT();
-		this.write(nbt);
-		return new SUpdateTileEntityPacket(this.getPos(), 1, nbt);
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		load(pkt.getTag());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
+	public CompoundTag getUpdateTag() {
+		return serializeNBT();
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load(tag);
 	}
 	
 }

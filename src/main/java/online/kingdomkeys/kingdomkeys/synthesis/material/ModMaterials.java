@@ -1,29 +1,29 @@
 package online.kingdomkeys.kingdomkeys.synthesis.material;
 
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
+import java.util.function.Supplier;
+
 public class ModMaterials {
 
-    //TODO should be an API thing
-    public static IForgeRegistry<Material> registry;
+    public static DeferredRegister<Material> MATERIALS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "materials"), KingdomKeys.MODID);
+
+    public static Supplier<IForgeRegistry<Material>> registry = MATERIALS.makeRegistry(Material.class, RegistryBuilder::new);;
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class Registry {
-
-        @SubscribeEvent
-        public static void registerMaterialRegistry(RegistryEvent.NewRegistry event) {
-            //Create material registry
-            registry = new RegistryBuilder<Material>().setName(new ResourceLocation(KingdomKeys.MODID, "materials")).setType(Material.class).create();
-        }
 
         public static Material createMaterial(Item item, String name) {
             return new Material(KingdomKeys.MODID + ":" + Strings.SM_Prefix + name, item);

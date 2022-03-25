@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -22,23 +22,23 @@ public class CSSetEquippedAbilityPacket {
 		this.level = level;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.ability.length());
-		buffer.writeString(this.ability);
+		buffer.writeUtf(this.ability);
 		buffer.writeInt(this.level);
 	}
 
-	public static CSSetEquippedAbilityPacket decode(PacketBuffer buffer) {
+	public static CSSetEquippedAbilityPacket decode(FriendlyByteBuf buffer) {
 		CSSetEquippedAbilityPacket msg = new CSSetEquippedAbilityPacket();
 		int length = buffer.readInt();
-		msg.ability = buffer.readString(length);
+		msg.ability = buffer.readUtf(length);
 		msg.level = buffer.readInt();
 		return msg;
 	}
 
 	public static void handle(CSSetEquippedAbilityPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			playerData.equipAbilityToggle(message.ability, message.level);

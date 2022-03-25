@@ -1,104 +1,104 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.Pose;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class PairBloxEntity extends Entity {
 
-	private static final DataParameter<Integer> PAIR = EntityDataManager.createKey(PairBloxEntity.class, DataSerializers.VARINT);
+	private static final EntityDataAccessor<Integer> PAIR = SynchedEntityData.defineId(PairBloxEntity.class, EntityDataSerializers.INT);
 	private int pair = 0;
 	
 
-	public PairBloxEntity(EntityType<? extends Entity> type, World world) {
+	public PairBloxEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public PairBloxEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public PairBloxEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_PAIR_BLOX.get(), world);
 	}
 
-	public PairBloxEntity(World world, double x, double y, double z, int pair) {
+	public PairBloxEntity(Level world, double x, double y, double z, int pair) {
 		this(ModEntities.TYPE_PAIR_BLOX.get(), world);
-		this.setPosition(x+0.5, y, z+0.5);
+		this.setPos(x+0.5, y, z+0.5);
 		this.setPair(pair);
-		this.prevPosX = x+0.5;
-		this.prevPosY = y;
-		this.prevPosZ = z+0.5;
+		this.xo = x+0.5;
+		this.yo = y;
+		this.zo = z+0.5;
 	}
 
 	@Override
-	protected void registerData() {
-		this.dataManager.register(PAIR, 0);
+	protected void defineSynchedData() {
+		this.entityData.define(PAIR, 0);
 	}
 
 	@Override
-	protected boolean canTriggerWalking() {
-		return true;
+	protected MovementEmission getMovementEmission() {
+		return MovementEmission.SOUNDS;
 	}
 
 	@Override
-	public boolean canBeCollidedWith() {
+	public boolean isPickable() {
 		return this.isAlive();
 	}
 
 	@Override
 	public void tick() {
-		this.prevPosX = this.getPosition().getX();
-		this.prevPosY = this.getPosition().getY();
-		this.prevPosZ = this.getPosition().getZ();
+		this.xo = this.blockPosition().getX();
+		this.yo = this.blockPosition().getY();
+		this.zo = this.blockPosition().getZ();
 		
-		this.move(MoverType.SELF, this.getMotion().add(0, -1, 0));
+		this.move(MoverType.SELF, this.getDeltaMovement().add(0, -1, 0));
 		//this.handleWaterMovement();
-		if(ticksExisted >= 5) {
-			this.world.setBlockState(this.getPosition(), ModBlocks.pairBlox.get().getDefaultState().with(PairBloxBlock.PAIR, getPair()));
-			this.remove();
+		if(tickCount >= 5) {
+			this.level.setBlockAndUpdate(this.blockPosition(), ModBlocks.pairBlox.get().defaultBlockState().setValue(PairBloxBlock.PAIR, getPair()));
+			this.remove(RemovalReason.KILLED);
 		}
 	}
 
 	@Override
-	protected void writeAdditional(CompoundNBT compound) {
+	protected void addAdditionalSaveData(CompoundTag compound) {
 		compound.putInt("Pair", this.getPair());
 	}
 
 	@Override
-	protected void readAdditional(CompoundNBT compound) {
+	protected void readAdditionalSaveData(CompoundTag compound) {
 		this.setPair(compound.getInt("Pair"));
 	}
 
 	@Override
-	protected float getEyeHeight(Pose pose, EntitySize entitySize) {
+	protected float getEyeHeight(Pose pose, EntityDimensions entitySize) {
 		return 0.0F;
 	}
 
 	public void setPair(int pair) {
-		this.dataManager.set(PAIR, pair);
+		this.entityData.set(PAIR, pair);
 		this.pair = pair;
 	}
 
 	@Override
-	public void notifyDataManagerChange(DataParameter<?> key) {
+	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
 		if (PAIR.equals(key)) {
 			this.pair = this.getPairDataManager();
 		}
 	}
 
 	public int getPairDataManager() {
-		return this.dataManager.get(PAIR);
+		return this.entityData.get(PAIR);
 	}
 
 	public int getPair() {
@@ -106,7 +106,7 @@ public class PairBloxEntity extends Entity {
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

@@ -2,22 +2,23 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public class MenuBox extends Widget{
+public class MenuBox extends AbstractWidget{
 	Minecraft mc;
     int posX, posY, width, height;
     Color colour;
 
     public MenuBox(int posX, int posY, int width, int height, Color colour) {
-		super(posX, posY, width, 14, new TranslationTextComponent(""));
+		super(posX, posY, width, 14, new TranslatableComponent(""));
         this.posX = posX;
         this.posY = posY;
         this.width = width;
@@ -41,12 +42,12 @@ public class MenuBox extends Widget{
             mCenterU = 47, mCenterV = 92
             ;
 
-    public void draw(MatrixStack matrixStack) {
-        matrixStack.push();
-        RenderSystem.color3f(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F);
+    public void draw(PoseStack matrixStack) {
+        matrixStack.pushPose();
+        RenderSystem.setShaderColor(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F, 1.0F);
         
         RenderSystem.enableBlend();
-        mc.textureManager.bindTexture(texture);
+        mc.textureManager.bindForSetup(texture);
         //Top left corner
         blit(matrixStack, posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
         //Top right corner
@@ -71,12 +72,12 @@ public class MenuBox extends Widget{
         	blit(matrixStack, posX + width - borderSize, posY + borderSize + i, rCenterU, rCenterV, borderSize, 1);
         }
         //Inside
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(posX + borderSize, posY + borderSize, 0);
         matrixStack.scale(centerWidth, centerHeight,1);
         blit(matrixStack, 0, 0, mCenterU, mCenterV, 1, 1);
-        matrixStack.pop();
-        matrixStack.pop();
+        matrixStack.popPose();
+        matrixStack.popPose();
         //drawModalRectWithCustomSizedTexture(posX + borderSize, posY + borderSize, gradientU, gradientV, centerWidth, centerHeight, gradientW, gradientH);
         //drawScaledCustomSizeModalRect(posX + borderSize, posY + borderSize, gradientU, gradientV, gradientW, gradientH, centerWidth, centerHeight, centerWidth, centerHeight);
     }
@@ -113,4 +114,8 @@ public class MenuBox extends Widget{
         this.height = height;
     }
 
+    @Override
+    public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
+
+    }
 }

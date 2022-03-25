@@ -1,15 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -24,7 +24,7 @@ public class MenuStockItem extends Button {
     String customName = null;
 
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
-        super(x, y, width, 14, new TranslationTextComponent(""), b -> {
+        super(x, y, width, 14, new TranslatableComponent(""), b -> {
         	parent.action(stack);
         });
         this.parent = parent;
@@ -38,14 +38,14 @@ public class MenuStockItem extends Button {
 	}
 
 	@Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-        RenderSystem.color4f(1, 1, 1, 1);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
-            mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+            mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
             if (isHovered || parent.selected == stack) {
-                matrixStack.push();
+                matrixStack.pushPose();
                 {
                     RenderSystem.enableBlend();
                     
@@ -58,10 +58,10 @@ public class MenuStockItem extends Button {
                     }
                     blit(matrixStack, (int)(width * (1 / scale)) - 17, 0, 47, 0, 17, 28);
                 }
-                matrixStack.pop();
+                matrixStack.popPose();
             }
             ItemCategory category = Utils.getCategoryForStack(stack);
-            matrixStack.push();
+            matrixStack.pushPose();
             {
                 matrixStack.translate(x + 3, y + 2, 0);
                 float scale = 0.5F;
@@ -69,19 +69,19 @@ public class MenuStockItem extends Button {
                 matrixStack.scale(scale, scale, 1);
                 blit(matrixStack, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
-            matrixStack.pop();
-            drawString(matrixStack, mc.fontRenderer, customName == null ? stack.getDisplayName().getString() : customName, x + 15, y + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+            matrixStack.popPose();
+            drawString(matrixStack, mc.font, customName == null ? stack.getHoverName().getString() : customName, x + 15, y + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(showAmount) {
-	            String count = new TranslationTextComponent("x%s ", stack.getCount()).getString();
-	            drawString(matrixStack, mc.fontRenderer, count, x + width - mc.fontRenderer.getStringWidth(count), y + 3, 0xF8F711);
+	            String count = new TranslatableComponent("x%s ", stack.getCount()).getString();
+	            drawString(matrixStack, mc.font, count, x + width - mc.font.width(count), y + 3, 0xF8F711);
             }
         }
     }
 
     @Override
-    public void playDownSound(SoundHandler soundHandler) {
-   		soundHandler.play(SimpleSound.master(ModSounds.menu_select.get(), 1.0F, 1.0F));
+    public void playDownSound(SoundManager soundHandler) {
+   		soundHandler.play(SimpleSoundInstance.forUI(ModSounds.menu_select.get(), 1.0F, 1.0F));
     }
 }
 

@@ -1,11 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MenuBar extends Screen {
@@ -14,7 +14,7 @@ public class MenuBar extends Screen {
     boolean flipGradient;
 
     public MenuBar(int posX, int posY, int width, int height, boolean flipGradient) {
-		super(new TranslationTextComponent(""));
+		super(new TranslatableComponent(""));
         this.posX = posX;
         this.posY = posY;
         this.width = width;
@@ -39,8 +39,8 @@ public class MenuBar extends Screen {
 
     private final int gradientU = 101, gradientV = 67, gradientW = 10, gradientH = 32;
 
-    public void draw(MatrixStack matrixStack) {
-        minecraft.textureManager.bindTexture(texture);
+    public void draw(PoseStack matrixStack) {
+        minecraft.textureManager.bindForSetup(texture);
         //Top left corner
         blit(matrixStack, posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
         //Top right corner
@@ -65,7 +65,7 @@ public class MenuBar extends Screen {
         	blit(matrixStack, posX + width - borderSize, posY + borderSize + i, rCenterU, rCenterV, borderSize, 1);
         }
         //Inside
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(posX + borderSize, posY + borderSize, 0);
         matrixStack.scale(centerWidth, (float)centerHeight / (float)gradientH,1);
         if (flipGradient) {
@@ -73,7 +73,7 @@ public class MenuBar extends Screen {
         } else {
         	blit(matrixStack, 0, 0, gradientU, gradientV, 1, gradientH);
         }
-        matrixStack.pop();
+        matrixStack.popPose();
         //drawModalRectWithCustomSizedTexture(posX + borderSize, posY + borderSize, gradientU, gradientV, centerWidth, centerHeight, gradientW, gradientH);
         //drawScaledCustomSizeModalRect(posX + borderSize, posY + borderSize, gradientU, gradientV, gradientW, gradientH, centerWidth, centerHeight, centerWidth, centerHeight);
     }

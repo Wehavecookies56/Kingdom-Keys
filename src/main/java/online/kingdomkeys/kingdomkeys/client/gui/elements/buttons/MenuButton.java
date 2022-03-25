@@ -4,14 +4,14 @@ import java.awt.Color;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -43,13 +43,13 @@ public class MenuButton extends MenuButtonBase {
 	ButtonType type;
 	private boolean selected;
 
-	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, Button.IPressable onPress) {
+	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, Button.OnPress onPress) {
 		super(x, y, 22 + widthIn, 20, Utils.translateToLocal(buttonText), onPress);
 		middleWidth = widthIn;
 		this.type = type;
 	}
 
-	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, boolean hasTooltip, Button.IPressable onPress) {
+	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, boolean hasTooltip, Button.OnPress onPress) {
 		this(x, y, widthIn, buttonText, type, onPress);
 		if(hasTooltip)
 			this.tip = buttonText+".desc";
@@ -72,7 +72,7 @@ public class MenuButton extends MenuButtonBase {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//if(!isSelected())
 			isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
 		/*if(isHovered()) {
@@ -80,39 +80,39 @@ public class MenuButton extends MenuButtonBase {
 		}*/
 
 		if (visible) {
-			matrixStack.push();
-			RenderSystem.color3f(1, 1, 1);
+			matrixStack.pushPose();
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			Minecraft.getInstance().textureManager.bindTexture(texture);
+			Minecraft.getInstance().textureManager.bindForSetup(texture);
 			if (isHovered && active) { // Hovered button
 				x += 10;
 				drawButton(matrixStack, true);
-				drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
+				drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
 				x -= 10;
 			} else {
 				if (active) {// Not hovered but fully visible
 					drawButton(matrixStack, false);
-					drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
+					drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
 				} else {// Not hovered and selected (not fully visible)
 					if (selected) {
 						x += 10;
 						drawButton(matrixStack, false);
-						drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
+						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
 						x -= 10;
 					} else {
 						drawButton(matrixStack, false);
-						drawString(matrixStack, Minecraft.getInstance().fontRenderer, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
+						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
 					}
 				}
 			}
-			RenderSystem.color3f(1, 1, 1);
-			matrixStack.pop();
+			RenderSystem.setShaderColor(1, 1, 1, 1);
+			matrixStack.popPose();
 		}
 	}
 
-	private void drawButton(MatrixStack matrixStack, boolean hovered) {
+	private void drawButton(PoseStack matrixStack, boolean hovered) {
 		int leftU = 0, middleU = 0, rightU = 0;
 		int vPos = 0, selVPos = 0;
 		switch (type) { // Set the local values to the corresponding fields
@@ -163,8 +163,8 @@ public class MenuButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void playDownSound(SoundHandler soundHandlerIn) {
-		soundHandlerIn.play(SimpleSound.master(ModSounds.menu_select.get(), 1.0F, 1.0F));
+	public void playDownSound(SoundManager soundHandlerIn) {
+		soundHandlerIn.play(SimpleSoundInstance.forUI(ModSounds.menu_select.get(), 1.0F, 1.0F));
 	}
 
 

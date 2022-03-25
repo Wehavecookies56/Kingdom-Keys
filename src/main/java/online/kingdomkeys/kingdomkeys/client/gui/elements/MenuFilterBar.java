@@ -3,14 +3,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuFilterButton;
@@ -44,8 +44,8 @@ public class MenuFilterBar {
         this.parent = parent;
     }
 
-    public void renderSelectionBox(MatrixStack matrixStack, AbstractGui gui, MenuFilterButton button) {
-        if (button.isHovered() || currentFilter == button.category)
+    public void renderSelectionBox(PoseStack matrixStack, GuiComponent gui, MenuFilterButton button) {
+        if (button.isHoveredOrFocused() || currentFilter == button.category)
             Utils.blitScaled(matrixStack, gui, button.x - 1.5F, button.y - 1.5F, 66, 30, 58, 36, 0.5F);
     }
 
@@ -66,10 +66,10 @@ public class MenuFilterBar {
         parent.initItems();
     }
 
-    public void render(MatrixStack matrixStack, AbstractGui gui, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrixStack, GuiComponent gui, int mouseX, int mouseY, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
-        RenderSystem.color4f(1, 1, 1, 1);
-        mc.getTextureManager().bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
         Utils.blitScaled(matrixStack, gui, startX, y, 118, 0, 48, 30, 0.5F);
         buttons.forEach(b -> b.render(matrixStack, mouseX, mouseY, partialTicks));
         Utils.blitScaled(matrixStack, gui, endX, y, 166, 0, 48, 30, 0.5F);

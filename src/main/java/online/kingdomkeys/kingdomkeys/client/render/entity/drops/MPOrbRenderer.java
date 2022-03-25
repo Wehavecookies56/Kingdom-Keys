@@ -1,34 +1,22 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity.drops;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
-import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 
 public class MPOrbRenderer extends EntityItemDropRenderer {
-	
-	public static final Factory FACTORY = new MPOrbRenderer.Factory();
 
-	public MPOrbRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn);
+	public MPOrbRenderer(EntityRendererProvider.Context context) {
+		super(context);
 	}
 
 	/**
 	 * Returns the location of an entity's texture.
 	 */
 	@Override
-	public ResourceLocation getEntityTexture(ItemDropEntity entity) {
+	public ResourceLocation getTextureLocation(ItemDropEntity entity) {
 		this.texture = new ResourceLocation(KingdomKeys.MODID + ":textures/entity/mp_orb.png"); 
 		return texture;
-	}
-
-	public static class Factory implements IRenderFactory<MPOrbEntity> {
-		@Override
-		public EntityRenderer<? super MPOrbEntity> createRenderFor(EntityRendererManager entityRendererManager) {
-			return new MPOrbRenderer(entityRendererManager);
-		}
 	}
 }

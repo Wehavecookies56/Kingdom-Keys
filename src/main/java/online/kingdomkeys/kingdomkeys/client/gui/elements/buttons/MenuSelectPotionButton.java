@@ -2,19 +2,19 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.client.gui.Font;
+import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.world.item.TooltipFlag.Default;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.ChatFormatting;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -40,14 +40,14 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
-					PlayerEntity player = Minecraft.getInstance().player;
+					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					PacketHandler.sendToServer(new CSEquipItems(parent.slot, slot));
-					ItemStack stackToEquip = player.inventory.getStackInSlot(slot);
+					ItemStack stackToEquip = player.getInventory().getItem(slot);
 					ItemStack stackPreviouslyEquipped = playerData.equipItem(parent.slot, stackToEquip);
-					player.inventory.setInventorySlotContents(slot, stackPreviouslyEquipped);
+					player.getInventory().setItem(slot, stackPreviouslyEquipped);
 				} else {
-					Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
+					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}
 			}
 		});
@@ -62,28 +62,27 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        FontRenderer fr = minecraft.fontRenderer;
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        Font fr = minecraft.font;
 		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
-		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.CONSUMABLE;
 				
 		KKPotionItem potion;
-		if(ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof KKPotionItem)) {
+		if(ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof KKPotionItem)) {
 			potion = null;
 		} else {
 			potion = (KKPotionItem) stack.getItem();
 		}
 		if (visible) {
-			RenderHelper.disableStandardItemLighting();
-			RenderHelper.setupGuiFlatDiffuseLighting();
+			Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.3F;
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			matrixStack.push();
+			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			
-			RenderSystem.color4f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
+			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
@@ -91,21 +90,21 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 				blit(matrixStack, 17 + i, 0, 184, 34, 2, 28);
 			}
 			blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			blit(matrixStack, 6, 4, category.getU(), category.getV(), 20, 20);
-			matrixStack.pop();
+			matrixStack.popPose();
 			String itemName;
 			if (potion == null) { //Name to display
 				itemName = "---";
 			} else {
-				itemName = stack.getDisplayName().getString();
+				itemName = stack.getHoverName().getString();
 				String amount = "x"+parent.addedItemsList.get(stack.getItem());
-				drawString(matrixStack, minecraft.fontRenderer,TextFormatting.YELLOW+ amount, x + width - minecraft.fontRenderer.getStringWidth(amount)-3, y + 3, 0xFFFFFF);
+				drawString(matrixStack, minecraft.font,ChatFormatting.YELLOW+ amount, x + width - minecraft.font.width(amount)-3, y + 3, 0xFFFFFF);
 			}
-			drawString(matrixStack, minecraft.fontRenderer, itemName, x + 15, y + 3, 0xFFFFFF);
+			drawString(matrixStack, minecraft.font, itemName, x + 15, y + 3, 0xFFFFFF);
 			if (selected || isHovered) { //Render stuff on the right
-				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-				matrixStack.push();
+				minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
 					
@@ -117,22 +116,21 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					}
 					blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 				
 				if(potion != null) {
 					float iconPosX = parent.width * 0.565F;
 					float iconPosY = parent.height * 0.20F;
 					float iconHeight = parent.height * 0.3148F;
-					RenderHelper.disableStandardItemLighting();
-					RenderHelper.setupGuiFlatDiffuseLighting();
-					RenderSystem.pushMatrix();
+					Lighting.setupForFlatItems();
+					matrixStack.pushPose();
                     {
                         
-                        RenderSystem.translatef(iconPosX, iconPosY, 0);
-                        RenderSystem.scalef((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-                        minecraft.getItemRenderer().renderItemAndEffectIntoGUI(stack, 0, 0);
+                        matrixStack.translate(iconPosX, iconPosY, 0);
+                        matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+                        minecraft.getItemRenderer().renderAndDecorateItem(stack, 0, 0);
                     }
-                    RenderSystem.popMatrix();
+                    matrixStack.popPose();
 					float strPosX = parent.width * 0.685F;
 					float strPosY = parent.height * 0.5185F;
 					float strNumPosX = parent.width * 0.78F;
@@ -170,17 +168,16 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 */
 					float tooltipPosX = parent.width * 0.3333F;
 					float tooltipPosY = parent.height * 0.8F;
-					Utils.drawSplitString(minecraft.fontRenderer, stack.getTooltip(minecraft.player, TooltipFlags.NORMAL).get(1).getString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
+					Utils.drawSplitString(minecraft.font, stack.getTooltipLines(minecraft.player, Default.NORMAL).get(1).getString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
-			RenderHelper.disableStandardItemLighting();
-			RenderHelper.setupGuiFlatDiffuseLighting();
+			Lighting.setupForFlatItems();
 		}
 		
 	}
 
 	@Override
-	public void playDownSound(SoundHandler soundHandler) {
-		soundHandler.play(SimpleSound.master(ModSounds.menu_in.get(), 1.0F, 1.0F));
+	public void playDownSound(SoundManager soundHandler) {
+		soundHandler.play(SimpleSoundInstance.forUI(ModSounds.menu_in.get(), 1.0F, 1.0F));
 	}
 }

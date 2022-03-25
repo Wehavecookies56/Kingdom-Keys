@@ -4,22 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.world.DimensionRenderInfo;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.DimensionSpecialEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -50,7 +57,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationO
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ProxyClient implements IProxy {
 
-	public static final Map<Item, BipedModel> armorModels = new HashMap<Item, BipedModel>();
+	public static final Map<Item, HumanoidModel<LivingEntity>> armorModels = new HashMap<>();
 
     @Override
     public void setup(FMLCommonSetupEvent event) {
@@ -69,9 +76,22 @@ public class ProxyClient implements IProxy {
 
     //Register the entity models
     @SubscribeEvent
-    public static void registerModels(ModelRegistryEvent event) {
-        ModEntities.registerModels();
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        ModEntities.registerRenderers(event);
     }
+
+    @SubscribeEvent
+	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+    	ModEntities.registerLayers(event);
+	}
+
+	@SubscribeEvent
+	public static void addLayers(EntityRenderersEvent.AddLayers event) {
+		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
+		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+		renderer = event.getSkin("slim");
+		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+	}
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
@@ -82,59 +102,43 @@ public class ProxyClient implements IProxy {
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
 
-		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
-		DimensionRenderInfo.field_239208_a_.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
+		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
+		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
 
-        PlayerRenderer renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("default");
-		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
-		renderPlayer = Minecraft.getInstance().getRenderManager().getSkinMap().get("slim");
-		renderPlayer.addLayer(new DriveLayerRenderer(renderPlayer));
-		
-		ModContainers.registerGUIFactories();
+		//TODO figure out where/how this can work (will crash right now)
+		/*
+		EntityRendererProvider.Context context = new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font);
+		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
+		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
 
-        event.enqueueWork(() -> {
-			RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
-			RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.savepoint.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.orgPortal.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
-        });
-        
-        ArmorModel top = new ArmorModel(0.5F);
-        ArmorModel bot = new ArmorModel(0.25F);
-        
-        VentusModel vTop = new VentusModel(0.5F);
-        VentusModel vBot = new VentusModel(0.25F);
-        
-        armorModels.put(ModItems.terra_Helmet.get(), top);
+		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
+		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
+
+		armorModels.put(ModItems.terra_Helmet.get(), top);
 		armorModels.put(ModItems.terra_Chestplate.get(), top);
 		armorModels.put(ModItems.terra_Leggings.get(), bot);
 		armorModels.put(ModItems.terra_Boots.get(), top);
-		
-        armorModels.put(ModItems.aqua_Helmet.get(), top);
+
+		armorModels.put(ModItems.aqua_Helmet.get(), top);
 		armorModels.put(ModItems.aqua_Chestplate.get(), top);
 		armorModels.put(ModItems.aqua_Leggings.get(), bot);
 		armorModels.put(ModItems.aqua_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
 		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
 		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
 		armorModels.put(ModItems.ventus_Boots.get(), vTop);
-		
+
 		armorModels.put(ModItems.nightmareVentus_Helmet.get(), vTop);
 		armorModels.put(ModItems.nightmareVentus_Chestplate.get(), vTop);
 		armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
 		armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
-		
+
 		armorModels.put(ModItems.eraqus_Helmet.get(), top);
 		armorModels.put(ModItems.eraqus_Chestplate.get(), top);
 		armorModels.put(ModItems.eraqus_Leggings.get(), bot);
 		armorModels.put(ModItems.eraqus_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.organizationRobe_Helmet.get(), top);
 		armorModels.put(ModItems.organizationRobe_Chestplate.get(), top);
 		armorModels.put(ModItems.organizationRobe_Leggings.get(), bot);
@@ -144,112 +148,127 @@ public class ProxyClient implements IProxy {
 		armorModels.put(ModItems.xemnas_Chestplate.get(), top);
 		armorModels.put(ModItems.xemnas_Leggings.get(), bot);
 		armorModels.put(ModItems.xemnas_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.vanitas_Helmet.get(), top);
 		armorModels.put(ModItems.vanitas_Chestplate.get(), top);
 		armorModels.put(ModItems.vanitas_Leggings.get(), bot);
-		armorModels.put(ModItems.vanitas_Boots.get(), top);		
-		
+		armorModels.put(ModItems.vanitas_Boots.get(), top);
+
 		armorModels.put(ModItems.antiCoat_Helmet.get(), top);
 		armorModels.put(ModItems.antiCoat_Chestplate.get(), top);
 		armorModels.put(ModItems.antiCoat_Leggings.get(), bot);
 		armorModels.put(ModItems.antiCoat_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.aced_Helmet.get(), top);
 		armorModels.put(ModItems.aced_Chestplate.get(), top);
 		armorModels.put(ModItems.aced_Leggings.get(), bot);
 		armorModels.put(ModItems.aced_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.ava_Helmet.get(), top);
 		armorModels.put(ModItems.ava_Chestplate.get(), top);
 		armorModels.put(ModItems.ava_Leggings.get(), bot);
 		armorModels.put(ModItems.ava_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.gula_Helmet.get(), top);
 		armorModels.put(ModItems.gula_Chestplate.get(), top);
 		armorModels.put(ModItems.gula_Leggings.get(), bot);
 		armorModels.put(ModItems.gula_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.invi_Helmet.get(), top);
 		armorModels.put(ModItems.invi_Chestplate.get(), top);
 		armorModels.put(ModItems.invi_Leggings.get(), bot);
 		armorModels.put(ModItems.invi_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.ira_Helmet.get(), top);
 		armorModels.put(ModItems.ira_Chestplate.get(), top);
 		armorModels.put(ModItems.ira_Leggings.get(), bot);
 		armorModels.put(ModItems.ira_Boots.get(), top);
+		 */
+		
+		ModContainers.registerGUIFactories();
+
+        event.enqueueWork(() -> {
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.translucent());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.soADoor.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.savepoint.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.orgPortal.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.pedestal.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.translucent());
+        });
     }
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void modelRegistry(ModelRegistryEvent event) {
 		//Lances
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.zephyr));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.zephyr));
     	
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aer));
-    	
-    	
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.asura));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.crux));
-    	
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.fellking));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aer));
     	
     	
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.asura));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.crux));
     	
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.scission));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.heavenfall));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aether));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.fellking));
     	
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.hegemon));
     	
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.yaksha));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.cynosura));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.dragonreign));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.lindworm));
+    	
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.scission));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.heavenfall));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.aether));
+    	
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.hegemon));
+    	
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.yaksha));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.cynosura));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.dragonreign));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.lindworm));
     	
     	
     	
     	//Chakrams
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ashes));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.doldrums));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.delayedAction));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.diveBombers));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.combustion));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.moulinRouge));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.blazeOfGlory));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.prometheus));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ifrit));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.magmaOcean));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.volcanics));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.inferno));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.sizzlingEdge));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.corona));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ferrisWheel));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.burnout));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.omegaTrinity));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.outbreak));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.doubleEdge));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.wildfire));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.prominence));
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.eternalFlames));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ashes));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.doldrums));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.delayedAction));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.diveBombers));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.combustion));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.moulinRouge));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.blazeOfGlory));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.prometheus));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ifrit));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.magmaOcean));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.volcanics));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.inferno));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.sizzlingEdge));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.corona));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.ferrisWheel));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.burnout));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.omegaTrinity));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.outbreak));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.doubleEdge));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.wildfire));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.prominence));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.eternalFlames));
     	
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.conformers));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "item/"+Strings.conformers));
     	
         //Other
-    	ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
-		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
-		ModelLoader.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
+    	ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+		ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
+		ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
 	}
 
 	@Override
-	public PlayerEntity getClientPlayer() {
+	public Player getClientPlayer() {
 		return Minecraft.getInstance().player;
 	}
 
 	@Override
-	public World getClientWorld() {
-		return Minecraft.getInstance().world;
+	public Level getClientWorld() {
+		return Minecraft.getInstance().level;
 	}
 
 	@Override

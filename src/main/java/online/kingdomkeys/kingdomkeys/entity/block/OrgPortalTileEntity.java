@@ -4,36 +4,37 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.renderer.texture.Tickable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class OrgPortalTileEntity extends TileEntity implements ITickableTileEntity {
+public class OrgPortalTileEntity extends BlockEntity implements Tickable {
 	UUID uuid;
 
-	public OrgPortalTileEntity() {
-		super(ModEntities.TYPE_ORG_PORTAL_TE.get());
+	public OrgPortalTileEntity(BlockPos pos, BlockState state) {
+		super(ModEntities.TYPE_ORG_PORTAL_TE.get(), pos, state);
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT parentNBTTagCompound) {
-		super.write(parentNBTTagCompound);
+	protected void saveAdditional(CompoundTag pTag) {
+		super.saveAdditional(pTag);
 		if (uuid != null)
-			parentNBTTagCompound.putUniqueId("uuid", uuid);
-		return parentNBTTagCompound;
+			pTag.putUUID("uuid", uuid);
 	}
 
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		if(nbt.hasUniqueId("uuid"))
-			uuid = nbt.getUniqueId("uuid");
+	public void load(CompoundTag pTag) {
+		super.load(pTag);
+		if(pTag.hasUUID("uuid"))
+			uuid = pTag.getUUID("uuid");
 	}
 
 	public UUID getUUID() {
@@ -42,30 +43,28 @@ public class OrgPortalTileEntity extends TileEntity implements ITickableTileEnti
 
 	public void setUUID(UUID uuid) {
 		this.uuid = uuid;
-		markDirty();
+		setChanged();
 	}
-	
+
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT nbt = new CompoundNBT();
-		this.write(nbt);
-		return new SUpdateTileEntityPacket(this.getPos(), 1, nbt);
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		load(pkt.getTag());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
+	public CompoundTag getUpdateTag() {
+		return serializeNBT();
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load(tag);
 	}
 	
 	int ticks = 0;
@@ -78,9 +77,9 @@ public class OrgPortalTileEntity extends TileEntity implements ITickableTileEnti
 			a = 1800;
 		// Don't do anything unless it's active
 		double r = 0.5D;
-		double cx = pos.getX() + 0.5;
-		double cy = pos.getY() + 0.2;
-		double cz = pos.getZ() + 0.5;
+		double cx = worldPosition.getX() + 0.5;
+		double cy = worldPosition.getY() + 0.2;
+		double cz = worldPosition.getZ() + 0.5;
 
 		a -= 4; // Speed and distance between particles
 		double x = cx + (r * Math.cos(Math.toRadians(a)));
@@ -89,8 +88,8 @@ public class OrgPortalTileEntity extends TileEntity implements ITickableTileEnti
 		double x2 = cx + (r * Math.cos(Math.toRadians(-a)));
 		double z2 = cz + (r * Math.sin(Math.toRadians(-a)));
 
-		world.addParticle(new RedstoneParticleData(0.2F, 0F,0.4F, 1F), x, (cy), z, 0.0D, 0.0D, 0.0D);
-		world.addParticle(new RedstoneParticleData(0.2F, 0F,0.4F, 1F), x2, (cy), z2, 0.0D, 0.0D, 0.0D);
+		level.addParticle(new DustParticleOptions(new Vector3f(0.2F, 0F,0.4F), 1F), x, (cy), z, 0.0D, 0.0D, 0.0D);
+		level.addParticle(new DustParticleOptions(new Vector3f(0.2F, 0F,0.4F), 1F), x2, (cy), z2, 0.0D, 0.0D, 0.0D);
 	}
-	
+
 }

@@ -3,13 +3,13 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 import java.awt.Color;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -57,7 +57,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		float listX = width * 0.1546F;
 		float listY = height * 0.2546F;
 
-        addButton(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslationTextComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.displayGuiScreen(new MenuEquipmentScreen())));
+        addWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
 		
@@ -65,27 +65,27 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		ItemStack equippedKeychain = playerData.getEquippedKeychain(form);
 		//If the equipped keychain is a keychain get the keyblade's translation key, otherwise ---
-		String equippedKeychainName = (equippedKeychain != null && equippedKeychain.getItem() instanceof KeychainItem) ?  ((KeychainItem) equippedKeychain.getItem()).getKeyblade().getTranslationKey() : "---";
+		String equippedKeychainName = (equippedKeychain != null && equippedKeychain.getItem() instanceof KeychainItem) ?  ((KeychainItem) equippedKeychain.getItem()).getKeyblade().getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		String ability = "N/A";
-		if(!ItemStack.areItemStacksEqual(equippedKeychain, ItemStack.EMPTY)) {
+		if(!ItemStack.matches(equippedKeychain, ItemStack.EMPTY)) {
 			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(equippedKeychain.getItem(), ((IKeychain) equippedKeychain.getItem()).toSummon().getKeybladeLevel(equippedKeychain));
 			if(abilities.size() > 0) {
-				Ability a = ModAbilities.registry.getValue(new ResourceLocation(abilities.get(0)));
+				Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(0)));
 				ability = Utils.translateToLocal(a.getTranslationKey());
 			}
 		}
-		addButton(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour));
+		addWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour));
 		if(form != null) {
-			if (!ItemStack.areItemStacksEqual(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
-				if (minecraft.player.inventory.getFirstEmptyStack() > -1)
-					addButton(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.inventory.getFirstEmptyStack(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+			if (!ItemStack.matches(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
+				if (minecraft.player.getInventory().getFreeSlot() > -1)
+					addWidget(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 			}
-			for (int i = 0; i < minecraft.player.inventory.getSizeInventory(); i++) {
-				if (!ItemStack.areItemStacksEqual(minecraft.player.inventory.getStackInSlot(i), ItemStack.EMPTY)) {
-					if (minecraft.player.inventory.getStackInSlot(i).getItem() instanceof KeychainItem) {
-						addButton(new MenuSelectEquipmentButton(minecraft.player.inventory.getStackInSlot(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
+				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
+					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
+						addWidget(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 					}
 				}
 			}
@@ -95,11 +95,11 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
 		keyblades.draw(matrixStack);
 		details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}
 }

@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.damagesource;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
 public class KeybladeDamageSource extends EntityDamageSource {
@@ -14,16 +14,16 @@ public class KeybladeDamageSource extends EntityDamageSource {
 		super(damageTypeIn, damageSourceEntityIn);
 	}
 
-	public static DamageSource causeOffhandKeybladeDamage(PlayerEntity player) {
-		if(player.getHeldItemOffhand() != null && player.getHeldItemOffhand().getItem() instanceof KeybladeItem)
+	public static DamageSource causeOffhandKeybladeDamage(Player player) {
+		if(player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem)
 			return new KeybladeDamageSource("keybladeOffhand", player);
 		else
-			return DamageSource.causePlayerDamage(player);
+			return DamageSource.playerAttack(player);
 	}
 
 	@Override
-	public ITextComponent getDeathMessage(LivingEntity entityLivingBaseIn) {
-		return new TranslationTextComponent("keybladedamage.death", entityLivingBaseIn.getDisplayName().getString(), damageSourceEntity.getDisplayName().getString());
+	public Component getLocalizedDeathMessage(LivingEntity entityLivingBaseIn) {
+		return new TranslatableComponent("keybladedamage.death", entityLivingBaseIn.getDisplayName().getString(), entity.getDisplayName().getString());
 	}
 
 }

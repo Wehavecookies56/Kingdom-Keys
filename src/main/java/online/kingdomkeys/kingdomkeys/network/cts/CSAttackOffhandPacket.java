@@ -2,26 +2,26 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
-import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.server.SEntityVelocityPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -38,11 +38,11 @@ public class CSAttackOffhandPacket {
         this.entityId = entityId;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(entityId);
 	}
 
-	public static CSAttackOffhandPacket decode(PacketBuffer buffer) {
+	public static CSAttackOffhandPacket decode(FriendlyByteBuf buffer) {
 		CSAttackOffhandPacket msg = new CSAttackOffhandPacket();
 		msg.entityId = buffer.readInt();
 		return msg;
@@ -50,12 +50,12 @@ public class CSAttackOffhandPacket {
 
 	public static void handle(CSAttackOffhandPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
-			 Entity entity = player.world.getEntityByID(message.entityId);
+			Player player = ctx.get().getSender();
+			 Entity entity = player.level.getEntity(message.entityId);
 		        if (entity != null) {
-		        	if (player.getHeldItemOffhand().getItem() instanceof IExtendedReach) {
-			            IExtendedReach theExtendedReachWeapon = (IExtendedReach) player.getHeldItemOffhand().getItem();
-			            double distanceSq = player.getDistanceSq(entity);
+		        	if (player.getOffhandItem().getItem() instanceof IExtendedReach) {
+			            IExtendedReach theExtendedReachWeapon = (IExtendedReach) player.getOffhandItem().getItem();
+			            double distanceSq = player.distanceToSqr(entity);
 			            float reach = Math.max(5,theExtendedReachWeapon.getReach());
 			            double reachSq = reach * reach;
 			            if (reachSq >= distanceSq) {
@@ -72,35 +72,35 @@ public class CSAttackOffhandPacket {
 	    * Attacks for the player the targeted entity with the currently equipped item.  The equipped item has hitEntity
 	    * called on it. Args: targetEntity
 	    */
-	   public static void attackTargetEntityWithOffhandItem(PlayerEntity player, Entity targetEntity) {
+	   public static void attackTargetEntityWithOffhandItem(Player player, Entity targetEntity) {
 	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) 
 	    	  return;
-	      if (targetEntity.canBeAttackedWithItem()) {
-	         if (!targetEntity.hitByEntity(player)) {
-	            float damage = DamageCalculation.getKBStrengthDamage(player, player.getHeldItemOffhand());
+	      if (targetEntity.isAttackable()) {
+	         if (!targetEntity.skipAttackInteraction(player)) {
+	            float damage = DamageCalculation.getKBStrengthDamage(player, player.getOffhandItem());
 	            float f1;
 	            if (targetEntity instanceof LivingEntity) {
-	               f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), ((LivingEntity)targetEntity).getCreatureAttribute());
+	               f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), ((LivingEntity)targetEntity).getMobType());
 	            } else {
-	               f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItemOffhand(), CreatureAttribute.UNDEFINED);
+	               f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), MobType.UNDEFINED);
 	            }
 
-	            float f2 = player.getCooledAttackStrength(0.5F);
+	            float f2 = player.getAttackStrengthScale(0.5F);
 	            damage = damage * (0.2F + f2 * f2 * 0.8F);
 	            f1 = f1 * f2;
-	            player.resetCooldown();
+	            player.resetAttackStrengthTicker();
 	            if (damage > 0.0F || f1 > 0.0F) {
 	               boolean flag = f2 > 0.9F;
 	               boolean flag1 = false;
 	               int i = 0;
-	               i = i + EnchantmentHelper.getKnockbackModifier(player);
+	               i = i + EnchantmentHelper.getKnockbackBonus(player);
 	               if (player.isSprinting() && flag) {
-	                  player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, player.getSoundCategory(), 1.0F, 1.0F);
+	                  player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
 	                  ++i;
 	                  flag1 = true;
 	               }
 
-	               boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger() && targetEntity instanceof LivingEntity;
+	               boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger() && targetEntity instanceof LivingEntity;
 	               flag2 = flag2 && !player.isSprinting();
 	               net.minecraftforge.event.entity.player.CriticalHitEvent hitResult = net.minecraftforge.common.ForgeHooks.getCriticalHit(player, targetEntity, flag2, flag2 ? 1.5F : 1.0F);
 	               flag2 = hitResult != null;
@@ -110,9 +110,9 @@ public class CSAttackOffhandPacket {
 
 	               damage = damage + f1;
 	               boolean flag3 = false;
-	               double d0 = (double)(player.distanceWalkedModified - player.prevDistanceWalkedModified);
-	               if (flag && !flag2 && !flag1 && player.isOnGround() && d0 < (double)player.getAIMoveSpeed()) {
-	                  ItemStack itemstack = player.getHeldItem(Hand.OFF_HAND);
+	               double d0 = (double)(player.walkDist - player.walkDistO);
+	               if (flag && !flag2 && !flag1 && player.isOnGround() && d0 < (double)player.getSpeed()) {
+	                  ItemStack itemstack = player.getItemInHand(InteractionHand.OFF_HAND);
 	                  if (itemstack.getItem() instanceof KeybladeItem) {
 	                     flag3 = true;
 	                  }
@@ -120,105 +120,105 @@ public class CSAttackOffhandPacket {
 
 	               float f4 = 0.0F;
 	               boolean flag4 = false;
-	               int j = EnchantmentHelper.getFireAspectModifier(player);
+	               int j = EnchantmentHelper.getFireAspect(player);
 	               if (targetEntity instanceof LivingEntity) {
 	                  f4 = ((LivingEntity)targetEntity).getHealth();
-	                  if (j > 0 && !targetEntity.isBurning()) {
+	                  if (j > 0 && !targetEntity.isOnFire()) {
 	                     flag4 = true;
-	                     targetEntity.setFire(1);
+	                     targetEntity.setSecondsOnFire(1);
 	                  }
 	               }
 
-	               Vector3d vec3d = targetEntity.getMotion();
-	               boolean flag5 = targetEntity.attackEntityFrom(KeybladeDamageSource.causeOffhandKeybladeDamage(player), damage);
+	               Vec3 vec3d = targetEntity.getDeltaMovement();
+	               boolean flag5 = targetEntity.hurt(KeybladeDamageSource.causeOffhandKeybladeDamage(player), damage);
 	               if (flag5) {
 	                  if (i > 0) {
 	                     if (targetEntity instanceof LivingEntity) {
-	                        ((LivingEntity)targetEntity).applyKnockback((float)i * 0.5F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
+	                        ((LivingEntity)targetEntity).knockback((float)i * 0.5F, (double)Mth.sin(player.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(player.getYRot() * ((float)Math.PI / 180F))));
 	                     } else {
-	                        targetEntity.addVelocity((double)(-MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F)) * (float)i * 0.5F));
+	                        targetEntity.push((double)(-Mth.sin(player.getYRot() * ((float)Math.PI / 180F)) * (float)i * 0.5F), 0.1D, (double)(Mth.cos(player.getYRot() * ((float)Math.PI / 180F)) * (float)i * 0.5F));
 	                     }
 
-	                     player.setMotion(player.getMotion().mul(0.6D, 1.0D, 0.6D));
+	                     player.setDeltaMovement(player.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
 	                     player.setSprinting(false);
 	                  }
 
 	                  if (flag3) {
 	                     float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * damage;
 
-	                     for(LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, targetEntity.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
-	                        if (livingentity != player && livingentity != targetEntity && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
-	                           livingentity.applyKnockback(0.4F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
-	                           livingentity.attackEntityFrom(KeybladeDamageSource.causeOffhandKeybladeDamage(player), f3);
+	                     for(LivingEntity livingentity : player.level.getEntitiesOfClass(LivingEntity.class, targetEntity.getBoundingBox().inflate(1.0D, 0.25D, 1.0D))) {
+	                        if (livingentity != player && livingentity != targetEntity && !player.isAlliedTo(livingentity) && (!(livingentity instanceof ArmorStand) || !((ArmorStand)livingentity).isMarker()) && player.distanceToSqr(livingentity) < 9.0D) {
+	                           livingentity.knockback(0.4F, (double)Mth.sin(player.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(player.getYRot() * ((float)Math.PI / 180F))));
+	                           livingentity.hurt(KeybladeDamageSource.causeOffhandKeybladeDamage(player), f3);
 	                        }
 	                     }
 
-	                     player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
-	                     player.spawnSweepParticles();
+	                     player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+	                     player.sweepAttack();
 	                  }
 
-	                  if (targetEntity instanceof ServerPlayerEntity && targetEntity.velocityChanged) {
-	                     ((ServerPlayerEntity)targetEntity).connection.sendPacket(new SEntityVelocityPacket(targetEntity));
-	                     targetEntity.velocityChanged = false;
-	                     targetEntity.setMotion(vec3d);
+	                  if (targetEntity instanceof ServerPlayer && targetEntity.hurtMarked) {
+	                     ((ServerPlayer)targetEntity).connection.send(new ClientboundSetEntityMotionPacket(targetEntity));
+	                     targetEntity.hurtMarked = false;
+	                     targetEntity.setDeltaMovement(vec3d);
 	                  }
 
 	                  if (flag2) {
-	                     player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, player.getSoundCategory(), 1.0F, 1.0F);
-	                     player.onCriticalHit(targetEntity);
+	                     player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
+	                     player.crit(targetEntity);
 	                  }
 
 	                  if (!flag2 && !flag3) {
 	                     if (flag) {
-	                        player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, player.getSoundCategory(), 1.0F, 1.0F);
+	                        player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
 	                     } else {
-	                        player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, player.getSoundCategory(), 1.0F, 1.0F);
+	                        player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
 	                     }
 	                  }
 
 	                  if (f1 > 0.0F) {
-	                     player.onEnchantmentCritical(targetEntity);
+	                     player.magicCrit(targetEntity);
 	                  }
 
-	                  player.setLastAttackedEntity(targetEntity);
+	                  player.setLastHurtMob(targetEntity);
 	                  if (targetEntity instanceof LivingEntity) {
-	                     EnchantmentHelper.applyThornEnchantments((LivingEntity)targetEntity, player);
+	                     EnchantmentHelper.doPostHurtEffects((LivingEntity)targetEntity, player);
 	                  }
 
-	                  EnchantmentHelper.applyArthropodEnchantments(player, targetEntity);
-	                  ItemStack itemstack1 = player.getHeldItemOffhand();
+	                  EnchantmentHelper.doPostDamageEffects(player, targetEntity);
+	                  ItemStack itemstack1 = player.getOffhandItem();
 	                  Entity entity = targetEntity;
-	                  if (targetEntity instanceof EnderDragonPartEntity) {
-	                     entity = ((EnderDragonPartEntity)targetEntity).dragon;
+	                  if (targetEntity instanceof EnderDragonPart) {
+	                     entity = ((EnderDragonPart)targetEntity).parentMob;
 	                  }
 
-	                  if (!player.world.isRemote && !itemstack1.isEmpty() && entity instanceof LivingEntity) {
+	                  if (!player.level.isClientSide && !itemstack1.isEmpty() && entity instanceof LivingEntity) {
 	                     ItemStack copy = itemstack1.copy();
-	                     itemstack1.hitEntity((LivingEntity)entity, player);
+	                     itemstack1.hurtEnemy((LivingEntity)entity, player);
 	                     if (itemstack1.isEmpty()) {
-	                        net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copy, Hand.OFF_HAND);
-	                        player.setHeldItem(Hand.OFF_HAND, ItemStack.EMPTY);
+	                        net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copy, InteractionHand.OFF_HAND);
+	                        player.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
 	                     }
 	                  }
 
 	                  if (targetEntity instanceof LivingEntity) {
 	                     float f5 = f4 - ((LivingEntity)targetEntity).getHealth();
-	                     player.addStat(Stats.DAMAGE_DEALT, Math.round(f5 * 10.0F));
+	                     player.awardStat(Stats.DAMAGE_DEALT, Math.round(f5 * 10.0F));
 	                     if (j > 0) {
-	                        targetEntity.setFire(j * 4);
+	                        targetEntity.setSecondsOnFire(j * 4);
 	                     }
 
-	                     if (player.world instanceof ServerWorld && f5 > 2.0F) {
+	                     if (player.level instanceof ServerLevel && f5 > 2.0F) {
 	                        int k = (int)((double)f5 * 0.5D);
-	                        ((ServerWorld)player.world).spawnParticle(ParticleTypes.DAMAGE_INDICATOR, targetEntity.getPosX(), targetEntity.getPosYHeight(0.5D), targetEntity.getPosZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
+	                        ((ServerLevel)player.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, targetEntity.getX(), targetEntity.getY(0.5D), targetEntity.getZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
 	                     }
 	                  }
 
-	                  player.addExhaustion(0.1F);
+	                  player.causeFoodExhaustion(0.1F);
 	               } else {
-	                  player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, player.getSoundCategory(), 1.0F, 1.0F);
+	                  player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
 	                  if (flag4) {
-	                     targetEntity.extinguish();
+	                     targetEntity.clearFire();
 	                  }
 	               }
 	            }

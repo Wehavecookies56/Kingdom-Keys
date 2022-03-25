@@ -1,25 +1,27 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
+
+import java.util.function.Supplier;
 
 public class ModDriveForms {
 
-	public static IForgeRegistry<DriveForm> registry;
+	public static DeferredRegister<DriveForm> DRIVE_FORMS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "driveforms"), KingdomKeys.MODID);
+
+	public static Supplier<IForgeRegistry<DriveForm>> registry = DRIVE_FORMS.makeRegistry(DriveForm.class, RegistryBuilder::new);;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registry {
-
-		@SubscribeEvent
-		public static void registerDriveFormRegistry(RegistryEvent.NewRegistry event) {
-			registry = new RegistryBuilder<DriveForm>().setName(new ResourceLocation(KingdomKeys.MODID, "driveforms")).setType(DriveForm.class).create();
-		}
 
 		@SubscribeEvent
 		public static void registerDriveForms(RegistryEvent.Register<DriveForm> event) {

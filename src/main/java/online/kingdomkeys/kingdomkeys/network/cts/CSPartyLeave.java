@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -23,30 +23,30 @@ public class CSPartyLeave {
 		this.playerUUID = playerUUID;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.name.length());
-		buffer.writeString(this.name);
+		buffer.writeUtf(this.name);
 				
-		buffer.writeUniqueId(this.playerUUID);
+		buffer.writeUUID(this.playerUUID);
 	}
 
-	public static CSPartyLeave decode(PacketBuffer buffer) {
+	public static CSPartyLeave decode(FriendlyByteBuf buffer) {
 		CSPartyLeave msg = new CSPartyLeave();
 		int length = buffer.readInt();
-		msg.name = buffer.readString(length);
+		msg.name = buffer.readUtf(length);
 				
-		msg.playerUUID = buffer.readUniqueId();
+		msg.playerUUID = buffer.readUUID();
 		return msg;
 	}
 
 	public static void handle(CSPartyLeave message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+			Player player = ctx.get().getSender();
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 			Party p = worldData.getPartyFromName(message.name);
 			p.removeMember(message.playerUUID);
 			
-			Utils.syncWorldData(player.world, worldData);
+			Utils.syncWorldData(player.level, worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

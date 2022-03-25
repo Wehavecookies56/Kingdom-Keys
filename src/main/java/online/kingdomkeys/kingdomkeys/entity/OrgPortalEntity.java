@@ -2,67 +2,67 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 
-public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData{
+public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData {
 
 	int maxTicks = 100;
 	float radius = 0.5F;
 	
 	BlockPos destinationPos;
-    RegistryKey<World> destinationDim;
+    ResourceKey<Level> destinationDim;
     boolean shouldTeleport;
 
-	public OrgPortalEntity(EntityType<? extends Entity> type, World world) {
+	public OrgPortalEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public OrgPortalEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public OrgPortalEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
 	}
 
-	public OrgPortalEntity(World world) {
+	public OrgPortalEntity(Level world) {
 		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public OrgPortalEntity(World world, PlayerEntity player, BlockPos spawnPos, BlockPos destinationPos, RegistryKey<World> destinationDim, boolean shouldTP) {
+	public OrgPortalEntity(Level world, Player player, BlockPos spawnPos, BlockPos destinationPos, ResourceKey<Level> destinationDim, boolean shouldTP) {
 		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
-		this.setPosition(spawnPos.getX()+0.5,spawnPos.getY(), spawnPos.getZ()+0.5);
+		this.setPos(spawnPos.getX()+0.5,spawnPos.getY(), spawnPos.getZ()+0.5);
         this.destinationPos = destinationPos;
         this.destinationDim = destinationDim;
         this.shouldTeleport = shouldTP;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
-			this.remove();
+		if (this.tickCount > maxTicks) {
+			this.remove(RemovalReason.KILLED);
 		}
-		world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX() - 1 + rand.nextDouble() * 2, getPosY() + rand.nextDouble() * 4, getPosZ() - 1 + rand.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
+		level.addParticle(ParticleTypes.DRAGON_BREATH, getX() - 1 + random.nextDouble() * 2, getY() + random.nextDouble() * 4, getZ() - 1 + random.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
 
-		List<Entity> tempList = world.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().grow(radius, radius, radius));
+		List<Entity> tempList = level.getEntities(this, getBoundingBox().inflate(radius, radius, radius));
 		for (Entity t : tempList) {
 			if(shouldTeleport && !(t instanceof OrgPortalEntity)) {
 				
@@ -71,9 +71,9 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		        if(t != null){
 		            if (destinationPos != null) {
 		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
-		                	double yOffset = t.getPosY() - this.getPosY();
-		                	t.setPosition(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5);
-		                	if(t instanceof PlayerEntity && world.isRemote)
+		                	double yOffset = t.getY() - this.getY();
+		                	t.setPos(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5);
+		                	if(t instanceof Player && level.isClientSide)
 		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5));
 		                }
 		            }
@@ -92,7 +92,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		// compound.putInt("lvl", this.getLvl());
 		/*if(destinationPos == null)
             return;
@@ -105,7 +105,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		// this.setLvl(compound.getInt("lvl"));
 	/*	destinationPos = new BlockPos(compound.getInt("x"),compound.getInt("y"),compound.getInt("z"));
     	destinationDim = compound.getInt("dim");
@@ -113,24 +113,24 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	}
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void writeSpawnData(PacketBuffer buffer) {
+	public void writeSpawnData(FriendlyByteBuf buffer) {
 		if(destinationPos == null)
             return;
     	
         buffer.writeBlockPos(new BlockPos(destinationPos.getX(),destinationPos.getY(),destinationPos.getZ()));
-        buffer.writeResourceLocation(destinationDim.getLocation());
+        buffer.writeResourceLocation(destinationDim.location());
         buffer.writeBoolean(shouldTeleport);	}
 
 	@Override
-	public void readSpawnData(PacketBuffer additionalData) {
+	public void readSpawnData(FriendlyByteBuf additionalData) {
 		destinationPos = additionalData.readBlockPos();
-    	destinationDim = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, additionalData.readResourceLocation());
+    	destinationDim = ResourceKey.create(Registry.DIMENSION_REGISTRY, additionalData.readResourceLocation());
     	shouldTeleport = additionalData.readBoolean();
     }
 }

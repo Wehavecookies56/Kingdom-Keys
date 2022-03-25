@@ -7,16 +7,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraftforge.network.NetworkEvent;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -39,36 +39,36 @@ public class SCSyncKeybladeData {
 		this.data = data;
 	}
 	
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.names.size());
 		buffer.writeInt(this.data.size());
 		
 		for(int i = 0; i < this.names.size();i++) {
 			String n = names.get(i);
 			buffer.writeInt(n.length());
-			buffer.writeString(n);
+			buffer.writeUtf(n);
 		}
 		
 		for(int i = 0; i < this.data.size();i++) {
 			String d = data.get(i);
 			buffer.writeInt(d.length());
-			buffer.writeString(d);
+			buffer.writeUtf(d);
 		}
 	}
 
-	public static SCSyncKeybladeData decode(PacketBuffer buffer) {
+	public static SCSyncKeybladeData decode(FriendlyByteBuf buffer) {
 		SCSyncKeybladeData msg = new SCSyncKeybladeData();
 		int nLen = buffer.readInt();
 		int dLen = buffer.readInt();
 		
 		for(int i=0;i<nLen;i++) {
 			int l = buffer.readInt();
-			msg.names.add(buffer.readString(l));
+			msg.names.add(buffer.readUtf(l));
 		}
 
 		for(int i=0;i<dLen;i++) {
 			int l = buffer.readInt();
-			msg.data.add(buffer.readString(l));
+			msg.data.add(buffer.readUtf(l));
 		}
 		
 		return msg;	
@@ -76,7 +76,7 @@ public class SCSyncKeybladeData {
 
 	public static void handle(final SCSyncKeybladeData message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();
+			Player player = KingdomKeys.proxy.getClientPlayer();
 			
 			for(int i = 0;i<message.names.size();i++) {
 				KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(message.names.get(i)));

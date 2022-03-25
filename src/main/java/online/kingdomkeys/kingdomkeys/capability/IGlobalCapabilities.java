@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-public interface IGlobalCapabilities {
+import net.minecraft.nbt.CompoundTag;
+import net.minecraftforge.common.util.INBTSerializable;
+
+public interface IGlobalCapabilities extends INBTSerializable<CompoundTag> {
 	//Stop
 	int getStoppedTicks();
 	void setStoppedTicks(int time);

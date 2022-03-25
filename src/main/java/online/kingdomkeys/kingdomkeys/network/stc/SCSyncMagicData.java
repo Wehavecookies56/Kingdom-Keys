@@ -7,16 +7,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraftforge.network.NetworkEvent;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
@@ -38,36 +38,36 @@ public class SCSyncMagicData {
 		this.data = data;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.names.size());
 		buffer.writeInt(this.data.size());
 
 		for (int i = 0; i < this.names.size(); i++) {
 			String n = names.get(i);
 			buffer.writeInt(n.length());
-			buffer.writeString(n);
+			buffer.writeUtf(n);
 		}
 
 		for (int i = 0; i < this.data.size(); i++) {
 			String d = data.get(i);
 			buffer.writeInt(d.length());
-			buffer.writeString(d);
+			buffer.writeUtf(d);
 		}
 	}
 
-	public static SCSyncMagicData decode(PacketBuffer buffer) {
+	public static SCSyncMagicData decode(FriendlyByteBuf buffer) {
 		SCSyncMagicData msg = new SCSyncMagicData();
 		int nLen = buffer.readInt();
 		int dLen = buffer.readInt();
 
 		for (int i = 0; i < nLen; i++) {
 			int l = buffer.readInt();
-			msg.names.add(buffer.readString(l));
+			msg.names.add(buffer.readUtf(l));
 		}
 
 		for (int i = 0; i < dLen; i++) {
 			int l = buffer.readInt();
-			msg.data.add(buffer.readString(l));
+			msg.data.add(buffer.readUtf(l));
 		}
 
 		return msg;
@@ -75,10 +75,10 @@ public class SCSyncMagicData {
 
 	public static void handle(final SCSyncMagicData message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = KingdomKeys.proxy.getClientPlayer();
+			Player player = KingdomKeys.proxy.getClientPlayer();
 
 			for (int i = 0; i < message.names.size(); i++) {
-				Magic magic = ModMagic.registry.getValue(new ResourceLocation(message.names.get(i)));
+				Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(message.names.get(i)));
 				String d = message.data.get(i);
 				BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 

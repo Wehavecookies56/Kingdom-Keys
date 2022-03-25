@@ -1,30 +1,30 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 
 public class HeartEntity extends Entity {
 
 	public final static int MAX_TICKS = 30;
 	
-	public HeartEntity(EntityType<? extends Entity> type, World world) {
+	public HeartEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public HeartEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public HeartEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_HEART.get(), world);
 	}
 
-	public HeartEntity(World world) {
+	public HeartEntity(Level world) {
 		super(ModEntities.TYPE_HEART.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
 	/*public HeartEntity(World world, PlayerEntity player, BlockPos spawnPos, BlockPos destinationPos, int destinationDim, boolean shouldTP) {
@@ -37,41 +37,41 @@ public class HeartEntity extends Entity {
 
 	@Override
 	public void tick(){
-		if(this.ticksExisted < MAX_TICKS - 10) {
-			this.setPosition(getPosX(), getPosY() + 0.15, getPosZ());
+		if(this.tickCount < MAX_TICKS - 10) {
+			this.setPos(getX(), getY() + 0.15, getZ());
 			//this.posY += 0.15;
 		} else {
 			//KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY(), getPosZ(), 0, 0, 0, 0.1F);
-			world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+			level.addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
 		}
 		
-		if(this.ticksExisted >= MAX_TICKS) {
-			this.remove();
+		if(this.tickCount >= MAX_TICKS) {
+			this.remove(RemovalReason.KILLED);
 		}
 		
 		super.tick();
 	}
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void readAdditional(CompoundNBT compound) {
+	protected void readAdditionalSaveData(CompoundTag compound) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void writeAdditional(CompoundNBT compound) {
+	protected void addAdditionalSaveData(CompoundTag compound) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 

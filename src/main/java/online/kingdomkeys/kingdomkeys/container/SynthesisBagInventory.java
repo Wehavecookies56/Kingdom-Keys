@@ -3,9 +3,10 @@ package online.kingdomkeys.kingdomkeys.container;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.Tag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -15,7 +16,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 
-public class SynthesisBagInventory implements ICapabilityProvider, INBTSerializable<INBT> {
+public class SynthesisBagInventory implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
 	private final IItemHandler inv = new ItemStackHandler(54) {
 		@Override
@@ -33,13 +34,13 @@ public class SynthesisBagInventory implements ICapabilityProvider, INBTSerializa
 	}
 
 	@Override
-	public INBT serializeNBT() {
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inv, null);
+	public CompoundTag serializeNBT() {
+		return ((ItemStackHandler)inv).serializeNBT();
 	}
 
 	@Override
-	public void deserializeNBT(INBT nbt) {
-		CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inv, null, nbt);
+	public void deserializeNBT(CompoundTag nbt) {
+		((ItemStackHandler)inv).deserializeNBT(nbt);
 	}
 	
 }

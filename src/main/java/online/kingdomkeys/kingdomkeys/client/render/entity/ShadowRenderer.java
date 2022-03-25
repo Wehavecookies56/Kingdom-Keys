@@ -1,47 +1,40 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 
-public class ShadowRenderer extends MobRenderer<ShadowEntity, ShadowModel<ShadowEntity>> {
+public class ShadowRenderer<Type extends ShadowEntity> extends MobRenderer<Type, ShadowModel<Type>> {
 
-    public static final ShadowRenderer.Factory FACTORY = new ShadowRenderer.Factory();
+    private static final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
 
-    public ShadowRenderer(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ShadowModel<>(1D), 0.35F);
+
+    public ShadowRenderer(EntityRendererProvider.Context context) {
+        super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 0.35F);
+        model.CYCLES_PER_BLOCK = 1;
     }
 
     @Override
-    public void render(ShadowEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        matrixStackIn.push();
+    public void render(Type entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+        matrixStackIn.pushPose();
         {	       
 	    	if (EntityHelper.getState(entityIn) == 1) {
 	            matrixStackIn.scale(1.5F, 0.01F, 1.5F);
 	        }
 	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     	}
-    	matrixStackIn.pop();
+    	matrixStackIn.popPose();
     }
 
     @Override
-    public ResourceLocation getEntityTexture(ShadowEntity entity) {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
-    }
-
-    public static class Factory implements IRenderFactory<ShadowEntity> {
-        @Override
-        public EntityRenderer<? super ShadowEntity> createRenderFor(EntityRendererManager entityRendererManager) {
-            return new ShadowRenderer(entityRendererManager);
-        }
+    public ResourceLocation getTextureLocation(Type entity) {
+        return TEXTURE;
     }
 }

@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -70,15 +70,15 @@ public class DriveFormValor extends DriveForm {
 	
 	@SubscribeEvent
 	public static void getValorFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof MonsterEntity) {
-			if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-				PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+		if (!event.getEntity().level.isClientSide && event.getEntityLiving() instanceof Monster) {
+			if (event.getSource().getEntity() instanceof Player) {
+				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
 					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(0).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 				}
 			}
 		}
@@ -86,8 +86,8 @@ public class DriveFormValor extends DriveForm {
 	
 	@SubscribeEvent
 	public static void onLivingUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+		if(event.getEntityLiving() instanceof Player) {
+			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {
@@ -99,7 +99,7 @@ public class DriveFormValor extends DriveForm {
 		}
 	}
 
-	private static boolean shouldHandleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
+	private static boolean shouldHandleHighJump(Player player, IPlayerCapabilities playerData) {
 		if (playerData.getDriveFormMap() == null)
 			return false;
 
@@ -109,20 +109,20 @@ public class DriveFormValor extends DriveForm {
 		return false;
 	}
 
-	private static void handleHighJump(PlayerEntity player, IPlayerCapabilities playerData) {
+	private static void handleHighJump(Player player, IPlayerCapabilities playerData) {
 		boolean j = false;
-		if (player.world.isRemote) {
-			j = Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown();
+		if (player.level.isClientSide) {
+			j = Minecraft.getInstance().options.keyJump.isDown();
 		}
 
 		if (j) {
-			if (player.getMotion().y > 0) {
+			if (player.getDeltaMovement().y > 0) {
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-					player.setMotion(player.getMotion().add(0, DriveForm.VALOR_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Valor)], 0));
+					player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Valor)], 0));
 				} else {
 					if (playerData.getActiveDriveForm() != null) {
 						int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Valor) - 2 : playerData.getDriveFormLevel(Strings.Form_Valor);// TODO eventually replace it with the skill
-						player.setMotion(player.getMotion().add(0, DriveForm.VALOR_JUMP_BOOST[jumpLevel], 0));
+						player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[jumpLevel], 0));
 					}
 				}
 			}

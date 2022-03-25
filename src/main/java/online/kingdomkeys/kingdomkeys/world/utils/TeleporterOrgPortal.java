@@ -2,43 +2,44 @@ package online.kingdomkeys.kingdomkeys.world.utils;
 
 import java.util.Optional;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.TeleportationRepositioner;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Teleporter;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.BlockUtil;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.level.portal.PortalForcer;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 /**
  * Created by Toby on 01/08/2016.
  */
-public class TeleporterOrgPortal extends Teleporter {
+public class TeleporterOrgPortal extends PortalForcer {
 
-    public TeleporterOrgPortal(ServerWorld worldIn) {
+    public TeleporterOrgPortal(ServerLevel worldIn) {
         super(worldIn);
     }
 
-    public void teleport(PlayerEntity player, BlockPos pos, RegistryKey<World> dimension) {
-        ServerPlayerEntity playerMP = (ServerPlayerEntity) player;
-        playerMP.setPositionAndUpdate(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
-        playerMP.setMotion(0, 0, 0);
-        if (player.world.getDimensionKey() != dimension) {
-            ServerWorld destinationWorld = playerMP.getServer().getWorld(dimension);
+    public void teleport(Player player, BlockPos pos, ResourceKey<Level> dimension) {
+        ServerPlayer playerMP = (ServerPlayer) player;
+        playerMP.teleportTo(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
+        playerMP.setDeltaMovement(0, 0, 0);
+        if (player.level.dimension() != dimension) {
+            ServerLevel destinationWorld = playerMP.getServer().getLevel(dimension);
             playerMP.changeDimension(destinationWorld);
         }
-        playerMP.setPositionAndUpdate(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
+        playerMP.teleportTo(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
     }
 
     @Override
-    public Optional<TeleportationRepositioner.Result> getExistingPortal(BlockPos pos, boolean isNether) {
+    public Optional<BlockUtil.FoundRectangle> findPortalAround(BlockPos pPos, boolean pIsNether, WorldBorder pWorldBorder) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<TeleportationRepositioner.Result> makePortal(BlockPos pos, Direction.Axis axis) {
+    public Optional<BlockUtil.FoundRectangle> createPortal(BlockPos pos, Direction.Axis axis) {
         return Optional.empty();
     }
 }

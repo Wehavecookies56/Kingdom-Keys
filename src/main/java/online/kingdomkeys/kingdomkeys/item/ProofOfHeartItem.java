@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -27,42 +27,42 @@ public class ProofOfHeartItem extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
     	IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerIn);
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
         	if(Utils.isWearingOrgRobes(playerIn)) {
-        		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.unequip"), true);
+        		playerIn.displayClientMessage(new TranslatableComponent("gui.proofofheart.unequip"), true);
         	} else {
-        		if(worldIn.isRemote) {
-					if(Utils.findSummoned(playerIn.inventory, playerData.getEquippedWeapon(), true) > -1)
+        		if(worldIn.isClientSide) {
+					if(Utils.findSummoned(playerIn.getInventory(), playerData.getEquippedWeapon(), true) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true, playerData.getAlignment()));
         		}
-        		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.leftorg"), true);
+        		playerIn.displayClientMessage(new TranslatableComponent("gui.proofofheart.leftorg"), true);
 
-        		if(playerIn.getHeldItemMainhand() != null && playerIn.getHeldItemMainhand().getItem() == this) {
-        			playerIn.getHeldItemMainhand().shrink(1);
+        		if(playerIn.getMainHandItem() != null && playerIn.getMainHandItem().getItem() == this) {
+        			playerIn.getMainHandItem().shrink(1);
     	            playerData.setAlignment(Utils.OrgMember.NONE);
-    	            return super.onItemRightClick(worldIn, playerIn, handIn);
+    	            return super.use(worldIn, playerIn, handIn);
         		}
         		
-        		if(playerIn.getHeldItemOffhand() != null && playerIn.getHeldItemOffhand().getItem() == this) {
-        			playerIn.getHeldItemOffhand().shrink(1);
+        		if(playerIn.getOffhandItem() != null && playerIn.getOffhandItem().getItem() == this) {
+        			playerIn.getOffhandItem().shrink(1);
     	            playerData.setAlignment(Utils.OrgMember.NONE);
-    	            return super.onItemRightClick(worldIn, playerIn, handIn);
+    	            return super.use(worldIn, playerIn, handIn);
         		}
         		
         	}
         } else {
-    		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.notinorg"), true);
+    		playerIn.displayClientMessage(new TranslatableComponent("gui.proofofheart.notinorg"), true);
         }    	
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        return super.use(worldIn, playerIn, handIn);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent("gui.proofofheart.desc"));
-       	tooltip.add(new TranslationTextComponent("gui.proofofheart.desc2"));
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(new TranslatableComponent("gui.proofofheart.desc"));
+       	tooltip.add(new TranslatableComponent("gui.proofofheart.desc2"));
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 }

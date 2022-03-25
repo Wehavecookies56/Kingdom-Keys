@@ -4,297 +4,262 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils.ModelAnimation;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Assassin - Abelatox
  * Created using Tabula 8.0.0
+ * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
-@OnlyIn(Dist.CLIENT)
-public class AssassinModel<T extends Entity> extends EntityModel<T> {
-	protected double distanceMovedTotal = 0.0D;
-	
-	public ModelRenderer bodyBot;
-    public ModelRenderer leftLegTop;
-    public ModelRenderer rightLegTop;
-    public ModelRenderer bodyTop;
-    public ModelRenderer skirtBack;
-    public ModelRenderer leftLegBot;
-    public ModelRenderer leftFootTop;
-    public ModelRenderer leftFootBottom;
-    public ModelRenderer rightLegBot;
-    public ModelRenderer rightFootTop;
-    public ModelRenderer rightFootBottom;
-    public ModelRenderer neck;
-    public ModelRenderer leftArm;
-    public ModelRenderer rightArm;
-    public ModelRenderer head;
-    public ModelRenderer helmet;
-    public ModelRenderer face;
-    public ModelRenderer horn1;
-    public ModelRenderer horn2;
-    public ModelRenderer leftArmSpike4;
-    public ModelRenderer leftArmSpike0;
-    public ModelRenderer leftArmSpike5;
-    public ModelRenderer leftArmSpike1;
-    public ModelRenderer leftArmSpike2;
-    public ModelRenderer leftArmSpike3;
-    public ModelRenderer rightArmSpike4;
-    public ModelRenderer rightArmSpike0;
-    public ModelRenderer rightArmSpike5;
-    public ModelRenderer rightArmSpike1;
-    public ModelRenderer rightArmSpike2;
-    public ModelRenderer rightArmSpike3;
-    public ModelRenderer skirtTop;
-    
-    List<ModelAnimation> animation = new ArrayList<ModelAnimation>();
-	
-    public AssassinModel() {
-    	this.textureWidth = 64;
-        this.textureHeight = 32;
-        this.rightArm = new ModelRenderer(this, 22, 8);
-        this.rightArm.setRotationPoint(-3.0F, 1.1F, 1.1F);
-        this.rightArm.addBox(-0.5F, -1.0F, -1.0F, 2.0F, 9.0F, 2.0F, -0.1F, 0.0F, -0.1F);
-        this.setRotateAngle(rightArm, -1.9198621771937625F, 0.0F, 3.141592653589793F);
-        this.horn1 = new ModelRenderer(this, 35, 12);
-        this.horn1.setRotationPoint(0.0F, -3.4F, 2.0F);
-        this.horn1.addBox(-0.5F, -4.0F, 0.0F, 1.0F, 6.0F, 1.0F, -0.3F, 0.0F, 0.0F);
-        this.setRotateAngle(horn1, -0.8726646259971648F, 0.0F, 0.0F);
-        this.rightArmSpike4 = new ModelRenderer(this, 36, 8);
-        this.rightArmSpike4.setRotationPoint(0.5F, 8.0F, 0.0F);
-        this.rightArmSpike4.addBox(-0.5F, 0.0F, -0.5F, 1.0F, 1.0F, 1.0F, 0.1F, 0.0F, 0.1F);
-        this.rightArmSpike2 = new ModelRenderer(this, 46, 17);
-        this.rightArmSpike2.setRotationPoint(0.0F, 2.0F, 0.0F);
-        this.rightArmSpike2.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.rightFootTop = new ModelRenderer(this, 0, 18);
-        this.rightFootTop.setRotationPoint(0.0F, 1.0F, 3.0F);
-        this.rightFootTop.addBox(-1.25F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rightFootTop, 0.4363323129985824F, 0.0F, 0.0F);
-        this.bodyBot = new ModelRenderer(this, 0, 0);
-        this.bodyBot.setRotationPoint(-2.0F, 10.4F, 0.0F);
-        this.bodyBot.addBox(0.0F, 0.0F, 0.0F, 4.0F, 5.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.rightLegBot = new ModelRenderer(this, 9, 9);
-        this.rightLegBot.setRotationPoint(0.0F, 4.8F, 1.0F);
-        this.rightLegBot.addBox(-1.75F, 0.0F, 0.0F, 2.0F, 1.0F, 4.0F, -0.3F, 0.0F, 0.0F);
-        this.setRotateAngle(rightLegBot, 0.17453292519943295F, 0.0F, 0.0F);
-        this.rightArmSpike1 = new ModelRenderer(this, 46, 24);
-        this.rightArmSpike1.setRotationPoint(0.0F, 2.0F, 0.0F);
-        this.rightArmSpike1.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.leftArmSpike2 = new ModelRenderer(this, 46, 17);
-        this.leftArmSpike2.setRotationPoint(0.0F, 2.0F, 0.0F);
-        this.leftArmSpike2.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.leftArmSpike1 = new ModelRenderer(this, 46, 24);
-        this.leftArmSpike1.setRotationPoint(0.0F, 2.0F, 0.0F);
-        this.leftArmSpike1.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.leftArmSpike0 = new ModelRenderer(this, 46, 17);
-        this.leftArmSpike0.setRotationPoint(0.8F, 0.5F, 0.0F);
-        this.leftArmSpike0.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.face = new ModelRenderer(this, 28, 20);
-        this.face.setRotationPoint(1.0F, -2.2F, 0.8F);
-        this.face.addBox(-2.5F, -0.5F, -0.5F, 5.0F, 9.0F, 1.0F, -1.0F, 0.0F, -0.4F);
-        this.setRotateAngle(face, -2.0943951023931953F, 0.0F, 0.0F);
-        this.leftArmSpike3 = new ModelRenderer(this, 46, 24);
-        this.leftArmSpike3.setRotationPoint(0.0F, 2.0F, 0.0F);
-        this.leftArmSpike3.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.leftArm = new ModelRenderer(this, 22, 8);
-        this.leftArm.setRotationPoint(3.0F, 1.1F, 1.1F);
-        this.leftArm.addBox(-0.5F, -1.0F, -1.0F, 2.0F, 9.0F, 2.0F, -0.1F, 0.0F, -0.1F);
-        this.setRotateAngle(leftArm, -1.2217304763960306F, 0.0F, 0.0F);
-        this.head = new ModelRenderer(this, 45, 0);
-        this.head.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.head.addBox(-0.5F, -2.0F, -0.5F, 3.0F, 3.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(head, 0.5235987755982988F, 0.0F, 0.0F);
-        this.neck = new ModelRenderer(this, 35, 0);
-        this.neck.setRotationPoint(-1.0F, -0.6F, -0.6F);
-        this.neck.addBox(0.0F, 0.0F, 0.0F, 2.0F, 3.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(neck, 0.7853981633974483F, 0.0F, 0.0F);
-        this.horn2 = new ModelRenderer(this, 41, 13);
-        this.horn2.setRotationPoint(0.0F, 0.0F, 3.5F);
-        this.horn2.addBox(-0.5F, -8.0F, 0.0F, 1.0F, 9.0F, 1.0F, -0.3F, 0.0F, 0.0F);
-        this.setRotateAngle(horn2, -0.2617993877991494F, 0.0F, 0.0F);
-        this.bodyTop = new ModelRenderer(this, 15, 0);
-        this.bodyTop.setRotationPoint(2.0F, 0.0F, -1.2F);
-        this.bodyTop.addBox(-3.0F, 0.0F, 0.0F, 6.0F, 3.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(bodyTop, 0.7853981633974483F, 0.0F, 0.0F);
-        this.rightLegTop = new ModelRenderer(this, 0, 9);
-        this.rightLegTop.setRotationPoint(1.6F, 5.0F, 0.0F);
-        this.rightLegTop.addBox(-1.8F, -0.2F, 0.0F, 2.0F, 6.0F, 2.0F, -0.2F, 0.0F, -0.2F);
-        this.setRotateAngle(rightLegTop, -0.6108652381980153F, 0.0F, 0.0F);
-        this.rightArmSpike0 = new ModelRenderer(this, 46, 17);
-        this.rightArmSpike0.setRotationPoint(0.8F, 0.5F, 0.0F);
-        this.rightArmSpike0.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.skirtTop = new ModelRenderer(this, 11, 23);
-        this.skirtTop.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.skirtTop.addBox(-2.0F, 0.0F, -3.5F, 4.0F, 4.0F, 4.0F, 0.1F, 0.0F, -0.4F);
-        this.rightFootBottom = new ModelRenderer(this, 6, 15);
-        this.rightFootBottom.setRotationPoint(0.0F, 0.8F, 0.0F);
-        this.rightFootBottom.addBox(-1.25F, 0.5F, -6.0F, 1.0F, 1.0F, 6.0F, -0.1F, -0.3F, 0.0F);
-        this.leftFootBottom = new ModelRenderer(this, 6, 15);
-        this.leftFootBottom.setRotationPoint(0.0F, 0.8F, 0.0F);
-        this.leftFootBottom.addBox(-1.25F, 0.5F, -6.0F, 1.0F, 1.0F, 6.0F, -0.1F, -0.3F, 0.0F);
-        this.skirtBack = new ModelRenderer(this, 0, 23);
-        this.skirtBack.setRotationPoint(2.0F, 3.5F, 2.9F);
-        this.skirtBack.addBox(-2.0F, 0.0F, -0.4F, 4.0F, 8.0F, 1.0F, 0.1F, 0.0F, -0.4F);
-        this.leftLegBot = new ModelRenderer(this, 9, 9);
-        this.leftLegBot.setRotationPoint(0.0F, 4.8F, 1.0F);
-        this.leftLegBot.addBox(-1.75F, 0.0F, 0.0F, 2.0F, 1.0F, 4.0F, -0.3F, 0.0F, 0.0F);
-        this.setRotateAngle(leftLegBot, 0.17453292519943295F, 0.0F, 0.0F);
-        this.rightArmSpike3 = new ModelRenderer(this, 46, 24);
-        this.rightArmSpike3.setRotationPoint(0.0F, 2.0F, 0.0F);
-        this.rightArmSpike3.addBox(-1.6F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, -2.2F, -1.9F, -0.49F);
-        this.rightArmSpike5 = new ModelRenderer(this, 36, 8);
-        this.rightArmSpike5.setRotationPoint(0.0F, 1.0F, 0.0F);
-        this.rightArmSpike5.addBox(-0.5F, -0.5F, -0.5F, 1.0F, 2.0F, 1.0F, -0.2F, 0.0F, -0.2F);
-        this.leftLegTop = new ModelRenderer(this, 0, 9);
-        this.leftLegTop.setRotationPoint(4.0F, 5.0F, 0.0F);
-        this.leftLegTop.addBox(-1.8F, -0.2F, 0.0F, 2.0F, 6.0F, 2.0F, -0.2F, 0.0F, -0.2F);
-        this.setRotateAngle(leftLegTop, -0.6108652381980153F, 0.0F, 0.0F);
-        this.leftFootTop = new ModelRenderer(this, 0, 18);
-        this.leftFootTop.setRotationPoint(0.0F, 1.0F, 3.0F);
-        this.leftFootTop.addBox(-1.25F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(leftFootTop, 0.4363323129985824F, 0.0F, 0.0F);
-        this.helmet = new ModelRenderer(this, 47, 8);
-        this.helmet.setRotationPoint(1.0F, 0.0F, 0.0F);
-        this.helmet.addBox(-2.0F, -2.6F, 1.0F, 4.0F, 4.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.leftArmSpike4 = new ModelRenderer(this, 36, 8);
-        this.leftArmSpike4.setRotationPoint(0.5F, 8.0F, 0.0F);
-        this.leftArmSpike4.addBox(-0.5F, 0.0F, -0.5F, 1.0F, 1.0F, 1.0F, 0.1F, 0.0F, 0.1F);
-        this.leftArmSpike5 = new ModelRenderer(this, 36, 8);
-        this.leftArmSpike5.setRotationPoint(0.0F, 1.0F, 0.0F);
-        this.leftArmSpike5.addBox(-0.5F, -0.5F, -0.5F, 1.0F, 2.0F, 1.0F, -0.2F, 0.0F, -0.2F);
-        this.bodyTop.addChild(this.rightArm);
-        this.helmet.addChild(this.horn1);
-        this.rightArm.addChild(this.rightArmSpike4);
-        this.rightArmSpike1.addChild(this.rightArmSpike2);
-        this.rightLegBot.addChild(this.rightFootTop);
-        this.rightLegTop.addChild(this.rightLegBot);
-        this.rightArmSpike0.addChild(this.rightArmSpike1);
-        this.leftArmSpike1.addChild(this.leftArmSpike2);
-        this.leftArmSpike0.addChild(this.leftArmSpike1);
-        this.leftArm.addChild(this.leftArmSpike0);
-        this.head.addChild(this.face);
-        this.leftArmSpike2.addChild(this.leftArmSpike3);
-        this.bodyTop.addChild(this.leftArm);
-        this.neck.addChild(this.head);
-        this.bodyTop.addChild(this.neck);
-        this.helmet.addChild(this.horn2);
-        this.bodyBot.addChild(this.bodyTop);
-        this.bodyBot.addChild(this.rightLegTop);
-        this.rightArm.addChild(this.rightArmSpike0);
-        this.skirtBack.addChild(this.skirtTop);
-        this.rightFootTop.addChild(this.rightFootBottom);
-        this.leftFootTop.addChild(this.leftFootBottom);
-        this.bodyBot.addChild(this.skirtBack);
-        this.leftLegTop.addChild(this.leftLegBot);
-        this.rightArmSpike2.addChild(this.rightArmSpike3);
-        this.rightArmSpike4.addChild(this.rightArmSpike5);
-        this.bodyBot.addChild(this.leftLegTop);
-        this.leftLegBot.addChild(this.leftFootTop);
-        this.head.addChild(this.helmet);
-        this.leftArm.addChild(this.leftArmSpike4);
-        this.leftArmSpike4.addChild(this.leftArmSpike5);
-        
+
+public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "assassin"), "main");
+
+    private final ModelPart bodyBot;
+    private final ModelPart bodyTop;
+    private final ModelPart rightArm;
+    private final ModelPart rightArmSpike4;
+    private final ModelPart rightArmSpike5;
+    private final ModelPart rightArmSpike0;
+    private final ModelPart rightArmSpike1;
+    private final ModelPart rightArmSpike2;
+    private final ModelPart rightArmSpike3;
+    private final ModelPart leftArm;
+    private final ModelPart leftArmSpike4;
+    private final ModelPart leftArmSpike5;
+    private final ModelPart leftArmSpike0;
+    private final ModelPart leftArmSpike1;
+    private final ModelPart leftArmSpike2;
+    private final ModelPart leftArmSpike3;
+    private final ModelPart neck;
+    private final ModelPart head;
+    private final ModelPart face;
+    private final ModelPart helmet;
+    private final ModelPart horn1;
+    private final ModelPart horn2;
+    private final ModelPart rightLegTop;
+    private final ModelPart rightLegBot;
+    private final ModelPart rightFootTop;
+    private final ModelPart rightFootBottom;
+    private final ModelPart leftLegTop;
+    private final ModelPart leftLegBot;
+    private final ModelPart leftFootTop;
+    private final ModelPart leftFootBottom;
+    private final ModelPart skirtBack;
+    private final ModelPart skirtTop;
+
+    public AssassinModel(ModelPart root) {
+        this.bodyBot = root.getChild("bodyBot");
+        this.bodyTop = bodyBot.getChild("bodyTop");
+        this.rightArm = bodyTop.getChild("rightArm");
+        this.rightArmSpike4 = rightArm.getChild("rightArmSpike4");
+        this.rightArmSpike5 = rightArmSpike4.getChild("rightArmSpike5");
+        this.rightArmSpike0 = rightArm.getChild("rightArmSpike0");
+        this.rightArmSpike1 = rightArmSpike0.getChild("rightArmSpike1");
+        this.rightArmSpike2 = rightArmSpike1.getChild("rightArmSpike2");
+        this.rightArmSpike3 = rightArmSpike2.getChild("rightArmSpike3");
+        this.leftArm = bodyTop.getChild("leftArm");
+        this.leftArmSpike4 = leftArm.getChild("leftArmSpike4");
+        this.leftArmSpike5 = leftArmSpike4.getChild("leftArmSpike5");
+        this.leftArmSpike0 = leftArm.getChild("leftArmSpike0");
+        this.leftArmSpike1 = leftArmSpike0.getChild("leftArmSpike1");
+        this.leftArmSpike2 = leftArmSpike1.getChild("leftArmSpike2");
+        this.leftArmSpike3 = leftArmSpike2.getChild("leftArmSpike3");
+        this.neck = bodyTop.getChild("neck");
+        this.head = neck.getChild("head");
+        this.face = head.getChild("face");
+        this.helmet = head.getChild("helmet");
+        this.horn1 = helmet.getChild("horn1");
+        this.horn2 = helmet.getChild("horn2");
+        this.rightLegTop = bodyBot.getChild("rightLegTop");
+        this.rightLegBot = rightLegTop.getChild("rightLegBot");
+        this.rightFootTop = rightLegBot.getChild("rightFootTop");
+        this.rightFootBottom = rightFootTop.getChild("rightFootBottom");
+        this.leftLegTop = bodyBot.getChild("leftLegTop");
+        this.leftLegBot = leftLegTop.getChild("leftLegBot");
+        this.leftFootTop = leftLegBot.getChild("leftFootTop");
+        this.leftFootBottom = leftFootTop.getChild("leftFootBottom");
+        this.skirtBack = bodyBot.getChild("skirtBack");
+        this.skirtTop = skirtBack.getChild("skirtTop");
+
         ModelAnimation leftLegTopAnim = new ModelAnimation(leftLegTop, -35, -55, -15, 0, true, rightLegTop);
         //ModelAnimation rightLegTopAnim = new ModelAnimation(rightLegTop, -35, -45, -25, 0, false);
-        
+
         animation.add(leftLegTopAnim);
         //animation.add(rightLegTopAnim);
     }
 
-    @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) { 
-        ImmutableList.of(this.bodyBot).forEach((modelRenderer) -> { 
-            modelRenderer.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        });
+    List<ModelAnimation> animation = new ArrayList<ModelAnimation>();
+    protected double distanceMovedTotal = 0.0D;
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition bodyBot = partdefinition.addOrReplaceChild("bodyBot", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, 0.0F, 0.0F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 10.4F, 0.0F));
+
+        PartDefinition bodyTop = bodyBot.addOrReplaceChild("bodyTop", CubeListBuilder.create().texOffs(15, 0).addBox(-3.0F, 0.0F, 0.0F, 6.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, -1.2F, 0.7854F, 0.0F, 0.0F));
+
+        PartDefinition rightArm = bodyTop.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(22, 8).addBox(-1.5F, -1.0F, -1.0F, 2.0F, 9.0F, 2.0F, new CubeDeformation(-0.100000024F, 0.0F, -0.100000024F)), PartPose.offsetAndRotation(3.0F, 1.1F, 1.1F, -1.9199F, 0.0F, -3.1416F));
+
+        PartDefinition rightArmSpike4 = rightArm.addOrReplaceChild("rightArmSpike4", CubeListBuilder.create().texOffs(36, 8).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.100000024F, 0.0F, 0.100000024F)), PartPose.offset(-0.5F, 8.0F, 0.0F));
+
+        PartDefinition rightArmSpike5 = rightArmSpike4.addOrReplaceChild("rightArmSpike5", CubeListBuilder.create().texOffs(36, 8).addBox(-0.5F, -0.5F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(-0.19999999F, 0.0F, -0.19999999F)), PartPose.offset(0.0F, 1.0F, 0.0F));
+
+        PartDefinition rightArmSpike0 = rightArm.addOrReplaceChild("rightArmSpike0", CubeListBuilder.create().texOffs(46, 17).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(-0.8F, 0.5F, 0.0F));
+
+        PartDefinition rightArmSpike1 = rightArmSpike0.addOrReplaceChild("rightArmSpike1", CubeListBuilder.create().texOffs(46, 24).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+
+        PartDefinition rightArmSpike2 = rightArmSpike1.addOrReplaceChild("rightArmSpike2", CubeListBuilder.create().texOffs(46, 17).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+
+        PartDefinition rightArmSpike3 = rightArmSpike2.addOrReplaceChild("rightArmSpike3", CubeListBuilder.create().texOffs(46, 24).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+
+        PartDefinition leftArm = bodyTop.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(22, 8).addBox(-1.5F, -1.0F, -1.0F, 2.0F, 9.0F, 2.0F, new CubeDeformation(-0.100000024F, 0.0F, -0.100000024F)), PartPose.offsetAndRotation(-3.0F, 1.1F, 1.1F, 4.7124F, 0.0F, 0.0F));
+
+        PartDefinition leftArmSpike0 = leftArm.addOrReplaceChild("leftArmSpike0", CubeListBuilder.create().texOffs(46, 17).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(-0.8F, 0.5F, 0.0F));
+
+        PartDefinition leftArmSpike1 = leftArmSpike0.addOrReplaceChild("leftArmSpike1", CubeListBuilder.create().texOffs(46, 24).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+
+        PartDefinition leftArmSpike2 = leftArmSpike1.addOrReplaceChild("leftArmSpike2", CubeListBuilder.create().texOffs(46, 17).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+
+        PartDefinition leftArmSpike3 = leftArmSpike2.addOrReplaceChild("leftArmSpike3", CubeListBuilder.create().texOffs(46, 24).mirror().addBox(-6.4F, -1.7F, -0.5F, 8.0F, 5.0F, 1.0F, new CubeDeformation(-2.2F, -1.9F, -0.49F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+
+        PartDefinition leftArmSpike4 = leftArm.addOrReplaceChild("leftArmSpike4", CubeListBuilder.create().texOffs(36, 8).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.100000024F, 0.0F, 0.100000024F)), PartPose.offset(-0.5F, 8.0F, 0.0F));
+
+        PartDefinition leftArmSpike5 = leftArmSpike4.addOrReplaceChild("leftArmSpike5", CubeListBuilder.create().texOffs(36, 8).addBox(-0.5F, -0.5F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(-0.19999999F, 0.0F, -0.19999999F)), PartPose.offset(0.0F, 1.0F, 0.0F));
+
+        PartDefinition neck = bodyTop.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(35, 0).addBox(-2.0F, 0.0F, 0.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -0.6F, -0.6F, 0.7854F, 0.0F, 0.0F));
+
+        PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(45, 0).addBox(-2.5F, -2.0F, -0.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.5236F, 0.0F, 0.0F));
+
+        PartDefinition face = head.addOrReplaceChild("face", CubeListBuilder.create().texOffs(28, 20).addBox(-2.5F, -0.5F, -0.5F, 5.0F, 9.0F, 1.0F, new CubeDeformation(-1.0F, 0.0F, -0.4F)), PartPose.offsetAndRotation(-1.0F, -2.2F, 0.8F, -2.0944F, 0.0F, 0.0F));
+
+        PartDefinition helmet = head.addOrReplaceChild("helmet", CubeListBuilder.create().texOffs(47, 8).addBox(-2.0F, -2.6F, 1.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.0F, 0.0F, 0.0F));
+
+        PartDefinition horn1 = helmet.addOrReplaceChild("horn1", CubeListBuilder.create().texOffs(35, 12).addBox(-0.5F, -4.0F, 0.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(-0.3F, 0.0F, 0.0F)), PartPose.offsetAndRotation(0.0F, -3.4F, 2.0F, -0.8727F, 0.0F, 0.0F));
+
+        PartDefinition horn2 = helmet.addOrReplaceChild("horn2", CubeListBuilder.create().texOffs(41, 13).addBox(-0.5F, -8.0F, 0.0F, 1.0F, 9.0F, 1.0F, new CubeDeformation(-0.3F, 0.0F, 0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 3.5F, -0.2618F, 0.0F, 0.0F));
+
+        PartDefinition rightLegTop = bodyBot.addOrReplaceChild("rightLegTop", CubeListBuilder.create().texOffs(0, 9).addBox(-0.2F, -0.2F, 0.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.20000005F, 0.0F, -0.20000005F)), PartPose.offsetAndRotation(-1.6F, 5.0F, 0.0F, -0.6109F, 0.0F, 0.0F));
+
+        PartDefinition rightLegBot = rightLegTop.addOrReplaceChild("rightLegBot", CubeListBuilder.create().texOffs(9, 9).addBox(-0.25F, 0.0F, 0.0F, 2.0F, 1.0F, 4.0F, new CubeDeformation(-0.29999995F, 0.0F, 0.0F)), PartPose.offsetAndRotation(0.0F, 4.8F, 1.0F, 0.1745F, 0.0F, 0.0F));
+
+        PartDefinition rightFootTop = rightLegBot.addOrReplaceChild("rightFootTop", CubeListBuilder.create().texOffs(0, 18).addBox(0.25F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 3.0F, 0.4363F, 0.0F, 0.0F));
+
+        PartDefinition rightFootBottom = rightFootTop.addOrReplaceChild("rightFootBottom", CubeListBuilder.create().texOffs(6, 15).addBox(0.25F, 0.5F, -6.0F, 1.0F, 1.0F, 6.0F, new CubeDeformation(-0.100000024F, -0.29999998F, 0.0F)), PartPose.offset(0.0F, 0.8F, 0.0F));
+
+        PartDefinition skirtBack = bodyBot.addOrReplaceChild("skirtBack", CubeListBuilder.create().texOffs(0, 23).addBox(-2.0F, 0.0F, -0.4F, 4.0F, 8.0F, 1.0F, new CubeDeformation(0.099999905F, 0.0F, -0.39999998F)), PartPose.offset(-2.0F, 3.5F, 2.9F));
+
+        PartDefinition skirtTop = skirtBack.addOrReplaceChild("skirtTop", CubeListBuilder.create().texOffs(11, 23).addBox(-2.0F, 0.0F, -3.5F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.099999905F, 0.0F, -0.4000001F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+        PartDefinition leftLegTop = bodyBot.addOrReplaceChild("leftLegTop", CubeListBuilder.create().texOffs(0, 9).addBox(-0.2F, -0.2F, 0.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(-0.20000005F, 0.0F, -0.20000005F)), PartPose.offsetAndRotation(-4.0F, 5.0F, 0.0F, -0.6109F, 0.0F, 0.0F));
+
+        PartDefinition leftLegBot = leftLegTop.addOrReplaceChild("leftLegBot", CubeListBuilder.create().texOffs(9, 9).addBox(-0.25F, 0.0F, 0.0F, 2.0F, 1.0F, 4.0F, new CubeDeformation(-0.29999995F, 0.0F, 0.0F)), PartPose.offsetAndRotation(0.0F, 4.8F, 1.0F, 0.1745F, 0.0F, 0.0F));
+
+        PartDefinition leftFootTop = leftLegBot.addOrReplaceChild("leftFootTop", CubeListBuilder.create().texOffs(0, 18).addBox(0.25F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 3.0F, 0.4363F, 0.0F, 0.0F));
+
+        PartDefinition leftFootBottom = leftFootTop.addOrReplaceChild("leftFootBottom", CubeListBuilder.create().texOffs(6, 15).addBox(0.25F, 0.5F, -6.0F, 1.0F, 1.0F, 6.0F, new CubeDeformation(-0.100000024F, -0.29999998F, 0.0F)), PartPose.offset(0.0F, 0.8F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     @Override
-	public void setRotationAngles(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		updateDistanceMovedTotal(ent);
-		if (ent.getDistanceSq(ent.prevPosX, ent.prevPosY, ent.prevPosZ) > 0) {
-			for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-				ModelAnimation m = animation.get(i); 
-				
-				if(m != null && m.model != null) {
-					if(m.increasing) { //animnation increase
-						m.actVal += 2;
-						if(m.actVal >= m.maxVal) {
-							m.increasing = false;
-						}
-					} else { //Animation decrease
-						m.actVal -= 2;
-						if(m.actVal <= m.minVal) {
-							m.increasing = true;
-						}
-					}
-					m.model.rotateAngleX = (float) Math.toRadians(m.actVal);
-					if(m.modelCounterpart != null) {
-						m.modelCounterpart.rotateAngleX = (float) Math.toRadians(m.defVal*2-m.actVal);
-					}
-				}
-			}
-		
-		} else {
-	    	this.leftLegTop.rotateAngleX = this.rightLegTop.rotateAngleX = (float) Math.toRadians(-35);
-			this.leftLegBot.rotateAngleX = this.rightLegBot.rotateAngleX = (float) Math.toRadians(10);
-			this.leftFootTop.rotateAngleX = this.rightFootTop.rotateAngleX = (float) Math.toRadians(25);
-		}
-		
+    public void setupAnim(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        updateDistanceMovedTotal(ent);
+        if (ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld) > 0) {
+            for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
+                ModelAnimation m = animation.get(i);
+
+                if(m != null && m.model != null) {
+                    if(m.increasing) { //animnation increase
+                        m.actVal += 2;
+                        if(m.actVal >= m.maxVal) {
+                            m.increasing = false;
+                        }
+                    } else { //Animation decrease
+                        m.actVal -= 2;
+                        if(m.actVal <= m.minVal) {
+                            m.increasing = true;
+                        }
+                    }
+                    m.model.xRot = (float) Math.toRadians(m.actVal);
+                    if(m.modelCounterpart != null) {
+                        m.modelCounterpart.xRot = (float) Math.toRadians(m.defVal*2-m.actVal);
+                    }
+                }
+            }
+
+        } else {
+            this.leftLegTop.xRot = this.rightLegTop.xRot = (float) Math.toRadians(-35);
+            this.leftLegBot.xRot = this.rightLegBot.xRot = (float) Math.toRadians(10);
+            this.leftFootTop.xRot = this.rightFootTop.xRot = (float) Math.toRadians(25);
+        }
+
 		if (EntityHelper.getState(ent) == 0) { //Standing
 			//this.rightArm.rotateAngleX =  (float) Math.toRadians(0);
-			this.rightArm.rotateAngleY = (float) Math.toRadians(0);
-			this.rightArm.rotateAngleZ = (float) Math.toRadians(180);
+			this.rightArm.yRot = (float) Math.toRadians(0);
+			this.rightArm.zRot = (float) Math.toRadians(180);
 
-			this.leftArm.rotateAngleX =  (float) Math.toRadians(270);
-			this.leftArm.rotateAngleY = (float) Math.toRadians(0);
-			this.leftArm.rotateAngleZ = (float) Math.toRadians(0);
-			
+			this.leftArm.xRot =  (float) Math.toRadians(270);
+			this.leftArm.yRot = (float) Math.toRadians(0);
+			this.leftArm.zRot = (float) Math.toRadians(0);
+
 		} else if (EntityHelper.getState(ent) == 1) { //Underground
-			this.rightArm.rotateAngleX =  (float) Math.toRadians(270);
-			this.rightArm.rotateAngleY = (float) Math.toRadians(90 - ent.ticksExisted*50);
-			this.rightArm.rotateAngleZ = (float) Math.toRadians(90);
+			this.rightArm.xRot =  (float) Math.toRadians(270);
+			this.rightArm.yRot = (float) Math.toRadians(90 - ent.tickCount*50);
+			this.rightArm.zRot = (float) Math.toRadians(90);
 
-			this.leftArm.rotateAngleX =  (float) Math.toRadians(270);
-			this.leftArm.rotateAngleY = (float) Math.toRadians(-90 - ent.ticksExisted*50);
-			this.leftArm.rotateAngleZ = (float) Math.toRadians(90);
-			
+			this.leftArm.xRot =  (float) Math.toRadians(270);
+			this.leftArm.yRot = (float) Math.toRadians(-90 - ent.tickCount*50);
+			this.leftArm.zRot = (float) Math.toRadians(90);
+
 		} else if (EntityHelper.getState(ent) == 2) { //Exploding
-			this.leftLegTop.rotateAngleX = (float) Math.toRadians(-135);
-			this.rightLegTop.rotateAngleX = (float) Math.toRadians(-135);
-			this.leftLegBot.rotateAngleX = (float) Math.toRadians(90);
-			this.rightLegBot.rotateAngleX = (float) Math.toRadians(90);
-			
-			this.leftArm.rotateAngleY = (float) Math.toRadians(110);
-			this.rightArm.rotateAngleY = (float) Math.toRadians(110);
+			this.leftLegTop.xRot = (float) Math.toRadians(-135);
+			this.rightLegTop.xRot = (float) Math.toRadians(-135);
+			this.leftLegBot.xRot = (float) Math.toRadians(90);
+			this.rightLegBot.xRot = (float) Math.toRadians(90);
+
+			this.leftArm.yRot = (float) Math.toRadians(110);
+			this.rightArm.yRot = (float) Math.toRadians(110);
 		}
-
     }
-    
+
+    @Override
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        bodyBot.render(poseStack, buffer, packedLight, packedOverlay);
+    }
+
     protected void updateDistanceMovedTotal(Entity e) {
-    	distanceMovedTotal += e.getDistanceSq(e.prevPosX, e.prevPosY, e.prevPosZ);
-	}
+        distanceMovedTotal += e.distanceToSqr(e.xOld, e.yOld, e.zOld);
+    }
 
-	protected double getDistanceMovedTotal() {
-		return (distanceMovedTotal);
-	}
-
-
-
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
+    protected double getDistanceMovedTotal() {
+        return (distanceMovedTotal);
     }
 }

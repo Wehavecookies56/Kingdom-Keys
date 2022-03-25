@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.container;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.SlotItemHandler;
@@ -13,12 +13,12 @@ public class SynthesisBagSlot extends SlotItemHandler {
     }
 
     @Override
-    public boolean isItemValid (ItemStack stack) {
+    public boolean mayPlace (ItemStack stack) {
         return stack.getItem() instanceof SynthesisItem;
     }
     
     @Override
-    public void onSlotChanged() {
-        inventory.markDirty();
+    public void setChanged() {
+        container.setChanged();
     }
 }

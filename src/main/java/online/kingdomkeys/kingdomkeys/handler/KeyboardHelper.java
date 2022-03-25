@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.InputMappings;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class KeyboardHelper {
 
@@ -19,7 +19,7 @@ public class KeyboardHelper {
     }
 
     public static boolean isScrollActivatorDown () {
-        return isKeyDown(InputHandler.Keybinds.SCROLL_ACTIVATOR.getKeybind().getKey().getKeyCode());
+        return isKeyDown(InputHandler.Keybinds.SCROLL_ACTIVATOR.getKeybind().getKey().getValue());
     }
 
     /**
@@ -28,7 +28,7 @@ public class KeyboardHelper {
      * @return whether the key is being pressed
      */
     public static boolean isKeyDown(int key) {
-        return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), key);
+        return InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), key);
     }
 
 }

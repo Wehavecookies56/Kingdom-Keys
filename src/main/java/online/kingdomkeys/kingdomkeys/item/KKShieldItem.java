@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import net.minecraft.item.ShieldItem;
+import net.minecraft.world.item.ShieldItem;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class KKShieldItem extends ShieldItem
 {
@@ -10,7 +12,7 @@ public class KKShieldItem extends ShieldItem
     }
 
     @Override
-    public boolean isDamageable()
+    public boolean canBeDepleted()
     {
         return false;
     }

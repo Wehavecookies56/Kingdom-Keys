@@ -1,42 +1,42 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
-public class DriveLayerRenderer<T extends LivingEntity, M extends BipedModel<T>, A extends BipedModel<T>> extends LayerRenderer<T, M> {
+public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private PlayerRenderer renderPlayer;
 
-	public DriveLayerRenderer(IEntityRenderer<T, M> entityRendererIn) {
+	public DriveLayerRenderer(RenderLayerParent<T, M> entityRendererIn) {
 		super(entityRendererIn);
 		this.renderPlayer = (PlayerRenderer) entityRendererIn;
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn) != null) {
-			if(!ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE)) {
-				String drive = ModCapabilities.getPlayer((PlayerEntity) entitylivingbaseIn).getActiveDriveForm();
-				DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(drive));
+	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && ModCapabilities.getPlayer((Player) entitylivingbaseIn) != null) {
+			if(!ModCapabilities.getPlayer((Player) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE)) {
+				String drive = ModCapabilities.getPlayer((Player) entitylivingbaseIn).getActiveDriveForm();
+				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
 				
 				if (form.getTextureLocation() != null) {
-					IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(bufferIn, RenderType.getEntityCutoutNoCull(form.getTextureLocation()), false, false);
-					renderPlayer.getEntityModel().render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
+					VertexConsumer ivertexbuilder = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(form.getTextureLocation()), false, false);
+					renderPlayer.getModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
 				}
 			}
 		}

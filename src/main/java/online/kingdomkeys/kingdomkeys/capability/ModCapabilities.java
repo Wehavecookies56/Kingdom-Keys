@@ -1,28 +1,28 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
+@Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModCapabilities {
 
-	@CapabilityInject(IPlayerCapabilities.class)
-	public static final Capability<IPlayerCapabilities> PLAYER_CAPABILITIES = null;
-	@CapabilityInject(IGlobalCapabilities.class)
-	public static final Capability<IGlobalCapabilities> GLOBAL_CAPABILITIES = null;
-	@CapabilityInject(IWorldCapabilities.class)
-	public static final Capability<IWorldCapabilities> WORLD_CAPABILITIES = null;
+	public static final Capability<IPlayerCapabilities> PLAYER_CAPABILITIES = CapabilityManager.get(new CapabilityToken<IPlayerCapabilities>() {});
+	public static final Capability<IGlobalCapabilities> GLOBAL_CAPABILITIES = CapabilityManager.get(new CapabilityToken<IGlobalCapabilities>() {});
+	public static final Capability<IWorldCapabilities> WORLD_CAPABILITIES = CapabilityManager.get(new CapabilityToken<IWorldCapabilities>() {});
 
-	public static IPlayerCapabilities getPlayer(PlayerEntity player) {
+	public static IPlayerCapabilities getPlayer(Player player) {
 		LazyOptional<IPlayerCapabilities> playerData = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES, null);
 		return playerData.orElse(null);
 	}
@@ -32,15 +32,17 @@ public class ModCapabilities {
 		return globalData.orElse(null);
 	}
 	
-	public static IWorldCapabilities getWorld(World w) {
+	public static IWorldCapabilities getWorld(Level w) {
 		LazyOptional<IWorldCapabilities> worldData = w.getCapability(ModCapabilities.WORLD_CAPABILITIES, null);
 		return worldData.orElse(null);
 	}
 
-	public static void register() {
-		CapabilityManager.INSTANCE.register(IPlayerCapabilities.class, new PlayerCapabilitiesStorage(), PlayerCapabilities::new);
-		CapabilityManager.INSTANCE.register(IGlobalCapabilities.class, new GlobalCapabilities.Storage(), GlobalCapabilities::new);
-		CapabilityManager.INSTANCE.register(IWorldCapabilities.class, new WorldCapabilities.Storage(), WorldCapabilities::new);
+
+	@SubscribeEvent
+	public static void register(RegisterCapabilitiesEvent event) {
+		event.register(IPlayerCapabilities.class);
+		event.register(IGlobalCapabilities.class);
+		event.register(IWorldCapabilities.class);
 	}
 
 
@@ -48,13 +50,13 @@ public class ModCapabilities {
 	public void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof LivingEntity) {
 			event.addCapability(new ResourceLocation(KingdomKeys.MODID, "global_capabilities"), new GlobalCapabilitiesProvider());
-			if (event.getObject() instanceof PlayerEntity)
+			if (event.getObject() instanceof Player)
 				event.addCapability(new ResourceLocation(KingdomKeys.MODID, "player_capabilities"), new PlayerCapabilitiesProvider());
 		}
 	}
 
 	@SubscribeEvent
-	public void attachWorldCapabilities(AttachCapabilitiesEvent<World> event) {
+	public void attachWorldCapabilities(AttachCapabilitiesEvent<Level> event) {
 		event.addCapability(new ResourceLocation(KingdomKeys.MODID, "world_capabilities"), new WorldCapabilitiesProvider());
 	}
 

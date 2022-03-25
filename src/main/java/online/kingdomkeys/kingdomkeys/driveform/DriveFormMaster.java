@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -69,8 +69,8 @@ public class DriveFormMaster extends DriveForm {
 	
 	@SubscribeEvent
 	public static void onLivingUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+		if(event.getEntityLiving() instanceof Player) {
+			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {
@@ -82,20 +82,20 @@ public class DriveFormMaster extends DriveForm {
 		}
 	}
 
-	private static void handleAerialDodge(PlayerEntity player, IPlayerCapabilities playerData) {
+	private static void handleAerialDodge(Player player, IPlayerCapabilities playerData) {
 		if (playerData.getAerialDodgeTicks() <= 0) {
 			if (player.isOnGround()) {
 				playerData.setHasJumpedAerialDodge(false);
 				playerData.setAerialDodgeTicks(0);
 			} else {
-				if (player.world.isRemote) {
-					if (player.getMotion().y < 0 && Minecraft.getInstance().gameSettings.keyBindJump.isKeyDown() && !player.isSneaking()) {
+				if (player.level.isClientSide) {
+					if (player.getDeltaMovement().y < 0 && Minecraft.getInstance().options.keyJump.isDown() && !player.isShiftKeyDown()) {
 						if (!playerData.hasJumpedAerialDodge()) {
 							playerData.setHasJumpedAerialDodge(true);
-							player.jump();
+							player.jumpFromGround();
 							int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Master) - 2 : playerData.getDriveFormLevel(Strings.Form_Master);// TODO eventually replace it with the skill
 							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
-							player.setMotion(player.getMotion().mul(new Vector3d(boost, boost, boost)));
+							player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(boost, boost, boost)));
 							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));
 						}
 					}

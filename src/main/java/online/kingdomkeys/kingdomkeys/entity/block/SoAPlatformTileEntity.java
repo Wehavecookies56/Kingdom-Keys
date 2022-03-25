@@ -5,17 +5,17 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class SoAPlatformTileEntity extends TileEntity {
+public class SoAPlatformTileEntity extends BlockEntity {
 
     private boolean multiblockFormed = false;
 
@@ -23,76 +23,74 @@ public class SoAPlatformTileEntity extends TileEntity {
 
     public void setMultiblockFormed(boolean formed) {
         this.multiblockFormed = formed;
-        markDirty();
+        setChanged();
     }
 
     public boolean isMultiblockFormed() {
         return multiblockFormed;
     }
 
-    public SoAPlatformTileEntity() {
-        super(ModEntities.TYPE_SOA_PLATFORM.get());
+    public SoAPlatformTileEntity(BlockPos pos, BlockState state) {
+        super(ModEntities.TYPE_SOA_PLATFORM.get(), pos, state);
     }
 
     public void clearPositions() {
         structureBlockPosCache.clear();
-        markDirty();
+        setChanged();
     }
 
     public void addPos(BlockPos pos) {
         structureBlockPosCache.add(pos);
-        markDirty();
+        setChanged();
     }
-    
+
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-    	super.read(state, compound);
-    	multiblockFormed = compound.getBoolean("formed");
-        CompoundNBT structureCompound = compound.getCompound("structure");
+    public void load(CompoundTag compound) {
+        super.load(compound);
+        multiblockFormed = compound.getBoolean("formed");
+        CompoundTag structureCompound = compound.getCompound("structure");
         int size = structureCompound.getInt("size");
         structureBlockPosCache.clear();
         for (int i = 0; i < size; i++) {
-            structureBlockPosCache.add(NBTUtil.readBlockPos(structureCompound.getCompound("pos"+i)));
+            structureBlockPosCache.add(NbtUtils.readBlockPos(structureCompound.getCompound("pos"+i)));
         }
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    protected void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putBoolean("formed", multiblockFormed);
-        CompoundNBT structureCompound = new CompoundNBT();
+        CompoundTag structureCompound = new CompoundTag();
         structureCompound.putInt("size", structureBlockPosCache.size());
         for (int i = 0; i < structureBlockPosCache.size(); i++) {
-            structureCompound.put("pos" + i, NBTUtil.writeBlockPos(structureBlockPosCache.get(i)));
+            structureCompound.put("pos" + i, NbtUtils.writeBlockPos(structureBlockPosCache.get(i)));
         }
         compound.put("structure", structureCompound);
-        return super.write(compound);
     }
 
     @Nullable
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        CompoundNBT nbt = new CompoundNBT();
-        this.write(nbt);
-        return new SUpdateTileEntityPacket(this.getPos(), 1, nbt);
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
-	}
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        return this.write(new CompoundNBT());
-    }
-    
-    @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-    	this.read(state, tag);
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        load(pkt.getTag());
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
+    public CompoundTag getUpdateTag() {
+        return serializeNBT();
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        this.load(tag);
+    }
+
+    @Override
+    public AABB getRenderBoundingBox() {
         return INFINITE_EXTENT_AABB;
     }
 }

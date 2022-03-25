@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
@@ -72,15 +72,15 @@ public class SCSyncCapabilityToAllPacket {
 		this.hasJumpedAD = capability.hasJumpedAerialDodge();
 	}
 
-	public void encode(PacketBuffer buffer) {
-		buffer.writeString(name);
+	public void encode(FriendlyByteBuf buffer) {
+		buffer.writeUtf(name);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.exp);
 		buffer.writeInt(this.expGiven);
 		buffer.writeInt(this.strength);
 		buffer.writeInt(this.magic);
 		buffer.writeInt(this.defense);
-		buffer.writeString(this.driveForm);
+		buffer.writeUtf(this.driveForm);
 		buffer.writeInt(this.aeroTicks);
 		buffer.writeInt(this.aeroLevel);
 		buffer.writeInt(this.reflectTicks);
@@ -92,37 +92,37 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeDouble(this.mp);
 		buffer.writeDouble(this.maxMP);
 		
-		CompoundNBT magics = new CompoundNBT();
+		CompoundTag magics = new CompoundTag();
 		Iterator<Map.Entry<String, int[]>> magicsIt = magicsMap.entrySet().iterator();
 		while (magicsIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
 			magics.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
-		buffer.writeCompoundTag(magics);
+		buffer.writeNbt(magics);
 		
-		CompoundNBT forms = new CompoundNBT();
+		CompoundTag forms = new CompoundTag();
 		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormMap.entrySet().iterator();
 		while (driveFormsIt.hasNext()) {
 			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
 			forms.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
-		buffer.writeCompoundTag(forms);
+		buffer.writeNbt(forms);
 		
 		buffer.writeBoolean(this.isGliding);
 		buffer.writeInt(this.aerialDodgeTicks);
 		buffer.writeBoolean(this.hasJumpedAD);
 	}
 
-	public static SCSyncCapabilityToAllPacket decode(PacketBuffer buffer) {
+	public static SCSyncCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
 		SCSyncCapabilityToAllPacket msg = new SCSyncCapabilityToAllPacket();
-		msg.name = buffer.readString();
+		msg.name = buffer.readUtf();
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
 		msg.expGiven = buffer.readInt();
 		msg.strength = buffer.readInt();
 		msg.magic = buffer.readInt();
 		msg.defense = buffer.readInt();
-		msg.driveForm = buffer.readString();
+		msg.driveForm = buffer.readUtf();
 		msg.aeroTicks = buffer.readInt();
 		msg.aeroLevel = buffer.readInt();
 		msg.reflectTicks = buffer.readInt();
@@ -134,15 +134,15 @@ public class SCSyncCapabilityToAllPacket {
 		msg.mp = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();
 		
-		CompoundNBT magicsTag = buffer.readCompoundTag();
-		Iterator<String> magicsIt = magicsTag.keySet().iterator();
+		CompoundTag magicsTag = buffer.readNbt();
+		Iterator<String> magicsIt = magicsTag.getAllKeys().iterator();
 		while (magicsIt.hasNext()) {
 			String magicName = (String) magicsIt.next();
 			msg.magicsMap.put(magicName, magicsTag.getIntArray(magicName));
 		}
 		
-		CompoundNBT driveFormsTag = buffer.readCompoundTag();
-		Iterator<String> driveFormsIt = driveFormsTag.keySet().iterator();
+		CompoundTag driveFormsTag = buffer.readNbt();
+		Iterator<String> driveFormsIt = driveFormsTag.getAllKeys().iterator();
 		while (driveFormsIt.hasNext()) {
 			String driveFormName = (String) driveFormsIt.next();
 			msg.driveFormMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
@@ -156,8 +156,8 @@ public class SCSyncCapabilityToAllPacket {
 
 	public static void handle(final SCSyncCapabilityToAllPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			List<AbstractClientPlayerEntity> list = Minecraft.getInstance().world.getPlayers();
-			PlayerEntity player = null;
+			List<AbstractClientPlayer> list = Minecraft.getInstance().level.players();
+			Player player = null;
 			for (int i = 0; i < list.size(); i++) { //Loop through the players
 				String name = list.get(i).getName().getString();
 				if (name.equals(message.name)) {

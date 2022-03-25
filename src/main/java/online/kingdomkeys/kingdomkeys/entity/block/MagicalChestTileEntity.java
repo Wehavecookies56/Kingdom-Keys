@@ -5,18 +5,21 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,7 +29,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.MagicalChestContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class MagicalChestTileEntity extends TileEntity implements INamedContainerProvider {
+public class MagicalChestTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 36;
 	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
 
@@ -35,8 +38,8 @@ public class MagicalChestTileEntity extends TileEntity implements INamedContaine
 	//Used to prevent others from breaking
 	private UUID owner;
 
-	public MagicalChestTileEntity() {
-		super(ModEntities.TYPE_MAGICAL_CHEST.get());
+	public MagicalChestTileEntity(BlockPos pos, BlockState state) {
+		super(ModEntities.TYPE_MAGICAL_CHEST.get(), pos, state);
 	}
 
 	private IItemHandler createInventory() {
@@ -49,7 +52,7 @@ public class MagicalChestTileEntity extends TileEntity implements INamedContaine
 
 	public void setKeyblade(UUID keyblade) {
 		this.keyblade = keyblade;
-		markDirty();
+		setChanged();
 	}
 
 	public UUID getOwner() {
@@ -58,61 +61,60 @@ public class MagicalChestTileEntity extends TileEntity implements INamedContaine
 
 	public void setOwner(UUID owner) {
 		this.owner = owner;
-		markDirty();
+		setChanged();
 	}
 
-	public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
-        inventory.ifPresent(iih -> {
-        	CompoundNBT invCompound = ((INBTSerializable<CompoundNBT>) iih).serializeNBT();
-        	compound.put("inv", invCompound);
+	@Override
+	protected void saveAdditional(CompoundTag compound) {
+		inventory.ifPresent(iih -> {
+			CompoundTag invCompound = ((INBTSerializable<CompoundTag>) iih).serializeNBT();
+			compound.put("inv", invCompound);
 		});
-        compound.putUniqueId("owner", owner);
-        //Check that the UUID is not empty
-        if (keyblade != null) {
+		compound.putUUID("owner", owner);
+		//Check that the UUID is not empty
+		if (keyblade != null) {
 			if (!keyblade.equals(new UUID(0L, 0L))) {
-				compound.putUniqueId("keyblade", keyblade);
+				compound.putUUID("keyblade", keyblade);
 			}
 		}
-        return compound;
-    }
-	
-	
+	}
+
 	@Override
-	public void read(BlockState state, CompoundNBT compound) {
-		super.read(state, compound);
-		CompoundNBT invCompound = compound.getCompound("inv");
-	    inventory.ifPresent(iih -> ((INBTSerializable<CompoundNBT>) iih).deserializeNBT(invCompound));
-	
-	    owner = compound.getUniqueId("owner");
-	
-	    if (compound.hasUniqueId("keyblade")) {
-			keyblade = compound.getUniqueId("keyblade");
+	public void load(CompoundTag compound) {
+		super.load(compound);
+		CompoundTag invCompound = compound.getCompound("inv");
+		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
+
+		owner = compound.getUUID("owner");
+
+		if (compound.hasUUID("keyblade")) {
+			keyblade = compound.getUUID("keyblade");
 		}
 	}
-    
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT nbt = new CompoundNBT();
-		this.write(nbt);
-		return new SUpdateTileEntityPacket(this.getPos(), 1, nbt);
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+	public CompoundTag getUpdateTag() {
+		CompoundTag tag = super.getUpdateTag();
+		saveAdditional(tag);
+		return tag;
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.write(new CompoundNBT());
+	public void handleUpdateTag(CompoundTag tag) {
+		if (tag != null) {
+			load(tag);
+		}
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		this.read(state, tag);
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		this.load(pkt.getTag());
 	}
 
 	@Nonnull
@@ -125,13 +127,13 @@ public class MagicalChestTileEntity extends TileEntity implements INamedContaine
 	}
 
 	@Override
-	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent("container.magical_chest");
+	public Component getDisplayName() {
+		return new TranslatableComponent("container.magical_chest");
 	}
 
 	@Nullable
 	@Override
-	public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+	public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity) {
 		return new MagicalChestContainer(windowId, playerInventory, this);
 	}
 }

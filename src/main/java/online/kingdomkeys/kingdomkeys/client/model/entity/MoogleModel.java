@@ -1,104 +1,63 @@
 package online.kingdomkeys.kingdomkeys.client.model.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
+/**
+ * Moogle - cheriecheese
+ * Created using Blockbench
+ */
 public class MoogleModel<T extends Entity> extends EntityModel<T> {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "moogle"), "main");
+    private final ModelPart bb_main;
 
-    public ModelRenderer shape1;
-    public ModelRenderer shape2;
-    public ModelRenderer shape3;
-    public ModelRenderer shape4;
-    public ModelRenderer shape5;
-    public ModelRenderer shape7;
-    public ModelRenderer shape8;
-    public ModelRenderer shape6;
-    public ModelRenderer shape9;
-    public ModelRenderer shape11;
-    public ModelRenderer shape13;
-    public ModelRenderer shape14;
-    public ModelRenderer shape12;
+    public MoogleModel(ModelPart root) {
+        this.bb_main = root.getChild("bb_main");
+    }
 
-    public MoogleModel() {
-        this.textureWidth = 64;
-        this.textureHeight = 32;
-        this.shape13 = new ModelRenderer(this, 16, 30);
-        this.shape13.setRotationPoint(-2.0F, 1.0F, -2.0F);
-        this.shape13.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
-        this.shape6 = new ModelRenderer(this, 10, 10);
-        this.shape6.setRotationPoint(-4.5F, 10.5F, -0.5F);
-        this.shape6.addBox(0.0F, 0.0F, 0.0F, 3, 1, 1, 0.0F);
-        this.setRotateAngle(shape6, 0.0F, 0.0F, -0.4363323129985824F);
-        this.shape7 = new ModelRenderer(this, 21, 0);
-        this.shape7.setRotationPoint(2.0F, 9.3F, -0.6F);
-        this.shape7.addBox(0.0F, 0.0F, 0.0F, 3, 1, 1, 0.0F);
-        this.setRotateAngle(shape7, 0.0F, 0.0F, 0.4363323129985824F);
-        this.shape3 = new ModelRenderer(this, 0, 22);
-        this.shape3.setRotationPoint(-0.5F, -1.0F, -0.5F);
-        this.shape3.addBox(0.0F, 0.0F, 0.0F, 1, 3, 1, 0.0F);
-        this.shape1 = new ModelRenderer(this, 0, 0);
-        this.shape1.setRotationPoint(-1.5F, -4.0F, -1.5F);
-        this.shape1.addBox(0.0F, 0.0F, 0.0F, 3, 3, 3, 0.0F);
-        this.shape9 = new ModelRenderer(this, 21, 8);
-        this.shape9.setRotationPoint(0.5F, 12.0F, 0.0F);
-        this.shape9.addBox(0.0F, 0.0F, 0.0F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(shape9, 0.5759586531581287F, 0.0F, 0.0F);
-        this.shape8 = new ModelRenderer(this, 0, 9);
-        this.shape8.setRotationPoint(-1.5F, 12.0F, 0.0F);
-        this.shape8.addBox(0.0F, 0.0F, 0.0F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(shape8, 0.5759586531581287F, 0.0F, 0.0F);
-        this.shape14 = new ModelRenderer(this, 25, 30);
-        this.shape14.setRotationPoint(1.0F, 1.0F, -2.0F);
-        this.shape14.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
-        this.shape5 = new ModelRenderer(this, 33, 0);
-        this.shape5.setRotationPoint(-2.0F, 8.0F, -2.0F);
-        this.shape5.addBox(0.0F, 0.0F, 0.0F, 4, 4, 4, 0.0F);
-        this.shape11 = new ModelRenderer(this, 29, 9);
-        this.shape11.setRotationPoint(1.0F, 8.5F, 2.0F);
-        this.shape11.addBox(0.0F, 0.0F, 0.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(shape11, -0.18203784098300857F, 0.5918411493512771F, 0.0F);
-        this.shape2 = new ModelRenderer(this, 35, 20);
-        this.shape2.setRotationPoint(-3.0F, 2.0F, -3.0F);
-        this.shape2.addBox(0.0F, 0.0F, 0.0F, 6, 6, 6, 0.0F);
-        this.shape12 = new ModelRenderer(this, 29, 9);
-        this.shape12.setRotationPoint(-2.0F, 8.5F, 2.0F);
-        this.shape12.addBox(0.0F, 0.0F, 0.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(shape12, -0.18203784098300857F, -0.5918411493512771F, 0.0F);
-        this.shape4 = new ModelRenderer(this, 0, 15);
-        this.shape4.setRotationPoint(-1.5F, 4.0F, -4.0F);
-        this.shape4.addBox(0.0F, 0.0F, 0.0F, 3, 2, 1, 0.0F);
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(0, 10).addBox(-2.0F, -8.0F, -2.0F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 0).addBox(-3.0F, -13.0F, -3.0F, 6.0F, 5.0F, 5.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 18).addBox(-1.0F, -11.0F, -4.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(17, 0).addBox(2.0F, -14.0F, -1.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(11, 10).addBox(-4.0F, -14.0F, -1.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+        PartDefinition antennaEnd_r1 = bb_main.addOrReplaceChild("antennaEnd_r1", CubeListBuilder.create().texOffs(14, 10).addBox(-1.5F, -19.0F, -3.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(14, 16).addBox(-0.5F, -16.0F, -2.5F, 1.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.1309F, 0.0F, 0.0F));
+
+        PartDefinition leftWing_r1 = bb_main.addOrReplaceChild("leftWing_r1", CubeListBuilder.create().texOffs(0, 10).addBox(5.0F, -5.0F, 2.0F, 1.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2182F, 0.0F, -0.7854F));
+
+        PartDefinition rightWing_r1 = bb_main.addOrReplaceChild("rightWing_r1", CubeListBuilder.create().texOffs(17, 3).addBox(-6.0F, -5.0F, 2.0F, 1.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2182F, 0.0F, 0.7854F));
+
+        PartDefinition rightArm_r1 = bb_main.addOrReplaceChild("rightArm_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -6.0F, -1.0F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3927F));
+
+        PartDefinition leftArm_r1 = bb_main.addOrReplaceChild("leftArm_r1", CubeListBuilder.create().texOffs(6, 18).addBox(4.0F, -6.0F, -1.0F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.3927F));
+
+        PartDefinition rightLeg_r1 = bb_main.addOrReplaceChild("rightLeg_r1", CubeListBuilder.create().texOffs(10, 18).addBox(-2.0F, -4.0F, 0.0F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(18, 16).addBox(1.0F, -4.0F, 0.0F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.3491F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 32, 32);
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.shape13.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape6.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape7.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape9.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape8.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape14.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape11.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape12.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        this.shape4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+
     }
 
     @Override
-    public void setRotationAngles(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        bb_main.render(poseStack, buffer, packedLight, packedOverlay);
     }
-
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
-    }
-
 }

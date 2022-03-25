@@ -2,22 +2,22 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.util.Mth;
 
 public class EntityHelper {
 
-	public static final DataParameter<Integer> ANIMATION = EntityDataManager.<Integer>createKey(MobEntity.class, DataSerializers.VARINT);
-	public static final DataParameter<Integer> STATE = EntityDataManager.<Integer>createKey(MobEntity.class, DataSerializers.VARINT);
+	public static final EntityDataAccessor<Integer> ANIMATION = SynchedEntityData.<Integer>defineId(Mob.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> STATE = SynchedEntityData.<Integer>defineId(Mob.class, EntityDataSerializers.INT);
 
 	public static void setState(Entity e, int i) {
-		e.getDataManager().set(STATE, (int)i);
+		e.getEntityData().set(STATE, (int)i);
 	}
 
 	public static double percentage(double i, double j) {
@@ -27,15 +27,15 @@ public class EntityHelper {
 	public static int getState(Entity e) {
 		//System.out.print("Getting value ");
 		//System.out.println(e.getDataManager().get(STATE));
-		return e.getDataManager().get(STATE);
+		return e.getEntityData().get(STATE);
 	}
 
 	public static void setAnimation(Entity e, int i) {
-		e.getDataManager().set(ANIMATION, i);
+		e.getEntityData().set(ANIMATION, i);
 	}
 
 	public static int getAnimation(Entity e) {
-		return e.getDataManager().get(ANIMATION);
+		return e.getEntityData().get(ANIMATION);
 	}
 
 	public enum Dir {
@@ -47,7 +47,7 @@ public class EntityHelper {
 	}
 
 	public static Dir get8Directions(Entity e) {
-		switch (MathHelper.floor(e.rotationYaw * 8.0F / 360.0F + 0.5D) & 7) {
+		switch (Mth.floor(e.getYRot() * 8.0F / 360.0F + 0.5D) & 7) {
 		case 0:
 			return Dir.SOUTH;
 		case 1:
@@ -114,8 +114,8 @@ public class EntityHelper {
 	}
 
 	public static List<LivingEntity> getEntitiesNear(Entity e, double radius) {
-		AxisAlignedBB aabb = new AxisAlignedBB(e.getPosX(), e.getPosY(), e.getPosZ(), e.getPosX() + 1, e.getPosY() + 1, e.getPosZ() + 1).grow(radius, radius, radius);
-		List<LivingEntity> list = e.world.getEntitiesWithinAABB(LivingEntity.class, aabb);
+		AABB aabb = new AABB(e.getX(), e.getY(), e.getZ(), e.getX() + 1, e.getY() + 1, e.getZ() + 1).inflate(radius, radius, radius);
+		List<LivingEntity> list = e.level.getEntitiesOfClass(LivingEntity.class, aabb);
 		list.remove(e);
 		return list;
 	}

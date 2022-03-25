@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
@@ -34,12 +34,12 @@ public abstract class MenuFilterable extends MenuBackground {
 	}
     
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if(filterBar != null)
         	filterBar.render(matrixStack, this, mouseX, mouseY, partialTicks);
         //scrollBar.render(mouseX, mouseY, partialTicks);
 
-        if (!ItemStack.areItemStacksEqual(selected, ItemStack.EMPTY)) {
+        if (!ItemStack.matches(selected, ItemStack.EMPTY)) {
             renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
         }
         
@@ -53,7 +53,7 @@ public abstract class MenuFilterable extends MenuBackground {
     	super.init();
     }
     
-    protected abstract void renderSelectedData(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks);
+    protected abstract void renderSelectedData(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks);
 
 	public abstract void initItems();
     
@@ -63,7 +63,7 @@ public abstract class MenuFilterable extends MenuBackground {
      * @return
      */
     public boolean filterItem(ItemStack item) {
-        if (ItemStack.areItemStacksEqual(item, ItemStack.EMPTY)) { //If no item
+        if (ItemStack.matches(item, ItemStack.EMPTY)) { //If no item
             return false;
         } else {//If there's item
             if (filterBar.currentFilter == null) { //If the filter is null (ALL)

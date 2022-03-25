@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -26,7 +26,7 @@ public class MPGui extends Screen {
 	int counter = 0;
 
 	public MPGui() {
-		super(new TranslationTextComponent(""));
+		super(new TranslatableComponent(""));
 		minecraft = Minecraft.getInstance();
 	}
 
@@ -34,17 +34,17 @@ public class MPGui extends Screen {
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
 		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
-		PlayerEntity player = minecraft.player;
-		MatrixStack matrixStack = event.getMatrixStack();
+		Player player = minecraft.player;
+		PoseStack matrixStack = event.getMatrixStack();
 
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 
-			int screenWidth = minecraft.getMainWindow().getScaledWidth();
-			int screenHeight = minecraft.getMainWindow().getScaledHeight();
+			int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+			int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 			float scale = 1f;
-			switch (minecraft.gameSettings.guiScale) {
+			switch (minecraft.options.guiScale) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;
@@ -56,47 +56,47 @@ public class MPGui extends Screen {
 			
 			mpBarWidth = (int) (playerData.getMP() * scaleactor);
 			int mpBarMaxWidth = (int) (playerData.getMaxMP() * scaleactor);
-			matrixStack.push();// MP Background
+			matrixStack.pushPose();// MP Background
 			{
 				RenderSystem.enableBlend();
 				matrixStack.translate(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
 
-				matrixStack.push();// MP Background
+				matrixStack.pushPose();// MP Background
 				{
 					matrixStack.translate((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
 					matrixStack.scale(scale, scale / 1.3F, scale);
 					drawMPBarBack(matrixStack, 0, 0, mpBarMaxWidth, scale);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 				
-				matrixStack.push();// MP Bar
+				matrixStack.pushPose();// MP Bar
 				{
 					matrixStack.translate((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
 					matrixStack.scale(scale, scale / 1.3F, scale);
 					drawMPBarTop(matrixStack, 0, 0, (int) Math.ceil(mpBarWidth), scale);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 				RenderSystem.disableBlend();
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 	}
 
-	public void drawMPBarBack(MatrixStack matrixStack, int posX, int posY, int width, float scale) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
-		matrixStack.push();
+	public void drawMPBarBack(PoseStack matrixStack, int posX, int posY, int width, float scale) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+		matrixStack.pushPose();
 		{
 			// Left Margin
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.translate(scale * posX, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
 				blit(matrixStack, 0, 0, 0, 0, 2, 12);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// Background
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
 				matrixStack.scale(width, scale, 0);
@@ -104,41 +104,41 @@ public class MPGui extends Screen {
 				blit(matrixStack, 0, 0, v, 0, 1, 12);
 
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// Right Margin
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
 				blit(matrixStack, 0, 0, 3, 0, 2, 12);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// MP Icon
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				int v = playerData.getRecharge() ? 45 : 32;
 				matrixStack.translate((posX + 2) * scale + width + 1, scale * posY, 0);
 				matrixStack.scale(scale * 0.8F, scale, 1);
 				blit(matrixStack, 0, 0, 0, v, 23, 12);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 
 	}
 
-	public void drawMPBarTop(MatrixStack matrixStack, int posX, int posY, int width, float scale) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
-		matrixStack.push();
+	public void drawMPBarTop(PoseStack matrixStack, int posX, int posY, int width, float scale) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(width, scale, 0);
 			int v = playerData.getRecharge() ? 22 : 12;
 			blit(matrixStack, 0, 0, 2, v, 1, 8);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 
 	}
 }

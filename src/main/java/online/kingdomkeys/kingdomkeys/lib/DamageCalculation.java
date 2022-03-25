@@ -4,11 +4,11 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -22,7 +22,7 @@ public class DamageCalculation {
     /**
      * Magic KB
      */
-    public static float getMagicDamage(PlayerEntity player, ItemStack stack) {
+    public static float getMagicDamage(Player player, ItemStack stack) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         	float damage = 0;
@@ -37,7 +37,7 @@ public class DamageCalculation {
             if(keyblade != null) {
 	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic(true));
 	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-	            	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 	            	damage *= form.getMagMult();
 	            }
             }
@@ -49,7 +49,7 @@ public class DamageCalculation {
     /**
      * Magic org
      */
-    public static float getOrgMagicDamage(PlayerEntity player, IOrgWeapon weapon) {
+    public static float getOrgMagicDamage(Player player, IOrgWeapon weapon) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             float damage = (float) (weapon.getMagic() + playerData.getMagic(true));
@@ -61,17 +61,17 @@ public class DamageCalculation {
     /**
      * Magic generic
      */
-    public static float getMagicDamage(PlayerEntity player) {
+    public static float getMagicDamage(Player player) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
             float finalDamage = 0;
 
-            if (player.getHeldItem(Hand.MAIN_HAND) != null && player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
-            	if(player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof KeybladeItem) {
-                    finalDamage = getMagicDamage(player, player.getHeldItemMainhand());
-            	} else if(player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
-            		finalDamage = getOrgMagicDamage(player, (IOrgWeapon) player.getHeldItemMainhand().getItem());
+            if (player.getItemInHand(InteractionHand.MAIN_HAND) != null && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
+            	if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem) {
+                    finalDamage = getMagicDamage(player, player.getMainHandItem());
+            	} else if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
+            		finalDamage = getOrgMagicDamage(player, (IOrgWeapon) player.getMainHandItem().getItem());
             	}
             } else {
                 finalDamage = playerData.getMagic(true);
@@ -86,7 +86,7 @@ public class DamageCalculation {
     /**
      * Strength
      */
-    public static float getKBStrengthDamage(PlayerEntity player, ItemStack stack) {
+    public static float getKBStrengthDamage(Player player, ItemStack stack) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             float damage = 0;
@@ -104,7 +104,7 @@ public class DamageCalculation {
 	            damage = (float) (keyblade.getStrength(stack) + playerData.getStrength(true));
 	
 	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-	            	DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 	            	damage *= form.getStrMult();
 	            }
             }
@@ -123,7 +123,7 @@ public class DamageCalculation {
     /**
      * Strength
      */
-    public static float getOrgStrengthDamage(PlayerEntity player, ItemStack stack) {
+    public static float getOrgStrengthDamage(Player player, ItemStack stack) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             float damage = 0;
@@ -141,7 +141,7 @@ public class DamageCalculation {
   
     
     public static float getSharpnessDamage(ItemStack stack) {
-		ListNBT nbttaglist = stack.getEnchantmentTagList();
+		ListTag nbttaglist = stack.getEnchantmentTags();
     	float sharpnessDamage = 0;
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			String id = nbttaglist.getCompound(i).getString("id");

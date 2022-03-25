@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionHand;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -13,12 +13,12 @@ public class MagicAero extends Magic {
 	}
 
 	@Override
-	protected void magicUse(PlayerEntity player, PlayerEntity caster, int level, float fullMPBlastMult) {
+	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		int time = (int) (ModCapabilities.getPlayer(caster).getMaxMP() * (4F + level/2F) * getDamageMult(level));
 		playerData.setAeroTicks(time, level);
 		PacketHandler.syncToAllAround(player, playerData);
-		caster.swingArm(Hand.MAIN_HAND);
+		caster.swing(InteractionHand.MAIN_HAND);
 	}
 
 }

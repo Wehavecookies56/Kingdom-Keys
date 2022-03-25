@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -14,12 +14,12 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 /** Mainly here just to reduce the size of {@link online.kingdomkeys.kingdomkeys.capability.PlayerCapabilities} */
 public class LevelStats {
 
-    public static void applyStatsForLevel(int level, PlayerEntity player, IPlayerCapabilities cap) {
+    public static void applyStatsForLevel(int level, Player player, IPlayerCapabilities cap) {
     	if(cap.getSoAState() != SoAState.COMPLETE) {
     		return;
     	}
     	
-    	Level levelData = ModLevels.registry.getValue(new ResourceLocation(KingdomKeys.MODID+":"+ cap.getChosen().toString().toLowerCase()));
+    	Level levelData = ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID+":"+ cap.getChosen().toString().toLowerCase()));
 		
     	if (levelData.getStr(level) > 0) {
 			cap.addStrength(levelData.getStr(level));
@@ -48,7 +48,7 @@ public class LevelStats {
 		if (levelData.getAbilities(level).length > 0) {
 			for (String ability : levelData.getAbilities(level)) {
 				if (ability != null) {
-					Ability a = ModAbilities.registry.getValue(new ResourceLocation(ability));
+					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
 					if (a != null) {
 						cap.addAbility(ability, true);
 					}
@@ -59,7 +59,7 @@ public class LevelStats {
 		if (levelData.getShotlocks(level).length > 0) {
 			for (String shotlock : levelData.getShotlocks(level)) {
 				if (shotlock != null) {
-					Shotlock a = ModShotlocks.registry.getValue(new ResourceLocation(shotlock));
+					Shotlock a = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
 					if (a != null) {
 						cap.addShotlockToList(shotlock, true);
 					}

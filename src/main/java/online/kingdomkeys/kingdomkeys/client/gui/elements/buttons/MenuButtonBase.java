@@ -1,13 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TranslatableComponent;
+
+import net.minecraft.client.gui.components.Button.OnPress;
 
 public class MenuButtonBase extends Button {
 
 	boolean selected = false;
-	public MenuButtonBase(int widthIn, int heightIn, int width, int height, String text, IPressable onPress) {
-		super(widthIn, heightIn, width, height, new TranslationTextComponent(text), onPress);
+	public MenuButtonBase(int widthIn, int heightIn, int width, int height, String text, OnPress onPress) {
+		super(widthIn, heightIn, width, height, new TranslatableComponent(text), onPress);
 		
 	}
 

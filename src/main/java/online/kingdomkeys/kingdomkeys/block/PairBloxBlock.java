@@ -4,24 +4,26 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class PairBloxBlock extends BaseBlock {
 
@@ -29,62 +31,62 @@ public class PairBloxBlock extends BaseBlock {
 
 	public PairBloxBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(this.getDefaultState().with(PAIR, 0));
+		this.registerDefaultState(this.defaultBlockState().setValue(PAIR, 0));
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		super.fillStateContainer(builder);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 		builder.add(PAIR);
 	}
 
 	@Override
-	public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
-		if (!worldIn.isRemote) {
-			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.get(PAIR));
+	public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
+		if (!worldIn.isClientSide) {
+			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.getValue(PAIR));
 			float velocity = 0.5F;
-			switch (MathHelper.floor(player.rotationYaw * 8.0F / 360.0F + 0.5D) & 7) { // Get direction
+			switch (Mth.floor(player.getYRot() * 8.0F / 360.0F + 0.5D) & 7) { // Get direction
 			case 0:// S
-				pairEntity.setMotion(0, 0, velocity);
+				pairEntity.setDeltaMovement(0, 0, velocity);
 				break;
 			case 1:// SW
-				pairEntity.setMotion(-velocity, 0, velocity);
+				pairEntity.setDeltaMovement(-velocity, 0, velocity);
 				break;
 			case 2:// W
-				pairEntity.setMotion(-velocity, 0, 0);
+				pairEntity.setDeltaMovement(-velocity, 0, 0);
 				break;
 			case 3:// NW
-				pairEntity.setMotion(-velocity, 0, -velocity);
+				pairEntity.setDeltaMovement(-velocity, 0, -velocity);
 				break;
 			case 4:// N
-				pairEntity.setMotion(0, 0, -velocity);
+				pairEntity.setDeltaMovement(0, 0, -velocity);
 				break;
 			case 5:// NE
-				pairEntity.setMotion(velocity, 0, -velocity);
+				pairEntity.setDeltaMovement(velocity, 0, -velocity);
 				break;
 			case 6:// E
-				pairEntity.setMotion(velocity, 0, 0);
+				pairEntity.setDeltaMovement(velocity, 0, 0);
 				break;
 			case 7:// SE
-				pairEntity.setMotion(velocity, 0, velocity);
+				pairEntity.setDeltaMovement(velocity, 0, velocity);
 				break;
 
 			}
 
 			// System.out.println(getDefaultState().get(PAIR));
-			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-			worldIn.addEntity(pairEntity);
+			worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+			worldIn.addFreshEntity(pairEntity);
 		}
-		super.onBlockClicked(state, worldIn, pos, player);
+		super.attack(state, worldIn, pos, player);
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		if (worldIn.isAirBlock(pos.down()) || canFallThrough(worldIn.getBlockState(pos.down())) && pos.getY() >= 0) {
-			worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.get(PAIR));
-			pairEntity.setMotion(0, -1, 0);
-			worldIn.addEntity(pairEntity);
+	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+		if (worldIn.isEmptyBlock(pos.below()) || canFallThrough(worldIn.getBlockState(pos.below())) && pos.getY() >= 0) {
+			worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.getValue(PAIR));
+			pairEntity.setDeltaMovement(0, -1, 0);
+			worldIn.addFreshEntity(pairEntity);
 		}
 	}
 
@@ -95,46 +97,46 @@ public class PairBloxBlock extends BaseBlock {
 	}
 
 	@Override
-	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
 		BlockState other = null;
 		BlockPos[] positions = { pos.north(), pos.east(), pos.south(), pos.west() };
 		int i = 0;
 		for (i = 0; i < positions.length; i++) {
-			if (world.getBlockState(positions[i]).getBlock() == ModBlocks.pairBlox.get().getDefaultState().getBlock()) {
+			if (world.getBlockState(positions[i]).getBlock() == ModBlocks.pairBlox.get().defaultBlockState().getBlock()) {
 				other = world.getBlockState(positions[i]);
 				break;
 			}
 		}
 
 		// Check if both blox are different but not the final result one
-		if (other != null && state.get(PAIR) < 2 && other.get(PAIR) < 2 && state.get(PAIR) != other.get(PAIR)) {
+		if (other != null && state.getValue(PAIR) < 2 && other.getValue(PAIR) < 2 && state.getValue(PAIR) != other.getValue(PAIR)) {
 			//System.out.println("MERGE");
-			world.setBlockState(pos, Blocks.AIR.getDefaultState());
-			world.setBlockState(positions[i], Blocks.AIR.getDefaultState());
-			world.setBlockState(positions[i], ModBlocks.pairBlox.get().getDefaultState().with(PAIR, 2));
+			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+			world.setBlockAndUpdate(positions[i], Blocks.AIR.defaultBlockState());
+			world.setBlockAndUpdate(positions[i], ModBlocks.pairBlox.get().defaultBlockState().setValue(PAIR, 2));
 		}
 
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 
 	}
 
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(PAIR, 0);
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(PAIR, 0);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if (state.get(PAIR) < 2) {
-			int newState = state.get(PAIR) == 0 ? 1 : 0;
-			worldIn.setBlockState(pos, state.with(PAIR, newState));
-			return ActionResultType.SUCCESS;
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+		if (state.getValue(PAIR) < 2) {
+			int newState = state.getValue(PAIR) == 0 ? 1 : 0;
+			worldIn.setBlockAndUpdate(pos, state.setValue(PAIR, newState));
+			return InteractionResult.SUCCESS;
 		} else {
-			return ActionResultType.FAIL;
+			return InteractionResult.FAIL;
 		}
 	}
 

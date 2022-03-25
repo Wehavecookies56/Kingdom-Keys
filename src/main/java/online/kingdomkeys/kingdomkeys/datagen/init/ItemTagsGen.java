@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import net.minecraft.data.BlockTagsProvider;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.MusicDiscItem;
-import net.minecraft.tags.ITag;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.RecordItem;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
@@ -22,12 +22,12 @@ public class ItemTagsGen extends ItemTagsProvider
     }
 
     @Override
-    protected void registerTags()
+    protected void addTags()
     {
         for (RegistryObject<Item> itemRegistryObject : ModItems.ITEMS.getEntries())
         {
             final Item item = itemRegistryObject.get();
-            if (item instanceof MusicDiscItem)
+            if (item instanceof RecordItem)
             {
                 add(ItemTags.MUSIC_DISCS, item);
                 add(ItemTags.CREEPER_DROP_MUSIC_DISCS, item);
@@ -35,14 +35,14 @@ public class ItemTagsGen extends ItemTagsProvider
         }
     }
 
-    public void add(ITag.INamedTag<Item> branch, Item item)
+    public void add(TagKey<Item> branch, Item item)
     {
-        this.getOrCreateBuilder(branch).add(item);
+        this.tag(branch).add(item);
     }
 
-    public void add(ITag.INamedTag<Item> branch, Item... item)
+    public void add(TagKey<Item> branch, Item... item)
     {
-        this.getOrCreateBuilder(branch).add(item);
+        this.tag(branch).add(item);
     }
 
 

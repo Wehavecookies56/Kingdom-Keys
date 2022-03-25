@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -36,11 +36,11 @@ public class CSSynthesiseKeyblade {
 		this.name = name;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeResourceLocation(this.name);
 	}
 
-	public static CSSynthesiseKeyblade decode(PacketBuffer buffer) {
+	public static CSSynthesiseKeyblade decode(FriendlyByteBuf buffer) {
 		CSSynthesiseKeyblade msg = new CSSynthesiseKeyblade();
 		msg.name = buffer.readResourceLocation();
 		return msg;
@@ -48,8 +48,8 @@ public class CSSynthesiseKeyblade {
 
 	public static void handle(CSSynthesiseKeyblade message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
-			if(player.inventory.getFirstEmptyStack() > -1) {
+			Player player = ctx.get().getSender();
+			if(player.getInventory().getFreeSlot() > -1) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				
 				Item item = ForgeRegistries.ITEMS.getValue(message.name);
@@ -75,15 +75,15 @@ public class CSSynthesiseKeyblade {
 					Item i = recipe.getResult();
 					
 					int amount = recipe.getAmount();
-					player.inventory.addItemStackToInventory(new ItemStack(i,amount));
+					player.getInventory().add(new ItemStack(i,amount));
 					
 					if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
-						IWorldCapabilities worldData = ModCapabilities.getWorld(player.world);
+						IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 						worldData.setHeartlessSpawnLevel(1);
 						PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 			}
 		});
 		ctx.get().setPacketHandled(true);

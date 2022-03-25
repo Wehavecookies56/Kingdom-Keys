@@ -2,10 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.components.Button;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
@@ -25,7 +25,7 @@ public class MenuItemsScreen extends MenuBackground {
     @Override
     public void init () {
 		super.init();
-		this.buttons.clear();
+		this.renderables.clear();
 
         int button_items_playerY = buttonPosY;
         int button_items_stockY = button_items_playerY + 18 * 1;
@@ -35,22 +35,22 @@ public class MenuItemsScreen extends MenuBackground {
 
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 
-        addButton(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, Strings.Gui_Menu_Items_Equipment, MenuButton.ButtonType.BUTTON, true, b -> openItems(playerData)));
-        addButton(items_stock = new MenuButton((int)buttonPosX, button_items_stockY, (int)buttonWidth, Strings.Gui_Menu_Items_Stock, MenuButton.ButtonType.BUTTON, true, b -> mc.displayGuiScreen(new MenuStockScreen())));
-        addButton(items_back = new MenuButton((int)buttonPosX, button_items_backY, (int)buttonWidth, Strings.Gui_Menu_Back, MenuButton.ButtonType.BUTTON, true, b -> GuiHelper.openMenu()));
+        addWidget(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, Strings.Gui_Menu_Items_Equipment, MenuButton.ButtonType.BUTTON, true, b -> openItems(playerData)));
+        addWidget(items_stock = new MenuButton((int)buttonPosX, button_items_stockY, (int)buttonWidth, Strings.Gui_Menu_Items_Stock, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MenuStockScreen())));
+        addWidget(items_back = new MenuButton((int)buttonPosX, button_items_backY, (int)buttonWidth, Strings.Gui_Menu_Back, MenuButton.ButtonType.BUTTON, true, b -> GuiHelper.openMenu()));
 
     }
 
     public void openItems(IPlayerCapabilities playerData) {
         //if (playerData.getAlignment() == Utils.OrgMember.NONE) {
-            Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
+            Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
        // } else {
         //    Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen(playerData.getAlignment()));
        // }
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

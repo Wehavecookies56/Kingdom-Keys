@@ -2,15 +2,15 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.client.gui.Font;
+import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -35,7 +35,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			if (b.visible && b.active) {
 				PacketHandler.sendToServer(new CSEquipShotlock(shotlockName));
 			} else {
-				Minecraft.getInstance().displayGuiScreen(new MenuEquipmentScreen());
+				Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 			}
 		});
 		
@@ -49,27 +49,26 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        FontRenderer fr = minecraft.fontRenderer;
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        Font fr = minecraft.font;
 		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
-		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.SHOTLOCK;
 		
 		Shotlock shotlock = null;
 		if(shotlockName != null && !shotlockName.equals("")) {
-			shotlock = ModShotlocks.registry.getValue(new ResourceLocation(shotlockName));
+			shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlockName));
 		}
 		
 		if (visible) {
-			RenderHelper.disableStandardItemLighting();
-			RenderHelper.setupGuiFlatDiffuseLighting();
+			Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.29F;
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			matrixStack.push();
+			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			
-			RenderSystem.color4f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
+			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
@@ -77,20 +76,20 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 				blit(matrixStack, 17 + i, 0, 184, 34, 2, 28);
 			}
 			blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			blit(matrixStack, 6, 4, category.getU(), category.getV(), 20, 20);
-			matrixStack.pop();
+			matrixStack.popPose();
 			String shName;
 			if (shotlock == null || shotlock.equals("")) { //Name to display
 				shName = "---";
 			} else {
 				shName = shotlock.getTranslationKey();
 			}
-			drawString(matrixStack, minecraft.fontRenderer, Utils.translateToLocal(shName), x + 15, y + 3, 0xFFFFFF);
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal(shName), x + 15, y + 3, 0xFFFFFF);
 			
 			if (selected || isHovered) { //Render stuff on the right
-				minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-				matrixStack.push();
+				minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
 					
@@ -102,17 +101,16 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 					}
 					blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
-			RenderHelper.disableStandardItemLighting();
-			RenderHelper.setupGuiFlatDiffuseLighting();
+			Lighting.setupForFlatItems();
 			float labelWidth = parent.width * 0.15F;
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			matrixStack.push();
+			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			matrixStack.pushPose();
 			{
 				RenderSystem.enableBlend();
 				//RenderSystem.enableAlpha();
-				RenderSystem.color4f(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
+				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 				matrixStack.translate(x + width + 14F, y, 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				
@@ -122,16 +120,16 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 				}
 				blit(matrixStack, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 			String label = shotlock == null ? "N/A" : "Max: "+shotlock.getMaxLocks();
-			float centerX = (labelWidth / 2) - (minecraft.fontRenderer.getStringWidth(label) / 2);
-			drawString(matrixStack, minecraft.fontRenderer, label, (int) (x + width + centerX) + 14, y + 3, labelColour);
+			float centerX = (labelWidth / 2) - (minecraft.font.width(label) / 2);
+			drawString(matrixStack, minecraft.font, label, (int) (x + width + centerX) + 14, y + 3, labelColour);
 		}
 		
 	}
 
 	@Override
-	public void playDownSound(SoundHandler soundHandler) {
-		soundHandler.play(SimpleSound.master(ModSounds.menu_in.get(), 1.0F, 1.0F));
+	public void playDownSound(SoundManager soundHandler) {
+		soundHandler.play(SimpleSoundInstance.forUI(ModSounds.menu_in.get(), 1.0F, 1.0F));
 	}
 }

@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -31,12 +31,12 @@ public class LimitLaserCircle extends Limit {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, LivingEntity target) {
-		ItemStack stack = player.getHeldItemMainhand();
-		player.world.playSound(null, player.getPosition(), ModSounds.portal.get(), SoundCategory.PLAYERS, 1F, 1F);
+	public void onUse(Player player, LivingEntity target) {
+		ItemStack stack = player.getMainHandItem();
+		player.level.playSound(null, player.blockPosition(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setLimitCooldownTicks(cooldown);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
@@ -45,8 +45,8 @@ public class LimitLaserCircle extends Limit {
 			damage = (playerData.getStrength(true) + playerData.getMagic(true)) / 2;
 		}
 
-		LaserCircleCoreEntity dome = new LaserCircleCoreEntity(player.world, player, target, damage);
-		dome.setPosition(target.getPosX(), target.getPosY(), target.getPosZ());
-		player.world.addEntity(dome);
+		LaserCircleCoreEntity dome = new LaserCircleCoreEntity(player.level, player, target, damage);
+		dome.setPos(target.getX(), target.getY(), target.getZ());
+		player.level.addFreshEntity(dome);
 	}
 }

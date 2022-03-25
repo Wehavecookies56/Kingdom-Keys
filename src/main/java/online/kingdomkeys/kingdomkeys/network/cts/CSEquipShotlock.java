@@ -2,10 +2,10 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -22,19 +22,19 @@ public class CSEquipShotlock {
         this.shotlock = shotlock;
     }
 
-    public void encode(PacketBuffer buffer) {
-        buffer.writeString(shotlock,100);
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeUtf(shotlock,100);
     }
 
-    public static CSEquipShotlock decode(PacketBuffer buffer) {
+    public static CSEquipShotlock decode(FriendlyByteBuf buffer) {
         CSEquipShotlock msg = new CSEquipShotlock();
-        msg.shotlock = buffer.readString(100);
+        msg.shotlock = buffer.readUtf(100);
         return msg;
     }
 
     public static void handle(CSEquipShotlock message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PlayerEntity player = ctx.get().getSender();
+            Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             if(playerData.getShotlockList().contains(message.shotlock) || message.shotlock.equals("")) {
             	playerData.setEquippedShotlock(message.shotlock);
@@ -42,8 +42,8 @@ public class CSEquipShotlock {
            /* ItemStack stackToEquip = player.inventory.getStackInSlot(message.slotToEquipFrom);
             ItemStack stackPreviouslyEquipped = playerData.equipKeychain(message.shotlock, stackToEquip);
             player.inventory.setInventorySlotContents(message.slotToEquipFrom, stackPreviouslyEquipped);*/
-            PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-            PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayerEntity) player);
+            PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+            PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
         });
         ctx.get().setPacketHandled(true);
     }

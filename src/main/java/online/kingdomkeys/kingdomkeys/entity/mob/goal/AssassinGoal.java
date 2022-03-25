@@ -1,9 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.TargetGoal;
-import net.minecraft.world.Explosion;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
+import net.minecraft.world.level.Explosion;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public class AssassinGoal extends TargetGoal {
@@ -13,15 +14,15 @@ public class AssassinGoal extends TargetGoal {
 	private int undergroundTicks = 70, ticksUntilNextAttack, ticksToLowHealth = 70, ticksToExplode = 30;
 	private boolean canUseNextAttack = true;
 
-	public AssassinGoal(CreatureEntity creature) {
+	public AssassinGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;
 	}
 
 	@Override
-	public boolean shouldContinueExecuting() {
-		if (this.goalOwner.getAttackTarget() != null) {
-			if(goalOwner.getHealth() <= goalOwner.getMaxHealth() / 4) { //If the assassin is at 25% hp or less
+	public boolean canContinueToUse() {
+		if (this.mob.getTarget() != null) {
+			if(mob.getHealth() <= mob.getMaxHealth() / 4) { //If the assassin is at 25% hp or less
 				if(isExploding()) {
 					ticksToExplode--;
 					if(ticksToExplode <= 0) {
@@ -30,9 +31,9 @@ public class AssassinGoal extends TargetGoal {
 				} else {
 					ticksToLowHealth--;
 					if(ticksToLowHealth <= 0) {
-						EntityHelper.setState(this.goalOwner, 2);
-	                    this.goalOwner.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
-	                    this.goalOwner.setInvulnerable(true);
+						EntityHelper.setState(this.mob, 2);
+	                    this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+	                    this.mob.setInvulnerable(true);
 					}
 				}
 				return true;
@@ -40,33 +41,33 @@ public class AssassinGoal extends TargetGoal {
 			
 			
 			if (isUnderground()) {
-				this.goalOwner.setInvulnerable(true);
+				this.mob.setInvulnerable(true);
 
 				canUseNextAttack = false;
-				if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 5) {
-					this.goalOwner.attackEntityAsMob(this.goalOwner.getAttackTarget());
+				if(this.mob.distanceTo(this.mob.getTarget()) < 5) {
+					this.mob.doHurtTarget(this.mob.getTarget());
 				} else {
-					EntityHelper.setState(this.goalOwner, 0);
-					this.goalOwner.setInvulnerable(false);
+					EntityHelper.setState(this.mob, 0);
+					this.mob.setInvulnerable(false);
 					undergroundTicks = TIME_TO_GO_UNDERGROUND;
 					canUseNextAttack = true;
 				}
 				
 				undergroundTicks++;
 				if (undergroundTicks >= TIME_UNDERGROUND) { //Go to the surface
-					EntityHelper.setState(this.goalOwner, 0);
-					this.goalOwner.setInvulnerable(false);
+					EntityHelper.setState(this.mob, 0);
+					this.mob.setInvulnerable(false);
 
 					canUseNextAttack = true;
 				}
 			}
 			
-			if(this.goalOwner.getDistance(this.goalOwner.getAttackTarget()) < 5) { //If target is in range
-				if (this.goalOwner.isOnGround()) {
+			if(this.mob.distanceTo(this.mob.getTarget()) < 5) { //If target is in range
+				if (this.mob.isOnGround()) {
 					if (!isUnderground()) {
 						undergroundTicks--;
 						if (undergroundTicks <= 0) {
-							EntityHelper.setState(this.goalOwner, 1);
+							EntityHelper.setState(this.mob, 1);
 							canUseNextAttack = false;
 						}
 					} else {
@@ -85,33 +86,33 @@ public class AssassinGoal extends TargetGoal {
 
 			return true;
 		}
-		EntityHelper.setState(this.goalOwner, 0);
-		this.goalOwner.setInvulnerable(false);
+		EntityHelper.setState(this.mob, 0);
+		this.mob.setInvulnerable(false);
 		return false;
 	}
 
 	private void explode() {
-        goalOwner.world.createExplosion(goalOwner, goalOwner.getPosX(), goalOwner.getPosY(), goalOwner.getPosZ(), 6, false, Explosion.Mode.NONE);
-        goalOwner.remove();
+        mob.level.explode(mob, mob.getX(), mob.getY(), mob.getZ(), 6, false, Explosion.BlockInteraction.NONE);
+        mob.remove(Entity.RemovalReason.KILLED);
 	}
 
 	@Override
-	public void startExecuting() {
-		EntityHelper.setState(this.goalOwner, 0);
-		this.goalOwner.setInvulnerable(false);
+	public void start() {
+		EntityHelper.setState(this.mob, 0);
+		this.mob.setInvulnerable(false);
 	}
 
 	private boolean isUnderground() {
-		return EntityHelper.getState(this.goalOwner) == 1;
+		return EntityHelper.getState(this.mob) == 1;
 	}
 	
 	private boolean isExploding() {
-		return EntityHelper.getState(this.goalOwner) == 2;
+		return EntityHelper.getState(this.mob) == 2;
 	}
 
 	@Override
-	public boolean shouldExecute() {
-		return this.goalOwner.getAttackTarget() != null && this.goalOwner.getDistanceSq(this.goalOwner.getAttackTarget()) < MAX_DISTANCE_FOR_AI;
+	public boolean canUse() {
+		return this.mob.getTarget() != null && this.mob.distanceToSqr(this.mob.getTarget()) < MAX_DISTANCE_FOR_AI;
 	}
 
 }

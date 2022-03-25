@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -29,42 +29,42 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		if (!player.isSneaking()) {
-			if (player.getHeldItem(hand).getTag() != null && player.getHeldItem(hand).getTag().getInt("ammo") > 0) {
-				world.playSound(player, player.getPosition(), ModSounds.sharpshooterbullet.get(), SoundCategory.PLAYERS, 1F, 1F);
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		if (!player.isShiftKeyDown()) {
+			if (player.getItemInHand(hand).getTag() != null && player.getItemInHand(hand).getTag().getInt("ammo") > 0) {
+				world.playSound(player, player.blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
-				bullet.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0, 3F, 0);
-				world.addEntity(bullet);
+				bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
+				world.addFreshEntity(bullet);
 
 				//player.swingArm(Hand.MAIN_HAND);
-				tempAmmo = player.getHeldItem(hand).getTag().getInt("ammo") - 1;
+				tempAmmo = player.getItemInHand(hand).getTag().getInt("ammo") - 1;
 
-				player.getHeldItem(hand).getTag().putInt("ammo", tempAmmo);
+				player.getItemInHand(hand).getTag().putInt("ammo", tempAmmo);
 				if(tempAmmo == 0) {
-					player.getHeldItem(hand).getTag().putInt("ammo", getMaxAmmo(player));
-					player.getCooldownTracker().setCooldown(this, reload);
-					world.playSound(null, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
+					player.getItemInHand(hand).getTag().putInt("ammo", getMaxAmmo(player));
+					player.getCooldowns().addCooldown(this, reload);
+					world.playSound(null, player.blockPosition(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
 				}
 			}
 
 		} else {
-			CompoundNBT nbt = player.getHeldItem(hand).getTag();
+			CompoundTag nbt = player.getItemInHand(hand).getTag();
 
 			if (nbt.getInt("ammo") > 0) {
-				world.playSound(player, player.getPosition(), ModSounds.arrowgunReload.get(), SoundCategory.PLAYERS, 1F, 1F);
+				world.playSound(player, player.blockPosition(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
 
-				player.getCooldownTracker().setCooldown(this, reload / nbt.getInt("ammo"));
-				player.getHeldItem(hand).getTag().putInt("ammo", getMaxAmmo(player));
-				player.swingArm(Hand.MAIN_HAND);
+				player.getCooldowns().addCooldown(this, reload / nbt.getInt("ammo"));
+				player.getItemInHand(hand).getTag().putInt("ammo", getMaxAmmo(player));
+				player.swing(InteractionHand.MAIN_HAND);
 			}
-			return super.onItemRightClick(world, player, hand);
+			return super.use(world, player, hand);
 		}
 
-		return ActionResult.resultConsume(player.getHeldItem(hand));
+		return InteractionResultHolder.consume(player.getItemInHand(hand));
 	}
 
-	private int getMaxAmmo(PlayerEntity player) {
+	private int getMaxAmmo(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if(playerData.isAbilityEquipped(Strings.synchBlade)) {
 			return ammo*2;
@@ -73,11 +73,11 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected) {
-		if (entity instanceof PlayerEntity && !world.isRemote) {
-			PlayerEntity player = (PlayerEntity) entity;
+	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
+		if (entity instanceof Player && !world.isClientSide) {
+			Player player = (Player) entity;
 			if (!itemStack.hasTag()) {
-				itemStack.setTag(new CompoundNBT());
+				itemStack.setTag(new CompoundTag());
 				itemStack.getTag().putInt("ammo", getMaxAmmo(player));
 			}
 

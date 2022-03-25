@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -14,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationO
 
 @Mod.EventBusSubscriber
 public class ModDimensions {
-    public static final RegistryKey<World> DIVE_TO_THE_HEART = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart));
-    public static final RegistryKey<World> STATION_OF_SORROW = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow));
+    public static final ResourceKey<Level> DIVE_TO_THE_HEART = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart));
+    public static final ResourceKey<Level> STATION_OF_SORROW = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow));
 
     public static void setupDimension() {
         DiveToTheHeartChunkGenerator.registerChunkGenerator();

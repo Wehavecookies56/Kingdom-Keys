@@ -1,17 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.Util;
+import com.mojang.math.Vector3f;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -44,14 +44,14 @@ public class LockOnGui extends Screen {
 	private float lastTargetHealth;
 
 	public LockOnGui() {
-		super(new TranslationTextComponent(""));
+		super(new TranslatableComponent(""));
 		minecraft = Minecraft.getInstance();
 	}
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		PlayerEntity player = minecraft.player;
-		MatrixStack matrixStack = event.getMatrixStack();
+		Player player = minecraft.player;
+		PoseStack matrixStack = event.getMatrixStack();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (playerData != null) {
 			Entity target = InputHandler.lockOn;
@@ -59,72 +59,72 @@ public class LockOnGui extends Screen {
 				missingHpBarWidth = 0;
 				return;
 			} else {
-				if(player.getDistance(target) > 35){
+				if(player.distanceTo(target) > 35){
 					InputHandler.lockOn = null;
 					return;
 				}
-				if (event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
+				if (event.getType() == RenderGameOverlayEvent.ElementType.LAYER) {
 					event.setCanceled(true);
 				}
 				
 				if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 					float size = 6;
 
-					minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
+					minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
 
-					int screenWidth = minecraft.getMainWindow().getScaledWidth();
-					int screenHeight = minecraft.getMainWindow().getScaledHeight();
+					int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+					int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 					lockOnScale = ModConfigs.lockOnIconScale/100F;
 					hpBarScale = ModConfigs.lockOnHPScale/100F;
 					
 					// Icon
-					matrixStack.push();
+					matrixStack.pushPose();
 					{
 						matrixStack.translate((screenWidth / 2) - (guiWidth / 2) * lockOnScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * lockOnScale / size - 0.5F, 0);
 						matrixStack.scale(lockOnScale / size, lockOnScale / size, lockOnScale / size);
 						this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 
-						minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
+						minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 						matrixStack.translate(guiWidth / 2, guiWidth / 2, 0);
-						matrixStack.rotate(Vector3f.ZP.rotation((player.ticksExisted % 360) * 0.2F));
+						matrixStack.mulPose(Vector3f.ZP.rotation((player.tickCount % 360) * 0.2F));
 						matrixStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
 						this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 
-					minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+					minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
-					matrixStack.push();
+					matrixStack.pushPose();
 
 					//int[] scan = playerData.getEquippedAbilityLevel(Strings.scan);
 					// If ability level > 0 and amount of equipped is > 0
 					//if (target != null && scan[0] > 0 && scan[1] > 0) {
 					if(target != null && playerData.isAbilityEquipped(Strings.scan)) {
-						matrixStack.push();
+						matrixStack.pushPose();
 						{
 							RenderSystem.enableBlend();
 							matrixStack.translate(ModConfigs.lockOnXPos, ModConfigs.lockOnYPos, 0);
-							drawString(matrixStack, minecraft.fontRenderer, target.getName().getString(), screenWidth - minecraft.fontRenderer.getStringWidth(target.getName().getString()), (int) (26*hpBarScale), 0xFFFFFF);
+							drawString(matrixStack, minecraft.font, target.getName().getString(), screenWidth - minecraft.font.width(target.getName().getString()), (int) (26*hpBarScale), 0xFFFFFF);
 							drawHPBar(event, (LivingEntity) target);
 							RenderSystem.disableBlend();
 						}
-						matrixStack.pop();
+						matrixStack.popPose();
 					}
 
 					matrixStack.scale(hpBarScale, hpBarScale, hpBarScale);
-					matrixStack.pop();
+					matrixStack.popPose();
 				}
 			}
 		}
 	}
 
 	public void drawHPBar(RenderGameOverlayEvent event, LivingEntity target) {
-		int screenWidth = minecraft.getMainWindow().getScaledWidth();
-		MatrixStack matrixStack = event.getMatrixStack();
+		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+		PoseStack matrixStack = event.getMatrixStack();
 
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 			hpPerBar = ModConfigs.lockOnHpPerBar;
 			float widthMultiplier = 10 * hpBarScale;
@@ -153,10 +153,10 @@ public class LockOnGui extends Screen {
 			}
 
 			float i = (targetHealth);
-			long j = Util.milliTime();
-			if (i < this.targetHealth && target.hurtResistantTime > 0) {
+			long j = Util.getMillis();
+			if (i < this.targetHealth && target.invulnerableTime > 0) {
 				this.lastSystemTime = j;
-			} else if (i > this.targetHealth && target.hurtResistantTime > 0) {
+			} else if (i > this.targetHealth && target.invulnerableTime > 0) {
 				this.lastSystemTime = j;
 			}
 
@@ -188,7 +188,7 @@ public class LockOnGui extends Screen {
 				hpBarMaxWidth = (target.getMaxHealth() % hpPerBar) * widthMultiplier;
 			}
 
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				drawHPBarBack(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, (screenWidth - bgHPBarMaxWidth - 4 * hpBarScale), bgHPBarMaxWidth);
 				drawHPBarTop(matrixStack, (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
@@ -196,156 +196,156 @@ public class LockOnGui extends Screen {
 				drawHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 				drawDamagedHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 	}
 
-	public void drawHPBarBack(MatrixStack matrixStack, float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+	public void drawHPBarBack(PoseStack matrixStack, float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		
-		matrixStack.push();
+		matrixStack.pushPose();
 		{
 			matrixStack.translate(posX, posY, 0);
 
 			//Green bg bar render
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.translate(bgPosX - posX, posY, 0);
 				// Left Margin
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 					matrixStack.scale(scale, scale, 0);
 					blit(matrixStack, 0, 0, 0, 0, 2, 12);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 
 				// Background
-				matrixStack.push(); //Empty bg (last bar)
+				matrixStack.pushPose(); //Empty bg (last bar)
 				{
 					matrixStack.translate(2*scale, 0, 0);
 					matrixStack.scale(bgHPBarMaxWidth, scale, 0);
 					blit(matrixStack, 0, 0, 14, 0, 1, 12);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 
 				// Right Margin
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 					matrixStack.translate(2 * scale + bgHPBarMaxWidth, 0, 0);
 					matrixStack.scale(scale, scale, 0);
 					blit(matrixStack, 0, 0, 3, 0, 2, 12);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			//Normal bar render
 			// Left Margin
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.scale(scale, scale, 0);
 				blit(matrixStack, 0, 0, 0, 0, 2, 12);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// Background
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.translate(2*scale, 0, 0);
 				matrixStack.scale(width, scale, 0);
 				blit(matrixStack, 0, 0, 2, 0, 1, 12);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// Right Margin
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.translate(2 * scale + width, 0, 0);
 				matrixStack.scale(scale, scale, 0);
 				blit(matrixStack, 0, 0, 3, 0, 2, 12);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 			
 			// HP Icon
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
 				matrixStack.translate(width - 20*scale, 12*scale, 0);
 				matrixStack.scale(scale, scale, 0);
 				blit(matrixStack, 1, 0, 0, 32, 23, 12);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// HP Bars
 			for (int i = 0; i < hpBars - 1; i++) {
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 					matrixStack.translate(width - 19*scale - (17*scale * (i + 1)), 12*scale, 0);
 					matrixStack.scale(scale, scale, 0);
 					blit(matrixStack, 0, 0, 0, 46, 17, 12);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 
 	}
 
-	public void drawHPBarTop(MatrixStack matrixStack, float posX, float posY, float width, float scale) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));	
+	public void drawHPBarTop(PoseStack matrixStack, float posX, float posY, float width, float scale) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		// HP Bar
-		matrixStack.push();
+		matrixStack.pushPose();
 		{
 			matrixStack.translate(posX, posY, 0);
 			matrixStack.scale(width, scale, 0);
 			blit(matrixStack, 0, 0, 2, 12, 1, 8);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 	
-	private void drawHPBars(MatrixStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
+	private void drawHPBars(PoseStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
 		// HP Bars
 		if(target.isAlive()) {
 			// HP Bars
 			for (int i = 1; i < currentBar; i++) {
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 					matrixStack.translate(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
 					matrixStack.scale(scale, scale, 0);
 					blit(matrixStack, 0, 0, 0, 60, 17, 12);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
 		}
 	}
 	
-	private void drawDamagedHPBarTop(MatrixStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-		matrixStack.push();
+	private void drawDamagedHPBarTop(PoseStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		matrixStack.pushPose();
 		{
 			// HP Bar
-			matrixStack.push();
+			matrixStack.pushPose();
 			{				
 				matrixStack.translate(posX, posY, 0);
 				matrixStack.scale(width, scale, 0);
 				blit(matrixStack, 0, 0, 2, 22, 1, 8);
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 			
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 	
-	private void drawDamagedHPBars(MatrixStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
+	private void drawDamagedHPBars(PoseStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
 		// HP Bars
 		if(target.isAlive()) {
 			for (int i = currentBar; i < oldBar; i++) {
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 					matrixStack.translate(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
 					matrixStack.scale(scale, scale, 0);
 					blit(matrixStack, 0, 0, 17, 60, 17, 12);
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
 		}
 	}

@@ -4,19 +4,21 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.MusicDiscItem;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class KKRecordItem extends MusicDiscItem implements IItemCategory {
+import net.minecraft.world.item.Item.Properties;
+
+public class KKRecordItem extends RecordItem implements IItemCategory {
 
 	float length;
 	
@@ -26,12 +28,12 @@ public class KKRecordItem extends MusicDiscItem implements IItemCategory {
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		 DecimalFormat df = new DecimalFormat();
 	        df.setMaximumFractionDigits(2);
 	        String length = String.format("%.02f", this.length).replace("f", "").replace("F", "").replace(".", ":");
-	        tooltip.add(new TranslationTextComponent(Utils.translateToLocal(Strings.Disc_Duration_Desc) + ": " + length + " " + Utils.translateToLocal(Strings.Disc_DurationUnits_Desc)));
-		super.addInformation(stack, worldIn, tooltip, flagIn);
+	        tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Disc_Duration_Desc) + ": " + length + " " + Utils.translateToLocal(Strings.Disc_DurationUnits_Desc)));
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
 	@Override

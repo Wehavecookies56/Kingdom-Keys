@@ -3,22 +3,26 @@ package online.kingdomkeys.kingdomkeys.world.features;
 import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
-import net.minecraft.world.gen.feature.template.IRuleTestType;
-import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 
@@ -28,9 +32,7 @@ public class ModFeatures {
 
     public static final RegistryObject<Feature<BloxOreFeatureConfig>> BLOX = FEATURES.register("blox", () -> new BloxOreFeature(BloxOreFeatureConfig.CODEC));
 
-    public static final IRuleTestType<?> OVERWORLD_GROUND =  IRuleTestType.register("multiple_block_match", MultipleBlockMatchRuleTest.CODEC);
-
-    public static ConfiguredFeature<?, ?>
+    public static Holder<PlacedFeature>
             //Nether
             TWILIGHT_ORE_NETHER,
             WELLSPRING_ORE_NETHER,
@@ -64,41 +66,43 @@ public class ModFeatures {
             STORMY_ORE_WET;
 
 
-    private static ConfiguredFeature<?, ?> addBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.OVERWORLD, blocks, size)).range(height).square().count(count);
-        return register(registryName, feature);
+    private static Holder<PlacedFeature> addBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
+        Holder<ConfiguredFeature<BloxOreFeatureConfig, ?>> feature = registerCF(registryName, new ConfiguredFeature<>(ModFeatures.BLOX.get(), new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.OVERWORLD, blocks, size)));
+        return registerPF(registryName, feature, CountPlacement.of(count), InSquarePlacement.spread(), BiomeFilter.biome(), HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(height)));
+}
+
+    private static Holder<PlacedFeature> addEndBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
+        Holder<ConfiguredFeature<BloxOreFeatureConfig, ?>> feature = registerCF(registryName, new ConfiguredFeature<>(ModFeatures.BLOX.get(), new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.END, blocks, size)));
+        return registerPF(registryName, feature, CountPlacement.of(count), InSquarePlacement.spread(), BiomeFilter.biome(), HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(height)));    }
+
+    private static Holder<PlacedFeature> addOreFeature(ResourceLocation registryName, RuleTest fillerBlock, Block block, int size, int height, int count) {
+        Holder<ConfiguredFeature<OreConfiguration, ?>> feature = registerCF(registryName, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(fillerBlock, block.defaultBlockState(), size)));
+        return registerPF(registryName, feature, CountPlacement.of(count), InSquarePlacement.spread(), BiomeFilter.biome(), HeightRangePlacement.triangle(VerticalAnchor.absolute(0), VerticalAnchor.absolute(height)));
     }
 
-    private static ConfiguredFeature<?, ?> addEndBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = ModFeatures.BLOX.get().withConfiguration(new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.END, blocks, size)).range(height).square().count(count);
-        return register(registryName, feature);
-    }
-
-    private static ConfiguredFeature<?, ?> addOreFeature(ResourceLocation registryName, RuleTest fillerBlock, Block block, int size, int height, int count) {
-        ConfiguredFeature<?, ?> feature = Feature.ORE.withConfiguration(new OreFeatureConfig(fillerBlock, block.getDefaultState(), size)).range(height).square().count(count);
-        return register(registryName, feature);
-    }
-
-    private static ConfiguredFeature<?, ?> addEndOre(ResourceLocation registryName, Block block, int size, int height, int count) {
-        final RuleTest END = new BlockMatchRuleTest(Blocks.END_STONE);
+    private static Holder<PlacedFeature> addEndOre(ResourceLocation registryName, Block block, int size, int height, int count) {
+        final RuleTest END = new BlockMatchTest(Blocks.END_STONE);
         return addOreFeature(registryName, END, block, size, height, count);
     }
 
-    private static ConfiguredFeature<?, ?> addNetherOre(ResourceLocation registryName, Block block, int size, int height, int count) {
-        return addOreFeature(registryName, OreFeatureConfig.FillerBlockType.NETHERRACK, block, size, height, count);
+    private static Holder<PlacedFeature> addNetherOre(ResourceLocation registryName, Block block, int size, int height, int count) {
+        return addOreFeature(registryName, OreFeatures.NETHERRACK, block, size, height, count);
     }
 
-    private static ConfiguredFeature<?, ?> addOverworldOre(ResourceLocation registryName, Block block, int size, int height, int count) {
-        return addOreFeature(registryName, OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, block, size, height, count);
+    private static Holder<PlacedFeature> addOverworldOre(ResourceLocation registryName, Block block, int size, int height, int count) {
+        return addOreFeature(registryName, OreFeatures.NATURAL_STONE, block, size, height, count);
     }
 
-    private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(ResourceLocation key, ConfiguredFeature<FC, ?> configuredFeature) {
-        return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, key, configuredFeature);
+    private static <FC extends FeatureConfiguration, F extends Feature<FC>> Holder<ConfiguredFeature<FC, ?>> registerCF(ResourceLocation key, ConfiguredFeature<FC, ?> configuredFeature) {
+        return FeatureUtils.register(key.toString(), configuredFeature.feature(), configuredFeature.config());
+    }
+    private static Holder<PlacedFeature> registerPF(ResourceLocation key, Holder<? extends ConfiguredFeature<?, ?>> configuredFeature, PlacementModifier... placementModifiers) {
+        return PlacementUtils.register(key.toString(), Holder.hackyErase(configuredFeature), placementModifiers);
     }
 
     public static void registerConfiguredFeatures() {
-        final List<BlockState> BLOX_LIST = Arrays.asList(ModBlocks.normalBlox.get().getDefaultState(), ModBlocks.hardBlox.get().getDefaultState(), ModBlocks.metalBlox.get().getDefaultState(), ModBlocks.dangerBlox.get().getDefaultState());
-        final List<BlockState> PRIZE_BLOX_LIST = Arrays.asList(ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.prizeBlox.get().getDefaultState(), ModBlocks.rarePrizeBlox.get().getDefaultState(), ModBlocks.rarePrizeBlox.get().getDefaultState(), ModBlocks.dangerBlox.get().getDefaultState(), ModBlocks.blastBlox.get().getDefaultState());
+        final List<BlockState> BLOX_LIST = Arrays.asList(ModBlocks.normalBlox.get().defaultBlockState(), ModBlocks.hardBlox.get().defaultBlockState(), ModBlocks.metalBlox.get().defaultBlockState(), ModBlocks.dangerBlox.get().defaultBlockState());
+        final List<BlockState> PRIZE_BLOX_LIST = Arrays.asList(ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.prizeBlox.get().defaultBlockState(), ModBlocks.rarePrizeBlox.get().defaultBlockState(), ModBlocks.rarePrizeBlox.get().defaultBlockState(), ModBlocks.dangerBlox.get().defaultBlockState(), ModBlocks.blastBlox.get().defaultBlockState());
 
         TWILIGHT_ORE_NETHER = addNetherOre(rl("twilight_ore_nether"), ModBlocks.twilightOreN.get(), 10, 100, 8);
         WELLSPRING_ORE_NETHER = addNetherOre(rl("wellspring_ore_nether"), ModBlocks.wellspringOreN.get(), 10, 100, 8);

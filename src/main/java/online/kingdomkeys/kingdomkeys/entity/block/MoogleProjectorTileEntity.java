@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class MoogleProjectorTileEntity extends TileEntity{
-    public MoogleProjectorTileEntity() {
-        super(ModEntities.TYPE_MOOGLE_PROJECTOR.get());
+public class MoogleProjectorTileEntity extends BlockEntity{
+    public MoogleProjectorTileEntity(BlockPos pos, BlockState state) {
+        super(ModEntities.TYPE_MOOGLE_PROJECTOR.get(), pos, state);
     }
 }

@@ -4,51 +4,50 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
-	public static final Factory FACTORY = new HeartEntityRenderer.Factory();
 	Random rand = new Random();
 	float rotation = 0;
 	
-	public HeartEntityRenderer(EntityRendererManager renderManager) {
-		super(renderManager);
-		this.shadowSize = 0.25F;
+	public HeartEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
+		this.shadowRadius = 0.25F;
 	}
 
 	@Override
-	public void render(HeartEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		matrixStackIn.push();
+	public void render(HeartEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		matrixStackIn.pushPose();
 		{
-			IVertexBuilder buffer = bufferIn.getBuffer(Atlases.getTranslucentCullBlockType());
-			IBakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
+			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
 
-			matrixStackIn.push();
+			matrixStackIn.pushPose();
 			{
 
 				float a = 1;
 				float rgb = 1;
 
-				float ticks = entity.ticksExisted;
+				float ticks = entity.tickCount;
 				if (ticks < 10) // Growing
 					matrixStackIn.scale(ticks * 0.0005f, ticks * 0.0005f, ticks * 0.0005f);
 				else if (ticks > HeartEntity.MAX_TICKS - 10) // Disappearing
@@ -56,33 +55,25 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 				else // Static size
 					matrixStackIn.scale(0.005f, 0.005f, 0.005f);
 						        
-				matrixStackIn.rotate(Vector3f.YP.rotationDegrees(ticks*20));
+				matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(ticks*20));
 				
 				for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
-					buffer.addVertexData(matrixStackIn.getLast(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+					buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				
 
 			}
-			matrixStackIn.pop();
+			matrixStackIn.popPose();
 
 
 		}
-		matrixStackIn.pop();
+		matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
 	@Nullable
 	@Override
-	public ResourceLocation getEntityTexture(HeartEntity entity) {
+	public ResourceLocation getTextureLocation(HeartEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/heart.png");
-	}
-
-
-	public static class Factory implements IRenderFactory<HeartEntity> {
-		@Override
-		public EntityRenderer<? super HeartEntity> createRenderFor(EntityRendererManager manager) {
-			return new HeartEntityRenderer(manager);
-		}
 	}
 }

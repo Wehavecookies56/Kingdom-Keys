@@ -9,14 +9,13 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
+import com.mojang.math.Constants;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.Capability.IStorage;
-import net.minecraftforge.common.util.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
@@ -24,54 +23,52 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class WorldCapabilities implements IWorldCapabilities {
 
-	public static class Storage implements IStorage<IWorldCapabilities> {
-		@Override
-		public INBT writeNBT(Capability<IWorldCapabilities> capability, IWorldCapabilities instance, Direction side) {
-			CompoundNBT storage = new CompoundNBT();
-			storage.putInt("heartless", instance.getHeartlessSpawnLevel());
+	@Override
+	public CompoundTag serializeNBT() {
+		CompoundTag storage = new CompoundTag();
+		storage.putInt("heartless", this.getHeartlessSpawnLevel());
 
-			ListNBT parties = new ListNBT();
-			for (Party party : instance.getParties()) {
-				parties.add(party.write());
-			}
-			storage.put("parties", parties);
-			
-			ListNBT portals = new ListNBT();
-			for (Entry<UUID, PortalData> entry : instance.getPortals().entrySet()) {
-				portals.add(entry.getValue().write());
-			}
-			storage.put("portals", portals);
-			
-			return storage;
+		ListTag parties = new ListTag();
+		for (Party party : this.getParties()) {
+			parties.add(party.write());
 		}
+		storage.put("parties", parties);
 
-		@Override
-		public void readNBT(Capability<IWorldCapabilities> capability, IWorldCapabilities instance, Direction side, INBT nbt) {
-			CompoundNBT storage = (CompoundNBT) nbt;
-			instance.setHeartlessSpawnLevel(storage.getInt("heartless"));
-			
-			List<Party> partiesList = instance.getParties();
-			ListNBT parties = storage.getList("parties", Constants.NBT.TAG_COMPOUND);
-
-			for (int i = 0; i < parties.size(); i++) {
-				CompoundNBT partyNBT = parties.getCompound(i);
-				Party party = new Party();
-				party.read(partyNBT);
-				partiesList.add(party);
-			}
-			instance.setParties(partiesList);
-			
-			Map<UUID, PortalData> portalList = instance.getPortals();
-			ListNBT portals = storage.getList("portals", Constants.NBT.TAG_COMPOUND);
-
-			for (int i = 0; i < portals.size(); i++) {
-				CompoundNBT portalNBT = portals.getCompound(i);
-				PortalData portal = new PortalData(null, null, 0, 0, 0, null, null);
-				portal.read(portalNBT);
-				portalList.put(portal.getUUID(), portal);
-			}
-			instance.setPortals(portalList);
+		ListTag portals = new ListTag();
+		for (Entry<UUID, PortalData> entry : this.getPortals().entrySet()) {
+			portals.add(entry.getValue().write());
 		}
+		storage.put("portals", portals);
+
+		return storage;
+	}
+
+	@Override
+	public void deserializeNBT(CompoundTag nbt) {
+		CompoundTag storage = (CompoundTag) nbt;
+		this.setHeartlessSpawnLevel(storage.getInt("heartless"));
+
+		List<Party> partiesList = this.getParties();
+		ListTag parties = storage.getList("parties", Tag.TAG_COMPOUND);
+
+		for (int i = 0; i < parties.size(); i++) {
+			CompoundTag partyNBT = parties.getCompound(i);
+			Party party = new Party();
+			party.read(partyNBT);
+			partiesList.add(party);
+		}
+		this.setParties(partiesList);
+
+		Map<UUID, PortalData> portalList = this.getPortals();
+		ListTag portals = storage.getList("portals", Tag.TAG_COMPOUND);
+
+		for (int i = 0; i < portals.size(); i++) {
+			CompoundTag portalNBT = portals.getCompound(i);
+			PortalData portal = new PortalData(null, null, 0, 0, 0, null, null);
+			portal.read(portalNBT);
+			portalList.put(portal.getUUID(), portal);
+		}
+		this.setPortals(portalList);
 	}
 	
 	List<Party> parties = new ArrayList<Party>();
@@ -213,7 +210,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 
 	@Override
 	public void removeLeaderMember(Party party, LivingEntity entity) {
-		party.removeMember(entity.getUniqueID());
+		party.removeMember(entity.getUUID());
 	}
 
 	@Override
@@ -222,11 +219,11 @@ public class WorldCapabilities implements IWorldCapabilities {
 	}
 	
 	@Override
-	public void read(CompoundNBT nbt) {
+	public void read(CompoundTag nbt) {
 		this.parties.clear();
-		ListNBT parties = nbt.getList("parties", Constants.NBT.TAG_COMPOUND);
+		ListTag parties = nbt.getList("parties", Tag.TAG_COMPOUND);
 		for (int i = 0; i < parties.size(); i++) {
-			CompoundNBT partyNBT = parties.getCompound(i);
+			CompoundTag partyNBT = parties.getCompound(i);
 			Party party = new Party();
 			party.read(partyNBT);
 			this.parties.add(party);
@@ -235,10 +232,10 @@ public class WorldCapabilities implements IWorldCapabilities {
 		this.heartlessSpawnLevel = nbt.getInt("heartless");
 		
 		this.portals.clear();
-		ListNBT portals = nbt.getList("portals", Constants.NBT.TAG_COMPOUND);
+		ListTag portals = nbt.getList("portals", Tag.TAG_COMPOUND);
 
 		for (int i = 0; i < portals.size(); i++) {
-			CompoundNBT portalNBT = portals.getCompound(i);
+			CompoundTag portalNBT = portals.getCompound(i);
 			PortalData portal = new PortalData(null, null, 0, 0, 0, null, null);
 			portal.read(portalNBT);
 			this.portals.put(portal.getUUID(), portal);
@@ -246,8 +243,8 @@ public class WorldCapabilities implements IWorldCapabilities {
 	}
 	
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
-		ListNBT parties = new ListNBT();
+	public CompoundTag write(CompoundTag nbt) {
+		ListTag parties = new ListTag();
 		for (Party party : this.parties) {
 			parties.add(party.write());
 		}
@@ -255,7 +252,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		
 		nbt.putInt("heartless", this.heartlessSpawnLevel);
 		
-		ListNBT portals = new ListNBT();
+		ListTag portals = new ListTag();
 		for (Entry<UUID, PortalData> entry : getPortals().entrySet()) {
 			portals.add(entry.getValue().write());
 		}

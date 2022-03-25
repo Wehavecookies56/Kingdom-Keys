@@ -2,12 +2,12 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -17,11 +17,11 @@ public class SCOpenSynthesisGui {
 	public SCOpenSynthesisGui() {
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 
 	}
 
-	public static SCOpenSynthesisGui decode(PacketBuffer buffer) {
+	public static SCOpenSynthesisGui decode(FriendlyByteBuf buffer) {
 		SCOpenSynthesisGui msg = new SCOpenSynthesisGui();
 		return msg;
 	}
@@ -35,8 +35,8 @@ public class SCOpenSynthesisGui {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenSynthesisGui message) {
-			KingdomKeys.proxy.getClientMCInstance().displayGuiScreen(new SynthesisScreen());
-			KingdomKeys.proxy.getClientWorld().playSound(KingdomKeys.proxy.getClientPlayer(), KingdomKeys.proxy.getClientPlayer().getPosition(), ModSounds.kupo.get(), SoundCategory.MASTER, 1, 1);
+			KingdomKeys.proxy.getClientMCInstance().setScreen(new SynthesisScreen());
+			KingdomKeys.proxy.getClientWorld().playSound(KingdomKeys.proxy.getClientPlayer(), KingdomKeys.proxy.getClientPlayer().blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);
 		}
 	}
 

@@ -1,52 +1,55 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class SpawningOrbEntity extends MonsterEntity {
+public class SpawningOrbEntity extends Monster {
 
-	MonsterEntity mob;
+	Monster mob;
 	//Natural
-	public SpawningOrbEntity(EntityType<? extends SpawningOrbEntity> type, World worldIn) {
+	public SpawningOrbEntity(EntityType<? extends SpawningOrbEntity> type, Level worldIn) {
 		super(type, worldIn);
-		PlayerEntity player = Utils.getClosestPlayer(this);				
+		Player player = Utils.getClosestPlayer(this);				
 		
 		if(player != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), world);
-			setEntityType(((IKHMob)this.mob).getMobType().name());
+			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level);
+			setEntityType(((IKHMob)this.mob).getKHMobType().name());
 			
 			if(ModConfigs.mobLevelingUp) {
 				int avgLevel = playerData.getLevel();
 				
-				if(ModCapabilities.getWorld(world).getPartyFromMember(player.getUniqueID())!= null) {
-					Party p = ModCapabilities.getWorld(world).getPartyFromMember(player.getUniqueID());
+				if(ModCapabilities.getWorld(level).getPartyFromMember(player.getUUID())!= null) {
+					Party p = ModCapabilities.getWorld(level).getPartyFromMember(player.getUUID());
 					int total = 0;
 					int membersOnline = 0;
 					for(Member m : p.getMembers()) {
@@ -58,9 +61,9 @@ public class SpawningOrbEntity extends MonsterEntity {
 					avgLevel = total / membersOnline;
 				}
 				
-				int level = avgLevel - world.rand.nextInt(6) + 2;
+				int level = avgLevel - this.level.random.nextInt(6) + 2;
 				level = Math.max(1, Math.min(100, level));
-				this.mob.setCustomName(new TranslationTextComponent(this.mob.getDisplayName().getString()+" Lv."+level));
+				this.mob.setCustomName(new TranslatableComponent(this.mob.getDisplayName().getString()+" Lv."+level));
 				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), this.mob.getMaxHealth()));
 			}
@@ -68,120 +71,118 @@ public class SpawningOrbEntity extends MonsterEntity {
 	}
 
 	//Command
-	public SpawningOrbEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public SpawningOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_SPAWNING_ORB.get(), world);
 	}
 	
-	public SpawningOrbEntity(World world) {
+	public SpawningOrbEntity(Level world) {
 		super(ModEntities.TYPE_SPAWNING_ORB.get(), world);
 	}
 	
 	@Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+    	return ModCapabilities.getWorld((Level) worldIn).getHeartlessSpawnLevel() > 0;
     }
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
+	public boolean hurt(DamageSource source, float amount) {
 		return false;
 	}
 	
 	@Override
 	public void tick() {
 		//System.out.println(getPosition());
-		if(ticksExisted == 1 && !world.isRemote && this.mob != null) {
-			setEntityType(((IKHMob)this.mob).getMobType().name());
+		if(tickCount == 1 && !level.isClientSide && this.mob != null) {
+			setEntityType(((IKHMob)this.mob).getKHMobType().name());
 		}
-		BasicParticleType particle = getEntityType().equals(MobType.NOBODY.name()) ? ParticleTypes.END_ROD : ParticleTypes.DRAGON_BREATH;
+		SimpleParticleType particle = getEntityType().equals(MobType.NOBODY.name()) ? ParticleTypes.END_ROD : ParticleTypes.DRAGON_BREATH;
 
-		if(ticksExisted > 10 && ticksExisted < 60) {
-			double x = getPosX() + (world.rand.nextDouble() - 0.5) * 2;
-			double y = getPosY() + (world.rand.nextDouble() - 0.5) * 2 + 1;
-			double z = getPosZ() + (world.rand.nextDouble() - 0.5) * 2;
-			world.addParticle(particle, x, y, z, 0.0D, 0.0D, 0.0D);
+		if(tickCount > 10 && tickCount < 60) {
+			double x = getX() + (level.random.nextDouble() - 0.5) * 2;
+			double y = getY() + (level.random.nextDouble() - 0.5) * 2 + 1;
+			double z = getZ() + (level.random.nextDouble() - 0.5) * 2;
+			level.addParticle(particle, x, y, z, 0.0D, 0.0D, 0.0D);
 		}
 		
-		if(ticksExisted == 70) {
-			if(!world.isRemote) {
+		if(tickCount == 70) {
+			if(!level.isClientSide) {
 				if(this.mob != null) {
-					this.mob.setPosition(this.getPosX(),this.getPosY(),this.getPosZ());
+					this.mob.setPos(this.getX(),this.getY(),this.getZ());
 					this.mob.heal(this.mob.getMaxHealth());
-					world.addEntity(this.mob);
+					level.addFreshEntity(this.mob);
 				}
 			} else {
 				float radius = 0.5F;
-				double X = getPosX();
-				double Y = getPosY();
-				double Z = getPosZ();
+				double X = getX();
+				double Y = getY();
+				double Z = getZ();
 
 				for (int t = 1; t < 360; t += 20) {
 					for (int s = 1; s < 360 ; s += 20) {
 						double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 						double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 						double y = Y + (radius * Math.cos(Math.toRadians(t))) +1;
-						world.addParticle(particle, x, y, z, (world.rand.nextDouble()-0.5) / 4,  (world.rand.nextDouble()-0.5) / 4,  (world.rand.nextDouble()-0.5) / 4);
+						level.addParticle(particle, x, y, z, (level.random.nextDouble()-0.5) / 4,  (level.random.nextDouble()-0.5) / 4,  (level.random.nextDouble()-0.5) / 4);
 					}
 				}
 			}
 		}
 		
-		if(ticksExisted >= 100) {
-			remove();
+		if(tickCount >= 100) {
+			remove(RemovalReason.KILLED);
 		}
 
 		super.tick();
 	}
 	
-	public static AttributeModifierMap.MutableAttribute registerAttributes() {
-		return MobEntity.registerAttributes()
-				.createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
-				.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0D)
-				.createMutableAttribute(Attributes.MAX_HEALTH, 50.0D)
-				.createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
-				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+	public static AttributeSupplier.Builder registerAttributes() {
+		return Mob.createLivingAttributes()
+				.add(Attributes.FOLLOW_RANGE, 35.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0D)
+				.add(Attributes.MAX_HEALTH, 50.0D)
+				.add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
+				.add(Attributes.ATTACK_DAMAGE, 4.0D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 				;
 	}
 
-	private static final DataParameter<String> ENTITY_TYPE = EntityDataManager.createKey(SpawningOrbEntity.class, DataSerializers.STRING);
+	private static final EntityDataAccessor<String> ENTITY_TYPE = SynchedEntityData.defineId(SpawningOrbEntity.class, EntityDataSerializers.STRING);
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
-		if (this.dataManager.get(ENTITY_TYPE) != null) {
-			compound.putString("entity", this.dataManager.get(ENTITY_TYPE));
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(ENTITY_TYPE) != null) {
+			compound.putString("entity", this.entityData.get(ENTITY_TYPE));
 		}
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
-		this.dataManager.set(ENTITY_TYPE, compound.getString("entity"));
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(ENTITY_TYPE, compound.getString("entity"));
 	}
 
 	public String getEntityType() {
-		return this.getDataManager().get(ENTITY_TYPE);
+		return this.getEntityData().get(ENTITY_TYPE);
 	}
 
 	public void setEntityType(String type) {
-		this.dataManager.set(ENTITY_TYPE, type);
+		this.entityData.set(ENTITY_TYPE, type);
 	}
 
 	@Override
-	protected void registerData() {
-		super.registerData();
-		this.dataManager.register(ENTITY_TYPE, "");
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(ENTITY_TYPE, "");
 	}
 
 	@Override
-	public boolean onLivingFall(float distance, float damageMultiplier) {
+	public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
 		return false;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
-
-
 }

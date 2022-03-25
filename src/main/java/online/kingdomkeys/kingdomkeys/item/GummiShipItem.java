@@ -2,23 +2,25 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class GummiShipItem extends Item implements IItemCategory {
 	
@@ -29,27 +31,27 @@ public class GummiShipItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		if (!world.isRemote) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		if (!world.isClientSide) {
 			GummiShipEntity gummi = new GummiShipEntity(world);
-			gummi.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
-			gummi.setData(player.getHeldItem(hand).getTag().getString("data"));
-			world.addEntity(gummi);
+			gummi.setPos(player.getX(), player.getY(), player.getZ());
+			gummi.setData(player.getItemInHand(hand).getTag().getString("data"));
+			world.addFreshEntity(gummi);
 		}
-		return ActionResult.resultSuccess(player.getHeldItem(hand));
+		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
-	private void takeItem(PlayerEntity player) {
-		if (!ItemStack.areItemStacksEqual(player.getHeldItemMainhand(), ItemStack.EMPTY) && player.getHeldItemMainhand().getItem() == this) {
-			player.getHeldItemMainhand().shrink(1);
-		} else if (!ItemStack.areItemStacksEqual(player.getHeldItemOffhand(), ItemStack.EMPTY) && player.getHeldItemOffhand().getItem() == this) {
-			player.getHeldItemOffhand().shrink(1);
+	private void takeItem(Player player) {
+		if (!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
+			player.getMainHandItem().shrink(1);
+		} else if (!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
+			player.getOffhandItem().shrink(1);
 		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if(stack.getTag() != null && stack.getTag().contains("data") && KeyboardHelper.isShiftDown()) {
 			/*String[] d = stack.getTag().getString("data").split(",");
 			String formatted = "";
@@ -60,19 +62,19 @@ public class GummiShipItem extends Item implements IItemCategory {
 					formatted+=" ";
 				}
 			}*/
-			tooltip.add(new TranslationTextComponent(stack.getTag().getString("data")));
+			tooltip.add(new TranslatableComponent(stack.getTag().getString("data")));
 
 			
 		}
-		super.addInformation(stack, worldIn, tooltip, flagIn);
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean isSelected) {
-		if (entity instanceof PlayerEntity && !world.isRemote) {
-			PlayerEntity player = (PlayerEntity) entity;
+	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
+		if (entity instanceof Player && !world.isClientSide) {
+			Player player = (Player) entity;
 			if (!itemStack.hasTag()) {
-				itemStack.setTag(new CompoundNBT());
+				itemStack.setTag(new CompoundTag());
 				itemStack.getTag().putString("data", data);
 			}
 		}

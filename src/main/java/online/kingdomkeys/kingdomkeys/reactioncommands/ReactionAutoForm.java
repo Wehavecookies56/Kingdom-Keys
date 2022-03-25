@@ -3,10 +3,10 @@ package online.kingdomkeys.kingdomkeys.reactioncommands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -36,7 +36,7 @@ public class ReactionAutoForm extends ReactionCommand {
 	}
 
 	public DriveForm getForm() {
-		return ModDriveForms.registry.getValue(new ResourceLocation(form));
+		return ModDriveForms.registry.get().getValue(new ResourceLocation(form));
 	}
 	
 	public boolean isAutoForm() {
@@ -44,25 +44,25 @@ public class ReactionAutoForm extends ReactionCommand {
 	}
 	
 	@Override
-	public void onUse(PlayerEntity player, LivingEntity target) {
+	public void onUse(Player player, LivingEntity target) {
 		if(conditionsToAppear(player,target)) {
-			player.world.playSound(null, player.getPosition(), ModSounds.drive.get(), SoundCategory.PLAYERS, 1F, 1F);
+			player.level.playSound(null, player.blockPosition(), ModSounds.drive.get(), SoundSource.PLAYERS, 1F, 1F);
 	    	//PacketHandler.sendToServer(new CSSetDriveFormPacket(form));
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			
 			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
-				DriveForm forma = ModDriveForms.registry.getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+				DriveForm forma = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 				forma.endDrive(player);
 			} else if (!form.equals(DriveForm.NONE.toString())) { // If is not in a form and wants to drive
-				DriveForm forma = ModDriveForms.registry.getValue(new ResourceLocation(form));
+				DriveForm forma = ModDriveForms.registry.get().getValue(new ResourceLocation(form));
 				forma.initDrive(player);
 			}
 			
 			playerData.removeReactionCommand(getRegistryName().toString());
 			List<ReactionCommand> list = new ArrayList<ReactionCommand>();
 			for(String name : playerData.getReactionCommands()) {
-				ReactionCommand rc = ModReactionCommands.registry.getValue(new ResourceLocation(name));
+				ReactionCommand rc = ModReactionCommands.registry.get().getValue(new ResourceLocation(name));
 				if(rc instanceof ReactionAutoForm) {
 					list.add(rc);
 				}
@@ -78,13 +78,13 @@ public class ReactionAutoForm extends ReactionCommand {
 	}
 
 	@Override
-	public boolean conditionsToAppear(PlayerEntity player, LivingEntity target) {
+	public boolean conditionsToAppear(Player player, LivingEntity target) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if(playerData != null) {
 			if(Utils.isPlayerLowHP(player)) {
 				if(playerData.getAlignment() == OrgMember.NONE) {
 					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-						if(playerData.getDP() >= ModDriveForms.registry.getValue(new ResourceLocation(form)).getDriveCost()) {
+						if(playerData.getDP() >= ModDriveForms.registry.get().getValue(new ResourceLocation(form)).getDriveCost()) {
 							if(playerData.getEquippedAbilityLevel(abilityName)[1] > 0) {
 								return true;
 							}

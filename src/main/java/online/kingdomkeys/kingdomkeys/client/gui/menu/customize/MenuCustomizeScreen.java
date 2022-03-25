@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 import java.awt.Color;
 import java.util.Map.Entry;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
@@ -58,26 +58,26 @@ public class MenuCustomizeScreen extends MenuBackground {
 		buttonsX = box.x + 10;
 		
 		super.init();
-		this.buttons.clear();
+		this.renderables.clear();
 		magics = new MenuButton[100];
 		
 		for(int i = 0; i< shortcuts.length;i++) {
 			int j = i;
-			addButton(shortcuts[i] = new MenuButton((int) buttonPosX, (int) topBarHeight +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
+			addWidget(shortcuts[i] = new MenuButton((int) buttonPosX, (int) topBarHeight +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
 		}		
 		
 		//if(selectedShortcut > -1) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			int totalMagics = 0;
 			int magicType = 0;
-			addButton(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
+			addWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
 			for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
 				int level = entry.getValue()[0];
-				Magic magic = ModMagic.registry.getValue(new ResourceLocation(entry.getKey()));
+				Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(entry.getKey()));
 				while(level >= 0) {
 					int lvl = level;
-					addButton(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
+					addWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
 					magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
 					level--;
 					totalMagics++;
@@ -92,12 +92,12 @@ public class MenuCustomizeScreen extends MenuBackground {
 			}
 		//}
 
-		addButton(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { GuiHelper.openMenu(); }));
+		addWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { GuiHelper.openMenu(); }));
 		
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		for(int i = 0; i < shortcuts.length; i++) {

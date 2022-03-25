@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -69,15 +69,15 @@ public class DriveFormWisdom extends DriveForm {
 
 	@SubscribeEvent
 	public static void getWisdomFormXP(LivingDeathEvent event) { // Check if it's a heartless
-		if (!event.getEntity().world.isRemote && event.getEntity() instanceof IKHMob) {
-			if (((IKHMob) event.getEntity()).getMobType() == MobType.HEARTLESS_EMBLEM || ((IKHMob) event.getEntity()).getMobType() == MobType.HEARTLESS_PUREBLOOD) {
-				if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-					PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+		if (!event.getEntity().level.isClientSide && event.getEntity() instanceof IKHMob) {
+			if (((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_EMBLEM || ((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
+				if (event.getSource().getEntity() instanceof Player) {
+					Player player = (Player) event.getSource().getEntity();
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(1).split(",")[1]);
 						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 					}
 				}
 			}

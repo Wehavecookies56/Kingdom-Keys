@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
 
@@ -28,7 +28,7 @@ public class BlockStates extends BlockStateProvider {
 
             if (block instanceof GhostBloxBlock) {
                 getVariantBuilder(block).forAllStates(state -> {
-                    boolean active = state.get(GhostBloxBlock.VISIBLE);
+                    boolean active = state.getValue(GhostBloxBlock.VISIBLE);
                     String modelName = active ? name + "_visible" : name + "_invisible";
                     ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
@@ -46,7 +46,7 @@ public class BlockStates extends BlockStateProvider {
             }
             else if (block instanceof PairBloxBlock) {
                 getVariantBuilder(block).forAllStates(state -> {
-                    int pairState = state.get(PairBloxBlock.PAIR);
+                    int pairState = state.getValue(PairBloxBlock.PAIR);
                     String modelName = name + "_" + pairState;
                     ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 

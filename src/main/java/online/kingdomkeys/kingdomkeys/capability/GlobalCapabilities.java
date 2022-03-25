@@ -1,30 +1,28 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.Capability.IStorage;
+import net.minecraftforge.common.util.INBTSerializable;
 
 public class GlobalCapabilities implements IGlobalCapabilities {
 
-	public static class Storage implements IStorage<IGlobalCapabilities> {
-		@Override
-		public INBT writeNBT(Capability<IGlobalCapabilities> capability, IGlobalCapabilities instance, Direction side) {
-			CompoundNBT storage = new CompoundNBT();
-			storage.putInt("ticks_stopped", instance.getStoppedTicks());
-			storage.putFloat("stop_dmg", instance.getDamage());
-			storage.putInt("ticks_flat", instance.getFlatTicks());
-			return storage;
-		}
+	@Override
+	public CompoundTag serializeNBT() {
+		CompoundTag storage = new CompoundTag();
+		storage.putInt("ticks_stopped", this.getStoppedTicks());
+		storage.putFloat("stop_dmg", this.getDamage());
+		storage.putInt("ticks_flat", this.getFlatTicks());
+		return storage;
+	}
 
-		@Override
-		public void readNBT(Capability<IGlobalCapabilities> capability, IGlobalCapabilities instance, Direction side, INBT nbt) {
-			CompoundNBT properties = (CompoundNBT) nbt;
-			instance.setStoppedTicks(properties.getInt("ticks_stopped"));
-			instance.setDamage(properties.getFloat("stop_dmg"));
-			instance.setFlatTicks(properties.getInt("ticks_flat"));
-		}
+	@Override
+	public void deserializeNBT(CompoundTag nbt) {
+		CompoundTag properties = (CompoundTag) nbt;
+		this.setStoppedTicks(properties.getInt("ticks_stopped"));
+		this.setDamage(properties.getFloat("stop_dmg"));
+		this.setFlatTicks(properties.getInt("ticks_flat"));
 	}
 
 	private int timeStopped, flatTicks;

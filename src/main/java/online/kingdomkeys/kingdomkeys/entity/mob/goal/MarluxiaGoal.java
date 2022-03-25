@@ -3,21 +3,21 @@ package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.TargetGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import com.mojang.math.Vector3f;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.server.level.ServerLevel;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
@@ -33,7 +33,7 @@ public class MarluxiaGoal extends TargetGoal {
 	
 	private int ticksToChooseAI = 0; //Ticks in base state after an attack happened
 	
-	public MarluxiaGoal(CreatureEntity creature) {
+	public MarluxiaGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksToChooseAI = 200;
 	}
@@ -41,24 +41,24 @@ public class MarluxiaGoal extends TargetGoal {
 	double posX, posY, posZ;
 
 	@Override
-	public boolean shouldContinueExecuting() {
-		if (this.goalOwner.getAttackTarget() != null) {
+	public boolean canContinueToUse() {
+		if (this.mob.getTarget() != null) {
 			//Set AI to use
-			if(ticksToChooseAI <= 0 && EntityHelper.getState(goalOwner) == 0) {
-				int n = goalOwner.world.rand.nextInt()*100;
+			if(ticksToChooseAI <= 0 && EntityHelper.getState(mob) == 0) {
+				int n = mob.level.random.nextInt()*100;
 				if(n < 50) { // Armored?
-					if(goalOwner.getHealth() < goalOwner.getMaxHealth() * 0.80 && !isArmored()) {
-						useArmor((MarluxiaEntity) goalOwner);
+					if(mob.getHealth() < mob.getMaxHealth() * 0.80 && !isArmored()) {
+						useArmor((MarluxiaEntity) mob);
 						ticksToChooseAI = 200;
 					} else {
 						ticksToChooseAI = 100; //If can't use the armor wait 100 ticks
 					}
 				} else { //TP
-					useTP((MarluxiaEntity) goalOwner);
+					useTP((MarluxiaEntity) mob);
 					ticksToChooseAI = 150;
 				}
 			} else {
-				if(EntityHelper.getState(goalOwner) == 0) {
+				if(EntityHelper.getState(mob) == 0) {
 					ticksToChooseAI--;
 				}
 			}
@@ -77,10 +77,10 @@ public class MarluxiaGoal extends TargetGoal {
 			
 			return true;
 		} else { //If no target
-			if(goalOwner.hasNoGravity())
-				goalOwner.setNoGravity(false);
-			if(EntityHelper.getState(goalOwner) == 0) {
-				EntityHelper.setState(goalOwner, 0);
+			if(mob.isNoGravity())
+				mob.setNoGravity(false);
+			if(EntityHelper.getState(mob) == 0) {
+				EntityHelper.setState(mob, 0);
 			}
 		}
 		
@@ -88,13 +88,13 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 
 	private void teleportAI() {
-		goalOwner.setNoGravity(true);
+		mob.setNoGravity(true);
 		if(tpTicks % 20 == 0) {
 			attackWithTP();
 		}
 		if(tpTicks > MAX_TP_TICKS) {
-			goalOwner.setNoGravity(false);
-			EntityHelper.setState(goalOwner, 0);
+			mob.setNoGravity(false);
+			EntityHelper.setState(mob, 0);
 
 		}
 		tpTicks++;
@@ -102,17 +102,17 @@ public class MarluxiaGoal extends TargetGoal {
 
 	private void armoredAI() {
 		if(armorTicks <= 40) {
-			goalOwner.setMotion(0, 0.2, 0);
-			goalOwner.setInvulnerable(true);
+			mob.setDeltaMovement(0, 0.2, 0);
+			mob.setInvulnerable(true);
 		} else if(armorTicks < 45) {
-			goalOwner.setMotion(0, -100, 0);
+			mob.setDeltaMovement(0, -100, 0);
 		}
 		
 		if(armorTicks == 48) {
-			posX = goalOwner.getPosX();
-			posY = goalOwner.getPosY();
-			posZ = goalOwner.getPosZ();
-			goalOwner.setInvulnerable(false);
+			posX = mob.getX();
+			posY = mob.getY();
+			posZ = mob.getZ();
+			mob.setInvulnerable(false);
 		}
 		
 		if(armorTicks > 48 && armorTicks < 70) {
@@ -120,81 +120,81 @@ public class MarluxiaGoal extends TargetGoal {
             for (int a = 1; a <= 360; a += 7) {
                 double x = posX + (r * Math.cos(Math.toRadians(a)));
                 double z = posZ + (r * Math.sin(Math.toRadians(a)));
-                ((ServerWorld)goalOwner.world).spawnParticle(new RedstoneParticleData(1F,0.9F,0.9F,1F), x, posY + 0.2D, z,1, 0.0D, 0.0D, 0.0D,0);
+                ((ServerLevel)mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F,0.9F,0.9F),1F), x, posY + 0.2D, z,1, 0.0D, 0.0D, 0.0D,0);
             }
             
-            AxisAlignedBB aabb = new AxisAlignedBB(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).grow(r, 0, r);
-    		List<LivingEntity> list = goalOwner.world.getEntitiesWithinAABB(LivingEntity.class, aabb);
-    		list.remove(goalOwner);
+            AABB aabb = new AABB(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).inflate(r, 0, r);
+    		List<LivingEntity> list = mob.level.getEntitiesOfClass(LivingEntity.class, aabb);
+    		list.remove(mob);
     		
             for(LivingEntity enemy : list) {
-				goalOwner.attackEntityAsMob(enemy);
+				mob.doHurtTarget(enemy);
 			}
             
 		}
 		
 		armorTicks++;
 		if(armorTicks >= MAX_ARMOR_TICKS) {
-			removeArmor((MarluxiaEntity) goalOwner);
+			removeArmor((MarluxiaEntity) mob);
 			armorTicks = 0;
 		}
 	}
 	
 	private void chasingAI() {
 		if(chasingTicks <= 40) {
-			goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0);
-			goalOwner.setMotion(0, 0.2, 0);
-			goalOwner.setInvulnerable(true);
+			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0);
+			mob.setDeltaMovement(0, 0.2, 0);
+			mob.setInvulnerable(true);
 		} else if(chasingTicks < 300) {
-			goalOwner.setPositionAndRotation(goalOwner.getAttackTarget().getPosX(), goalOwner.getAttackTarget().getPosY(), goalOwner.getAttackTarget().getPosZ(), goalOwner.getAttackTarget().rotationYaw, goalOwner.getAttackTarget().rotationYaw);
+			mob.absMoveTo(mob.getTarget().getX(), mob.getTarget().getY(), mob.getTarget().getZ(), mob.getTarget().getYRot(), mob.getTarget().getYRot());
 			//goalOwner.faceEntity(goalOwner.getAttackTarget(), 0, 0);
-			Random rand = ((ServerWorld) goalOwner.world).rand;
-			((ServerWorld) goalOwner.world).spawnParticle(new RedstoneParticleData(1F, 0.6F, 0.6F, 1F), goalOwner.getPosX() - 1 + rand.nextDouble() * 2, goalOwner.getPosY(), goalOwner.getPosZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
+			Random rand = ((ServerLevel) mob.level).random;
+			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
 			
 			if(chasingTicks % 10 == 0) {
 				int r = 1;
-				double pX = goalOwner.getAttackTarget().getPosX() - 3 + rand.nextDouble() * 6;
-				double pY = goalOwner.getAttackTarget().getPosY();
-				double pZ = goalOwner.getAttackTarget().getPosZ() - 3 + rand.nextDouble() * 6;
-				goalOwner.world.playSound(null, new BlockPos(pX,pY,pZ), ModSounds.portal.get(), SoundCategory.MASTER, 1, 1);
+				double pX = mob.getTarget().getX() - 3 + rand.nextDouble() * 6;
+				double pY = mob.getTarget().getY();
+				double pZ = mob.getTarget().getZ() - 3 + rand.nextDouble() * 6;
+				mob.level.playSound(null, new BlockPos(pX,pY,pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
 
 				for(double i=0;i<4;i=i+0.5) {
 					for (int a = 1; a <= 360; a += 7) {
 		                double x = pX + (r * Math.cos(Math.toRadians(a)));
 		                double z = pZ + (r * Math.sin(Math.toRadians(a)));
-						((ServerWorld) goalOwner.world).spawnParticle(new RedstoneParticleData(1F, 0.5F, 0.5F, 1F), x, pY + i, z, 1, 0.0D, 0.0D, 0.0D, 0);
+						((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 0.5F), 1F), x, pY + i, z, 1, 0.0D, 0.0D, 0.0D, 0);
 		            }
 				}
 				
-				AxisAlignedBB aabb = new AxisAlignedBB(pX, pY, pZ, pX + 1, pY + 1, pZ + 1).grow(r, 4, r);
-	    		List<LivingEntity> list = goalOwner.world.getEntitiesWithinAABB(LivingEntity.class, aabb);
-	    		list.remove(goalOwner);
+				AABB aabb = new AABB(pX, pY, pZ, pX + 1, pY + 1, pZ + 1).inflate(r, 4, r);
+	    		List<LivingEntity> list = mob.level.getEntitiesOfClass(LivingEntity.class, aabb);
+	    		list.remove(mob);
 	    		
 	            for(LivingEntity enemy : list) {
-	            	enemy.attackEntityFrom(DamageSource.MAGIC, 3);
+	            	enemy.hurt(DamageSource.MAGIC, 3);
 				}						
 			}
 		} else if(chasingTicks > 300) {
-			goalOwner.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(11);
-			useArmor((MarluxiaEntity) goalOwner);
+			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(11);
+			useArmor((MarluxiaEntity) mob);
 		}
 		chasingTicks++;
 	}
 
 	private void attackWithTP() {
-		Random rand = goalOwner.world.rand;
+		Random rand = mob.level.random;
 		for(int i=0;i<10;i++)
-			((ServerWorld) goalOwner.world).spawnParticle(new RedstoneParticleData(1F, 0.6F, 0.6F, 1F), goalOwner.getPosX() - 2 + rand.nextDouble() * 4, goalOwner.getPosY() + rand.nextDouble() * 4, goalOwner.getPosZ() - 2 + rand.nextDouble() * 4, 10, 0.0D, 0.0D, 0.0D, 100);
+			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 2 + rand.nextDouble() * 4, mob.getY() + rand.nextDouble() * 4, mob.getZ() - 2 + rand.nextDouble() * 4, 10, 0.0D, 0.0D, 0.0D, 100);
 			
-		goalOwner.setPositionAndUpdate(this.goalOwner.getAttackTarget().getPosX(), this.goalOwner.getAttackTarget().getPosY()+1, this.goalOwner.getAttackTarget().getPosZ());
+		mob.teleportTo(this.mob.getTarget().getX(), this.mob.getTarget().getY()+1, this.mob.getTarget().getZ());
 		
-		if(this.goalOwner.getAttackTarget().getDistance(goalOwner) <= 1) {
-			if(this.goalOwner.getAttackTarget() instanceof PlayerEntity)
-				((PlayerEntity)this.goalOwner.getAttackTarget()).travel(new Vector3d(0,2,0));
-			this.goalOwner.getAttackTarget().setMotion(0,1.2,0);
-			goalOwner.getAttackTarget().attackEntityFrom(DamageSource.MAGIC, 2);
+		if(this.mob.getTarget().distanceTo(mob) <= 1) {
+			if(this.mob.getTarget() instanceof Player)
+				((Player)this.mob.getTarget()).travel(new Vec3(0,2,0));
+			this.mob.getTarget().setDeltaMovement(0,1.2,0);
+			mob.getTarget().hurt(DamageSource.MAGIC, 2);
 		} else {
-			EntityHelper.setState(goalOwner, 0);
+			EntityHelper.setState(mob, 0);
 		}
 		numOfTPs++;
 	}
@@ -203,14 +203,14 @@ public class MarluxiaGoal extends TargetGoal {
 		if(armorUses < MAX_ARMOR_USES) {
 			armorTicks = 0;
 			EntityHelper.setState(entity, 1);
-			entity.addPotionEffect(new EffectInstance(Effects.GLOWING, 2000, 200));
+			entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 2000, 200));
 			armorUses++;
 		}
 	}
 
 	public void removeArmor(MarluxiaEntity entity) {
 		EntityHelper.setState(entity, 0);
-		entity.removePotionEffect(Effects.GLOWING);
+		entity.removeEffect(MobEffects.GLOWING);
 	}
 	
 	public void useTP(MarluxiaEntity entity) {
@@ -220,26 +220,26 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 	
 	@Override
-	public void startExecuting() {
-		EntityHelper.setState(this.goalOwner, 0);
-		this.goalOwner.setInvulnerable(false);
+	public void start() {
+		EntityHelper.setState(this.mob, 0);
+		this.mob.setInvulnerable(false);
 	}
 
 	private boolean isArmored() {
-		return EntityHelper.getState(this.goalOwner) == 1;
+		return EntityHelper.getState(this.mob) == 1;
 	}
 	
 	private boolean isTeleporting() {
-		return EntityHelper.getState(this.goalOwner) == 2;
+		return EntityHelper.getState(this.mob) == 2;
 	}
 
 	private boolean isChasing() {
-		return EntityHelper.getState(this.goalOwner) == 3;
+		return EntityHelper.getState(this.mob) == 3;
 	}
 	
 	@Override
-	public boolean shouldExecute() {
-		return this.goalOwner.getAttackTarget() != null;
+	public boolean canUse() {
+		return this.mob.getTarget() != null;
 	}
 
 }

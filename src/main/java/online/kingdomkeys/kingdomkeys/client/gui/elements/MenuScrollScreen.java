@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.components.Button;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public class MenuScrollScreen extends MenuBackground {

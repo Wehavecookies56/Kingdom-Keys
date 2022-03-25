@@ -1,78 +1,74 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.*;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.function.Supplier;
 
 public class ModAbilities {
-	public static IForgeRegistry<Ability> registry;
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-	public static class Registry {
-		static int order = 0;
-		
-		@SubscribeEvent
-		public static void registerAbilitiesRegistry(RegistryEvent.NewRegistry event) {
-			registry = new RegistryBuilder<Ability>().setName(new ResourceLocation(KingdomKeys.MODID, "abilities")).setType(Ability.class).create();
-		}
+	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
 
-		public static Ability createAbility(String name, int apCost, AbilityType type) {
-			return new Ability(name, apCost, type, order++);
-		}
+	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(Ability.class, RegistryBuilder::new);;
 
-		@SubscribeEvent
-		public static void registerAbilities(RegistryEvent.Register<Ability> event) {
-			event.getRegistry().registerAll(
-				//Action
-				createAbility(Strings.autoValor, 1, AbilityType.ACTION),
-				createAbility(Strings.autoWisdom, 1, AbilityType.ACTION),
-				createAbility(Strings.autoLimit, 1, AbilityType.ACTION),
-				createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
-				createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
+	static int order = 0;
 
-				// Growth
-				createAbility(Strings.highJump, 2, AbilityType.GROWTH), 
-				createAbility(Strings.quickRun, 2, AbilityType.GROWTH), 
-				createAbility(Strings.dodgeRoll, 3, AbilityType.GROWTH),
-				createAbility(Strings.aerialDodge, 3, AbilityType.GROWTH),
-				createAbility(Strings.glide, 3, AbilityType.GROWTH),
+	public static final RegistryObject<Ability>
+			//Action
+			AUTO_VALOR = createAbility(Strings.autoValor, 1, AbilityType.ACTION),
+			AUTO_WISDOM = createAbility(Strings.autoWisdom, 1, AbilityType.ACTION),
+			AUTO_LIMIT = createAbility(Strings.autoLimit, 1, AbilityType.ACTION),
+			AUTO_MASTER = createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
+			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
 
-				// Support
-				createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
-				createAbility(Strings.scan, 1, AbilityType.SUPPORT),
-				createAbility(Strings.mpSafety, 0, AbilityType.SUPPORT),
-				createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT),
-				createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT),
-				createAbility(Strings.mpHastega, 5, AbilityType.SUPPORT),
-				createAbility(Strings.mpRage, 3, AbilityType.SUPPORT),
-				createAbility(Strings.damageDrive, 3, AbilityType.SUPPORT),
-				createAbility(Strings.driveConverter, 4, AbilityType.SUPPORT),
-				createAbility(Strings.focusConverter, 3, AbilityType.SUPPORT),
-				createAbility(Strings.driveBoost, 3, AbilityType.SUPPORT),
-				createAbility(Strings.formBoost, 3, AbilityType.SUPPORT),
-				createAbility(Strings.fullMPBlast, 2, AbilityType.SUPPORT),
-				createAbility(Strings.mpThrift, 2, AbilityType.SUPPORT),
-				createAbility(Strings.luckyLucky, 5, AbilityType.SUPPORT),
-				createAbility(Strings.jackpot, 4, AbilityType.SUPPORT),
-				createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
-				createAbility(Strings.blizzardBoost, 4, AbilityType.SUPPORT),
-				createAbility(Strings.thunderBoost, 5, AbilityType.SUPPORT),
-				createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
-				createAbility(Strings.criticalBoost, 3, AbilityType.SUPPORT),
-				createAbility(Strings.treasureMagnet, 3, AbilityType.SUPPORT),
-				createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
-				createAbility(Strings.wizardsRuse, 4, AbilityType.SUPPORT),
-				createAbility(Strings.extraCast, 3, AbilityType.SUPPORT),
-				createAbility(Strings.damageControl, 5, AbilityType.SUPPORT),
-				createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
-				createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT)
-			);
-		}
+			// Growth
+			HIGH_JUMP = createAbility(Strings.highJump, 2, AbilityType.GROWTH),
+			QUICK_RUN = createAbility(Strings.quickRun, 2, AbilityType.GROWTH),
+			DODGE_ROLL = createAbility(Strings.dodgeRoll, 3, AbilityType.GROWTH),
+			AERIAL_DODGE = createAbility(Strings.aerialDodge, 3, AbilityType.GROWTH),
+			GLIDE = createAbility(Strings.glide, 3, AbilityType.GROWTH),
+
+			// Support
+			ZERO_EXP = createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
+			SCAN = createAbility(Strings.scan, 1, AbilityType.SUPPORT),
+			MP_SAFETY = createAbility(Strings.mpSafety, 0, AbilityType.SUPPORT),
+			MP_HASTE = createAbility(Strings.mpHaste, 3, AbilityType.SUPPORT),
+			MP_HASTERA = createAbility(Strings.mpHastera, 4, AbilityType.SUPPORT),
+			MP_HASTEGA = createAbility(Strings.mpHastega, 5, AbilityType.SUPPORT),
+			MP_RAGE = createAbility(Strings.mpRage, 3, AbilityType.SUPPORT),
+			DAMAGE_DRIVE = createAbility(Strings.damageDrive, 3, AbilityType.SUPPORT),
+			DRIVE_CONVERTER = createAbility(Strings.driveConverter, 4, AbilityType.SUPPORT),
+			FOCUS_CONVERTER = createAbility(Strings.focusConverter, 3, AbilityType.SUPPORT),
+			DRIVE_BOOST = createAbility(Strings.driveBoost, 3, AbilityType.SUPPORT),
+			FORM_BOOST = createAbility(Strings.formBoost, 3, AbilityType.SUPPORT),
+			FULL_MP_BLAST = createAbility(Strings.fullMPBlast, 2, AbilityType.SUPPORT),
+			MP_THRIFT = createAbility(Strings.mpThrift, 2, AbilityType.SUPPORT),
+			LUCKY_LUCKY = createAbility(Strings.luckyLucky, 5, AbilityType.SUPPORT),
+			JACKPOT = createAbility(Strings.jackpot, 4, AbilityType.SUPPORT),
+			FIRE_BOOST = createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
+			BLIZZARD_BOOST = createAbility(Strings.blizzardBoost, 4, AbilityType.SUPPORT),
+			THUNDER_BOOST = createAbility(Strings.thunderBoost, 5, AbilityType.SUPPORT),
+			EXPERIENCE_BOOST = createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
+			CRITICAL_BOOST = createAbility(Strings.criticalBoost, 3, AbilityType.SUPPORT),
+			TREASURE_MAGNET = createAbility(Strings.treasureMagnet, 3, AbilityType.SUPPORT),
+			SECOND_CHANCE = createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
+			WIZARDS_RUSE = createAbility(Strings.wizardsRuse, 4, AbilityType.SUPPORT),
+			EXTRA_CAST = createAbility(Strings.extraCast, 3, AbilityType.SUPPORT),
+			DAMAGE_CONTROL = createAbility(Strings.damageControl, 5, AbilityType.SUPPORT),
+			LIGHT_AND_DARKNESS = createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
+			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT);
+
+
+	public static RegistryObject<Ability> createAbility(String name, int apCost, AbilityType type) {
+		return ABILITIES.register(name.substring(12), () -> new Ability(name, apCost, type, order++));
 	}
 }

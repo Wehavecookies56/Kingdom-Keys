@@ -1,23 +1,23 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -25,30 +25,30 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 public abstract class ItemDropEntity extends Entity {
 	public int delayBeforeCanPickup;
 	public int value;
-	private PlayerEntity closestPlayer;
+	private Player closestPlayer;
 
-	public ItemDropEntity(EntityType<? extends Entity> type, World worldIn, double x, double y, double z, int expValue) {
+	public ItemDropEntity(EntityType<? extends Entity> type, Level worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
-		this.setPosition(x, y, z);
-		this.rotationYaw = (float) (this.rand.nextDouble() * 360.0D);
-		this.setMotion((this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.rand.nextDouble() * 0.2D * 2.0D, (this.rand.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
+		this.setPos(x, y, z);
+		this.setYRot((float) (this.random.nextDouble() * 360.0D));
+		this.setDeltaMovement((this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.random.nextDouble() * 0.2D * 2.0D, (this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
 		this.value = expValue;
 		this.delayBeforeCanPickup = 20;
 	}
 
-	public ItemDropEntity(EntityType<ItemDropEntity> type, FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public ItemDropEntity(EntityType<ItemDropEntity> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(type, world);
 	}
 	
-	public ItemDropEntity(EntityType<? extends Entity> type, World world) {
+	public ItemDropEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
 	
-	protected boolean canTriggerWalking() {
+	protected boolean isMovementNoisy() {
 		return false;
 	}
 
-	protected void registerData() {
+	protected void defineSynchedData() {
 	}
 
 	public void tick() {
@@ -57,27 +57,27 @@ public abstract class ItemDropEntity extends Entity {
 			--this.delayBeforeCanPickup;
 		}
 
-		this.prevPosX = this.getPosX();
-		this.prevPosY = this.getPosY();
-		this.prevPosZ = this.getPosZ();
-		if (this.areEyesInFluid(FluidTags.WATER)) {
+		this.xo = this.getX();
+		this.yo = this.getY();
+		this.zo = this.getZ();
+		if (this.isEyeInFluid(FluidTags.WATER)) {
 			this.applyFloatMotion();
-		} else if (!this.hasNoGravity()) {
-			this.setMotion(this.getMotion().add(0.0D, -0.03D, 0.0D));
+		} else if (!this.isNoGravity()) {
+			this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.03D, 0.0D));
 		}
 
-		if (this.world.getFluidState(new BlockPos(this.getPositionVec())).isTagged(FluidTags.LAVA)) {
-			this.setMotion((double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F), (double) 0.2F, (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F));
-			this.playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
+		if (this.level.getFluidState(new BlockPos(this.position())).is(FluidTags.LAVA)) {
+			this.setDeltaMovement((double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F), (double) 0.2F, (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F));
+			this.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + this.random.nextFloat() * 0.4F);
 		}
 
-		if (!this.world.hasNoCollisions(this.getBoundingBox())) {
-			this.pushOutOfBlocks(this.getPosX(), (this.getBoundingBox().minY + this.getBoundingBox().maxY) / 2.0D, this.getPosZ());
+		if (!this.level.noCollision(this.getBoundingBox())) {
+			this.moveTowardsClosestSpace(this.getX(), (this.getBoundingBox().minY + this.getBoundingBox().maxY) / 2.0D, this.getZ());
 		}
 
 		double maxDist = 8.0D;
-		if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > Math.pow(maxDist,2)) {
-			this.closestPlayer = this.world.getClosestPlayer(this, maxDist);
+		if (this.closestPlayer == null || this.closestPlayer.distanceToSqr(this) > Math.pow(maxDist,2)) {
+			this.closestPlayer = this.level.getNearestPlayer(this, maxDist);
 		}
 
 		if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
@@ -85,78 +85,78 @@ public abstract class ItemDropEntity extends Entity {
 		}
 
 		if (this.closestPlayer != null) {
-			Vector3d vec3d = new Vector3d(this.closestPlayer.getPosX() - this.getPosX(), this.closestPlayer.getPosY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getPosY(), this.closestPlayer.getPosZ() - this.getPosZ());
-			double d1 = vec3d.lengthSquared();
+			Vec3 vec3d = new Vec3(this.closestPlayer.getX() - this.getX(), this.closestPlayer.getY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getY(), this.closestPlayer.getZ() - this.getZ());
+			double d1 = vec3d.lengthSqr();
 			if (d1 < Math.pow(maxDist,2)) {
 				double d2 = 1.0D - Math.sqrt(d1) / maxDist;
-				this.setMotion(this.getMotion().add(vec3d.normalize().scale(d2 * d2 * 0.1D)));
+				this.setDeltaMovement(this.getDeltaMovement().add(vec3d.normalize().scale(d2 * d2 * 0.1D)));
 			}
 		}
 
-		this.move(MoverType.SELF, this.getMotion());
+		this.move(MoverType.SELF, this.getDeltaMovement());
 		float f = 0.98F;
 		if (this.onGround) {
-			BlockPos pos = new BlockPos(this.getPosX(), this.getPosY() - 1.0D, this.getPosZ());
-			f = this.world.getBlockState(pos).getSlipperiness(this.world, pos, this) * 0.98F;
+			BlockPos pos = new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ());
+			f = this.level.getBlockState(pos).getFriction(this.level, pos, this) * 0.98F;
 		}
 
-		this.setMotion(this.getMotion().mul((double) f, 0.98D, (double) f));
+		this.setDeltaMovement(this.getDeltaMovement().multiply((double) f, 0.98D, (double) f));
 		if (this.onGround) {
-			this.setMotion(this.getMotion().mul(1.0D, -0.9D, 1.0D));
+			this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, -0.9D, 1.0D));
 		}
 
 	}
 
 	private void applyFloatMotion() {
-		Vector3d vec3d = this.getMotion();
-		this.setMotion(vec3d.x * (double) 0.99F, Math.min(vec3d.y + (double) 5.0E-4F, (double) 0.06F), vec3d.z * (double) 0.99F);
+		Vec3 vec3d = this.getDeltaMovement();
+		this.setDeltaMovement(vec3d.x * (double) 0.99F, Math.min(vec3d.y + (double) 5.0E-4F, (double) 0.06F), vec3d.z * (double) 0.99F);
 	}
 
 	protected void dealFireDamage(int amount) {
-		this.attackEntityFrom(DamageSource.IN_FIRE, (float) amount);
+		this.hurt(DamageSource.IN_FIRE, (float) amount);
 	}
 
 	/**
 	 * Called when the entity is attacked.
 	 */
-	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if (this.world.isRemote || this.removed)
+	public boolean hurt(DamageSource source, float amount) {
+		if (this.level.isClientSide || this.isRemoved())
 			return false; // Forge: Fixes MC-53850
 		if (this.isInvulnerableTo(source)) {
 			return false;
 		} else {
-			this.markVelocityChanged();
+			this.markHurt();
 			return false;
 		}
 	}
 
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		compound.putInt("Value", this.value);
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		this.value = compound.getInt("Value");
 	}
 
 	/**
 	 * Called by a player entity when they collide with an entity
 	 */
-	public void onCollideWithPlayer(PlayerEntity entityIn) {
-		if (!this.world.isRemote) {
+	public void playerTouch(Player entityIn) {
+		if (!this.level.isClientSide) {
 			if (this.delayBeforeCanPickup == 0) {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);
-				this.remove();
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(entityIn)), (ServerPlayerEntity)entityIn);
+				this.remove(RemovalReason.KILLED);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(entityIn)), (ServerPlayer)entityIn);
 			}
 
 		}
 	}
 
-	abstract void onPickup(PlayerEntity entityIn);
+	abstract void onPickup(Player entityIn);
 	abstract SoundEvent getPickupSound();
 
 	/**
@@ -198,12 +198,12 @@ public abstract class ItemDropEntity extends Entity {
 	/**
 	 * Returns true if it's possible to attack this entity with an item.
 	 */
-	public boolean canBeAttackedWithItem() {
+	public boolean isAttackable() {
 		return false;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 

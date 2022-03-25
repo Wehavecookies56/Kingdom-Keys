@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
@@ -19,11 +19,11 @@ public class CSAntiPointsPacket {
 		this.points = points;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.points);
 	}
 
-	public static CSAntiPointsPacket decode(PacketBuffer buffer) {
+	public static CSAntiPointsPacket decode(FriendlyByteBuf buffer) {
 		CSAntiPointsPacket msg = new CSAntiPointsPacket();
 		msg.points = buffer.readInt();
 		return msg;
@@ -31,7 +31,7 @@ public class CSAntiPointsPacket {
 
 	public static void handle(CSAntiPointsPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
+			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setAntiPoints(playerData.getAntiPoints() + message.points);
 		});

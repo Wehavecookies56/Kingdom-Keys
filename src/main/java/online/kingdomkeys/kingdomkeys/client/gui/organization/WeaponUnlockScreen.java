@@ -2,16 +2,16 @@ package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -28,7 +28,7 @@ public class WeaponUnlockScreen extends Screen {
     Utils.OrgMember member;
 
     public WeaponUnlockScreen(Utils.OrgMember member) {
-        super(new TranslationTextComponent(""));
+        super(new TranslatableComponent(""));
         this.member = member;
         this.weapons = Lists.getListForMember(member);
         playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
@@ -60,7 +60,7 @@ public class WeaponUnlockScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
         int cost = (int) (startCost + ((0.1 * startCost) * current));
         renderBackground(matrixStack);
         String name = "";
@@ -68,31 +68,31 @@ public class WeaponUnlockScreen extends Screen {
         int weapon_w = 128;
         int weapon_h = 128;
         renderBackground(matrixStack);
-        matrixStack.push();
-        Minecraft.getInstance().getTextureManager().bindTexture(GLOW);
+        matrixStack.pushPose();
+        Minecraft.getInstance().getTextureManager().bindForSetup(GLOW);
         RenderSystem.enableBlend();
         blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-        drawString(matrixStack, font, new ItemStack(weapons.get(current)).getDisplayName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
+        drawString(matrixStack, font, new ItemStack(weapons.get(current)).getHoverName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
         drawString(matrixStack, font, "Hearts Cost: " + cost, (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
         drawString(matrixStack, font, "Current Hearts: " + playerData.getHearts(), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
-        matrixStack.pop();
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
-        RenderSystem.scalef(5, 5, 5);
+        matrixStack.popPose();
+        matrixStack.pushPose();
+        matrixStack.translate((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
+        matrixStack.scale(5, 5, 5);
         RenderSystem.enableBlend();
-        RenderSystem.color3f(0, 0, 0);
-        Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(new ItemStack(weapons.get(current)), 0, 0);
-        RenderSystem.popMatrix();
+        RenderSystem.setShaderColor(0, 0, 0, 1);
+        Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(new ItemStack(weapons.get(current)), 0, 0);
+        matrixStack.popPose();
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
     }
 
     @Override
     protected void init() {
         super.init();
-        addButton(cancel = new Button(0, 0, 50, 20, new TranslationTextComponent("Back"), p -> actionPerformed(CANCEL)));
-        addButton(next = new Button(0, 0, 20, 20, new TranslationTextComponent(">"), p -> actionPerformed(NEXT)));
-        addButton(prev = new Button(0, 0, 20, 20, new TranslationTextComponent("<"), p -> actionPerformed(PREV)));
-        addButton(select = new Button(0, 0, 50, 20, new TranslationTextComponent("Unlock"), p -> actionPerformed(SELECT)));
+        addWidget(cancel = new Button(0, 0, 50, 20, new TranslatableComponent("Back"), p -> actionPerformed(CANCEL)));
+        addWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
+        addWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
+        addWidget(select = new Button(0, 0, 50, 20, new TranslatableComponent("Unlock"), p -> actionPerformed(SELECT)));
         updateButtons();
     }
 
@@ -104,7 +104,7 @@ public class WeaponUnlockScreen extends Screen {
     void actionPerformed(int ID) {
         switch (ID) {
             case CANCEL:
-                Minecraft.getInstance().displayGuiScreen(new WeaponTreeSelectionScreen(member));
+                Minecraft.getInstance().setScreen(new WeaponTreeSelectionScreen(member));
                 //Go back
                 break;
             case NEXT:
@@ -133,7 +133,7 @@ public class WeaponUnlockScreen extends Screen {
                     PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon, cost));
                 } else {
                     playerData.equipWeapon(weapon);
-					if(Utils.findSummoned(minecraft.player.inventory, playerData.getEquippedWeapon(), true) > -1)
+					if(Utils.findSummoned(minecraft.player.getInventory(), playerData.getEquippedWeapon(), true) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true));
                     
 					PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon));
@@ -218,17 +218,17 @@ public class WeaponUnlockScreen extends Screen {
     public void updateButtons() {
         if (playerData.isWeaponUnlocked(weapons.get(current))) {
             unlock = false;
-            select.setMessage(new TranslationTextComponent("Equip"));
+            select.setMessage(new TranslatableComponent("Equip"));
             if (playerData.getEquippedWeapon().getItem() == weapons.get(current)) {
                 select.active = false;
-                select.setMessage(new TranslationTextComponent("Equipped"));
+                select.setMessage(new TranslatableComponent("Equipped"));
             } else {
                 select.active = true;
-                select.setMessage(new TranslationTextComponent("Equip"));
+                select.setMessage(new TranslatableComponent("Equip"));
             }
         } else {
             unlock = true;
-            select.setMessage(new TranslationTextComponent("Unlock"));
+            select.setMessage(new TranslatableComponent("Unlock"));
             if (canUnlock()) {
                 select.active = true;
             } else {

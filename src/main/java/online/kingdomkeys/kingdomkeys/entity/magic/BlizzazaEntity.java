@@ -2,22 +2,22 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -25,64 +25,64 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class BlizzazaEntity extends ThrowableEntity {
+public class BlizzazaEntity extends ThrowableProjectile {
 
 	int maxTicks = 120;
 	float dmgMult = 1;
-	public BlizzazaEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public BlizzazaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public BlizzazaEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public BlizzazaEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_BLIZZAZA.get(), world);
 	}
 
-	public BlizzazaEntity(World world) {
+	public BlizzazaEntity(Level world) {
 		super(ModEntities.TYPE_BLIZZAZA.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public BlizzazaEntity(World world, LivingEntity player, float dmgMult) {
+	public BlizzazaEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_BLIZZAZA.get(), player, world);
 		this.dmgMult = dmgMult;
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0F;
 	}
 
 	@Override
 	public void tick() {
-		if (this.ticksExisted > maxTicks) {
-			this.remove();
+		if (this.tickCount > maxTicks) {
+			this.remove(RemovalReason.KILLED);
 		}
 
-		if(ModConfigs.blizzardChangeBlocks && !world.isRemote) {
-			if (world.getBlockState(getPosition()).getBlockState() == Blocks.WATER.getDefaultState()) {
-				world.setBlockState(getPosition(), Blocks.ICE.getDefaultState());
-				remove();
-			} else if(world.getBlockState(getPosition()).getBlockState() == Blocks.LAVA.getDefaultState()){
-				world.setBlockState(getPosition(), Blocks.OBSIDIAN.getDefaultState());
-				remove();
+		if(ModConfigs.blizzardChangeBlocks && !level.isClientSide) {
+			if (level.getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
+				level.setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
+				remove(RemovalReason.KILLED);
+			} else if(level.getBlockState(blockPosition()) == Blocks.LAVA.defaultBlockState()){
+				level.setBlockAndUpdate(blockPosition(), Blocks.OBSIDIAN.defaultBlockState());
+				remove(RemovalReason.KILLED);
 			}
 		}
 
 
-		if (ticksExisted > 2) {
+		if (tickCount > 2) {
 			float radius = 0.5F;
 			for (int t = 1; t < 360; t += 50) {
 				for (int s = 1; s < 360 ; s += 50) {
-					double x = getPosX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = getPosZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = getPosY() + (radius * Math.cos(Math.toRadians(t)));
-					world.addParticle(ParticleTypes.CLOUD, x,y,z, 0, 0, 0);
+					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+					level.addParticle(ParticleTypes.CLOUD, x,y,z, 0, 0, 0);
 				}
 			}
 		}
@@ -91,80 +91,80 @@ public class BlizzazaEntity extends ThrowableEntity {
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
+	protected void onHit(HitResult rtRes) {
+		if (!level.isClientSide) {
 
-			EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
+			EntityHitResult ertResult = null;
+			BlockHitResult brtResult = null;
 
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
+			if (rtRes instanceof EntityHitResult) {
+				ertResult = (EntityHitResult) rtRes;
 			}
 
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
+			if (rtRes instanceof BlockHitResult) {
+				brtResult = (BlockHitResult) rtRes;
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
-				if (target.isBurning()) {
-					target.extinguish();
+				if (target.isOnFire()) {
+					target.clearFire();
 				} else {
-					if (target != getShooter()) {
+					if (target != getOwner()) {
 						Party p = null;
-						if (getShooter() != null) {
-							p = ModCapabilities.getWorld(getShooter().world).getPartyFromMember(getShooter().getUniqueID());
+						if (getOwner() != null) {
+							p = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
 						}
-						if (p == null || (p.getMember(target.getUniqueID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getShooter() instanceof PlayerEntity ? DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 1.2F : 2;
-							target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg * dmgMult);
+						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.2F : 2;
+							target.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 						}
 					}
 				}
 			}
 			
 			float radius = 6F;
-			if (getShooter() instanceof PlayerEntity) {
+			if (getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				int r = 2;
 				for (int t = 1; t < 360; t += 20) {
 					for (int s = 1; s < 360 ; s += 20) {
-						double x = getPosX() + (r * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-						double z = getPosZ() + (r * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-						double y = getPosY() + (r * Math.cos(Math.toRadians(t)));
-						((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, x, y+1, z, 1, 0,0,0, 0);
+						double x = getX() + (r * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+						double z = getZ() + (r * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+						double y = getY() + (r * Math.cos(Math.toRadians(t)));
+						((ServerLevel) level).sendParticles(ParticleTypes.CLOUD, x, y+1, z, 1, 0,0,0, 0);
 					}
 				}
 				
 				
 				for(float i = -5; i <= 5; i+=0.5F) {
-					((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX(), getPosY()+i, getPosZ(), 3, 0,0,0, 0.2);
+					((ServerLevel) level).sendParticles(ParticleTypes.CLOUD, getX(), getY()+i, getZ(), 3, 0,0,0, 0.2);
 				}
 				
 				for(float i = -5; i <= 5; i+=0.5F) {
-					((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX()+i, getPosY(), getPosZ(), 3, 0,0,0, 0.2);
+					((ServerLevel) level).sendParticles(ParticleTypes.CLOUD, getX()+i, getY(), getZ(), 3, 0,0,0, 0.2);
 				}
 				
 				for(float i = -5; i <= 5; i+=0.5F) {
-					((ServerWorld) world).spawnParticle(ParticleTypes.CLOUD, getPosX(), getPosY(), getPosZ()+i, 3, 0,0,0, 0.2);
+					((ServerLevel) level).sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ()+i, 3, 0,0,0, 0.2);
 				}
 
 
 				if (!list.isEmpty()) {
 					for (int i = 0; i < list.size(); i++) {
 						LivingEntity e = list.get(i);
-						if (e.isBurning()) {
-							e.extinguish();
+						if (e.isOnFire()) {
+							e.clearFire();
 						} else {
-							float baseDmg = DamageCalculation.getMagicDamage((PlayerEntity) this.getShooter()) * 1.2F;
-							float dmg = this.getShooter() instanceof PlayerEntity ? baseDmg : 2;
-							e.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
+							float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.2F;
+							float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
+							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
 						}
 					}
 				}
 			}
-			remove();
+			remove(RemovalReason.KILLED);
 		}
 
 	}
@@ -178,17 +178,17 @@ public class BlizzazaEntity extends ThrowableEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT compound) {
+	public void addAdditionalSaveData(CompoundTag compound) {
 		// compound.putInt("lvl", this.getLvl());
 	}
 
 	@Override
-	public void readAdditional(CompoundNBT compound) {
+	public void readAdditionalSaveData(CompoundTag compound) {
 		// this.setLvl(compound.getInt("lvl"));
 	}
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 		// TODO Auto-generated method stub
 
 	}

@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;
@@ -989,7 +989,7 @@ public class KeybladeStats extends KeybladeProvider {
 	            .addMaterial(Strings.SM_WellspringGem, 3).addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WrithingStone, 2)).build())
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(13, 11).withMaterials(new Recipe()
 	            .addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_WrithingCrystal, 1).addMaterial(Strings.SM_Electrum, 1)).build())
-	    .desc("An incomplete form of the legendary Keyblade, the χ-blade.");
+	    .desc("An incomplete form of the legendary Keyblade, the X-blade.");
 	
 	getBuilder(Strings.invisKeyblade).keychain(Strings.invisKeybladeChain).baseStats(9, 7).ability("").reach(5.0F)
 	        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(9, 8).withMaterials(new Recipe()
@@ -2822,7 +2822,7 @@ public class KeybladeStats extends KeybladeProvider {
 
         public Map<Material, Integer> asMap() {
             Map<Material, Integer> matMap = new HashMap<>();
-            recipe.forEach(p -> matMap.put(GameRegistry.findRegistry(Material.class).getValue(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + p.getKey())), p.getValue()));
+            recipe.forEach(p -> matMap.put(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + p.getKey())), p.getValue()));
             return matMap;
         }
     }

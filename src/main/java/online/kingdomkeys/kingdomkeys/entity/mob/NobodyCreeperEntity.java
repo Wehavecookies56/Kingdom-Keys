@@ -1,80 +1,80 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class NobodyCreeperEntity extends BaseKHEntity {
 
-    public NobodyCreeperEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
+    public NobodyCreeperEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public NobodyCreeperEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public NobodyCreeperEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_NOBODY_CREEPER.get(), world);
     }
     
     @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-    	return ModCapabilities.getWorld((World)worldIn).getHeartlessSpawnLevel() > 0;
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+    	return ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(0, new NobodyCreeperGoal(this));
-        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MobEntity.registerAttributes()
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.17D)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
-                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D)
-				.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 1.0D)
+    public static AttributeSupplier.Builder registerAttributes() {
+        return Mob.createLivingAttributes()
+                .add(Attributes.FOLLOW_RANGE, 35.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.17D)
+                .add(Attributes.MAX_HEALTH, 40.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
+                .add(Attributes.ATTACK_DAMAGE, 2.0D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 
                 ;
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 4;
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(EntityHelper.STATE, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(EntityHelper.STATE, 0);
     }
 
     @Override
-    public EntityHelper.MobType getMobType() {
+    public EntityHelper.MobType getKHMobType() {
         return EntityHelper.MobType.NOBODY;
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
         return false;
     }
 
@@ -97,8 +97,8 @@ public class NobodyCreeperEntity extends BaseKHEntity {
             Assuming we return true startExecuting() will be called next
          */
 		@Override
-		public boolean shouldExecute() {
-			if (theEntity.getAttackTarget() != null) {
+		public boolean canUse() {
+			if (theEntity.getTarget() != null) {
 				if (!canUseAttack) {
 					if (attackTimer > 0) {
 						attackTimer--;
@@ -115,7 +115,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
             "Legacy code" from Shadows and older entities but basically if the ability is usable it's execution is not interrupted
          */
 		@Override
-		public boolean shouldContinueExecuting() {
+		public boolean canContinueToUse() {
 			boolean flag = canUseAttack;
 
 			return flag;
@@ -126,12 +126,12 @@ public class NobodyCreeperEntity extends BaseKHEntity {
             It's also where we initialize where the pos for the spear attack will be placed
          */
 		@Override
-		public void startExecuting() {
+		public void start() {
 			canUseAttack = true;
 			if (EntityHelper.getState(theEntity) > 2)
-				attackTimer = 10 + world.rand.nextInt(5);
+				attackTimer = 10 + level.random.nextInt(5);
 			else
-				attackTimer = 20 + world.rand.nextInt(5);
+				attackTimer = 20 + level.random.nextInt(5);
 			EntityHelper.setState(theEntity, 0);
 			this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
 			whileAttackTimer = 0;
@@ -142,18 +142,18 @@ public class NobodyCreeperEntity extends BaseKHEntity {
 		 */
         @Override
         public void tick() {
-            if(theEntity.getAttackTarget() != null && canUseAttack) { // Like above we check again to see if the target is still alive (maybe it died so we need to check again)
+            if(theEntity.getTarget() != null && canUseAttack) { // Like above we check again to see if the target is still alive (maybe it died so we need to check again)
                 whileAttackTimer++;
-                LivingEntity target = this.theEntity.getAttackTarget(); // Creates a new variable that holds the target
+                LivingEntity target = this.theEntity.getTarget(); // Creates a new variable that holds the target
 
                 if(EntityHelper.getState(theEntity) == 0) { // if the state of the entity is 0 (meaning it does not executes any attack)
-                    this.theEntity.getLookController().setLookPositionWithEntity(target, 30F, 30F); // we turn the entity to face the target
+                    this.theEntity.getLookControl().setLookAt(target, 30F, 30F); // we turn the entity to face the target
 
-                    if(world.rand.nextInt(100) + world.rand.nextDouble() <= 75) { // some sort of primitive (could've looked better) percentage system..but if the random number is under or equal with 75 (so a 75% chance)
+                    if(level.random.nextInt(100) + level.random.nextDouble() <= 75) { // some sort of primitive (could've looked better) percentage system..but if the random number is under or equal with 75 (so a 75% chance)
                         //MORPHING PHASE
-                        if(world.rand.nextInt(100) + world.rand.nextDouble() <= 50) { // again but for another randomized number to see which morph to run, there's a 50/50 chance for both
+                        if(level.random.nextInt(100) + level.random.nextDouble() <= 50) { // again but for another randomized number to see which morph to run, there's a 50/50 chance for both
                             //SWORD
-                            if(theEntity.getDistance(theEntity.getAttackTarget()) < 8) { // for the sword one we need to check if the target is 4 blocks or less away from the entity (just because it wouldn't make much sense for a close-ranged attack to occur when the target is 5 miles away)
+                            if(theEntity.distanceTo(theEntity.getTarget()) < 8) { // for the sword one we need to check if the target is 4 blocks or less away from the entity (just because it wouldn't make much sense for a close-ranged attack to occur when the target is 5 miles away)
                                 EntityHelper.setState(theEntity, 1); // setting the state to 1 (sword morphing)
 
 		            			/*
@@ -164,38 +164,38 @@ public class NobodyCreeperEntity extends BaseKHEntity {
                                 this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                                 for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 4))
-                                	theEntity.attackEntityAsMob(enemy);
+                                	theEntity.doHurtTarget(enemy);
                                     //enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 8);
                             } else {
                                 return;
                             }
                         } else {
-                        	if(theEntity.getDistance(theEntity.getAttackTarget()) < 16) {
+                        	if(theEntity.distanceTo(theEntity.getTarget()) < 16) {
 	                            //SPEAR
 		            			/*
 		            			 Same as with the sword, the only difference being we move the entity 4 blocks above the target location (for that sweet "falling from sky" effect)
 		            			 Also deals only 3 hearts for entities around 2 blocks around it (cuz it's a spear not a sword, smaller range)
 		            			 */
 	                            EntityHelper.setState(theEntity, 2);
-	                            this.theEntity.setPositionAndUpdate(target.getPosX(), target.getPosY() + 4, target.getPosZ());
+	                            this.theEntity.teleportTo(target.getX(), target.getY() + 4, target.getZ());
 	                            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 	
 	                            for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 3))
-                                	theEntity.attackEntityAsMob(enemy);
+                                	theEntity.doHurtTarget(enemy);
                         	} else {
                         		return;
                         	}
                         }
                     }
                     else {
-                        if(theEntity.getDistance(theEntity.getAttackTarget()) < 5) {
+                        if(theEntity.distanceTo(theEntity.getTarget()) < 5) {
                             //LEG SWIPE
                             EntityHelper.setState(theEntity, 3);
 
                             this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                             for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 2.5))
-                                enemy.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), 4);
+                                enemy.hurt(DamageSource.mobAttack(this.theEntity), 4);
                         } else {
                             return;
                         }

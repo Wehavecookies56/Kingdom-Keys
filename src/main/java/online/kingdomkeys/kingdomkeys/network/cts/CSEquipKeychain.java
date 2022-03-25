@@ -2,12 +2,12 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -27,12 +27,12 @@ public class CSEquipKeychain {
         this.slotToEquipFrom = slotToEquipFrom;
     }
 
-    public void encode(PacketBuffer buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeResourceLocation(slotToEquipTo);
         buffer.writeInt(slotToEquipFrom);
     }
 
-    public static CSEquipKeychain decode(PacketBuffer buffer) {
+    public static CSEquipKeychain decode(FriendlyByteBuf buffer) {
         CSEquipKeychain msg = new CSEquipKeychain();
         msg.slotToEquipTo = buffer.readResourceLocation();
         msg.slotToEquipFrom = buffer.readInt();
@@ -41,13 +41,13 @@ public class CSEquipKeychain {
 
     public static void handle(CSEquipKeychain message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PlayerEntity player = ctx.get().getSender();
+            Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            ItemStack stackToEquip = player.inventory.getStackInSlot(message.slotToEquipFrom);
+            ItemStack stackToEquip = player.getInventory().getItem(message.slotToEquipFrom);
             ItemStack stackPreviouslyEquipped = playerData.equipKeychain(message.slotToEquipTo, stackToEquip);
-            player.inventory.setInventorySlotContents(message.slotToEquipFrom, stackPreviouslyEquipped);
-            PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-            PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayerEntity) player);
+            player.getInventory().setItem(message.slotToEquipFrom, stackPreviouslyEquipped);
+            PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+            PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
 
             Utils.RefreshAbilityAttributes(player, playerData);
         });

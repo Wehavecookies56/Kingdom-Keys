@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.shotlock;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public abstract class Shotlock extends ForgeRegistryEntry<Shotlock> {
@@ -50,6 +50,6 @@ public abstract class Shotlock extends ForgeRegistryEntry<Shotlock> {
 		return max;
 	}
 
-	public abstract void onUse(PlayerEntity player, List<Entity> targetList);
+	public abstract void onUse(Player player, List<Entity> targetList);
 
 }

@@ -1,25 +1,27 @@
 package online.kingdomkeys.kingdomkeys.reactioncommands;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.function.Supplier;
 
 public class ModReactionCommands {
 
-	public static IForgeRegistry<ReactionCommand> registry;
+	public static DeferredRegister<ReactionCommand> REACTION_COMMANDS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "reactioncommands"), KingdomKeys.MODID);
+
+	public static Supplier<IForgeRegistry<ReactionCommand>> registry = REACTION_COMMANDS.makeRegistry(ReactionCommand.class, RegistryBuilder::new);;
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registry {
-
-		@SubscribeEvent
-		public static void registerDriveFormRegistry(RegistryEvent.NewRegistry event) {
-			registry = new RegistryBuilder<ReactionCommand>().setName(new ResourceLocation(KingdomKeys.MODID, "reactioncommands")).setType(ReactionCommand.class).create();
-		}
 
 		@SubscribeEvent
 		public static void registerLimits(RegistryEvent.Register<ReactionCommand> event) {

@@ -4,17 +4,18 @@ import java.awt.Color;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public class MenuColourBox extends Widget {
+public class MenuColourBox extends AbstractWidget {
 
 	private ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
@@ -30,7 +31,7 @@ public class MenuColourBox extends Widget {
 	Minecraft minecraft;
 
 	public MenuColourBox(int x, int y, int widthIn, String key, String value, int color) {
-		super(x, y, widthIn, 14, new TranslationTextComponent(key));
+		super(x, y, widthIn, 14, new TranslatableComponent(key));
 		this.key = key;
 		this.value = value;
 		middleWidth = widthIn;
@@ -40,23 +41,23 @@ public class MenuColourBox extends Widget {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		// isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y +
 		// height;
 		if (visible) {
-			matrixStack.push();
-			RenderSystem.color3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
+			matrixStack.pushPose();
+			RenderSystem.setShaderColor(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1.0F);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			minecraft.textureManager.bindTexture(texture);
+			minecraft.textureManager.bindForSetup(texture);
 
 			for (int i = 0; i < middleWidth; i++) {
 				blit(matrixStack, x + i, y, u, vPos, 1, height);
 			}
-			drawString(matrixStack, minecraft.fontRenderer, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
-			drawString(matrixStack, minecraft.fontRenderer, value, x + width - minecraft.fontRenderer.getStringWidth(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
+			drawString(matrixStack, minecraft.font, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
+			drawString(matrixStack, minecraft.font, value, x + width - minecraft.font.width(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
 			RenderSystem.disableBlend();
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 	}
 
@@ -80,9 +81,13 @@ public class MenuColourBox extends Widget {
 	}
 
 	@Override
-	public void playDownSound(SoundHandler soundHandlerIn) {
+	public void playDownSound(SoundManager soundHandlerIn) {
 		// soundHandlerIn.play(SimpleSound.master(ModSounds.menu_select.get(), 1.0F,
 		// 1.0F));
 	}
 
+	@Override
+	public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
+
+	}
 }

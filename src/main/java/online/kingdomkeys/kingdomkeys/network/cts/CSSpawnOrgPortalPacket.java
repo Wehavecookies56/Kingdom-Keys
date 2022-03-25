@@ -2,15 +2,15 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -23,45 +23,45 @@ public class CSSpawnOrgPortalPacket {
 
 	BlockPos pos;
 	BlockPos destPos;
-	RegistryKey<World> dimension;
+	ResourceKey<Level> dimension;
 
 	public CSSpawnOrgPortalPacket() {
 	}
 
-	public CSSpawnOrgPortalPacket(BlockPos pos, BlockPos dest, RegistryKey<World> dim) {
+	public CSSpawnOrgPortalPacket(BlockPos pos, BlockPos dest, ResourceKey<Level> dim) {
 		this.pos = pos;
 		this.destPos = dest;
 		this.dimension = dim;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeBlockPos(pos);
 		buffer.writeBlockPos(destPos);
-		buffer.writeResourceLocation(dimension.getLocation());
+		buffer.writeResourceLocation(dimension.location());
 	}
 
-	public static CSSpawnOrgPortalPacket decode(PacketBuffer buffer) {
+	public static CSSpawnOrgPortalPacket decode(FriendlyByteBuf buffer) {
 		CSSpawnOrgPortalPacket msg = new CSSpawnOrgPortalPacket();
 		msg.pos = buffer.readBlockPos();
 		msg.destPos = buffer.readBlockPos();
-		msg.dimension = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, buffer.readResourceLocation());
+		msg.dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, buffer.readResourceLocation());
 		return msg;
 	}
 
 	public static void handle(CSSpawnOrgPortalPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			PlayerEntity player = ctx.get().getSender();
-			player.world.playSound(null, message.pos, ModSounds.portal.get(), SoundCategory.PLAYERS, 2F, 1F);
-			player.world.playSound(null, message.destPos, ModSounds.portal.get(), SoundCategory.PLAYERS, 2F, 1F);
+			Player player = ctx.get().getSender();
+			player.level.playSound(null, message.pos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
+			player.level.playSound(null, message.destPos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.remMP(300);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
-			OrgPortalEntity portal = new OrgPortalEntity(player.world, player, message.pos, message.destPos, message.dimension, true);
-			player.world.addEntity(portal);
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+			OrgPortalEntity portal = new OrgPortalEntity(player.level, player, message.pos, message.destPos, message.dimension, true);
+			player.level.addFreshEntity(portal);
 
-			OrgPortalEntity destPortal = new OrgPortalEntity(player.world, player, message.destPos.up(), message.destPos, message.dimension, false);
-			player.world.addEntity(destPortal);
+			OrgPortalEntity destPortal = new OrgPortalEntity(player.level, player, message.destPos.above(), message.destPos, message.dimension, false);
+			player.level.addFreshEntity(destPortal);
 			
 			PacketHandler.sendToAllPlayers(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension));
 

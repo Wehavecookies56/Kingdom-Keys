@@ -1,15 +1,15 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
 
 //Wrapper class to set registry name and item group for an ItemBlock
 public class BlockItemWrapper extends BlockItem {
 
-    public BlockItemWrapper(Block blockIn, ItemGroup group) {
-        super(blockIn, new Item.Properties().group(group));
+    public BlockItemWrapper(Block blockIn, CreativeModeTab group) {
+        super(blockIn, new Item.Properties().tab(group));
         setRegistryName(blockIn.getRegistryName());
     }
 }

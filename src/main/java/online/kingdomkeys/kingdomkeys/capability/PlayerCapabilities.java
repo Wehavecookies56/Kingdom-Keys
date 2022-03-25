@@ -1,29 +1,24 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
 
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -56,6 +51,265 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
+	@Override
+	public CompoundTag serializeNBT() {
+		CompoundTag storage = new CompoundTag();
+		storage.putInt("level", this.getLevel());
+		storage.putInt("experience", this.getExperience());
+		storage.putInt("experience_given", this.getExperienceGiven());
+		storage.putInt("strength", this.getStrength(false));
+		storage.putInt("boost_strength", this.getBoostStrength());
+		storage.putInt("magic", this.getMagic(false));
+		storage.putInt("boost_magic", this.getBoostMagic());
+		storage.putInt("defense", this.getDefense(false));
+		storage.putInt("boost_defense", this.getBoostDefense());
+		storage.putInt("max_hp", this.getMaxHP());
+		storage.putInt("max_ap", this.getMaxAP(false));
+		storage.putInt("boost_max_ap", this.getBoostMaxAP());
+		storage.putDouble("mp", this.getMP());
+		storage.putDouble("max_mp", this.getMaxMP());
+		storage.putDouble("focus", this.getFocus());
+		storage.putDouble("max_focus", this.getMaxFocus());
+		storage.putBoolean("recharge", this.getRecharge());
+		storage.putDouble("dp", this.getDP());
+		storage.putDouble("max_dp", this.getMaxDP());
+		storage.putDouble("fp", this.getFP());
+		storage.putString("drive_form", this.getActiveDriveForm());
+		storage.putInt("anti_points", this.getAntiPoints());
+		storage.putInt("aero_ticks", this.getAeroTicks());
+		storage.putInt("aero_level", this.getAeroLevel());
+		storage.putInt("reflect_ticks", this.getReflectTicks());
+		storage.putInt("reflect_level", this.getReflectLevel());
+		storage.putBoolean("reflect_active", this.getReflectActive());
+		storage.putInt("munny", this.getMunny());
+		storage.putByte("soa_state", this.getSoAState().get());
+		storage.putByte("soa_choice", this.getChosen().get());
+		storage.putByte("soa_sacrifice", this.getSacrificed().get());
+		CompoundTag returnCompound = new CompoundTag();
+		Vec3 pos = this.getReturnLocation();
+		returnCompound.putDouble("x", pos.x);
+		returnCompound.putDouble("y", pos.y);
+		returnCompound.putDouble("z", pos.z);
+		storage.put("soa_return_pos", returnCompound);
+		storage.putString("soa_return_dim", this.getReturnDimension().location().toString());
+		CompoundTag choicePedestalCompound = new CompoundTag();
+		BlockPos choicePos = this.getChoicePedestal();
+		choicePedestalCompound.putInt("x", choicePos.getX());
+		choicePedestalCompound.putInt("y", choicePos.getY());
+		choicePedestalCompound.putInt("z", choicePos.getZ());
+		storage.put("soa_choice_pedestal", choicePedestalCompound);
+		CompoundTag sacrificePedestalCompound = new CompoundTag();
+		BlockPos sacrificePos = this.getSacrificePedestal();
+		sacrificePedestalCompound.putInt("x", sacrificePos.getX());
+		sacrificePedestalCompound.putInt("y", sacrificePos.getY());
+		sacrificePedestalCompound.putInt("z", sacrificePos.getZ());
+		storage.put("soa_sacrifice_pedestal", sacrificePedestalCompound);
+
+		CompoundTag recipes = new CompoundTag();
+		for (ResourceLocation recipe : this.getKnownRecipeList()) {
+			recipes.putString(recipe.toString(), recipe.toString());
+		}
+		storage.put("recipes", recipes);
+
+		CompoundTag magics = new CompoundTag();
+		Iterator<Entry<String, int[]>> magicsIt = this.getMagicsMap().entrySet().iterator();
+		while (magicsIt.hasNext()) {
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
+			magics.putIntArray(pair.getKey().toString(), pair.getValue());
+		}
+		storage.put("magics", magics);
+
+		CompoundTag shotlocks = new CompoundTag();
+		for (String shotlock : this.getShotlockList()) {
+			shotlocks.putInt(shotlock, 0);
+		}
+		storage.put("shotlocks", shotlocks);
+
+		storage.putString("equipped_shotlock", this.getEquippedShotlock());
+
+		CompoundTag forms = new CompoundTag();
+		Iterator<Map.Entry<String, int[]>> driveFormsIt = this.getDriveFormMap().entrySet().iterator();
+		while (driveFormsIt.hasNext()) {
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
+			forms.putIntArray(pair.getKey().toString(), pair.getValue());
+		}
+		storage.put("drive_forms", forms);
+
+		CompoundTag abilities = new CompoundTag();
+		Iterator<Map.Entry<String, int[]>> abilitiesIt = this.getAbilityMap().entrySet().iterator();
+		while (abilitiesIt.hasNext()) {
+			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
+			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
+		}
+		storage.put("abilities", abilities);
+
+		CompoundTag keychains = new CompoundTag();
+		this.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.serializeNBT()));
+		storage.put("keychains", keychains);
+
+		CompoundTag items = new CompoundTag();
+		this.getEquippedItems().forEach((slot, item) -> items.put(slot.toString(), item.serializeNBT()));
+		storage.put("items", items);
+
+		CompoundTag accessories = new CompoundTag();
+		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.serializeNBT()));
+		storage.put("accessories", accessories);
+
+		storage.putInt("hearts", this.getHearts());
+		storage.putInt("org_alignment", this.getAlignmentIndex());
+		storage.put("org_equipped_weapon", this.getEquippedWeapon().serializeNBT());
+
+		CompoundTag unlockedWeapons = new CompoundTag();
+		this.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(weapon.getItem().getRegistryName().toString(), weapon.serializeNBT()));
+		storage.put("org_weapons_unlocked", unlockedWeapons);
+
+		CompoundTag parties = new CompoundTag();
+		for (int i=0;i<this.getPartiesInvited().size();i++) {
+			parties.putInt(this.getPartiesInvited().get(i),i);
+		}
+		storage.put("parties", parties);
+
+		CompoundTag mats = new CompoundTag();
+		Iterator<Map.Entry<String, Integer>> materialsIt = this.getMaterialMap().entrySet().iterator();
+		while (materialsIt.hasNext()) {
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
+			mats.putInt(pair.getKey().toString(), pair.getValue());
+			if(mats.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
+				mats.remove(pair.getKey().toString());
+		}
+		storage.put("materials", mats);
+		storage.putInt("limitCooldownTicks", this.getLimitCooldownTicks());
+
+		CompoundTag shortcuts = new CompoundTag();
+		Iterator<Map.Entry<Integer, String>> shortcutsIt = this.getShortcutsMap().entrySet().iterator();
+		while (shortcutsIt.hasNext()) {
+			Map.Entry<Integer, String> pair = (Map.Entry<Integer, String>) shortcutsIt.next();
+			shortcuts.putString(pair.getKey().toString(), pair.getValue());
+		}
+		storage.put("shortcuts", shortcuts);
+
+		return storage;
+	}
+
+	@Override
+	public void deserializeNBT(CompoundTag nbt) {
+		CompoundTag storage = (CompoundTag) nbt;
+		this.setLevel(storage.getInt("level"));
+		this.setExperience(storage.getInt("experience"));
+		this.setExperienceGiven(storage.getInt("experience_given"));
+		this.setStrength(storage.getInt("strength"));
+		this.setBoostStrength(storage.getInt("boost_strength"));
+		this.setMagic(storage.getInt("magic"));
+		this.setBoostMagic(storage.getInt("boost_magic"));
+		this.setDefense(storage.getInt("defense"));
+		this.setBoostDefense(storage.getInt("boost_defense"));
+		this.setMaxHP(storage.getInt("max_hp"));
+		this.setMaxAP(storage.getInt("max_ap"));
+		this.setBoostMaxAP(storage.getInt("boost_max_ap"));
+		this.setMP(storage.getDouble("mp"));
+		this.setMaxMP(storage.getDouble("max_mp"));
+		this.setFocus(storage.getDouble("focus"));
+		this.setMaxFocus(storage.getDouble("max_focus"));
+		this.setRecharge(storage.getBoolean("recharge"));
+		this.setDP(storage.getDouble("dp"));
+		this.setMaxDP(storage.getDouble("max_dp"));
+		this.setFP(storage.getDouble("fp"));
+		this.setActiveDriveForm(storage.getString("drive_form"));
+		this.setAntiPoints(storage.getInt("anti_points"));
+		this.setAeroTicks(storage.getInt("aero_ticks"), storage.getInt("aero_level"));
+		this.setReflectTicks(storage.getInt("reflect_ticks"), storage.getInt("reflect_level"));
+		this.setReflectActive(storage.getBoolean("reflect_active"));
+		this.setMunny(storage.getInt("munny"));
+		this.setSoAState(SoAState.fromByte(storage.getByte("soa_state")));
+		this.setChoice(SoAState.fromByte(storage.getByte("soa_choice")));
+		this.setSacrifice(SoAState.fromByte(storage.getByte("soa_sacrifice")));
+		CompoundTag returnCompound = storage.getCompound("soa_return_pos");
+		this.setReturnLocation(new Vec3(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
+		this.setReturnDimension(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(storage.getString("soa_return_dim"))));
+		CompoundTag choicePedestal = storage.getCompound("soa_choice_pedestal");
+		this.setChoicePedestal(new BlockPos(choicePedestal.getInt("x"), choicePedestal.getInt("y"), choicePedestal.getInt("z")));
+		CompoundTag sacrificePedestal = storage.getCompound("soa_sacrifice_pedestal");
+		this.setSacrificePedestal(new BlockPos(sacrificePedestal.getInt("x"), sacrificePedestal.getInt("y"), sacrificePedestal.getInt("z")));
+
+		Iterator<String> recipesIt = storage.getCompound("recipes").getAllKeys().iterator();
+		while (recipesIt.hasNext()) {
+			String key = (String) recipesIt.next();
+			this.getKnownRecipeList().add(new ResourceLocation(key));
+		}
+
+		Iterator<String> magicsIt = storage.getCompound("magics").getAllKeys().iterator();
+		while (magicsIt.hasNext()) {
+			String magicName = (String) magicsIt.next();
+
+			int[] array;
+			if(storage.getCompound("magics").contains(magicName,99)) {
+				System.out.println("Converting "+magicName+" data");
+				array = new int[] { storage.getCompound("magics").getInt(magicName), 0 };
+			} else {
+				array = storage.getCompound("magics").getIntArray(magicName);
+			}
+			this.getMagicsMap().put(magicName.toString(), array);
+		}
+
+		Iterator<String> shotlockIt = storage.getCompound("shotlocks").getAllKeys().iterator();
+		while (shotlockIt.hasNext()) {
+			String key = (String) shotlockIt.next();
+
+			this.getShotlockList().add(key.toString());
+		}
+
+		this.setEquippedShotlock(storage.getString("equipped_shotlock"));
+
+		Iterator<String> driveFormsIt = storage.getCompound("drive_forms").getAllKeys().iterator();
+		while (driveFormsIt.hasNext()) {
+			String driveFormName = (String) driveFormsIt.next();
+
+			this.getDriveFormMap().put(driveFormName.toString(), storage.getCompound("drive_forms").getIntArray(driveFormName));
+		}
+
+		Iterator<String> abilitiesIt = storage.getCompound("abilities").getAllKeys().iterator();
+		while (abilitiesIt.hasNext()) {
+			String abilityName = (String) abilitiesIt.next();
+
+			this.getAbilityMap().put(abilityName.toString(), storage.getCompound("abilities").getIntArray(abilityName));
+		}
+
+		CompoundTag keychainsNBT = storage.getCompound("keychains");
+		keychainsNBT.getAllKeys().forEach((chain) -> this.setNewKeychain(new ResourceLocation(chain), ItemStack.of(keychainsNBT.getCompound(chain))));
+
+		CompoundTag itemsNBT = storage.getCompound("items");
+		itemsNBT.getAllKeys().forEach((slot) -> this.setNewItem(Integer.parseInt(slot), ItemStack.of(itemsNBT.getCompound(slot))));
+
+		CompoundTag accessoriesNBT = storage.getCompound("accessories");
+		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.of(accessoriesNBT.getCompound(slot))));
+
+		this.setHearts(storage.getInt("hearts"));
+		this.setAlignment(storage.getInt("org_alignment"));
+		this.equipWeapon(ItemStack.of(storage.getCompound("org_equipped_weapon")));
+		CompoundTag unlocksCompound = storage.getCompound("org_weapons_unlocked");
+		unlocksCompound.getAllKeys().forEach(key -> this.unlockWeapon(ItemStack.of(unlocksCompound.getCompound(key))));
+
+		Iterator<String> partyIt = storage.getCompound("parties").getAllKeys().iterator();
+		while (partyIt.hasNext()) {
+			String key = (String) partyIt.next();
+			this.getPartiesInvited().add(key.toString());
+		}
+
+		Iterator<String> materialsIt = storage.getCompound("materials").getAllKeys().iterator();
+		while (materialsIt.hasNext()) {
+			String mat = (String) materialsIt.next();
+			this.getMaterialMap().put(mat.toString(), storage.getCompound("materials").getInt(mat));
+		}
+
+		this.setLimitCooldownTicks(storage.getInt("limitCooldownTicks"));
+
+		Iterator<String> shortcutsIt = storage.getCompound("shortcuts").getAllKeys().iterator();
+		while (shortcutsIt.hasNext()) {
+			int shortcutPos = Integer.parseInt(shortcutsIt.next());
+			this.getShortcutsMap().put(shortcutPos, storage.getCompound("shortcuts").getString(shortcutPos+""));
+		}
+	}
+
 	private int level = 1, exp = 0, expGiven = 0, strength = 1, boostStr = 0, magic = 1, boostMag = 0, defense = 1, boostDef = 0, maxHp = 20, remainingExp = 0, maxAP = 10, boostMaxAP = 0, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
 
 	private String driveForm = DriveForm.NONE.toString();
@@ -78,8 +332,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
 
-	private Vector3d returnPos = Vector3d.ZERO;
-	private RegistryKey<World> returnDim = World.OVERWORLD;
+	private Vec3 returnPos = Vec3.ZERO;
+	private ResourceKey<Level> returnDim = Level.OVERWORLD;
 
 	SoAState soAState = SoAState.NONE, choice = SoAState.NONE, sacrifice = SoAState.NONE;
 
@@ -122,21 +376,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void addExperience(PlayerEntity player, int exp, boolean shareXP, boolean sound) {
+	public void addExperience(Player player, int exp, boolean shareXP, boolean sound) {
 		if (player != null && getSoAState() == SoAState.COMPLETE) {
 			if (this.level < 100) {
-				Party party = ModCapabilities.getWorld(player.world).getPartyFromMember(player.getUniqueID());
+				Party party = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
 					double sharedXP = (exp * ((ModConfigs.partyXPShare / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
 					//sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
 
 					if(sharedXP > 0) {
 						for(Member member : party.getMembers()) {
-							for(RegistryKey<World> worldKey : player.world.getServer().func_240770_D_()) {
-								PlayerEntity ally = player.getServer().getWorld(worldKey).getPlayerByUuid(member.getUUID());
+							for(ResourceKey<Level> worldKey : player.level.getServer().levelKeys()) {
+								Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 								if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
 									ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false, true); //Give EXP to other players with the false param to prevent getting in a loop
-									PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayerEntity)ally);
+									PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(ally)), (ServerPlayer)ally);
 								}
 							}
 						}
@@ -157,9 +411,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					levelUpStatsAndDisplayMessage(player, sound);
-					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayerEntity) player);
+					PacketHandler.sendTo(new SCShowOverlayPacket("levelup"), (ServerPlayer) player);
 				}
-				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayerEntity) player);
+				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayer) player);
 			}
 		}
 	}
@@ -256,7 +510,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int getAccessoriesAP(String type) {
 		int res = 0;
 		for(Entry<Integer, ItemStack> accessory : getEquippedAccessories().entrySet()) {
-			if(!ItemStack.areItemStacksEqual(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem) {
+			if(!ItemStack.matches(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem) {
 				KKAccessoryItem a = (KKAccessoryItem) accessory.getValue().getItem();
 				switch(type) {
 				case "ap":
@@ -318,7 +572,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void levelUpStatsAndDisplayMessage(PlayerEntity player, boolean sound) {
+	public void levelUpStatsAndDisplayMessage(Player player, boolean sound) {
 		this.getMessages().clear();
 		LevelStats.applyStatsForLevel(this.level, player, this);
 
@@ -326,9 +580,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// (EntityPlayerMP) player);
 
 		if(sound)
-			player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
+			player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
 
 	}
@@ -339,17 +593,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void displayDriveFormLevelUpMessage(PlayerEntity player, String driveForm) {
+	public void displayDriveFormLevelUpMessage(Player player, String driveForm) {
 		this.getMessages().clear();
 		this.getDFMessages().clear();
 
 		dfMessages.add(Strings.Stats_LevelUp_FormGauge);
-		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(driveForm));
+		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(driveForm));
 		String driveformAbility = form.getDFAbilityForLevel(getDriveFormLevel(driveForm));
 		String baseAbility = form.getBaseAbilityForLevel(getDriveFormLevel(driveForm));
 
 		if(!driveformAbility.equals("")) {
-			Ability a = ModAbilities.registry.getValue(new ResourceLocation(driveformAbility));
+			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(driveformAbility));
 			String name = a.getTranslationKey();
 			if(a.getType() == AbilityType.GROWTH) {
 				int level = (getEquippedAbilityLevel(driveformAbility)[0]+2); //+2 Because it's not set yet, it should be +1 if the ability was already upgraded at the time of generating this message
@@ -359,7 +613,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 
 		if(!baseAbility.equals("")) {
-			Ability a = ModAbilities.registry.getValue(new ResourceLocation(baseAbility));
+			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(baseAbility));
 			String name = a.getTranslationKey();
 			if(a.getType() == AbilityType.GROWTH) {
 				name = (new StringBuilder(name).insert(name.lastIndexOf('.'), "_"+(getEquippedAbilityLevel(baseAbility)[0]+1))).toString();
@@ -367,12 +621,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			addAbility(baseAbility,name);
 		}
 
-		player.world.playSound((PlayerEntity) null, player.getPosition(), ModSounds.levelup.get(), SoundCategory.MASTER, 0.5f, 1.0f);
+		player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		// TODO Actually add abilities and then syncing
 		//addAbility(bfAbility);
 		// PacketDispatcher.sendTo(new SyncDriveData(player.getCapability(ModCapabilities.DRIVE_STATE, null)), (EntityPlayerMP) player);
 
-		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayerEntity) player);
+		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayer) player);
 	}
 
 	//endregion
@@ -456,7 +710,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setDriveFormLevel(String name, int level) {
-		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(name));
+		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(name));
 		if(name.equals(DriveForm.NONE.toString()) || name.equals(DriveForm.SYNCH_BLADE.toString())){
 			driveForms.put(name, new int[] {level, 1});
 		} else {
@@ -477,8 +731,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void setDriveFormExp(PlayerEntity player, String name, int exp) {
-		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(name));
+	public void setDriveFormExp(Player player, String name, int exp) {
+		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(name));
 		int oldLevel = getDriveFormLevel(name);
 		int driveLevel = form.getLevelFromExp(exp);
 		if(driveLevel <= form.getMaxLevel()) {
@@ -488,13 +742,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if(driveLevel == form.getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayer)player);
 			}
 		}
 	}
 
-	public void addDriveFormExperience(String drive, ServerPlayerEntity player, int value) {
-		DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(drive));
+	public void addDriveFormExperience(String drive, ServerPlayer player, int value) {
+		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
 		int oldLevel = getDriveFormLevel(drive);
 		int driveLevel = form.getLevelFromExp(exp+value);
 
@@ -505,7 +759,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if(driveLevel == form.getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayerEntity)player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayer)player);
 			}
 		}
 	}
@@ -724,7 +978,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMagicLevel(String name, int level) {
-		Magic magic = ModMagic.registry.getValue(new ResourceLocation(name));
+		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
 		if(level == -1) {
 			magicList.remove(name);
 		} else {
@@ -742,7 +996,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMagicUses(String name, int uses) {
-		Magic magic = ModMagic.registry.getValue(new ResourceLocation(name));
+		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
 		int level = getMagicLevel(name);
 		if(level <= magic.getMaxLevel()) {
 			magicList.put(name, new int[] {level, uses});
@@ -771,9 +1025,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addShotlockToList(String shotlock, boolean notification) {
-		Shotlock shotlockInstance = ModShotlocks.registry.getValue(new ResourceLocation(shotlock));
+		Shotlock shotlockthis = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
 		if(notification) {
-			messages.add("S_"+shotlockInstance.getTranslationKey());
+			messages.add("S_"+shotlockthis.getTranslationKey());
 		}
 		
 		if (!shotlockList.contains(shotlock)) {
@@ -840,7 +1094,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean canEquipKeychain(ResourceLocation form, ItemStack stack) {
 		if (getEquippedKeychain(form) != null) {
-			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) | stack.getItem() instanceof IKeychain) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) | stack.getItem() instanceof IKeychain) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
@@ -896,7 +1150,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean canEquipItem(int slot, ItemStack stack) {
 		if (getEquippedItem(slot) != null) {
-			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKPotionItem) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKPotionItem) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
@@ -952,7 +1206,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean canEquipAccessory(int slot, ItemStack stack) {
 		if (getEquippedAccessory(slot) != null) {
-			if (ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
@@ -985,7 +1239,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addHearts(int hearts) {
-		this.hearts = MathHelper.clamp(this.hearts + hearts, 0, Integer.MAX_VALUE);
+		this.hearts = Mth.clamp(this.hearts + hearts, 0, Integer.MAX_VALUE);
 	}
 
 	@Override
@@ -1016,7 +1270,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean isWeaponUnlocked(Item weapon) {
 		for (ItemStack stack : weaponUnlocks) {
-			if (stack.getItem() == weapon.getItem()) return true;
+			if (stack.getItem() == weapon) return true;
 		}
 		return false;
 	}
@@ -1125,9 +1379,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addAbility(String ability, boolean notification) {
-		Ability abilityInstance = ModAbilities.registry.getValue(new ResourceLocation(ability));
+		Ability abilitythis = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
 		if(notification) {
-			messages.add("A_"+abilityInstance.getTranslationKey());
+			messages.add("A_"+abilitythis.getTranslationKey());
 		}
 		
 		if(abilityMap.containsKey(ability)) {
@@ -1170,7 +1424,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		int amount = 0;
 		//First check for keyblades having them
 		if (getAlignment() == OrgMember.NONE) {
-			if(getEquippedKeychain(DriveForm.NONE) != null && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { // Main keyblade)
+			if(getEquippedKeychain(DriveForm.NONE) != null && !ItemStack.matches(getEquippedKeychain(DriveForm.NONE), ItemStack.EMPTY)) { // Main keyblade)
 				ItemStack stack = getEquippedKeychain(DriveForm.NONE);
 				IKeychain weapon = (IKeychain) stack.getItem();
 				int level = weapon.toSummon().getKeybladeLevel(stack);
@@ -1178,7 +1432,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				amount += Collections.frequency(abilities, ability);
 			}
 		} else {
-			if(getEquippedWeapon() != null && !ItemStack.areItemStacksEqual(getEquippedWeapon(), ItemStack.EMPTY)) { // Main keyblade)
+			if(getEquippedWeapon() != null && !ItemStack.matches(getEquippedWeapon(), ItemStack.EMPTY)) { // Main keyblade)
 				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(getEquippedWeapon().getItem(), 0);
 				amount += Collections.frequency(abilities, ability);
 			}
@@ -1186,7 +1440,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		//SB Keyblade if user is base form
 		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.areItemStacksEqual(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu
+			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.matches(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu
 				ItemStack stack = getEquippedKeychain(DriveForm.SYNCH_BLADE);
 				IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem();
 				int level = weapon.toSummon().getKeybladeLevel(stack);
@@ -1195,7 +1449,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 		} else { //DF Keyblades if user is in their form
 			ItemStack stack = getEquippedKeychain(new ResourceLocation(getActiveDriveForm()));
-			if (stack != null && !ItemStack.areItemStacksEqual(stack, ItemStack.EMPTY)) {
+			if (stack != null && !ItemStack.matches(stack, ItemStack.EMPTY)) {
 				IKeychain weapon = (IKeychain) getEquippedKeychain(new ResourceLocation(getActiveDriveForm())).getItem();
 				int level = weapon.toSummon().getKeybladeLevel(stack);
 				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
@@ -1203,7 +1457,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 			
 			//Drive form passive abilities
-			DriveForm form = ModDriveForms.registry.getValue(new ResourceLocation(getActiveDriveForm()));
+			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(getActiveDriveForm()));
 			List<String> list = form.getDriveFormData().getAbilities();
 			if(list != null && !list.isEmpty()) {
 				amount += Collections.frequency(list, ability);
@@ -1212,7 +1466,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		amount += Collections.frequency(Utils.getAccessoriesAbilities(this), ability);
 				
-		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
+		if (ModAbilities.registry.get().getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
 			return amount + (abilityMap.containsKey(ability) ? Integer.bitCount(abilityMap.get(ability)[1]) : 0);
 		} else {
 			return abilityMap.containsKey(ability) ? abilityMap.get(ability)[1] : 0;
@@ -1270,7 +1524,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getAbilityQuantity(String ability) {
-		if (ModAbilities.registry.getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
+		if (ModAbilities.registry.get().getValue(new ResourceLocation(ability)).getType() != AbilityType.GROWTH) {
 			return abilityMap.get(ability)[0]+1;
 		} else {
 			return 1;
@@ -1443,32 +1697,32 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	//region SoA stuff
 
 	@Override
-	public Vector3d getReturnLocation() {
+	public Vec3 getReturnLocation() {
 		return this.returnPos;
 	}
 
 	@Override
-	public void setReturnLocation(PlayerEntity playerEntity) {
-		setReturnLocation(playerEntity.getPositionVec());
+	public void setReturnLocation(Player playerEntity) {
+		setReturnLocation(playerEntity.position());
 	}
 
 	@Override
-	public void setReturnLocation(Vector3d location) {
+	public void setReturnLocation(Vec3 location) {
 		this.returnPos = location;
 	}
 
 	@Override
-	public RegistryKey<World> getReturnDimension() {
+	public ResourceKey<Level> getReturnDimension() {
 		return this.returnDim;
 	}
 
 	@Override
-	public void setReturnDimension(PlayerEntity playerEntity) {
-		setReturnDimension(playerEntity.world.getDimensionKey());
+	public void setReturnDimension(Player playerEntity) {
+		setReturnDimension(playerEntity.level.dimension());
 	}
 
 	@Override
-	public void setReturnDimension(RegistryKey<World> type) {
+	public void setReturnDimension(ResourceKey<Level> type) {
 		this.returnDim = type;
 	}
 
@@ -1560,11 +1814,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public boolean addReactionCommand(String command, PlayerEntity player) {
+	public boolean addReactionCommand(String command, Player player) {
 		if(this.reactionList.contains(command)) {
 			return false;
 		} else {
-			if(ModReactionCommands.registry.getValue(new ResourceLocation(command)).conditionsToAppear(player, player)) {
+			if(ModReactionCommands.registry.get().getValue(new ResourceLocation(command)).conditionsToAppear(player, player)) {
 				this.reactionList.add(command);
 				return true;
 			} else {

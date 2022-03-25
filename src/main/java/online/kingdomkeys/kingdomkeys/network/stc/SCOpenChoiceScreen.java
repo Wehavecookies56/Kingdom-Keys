@@ -2,13 +2,13 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
@@ -36,13 +36,13 @@ public class SCOpenChoiceScreen {
 		this.pos = pos;
 	}
 
-	public void encode(PacketBuffer buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeByte(choice.get());
 		buffer.writeByte(state.get());
 		buffer.writeBlockPos(pos);
 	}
 
-	public static SCOpenChoiceScreen decode(PacketBuffer buffer) {
+	public static SCOpenChoiceScreen decode(FriendlyByteBuf buffer) {
 		SCOpenChoiceScreen msg = new SCOpenChoiceScreen();
 		msg.choice = SoAState.fromByte(buffer.readByte());
 		msg.state = SoAState.fromByte(buffer.readByte());
@@ -59,7 +59,7 @@ public class SCOpenChoiceScreen {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenChoiceScreen message) {
-			KingdomKeys.proxy.getClientMCInstance().displayGuiScreen(new ConfirmChoiceMenuPopup(message.state, message.choice, message.pos));
+			KingdomKeys.proxy.getClientMCInstance().setScreen(new ConfirmChoiceMenuPopup(message.state, message.choice, message.pos));
 			SoAMessages.INSTANCE.clearMessage();
 		}
 	}

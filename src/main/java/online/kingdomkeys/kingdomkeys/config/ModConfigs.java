@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.config;
 
 import java.util.List;
 
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -329,7 +330,7 @@ public class ModConfigs {
 
 
     @SubscribeEvent
-    public static void configEvent(ModConfig.ModConfigEvent event) {
+    public static void configEvent(ModConfigEvent event) {
         if (event.getConfig().getSpec() == CLIENT_SPEC) {
             KingdomKeys.LOGGER.info("LOAD CLIENT CONFIG");
             bakeClient();

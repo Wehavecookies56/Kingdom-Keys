@@ -2,11 +2,10 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import java.util.List;
 
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.MobSpawnInfo;
-import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -19,10 +18,10 @@ public class MobSpawnings {
 		String[] enemies = ModConfigs.moogleSpawnRate.get(1).split(",");
 		
 		if (event.getClimate().temperature >= 0.3 && event.getClimate().temperature <= 1.0) {
-			event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_MOOGLE.get(), Integer.parseInt(moogle[1]), Integer.parseInt(moogle[2]), Integer.parseInt(moogle[3])));
+			event.getSpawns().getSpawner(ModEntities.TYPE_MOOGLE.get().getCategory()).add(new MobSpawnSettings.SpawnerData(ModEntities.TYPE_MOOGLE.get(), Integer.parseInt(moogle[1]), Integer.parseInt(moogle[2]), Integer.parseInt(moogle[3])));
 		}
 		
-		event.getSpawns().getSpawner(ModEntities.TYPE_SPAWNING_ORB.get().getClassification()).add(new MobSpawnInfo.Spawners(ModEntities.TYPE_SPAWNING_ORB.get(), Integer.parseInt(enemies[1]), Integer.parseInt(enemies[2]), Integer.parseInt(enemies[3])));
+		event.getSpawns().getSpawner(ModEntities.TYPE_SPAWNING_ORB.get().getCategory()).add(new MobSpawnSettings.SpawnerData(ModEntities.TYPE_SPAWNING_ORB.get(), Integer.parseInt(enemies[1]), Integer.parseInt(enemies[2]), Integer.parseInt(enemies[3])));
 
 		/*for (EntityType<?> entityType : ModEntities.pureblood) {
 			event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(pureblood[1]), Integer.parseInt(pureblood[2]), Integer.parseInt(pureblood[3])));
@@ -38,10 +37,10 @@ public class MobSpawnings {
 	public static void removeSpawns(BiomeLoadingEvent event) {
 		if (event.getName().equals(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart)) || event.getName().equals(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow))) {
 			//Remove all entity spawns added to the Dive to the Heart and Station of Sorrow biome
-			for (EntityClassification entityClassification : EntityClassification.values()) {
+			for (MobCategory entityClassification : MobCategory.values()) {
 				event.getSpawns().getSpawner(entityClassification).clear();
 			}
-			for (GenerationStage.Decoration i : GenerationStage.Decoration.values()) {
+			for (GenerationStep.Decoration i : GenerationStep.Decoration.values()) {
 				event.getGeneration().getFeatures(i).clear();
 			}
 		}

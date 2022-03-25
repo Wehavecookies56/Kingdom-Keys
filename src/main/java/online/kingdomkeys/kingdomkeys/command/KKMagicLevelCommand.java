@@ -12,14 +12,14 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.ISuggestionProvider;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.Util;
+import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -31,18 +31,18 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKMagicLevelCommand extends BaseCommand{ 
 //kk_ <give/take/set> <amount> [player]
-	private static final SuggestionProvider<CommandSource> SUGGEST_MAGICS = (p_198296_0_, p_198296_1_) -> {
+	private static final SuggestionProvider<CommandSourceStack> SUGGEST_MAGICS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
-		for (ResourceLocation location : ModMagic.registry.getKeys()) {
+		for (ResourceLocation location : ModMagic.registry.get().getKeys()) {
 			//if(!location.toString().equals(Strings.Form_Anti) && !location.toString().equals(DriveForm.NONE.toString()) && !location.toString().equals(DriveForm.SYNCH_BLADE.toString()))
 			list.add(location.toString());
 		}
-		return ISuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
+		return SharedSuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
 	};
 	
-	public static void register(CommandDispatcher<CommandSource> dispatcher) {
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
 		
-		LiteralArgumentBuilder<CommandSource> builder = Commands.literal("kk_magiclevel").requires(source -> source.hasPermissionLevel(2));
+		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("kk_magiclevel").requires(source -> source.hasPermission(2));
 		
 		builder.then(Commands.literal("set")
 			.then(Commands.argument("magic", StringArgumentType.string()).suggests(SUGGEST_MAGICS)
@@ -59,31 +59,31 @@ public class KKMagicLevelCommand extends BaseCommand{
 		KingdomKeys.LOGGER.warn("Registered command "+builder.getLiteral());
 	}
 
-	private static int setValue(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 4);
+	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = getPlayers(context, 4);
 		int level = IntegerArgumentType.getInteger(context, "level");
 		String magic = StringArgumentType.getString(context, "magic");
 		
-		Magic magicInstance = ModMagic.registry.getValue(new ResourceLocation(magic));
+		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 		if(magicInstance == null) {
-			context.getSource().sendFeedback(new TranslationTextComponent("Unknown magic '"+magic+"'"), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Unknown magic '"+magic+"'"), true);
 			return 1;
 		}
 		
-		for (ServerPlayerEntity player : players) {
+		for (ServerPlayer player : players) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
 				playerData.setMagicLevel(magic, level);
 			} else {
-				context.getSource().sendFeedback(new TranslationTextComponent("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
+				context.getSource().sendSuccess(new TranslatableComponent("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 			
 			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey(level)) : "N/A";
-			context.getSource().sendFeedback(new TranslationTextComponent("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
-			player.sendMessage(new TranslationTextComponent("Your "+Utils.translateToLocal(magicInstance.getTranslationKey())+" magic level is now "+level+" ("+magicName+")"), Util.DUMMY_UUID);
+			context.getSource().sendSuccess(new TranslatableComponent("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
+			player.sendMessage(new TranslatableComponent("Your "+Utils.translateToLocal(magicInstance.getTranslationKey())+" magic level is now "+level+" ("+magicName+")"), Util.NIL_UUID);
 		}
 		return 1;
 	}

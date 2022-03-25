@@ -2,88 +2,89 @@ package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import java.awt.Color;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import com.mojang.math.Vector3f;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class SonicBladeEntity extends BaseShotlockShotEntity{
-	public SonicBladeEntity(EntityType<? extends ThrowableEntity> type, World world) {
+	public SonicBladeEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public SonicBladeEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+	public SonicBladeEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
 	}
 
-	public SonicBladeEntity(World world) {
+	public SonicBladeEntity(Level world) {
 		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
-		this.preventEntitySpawning = true;
+		this.blocksBuilding = true;
 	}
 
-	public SonicBladeEntity(World world, LivingEntity player, Entity target, double dmg) {
+	public SonicBladeEntity(Level world, LivingEntity player, Entity target, double dmg) {
 		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world, player, target, dmg);
-		setCaster(player.getUniqueID());
+		setCaster(player.getUUID());
 	}
 
 	@Override
 	public void tick() {
 		if (getCaster() != null && getTarget() != null) {
-			BlockPos pos = getTarget().getPosition();
+			BlockPos pos = getTarget().blockPosition();
 			float speedFactor = 0.5F;
-			getCaster().setMotion((pos.getX() - getCaster().getPosX()) * speedFactor, (pos.getY() - getCaster().getPosY())  * speedFactor, (pos.getZ() - getCaster().getPosZ()) * speedFactor);
+			getCaster().setDeltaMovement((pos.getX() - getCaster().getX()) * speedFactor, (pos.getY() - getCaster().getY())  * speedFactor, (pos.getZ() - getCaster().getZ()) * speedFactor);
 
-			if (world.isRemote) {
-				getCaster().velocityChanged = true;
+			if (level.isClientSide) {
+				getCaster().hurtMarked = true;
 			}
 				
-			double dx = getCaster().getPosX() - getTarget().getPosX();
-            double dz = getCaster().getPosZ() - getTarget().getPosZ();
-            double dy = getCaster().getPosY() - (getTarget().getPosY() + (getTarget().getHeight() / 2.0F)-getCaster().getHeight());
+			double dx = getCaster().getX() - getTarget().getX();
+            double dz = getCaster().getZ() - getTarget().getZ();
+            double dy = getCaster().getY() - (getTarget().getY() + (getTarget().getBbHeight() / 2.0F)-getCaster().getBbHeight());
             double angle = Math.atan2(dz, dx) * 180 / Math.PI;
             double pitch = Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)) * 180 / Math.PI;
-            double distance = getCaster().getDistance(getTarget());
+            double distance = getCaster().distanceTo(getTarget());
             
-            float rYaw = (float) MathHelper.wrapDegrees(angle - getCaster().rotationYaw) + 90;
+            float rYaw = (float) Mth.wrapDegrees(angle - getCaster().getYRot()) + 90;
             float rPitch = (float) pitch - (float) (10.0F / Math.sqrt(distance)) + (float) (distance * Math.PI / 90);
             
-            float f = getCaster().rotationPitch;
-            float f1 = getCaster().rotationYaw;
+            float f = getCaster().getXRot();
+            float f1 = getCaster().getYRot();
             
-            getCaster().rotationYaw = (float)((double)getCaster().rotationYaw + (double)rYaw * 0.15D);
-            getCaster().rotationPitch = (float)((double)getCaster().rotationPitch - (double)-(rPitch - getCaster().rotationPitch) * 0.15D);
-            getCaster().prevRotationPitch = getCaster().rotationPitch - f;
-            getCaster().prevRotationYaw += getCaster().rotationYaw - f1;
+            getCaster().setYRot((float)((double)getCaster().getYRot() + (double)rYaw * 0.15D));
+            getCaster().setXRot((float)((double)getCaster().getXRot() - (double)-(rPitch - getCaster().getXRot()) * 0.15D));
+            getCaster().xRotO = getCaster().getXRot() - f;
+            getCaster().yRotO += getCaster().getYRot() - f1;
 
-            if (getCaster().getRidingEntity() != null) {
-            	getCaster().getRidingEntity().applyOrientationToEntity(getCaster());
+            if (getCaster().getVehicle() != null) {
+            	getCaster().getVehicle().onPassengerTurned(getCaster());
             }
 			
 			
 			
 		}
 		
-		if (this.ticksExisted > maxTicks) {
-			this.remove();
+		if (this.tickCount > maxTicks) {
+			this.remove(RemovalReason.KILLED);
 		}
 		
-		if(ticksExisted > 1) {
+		if(tickCount > 1) {
 			Color color = new Color(getColor());
-			world.addParticle(new RedstoneParticleData(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F), getPosX(), getPosY(), getPosZ(), 1,1,1);
+			level.addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
 		}
 		
-		if(ticksExisted % 10 == 0) {
+		if(tickCount % 10 == 0) {
 			updateMovement();
 		}
 		
@@ -93,36 +94,36 @@ public class SonicBladeEntity extends BaseShotlockShotEntity{
 	private void updateMovement() {
 		if(getTarget() != null) {
 			if(getTarget().isAlive()) {
-				this.shoot(getTarget().getPosX() - this.getPosX(), (getTarget().getPosY() + (getTarget().getHeight() / 2.0F) - this.getHeight()) - getPosY() + 0.5, getTarget().getPosZ() - this.getPosZ(), 1, 0);
+				this.shoot(getTarget().getX() - this.getX(), (getTarget().getY() + (getTarget().getBbHeight() / 2.0F) - this.getBbHeight()) - getY() + 0.5, getTarget().getZ() - this.getZ(), 1, 0);
 			} else {
-				if(getShooter() != null)
-					this.setDirectionAndMovement(this, getShooter().rotationPitch, getShooter().rotationYaw, 0, 1, 0); // Work in progress
+				if(getOwner() != null)
+					this.shootFromRotation(this, getOwner().getXRot(), getOwner().getYRot(), 0, 1, 0); // Work in progress
 			}
 		}
 	}
 
 	@Override
-	protected void onImpact(RayTraceResult rtRes) {
-		if (!world.isRemote) {
-			EntityRayTraceResult ertResult = null;
-			BlockRayTraceResult brtResult = null;
+	protected void onHit(HitResult rtRes) {
+		if (!level.isClientSide) {
+			EntityHitResult ertResult = null;
+			BlockHitResult brtResult = null;
 
-			if (rtRes instanceof EntityRayTraceResult) {
-				ertResult = (EntityRayTraceResult) rtRes;
+			if (rtRes instanceof EntityHitResult) {
+				ertResult = (EntityHitResult) rtRes;
 			}
 
-			if (rtRes instanceof BlockRayTraceResult) {
-				brtResult = (BlockRayTraceResult) rtRes;
+			if (rtRes instanceof BlockHitResult) {
+				brtResult = (BlockHitResult) rtRes;
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getShooter()) {
-					target.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), dmg);
-					super.remove();
+				if (target != getOwner()) {
+					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
+					super.remove(RemovalReason.KILLED);
 				}
 			}
-			remove();
+			remove(RemovalReason.KILLED);
 		}
 	}
 	

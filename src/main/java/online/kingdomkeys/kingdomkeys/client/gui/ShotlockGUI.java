@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -27,23 +27,23 @@ public class ShotlockGUI extends Screen {
 	IPlayerCapabilities playerData;
 
 	public ShotlockGUI() {
-		super(new TranslationTextComponent(""));
+		super(new TranslatableComponent(""));
 		minecraft = Minecraft.getInstance();
 	}
 
 	@SubscribeEvent
 	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		PlayerEntity player = minecraft.player;
-		MatrixStack matrixStack = event.getMatrixStack();
+		Player player = minecraft.player;
+		PoseStack matrixStack = event.getMatrixStack();
 
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 			//minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
 
-			int screenWidth = minecraft.getMainWindow().getScaledWidth();
-			int screenHeight = minecraft.getMainWindow().getScaledHeight();
+			int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+			int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 			float scale = 1f;
-			switch (minecraft.gameSettings.guiScale) {
+			switch (minecraft.options.guiScale) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;
@@ -54,39 +54,39 @@ public class ShotlockGUI extends Screen {
 				return;
 			
 			focusBarWidth = (int) (playerData.getFocus() * scaleFactor);
-			matrixStack.push();
+			matrixStack.pushPose();
 			{
-				matrixStack.push();
+				matrixStack.pushPose();
 				{
 	
 					RenderSystem.enableBlend();
 					matrixStack.translate(ModConfigs.focusXPos + 30, ModConfigs.focusYPos - 16, 0);
 	
-					matrixStack.push();// Focus Background
+					matrixStack.pushPose();// Focus Background
 					{
 						matrixStack.translate((screenWidth - guiWidth * scale) - 20*scale, (screenHeight - guiHeight * scale) - 7 * scale, 0);
 						matrixStack.scale(scale, scale, scale);
 						drawFocusBarBack(matrixStack, 0, 0, guiWidth, scale);
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 					
-					matrixStack.push();// Focus Cost Bar
+					matrixStack.pushPose();// Focus Cost Bar
 					{
 						matrixStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
 						matrixStack.scale(scale, scale, scale);
 						drawFocusCostBarTop(matrixStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), playerData.getFocus(), scale);
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 					
-					matrixStack.push();// Focus Bar
+					matrixStack.pushPose();// Focus Bar
 					{
 						matrixStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
 						matrixStack.scale(scale, scale, scale);
 						drawFocusBarTop(matrixStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), scale);
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 				}
-				matrixStack.pop();
+				matrixStack.popPose();
 				
 				if(ClientEvents.focusing) { //GUI itslef
 					int guiWidth = 256;
@@ -95,19 +95,19 @@ public class ShotlockGUI extends Screen {
 					float focusScale = 400/100F;
 					float size = 6;
 
-					matrixStack.push();
+					matrixStack.pushPose();
 					{
-						RenderSystem.pushMatrix();
+						matrixStack.pushPose();
 						{
-							minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus.png"));
+							minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus.png"));
 							matrixStack.translate((screenWidth / 2) - (guiWidth / 2) * focusScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * focusScale / size - 0.5F, 0);
 							matrixStack.scale(focusScale / size, focusScale / size, focusScale / size);
 							if(ClientEvents.focusGaugeTemp<= 0)
-								RenderSystem.color4f(1, 0, 0, 1);
+								RenderSystem.setShaderColor(1, 0, 0, 1);
 							this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 							
 							if(ClientEvents.focusGaugeTemp> 0) {
-								minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+								minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
 								double max = playerData.getFocus();
 								double actual = ClientEvents.focusGaugeTemp;
 								int topOffset = 25;
@@ -117,33 +117,33 @@ public class ShotlockGUI extends Screen {
 								int n = (int)(actual * realGuiHeight / max);
 								blit(matrixStack, 0, (guiHeight-botOffset)-n, 0, (guiHeight-botOffset ) - n, guiWidth, n);
 							}
-							RenderSystem.color4f(1, 1, 1, 1);
+							RenderSystem.setShaderColor(1, 1, 1, 1);
 
 						}
-						RenderSystem.popMatrix();
+						matrixStack.popPose();
 					}
-					matrixStack.pop();
+					matrixStack.popPose();
 				}
 				RenderSystem.disableBlend();
 			}
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 	}
 
-	public void drawFocusBarBack(MatrixStack matrixStack, float posX, float posY, float width, float scale) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
-		matrixStack.push();
+	public void drawFocusBarBack(PoseStack matrixStack, float posX, float posY, float width, float scale) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
+		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX) * scale, posY * scale, 0);
 			matrixStack.scale(scale, scale, 0);
 			blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 	
-	public void drawFocusCostBarTop(MatrixStack matrixStack, float posX, float posY, float amount, double focus, float scale) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
-		matrixStack.push();
+	public void drawFocusCostBarTop(PoseStack matrixStack, float posX, float posY, float amount, double focus, float scale) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
+		matrixStack.pushPose();
 		{
 			//int w = (int) (amount * 100F / noborderguiwidth);
 			int h = (int) (focus * noborderguiheight / 100);
@@ -151,12 +151,12 @@ public class ShotlockGUI extends Screen {
 			matrixStack.scale(scale, scale, 0);
 			blit(matrixStack, 0, noborderguiheight-h, 0, 208 - h, noborderguiwidth, h);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 	
-	public void drawFocusBarTop(MatrixStack matrixStack, float posX, float posY, float amount, float scale) {
-		minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
-		matrixStack.push();
+	public void drawFocusBarTop(PoseStack matrixStack, float posX, float posY, float amount, float scale) {
+		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
+		matrixStack.pushPose();
 		{
 			//int w = (int) (amount * 100F / noborderguiwidth);
 			int h = (int) (amount * noborderguiheight / 100F);
@@ -164,6 +164,6 @@ public class ShotlockGUI extends Screen {
 			matrixStack.scale(scale, scale, 0);
 			blit(matrixStack, 0, noborderguiheight-h, 0, 139 - h, noborderguiwidth, h);
 		}
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 }

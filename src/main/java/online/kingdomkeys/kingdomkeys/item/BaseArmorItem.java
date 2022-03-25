@@ -1,59 +1,72 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IItemRenderProperties;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
+
+import java.util.function.Consumer;
 
 public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
 	String textureName;
 	
-	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlotType slot, String textureName) {
-		super(materialIn, slot, new Item.Properties().group(KingdomKeys.miscGroup));
+	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlot slot, String textureName) {
+		super(materialIn, slot, new Item.Properties().tab(KingdomKeys.miscGroup));
 		this.textureName = textureName;
 	}
 
 	@Nonnull
 	@Override
-	public final String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
+	public final String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 		if(this.textureName != null) {
-			if (slot == EquipmentSlotType.LEGS) {
+			if (slot == EquipmentSlot.LEGS) {
 				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.textureName+"2.png";
-			} else if (slot == EquipmentSlotType.HEAD || slot == EquipmentSlotType.CHEST || slot == EquipmentSlotType.FEET){
+			} else if (slot == EquipmentSlot.HEAD || slot == EquipmentSlot.CHEST || slot == EquipmentSlot.FEET){
 				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.textureName+"1.png";
 			}
 		}
 		return null;//KingdomKeys.MODID + ":" + "textures/models/armor/ventus.png";
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
 	@OnlyIn(Dist.CLIENT)
-	public BipedModel getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, BipedModel original) {
-		BipedModel armorModel = ProxyClient.armorModels.get(this);
+	@Override
+	public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+		consumer.accept(new IItemRenderProperties() {
+			@Nullable
+			@Override
+			public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
+				HumanoidModel armorModel = ProxyClient.armorModels.get(this);
 
-		if (armorModel != null) {
-			armorModel.bipedHead.showModel = armorSlot == EquipmentSlotType.HEAD;
-			armorModel.bipedHeadwear.showModel = false;
-			armorModel.bipedBody.showModel = armorSlot == EquipmentSlotType.CHEST || armorSlot == EquipmentSlotType.LEGS;
-			armorModel.bipedRightArm.showModel = armorSlot == EquipmentSlotType.CHEST;
-			armorModel.bipedLeftArm.showModel = armorSlot == EquipmentSlotType.CHEST;
-			armorModel.bipedRightLeg.showModel = armorSlot == EquipmentSlotType.FEET || armorSlot == EquipmentSlotType.FEET;
-			armorModel.bipedLeftLeg.showModel = armorSlot == EquipmentSlotType.LEGS || armorSlot == EquipmentSlotType.FEET;
-		}
-		return armorModel;
+				if (armorModel != null) {
+					armorModel.head.visible = armorSlot == EquipmentSlot.HEAD;
+					armorModel.hat.visible = false;
+					armorModel.body.visible = armorSlot == EquipmentSlot.CHEST || armorSlot == EquipmentSlot.LEGS;
+					armorModel.rightArm.visible = armorSlot == EquipmentSlot.CHEST;
+					armorModel.leftArm.visible = armorSlot == EquipmentSlot.CHEST;
+					armorModel.rightLeg.visible = armorSlot == EquipmentSlot.FEET || armorSlot == EquipmentSlot.FEET;
+					armorModel.leftLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
+				}
+				return armorModel;
+			}
+		});
 	}
 
 	@Override

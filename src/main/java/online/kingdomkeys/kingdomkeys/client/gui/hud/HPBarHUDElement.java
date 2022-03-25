@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.hud;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 
 public class HPBarHUDElement extends HUDElement {
 
@@ -9,7 +10,7 @@ public class HPBarHUDElement extends HUDElement {
     }
 
     @Override
-    public void drawElement(MatrixStack matrixStack, float partialTicks) {
+    public void drawElement(PoseStack matrixStack, float partialTicks) {
 
     }
 
@@ -20,6 +21,11 @@ public class HPBarHUDElement extends HUDElement {
 
     @Override
     public void tick() {
+
+    }
+
+    @Override
+    public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
 
     }
 }

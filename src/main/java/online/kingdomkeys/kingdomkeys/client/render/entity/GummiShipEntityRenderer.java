@@ -2,31 +2,30 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.GummiShipModel;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 
-public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> implements IRenderFactory<GummiShipEntity> {
+public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 
 	int red = 96, green = 140, blue = 109, alpha = 255;
-	private GummiShipModel model;
+	//private GummiShipModel model;
 
-	public GummiShipEntityRenderer(EntityRendererManager renderManager) {
-		super(renderManager);
-		model = new GummiShipModel();
+	public GummiShipEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
+		//model = new GummiShipModel();
 	}
 
 	@Override
-	public void render(GummiShipEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		matrixStackIn.push();
+	public void render(GummiShipEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		matrixStackIn.pushPose();
 		{
 			matrixStackIn.translate(0, 2.5, 0);
 			matrixStackIn.scale(0.5F, 0.5F, 0.5F);
@@ -36,21 +35,17 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> imp
 				for (int i = 0; i < data.length; i++) {
 					if (!data[i].equals("-1")) {
 						Color color = new Color(Integer.parseInt(data[i]));
-						model.parts[i].render(matrixStackIn, bufferIn.getBuffer(model.getRenderType(getEntityTexture(entityIn))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
+						//model.parts[i].render(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entityIn))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 					}
 				}
 			}
 		}
-		matrixStackIn.pop();
+		matrixStackIn.popPose();
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(GummiShipEntity entity) {
+	public ResourceLocation getTextureLocation(GummiShipEntity entity) {
 		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/gummi.png");
 	}
 
-	@Override
-	public EntityRenderer<? super GummiShipEntity> createRenderFor(EntityRendererManager manager) {
-		return new GummiShipEntityRenderer(manager);
-	}
 }

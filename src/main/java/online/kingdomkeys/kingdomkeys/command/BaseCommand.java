@@ -6,9 +6,9 @@ import java.util.Collection;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.server.level.ServerPlayer;
 
 public class BaseCommand {
 	/**
@@ -18,10 +18,10 @@ public class BaseCommand {
 	 * @return
 	 * @throws CommandSyntaxException
 	 */
-	public static Collection<ServerPlayerEntity> getPlayers(CommandContext<CommandSource> context, int numOfParams) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = new ArrayList<>();
+	public static Collection<ServerPlayer> getPlayers(CommandContext<CommandSourceStack> context, int numOfParams) throws CommandSyntaxException {
+		Collection<ServerPlayer> players = new ArrayList<>();
 		if(context.getInput().split(" ").length == numOfParams) {
-			players.add(context.getSource().asPlayer());
+			players.add(context.getSource().getPlayerOrException());
 		} else {
 			players = EntityArgument.getPlayers(context, "targets");
 		}

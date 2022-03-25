@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.shotlock;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -23,13 +23,13 @@ public class ShotlockPrismRain extends Shotlock {
 	}
 
 	@Override
-	public void onUse(PlayerEntity player, List<Entity> targetList) {
+	public void onUse(Player player, List<Entity> targetList) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setLimitCooldownTicks(cooldown);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity)player);
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 		float damage = (float) (DamageCalculation.getMagicDamage(player) * ModConfigs.shotlockMult);
-		PrismRainCoreEntity core = new PrismRainCoreEntity(player.world, player, targetList, damage);
-		core.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
-		player.world.addEntity(core);
+		PrismRainCoreEntity core = new PrismRainCoreEntity(player.level, player, targetList, damage);
+		core.setPos(player.getX(), player.getY(), player.getZ());
+		player.level.addFreshEntity(core);
 	}
 }

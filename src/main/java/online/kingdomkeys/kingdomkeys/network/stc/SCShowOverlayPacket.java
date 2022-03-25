@@ -3,8 +3,8 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
 
 public class SCShowOverlayPacket {
@@ -32,17 +32,17 @@ public class SCShowOverlayPacket {
 		this.driveForm = driveForm;
 	}
 
-	public void encode(PacketBuffer buffer) {
-        buffer.writeString(this.type);
+	public void encode(FriendlyByteBuf buffer) {
+        buffer.writeUtf(this.type);
         buffer.writeInt(this.munny);
-        buffer.writeString(this.driveForm);
+        buffer.writeUtf(this.driveForm);
 	}
 
-	public static SCShowOverlayPacket decode(PacketBuffer buffer) {
+	public static SCShowOverlayPacket decode(FriendlyByteBuf buffer) {
 		SCShowOverlayPacket msg = new SCShowOverlayPacket();
-		msg.type = buffer.readString(50);
+		msg.type = buffer.readUtf(50);
 		msg.munny = buffer.readInt();
-		msg.driveForm = buffer.readString(25);
+		msg.driveForm = buffer.readUtf(25);
 		return msg;
 	}
 

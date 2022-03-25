@@ -1,16 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-import net.minecraftforge.fml.client.gui.widget.Slider;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.minecraftforge.client.gui.widget.Slider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.CheckboxButton;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
@@ -18,13 +19,13 @@ import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPedestalConfig;
 
-public class PedestalScreen extends ContainerScreen<PedestalContainer> {
+public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
 
 	private static final String texture = KingdomKeys.MODID+":textures/gui/pedestal.png";
 
-    public PedestalScreen(PedestalContainer container, PlayerInventory inventory, ITextComponent title) {
+    public PedestalScreen(PedestalContainer container, Inventory inventory, Component title) {
         super(container, inventory, title);
-		this.ySize = 186;
+		this.imageHeight = 186;
 
     }
 
@@ -40,73 +41,74 @@ public class PedestalScreen extends ContainerScreen<PedestalContainer> {
     @Override
     protected void init() {
         super.init();
-        float current = (rotationSpeedMax / 100.0F) * (container.TE.getRotationSpeed() * (100.0F/(PedestalTileEntity.DEFAULT_ROTATION_SPEED * rotationSpeedMax)));
-        addButton(scaleSlider = new Slider(guiLeft + 8, guiTop + 30, 50, 10, new TranslationTextComponent(""), new TranslationTextComponent(""), 0.2D, scaleMax, container.TE.getScale(), true, false, h -> {}));
-        addButton(heightSlider = new Slider(guiLeft + 8, guiTop + 42, 50, 10, new TranslationTextComponent(""), new TranslationTextComponent(""), 0, heightMax, container.TE.getBaseHeight(), true, false, h -> {}));
-        addButton(rotationSpeedSlider = new Slider(guiLeft + 8, guiTop + 54, 50, 10, new TranslationTextComponent(""), new TranslationTextComponent(""), -rotationSpeedMax, rotationSpeedMax, container.TE.getRotationSpeed(), true, false, h -> { }));
-        addButton(bobSpeedSlider = new Slider(guiLeft + 8, guiTop + 66, 50, 10, new TranslationTextComponent(""), new TranslationTextComponent(""), 0, bobSpeedMax, container.TE.getBobSpeed(), true, false, h -> {}));
-        addButton(pauseCheckbox = new CheckboxButton(guiLeft + 8, guiTop + 18, "Pause", container.TE.isPaused()));
-        addButton(reset = new ExtendedButton(guiLeft + xSize - 53, guiTop + 80, 45, 15, new TranslationTextComponent("Reset"), p -> {
-            container.TE.setPause(false);
-            container.TE.setCurrentTransforms(PedestalTileEntity.DEFAULT_ROTATION, PedestalTileEntity.DEFAULT_HEIGHT);
-            container.TE.setSpeed(PedestalTileEntity.DEFAULT_ROTATION_SPEED, PedestalTileEntity.DEFAULT_BOB_SPEED);
-            container.TE.setScale(PedestalTileEntity.DEFAULT_SCALE);
-            container.TE.setBaseHeight(PedestalTileEntity.DEFAULT_HEIGHT);
+        float current = (rotationSpeedMax / 100.0F) * (menu.TE.getRotationSpeed() * (100.0F/(PedestalTileEntity.DEFAULT_ROTATION_SPEED * rotationSpeedMax)));
+        addWidget(scaleSlider = new Slider(leftPos + 8, topPos + 30, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0.2D, scaleMax, menu.TE.getScale(), true, false, h -> {}));
+        addWidget(heightSlider = new Slider(leftPos + 8, topPos + 42, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, heightMax, menu.TE.getBaseHeight(), true, false, h -> {}));
+        addWidget(rotationSpeedSlider = new Slider(leftPos + 8, topPos + 54, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), true, false, h -> { }));
+        addWidget(bobSpeedSlider = new Slider(leftPos + 8, topPos + 66, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), true, false, h -> {}));
+        addWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
+        addWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, new TranslatableComponent("Reset"), p -> {
+            menu.TE.setPause(false);
+            menu.TE.setCurrentTransforms(PedestalTileEntity.DEFAULT_ROTATION, PedestalTileEntity.DEFAULT_HEIGHT);
+            menu.TE.setSpeed(PedestalTileEntity.DEFAULT_ROTATION_SPEED, PedestalTileEntity.DEFAULT_BOB_SPEED);
+            menu.TE.setScale(PedestalTileEntity.DEFAULT_SCALE);
+            menu.TE.setBaseHeight(PedestalTileEntity.DEFAULT_HEIGHT);
             rotationSpeedSlider.setValue(PedestalTileEntity.DEFAULT_ROTATION_SPEED);
             bobSpeedSlider.setValue(PedestalTileEntity.DEFAULT_BOB_SPEED);
             scaleSlider.setValue(PedestalTileEntity.DEFAULT_SCALE);
             heightSlider.setValue(PedestalTileEntity.DEFAULT_HEIGHT);
             pauseCheckbox.setChecked(false);
-            PacketHandler.sendToServer(new CSPedestalConfig(container.TE.getPos(), container.TE.getRotationSpeed(), container.TE.getBobSpeed(), container.TE.getSavedRotation(), container.TE.getSavedHeight(), container.TE.getBaseHeight(), container.TE.getScale(), container.TE.isPaused()));
+            PacketHandler.sendToServer(new CSPedestalConfig(menu.TE.getBlockPos(), menu.TE.getRotationSpeed(), menu.TE.getBobSpeed(), menu.TE.getSavedRotation(), menu.TE.getSavedHeight(), menu.TE.getBaseHeight(), menu.TE.getScale(), menu.TE.isPaused()));
         }));
     }
 
     @Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
-        if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().gameSettings.keyBindInventory.getKey().getKeyCode()) { //256 = Esc
-            PacketHandler.sendToServer(new CSPedestalConfig(container.TE.getPos(), container.TE.getRotationSpeed(), container.TE.getBobSpeed(), container.TE.getSavedRotation(), container.TE.getSavedHeight(), container.TE.getBaseHeight(), container.TE.getScale(), container.TE.isPaused()));
+        if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
+            PacketHandler.sendToServer(new CSPedestalConfig(menu.TE.getBlockPos(), menu.TE.getRotationSpeed(), menu.TE.getBobSpeed(), menu.TE.getSavedRotation(), menu.TE.getSavedHeight(), menu.TE.getBaseHeight(), menu.TE.getScale(), menu.TE.isPaused()));
         }
         return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
     }
 
     @Override
-    public void tick() {
-        container.TE.setSpeed((float) rotationSpeedSlider.getValue(), (float) bobSpeedSlider.getValue());
-        container.TE.setPause(pauseCheckbox.isChecked());
-        container.TE.setScale((float) scaleSlider.getValue());
-        container.TE.setBaseHeight((float) heightSlider.getValue());
+    protected void containerTick() {
+        menu.TE.setSpeed((float) rotationSpeedSlider.getValue(), (float) bobSpeedSlider.getValue());
+        menu.TE.setPause(pauseCheckbox.isChecked());
+        menu.TE.setScale((float) scaleSlider.getValue());
+        menu.TE.setBaseHeight((float) heightSlider.getValue());
         if (pauseCheckbox.isChecked())
-            container.TE.saveTransforms(container.TE.getCurrentRotation(), container.TE.getCurrentHeight());
-        super.tick();
+            menu.TE.saveTransforms(menu.TE.getCurrentRotation(), menu.TE.getCurrentHeight());
+        super.containerTick();
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
     	 this.renderBackground(matrixStack);
          super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
-         this.renderHoveredTooltip(matrixStack, p_render_1_, p_render_2_);
+         this.renderTooltip(matrixStack, p_render_1_, p_render_2_);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
-        this.font.drawString(matrixStack, "Scale " + String.format("%.2f", scaleSlider.getValue()) + "x", 60.0F, 31.0F, 4210752);
-        this.font.drawString(matrixStack, "Height " + String.format("%.2f", heightSlider.getValue()), 60.0F, 43.0F, 4210752);
-        this.font.drawString(matrixStack, "Rotation Speed " + String.format("%.2f", rotationSpeedSlider.getValue()), 60.0F, 55.0F, 4210752);
-        this.font.drawString(matrixStack, "Bob Speed " + String.format("%.2f", bobSpeedSlider.getValue()), 60.0F, 67.0F, 4210752);
-        this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
+    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
+        this.font.draw(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
+        this.font.draw(matrixStack, "Scale " + String.format("%.2f", scaleSlider.getValue()) + "x", 60.0F, 31.0F, 4210752);
+        this.font.draw(matrixStack, "Height " + String.format("%.2f", heightSlider.getValue()), 60.0F, 43.0F, 4210752);
+        this.font.draw(matrixStack, "Rotation Speed " + String.format("%.2f", rotationSpeedSlider.getValue()), 60.0F, 55.0F, 4210752);
+        this.font.draw(matrixStack, "Bob Speed " + String.format("%.2f", bobSpeedSlider.getValue()), 60.0F, 67.0F, 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle.getString(), 8.0F, (float)(this.imageHeight - 96 + 2), 4210752);
        // super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
     	Minecraft mc = Minecraft.getInstance();
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindTexture(new ResourceLocation(texture));
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.getTextureManager().bindForSetup(new ResourceLocation(texture));
 
-        int xPos = (width - xSize) / 2;
-		int yPos = (height / 2) - (ySize / 2);
-		blit(matrixStack, xPos, yPos, 0, 0, xSize, ySize);
+        int xPos = (width - imageWidth) / 2;
+		int yPos = (height / 2) - (imageHeight / 2);
+		blit(matrixStack, xPos, yPos, 0, 0, imageWidth, imageHeight);
 
     }
 
