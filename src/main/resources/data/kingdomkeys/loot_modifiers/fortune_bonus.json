@@ -1,4 +1,5 @@
 {
+  "type": "kingdomkeys:fortune_bonus",
   "conditions": [],
   "function": "kingdomkeys:fortune_bonus"
 }

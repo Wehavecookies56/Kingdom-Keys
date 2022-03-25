@@ -35,8 +35,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 public class StationOfSorrowChunkGenerator extends ChunkGenerator {
+	
+	public StationOfSorrowChunkGenerator(Registry<StructureSet> structureSetRegistry, Registry<Biome> registry) {
+		super(structureSetRegistry, Optional.empty(), new StationOfSorrowBiomeProvider(registry));
+	}
 
-    public static void registerChunkGenerator() {
+	public static void registerChunkGenerator() {
 		Registry.register(Registry.CHUNK_GENERATOR, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_generator"), StationOfSorrowChunkGenerator.CODEC);
 	}
 
@@ -93,10 +97,7 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
             "0000000011441441100000000" +
     		"0000000000111110000000000";
 
-    public StationOfSorrowChunkGenerator(Registry<StructureSet> structureSetRegistry, Registry<Biome> registry) {
-        super(structureSetRegistry, Optional.empty(), new DiveToTheHeartBiomeProvider(registry));
-    }
-    
+   
     @Override
     protected Codec<? extends ChunkGenerator> codec() {
         return CODEC;

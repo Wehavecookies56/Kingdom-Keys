@@ -19,7 +19,7 @@ public class ModMagic {
 
 	public static Supplier<IForgeRegistry<Magic>> registry = MAGIC.makeRegistry(Magic.class, RegistryBuilder::new);;
 
-	@Mod.EventBusSubscriber
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registry {
 
 		@SubscribeEvent
@@ -35,7 +35,7 @@ public class ModMagic {
 			MagicReflect reflect = new MagicReflect(Strings.Magic_Reflect, 3, false, order++);
 			MagicGravity gravity = new MagicGravity(Strings.Magic_Gravity, 3, false, order++);
 			MagicStop stop = new MagicStop(Strings.Magic_Stop, 3, false, order++);
-
+			
 			event.getRegistry().registerAll(fire, blizzard, water, thunder, cure, aero, magnet, reflect, gravity, stop);
 		}
 	}
