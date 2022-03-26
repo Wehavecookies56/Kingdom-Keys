@@ -274,7 +274,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			double offset = (boxR.getWidth()*0.2F);
 			matrixStack.translate(iconPosX + offset/2, iconPosY, 1);
 			matrixStack.scale((float)(boxR.getWidth() / 16 - offset / 16), (float)(boxR.getWidth()/16 - offset / 16), 1);
-			itemRenderer.renderGuiItem(selected, 0, 0);
+			Utils.drawItemAsIcon(selected, matrixStack, 1, 0, 16);
+
 		}
 		matrixStack.popPose();
 

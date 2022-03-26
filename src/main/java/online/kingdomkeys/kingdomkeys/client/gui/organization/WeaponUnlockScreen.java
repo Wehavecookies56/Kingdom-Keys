@@ -81,7 +81,8 @@ public class WeaponUnlockScreen extends Screen {
         matrixStack.scale(5, 5, 5);
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(0, 0, 0, 1);
-        Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(new ItemStack(weapons.get(current)), 0, 0);
+        Utils.drawItemAsIcon(new ItemStack(weapons.get(current)), matrixStack, 0,0,16);
+
         matrixStack.popPose();
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
     }

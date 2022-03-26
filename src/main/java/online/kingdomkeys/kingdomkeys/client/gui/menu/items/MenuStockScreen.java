@@ -62,7 +62,7 @@ public class MenuStockScreen extends MenuFilterable {
         {
         	matrixStack.translate(iconPosX, iconPosY, 0);
         	matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-            mc.getItemRenderer().renderAndDecorateItem(selected, 0, 0);
+			Utils.drawItemAsIcon(selected, matrixStack, 1, -1, 16);
         }
         matrixStack.popPose();
         

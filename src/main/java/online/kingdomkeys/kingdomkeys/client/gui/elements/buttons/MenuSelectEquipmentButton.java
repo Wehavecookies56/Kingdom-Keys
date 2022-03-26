@@ -168,7 +168,8 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
                         
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-                        minecraft.getItemRenderer().renderAndDecorateItem(new ItemStack(keyblade), 0, 0);
+                        Utils.drawItemAsIcon(new ItemStack(keyblade), matrixStack, 0, 0, 16);
+                        
                     }
                     matrixStack.popPose();
 					float strPosX = parent.width * 0.685F;

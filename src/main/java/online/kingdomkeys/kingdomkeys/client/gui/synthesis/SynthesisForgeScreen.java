@@ -159,7 +159,8 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		for (int i = 0; i < items.size(); i++) {
 			if(items.get(i).getItem() instanceof KeychainItem) {
-				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false, ((KeychainItem)items.get(i).getItem()).toSummon().getDesc()));
+				KeybladeItem kb = ((KeychainItem)items.get(i).getItem()).toSummon();
+				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false, new ItemStack(kb).getHoverName().getString()));
 			} else {
 				inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),  (int)(width * 0.28F), false));
 			}
@@ -270,10 +271,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				double offset = (boxM.getWidth()*0.1F);
 				matrixStack.translate(boxM.x + offset/2, iconPosY, 1);
-				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1); //TODO looks ok with items but not keyblades
+				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
 				matrixStack.scale(0.8F, 0.8F, 0.8F);
-				//RenderSystem.scalef((float)(boxM.getWidth() / 24F - offset / 24F), (float)(boxM.getWidth() / 24F - offset / 24F), 1);
-				itemRenderer.renderGuiItem(new ItemStack(kb), 2, -4);
+				Utils.drawItemAsIcon(new ItemStack(kb), matrixStack, 2, -4, 16);
+
 			}
 			matrixStack.popPose();
 			

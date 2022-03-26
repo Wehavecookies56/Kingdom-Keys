@@ -128,7 +128,8 @@ public class MenuSelectPotionButton extends MenuButtonBase {
                         
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-                        minecraft.getItemRenderer().renderAndDecorateItem(stack, 0, 0);
+                       // minecraft.getItemRenderer().renderAndDecorateItem(stack, 0, 0);
+                        Utils.drawItemAsIcon(stack, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();
 					float strPosX = parent.width * 0.685F;

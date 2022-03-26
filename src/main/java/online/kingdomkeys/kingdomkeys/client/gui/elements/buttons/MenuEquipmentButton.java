@@ -192,7 +192,8 @@ public class MenuEquipmentButton extends Button {
                         
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
-                        mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);
+                        //mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);
+                        Utils.drawItemAsIcon(item, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();
 

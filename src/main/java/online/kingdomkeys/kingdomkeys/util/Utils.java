@@ -781,29 +781,37 @@ public class Utils {
 		playerData.setMP(playerData.getMaxMP());
 	}
 
-	public static void renderGuiItem(ItemRenderer renderer, PoseStack posestack, ItemStack pStack, int pX, int pY) {
-		BakedModel pBakedmodel = renderer.getModel(pStack, (Level)null, (LivingEntity)null, 0);
-		//renderer.textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
-		//RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
-		//RenderSystem.enableBlend();
-		//RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		//posestack.pushPose();
-		//posestack.translate((double) pX, (double) pY, (double) (100.0F + renderer.blitOffset));
-		//posestack.translate(8.0D, 8.0D, 0.0D);
-		//posestack.scale(1.0F, -1.0F, 1.0F);
-		//posestack.scale(16.0F, 16.0F, 16.0F);
-		//RenderSystem.applyModelViewMatrix();
-		MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-		
-		renderer.render(pStack, ItemTransforms.TransformType.GUI, false, posestack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, pBakedmodel);
-		multibuffersource$buffersource.endBatch();
-		//RenderSystem.enableDepthTest();
-		
+	public static void drawItemAsIcon(ItemStack itemStack, PoseStack poseStack, int positionX, int positionY, int size) {
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        //Code stolen from ItemRenderer.renderGuiItem and changed to suit scaled items instead of fixing size to 16
+        BakedModel itemBakedModel = itemRenderer.getModel(itemStack, null, null, 0);
 
-		//posestack.popPose();
-		//RenderSystem.applyModelViewMatrix();
-	}
+        Minecraft.getInstance().getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.pushPose();
+        poseStack.translate(positionX, positionY, 100.0F);
+        poseStack.translate(8.0D, 8.0D, 0.0D);
+        poseStack.scale(1.0F, -1.0F, 1.0F);
+        poseStack.scale(size, size, size);
+        RenderSystem.applyModelViewMatrix();
+        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+        boolean flag = !itemBakedModel.usesBlockLight();
+        if (flag) {
+            Lighting.setupForFlatItems();
+        }
+
+        itemRenderer.render(itemStack, ItemTransforms.TransformType.GUI, false, poseStack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, itemBakedModel);
+        multibuffersource$buffersource.endBatch();
+        if (flag) {
+            Lighting.setupFor3DItems();
+        }
+
+        poseStack.popPose();
+        RenderSystem.applyModelViewMatrix();
+    }
 	
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
