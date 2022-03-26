@@ -41,7 +41,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 		bagLevel = nbt.getInt("level");
 		this.imageHeight = texHeight[bagLevel];
 		this.imageWidth = 193;
-		addWidget(upgrade = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {
+		addRenderableWidget(upgrade = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {
 			upgrade();
 		}));
 		
@@ -93,7 +93,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 		Minecraft mc = Minecraft.getInstance();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindForSetup(new ResourceLocation(textureBase + bagLevel + ".png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(textureBase + bagLevel + ".png"));
 
 		int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);

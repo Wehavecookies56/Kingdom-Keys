@@ -58,7 +58,7 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 
-        addWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
 
@@ -69,11 +69,11 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 		String equippedAccessoryName = (equippedAccessory != null && equippedAccessory.getItem() instanceof KKAccessoryItem) ? ((KKAccessoryItem) equippedAccessory.getItem()).getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedAccessoryName),"", buttonColour));
+		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedAccessoryName),"", buttonColour));
 		if(slot >= 0) {
 			if(!ItemStack.matches(equippedAccessory, ItemStack.EMPTY)) {
 				if (minecraft.player.getInventory().getFreeSlot() > -1) {
-					addWidget(new MenuSelectAccessoryButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					addRenderableWidget(new MenuSelectAccessoryButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 				}
 			}
 			
@@ -85,7 +85,7 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 							int amount = addedAccessoriesList.get(accessory);
 							addedAccessoriesList.replace(accessory, amount+1);
 						} else {
-							addWidget(new MenuSelectAccessoryButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							addRenderableWidget(new MenuSelectAccessoryButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 							addedAccessoriesList.put((KKAccessoryItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}

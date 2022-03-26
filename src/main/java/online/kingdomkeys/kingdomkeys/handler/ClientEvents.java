@@ -293,7 +293,7 @@ public class ClientEvents {
     private static void renderIcon(PoseStack matrix, Entity entity, double x, double y, double z, int red, int green, int blue, float scale) {
         EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
         scale *= 5;
-		renderManager.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+        RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
 		matrix.pushPose();
         GL11.glNormal3f(0.0f, 1.0f, 0.0f);
         matrix.translate(x + 0.5, y + 3, z + 0.5);
@@ -372,7 +372,7 @@ public class ClientEvents {
 						float scale = Math.max(entityIn.getBbHeight()/2, entityIn.getBbWidth()/2)/100;
 					
 						matrixStackIn.scale(-scale, -scale, scale);
-						Minecraft.getInstance().getEntityRenderDispatcher().textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+						RenderSystem.setShaderTexture(0,new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
 						blit(matrixStackIn,-128,-128,0,0,256,256);
 					}
 					matrixStackIn.popPose();

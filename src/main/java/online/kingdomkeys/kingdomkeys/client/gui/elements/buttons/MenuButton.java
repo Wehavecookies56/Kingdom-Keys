@@ -85,7 +85,7 @@ public class MenuButton extends MenuButtonBase {
 
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			Minecraft.getInstance().textureManager.bindForSetup(texture);
+			RenderSystem.setShaderTexture(0, texture);
 			if (isHovered && active) { // Hovered button
 				x += 10;
 				drawButton(matrixStack, true);

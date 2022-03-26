@@ -69,7 +69,7 @@ public class MenuFilterBar {
     public void render(PoseStack matrixStack, GuiComponent gui, int mouseX, int mouseY, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+        RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
         Utils.blitScaled(matrixStack, gui, startX, y, 118, 0, 48, 30, 0.5F);
         buttons.forEach(b -> b.render(matrixStack, mouseX, mouseY, partialTicks));
         Utils.blitScaled(matrixStack, gui, endX, y, 166, 0, 48, 30, 0.5F);

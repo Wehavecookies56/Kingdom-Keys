@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.hud;
 import java.awt.Color;
 
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -128,7 +129,7 @@ public abstract class HUDElement extends AbstractWidget {
      * @param texHeight texture height
      */
     public void bindAndBlit(PoseStack matrixStack, ResourceLocation texture, int posX, int posY, int texU, int texV, int texWidth, int texHeight) {
-        mcInstance.getTextureManager().bindForSetup(texture);
+    	RenderSystem.setShaderTexture(0,texture);
         blit(matrixStack, posX, posY, texU, texV, texWidth, texHeight);
     }
 

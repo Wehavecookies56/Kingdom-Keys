@@ -41,7 +41,7 @@ public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestCont
 		Minecraft mc = Minecraft.getInstance();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindForSetup(new ResourceLocation(texture));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(texture));
 
         int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);

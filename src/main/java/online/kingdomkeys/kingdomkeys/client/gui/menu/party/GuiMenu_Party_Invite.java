@@ -92,7 +92,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		for(int i = 1; i < minecraft.level.players().size(); i++) {
 			if(worldData.getPartyFromMember(minecraft.level.players().get(i).getUUID()) != party) {
-				addWidget(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((c++) * 18), (int)(buttonWidth * 2), minecraft.level.players().get(i).getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
+				addRenderableWidget(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((c++) * 18), (int)(buttonWidth * 2), minecraft.level.players().get(i).getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
 			}
 		}
 	
@@ -111,7 +111,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}

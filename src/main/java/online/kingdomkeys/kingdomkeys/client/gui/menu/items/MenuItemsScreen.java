@@ -35,9 +35,9 @@ public class MenuItemsScreen extends MenuBackground {
 
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 
-        addWidget(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, Strings.Gui_Menu_Items_Equipment, MenuButton.ButtonType.BUTTON, true, b -> openItems(playerData)));
-        addWidget(items_stock = new MenuButton((int)buttonPosX, button_items_stockY, (int)buttonWidth, Strings.Gui_Menu_Items_Stock, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MenuStockScreen())));
-        addWidget(items_back = new MenuButton((int)buttonPosX, button_items_backY, (int)buttonWidth, Strings.Gui_Menu_Back, MenuButton.ButtonType.BUTTON, true, b -> GuiHelper.openMenu()));
+        addRenderableWidget(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, Strings.Gui_Menu_Items_Equipment, MenuButton.ButtonType.BUTTON, true, b -> openItems(playerData)));
+        addRenderableWidget(items_stock = new MenuButton((int)buttonPosX, button_items_stockY, (int)buttonWidth, Strings.Gui_Menu_Items_Stock, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MenuStockScreen())));
+        addRenderableWidget(items_back = new MenuButton((int)buttonPosX, button_items_backY, (int)buttonWidth, Strings.Gui_Menu_Back, MenuButton.ButtonType.BUTTON, true, b -> GuiHelper.openMenu()));
 
     }
 

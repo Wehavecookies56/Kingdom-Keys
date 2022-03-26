@@ -31,8 +31,8 @@ public class OrgPortalGui extends Screen {
 	@Override
 	protected void init() {
 		int tfWidth = minecraft.font.width("####################");
-		addWidget(nameBox = new EditBox(minecraft.font, width / 2 - tfWidth / 2, height / 2 - 10, tfWidth, 16, new TranslatableComponent("")));
-		addWidget(set = new Button(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20, new TranslatableComponent("Set name"), (e) -> {
+		addRenderableWidget(nameBox = new EditBox(minecraft.font, width / 2 - tfWidth / 2, height / 2 - 10, tfWidth, 16, new TranslatableComponent("")));
+		addRenderableWidget(set = new Button(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20, new TranslatableComponent("Set name"), (e) -> {
 			action();
 		}));
 

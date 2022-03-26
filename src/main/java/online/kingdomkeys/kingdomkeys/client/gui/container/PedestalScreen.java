@@ -42,12 +42,12 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     protected void init() {
         super.init();
         float current = (rotationSpeedMax / 100.0F) * (menu.TE.getRotationSpeed() * (100.0F/(PedestalTileEntity.DEFAULT_ROTATION_SPEED * rotationSpeedMax)));
-        addWidget(scaleSlider = new Slider(leftPos + 8, topPos + 30, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0.2D, scaleMax, menu.TE.getScale(), true, false, h -> {}));
-        addWidget(heightSlider = new Slider(leftPos + 8, topPos + 42, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, heightMax, menu.TE.getBaseHeight(), true, false, h -> {}));
-        addWidget(rotationSpeedSlider = new Slider(leftPos + 8, topPos + 54, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), true, false, h -> { }));
-        addWidget(bobSpeedSlider = new Slider(leftPos + 8, topPos + 66, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), true, false, h -> {}));
-        addWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
-        addWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, new TranslatableComponent("Reset"), p -> {
+        addRenderableWidget(scaleSlider = new Slider(leftPos + 8, topPos + 30, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0.2D, scaleMax, menu.TE.getScale(), true, false, h -> {}));
+        addRenderableWidget(heightSlider = new Slider(leftPos + 8, topPos + 42, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, heightMax, menu.TE.getBaseHeight(), true, false, h -> {}));
+        addRenderableWidget(rotationSpeedSlider = new Slider(leftPos + 8, topPos + 54, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), true, false, h -> { }));
+        addRenderableWidget(bobSpeedSlider = new Slider(leftPos + 8, topPos + 66, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), true, false, h -> {}));
+        addRenderableWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
+        addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, new TranslatableComponent("Reset"), p -> {
             menu.TE.setPause(false);
             menu.TE.setCurrentTransforms(PedestalTileEntity.DEFAULT_ROTATION, PedestalTileEntity.DEFAULT_HEIGHT);
             menu.TE.setSpeed(PedestalTileEntity.DEFAULT_ROTATION_SPEED, PedestalTileEntity.DEFAULT_BOB_SPEED);
@@ -104,7 +104,7 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     	Minecraft mc = Minecraft.getInstance();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindForSetup(new ResourceLocation(texture));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(texture));
 
         int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);

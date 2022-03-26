@@ -112,7 +112,7 @@ public class MenuEquipmentButton extends Button {
         float gradientWidth = parent.width * 0.175F;
         if (visible) {
             float itemWidth = parent.width * 0.264F;
-            mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
             matrixStack.pushPose();
             {
                 RenderSystem.enableBlend();
@@ -160,7 +160,7 @@ public class MenuEquipmentButton extends Button {
             	}
             }
             if (isHovered) {
-                mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
                     
@@ -302,7 +302,7 @@ public class MenuEquipmentButton extends Button {
 							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
-				                mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+				                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			                    blit(matrixStack, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
 								drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
 							}
@@ -328,7 +328,7 @@ public class MenuEquipmentButton extends Button {
             Lighting.setupFor3DItems();
             RenderSystem.setShaderColor(1, 1, 1, 1);
             if (hasLabel) {
-                mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
                     

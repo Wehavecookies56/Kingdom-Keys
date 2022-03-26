@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -142,7 +143,7 @@ public class CommandMenuHUDElement extends HUDElement {
 
     @Override
     public void drawElement(PoseStack matrixStack, float partialTicks) {
-        mcInstance.getTextureManager().bindForSetup(TEXTURE);
+    	RenderSystem.setShaderTexture(0,TEXTURE);
         blit(matrixStack, 0, 0, 0, 0, MENU_WIDTH, MENU_HEIGHT);
         drawString(matrixStack, "COMMANDS", 0, 0, Color.WHITE);
         float lerpedPos = previousTickPos + (currentTickPos - previousTickPos) * partialTicks;

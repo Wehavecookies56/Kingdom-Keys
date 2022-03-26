@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -39,7 +40,7 @@ public class MenuFilterButton extends Button {
         if (visible) {
             float centreX = x + ((width - (iconSize / 2F)) * scale);
             float centreY = y + ((height -(iconSize / 2F)) * scale);
-            mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
             Utils.blitScaled(matrixStack, this, x, y, 66, 0, 52, 30, scale);
             if (getMessage().getString().isEmpty() && category != null) {
@@ -48,7 +49,7 @@ public class MenuFilterButton extends Button {
                 float textCentreX = x + ((width * scale) - ((fr.width(getMessage()) * 0.75F) / 2));
                 float textCentreY = y + ((height * scale) - ((fr.lineHeight * 0.75F) / 2));
                 Utils.drawStringScaled(matrixStack, this, textCentreX, textCentreY, getMessage().getString(), 0xFFFFFF, 0.75F);
-                mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
             }
         }
     }

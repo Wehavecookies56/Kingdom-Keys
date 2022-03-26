@@ -43,7 +43,7 @@ public class MenuStockItem extends Button {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
-            mc.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
             if (isHovered || parent.selected == stack) {
                 matrixStack.pushPose();
                 {

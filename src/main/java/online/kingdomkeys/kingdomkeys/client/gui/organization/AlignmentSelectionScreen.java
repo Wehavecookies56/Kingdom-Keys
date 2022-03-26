@@ -179,12 +179,12 @@ public class AlignmentSelectionScreen extends Screen {
                 drawCenteredString(matrixStack, font, new TranslatableComponent("gui.org.line5").getString(), (width / 2), height / 2, 0xFFFFFF);
             } else {
                 matrixStack.pushPose();
-                Minecraft.getInstance().getTextureManager().bindForSetup(GLOW);
+                RenderSystem.setShaderTexture(0, GLOW);
                 RenderSystem.enableBlend();
                 blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
                 matrixStack.popPose();
                 matrixStack.pushPose();
-                Minecraft.getInstance().getTextureManager().bindForSetup(icons[current.ordinal()-1]);
+                RenderSystem.setShaderTexture(0, icons[current.ordinal()-1]);
                 RenderSystem.enableBlend();
                 blit(matrixStack, (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
                 matrixStack.translate((width / 2) - (8) - 64, (height / 2) - 110, 0);
@@ -200,12 +200,12 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void init() {
-        addWidget(ok = new Button(0, 0, 50, 20, new TranslatableComponent("gui.org.ok"), p -> actionPerformed(OK)));
-        addWidget(confirm = new Button(0, 0, 60, 20, new TranslatableComponent("gui.org.confirm"), p -> actionPerformed(CONFIRM)));
-        addWidget(cancel = new Button(0, 0, 60, 20,  new TranslatableComponent("gui.org.cancel"), p -> actionPerformed(CANCEL)));
-        addWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
-        addWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
-        addWidget(select = new Button(0, 0, 70, 20,  new TranslatableComponent("gui.org.select"), p -> actionPerformed(SELECT)));
+        addRenderableWidget(ok = new Button(0, 0, 50, 20, new TranslatableComponent("gui.org.ok"), p -> actionPerformed(OK)));
+        addRenderableWidget(confirm = new Button(0, 0, 60, 20, new TranslatableComponent("gui.org.confirm"), p -> actionPerformed(CONFIRM)));
+        addRenderableWidget(cancel = new Button(0, 0, 60, 20,  new TranslatableComponent("gui.org.cancel"), p -> actionPerformed(CANCEL)));
+        addRenderableWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
+        addRenderableWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
+        addRenderableWidget(select = new Button(0, 0, 70, 20,  new TranslatableComponent("gui.org.select"), p -> actionPerformed(SELECT)));
         updateButtons();
         super.init();
     }

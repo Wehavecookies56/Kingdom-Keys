@@ -63,21 +63,21 @@ public class MenuCustomizeScreen extends MenuBackground {
 		
 		for(int i = 0; i< shortcuts.length;i++) {
 			int j = i;
-			addWidget(shortcuts[i] = new MenuButton((int) buttonPosX, (int) topBarHeight +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
+			addRenderableWidget(shortcuts[i] = new MenuButton((int) buttonPosX, (int) topBarHeight +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
 		}		
 		
 		//if(selectedShortcut > -1) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			int totalMagics = 0;
 			int magicType = 0;
-			addWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
+			addRenderableWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
 			for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
 				int level = entry.getValue()[0];
 				Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(entry.getKey()));
 				while(level >= 0) {
 					int lvl = level;
-					addWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
+					addRenderableWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
 					magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
 					level--;
 					totalMagics++;
@@ -92,7 +92,7 @@ public class MenuCustomizeScreen extends MenuBackground {
 			}
 		//}
 
-		addWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { GuiHelper.openMenu(); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { GuiHelper.openMenu(); }));
 		
 	}
 

@@ -63,9 +63,10 @@ public class LockOnGui extends Screen {
 					InputHandler.lockOn = null;
 					return;
 				}
-				if (event.getType() == RenderGameOverlayEvent.ElementType.LAYER) {
+				//TODO remove crosshair
+				/*if (event.getType() == RenderGameOverlayEvent.ElementType.LAYER) {
 					event.setCanceled(true);
-				}
+				}*/
 				
 				if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 					float size = 6;
@@ -97,9 +98,6 @@ public class LockOnGui extends Screen {
 
 					matrixStack.pushPose();
 
-					//int[] scan = playerData.getEquippedAbilityLevel(Strings.scan);
-					// If ability level > 0 and amount of equipped is > 0
-					//if (target != null && scan[0] > 0 && scan[1] > 0) {
 					if(target != null && playerData.isAbilityEquipped(Strings.scan)) {
 						matrixStack.pushPose();
 						{

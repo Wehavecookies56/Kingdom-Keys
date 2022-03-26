@@ -72,7 +72,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-        addWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
@@ -85,14 +85,14 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
             MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x555555, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xAAAAAA);            
             totalButtons.add(orgWeaponSlot);
-            addWidget(orgWeaponSlot);
+            addRenderableWidget(orgWeaponSlot);
 
-            addWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, new TranslatableComponent(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; scrollOffset = 0; init();}));
+            addRenderableWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, new TranslatableComponent(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; scrollOffset = 0; init();}));
             
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getEquippedWeapon() != null && playerData.getEquippedWeapon().getItem() instanceof KeybladeItem)) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
             	totalButtons.add(sbSlot);
-                addWidget(sbSlot);
+                addRenderableWidget(sbSlot);
             }
         } else {
         	showingKeyblades = true;
@@ -101,7 +101,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         //Slot main keyblade
         if (keychains.get(DriveForm.NONE) != null) {
             MenuEquipmentButton firstSlot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
-            addWidget(firstSlot);
+            addRenderableWidget(firstSlot);
             
             if(showingKeyblades)
                 totalButtons.add(firstSlot);
@@ -114,7 +114,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.getEquippedAbilityLevel(Strings.synchBlade)[1] > 0 && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
             	totalButtons.add(sbSlot);
-                addWidget(sbSlot);
+                addRenderableWidget(sbSlot);
 
                 hidden.getAndIncrement();
             }
@@ -127,7 +127,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             ItemStack keychain = entry.getValue();
             if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.get().getValue(form).hasKeychain()) {
             	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.get().getValue(form).getTranslationKey(), 0x00BBBB);
-                addWidget(button);
+                addRenderableWidget(button);
 
                 hidden.getAndIncrement();
                
@@ -145,7 +145,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         if (shotlocks != null) {
             MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 100), 0x44FF99), ItemCategory.SHOTLOCK, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
             totalButtons.add(shotlockSlot);
-            addWidget(shotlockSlot);
+            addRenderableWidget(shotlockSlot);
         }
         
         if(accessories != null) {
@@ -159,7 +159,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this);
                }
                totalButtons.add(accessorySlot);
-               addWidget(accessorySlot);
+               addRenderableWidget(accessorySlot);
             });
        }
         
@@ -174,7 +174,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
                 	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this);
                 }
                 totalButtons.add(potionSlot);
-                addWidget(potionSlot);
+                addRenderableWidget(potionSlot);
              });
         }
         

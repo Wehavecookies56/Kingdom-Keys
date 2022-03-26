@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -27,7 +28,7 @@ public class CheckboxButton extends AbstractButton {
     @Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if (visible) {
-            Minecraft.getInstance().textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID + ":textures/gui/checkbox.png"));
+            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID + ":textures/gui/checkbox.png"));
             blit(matrixStack, x, y, 0, 0, 10, 10);
             if (checked) {
                 blit(matrixStack, x, y, 10, 0, 10, 10);

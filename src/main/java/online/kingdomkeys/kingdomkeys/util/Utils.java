@@ -15,12 +15,21 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -772,6 +781,29 @@ public class Utils {
 		playerData.setMP(playerData.getMaxMP());
 	}
 
+	public static void renderGuiItem(ItemRenderer renderer, PoseStack posestack, ItemStack pStack, int pX, int pY) {
+		BakedModel pBakedmodel = renderer.getModel(pStack, (Level)null, (LivingEntity)null, 0);
+		//renderer.textureManager.getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
+		//RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+		//RenderSystem.enableBlend();
+		//RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		//RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		//posestack.pushPose();
+		//posestack.translate((double) pX, (double) pY, (double) (100.0F + renderer.blitOffset));
+		//posestack.translate(8.0D, 8.0D, 0.0D);
+		//posestack.scale(1.0F, -1.0F, 1.0F);
+		//posestack.scale(16.0F, 16.0F, 16.0F);
+		//RenderSystem.applyModelViewMatrix();
+		MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+		
+		renderer.render(pStack, ItemTransforms.TransformType.GUI, false, posestack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, pBakedmodel);
+		multibuffersource$buffersource.endBatch();
+		//RenderSystem.enableDepthTest();
+		
+
+		//posestack.popPose();
+		//RenderSystem.applyModelViewMatrix();
+	}
 	
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {

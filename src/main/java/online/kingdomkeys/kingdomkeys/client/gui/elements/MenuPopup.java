@@ -74,8 +74,8 @@ public abstract class MenuPopup extends Screen {
         int buttonWidth = 50;
         int buttonX = (scaledWidth / 2) - (buttonWidth * 2);
         int buttonY = (scaledHeight / 2) + -10 + (getTextToDisplay().size() * ((font.lineHeight * 2) + 3));
-        this.addWidget(ok = new MenuButton(buttonX, buttonY, buttonWidth, Utils.translateToLocal(OKString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.OK)));
-        this.addWidget(cancel = new MenuButton(buttonX + (buttonWidth * 2), buttonY, buttonWidth, Utils.translateToLocal(CANCELString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.CANCEL)));
+        this.addRenderableWidget(ok = new MenuButton(buttonX, buttonY, buttonWidth, Utils.translateToLocal(OKString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.OK)));
+        this.addRenderableWidget(cancel = new MenuButton(buttonX + (buttonWidth * 2), buttonY, buttonWidth, Utils.translateToLocal(CANCELString()), MenuButton.ButtonType.BUTTON, (p)->buttonAction(Action.CANCEL)));
         ok.visible = false;
         ok.active = false;
         cancel.visible = false;

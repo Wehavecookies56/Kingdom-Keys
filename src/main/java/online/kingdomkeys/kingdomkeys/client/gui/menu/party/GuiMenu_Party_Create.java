@@ -98,12 +98,12 @@ public class GuiMenu_Party_Create extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 
-		addWidget(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslatableComponent(""), (e) -> { action("togglePriv"); }));
-		addWidget(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 100, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
-		addWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addWidget(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20, new TranslatableComponent(Party.PARTY_LIMIT+""), (e) -> { action("size"); }));
+		addRenderableWidget(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslatableComponent(""), (e) -> { action("togglePriv"); }));
+		addRenderableWidget(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 100, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20, new TranslatableComponent(Party.PARTY_LIMIT+""), (e) -> { action("size"); }));
 		
-		addWidget(tfName = new EditBox(minecraft.font, (int)(width*0.25), (int)(height*0.25), 100, 15, new TranslatableComponent("")) {
+		addRenderableWidget(tfName = new EditBox(minecraft.font, (int)(width*0.25), (int)(height*0.25), 100, 15, new TranslatableComponent("")) {
 			@Override
 			public boolean charTyped(char c, int i) {
 				super.charTyped(c, i);

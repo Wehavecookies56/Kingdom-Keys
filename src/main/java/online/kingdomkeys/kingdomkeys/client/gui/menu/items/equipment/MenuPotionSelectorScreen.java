@@ -58,7 +58,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 
-        addWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
 
@@ -69,11 +69,11 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ? ((KKPotionItem) equippedPotion.getItem()).getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour));
+		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour));
 		if(slot >= 0) {
 			if(!ItemStack.matches(equippedPotion, ItemStack.EMPTY)) {
 				if (minecraft.player.getInventory().getFreeSlot() > -1) {
-					addWidget(new MenuSelectPotionButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					addRenderableWidget(new MenuSelectPotionButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 				}
 			}
 			
@@ -85,7 +85,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 							int amount = addedItemsList.get(item);
 							addedItemsList.replace(item, amount+1);
 						} else {
-							addWidget(new MenuSelectPotionButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							addRenderableWidget(new MenuSelectPotionButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 							addedItemsList.put((KKPotionItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}

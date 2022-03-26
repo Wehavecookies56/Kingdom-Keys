@@ -52,7 +52,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 
-        addWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
 
@@ -64,14 +64,14 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		String equippedShotlockName = equippedShotlock == null ? "---" : equippedShotlock.getTranslationKey();
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedShotlockName),equippedShotlock == null ? "N/A" : "Max: "+equippedShotlock.getMaxLocks(), buttonColour));
+		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedShotlockName),equippedShotlock == null ? "N/A" : "Max: "+equippedShotlock.getMaxLocks(), buttonColour));
 		
 		if(equippedShotlock != null)
-			addWidget(new MenuSelectShotlockButton("", (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+			addRenderableWidget(new MenuSelectShotlockButton("", (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 
 		for(String sName : Utils.getSortedShotlocks(playerData.getShotlockList())) {
 			if(equippedShotlock == null || !sName.equals(equippedShotlock.getName())) {
-				addWidget(new MenuSelectShotlockButton(sName, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+				addRenderableWidget(new MenuSelectShotlockButton(sName, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 			}
 		}
 

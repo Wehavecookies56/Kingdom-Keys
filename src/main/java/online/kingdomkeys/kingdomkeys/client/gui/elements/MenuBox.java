@@ -47,7 +47,7 @@ public class MenuBox extends AbstractWidget{
         RenderSystem.setShaderColor(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F, 1.0F);
         
         RenderSystem.enableBlend();
-        mc.textureManager.bindForSetup(texture);
+        RenderSystem.setShaderTexture(0, texture);
         //Top left corner
         blit(matrixStack, posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
         //Top right corner

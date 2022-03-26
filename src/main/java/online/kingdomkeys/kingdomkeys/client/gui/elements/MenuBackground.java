@@ -10,12 +10,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -203,7 +204,8 @@ public class MenuBackground extends Screen {
 		matrixStack.pushPose();
 		{
 			String dimension = minecraft.player.level.dimension().location().getPath().toUpperCase().replaceAll("_", " ");
-			ResourceLocation biomeLoc = minecraft.level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(minecraft.level.getBiome(minecraft.player.blockPosition()).unwrap().right().get());
+			ResourceLocation biomeLoc = new ResourceLocation(printBiome(this.minecraft.level.getBiome(minecraft.player.blockPosition())));
+
 			String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
 			if (Language.getInstance().has(biome)) {
 				biome = Utils.translateToLocal(biome);
@@ -308,5 +310,13 @@ public class MenuBackground extends Screen {
 	protected void drawBackground(int screenWidth, int screenHeight, boolean drawPlayer) {
 		// Minecraft.getInstance().renderEngine.bindTexture(optionsBackground);
 	}
+	
+	private static String printBiome(Holder<Biome> p_205375_) {
+	      return p_205375_.unwrap().map((p_205377_) -> {
+	         return p_205377_.location().toString();
+	      }, (p_205367_) -> {
+	         return "[unregistered " + p_205367_ + "]";
+	      });
+	   }
 
 }

@@ -92,6 +92,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
@@ -239,6 +240,8 @@ public class EntityEvents {
 			}
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+			//playerData.setSacrifice(SoAState.MYSTIC);
+
 			if (playerData != null) {
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 				//Check if rc conditions match

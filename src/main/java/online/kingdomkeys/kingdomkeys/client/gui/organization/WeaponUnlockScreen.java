@@ -69,7 +69,7 @@ public class WeaponUnlockScreen extends Screen {
         int weapon_h = 128;
         renderBackground(matrixStack);
         matrixStack.pushPose();
-        Minecraft.getInstance().getTextureManager().bindForSetup(GLOW);
+        RenderSystem.setShaderTexture(0, GLOW);
         RenderSystem.enableBlend();
         blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
         drawString(matrixStack, font, new ItemStack(weapons.get(current)).getHoverName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
@@ -89,10 +89,10 @@ public class WeaponUnlockScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addWidget(cancel = new Button(0, 0, 50, 20, new TranslatableComponent("Back"), p -> actionPerformed(CANCEL)));
-        addWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
-        addWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
-        addWidget(select = new Button(0, 0, 50, 20, new TranslatableComponent("Unlock"), p -> actionPerformed(SELECT)));
+        addRenderableWidget(cancel = new Button(0, 0, 50, 20, new TranslatableComponent("Back"), p -> actionPerformed(CANCEL)));
+        addRenderableWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
+        addRenderableWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
+        addRenderableWidget(select = new Button(0, 0, 50, 20, new TranslatableComponent("Unlock"), p -> actionPerformed(SELECT)));
         updateButtons();
     }
 
