@@ -3,18 +3,19 @@ package online.kingdomkeys.kingdomkeys.entity.shotlock;
 import java.awt.Color;
 
 import com.mojang.math.Vector3f;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 

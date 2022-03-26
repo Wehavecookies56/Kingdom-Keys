@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.api.item;
 
 import java.util.HashMap;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BowItem;
@@ -16,6 +14,8 @@ import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemCategoryRegistry {

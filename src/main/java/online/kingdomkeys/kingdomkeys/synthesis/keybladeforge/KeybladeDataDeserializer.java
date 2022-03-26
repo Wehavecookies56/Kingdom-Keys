@@ -13,12 +13,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.DeferredRegister;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;

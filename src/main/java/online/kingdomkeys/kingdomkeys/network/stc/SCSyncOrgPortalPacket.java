@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.function.Supplier;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;

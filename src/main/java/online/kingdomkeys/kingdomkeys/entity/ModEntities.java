@@ -13,25 +13,19 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -45,7 +39,19 @@ import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.client.model.FireModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
-import online.kingdomkeys.kingdomkeys.client.model.entity.*;
+import online.kingdomkeys.kingdomkeys.client.model.entity.AssassinModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.DarkballModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.DirePlantModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.DuskModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.ElementalMusicalHeartlessModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.LargeBodyModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.MarluxiaModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.NobodyCreeperModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowGlobModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.client.render.block.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.MoogleProjectorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
@@ -153,7 +159,6 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.PrismRainCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -296,11 +301,11 @@ public class ModEntities {
     }
 
     public static <T extends Entity, M extends EntityType<T>>RegistryObject<EntityType<T>> createEntityTypeImmuneToFire(EntityType.EntityFactory<T> factory, BiFunction<PlayMessages.SpawnEntity, Level, T> clientFactory, MobCategory classification, String name, float sizeX, float sizeY, EntityHelper.MobType group, int level, int color1, int color2) {
-        /*if (group != null) {
-        	addToGroup(group, type, level);
-            ModItems.ITEMS.register(name+"_spawn_egg", () -> new ForgeSpawnEggItem(() -> (EntityType<? extends Mob>) type, color1, color2, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-        }
-        */
+       // if (group != null) {
+        	//addToGroup(group, type, level);
+            //ModItems.ITEMS.register(name+"_spawn_egg", () -> new ForgeSpawnEggItem(() -> (EntityType<? extends Mob>) type, color1, color2, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+       // }
+        
         return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification)
                 .setCustomClientFactory(clientFactory)
                 .setShouldReceiveVelocityUpdates(true)

@@ -2,13 +2,13 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -95,7 +95,7 @@ public class DriveGui extends Screen {
 				int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 				int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-				minecraft.textureManager.bindForSetup(texture);
+				RenderSystem.setShaderTexture(0, texture);
 
 				float scale = 0.65f;
 				switch (minecraft.options.guiScale) {
@@ -114,6 +114,7 @@ public class DriveGui extends Screen {
 
 				matrixStack.pushPose();
 				{
+					RenderSystem.setShaderColor(1, 1, 1, 1);
 					RenderSystem.enableBlend();
 					matrixStack.translate(-20.3F + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
 

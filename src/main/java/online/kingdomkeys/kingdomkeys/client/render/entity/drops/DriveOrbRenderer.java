@@ -1,11 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity.drops;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 
 public class DriveOrbRenderer extends EntityItemDropRenderer {

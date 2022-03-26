@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -38,10 +38,11 @@ public class MPGui extends Screen {
 		PoseStack matrixStack = event.getMatrixStack();
 
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 
 			int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 			int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			float scale = 1f;
 			switch (minecraft.options.guiScale) {
@@ -83,7 +84,7 @@ public class MPGui extends Screen {
 	}
 
 	public void drawMPBarBack(PoseStack matrixStack, int posX, int posY, int width, float scale) {
-		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 		matrixStack.pushPose();
 		{
 			// Left Margin
@@ -130,7 +131,7 @@ public class MPGui extends Screen {
 	}
 
 	public void drawMPBarTop(PoseStack matrixStack, int posX, int posY, int width, float scale) {
-		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);

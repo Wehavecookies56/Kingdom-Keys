@@ -4,15 +4,15 @@ import java.awt.Color;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MenuColourBox extends AbstractWidget {
@@ -49,7 +49,7 @@ public class MenuColourBox extends AbstractWidget {
 			RenderSystem.setShaderColor(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1.0F);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			minecraft.textureManager.bindForSetup(texture);
+			RenderSystem.setShaderTexture(0, texture);
 
 			for (int i = 0; i < middleWidth; i++) {
 				blit(matrixStack, x + i, y, u, vPos, 1, height);

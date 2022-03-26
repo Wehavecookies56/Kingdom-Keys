@@ -2,16 +2,16 @@ package online.kingdomkeys.kingdomkeys.world.utils;
 
 import java.util.Optional;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.portal.PortalForcer;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
 
 /**
  * Created by Toby on 01/08/2016.

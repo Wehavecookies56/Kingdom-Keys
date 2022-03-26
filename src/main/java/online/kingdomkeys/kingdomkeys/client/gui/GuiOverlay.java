@@ -2,14 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -136,7 +136,7 @@ public class GuiOverlay extends Screen {
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 			// Top
-			minecraft.textureManager.bindForSetup(levelUpTexture);
+			RenderSystem.setShaderTexture(0, levelUpTexture);
 			matrixStack.pushPose();
 			{
 				matrixStack.translate((width - 153.6f - 2), 0, 0);
@@ -157,7 +157,7 @@ public class GuiOverlay extends Screen {
 
 			matrixStack.pushPose();
 			{
-				minecraft.textureManager.bindForSetup(levelUpTexture);
+				RenderSystem.setShaderTexture(0, levelUpTexture);
 				matrixStack.translate((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
 				matrixStack.scale(0.6f, height, 1);
 				blit(matrixStack, 0, 0, 0, 36, 256, 1);
@@ -170,7 +170,7 @@ public class GuiOverlay extends Screen {
 
 			matrixStack.pushPose();
 			{
-				minecraft.textureManager.bindForSetup(levelUpTexture);
+				RenderSystem.setShaderTexture(0, levelUpTexture);
 				matrixStack.translate((width - 256.0f * 0.6f - 2), height + (36.0f * 0.6f), 0);
 				matrixStack.scale(0.6f, 0.6f, 1);
 				blit(matrixStack, 0, 0, 0, 37, 256, 14);
@@ -185,14 +185,14 @@ public class GuiOverlay extends Screen {
 				float x = (width - 256.0f * 0.8f + (minecraft.font.width("Maximum HP Increased!")) * 0.8f) - 35;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
 				if(message.startsWith("A_")) {
-					minecraft.textureManager.bindForSetup(menuTexture);
+					RenderSystem.setShaderTexture(0, menuTexture);
 					blit(matrixStack, (int)x, (int)y-2, 74, 102, 12, 12);
 					message = message.replace("A_", "");
 					x += 13;
 				}
 				
 				if(message.startsWith("S_")) {
-					minecraft.textureManager.bindForSetup(menuTexture);
+					RenderSystem.setShaderTexture(0, menuTexture);
 					blit(matrixStack, (int)x, (int)y-2, 100, 102, 12, 12);
 					message = message.replace("S_", "");
 					x += 13;
@@ -227,7 +227,7 @@ public class GuiOverlay extends Screen {
 			matrixStack.pushPose();
 			{
 				// Top
-				minecraft.textureManager.bindForSetup(levelUpTexture);
+				RenderSystem.setShaderTexture(0, levelUpTexture);
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
 				{
@@ -243,7 +243,7 @@ public class GuiOverlay extends Screen {
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(levelUpTexture);
+					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 21, 0);
 					matrixStack.scale(0.6f, heightBase+1, 1);
 					blit(matrixStack, 0, 0, 0, 51+36, 256, 1);
@@ -254,7 +254,7 @@ public class GuiOverlay extends Screen {
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(levelUpTexture);
+					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 22 + heightBase, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
 					blit(matrixStack, 0, 0, 0, 51+37, 256, 14);
@@ -269,7 +269,7 @@ public class GuiOverlay extends Screen {
 					float y = sHeight / 3 + minecraft.font.lineHeight * 1.1F * i + 23;
 					if(message.startsWith("A_")) {
 						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-						minecraft.textureManager.bindForSetup(menuTexture);
+						RenderSystem.setShaderTexture(0, menuTexture);
 						blit(matrixStack, (int)x, (int)y-3, 74, 102, 12, 12);
 						message = message.replace("A_", "");
 						x += 13;
@@ -282,7 +282,7 @@ public class GuiOverlay extends Screen {
 				RenderSystem.setShaderColor(0.8F, 0.8F, 0.8F, 1F);
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(levelUpTexture);
+					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(4.5F, sHeight / 3+6, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
 					blit(matrixStack, 0, 0, 0, 102, 43, 36);
@@ -295,7 +295,7 @@ public class GuiOverlay extends Screen {
 			matrixStack.pushPose();
 			{
 				// Top
-				minecraft.textureManager.bindForSetup(levelUpTexture);
+				RenderSystem.setShaderTexture(0, levelUpTexture);
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
@@ -314,7 +314,7 @@ public class GuiOverlay extends Screen {
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(levelUpTexture);
+					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 50 + heightBase, 0);
 					matrixStack.scale(0.6f, heightDF, 1);
 					blit(matrixStack, 0, 0, 0, 51+36, 256, 1);
@@ -325,7 +325,7 @@ public class GuiOverlay extends Screen {
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(levelUpTexture);
+					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 50 + heightBase + heightDF, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
 					blit(matrixStack, 0, 0, 0, 51+37, 256, 14);
@@ -335,7 +335,7 @@ public class GuiOverlay extends Screen {
 				// Text
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(levelUpTexture);
+					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(0, sHeight / 3 + 50 + heightBase, 0);
 
 					RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
@@ -346,7 +346,7 @@ public class GuiOverlay extends Screen {
 						float y = minecraft.font.lineHeight * 1.1F * i; 
 						if(message.startsWith("A_")) {
 							RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-							minecraft.textureManager.bindForSetup(menuTexture);
+							RenderSystem.setShaderTexture(0, menuTexture);
 							blit(matrixStack, (int)x, (int)y-2, 74, 102, 12, 12);
 							message = message.replace("A_", "");
 							x += 13;
@@ -361,7 +361,7 @@ public class GuiOverlay extends Screen {
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(levelUpTexture);
+					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(4.5F, sHeight / 3 + 34 + heightBase, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
 					blit(matrixStack, 0, 0, 0, 102, 43, 36);

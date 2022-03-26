@@ -1,11 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MenuBar extends Screen {
@@ -40,7 +41,7 @@ public class MenuBar extends Screen {
     private final int gradientU = 101, gradientV = 67, gradientW = 10, gradientH = 32;
 
     public void draw(PoseStack matrixStack) {
-        minecraft.textureManager.bindForSetup(texture);
+        RenderSystem.setShaderTexture(0, texture);
         //Top left corner
         blit(matrixStack, posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
         //Top right corner

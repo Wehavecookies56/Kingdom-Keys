@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;

@@ -1,9 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import java.util.List;
-
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.event.world.BiomeLoadingEvent;

@@ -7,15 +7,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -104,7 +104,7 @@ public class CommandMenuGui extends Screen {
 				RenderSystem.setShaderColor(combatModeColor[0] / 2, array[1] / 2, combatModeColor[2] / 2, alpha);
 			}
 		} else { //Blue/color
-			if (ModCapabilities.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) {
+			if (ModCapabilities.getPlayer(minecraft.player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) {
 				if (submenu == array[3]) {
 					RenderSystem.setShaderColor(orgColor[0], orgColor[1], orgColor[2], alpha);
 				} else {
@@ -175,6 +175,7 @@ public class CommandMenuGui extends Screen {
 	private void drawHeader(PoseStack matrixStack, String text, int subMenu) {
 		matrixStack.pushPose();
 		{
+
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 		}
@@ -244,7 +245,7 @@ public class CommandMenuGui extends Screen {
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
-			minecraft.textureManager.bindForSetup(texture);
+						RenderSystem.setShaderTexture(0, texture);
 			matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP), 0);
 			matrixStack.scale(scale, scale, scale);
 			textX = 0;
@@ -265,7 +266,7 @@ public class CommandMenuGui extends Screen {
 				} else {
 					RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, alpha);
 				}
-				minecraft.textureManager.bindForSetup(texture);
+							RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP - (15*scale)*i), 0);
 				matrixStack.scale(scale, scale, scale);
 				textX = 0;
@@ -289,7 +290,7 @@ public class CommandMenuGui extends Screen {
 			for(int i = 1; i <= ATTACK; i++) {
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(texture);
+								RenderSystem.setShaderTexture(0, texture);
 
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * i), 0);
 					matrixStack.scale(scale, scale, scale);
@@ -363,7 +364,7 @@ public class CommandMenuGui extends Screen {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(matrixStack, portalMenuColor, alpha);
-				minecraft.textureManager.bindForSetup(texture);
+							RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Portals_Title, SUB_PORTALS);
@@ -374,7 +375,7 @@ public class CommandMenuGui extends Screen {
 				for (int i = 0; i < portals.size(); i++) {
 					matrixStack.pushPose();
 					{
-						minecraft.textureManager.bindForSetup(texture);
+									RenderSystem.setShaderTexture(0, texture);
 						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() - i)), 0);
 						matrixStack.scale(scale, scale, scale);
 						paintWithColorArray(matrixStack, portalMenuColor, alpha);
@@ -412,7 +413,7 @@ public class CommandMenuGui extends Screen {
 		matrixStack.pushPose();
 		{
 			paintWithColorArray(matrixStack, targetModeColor, alpha);
-			minecraft.textureManager.bindForSetup(texture);
+						RenderSystem.setShaderTexture(0, texture);
 			matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() + 1)), 0);
 			matrixStack.scale(scale, scale, scale);
 			drawHeader(matrixStack, "TARGET", SUB_TARGET);
@@ -422,7 +423,7 @@ public class CommandMenuGui extends Screen {
 		for (int i = 0; i < worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size(); i++) {
 			matrixStack.pushPose();
 			{
-				minecraft.textureManager.bindForSetup(texture);
+							RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() - i)), 0);
 				matrixStack.scale(scale, scale, scale);
 				if (submenu == SUB_TARGET) {
@@ -458,7 +459,7 @@ public class CommandMenuGui extends Screen {
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.pushPose();
 			{
-				minecraft.textureManager.bindForSetup(texture);
+							RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				paintWithColorArray(matrixStack, magicMenuColor, alpha);
@@ -469,7 +470,7 @@ public class CommandMenuGui extends Screen {
 			for (int i = 0; i < magics.size(); i++) {
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(texture);
+								RenderSystem.setShaderTexture(0, texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() - i)), 0);
 					matrixStack.scale(scale, scale, scale);
 					paintWithColorArray(matrixStack, magicMenuColor, alpha);
@@ -520,7 +521,7 @@ public class CommandMenuGui extends Screen {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(matrixStack, itemsMenuColor, alpha);
-				minecraft.textureManager.bindForSetup(texture);
+							RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(matrixStack, "ITEMS", SUB_ITEMS);
@@ -533,7 +534,7 @@ public class CommandMenuGui extends Screen {
 
 				matrixStack.pushPose();
 				{
-					minecraft.textureManager.bindForSetup(texture);
+								RenderSystem.setShaderTexture(0, texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size() - c)), 0);
 					matrixStack.scale(scale, scale, scale);
 
@@ -572,7 +573,7 @@ public class CommandMenuGui extends Screen {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(matrixStack, driveMenuColor, alpha);
-				minecraft.textureManager.bindForSetup(texture);
+							RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Drive_Title, SUB_DRIVE);
@@ -589,7 +590,7 @@ public class CommandMenuGui extends Screen {
 
 					matrixStack.pushPose();
 					{
-						minecraft.textureManager.bindForSetup(texture);
+									RenderSystem.setShaderTexture(0, texture);
 						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
 						matrixStack.scale(scale, scale, scale);
 
@@ -627,7 +628,7 @@ public class CommandMenuGui extends Screen {
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.pushPose();
 			{
-				minecraft.textureManager.bindForSetup(texture);
+							RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				paintWithColorArray(matrixStack, limitMenuColor, alpha);
@@ -640,7 +641,7 @@ public class CommandMenuGui extends Screen {
 				{
 					//RenderSystem.color4f(1F, 1F, 1F, alpha);
 
-					minecraft.textureManager.bindForSetup(texture);
+					RenderSystem.setShaderTexture(0, texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() - i)), 0);
 					matrixStack.scale(scale, scale, scale);
 

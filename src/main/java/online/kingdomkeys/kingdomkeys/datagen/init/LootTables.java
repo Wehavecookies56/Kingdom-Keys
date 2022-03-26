@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;

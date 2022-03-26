@@ -1,17 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.Util;
-import com.mojang.math.Vector3f;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -70,7 +70,7 @@ public class LockOnGui extends Screen {
 				if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
 					float size = 6;
 
-					minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
+					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
 
 					int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 					int screenHeight = minecraft.getWindow().getGuiScaledHeight();
@@ -85,7 +85,7 @@ public class LockOnGui extends Screen {
 						matrixStack.scale(lockOnScale / size, lockOnScale / size, lockOnScale / size);
 						this.blit(matrixStack, 0, 0, 0, 0, guiWidth, guiHeight);
 
-						minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
+						RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 						matrixStack.translate(guiWidth / 2, guiWidth / 2, 0);
 						matrixStack.mulPose(Vector3f.ZP.rotation((player.tickCount % 360) * 0.2F));
 						matrixStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
@@ -93,7 +93,7 @@ public class LockOnGui extends Screen {
 					}
 					matrixStack.popPose();
 
-					minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 					matrixStack.pushPose();
 
@@ -124,7 +124,7 @@ public class LockOnGui extends Screen {
 		PoseStack matrixStack = event.getMatrixStack();
 
 		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 			hpPerBar = ModConfigs.lockOnHpPerBar;
 			float widthMultiplier = 10 * hpBarScale;
@@ -201,7 +201,7 @@ public class LockOnGui extends Screen {
 	}
 
 	public void drawHPBarBack(PoseStack matrixStack, float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {
-		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		
 		matrixStack.pushPose();
 		{
@@ -291,7 +291,7 @@ public class LockOnGui extends Screen {
 	}
 
 	public void drawHPBarTop(PoseStack matrixStack, float posX, float posY, float width, float scale) {
-		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		// HP Bar
 		matrixStack.pushPose();
 		{
@@ -319,7 +319,7 @@ public class LockOnGui extends Screen {
 	}
 	
 	private void drawDamagedHPBarTop(PoseStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
-		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		matrixStack.pushPose();
 		{
 			// HP Bar

@@ -3,18 +3,16 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.entity.AssassinModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 

@@ -3,14 +3,13 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;

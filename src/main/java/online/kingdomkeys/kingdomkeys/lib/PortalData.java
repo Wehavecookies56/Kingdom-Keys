@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.lib;
 
 import java.util.UUID;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.world.level.Level;
 
 public class PortalData {

@@ -3,18 +3,18 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 import java.awt.Color;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.client.gui.Font;
-import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -86,7 +86,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 		if (visible) {
 			Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.292F;
-			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			
@@ -109,7 +109,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			}
 			drawString(matrixStack, minecraft.font, itemName, x + 15, y + 3, 0xFFFFFF);
 			String ab = "N/A";
-			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			float labelWidth = parent.width * 0.215F;
 
 			matrixStack.pushPose();
@@ -143,7 +143,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			drawString(matrixStack, minecraft.font, ab, (int) (x + width + centerX + 3), y + 3, labelColour);
 		
 			if (selected || isHovered) { //Render stuff on the right
-				minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
@@ -216,7 +216,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 						drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
 						for(int i = 0; i < abilities.size();i++) {
 							Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
-			                minecraft.getTextureManager().bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 		                    blit(matrixStack, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
 							drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
 						}

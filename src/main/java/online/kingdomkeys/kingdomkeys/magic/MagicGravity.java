@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.InteractionHand;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravigaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GraviraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;

@@ -5,15 +5,15 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.mojang.math.Vector3f;
+
 import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class OrgPortalTileEntity extends BlockEntity implements Tickable {

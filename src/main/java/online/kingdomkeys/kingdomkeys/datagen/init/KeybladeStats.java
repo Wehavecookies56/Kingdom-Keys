@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.data.DataGenerator;
@@ -17,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 public class KeybladeStats extends KeybladeProvider {
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {

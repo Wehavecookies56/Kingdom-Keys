@@ -1,10 +1,8 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
-import java.io.IOException;
-
-import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
+import net.minecraft.data.advancements.AdvancementProvider;
 
 public class KKAdvancementProvider extends AdvancementProvider {
 

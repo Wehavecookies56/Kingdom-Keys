@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;

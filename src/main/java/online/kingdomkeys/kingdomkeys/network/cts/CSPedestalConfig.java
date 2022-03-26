@@ -2,8 +2,8 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;

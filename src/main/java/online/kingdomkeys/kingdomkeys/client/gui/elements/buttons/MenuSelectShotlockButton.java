@@ -2,14 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.client.gui.Font;
-import com.mojang.blaze3d.platform.Lighting;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -64,7 +64,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		if (visible) {
 			Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.29F;
-			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			
@@ -88,7 +88,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(shName), x + 15, y + 3, 0xFFFFFF);
 			
 			if (selected || isHovered) { //Render stuff on the right
-				minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
@@ -105,7 +105,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			}
 			Lighting.setupForFlatItems();
 			float labelWidth = parent.width * 0.15F;
-			minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
 			{
 				RenderSystem.enableBlend();

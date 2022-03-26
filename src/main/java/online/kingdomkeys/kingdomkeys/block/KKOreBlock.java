@@ -2,17 +2,14 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import java.util.Random;
 
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class KKOreBlock extends BaseBlock {
 
 	public KKOreBlock(Properties properties) {
 		super(properties);
-		// TODO Auto-generated constructor stub
 	}
 
 	protected int getExperience(Random rand) {

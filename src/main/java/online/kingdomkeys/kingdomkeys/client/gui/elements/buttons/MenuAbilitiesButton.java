@@ -4,13 +4,13 @@ import java.awt.Color;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -67,7 +67,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			minecraft.textureManager.bindForSetup(texture);
+			RenderSystem.setShaderTexture(0, texture);
 			if (isHovered && active) { //Hovered button
 				drawButton(matrixStack, isHovered);
 				drawString(matrixStack, minecraft.font, getMessage().getString().substring(getMessage().getString().indexOf(":")+1), x + 20, y + 6, new Color(255, 255, 255).hashCode());

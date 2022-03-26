@@ -2,20 +2,19 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.components.AbstractWidget;
-import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.core.Registry;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -187,7 +186,7 @@ public class MenuBackground extends Screen {
 			RenderSystem.setShaderColor(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1.0F);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			minecraft.textureManager.bindForSetup(menu);
+			RenderSystem.setShaderTexture(0, menu);
 			matrixStack.translate(0, i, 0);
 			matrixStack.scale(sw, 1, 1);
 			blit(matrixStack, 0, 0, 77, 92, 1, 1);

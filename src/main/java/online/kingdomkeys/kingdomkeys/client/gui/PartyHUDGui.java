@@ -3,17 +3,17 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -90,7 +90,7 @@ public class PartyHUDGui extends Screen {
 		} else {
 			skin = new ResourceLocation("minecraft", "textures/entity/steve.png");
 		}
-		minecraft.getTextureManager().bindForSetup(skin);
+		RenderSystem.setShaderTexture(0, skin);
 
 		matrixStack.pushPose();
 		{			
@@ -151,7 +151,7 @@ public class PartyHUDGui extends Screen {
 				// HP
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
-				minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 				matrixStack.translate(-4, 0, 1);
 				// Top
 				matrixStack.pushPose();
@@ -192,7 +192,7 @@ public class PartyHUDGui extends Screen {
 				if (playerData != null) {
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();
-					minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 					matrixStack.translate(20, 0, 1);
 					// Top
 					matrixStack.pushPose();

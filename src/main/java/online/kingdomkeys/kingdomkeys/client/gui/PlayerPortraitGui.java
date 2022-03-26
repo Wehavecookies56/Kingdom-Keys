@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.entity.player.PlayerModelPart;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -38,7 +38,7 @@ public class PlayerPortraitGui extends Screen {
 			PoseStack matrixStack = event.getMatrixStack(); 
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			ResourceLocation skin = minecraft.player.getSkinTextureLocation();
-			minecraft.getTextureManager().bindForSetup(skin);
+			RenderSystem.setShaderTexture(0, skin);
 			float scale = 0.5f;
 			switch (minecraft.options.guiScale) {
 			case Constants.SCALE_AUTO:
@@ -190,7 +190,7 @@ public class PlayerPortraitGui extends Screen {
 					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 						String driveName = playerData.getActiveDriveForm().substring(playerData.getActiveDriveForm().indexOf("_") + 1);
 						ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + driveName + ".png");
-						minecraft.textureManager.bindForSetup(texture);
+						RenderSystem.setShaderTexture(0, texture);
 
 						matrixStack.pushPose();
 						{

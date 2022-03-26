@@ -1,14 +1,12 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterzaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicWater extends Magic {
 

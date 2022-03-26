@@ -4,8 +4,6 @@ import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 
-import net.minecraft.world.item.Item.Properties;
-
 public class SynthesisItem extends Item implements IItemCategory {
     private String rank;
     public SynthesisItem(Properties properties, String rank)

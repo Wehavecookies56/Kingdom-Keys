@@ -3,13 +3,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 import java.awt.Color;
 import java.util.List;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -100,6 +101,6 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		keyblades.draw(matrixStack);
 		details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}
 }

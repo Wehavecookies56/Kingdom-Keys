@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.function.Consumer;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,11 +18,7 @@ import net.minecraftforge.client.IItemRenderProperties;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
-
-import java.util.function.Consumer;
 
 public class BaseArmorItem extends ArmorItem implements IItemCategory {
 

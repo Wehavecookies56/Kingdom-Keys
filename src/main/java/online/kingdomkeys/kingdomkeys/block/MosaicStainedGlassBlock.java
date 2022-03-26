@@ -3,20 +3,18 @@ package online.kingdomkeys.kingdomkeys.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.StainedGlassBlock;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 @Mod.EventBusSubscriber
 public class MosaicStainedGlassBlock extends StainedGlassBlock {

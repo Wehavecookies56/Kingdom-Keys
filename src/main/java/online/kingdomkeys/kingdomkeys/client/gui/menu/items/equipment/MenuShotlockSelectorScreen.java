@@ -2,12 +2,13 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -84,6 +85,6 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		keyblades.draw(matrixStack);
 		//details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		minecraft.textureManager.bindForSetup(new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}
 }

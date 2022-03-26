@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
+import java.util.List;
+
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.List;
 
 /**
  * Created by Toby on 08/02/2017.

@@ -10,8 +10,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class CommandMenuHUDElement extends HUDElement {

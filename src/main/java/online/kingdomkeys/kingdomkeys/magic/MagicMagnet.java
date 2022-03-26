@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;

@@ -3,8 +3,8 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;

@@ -1,18 +1,15 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.*;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
-import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import org.checkerframework.checker.units.qual.A;
-
-import java.util.function.Supplier;
 
 public class ModAbilities {
 

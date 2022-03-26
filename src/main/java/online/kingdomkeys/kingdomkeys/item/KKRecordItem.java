@@ -4,19 +4,17 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.RecordItem;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class KKRecordItem extends RecordItem implements IItemCategory {
 

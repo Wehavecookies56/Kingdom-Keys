@@ -1,18 +1,15 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.ability.Ability;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-
-import java.util.function.Supplier;
 
 public class ModLevels {
 

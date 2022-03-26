@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.biome;
 
-import net.minecraft.data.worldgen.biome.Biomes;
 import net.minecraft.data.worldgen.biome.OverworldBiomes;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.registries.DeferredRegister;

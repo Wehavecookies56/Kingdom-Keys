@@ -9,13 +9,10 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.mojang.math.Constants;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.core.Direction;
-import net.minecraftforge.common.capabilities.Capability;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;

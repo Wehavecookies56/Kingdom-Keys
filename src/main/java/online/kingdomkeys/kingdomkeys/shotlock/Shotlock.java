@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.shotlock;
 
 import java.util.List;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public abstract class Shotlock extends ForgeRegistryEntry<Shotlock> {

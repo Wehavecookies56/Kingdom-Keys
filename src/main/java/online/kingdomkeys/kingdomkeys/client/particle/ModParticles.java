@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.client.particle;
 
 import java.util.function.Supplier;
 
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
