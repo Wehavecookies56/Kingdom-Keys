@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
@@ -19,15 +17,12 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -39,8 +34,8 @@ import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 public class DataPortalBlock extends BaseBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-	private static final VoxelShape collisionShapeEW = Block.makeCuboidShape(5.0D, 0.0D, -8.0D, 11.0D, 32.0D, 24.0D);
-	private static final VoxelShape collisionShapeNS = Block.makeCuboidShape(-8.0D, 0.0D, 5.0D, 24.0D, 32.0D, 11.0D);
+	private static final VoxelShape collisionShapeEW = Block.makeCuboidShape(0.0D, 0.0D, -5.0D, 16.0D, 48.0D, 21.0D);
+	private static final VoxelShape collisionShapeNS = Block.makeCuboidShape(-5.0D, 0.0D, 0.0D, 21.0D, 48.0D, 16.0D);
 
 	public DataPortalBlock(Properties properties) {
 		super(properties);
