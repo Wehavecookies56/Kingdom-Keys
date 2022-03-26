@@ -240,7 +240,9 @@ public class EntityEvents {
 			}
 		
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-			//playerData.setSacrifice(SoAState.MYSTIC);
+			/*playerData.setSacrifice(SoAState.MYSTIC);
+			playerData.setChoice(SoAState.GUARDIAN);
+			playerData.setSoAState(SoAState.COMPLETE);*/
 
 			if (playerData != null) {
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
