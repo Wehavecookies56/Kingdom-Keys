@@ -32,8 +32,8 @@ import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 public class DataPortalBlock extends BaseBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-	private static final VoxelShape collisionShapeEW = Block.box(5.0D, 0.0D, -8.0D, 11.0D, 32.0D, 24.0D);
-	private static final VoxelShape collisionShapeNS = Block.box(-8.0D, 0.0D, 5.0D, 24.0D, 32.0D, 11.0D);
+	private static final VoxelShape collisionShapeEW = Block.box(0.0D, 0.0D, -5.0D, 16.0D, 48.0D, 21.0D);
+	private static final VoxelShape collisionShapeNS = Block.box(-5.0D, 0.0D, 0.0D, 21.0D, 48.0D, 16.0D);
 
 	public DataPortalBlock(Properties properties) {
 		super(properties);

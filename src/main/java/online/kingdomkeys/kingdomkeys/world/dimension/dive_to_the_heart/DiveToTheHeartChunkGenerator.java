@@ -23,6 +23,8 @@ import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.DensityFunctions;
@@ -226,8 +228,8 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public NoiseColumn getBaseColumn(int pX, int pZ, LevelHeightAccessor pLevel) {
-        return null;
+    public NoiseColumn getBaseColumn(int x, int z, LevelHeightAccessor levelHeightAccessor) {
+        return new NoiseColumn(0, new BlockState[0]);
     }
 
     @Override
@@ -266,10 +268,10 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     private void createPedestal(LevelAccessor world, BlockPos.MutableBlockPos pos, ItemStack toDisplay) {
-        world.setBlock(pos, ModBlocks.pedestal.get().defaultBlockState(), 2);
+        /*world.setBlock(pos, ModBlocks.pedestal.get().defaultBlockState(), 2);
         PedestalTileEntity te = ((PedestalTileEntity) world.getBlockEntity(pos));
         te.setStationOfAwakeningMarker(true);
-        te.setDisplayStack(toDisplay);
+        te.setDisplayStack(toDisplay);*/
     }
     
 }

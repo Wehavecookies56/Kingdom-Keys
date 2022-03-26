@@ -22,6 +22,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.DensityFunctions;
@@ -172,7 +173,7 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
     @Override
     public NoiseColumn getBaseColumn(int pX, int pZ, LevelHeightAccessor pLevel) {
-        return null;
+        return new NoiseColumn(0, new BlockState[0]);
     }
 
     @Override

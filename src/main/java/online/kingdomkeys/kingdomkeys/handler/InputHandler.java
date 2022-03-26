@@ -692,15 +692,14 @@ public class InputHandler {
 			switch (key) {
 			case OPENMENU:
 				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-				/*if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
+				if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
 					if (player.level.dimension() != ModDimensions.DIVE_TO_THE_HEART) {
 						mc.setScreen(new NoChoiceMenuPopup());
 					}
-					//ModCapabilities.getPlayer(player).setSoAState(SoAState.COMPLETE);
 				} else {
 					GuiHelper.openMenu();
-				}*/
-				GuiHelper.openMenu();
+				}
+				//GuiHelper.openMenu();
 				break;
 
 			/*
