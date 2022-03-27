@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:ira_chestplate"
+            "items": [
+              "kingdomkeys:ira_chestplate"
+            ]
           }
         ]
       }

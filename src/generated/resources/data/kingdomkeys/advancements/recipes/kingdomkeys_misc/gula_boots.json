@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:ava_boots"
+            "items": [
+              "kingdomkeys:ava_boots"
+            ]
           }
         ]
       }

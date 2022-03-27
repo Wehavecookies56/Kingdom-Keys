@@ -24,4 +24,5 @@ public class PlayerCapabilitiesProvider implements ICapabilitySerializable<Compo
 		instance.deserializeNBT(nbt);
 	}
 
+
 }

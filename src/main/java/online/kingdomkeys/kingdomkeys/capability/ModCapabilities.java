@@ -45,7 +45,6 @@ public class ModCapabilities {
 		event.register(IWorldCapabilities.class);
 	}
 
-
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof LivingEntity) {
@@ -59,13 +58,5 @@ public class ModCapabilities {
 	public void attachWorldCapabilities(AttachCapabilitiesEvent<Level> event) {
 		event.addCapability(new ResourceLocation(KingdomKeys.MODID, "world_capabilities"), new WorldCapabilitiesProvider());
 	}
-
-	/*@SubscribeEvent
-	public void onPlayerJoin(EntityJoinWorldEvent event) { //I used this to sync to the client the other players skins in RayCraft idk if it's gonna be useful for drive forms
-		if (!event.getEntity().world.isRemote && event.getEntity() instanceof PlayerEntity) {
-			ILevelCapabilities playerData = ModCapabilities.getPlayer((PlayerEntity) event.getEntity());
-			PacketHandler.sendTo(new PacketSyncCapability(playerData), (ServerPlayerEntity) event.getEntity());
-		}
-	}*/
 
 }

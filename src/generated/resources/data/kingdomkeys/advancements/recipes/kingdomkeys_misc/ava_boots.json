@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:aced_boots"
+            "items": [
+              "kingdomkeys:aced_boots"
+            ]
           }
         ]
       }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:normal_blox"
+            "items": [
+              "kingdomkeys:normal_blox"
+            ]
           }
         ]
       }

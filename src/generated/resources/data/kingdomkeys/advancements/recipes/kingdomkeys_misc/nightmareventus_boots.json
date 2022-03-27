@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:ventus_boots"
+            "items": [
+              "kingdomkeys:ventus_boots"
+            ]
           }
         ]
       }

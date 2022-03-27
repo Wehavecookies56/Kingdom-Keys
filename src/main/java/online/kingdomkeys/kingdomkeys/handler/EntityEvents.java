@@ -1076,8 +1076,10 @@ public class EntityEvents {
 	public void onPlayerClone(PlayerEvent.Clone event) {
 		Player oPlayer = event.getOriginal();
 		Player nPlayer = event.getPlayer();
+		oPlayer.reviveCaps();
 		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
 		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
+		
 		newPlayerData.setLevel(oldPlayerData.getLevel());
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
@@ -1140,7 +1142,7 @@ public class EntityEvents {
 		Utils.RefreshAbilityAttributes(nPlayer, newPlayerData);
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level)), (ServerPlayer)nPlayer);
-
+		oPlayer.invalidateCaps();
 	}
 	
 	@SubscribeEvent

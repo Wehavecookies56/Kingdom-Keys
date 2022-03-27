@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "kingdomkeys:ava_chestplate"
+            "items": [
+              "kingdomkeys:ava_chestplate"
+            ]
           }
         ]
       }

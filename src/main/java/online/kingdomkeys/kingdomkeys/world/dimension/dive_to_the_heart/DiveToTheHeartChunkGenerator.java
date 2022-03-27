@@ -197,13 +197,13 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
                         int strucX = x - startX;
                         int strucZ = z - startZ;
                         if (y == 0) {
-                            stateToPlace(topOfPlatform.charAt(strucX + strucZ * width), chunkIn.getWorldForge(), blockpos$mutable);
+                            stateToPlace(topOfPlatform.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
                         } else if (y == 1) {
-                            stateToPlace(structureTop.charAt(strucX + strucZ * width), chunkIn.getWorldForge(), blockpos$mutable);
+                            stateToPlace(structureTop.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
                         } else if (y == height - 1) {
-                            stateToPlace(structureBottom.charAt(strucX + strucZ * width), chunkIn.getWorldForge(), blockpos$mutable);
+                            stateToPlace(structureBottom.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
                         } else {
-                            stateToPlace(structureMiddle.charAt(strucX + strucZ * width), chunkIn.getWorldForge(), blockpos$mutable);
+                            stateToPlace(structureMiddle.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
                         }
                     }
                 }
@@ -244,25 +244,26 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         return Math.max(Math.abs(firstX - secondX), Math.abs(firstZ - secondZ));
     }
 
-    private void stateToPlace(char c, LevelAccessor world, BlockPos.MutableBlockPos pos) {
+    private void stateToPlace(char c, ChunkAccess chunkIn, BlockPos.MutableBlockPos pos) {
+    	System.out.println(c);
         switch (c) {
             case '0':
                 return;
             case '1':
-                world.setBlock(pos, ModBlocks.mosaic_stained_glass.get().defaultBlockState().setValue(MosaicStainedGlassBlock.STRUCTURE, true), 2);
+                chunkIn.setBlockState(pos, ModBlocks.mosaic_stained_glass.get().defaultBlockState().setValue(MosaicStainedGlassBlock.STRUCTURE, true), false);
                 break;
             case '2':
-                world.setBlock(pos, ModBlocks.station_of_awakening_core.get().defaultBlockState().setValue(SoAPlatformCoreBlock.STRUCTURE, true), 2);
-                ((SoAPlatformTileEntity) world.getBlockEntity(pos)).setMultiblockFormed(true);
+                chunkIn.setBlockState(pos, ModBlocks.station_of_awakening_core.get().defaultBlockState().setValue(SoAPlatformCoreBlock.STRUCTURE, true), false);
+          //      ((SoAPlatformTileEntity) chunkIn.getBlockEntity(pos)).setMultiblockFormed(true);
                 break;
             case '3':
-                createPedestal(world, pos, new ItemStack(ModItems.dreamSword.get()));
+               // createPedestal(chunkIn, pos, new ItemStack(ModItems.dreamSword.get()));
                 break;
             case '4':
-                createPedestal(world, pos, new ItemStack(ModItems.dreamShield.get()));
+               // createPedestal(chunkIn, pos, new ItemStack(ModItems.dreamShield.get()));
                 break;
             case '5':
-                createPedestal(world, pos, new ItemStack(ModItems.dreamStaff.get()));
+              //  createPedestal(chunkIn, pos, new ItemStack(ModItems.dreamStaff.get()));
                 break;
         }
     }
