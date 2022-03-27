@@ -23,7 +23,6 @@ import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Climate;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -38,9 +37,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
-import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 

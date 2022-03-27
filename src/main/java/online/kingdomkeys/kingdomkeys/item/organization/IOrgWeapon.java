@@ -7,6 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -51,11 +53,11 @@ public interface IOrgWeapon {
         return data.getMagic();
     }
 
-    default void addInfoToTooltip(ItemStack stack, List<Component> tooltip)
-    {
-        tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+""+getMember()));
-        tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getStrength()+ DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack)+"]"));
-        tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic()+" ["+DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player,this)+"]"));
-        tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDesc()));
-    }
+	@OnlyIn(Dist.CLIENT)
+	default void addInfoToTooltip(ItemStack stack, List<Component> tooltip) {
+		tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW + "" + getMember()));
+		tooltip.add(new TranslatableComponent(ChatFormatting.RED + "Strength %s", getStrength() + DamageCalculation.getSharpnessDamage(stack) + " [" + DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack) + "]"));
+		tooltip.add(new TranslatableComponent(ChatFormatting.BLUE + "Magic %s", getMagic() + " [" + DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player, this) + "]"));
+		tooltip.add(new TranslatableComponent(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + getDesc()));
+	}
 }
