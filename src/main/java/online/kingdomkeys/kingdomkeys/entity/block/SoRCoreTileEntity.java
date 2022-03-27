@@ -9,15 +9,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class SoRCoreTileEntity extends BlockEntity implements Tickable {
+public class SoRCoreTileEntity extends BlockEntity {
 	UUID userUUID;
-	int ticks = 0;
+	static int ticks = 0;
 	
 	public SoRCoreTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SOR_CORE_TE.get(), pos, state);
@@ -67,16 +68,15 @@ public class SoRCoreTileEntity extends BlockEntity implements Tickable {
 		this.load(tag);
 	}
 
-	@Override
-	public void tick() {
+	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 		if(!level.isClientSide) {
 			//System.out.println(ticks);
 			if(ticks == 0) {
-				spawnSoR();
+				//spawnSoR();
 			}
 			
 			if(ticks > 12000) {
-				removeSoR();
+				//removeSoR();
 			}
 			ticks++;
 		}
@@ -116,7 +116,7 @@ public class SoRCoreTileEntity extends BlockEntity implements Tickable {
 	            "0000000011441441100000000" +
 	    		"0000000000111110000000000";
 
-		public void spawnSoR() {
+		/*public static void spawnSoR() {
 			BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
 			int startZ = worldPosition.getZ() - (sorDepth / 2);
 			int startX = worldPosition.getX() - (sorWidth / 2);
@@ -134,7 +134,7 @@ public class SoRCoreTileEntity extends BlockEntity implements Tickable {
 				}
 			//}
 			
-		}
+		}*/
 
 		private void stateToPlace(char c, BlockPos.MutableBlockPos pos) {
 			switch (c) {
@@ -158,7 +158,7 @@ public class SoRCoreTileEntity extends BlockEntity implements Tickable {
 			}
 		}
 		
-	public void removeSoR() {
+	/*public static void removeSoR() {
 		BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
 		int startZ = this.worldPosition.getZ() - (sorDepth / 2);
 		int startX = this.worldPosition.getX() - (sorWidth / 2);
@@ -169,6 +169,6 @@ public class SoRCoreTileEntity extends BlockEntity implements Tickable {
 				level.setBlock(blockpos$mutable, Blocks.AIR.defaultBlockState(), 2);
 			}
 		}
-	}
+	}*/
 	
 }

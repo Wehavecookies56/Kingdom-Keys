@@ -12,11 +12,12 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class OrgPortalTileEntity extends BlockEntity implements Tickable {
+public class OrgPortalTileEntity extends BlockEntity {
 	UUID uuid;
 
 	public OrgPortalTileEntity(BlockPos pos, BlockState state) {
@@ -67,19 +68,18 @@ public class OrgPortalTileEntity extends BlockEntity implements Tickable {
 		this.load(tag);
 	}
 	
-	int ticks = 0;
-	double a = 0;
+	static int ticks = 0;
+	static double a = 0;
 
-	@Override
-	public void tick() {
+	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 		ticks++;
 		if (a < 0)
 			a = 1800;
 		// Don't do anything unless it's active
 		double r = 0.5D;
-		double cx = worldPosition.getX() + 0.5;
-		double cy = worldPosition.getY() + 0.2;
-		double cz = worldPosition.getZ() + 0.5;
+		double cx = pos.getX() + 0.5;
+		double cy = pos.getY() + 0.2;
+		double cz = pos.getZ() + 0.5;
 
 		a -= 4; // Speed and distance between particles
 		double x = cx + (r * Math.cos(Math.toRadians(a)));

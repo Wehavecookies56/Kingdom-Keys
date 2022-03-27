@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -28,7 +29,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tickable {
+public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
 	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
 
@@ -55,7 +56,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tic
 
 	private float baseHeight = 1.25F;
 
-	private boolean pause = false;
+	private static boolean pause = false;
 
 	//only changed on the client so it will not hide for other players
 	public boolean hide = false;
@@ -219,15 +220,14 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider, Tic
 		this.scale = scale;
 	}
 
-	private int ticksExisted;
-	public int previousTicks;
+	private static int ticksExisted;
+	public static int previousTicks;
 
 	public int ticksExisted() {
 		return ticksExisted;
 	}
 
-	@Override
-	public void tick() {
+	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 		if (!pause) {
 			previousTicks = ticksExisted;
 			ticksExisted++;

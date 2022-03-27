@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -24,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
@@ -93,6 +96,11 @@ public class PedestalBlock extends BaseEntityBlock {
 	@Deprecated
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
+	}
+	
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return type == ModEntities.TYPE_PEDESTAL.get() ? PedestalTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
 	}
 
 	@Nullable

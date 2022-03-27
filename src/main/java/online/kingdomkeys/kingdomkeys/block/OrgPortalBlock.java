@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -28,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
@@ -142,6 +145,11 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock {
 			}
 		}
 		super.onRemove(state, worldIn, pos, newState, isMoving);
+	}
+	
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return type == ModEntities.TYPE_ORG_PORTAL_TE.get() ? OrgPortalTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
 	}
 
 	@Nullable

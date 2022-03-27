@@ -3,28 +3,28 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class SavepointTileEntity extends BlockEntity implements Tickable {
+public class SavepointTileEntity extends BlockEntity {
 	public SavepointTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
 	}
 
-	int ticks = 0;
-	double a = 0;
+	static int ticks = 0;
+	static double a = 0;
 
-	@Override
-	public void tick() {
+	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 		ticks++;
 		if (a < 0)
 			a = 1800;
 		// Don't do anything unless it's active
 		double r = 0.7D;
-		double cx = worldPosition.getX() + 0.5;
-		double cy = worldPosition.getY() + 0.5;
-		double cz = worldPosition.getZ() + 0.5;
+		double cx = pos.getX() + 0.5;
+		double cy = pos.getY() + 0.5;
+		double cz = pos.getZ() + 0.5;
 
 		a -= 5; // Speed and distance between particles
 		double x = cx + (r * Math.cos(Math.toRadians(a)));
@@ -39,6 +39,8 @@ public class SavepointTileEntity extends BlockEntity implements Tickable {
 		level.addParticle(ParticleTypes.HAPPY_VILLAGER, x, (cy - 0.5) - (-a / 1800), z, 0.0D, 0.0D, 0.0D);
 		level.addParticle(ParticleTypes.HAPPY_VILLAGER, x2, (cy + 0.5) - (a / 1800), z2, 0.0D, 0.0D, 0.0D);
 	}
+
+	
 
 }
 

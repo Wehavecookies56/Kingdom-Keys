@@ -67,7 +67,6 @@ import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
