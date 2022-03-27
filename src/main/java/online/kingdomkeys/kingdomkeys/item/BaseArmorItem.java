@@ -18,7 +18,7 @@ import net.minecraftforge.client.IItemRenderProperties;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 
 public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
@@ -49,7 +49,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 			@Nullable
 			@Override
 			public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-				HumanoidModel armorModel = ProxyClient.armorModels.get(this);
+				HumanoidModel armorModel = ClientSetup.armorModels.get(this);
 
 				if (armorModel != null) {
 					armorModel.head.visible = armorSlot == EquipmentSlot.HEAD;

@@ -4,8 +4,11 @@ import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 
 public class SCRecalculateEyeHeight {
 
@@ -22,10 +25,7 @@ public class SCRecalculateEyeHeight {
 	}
 
 	public static void handle(final SCRecalculateEyeHeight message, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = KingdomKeys.proxy.getClientPlayer();
-			player.refreshDimensions();
-		});
+		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.recalcEyeHeight()));
 		ctx.get().setPacketHandled(true);
 	}
 

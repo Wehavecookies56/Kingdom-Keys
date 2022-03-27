@@ -6,9 +6,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
@@ -35,8 +37,7 @@ public class SCOpenSynthesisGui {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenSynthesisGui message) {
-			KingdomKeys.proxy.getClientMCInstance().setScreen(new SynthesisScreen());
-			KingdomKeys.proxy.getClientWorld().playSound(KingdomKeys.proxy.getClientPlayer(), KingdomKeys.proxy.getClientPlayer().blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);
+			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openSynthesisGui());
 		}
 	}
 

@@ -67,9 +67,7 @@ import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.proxy.IProxy;
-import online.kingdomkeys.kingdomkeys.proxy.ProxyClient;
-import online.kingdomkeys.kingdomkeys.proxy.ProxyServer;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
@@ -91,9 +89,6 @@ public class KingdomKeys {
 	public static final String MODNAME = "Kingdom Keys";
 	public static final String MODVER = "2.1.0.0";
 	public static final String MCVER = "1.18.2";
-
-	// The proxy instance created for the current dist double lambda prevents class being loaded on the other dist
-	public static IProxy proxy = DistExecutor.safeRunForDist(() -> ProxyClient::new, () -> ProxyServer::new);
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
 		@Override
@@ -157,7 +152,6 @@ public class KingdomKeys {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		// Run setup on proxies
-		proxy.setup(event);
 		//ModBiomes.init();
 		//ModDimensions.init();
 		event.enqueueWork(PacketHandler::register);

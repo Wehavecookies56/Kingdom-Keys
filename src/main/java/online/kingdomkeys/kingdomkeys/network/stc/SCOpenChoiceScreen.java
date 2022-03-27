@@ -7,9 +7,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -17,8 +19,8 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 
 public class SCOpenChoiceScreen {
 
-	SoAState choice, state;
-	BlockPos pos;
+	public SoAState choice, state;
+	public BlockPos pos;
 
 	public SCOpenChoiceScreen() { }
 
@@ -59,8 +61,7 @@ public class SCOpenChoiceScreen {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenChoiceScreen message) {
-			KingdomKeys.proxy.getClientMCInstance().setScreen(new ConfirmChoiceMenuPopup(message.state, message.choice, message.pos));
-			SoAMessages.INSTANCE.clearMessage();
+			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openChoice(message));
 		}
 	}
 

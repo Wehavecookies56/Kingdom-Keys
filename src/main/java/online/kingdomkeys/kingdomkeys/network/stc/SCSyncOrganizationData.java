@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
@@ -30,8 +33,8 @@ public class SCSyncOrganizationData {
 	public SCSyncOrganizationData() {
 	}
 
-	List<String> names = new LinkedList<String>();
-	List<String> data = new LinkedList<String>();
+	public List<String> names = new LinkedList<String>();
+	public List<String> data = new LinkedList<String>();
 	
 	
 	public SCSyncOrganizationData(List<String> names, List<String> data) {
@@ -75,27 +78,7 @@ public class SCSyncOrganizationData {
 	}
 
 	public static void handle(final SCSyncOrganizationData message, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = KingdomKeys.proxy.getClientPlayer();
-			
-			for(int i = 0;i<message.names.size();i++) {
-	            IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(new ResourceLocation(message.names.get(i)));
-
-				String d = message.data.get(i);
-				BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
-				
-				OrganizationData result;
-				try {
-				    result = GSON_BUILDER.fromJson(br, OrganizationData.class);
-				   
-				} catch (JsonParseException e) {
-				    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
-				    continue;
-				}
-				weapon.setOrganizationData(result);
-				IOUtils.closeQuietly(br);
-			}
-		});
+		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.syncOrgData(message)));
 		ctx.get().setPacketHandled(true);
 	}
 

@@ -8,15 +8,18 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 
 public class SCSyncOrgPortalPacket {
 
-	BlockPos pos;
-    BlockPos destPos;
-    ResourceKey<Level> dimension;
+	public BlockPos pos;
+	public BlockPos destPos;
+	public ResourceKey<Level> dimension;
 
 	public SCSyncOrgPortalPacket() {
 	}
@@ -43,16 +46,7 @@ public class SCSyncOrgPortalPacket {
 
 	public static void handle(final SCSyncOrgPortalPacket msg, Supplier<NetworkEvent.Context> ctx) {
 		
-		ctx.get().enqueueWork(() -> {
-			Player player = KingdomKeys.proxy.getClientPlayer();
-			OrgPortalEntity portal;
-	    	if(msg.pos != msg.destPos)
-	    		portal = new OrgPortalEntity(player.level, player, msg.pos, msg.destPos, msg.dimension, true);
-	    	else
-	    		portal = new OrgPortalEntity(player.level, player, msg.pos, msg.destPos, msg.dimension, false);
-	    	
-	    	player.level.addFreshEntity(portal);
-	    });
+		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.syncOrgPortal(msg)));
 		ctx.get().setPacketHandled(true);
 	}
 

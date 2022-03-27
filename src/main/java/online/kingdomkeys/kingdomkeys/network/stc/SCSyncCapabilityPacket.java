@@ -21,58 +21,61 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SCSyncCapabilityPacket {
 
-	int level = 0;
-	private int exp = 0;
-	private int expGiven = 0;
-	private int strength = 0, boostStr = 0;
-	private int magic = 0, boostMag = 0;
-	private int defense = 0, boostDef = 0;
-	private int maxHp, maxAP=0, boostMaxAP = 0;
-	private int munny = 0;
-	private int antipoints = 0;
+	public int level = 0;
+	public int exp = 0;
+	public int expGiven = 0;
+	public int strength = 0, boostStr = 0;
+	public int magic = 0, boostMag = 0;
+	public int defense = 0, boostDef = 0;
+	public int maxHp, maxAP=0, boostMaxAP = 0;
+	public int munny = 0;
+	public int antipoints = 0;
 
-	private double MP, maxMP, dp, maxDP, fp, focus, maxFocus;
-	
-	private boolean recharge;
+	public double MP, maxMP, dp, maxDP, fp, focus, maxFocus;
 
-	List<String> messages, dfMessages;
-	String driveForm;
+	public boolean recharge;
 
-	List<ResourceLocation> recipeList = new ArrayList<>();
-	LinkedHashMap<String,int[]> magicsMap = new LinkedHashMap<>();
-    List<String> shotlockList = new ArrayList<>();
-    List<String> reactionList = new ArrayList<>();
-    String equippedShotlock;
-	LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
-	LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
-	List<String> partyList = new ArrayList<>(10);
-	TreeMap<String, Integer> materialMap = new TreeMap<>();
-	Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
-	Map<Integer, ItemStack> items = new HashMap<>();
-	Map<Integer, ItemStack> accessories = new HashMap<>();
-	
-	SoAState soAstate, choice, sacrifice;
-	BlockPos choicePedestal, sacrificePedestal;
-	Vec3 returnPos;
-	ResourceKey<Level> returnDim;
+	public List<String> messages, dfMessages;
+	public String driveForm;
 
-	int hearts;
-	Utils.OrgMember alignment;
-	ItemStack equippedWeapon;
-	Set<ItemStack> unlocks;
-	int limitCooldownTicks;
-	int magicCooldownTicks;
-	
-	LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>();
+	public List<ResourceLocation> recipeList = new ArrayList<>();
+	public LinkedHashMap<String,int[]> magicsMap = new LinkedHashMap<>();
+	public List<String> shotlockList = new ArrayList<>();
+	public List<String> reactionList = new ArrayList<>();
+	public String equippedShotlock;
+	public LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
+	public LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
+	public List<String> partyList = new ArrayList<>(10);
+	public TreeMap<String, Integer> materialMap = new TreeMap<>();
+	public Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
+	public Map<Integer, ItemStack> items = new HashMap<>();
+	public Map<Integer, ItemStack> accessories = new HashMap<>();
+
+	public SoAState soAstate, choice, sacrifice;
+	public BlockPos choicePedestal, sacrificePedestal;
+	public Vec3 returnPos;
+	public ResourceKey<Level> returnDim;
+
+	public int hearts;
+	public Utils.OrgMember alignment;
+	public ItemStack equippedWeapon;
+	public Set<ItemStack> unlocks;
+	public int limitCooldownTicks;
+	public int magicCooldownTicks;
+
+	public LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>();
 
 	
 	public SCSyncCapabilityPacket() {
@@ -424,68 +427,7 @@ public class SCSyncCapabilityPacket {
 	}
 
 	public static void handle(final SCSyncCapabilityPacket message, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(KingdomKeys.proxy.getClientPlayer());
-
-			playerData.setLevel(message.level);
-			playerData.setExperience(message.exp);
-			playerData.setExperienceGiven(message.expGiven);
-			playerData.setStrength(message.strength);
-			playerData.setMagic(message.magic);
-			playerData.setDefense(message.defense);
-			playerData.setBoostStrength(message.boostStr);
-			playerData.setBoostMagic(message.boostMag);
-			playerData.setBoostDefense(message.boostDef);
-			playerData.setMP(message.MP);
-			playerData.setMaxMP(message.maxMP);
-			playerData.setRecharge(message.recharge);
-			playerData.setMaxHP(message.maxHp);
-			playerData.setMaxAP(message.maxAP);
-			playerData.setBoostMaxAP(message.boostMaxAP);
-			playerData.setDP(message.dp);
-			playerData.setFP(message.fp);
-			playerData.setMaxDP(message.maxDP);
-			playerData.setMunny(message.munny);
-			playerData.setFocus(message.focus);
-			playerData.setMaxFocus(message.maxFocus);
-
-			playerData.setMessages(message.messages);
-			playerData.setDFMessages(message.dfMessages);
-
-			playerData.setKnownRecipeList(message.recipeList);
-			playerData.setMagicsMap(message.magicsMap);
-			playerData.setShotlockList(message.shotlockList);
-			playerData.setEquippedShotlock(message.equippedShotlock);
-			playerData.setDriveFormMap(message.driveFormMap);
-			playerData.setAbilityMap(message.abilityMap);
-			playerData.setAntiPoints(message.antipoints);
-			playerData.setPartiesInvited(message.partyList);
-			playerData.setMaterialMap(message.materialMap);
-			playerData.equipAllKeychains(message.keychains, false);
-			playerData.equipAllItems(message.items, false);
-			playerData.equipAllAccessories(message.accessories, false);
-			playerData.setActiveDriveForm(message.driveForm);
-
-			playerData.setReturnDimension(message.returnDim);
-			playerData.setReturnLocation(message.returnPos);
-			playerData.setSoAState(message.soAstate);
-			playerData.setChoice(message.choice);
-			playerData.setSacrifice(message.sacrifice);
-			playerData.setChoicePedestal(message.choicePedestal);
-			playerData.setSacrificePedestal(message.sacrificePedestal);
-
-			playerData.setHearts(message.hearts);
-			playerData.setAlignment(message.alignment);
-			playerData.equipWeapon(message.equippedWeapon);
-			playerData.setWeaponsUnlocked(message.unlocks);
-			playerData.setLimitCooldownTicks(message.limitCooldownTicks);
-			playerData.setMagicCooldownTicks(message.magicCooldownTicks);
-			
-			playerData.setReactionCommands(message.reactionList);
-			playerData.setShortcutsMap(message.shortcutsMap);
-			
-			KingdomKeys.proxy.getClientPlayer().getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
-		});
+		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.syncCapability(message)));
 		ctx.get().setPacketHandled(true);
 	}
 

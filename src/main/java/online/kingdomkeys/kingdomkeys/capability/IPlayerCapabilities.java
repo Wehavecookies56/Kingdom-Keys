@@ -1,11 +1,5 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -20,6 +14,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.*;
 
 public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getLevel();
