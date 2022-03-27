@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.server.ServerWorld;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class SavepointTileEntity extends TileEntity implements ITickableTileEntity {

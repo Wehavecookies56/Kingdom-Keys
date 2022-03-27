@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.UUID;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockState;
@@ -10,7 +8,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 
 public class SoRCore extends BaseBlock {

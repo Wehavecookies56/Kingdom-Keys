@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -11,8 +13,6 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import javax.annotation.Nullable;
 
 public class ItemTagsGen extends ItemTagsProvider
 {

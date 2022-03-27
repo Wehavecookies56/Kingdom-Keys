@@ -1,14 +1,16 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.List;
 
 /**
  * Created by Toby on 08/02/2017.
@@ -51,6 +53,7 @@ public interface IOrgWeapon {
         return data.getMagic();
     }
 
+    @OnlyIn(Dist.CLIENT)
     default void addInfoToTooltip(ItemStack stack, List<ITextComponent> tooltip)
     {
         tooltip.add(new TranslationTextComponent(TextFormatting.YELLOW+""+getMember()));

@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import java.util.List;
-
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.GenerationStage;

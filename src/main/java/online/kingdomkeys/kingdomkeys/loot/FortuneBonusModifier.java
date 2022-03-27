@@ -1,7 +1,13 @@
 
 package online.kingdomkeys.kingdomkeys.loot;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
 import com.google.gson.JsonObject;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -22,10 +28,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Map;
 
 //Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.

@@ -21,7 +21,6 @@ import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 
 @OnlyIn(Dist.CLIENT)
 public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {

@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import java.util.Objects;
+import java.util.function.Supplier;
+
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
@@ -9,10 +12,20 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.*;
-
-import java.util.Objects;
-import java.util.function.Supplier;
+import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
+import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.MoogleProjectorBlock;
+import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
+import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
+import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.PedestalBlock;
+import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
+import online.kingdomkeys.kingdomkeys.block.SoADoorBlock;
+import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
+import online.kingdomkeys.kingdomkeys.block.SoRCore;
 
 public class BlockStates extends BlockStateProvider {
 

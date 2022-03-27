@@ -45,10 +45,5 @@
 	    "scale": [ 0.02, 0.02, 0.02 ]
 	  }
 	  
-	},
-	"visibility": {
-	  "object_1": "hide",
-	  "object_2": "default",
-	  "object_3": "show"
 	}
 }
