@@ -397,9 +397,9 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 			abilityName = ability.getTranslationKey();
 			String text = Utils.translateToLocal(new StringBuilder(abilityName).insert(abilityName.lastIndexOf('.'), lvl).toString());
-			//System.out.println(buttons.get(i).getMessage().getString());
-			if (renderables.get(i) instanceof MenuAbilitiesButton) {
-				MenuAbilitiesButton button = (MenuAbilitiesButton) renderables.get(i);
+
+			if (abilities.get(i) instanceof MenuAbilitiesButton) {
+				MenuAbilitiesButton button = (MenuAbilitiesButton) abilities.get(i);
 
 				if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
 					button.active = button.equipped;
