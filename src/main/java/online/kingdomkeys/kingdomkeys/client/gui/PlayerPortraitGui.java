@@ -185,12 +185,13 @@ public class PlayerPortraitGui extends Screen {
 						}
 						matrixStack.popPose();
 					}
-					RenderSystem.setShaderColor(100.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 						String driveName = playerData.getActiveDriveForm().substring(playerData.getActiveDriveForm().indexOf("_") + 1);
 						ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + driveName + ".png");
 						RenderSystem.setShaderTexture(0, texture);
+						RenderSystem.setShaderColor(1, 1, 1, 1);
 
 						matrixStack.pushPose();
 						{

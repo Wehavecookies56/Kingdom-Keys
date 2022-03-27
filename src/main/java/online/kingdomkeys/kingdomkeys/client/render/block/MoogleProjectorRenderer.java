@@ -31,13 +31,10 @@ public class MoogleProjectorRenderer implements BlockEntityRenderer<MoogleProjec
 	        EntityRenderer<MoogleEntity> moogleRenderer = (EntityRenderer<MoogleEntity>) mc.getEntityRenderDispatcher().getRenderer(fakeMoogle);
 	        Vec3 vec3d = moogleRenderer.getRenderOffset(fakeMoogle, partialTicks);
 	        matrixStackIn.translate(0.5 + vec3d.x(), 0.0 + vec3d.y(), 0.5 + vec3d.z());
-	        
-	        {
-	        	RenderSystem.enableBlend();
-	        	{
-	                moogleRenderer.render(fakeMoogle, 0, partialTicks, matrixStackIn, bufferIn, combinedLightIn);
-	        	}
-	        }
+        	RenderSystem.enableBlend();
+        	{
+                moogleRenderer.render(fakeMoogle, 0, partialTicks, matrixStackIn, bufferIn, combinedLightIn);
+        	}	        
         }
         matrixStackIn.popPose();
     }
