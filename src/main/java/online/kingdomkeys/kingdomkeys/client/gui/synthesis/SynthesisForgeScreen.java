@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -273,7 +274,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				matrixStack.translate(boxM.x + offset/2, iconPosY, 1);
 				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
 				matrixStack.scale(0.8F, 0.8F, 0.8F);
-				Utils.drawItemAsIcon(new ItemStack(kb), matrixStack, 2, -4, 16);
+				ClientUtils.drawItemAsIcon(new ItemStack(kb), matrixStack, 2, -4, 16);
 
 			}
 			matrixStack.popPose();
@@ -283,7 +284,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				String text = Utils.translateToLocal(kb.getDescriptionId());
 				drawString(matrixStack, minecraft.font, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-				Utils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
+				ClientUtils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
 			}
 			matrixStack.popPose();
 			

@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -253,7 +254,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
 			matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
-			Utils.drawItemAsIcon(selected, matrixStack, 0, -2, 12);
+			ClientUtils.drawItemAsIcon(selected, matrixStack, 0, -2, 12);
 		}
 		matrixStack.popPose();
 
@@ -305,7 +306,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				{
 					String text = Utils.translateToLocal(selected.getDescriptionId());
 					drawString(matrixStack, minecraft.font, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-					Utils.drawSplitString(font, desc, (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
+					ClientUtils.drawSplitString(font, desc, (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
 				}
 				matrixStack.popPose();
 			}
@@ -327,7 +328,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					String n = Utils.translateToLocal(stack.getDescriptionId());
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 					drawString(matrixStack, minecraft.font, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
-					Utils.drawItemAsIcon(stack, matrixStack, -17, (i*16)-4, 16);
+					ClientUtils.drawItemAsIcon(stack, matrixStack, -17, (i*16)-4, 16);
 					i++;
 				}				
 			}

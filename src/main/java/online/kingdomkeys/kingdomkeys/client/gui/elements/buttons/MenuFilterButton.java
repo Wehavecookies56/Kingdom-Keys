@@ -10,6 +10,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -42,13 +43,13 @@ public class MenuFilterButton extends Button {
             float centreY = y + ((height -(iconSize / 2F)) * scale);
             RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
-            Utils.blitScaled(matrixStack, this, x, y, 66, 0, 52, 30, scale);
+            ClientUtils.blitScaled(matrixStack, this, x, y, 66, 0, 52, 30, scale);
             if (getMessage().getString().isEmpty() && category != null) {
-                Utils.blitScaled(matrixStack, this, centreX, centreY, category.getU(), category.getV(), iconSize, iconSize, scale);
+                ClientUtils.blitScaled(matrixStack, this, centreX, centreY, category.getU(), category.getV(), iconSize, iconSize, scale);
             } else {
                 float textCentreX = x + ((width * scale) - ((fr.width(getMessage()) * 0.75F) / 2));
                 float textCentreY = y + ((height * scale) - ((fr.lineHeight * 0.75F) / 2));
-                Utils.drawStringScaled(matrixStack, this, textCentreX, textCentreY, getMessage().getString(), 0xFFFFFF, 0.75F);
+                ClientUtils.drawStringScaled(matrixStack, this, textCentreX, textCentreY, getMessage().getString(), 0xFFFFFF, 0.75F);
                 RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
             }
         }

@@ -22,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -168,7 +169,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
                         
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-                        Utils.drawItemAsIcon(new ItemStack(keyblade), matrixStack, 0, 0, 16);
+                        ClientUtils.drawItemAsIcon(new ItemStack(keyblade), matrixStack, 0, 0, 16);
                         
                     }
                     matrixStack.popPose();
@@ -225,7 +226,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					
 					float tooltipPosX = parent.width * 0.3333F;
 					float tooltipPosY = parent.height * 0.8F;
-					Utils.drawSplitString(minecraft.font, keyblade.getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
+					ClientUtils.drawSplitString(minecraft.font, keyblade.getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			Lighting.setupForFlatItems();

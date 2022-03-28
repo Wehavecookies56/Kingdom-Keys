@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
@@ -193,7 +194,7 @@ public class MenuEquipmentButton extends Button {
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
                         //mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);
-                        Utils.drawItemAsIcon(item, matrixStack, 0,0,16);
+                        ClientUtils.drawItemAsIcon(item, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();
 
@@ -312,11 +313,11 @@ public class MenuEquipmentButton extends Button {
 						if(stack.getItem() instanceof KeychainItem) {
 							float tooltipPosX = parent.width * 0.3333F;
 	                    	float tooltipPosY = parent.height * 0.8F;
-	                    	Utils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+	                    	ClientUtils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KeybladeItem) {
 							float tooltipPosX = parent.width * 0.3333F;
 	                    	float tooltipPosY = parent.height * 0.8F;
-	                    	Utils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKAccessoryItem) {
 							float tooltipPosX = parent.width * 0.3333F;
 	                    	float tooltipPosY = parent.height * 0.8F;

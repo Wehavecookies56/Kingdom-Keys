@@ -20,7 +20,7 @@ import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
-import online.kingdomkeys.kingdomkeys.util.Utils.ModelAnimation;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 
 /**
  * Assassin - Abelatox

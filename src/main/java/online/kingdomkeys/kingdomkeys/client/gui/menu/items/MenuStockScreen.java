@@ -13,6 +13,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -62,7 +63,7 @@ public class MenuStockScreen extends MenuFilterable {
         {
         	matrixStack.translate(iconPosX, iconPosY, 0);
         	matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-			Utils.drawItemAsIcon(selected, matrixStack, 1, -1, 16);
+			ClientUtils.drawItemAsIcon(selected, matrixStack, 1, -1, 16);
         }
         matrixStack.popPose();
         
@@ -70,8 +71,8 @@ public class MenuStockScreen extends MenuFilterable {
 
         if(selected.getItem() instanceof KeybladeItem || selected.getItem() instanceof KeychainItem) {
         	KeybladeItem kb = selected.getItem() instanceof KeychainItem ? ((KeychainItem) selected.getItem()).getKeyblade() : (KeybladeItem) selected.getItem();
-        	
-        	Utils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.38F), 0xAAAAAA);
+
+            ClientUtils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.38F), 0xAAAAAA);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY + 5), 0xFF0000);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 15, 0x4444FF);
         } else {

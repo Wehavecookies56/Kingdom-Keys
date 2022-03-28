@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuPotionSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -129,7 +130,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
                        // minecraft.getItemRenderer().renderAndDecorateItem(stack, 0, 0);
-                        Utils.drawItemAsIcon(stack, matrixStack, 0,0,16);
+                        ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();
 					float strPosX = parent.width * 0.685F;
@@ -169,7 +170,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 */
 					float tooltipPosX = parent.width * 0.3333F;
 					float tooltipPosY = parent.height * 0.8F;
-					Utils.drawSplitString(minecraft.font, stack.getTooltipLines(minecraft.player, Default.NORMAL).get(1).getString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
+					ClientUtils.drawSplitString(minecraft.font, stack.getTooltipLines(minecraft.player, Default.NORMAL).get(1).getString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			Lighting.setupForFlatItems();

@@ -20,6 +20,7 @@ import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -264,7 +265,7 @@ public class MenuBackground extends Screen {
 				matrixStack.scale(1.1F, 1.1F, 1F);
 				matrixStack.translate(0, -5, 0);
 				//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
-				Utils.drawSplitString(minecraft.font, Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
+				ClientUtils.drawSplitString(minecraft.font, Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
 			}
 			matrixStack.popPose();
 		}

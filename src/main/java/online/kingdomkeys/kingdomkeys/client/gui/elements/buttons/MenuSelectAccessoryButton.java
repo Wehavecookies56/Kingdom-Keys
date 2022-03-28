@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuAccessorySelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -153,7 +154,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
                         
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-                        Utils.drawItemAsIcon(stack, matrixStack, 0,0,16);
+                        ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0,16);
 
                     }
                     matrixStack.popPose();

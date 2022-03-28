@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -378,7 +379,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
 		float tooltipPosX = width * 0.22F;
 		float tooltipPosY = height * 0.77F;
-		Utils.drawSplitString(font, new TranslatableComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
+		ClientUtils.drawSplitString(font, new TranslatableComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
 	private void drawAP(PoseStack matrixStack) {

@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -81,7 +82,7 @@ public class WeaponUnlockScreen extends Screen {
         matrixStack.scale(5, 5, 5);
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(0, 0, 0, 1);
-        Utils.drawItemAsIcon(new ItemStack(weapons.get(current)), matrixStack, 0,0,16);
+        ClientUtils.drawItemAsIcon(new ItemStack(weapons.get(current)), matrixStack, 0,0,16);
 
         matrixStack.popPose();
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);

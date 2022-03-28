@@ -1,13 +1,31 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import com.google.gson.JsonParseException;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -36,6 +54,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import org.apache.commons.io.IOUtils;
 
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
@@ -262,6 +281,105 @@ public class ClientUtils {
                 IOUtils.closeQuietly(br);
             }
         };
+    }
+
+    public static class ModelAnimation {
+        public ModelPart model;
+        public ModelPart modelCounterpart;
+        public float defVal;
+        public float minVal;
+        public float maxVal;
+        public float actVal;
+        public boolean increasing;
+
+        public ModelAnimation(ModelPart model, float defVal, float minVal, float maxVal, float actVal, boolean increasing, @Nullable ModelPart counterpart) {
+            this.model = model;
+            this.defVal = defVal;
+            this.minVal = minVal;
+            this.maxVal = maxVal;
+            this.actVal = actVal;
+            this.increasing = increasing;
+            this.modelCounterpart = counterpart;
+        }
+
+        @Override
+        public String toString() {
+            return defVal + ": " + actVal + " " + increasing;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void blitScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, int u, int v, int width, int height, float scaleX, float scaleY) {
+        matrixStack.pushPose();
+        matrixStack.translate(x, y, 0);
+        matrixStack.scale(scaleX, scaleY, 1);
+        gui.blit(matrixStack, 0, 0, u, v, width, height);
+        matrixStack.popPose();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void blitScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, int u, int v, int width, int height, float scaleXY) {
+        blitScaled(matrixStack, gui, x, y, u, v, width, height, scaleXY, scaleXY);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void drawStringScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, String text, int colour, float scaleX, float scaleY) {
+        matrixStack.pushPose();
+        matrixStack.translate(x, y, 0);
+        matrixStack.scale(scaleX, scaleY, 1);
+        gui.drawString(matrixStack, Minecraft.getInstance().font, text, 0, 0, colour);
+        matrixStack.popPose();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void drawStringScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, String text, int colour, float scaleXY) {
+        drawStringScaled(matrixStack, gui, x, y, text, colour, scaleXY, scaleXY);
+    }
+
+    public static void drawSplitString(Font fontRenderer, String text, int x, int y, int len, int color) {
+        fontRenderer.drawWordWrap(FormattedText.of(text), x, y, len, color);
+    }
+
+    public static int getSlotFor(Inventory inv, ItemStack stack) {
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            if (!inv.getItem(i).isEmpty() && ItemStack.matches(stack, inv.getItem(i))) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public static void drawItemAsIcon(ItemStack itemStack, PoseStack poseStack, int positionX, int positionY, int size) {
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        //Code stolen from ItemRenderer.renderGuiItem and changed to suit scaled items instead of fixing size to 16
+        BakedModel itemBakedModel = itemRenderer.getModel(itemStack, null, null, 0);
+
+        Minecraft.getInstance().getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        poseStack.pushPose();
+        poseStack.translate(positionX, positionY, 100.0F);
+        poseStack.translate(8.0D, 8.0D, 0.0D);
+        poseStack.scale(1.0F, -1.0F, 1.0F);
+        poseStack.scale(size, size, size);
+        RenderSystem.applyModelViewMatrix();
+        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+        boolean flag = !itemBakedModel.usesBlockLight();
+        if (flag) {
+            Lighting.setupForFlatItems();
+        }
+
+        itemRenderer.render(itemStack, ItemTransforms.TransformType.GUI, false, poseStack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, itemBakedModel);
+        multibuffersource$buffersource.endBatch();
+        if (flag) {
+            Lighting.setupFor3DItems();
+        }
+
+        poseStack.popPose();
+        RenderSystem.applyModelViewMatrix();
     }
 
 }
