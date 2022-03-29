@@ -69,8 +69,8 @@ public class ClientSetup {
 		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
 
 
-		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
-		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
+		//VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
+		//VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
 
         armorModels.put(ModItems.terra_Helmet.get(), top);
 		armorModels.put(ModItems.terra_Chestplate.get(), top);
@@ -82,15 +82,15 @@ public class ClientSetup {
 		armorModels.put(ModItems.aqua_Leggings.get(), bot);
 		armorModels.put(ModItems.aqua_Boots.get(), top);
 
-		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
+		/*armorModels.put(ModItems.ventus_Helmet.get(), vTop);
 		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
 		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
-		armorModels.put(ModItems.ventus_Boots.get(), vTop);
+		armorModels.put(ModItems.ventus_Boots.get(), vTop);*/
 
-		armorModels.put(ModItems.nightmareVentus_Helmet.get(), vTop);
-		armorModels.put(ModItems.nightmareVentus_Chestplate.get(), vTop);
-		armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
-		armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
+		//armorModels.put(ModItems.nightmareVentus_Helmet.get(), vTop);
+		//armorModels.put(ModItems.nightmareVentus_Chestplate.get(), vTop);
+		//armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
+		//armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
 
 		armorModels.put(ModItems.eraqus_Helmet.get(), top);
 		armorModels.put(ModItems.eraqus_Chestplate.get(), top);
@@ -146,8 +146,6 @@ public class ClientSetup {
     @SubscribeEvent
 	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
     	ModEntities.registerLayers(event);
-
-    	
 	}
 
 	@SubscribeEvent
