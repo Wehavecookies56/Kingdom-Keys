@@ -64,7 +64,7 @@ public class KKDimensionCommand extends BaseCommand {
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			context.getSource().sendSuccess(new TranslatableComponent("Teleported" + player.getDisplayName().getString() + " to dimension " + dimension.getRegistryName().toString()), true);
+			context.getSource().sendSuccess(new TranslatableComponent("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.getRegistryName().toString()), true);
 			player.sendMessage(new TranslatableComponent("You have been teleported to " + dimension.location().toString()), Util.NIL_UUID);
 		}
 		return 1;

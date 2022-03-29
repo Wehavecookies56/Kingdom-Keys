@@ -26,8 +26,8 @@ public class DiveToTheHeartDimension{
         Level world = Minecraft.getInstance().level;
         if (world != null) {
             if (world.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
-                event.setDensity(0.06F);
-                event.setCanceled(true);
+               // event.setDensity(0.06F);
+               // event.setCanceled(true);
             }
         }
     }

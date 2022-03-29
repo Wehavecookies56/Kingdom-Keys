@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureFeatureManager;
@@ -37,6 +36,9 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
+import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
@@ -169,9 +171,6 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     public void applyCarvers(WorldGenRegion pLevel, long pSeed, BiomeManager pBiomeManager, StructureFeatureManager pStructureFeatureManager, ChunkAccess pChunk, GenerationStep.Carving pStep) { }
 
     @Override
-    public void buildSurface(WorldGenRegion pLevel, StructureFeatureManager pStructureFeatureManager, ChunkAccess pChunk) { }
-
-    @Override
     public void spawnOriginalMobs(WorldGenRegion pLevel) { }
 
     @Override
@@ -180,8 +179,8 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, StructureFeatureManager manager, ChunkAccess chunkIn) {
-        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
+    public void buildSurface(WorldGenRegion pLevel, StructureFeatureManager pStructureFeatureManager, ChunkAccess chunkIn) {
+    	BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
         if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
             int startZ = chunkIn.getPos().getMinBlockZ() - (depth/2);
             int startX = chunkIn.getPos().getMinBlockX() - (width/2);
@@ -193,19 +192,18 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
                         int strucX = x - startX;
                         int strucZ = z - startZ;
                         if (y == 0) {
-                            stateToPlace(topOfPlatform.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
+                            stateToPlace(topOfPlatform.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
                         } else if (y == 1) {
-                            stateToPlace(structureTop.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
+                            stateToPlace(structureTop.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
                         } else if (y == height - 1) {
-                            stateToPlace(structureBottom.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
+                            stateToPlace(structureBottom.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
                         } else {
-                            stateToPlace(structureMiddle.charAt(strucX + strucZ * width), chunkIn, blockpos$mutable);
+                            stateToPlace(structureMiddle.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
                         }
                     }
                 }
             }
         }
-        return CompletableFuture.completedFuture(chunkIn);
     }
 
     @Override
@@ -240,35 +238,41 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         return Math.max(Math.abs(firstX - secondX), Math.abs(firstZ - secondZ));
     }
 
-    private void stateToPlace(char c, ChunkAccess chunkIn, BlockPos.MutableBlockPos pos) {
-    	System.out.println(c);
-        switch (c) {
-            case '0':
-                return;
-            case '1':
-                chunkIn.setBlockState(pos, ModBlocks.mosaic_stained_glass.get().defaultBlockState().setValue(MosaicStainedGlassBlock.STRUCTURE, true), false);
-                break;
-            case '2':
-                chunkIn.setBlockState(pos, ModBlocks.station_of_awakening_core.get().defaultBlockState().setValue(SoAPlatformCoreBlock.STRUCTURE, true), false);
-          //      ((SoAPlatformTileEntity) chunkIn.getBlockEntity(pos)).setMultiblockFormed(true);
-                break;
-            case '3':
-               // createPedestal(chunkIn, pos, new ItemStack(ModItems.dreamSword.get()));
-                break;
-            case '4':
-               // createPedestal(chunkIn, pos, new ItemStack(ModItems.dreamShield.get()));
-                break;
-            case '5':
-              //  createPedestal(chunkIn, pos, new ItemStack(ModItems.dreamStaff.get()));
-                break;
-        }
+    private void stateToPlace(char c, WorldGenRegion pLevel, BlockPos.MutableBlockPos pos) {
+    	 switch (c) {
+         case '0':
+             return;
+         case '1':
+        	 //pLevel.setBlock(pos, ModBlocks.mosaic_stained_glass.get().defaultBlockState().setValue(MosaicStainedGlassBlock.STRUCTURE, true), 2);
+        	 pLevel.setBlock(pos, ModBlocks.dangerBlox.get().defaultBlockState(), 2);
+             break;
+         case '2':
+        	 pLevel.setBlock(pos, ModBlocks.station_of_awakening_core.get().defaultBlockState().setValue(SoAPlatformCoreBlock.STRUCTURE, true), 2);
+            // ((SoAPlatformTileEntity) pLevel.getBlockEntity(pos)).setMultiblockFormed(true);
+             break;
+         case '3':
+             createPedestal(pLevel, pos, new ItemStack(ModItems.dreamSword.get()));
+             break;
+         case '4':
+             createPedestal(pLevel, pos, new ItemStack(ModItems.dreamShield.get()));
+             break;
+         case '5':
+             createPedestal(pLevel, pos, new ItemStack(ModItems.dreamStaff.get()));
+             break;
+     }
     }
 
-    private void createPedestal(LevelAccessor world, BlockPos.MutableBlockPos pos, ItemStack toDisplay) {
-        /*world.setBlock(pos, ModBlocks.pedestal.get().defaultBlockState(), 2);
-        PedestalTileEntity te = ((PedestalTileEntity) world.getBlockEntity(pos));
-        te.setStationOfAwakeningMarker(true);
-        te.setDisplayStack(toDisplay);*/
+    private void createPedestal(WorldGenRegion pLevel, BlockPos.MutableBlockPos pos, ItemStack toDisplay) {
+    	pLevel.setBlock(pos, ModBlocks.pedestal.get().defaultBlockState(), 2);
+        //PedestalTileEntity te = ((PedestalTileEntity) pLevel.getBlockEntity(pos));
+        //te.setStationOfAwakeningMarker(true);
+        //te.setDisplayStack(toDisplay);
     }
+
+	@Override
+	public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_, StructureFeatureManager p_187750_, ChunkAccess chunkIn) {
+		// TODO Auto-generated method stub
+		return CompletableFuture.completedFuture(chunkIn);
+	}
     
 }
