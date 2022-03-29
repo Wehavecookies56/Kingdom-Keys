@@ -70,17 +70,17 @@ public class VentusModel<T extends LivingEntity> extends HumanoidModel<T> {
         MeshDefinition meshdefinition = VentusModel.createMesh(size, 0);
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition horn1 = partdefinition.addOrReplaceChild("horn1", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 4.0F, 2.0F, size), PartPose.offsetAndRotation(-3.5F, -12.0F, 0.0F, -0.2737F, 0.0F, 0.0F));
+        PartDefinition horn1 = partdefinition.getChild("head").addOrReplaceChild("horn1", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 4.0F, 2.0F, size), PartPose.offsetAndRotation(-3.5F, -12.0F, 0.0F, -0.2737F, 0.0F, 0.0F));
 
-        PartDefinition horn2 = partdefinition.addOrReplaceChild("horn2", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 4.0F, 2.0F, size), PartPose.offsetAndRotation(4.5F, -12.0F, 0.0F, -0.2737F, 0.0F, 0.0F));
+        PartDefinition horn2 = partdefinition.getChild("head").addOrReplaceChild("horn2", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 4.0F, 2.0F, size), PartPose.offsetAndRotation(4.5F, -12.0F, 0.0F, -0.2737F, 0.0F, 0.0F));
 
-        PartDefinition rightElbowBase = partdefinition.addOrReplaceChild("rightElbowBase", CubeListBuilder.create().texOffs(36, 32).addBox(-3.5F, -2.0F, -3.5F, 7.0F, 5.0F, 7.0F, size), PartPose.offsetAndRotation(6.0F, 7.0F, 0.0F, 0.0F, -3.1416F, 0.0F));
+        PartDefinition rightElbowBase = partdefinition.getChild("right_arm").addOrReplaceChild("rightElbowBase", CubeListBuilder.create().texOffs(36, 32).addBox(-3.5F, -2.0F, -3.5F, 7.0F, 5.0F, 7.0F, size), PartPose.offsetAndRotation(6.0F, 7.0F, 0.0F, 0.0F, -3.1416F, 0.0F));
 
         PartDefinition rightElbowSpike = rightElbowBase.addOrReplaceChild("rightElbowSpike", CubeListBuilder.create().texOffs(26, 38).addBox(-0.5F, -3.0F, -1.5F, 1.0F, 3.0F, 3.0F, size), PartPose.offsetAndRotation(-2.6F, 0.0F, 0.0F, 0.0F, 0.0F, -0.3491F));
 
         PartDefinition rightElbowSpike2 = rightElbowSpike.addOrReplaceChild("rightElbowSpike2", CubeListBuilder.create().texOffs(29, 44).addBox(-0.5F, -3.0F, -1.0F, 1.0F, 3.0F, 2.0F, size), PartPose.offsetAndRotation(-0.1F, -2.9F, 0.0F, 0.0F, 0.0F, 0.126F));
 
-        PartDefinition rightKneeBase = partdefinition.addOrReplaceChild("rightKneeBase", CubeListBuilder.create().texOffs(16, 32).addBox(-2.4F, 0.0F, -0.5F, 4.0F, 1.0F, 5.0F, size), PartPose.offset(1.9F, 16.0F, -1.9F));
+        PartDefinition rightKneeBase = partdefinition.getChild("right_leg").addOrReplaceChild("rightKneeBase", CubeListBuilder.create().texOffs(16, 32).addBox(-2.4F, 0.0F, -0.5F, 4.0F, 1.0F, 5.0F, size), PartPose.offset(1.9F, 16.0F, -1.9F));
 
         PartDefinition rightKnee1 = rightKneeBase.addOrReplaceChild("rightKnee1", CubeListBuilder.create().texOffs(31, 32).addBox(-1.2F, 0.5F, -0.5F, 1.0F, 1.0F, 0.0F, size), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
 
@@ -88,17 +88,17 @@ public class VentusModel<T extends LivingEntity> extends HumanoidModel<T> {
 
         PartDefinition rightKnee2 = rightKneeBase.addOrReplaceChild("rightKnee2", CubeListBuilder.create().texOffs(31, 34).addBox(-0.2F, 0.5F, -0.5F, 1.0F, 1.0F, 0.0F, size), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.7854F));
 
-        PartDefinition rightFoot = partdefinition.addOrReplaceChild("rightFoot", CubeListBuilder.create().texOffs(0, 41).addBox(-1.9F, 0.0F, -3.0F, 4.0F, 3.0F, 2.0F, size), PartPose.offset(1.9F, 21.0F, -0.9F));
+        PartDefinition rightFoot = partdefinition.getChild("right_leg").addOrReplaceChild("rightFoot", CubeListBuilder.create().texOffs(0, 41).addBox(-1.9F, 0.0F, -3.0F, 4.0F, 3.0F, 2.0F, size), PartPose.offset(1.9F, 21.0F, -0.9F));
 
         PartDefinition rightFootTip = rightFoot.addOrReplaceChild("rightFootTip", CubeListBuilder.create().texOffs(16, 41).addBox(-1.9F, 0.0F, -1.0F, 4.0F, 2.0F, 1.0F, size), PartPose.offset(0.0F, 1.0F, -3.0F));
 
-        PartDefinition leftElbowBase = partdefinition.addOrReplaceChild("leftElbowBase", CubeListBuilder.create().texOffs(36, 32).addBox(-3.5F, -2.0F, -3.5F, 7.0F, 5.0F, 7.0F, size), PartPose.offset(-6.0F, 7.0F, 0.0F));
+        PartDefinition leftElbowBase = partdefinition.getChild("left_arm").addOrReplaceChild("leftElbowBase", CubeListBuilder.create().texOffs(36, 32).addBox(-3.5F, -2.0F, -3.5F, 7.0F, 5.0F, 7.0F, size), PartPose.offset(-6.0F, 7.0F, 0.0F));
 
         PartDefinition leftElbowSpike = leftElbowBase.addOrReplaceChild("leftElbowSpike", CubeListBuilder.create().texOffs(26, 38).addBox(-0.5F, -3.0F, -1.5F, 1.0F, 3.0F, 3.0F, size), PartPose.offsetAndRotation(-2.6F, 0.0F, 0.0F, 0.0F, 0.0F, -0.3491F));
 
         PartDefinition leftElbowSpike2 = leftElbowSpike.addOrReplaceChild("leftElbowSpike2", CubeListBuilder.create().texOffs(29, 44).addBox(-0.5F, -3.0F, -1.0F, 1.0F, 3.0F, 2.0F, size), PartPose.offsetAndRotation(-0.1F, -2.9F, 0.0F, 0.0F, 0.0F, 0.126F));
 
-        PartDefinition leftKneeBase = partdefinition.addOrReplaceChild("leftKneeBase", CubeListBuilder.create().texOffs(16, 32).addBox(-2.5F, 0.0F, -0.5F, 4.0F, 1.0F, 5.0F, size), PartPose.offset(-1.9F, 16.0F, -1.9F));
+        PartDefinition leftKneeBase = partdefinition.getChild("left_leg").addOrReplaceChild("leftKneeBase", CubeListBuilder.create().texOffs(16, 32).addBox(-2.5F, 0.0F, -0.5F, 4.0F, 1.0F, 5.0F, size), PartPose.offset(-1.9F, 16.0F, -1.9F));
 
         PartDefinition leftKnee1 = leftKneeBase.addOrReplaceChild("leftKnee1", CubeListBuilder.create().texOffs(31, 32).addBox(-1.2F, 0.5F, -0.5F, 1.0F, 1.0F, 0.0F, size), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
 
@@ -106,7 +106,7 @@ public class VentusModel<T extends LivingEntity> extends HumanoidModel<T> {
 
         PartDefinition leftKnee2 = leftKneeBase.addOrReplaceChild("leftKnee2", CubeListBuilder.create().texOffs(31, 34).addBox(-0.2F, 0.5F, -0.5F, 1.0F, 1.0F, 0.0F, size), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.7854F));
 
-        PartDefinition leftFoot = partdefinition.addOrReplaceChild("leftFoot", CubeListBuilder.create().texOffs(0, 41).addBox(-2.1F, 0.0F, -3.0F, 4.0F, 3.0F, 2.0F, size), PartPose.offset(-1.9F, 21.0F, -0.9F));
+        PartDefinition leftFoot = partdefinition.getChild("left_leg").addOrReplaceChild("leftFoot", CubeListBuilder.create().texOffs(0, 41).addBox(-2.1F, 0.0F, -3.0F, 4.0F, 3.0F, 2.0F, size), PartPose.offset(-1.9F, 21.0F, -0.9F));
 
         PartDefinition leftFootTip = leftFoot.addOrReplaceChild("leftFootTip", CubeListBuilder.create().texOffs(16, 41).addBox(-2.1F, 0.0F, -1.0F, 4.0F, 2.0F, 1.0F, size), PartPose.offset(0.0F, 1.0F, -3.0F));
 
@@ -124,13 +124,5 @@ public class VentusModel<T extends LivingEntity> extends HumanoidModel<T> {
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        horn1.render(poseStack, buffer, packedLight, packedOverlay);
-        horn2.render(poseStack, buffer, packedLight, packedOverlay);
-        rightElbowBase.render(poseStack, buffer, packedLight, packedOverlay);
-        rightKneeBase.render(poseStack, buffer, packedLight, packedOverlay);
-        rightFoot.render(poseStack, buffer, packedLight, packedOverlay);
-        leftElbowBase.render(poseStack, buffer, packedLight, packedOverlay);
-        leftKneeBase.render(poseStack, buffer, packedLight, packedOverlay);
-        leftFoot.render(poseStack, buffer, packedLight, packedOverlay);
     }
 }
