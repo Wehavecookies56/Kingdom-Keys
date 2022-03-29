@@ -39,7 +39,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.textureName+"1.png";
 			}
 		}
-		return null;//KingdomKeys.MODID + ":" + "textures/models/armor/ventus.png";
+		return null;
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -49,7 +49,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 			@Nullable
 			@Override
 			public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-				HumanoidModel armorModel = ClientSetup.armorModels.get(this);
+				HumanoidModel armorModel = ClientSetup.armorModels.get(itemStack.getItem());
 
 				if (armorModel != null) {
 					armorModel.head.visible = armorSlot == EquipmentSlot.HEAD;

@@ -67,7 +67,7 @@ public class VentusModel<T extends LivingEntity> extends HumanoidModel<T> {
     }
 
     public static LayerDefinition createBodyLayer(CubeDeformation size) {
-        MeshDefinition meshdefinition = HumanoidModel.createMesh(size, 0);
+        MeshDefinition meshdefinition = VentusModel.createMesh(size, 0);
         PartDefinition partdefinition = meshdefinition.getRoot();
 
         PartDefinition horn1 = partdefinition.addOrReplaceChild("horn1", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 4.0F, 2.0F, size), PartPose.offsetAndRotation(-3.5F, -12.0F, 0.0F, -0.2737F, 0.0F, 0.0F));
@@ -112,7 +112,7 @@ public class VentusModel<T extends LivingEntity> extends HumanoidModel<T> {
 
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
-
+    
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity instanceof ArmorStand) {
