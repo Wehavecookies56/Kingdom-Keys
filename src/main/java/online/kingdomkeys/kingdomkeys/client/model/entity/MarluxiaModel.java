@@ -156,11 +156,11 @@ public class MarluxiaModel<T extends LivingEntity> extends HumanoidModel<T> {
 
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-    	
     	super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     	this.rightArm.x=-7;
     	this.leftArm.x=7;
     	this.head.xRot -= (float) Math.toRadians(-20);
+    	
     	if(EntityHelper.getState(entityIn) == 1) {
     		this.rightArm.zRot = (float) Math.toRadians(20);
     		this.leftArm.zRot = (float) Math.toRadians(-20);

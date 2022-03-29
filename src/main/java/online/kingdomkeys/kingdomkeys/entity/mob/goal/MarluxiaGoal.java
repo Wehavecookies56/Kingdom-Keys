@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 
 public class MarluxiaGoal extends TargetGoal {
-	// 0-Normal, 1-Armor (weak to fire), 2-Teleporting
+	// 0-Normal, 1-Armor (weak to fire), 2-Teleporting, 3-Chasing (finish)
 
 	private final int MAX_ARMOR_TICKS = 30 * 20, MAX_ARMOR_USES = 3;
 	private int armorTicks = 0, armorUses = 0;
@@ -42,10 +42,10 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 	
 	double posX, posY, posZ;
-	boolean invulnerable = false;
 
 	@Override
 	public boolean canContinueToUse() {
+		System.out.println(mob.tickCount);
 		if(mob.tickCount < 100) {
 			mob.setDeltaMovement(0,0,0);
 			mob.setInvulnerable(true);
@@ -108,7 +108,7 @@ public class MarluxiaGoal extends TargetGoal {
 
 	private void teleportAI() {
 		mob.setNoGravity(true);
-		if(tpTicks % 20 == 0) {
+		if(tpTicks % 10 == 0) {
 			attackWithTP();
 		}
 		if(tpTicks > MAX_TP_TICKS) {
@@ -170,7 +170,7 @@ public class MarluxiaGoal extends TargetGoal {
 			Random rand = ((ServerLevel) mob.level).random;
 			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
 			
-			if(chasingTicks % 10 == 0) {
+			if(chasingTicks % 5 == 0) {
 				int r = 1;
 				double pX = mob.getTarget().getX() - 3 + rand.nextDouble() * 6;
 				double pY = mob.getTarget().getY();

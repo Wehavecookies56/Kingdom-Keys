@@ -9,12 +9,12 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ClientRegistry;
@@ -37,11 +37,14 @@ import online.kingdomkeys.kingdomkeys.client.gui.PartyHUDGui;
 import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.ShotlockGUI;
 import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
+import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartRenderInfo;
 import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationOfSorrowRenderInfo;
@@ -60,71 +63,22 @@ public class ClientSetup {
     @SubscribeEvent
 	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
     	ModEntities.registerLayers(event);
-	}
-
-	@SubscribeEvent
-	public static void addLayers(EntityRenderersEvent.AddLayers event) {
-		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
-		renderer.addLayer(new DriveLayerRenderer<>(renderer));
-		renderer = event.getSkin("slim");
-		renderer.addLayer(new DriveLayerRenderer<>(renderer));
-	}
-
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void setupClient(FMLClientSetupEvent event) {
-        for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
-            ClientRegistry.registerKeyBinding(key.getKeybind());
-
-		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
-		MinecraftForge.EVENT_BUS.register(new ClientEvents());
-		MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
-		MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());
-		MinecraftForge.EVENT_BUS.register(new HPGui());
-		MinecraftForge.EVENT_BUS.register(new MPGui());
-		MinecraftForge.EVENT_BUS.register(new ShotlockGUI());
-		MinecraftForge.EVENT_BUS.register(new DriveGui());
-		MinecraftForge.EVENT_BUS.register(new InputHandler());
-		MinecraftForge.EVENT_BUS.register(new LockOnGui());
-		MinecraftForge.EVENT_BUS.register(new PartyHUDGui());
-		MinecraftForge.EVENT_BUS.register(SoAMessages.INSTANCE);
-
-		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
-		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
-
-		//TODO figure out where/how this can work (will crash right now)
-		/*
-		EntityRendererProvider.Context context = new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font);
+    	
+    	EntityRendererProvider.Context context = new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font);
 		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
 		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
 
-<<<<<<< HEAD
+
 		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
 
-		armorModels.put(ModItems.terra_Helmet.get(), top);
-=======
-        event.enqueueWork(() -> {
-			RenderTypeLookup.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.getTranslucent());
-			RenderTypeLookup.setRenderLayer(ModBlocks.soADoor.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.dataPortal.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.savepoint.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.orgPortal.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.pedestal.get(), RenderType.getCutout());
-			RenderTypeLookup.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.getTranslucent());
-        });
-        
-        ArmorModel top = new ArmorModel(0.5F);
+       /* ArmorModel top = new ArmorModel(0.5F);
         ArmorModel bot = new ArmorModel(0.25F);
         
         VentusModel vTop = new VentusModel(0.5F);
-        VentusModel vBot = new VentusModel(0.25F);
+        VentusModel vBot = new VentusModel(0.25F);*/
         
         armorModels.put(ModItems.terra_Helmet.get(), top);
->>>>>>> c0f039d4bf84b2420b8f976b162355760448d8f0
 		armorModels.put(ModItems.terra_Chestplate.get(), top);
 		armorModels.put(ModItems.terra_Leggings.get(), bot);
 		armorModels.put(ModItems.terra_Boots.get(), top);
@@ -193,7 +147,41 @@ public class ClientSetup {
 		armorModels.put(ModItems.ira_Chestplate.get(), top);
 		armorModels.put(ModItems.ira_Leggings.get(), bot);
 		armorModels.put(ModItems.ira_Boots.get(), top);
-		 */
+	}
+
+	@SubscribeEvent
+	public static void addLayers(EntityRenderersEvent.AddLayers event) {
+		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
+		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+		renderer = event.getSkin("slim");
+		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+	}
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public static void setupClient(FMLClientSetupEvent event) {
+        for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
+            ClientRegistry.registerKeyBinding(key.getKeybind());
+
+		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
+		MinecraftForge.EVENT_BUS.register(new ClientEvents());
+		MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
+		MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());
+		MinecraftForge.EVENT_BUS.register(new HPGui());
+		MinecraftForge.EVENT_BUS.register(new MPGui());
+		MinecraftForge.EVENT_BUS.register(new ShotlockGUI());
+		MinecraftForge.EVENT_BUS.register(new DriveGui());
+		MinecraftForge.EVENT_BUS.register(new InputHandler());
+		MinecraftForge.EVENT_BUS.register(new LockOnGui());
+		MinecraftForge.EVENT_BUS.register(new PartyHUDGui());
+		MinecraftForge.EVENT_BUS.register(SoAMessages.INSTANCE);
+
+		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
+		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
+
+		//TODO figure out where/how this can work (will crash right now)
+		
+		
 		
 		ModContainers.registerGUIFactories();
 
