@@ -6,6 +6,8 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -59,11 +61,9 @@ public class ClientSetup {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         ModEntities.registerRenderers(event);
     }
-
+    
     @SubscribeEvent
-	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-    	ModEntities.registerLayers(event);
-    	
+	public static void registerLayers(EntityRenderersEvent.AddLayers event) {
     	EntityRendererProvider.Context context = new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font);
 		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
 		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
@@ -72,12 +72,6 @@ public class ClientSetup {
 		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
 
-       /* ArmorModel top = new ArmorModel(0.5F);
-        ArmorModel bot = new ArmorModel(0.25F);
-        
-        VentusModel vTop = new VentusModel(0.5F);
-        VentusModel vBot = new VentusModel(0.25F);*/
-        
         armorModels.put(ModItems.terra_Helmet.get(), top);
 		armorModels.put(ModItems.terra_Chestplate.get(), top);
 		armorModels.put(ModItems.terra_Leggings.get(), bot);
@@ -146,7 +140,14 @@ public class ClientSetup {
 		armorModels.put(ModItems.ira_Helmet.get(), top);
 		armorModels.put(ModItems.ira_Chestplate.get(), top);
 		armorModels.put(ModItems.ira_Leggings.get(), bot);
-		armorModels.put(ModItems.ira_Boots.get(), top);
+		armorModels.put(ModItems.ira_Boots.get(), top);    	
+    }
+
+    @SubscribeEvent
+	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+    	ModEntities.registerLayers(event);
+
+    	
 	}
 
 	@SubscribeEvent
