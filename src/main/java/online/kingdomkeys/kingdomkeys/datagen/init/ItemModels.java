@@ -90,8 +90,6 @@ public class ItemModels extends ItemModelProvider {
 			// skip - no texture/special block
 		} else if (block instanceof SoADoorBlock) {
 			// skip - no texture/special block?
-		} else if (block instanceof DataPortalBlock) {
-			// skip - no texture/special block?
 		} else {
 			// fallback incase block item could not be generated as part of blockstates
 			standardBlockItem(path);

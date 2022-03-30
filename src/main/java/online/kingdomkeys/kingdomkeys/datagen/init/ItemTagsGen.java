@@ -14,36 +14,28 @@ import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-public class ItemTagsGen extends ItemTagsProvider
-{
-    public ItemTagsGen(DataGenerator dataGenerator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper)
-    {
-        super(dataGenerator, blockTagsProvider, KingdomKeys.MODID, existingFileHelper);
-    }
+public class ItemTagsGen extends ItemTagsProvider {
+	public ItemTagsGen(DataGenerator dataGenerator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
+		super(dataGenerator, blockTagsProvider, KingdomKeys.MODID, existingFileHelper);
+	}
 
-    @Override
-    protected void addTags()
-    {
-        for (RegistryObject<Item> itemRegistryObject : ModItems.ITEMS.getEntries())
-        {
-            final Item item = itemRegistryObject.get();
-            if (item instanceof RecordItem)
-            {
-                add(ItemTags.MUSIC_DISCS, item);
-                add(ItemTags.CREEPER_DROP_MUSIC_DISCS, item);
-            }
-        }
-    }
+	@Override
+	protected void addTags() {
+		for (RegistryObject<Item> itemRegistryObject : ModItems.ITEMS.getEntries()) {
+			final Item item = itemRegistryObject.get();
+			if (item instanceof RecordItem) {
+				add(ItemTags.MUSIC_DISCS, item);
+				add(ItemTags.CREEPER_DROP_MUSIC_DISCS, item);
+			}
+		}
+	}
 
-    public void add(TagKey<Item> branch, Item item)
-    {
-        this.tag(branch).add(item);
-    }
+	public void add(TagKey<Item> branch, Item item) {
+		this.tag(branch).add(item);
+	}
 
-    public void add(TagKey<Item> branch, Item... item)
-    {
-        this.tag(branch).add(item);
-    }
-
+	public void add(TagKey<Item> branch, Item... item) {
+		this.tag(branch).add(item);
+	}
 
 }

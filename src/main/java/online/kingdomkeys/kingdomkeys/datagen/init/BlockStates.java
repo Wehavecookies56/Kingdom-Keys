@@ -12,6 +12,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
 import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
@@ -39,80 +40,67 @@ public class BlockStates extends BlockStateProvider {
             final Block block = itemRegistryObject.get();
             String name = Objects.requireNonNull(block.getRegistryName()).getPath();
 
-            if (block instanceof GhostBloxBlock) {
-                getVariantBuilder(block).forAllStates(state -> {
-                    boolean active = state.getValue(GhostBloxBlock.VISIBLE);
-                    String modelName = active ? name + "_visible" : name + "_invisible";
-                    ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+			if (block instanceof GhostBloxBlock) {
+				getVariantBuilder(block).forAllStates(state -> {
+					boolean active = state.getValue(GhostBloxBlock.VISIBLE);
+					String modelName = active ? name + "_visible" : name + "_invisible";
+					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
-                    ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all"))
-                            .texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
+					ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all")).texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
 
-                    builder.modelFile(blockModel);
+					builder.modelFile(blockModel);
 
-                    if (active) {
-                        this.simpleBlockItem(block, blockModel);
-                    }
+					if (active) {
+						this.simpleBlockItem(block, blockModel);
+					}
 
-                    return builder.build();
-                });
-            }
-            else if (block instanceof PairBloxBlock) {
-                getVariantBuilder(block).forAllStates(state -> {
-                    int pairState = state.getValue(PairBloxBlock.PAIR);
-                    String modelName = name + "_" + pairState;
-                    ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+					return builder.build();
+				});
+			} else if (block instanceof PairBloxBlock) {
+				getVariantBuilder(block).forAllStates(state -> {
+					int pairState = state.getValue(PairBloxBlock.PAIR);
+					String modelName = name + "_" + pairState;
+					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
-                    ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all"))
-                            .texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
+					ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all")).texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
 
-                    builder.modelFile(blockModel);
+					builder.modelFile(blockModel);
 
-                    if (pairState == 0) {
-                        this.simpleBlockItem(block, blockModel);
-                    }
+					if (pairState == 0) {
+						this.simpleBlockItem(block, blockModel);
+					}
 
-                    return builder.build();
-                });
-            }
-            else if (block instanceof MagnetBloxBlock) {
-                // skip
-                // This one was manually generated
-            }
-            else if (block instanceof OrgPortalBlock) {
-                //skip
-            }
-            else if (block instanceof SavePointBlock) {
-                //skip
-            }
-            else if (block instanceof SoRCore) {
-                //skip
-            }
-            else if (block instanceof SoAPlatformCoreBlock) {
-                //skip
-            }
-            else if (block instanceof SoADoorBlock) {
-                //skip
-            }
-            else if (block instanceof PedestalBlock) {
-                //skip
-            }
-            else if (block instanceof MoogleProjectorBlock) {
-                //skip
-            }
-            else if (block instanceof GummiEditorBlock) {
-                //skip
-            }
-            else if (block instanceof MagicalChestBlock) {
-                //skip
-            }
-            else if (block instanceof MosaicStainedGlassBlock) {
-                //skip
-            }
-            else {
-                simpleBlock(itemRegistryObject);
-            }
-        }
+					return builder.build();
+				});
+			} else if (block instanceof MagnetBloxBlock) {
+				// skip
+				// This one was manually generated
+			} else if (block instanceof OrgPortalBlock) {
+				// skip
+			} else if (block instanceof SavePointBlock) {
+				// skip
+			} else if (block instanceof SoRCore) {
+				// skip
+			} else if (block instanceof SoAPlatformCoreBlock) {
+				// skip
+			} else if (block instanceof SoADoorBlock) {
+				// skip
+			} else if (block instanceof PedestalBlock) {
+				// skip
+			} else if (block instanceof MoogleProjectorBlock) {
+				// skip
+			} else if (block instanceof GummiEditorBlock) {
+				// skip
+			} else if (block instanceof MagicalChestBlock) {
+				// skip
+			} else if (block instanceof MosaicStainedGlassBlock) {
+				// skip
+			} else if (block instanceof DataPortalBlock) {
+
+			} else {
+				simpleBlock(itemRegistryObject);
+			}
+		}
 
     }
 

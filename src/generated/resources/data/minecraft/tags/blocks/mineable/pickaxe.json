@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "kingdomkeys:prize_blox",
+    "kingdomkeys:rare_prize_blox",
+    "kingdomkeys:blazing_ore",
+    "kingdomkeys:blazing_ore_n",
+    "kingdomkeys:soothing_ore",
+    "kingdomkeys:writhing_ore",
+    "kingdomkeys:writhing_ore_n",
+    "kingdomkeys:writhing_ore_e",
+    "kingdomkeys:betwixt_ore",
+    "kingdomkeys:wellspring_ore",
+    "kingdomkeys:wellspring_ore_n",
+    "kingdomkeys:frost_ore",
+    "kingdomkeys:lucid_ore",
+    "kingdomkeys:lightning_ore",
+    "kingdomkeys:pulsing_ore",
+    "kingdomkeys:pulsing_ore_e",
+    "kingdomkeys:remembrance_ore",
+    "kingdomkeys:hungry_ore",
+    "kingdomkeys:sinister_ore",
+    "kingdomkeys:stormy_ore",
+    "kingdomkeys:tranquility_ore",
+    "kingdomkeys:twilight_ore",
+    "kingdomkeys:twilight_ore_n"
+  ]
+}

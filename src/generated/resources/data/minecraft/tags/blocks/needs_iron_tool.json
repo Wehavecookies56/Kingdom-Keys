@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "kingdomkeys:writhing_ore",
+    "kingdomkeys:writhing_ore_n",
+    "kingdomkeys:writhing_ore_e",
+    "kingdomkeys:betwixt_ore",
+    "kingdomkeys:pulsing_ore",
+    "kingdomkeys:pulsing_ore_e",
+    "kingdomkeys:sinister_ore",
+    "kingdomkeys:stormy_ore",
+    "kingdomkeys:twilight_ore",
+    "kingdomkeys:twilight_ore_n"
+  ]
+}
