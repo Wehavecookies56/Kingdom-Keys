@@ -60,7 +60,10 @@ public class ModSounds {
             Record_Sanctuary = registerSound("records.sanctuary"),
             Record_Simple_And_Clean_PLANITb_Remix = registerSound("records.simple_and_clean_planitb_remix"),
             Record_Sinister_Sundown = registerSound("records.sinister_sundown"),
-            Record_The_13th_Anthology = registerSound("records.the_13th_anthology");
+            Record_The_13th_Anthology = registerSound("records.the_13th_anthology"),
+
+			Music_Dive_Into_The_Heart_Destati = registerSound("music.dive_into_the_heart_destati");
+
            /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),
             Music_A_Fight_To_The_Death = registerSound("music.a_fight_to_the_death"),
@@ -83,7 +86,7 @@ public class ModSounds {
             Music_Deep_Drop = registerSound("music.deep_drop"),
             Music_Deep_Jungle = registerSound("music.deep_jungle"),
             Music_Destiny_Islands = registerSound("music.destiny_islands"),
-            Music_Dive_Into_The_Heart_Destati = registerSound("music.dive_into_the_heart_destati"),
+
             Music_Hand_In_Hand = registerSound("music.hand_in_hand"),
             Music_Happy_Holidays = registerSound("music.happy_holidays"),
             Music_Having_A_Wild_Time = registerSound("music.having_a_wild_time"),

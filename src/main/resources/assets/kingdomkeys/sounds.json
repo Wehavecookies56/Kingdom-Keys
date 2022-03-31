@@ -318,5 +318,11 @@
 		"sounds": [
 			{"name": "kingdomkeys:records/birth_by_sleep_a_link_to_the_future", "stream": true }
 		]
+	},
+
+	"music.dive_into_the_heart_destati": {
+		"sounds": [
+			{ "name": "kingdomkeys:music/dive_into_the_heart_destati", "stream": true }
+		]
 	}
 }

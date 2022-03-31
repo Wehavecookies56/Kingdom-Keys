@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
+import com.mojang.blaze3d.shaders.FogShape;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,12 +25,12 @@ public class DiveToTheHeartDimension{
     //Set the fog density to fade out the bottom of the platform
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void renderFog(EntityViewRenderEvent.FogDensity event) {
+    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
         Level world = Minecraft.getInstance().level;
         if (world != null) {
             if (world.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
-               // event.setDensity(0.06F);
-               // event.setCanceled(true);
+                RenderSystem.setShaderFogStart(0.0F);
+                RenderSystem.setShaderFogEnd(30);
             }
         }
     }

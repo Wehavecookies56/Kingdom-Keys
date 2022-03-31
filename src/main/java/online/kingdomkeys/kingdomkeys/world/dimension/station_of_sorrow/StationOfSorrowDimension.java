@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,12 +21,12 @@ public class StationOfSorrowDimension{
     //Set the fog density to fade out the bottom of the platform
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void renderFog(EntityViewRenderEvent.FogDensity event) {
+    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
         Level world = Minecraft.getInstance().level;
         if (world != null) {
             if (world.dimension().equals(ModDimensions.STATION_OF_SORROW)) {
-                event.setDensity(0.03F);
-                event.setCanceled(true);
+                RenderSystem.setShaderFogStart(0.0F);
+                RenderSystem.setShaderFogEnd(30);
             }
         }
     }

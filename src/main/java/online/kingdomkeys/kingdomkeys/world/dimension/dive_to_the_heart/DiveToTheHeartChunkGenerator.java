@@ -22,6 +22,7 @@ import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -65,7 +66,6 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
-    private static final ChunkPos SPAWN_CHUNK_POS = new ChunkPos(SPAWN_POS);
 
     //x
     int width = 17;
@@ -73,6 +73,12 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     int height = 25;
     //z
     int depth = 17;
+
+    int leftXSize = 8;
+    int rightXSize = 9;
+    int topZSize = 8;
+    int bottomZSize = 9;
+
 
     String topOfPlatform =
 			"00000000000000000" +
@@ -178,28 +184,76 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         return 0;
     }
 
+    enum Corner { TL, TR, BL, BR }
+
     @Override
     public void buildSurface(WorldGenRegion pLevel, StructureFeatureManager pStructureFeatureManager, ChunkAccess chunkIn) {
-    	BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
-        if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
-            int startZ = chunkIn.getPos().getMinBlockZ() - (depth/2);
-            int startX = chunkIn.getPos().getMinBlockX() - (width/2);
+        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
+        ChunkPos cPos = chunkIn.getPos();
+        int xOffset = 0;
+        int zOffset = 0;
+        int startZ;
+        int startX;
+        //Bottom right
+        if (cPos.equals(new ChunkPos(0, 0))) {
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, rightXSize, bottomZSize, Corner.BR);
+        }
+        //Bottom left
+        if (cPos.equals(new ChunkPos(-1, 0))) {
+            xOffset = 8;
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, leftXSize, bottomZSize, Corner.BL);
+        }
+        //Top right
+        if (cPos.equals(new ChunkPos(0, -1))) {
+            zOffset = 8;
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, rightXSize, topZSize, Corner.TR);
+        }
+        //Top left
+        if (cPos.equals(new ChunkPos(-1, -1))) {
+            zOffset = 8;
+            xOffset = 8;
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, leftXSize, topZSize, Corner.TL);
+        }
+    }
 
-            for (int y = 0; y < height; ++y) {
-                for (int z = startZ; z <= chunkIn.getPos().getMinBlockZ() + depth/2; ++z) {
-                    for (int x = startX; x <= chunkIn.getPos().getMinBlockX() + width/2; ++x) {
-                        blockpos$mutable.set(x, SPAWN_POS.getY() - y, z);
-                        int strucX = x - startX;
-                        int strucZ = z - startZ;
-                        if (y == 0) {
-                            stateToPlace(topOfPlatform.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
-                        } else if (y == 1) {
-                            stateToPlace(structureTop.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
-                        } else if (y == height - 1) {
-                            stateToPlace(structureBottom.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
-                        } else {
-                            stateToPlace(structureMiddle.charAt(strucX + strucZ * width), pLevel, blockpos$mutable);
-                        }
+    public void generateCorner(WorldGenRegion level, ChunkPos cPos, BlockPos.MutableBlockPos pos, int startX, int startZ, int xSize, int zSize, Corner corner) {
+        for (int y = 0; y < height; ++y) {
+            for (int z = 0; z < zSize; ++z) {
+                for (int x = 0; x < xSize; ++x) {
+                    pos.set(x + startX, SPAWN_POS.getY() - y, z + startZ);
+                    int strucX = x;
+                    int strucZ = z;
+                    switch (corner) {
+                        case BL:
+                            strucZ += 8;
+                            break;
+                        case BR:
+                            strucX += 8;
+                            strucZ += 8;
+                            break;
+                        case TL:
+                            //no change
+                            break;
+                        case TR:
+                            strucX += 8;
+                            break;
+                    }
+                    if (y == 0) {
+                        stateToPlace(topOfPlatform.charAt(strucX + (strucZ * width)), level, pos);
+                    } else if (y == 1) {
+                        stateToPlace(structureTop.charAt(strucX + (strucZ * width)), level, pos);
+                    } else if (y == height - 1) {
+                        stateToPlace(structureBottom.charAt(strucX + (strucZ * width)), level, pos);
+                    } else {
+                        stateToPlace(structureMiddle.charAt(strucX + (strucZ * width)), level, pos);
                     }
                 }
             }
@@ -243,12 +297,11 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
          case '0':
              return;
          case '1':
-        	 //pLevel.setBlock(pos, ModBlocks.mosaic_stained_glass.get().defaultBlockState().setValue(MosaicStainedGlassBlock.STRUCTURE, true), 2);
-        	 pLevel.setBlock(pos, ModBlocks.dangerBlox.get().defaultBlockState(), 2);
+        	 pLevel.setBlock(pos, ModBlocks.mosaic_stained_glass.get().defaultBlockState().setValue(MosaicStainedGlassBlock.STRUCTURE, true), 2);
              break;
          case '2':
         	 pLevel.setBlock(pos, ModBlocks.station_of_awakening_core.get().defaultBlockState().setValue(SoAPlatformCoreBlock.STRUCTURE, true), 2);
-            // ((SoAPlatformTileEntity) pLevel.getBlockEntity(pos)).setMultiblockFormed(true);
+             ((SoAPlatformTileEntity) pLevel.getBlockEntity(pos)).setMultiblockFormed(true);
              break;
          case '3':
              createPedestal(pLevel, pos, new ItemStack(ModItems.dreamSword.get()));
@@ -264,9 +317,9 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
     private void createPedestal(WorldGenRegion pLevel, BlockPos.MutableBlockPos pos, ItemStack toDisplay) {
     	pLevel.setBlock(pos, ModBlocks.pedestal.get().defaultBlockState(), 2);
-        //PedestalTileEntity te = ((PedestalTileEntity) pLevel.getBlockEntity(pos));
-        //te.setStationOfAwakeningMarker(true);
-        //te.setDisplayStack(toDisplay);
+        PedestalTileEntity te = ((PedestalTileEntity) pLevel.getBlockEntity(pos));
+        te.setStationOfAwakeningMarker(true);
+        te.setDisplayStack(toDisplay);
     }
 
 	@Override

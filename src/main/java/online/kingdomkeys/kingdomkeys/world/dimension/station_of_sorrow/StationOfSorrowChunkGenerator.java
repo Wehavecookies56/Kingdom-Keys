@@ -14,10 +14,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.NoiseColumn;
-import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Climate;
@@ -33,6 +30,7 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartChunkGenerator;
 
 public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 	
@@ -58,8 +56,7 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
         return structureSets;
     }
 
-   // private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
-   // private static final ChunkPos SPAWN_CHUNK_POS = new ChunkPos(SPAWN_POS);
+    private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
 
     //x
     int width = 25;
@@ -69,6 +66,11 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
     int depth = 25;
     
     int colHeight = 6;
+
+    int leftXSize = 12;
+    int rightXSize = 13;
+    int topZSize = 12;
+    int bottomZSize = 13;
 
     String structureTop =
     		"0000000000111110000000000" +
@@ -119,9 +121,74 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
     }
 
+    enum Corner { TL, TR, BL, BR }
+
     @Override
     public void buildSurface(WorldGenRegion pLevel, StructureFeatureManager pStructureFeatureManager, ChunkAccess pChunk) {
+        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
+        ChunkPos cPos = pChunk.getPos();
+        int xOffset = 0;
+        int zOffset = 0;
+        int startZ;
+        int startX;
+        //Bottom right
+        if (cPos.equals(new ChunkPos(0, 0))) {
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, rightXSize, bottomZSize, Corner.BR);
+        }
+        //Bottom left
+        if (cPos.equals(new ChunkPos(-1, 0))) {
+            xOffset = 4;
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, leftXSize, bottomZSize, Corner.BL);
+        }
+        //Top right
+        if (cPos.equals(new ChunkPos(0, -1))) {
+            zOffset = 4;
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, rightXSize, topZSize, Corner.TR);
+        }
+        //Top left
+        if (cPos.equals(new ChunkPos(-1, -1))) {
+            zOffset = 4;
+            xOffset = 4;
+            startZ = cPos.getMinBlockZ() + zOffset;
+            startX = cPos.getMinBlockX() + xOffset;
+            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, leftXSize, topZSize, Corner.TL);
+        }
+    }
 
+    public void generateCorner(WorldGenRegion level, ChunkPos cPos, BlockPos.MutableBlockPos pos, int startX, int startZ, int xSize, int zSize, Corner corner) {
+        for (int y = 0; y < baseY; ++y) {
+            for (int z = 0; z < zSize; ++z) {
+                for (int x = 0; x < xSize; ++x) {
+                    pos.set(x + startX, SPAWN_POS.getY() - y, z + startZ);
+                    int strucX = x;
+                    int strucZ = z;
+                    switch (corner) {
+                        case BL:
+                            strucZ += 12;
+                            break;
+                        case BR:
+                            strucX += 12;
+                            strucZ += 12;
+                            break;
+                        case TL:
+                            //no change
+                            break;
+                        case TR:
+                            strucX += 12;
+                            break;
+                    }
+                    if (y == 1) {
+                        stateToPlace(structureTop.charAt(strucX + (strucZ * width)), level, pos);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -136,23 +203,6 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
     @Override
     public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_, StructureFeatureManager p_187750_, ChunkAccess p_187751_) {
-        /* BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-        if (distance(chunkIn.getPos().x, chunkIn.getPos().z, SPAWN_CHUNK_POS.x, SPAWN_CHUNK_POS.z) < 1) {
-            int startZ = chunkIn.getPos().getZStart() - (depth/2);
-            int startX = chunkIn.getPos().getXStart() - (width/2);
-            for (int y = 0; y < baseY; ++y) {
-                for (int z = startZ; z <= chunkIn.getPos().getZStart() + depth/2; ++z) {
-                    for (int x = startX; x <= chunkIn.getPos().getXStart() + width/2; ++x) {
-                        blockpos$mutable.setPos(x, SPAWN_POS.getY() - y, z);
-                        int strucX = x - startX;
-                        int strucZ = z - startZ;
-                        if (y == 1) {
-                            stateToPlace(structureTop.charAt(strucX + strucZ * width), worldIn, blockpos$mutable);
-                        }
-                    }
-                }
-            }
-        }*/
         return CompletableFuture.completedFuture(p_187751_);
     }
 
