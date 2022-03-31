@@ -91,7 +91,7 @@ public class ItemModels extends ItemModelProvider {
 		} else if (block instanceof SoADoorBlock) {
 			// skip - no texture/special block?
 		} else {
-			// fallback incase block item could not be generated as part of blockstates
+			// fallback in case block item could not be generated as part of blockstates
 			standardBlockItem(path);
 		}
 	}
