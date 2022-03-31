@@ -121,7 +121,7 @@ public class CommonConfig {
                 .defineList("moogleSpawn", Lists.newArrayList("Moogle,2,0,1", "Enemies,200,1,5"), o -> o instanceof String);
         
         mobSpawnRate = builder
-                .comment("Mob Spawn chance in percentage [type, chance] (if they don't add up to 100 there would be enemies not spawning)")
+                .comment("Mob Spawn chance in percentage [type, chance] (if the chance doesn't add up to 100, enemies will not spawn)")
                 .translation(KingdomKeys.MODID + ".config.mob_spawn")
                 .defineList("mobSpawn", Lists.newArrayList("Pureblood,35", "Emblem,35", "Nobody,30"), o -> o instanceof String);
 
