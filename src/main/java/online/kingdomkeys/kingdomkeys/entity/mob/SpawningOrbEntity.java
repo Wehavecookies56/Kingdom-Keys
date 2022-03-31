@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -21,8 +22,10 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SpawningOrbEntity extends Monster {
@@ -33,9 +36,9 @@ public class SpawningOrbEntity extends Monster {
 		super(type, worldIn);
 		Player player = Utils.getClosestPlayer(this);				
 		
-		if(player != null) {//TODO re-enable mob spawning (groups need to be assigned)
+		if(player != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			/*this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level);
+			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level);
 			setEntityType(((IKHMob)this.mob).getKHMobType().name());
 			
 			if(ModConfigs.mobLevelingUp) {
@@ -45,7 +48,7 @@ public class SpawningOrbEntity extends Monster {
 					Party p = ModCapabilities.getWorld(level).getPartyFromMember(player.getUUID());
 					int total = 0;
 					int membersOnline = 0;
-					for(Member m : p.getMembers()) {
+					for(Party.Member m : p.getMembers()) {
 						if(Utils.getPlayerByName(worldIn, m.getUsername())!= null){
 							total += ModCapabilities.getPlayer(Utils.getPlayerByName(worldIn, m.getUsername())).getLevel();
 							membersOnline++;
@@ -59,7 +62,7 @@ public class SpawningOrbEntity extends Monster {
 				this.mob.setCustomName(new TranslatableComponent(this.mob.getDisplayName().getString()+" Lv."+level));
 				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), this.mob.getMaxHealth()));
-			}*/
+			}
 		}
 	}
 
