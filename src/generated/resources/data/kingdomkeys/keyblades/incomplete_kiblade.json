@@ -12,12 +12,12 @@
       "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_fluorite",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
         }
       ]
     },
@@ -26,12 +26,12 @@
       "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_fluorite",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
         }
       ]
     },
@@ -40,12 +40,12 @@
       "mag": 8,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_fluorite",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:mat_fluorite",
+          "quantity": 1
         }
       ]
     },
@@ -72,12 +72,12 @@
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
         }
       ]
     },
@@ -90,12 +90,12 @@
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:mat_damascus",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mat_damascus",
+          "quantity": 1
         }
       ]
     },
@@ -108,11 +108,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_writhing_gem",
+          "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_adamantite",
+          "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 1
         }
       ]
@@ -162,11 +162,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_electrum",
+          "material": "kingdomkeys:mat_writhing_crystal",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_writhing_crystal",
+          "material": "kingdomkeys:mat_electrum",
           "quantity": 1
         }
       ]

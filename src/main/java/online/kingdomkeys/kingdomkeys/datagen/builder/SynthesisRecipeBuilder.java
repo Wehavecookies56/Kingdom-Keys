@@ -17,7 +17,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
 
     private ResourceLocation output;
     private String type;
-    private Map recipe = new HashMap();
+    private Map<String, Integer> recipe = new HashMap<>();
     private int quantity;
     private int cost;
     

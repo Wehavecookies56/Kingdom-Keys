@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.GameRenderer;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -323,7 +325,7 @@ public class ClientEvents {
     }
 	
 	@SubscribeEvent
-	public void EntityRender(RenderLivingEvent.Post event) {
+	public void EntityRender(RenderLivingEvent.Post<LivingEntity, EntityModel<LivingEntity>> event) {
 		//Text
 
 		/*Minecraft mc = Minecraft.getInstance();
@@ -358,25 +360,23 @@ public class ClientEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 			if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getId())) {
 				//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
-				if(true) {
-					PoseStack matrixStackIn = event.getPoseStack();
-					LivingEntity entityIn = event.getEntity();
-					
-					EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-					TranslatableComponent displayNameIn = new TranslatableComponent("o");
-					float f = entityIn.getBbHeight();
-					matrixStackIn.pushPose();
-					{
-						matrixStackIn.translate(0.0D, (double) f/2, 0.0D);
-						matrixStackIn.mulPose(renderManager.cameraOrientation());
-						float scale = Math.max(entityIn.getBbHeight()/2, entityIn.getBbWidth()/2)/100;
-					
-						matrixStackIn.scale(-scale, -scale, scale);
-						RenderSystem.setShaderTexture(0,new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-						blit(matrixStackIn,-128,-128,0,0,256,256);
-					}
-					matrixStackIn.popPose();
+				PoseStack matrixStackIn = event.getPoseStack();
+				LivingEntity entityIn = event.getEntity();
+
+				EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+				TranslatableComponent displayNameIn = new TranslatableComponent("o");
+				float f = entityIn.getBbHeight();
+				matrixStackIn.pushPose();
+				{
+					matrixStackIn.translate(0.0D, (double) f/2, 0.0D);
+					matrixStackIn.mulPose(renderManager.cameraOrientation());
+					float scale = Math.max(entityIn.getBbHeight()/2, entityIn.getBbWidth()/2)/100;
+
+					matrixStackIn.scale(-scale, -scale, scale);
+					RenderSystem.setShaderTexture(0,new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
+					blit(matrixStackIn,-128,-128,0,0,256,256);
 				}
+				matrixStackIn.popPose();
 			}
 		}
 	}
@@ -394,6 +394,7 @@ public class ClientEvents {
 	}
 
 	private static void innerBlit(Matrix4f matrix, int x1, int x2, int y1, int y2, int blitOffset, float minU, float maxU, float minV, float maxV) {
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 		bufferbuilder.vertex(matrix, (float) x1, (float) y2, (float) blitOffset).uv(minU, maxV).endVertex();

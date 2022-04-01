@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class KKWhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyearpinkhairman
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("kk_wisperinmyearpinkhairman").requires(source -> source.hasPermission(2));
+		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("kk_whisperinmyearpinkhairman").requires(source -> source.hasPermission(2));
 
 		builder.executes(KKWhisperInMyEarPinkHairMan::spawn);
 		dispatcher.register(builder);

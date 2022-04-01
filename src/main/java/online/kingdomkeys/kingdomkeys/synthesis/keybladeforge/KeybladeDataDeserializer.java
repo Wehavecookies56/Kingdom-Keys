@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -83,7 +80,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 					JsonArray levelsArray = element.getAsJsonArray();
 					levelsArray.forEach(e -> {
 						KeybladeLevel level = new KeybladeLevel();
-						Map<Material, Integer> recipe = new HashMap<>();
+						Map<Material, Integer> recipe = new LinkedHashMap<>();
 						JsonObject levelObject = e.getAsJsonObject();
 						levelObject.entrySet().forEach(levelEntry -> {
 							JsonElement levelElement = levelEntry.getValue();

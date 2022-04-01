@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -2821,7 +2818,7 @@ public class KeybladeStats extends KeybladeProvider {
         }
 
         public Map<Material, Integer> asMap() {
-            Map<Material, Integer> matMap = new HashMap<>();
+            Map<Material, Integer> matMap = new LinkedHashMap<>();
             recipe.forEach(p -> matMap.put(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + p.getKey())), p.getValue()));
             return matMap;
         }
