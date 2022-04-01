@@ -107,7 +107,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
             this.setTarget(null);
             EntityHelper.setState(this, 10);
-            timeForNextAI--;
+            timeForNextAI-=2;
         }
         else if(timeForNextAI <= 0) {
             this.setPreviousAttackState(SpecialAttack.WAIT);
@@ -220,7 +220,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceTo(theEntity.getTarget()) < 5) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     }
                     else return prevAttackCalc();
@@ -264,7 +264,7 @@ public class LargeBodyEntity extends BaseKHEntity {
         @Override
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
-                whileAttackTimer++;
+                whileAttackTimer+=2;
 
                 for(Entity t : EntityHelper.getEntitiesNear(this.theEntity, 0.2)) {
                 	theEntity.doHurtTarget(t);
@@ -297,7 +297,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceToSqr(theEntity.getTarget()) > 4) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     }
                     else return prevAttackCalc();
@@ -345,7 +345,7 @@ public class LargeBodyEntity extends BaseKHEntity {
         @Override
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 LivingEntity target = this.theEntity.getTarget();
                 this.theEntity.getNavigation().moveTo(posToCharge[0], posToCharge[1], posToCharge[2], theEntity.isAngry ? 2.3D : 2.0D);
 

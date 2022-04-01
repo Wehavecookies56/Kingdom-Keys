@@ -165,7 +165,7 @@ public class DarkballEntity extends BaseKHEntity {
             if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     }
                     else return prevAttackCalc();
@@ -253,7 +253,7 @@ public class DarkballEntity extends BaseKHEntity {
             if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceToSqr(theEntity.getTarget()) < 15) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     }
                     else return prevAttackCalc();
@@ -297,7 +297,7 @@ public class DarkballEntity extends BaseKHEntity {
         @Override
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 
                 EntityHelper.setState(theEntity, 2);
                 for (int i = 0; i < 20; i++) {
@@ -334,7 +334,7 @@ public class DarkballEntity extends BaseKHEntity {
             if(theEntity.getTarget() != null && this.theEntity.getCurrentAttackState() == null && theEntity.distanceToSqr(theEntity.getTarget()) > 4) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     }
                     else return prevAttackCalc();
@@ -382,7 +382,7 @@ public class DarkballEntity extends BaseKHEntity {
         @Override
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 
                 EntityHelper.setState(theEntity, 1);
                 LivingEntity target = this.theEntity.getTarget();

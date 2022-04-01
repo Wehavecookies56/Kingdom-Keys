@@ -98,7 +98,7 @@ public class DuskEntity extends BaseKHEntity {
 			if (theEntity.getTarget() != null) {
 				if (!canUseAttack) {
 					if (attackTimer > 0) {
-						attackTimer--;
+						attackTimer-=2;
 						return false;
 					} else
 						return true;

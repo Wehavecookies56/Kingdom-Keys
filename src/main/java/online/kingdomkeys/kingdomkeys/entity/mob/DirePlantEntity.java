@@ -89,7 +89,7 @@ public class DirePlantEntity extends BaseKHEntity {
             if(mob.getTarget() != null) {
                 if(!canUseAttack) {
                     if(attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     }
                     else return true;

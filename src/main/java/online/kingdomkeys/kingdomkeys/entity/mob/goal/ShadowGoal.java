@@ -28,7 +28,7 @@ public class ShadowGoal extends TargetGoal {
 		
 			if (this.mob.isOnGround()) {
 				if (!isInShadow()) {
-					shadowTicks--;
+					shadowTicks-=2;
 					if (shadowTicks <= 0) {
 						EntityHelper.setState(this.mob, 1);
 	                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0.0D);
@@ -43,7 +43,7 @@ public class ShadowGoal extends TargetGoal {
 				this.mob.setInvulnerable(true);
 				//this.goalOwner.setInvisible(true);
 				canUseNextAttack = false;
-				shadowTicks++;
+				shadowTicks+=2;
 				if (shadowTicks >= TIME_OUTSIDE_THE_SHADOW) {
 					EntityHelper.setState(this.mob, 0);
 					this.mob.setInvulnerable(false);
@@ -56,7 +56,7 @@ public class ShadowGoal extends TargetGoal {
 			int currentAi = this.mob.level.random.nextInt(2);
 
 			if (!canUseNextAttack) {
-				ticksUntilNextAttack--;
+				ticksUntilNextAttack-=2;
 				if (ticksUntilNextAttack <= 0) {
 					canUseNextAttack = true;
 					ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;

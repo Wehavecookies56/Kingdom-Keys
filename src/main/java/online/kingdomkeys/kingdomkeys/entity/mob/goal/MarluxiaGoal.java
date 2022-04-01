@@ -74,7 +74,7 @@ public class MarluxiaGoal extends TargetGoal {
 				}
 			} else {
 				if(EntityHelper.getState(mob) == 0) {
-					ticksToChooseAI--;
+					ticksToChooseAI-=2;
 				}
 			}
 
@@ -116,7 +116,7 @@ public class MarluxiaGoal extends TargetGoal {
 			EntityHelper.setState(mob, 0);
 
 		}
-		tpTicks++;
+		tpTicks+=2;
 	}
 
 	private void armoredAI() {
@@ -152,7 +152,7 @@ public class MarluxiaGoal extends TargetGoal {
             
 		}
 		
-		armorTicks++;
+		armorTicks+=2;
 		if(armorTicks >= MAX_ARMOR_TICKS) {
 			removeArmor((MarluxiaEntity) mob);
 			armorTicks = 0;
@@ -170,7 +170,7 @@ public class MarluxiaGoal extends TargetGoal {
 			Random rand = ((ServerLevel) mob.level).random;
 			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
 			
-			if(chasingTicks % 5 == 0) {
+			if(chasingTicks % 10 == 0) {
 				int r = 1;
 				double pX = mob.getTarget().getX() - 3 + rand.nextDouble() * 6;
 				double pY = mob.getTarget().getY();
@@ -197,7 +197,7 @@ public class MarluxiaGoal extends TargetGoal {
 			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(11);
 			useArmor((MarluxiaEntity) mob);
 		}
-		chasingTicks++;
+		chasingTicks+=2;
 	}
 
 	private void attackWithTP() {
@@ -222,7 +222,7 @@ public class MarluxiaGoal extends TargetGoal {
 			armorTicks = 0;
 			EntityHelper.setState(entity, 1);
 			entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 2000, 200));
-			armorUses++;
+			armorUses+=2;
 		}
 	}
 

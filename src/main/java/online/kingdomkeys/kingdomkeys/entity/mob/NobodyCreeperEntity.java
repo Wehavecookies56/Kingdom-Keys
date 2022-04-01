@@ -101,7 +101,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
 			if (theEntity.getTarget() != null) {
 				if (!canUseAttack) {
 					if (attackTimer > 0) {
-						attackTimer--;
+						attackTimer-=2;
 						return false;
 					} else
 						return true;
@@ -143,7 +143,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
         @Override
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) { // Like above we check again to see if the target is still alive (maybe it died so we need to check again)
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 LivingEntity target = this.theEntity.getTarget(); // Creates a new variable that holds the target
 
                 if(EntityHelper.getState(theEntity) == 0) { // if the state of the entity is 0 (meaning it does not executes any attack)

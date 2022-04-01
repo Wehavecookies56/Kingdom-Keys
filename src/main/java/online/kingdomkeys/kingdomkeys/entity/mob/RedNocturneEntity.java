@@ -77,7 +77,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
             if (mob.getTarget() != null) {
                 if (!canUseAttack) {
                     if (attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     } else
                         return true;
@@ -106,7 +106,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void tick() {
             if (mob.getTarget() != null && canUseAttack) {
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 LivingEntity target = this.mob.getTarget();
 
                 if (EntityHelper.getState(mob) == 0) {

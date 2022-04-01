@@ -76,7 +76,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
             if (mob.getTarget() != null) {
                 if (!canUseAttack) {
                     if (attackTimer > 0) {
-                        attackTimer--;
+                        attackTimer-=2;
                         return false;
                     } else
                         return true;
@@ -107,7 +107,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         public void tick() {
             if (mob.getTarget() != null && canUseAttack) {
 
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 LivingEntity target = this.mob.getTarget();
 
                 if (EntityHelper.getState(mob) == 0) {

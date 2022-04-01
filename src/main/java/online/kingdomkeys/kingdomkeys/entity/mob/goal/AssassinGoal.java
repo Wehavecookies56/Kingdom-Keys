@@ -24,12 +24,12 @@ public class AssassinGoal extends TargetGoal {
 		if (this.mob.getTarget() != null) {
 			if(mob.getHealth() <= mob.getMaxHealth() / 4) { //If the assassin is at 25% hp or less
 				if(isExploding()) {
-					ticksToExplode--;
+					ticksToExplode-=2;
 					if(ticksToExplode <= 0) {
 						explode();
 					}
 				} else {
-					ticksToLowHealth--;
+					ticksToLowHealth-=2;
 					if(ticksToLowHealth <= 0) {
 						EntityHelper.setState(this.mob, 2);
 	                    this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
@@ -53,7 +53,7 @@ public class AssassinGoal extends TargetGoal {
 					canUseNextAttack = true;
 				}
 				
-				undergroundTicks++;
+				undergroundTicks+=2;
 				if (undergroundTicks >= TIME_UNDERGROUND) { //Go to the surface
 					EntityHelper.setState(this.mob, 0);
 					this.mob.setInvulnerable(false);
@@ -65,7 +65,7 @@ public class AssassinGoal extends TargetGoal {
 			if(this.mob.distanceTo(this.mob.getTarget()) < 5) { //If target is in range
 				if (this.mob.isOnGround()) {
 					if (!isUnderground()) {
-						undergroundTicks--;
+						undergroundTicks-=2;
 						if (undergroundTicks <= 0) {
 							EntityHelper.setState(this.mob, 1);
 							canUseNextAttack = false;
@@ -76,7 +76,7 @@ public class AssassinGoal extends TargetGoal {
 				}
 	
 				if (!canUseNextAttack) {
-					ticksUntilNextAttack--;
+					ticksUntilNextAttack-=2;
 					if (ticksUntilNextAttack <= 0) {
 						canUseNextAttack = true;
 						ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;

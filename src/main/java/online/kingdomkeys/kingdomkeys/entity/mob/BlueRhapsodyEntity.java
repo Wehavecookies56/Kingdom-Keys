@@ -107,7 +107,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void tick() {
             if (mob.getTarget() != null && canUseAttack) {
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 LivingEntity target = this.mob.getTarget();
 
                 if (EntityHelper.getState(mob) == 0) {

@@ -112,7 +112,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     @Override
     public void tick() {
         if (EntityHelper.getState(this) == 1) 
-        	ticksToExplode--;
+        	ticksToExplode-=2;
         super.tick();
     }
 
