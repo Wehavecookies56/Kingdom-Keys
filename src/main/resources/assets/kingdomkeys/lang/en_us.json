@@ -295,6 +295,10 @@
 	"block.kingdomkeys.magical_chest": "Magical Chest",
 	"block.kingdomkeys.pedestal": "Pedestal",
 	"block.kingdomkeys.savepoint": "Save Point",
+	"block.kingdomkeys.soa_door": "Mysterious Door",
+	"block.kingdomkeys.gummi_editor": "Gummi Editor",
+	"block.kingdomkeys.sor_core": "Station of Sorrow Core",
+	"block.kingdomkeys.data_portal": "Data Portal",
 
 	"block.kingdomkeys.blazing_ore": "Blazing Ore",
 	"block.kingdomkeys.blazing_ore_n": "Blazing Ore",
