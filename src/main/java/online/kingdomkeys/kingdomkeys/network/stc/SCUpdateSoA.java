@@ -13,7 +13,7 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
-import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;

@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;

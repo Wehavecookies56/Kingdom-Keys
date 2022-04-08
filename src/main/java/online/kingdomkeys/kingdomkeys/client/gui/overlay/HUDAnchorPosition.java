@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui.hud;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 public enum HUDAnchorPosition {
     TOP_LEFT, TOP_CENTER, TOP_RIGHT,

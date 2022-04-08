@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay;
 
 public class SCShowOverlayPacket {
 

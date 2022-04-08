@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -25,62 +26,51 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
 //TODO cleanup + comments
-public class PartyHUDGui extends Screen {
+public class PartyHUDGui extends OverlayBase {
 	int hpBarWidth;
 	int guiHeight = 10;
 
 	int counter = 0;
-
-	public PartyHUDGui() {
-		super(new TranslatableComponent(""));
-		minecraft = Minecraft.getInstance();
-	}
 
 	public ResourceLocation getLocationSkin(Player player) {
 		PlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUUID());
 		return networkplayerinfo == null ? DefaultPlayerSkin.getDefaultSkin(player.getUUID()) : networkplayerinfo.getSkinLocation();
 	}
 
-	@SubscribeEvent
-	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
+	@Override
+	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+		super.render(gui, poseStack, partialTick, width, height);
 		Player player = minecraft.player;
-		if (event.getType().equals(RenderGameOverlayEvent.ElementType.LAYER) && event.isCancelable()) {
-			// if (!MainConfig.client.hud.EnableHeartsOnHUD)
-			// event.setCanceled(true);
+
+		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+
+		float scale = 0.5f;
+
+		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
+		Party p = worldData.getPartyFromMember(player.getUUID());
+		if (p == null) {
+			return;
 		}
 
-		PoseStack matrixStack = event.getMatrixStack();
-		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-			int screenHeight = minecraft.getWindow().getGuiScaledHeight();
-
-			float scale = 0.5f;
-
-			IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
-			Party p = worldData.getPartyFromMember(player.getUUID());
-			if (p == null) {
-				return;
+		List<Member> allies = new ArrayList<Member>();
+		allies.clear();
+		for (Member m : p.getMembers()) {
+			if (!m.getUUID().equals(player.getUUID())) {
+				allies.add(m);
 			}
-
-			List<Member> allies = new ArrayList<Member>();
-			allies.clear();
-			for (Member m : p.getMembers()) {
-				if (!m.getUUID().equals(player.getUUID())) {
-					allies.add(m);
-				}
-			}
-
-			matrixStack.pushPose();
-			{
-				matrixStack.translate(ModConfigs.partyXPos, ModConfigs.partyYPos - 100, 0);
-				for (int i = 0; i < allies.size(); i++) {
-					Member member = allies.get(i);
-					Player playerAlly = player.level.getPlayerByUUID(member.getUUID());
-					renderFace(matrixStack, playerAlly, screenWidth, screenHeight, scale, i);
-				}
-			}
-			matrixStack.popPose();
 		}
+
+		poseStack.pushPose();
+		{
+			poseStack.translate(ModConfigs.partyXPos, ModConfigs.partyYPos - 100, 0);
+			for (int i = 0; i < allies.size(); i++) {
+				Member member = allies.get(i);
+				Player playerAlly = player.level.getPlayerByUUID(member.getUUID());
+				renderFace(poseStack, playerAlly, screenWidth, screenHeight, scale, i);
+			}
+		}
+		poseStack.popPose();
 	}
 
 	public void renderFace(PoseStack matrixStack, Player playerAlly, float screenWidth, float screenHeight, float scale, int i) {

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -12,12 +12,13 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //Text rendering from IngameGui with an added message queue system
-public class SoAMessages extends GuiComponent {
+public class SoAMessages extends OverlayBase {
 
     public static final SoAMessages INSTANCE = new SoAMessages();
 
@@ -56,10 +57,11 @@ public class SoAMessages extends GuiComponent {
         titlesTimer = 0;
     }
 
-    @SubscribeEvent
-    public void renderOverlay(RenderGameOverlayEvent.Text event) {
+    @Override
+    public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+        super.render(gui, poseStack, partialTick, width, height);
         if (!messages.isEmpty() || titlesTimer != 0) {
-            draw(event.getMatrixStack(), event.getPartialTicks());
+            draw(poseStack, partialTick);
         }
     }
 
@@ -68,12 +70,6 @@ public class SoAMessages extends GuiComponent {
         if (!Minecraft.getInstance().isPaused() && (!messages.isEmpty() || titlesTimer != 0)) {
             tick();
         }
-    }
-
-    Font font;
-
-    private SoAMessages() {
-        font = Minecraft.getInstance().font;
     }
 
     String displayedTitle, displayedSubTitle;
@@ -165,7 +161,7 @@ public class SoAMessages extends GuiComponent {
         int i = Minecraft.getInstance().options.getBackgroundColor(0.0F);
         if (i != 0) {
             int j = -stringWidthIn / 2;
-            fill(matrixStack, j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
+            GuiComponent.fill(matrixStack, j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
         }
 
     }

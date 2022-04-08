@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,91 +20,79 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
-public class HPGui extends Screen {
+public class HPGui extends OverlayBase {
 	float hpBarWidth, missingHpBarWidth;
 	int guiHeight = 10;
 
 	private float playerHealth;
 	private long lastSystemTime;
 	private float lastPlayerHealth;
-	
-	public HPGui() {
-		super(new TranslatableComponent(""));
-		minecraft = Minecraft.getInstance();
-	}
 
-	@SubscribeEvent
-	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
+	@Override
+	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+		super.render(gui, poseStack, partialTick, width, height);
 		Player player = minecraft.player;
-		PoseStack matrixStack = event.getMatrixStack();
-		if (event.getType().equals(RenderGameOverlayEvent.ElementType.LAYER) && event.isCancelable()) {
-			if (!ModConfigs.hpShowHearts) {
-				OverlayRegistry.enableOverlay(ForgeIngameGui.PLAYER_HEALTH_ELEMENT, false);
-			}
-		}
-		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
-			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-			int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-			int screenHeight = minecraft.getWindow().getGuiScaledHeight();
-			RenderSystem.setShaderColor(1, 1, 1, 1);
+		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			float scale = 1f;
-			switch (minecraft.options.guiScale) {
+		float scale = 1f;
+		switch (minecraft.options.guiScale) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;
-			}
-			float scaleFactor = 1.5F;
-
-			hpBarWidth = (player.getHealth() * scaleFactor);
-			int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
-			
-			float i = (player.getHealth());
-			long j = Util.getMillis();
-			if (i < this.playerHealth && player.invulnerableTime > 0) {
-				this.lastSystemTime = j;
-			} else if (i > this.playerHealth && player.invulnerableTime > 0) {
-				this.lastSystemTime = j;
-			}
-
-			if (j - this.lastSystemTime > 1000L || this.playerHealth < player.getHealth()) { // If 1 second since last attack has passed update variables
-				this.playerHealth = i;
-				this.lastPlayerHealth = i;
-				this.lastSystemTime = j;
-			}
-
-			missingHpBarWidth = Math.max(((lastPlayerHealth - player.getHealth()) * scaleFactor),0);
-
-			matrixStack.pushPose();
-			{
-				RenderSystem.enableBlend();
-				matrixStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
-				matrixStack.pushPose();
-				{
-					matrixStack.translate((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
-					matrixStack.scale(scale, scale, scale);
-					drawHPBarBack(matrixStack, 0, 0, hpBarMaxWidth, scale, player);
-				}
-				matrixStack.popPose();
-	
-				matrixStack.pushPose();
-				{
-					matrixStack.translate((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-					matrixStack.scale(scale, scale, scale);
-					drawHPBarTop(matrixStack, 0, 0, hpBarWidth, scale, player);
-				}
-				matrixStack.popPose();
-				matrixStack.pushPose(); // Red portion of the bar
-				{
-					matrixStack.translate((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-					matrixStack.scale(scale, scale, scale);
-					drawDamagedHPBarTop(matrixStack, 0, 0, missingHpBarWidth, scale, player);
-				}
-				matrixStack.popPose();
-				RenderSystem.disableBlend();
-			}
-			matrixStack.popPose();
 		}
+		float scaleFactor = 1.5F;
+
+		hpBarWidth = (player.getHealth() * scaleFactor);
+		int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
+
+		float i = (player.getHealth());
+		long j = Util.getMillis();
+		if (i < this.playerHealth && player.invulnerableTime > 0) {
+			this.lastSystemTime = j;
+		} else if (i > this.playerHealth && player.invulnerableTime > 0) {
+			this.lastSystemTime = j;
+		}
+
+		if (j - this.lastSystemTime > 1000L || this.playerHealth < player.getHealth()) { // If 1 second since last attack has passed update variables
+			this.playerHealth = i;
+			this.lastPlayerHealth = i;
+			this.lastSystemTime = j;
+		}
+
+		missingHpBarWidth = Math.max(((lastPlayerHealth - player.getHealth()) * scaleFactor),0);
+
+		poseStack.pushPose();
+		{
+			RenderSystem.enableBlend();
+			poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
+			poseStack.pushPose();
+			{
+				poseStack.translate((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
+				poseStack.scale(scale, scale, scale);
+				drawHPBarBack(poseStack, 0, 0, hpBarMaxWidth, scale, player);
+			}
+			poseStack.popPose();
+
+			poseStack.pushPose();
+			{
+				poseStack.translate((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
+				poseStack.scale(scale, scale, scale);
+				drawHPBarTop(poseStack, 0, 0, hpBarWidth, scale, player);
+			}
+			poseStack.popPose();
+			poseStack.pushPose(); // Red portion of the bar
+			{
+				poseStack.translate((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
+				poseStack.scale(scale, scale, scale);
+				drawDamagedHPBarTop(poseStack, 0, 0, missingHpBarWidth, scale, player);
+			}
+			poseStack.popPose();
+			RenderSystem.disableBlend();
+		}
+		poseStack.popPose();
 	}
 
 	public void drawHPBarBack(PoseStack matrixStack, int posX, int posY, float width, float scale, Player player) {

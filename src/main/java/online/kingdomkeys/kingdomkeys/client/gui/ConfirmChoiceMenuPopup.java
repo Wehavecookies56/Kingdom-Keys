@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;

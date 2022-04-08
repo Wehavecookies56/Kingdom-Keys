@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import java.awt.Color;
 import java.util.LinkedHashMap;
@@ -17,6 +17,8 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.IIngameOverlay;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -41,13 +43,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 //TODO cleanup
-public class CommandMenuGui extends Screen {
-
-	public CommandMenuGui() {
-		super(new TranslatableComponent(""));
-		minecraft = Minecraft.getInstance();
-	}
-
+public class CommandMenuGui extends OverlayBase {
 
 	public static final int TOP = 5, ATTACK = 4, MAGIC = 3, ITEMS = 2, DRIVE = 1;
 
@@ -66,11 +62,10 @@ public class CommandMenuGui extends Screen {
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void onRenderOverlayPost(RenderGameOverlayEvent event) {
-		if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {// && !minecraft.ingameGUI.getChatGUI().getChatOpen()) {
-			drawCommandMenu(event.getMatrixStack(), minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
-		}
+	@Override
+	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+		super.render(gui, poseStack, partialTick, width, height);
+		drawCommandMenu(poseStack, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 	}
 
 	float alpha = 1F;

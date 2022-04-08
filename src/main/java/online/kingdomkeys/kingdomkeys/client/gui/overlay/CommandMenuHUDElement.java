@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui.hud;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import java.awt.Color;
 import java.util.Arrays;

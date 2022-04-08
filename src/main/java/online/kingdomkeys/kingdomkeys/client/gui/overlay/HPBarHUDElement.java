@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui.hud;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 

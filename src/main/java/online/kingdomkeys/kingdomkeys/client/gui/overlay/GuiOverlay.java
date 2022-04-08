@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui;
+package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import java.awt.Color;
 
@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -22,11 +23,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class GuiOverlay extends Screen {
-	public GuiOverlay() {
-		super(new TranslatableComponent(""));
-		minecraft = Minecraft.getInstance();
-	}
+public class GuiOverlay extends OverlayBase {
 
 	public static boolean showExp;
 	public static boolean showMunny;
@@ -49,40 +46,37 @@ public class GuiOverlay extends Screen {
 	ResourceLocation levelUpTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
 	ResourceLocation menuTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
-	public void RenderGameOverlayEvent(RenderGameOverlayEvent event) {
-		if (event.getType() == ElementType.TEXT) {
+	@Override
+	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+		super.render(gui, poseStack, partialTick, width, height);
+		width = minecraft.getWindow().getGuiScaledWidth();
+		sHeight = minecraft.getWindow().getGuiScaledHeight();
 
-			width = minecraft.getWindow().getGuiScaledWidth();
-			sHeight = minecraft.getWindow().getGuiScaledHeight();
+		playerData = ModCapabilities.getPlayer(minecraft.player);
+		if(playerData != null) {
+			// Experience
+			if (showExp) {
+				showExp(poseStack);
+			}
 
-			playerData = ModCapabilities.getPlayer(minecraft.player);
-			if(playerData != null) {
-				// Experience
-				if (showExp) {
-					showExp(event.getMatrixStack());
-				}
-	
-				// Munny
-				if (showMunny) {
-					showMunny(event.getMatrixStack());
-				}
-	
-				// Level Up
-				if (showLevelUp) {
-					showLevelUp(event);
-				}
-	
-				// Drive form level up
-				if (showDriveLevelUp) {
-					showDriveLevelUp(event);
-				}
-				
+			// Munny
+			if (showMunny) {
+				showMunny(poseStack);
+			}
+
+			// Level Up
+			if (showLevelUp) {
+				showLevelUp(poseStack);
+			}
+
+			// Drive form level up
+			if (showDriveLevelUp) {
+				showDriveLevelUp(poseStack);
+			}
+
 				/*if(teleport != null) {
 					showTeleport();
 				}*/
-			}
 		}
 	}
 
@@ -125,8 +119,7 @@ public class GuiOverlay extends Screen {
 			showMunny = false;
 	}
 
-	private void showLevelUp(RenderGameOverlayEvent event) {
-		PoseStack matrixStack = event.getMatrixStack();
+	private void showLevelUp(PoseStack matrixStack) {
 
 		matrixStack.pushPose();
 		{
@@ -208,14 +201,13 @@ public class GuiOverlay extends Screen {
 			showLevelUp = false;
 	}
 
-	private void showDriveLevelUp(RenderGameOverlayEvent event) {
+	private void showDriveLevelUp(PoseStack matrixStack) {
 		if(playerData == null || driveForm == null)
 			return;
 
 		DriveForm drive = ModDriveForms.registry.get().getValue(new ResourceLocation(driveForm));
 		float[] driveColor = drive.getDriveColor();
-		PoseStack matrixStack = event.getMatrixStack();
-		
+
 		matrixStack.pushPose();
 		{
 			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * (playerData.getMessages().size());

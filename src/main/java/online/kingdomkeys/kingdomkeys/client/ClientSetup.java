@@ -6,8 +6,6 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -22,6 +20,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.OverlayRegistry;
 import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,19 +29,20 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.client.gui.DriveGui;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiOverlay;
-import online.kingdomkeys.kingdomkeys.client.gui.HPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.LockOnGui;
-import online.kingdomkeys.kingdomkeys.client.gui.MPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.PartyHUDGui;
-import online.kingdomkeys.kingdomkeys.client.gui.PlayerPortraitGui;
-import online.kingdomkeys.kingdomkeys.client.gui.ShotlockGUI;
-import online.kingdomkeys.kingdomkeys.client.gui.SoAMessages;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.DriveGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.HPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.LockOnGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.MPGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.PartyHUDGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.PlayerPortraitGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -180,7 +181,22 @@ public class ClientSetup {
 
 		//TODO figure out where/how this can work (will crash right now)
 		
-		
+		//Overlay setup
+
+		OverlayRegistry.registerOverlayTop("Command Menu", new CommandMenuGui());
+		OverlayRegistry.registerOverlayTop("HP Bar", new HPGui());
+		OverlayRegistry.registerOverlayTop("MP Bar", new MPGui());
+		OverlayRegistry.registerOverlayTop("Drive Bar", new DriveGui());
+		OverlayRegistry.registerOverlayTop("Player Portrait", new PlayerPortraitGui());
+		OverlayRegistry.registerOverlayTop("KK Notifications", new GuiOverlay());
+		OverlayRegistry.registerOverlayTop("Lock On", new LockOnGui());
+		OverlayRegistry.registerOverlayTop("Party Info", new PartyHUDGui());
+		OverlayRegistry.registerOverlayTop("Shotlock", new ShotlockGUI());
+		OverlayRegistry.registerOverlayTop("Station of Awakening Messages", new SoAMessages());
+
+		if (!ModConfigs.hpShowHearts) {
+			OverlayRegistry.enableOverlay(ForgeIngameGui.PLAYER_HEALTH_ELEMENT, false);
+		}
 		
 		ModContainers.registerGUIFactories();
 
