@@ -1294,5 +1294,29 @@
 	"soa.confirm.5": "Is this the form you choose?",
 
 	"_comment": "Biomes",
-	"biome.kingdomkeys.dive_to_the_heart": "Dive to the Heart"
+	"biome.kingdomkeys.dive_to_the_heart": "Dive to the Heart",
+
+	"_comment": "JEI",
+	"jei.category.kingdomkeys.synthesis": "Item Synthesis",
+	"jei.category.kingdomkeys.keyblade_summon": "Keyblade Summoning",
+	"jei.category.kingdomkeys.synthesis.locked": "Recipe not unlocked",
+	"jei.category.kingdomkeys.synthesis.unlocked": "Recipe unlocked",
+	"jei.category.kingdomkeys.keyblade_summon.keypress": "View info for how-to",
+	"jei.info.kingdomkeys.moogle_projector": "Obtained from Moogles when killed by an Anvil. Used for Item Synthesis and upgrading Keyblades via the Keyblade Forge and depositing materials used for Synthesis. Moogles also serve the same purpose as this.",
+	"jei.info.kingdomkeys.organization_weapons": "As an organization member you can unlock weapons within the equipment menu by spending hearts gained from kills, you will earn 2x hearts from using a weapon from your chosen member. Summon the weapons using the summon key.",
+	"jei.info.kingdomkeys.organization_robes": "Wear the full Organization set to join and select a member to start with, no matter who you choose you can unlock every member's weapons however it requires unlocking the adjacent member's weapon first.",
+	"jei.info.kingdomkeys.proof_of_heart": "Obtained from defeating the Ender Dragon, use this to leave the Organization.",
+	"jei.info.kingdomkeys.keychains": "Keychains can be used to summon the associated Keyblade by equipping the keychain through the Kingdom Keys menu, use the summon key to summon the Keyblade.",
+	"jei.info.kingdomkeys.recipes": "Dropped from mobs and found in Moogle house chests in villages. Use these to unlock recipes for Item Synthesis.",
+	"jei.info.kingdomkeys.ghost_blox": "Apply a redstone signal to toggle the visibility of the Ghost Blox and all adjacent Ghost Blox, while in the invisible state they have no collision.",
+	"jei.info.kingdomkeys.danger_blox": "Similar to a Cactus but deals more damage, causes damage on contact and also when hit. Unlike a Cactus it has no placement limits or growth. Wear boots to avoid damage while walking on them.",
+	"jei.info.kingdomkeys.blast_blox": "TNT-like with more destructive power triggers on contact with anything but a feather in your hand.",
+	"jei.info.kingdomkeys.bounce_blox": "Entities that step on this block will bounce, sneak to land on the block without bouncing",
+	"jei.info.kingdomkeys.magnet_blox": "Pulls or pushes entities in the direction its facing. Apply a redstone signal to activate, right click to change the range and sneak-right click with your fist to toggle attract and repel mode.",
+	"jei.info.kingdomkeys.spell_orb": "Use to unlock the specified spell. Once unlocked magic can be used with the Command Menu as long as you have enough MP, until level 5 you will have 0 MP. Dropped from breaking Prize Blox.",
+	"jei.info.kingdomkeys.valor_orb": "Use to unlock Valor Form. Valor has a 2nd Keyblade slot. Activation requires 3 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.wisdom_orb": "Use to unlock Wisdom Form. Activation requires 3 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.limit_orb": "Use to unlock Limit Form. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.master_orb": "Use to unlock Master Form. Master has a 2nd Keyblade slot. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.final_orb": "Use to unlock Final Form. Final has a 2nd Keyblade slot. Activation requires 5 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox."
 }

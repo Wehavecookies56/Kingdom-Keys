@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnetBloxBlock extends BaseBlock implements EntityBlock {
@@ -109,9 +110,8 @@ public class MagnetBloxBlock extends BaseBlock implements EntityBlock {
         return ModEntities.TYPE_MAGNET_BLOX.get().create(pPos, pState);
     }
 
-    @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide ? null : (level, pos, state, blockEntity) -> ((MagnetBloxTileEntity)blockEntity).tick();
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return type == ModEntities.TYPE_MAGNET_BLOX.get() ? MagnetBloxTileEntity::tick : null;
     }
 }

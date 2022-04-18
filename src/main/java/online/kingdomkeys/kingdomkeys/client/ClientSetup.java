@@ -178,21 +178,19 @@ public class ClientSetup {
 
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
-
-		//TODO figure out where/how this can work (will crash right now)
 		
 		//Overlay setup
 
-		OverlayRegistry.registerOverlayTop("Command Menu", new CommandMenuGui());
-		OverlayRegistry.registerOverlayTop("HP Bar", new HPGui());
-		OverlayRegistry.registerOverlayTop("MP Bar", new MPGui());
-		OverlayRegistry.registerOverlayTop("Drive Bar", new DriveGui());
-		OverlayRegistry.registerOverlayTop("Player Portrait", new PlayerPortraitGui());
-		OverlayRegistry.registerOverlayTop("KK Notifications", new GuiOverlay());
-		OverlayRegistry.registerOverlayTop("Lock On", new LockOnGui());
-		OverlayRegistry.registerOverlayTop("Party Info", new PartyHUDGui());
-		OverlayRegistry.registerOverlayTop("Shotlock", new ShotlockGUI());
-		OverlayRegistry.registerOverlayTop("Station of Awakening Messages", new SoAMessages());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "Command Menu", new CommandMenuGui());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "Player Portrait", new PlayerPortraitGui());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "HP Bar", new HPGui());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "MP Bar", new MPGui());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "Drive Bar", new DriveGui());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "KK Notifications", new GuiOverlay());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.CROSSHAIR_ELEMENT, "Lock On", new LockOnGui());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "Party Info", new PartyHUDGui());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.CROSSHAIR_ELEMENT, "Shotlock", new ShotlockGUI());
+		OverlayRegistry.registerOverlayBelow(ForgeIngameGui.TITLE_TEXT_ELEMENT, "Station of Awakening Messages", new SoAMessages());
 
 		if (!ModConfigs.hpShowHearts) {
 			OverlayRegistry.enableOverlay(ForgeIngameGui.PLAYER_HEALTH_ELEMENT, false);

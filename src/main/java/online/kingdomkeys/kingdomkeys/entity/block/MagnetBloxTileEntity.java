@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,17 +47,18 @@ public class MagnetBloxTileEntity extends BlockEntity {
 		return actualRange;
 	}
 
-	public void tick() {
-		ticks++;
+	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+		MagnetBloxTileEntity TE = (MagnetBloxTileEntity) blockEntity;
+		TE.ticks++;
 		// Don't do anything unless it's active
-		if (getBlockState().getValue(MagnetBloxBlock.ACTIVE)) {
-			Direction facing = getBlockState().getValue(MagnetBloxBlock.FACING);
-			int range = calculateActualRange(facing, getBlockState().getValue(MagnetBloxBlock.RANGE));
+		if (state.getValue(MagnetBloxBlock.ACTIVE)) {
+			Direction facing = state.getValue(MagnetBloxBlock.FACING);
+			int range = TE.calculateActualRange(facing, state.getValue(MagnetBloxBlock.RANGE));
 			// Not very useful if it's 0
 			if (range > 0) {
-				boolean attract = getBlockState().getValue(MagnetBloxBlock.ATTRACT);
+				boolean attract = state.getValue(MagnetBloxBlock.ATTRACT);
 
-				if (ticks % 5 == 0) {
+				if (TE.ticks % 5 == 0) {
 					int[] colors = { 1, 0, 0 };
 					if (!attract) {
 						colors[0] = 0;
@@ -66,22 +68,22 @@ public class MagnetBloxTileEntity extends BlockEntity {
 
 					for (double i = 0.7; i < range; i += 0.3) {
 						if (facing == Direction.NORTH) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.EAST) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5 + i, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.SOUTH) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5 + i, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.WEST) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5 - i, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.UP) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5 + i, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5 + i, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						} else if (facing == Direction.DOWN) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5 - i, worldPosition.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5 - i, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
 						}
 					}
 				}
 
-				List<Entity> entities = level.getEntitiesOfClass(Entity.class, new AABB(0, 0, 0, 1, 1, 1).expandTowards(range * facing.getNormal().getX(), range * facing.getNormal().getY(), range * facing.getNormal().getZ()).move(worldPosition));
+				List<Entity> entities = level.getEntitiesOfClass(Entity.class, new AABB(0, 0, 0, 1, 1, 1).expandTowards(range * facing.getNormal().getX(), range * facing.getNormal().getY(), range * facing.getNormal().getZ()).move(pos));
 
 				// No reason to do anymore if there are no entities in range
 				if (!entities.isEmpty()) {
@@ -90,12 +92,12 @@ public class MagnetBloxTileEntity extends BlockEntity {
 						Vec3 ePos = e.position();
 						Vec3 blockPos;
 						if (e instanceof LivingEntity) {
-							blockPos = new Vec3(getBlockPos().getX() + 0.5, getBlockPos().getY(), getBlockPos().getZ() + 0.5);
+							blockPos = new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 						} else {
-							blockPos = new Vec3(getBlockPos().getX() + 0.5, getBlockPos().getY() + 0.5, getBlockPos().getZ() + 0.5);
+							blockPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 						}
 
-						Vec3 pushDir = toVector3f(facing);
+						Vec3 pushDir = TE.toVector3f(facing);
 						if (attract) {
 							e.setDeltaMovement(pushDir.normalize().multiply(-strength, -strength, -strength));
 						} else {
