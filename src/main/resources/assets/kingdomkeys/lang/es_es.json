@@ -290,6 +290,12 @@
 	"block.kingdomkeys.moogle_projector": "Proyector de Moguri",
 	"block.kingdomkeys.station_of_awakening_core": "Núcleo de Estación del Despertar",
 	"block.kingdomkeys.magical_chest": "Cofre Mágico",
+	"block.kingdomkeys.pedestal": "Pedestal",
+	"block.kingdomkeys.savepoint": "Punto de Guardado",
+	"block.kingdomkeys.soa_door": "Puerta Misteriosa",
+	"block.kingdomkeys.gummi_editor": "Editor Gummi",
+	"block.kingdomkeys.sor_core": "Núcleo de Estación del Pesar",
+	"block.kingdomkeys.data_portal": "Portal de Datos",
 
 	"block.kingdomkeys.blazing_ore": "Mena Ígnea",
 	"block.kingdomkeys.blazing_ore_n": "Mena Ígnea",
@@ -1284,5 +1290,29 @@
 	"soa.confirm.5": "¿Es esta la forma que quieres eligir?",
 
 	"_comment": "Biomes",
-	"biome.kingdomkeys.dive_to_the_heart": "Descenso al Corazón"													   
+	"biome.kingdomkeys.dive_to_the_heart": "Descenso al Corazón"
+
+	"_comment": "JEI",
+	"jei.category.kingdomkeys.synthesis": "Síntesis de Objetos",
+	"jei.category.kingdomkeys.keyblade_summon": "Invocación de Llave Espada",
+	"jei.category.kingdomkeys.synthesis.locked": "Receta no desbloqueada",
+	"jei.category.kingdomkeys.synthesis.unlocked": "Receta desbloqueada",
+	"jei.category.kingdomkeys.keyblade_summon.keypress": "Observa info para ver una guía básica",
+	"jei.info.kingdomkeys.moogle_projector": "Obtenido de los Moguri cuando son aplastados con un yunque. Utilizado en la Síntesis de Objetos y para subir de nivel las Llave Espada usando la Forja y depositando materiales de síntesis. Los Moguri también sirven para esto.",
+	"jei.info.kingdomkeys.organization_weapons": "Como miembro de la Organización puedes desbloquear armas desde el menú de equipamiento utilizando corazones obtenidos al derrotar enemigos, obtendrás el doble de corazones si utilizas una arma del miembro que elegiste. Invoca las armas con la tecla de invocar.",
+	"jei.info.kingdomkeys.organization_robes": "Equípate el set completo para unirte y seleccionar un miembro, sin importar a quien elijas puedes desbloquear cualquiera de las armas pero requiere que desbloquees las armas de los miembros adyacentes primero.",
+	"jei.info.kingdomkeys.proof_of_heart": "Obtenido al derrotar el Dragón, utilízalo para salir de la Organización.",
+	"jei.info.kingdomkeys.keychains": "Los llaveros pueden ser utilizados para invocar su Llave Espada correspondiente al equiparlo desde el menú de Kingdom Keys y pulsando la tecla de invocar.",
+	"jei.info.kingdomkeys.recipes": "Dropeada de los mobs y encontrada en las casas Moguri de las aldeas. Utilízalas para desbloquear recetas de síntesis.",
+	"jei.info.kingdomkeys.ghost_blox": "Aplíca una señal de redstone para conmutar la visibilidad del Bloque Fantasma y todos los adyacentes, mientras son invisibles no tienen colisión.",
+	"jei.info.kingdomkeys.danger_blox": "Similar al Cactus pero hace más daño, causa daño al contacto y cuando es golpeado. A diferencia del Cactus no tiene límite de crecimiento ni posicionamiento. Equípate unas botas para evitar el daño al andar en ellos.",
+	"jei.info.kingdomkeys.blast_blox": "Similar a la TNT pero con un mayor poder destructivo, se activa al contacto de cualquier cosa excepto una pluma en tu mano.",
+	"jei.info.kingdomkeys.bounce_blox": "Entidades que pisen este bloque rebotarán, agáchate para caer en el bloque sin rebotar.",
+	"jei.info.kingdomkeys.magnet_blox": "Atrae o empuja entidades en la dirección en la que mira. Aplica una señal de Redstone para activar, click derecho para cambiar el rango y agáchate y click derecho para cambiar entre los modos atracción y repeler.",
+	"jei.info.kingdomkeys.spell_orb": "Use to unlock the specified spell. Once unlocked magic can be used with the Command Menu as long as you have enough MP, until level 5 you will have 0 MP. Dropped from breaking Prize Blox.",
+	"jei.info.kingdomkeys.valor_orb": "Use to unlock Valor Form. Valor has a 2nd Keyblade slot. Activation requires 3 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.wisdom_orb": "Use to unlock Wisdom Form. Activation requires 3 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.limit_orb": "Use to unlock Limit Form. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.master_orb": "Use to unlock Master Form. Master has a 2nd Keyblade slot. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
+	"jei.info.kingdomkeys.final_orb": "Use to unlock Final Form. Final has a 2nd Keyblade slot. Activation requires 5 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox."
 }
