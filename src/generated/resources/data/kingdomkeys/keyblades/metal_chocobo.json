@@ -4,12 +4,12 @@
   "keychain": "kingdomkeys:metal_chocobo_chain",
   "base_stats": {
     "str": 7,
-    "mag": -2
+    "mag": 1
   },
   "levels": [
     {
       "str": 7,
-      "mag": -1,
+      "mag": 2,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -23,7 +23,7 @@
     },
     {
       "str": 8,
-      "mag": -1,
+      "mag": 2,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -37,7 +37,7 @@
     },
     {
       "str": 8,
-      "mag": 0,
+      "mag": 3,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -51,7 +51,7 @@
     },
     {
       "str": 9,
-      "mag": 0,
+      "mag": 3,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -65,7 +65,7 @@
     },
     {
       "str": 9,
-      "mag": 1,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -83,7 +83,7 @@
     },
     {
       "str": 10,
-      "mag": 1,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -101,7 +101,7 @@
     },
     {
       "str": 10,
-      "mag": 2,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_writhing_gem",
@@ -119,7 +119,7 @@
     },
     {
       "str": 11,
-      "mag": 2,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -137,7 +137,7 @@
     },
     {
       "str": 11,
-      "mag": 3,
+      "mag": 6,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -155,7 +155,7 @@
     },
     {
       "str": 12,
-      "mag": 3,
+      "mag": 6,
       "recipe": [
         {
           "material": "kingdomkeys:mat_wellspring_crystal",

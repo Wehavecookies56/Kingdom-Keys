@@ -1,0 +1,279 @@
+{
+  "alarm": {
+    "sounds": [
+      "kingdomkeys:alarm"
+    ]
+  },
+  "antidrive": {
+    "sounds": [
+      "kingdomkeys:antidrive"
+    ]
+  },
+  "drive": {
+    "sounds": [
+      "kingdomkeys:drive"
+    ]
+  },
+  "error": {
+    "sounds": [
+      "kingdomkeys:error"
+    ]
+  },
+  "hp_orb": {
+    "sounds": [
+      "kingdomkeys:hp_orb"
+    ]
+  },
+  "itemget": {
+    "sounds": [
+      "kingdomkeys:itemget"
+    ]
+  },
+  "kupo": {
+    "sounds": [
+      "kingdomkeys:kupo"
+    ]
+  },
+  "kupoliving": {
+    "sounds": [
+      "kingdomkeys:kupoliving"
+    ]
+  },
+  "levelup": {
+    "sounds": [
+      "kingdomkeys:levelup"
+    ]
+  },
+  "lockon": {
+    "sounds": [
+      "kingdomkeys:lockon"
+    ]
+  },
+  "menu_back": {
+    "sounds": [
+      "kingdomkeys:menu_back"
+    ]
+  },
+  "menu_in": {
+    "sounds": [
+      "kingdomkeys:menu_in"
+    ]
+  },
+  "menu_move": {
+    "sounds": [
+      "kingdomkeys:menu_move"
+    ]
+  },
+  "menu_select": {
+    "sounds": [
+      "kingdomkeys:menu_select"
+    ]
+  },
+  "mp_orb": {
+    "sounds": [
+      "kingdomkeys:mp_orb"
+    ]
+  },
+  "munny": {
+    "sounds": [
+      "kingdomkeys:munny"
+    ]
+  },
+  "potion": {
+    "sounds": [
+      "kingdomkeys:potion"
+    ]
+  },
+  "savepoint": {
+    "sounds": [
+      "kingdomkeys:savepoint"
+    ]
+  },
+  "savespawn": {
+    "sounds": [
+      "kingdomkeys:savespawn"
+    ]
+  },
+  "sharpshooterbullet": {
+    "sounds": [
+      "kingdomkeys:sharpshooterbullet"
+    ]
+  },
+  "arrowgunreload": {
+    "sounds": [
+      "kingdomkeys:arrowgunreload"
+    ]
+  },
+  "summon": {
+    "sounds": [
+      "kingdomkeys:summon"
+    ]
+  },
+  "unsummon": {
+    "sounds": [
+      "kingdomkeys:unsummon"
+    ]
+  },
+  "portal": {
+    "sounds": [
+      "kingdomkeys:portal"
+    ]
+  },
+  "laser": {
+    "sounds": [
+      "kingdomkeys:laser"
+    ]
+  },
+  "reflect1": {
+    "sounds": [
+      "kingdomkeys:reflect1"
+    ]
+  },
+  "reflect2": {
+    "sounds": [
+      "kingdomkeys:reflect2"
+    ]
+  },
+  "invincible_hit": {
+    "sounds": [
+      "kingdomkeys:invincible_hit"
+    ]
+  },
+  "shotlock_lockon_start": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon_start"
+    ]
+  },
+  "shotlock_lockon_idle": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon_idle"
+    ]
+  },
+  "shotlock_lockon": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon"
+    ]
+  },
+  "shotlock_lockon_all": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon_all"
+    ]
+  },
+  "shotlock_shot": {
+    "sounds": [
+      "kingdomkeys:shotlock_shot"
+    ]
+  },
+  "records/birth_by_sleep_a_link_to_the_future": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/birth_by_sleep_a_link_to_the_future",
+        "stream": true
+      }
+    ]
+  },
+  "records/darkness_of_the_unknown": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/darkness_of_the_unknown",
+        "stream": true
+      }
+    ]
+  },
+  "records/dearly_beloved_symphony_version": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/dearly_beloved_symphony_version",
+        "stream": true
+      }
+    ]
+  },
+  "records/dream_drop_distance_the_next_awakening": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/dream_drop_distance_the_next_awakening",
+        "stream": true
+      }
+    ]
+  },
+  "records/hikari_kingdom_instrumental_version": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/hikari_kingdom_instrumental_version",
+        "stream": true
+      }
+    ]
+  },
+  "records/l_oscurita_dell_ignoto": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/l_oscurita_dell_ignoto",
+        "stream": true
+      }
+    ]
+  },
+  "records/musique_pour_la_tristesse_de_xion": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/musique_pour_la_tristesse_de_xion",
+        "stream": true
+      }
+    ]
+  },
+  "records/no_more_bugs_bug_version": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/no_more_bugs_bug_version",
+        "stream": true
+      }
+    ]
+  },
+  "records/organization_xiii": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/organization_xiii",
+        "stream": true
+      }
+    ]
+  },
+  "records/sanctuary": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/sanctuary",
+        "stream": true
+      }
+    ]
+  },
+  "records/simple_and_clean_planitb_remix": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/simple_and_clean_planitb_remix",
+        "stream": true
+      }
+    ]
+  },
+  "records/sinister_sundown": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/sinister_sundown",
+        "stream": true
+      }
+    ]
+  },
+  "records/the_13th_anthology": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/the_13th_anthology",
+        "stream": true
+      }
+    ]
+  },
+  "music/dive_into_the_heart_destati": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/dive_into_the_heart_destati",
+        "stream": true
+      }
+    ]
+  }
+}

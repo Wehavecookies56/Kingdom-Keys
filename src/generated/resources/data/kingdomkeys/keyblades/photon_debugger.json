@@ -3,13 +3,13 @@
   "reach": 5.0,
   "keychain": "kingdomkeys:photon_debugger_chain",
   "base_stats": {
-    "str": 6,
-    "mag": 4
+    "str": 5,
+    "mag": 3
   },
   "levels": [
     {
-      "str": 6,
-      "mag": 5,
+      "str": 5,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -22,8 +22,8 @@
       ]
     },
     {
-      "str": 7,
-      "mag": 5,
+      "str": 6,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -36,8 +36,8 @@
       ]
     },
     {
-      "str": 7,
-      "mag": 6,
+      "str": 6,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -50,8 +50,8 @@
       ]
     },
     {
-      "str": 8,
-      "mag": 6,
+      "str": 7,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -64,8 +64,8 @@
       ]
     },
     {
-      "str": 8,
-      "mag": 7,
+      "str": 7,
+      "mag": 6,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -82,8 +82,8 @@
       ]
     },
     {
-      "str": 9,
-      "mag": 7,
+      "str": 8,
+      "mag": 6,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -100,8 +100,8 @@
       ]
     },
     {
-      "str": 9,
-      "mag": 8,
+      "str": 8,
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:mat_writhing_gem",
@@ -118,8 +118,8 @@
       ]
     },
     {
-      "str": 10,
-      "mag": 8,
+      "str": 9,
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -136,8 +136,8 @@
       ]
     },
     {
-      "str": 10,
-      "mag": 9,
+      "str": 9,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -154,8 +154,8 @@
       ]
     },
     {
-      "str": 11,
-      "mag": 9,
+      "str": 10,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_wellspring_crystal",

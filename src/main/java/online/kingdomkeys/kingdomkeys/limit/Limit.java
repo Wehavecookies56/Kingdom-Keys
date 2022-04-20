@@ -21,10 +21,9 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 		this.name = registryName.toString();
 		this.cost = cost;
 		this.cooldown = cooldown;
-		setRegistryName(registryName);
 		this.order = order;
 		this.owner = owner;
-		translationKey = "limit." + getRegistryName().getPath() + ".name";
+		translationKey = "limit." + registryName.getPath() + ".name";
 	}
 
 	public Limit(String registryName, int order, int cost, int cooldown, OrgMember owner) {

@@ -1,0 +1,20 @@
+{
+  "block.kingdomkeys.org_portal": "Organisation Portal",
+  "gui.menu.status.defense": "Defence",
+  "gui.org.line1": "By donning the Dark Robe you are now a member of Organisation XIII.",
+  "gui.org.line2": "Choose a member of Organisation XIII you align with.",
+  "gui.proofofheart.desc": "Use this to leave Organisation XIII",
+  "gui.proofofheart.desc2": "You won't be able to use it if you're wearing the Organisation XIII robes",
+  "gui.proofofheart.leftorg": "You have left Organisation XIII",
+  "gui.proofofheart.notinorg": "You are not in Organisation XIII",
+  "gui.proofofheart.unequip": "First unequip your Organisation XIII armour",
+  "item.kingdomkeys.defenseboost": "Defence Boost",
+  "item.kingdomkeys.organization_boots": "Organisation Boots",
+  "item.kingdomkeys.organization_chestplate": "Organisation Coat",
+  "item.kingdomkeys.organization_helmet": "Organisation Hood",
+  "item.kingdomkeys.organization_leggings": "Organisation Leggings",
+  "jei.info.kingdomkeys.organization_robes": "Wear the full Organisation set to join and select a member to start with, no matter who you choose you can unlock every member's weapons however it requires unlocking the adjacent member's weapon first.",
+  "jei.info.kingdomkeys.organization_weapons": "As an Organisation member you can unlock weapons within the equipment menu by spending hearts gained from kills, you will earn 2x hearts from using a weapon from your chosen member. Summon the weapons using the summon key.",
+  "jei.info.kingdomkeys.proof_of_heart": "Obtained from defeating the Ender Dragon, use this to leave the Organisation.",
+  "stats.levelUpDef": "Defence Increased!"
+}

@@ -33,8 +33,7 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 3
         }
-      ],
-      "ability": "kingdomkeys:ability_mp_thrift"
+      ]
     },
     {
       "str": 7,

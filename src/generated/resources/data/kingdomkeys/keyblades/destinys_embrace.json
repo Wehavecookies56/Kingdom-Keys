@@ -4,12 +4,12 @@
   "keychain": "kingdomkeys:destinys_embrace_chain",
   "base_stats": {
     "str": 4,
-    "mag": 3
+    "mag": 4
   },
   "levels": [
     {
       "str": 4,
-      "mag": 4,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -23,7 +23,7 @@
     },
     {
       "str": 5,
-      "mag": 4,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -37,7 +37,7 @@
     },
     {
       "str": 5,
-      "mag": 5,
+      "mag": 6,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -51,7 +51,7 @@
     },
     {
       "str": 6,
-      "mag": 5,
+      "mag": 6,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -65,7 +65,7 @@
     },
     {
       "str": 6,
-      "mag": 6,
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -83,7 +83,7 @@
     },
     {
       "str": 7,
-      "mag": 6,
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -101,7 +101,7 @@
     },
     {
       "str": 7,
-      "mag": 7,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_writhing_gem",
@@ -119,7 +119,7 @@
     },
     {
       "str": 8,
-      "mag": 7,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -137,7 +137,7 @@
     },
     {
       "str": 8,
-      "mag": 8,
+      "mag": 9,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -155,7 +155,7 @@
     },
     {
       "str": 9,
-      "mag": 8,
+      "mag": 9,
       "recipe": [
         {
           "material": "kingdomkeys:mat_wellspring_crystal",

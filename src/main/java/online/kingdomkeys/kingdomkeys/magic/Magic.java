@@ -29,7 +29,6 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	this.order = order;
     	this.maxLevel = maxLevel - 1;
     	this.hasRC = hasRC;
-        setRegistryName(registryName);
         translationKey = "magic." + new ResourceLocation(registryName).getPath() + ".name";
     }
 

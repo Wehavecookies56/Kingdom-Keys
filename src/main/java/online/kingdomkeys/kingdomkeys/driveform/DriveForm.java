@@ -43,10 +43,9 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain) {
 		this.name = registryName.toString();
 		this.maxLevel = 7;
-		setRegistryName(registryName);
 		this.order = order;
 		this.hasKeychain = hasKeychain;
-		translationKey = "form." + getRegistryName().getPath() + ".name";
+		translationKey = "form." + registryName.getPath() + ".name";
 	}
 
 	public DriveForm(String registryName, int order, boolean hasKeychain) {

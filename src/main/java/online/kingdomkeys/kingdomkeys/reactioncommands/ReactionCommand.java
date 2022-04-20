@@ -20,9 +20,8 @@ public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand
 	public ReactionCommand(ResourceLocation registryName, boolean constantCheck) {
 		this.name = registryName.toString();
 		//this.max = max;
-		setRegistryName(registryName);
 		this.constantCheck = constantCheck;
-		translationKey = "reactioncommand." + getRegistryName().getPath() + ".name";
+		translationKey = "reactioncommand." + registryName.getPath() + ".name";
 	}
 
 	public ReactionCommand(String registryName, boolean constantCheck) {

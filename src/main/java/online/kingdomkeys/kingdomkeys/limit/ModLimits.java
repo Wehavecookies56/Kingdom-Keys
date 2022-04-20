@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
@@ -19,17 +20,11 @@ public class ModLimits {
 
 	public static Supplier<IForgeRegistry<Limit>> registry = LIMITS.makeRegistry(Limit.class, RegistryBuilder::new);;
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-	public static class Registry {
+	static int order = 0;
 
-		@SubscribeEvent
-		public static void registerLimits(RegistryEvent.Register<Limit> event) {
-			int order = 0;
-			event.getRegistry().registerAll(
-					new LimitLaserCircle(KingdomKeys.MODID + ":" + Strings.LaserCircle, order++, 100, 200, OrgMember.XEMNAS),
-					new LimitLaserDome(KingdomKeys.MODID + ":" + Strings.LaserDome, order++, 400, 600, OrgMember.XEMNAS),
-					new LimitArrowRain(KingdomKeys.MODID + ":" + Strings.ArrowRain, order++, 300, 600, OrgMember.XIGBAR)
-			);
-		}
-	}
+	public static final RegistryObject<Limit>
+		LASER_CIRCLE = LIMITS.register(Strings.LaserCircle, () -> new LimitLaserCircle(KingdomKeys.MODID + ":" + Strings.LaserCircle, order++, 100, 200, OrgMember.XEMNAS)),
+		LASER_DOME = LIMITS.register(Strings.LaserDome, () -> new LimitLaserDome(KingdomKeys.MODID + ":" + Strings.LaserDome, order++, 400, 600, OrgMember.XEMNAS)),
+		ARROW_RAIN = LIMITS.register(Strings.ArrowRain, () -> new LimitArrowRain(KingdomKeys.MODID + ":" + Strings.ArrowRain, order++, 300, 600, OrgMember.XIGBAR))
+	;
 }

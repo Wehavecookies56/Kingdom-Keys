@@ -3,13 +3,13 @@
   "reach": 6.0,
   "keychain": "kingdomkeys:brightcrest_chain",
   "base_stats": {
-    "str": 6,
-    "mag": 10
+    "str": 5,
+    "mag": 6
   },
   "levels": [
     {
-      "str": 6,
-      "mag": 11,
+      "str": 5,
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -22,8 +22,8 @@
       ]
     },
     {
-      "str": 7,
-      "mag": 11,
+      "str": 6,
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -36,8 +36,8 @@
       ]
     },
     {
-      "str": 7,
-      "mag": 12,
+      "str": 6,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_fluorite",
@@ -47,12 +47,11 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 4
         }
-      ],
-      "ability": "kingdomkeys:ability_wizards_ruse"
+      ]
     },
     {
-      "str": 8,
-      "mag": 12,
+      "str": 7,
+      "mag": 8,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -65,8 +64,8 @@
       ]
     },
     {
-      "str": 8,
-      "mag": 13,
+      "str": 7,
+      "mag": 9,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -83,8 +82,8 @@
       ]
     },
     {
-      "str": 9,
-      "mag": 13,
+      "str": 8,
+      "mag": 9,
       "recipe": [
         {
           "material": "kingdomkeys:mat_damascus",
@@ -101,8 +100,8 @@
       ]
     },
     {
-      "str": 9,
-      "mag": 14,
+      "str": 8,
+      "mag": 10,
       "recipe": [
         {
           "material": "kingdomkeys:mat_writhing_gem",
@@ -119,8 +118,8 @@
       ]
     },
     {
-      "str": 10,
-      "mag": 14,
+      "str": 9,
+      "mag": 10,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -137,8 +136,8 @@
       ]
     },
     {
-      "str": 10,
-      "mag": 15,
+      "str": 9,
+      "mag": 11,
       "recipe": [
         {
           "material": "kingdomkeys:mat_adamantite",
@@ -155,8 +154,8 @@
       ]
     },
     {
-      "str": 11,
-      "mag": 15,
+      "str": 10,
+      "mag": 11,
       "recipe": [
         {
           "material": "kingdomkeys:mat_wellspring_crystal",

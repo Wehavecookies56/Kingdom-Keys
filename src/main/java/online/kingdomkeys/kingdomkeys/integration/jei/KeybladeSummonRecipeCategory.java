@@ -64,7 +64,7 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
 
     @Override
     public void draw(KeychainItem recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        new TextDrawable(new TranslatableComponent("jei.category.kingdomkeys.keyblade_summon.info")).draw(stack, 0, 30);
+        new TextDrawable(new TranslatableComponent("jei.category.kingdomkeys.keyblade_summon.info")).draw(stack, 0, 32);
     }
 
     @Override

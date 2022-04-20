@@ -5,14 +5,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import online.kingdomkeys.kingdomkeys.datagen.init.BlockStates;
-import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
-import online.kingdomkeys.kingdomkeys.datagen.init.ItemModels;
-import online.kingdomkeys.kingdomkeys.datagen.init.ItemTagsGen;
-import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
-import online.kingdomkeys.kingdomkeys.datagen.init.LootTables;
-import online.kingdomkeys.kingdomkeys.datagen.init.Recipes;
-import online.kingdomkeys.kingdomkeys.datagen.init.SynthesisRecipe;
+import online.kingdomkeys.kingdomkeys.datagen.init.*;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKAdvancementProvider;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -35,5 +28,9 @@ public class DataGeneration {
         generator.addProvider(new LootTables(generator));
         generator.addProvider(new SynthesisRecipe(generator, existingFileHelper));
         generator.addProvider(new KKAdvancementProvider(generator));
+        generator.addProvider(new LanguageENUS(generator));
+        generator.addProvider(new LanguageESES(generator));
+        generator.addProvider(new LanguageENGB(generator));
+        generator.addProvider(new Sounds(generator, existingFileHelper));
     }
 }

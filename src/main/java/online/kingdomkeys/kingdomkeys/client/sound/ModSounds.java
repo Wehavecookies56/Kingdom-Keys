@@ -48,21 +48,21 @@ public class ModSounds {
 			shotlock_lockon_all = registerSound("shotlock_lockon_all"),
 			shotlock_shot = registerSound("shotlock_shot"),
             
-            Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records.birth_by_sleep_a_link_to_the_future"),
-            Record_Darkness_of_the_Unknown = registerSound("records.darkness_of_the_unknown"),
-            Record_Dearly_Beloved_Symphony_Version = registerSound("records.dearly_beloved_symphony_version"),
-            Record_Dream_Drop_Distance_The_Next_Awakening = registerSound("records.dream_drop_distance_the_next_awakening"),
-            Record_Hikari_KINGDOM_Instrumental_Version = registerSound("records.hikari_kingdom_instrumental_version"),
-            Record_L_Oscurita_Dell_Ignoto = registerSound("records.l_oscurita_dell_ignoto"),
-            Record_Musique_pour_la_tristesse_de_Xion = registerSound("records.musique_pour_la_tristesse_de_xion"),
-            Record_No_More_Bugs_Bug_Version = registerSound("records.no_more_bugs_bug_version"),
-            Record_Organization_XIII = registerSound("records.organization_xiii"),
-            Record_Sanctuary = registerSound("records.sanctuary"),
-            Record_Simple_And_Clean_PLANITb_Remix = registerSound("records.simple_and_clean_planitb_remix"),
-            Record_Sinister_Sundown = registerSound("records.sinister_sundown"),
-            Record_The_13th_Anthology = registerSound("records.the_13th_anthology"),
+            Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),
+            Record_Darkness_of_the_Unknown = registerSound("records/darkness_of_the_unknown"),
+            Record_Dearly_Beloved_Symphony_Version = registerSound("records/dearly_beloved_symphony_version"),
+            Record_Dream_Drop_Distance_The_Next_Awakening = registerSound("records/dream_drop_distance_the_next_awakening"),
+            Record_Hikari_KINGDOM_Instrumental_Version = registerSound("records/hikari_kingdom_instrumental_version"),
+            Record_L_Oscurita_Dell_Ignoto = registerSound("records/l_oscurita_dell_ignoto"),
+            Record_Musique_pour_la_tristesse_de_Xion = registerSound("records/musique_pour_la_tristesse_de_xion"),
+            Record_No_More_Bugs_Bug_Version = registerSound("records/no_more_bugs_bug_version"),
+            Record_Organization_XIII = registerSound("records/organization_xiii"),
+            Record_Sanctuary = registerSound("records/sanctuary"),
+            Record_Simple_And_Clean_PLANITb_Remix = registerSound("records/simple_and_clean_planitb_remix"),
+            Record_Sinister_Sundown = registerSound("records/sinister_sundown"),
+            Record_The_13th_Anthology = registerSound("records/the_13th_anthology"),
 
-			Music_Dive_Into_The_Heart_Destati = registerSound("music.dive_into_the_heart_destati");
+			Music_Dive_Into_The_Heart_Destati = registerSound("music/dive_into_the_heart_destati");
 
            /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),

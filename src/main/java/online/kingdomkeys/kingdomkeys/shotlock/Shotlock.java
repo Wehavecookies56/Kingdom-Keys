@@ -21,9 +21,8 @@ public abstract class Shotlock extends ForgeRegistryEntry<Shotlock> {
 		this.name = registryName.toString();
 		this.cooldown = cooldown;
 		this.max = max;
-		setRegistryName(registryName);
 		this.order = order;
-		translationKey = "shotlock." + getRegistryName().getPath() + ".name";
+		translationKey = "shotlock." + registryName.getPath() + ".name";
 	}
 
 	public Shotlock(String registryName, int order, int cooldown, int max) {

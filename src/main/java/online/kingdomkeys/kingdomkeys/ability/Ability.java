@@ -26,6 +26,18 @@ public class Ability extends ForgeRegistryEntry<Ability> {
     public String getTranslationKey() {
     	return translationKey;
 	}
+
+	public String getTranslationKey(int level) {
+		if (level > 0) {
+			return translationKey.replace(".name", "_" + level + ".name");
+		} else {
+			return getTranslationKey();
+		}
+	}
+
+	public String getDescTranslationKey() {
+		return translationKey.replace(".name", ".desc");
+	}
     
     public int getAPCost() {
     	return apCost;

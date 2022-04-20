@@ -15,7 +15,7 @@ public class ModAbilities {
 
 	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(Ability.class, RegistryBuilder::new);;
+	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(Ability.class, RegistryBuilder::new);
 
 	static int order = 0;
 

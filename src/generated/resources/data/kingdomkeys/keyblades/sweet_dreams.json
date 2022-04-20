@@ -3,12 +3,12 @@
   "reach": 6.0,
   "keychain": "kingdomkeys:sweet_dreams_chain",
   "base_stats": {
-    "str": 7,
+    "str": 8,
     "mag": 6
   },
   "levels": [
     {
-      "str": 7,
+      "str": 8,
       "mag": 7,
       "recipe": [
         {
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "str": 8,
+      "str": 9,
       "mag": 7,
       "recipe": [
         {
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "str": 8,
+      "str": 9,
       "mag": 8,
       "recipe": [
         {
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "str": 9,
+      "str": 10,
       "mag": 8,
       "recipe": [
         {
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "str": 9,
+      "str": 10,
       "mag": 9,
       "recipe": [
         {
@@ -82,7 +82,7 @@
       ]
     },
     {
-      "str": 10,
+      "str": 11,
       "mag": 9,
       "recipe": [
         {
@@ -100,7 +100,7 @@
       ]
     },
     {
-      "str": 10,
+      "str": 11,
       "mag": 10,
       "recipe": [
         {
@@ -118,7 +118,7 @@
       ]
     },
     {
-      "str": 11,
+      "str": 12,
       "mag": 10,
       "recipe": [
         {
@@ -136,7 +136,7 @@
       ]
     },
     {
-      "str": 11,
+      "str": 12,
       "mag": 11,
       "recipe": [
         {
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "str": 12,
+      "str": 13,
       "mag": 11,
       "recipe": [
         {

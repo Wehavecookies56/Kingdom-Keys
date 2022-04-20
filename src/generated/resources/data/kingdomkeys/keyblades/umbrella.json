@@ -3,12 +3,12 @@
   "reach": 5.0,
   "keychain": "kingdomkeys:umbrella_chain",
   "base_stats": {
-    "str": 2,
+    "str": 4,
     "mag": 0
   },
   "levels": [
     {
-      "str": 2,
+      "str": 4,
       "mag": 1,
       "recipe": [
         {
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "str": 3,
+      "str": 5,
       "mag": 1,
       "recipe": [
         {
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "str": 3,
+      "str": 5,
       "mag": 2,
       "recipe": [
         {
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "str": 4,
+      "str": 6,
       "mag": 2,
       "recipe": [
         {
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "str": 4,
+      "str": 6,
       "mag": 3,
       "recipe": [
         {
@@ -82,7 +82,7 @@
       ]
     },
     {
-      "str": 5,
+      "str": 7,
       "mag": 3,
       "recipe": [
         {
@@ -100,7 +100,7 @@
       ]
     },
     {
-      "str": 5,
+      "str": 7,
       "mag": 4,
       "recipe": [
         {
@@ -118,7 +118,7 @@
       ]
     },
     {
-      "str": 6,
+      "str": 8,
       "mag": 4,
       "recipe": [
         {
@@ -136,7 +136,7 @@
       ]
     },
     {
-      "str": 6,
+      "str": 8,
       "mag": 5,
       "recipe": [
         {
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "str": 7,
+      "str": 9,
       "mag": 5,
       "recipe": [
         {

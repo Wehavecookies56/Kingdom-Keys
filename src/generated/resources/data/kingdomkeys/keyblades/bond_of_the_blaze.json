@@ -3,12 +3,12 @@
   "reach": 5.0,
   "keychain": "kingdomkeys:bond_of_the_blaze_chain",
   "base_stats": {
-    "str": 8,
+    "str": 6,
     "mag": 7
   },
   "levels": [
     {
-      "str": 8,
+      "str": 6,
       "mag": 8,
       "recipe": [
         {
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "str": 9,
+      "str": 7,
       "mag": 8,
       "recipe": [
         {
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "str": 9,
+      "str": 7,
       "mag": 9,
       "recipe": [
         {
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "str": 10,
+      "str": 8,
       "mag": 9,
       "recipe": [
         {
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "str": 10,
+      "str": 8,
       "mag": 10,
       "recipe": [
         {
@@ -82,7 +82,7 @@
       ]
     },
     {
-      "str": 11,
+      "str": 9,
       "mag": 10,
       "recipe": [
         {
@@ -100,7 +100,7 @@
       ]
     },
     {
-      "str": 11,
+      "str": 9,
       "mag": 11,
       "recipe": [
         {
@@ -118,7 +118,7 @@
       ]
     },
     {
-      "str": 12,
+      "str": 10,
       "mag": 11,
       "recipe": [
         {
@@ -136,7 +136,7 @@
       ]
     },
     {
-      "str": 12,
+      "str": 10,
       "mag": 12,
       "recipe": [
         {
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "str": 13,
+      "str": 11,
       "mag": 12,
       "recipe": [
         {

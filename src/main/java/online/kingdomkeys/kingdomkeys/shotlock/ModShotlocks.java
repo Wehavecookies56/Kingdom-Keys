@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
@@ -16,19 +17,12 @@ public class ModShotlocks {
 
 	public static DeferredRegister<Shotlock> SHOTLOCKS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "shotlocks"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Shotlock>> registry = SHOTLOCKS.makeRegistry(Shotlock.class, RegistryBuilder::new);;
+	public static Supplier<IForgeRegistry<Shotlock>> registry = SHOTLOCKS.makeRegistry(Shotlock.class, RegistryBuilder::new);
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-	public static class Registry {
-
-		@SubscribeEvent
-		public static void registerLimits(RegistryEvent.Register<Shotlock> event) {
-			int order = 0;
-			event.getRegistry().registerAll(
-					new ShotlockDarkVolley(KingdomKeys.MODID + ":" + Strings.DarkVolley, order++, 2, 18),
-					new ShotlockRagnarok(KingdomKeys.MODID + ":" + Strings.Ragnarok, order++, 3, 16),
-					new ShotlockPrismRain(KingdomKeys.MODID + ":" + Strings.PrismRain, order++, 3, 16)
-			);
-		}
-	}
+	static int order = 0;
+	public static final RegistryObject<Shotlock>
+		DARK_VOLLEY = SHOTLOCKS.register(Strings.DarkVolley, () -> new ShotlockDarkVolley(KingdomKeys.MODID + ":" + Strings.DarkVolley, order++, 2, 18)),
+		RAGNAROK = SHOTLOCKS.register(Strings.Ragnarok, () -> new ShotlockRagnarok(KingdomKeys.MODID + ":" + Strings.Ragnarok, order++, 3, 16)),
+		PRISM_RAIN = SHOTLOCKS.register(Strings.PrismRain, () -> new ShotlockPrismRain(KingdomKeys.MODID + ":" + Strings.PrismRain, order++, 3, 16))
+	;
 }
