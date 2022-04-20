@@ -12,3 +12,9 @@ authors="Wehavecookies56, Abelatox, Wynd, stel1034"
 description='''
 A mod inspired by Kingdom Hearts adding various elements from the games.
 '''
+[[dependencies.kingdomkeys]]
+    modId="jei"
+    mandatory=false
+    versionRange="[9.7,)"
+    ordering="BEFORE"
+    side="BOTH"

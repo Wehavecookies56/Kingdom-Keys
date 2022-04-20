@@ -249,6 +249,29 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.MP_HASTE, "MP Haste", "Increases MP restoration speed after MP is fully consumed.");
         addAbilityWithDesc(ModAbilities.MP_HASTERA, "MP Hastera", "Increases MP restoration speed even more after MP is fully consumed.");
         addAbilityWithDesc(ModAbilities.MP_HASTEGA, "MP Hastega", "Highly Increases MP restoration speed after MP is fully consumed.");
+        addAbilityWithDesc(ModAbilities.MP_RAGE,  "MP Rage", "Restores MP relative to the amount of damage taken.");
+        addAbilityWithDesc(ModAbilities.DAMAGE_CONTROL, "Damage Control", "Halve the damage you take when your HP is at 25% or below. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.DAMAGE_DRIVE, "Damage Drive", "Restores the Drive Gauge every time damage is taken. The amount restored to the Drive Gauge is relative to the damage received.");
+        addAbilityWithDesc(ModAbilities.DRIVE_BOOST, "Drive Boost", "Allows greater restoration of the Drive Gauge during MP Charge.");
+        addAbilityWithDesc(ModAbilities.FORM_BOOST, "Form Boost", "Increases the duration of each Drive Form.");
+        addAbilityWithDesc(ModAbilities.FIRE_BOOST, "Fire Boost", "Increases damage done with fire-based attacks.");
+        addAbilityWithDesc(ModAbilities.BLIZZARD_BOOST, "Blizzard Boost", "Increases damage done with blizzard-based attacks.");
+        addAbilityWithDesc(ModAbilities.THUNDER_BOOST, "Thunder Boost", "Increases damage done with thunder-based attacks.");
+        addAbilityWithDesc(ModAbilities.TREASURE_MAGNET, "Treasure Magnet", "Automatically draw in and collect nearby prizes. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Experience Boost", "Increases experience gained by 100% when you are at half health or less.");
+        addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "Second Chance", "Ensures 1 HP remains after taking massive damage.");
+        addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Light & Darkness", "Has a secret effect");
+        addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Synch Blade", "Equips a weapon in each hand. The ability of the left hand weapon becomes available as well.");
+        addAbilityWithDesc(ModAbilities.MP_SAFETY, "MP Safety", "Disable recharging when MP runs out using shortcuts. Except if it's Cure");
+        addAbilityWithDesc(ModAbilities.DRIVE_CONVERTER, "Drive Converter", "Increment all Drive Point prizes value");
+        addAbilityWithDesc(ModAbilities.FOCUS_CONVERTER, "Focus Converter", "Increment all Focus prizes value.");
+        addAbilityWithDesc(ModAbilities.FULL_MP_BLAST, "Full MP Blast", "When your MP is full, increase the power of your first magical ability by 50%. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.WIZARDS_RUSE, "Wizard's Ruse", "Potentially recover HP proportionate to the MP you should expend. Stack the ability to increase the odds.");
+        addAbilityWithDesc(ModAbilities.EXTRA_CAST, "Extra Cast", "Allows the use of one last spell before running out of MP.");
+        addAbilityWithDesc(ModAbilities.MP_THRIFT, "MP Thrift", "Decrease MP cost by 20%. Stack the ability to increaase the effect.");
+        addAbilityWithDesc(ModAbilities.CRITICAL_BOOST, "Critical Boost", "Increases damage dealt by critical hits by 10%. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.JACKPOT, "Jackpot", "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.LUCKY_LUCKY, "Lucky Strike", "Brings luck, fortune and looting to the wearer, increasing the drop rate of items. Stack the ability to increase the effect.");
 
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
