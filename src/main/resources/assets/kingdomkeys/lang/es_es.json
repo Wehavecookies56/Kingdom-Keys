@@ -1297,7 +1297,7 @@
 	"jei.category.kingdomkeys.keyblade_summon": "Invocación de Llave Espada",
 	"jei.category.kingdomkeys.synthesis.locked": "Receta no desbloqueada",
 	"jei.category.kingdomkeys.synthesis.unlocked": "Receta desbloqueada",
-	"jei.category.kingdomkeys.keyblade_summon.keypress": "Observa info para ver una guía básica",
+	"jei.category.kingdomkeys.keyblade_summon.info": "Observa info para ver una guía básica",
 	"jei.info.kingdomkeys.moogle_projector": "Obtenido de los Moguri cuando son aplastados con un yunque. Utilizado en la Síntesis de Objetos y para subir de nivel las Llave Espada usando la Forja y depositando materiales de síntesis. Los Moguri también sirven para esto.",
 	"jei.info.kingdomkeys.organization_weapons": "Como miembro de la Organización puedes desbloquear armas desde el menú de equipamiento utilizando corazones obtenidos al derrotar enemigos, obtendrás el doble de corazones si utilizas una arma del miembro que elegiste. Invoca las armas con la tecla de invocar.",
 	"jei.info.kingdomkeys.organization_robes": "Equípate el set completo para unirte y seleccionar un miembro, sin importar a quien elijas puedes desbloquear cualquiera de las armas pero requiere que desbloquees las armas de los miembros adyacentes primero.",
@@ -1309,10 +1309,10 @@
 	"jei.info.kingdomkeys.blast_blox": "Similar a la TNT pero con un mayor poder destructivo, se activa al contacto de cualquier cosa excepto una pluma en tu mano.",
 	"jei.info.kingdomkeys.bounce_blox": "Entidades que pisen este bloque rebotarán, agáchate para caer en el bloque sin rebotar.",
 	"jei.info.kingdomkeys.magnet_blox": "Atrae o empuja entidades en la dirección en la que mira. Aplica una señal de Redstone para activar, click derecho para cambiar el rango y agáchate y click derecho para cambiar entre los modos atracción y repeler.",
-	"jei.info.kingdomkeys.spell_orb": "Use to unlock the specified spell. Once unlocked magic can be used with the Command Menu as long as you have enough MP, until level 5 you will have 0 MP. Dropped from breaking Prize Blox.",
-	"jei.info.kingdomkeys.valor_orb": "Use to unlock Valor Form. Valor has a 2nd Keyblade slot. Activation requires 3 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
-	"jei.info.kingdomkeys.wisdom_orb": "Use to unlock Wisdom Form. Activation requires 3 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
-	"jei.info.kingdomkeys.limit_orb": "Use to unlock Limit Form. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
-	"jei.info.kingdomkeys.master_orb": "Use to unlock Master Form. Master has a 2nd Keyblade slot. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.",
-	"jei.info.kingdomkeys.final_orb": "Use to unlock Final Form. Final has a 2nd Keyblade slot. Activation requires 5 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox."
+	"jei.info.kingdomkeys.spell_orb": "Utilízalo para desbloquear la magia correspondiente. Una vez desbloqueada puede ser utilizada desde el menú de comandos siempre y cuando tengas suficientes PM, hasta el nivel 5 tendrás 0 PM. Se obtiene como recompensa de los Bloques de Premio.",
+	"jei.info.kingdomkeys.valor_orb": "Utilizado para desbloquear la Forma Valiente. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 3 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro.",
+	"jei.info.kingdomkeys.wisdom_orb": "Utilizado para desbloquear la Forma Sabia. Activarla requiere 3 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro.",
+	"jei.info.kingdomkeys.limit_orb": "Utilizado para desbloquear la Forma Suma. Activarla requiere 4 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro.",
+	"jei.info.kingdomkeys.master_orb": "Utilizado para desbloquear la Forma Maestra. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 4 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro.",
+	"jei.info.kingdomkeys.final_orb": "Utilizado para desbloquear la Forma Final. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 5 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro."
 }
