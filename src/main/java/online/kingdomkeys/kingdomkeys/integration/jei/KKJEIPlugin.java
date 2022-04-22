@@ -37,6 +37,7 @@ public class KKJEIPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new SynthesisRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new KeybladeSummonRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        //TODO make category for ore drops
     }
 
     @Override

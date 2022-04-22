@@ -18,7 +18,7 @@ public class ModMaterials {
 
     public static DeferredRegister<Material> MATERIALS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "materials"), KingdomKeys.MODID);
 
-    public static Supplier<IForgeRegistry<Material>> registry = MATERIALS.makeRegistry(Material.class, RegistryBuilder::new);;
+    public static Supplier<IForgeRegistry<Material>> registry = MATERIALS.makeRegistry(Material.class, RegistryBuilder::new);
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class Registry {
@@ -30,7 +30,6 @@ public class ModMaterials {
         @SubscribeEvent
         public static void registerMaterials(RegistryEvent.Register<Material> event) {
             event.getRegistry().registerAll(
-                    //new Material("kingdomkeys:material_apple", Items.APPLE),
                     createMaterial(ModItems.soothing_crystal.get(), Strings.SM_SoothingCrystal),
                     createMaterial(ModItems.soothing_gem.get(), Strings.SM_SoothingGem),
                     createMaterial(ModItems.soothing_stone.get(), Strings.SM_SoothingStone),

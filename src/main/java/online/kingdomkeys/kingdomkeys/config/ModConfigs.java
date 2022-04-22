@@ -39,28 +39,27 @@ public class ModConfigs {
         }
     }
 
-    public static boolean corsairKeyboardLighting;
     public static boolean cmHeaderTextVisible;
     public static int cmTextXOffset, cmXScale, cmXPos, cmSubXOffset;
 
     public static boolean hpShowHearts;
     public static int hpXPos, hpYPos;
-    
+
     public static int mpXPos, mpYPos;
-    
+
     public static int dpXPos, dpYPos;
-    
+
     public static int playerSkinXPos, playerSkinYPos;
-    
+
     public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnHpPerBar;
-    
+
     public static int partyXPos, partyYPos, partyYDistance;
-    
+
     public static int focusXPos, focusYPos;
 
 	public static boolean showDriveForms;
-	
-    
+
+
     //Command Menu
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
@@ -71,71 +70,71 @@ public class ModConfigs {
         CLIENT.cmTextXOffset.set(value);
         bakeClient();
     }
-    
+
     public static void setCmXScale(int value) {
         CLIENT.cmXScale.set(value);
         bakeClient();
     }
-    
+
     public static void setCmXPos(int value) {
         CLIENT.cmXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setCmSubXOffset(int value) {
         CLIENT.cmSubXOffset.set(value);
         bakeClient();
     }
-    
+
     //HP
     public static void setHpXPos(int value) {
         CLIENT.hpXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setHpYPos(int value) {
         CLIENT.hpYPos.set(value);
         bakeClient();
     }
-    
+
     public static void setShowHearts(boolean value) {
         CLIENT.hpShowHearts.set(value);
         bakeClient();
     }
-    
+
     //MP
     public static void setMpXPos(int value) {
         CLIENT.mpXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setMpYPos(int value) {
         CLIENT.mpYPos.set(value);
         bakeClient();
     }
-    
+
     //DP
     public static void setDpXPos(int value) {
         CLIENT.dpXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setDpYPos(int value) {
         CLIENT.dpYPos.set(value);
         bakeClient();
     }
-    
+
   //Player Skin
     public static void setPlayerSkinXPos(int value) {
         CLIENT.playerSkinXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setPlayerSkinYPos(int value) {
         CLIENT.playerSkinYPos.set(value);
         bakeClient();
     }
-    
+
   //Lock On
     public static void setLockOnXPos(int value) {
         CLIENT.lockOnXPos.set(value);
@@ -145,34 +144,34 @@ public class ModConfigs {
     public static void setLockOnYPos(int value) {
         CLIENT.lockOnYPos.set(value);
         bakeClient();
-    }    
+    }
 
     public static void setLockOnHPScale(int value) {
         CLIENT.lockOnHPScale.set(value);
         bakeClient();
-    }    
+    }
 
     public static void setLockOnIconScale(int value) {
         CLIENT.lockOnIconScale.set(value);
         bakeClient();
     }
-    
+
     public static void setLockOnHpPerBar(int value) {
         CLIENT.lockOnHpPerBar.set(Math.max(10, value));
         bakeClient();
     }
-    
+
     //Party
     public static void setPartyXPos(int value) {
         CLIENT.partyXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setPartyYPos(int value) {
         CLIENT.partyYPos.set(value);
         bakeClient();
     }
-    
+
     public static void setPartyYDistance(int value) {
         CLIENT.partyYDistance.set(value);
         bakeClient();
@@ -183,38 +182,37 @@ public class ModConfigs {
         CLIENT.focusXPos.set(value);
         bakeClient();
     }
-    
+
     public static void setFocusYPos(int value) {
         CLIENT.focusYPos.set(value);
         bakeClient();
     }
-    
+
     public static void setShowDriveForms(boolean val) {
         CLIENT.showDriveForms.set(val);
         bakeClient();
     }
-    
+
     public static void bakeClient() {
-        corsairKeyboardLighting = CLIENT.corsairKeyboardLighting.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmXScale = CLIENT.cmXScale.get();
         cmXPos = CLIENT.cmXPos.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
-        
+
         hpXPos = CLIENT.hpXPos.get();
         hpYPos = CLIENT.hpYPos.get();
         hpShowHearts = CLIENT.hpShowHearts.get();
-        
+
         mpXPos = CLIENT.mpXPos.get();
         mpYPos = CLIENT.mpYPos.get();
-        
+
         dpXPos = CLIENT.dpXPos.get();
         dpYPos = CLIENT.dpYPos.get();
-        
+
         playerSkinXPos = CLIENT.playerSkinXPos.get();
         playerSkinYPos = CLIENT.playerSkinYPos.get();
-        
+
         lockOnXPos = CLIENT.lockOnXPos.get();
         lockOnYPos = CLIENT.lockOnYPos.get();
         lockOnHPScale = CLIENT.lockOnHPScale.get();
@@ -224,15 +222,45 @@ public class ModConfigs {
         partyXPos = CLIENT.partyXPos.get();
         partyYPos = CLIENT.partyYPos.get();
         partyYDistance = CLIENT.partyYDistance.get();
-        
+
         focusXPos = CLIENT.focusXPos.get();
         focusYPos = CLIENT.focusYPos.get();
-        
+
         showDriveForms = CLIENT.showDriveForms.get();
     }
 
     public static boolean oreGen;
     public static boolean bloxGen;
+    public static String twilightOreNetherGen;
+    public static String wellspringOreNetherGen;
+    public static String writhingOreNetherGen;
+    public static String blazingOreNetherGen;
+    public static String writhingOreEndGen;
+    public static String pulsingOreEndGen;
+    public static String betwixtOreGen;
+    public static String sinisterOreGen;
+    public static String stormyOreGen;
+    public static String writhingOreGen;
+    public static String hungryOreGen;
+    public static String lightningOreGen;
+    public static String lucidOreGen;
+    public static String remembranceOreGen;
+    public static String soothingOreGen;
+    public static String tranquilityOreGen;
+    public static String twilightOreGen;
+    public static String wellspringOreGen;
+    public static String blazingOreWarmGen;
+    public static String frostOreColdGen;
+    public static String pulsingOreColdGen;
+    public static String frostOreColderGen;
+    public static String pulsingOreWetGen;
+    public static String stormyOreWetGen;
+
+    public static String bloxClusterEndGen;
+    public static String prizeBloxClusterEndGen;
+    public static String bloxClusterGen;
+    public static String prizeBloxClusterGen;
+
     public static boolean debugConsoleOutput;
     public static boolean bombExplodeWithfire;
     public static boolean keybladeOpenDoors;
@@ -241,12 +269,12 @@ public class ModConfigs {
     public static List<String> moogleSpawnRate;
     public static List<String> mobSpawnRate;
     public static boolean mobLevelingUp;
-    
+
     public static int driveHeal;
 
     public static double drivePointsMultiplier;
     public static double focusPointsMultiplier;
-    
+
     public static int hpDropProbability;
     public static int mpDropProbability;
     public static int munnyDropProbability;
@@ -258,27 +286,59 @@ public class ModConfigs {
     public static double limitArrowRainMult;
     public static double shotlockMult;
     public static double critMult;
-    
+
     public static boolean playerSpawnHeartless;
     public static boolean blizzardChangeBlocks;
     public static int mobLevelStats;
     public static List<String> playerSpawnHeartlessData;
-    
+
     public static boolean bossDespawnIfNoTarget;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
+
         oreGen = COMMON.oreGen.get();
         bloxGen = COMMON.bloxGen.get();
+
+        twilightOreNetherGen = COMMON.twilightOreNetherGen.get();
+        wellspringOreNetherGen = COMMON.wellspringOreNetherGen.get();
+        writhingOreNetherGen = COMMON.writhingOreNetherGen.get();
+        blazingOreNetherGen = COMMON.blazingOreNetherGen.get();
+        writhingOreEndGen = COMMON.writhingOreEndGen.get();
+        pulsingOreEndGen = COMMON.pulsingOreEndGen.get();
+        betwixtOreGen = COMMON.betwixtOreGen.get();
+        sinisterOreGen = COMMON.sinisterOreGen.get();
+        stormyOreGen = COMMON.stormyOreGen.get();
+        writhingOreGen = COMMON.writhingOreGen.get();
+        hungryOreGen = COMMON.hungryOreGen.get();
+        lightningOreGen = COMMON.lightningOreGen.get();
+        lucidOreGen = COMMON.lucidOreGen.get();
+        remembranceOreGen = COMMON.remembranceOreGen.get();
+        soothingOreGen = COMMON.soothingOreGen.get();
+        tranquilityOreGen = COMMON.tranquilityOreGen.get();
+        twilightOreGen = COMMON.twilightOreGen.get();
+        wellspringOreGen = COMMON.wellspringOreGen.get();
+        blazingOreWarmGen = COMMON.blazingOreWarmGen.get();
+        frostOreColdGen = COMMON.frostOreColdGen.get();
+        pulsingOreColdGen = COMMON.pulsingOreColdGen.get();
+        frostOreColderGen = COMMON.frostOreColderGen.get();
+        pulsingOreWetGen = COMMON.pulsingOreWetGen.get();
+        stormyOreWetGen = COMMON.stormyOreWetGen.get();
+
+        bloxClusterEndGen = COMMON.bloxClusterEndGen.get();
+        prizeBloxClusterEndGen = COMMON.prizeBloxClusterEndGen.get();
+        bloxClusterGen = COMMON.bloxClusterGen.get();
+        prizeBloxClusterGen = COMMON.prizeBloxClusterGen.get();
+
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
         moogleSpawnRate = (List<String>) COMMON.moogleSpawnRate.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         mobLevelingUp = COMMON.mobLevelingUp.get();
-        
+
         driveHeal = COMMON.driveHeal.get();
-        
+
         drivePointsMultiplier = COMMON.drivePointsMultiplier.get();
         focusPointsMultiplier = COMMON.focusPointsMultiplier.get();
 
@@ -289,14 +349,14 @@ public class ModConfigs {
         playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
         shotlockMult = COMMON.shotlockMult.get();
         critMult = COMMON.critMult.get();
-        
+
         hpDropProbability = COMMON.hpDropProbability.get();
         mpDropProbability = COMMON.mpDropProbability.get();
         munnyDropProbability = COMMON.munnyDropProbability.get();
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
         blizzardChangeBlocks = COMMON.blizzardChangeBlocks.get();
-        
+
         mobLevelStats = COMMON.mobLevelStats.get();
         bossDespawnIfNoTarget = COMMON.bossDespawnIfNoTarget.get();
     }
@@ -308,7 +368,7 @@ public class ModConfigs {
     public static double heartMultiplier;
     public static double partyXPShare;
     public static int magicUsesTimer;
-    
+
     public static int limitLaserCircleCost;
     public static int limitLaserDomeCost;
     public static int limitArrowRainCost;
@@ -322,7 +382,7 @@ public class ModConfigs {
         heartMultiplier = SERVER.heartMultiplier.get();
         partyXPShare = SERVER.partyXPShare.get();
         magicUsesTimer = SERVER.magicUsesTimer.get();
-        
+
         limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
         limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
         limitArrowRainCost = SERVER.limitArrowRainCost.get();

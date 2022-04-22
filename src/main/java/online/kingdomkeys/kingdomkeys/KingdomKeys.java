@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys;
 
+import net.minecraftforge.fml.ModList;
+import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +27,6 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -86,7 +87,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1.0.0";
+	public static final String MODVER = "2.1.0.1";
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
@@ -136,13 +137,13 @@ public class KingdomKeys {
 		modEventBus.addGenericListener(Feature.class, this::registerFeatures);
 		modEventBus.addListener(this::setup);
 
-		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
-		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
-		modLoadingContext.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC);
-
 		MinecraftForge.EVENT_BUS.register(this);
 
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
+
+		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
+		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
+		modLoadingContext.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC);
 
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
@@ -150,6 +151,8 @@ public class KingdomKeys {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
+		ModFeatures.registerConfiguredFeatures();
+
 		// Run setup on proxies
 		//ModBiomes.init();
 		//ModDimensions.init();
@@ -157,6 +160,10 @@ public class KingdomKeys {
 		event.enqueueWork(ModEntities::registerPlacements);
 		event.enqueueWork(ModDimensions::setupDimension);
 		addMoogleHouse();
+
+		if (ModList.get().isLoaded("jeresources")) {
+			KKJERPlugin.setup();
+		}
 
 	}
 
@@ -219,7 +226,5 @@ public class KingdomKeys {
 	}
 
 	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {
-		ModFeatures.register();
-		ModFeatures.registerConfiguredFeatures();
 	}
 }

@@ -34,13 +34,6 @@ public class ClientConfig {
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
         
-        corsairKeyboardLighting = builder
-                .comment("Enable Corsair RGB keyboard lighting (Ignore if you don't have a Corsair keyboard)")
-                .translation(KingdomKeys.MODID + ".config.corsair_keyboard_lighting")
-                .define("corsairKeyboardLighting", true);
-        	
-        builder.pop();
-        
         builder.push("gui");
         
         	showDriveForms = builder
