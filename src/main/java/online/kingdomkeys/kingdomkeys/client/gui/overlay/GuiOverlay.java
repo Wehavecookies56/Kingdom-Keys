@@ -49,7 +49,7 @@ public class GuiOverlay extends OverlayBase {
 	@Override
 	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
-		width = minecraft.getWindow().getGuiScaledWidth();
+		this.width = minecraft.getWindow().getGuiScaledWidth();
 		sHeight = minecraft.getWindow().getGuiScaledHeight();
 
 		playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -120,7 +120,6 @@ public class GuiOverlay extends OverlayBase {
 	}
 
 	private void showLevelUp(PoseStack matrixStack) {
-
 		matrixStack.pushPose();
 		{
 			int height = (int)(minecraft.font.lineHeight * 1.2f) * (playerData.getMessages().size());

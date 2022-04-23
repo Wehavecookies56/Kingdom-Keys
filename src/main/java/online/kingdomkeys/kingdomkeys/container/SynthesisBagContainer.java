@@ -116,8 +116,8 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 
 	@Override
     public void clicked(int slot, int dragType, ClickType clickTypeIn, Player player) {
-        if (slot >= 0 && getSlot(slot).getItem() == player.getItemInHand(InteractionHand.MAIN_HAND)) {
-        	//TODO disable clicking item in slot !!!!!!
+        if (!(slot >= 0 && getSlot(slot).getItem() == player.getItemInHand(InteractionHand.MAIN_HAND))) {
+			super.clicked(slot, dragType, clickTypeIn, player);
 		}
 
     }

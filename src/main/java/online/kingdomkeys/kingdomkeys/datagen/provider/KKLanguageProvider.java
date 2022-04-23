@@ -86,7 +86,7 @@ public abstract class KKLanguageProvider extends LanguageProvider {
     }
 
     public void add(InputHandler.Keybinds key, String value) {
-        add(key.name(), value);
+        add(key.translationKey, value);
     }
 
     public void addMusicDisc(Supplier<Item> key, String value) {

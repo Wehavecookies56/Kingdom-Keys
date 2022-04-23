@@ -955,8 +955,10 @@ public class InputHandler {
     	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R);
 
         private final KeyMapping keybinding;
+        public final String translationKey;
         Keybinds(String name, int defaultKey) {
             keybinding = new KeyMapping(name, defaultKey, "key.categories.kingdomkeys");
+            translationKey = name;
         }
 
         public KeyMapping getKeybind() {

@@ -289,7 +289,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.WATER, "Water", "Watera", "Waterga", "Waterza");
         addMagic(ModMagic.THUNDER, "Thunder", "Thundara", "Thundaga", "Thundaza");
         addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga");
-        addMagic(ModMagic.MAGNET, "Aero", "Aerora", "Aeroga");
+        addMagic(ModMagic.AERO, "Aero", "Aerora", "Aeroga");
+        addMagic(ModMagic.MAGNET, "Magnet", "Magnera", "Magnega");
         addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
         addMagic(ModMagic.GRAVITY, "Gravity", "Gravira", "Graviga");
         addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
@@ -1258,6 +1259,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.SCROLL_DOWN, "Command menu down");
         add(InputHandler.Keybinds.SUMMON_KEYBLADE, "Summon weapon");
         add(InputHandler.Keybinds.REACTION_COMMAND, "Reaction Command");
+        add(InputHandler.Keybinds.LOCK_ON, "Lock-on");
+        add(InputHandler.Keybinds.OPENMENU, "Open Menu");
+        add(InputHandler.Keybinds.SHOW_GUI, "Toggle HUD");
 
         //Groups
         add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
