@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys;
 
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -134,6 +137,7 @@ public class KingdomKeys {
 
 		modEventBus.addGenericListener(Feature.class, this::registerFeatures);
 		modEventBus.addListener(this::setup);
+		modEventBus.addListener(this::modLoaded);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -158,11 +162,12 @@ public class KingdomKeys {
 		event.enqueueWork(ModEntities::registerPlacements);
 		event.enqueueWork(ModDimensions::setupDimension);
 		addMoogleHouse();
+	}
 
+	private void modLoaded(final FMLLoadCompleteEvent event) {
 		if (ModList.get().isLoaded("jeresources")) {
 			KKJERPlugin.setup();
 		}
-
 	}
 
 	public void addMoogleHouse() {
