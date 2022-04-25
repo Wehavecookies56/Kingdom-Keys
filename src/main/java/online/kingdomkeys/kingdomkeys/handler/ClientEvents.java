@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.gui.OverlayRegistry;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -54,8 +58,28 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onRenderTick(RenderTickEvent event) { //Lock on
-		
 		Player player = Minecraft.getInstance().player;
+		if (player != null) {
+			if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
+				player.getMainHandItem().getItem();
+				if (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
+					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
+					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
+					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
+					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
+					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
+					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
+				} else {
+					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
+					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
+					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
+					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
+					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
+					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
+				}
+			}
+		}
+
 		if(InputHandler.lockOn != null && player != null) {
 			if(InputHandler.lockOn.isRemoved()) {
                 InputHandler.lockOn = null;

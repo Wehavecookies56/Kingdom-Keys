@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import net.minecraftforge.client.gui.OverlayRegistry;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.ChatFormatting;
@@ -702,9 +704,29 @@ public class InputHandler {
 				//GuiHelper.openMenu();
 				break;
 
-			/*
-			 * case SHOW_GUI: MainConfig.toggleShowGUI(); break;
-			 */
+
+			case SHOW_GUI:
+                ModConfigs.toggleGui();
+                player.displayClientMessage(new TranslatableComponent("message.kingdomkeys.gui_toggle", ModConfigs.showGuiToggle.toString()), true);
+                switch (ModConfigs.showGuiToggle) {
+                    case HIDE, WEAPON:
+                        OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
+                        OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
+                        OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
+                        OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
+                        OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
+                        OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
+                        break;
+                    case SHOW:
+                        OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
+                        OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
+                        OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
+                        OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
+                        OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
+                        OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
+                        break;
+                }
+                break;
 
 			case SCROLL_UP:
 				// if (!MainConfig.displayGUI())

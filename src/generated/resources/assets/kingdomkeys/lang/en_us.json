@@ -1137,6 +1137,7 @@
   "message.chest.locked": "This chest is locked",
   "message.chest.unlocked": "Chest has been unlocked",
   "message.form_unlocked": "Unlocked %s form",
+  "message.kingdomkeys.gui_toggle": "GUI display set to: %s",
   "message.magnet_blox.attract": "Attract Mode",
   "message.magnet_blox.range": "Range is now: %s",
   "message.magnet_blox.repel": "Repel Mode",

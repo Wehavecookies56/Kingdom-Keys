@@ -59,6 +59,18 @@ public class ModConfigs {
 
 	public static boolean showDriveForms;
 
+    public enum ShowType {
+        SHOW, HIDE, WEAPON
+    }
+
+    public static ShowType showGuiToggle;
+
+    public static void toggleGui() {
+        int i = CLIENT.showGuiToggle.get().ordinal() + 1;
+        if (i == ShowType.values().length) i = 0;
+        CLIENT.showGuiToggle.set(ShowType.values()[i]);
+        bakeClient();
+    }
 
     //Command Menu
     public static void setCmHeaderTextVisible(boolean value) {
@@ -227,6 +239,8 @@ public class ModConfigs {
         focusYPos = CLIENT.focusYPos.get();
 
         showDriveForms = CLIENT.showDriveForms.get();
+
+        showGuiToggle = CLIENT.showGuiToggle.get();
     }
 
     public static boolean oreGen;

@@ -1212,6 +1212,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.chest.locked", "This chest is locked");
         add("message.chest.keyblade_set", "Your keyblade has been set to unlock this chest");
         add("message.chest.unlocked", "Chest has been unlocked");
+        add("message.kingdomkeys.gui_toggle", "GUI display set to: %s");
 
         //Station of Awakening
         add("soa.menu.1", "Before you can open the menu.");

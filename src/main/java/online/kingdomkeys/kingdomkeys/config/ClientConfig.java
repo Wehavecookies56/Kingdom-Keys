@@ -30,13 +30,19 @@ public class ClientConfig {
     
     public ForgeConfigSpec.BooleanValue showDriveForms;
 
+	public ForgeConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
     
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
-        
+
         builder.push("gui");
-        
-        	showDriveForms = builder
+
+			showGuiToggle = builder
+				.comment("Toggle HUD visibility, weapon option will show only while holding a Keyblade or Organization weapon")
+				.translation(KingdomKeys.MODID + ".config.show_gui_toggle")
+				.defineEnum("showGuiToggle", ModConfigs.ShowType.SHOW);
+
+			showDriveForms = builder
                 .comment("Drive Forms Visibility")
                 .translation(KingdomKeys.MODID + ".config.show_drive_forms")
                 .define("showDriveForms", true);
