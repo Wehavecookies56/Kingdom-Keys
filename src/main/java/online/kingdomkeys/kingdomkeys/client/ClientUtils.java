@@ -381,16 +381,6 @@ public class ClientUtils {
         fontRenderer.drawWordWrap(FormattedText.of(text), x, y, len, color);
     }
 
-    public static int getSlotFor(Inventory inv, ItemStack stack) {
-        for (int i = 0; i < inv.getContainerSize(); ++i) {
-            if (!inv.getItem(i).isEmpty() && ItemStack.matches(stack, inv.getItem(i))) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
     public static void drawItemAsIcon(ItemStack itemStack, PoseStack poseStack, int positionX, int positionY, int size) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         //Code stolen from ItemRenderer.renderGuiItem and changed to suit scaled items instead of fixing size to 16

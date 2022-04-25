@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -65,7 +64,7 @@ public class CSLevelUpKeybladePacket {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				player.getInventory().setItem(ClientUtils.getSlotFor(player.getInventory(), message.stack), stack);
+				player.getInventory().setItem(Utils.getSlotFor(player.getInventory(), message.stack), stack);
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);	
 		});

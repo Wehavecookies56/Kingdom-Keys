@@ -69,6 +69,15 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
+
+	public static int getSlotFor(Inventory inv, ItemStack stack) {
+		for (int i = 0; i < inv.getContainerSize(); ++i) {
+			if (!inv.getItem(i).isEmpty() && ItemStack.matches(stack, inv.getItem(i))) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	public static boolean isNumber(char c) {
 		try {
