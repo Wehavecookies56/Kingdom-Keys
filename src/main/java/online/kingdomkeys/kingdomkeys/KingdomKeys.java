@@ -83,11 +83,9 @@ public class KingdomKeys {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	public static KingdomKeys instance;
-
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1.0.1";
+	public static final String MODVER = "2.1.0.2";
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
