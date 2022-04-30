@@ -1,5 +1,6 @@
 {
   "cost": 4000,
+  "tier": 3,
   "output": {
     "item": "kingdomkeys:defenseboost",
     "quantity": 1,

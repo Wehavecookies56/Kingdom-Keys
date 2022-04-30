@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 7,
   "output": {
     "item": "kingdomkeys:kiblade_chain",
     "quantity": 1,

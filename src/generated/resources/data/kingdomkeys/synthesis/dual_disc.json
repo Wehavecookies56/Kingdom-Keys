@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 3,
   "output": {
     "item": "kingdomkeys:dual_disc_chain",
     "quantity": 1,

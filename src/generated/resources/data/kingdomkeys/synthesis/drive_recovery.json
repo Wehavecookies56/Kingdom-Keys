@@ -1,5 +1,6 @@
 {
   "cost": 400,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:drive_recovery",
     "quantity": 1,

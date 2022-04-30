@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 5,
   "output": {
     "item": "kingdomkeys:decisive_pumpkin_chain",
     "quantity": 1,

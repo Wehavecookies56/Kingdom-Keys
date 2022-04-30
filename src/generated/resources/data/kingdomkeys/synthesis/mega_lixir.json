@@ -1,5 +1,6 @@
 {
   "cost": 6000,
+  "tier": 3,
   "output": {
     "item": "kingdomkeys:mega_lixir",
     "quantity": 1,

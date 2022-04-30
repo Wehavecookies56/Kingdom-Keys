@@ -224,9 +224,14 @@ public class MenuBackground extends Screen {
 		{
 			matrixStack.scale(1.1F, 1.1F, 1F);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, (int) (topBarHeight + middleHeight) - 7, 0xF66627);
-			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + playerData.getHearts(), 5, (int) (topBarHeight + middleHeight) + minecraft.font.lineHeight - 7, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
-			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level), 5, (int) (topBarHeight + middleHeight) + minecraft.font.lineHeight * 2 - 7, 0xFFFFFF);
+			int y = (int) (topBarHeight + middleHeight) - 7;
+			drawString(matrixStack,minecraft.font, Utils.translateToLocal("Synthesis Tier") + ": "+ playerData.getSynthLevel()+" " + Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xF66627);
+			y+= minecraft.font.lineHeight;
+			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, y, 0xF66627);
+			y+= minecraft.font.lineHeight;
+			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + playerData.getHearts(), 5, y, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
+			y+= minecraft.font.lineHeight;
+			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level), 5, y, 0xFFFFFF);
 			long seconds = minecraft.level.getDayTime() / 20;
 			long h = seconds / 3600;
 			long m = seconds % 3600 / 60;
@@ -236,7 +241,9 @@ public class MenuBackground extends Screen {
 			String min = m < 10 ? 0 + "" + m : m + "";
 			String hou = h < 10 ? 0 + "" + h : h + "";
 			String time = hou + ":" + min + ":" + sec;
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, (int) (topBarHeight + middleHeight) + (minecraft.font.lineHeight * 3) - 7, 0x42ceff);
+			y+= minecraft.font.lineHeight;
+
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time, 5, y, 0x42ceff);
 		}
 		matrixStack.popPose();
 	}
@@ -244,10 +251,8 @@ public class MenuBackground extends Screen {
 	public void drawTip (PoseStack matrixStack) {
 		tip = null;
 
-		int i = 0;
 		for(Widget btn : renderables) {
 			if(btn instanceof MenuButtonBase) {
-				i++;
 				if(((MenuButtonBase) btn).isHoveredOrFocused()) {
 					selected = -1;
 					clearButtons();

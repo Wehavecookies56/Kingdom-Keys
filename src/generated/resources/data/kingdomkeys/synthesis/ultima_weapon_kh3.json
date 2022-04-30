@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 6,
   "output": {
     "item": "kingdomkeys:ultima_weapon_kh3_chain",
     "quantity": 1,

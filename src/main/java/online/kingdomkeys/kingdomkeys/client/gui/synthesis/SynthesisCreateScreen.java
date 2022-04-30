@@ -56,15 +56,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta)
-	{
-		if (delta > 0 && prev.visible)
-		{
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		if (delta > 0 && prev.visible) {
 			action("prev");
 			return true;
-		}
-		else if  (delta < 0 && next.visible)
-		{
+		} else if (delta < 0 && next.visible) {
 			action("next");
 			return true;
 		}
@@ -87,7 +83,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
-
 	}
 	
 	@Override
@@ -181,9 +176,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
 			boolean enoughMunny = false;
+			boolean enoughTier = false;
 			if (RecipeRegistry.getInstance().containsKey(selected.getItem().getRegistryName())) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selected.getItem().getRegistryName());
 				enoughMunny = playerData.getMunny() >= recipe.getCost();
+				enoughTier = playerData.getSynthLevel() >= recipe.getTier();
 				create.visible = true;
 				Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();// item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				while (materials.hasNext()) {
@@ -194,7 +191,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				}
 			}
 
-			create.active = enoughMats && enoughMunny;
+			create.active = enoughMats && enoughMunny && enoughTier;
 			if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 				create.active = false;
 				create.setMessage(new TranslatableComponent("No empty slot"));
@@ -252,6 +249,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
 				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("Tier")+":", 2, -10, Color.yellow.getRGB());
+				line = Utils.getTierFromInt(recipe.getTier());
+				drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
 			matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
 			ClientUtils.drawItemAsIcon(selected, matrixStack, 0, -2, 12);

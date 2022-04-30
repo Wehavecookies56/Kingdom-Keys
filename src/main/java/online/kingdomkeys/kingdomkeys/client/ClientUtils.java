@@ -185,6 +185,9 @@ public class ClientUtils {
 
                 playerData.setReactionCommands(message.reactionList);
                 playerData.setShortcutsMap(message.shortcutsMap);
+                
+                playerData.setSynthLevel(message.synthLevel);
+                playerData.setSynthExperience(message.synthExp);
 
                 Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
             }

@@ -1,5 +1,6 @@
 {
   "cost": 4000,
+  "tier": 2,
   "output": {
     "item": "kingdomkeys:apboost",
     "quantity": 1,

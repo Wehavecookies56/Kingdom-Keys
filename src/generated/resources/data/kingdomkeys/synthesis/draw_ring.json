@@ -1,5 +1,6 @@
 {
   "cost": 1200,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:draw_ring",
     "quantity": 1,

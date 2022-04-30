@@ -20,7 +20,8 @@ public class RecipeRegistry {
     }
 
     public static RecipeRegistry getInstance() {
-        if (INSTANCE == null) INSTANCE = new RecipeRegistry();
+        if (INSTANCE == null) 
+        	INSTANCE = new RecipeRegistry();
         return INSTANCE;
     }
 

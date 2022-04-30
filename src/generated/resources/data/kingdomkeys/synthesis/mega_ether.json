@@ -1,5 +1,6 @@
 {
   "cost": 320,
+  "tier": 2,
   "output": {
     "item": "kingdomkeys:mega_ether",
     "quantity": 1,

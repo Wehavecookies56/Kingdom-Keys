@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 6,
   "output": {
     "item": "kingdomkeys:twilight_blaze_chain",
     "quantity": 1,

@@ -1,5 +1,6 @@
 {
   "cost": 2200,
+  "tier": 2,
   "output": {
     "item": "kingdomkeys:full_bloom",
     "quantity": 1,

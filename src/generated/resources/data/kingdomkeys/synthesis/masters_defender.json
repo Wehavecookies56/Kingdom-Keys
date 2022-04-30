@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 5,
   "output": {
     "item": "kingdomkeys:masters_defender_chain",
     "quantity": 1,

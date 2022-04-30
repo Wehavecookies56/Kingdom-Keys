@@ -76,6 +76,8 @@ public class SCSyncCapabilityPacket {
 	public int magicCooldownTicks;
 
 	public LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>();
+	
+	public int synthLevel,synthExp;
 
 	
 	public SCSyncCapabilityPacket() {
@@ -140,7 +142,9 @@ public class SCSyncCapabilityPacket {
 		this.boostMag = capability.getBoostMagic();
 		this.boostDef = capability.getBoostDefense();
 		this.boostMaxAP = capability.getBoostMaxAP();
-
+		
+		this.synthLevel = capability.getSynthLevel();
+		this.synthExp = capability.getSynthExperience();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -285,6 +289,9 @@ public class SCSyncCapabilityPacket {
 		}
 		buffer.writeNbt(shortcuts);
 		
+		buffer.writeInt(this.synthLevel);
+		buffer.writeInt(this.synthExp);
+		
 	}
 
 	public static SCSyncCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -423,6 +430,8 @@ public class SCSyncCapabilityPacket {
             msg.shortcutsMap.put(shortcutPos, shortcutsTag.getString(shortcutPos+""));
 		}
 		
+		msg.synthLevel = buffer.readInt();
+		msg.synthExp = buffer.readInt();
 		return msg;
 	}
 

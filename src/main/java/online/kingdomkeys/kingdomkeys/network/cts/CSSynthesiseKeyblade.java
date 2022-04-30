@@ -57,6 +57,9 @@ public class CSSynthesiseKeyblade {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				boolean hasMaterials = true;
+				boolean enoughMunny = playerData.getMunny() >= recipe.getCost();
+				boolean enoughTier = playerData.getSynthLevel() >= recipe.getTier();
+				
 				while(it.hasNext()) { //Check if the player has the materials (checked serverside just in case)
 					Entry<Material, Integer> m = it.next();
 					if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
@@ -64,8 +67,11 @@ public class CSSynthesiseKeyblade {
 					}
 				}
 				
-				if(hasMaterials && playerData.getMunny() >= recipe.getCost()) { //If the player has the materials substract them and give the item
+				if(hasMaterials && enoughMunny && enoughTier) { //If the player has the materials substract them and give the item
 					playerData.setMunny(playerData.getMunny() - recipe.getCost());
+					playerData.addSynthExperience((int)(recipe.getTier()*10));
+					System.out.println(playerData.getSynthExperience());
+					System.out.println(playerData.getSynthLevel());
 					Iterator<Entry<Material, Integer>> ite = recipe.getMaterials().entrySet().iterator();
 					while(ite.hasNext()) {
 						Entry<Material, Integer> m = ite.next();

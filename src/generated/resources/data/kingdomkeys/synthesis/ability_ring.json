@@ -1,5 +1,6 @@
 {
   "cost": 400,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:ability_ring",
     "quantity": 1,

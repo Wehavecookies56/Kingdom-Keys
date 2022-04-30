@@ -1,5 +1,6 @@
 {
   "cost": 200,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:hi_potion",
     "quantity": 1,

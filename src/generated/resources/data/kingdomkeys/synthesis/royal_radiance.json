@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 6,
   "output": {
     "item": "kingdomkeys:royal_radiance_chain",
     "quantity": 1,

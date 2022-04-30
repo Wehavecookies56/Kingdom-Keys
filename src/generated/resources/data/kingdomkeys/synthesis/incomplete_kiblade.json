@@ -1,8 +1,9 @@
 {
   "cost": 0,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:incomplete_kiblade_chain",
-    "quantity": 1,
+    "quantity": 2,
     "type": "keyblade"
   },
   "ingredients": [

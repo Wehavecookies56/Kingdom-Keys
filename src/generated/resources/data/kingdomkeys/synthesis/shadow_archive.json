@@ -1,5 +1,6 @@
 {
   "cost": 2200,
+  "tier": 2,
   "output": {
     "item": "kingdomkeys:shadow_archive",
     "quantity": 1,

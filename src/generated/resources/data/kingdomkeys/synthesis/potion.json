@@ -1,5 +1,6 @@
 {
   "cost": 100,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:potion",
     "quantity": 1,

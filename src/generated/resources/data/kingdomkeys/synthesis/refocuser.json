@@ -1,5 +1,6 @@
 {
   "cost": 250,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:refocuser",
     "quantity": 1,

@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 3,
   "output": {
     "item": "kingdomkeys:one_winged_angel_chain",
     "quantity": 1,

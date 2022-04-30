@@ -195,6 +195,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 		storage.put("shortcuts", shortcuts);
 
+		storage.putInt("synth_level", synthLevel);
+		storage.putInt("synth_exp", synthExp);
+		
 		return storage;
 	}
 
@@ -315,9 +318,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			int shortcutPos = Integer.parseInt(shortcutsIt.next());
 			this.getShortcutsMap().put(shortcutPos, storage.getCompound("shortcuts").getString(shortcutPos+""));
 		}
+		
+		this.setSynthLevel(storage.getInt("synth_level"));
+		this.setSynthExperience(storage.getInt("synth_exp"));
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, strength = 1, boostStr = 0, magic = 1, boostMag = 0, defense = 1, boostDef = 0, maxHp = 20, remainingExp = 0, maxAP = 10, boostMaxAP = 0, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks;
+	private int level = 1, exp = 0, expGiven = 0, strength = 1, boostStr = 0, magic = 1, boostMag = 0, defense = 1, boostDef = 0, maxHp = 20, remainingExp = 0, maxAP = 10, boostMaxAP = 0, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -1903,5 +1909,47 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setBoostMaxAP(int ap) {
 		boostMaxAP = ap;
+	}
+
+	@Override
+	public int getSynthLevel() {
+		return synthLevel;
+	}
+
+	@Override
+	public void setSynthLevel(int level) {
+		synthLevel = level;
+	}
+
+	@Override
+	public int getSynthExperience() {
+		return synthExp;
+	}
+
+	@Override
+	public void setSynthExperience(int exp) {
+		synthExp = exp;
+	}
+
+	@Override
+	public void addSynthExperience(int exp) {
+		/*this.synthExp = exp;
+		this.synthLevel=1;*/
+		if (this.synthLevel < 7) {
+			this.synthExp += exp;
+			while (this.getSynthExpNeeded(this.getSynthLevel(), this.synthExp) <= 0 && this.getSynthLevel() <= 7) {
+				setSynthLevel(this.getSynthLevel() + 1);
+			}
+		}
+	}
+	
+	public int getSynthExpNeeded(int level, int currentExp) {
+		if (level >= 7)
+			return 0;
+		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25));
+		int needed = ((int) nextLevel - currentExp);
+		this.remainingSynthExp = needed;
+		System.out.println("N: "+needed);
+		return remainingSynthExp;
 	}
 }

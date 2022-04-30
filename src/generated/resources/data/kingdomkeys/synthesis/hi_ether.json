@@ -1,5 +1,6 @@
 {
   "cost": 160,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:hi_ether",
     "quantity": 1,

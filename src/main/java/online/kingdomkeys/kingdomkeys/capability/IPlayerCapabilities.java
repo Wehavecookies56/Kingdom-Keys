@@ -283,6 +283,11 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getBoostMaxAP();
 	void setBoostMaxAP(int str);
 	
-
+	int getSynthLevel();
+	void setSynthLevel(int level);
+	
+	int getSynthExperience();
+	void setSynthExperience(int exp);
+	void addSynthExperience(int exp);
 	
 }

@@ -1,5 +1,6 @@
 {
   "cost": 2600,
+  "tier": 2,
   "output": {
     "item": "kingdomkeys:lucky_ring",
     "quantity": 1,

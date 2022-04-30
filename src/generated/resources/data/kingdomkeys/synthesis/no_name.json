@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 6,
   "output": {
     "item": "kingdomkeys:no_name_chain",
     "quantity": 1,

@@ -1,5 +1,6 @@
 {
   "cost": 3000,
+  "tier": 2,
   "output": {
     "item": "kingdomkeys:elixir",
     "quantity": 1,

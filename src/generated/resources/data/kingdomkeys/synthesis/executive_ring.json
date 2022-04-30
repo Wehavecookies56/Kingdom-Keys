@@ -1,5 +1,6 @@
 {
   "cost": 1200,
+  "tier": 3,
   "output": {
     "item": "kingdomkeys:executive_ring",
     "quantity": 1,

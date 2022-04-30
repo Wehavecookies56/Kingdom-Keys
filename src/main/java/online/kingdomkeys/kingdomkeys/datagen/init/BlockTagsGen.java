@@ -28,7 +28,7 @@ public class BlockTagsGen extends BlockTagsProvider {
             final Block block = itemRegistryObject.get();
             String name = Objects.requireNonNull(block.getRegistryName()).getPath();
 
-            if (block instanceof KKOreBlock) {
+            if (block instanceof Block) {
         		add(BlockTags.MINEABLE_WITH_PICKAXE, block);
 
             	if(name.contains("writhing_ore") || name.contains("betwixt_ore") || name.contains("pulsing_ore") || name.contains("sinister_ore") || name.contains("stormy_ore") || name.contains("twilight_ore")) {
@@ -37,6 +37,7 @@ public class BlockTagsGen extends BlockTagsProvider {
             		add(BlockTags.NEEDS_STONE_TOOL, block);
             	}
             }
+
         }		
 	}
 

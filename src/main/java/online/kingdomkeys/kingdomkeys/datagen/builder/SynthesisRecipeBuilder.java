@@ -20,6 +20,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
     private Map<String, Integer> recipe = new HashMap<>();
     private int quantity;
     private int cost;
+    private int tier;
     
     public SynthesisRecipeBuilder(Object o, Object o1) {
         super((ResourceLocation) o);
@@ -57,6 +58,11 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         return self();
     }
     
+    public T addTier(int tier) {
+        this.tier = tier;
+        return self();
+    }
+    
     public T addMaterial(String mat, int quantity) {
         recipe.put(KingdomKeys.MODID + ":" + Strings.SM_Prefix + mat, quantity);
         return self();
@@ -74,6 +80,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         JsonArray recipes = new JsonArray();
 
         root.addProperty("cost", cost);
+        root.addProperty("tier", tier);
 
         if (this.output != null) {
             obj1.addProperty("item", this.output.toString());

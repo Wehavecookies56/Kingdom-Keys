@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 6,
   "output": {
     "item": "kingdomkeys:void_gear_chain",
     "quantity": 1,

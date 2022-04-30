@@ -23,6 +23,7 @@ public class Recipe implements INBTSerializable<CompoundTag> {
     @Nullable int amount;
     @Nullable String type;
     @Nullable int cost;
+    @Nullable int tier;
    
     ResourceLocation registryName;
 
@@ -78,6 +79,14 @@ public class Recipe implements INBTSerializable<CompoundTag> {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
+	
+	public int getTier() {
+		return tier;
+	}
+
+	public void setTier(int tier) {
+		this.tier = tier;
+	}
 
 	@Override
 	public CompoundTag serializeNBT() {
@@ -87,6 +96,7 @@ public class Recipe implements INBTSerializable<CompoundTag> {
 		nbt.putString("result", result.getRegistryName().toString());
 		nbt.putInt("amount", amount);
 		nbt.putInt("cost", cost);
+		nbt.putInt("tier", tier);
 		nbt.putString("type", getType());
 		nbt.putInt("ingredients_size", materials.entrySet().size());
 		AtomicInteger i = new AtomicInteger();
@@ -103,6 +113,7 @@ public class Recipe implements INBTSerializable<CompoundTag> {
 		this.setResult(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("result"))), nbt.getInt("amount"));
 		this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
+		this.setTier(nbt.getInt("tier"));
 		Map<Material, Integer> ingredients = new HashMap<>();
 		for (int i = 0; i < nbt.getInt("ingredients_size"); i++) {
 			ingredients.put(ModMaterials.registry.get().getValue(new ResourceLocation(nbt.getString("ingredient_material_" + i))), nbt.getInt("ingredient_amount_" + i));

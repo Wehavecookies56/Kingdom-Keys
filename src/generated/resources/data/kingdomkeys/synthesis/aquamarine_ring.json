@@ -1,5 +1,6 @@
 {
   "cost": 700,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:aquamarine_ring",
     "quantity": 1,

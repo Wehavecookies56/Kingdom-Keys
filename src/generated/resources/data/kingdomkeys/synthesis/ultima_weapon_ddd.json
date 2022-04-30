@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 6,
   "output": {
     "item": "kingdomkeys:ultima_weapon_ddd_chain",
     "quantity": 1,

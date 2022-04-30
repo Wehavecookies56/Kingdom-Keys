@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 2,
   "output": {
     "item": "kingdomkeys:pixie_petal_chain",
     "quantity": 1,

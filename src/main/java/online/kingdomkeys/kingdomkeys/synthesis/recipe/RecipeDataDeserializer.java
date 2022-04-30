@@ -71,6 +71,10 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
                          out.setType(outputObject.get("type").getAsString());
                      }
                     break;
+                    
+                case "tier":
+                	out.setTier(element.getAsInt());
+                	break;
             }
         });
         //KingdomKeys.LOGGER.info("OUTPUT: {}, TYPE {}, QUANTITY: {}, INGREDIENTS: {}", out.result, out.type, out.amount, out.materials);

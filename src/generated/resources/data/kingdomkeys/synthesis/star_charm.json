@@ -1,5 +1,6 @@
 {
   "cost": 2000,
+  "tier": 3,
   "output": {
     "item": "kingdomkeys:star_charm",
     "quantity": 1,

@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "tier": 1,
   "output": {
     "item": "kingdomkeys:fairy_stars_chain",
     "quantity": 1,

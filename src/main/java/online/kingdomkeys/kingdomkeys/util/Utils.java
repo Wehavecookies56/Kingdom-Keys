@@ -709,6 +709,19 @@ public class Utils {
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
 	}
+
+	public static String getTierFromInt(int tier) {
+		return switch(tier) {
+		case 1 -> "D";
+		case 2 -> "C";
+		case 3 -> "B";
+		case 4 -> "A";
+		case 5 -> "S";
+		case 6 -> "SS";
+		case 7 -> "SSS";
+		default -> "Unknown: "+tier;
+		};
+	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
 	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
