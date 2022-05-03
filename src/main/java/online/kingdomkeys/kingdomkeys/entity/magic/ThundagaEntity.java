@@ -141,7 +141,8 @@ public class ThundagaEntity extends ThrowableProjectile {
 					int posX = (int) (x + getCaster().level.random.nextInt((int) (radius*2)) - radius / 2)-1;
 					int posZ = (int) (z + getCaster().level.random.nextInt((int) (radius*2)) - radius / 2)-1;
 
-					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.1F : 2;
+					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.11F : 2;
+					dmg = Math.max(0.4F, dmg);
 					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level, getCaster(), posX, getCaster().level.getHeight(Types.WORLD_SURFACE, posX, posZ), posZ, dmg * dmgMult);
 					shot.setCaster(getCaster().getUUID());
 					level.addFreshEntity(shot);

@@ -1944,12 +1944,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	public int getSynthExpNeeded(int level, int currentExp) {
-		if (level >= 7)
+		if (level > 7)
 			return 0;
-		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25));
-		int needed = ((int) nextLevel - currentExp);
-		this.remainingSynthExp = needed;
-		System.out.println("N: "+needed);
+		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 8.0)))) * (level * 0.25));
+		remainingSynthExp = ((int) nextLevel - currentExp);
 		return remainingSynthExp;
 	}
 }

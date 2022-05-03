@@ -137,7 +137,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             float attackYaw = (float)Math.toDegrees((Mth.atan2(d0, d1)));// Global degree the attack is coming from
             float diff = Mth.wrapDegrees(attackYaw-getYRot());
 
-    		if(diff > 30 && diff < 150) {
+    		if(diff > 30 && diff < 150 && !(ModCapabilities.getGlobal(this).getFlatTicks() > 0)) {
     			if(attacker instanceof LivingEntity) {
 	                ((LivingEntity) attacker).knockback(0.8F, -d1, -d0);
 					level.playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);

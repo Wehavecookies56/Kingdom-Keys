@@ -250,7 +250,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("Tier")+":", 2, -10, Color.yellow.getRGB());
-				line = Utils.getTierFromInt(recipe.getTier());
+				line = Utils.getTierFromInt(recipe.getTier())+" "+(10 + recipe.getTier()*2)+"exp";
 				drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
 			matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
@@ -286,10 +286,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				
 				if(ap != 0)
 					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap, 0, offset+=10, 0xFFFF44);
-				if(str != 0)
-					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+str, 0, offset+=10, 0xFF0000);
-				if(mag != 0)
-					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag, 0, offset+=10, 0x4444FF);
+				if(str != 0 || selected.getItem() instanceof KeybladeItem)
+					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": +"+str, 0, offset+=10, 0xFF0000);
+				if(mag != 0 || selected.getItem() instanceof KeybladeItem)
+					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": +"+mag, 0, offset+=10, 0x4444FF);
 				if(ability != null) {
 					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
 					if(a != null) {

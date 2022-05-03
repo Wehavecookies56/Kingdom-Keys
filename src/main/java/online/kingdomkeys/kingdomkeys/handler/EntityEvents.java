@@ -354,7 +354,7 @@ public class EntityEvents {
 					}
 					
 					//Treasure Magnet
-					if(playerData.isAbilityEquipped(Strings.treasureMagnet) && event.player.getInventory().getFreeSlot() > -1) {
+					if(playerData.isAbilityEquipped(Strings.treasureMagnet) && !event.player.isCrouching() && event.player.getInventory().getFreeSlot() > -1) {
 						double x = event.player.getX();
 						double y = event.player.getY() + 0.75;
 						double z = event.player.getZ();

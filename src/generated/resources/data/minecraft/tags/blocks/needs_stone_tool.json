@@ -1,8 +1,17 @@
 {
   "replace": false,
   "values": [
+    "kingdomkeys:normal_blox",
+    "kingdomkeys:hard_blox",
+    "kingdomkeys:metal_blox",
+    "kingdomkeys:danger_blox",
+    "kingdomkeys:bounce_blox",
+    "kingdomkeys:blast_blox",
+    "kingdomkeys:ghost_blox",
     "kingdomkeys:prize_blox",
     "kingdomkeys:rare_prize_blox",
+    "kingdomkeys:magnet_blox",
+    "kingdomkeys:pair_blox",
     "kingdomkeys:blazing_ore",
     "kingdomkeys:blazing_ore_n",
     "kingdomkeys:soothing_ore",
@@ -13,6 +22,17 @@
     "kingdomkeys:lightning_ore",
     "kingdomkeys:remembrance_ore",
     "kingdomkeys:hungry_ore",
-    "kingdomkeys:tranquility_ore"
+    "kingdomkeys:tranquility_ore",
+    "kingdomkeys:savepoint",
+    "kingdomkeys:magical_chest",
+    "kingdomkeys:soa_door",
+    "kingdomkeys:pedestal",
+    "kingdomkeys:mosaic_stained_glass",
+    "kingdomkeys:station_of_awakening_core",
+    "kingdomkeys:org_portal",
+    "kingdomkeys:moogle_projector",
+    "kingdomkeys:gummi_editor",
+    "kingdomkeys:sor_core",
+    "kingdomkeys:data_portal"
   ]
 }

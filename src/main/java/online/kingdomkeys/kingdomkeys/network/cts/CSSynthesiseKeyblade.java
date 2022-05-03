@@ -69,9 +69,11 @@ public class CSSynthesiseKeyblade {
 				
 				if(hasMaterials && enoughMunny && enoughTier) { //If the player has the materials substract them and give the item
 					playerData.setMunny(playerData.getMunny() - recipe.getCost());
-					playerData.addSynthExperience((int)(recipe.getTier()*10));
-					System.out.println(playerData.getSynthExperience());
-					System.out.println(playerData.getSynthLevel());
+					//playerData.setSynthExperience(600);
+					//playerData.setSynthLevel(1);
+					playerData.addSynthExperience(10 + recipe.getTier()*2);
+					
+					System.out.println(playerData.getSynthLevel()+" "+playerData.getSynthExperience());
 					Iterator<Entry<Material, Integer>> ite = recipe.getMaterials().entrySet().iterator();
 					while(ite.hasNext()) {
 						Entry<Material, Integer> m = ite.next();

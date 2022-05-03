@@ -103,14 +103,11 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		if(party != null) {
 			invite.active = party.getMembers().size() < party.getSize();
-			
 			matrixStack.pushPose();
 			{
 				matrixStack.scale(1.5F,1.5F, 1);
@@ -137,8 +134,10 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 	}
 	
 	public void drawPlayer(PoseStack matrixStack, int order, Member member) {
+		float scale = 0.9F;
+
 		float playerHeight = height * 0.45F;
-		float playerPosX = 140F+ (0.18F * (order) * width);
+		float playerPosX = 140F+ (0.18F * (order) * width) * scale;
 		float playerPosY = height * 0.7F;
 		
 		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
@@ -150,8 +149,6 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
 					matrixStack.pushPose();
-					matrixStack.scale(0.9F, 0.9F, 1.0F);
-
 					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 					matrixStack.popPose();
 				}
@@ -159,14 +156,14 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();
-			matrixStack.scale(0.9F, 0.9F, 1);
+			matrixStack.scale(scale, scale, 1);
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				matrixStack.translate(1, 20, 100);
 				
 				RenderSystem.enableBlend();
 				RenderSystem.setShaderTexture(0,new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
+				int infoBoxPosX = (int) (-35+(playerPosX)*1.1); //Change this if scale changes
 				int infoBoxPosY = (int) (height * 0.54F);
 				blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 12, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {

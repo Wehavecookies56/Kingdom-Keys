@@ -225,7 +225,7 @@ public class MenuBackground extends Screen {
 			matrixStack.scale(1.1F, 1.1F, 1F);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			int y = (int) (topBarHeight + middleHeight) - 7;
-			drawString(matrixStack,minecraft.font, Utils.translateToLocal("Synthesis Tier") + ": "+ playerData.getSynthLevel()+" " + Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xF66627);
+			drawString(matrixStack,minecraft.font, Utils.translateToLocal("Synthesis Tier") + ": "+ Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xFFFF00);
 			y+= minecraft.font.lineHeight;
 			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, y, 0xF66627);
 			y+= minecraft.font.lineHeight;
