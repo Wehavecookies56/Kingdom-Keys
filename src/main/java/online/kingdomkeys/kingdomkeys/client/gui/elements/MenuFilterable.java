@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
@@ -19,7 +21,7 @@ public abstract class MenuFilterable extends MenuBackground {
 
     protected MenuFilterBar filterBar;
     MenuScrollBar scrollBar;
-    public ItemStack selected = ItemStack.EMPTY;
+    public ResourceLocation selectedRL = null;
     int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
     
 	protected int page = 0;
@@ -29,8 +31,8 @@ public abstract class MenuFilterable extends MenuBackground {
         drawSeparately = true;
     }
     
-    public void action(ItemStack stack) {
-    	selected = stack;
+    public void action(ResourceLocation stack) {
+    	selectedRL = stack;
 	}
     
     @Override
@@ -38,10 +40,11 @@ public abstract class MenuFilterable extends MenuBackground {
         if(filterBar != null)
         	filterBar.render(matrixStack, this, mouseX, mouseY, partialTicks);
         //scrollBar.render(mouseX, mouseY, partialTicks);
-
-        if (!ItemStack.matches(selected, ItemStack.EMPTY)) {
-            renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
-        }
+        ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+	    if (!ItemStack.matches(selectedItemstack, ItemStack.EMPTY)) {
+	        renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
+	    }
+        
         
        // inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
         

@@ -83,8 +83,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		case "upgrade":
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			
-			ItemStack stack = selected.copy();
+			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+
+			ItemStack stack = selectedItemstack.copy();
 			KeychainItem kcItem = (KeychainItem) stack.getItem();
 			KeybladeItem item = (KeybladeItem) kcItem.getKeyblade();
 
@@ -105,11 +106,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				minecraft.player.getInventory().setItem(minecraft.player.getInventory().findSlotMatchingItem(selected), stack);
+				minecraft.player.getInventory().setItem(minecraft.player.getInventory().findSlotMatchingItem(selectedItemstack), stack);
 			}
-			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selected));
+			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selectedItemstack));
 			init();
-			selected = stack;
+			selectedItemstack = stack;
 			break;
 		}
 
@@ -193,21 +194,24 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
-
-		if (selected != ItemStack.EMPTY && ((KeychainItem)selected.getItem()).getKeybladeLevel(selected) < 10) {
+		ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+		if (selectedItemstack != null && (selectedItemstack.getItem() != ItemStack.EMPTY.getItem()) && ((KeychainItem)selectedItemstack.getItem()).getKeybladeLevel(selectedItemstack) < 10) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
-			KeychainItem kcItem = (KeychainItem)selected.getItem();
-			KeybladeItem kb = ((KeychainItem)selected.getItem()).getKeyblade();
+			KeychainItem kcItem = (KeychainItem)selectedItemstack.getItem();
+			KeybladeItem kb = ((KeychainItem)selectedItemstack.getItem()).getKeyblade();
+			if(!RecipeRegistry.getInstance().containsKey(kb.getRegistryName())){
+				return;
+			}
 			Recipe recipe = RecipeRegistry.getInstance().getValue(kb.getRegistryName());
 			
 			//Set create button state
-			if(kcItem.getKeybladeLevel(selected) < 10) {
-				KeychainItem kChain = (KeychainItem) selected.getItem();
+			if(kcItem.getKeybladeLevel(selectedItemstack) < 10) {
+				KeychainItem kChain = (KeychainItem) selectedItemstack.getItem();
 				KeybladeItem kBlade = kChain.getKeyblade();
 				if(recipe != null) {
 					upgrade.visible = true;
-					Iterator<Entry<Material, Integer>> materials = kBlade.data.getLevelData(kBlade.getKeybladeLevel(selected)).getMaterialList().entrySet().iterator();
+					Iterator<Entry<Material, Integer>> materials = kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemstack)).getMaterialList().entrySet().iterator();
 					while(materials.hasNext()) {
 						Entry<Material, Integer> m = materials.next();
 						if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
@@ -216,7 +220,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					}
 				}
 			}
-
+			
 			upgrade.active = enoughMats;
 			upgrade.visible = recipe != null;
 		} else {
@@ -260,9 +264,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		float iconPosX = boxR.x;
 		float iconPosY = boxR.y + 25;
+		ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
 
-		if (selected.getItem() != null && selected.getItem() instanceof KeychainItem) {
-			KeychainItem kc = (KeychainItem) selected.getItem();
+		if (selectedItemstack.getItem() != null && selectedItemstack.getItem() instanceof KeychainItem) {
+			KeychainItem kc = (KeychainItem) selectedItemstack.getItem();
 			KeybladeItem kb = (KeybladeItem) kc.getKeyblade();
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -291,7 +296,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(boxM.x+10, height*0.58, 1);
-				int level = kb.getKeybladeLevel(selected);
+				int level = kb.getKeybladeLevel(selectedItemstack);
 				if(level < 10) {
 					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+level+" -> "+(level+1), 0, -20, 0xFFFF00);				
 					int actualStr = kb.getStrength(level);
@@ -308,8 +313,8 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					}
 				} else {
 					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+level, 0, -20, 0xFFFF00);				
-					int actualStr = kb.getStrength(kb.getKeybladeLevel(selected));
-					int actualMag = kb.getMagic(kb.getKeybladeLevel(selected));
+					int actualStr = kb.getStrength(kb.getKeybladeLevel(selectedItemstack));
+					int actualMag = kb.getMagic(kb.getKeybladeLevel(selectedItemstack));
 					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr, 0, -10, 0xFF0000);
 					drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag, 0, 0, 0x4444FF);
 				}
@@ -320,8 +325,8 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(iconPosX + 20, height*0.2, 1);
-				if(kb.getKeybladeLevel(selected) < 10) {
-					Iterator<Entry<Material, Integer>> itMats = kb.data.getLevelData(kb.getKeybladeLevel(selected)).getMaterialList().entrySet().iterator();
+				if(kb.getKeybladeLevel(selectedItemstack) < 10) {
+					Iterator<Entry<Material, Integer>> itMats = kb.data.getLevelData(kb.getKeybladeLevel(selectedItemstack)).getMaterialList().entrySet().iterator();
 					int i = 0;
 					while(itMats.hasNext()) {
 						Entry<Material, Integer> m = itMats.next();

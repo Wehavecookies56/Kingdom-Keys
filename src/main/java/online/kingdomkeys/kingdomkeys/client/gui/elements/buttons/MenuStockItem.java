@@ -10,6 +10,7 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -19,21 +20,21 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class MenuStockItem extends Button {
 
 	MenuFilterable parent;
-    ItemStack stack;
+    ResourceLocation rl;
     boolean selected, showAmount;
     String customName = null;
 
-    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
+    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, int x, int y, int width, boolean showAmount) {
         super(x, y, width, 14, new TranslatableComponent(""), b -> {
-        	parent.action(stack);
+        	parent.action(rl);
         });
         this.parent = parent;
-        this.stack = stack;
+        this.rl = rl;
         this.showAmount = showAmount;
     }
     
-    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount, String customName) {
-		this(parent,stack,x,y,width,showAmount);
+    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, int x, int y, int width, boolean showAmount, String customName) {
+		this(parent,rl,x,y,width,showAmount);
 		this.customName = customName;
 	}
 
@@ -44,7 +45,8 @@ public class MenuStockItem extends Button {
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
             RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-            if (isHovered || parent.selected == stack) {
+    		ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(parent.selectedRL));
+            if (isHovered || selectedItemstack == stack) {
                 matrixStack.pushPose();
                 {
                     RenderSystem.enableBlend();

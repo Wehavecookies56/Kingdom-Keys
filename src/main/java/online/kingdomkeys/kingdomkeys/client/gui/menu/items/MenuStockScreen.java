@@ -13,6 +13,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
@@ -36,6 +37,7 @@ public class MenuStockScreen extends MenuFilterable {
     public MenuStockScreen() {
         super(Strings.Gui_Menu_Items_Stock, new Color(0,0,255));
         drawSeparately = true;
+        minecraft = Minecraft.getInstance();
     }
 
     @Override
@@ -58,27 +60,27 @@ public class MenuStockScreen extends MenuFilterable {
         float iconWidth = width * 0.1015F;
         float iconHeight = height * 0.1537F;
         
-		Minecraft mc = Minecraft.getInstance();
+        ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
         matrixStack.pushPose();
         {
         	matrixStack.translate(iconPosX, iconPosY, 0);
         	matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-			ClientUtils.drawItemAsIcon(selected, matrixStack, 1, -1, 16);
+			ClientUtils.drawItemAsIcon(selectedItemstack, matrixStack, 1, -1, 16);
         }
         matrixStack.popPose();
         
-        drawString(matrixStack, mc.font, selected.getHoverName().getString(), (int) tooltipPosX + 50, (int) tooltipPosY + (mc.font.lineHeight * 0) + 5, 0xFFFFFF);
+        drawString(matrixStack, minecraft.font, selectedItemstack.getHoverName().getString(), (int) tooltipPosX + 50, (int) tooltipPosY + (minecraft.font.lineHeight * 0) + 5, 0xFFFFFF);
 
-        if(selected.getItem() instanceof KeybladeItem || selected.getItem() instanceof KeychainItem) {
-        	KeybladeItem kb = selected.getItem() instanceof KeychainItem ? ((KeychainItem) selected.getItem()).getKeyblade() : (KeybladeItem) selected.getItem();
+        if(selectedItemstack.getItem() instanceof KeybladeItem || selectedItemstack.getItem() instanceof KeychainItem) {
+        	KeybladeItem kb = selectedItemstack.getItem() instanceof KeychainItem ? ((KeychainItem) selectedItemstack.getItem()).getKeyblade() : (KeybladeItem) selectedItemstack.getItem();
 
             ClientUtils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.38F), 0xAAAAAA);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY + 5), 0xFF0000);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 15, 0x4444FF);
         } else {
-        	List<Component> tooltip = selected.getTooltipLines(mc.player, TooltipFlag.Default.NORMAL);
+        	List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
             for (int i = 0; i < tooltip.size(); i++) {
-                drawString(matrixStack, mc.font, tooltip.get(i).getContents(), (int) tooltipPosX + 60, (int) tooltipPosY + (mc.font.lineHeight * i) + 5, 0xFFFFFF);
+                drawString(matrixStack, minecraft.font, tooltip.get(i).getContents(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
             }
         }
         
@@ -109,7 +111,7 @@ public class MenuStockScreen extends MenuFilterable {
     public void initItems() {
         buttonWidth = ((float)width * 0.07F);
 
-        Player player = Minecraft.getInstance().player;
+        Player player = minecraft.player;
         float invPosX = (float) width * 0.1594F;
         float invPosY = (float) height * 0.1851F;
         inventory.clear();
@@ -132,7 +134,7 @@ public class MenuStockScreen extends MenuFilterable {
             inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7), (int)(width * 0.3255F), true));
             if (i + 1 < items.size()) {
             	//Right col
-                inventory.add(new MenuStockItem(this, items.get(i + 1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),(int)(width * 0.3255F), true));
+                inventory.add(new MenuStockItem(this, items.get(i+1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),(int)(width * 0.3255F), true));
             }
         }
         inventory.forEach(this::addWidget);

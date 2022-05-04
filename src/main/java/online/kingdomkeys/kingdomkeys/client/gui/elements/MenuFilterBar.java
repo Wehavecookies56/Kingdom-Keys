@@ -62,7 +62,7 @@ public class MenuFilterBar {
 
     public void onClickFilter(ItemCategory category) {
         currentFilter = category;
-        parent.selected = ItemStack.EMPTY;
+        parent.selectedRL = new ResourceLocation("");
         parent.page = 0;
         parent.initItems();
     }

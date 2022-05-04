@@ -25,14 +25,14 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
-public class CSSynthesiseKeyblade {
+public class CSSynthesiseRecipe {
 
 	ResourceLocation name;
 
-	public CSSynthesiseKeyblade() {
+	public CSSynthesiseRecipe() {
 	}
 
-	public CSSynthesiseKeyblade(ResourceLocation name) {
+	public CSSynthesiseRecipe(ResourceLocation name) {
 		this.name = name;
 	}
 
@@ -40,18 +40,18 @@ public class CSSynthesiseKeyblade {
 		buffer.writeResourceLocation(this.name);
 	}
 
-	public static CSSynthesiseKeyblade decode(FriendlyByteBuf buffer) {
-		CSSynthesiseKeyblade msg = new CSSynthesiseKeyblade();
+	public static CSSynthesiseRecipe decode(FriendlyByteBuf buffer) {
+		CSSynthesiseRecipe msg = new CSSynthesiseRecipe();
 		msg.name = buffer.readResourceLocation();
 		return msg;
 	}
 
-	public static void handle(CSSynthesiseKeyblade message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSSynthesiseRecipe message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			if(player.getInventory().getFreeSlot() > -1) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				
+				//TODO get the output item from the recipe somehow?
 				Item item = ForgeRegistries.ITEMS.getValue(message.name);
 				
 				Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());

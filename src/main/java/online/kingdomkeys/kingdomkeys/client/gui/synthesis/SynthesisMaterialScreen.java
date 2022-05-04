@@ -53,21 +53,21 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	}
 	
 	@Override
-    public void action(ItemStack stack) {
-    	super.action(stack);
-		amountBox.setValue(""+Math.min(64, stack.getCount()));
+    public void action(ResourceLocation stackRL) {
+    	super.action(stackRL);
+    	Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stackRL.getPath()));
+    	if(mat == null)
+    		return;
+    	int amount = ModCapabilities.getPlayer(minecraft.player).getMaterialAmount(mat);
+		amountBox.setValue(""+Math.min(64, amount));
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta)
-	{
-		if (delta > 0 && prev.visible)
-		{
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		if (delta > 0 && prev.visible) {
 			action("prev");
 			return true;
-		}
-		else if  (delta < 0 && next.visible)
-		{
+		} else if (delta < 0 && next.visible) {
 			action("next");
 			return true;
 		}
@@ -109,10 +109,12 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			minecraft.setScreen(new SynthesisScreen());
 			break;
 		case "take":
-			if(!ItemStack.isSame(selected, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
+			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+
+			if(!ItemStack.isSame(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
 					Integer.parseInt(amountBox.getValue());
-					PacketHandler.sendToServer(new CSTakeMaterials(selected.getItem(), Integer.parseInt(amountBox.getValue())));
+					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue())));
 				} catch (Exception e) {
 					System.out.println("NaN "+amountBox.getValue());
 				}
@@ -262,9 +264,11 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		float iconPosX = boxR.x;
 		float iconPosY = boxR.y + 15;
 				
+		ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+
 		matrixStack.pushPose();
 		{
-			String name = selected.getHoverName().getString();
+			String name = selectedItemstack.getHoverName().getString();
 			matrixStack.translate(boxR.x + (boxR.getWidth() / 2) - minecraft.font.width(name)/2, boxR.y+3, 1);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(name), 0, 0, 0xFF9900);
 		}
@@ -275,7 +279,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			double offset = (boxR.getWidth()*0.2F);
 			matrixStack.translate(iconPosX + offset/2, iconPosY, 1);
 			matrixStack.scale((float)(boxR.getWidth() / 16 - offset / 16), (float)(boxR.getWidth()/16 - offset / 16), 1);
-			ClientUtils.drawItemAsIcon(selected, matrixStack, 1, 0, 16);
+			ClientUtils.drawItemAsIcon(selectedItemstack, matrixStack, 1, 0, 16);
 
 		}
 		matrixStack.popPose();
