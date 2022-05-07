@@ -43,7 +43,8 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     public double getCost(int lvl, Player player) {
     	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
     	double cost = data.getCost(lvl);
-    	cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+    	if(cost != 300)
+    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
     	return Math.max(1, cost);
     }
     

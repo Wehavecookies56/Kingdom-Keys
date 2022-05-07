@@ -128,15 +128,6 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ice", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.ICE))
                 .save(consumer);
 
-        /*ShapedRecipeBuilder.shapedRecipe(ModItems.emptyBottle.get())
-		        .patternLine("G G")
-		        .patternLine("GBG")
-		        .patternLine("GGG")
-                .key('G', Tags.Items.GLASS).key('B', Items.GLASS_BOTTLE)
-                .setGroup("kingdomkeys")
-                .addCriterion("glass_bottle", InventoryChangeTrigger.Instance.forItems(Items.GLASS_BOTTLE))
-                .build(consumer);*/
-
         ShapedRecipeBuilder.shaped(ModItems.synthesisBag.get())
                 .pattern("LSL")
                 .pattern("L L")

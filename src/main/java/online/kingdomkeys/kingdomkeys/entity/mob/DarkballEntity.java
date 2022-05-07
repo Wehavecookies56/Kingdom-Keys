@@ -212,7 +212,7 @@ public class DarkballEntity extends BaseKHEntity {
         @Override
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
-                whileAttackTimer++;
+                whileAttackTimer+=2;
                 
                 EntityHelper.setState(theEntity, 3);
                 LivingEntity target = this.theEntity.getTarget();
