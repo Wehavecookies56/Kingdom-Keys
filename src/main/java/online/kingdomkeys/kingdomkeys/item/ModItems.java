@@ -760,7 +760,14 @@ public class ModItems {
 			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new UpgradeDriveFormItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_final")),
 			
 			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1))),
-    		recipe = createNewItem("recipe", () -> new RecipeItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipe = createNewItem("recipe", () -> new RecipeItem(0,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipeB = createNewItem("recipe_b", () -> new RecipeItem(3,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipeA = createNewItem("recipe_a", () -> new RecipeItem(4,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipeS = createNewItem("recipe_s", () -> new RecipeItem(5,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipeSS = createNewItem("recipe_ss", () -> new RecipeItem(6,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
+			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7,new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(16))),
 
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties().tab(KingdomKeys.miscGroup))),
 			

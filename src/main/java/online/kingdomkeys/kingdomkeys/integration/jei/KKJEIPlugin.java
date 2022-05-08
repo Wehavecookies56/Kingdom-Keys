@@ -63,7 +63,7 @@ public class KKJEIPlugin implements IModPlugin {
         info.addInfo(ModBlocks.magnetBlox.get(), "magnet_blox");
         info.addInfo(ModBlocks.ghostBlox.get(), "ghost_blox");
         info.addInfo(ModBlocks.bounceBlox.get(), "bounce_blox");
-        info.addInfo(ModItems.recipe.get(), "recipes");
+        info.addInfo(ModItems.recipeD.get(), "recipes");
         info.addInfo(ModItems.proofOfHeart.get(), "proof_of_heart");
         info.addInfo(ModItems.organizationRobe_Helmet.get(), "organization_robes");
         info.addInfo(ModItems.organizationRobe_Chestplate.get(), "organization_robes");

@@ -28,9 +28,11 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class RecipeItem extends Item implements IItemCategory {
-
-	public RecipeItem(Properties properties) {
+	int tier=0;
+	
+	public RecipeItem(int tier,Properties properties) {
 		super(properties);
+		this.tier = tier;
 	}
 
 	@Override
@@ -42,12 +44,17 @@ public class RecipeItem extends Item implements IItemCategory {
 				//Allow recipes to be given with pre-set keyblades
 				//If a recipe already has a tag, it will try learn those
 				//If the player already has learnt them, the recipe item will be refreshed to try get new recipes.
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if (stack.hasTag()) {
-					learnRecipes(player, stack);
+					System.out.println(tier+" "+playerData.getSynthLevel());
+					if(tier <= playerData.getSynthLevel())
+						learnRecipes(player, stack);
+					else
+						player.displayClientMessage(new TranslatableComponent("You can't learn that recipe yet"), true);
 				} else {
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade");
-					List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item");
+					System.out.println(tier);
+					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
+					List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item", tier);
 					
 					List<String> types = new ArrayList<String>();
 					types.add("keyblade");
@@ -81,13 +88,17 @@ public class RecipeItem extends Item implements IItemCategory {
 		return super.use(world, player, hand);
 	}
 
-	private void learnRecipes(Player player, ItemStack stack)
-	{
+	private void learnRecipes(Player player, ItemStack stack) {
 		final CompoundTag stackTag = stack.getTag();
 		String[] recipes = { stackTag.getString("recipe1"), stackTag.getString("recipe2"), stackTag.getString("recipe3") };
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
 
+		System.out.println(tier+" "+playerData.getSynthLevel());
+		if(tier > playerData.getSynthLevel()) {
+			player.displayClientMessage(new TranslatableComponent("You can't learn that recipe yet"), true);
+			return;
+		}
 		boolean consume = false;
 		for (String recipe : recipes) {
 			ResourceLocation rl = new ResourceLocation(recipe);
@@ -133,7 +144,7 @@ public class RecipeItem extends Item implements IItemCategory {
 		List<ResourceLocation> list;
 		switch(type) {
 		case "keyblade":
-			list = getMissingRecipes(playerData, "keyblade");
+			list = getMissingRecipes(playerData, "keyblade", tier);
 			
 			if(list.size() == 0)
 				return;
@@ -157,7 +168,7 @@ public class RecipeItem extends Item implements IItemCategory {
 
 			break;
 		case "item":
-			list = getMissingRecipes(playerData, "item");
+			list = getMissingRecipes(playerData, "item", tier);
 			if(list.size() > 0) {
 				recipe1 = list.get(Utils.randomWithRange(0, list.size() - 1));
 			}
@@ -177,18 +188,23 @@ public class RecipeItem extends Item implements IItemCategory {
 		//Call learn recipes immediately.
 		//This will remove all child tags and then reduce stack size by one
 		//recipe1 is not null if any recipes exist to learn
-		if (recipe1 != null)
-		{
+		if (recipe1 != null) {
 			learnRecipes(player, stack);
 		}
 	}
 
-	private List<ResourceLocation> getMissingRecipes(IPlayerCapabilities playerData, String type) {
+	private List<ResourceLocation> getMissingRecipes(IPlayerCapabilities playerData, String type, int tier) {
 		List<ResourceLocation> list = new ArrayList<ResourceLocation>();
 			for(Recipe r : RecipeRegistry.getInstance().getValues()) {
 				if(!playerData.hasKnownRecipe(r.getRegistryName())) {
 					if(r.getType().equals(type)) {
-						list.add(r.getRegistryName());
+						if(tier == 0) {
+							list.add(r.getRegistryName());
+						} else {
+							if(r.getTier() == tier) {
+								list.add(r.getRegistryName());	
+							}
+						}
 					}
 				}
 			}

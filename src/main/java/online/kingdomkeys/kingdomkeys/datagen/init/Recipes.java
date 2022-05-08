@@ -120,6 +120,42 @@ public class Recipes extends RecipeProvider {
                 .save(consumer);
 
         //Items
+        ShapelessRecipeBuilder.shapeless(ModItems.recipeC.get())
+        .requires(ModItems.recipeD.get())
+        .requires(ModItems.recipeD.get())
+        .unlockedBy("recipe_d", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeD.get()))
+        .save(consumer);
+        
+        ShapelessRecipeBuilder.shapeless(ModItems.recipeB.get())
+        .requires(ModItems.recipeC.get())
+        .requires(ModItems.recipeC.get())
+        .unlockedBy("recipe_c", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeC.get()))
+        .save(consumer);
+        
+        ShapelessRecipeBuilder.shapeless(ModItems.recipeA.get())
+        .requires(ModItems.recipeB.get())
+        .requires(ModItems.recipeB.get())
+        .unlockedBy("recipe_b", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeB.get()))
+        .save(consumer);
+        
+        ShapelessRecipeBuilder.shapeless(ModItems.recipeS.get())
+        .requires(ModItems.recipeA.get())
+        .requires(ModItems.recipeA.get())
+        .unlockedBy("recipe_a", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeA.get()))
+        .save(consumer);
+        
+        ShapelessRecipeBuilder.shapeless(ModItems.recipeSS.get())
+        .requires(ModItems.recipeS.get())
+        .requires(ModItems.recipeS.get())
+        .unlockedBy("recipe_s", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeS.get()))
+        .save(consumer);
+        
+        ShapelessRecipeBuilder.shapeless(ModItems.recipeSSS.get())
+        .requires(ModItems.recipeSS.get())
+        .requires(ModItems.recipeSS.get())
+        .unlockedBy("recipe_ss", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeSS.get()))
+        .save(consumer);
+        
         ShapelessRecipeBuilder.shapeless(ModItems.iceCream.get())
                 .requires(Tags.Items.RODS_WOODEN)
                 .requires(Items.SUGAR)

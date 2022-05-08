@@ -85,7 +85,6 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 					float dmg = 0;
 					if(this.getOwner() instanceof Player) {
 						Player player = (Player) this.getOwner();
-						IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 						if(player.getMainHandItem() != null) {
 							dmg = DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3;
 						}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:recipe_c"
+    ]
+  },
+  "criteria": {
+    "recipe_d": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "kingdomkeys:recipe_d"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:recipe_c"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "recipe_d",
+      "has_the_recipe"
+    ]
+  ]
+}

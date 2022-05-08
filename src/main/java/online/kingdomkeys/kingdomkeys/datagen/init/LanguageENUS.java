@@ -1127,6 +1127,13 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Other
         addItem(ModItems.recipe, "Recipe");
+        addItem(ModItems.recipeD, "Tier D Recipe");
+        addItem(ModItems.recipeC, "Tier C Recipe");
+        addItem(ModItems.recipeB, "Tier B Recipe");
+        addItem(ModItems.recipeA, "Tier A Recipe");
+        addItem(ModItems.recipeS, "Tier S Recipe");
+        addItem(ModItems.recipeSS, "Tier SS Recipe");
+        addItem(ModItems.recipeSSS, "Tier SSS Recipe");
         addItem(ModItems.iceCream, "Sea Salt Ice Cream");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");

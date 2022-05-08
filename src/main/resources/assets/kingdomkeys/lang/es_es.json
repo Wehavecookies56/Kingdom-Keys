@@ -371,6 +371,14 @@
 
 	"_comment": "Items",
 	"item.kingdomkeys.recipe": "Receta",
+	"item.kingdomkeys.recipe_a": "Receta de Tier A",
+	"item.kingdomkeys.recipe_b": "Receta de Tier B",
+	"item.kingdomkeys.recipe_c": "Receta de Tier C",
+	"item.kingdomkeys.recipe_d": "Receta de Tier D",
+	"item.kingdomkeys.recipe_s": "Receta de Tier S",
+	"item.kingdomkeys.recipe_ss": "Receta de Tier SS",
+	"item.kingdomkeys.recipe_sss": "Receta de Tier SSS",
+
 	"item.kingdomkeys.ice_cream": "Helado de Sal Marina",
 	"item.kingdomkeys.synthesis_bag": "Bolsa de Síntesis",
 	"item.kingdomkeys.proof_of_heart": "Prueba de Corazón",
