@@ -140,7 +140,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stack -> new ItemStack(RecipeRegistry.getInstance().getValue(stack).getResult()).getHoverName().getContents()));
 
 		for (int i = 0; i < items.size(); i++) {
-			inventory.add(new MenuStockItem(this, items.get(i), new ItemStack(RecipeRegistry.getInstance().getValue(items.get(i)).getResult()), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.28F), false));
+			ItemStack itemStack = new ItemStack(RecipeRegistry.getInstance().getValue(items.get(i)).getResult());
+			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
+				itemStack = new ItemStack(((KeychainItem) RecipeRegistry.getInstance().getValue(items.get(i)).getResult()).getKeyblade());
+			}
+			inventory.add(new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.28F), false));
 		}
 		
 		inventory.forEach(this::addWidget);

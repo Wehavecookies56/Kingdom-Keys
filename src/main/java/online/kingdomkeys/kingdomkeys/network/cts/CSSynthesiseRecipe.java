@@ -51,10 +51,8 @@ public class CSSynthesiseRecipe {
 			Player player = ctx.get().getSender();
 			if(player.getInventory().getFreeSlot() > -1) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				//TODO get the output item from the recipe somehow?
-				Item item = ForgeRegistries.ITEMS.getValue(message.name);
-				
-				Recipe recipe = RecipeRegistry.getInstance().getValue(item.getRegistryName());
+
+				Recipe recipe = RecipeRegistry.getInstance().getValue(message.name);
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				boolean hasMaterials = true;
 				boolean enoughMunny = playerData.getMunny() >= recipe.getCost();
@@ -73,7 +71,6 @@ public class CSSynthesiseRecipe {
 					//playerData.setSynthLevel(1);
 					playerData.addSynthExperience(10 + recipe.getTier()*2);
 					
-					System.out.println(playerData.getSynthLevel()+" "+playerData.getSynthExperience());
 					Iterator<Entry<Material, Integer>> ite = recipe.getMaterials().entrySet().iterator();
 					while(ite.hasNext()) {
 						Entry<Material, Integer> m = ite.next();

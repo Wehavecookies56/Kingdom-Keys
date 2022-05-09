@@ -48,8 +48,7 @@ public class MenuBackground extends Screen {
 	//public static final int DOWN = Keybinds.SCROLL_DOWN.getKeybind().getKey().getKeyCode();
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
-	{
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
 		if (super.keyPressed(keyCode, scanCode, modifiers)) {
 			return true;
@@ -222,9 +221,9 @@ public class MenuBackground extends Screen {
 	public void drawMunnyTime(PoseStack matrixStack) {
 		matrixStack.pushPose();
 		{
-			matrixStack.scale(1.1F, 1.1F, 1F);
+			matrixStack.scale(1.05F, 1.05F, 1F);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			int y = (int) (topBarHeight + middleHeight) - 7;
+			int y = (int) (topBarHeight + middleHeight +1);
 			drawString(matrixStack,minecraft.font, Utils.translateToLocal("Synthesis Tier") + ": "+ Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xFFFF00);
 			y+= minecraft.font.lineHeight;
 			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, y, 0xF66627);
