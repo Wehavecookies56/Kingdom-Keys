@@ -39,7 +39,7 @@ public class SeedBulletEntity extends ThrowableProjectile {
     @Override
     protected void onHit(HitResult result) {
     	if(!level.isClientSide) {
-	        if (getOwner() != null && result instanceof EntityHitResult){
+	        if (getOwner() != null && getOwner() instanceof LivingEntity && result instanceof EntityHitResult){
 	        	Entity target = ((EntityHitResult) result).getEntity();
 	            ((LivingEntity)getOwner()).doHurtTarget(target);
 	        }

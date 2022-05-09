@@ -33,7 +33,7 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && ModCapabilities.getPlayer((Player) entitylivingbaseIn) != null) {
-			if(!ModCapabilities.getPlayer((Player) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE)) {
+			if(!ModCapabilities.getPlayer((Player) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 				String drive = ModCapabilities.getPlayer((Player) entitylivingbaseIn).getActiveDriveForm();
 				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
 				
