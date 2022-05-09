@@ -9,6 +9,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -21,22 +22,39 @@ public class MenuStockItem extends Button {
 
 	MenuFilterable parent;
     ResourceLocation rl;
+    ItemStack stack;
     boolean selected, showAmount;
     String customName = null;
 
-    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, int x, int y, int width, boolean showAmount) {
+    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount) {
         super(x, y, width, 14, new TranslatableComponent(""), b -> {
-        	parent.action(rl);
+        	parent.action(rl, displayStack);
         });
         this.parent = parent;
         this.rl = rl;
         this.showAmount = showAmount;
+        this.stack = displayStack;
+    }
+
+    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
+        super(x, y, width, 14, new TranslatableComponent(""), b -> {
+            parent.action(stack.getItem().getRegistryName(), stack);
+        });
+        this.parent = parent;
+        this.rl = stack.getItem().getRegistryName();
+        this.stack = stack;
+        this.showAmount = showAmount;
     }
     
-    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, int x, int y, int width, boolean showAmount, String customName) {
-		this(parent,rl,x,y,width,showAmount);
+    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, String customName) {
+		this(parent,rl,displayStack,x,y,width,showAmount);
 		this.customName = customName;
 	}
+
+    public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount, String customName) {
+        this(parent,stack,x,y,width,showAmount);
+        this.customName = customName;
+    }
 
 	@Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -45,8 +63,10 @@ public class MenuStockItem extends Button {
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
             RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-    		ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(parent.selectedRL));
-            if (isHovered || selectedItemstack == stack) {
+    		if (parent.selectedItemStack == null) {
+                parent.selectedItemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(parent.selectedRL));
+            }
+            if (isHovered || parent.selectedItemStack == stack) {
                 matrixStack.pushPose();
                 {
                     RenderSystem.enableBlend();

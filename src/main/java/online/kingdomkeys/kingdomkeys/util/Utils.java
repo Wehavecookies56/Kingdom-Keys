@@ -37,6 +37,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -64,6 +65,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -416,6 +418,14 @@ public class Utils {
 			category = ItemCategoryRegistry.getCategory(stack.getItem());
 		}
 		return category;
+	}
+
+	public static ItemCategory getCategoryForRecipe(ResourceLocation location) {
+		if (RecipeRegistry.getInstance().containsKey(location)) {
+			return getCategoryForStack(new ItemStack(RecipeRegistry.getInstance().getValue(location).getResult()));
+		} else {
+			return ItemCategory.MISC;
+		}
 	}
 	
 	public static int getAccessoriesStat(IPlayerCapabilities playerData, String type) {

@@ -53,8 +53,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	}
 	
 	@Override
-    public void action(ResourceLocation stackRL) {
-    	super.action(stackRL);
+    public void action(ResourceLocation stackRL, ItemStack stack) {
+    	super.action(stackRL, stack);
     	Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stackRL.getPath()));
     	if(mat == null)
     		return;
@@ -263,12 +263,10 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		float iconPosX = boxR.x;
 		float iconPosY = boxR.y + 15;
-				
-		ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
 
 		matrixStack.pushPose();
 		{
-			String name = selectedItemstack.getHoverName().getString();
+			String name = selectedItemStack.getHoverName().getString();
 			matrixStack.translate(boxR.x + (boxR.getWidth() / 2) - minecraft.font.width(name)/2, boxR.y+3, 1);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(name), 0, 0, 0xFF9900);
 		}
@@ -279,7 +277,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			double offset = (boxR.getWidth()*0.2F);
 			matrixStack.translate(iconPosX + offset/2, iconPosY, 1);
 			matrixStack.scale((float)(boxR.getWidth() / 16 - offset / 16), (float)(boxR.getWidth()/16 - offset / 16), 1);
-			ClientUtils.drawItemAsIcon(selectedItemstack, matrixStack, 1, 0, 16);
+			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 1, 0, 16);
 
 		}
 		matrixStack.popPose();
