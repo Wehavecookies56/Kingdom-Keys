@@ -21,6 +21,8 @@ public class ServerConfig {
     public ForgeConfigSpec.DoubleValue partyXPShare;
     public ForgeConfigSpec.IntValue magicUsesTimer;
     
+    public ForgeConfigSpec.BooleanValue requireSynthTier;
+    
     public ForgeConfigSpec.IntValue limitLaserCircleCost;
     public ForgeConfigSpec.IntValue limitLaserDomeCost;
     public ForgeConfigSpec.IntValue limitArrowRainCost;
@@ -42,6 +44,12 @@ public class ServerConfig {
                 .comment("Magic uses timer in ticks (1 second = 20 ticks) 0 = magic uses won't decrease, 1 = disable grand magic. Used for grand magic so bigger number the longer it will take to substract an use so it will be easier to activate it")
                 .translation(KingdomKeys.MODID + ".config.magic_uses_timer")
                 .defineInRange("magicUsesTimer", 100, 0, 1200);
+        
+        requireSynthTier = builder
+                .comment("If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier")
+                .translation(KingdomKeys.MODID + ".config.require_synth_tier")
+                .define("requireSynthTier", false);
+
 
         builder.pop();
 

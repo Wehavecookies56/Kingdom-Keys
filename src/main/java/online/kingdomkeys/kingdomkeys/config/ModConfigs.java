@@ -382,6 +382,7 @@ public class ModConfigs {
     public static double heartMultiplier;
     public static double partyXPShare;
     public static int magicUsesTimer;
+    public static boolean requireSynthTier;
 
     public static int limitLaserCircleCost;
     public static int limitLaserDomeCost;
@@ -396,6 +397,7 @@ public class ModConfigs {
         heartMultiplier = SERVER.heartMultiplier.get();
         partyXPShare = SERVER.partyXPShare.get();
         magicUsesTimer = SERVER.magicUsesTimer.get();
+        requireSynthTier = SERVER.requireSynthTier.get();
 
         limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
         limitLaserDomeCost = SERVER.limitLaserDomeCost.get();

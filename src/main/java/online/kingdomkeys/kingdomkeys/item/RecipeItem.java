@@ -46,13 +46,13 @@ public class RecipeItem extends Item implements IItemCategory {
 				//If the player already has learnt them, the recipe item will be refreshed to try get new recipes.
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if (stack.hasTag()) {
-					System.out.println(tier+" "+playerData.getSynthLevel());
+					//System.out.println(tier+" "+playerData.getSynthLevel());
 					if(tier <= playerData.getSynthLevel())
 						learnRecipes(player, stack);
 					else
 						player.displayClientMessage(new TranslatableComponent("You can't learn that recipe yet"), true);
 				} else {
-					System.out.println(tier);
+					//System.out.println(tier);
 					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
 					List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item", tier);
 					
@@ -94,7 +94,7 @@ public class RecipeItem extends Item implements IItemCategory {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
 
-		System.out.println(tier+" "+playerData.getSynthLevel());
+		//System.out.println(tier+" "+playerData.getSynthLevel());
 		if(tier > playerData.getSynthLevel()) {
 			player.displayClientMessage(new TranslatableComponent("You can't learn that recipe yet"), true);
 			return;

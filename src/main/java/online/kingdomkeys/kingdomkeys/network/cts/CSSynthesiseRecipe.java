@@ -56,7 +56,7 @@ public class CSSynthesiseRecipe {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				boolean hasMaterials = true;
 				boolean enoughMunny = playerData.getMunny() >= recipe.getCost();
-				boolean enoughTier = playerData.getSynthLevel() >= recipe.getTier();
+				boolean enoughTier = ModConfigs.requireSynthTier ? playerData.getSynthLevel() >= recipe.getTier() : true;
 				
 				while(it.hasNext()) { //Check if the player has the materials (checked serverside just in case)
 					Entry<Material, Integer> m = it.next();
