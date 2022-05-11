@@ -193,7 +193,7 @@ public class ClientSetup {
 		LOCK_ON = OverlayRegistry.registerOverlayBelow(ForgeIngameGui.CROSSHAIR_ELEMENT, "Lock On", new LockOnGui());
 		PARTY_INFO = OverlayRegistry.registerOverlayBelow(ForgeIngameGui.HUD_TEXT_ELEMENT, "Party Info", new PartyHUDGui());
 		SHOTLOCK = OverlayRegistry.registerOverlayBelow(ForgeIngameGui.CROSSHAIR_ELEMENT, "Shotlock", new ShotlockGUI());
-		STATION_OF_AWAKENING_MESSAGES = OverlayRegistry.registerOverlayBelow(ForgeIngameGui.TITLE_TEXT_ELEMENT, "Station of Awakening Messages", new SoAMessages());
+		STATION_OF_AWAKENING_MESSAGES = OverlayRegistry.registerOverlayBelow(ForgeIngameGui.TITLE_TEXT_ELEMENT, "Station of Awakening Messages", SoAMessages.INSTANCE);
 
 		if (ModConfigs.showGuiToggle == ModConfigs.ShowType.HIDE) {
 			OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
