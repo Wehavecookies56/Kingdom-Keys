@@ -4,12 +4,18 @@
     "kingdomkeys:writhing_ore",
     "kingdomkeys:writhing_ore_n",
     "kingdomkeys:writhing_ore_e",
+    "kingdomkeys:writhing_ore_d",
     "kingdomkeys:betwixt_ore",
+    "kingdomkeys:betwixt_ore_d",
     "kingdomkeys:pulsing_ore",
     "kingdomkeys:pulsing_ore_e",
+    "kingdomkeys:pulsing_ore_d",
     "kingdomkeys:sinister_ore",
+    "kingdomkeys:sinister_ore_d",
     "kingdomkeys:stormy_ore",
+    "kingdomkeys:stormy_ore_d",
     "kingdomkeys:twilight_ore",
-    "kingdomkeys:twilight_ore_n"
+    "kingdomkeys:twilight_ore_n",
+    "kingdomkeys:twilight_ore_d"
   ]
 }

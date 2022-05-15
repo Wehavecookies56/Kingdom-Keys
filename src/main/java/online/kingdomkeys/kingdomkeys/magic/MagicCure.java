@@ -10,16 +10,18 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagicCure extends Magic {
 
-	public MagicCure(String registryName, int maxLevel, boolean hasRC, int order) {
-		super(registryName, true, maxLevel, hasRC, order);
+	public MagicCure(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
+		super(registryName, true, maxLevel, hasRC, gmAbility, order);
 	}
 
 	@Override

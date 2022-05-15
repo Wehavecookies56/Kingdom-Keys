@@ -112,7 +112,12 @@ public class Strings {
     		mpThrift = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_thrift",
     		criticalBoost = KingdomKeys.MODID+":"+Strings.AB_Prefix +"critical_boost",
     		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot",
-    		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky"
+    		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky",
+    		
+    		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
+		    blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
+		    waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",
+		    thundaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"thundaza";
     		;
     
     // Synthesis Materials

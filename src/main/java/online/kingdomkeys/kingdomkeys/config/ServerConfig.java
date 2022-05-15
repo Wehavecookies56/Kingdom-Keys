@@ -19,7 +19,7 @@ public class ServerConfig {
     public ForgeConfigSpec.DoubleValue xpMultiplier;
     public ForgeConfigSpec.DoubleValue heartMultiplier;
     public ForgeConfigSpec.DoubleValue partyXPShare;
-    public ForgeConfigSpec.IntValue magicUsesTimer;
+   // public ForgeConfigSpec.IntValue magicUsesTimer;
     
     public ForgeConfigSpec.BooleanValue requireSynthTier;
     
@@ -40,10 +40,10 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.party_range_limit")
                 .defineInRange("partyRangeLimit", 50, 1, 150);
         
-        magicUsesTimer = builder
+        /*magicUsesTimer = builder
                 .comment("Magic uses timer in ticks (1 second = 20 ticks) 0 = magic uses won't decrease, 1 = disable grand magic. Used for grand magic so bigger number the longer it will take to substract an use so it will be easier to activate it")
                 .translation(KingdomKeys.MODID + ".config.magic_uses_timer")
-                .defineInRange("magicUsesTimer", 100, 0, 1200);
+                .defineInRange("magicUsesTimer", 100, 0, 1200);*/
         
         requireSynthTier = builder
                 .comment("If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier")

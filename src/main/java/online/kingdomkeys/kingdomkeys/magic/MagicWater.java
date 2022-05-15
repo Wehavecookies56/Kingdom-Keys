@@ -3,15 +3,17 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterzaEntity;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicWater extends Magic {
 
-	public MagicWater(String registryName, int maxLevel, boolean hasRC, int order) {
-		super(registryName, false, maxLevel, hasRC, order);
+	public MagicWater(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
+		super(registryName, false, maxLevel, hasRC, gmAbility, order);
 	}
 
 	@Override

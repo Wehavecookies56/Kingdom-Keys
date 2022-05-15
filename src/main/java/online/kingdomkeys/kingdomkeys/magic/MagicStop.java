@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
@@ -17,11 +18,12 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicStop extends Magic {
 
-	public MagicStop(String registryName, int maxLevel, boolean hasRC, int order) {
-		super(registryName, false, maxLevel, hasRC, order);
+	public MagicStop(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
+		super(registryName, false, maxLevel, hasRC, gmAbility, order);
 	}
 
 	@Override

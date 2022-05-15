@@ -35,25 +35,34 @@ public class ModBlocks {
             //TODO HARVEST LEVEL REPLACED BY TAGS
             blazingOre = createNewBlock("blazing_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
             blazingOreN = createNewBlock("blazing_ore_n", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
+            blazingOreD = createNewBlock("blazing_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
             soothingOre = createNewBlock("soothing_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
+            soothingOreD = createNewBlock("soothing_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             writhingOre = createNewBlock("writhing_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             writhingOreN = createNewBlock("writhing_ore_n", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             writhingOreE = createNewBlock("writhing_ore_e", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
+            writhingOreD = createNewBlock("writhing_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             betwixtOre = createNewBlock("betwixt_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
+            betwixtOreD = createNewBlock("betwixt_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             wellspringOre = createNewBlock("wellspring_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             wellspringOreN = createNewBlock("wellspring_ore_n", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             frostOre = createNewBlock("frost_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
+            frostOreD = createNewBlock("frost_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             lucidOre = createNewBlock("lucid_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             lightningOre = createNewBlock("lightning_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
             pulsingOre = createNewBlock("pulsing_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             pulsingOreE = createNewBlock("pulsing_ore_e", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
+            pulsingOreD = createNewBlock("pulsing_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             remembranceOre = createNewBlock("remembrance_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             hungryOre = createNewBlock("hungry_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             sinisterOre = createNewBlock("sinister_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
+            sinisterOreD = createNewBlock("sinister_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             stormyOre = createNewBlock("stormy_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
+            stormyOreD = createNewBlock("stormy_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             tranquilityOre = createNewBlock("tranquility_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 1
             twilightOre = createNewBlock("twilight_ore", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
             twilightOreN = createNewBlock("twilight_ore_n", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
+            twilightOreD = createNewBlock("twilight_ore_d", () -> new KKOreBlock(Block.Properties.of(Material.STONE).strength(2.0F, 1.0F))), //HL 2
 
             savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
     		magicalChest = createNewBlock("magical_chest", () -> new MagicalChestBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2

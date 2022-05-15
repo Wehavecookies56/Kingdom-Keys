@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +29,7 @@ public class ItemCategoryRegistry {
     	});
     	
     	ForgeRegistries.ITEMS.forEach(item -> {
-    		if(item instanceof SwordItem || item instanceof PickaxeItem || item instanceof ShovelItem || item instanceof HoeItem || item instanceof AxeItem || item instanceof CrossbowItem || item instanceof BowItem) {
+    		if(item instanceof SwordItem || item instanceof ShieldItem || item instanceof PickaxeItem || item instanceof ShovelItem || item instanceof HoeItem || item instanceof AxeItem || item instanceof CrossbowItem || item instanceof BowItem) {
     			register(item, ItemCategory.TOOL);
     		} else if(item.isEdible() || item instanceof PotionItem) {
     			register(item, ItemCategory.CONSUMABLE);

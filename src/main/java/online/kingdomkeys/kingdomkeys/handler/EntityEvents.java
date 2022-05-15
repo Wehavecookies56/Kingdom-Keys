@@ -269,20 +269,7 @@ public class EntityEvents {
 				playerData.setReactionCommands(new ArrayList<String>());
 				for(ReactionCommand rc : rcList) {
 					playerData.addReactionCommand(rc.getName(), event.player);
-				}
-
-				//Check for magics that you've been using enough to unlock Grand Magic
-				Iterator<Map.Entry<String, int[]>> magicsIt = playerData.getMagicsMap().entrySet().iterator();
-				while (magicsIt.hasNext()) { //Get all magics the player has and iterate over them
-					Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next(); 
-					Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(pair.getKey())); //Get the magic instance of it
-
-					if(magic != null && magic.getMagicData() != null && magic.hasRC()) { //If the magic exists and has data and has Grand Magic
-						if(playerData.getMagicUses(magic.getRegistryName().toString()) >= magic.getUsesToGM(pair.getValue()[0])) {// If the actual uses is equals or above the required
-							playerData.addReactionCommand(KingdomKeys.MODID + ":" +magic.getRegistryName().getPath(), event.player);
-						}
-					}
-				}				
+				}		
 				
 				if(!event.player.level.isClientSide && event.player.tickCount == 5) { //TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)event.player);
@@ -386,7 +373,7 @@ public class EntityEvents {
 					
 				}
 				
-				if(ModConfigs.magicUsesTimer > 1) {
+				/*if(ModConfigs.magicUsesTimer > 1) {
 					if(event.player.tickCount % ModConfigs.magicUsesTimer == 0) {
 						for (Entry<String, int[]> entry : playerData.getMagicsMap().entrySet()) {
 							int uses = playerData.getMagicUses(entry.getKey());
@@ -395,7 +382,7 @@ public class EntityEvents {
 							}
 						}
 					}
-				}
+				}*/
 			}
 		}
 

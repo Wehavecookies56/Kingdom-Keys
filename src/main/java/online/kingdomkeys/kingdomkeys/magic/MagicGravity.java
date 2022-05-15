@@ -3,14 +3,16 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravigaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GraviraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicGravity extends Magic {
 
-	public MagicGravity(String registryName, int maxLevel, boolean hasRC, int order) {
-		super(registryName, false, maxLevel, hasRC, order);
+	public MagicGravity(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
+		super(registryName, false, maxLevel, hasRC, gmAbility, order);
 	}
 
 	@Override

@@ -69,7 +69,16 @@ public class ModFeatures {
             PULSING_ORE_COLD_CONFIG = new OreConfig("pulsing_ore_cold", new OreConfig.Values(true, 4, 0, 20, 7)),
             FROST_ORE_COLDER_CONFIG = new OreConfig("frost_ore_colder", new OreConfig.Values(true, 4, 0, 20, 7)),
             PULSING_ORE_WET_CONFIG = new OreConfig("pulsing_ore_wet", new OreConfig.Values(true, 4, 0, 20, 7)),
-            STORMY_ORE_WET_CONFIG = new OreConfig("stormy_ore_wet", new OreConfig.Values(true, 4, 0, 100, 7))
+            STORMY_ORE_WET_CONFIG = new OreConfig("stormy_ore_wet", new OreConfig.Values(true, 4, 0, 100, 7)),
+    		BLAZING_ORE_DEEPSLATE_CONFIG = new OreConfig("blazing_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            BETWIXT_ORE_DEEPSLATE_CONFIG = new OreConfig("betwixt_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            FROST_ORE_DEEPSLATE_CONFIG = new OreConfig("frost_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            PULSING_ORE_DEEPSLATE_CONFIG = new OreConfig("pulsing_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            SINISTER_ORE_DEEPSLATE_CONFIG = new OreConfig("sinister_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            SOOTHING_ORE_DEEPSLATE_CONFIG = new OreConfig("soothing_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            STORMY_ORE_DEEPSLATE_CONFIG = new OreConfig("stormy_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            TWILIGHT_ORE_DEEPSLATE_CONFIG = new OreConfig("twilight_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7)),
+            WRITHING_ORE_DEEPSLATE_CONFIG = new OreConfig("writhing_ore_deepslate", new OreConfig.Values(true, 4, -64, 0, 7))
     ;
 
     public static Holder<PlacedFeature>
@@ -103,7 +112,18 @@ public class ModFeatures {
             PULSING_ORE_COLD,
             FROST_ORE_COLDER,
             PULSING_ORE_WET,
-            STORMY_ORE_WET;
+            STORMY_ORE_WET,
+            BLAZING_ORE_DEEPSLATE,
+            BETWIXT_ORE_DEEPSLATE,
+            FROST_ORE_DEEPSLATE,
+            PULSING_ORE_DEEPSLATE,
+            SINISTER_ORE_DEEPSLATE,
+            SOOTHING_ORE_DEEPSLATE,
+            STORMY_ORE_DEEPSLATE,
+            TWILIGHT_ORE_DEEPSLATE,
+            WRITHING_ORE_DEEPSLATE
+            ;
+    
 
 
     private static Holder<PlacedFeature> addBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, OreConfig config) {
@@ -175,6 +195,16 @@ public class ModFeatures {
         FROST_ORE_COLDER_CONFIG.setFromConfig(ModConfigs.frostOreColderGen);
         PULSING_ORE_WET_CONFIG.setFromConfig(ModConfigs.pulsingOreWetGen);
         STORMY_ORE_WET_CONFIG.setFromConfig(ModConfigs.stormyOreWetGen);
+        
+        BLAZING_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.blazingOreDeepslateGen);
+        BETWIXT_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.betwixtOreDeepslateGen);
+        FROST_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.frostOreDeepslateGen);
+        PULSING_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.pulsingOreDeepslateGen);
+        SINISTER_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.sinisterOreDeepslateGen);
+        SOOTHING_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.soothingOreDeepslateGen);
+        STORMY_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.stormyOreDeepslateGen);
+        TWILIGHT_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.twilightOreDeepslateGen);
+        WRITHING_ORE_DEEPSLATE_CONFIG.setFromConfig(ModConfigs.writhingOreDeepslateGen);
 
         TWILIGHT_ORE_NETHER = addNetherOre(rl("twilight_ore_nether"), ModBlocks.twilightOreN.get(), TWILIGHT_ORE_NETHER_CONFIG);
         WELLSPRING_ORE_NETHER = addNetherOre(rl("wellspring_ore_nether"), ModBlocks.wellspringOreN.get(), WELLSPRING_ORE_NETHER_CONFIG);
@@ -206,6 +236,16 @@ public class ModFeatures {
         FROST_ORE_COLDER = addOverworldOre(rl("frost_ore_colder"), ModBlocks.frostOre.get(), FROST_ORE_COLDER_CONFIG);
         PULSING_ORE_WET = addOverworldOre(rl("pulsing_ore_wet"), ModBlocks.pulsingOre.get(), PULSING_ORE_WET_CONFIG);
         STORMY_ORE_WET = addOverworldOre(rl("stormy_ore_wet"), ModBlocks.stormyOre.get(), STORMY_ORE_WET_CONFIG);
+        
+        BLAZING_ORE_DEEPSLATE = addOverworldOre(rl("blazing_ore_deepslate"), ModBlocks.blazingOreD.get(), BLAZING_ORE_DEEPSLATE_CONFIG);
+        BETWIXT_ORE_DEEPSLATE = addOverworldOre(rl("betwixt_ore_deepslate"), ModBlocks.betwixtOreD.get(), BETWIXT_ORE_DEEPSLATE_CONFIG);
+        FROST_ORE_DEEPSLATE = addOverworldOre(rl("frost_ore_deepslate"), ModBlocks.frostOreD.get(), FROST_ORE_DEEPSLATE_CONFIG);
+        PULSING_ORE_DEEPSLATE = addOverworldOre(rl("pulsing_ore_deepslate"), ModBlocks.pulsingOreD.get(), PULSING_ORE_DEEPSLATE_CONFIG);
+        SINISTER_ORE_DEEPSLATE = addOverworldOre(rl("sinister_ore_deepslate"), ModBlocks.sinisterOreD.get(), SINISTER_ORE_DEEPSLATE_CONFIG);
+        SOOTHING_ORE_DEEPSLATE = addOverworldOre(rl("soothing_ore_deepslate"), ModBlocks.soothingOreD.get(), SOOTHING_ORE_DEEPSLATE_CONFIG);
+        STORMY_ORE_DEEPSLATE = addOverworldOre(rl("stormy_ore_deepslate"), ModBlocks.stormyOreD.get(), STORMY_ORE_DEEPSLATE_CONFIG);
+        TWILIGHT_ORE_DEEPSLATE = addOverworldOre(rl("twilight_ore_deepslate"), ModBlocks.twilightOreD.get(), TWILIGHT_ORE_DEEPSLATE_CONFIG);
+        WRITHING_ORE_DEEPSLATE = addOverworldOre(rl("writhing_ore_deepslate"), ModBlocks.writhingOreD.get(), WRITHING_ORE_DEEPSLATE_CONFIG);
     }
 
     private static ResourceLocation rl(String string) {

@@ -2,14 +2,16 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicAero extends Magic {
 
-	public MagicAero(String registryName, int maxLevel, boolean hasRC, int order) {
-		super(registryName, true, maxLevel, hasRC, order);
+	public MagicAero(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
+		super(registryName, true, maxLevel, hasRC, gmAbility, order);
 	}
 
 	@Override

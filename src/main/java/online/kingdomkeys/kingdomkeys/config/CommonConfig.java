@@ -47,7 +47,16 @@ public class CommonConfig {
     public ForgeConfigSpec.ConfigValue<String> pulsingOreColdGen;
     public ForgeConfigSpec.ConfigValue<String> frostOreColderGen;
     public ForgeConfigSpec.ConfigValue<String> pulsingOreWetGen;
-    public ForgeConfigSpec.ConfigValue<String> stormyOreWetGen;
+	public ForgeConfigSpec.ConfigValue<String> stormyOreWetGen;
+	public ForgeConfigSpec.ConfigValue<String> blazingOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> betwixtOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> frostOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> pulsingOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> sinisterOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> soothingOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> stormyOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> twilightOreDeepslateGen;
+	public ForgeConfigSpec.ConfigValue<String> writhingOreDeepslateGen;
 
     public ForgeConfigSpec.ConfigValue<String> bloxClusterEndGen;
     public ForgeConfigSpec.ConfigValue<String> prizeBloxClusterEndGen;
@@ -242,6 +251,51 @@ public class CommonConfig {
                 .comment("Stormy Ore Generation (Wet biomes): [enabled, vein size, minimum height, maximum height, count]")
                 .translation(KingdomKeys.MODID + "config.stormy_ore_wet_gen")
                 .define("stormyOreWetGen", ModFeatures.STORMY_ORE_WET_CONFIG.toConfigString());
+        
+        blazingOreDeepslateGen = builder
+                .comment("Blazing Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.blazing_ore_wet_gen")
+                .define("blazingOreDeepslateGen", ModFeatures.BLAZING_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        betwixtOreDeepslateGen = builder
+                .comment("Betwixt Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.betwixt_ore_wet_gen")
+                .define("betwixtOreDeepslateGen", ModFeatures.BETWIXT_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        frostOreDeepslateGen = builder
+                .comment("Frost Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.frost_ore_wet_gen")
+                .define("frostOreDeepslateGen", ModFeatures.FROST_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        pulsingOreDeepslateGen = builder
+                .comment("Pulsing Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.pulsing_ore_wet_gen")
+                .define("pulsingOreDeepslateGen", ModFeatures.PULSING_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        sinisterOreDeepslateGen = builder
+                .comment("Sinister Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.sinister_ore_wet_gen")
+                .define("sinisterOreDeepslateGen", ModFeatures.SINISTER_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        soothingOreDeepslateGen = builder
+                .comment("Soothing Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.soothing_ore_wet_gen")
+                .define("soothingOreDeepslateGen", ModFeatures.SOOTHING_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        stormyOreDeepslateGen = builder
+                .comment("Stormy Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.stormy_ore_wet_gen")
+                .define("stormyOreDeepslateGen", ModFeatures.STORMY_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        twilightOreDeepslateGen = builder
+                .comment("Twilight Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.twilight_ore_wet_gen")
+                .define("twilightOreDeepslateGen", ModFeatures.TWILIGHT_ORE_DEEPSLATE_CONFIG.toConfigString());
+        
+        writhingOreDeepslateGen = builder
+                .comment("Writhing Ore Deepslate Generation: [enabled, vein size, minimum height, maximum height, count]")
+                .translation(KingdomKeys.MODID + "config.writhing_ore_wet_gen")
+                .define("writhingOreDeepslateGen", ModFeatures.WRITHING_ORE_DEEPSLATE_CONFIG.toConfigString());
 
         builder.pop();
 

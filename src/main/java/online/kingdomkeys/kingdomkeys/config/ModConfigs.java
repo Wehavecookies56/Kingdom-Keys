@@ -269,7 +269,17 @@ public class ModConfigs {
     public static String frostOreColderGen;
     public static String pulsingOreWetGen;
     public static String stormyOreWetGen;
-
+    
+    public static String blazingOreDeepslateGen;
+    public static String betwixtOreDeepslateGen;
+    public static String frostOreDeepslateGen;
+    public static String pulsingOreDeepslateGen;
+    public static String sinisterOreDeepslateGen;
+    public static String soothingOreDeepslateGen;
+    public static String stormyOreDeepslateGen;
+    public static String twilightOreDeepslateGen;
+    public static String writhingOreDeepslateGen;
+    
     public static String bloxClusterEndGen;
     public static String prizeBloxClusterEndGen;
     public static String bloxClusterGen;
@@ -314,6 +324,8 @@ public class ModConfigs {
         oreGen = COMMON.oreGen.get();
         bloxGen = COMMON.bloxGen.get();
 
+		
+        
         twilightOreNetherGen = COMMON.twilightOreNetherGen.get();
         wellspringOreNetherGen = COMMON.wellspringOreNetherGen.get();
         writhingOreNetherGen = COMMON.writhingOreNetherGen.get();
@@ -338,6 +350,16 @@ public class ModConfigs {
         frostOreColderGen = COMMON.frostOreColderGen.get();
         pulsingOreWetGen = COMMON.pulsingOreWetGen.get();
         stormyOreWetGen = COMMON.stormyOreWetGen.get();
+        
+        blazingOreDeepslateGen = COMMON.blazingOreDeepslateGen.get();
+		betwixtOreDeepslateGen = COMMON.betwixtOreDeepslateGen.get();
+		frostOreDeepslateGen = COMMON.frostOreDeepslateGen.get();
+		pulsingOreDeepslateGen = COMMON.pulsingOreDeepslateGen.get();
+		sinisterOreDeepslateGen = COMMON.sinisterOreDeepslateGen.get();
+		soothingOreDeepslateGen = COMMON.soothingOreDeepslateGen.get();
+		stormyOreDeepslateGen = COMMON.stormyOreDeepslateGen.get();
+		twilightOreDeepslateGen = COMMON.twilightOreDeepslateGen.get();
+		writhingOreDeepslateGen = COMMON.writhingOreDeepslateGen.get();
 
         bloxClusterEndGen = COMMON.bloxClusterEndGen.get();
         prizeBloxClusterEndGen = COMMON.prizeBloxClusterEndGen.get();
@@ -381,7 +403,7 @@ public class ModConfigs {
     public static double xpMultiplier;
     public static double heartMultiplier;
     public static double partyXPShare;
-    public static int magicUsesTimer;
+    //public static int magicUsesTimer;
     public static boolean requireSynthTier;
 
     public static int limitLaserCircleCost;
@@ -396,7 +418,7 @@ public class ModConfigs {
         xpMultiplier = SERVER.xpMultiplier.get();
         heartMultiplier = SERVER.heartMultiplier.get();
         partyXPShare = SERVER.partyXPShare.get();
-        magicUsesTimer = SERVER.magicUsesTimer.get();
+        //magicUsesTimer = SERVER.magicUsesTimer.get();
         requireSynthTier = SERVER.requireSynthTier.get();
 
         limitLaserCircleCost = SERVER.limitLaserCircleCost.get();

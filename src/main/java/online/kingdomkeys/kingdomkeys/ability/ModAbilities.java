@@ -62,7 +62,13 @@ public class ModAbilities {
 			EXTRA_CAST = createAbility(Strings.extraCast, 3, AbilityType.SUPPORT),
 			DAMAGE_CONTROL = createAbility(Strings.damageControl, 5, AbilityType.SUPPORT),
 			LIGHT_AND_DARKNESS = createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
-			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT);
+			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT),
+			
+			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),
+			BLIZZAZA = createAbility(Strings.blizzaza,3,AbilityType.SUPPORT),
+			WATERZA = createAbility(Strings.waterza,3,AbilityType.SUPPORT),
+			THUNDAZA = createAbility(Strings.thundaza,3,AbilityType.SUPPORT);
+		
 
 
 	public static RegistryObject<Ability> createAbility(String name, int apCost, AbilityType type) {
