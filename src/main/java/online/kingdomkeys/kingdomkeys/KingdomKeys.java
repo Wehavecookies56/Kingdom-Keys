@@ -1,10 +1,5 @@
 package online.kingdomkeys.kingdomkeys;
 
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,10 +25,12 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -61,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
@@ -76,6 +74,7 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItemDataLoader;
 import online.kingdomkeys.kingdomkeys.world.biome.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
@@ -226,6 +225,7 @@ public class KingdomKeys {
 		event.addListener(new DriveFormDataLoader());
 		event.addListener(new MagicDataLoader());
 		event.addListener(new LevelingDataLoader());
+		event.addListener(new ShopItemDataLoader());
 	}
 
 	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {

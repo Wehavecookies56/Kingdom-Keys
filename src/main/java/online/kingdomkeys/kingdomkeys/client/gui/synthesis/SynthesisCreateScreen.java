@@ -38,6 +38,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItemRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SynthesisCreateScreen extends MenuFilterable {
@@ -107,6 +108,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		super.init();
 		
 		itemsPerPage = (int) (middleHeight / 14);
+		
+		System.out.println(ShopItemRegistry.getInstance().getRegistry().values());
 	}
 
 	@Override

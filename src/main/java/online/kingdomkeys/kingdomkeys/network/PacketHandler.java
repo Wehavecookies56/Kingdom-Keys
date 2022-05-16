@@ -68,6 +68,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSoA;
@@ -101,6 +102,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCShowOrgPortalGUI.class, SCShowOrgPortalGUI::encode, SCShowOrgPortalGUI::decode, SCShowOrgPortalGUI::handle);
 		HANDLER.registerMessage(packetID++, SCSyncMagicData.class, SCSyncMagicData::encode, SCSyncMagicData::decode, SCSyncMagicData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncDriveFormData.class, SCSyncDriveFormData::encode, SCSyncDriveFormData::decode, SCSyncDriveFormData::handle);
+		HANDLER.registerMessage(packetID++, SCSyncShopData.class, SCSyncShopData::encode, SCSyncShopData::decode, SCSyncShopData::handle);
 
 
 		//ClientToServer
