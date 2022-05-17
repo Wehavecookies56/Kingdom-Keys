@@ -68,7 +68,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItemRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 
 public class ClientUtils {
 
@@ -265,10 +265,10 @@ public class ClientUtils {
             public void run() {
                 Player player = Minecraft.getInstance().player;
 
-                ShopItemRegistry.getInstance().clearRegistry();
+                ShopListRegistry.getInstance().clearRegistry();
 
                 message.list.forEach(shopItem -> {
-                    ShopItemRegistry.getInstance().register(shopItem);
+                    ShopListRegistry.getInstance().register(shopItem);
                 });
             }
         };

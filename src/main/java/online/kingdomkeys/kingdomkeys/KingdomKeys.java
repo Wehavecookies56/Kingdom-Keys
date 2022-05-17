@@ -74,7 +74,7 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItemDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.world.biome.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
@@ -225,7 +225,7 @@ public class KingdomKeys {
 		event.addListener(new DriveFormDataLoader());
 		event.addListener(new MagicDataLoader());
 		event.addListener(new LevelingDataLoader());
-		event.addListener(new ShopItemDataLoader());
+		event.addListener(new ShopListDataLoader());
 	}
 
 	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {

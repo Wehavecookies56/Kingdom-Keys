@@ -10,17 +10,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 
 public class SCSyncShopData {
 
 	public SCSyncShopData() {
 	}
 
-	public List<ShopItem> list = new LinkedList<>();
+	public List<ShopList> list = new LinkedList<>();
 	
-	public SCSyncShopData(List<ShopItem> recipes) {
+	public SCSyncShopData(List<ShopList> recipes) {
 		this.list = recipes;
 	}
 	
@@ -38,7 +38,7 @@ public class SCSyncShopData {
 		int size = buffer.readInt();
 		CompoundTag compoundNBT = buffer.readNbt();
 		for (int i = 0; i < size; i++) {
-			ShopItem r = new ShopItem();
+			ShopList r = new ShopList();
 			r.deserializeNBT((CompoundTag) compoundNBT.get("shop"+i));
 			msg.list.add(r);
 		}

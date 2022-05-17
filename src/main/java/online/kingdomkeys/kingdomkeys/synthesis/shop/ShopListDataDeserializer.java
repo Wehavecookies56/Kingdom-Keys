@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -14,8 +12,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
@@ -25,14 +22,29 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
  * Levels do not require an ability
  * Description can be empty
  */
-public class ShopItemDataDeserializer implements JsonDeserializer<ShopItem> {
+public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
 
     @Override
-    public ShopItem deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-    	ShopItem out = new ShopItem();
-        JsonObject jsonObject = json.getAsJsonObject();
+    public ShopList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    	ShopList out = new ShopList();
 
-        jsonObject.entrySet().forEach(entry -> {
+        JsonArray jsonArray = json.getAsJsonArray();
+        //System.out.println(jsonArray);
+        for(JsonElement e : jsonArray) {
+        	ShopItem shopItem = new ShopItem();
+        	JsonObject jsonObj = e.getAsJsonObject();
+            boolean valid = jsonObj.get("item") != null && jsonObj.get("amount") != null;
+			if (valid) {
+				Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObj.get("item").getAsString()));
+				shopItem.setResult(item, jsonObj.get("amount").getAsInt());
+				shopItem.setTier(jsonObj.get("tier").getAsInt());
+				shopItem.setCost(jsonObj.get("cost").getAsInt());
+				out.addToList(shopItem);
+		        KingdomKeys.LOGGER.info("OUTPUT: {}, TIER {}, QUANTITY: {}", shopItem.result, shopItem.tier, shopItem.amount);
+			}
+        }
+        
+       /* jsonObject.forEach(entry -> {
             JsonElement element = entry.getValue();
             switch (entry.getKey()) {//Check for the first level key
                     
@@ -54,8 +66,7 @@ public class ShopItemDataDeserializer implements JsonDeserializer<ShopItem> {
                 	out.setTier(element.getAsInt());
                 	break;
             }
-        });
-        //KingdomKeys.LOGGER.info("OUTPUT: {}, TYPE {}, QUANTITY: {}, INGREDIENTS: {}", out.result, out.type, out.amount, out.materials);
+        });*/
         return out;
     }
 }

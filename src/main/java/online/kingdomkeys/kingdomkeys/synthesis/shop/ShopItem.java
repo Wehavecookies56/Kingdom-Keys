@@ -20,23 +20,22 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 public class ShopItem implements INBTSerializable<CompoundTag> {
     @Nullable Item result;
     @Nullable int amount;
-    @Nullable String type;
+   // @Nullable String type;
     @Nullable int cost;
     @Nullable int tier;
    
-    ResourceLocation registryName;
 
     public ShopItem() {
 
     }
 
-    public ShopItem(int cost, Item result, int amount, String type) {
+    public ShopItem(int cost, Item result, int amount) {
 		this.result = result;
 		this.amount = amount;
-		this.type = type;
+		//this.type = type;
 		this.cost = cost;
 	}
-    
+  /*  
     public String getType() {
     	return type;
     }
@@ -44,7 +43,7 @@ public class ShopItem implements INBTSerializable<CompoundTag> {
     public void setType(String type) {
     	this.type = type;
     }
-    
+    */
    
 
 	public Item getResult() {
@@ -84,36 +83,20 @@ public class ShopItem implements INBTSerializable<CompoundTag> {
 	public CompoundTag serializeNBT() {
 		CompoundTag nbt = new CompoundTag();
 
-		nbt.putString("regname", getRegistryName().toString());
 		nbt.putString("result", result.getRegistryName().toString());
 		nbt.putInt("amount", amount);
 		nbt.putInt("cost", cost);
 		nbt.putInt("tier", tier);
-		nbt.putString("type", getType());
+		//nbt.putString("type", getType());
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
 		this.setResult(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("result"))), nbt.getInt("amount"));
-		this.setType(nbt.getString("type"));
+		//this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
 		this.setTier(nbt.getInt("tier"));
-		this.setRegistryName(nbt.getString("regname"));
 	}
 
-	public ResourceLocation getRegistryName() {
-		return registryName;
-	}
-	public void setRegistryName(String registryName) {
-		this.registryName = new ResourceLocation(registryName);
-	}
-
-	public void setRegistryName(String namespace, String path) {
-		this.registryName = new ResourceLocation(namespace, path);
-	}
-
-	public void setRegistryName(ResourceLocation registryName) {
-		this.registryName = registryName;
-	}
 }

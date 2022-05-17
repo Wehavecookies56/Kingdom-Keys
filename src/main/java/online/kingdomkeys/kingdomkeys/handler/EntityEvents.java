@@ -114,6 +114,7 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
@@ -239,7 +240,7 @@ public class EntityEvents {
 			if(ticks >= Integer.MAX_VALUE) {
 				ticks = Integer.MIN_VALUE;
 			}
-		
+
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 			/*playerData.setSacrifice(SoAState.MYSTIC);
 			playerData.setChoice(SoAState.GUARDIAN);

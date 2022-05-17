@@ -1,4 +1,4 @@
 [
-    {"item": "minecraft:dirt", "amount":1, "cost": 1000000},
-    {"item": "minecraft:diamond", "amount":1, "cost": 1}
+    {"item": "minecraft:dirt", "amount":1, "tier":1, "cost": 1000000},
+    {"item": "minecraft:diamond", "amount":1, "tier":1, "cost": 1}
 ]
