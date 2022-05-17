@@ -34,7 +34,7 @@ public class MoogleProjectorBlock extends BaseBlock implements EntityBlock {
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 		if (!worldIn.isClientSide) {
-			PacketHandler.sendTo(new SCOpenSynthesisGui(), (ServerPlayer)player);
+			PacketHandler.sendTo(new SCOpenSynthesisGui(""), (ServerPlayer)player);
 		}
 		return InteractionResult.SUCCESS;
 	}

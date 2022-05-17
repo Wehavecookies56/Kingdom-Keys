@@ -15,16 +15,22 @@ import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public class SCOpenSynthesisGui {
-
+	String inv;
+	
 	public SCOpenSynthesisGui() {
+	}
+	
+	public SCOpenSynthesisGui(String inv) {
+		this.inv = inv;
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
-
+		buffer.writeUtf(inv);
 	}
 
 	public static SCOpenSynthesisGui decode(FriendlyByteBuf buffer) {
 		SCOpenSynthesisGui msg = new SCOpenSynthesisGui();
+		msg.inv = buffer.readUtf();
 		return msg;
 	}
 
@@ -37,7 +43,7 @@ public class SCOpenSynthesisGui {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenSynthesisGui message) {
-			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openSynthesisGui());
+			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openSynthesisGui(message.inv));
 		}
 	}
 

@@ -116,11 +116,14 @@ public class ClientUtils {
         };
     }
 
-    public static DistExecutor.SafeRunnable openSynthesisGui() {
+    public static DistExecutor.SafeRunnable openSynthesisGui(String inv) {
         return new DistExecutor.SafeRunnable() {
             @Override
             public void run() {
-                Minecraft.getInstance().setScreen(new SynthesisScreen());
+            	if(inv != null && !inv.equals(""))
+            		Minecraft.getInstance().setScreen(new SynthesisScreen(inv));
+            	else
+            		Minecraft.getInstance().setScreen(new SynthesisScreen());
                 Minecraft.getInstance().level.playSound(Minecraft.getInstance().player, Minecraft.getInstance().player.blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);
             }
         };

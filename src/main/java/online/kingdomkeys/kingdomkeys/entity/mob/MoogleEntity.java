@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -61,7 +62,16 @@ public class MoogleEntity extends PathfinderMob {
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
         if (!player.level.isClientSide) {
-            PacketHandler.sendTo(new SCOpenSynthesisGui(), (ServerPlayer)player);
+        	String inventory = null;
+        	CompoundTag nbt = new CompoundTag();
+        	this.readAdditionalSaveData(nbt);
+        	System.out.println(nbt);
+        			
+        	if(this.getTags().contains("inv")) {
+        		
+        	}else
+        		inventory = "kingdomkeys:default";
+            PacketHandler.sendTo(new SCOpenSynthesisGui(inventory), (ServerPlayer)player);
         }
         return super.interactAt(player, vec, hand);
     }
@@ -103,5 +113,17 @@ public class MoogleEntity extends PathfinderMob {
 
     public void setFakeMoogle(boolean fake) {
         this.fakeMoogle = fake;
+    }
+    
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+    	// TODO Auto-generated method stub
+    	super.addAdditionalSaveData(pCompound);
+    }
+    
+    @Override
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+    	
+    	super.readAdditionalSaveData(pCompound);
     }
 }
