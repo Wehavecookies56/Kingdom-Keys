@@ -47,11 +47,18 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	int page = 0;
 	int itemsPerPage = 14;
 		
-	public SynthesisMaterialScreen() {
+	SynthesisScreen parent;
+
+	public SynthesisMaterialScreen(SynthesisScreen parent) {
 		super(Strings.Gui_Synthesis_Materials, new Color(0,255,0));
 		drawPlayerInfo = true;
+		this.parent = parent;
 	}
 	
+	public SynthesisMaterialScreen(String inv) {
+		this(new SynthesisScreen(inv));
+	}
+
 	@Override
     public void action(ResourceLocation stackRL, ItemStack stack) {
     	super.action(stackRL, stack);
@@ -106,7 +113,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 			break;
 		case "back":
-			minecraft.setScreen(new SynthesisScreen());
+			minecraft.setScreen(new SynthesisScreen(parent.invFile));
 			break;
 		case "take":
 			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));

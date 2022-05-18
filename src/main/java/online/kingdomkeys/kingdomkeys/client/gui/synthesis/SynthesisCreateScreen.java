@@ -52,10 +52,12 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	Button prev, next, create;
 	int itemsPerPage;
 	private MenuButton back;
+	SynthesisScreen parent;
 
-	public SynthesisCreateScreen() {
+	public SynthesisCreateScreen(SynthesisScreen parent) {
 		super("Synthesis", new Color(0, 255, 0));
 		drawSeparately = true;
+		this.parent = parent;
 	}
 
 	@Override
@@ -110,8 +112,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		
 		itemsPerPage = (int) (middleHeight / 14);
 		
-		ShopList def = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation("kingdomkeys:default"));
-		System.out.println(def.getList().get(1).getResult());
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			action("create");
 		}));
 		
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen())));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
 
 	}
 

@@ -24,8 +24,7 @@ public class SynthesisScreen extends MenuBackground {
 	}
 	
 	public SynthesisScreen(String invFile) {
-		super(Strings.Gui_Synthesis,new Color(0,255,0));
-		drawPlayerInfo = true;
+		this();
 		this.invFile = invFile;
 	}
 
@@ -33,19 +32,19 @@ public class SynthesisScreen extends MenuBackground {
 		switch(string) {
 		case "synthesise":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new SynthesisCreateScreen());
+			minecraft.setScreen(new SynthesisCreateScreen(this));
 			break;
 		case "forge":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new SynthesisForgeScreen());
+			minecraft.setScreen(new SynthesisForgeScreen(this));
 			break;
 		case "materials":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new SynthesisMaterialScreen());
+			minecraft.setScreen(new SynthesisMaterialScreen(this));
 			break;
 		case "shop":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new ShopScreen());
+			minecraft.setScreen(new ShopScreen(this));
 			break;
 		}
 	}

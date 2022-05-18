@@ -47,10 +47,12 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	Button prev, next, upgrade;
 	int itemsPerPage = 10;
 	private MenuButton back;
+	SynthesisScreen parent;
 
-	public SynthesisForgeScreen() {
+	public SynthesisForgeScreen(SynthesisScreen parent) {
 		super("Forge", new Color(0, 255, 0));
 		drawSeparately = true;
+		this.parent = parent;
 	}
 
 	@Override
@@ -133,7 +135,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		// addButton(scrollBar = new MenuScrollBar());
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen())));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
 
 		super.init();
 		itemsPerPage = (int) (middleHeight / 14);

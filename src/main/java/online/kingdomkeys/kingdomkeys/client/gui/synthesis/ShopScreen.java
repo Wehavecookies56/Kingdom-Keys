@@ -47,17 +47,16 @@ public class ShopScreen extends MenuFilterable {
 	int itemsPerPage;
 	private MenuButton back;
 	
-	String inv = "kingdomkeys:default";
+	SynthesisScreen parent;
 
-	public ShopScreen() {
+	public ShopScreen(SynthesisScreen parent) {
 		super("Shop", new Color(255, 0, 0));
 		drawSeparately = true;
-		inv = "kingdomkeys:default";
+		this.parent = parent;
 	}
 	
-	public ShopScreen(String nbt) {
-		this();
-		inv = nbt;
+	public ShopScreen(String nbt, SynthesisScreen parent) {
+		this(parent);
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class ShopScreen extends MenuFilterable {
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		case "create":
-			PacketHandler.sendToServer(new CSShopBuy(new ResourceLocation(inv), selectedItemStack));
+			PacketHandler.sendToServer(new CSShopBuy(new ResourceLocation(parent.invFile), selectedItemStack));
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
@@ -127,7 +126,7 @@ public class ShopScreen extends MenuFilterable {
 		filterBar.buttons.forEach(this::addWidget);
 		
 		//String nbt = "kingdomkeys:default";
-		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(inv));
+		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
 		
 		List<ResourceLocation> items = new ArrayList<>();
 		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -173,7 +172,7 @@ public class ShopScreen extends MenuFilterable {
 			action("create");
 		}));
 		
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen())));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
 
 	}
 
@@ -191,7 +190,7 @@ public class ShopScreen extends MenuFilterable {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(inv)).getList();
+			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
 				if(ItemStack.isSame(new ItemStack(shopItem.getResult(),shopItem.getAmount()), selectedItemStack)) {
@@ -260,7 +259,7 @@ public class ShopScreen extends MenuFilterable {
 			double offset = (boxM.getWidth()*0.1F);
 			matrixStack.translate(boxM.x + offset/2, iconPosY, 1);
 			
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(inv)).getList();
+			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
 				if(ItemStack.isSame(new ItemStack(shopItem.getResult(),shopItem.getAmount()), selectedItemStack)) {
