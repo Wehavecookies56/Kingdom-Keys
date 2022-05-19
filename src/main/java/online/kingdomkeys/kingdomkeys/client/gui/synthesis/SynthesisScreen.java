@@ -16,7 +16,7 @@ public class SynthesisScreen extends MenuBackground {
 		
 	MenuButton synthesise, forge, materials, shop;
 	
-	String invFile = null;
+	String invFile = "kingdomkeys:default";
 	
 	public SynthesisScreen() {
 		super(Strings.Gui_Synthesis,new Color(0,255,0));
