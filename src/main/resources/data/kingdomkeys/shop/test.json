@@ -1,5 +1,0 @@
-[
-    {"item": "minecraft:dirt", "amount":1, "tier":1, "cost": 10},
-	{"item": "minecraft:redstone", "amount":10, "tier":1, "cost": 50},
-    {"item": "minecraft:diamond", "amount":1, "tier":1, "cost": 1}
-]

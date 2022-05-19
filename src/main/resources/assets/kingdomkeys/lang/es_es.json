@@ -126,6 +126,7 @@
 	"gui.synthesis.materials": "Materiales",
 	"gui.synthesis.materials.deposit": "Depositar",
 	"gui.synthesis.materials.take": "Sacar",
+	"gui.shop": "Tienda",
 	"gui.shop.cost": "Coste",
 
 	"gui.commandmenu.command": "COMANDOS",
