@@ -51,7 +51,10 @@
       "ap":1
    },
    "13":{
-      "str":1
+      "str":1,
+	  "abilities":[
+         "kingdomkeys:ability_firaza"
+      ]
    },
    "14":{
       "mag":1,
@@ -76,7 +79,10 @@
       "maxmp":8
    },
    "17":{
-      "str":1
+      "str":1,
+	  "abilities":[
+         "kingdomkeys:ability_blizzaza"
+      ]
    },
    "18":{
       "mag":1,
@@ -109,7 +115,10 @@
       ]
    },
    "23":{
-      "str":1
+      "str":1,
+	  "abilities":[
+         "kingdomkeys:ability_thundaza"
+      ]
    },
    "24":{
       "mag":1,
@@ -152,7 +161,10 @@
       "mag":1,
       "def":1,
       "maxhp":5,
-      "ap":1
+      "ap":1,
+	  "abilities":[
+         "kingdomkeys:ability_waterza"
+      ]
    },
    "31":{
       "str":1,
