@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
@@ -11,8 +11,7 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 
 public class SCOpenSynthesisGui {
 	String inv;
@@ -21,7 +20,12 @@ public class SCOpenSynthesisGui {
 	}
 	
 	public SCOpenSynthesisGui(String inv) {
-		this.inv = inv;
+		if(ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)))
+			this.inv = inv;
+		else {
+			KingdomKeys.LOGGER.error("The Shop '"+inv+"' does not exist or didn't get registered");
+			this.inv = "";
+		}
 	}
 
 	public void encode(FriendlyByteBuf buffer) {

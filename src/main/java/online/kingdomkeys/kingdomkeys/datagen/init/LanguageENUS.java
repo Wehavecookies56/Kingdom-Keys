@@ -126,6 +126,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Synthesis_Materials, "Material List");
         add(Gui_Synthesis_Materials_Deposit, "Deposit");
         add(Gui_Synthesis_Materials_Take, "Take");
+        add(Gui_Shop, "Shop");
         add(Gui_Shop_Buy_Cost, "Cost");
 
         //Command Menu

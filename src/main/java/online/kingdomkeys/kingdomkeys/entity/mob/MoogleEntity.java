@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData.DataItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -32,6 +33,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 //TODO make moogle float
 public class MoogleEntity extends PathfinderMob {
 
+	String inv = "kingdomkeys:default";
+	
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
     }
@@ -62,16 +65,7 @@ public class MoogleEntity extends PathfinderMob {
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
         if (!player.level.isClientSide) {
-        	String inventory = null;
-        	CompoundTag nbt = new CompoundTag();
-        	this.readAdditionalSaveData(nbt);
-        	System.out.println(nbt);
-        			
-        	if(this.getTags().contains("inv")) {
-        		
-        	}else
-        		inventory = "kingdomkeys:default";
-            PacketHandler.sendTo(new SCOpenSynthesisGui(inventory), (ServerPlayer)player);
+        	PacketHandler.sendTo(new SCOpenSynthesisGui(inv), (ServerPlayer)player);
         }
         return super.interactAt(player, vec, hand);
     }
@@ -117,13 +111,15 @@ public class MoogleEntity extends PathfinderMob {
     
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
-    	// TODO Auto-generated method stub
     	super.addAdditionalSaveData(pCompound);
+    	pCompound.putString("inv", inv);
     }
     
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
-    	
     	super.readAdditionalSaveData(pCompound);
+    	System.out.println(pCompound.getString("inv"));
+    	inv = pCompound.getString("inv");
+
     }
 }
