@@ -428,6 +428,10 @@ public class Utils {
 		}
 	}
 	
+	public static ItemCategory getCategoryForShop(ResourceLocation stackRL) {
+		return getCategoryForStack(new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)));
+	}
+	
 	public static int getAccessoriesStat(IPlayerCapabilities playerData, String type) {
 		int res = 0;
 		for(Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {

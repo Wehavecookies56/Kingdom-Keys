@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -11,7 +12,9 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -147,12 +150,13 @@ public class ShopScreen extends MenuFilterable {
 				System.out.println(itemName +" is not a valid recipe, check it");
 			}
 		}
-		//items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stack -> new ItemStack(ShopListRegistry.getInstance().getValue(stack).getResult()).getHoverName().getContents()));
+	//	items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stackRL -> new ItemStack(ShopListRegistry.getInstance().getValue(stackRL).getResult()).getHoverName().getContents()));
+		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents()));
 
 		for (int i = 0; i < items.size(); i++) {
-			ItemStack itemStack = new ItemStack(shopList.getList().get(i).getResult());
+			ItemStack itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(items.get(i)));
 			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
-				itemStack = new ItemStack(((KeychainItem) (shopList.getList().get(i).getResult())).getKeyblade());
+				itemStack = new ItemStack(((KeychainItem) itemStack.getItem()).getKeyblade());
 			}
 			inventory.add(new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.28F), false));
 		}
@@ -193,12 +197,18 @@ public class ShopScreen extends MenuFilterable {
 			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
-				if(ItemStack.isSame(new ItemStack(shopItem.getResult(),shopItem.getAmount()), selectedItemStack)) {
+				Item it = shopItem.getResult();
+
+				if(it instanceof KeychainItem) {
+					it = ((KeychainItem)it).getKeyblade();
+				}
+				
+				if(ItemStack.isSame(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
 					item = shopItem;
 					break;
 				}
-			}
-			
+				
+			}			
 			if(item != null) {
 				enoughMunny = playerData.getMunny() >= item.getCost();
 				enoughTier = ModConfigs.requireSynthTier ? playerData.getSynthLevel() >= item.getTier() : true;
@@ -262,20 +272,29 @@ public class ShopScreen extends MenuFilterable {
 			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
-				if(ItemStack.isSame(new ItemStack(shopItem.getResult(),shopItem.getAmount()), selectedItemStack)) {
+				Item it = shopItem.getResult();
+
+				if(it instanceof KeychainItem) {
+					it = ((KeychainItem)it).getKeyblade();
+				}
+				
+				if(ItemStack.isSame(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
 					item = shopItem;
 					break;
 				}
+				
 			}
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
-			String line = item.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
-			drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Tier")+":", 2, -10, Color.yellow.getRGB());
-			line = Utils.getTierFromInt(item.getTier())+" "+(10 + item.getTier()*2)+"exp";
-			drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-			
-			matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
-			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -2, 12);
+			if(item != null) {
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
+				String line = item.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
+				drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("Tier")+":", 2, -10, Color.yellow.getRGB());
+				line = Utils.getTierFromInt(item.getTier())+" "+(10 + item.getTier()*2)+"exp";
+				drawString(matrixStack, minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				
+				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
+				ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -2, 12);
+			}
 		}
 		matrixStack.popPose();
 

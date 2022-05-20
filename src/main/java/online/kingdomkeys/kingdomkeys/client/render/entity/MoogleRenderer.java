@@ -47,13 +47,24 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
     @Override
     public ResourceLocation getTextureLocation(MoogleEntity entity) {
         if (!entity.isFakeMoogle()) {
+        	if(isOrg(entity)) {
+        		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/org_moogle.png");
+        	}
             return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/moogle.png");
         } else {
             return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/fake_moogle.png");
         }
     }
 
-    @Nullable
+    private boolean isOrg(MoogleEntity entity) {
+    	if(entity.hasCustomName()) {
+	    	String name = entity.getCustomName().getString().toLowerCase();
+	    	return name.length() == 7 && name.contains("m") && name.chars().filter(c -> c == 'o').count() == 2 && name.contains("x") && name.contains("g") && name.contains("l") && name.contains("e");
+    	}
+    	return false;
+	}
+    
+	@Nullable
     @Override //probably is called getRenderType or something
     protected RenderType getRenderType(MoogleEntity p_230496_1_, boolean p_230496_2_, boolean p_230496_3_, boolean p_230496_4_) {
         return super.getRenderType(p_230496_1_, p_230496_2_, p_230496_3_, p_230496_4_);
