@@ -1130,6 +1130,9 @@ public class EntityEvents {
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
 		newPlayerData.setShortcutsMap(oldPlayerData.getShortcutsMap());
+		
+		newPlayerData.setSynthLevel(oldPlayerData.getSynthLevel());
+		newPlayerData.setSynthExperience(oldPlayerData.getSynthExperience());
 		Utils.RefreshAbilityAttributes(nPlayer, newPlayerData);
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level)), (ServerPlayer)nPlayer);
