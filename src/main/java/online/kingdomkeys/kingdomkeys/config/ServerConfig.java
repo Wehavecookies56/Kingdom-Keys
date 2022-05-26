@@ -26,6 +26,8 @@ public class ServerConfig {
     public ForgeConfigSpec.IntValue limitLaserCircleCost;
     public ForgeConfigSpec.IntValue limitLaserDomeCost;
     public ForgeConfigSpec.IntValue limitArrowRainCost;
+    
+    public ForgeConfigSpec.BooleanValue projectorHasShop;
 
     ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -49,6 +51,11 @@ public class ServerConfig {
                 .comment("If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier")
                 .translation(KingdomKeys.MODID + ".config.require_synth_tier")
                 .define("requireSynthTier", false);
+        
+        projectorHasShop = builder
+                .comment("If true moogle projectors will have the default shop available, if false only the moogles will")
+                .translation(KingdomKeys.MODID + ".config.projector_has_shop")
+                .define("projectorHasShop", false);
 
 
         builder.pop();

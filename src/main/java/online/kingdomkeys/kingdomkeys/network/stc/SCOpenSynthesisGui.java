@@ -20,12 +20,7 @@ public class SCOpenSynthesisGui {
 	}
 	
 	public SCOpenSynthesisGui(String inv) {
-		if(ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)))
-			this.inv = inv;
-		else {
-			KingdomKeys.LOGGER.error("The Shop '"+inv+"' does not exist or didn't get registered");
-			this.inv = "";
-		}
+		this.inv = inv;
 	}
 
 	public void encode(FriendlyByteBuf buffer) {

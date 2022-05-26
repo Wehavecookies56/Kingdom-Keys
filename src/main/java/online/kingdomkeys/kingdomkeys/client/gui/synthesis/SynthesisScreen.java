@@ -4,28 +4,37 @@ import java.awt.Color;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SynthesisScreen extends MenuBackground {
 		
 	MenuButton synthesise, forge, materials, shop;
 	
-	String invFile = "kingdomkeys:default";
+	String invFile = ModConfigs.projectorHasShop ? "kingdomkeys:default" : "";
 	
 	public SynthesisScreen() {
 		super(Strings.Gui_Synthesis,new Color(0,255,0));
 		drawPlayerInfo = true;
 	}
 	
-	public SynthesisScreen(String invFile) {
+	public SynthesisScreen(String inv) {
 		this();
-		this.invFile = invFile;
+		if(ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)))
+			this.invFile = inv;
+		else {
+			KingdomKeys.LOGGER.error("The Shop '"+inv+"' does not exist or didn't get registered");
+			this.invFile = "";
+		}
 	}
 
 	protected void action(String string) {
@@ -63,7 +72,7 @@ public class SynthesisScreen extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		int pos = 0;
-		if(invFile != null)
+		if(invFile != null && !invFile.equals(""))
 			addRenderableWidget(shop = new MenuButton((int) buttonPosX, button_statsY + (pos++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Shop), ButtonType.BUTTON, (e) -> { action("shop"); }));
 
 		addRenderableWidget(synthesise = new MenuButton((int) buttonPosX, button_statsY + (pos++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise), ButtonType.BUTTON, (e) -> { action("synthesise"); }));

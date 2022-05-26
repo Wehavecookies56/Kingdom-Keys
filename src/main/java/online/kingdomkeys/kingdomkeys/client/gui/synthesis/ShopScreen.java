@@ -113,14 +113,10 @@ public class ShopScreen extends MenuFilterable {
 		super.init();
 		
 		itemsPerPage = (int) (middleHeight / 14);
-		
-		ShopList def = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation("kingdomkeys:default"));
-		System.out.println(def.getList().get(1).getResult());
 	}
 
 	@Override
 	public void initItems() {
-		Player player = minecraft.player;
 		float invPosX = (float) width * 0.1494F;
 		float invPosY = (float) height * 0.1851F;
 		inventory.clear();
@@ -128,11 +124,9 @@ public class ShopScreen extends MenuFilterable {
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
 		
-		//String nbt = "kingdomkeys:default";
 		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
 		
 		List<ResourceLocation> items = new ArrayList<>();
-		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		for (int i = 0; i < shopList.getList().size(); i++) {
 			ResourceLocation itemName = null;
 			ShopItem shopItem = shopList.getList().get(i);
@@ -150,7 +144,6 @@ public class ShopScreen extends MenuFilterable {
 				System.out.println(itemName +" is not a valid recipe, check it");
 			}
 		}
-	//	items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stackRL -> new ItemStack(ShopListRegistry.getInstance().getValue(stackRL).getResult()).getHoverName().getContents()));
 		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents()));
 
 		for (int i = 0; i < items.size(); i++) {
