@@ -119,26 +119,35 @@ public class LootTables extends BaseLootTables {
 
 	private void ores() {
 		addOreLootTable(ModBlocks.betwixtOre.get(), ModItems.betwixt_crystal.get(), ModItems.betwixt_gem.get(), ModItems.betwixt_stone.get(), ModItems.betwixt_shard.get());
+		addOreLootTable(ModBlocks.betwixtOreD.get(), ModItems.betwixt_crystal.get(), ModItems.betwixt_gem.get(), ModItems.betwixt_stone.get(), ModItems.betwixt_shard.get());
 		addOreLootTable(ModBlocks.blazingOre.get(), ModItems.blazing_crystal.get(), ModItems.blazing_gem.get(), ModItems.blazing_stone.get(), ModItems.blazing_shard.get());
 		addOreLootTable(ModBlocks.blazingOreN.get(), ModItems.blazing_crystal.get(), ModItems.blazing_gem.get(), ModItems.blazing_stone.get(), ModItems.blazing_shard.get());
+		addOreLootTable(ModBlocks.blazingOreD.get(), ModItems.blazing_crystal.get(), ModItems.blazing_gem.get(), ModItems.blazing_stone.get(), ModItems.blazing_shard.get());
 		addOreLootTable(ModBlocks.frostOre.get(), ModItems.frost_crystal.get(), ModItems.frost_gem.get(), ModItems.frost_stone.get(), ModItems.frost_shard.get());
+		addOreLootTable(ModBlocks.frostOreD.get(), ModItems.frost_crystal.get(), ModItems.frost_gem.get(), ModItems.frost_stone.get(), ModItems.frost_shard.get());
 		addOreLootTable(ModBlocks.hungryOre.get(), ModItems.hungry_crystal.get(), ModItems.hungry_gem.get(), ModItems.hungry_stone.get(), ModItems.hungry_shard.get());
 		addOreLootTable(ModBlocks.lightningOre.get(), ModItems.lightning_crystal.get(), ModItems.lightning_gem.get(), ModItems.lightning_stone.get(), ModItems.lightning_shard.get());
 		addOreLootTable(ModBlocks.lucidOre.get(), ModItems.lucid_crystal.get(), ModItems.lucid_gem.get(), ModItems.lucid_stone.get(), ModItems.lucid_shard.get());
 		addOreLootTable(ModBlocks.pulsingOre.get(), ModItems.pulsing_crystal.get(), ModItems.pulsing_gem.get(), ModItems.pulsing_stone.get(), ModItems.pulsing_shard.get());
 		addOreLootTable(ModBlocks.pulsingOreE.get(), ModItems.pulsing_crystal.get(), ModItems.pulsing_gem.get(), ModItems.pulsing_stone.get(), ModItems.pulsing_shard.get());
+		addOreLootTable(ModBlocks.pulsingOreD.get(), ModItems.pulsing_crystal.get(), ModItems.pulsing_gem.get(), ModItems.pulsing_stone.get(), ModItems.pulsing_shard.get());
 		addOreLootTable(ModBlocks.remembranceOre.get(), ModItems.remembrance_crystal.get(), ModItems.remembrance_gem.get(), ModItems.remembrance_stone.get(), ModItems.remembrance_shard.get());
 		addOreLootTable(ModBlocks.sinisterOre.get(), ModItems.sinister_crystal.get(), ModItems.sinister_gem.get(), ModItems.sinister_stone.get(), ModItems.sinister_shard.get());
+		addOreLootTable(ModBlocks.sinisterOreD.get(), ModItems.sinister_crystal.get(), ModItems.sinister_gem.get(), ModItems.sinister_stone.get(), ModItems.sinister_shard.get());
 		addOreLootTable(ModBlocks.soothingOre.get(), ModItems.soothing_crystal.get(), ModItems.soothing_gem.get(), ModItems.soothing_stone.get(), ModItems.soothing_shard.get());
+		addOreLootTable(ModBlocks.soothingOreD.get(), ModItems.soothing_crystal.get(), ModItems.soothing_gem.get(), ModItems.soothing_stone.get(), ModItems.soothing_shard.get());
 		addOreLootTable(ModBlocks.stormyOre.get(), ModItems.stormy_crystal.get(), ModItems.stormy_gem.get(), ModItems.stormy_stone.get(), ModItems.stormy_shard.get());
+		addOreLootTable(ModBlocks.stormyOreD.get(), ModItems.stormy_crystal.get(), ModItems.stormy_gem.get(), ModItems.stormy_stone.get(), ModItems.stormy_shard.get());
 		addOreLootTable(ModBlocks.tranquilityOre.get(), ModItems.tranquility_crystal.get(), ModItems.tranquility_gem.get(), ModItems.tranquility_stone.get(), ModItems.tranquility_shard.get());
 		addOreLootTable(ModBlocks.twilightOre.get(), ModItems.twilight_crystal.get(), ModItems.twilight_gem.get(), ModItems.twilight_stone.get(), ModItems.twilight_shard.get());
 		addOreLootTable(ModBlocks.twilightOreN.get(), ModItems.twilight_crystal.get(), ModItems.twilight_gem.get(), ModItems.twilight_stone.get(), ModItems.twilight_shard.get());
+		addOreLootTable(ModBlocks.twilightOreD.get(), ModItems.twilight_crystal.get(), ModItems.twilight_gem.get(), ModItems.twilight_stone.get(), ModItems.twilight_shard.get());
 		addOreLootTable(ModBlocks.wellspringOre.get(), ModItems.wellspring_crystal.get(), ModItems.wellspring_gem.get(), ModItems.wellspring_stone.get(), ModItems.wellspring_shard.get());
 		addOreLootTable(ModBlocks.wellspringOreN.get(), ModItems.wellspring_crystal.get(), ModItems.wellspring_gem.get(), ModItems.wellspring_stone.get(), ModItems.wellspring_shard.get());
 		addOreLootTable(ModBlocks.writhingOre.get(), ModItems.writhing_crystal.get(), ModItems.writhing_gem.get(), ModItems.writhing_stone.get(), ModItems.writhing_shard.get());
 		addOreLootTable(ModBlocks.writhingOreE.get(), ModItems.writhing_crystal.get(), ModItems.writhing_gem.get(), ModItems.writhing_stone.get(), ModItems.writhing_shard.get());
 		addOreLootTable(ModBlocks.writhingOreN.get(), ModItems.writhing_crystal.get(), ModItems.writhing_gem.get(), ModItems.writhing_stone.get(), ModItems.writhing_shard.get());
+		addOreLootTable(ModBlocks.writhingOreD.get(), ModItems.writhing_crystal.get(), ModItems.writhing_gem.get(), ModItems.writhing_stone.get(), ModItems.writhing_shard.get());
 	}
     
 	private void addOreLootTable(Block block, Item crystal, Item gem, Item stone, Item shard) {
