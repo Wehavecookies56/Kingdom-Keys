@@ -64,7 +64,7 @@ public class MoogleEntity extends PathfinderMob {
 
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
-        if (!player.level.isClientSide) {
+        if (!player.level.isClientSide && !player.isCrouching()) {
         	PacketHandler.sendTo(new SCOpenSynthesisGui(inv), (ServerPlayer)player);
         }
         return super.interactAt(player, vec, hand);

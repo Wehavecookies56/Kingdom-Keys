@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class ChakramEntity extends ThrowableProjectile{
 
-	int maxTicks = 120;
+	int maxTicks = 180;
 	boolean returning = false;
 	String model;
 	int rotationPoint; //0 = x, 1 = y, 2 = z
@@ -68,7 +68,7 @@ public class ChakramEntity extends ThrowableProjectile{
 			this.remove(RemovalReason.KILLED);
 		}
 		
-		if(tickCount > maxTicks / 3) {
+		if(tickCount > 40) {
 			setReturn();
 		}
 
