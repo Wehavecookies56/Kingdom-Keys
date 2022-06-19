@@ -18,6 +18,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag.Default;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -26,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
@@ -226,7 +228,7 @@ public class MenuEquipmentButton extends Button {
                         //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)
                     	showData = false;
                     } else if (stack.getItem() instanceof KKPotionItem) {
-                     	showData = false;
+                     	showData = true;
                     } else if (stack.getItem() instanceof KKAccessoryItem) {
                      	ap = ((KKAccessoryItem)stack.getItem()).getAp();
                      	strength = ((KKAccessoryItem)stack.getItem()).getStr();
@@ -273,6 +275,12 @@ public class MenuEquipmentButton extends Button {
 	                    	showMag = true;
 	                    }
 	                    
+	                    if(stack.getItem() instanceof KKPotionItem) {
+	                    	showAP = false;
+	                    	showStr = false;
+	                    	showMag = false;
+	                    }
+	                    
 	                    if(showAP) {
 		                    drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
@@ -311,17 +319,13 @@ public class MenuEquipmentButton extends Button {
 						}
 						
 						if(stack.getItem() instanceof KeychainItem) {
-							float tooltipPosX = parent.width * 0.3333F;
-	                    	float tooltipPosY = parent.height * 0.8F;
-	                    	ClientUtils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+	                    	ClientUtils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KeybladeItem) {
-							float tooltipPosX = parent.width * 0.3333F;
-	                    	float tooltipPosY = parent.height * 0.8F;
-                            ClientUtils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDesc(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKAccessoryItem) {
-							float tooltipPosX = parent.width * 0.3333F;
-	                    	float tooltipPosY = parent.height * 0.8F;
 	                    	//Utils.drawSplitString(fr,stack.getTooltip(Minecraft.getInstance().player, TooltipFlags.NORMAL).toString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
+						} else if(stack.getItem() instanceof KKPotionItem) {
+                            ClientUtils.drawSplitString(fr, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     }
                 } 

@@ -340,6 +340,7 @@ public class Strings {
             Gui_CommandMenu_Drive = Gui_CommandMenu + ".drive",
             Gui_CommandMenu_Limit = Gui_CommandMenu + ".limit",
             Gui_CommandMenu_Drive_Revert = Gui_CommandMenu + ".revert",
+          
             // Submenus
 			Gui_CommandMenu_Items_Title = Gui_CommandMenu_Items + ".title",
             Gui_CommandMenu_Magic_Title = Gui_CommandMenu_Magic + ".title",
@@ -354,7 +355,6 @@ public class Strings {
             Gui_Menu_Accept = Gui_Menu + ".accept",
             Gui_Menu_Back = Gui_Menu + ".back",
 
-            
             Gui_Menu_Main_Button = Gui_Menu_Main + ".button",
             Gui_Menu_Main_Button_Items = Gui_Menu_Main_Button + ".items",
             Gui_Menu_Main_Button_Abilities = Gui_Menu_Main_Button + ".abilities",
@@ -364,6 +364,7 @@ public class Strings {
             Gui_Menu_Main_Button_Journal = Gui_Menu_Main_Button + ".journal",
             Gui_Menu_Main_Button_Config = Gui_Menu_Main_Button + ".config",
             
+            Gui_Menu_Main_Synthesis_Tier = Gui_Menu_Main + ".synthesis_tier",
             Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
             Gui_Menu_Main_Hearts = Gui_Menu_Main + ".hearts",
             Gui_Menu_Main_Time = Gui_Menu_Main + ".time",

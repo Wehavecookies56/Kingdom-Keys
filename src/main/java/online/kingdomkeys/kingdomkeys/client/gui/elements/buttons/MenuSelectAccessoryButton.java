@@ -279,8 +279,6 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 							}
 						}
 
-						float tooltipPosX = parent.width * 0.3333F;
-						float tooltipPosY = parent.height * 0.8F;
 						//Utils.drawSplitString(minecraft.fontRenderer, stack.getTooltip(minecraft.player, TooltipFlags.NORMAL).get(1).getString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
                     }
 				}

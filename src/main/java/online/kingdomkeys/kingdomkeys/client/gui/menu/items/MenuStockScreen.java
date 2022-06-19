@@ -52,8 +52,6 @@ public class MenuStockScreen extends MenuFilterable {
     
     @Override
 	protected void renderSelectedData(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		float tooltipPosX = width * 0.3333F;
-        float tooltipPosY = height * 0.8F;
 
         float iconPosX = width * 0.335F;
         float iconPosY = height * 0.8283F;
@@ -69,14 +67,14 @@ public class MenuStockScreen extends MenuFilterable {
         }
         matrixStack.popPose();
         
-        drawString(matrixStack, minecraft.font, selectedItemstack.getHoverName().getString(), (int) tooltipPosX + 50, (int) tooltipPosY + (minecraft.font.lineHeight * 0) + 5, 0xFFFFFF);
+        drawString(matrixStack, minecraft.font, selectedItemstack.getHoverName().getString(), (int) tooltipPosX + 45, (int) tooltipPosY + (minecraft.font.lineHeight * 0), 0xFFFFFF);
 
         if(selectedItemstack.getItem() instanceof KeybladeItem || selectedItemstack.getItem() instanceof KeychainItem) {
         	KeybladeItem kb = selectedItemstack.getItem() instanceof KeychainItem ? ((KeychainItem) selectedItemstack.getItem()).getKeyblade() : (KeybladeItem) selectedItemstack.getItem();
 
-            ClientUtils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.38F), 0xAAAAAA);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY + 5), 0xFF0000);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 15, 0x4444FF);
+            ClientUtils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY), 0xFF0000);
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 10, 0x4444FF);
         } else {
         	List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
             for (int i = 0; i < tooltip.size(); i++) {
