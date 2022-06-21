@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys;
 
+import com.google.common.base.Suppliers;
+import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,6 +84,9 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.features.OreGeneration;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 @Mod("kingdomkeys")
 public class KingdomKeys {
 
@@ -91,15 +98,29 @@ public class KingdomKeys {
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
+		private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IOrgWeapon).map(ItemStack::new).toList());
 		@Override
 		public ItemStack makeIcon() {
-			return new ItemStack(ModItems.eternalFlames.get());
+			return ItemStack.EMPTY;
+		}
+
+		@Override
+		public ItemStack getIconItem() {
+			List<ItemStack> orgWeaponsList = orgWeapons.get();
+			return orgWeaponsList.get((int)(System.currentTimeMillis() / 1500) % orgWeaponsList.size());
 		}
 	};
 	public static CreativeModeTab keybladesGroup = new CreativeModeTab(Strings.keybladesGroup) {
+		private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof KeybladeItem).map(ItemStack::new).toList());
 		@Override
 		public ItemStack makeIcon() {
-			return new ItemStack(ModItems.kingdomKey.get());
+			return ItemStack.EMPTY;
+		}
+
+		@Override
+		public ItemStack getIconItem() {
+			List<ItemStack> keybladesList = keyblades.get();
+			return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
 		}
 	};
 	public static CreativeModeTab miscGroup = new CreativeModeTab(Strings.miscGroup) {
