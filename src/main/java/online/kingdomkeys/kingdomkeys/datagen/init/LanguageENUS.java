@@ -194,24 +194,33 @@ public class LanguageENUS extends KKLanguageProvider {
         //Ores
         addBlock(ModBlocks.blazingOre, "Blazing Ore");
         addBlock(ModBlocks.blazingOreN, "Blazing Ore");
+        addBlock(ModBlocks.blazingOreD, "Blazing Ore");
         addBlock(ModBlocks.soothingOre, "Soothing Ore");
+        addBlock(ModBlocks.soothingOreD, "Soothing Ore");
         addBlock(ModBlocks.writhingOre, "Writhing Ore");
         addBlock(ModBlocks.writhingOreN, "Writhing Ore");
         addBlock(ModBlocks.writhingOreE, "Writhing Ore");
+        addBlock(ModBlocks.writhingOreD, "Writhing Ore");
         addBlock(ModBlocks.betwixtOre, "Betwixt Ore");
+        addBlock(ModBlocks.betwixtOreD, "Betwixt Ore");
         addBlock(ModBlocks.wellspringOre, "Wellspring Ore");
         addBlock(ModBlocks.wellspringOreN, "Wellspring Ore");
         addBlock(ModBlocks.frostOre, "Frost Ore");
+        addBlock(ModBlocks.frostOreD, "Frost Ore");
         addBlock(ModBlocks.lucidOre, "Lucid Ore");
         addBlock(ModBlocks.lightningOre, "Lightning Ore");
         addBlock(ModBlocks.pulsingOre, "Pulsing Ore");
+        addBlock(ModBlocks.pulsingOreD, "Pulsing Ore");
         addBlock(ModBlocks.pulsingOreE, "Pulsing Ore");
         addBlock(ModBlocks.remembranceOre, "Remembrance Ore");
         addBlock(ModBlocks.hungryOre, "Hungry Ore");
         addBlock(ModBlocks.sinisterOre, "Sinister Ore");
+        addBlock(ModBlocks.sinisterOreD, "Sinister Ore");
         addBlock(ModBlocks.stormyOre, "Stormy Ore");
+        addBlock(ModBlocks.stormyOreD, "Stormy Ore");
         addBlock(ModBlocks.tranquilityOre, "Tranquility Ore");
         addBlock(ModBlocks.twilightOre, "Twilight Ore");
+        addBlock(ModBlocks.twilightOreD, "Twilight Ore");
         addBlock(ModBlocks.twilightOreN, "Twilight Ore");
 
         //Other
