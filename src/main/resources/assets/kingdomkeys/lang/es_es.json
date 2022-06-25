@@ -107,6 +107,7 @@
 
 	"gui.menu.config.x_scale": "Escala X",
 	"gui.menu.config.x_pos": "Posición X",
+	"gui.menu.config.selected_x_pos": "Margen X Seleccionado",
 	"gui.menu.config.y_pos": "Posición Y",
 	"gui.menu.config.y_dist": "Y Distance",
 	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",

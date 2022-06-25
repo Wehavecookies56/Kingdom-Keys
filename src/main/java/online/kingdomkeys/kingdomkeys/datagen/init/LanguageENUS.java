@@ -108,6 +108,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".focus", "Focus Bar");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
         add(Gui_Menu_Config + ".x_pos", "X Position");
+        add(Gui_Menu_Config + ".selected_x_pos", "Selected X Offset");
         add(Gui_Menu_Config + ".y_pos", "Y Position");
         add(Gui_Menu_Config + ".y_dist", "Y Distance");
         add(Gui_Menu_Config + ".sub_x_offset", "Submenu X Offset");

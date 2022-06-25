@@ -221,6 +221,7 @@
   "gui.menu.config.mp": "MP Bar",
   "gui.menu.config.party": "Party",
   "gui.menu.config.player_skin": "Player Skin",
+  "gui.menu.config.selected_x_pos": "Selected X Offset",
   "gui.menu.config.show_hearts": "Show hearts on HUD",
   "gui.menu.config.sub_x_offset": "Submenu X Offset",
   "gui.menu.config.text_x_offset": "Text X Offset",

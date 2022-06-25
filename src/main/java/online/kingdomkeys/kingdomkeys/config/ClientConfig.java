@@ -11,7 +11,7 @@ public class ClientConfig {
     public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
     
     public ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
-    public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSubXOffset;
+    public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
     
     public ForgeConfigSpec.BooleanValue hpShowHearts;
     public ForgeConfigSpec.IntValue hpXPos, hpYPos;
@@ -66,8 +66,13 @@ public class ClientConfig {
 	        
 	        cmXPos = builder
 	                .comment("Command Menu X Pos")
-	                .translation(KingdomKeys.MODID + ".config.cm_x_scale")
+	                .translation(KingdomKeys.MODID + ".config.cm_x_pos")
 	                .defineInRange("cmXPos", 0, -1000, 1000);
+	        
+	        cmSelectedXOffset = builder
+	                .comment("Command Menu Selected X Offset")
+	                .translation(KingdomKeys.MODID + ".config.cm_selected_x_offset")
+	                .defineInRange("cmSelectedXOffset", 5, -1000, 1000);
 	        
 	        cmSubXOffset = builder
 	                .comment("Command Menu Submenu X Offset %")

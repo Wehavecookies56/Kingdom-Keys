@@ -32,7 +32,7 @@ public class MenuConfigScreen extends MenuBackground {
 	MenuBox box;
 	
 	//Command Menu
-	EditBox cmTextXOffsetBox, cmXScaleBox, cmXPosBox, cmSubXOffsetBox;
+	EditBox cmTextXOffsetBox, cmXScaleBox, cmXPosBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
 	Button cmHeaderTextVisibleButton;
 	boolean cmHeaderTextVisible;
 	
@@ -186,6 +186,32 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
+		addRenderableWidget(cmSelectedXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setCmSelectedXOffset(Utils.getInt(getValue()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setCmSelectedXOffset(Utils.getInt(getValue()));
+				return true;
+			}
+			
+		});
+		
 		addRenderableWidget(cmSubXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -243,6 +269,7 @@ public class MenuConfigScreen extends MenuBackground {
 		cmHeaderTextVisibleButton.setMessage(new TranslatableComponent(cmHeaderTextVisible+""));
 		cmXScaleBox.setValue(""+ModConfigs.cmXScale);
 		cmXPosBox.setValue(""+ModConfigs.cmXPos);
+		cmSelectedXOffsetBox.setValue(""+ModConfigs.cmSelectedXOffset);
 		cmSubXOffsetBox.setValue(""+ModConfigs.cmSubXOffset);
 		
 		commandMenuList.add(cmHeaderTextVisibleButton);
@@ -251,6 +278,7 @@ public class MenuConfigScreen extends MenuBackground {
 		commandMenuList.add(cmHeaderTextVisibleButton);
 		commandMenuList.add(cmXScaleBox);
 		commandMenuList.add(cmXPosBox);
+		commandMenuList.add(cmSelectedXOffsetBox);
 		commandMenuList.add(cmSubXOffsetBox);
 	}
 
@@ -889,6 +917,7 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);

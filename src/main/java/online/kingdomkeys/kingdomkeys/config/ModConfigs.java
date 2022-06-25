@@ -40,7 +40,7 @@ public class ModConfigs {
     }
 
     public static boolean cmHeaderTextVisible;
-    public static int cmTextXOffset, cmXScale, cmXPos, cmSubXOffset;
+    public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
 
     public static boolean hpShowHearts;
     public static int hpXPos, hpYPos;
@@ -90,6 +90,11 @@ public class ModConfigs {
 
     public static void setCmXPos(int value) {
         CLIENT.cmXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setCmSelectedXOffset(int value) {
+        CLIENT.cmSelectedXOffset.set(value);
         bakeClient();
     }
 
@@ -210,6 +215,7 @@ public class ModConfigs {
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmXScale = CLIENT.cmXScale.get();
         cmXPos = CLIENT.cmXPos.get();
+        cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
 
         hpXPos = CLIENT.hpXPos.get();
