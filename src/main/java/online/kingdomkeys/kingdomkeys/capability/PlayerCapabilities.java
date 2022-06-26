@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -253,7 +254,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 			int[] array;
 			if(storage.getCompound("magics").contains(magicName,99)) {
-				System.out.println("Converting "+magicName+" data");
+				KingdomKeys.LOGGER.info("Converting "+magicName+" data");
 				array = new int[] { storage.getCompound("magics").getInt(magicName), 0 };
 			} else {
 				array = storage.getCompound("magics").getIntArray(magicName);

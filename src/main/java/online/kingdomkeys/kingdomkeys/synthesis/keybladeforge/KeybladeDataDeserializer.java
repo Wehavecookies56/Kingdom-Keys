@@ -13,6 +13,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -117,7 +118,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 								if(ModAbilities.registry.get().containsKey(new ResourceLocation(name))) {
 									level.setAbility(levelElement.getAsString());
 								} else {
-									System.out.println("Ability "+name+" does not exist");
+									KingdomKeys.LOGGER.error("Ability "+name+" does not exist");
 								}
 								break;
 							}

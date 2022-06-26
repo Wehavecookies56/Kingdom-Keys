@@ -8,7 +8,6 @@ import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRender
 public class EpicFightRendering {
 
     public static void patchedRenderersEventModify(PatchedRenderersEvent.Modify event) {
-        System.out.println("patched innit");
         PatchedLivingEntityRenderer renderer = (PatchedLivingEntityRenderer) event.get(EntityType.PLAYER);
         renderer.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());
     }

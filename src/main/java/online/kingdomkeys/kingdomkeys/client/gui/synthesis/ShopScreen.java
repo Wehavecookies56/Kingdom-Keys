@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -141,7 +142,7 @@ public class ShopScreen extends MenuFilterable {
 					items.add(recipeRL);
 				}
 			} else {
-				System.out.println(itemName +" is not a valid recipe, check it");
+				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
 			}
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents()));

@@ -374,14 +374,14 @@ public class CommandMenuGui extends OverlayBase {
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 						if (portalSelected == i) {
-							System.out.println(textX);
+							//System.out.println(textX);
 							textX += ModConfigs.cmSelectedXOffset;
 							drawSelectedSlot(matrixStack);
 							drawIcon(matrixStack, selected, SUB_PORTALS);
 						} else { // Not selected
 							drawUnselectedSlot(matrixStack);
 						}
-						System.out.println(textX);
+						//System.out.println(textX);
 						UUID portalUUID = portals.get(i);
 						PortalData portal = worldData.getPortalFromUUID(portalUUID);
 						if(portal != null)

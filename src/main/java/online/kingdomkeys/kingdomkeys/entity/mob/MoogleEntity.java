@@ -118,7 +118,7 @@ public class MoogleEntity extends PathfinderMob {
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
     	super.readAdditionalSaveData(pCompound);
-    	System.out.println(pCompound.getString("inv"));
+    	//System.out.println(pCompound.getString("inv"));
     	inv = pCompound.getString("inv");
 
     }

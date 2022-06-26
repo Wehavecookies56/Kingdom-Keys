@@ -134,7 +134,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 
 	private boolean getGMProb(IPlayerCapabilities casterData) {
 		int prob = 0;
-		System.out.println("Q: "+casterData.getNumberOfAbilitiesEquipped(gmAbility));
+		//System.out.println("Q: "+casterData.getNumberOfAbilitiesEquipped(gmAbility));
 		if(casterData.isAbilityEquipped(gmAbility)) {
 			prob = casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
 			prob += (casterData.getMagicUses(name)-1)*5;
