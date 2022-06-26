@@ -1114,11 +1114,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.magicBoost, "Magic Boost");
         addItem(ModItems.defenseBoost, "Defense Boost");
 
-        add("potion.desc.hp", "§aHP§r");
-        add("potion.desc.mp", "§9MP§r");
-        add("potion.desc.hpmp", "§aHP§r and §9MP§r");
-        add("potion.desc.drive", "§eDrive§r");
-        add("potion.desc.focus", "§6Focus§r");
+        add("potion.desc.hp", "\u00A7aHP\u00A7r");
+        add("potion.desc.mp", "\u00A79MP\u00A7r");
+        add("potion.desc.hpmp", "\u00A7aHP\u00A7r and \u00A79MP\u00A7r");
+        add("potion.desc.drive", "\u00A7eDrive\u00A7r");
+        add("potion.desc.focus", "\u00A76Focus\u00A7r");
         add("potion.desc.beginning", "Will restore %s%s %s ");
         add("potion.desc.toall", "to all your party members in range");
         add("potion.desc.toone", "to the chosen party member");

@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys;
 
 import com.google.common.base.Suppliers;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import org.apache.logging.log4j.LogManager;
@@ -170,6 +173,8 @@ public class KingdomKeys {
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
 		MinecraftForge.EVENT_BUS.register(new ModCapabilities());
+
+
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
@@ -188,6 +193,15 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("jeresources")) {
 			KKJERPlugin.setup();
 		}
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
+			@Override
+			public void run() {
+				if (ModList.get().isLoaded("epicfight")) {
+					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+				}
+			}
+		});
+
 	}
 
 	public void addMoogleHouse() {
