@@ -93,7 +93,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.53'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.16'
 
     //JEI
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
