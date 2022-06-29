@@ -51,7 +51,7 @@ public class ModConfigs {
 
     public static int playerSkinXPos, playerSkinYPos;
 
-    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnHpPerBar;
+    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
 
     public static int partyXPos, partyYPos, partyYDistance;
 
@@ -172,6 +172,11 @@ public class ModConfigs {
         CLIENT.lockOnIconScale.set(value);
         bakeClient();
     }
+    
+    public static void setLockOnIconRotation(int value) {
+        CLIENT.lockOnIconRotation.set(value);
+        bakeClient();
+    }
 
     public static void setLockOnHpPerBar(int value) {
         CLIENT.lockOnHpPerBar.set(Math.max(10, value));
@@ -235,6 +240,7 @@ public class ModConfigs {
         lockOnYPos = CLIENT.lockOnYPos.get();
         lockOnHPScale = CLIENT.lockOnHPScale.get();
         lockOnIconScale = CLIENT.lockOnIconScale.get();
+        lockOnIconRotation = CLIENT.lockOnIconRotation.get();
         lockOnHpPerBar = CLIENT.lockOnHpPerBar.get();
 
         partyXPos = CLIENT.partyXPos.get();

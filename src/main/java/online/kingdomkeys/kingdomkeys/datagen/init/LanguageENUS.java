@@ -116,6 +116,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".text_x_offset", "Text X Offset");
         add(Gui_Menu_Config + ".hp_scale", "HP Bar Scale");
         add(Gui_Menu_Config + ".icon_scale", "Lock On Icon Scale");
+        add(Gui_Menu_Config + ".icon_rotation", "Lock On Icon Rotation Speed");
         add(Gui_Menu_Config + ".hp_per_bar", "HP Per Bar");
         add(Gui_Menu_Config + ".show_hearts", "Show hearts on HUD");
 

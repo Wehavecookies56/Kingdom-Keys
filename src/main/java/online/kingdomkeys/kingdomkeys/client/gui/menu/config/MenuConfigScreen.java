@@ -51,7 +51,7 @@ public class MenuConfigScreen extends MenuBackground {
 	EditBox playerSkinXPosBox, playerSkinYPosBox;
 
 	//Lock On
-	EditBox lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox, lockOnHpPerBarBox;
+	EditBox lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
 
 	//Party
 	EditBox partyXPosBox, partyYPosBox, partyYDistanceBox;
@@ -654,6 +654,33 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
+
+		addRenderableWidget(lockOnIconRotationBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) <= 100 && Utils.getInt(text) >= -100) {
+						super.charTyped(c, i);
+						ModConfigs.setLockOnIconRotation(Utils.getInt(getValue()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setLockOnIconRotation(Utils.getInt(getValue()));
+				return true;
+			}
+			
+		});
+		
 		addRenderableWidget(lockOnHpPerBarBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -685,12 +712,14 @@ public class MenuConfigScreen extends MenuBackground {
 		lockOnYPosBox.setValue(""+ModConfigs.lockOnYPos);
 		lockOnHPScaleBox.setValue(""+ModConfigs.lockOnHPScale);
 		lockOnIconScaleBox.setValue(""+ModConfigs.lockOnIconScale);
+		lockOnIconRotationBox.setValue(""+ModConfigs.lockOnIconRotation);
 		lockOnHpPerBarBox.setValue(""+ModConfigs.lockOnHpPerBar);
 		
 		lockOnList.add(lockOnXPosBox);
 		lockOnList.add(lockOnYPosBox);
 		lockOnList.add(lockOnHPScaleBox);
 		lockOnList.add(lockOnIconScaleBox);
+		lockOnList.add(lockOnIconRotationBox);
 		lockOnList.add(lockOnHpPerBarBox);
 	}
 	
@@ -903,17 +932,18 @@ public class MenuConfigScreen extends MenuBackground {
 			b.visible = false;
 		}
 
-		switch(window) {
-		case COMMAND_MENU:
-			for(AbstractWidget b : commandMenuList) {
-				b.active = true;
-				b.visible = true;
-			}
+		matrixStack.pushPose();
+		{
+			int pos = 0;
+			matrixStack.translate(buttonsX, box.y + 4, 1);
 			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+			switch (window) {
+			case COMMAND_MENU:
+				for (AbstractWidget b : commandMenuList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
@@ -921,141 +951,102 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
-			}
-			matrixStack.popPose();
-			
-			break;
-			
-		case HP:
-			for(AbstractWidget b : hpList) {
-				b.active = true;
-				b.visible = true;
-			}
-			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+
+				break;
+
+			case HP:
+				for (AbstractWidget b : hpList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
-			}
-			matrixStack.popPose();
-			
-			break;
-			
-		case MP:
-			for(AbstractWidget b : mpList) {
-				b.active = true;
-				b.visible = true;
-			}
-			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+
+				break;
+
+			case MP:
+				for (AbstractWidget b : mpList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.mp"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-			}
-			matrixStack.popPose();
-			
-			break;
-			
-		case DRIVE:
-			for(AbstractWidget b : dpList) {
-				b.active = true;
-				b.visible = true;
-			}
-			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+
+				break;
+
+			case DRIVE:
+				for (AbstractWidget b : dpList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.dp"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-			}
-			matrixStack.popPose();
-			
-			break;
-			
-		case PLAYER:
-			for(AbstractWidget b : playerSkinList) {
-				b.active = true;
-				b.visible = true;
-			}
-			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+
+				break;
+
+			case PLAYER:
+				for (AbstractWidget b : playerSkinList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-			}
-			matrixStack.popPose();
-			
-			break;
-			
-		case LOCK_ON_HP:
-			for(AbstractWidget b : lockOnList) {
-				b.active = true;
-				b.visible = true;
-			}
-			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+
+				break;
+
+			case LOCK_ON_HP:
+				for (AbstractWidget b : lockOnList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_scale"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
-			}
-			matrixStack.popPose();
-			
-			break;
-		
-		case PARTY:
-			for(AbstractWidget b : partyList) {
-				b.active = true;
-				b.visible = true;
-			}
-			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+
+				break;
+
+			case PARTY:
+				for (AbstractWidget b : partyList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
-			}
-			matrixStack.popPose();
-			
-			break;
-			
-		case FOCUS:
-			for(AbstractWidget b : focusList) {
-				b.active = true;
-				b.visible = true;
-			}
-			
-			matrixStack.pushPose();
-			{
-				int pos = 0;
-				matrixStack.translate(buttonsX, box.y+4, 1);
+
+				break;
+
+			case FOCUS:
+				for (AbstractWidget b : focusList) {
+					b.active = true;
+					b.visible = true;
+				}
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.focus"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+
+				break;
 			}
-			matrixStack.popPose();
-			
-			break;
+
 		}
+		matrixStack.popPose();
+
 	}	
 }

@@ -216,6 +216,7 @@
   "gui.menu.config.hp": "HP Bar",
   "gui.menu.config.hp_per_bar": "HP Per Bar",
   "gui.menu.config.hp_scale": "HP Bar Scale",
+  "gui.menu.config.icon_rotation": "Lock On Icon Rotation Speed",
   "gui.menu.config.icon_scale": "Lock On Icon Scale",
   "gui.menu.config.lock_on_hp": "Lock On",
   "gui.menu.config.mp": "MP Bar",

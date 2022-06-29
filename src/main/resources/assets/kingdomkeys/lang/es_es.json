@@ -113,8 +113,9 @@
 	"gui.menu.config.sub_x_offset": "Pos. X extra Submenu",
 	"gui.menu.config.header_title": "Título de Cabecera",
 	"gui.menu.config.text_x_offset": "Pos. X del Texto extra",
-	"gui.menu.config.hp_scale": "Escala de Batta de VT",
+	"gui.menu.config.hp_scale": "Escala de Barra de VT",
 	"gui.menu.config.icon_scale": "Escala del ícono fijación",
+	"gui.menu.config.icon_rotation": "Velocidad de Rotación del ícono fijación",
 	"gui.menu.config.hp_per_bar": "VT por barra",
 
 	
