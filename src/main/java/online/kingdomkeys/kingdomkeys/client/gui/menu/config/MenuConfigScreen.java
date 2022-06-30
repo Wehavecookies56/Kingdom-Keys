@@ -1,18 +1,23 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.config;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TranslatableComponent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -22,12 +27,12 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class MenuConfigScreen extends MenuBackground {
 		
 	enum ActualWindow {
-		COMMAND_MENU, HP, MP, DRIVE, PLAYER, LOCK_ON_HP, PARTY, FOCUS
+		COMMAND_MENU, HP, MP, DRIVE, PLAYER, LOCK_ON_HP, PARTY, FOCUS, IMPORT_EXPORT
 	}
 
 	ActualWindow window = ActualWindow.COMMAND_MENU;
 	
-	MenuButton back, commandMenuButton, hpButton, mpButton, dpButton, playerSkinButton, lockOnButton, partyButton, focusButton;
+	MenuButton back, commandMenuButton, hpButton, mpButton, dpButton, playerSkinButton, lockOnButton, partyButton, focusButton, impExButton;
 	Button backgroundButton;
 	MenuBox box;
 	
@@ -58,6 +63,10 @@ public class MenuConfigScreen extends MenuBackground {
 
 	//Focus
 	EditBox focusXPosBox, focusYPosBox;
+
+	//Import Export
+	Button export, Import;
+	EditBoxLength importCode;
 	
 	List<AbstractWidget> commandMenuList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> hpList = new ArrayList<AbstractWidget>();
@@ -67,6 +76,7 @@ public class MenuConfigScreen extends MenuBackground {
 	List<AbstractWidget> lockOnList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> partyList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> focusList = new ArrayList<AbstractWidget>();
+	List<AbstractWidget> impExpList = new ArrayList<>();
 
 	int buttonsX = 0;
 	public MenuConfigScreen() {
@@ -116,6 +126,7 @@ public class MenuConfigScreen extends MenuBackground {
 		initLockOn();
 		initParty();
 		initFocus();
+		initImpExp();
 		
 		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (0 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
 		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (1 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
@@ -125,8 +136,9 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(lockOnButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (5 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.lock_on_hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.LOCK_ON_HP; }));
 		addRenderableWidget(partyButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (6 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.party"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PARTY; }));
 		addRenderableWidget(focusButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.focus"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FOCUS; }));
+		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		addRenderableWidget(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
@@ -536,9 +548,7 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			
 		});
-		
 
-		
 		playerSkinXPosBox.setValue(""+ModConfigs.playerSkinXPos);
 		playerSkinYPosBox.setValue(""+ModConfigs.playerSkinYPos);
 		
@@ -876,7 +886,37 @@ public class MenuConfigScreen extends MenuBackground {
 		focusList.add(focusYPosBox);
 	}
 	
-	
+	private void initImpExp() {
+		int pos = 0;
+
+		addRenderableWidget(importCode = new EditBoxLength(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("##############################"), 16, 100, new TranslatableComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				super.charTyped(c, i);
+				return true;
+			}
+
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				return true;
+			}
+
+		});
+
+		addRenderableWidget(Import = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20, new TranslatableComponent("gui.menu.config.impexp.import"), (e) -> {
+			readImportCode(importCode.getValue());
+		}));
+
+		addRenderableWidget(export = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20, new TranslatableComponent("gui.menu.config.impexp.export"), (e) -> {
+			Minecraft.getInstance().keyboardHandler.setClipboard(exportCode());
+		}));
+
+		impExpList.add(importCode);
+		impExpList.add(Import);
+		impExpList.add(export);
+	}
+
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
@@ -887,7 +927,7 @@ public class MenuConfigScreen extends MenuBackground {
 		lockOnButton.active = window != ActualWindow.LOCK_ON_HP;
 		partyButton.active = window != ActualWindow.PARTY;
 		focusButton.active = window != ActualWindow.FOCUS;
-
+		impExButton.active = window != ActualWindow.IMPORT_EXPORT;
 		
 		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -928,6 +968,11 @@ public class MenuConfigScreen extends MenuBackground {
 		}
 		
 		for(AbstractWidget b : focusList) {
+			b.active = false;
+			b.visible = false;
+		}
+
+		for (AbstractWidget b : impExpList) {
 			b.active = false;
 			b.visible = false;
 		}
@@ -1043,10 +1088,293 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
+
+			case IMPORT_EXPORT:
+				for (AbstractWidget b : impExpList) {
+					b.active = true;
+					b.visible = true;
+				}
+
+
+				break;
 			}
 
 		}
 		matrixStack.popPose();
 
-	}	
+	}
+
+	public Map<Character, Integer> getOptionsMap() {
+		Map<Character, Integer> options = new HashMap<>();
+		options.put('A', Integer.valueOf(cmXScaleBox.getValue()));
+		options.put('B', Integer.valueOf(cmXPosBox.getValue()));
+		options.put('C', Integer.valueOf(cmSelectedXOffsetBox.getValue()));
+		options.put('D', Integer.valueOf(cmSubXOffsetBox.getValue()));
+		options.put('E', cmHeaderTextVisible ? 1 : 0);
+		options.put('F', Integer.valueOf(cmTextXOffsetBox.getValue()));
+		options.put('G', Integer.valueOf(hpXPosBox.getValue()));
+		options.put('H', Integer.valueOf(hpYPosBox.getValue()));
+		options.put('I', hpShowHearts ? 1 : 0);
+		options.put('J', Integer.valueOf(mpXPosBox.getValue()));
+		options.put('K', Integer.valueOf(mpYPosBox.getValue()));
+		options.put('L', Integer.valueOf(dpXPosBox.getValue()));
+		options.put('M', Integer.valueOf(dpYPosBox.getValue()));
+		options.put('N', Integer.valueOf(playerSkinXPosBox.getValue()));
+		options.put('O', Integer.valueOf(playerSkinYPosBox.getValue()));
+		options.put('P', Integer.valueOf(lockOnXPosBox.getValue()));
+		options.put('Q', Integer.valueOf(lockOnYPosBox.getValue()));
+		options.put('R', Integer.valueOf(lockOnHPScaleBox.getValue()));
+		options.put('S', Integer.valueOf(lockOnIconScaleBox.getValue()));
+		options.put('T', Integer.valueOf(lockOnIconRotationBox.getValue()));
+		options.put('U', Integer.valueOf(lockOnHpPerBarBox.getValue()));
+		options.put('V', Integer.valueOf(partyXPosBox.getValue()));
+		options.put('W', Integer.valueOf(partyYPosBox.getValue()));
+		options.put('X', Integer.valueOf(partyYDistanceBox.getValue()));
+		options.put('Y', Integer.valueOf(focusXPosBox.getValue()));
+		options.put('Z', Integer.valueOf(focusYPosBox.getValue()));
+		return options;
+	}
+
+	public String exportCode() {
+		Map<Character, Integer> options = getOptionsMap();
+		Map<String, String> pValues = new HashMap<>();
+		Map<String, String> nValues = new HashMap<>();
+		options.forEach((c, i) -> {
+			boolean minus = i < 0;
+			if (minus) i = Math.abs(i);
+			String b36 = toBase36(i);
+			Map<String, String> values = minus ? nValues : pValues;
+			if (i != 0) {
+				if (values.containsKey(b36)) {
+					values.replace(b36, values.get(b36).concat(c.toString()));
+				} else {
+					values.put(b36, c.toString());
+				}
+			}
+		});
+		StringBuilder builder = new StringBuilder();
+		pValues.forEach((b36, c) -> {
+			builder.append(b36);
+			builder.append(c);
+		});
+		if (nValues.size() > 0) {
+			builder.append("-");
+			nValues.forEach((b36, c) -> {
+				builder.append(b36);
+				builder.append(c);
+			});
+		}
+		return builder.toString();
+	}
+
+	public void readImportCode(String code) {
+		if (!isBase36Char(code.charAt(0)) || isBase36Char(code.charAt(code.length()-1))) {
+			KingdomKeys.LOGGER.info("invalid import code");
+			return;
+		}
+		String remaningCode = code;
+		List<Integer> b10vals = new ArrayList<>();
+		List<String> configs = new ArrayList<>();
+		boolean minusToggle = false;
+		StringBuilder currentVal = new StringBuilder();
+		boolean base36 = true;
+		while (remaningCode.length() > 0) {
+			char currChar = remaningCode.charAt(0);
+			if (currChar == '-') {
+				remaningCode = remaningCode.substring(1);
+				minusToggle = true;
+				currChar = remaningCode.charAt(0);
+			}
+			if (base36) {
+				if (!isBase36Char(currChar)) {
+					int b10val = toBase10(currentVal.toString());
+					if (minusToggle) b10val = -b10val;
+					b10vals.add(b10val);
+					base36 = false;
+					currentVal = new StringBuilder();
+				}
+			} else {
+				if (isBase36Char(currChar)) {
+					configs.add(currentVal.toString());
+					base36 = true;
+					currentVal = new StringBuilder();
+				}
+			}
+			currentVal.append(currChar);
+			remaningCode = remaningCode.substring(1);
+			if (remaningCode.length() == 0) {
+				configs.add(currentVal.toString());
+			}
+		}
+
+		if (b10vals.size() != configs.size()) {
+			KingdomKeys.LOGGER.info("invalid import code");
+			return;
+		}
+
+		setAllZero();
+
+		for (int i = 0; i < b10vals.size(); i++) {
+			for (int j = 0; j < configs.get(i).length(); j++) {
+				importSetting(configs.get(i).charAt(j), b10vals.get(i));
+			}
+		}
+	}
+
+	public void setAllZero() {
+		ModConfigs.setCmXScale(0);
+		ModConfigs.setCmXPos(0);
+		ModConfigs.setCmSelectedXOffset(0);
+		ModConfigs.setCmSubXOffset(0);
+		ModConfigs.setCmHeaderTextVisible(false);
+		ModConfigs.setCmTextXOffset(0);
+		ModConfigs.setHpXPos(0);
+		ModConfigs.setHpYPos(0);
+		ModConfigs.setShowHearts(false);
+		ModConfigs.setMpXPos(0);
+		ModConfigs.setMpYPos(0);
+		ModConfigs.setDpXPos(0);
+		ModConfigs.setDpYPos(0);
+		ModConfigs.setPlayerSkinXPos(0);
+		ModConfigs.setPlayerSkinYPos(0);
+		ModConfigs.setLockOnXPos(0);
+		ModConfigs.setLockOnYPos(0);
+		ModConfigs.setLockOnHPScale(0);
+		ModConfigs.setLockOnIconScale(0);
+		ModConfigs.setLockOnIconRotation(0);
+		ModConfigs.setLockOnHpPerBar(0);
+		ModConfigs.setPartyXPos(0);
+		ModConfigs.setPartyYPos(0);
+		ModConfigs.setPartyYDistance(0);
+		ModConfigs.setFocusXPos(0);
+		ModConfigs.setFocusYPos(0);
+	}
+
+	public boolean isBase36Char(char c) {
+		return Utils.isNumber(c) || Character.isLowerCase(c);
+	}
+
+	public String toBase36(int value) {
+		return Integer.toString(value, 36);
+	}
+
+	public int toBase10(String value) {
+		try {
+			return Integer.valueOf(value, 36);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	//for new options use special characters, (. , + etc.) excluding '-'
+	public void importSetting(char c, int value) {
+		switch (c) {
+			case 'A' -> {
+				ModConfigs.setCmXScale(value);
+				cmXScaleBox.setValue(""+value);
+			}
+			case 'B' -> {
+				ModConfigs.setCmXPos(value);
+				cmXPosBox.setValue(""+value);
+			}
+			case 'C' -> {
+				ModConfigs.setCmSelectedXOffset(value);
+				cmSelectedXOffsetBox.setValue(""+value);
+			}
+			case 'D' -> {
+				ModConfigs.setCmSubXOffset(value);
+				cmSubXOffsetBox.setValue(""+value);
+			}
+			case 'E' -> {
+				ModConfigs.setCmHeaderTextVisible(value == 1);
+				cmHeaderTextVisible = value == 1;
+				cmHeaderTextVisibleButton.setMessage(new TranslatableComponent(cmHeaderTextVisible+""));
+			}
+			case 'F' -> {
+				ModConfigs.setCmTextXOffset(value);
+				cmTextXOffsetBox.setValue(""+value);
+			}
+			case 'G' -> {
+				ModConfigs.setHpXPos(value);
+				hpXPosBox.setValue(""+value);
+			}
+			case 'H' -> {
+				ModConfigs.setHpYPos(value);
+				hpYPosBox.setValue(""+value);
+			}
+			case 'I' -> {
+				ModConfigs.setShowHearts(value == 1);
+				hpShowHearts = value == 1;
+				hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
+			}
+			case 'J' -> {
+				ModConfigs.setMpXPos(value);
+				mpXPosBox.setValue(""+value);
+			}
+			case 'K' -> {
+				ModConfigs.setMpYPos(value);
+				mpYPosBox.setValue(""+value);
+			}
+			case 'L' -> {
+				ModConfigs.setDpXPos(value);
+				dpXPosBox.setValue(""+value);
+			}
+			case 'M' -> {
+				ModConfigs.setDpYPos(value);
+				dpYPosBox.setValue(""+value);
+			}
+			case 'N' -> {
+				ModConfigs.setPlayerSkinXPos(value);
+				playerSkinXPosBox.setValue(""+value);
+			}
+			case 'O' -> {
+				ModConfigs.setPlayerSkinYPos(value);
+				playerSkinYPosBox.setValue(""+value);
+			}
+			case 'P' -> {
+				ModConfigs.setLockOnXPos(value);
+				lockOnXPosBox.setValue(""+value);
+			}
+			case 'Q' -> {
+				ModConfigs.setLockOnYPos(value);
+				lockOnYPosBox.setValue(""+value);
+			}
+			case 'R' -> {
+				ModConfigs.setLockOnHPScale(value);
+				lockOnHPScaleBox.setValue(""+value);
+			}
+			case 'S' -> {
+				ModConfigs.setLockOnIconScale(value);
+				lockOnIconScaleBox.setValue(""+value);
+			}
+			case 'T' -> {
+				ModConfigs.setLockOnIconRotation(value);
+				lockOnIconRotationBox.setValue(""+value);
+			}
+			case 'U' -> {
+				ModConfigs.setLockOnHpPerBar(value);
+				lockOnHpPerBarBox.setValue(""+value);
+			}
+			case 'V' -> {
+				ModConfigs.setPartyXPos(value);
+				partyXPosBox.setValue(""+value);
+			}
+			case 'W' -> {
+				ModConfigs.setPartyYPos(value);
+				partyYPosBox.setValue(""+value);
+			}
+			case 'X' -> {
+				ModConfigs.setPartyYDistance(value);
+				partyYDistanceBox.setValue(""+value);
+			}
+			case 'Y' -> {
+				ModConfigs.setFocusXPos(value);
+				focusXPosBox.setValue(""+value);
+			}
+			case 'Z' -> {
+				ModConfigs.setFocusYPos(value);
+				focusYPosBox.setValue(""+value);
+			}
+		}
+	}
 }
