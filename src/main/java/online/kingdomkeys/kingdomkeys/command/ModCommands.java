@@ -9,6 +9,7 @@ public class ModCommands {
     public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("kingdomkeys")
                 .then(AbilityCommand.register())
+                .then(ChoiceCommand.register())
                 .then(DimensionCommand.register())
                 .then(DriveLevelCommand.register())
                 .then(DrivePointsCommand.register())

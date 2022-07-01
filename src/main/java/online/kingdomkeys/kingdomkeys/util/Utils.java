@@ -694,7 +694,7 @@ public class Utils {
         playerData.setStrength(1);
         playerData.setMagic(1);
         playerData.setDefense(1);
-		SoAState.applyStatsForChoices(playerData);
+		SoAState.applyStatsForChoices(playerData, false);
 
 		playerData.setEquippedShotlock("");
 		playerData.getShotlockList().clear();

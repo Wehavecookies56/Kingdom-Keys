@@ -59,7 +59,7 @@ public class CSSetChoice {
                     playerData.setSoAState(SoAState.COMPLETE);
                     ServerLevel dimension = player.level.getServer().getLevel(playerData.getReturnDimension());
                     player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
-                    SoAState.applyStatsForChoices(playerData);
+                    SoAState.applyStatsForChoices(playerData, false);
                 } else {
                     //reset to before choice
                     playerData.setChoicePedestal(new BlockPos(0, 0, 0));

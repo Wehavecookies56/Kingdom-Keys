@@ -26,10 +26,10 @@ public enum SoAState {
     }
 
     //TODO make choices more substantial
-    public static void applyStatsForChoices(IPlayerCapabilities playerData) {
+    public static void applyStatsForChoices(IPlayerCapabilities playerData, boolean remove) {
         if (playerData.getSoAState() == COMPLETE) {
-            SoAState choice = playerData.getChosen();
-            SoAState sacrifice = playerData.getSacrificed();
+            SoAState choice = !remove ? playerData.getChosen() : playerData.getSacrificed();
+            SoAState sacrifice = !remove ? playerData.getSacrificed() : playerData.getChosen();
             switch (choice) {
                 case WARRIOR:
                     playerData.setStrength(playerData.getStrength(false) + 1);
@@ -52,6 +52,9 @@ public enum SoAState {
                 case MYSTIC:
                     playerData.setMagic(playerData.getMagic(false) - 1);
                     break;
+            }
+            if (remove) {
+                playerData.setSoAState(NONE);
             }
         }
     }
