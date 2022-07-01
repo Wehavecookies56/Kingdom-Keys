@@ -311,6 +311,30 @@ public class LanguageENUS extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto Final");
 
         /**Items**/
+        //Cards
+        add("item.mapcard.prefix", "(%s) %s");
+        addItem(ModItems.tranquilDarkness, "Tranquil Darkness");
+        addItem(ModItems.teemingDarkness, "Teeming Darkness");
+        addItem(ModItems.feebleDarkness, "Feeble Darkness");
+        addItem(ModItems.almightyDarkness, "Almighty Darkness");
+        addItem(ModItems.sleepingDarkness, "Sleeping Darkness");
+        addItem(ModItems.loomingDarkness, "Looming Darkness");
+        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness");
+        addItem(ModItems.martialWaking, "Martial Waking");
+        addItem(ModItems.sorcerousWaking, "Sorcerous Waking");
+        addItem(ModItems.alchemicWaking, "Alchemic Waking");
+        addItem(ModItems.stagnantSpace, "Stagnant Space");
+        addItem(ModItems.weightlessSpace, "Weightless Space");
+        addItem(ModItems.calmBounty, "Calm Bounty");
+        addItem(ModItems.guardedTrove, "Guarded Trove");
+        addItem(ModItems.falseBounty, "False Bounty");
+        addItem(ModItems.momentsReprieve, "Moment's Reprieve");
+        addItem(ModItems.minglingWorlds, "Mingling Worlds");
+        addItem(ModItems.moogleRoom, "Moogle Room");
+        addItem(ModItems.prosperousRepository, "Prosperous Repository");
+        addItem(ModItems.treacherousRepository, "Treacherous Repository");
+        addItem(ModItems.reposefulGrove, "Reposeful Grove");
+
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
         addItem(ModItems.blazing_stone, "Blazing Stone");
@@ -1279,5 +1303,6 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");
+
     }
 }

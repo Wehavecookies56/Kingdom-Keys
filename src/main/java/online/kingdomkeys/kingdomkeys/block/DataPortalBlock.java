@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import online.kingdomkeys.kingdomkeys.command.KKDimensionCommand;
+import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
@@ -61,7 +61,7 @@ public class DataPortalBlock extends BaseBlock {
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 		if(!worldIn.isClientSide) {
 			ResourceKey<Level> dimension = ModDimensions.STATION_OF_SORROW;
-			BlockPos coords = KKDimensionCommand.getWorldCoords(player, dimension);
+			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			player.sendMessage(new TranslatableComponent("You have been teleported to " + dimension.location()), Util.NIL_UUID);
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level);

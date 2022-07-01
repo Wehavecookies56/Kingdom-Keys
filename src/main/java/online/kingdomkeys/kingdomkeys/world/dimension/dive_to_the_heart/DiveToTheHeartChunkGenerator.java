@@ -324,7 +324,6 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_, StructureFeatureManager p_187750_, ChunkAccess chunkIn) {
-		// TODO Auto-generated method stub
 		return CompletableFuture.completedFuture(chunkIn);
 	}
     

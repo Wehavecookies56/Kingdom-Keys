@@ -1,5 +1,14 @@
 package online.kingdomkeys.kingdomkeys;
 
+import com.google.common.base.Suppliers;
+import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.command.*;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,12 +23,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -36,20 +43,6 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.command.KKAbilityCommand;
-import online.kingdomkeys.kingdomkeys.command.KKDimensionCommand;
-import online.kingdomkeys.kingdomkeys.command.KKDriveLevelCommand;
-import online.kingdomkeys.kingdomkeys.command.KKDrivePointsCommand;
-import online.kingdomkeys.kingdomkeys.command.KKExpCommand;
-import online.kingdomkeys.kingdomkeys.command.KKFocusPointsCommand;
-import online.kingdomkeys.kingdomkeys.command.KKHeartsCommand;
-import online.kingdomkeys.kingdomkeys.command.KKLevelCommand;
-import online.kingdomkeys.kingdomkeys.command.KKMagicLevelCommand;
-import online.kingdomkeys.kingdomkeys.command.KKMaterialCommand;
-import online.kingdomkeys.kingdomkeys.command.KKMunnyCommand;
-import online.kingdomkeys.kingdomkeys.command.KKPayMunnyCommand;
-import online.kingdomkeys.kingdomkeys.command.KKRecipeCommand;
-import online.kingdomkeys.kingdomkeys.command.KKWhisperInMyEarPinkHairMan;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
@@ -80,6 +73,9 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.features.OreGeneration;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 @Mod("kingdomkeys")
 public class KingdomKeys {
 
@@ -91,15 +87,29 @@ public class KingdomKeys {
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
+		private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IOrgWeapon).map(ItemStack::new).toList());
 		@Override
 		public ItemStack makeIcon() {
-			return new ItemStack(ModItems.eternalFlames.get());
+			return ItemStack.EMPTY;
+		}
+
+		@Override
+		public ItemStack getIconItem() {
+			List<ItemStack> orgWeaponsList = orgWeapons.get();
+			return orgWeaponsList.get((int)(System.currentTimeMillis() / 1500) % orgWeaponsList.size());
 		}
 	};
 	public static CreativeModeTab keybladesGroup = new CreativeModeTab(Strings.keybladesGroup) {
+		private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof KeybladeItem).map(ItemStack::new).toList());
 		@Override
 		public ItemStack makeIcon() {
-			return new ItemStack(ModItems.kingdomKey.get());
+			return ItemStack.EMPTY;
+		}
+
+		@Override
+		public ItemStack getIconItem() {
+			List<ItemStack> keybladesList = keyblades.get();
+			return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
 		}
 	};
 	public static CreativeModeTab miscGroup = new CreativeModeTab(Strings.miscGroup) {
@@ -121,6 +131,8 @@ public class KingdomKeys {
 		ModShotlocks.SHOTLOCKS.register(modEventBus);
 		ModReactionCommands.REACTION_COMMANDS.register(modEventBus);
 		ModMaterials.MATERIALS.register(modEventBus);
+		ModRoomTypes.ROOM_TYPES.register(modEventBus);
+		ModRoomStructures.ROOM_STRUCTURES.register(modEventBus);
 		ModBlocks.BLOCKS.register(modEventBus);
 		ModItems.ITEMS.register(modEventBus);
 		ModSounds.SOUNDS.register(modEventBus);
@@ -130,17 +142,17 @@ public class KingdomKeys {
 
         ModEntities.ENTITIES.register(modEventBus);
 
+		ModStructures.STRUCTURES.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
 		ModBiomes.BIOMES.register(modEventBus);
 		//ModParticles.PARTICLES.register(modEventBus);
 
-		modEventBus.addGenericListener(Feature.class, this::registerFeatures);
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
 
 		MinecraftForge.EVENT_BUS.register(this);
-
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
+		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
@@ -188,21 +200,7 @@ public class KingdomKeys {
 	@SubscribeEvent
 	public void serverStarting(ServerStartingEvent event) {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
-
-		KKMunnyCommand.register(dispatcher);
-		KKRecipeCommand.register(dispatcher);
-		KKMaterialCommand.register(dispatcher);
-		KKLevelCommand.register(dispatcher);
-		KKMagicLevelCommand.register(dispatcher);
-		KKDriveLevelCommand.register(dispatcher);
-		KKExpCommand.register(dispatcher);
-		KKDimensionCommand.register(dispatcher);
-		KKHeartsCommand.register(dispatcher);
-		KKDrivePointsCommand.register(dispatcher);
-		KKPayMunnyCommand.register(dispatcher);
-		KKFocusPointsCommand.register(dispatcher);
-		KKAbilityCommand.register(dispatcher);
-		KKWhisperInMyEarPinkHairMan.register(dispatcher);
+		ModCommands.register(dispatcher);
 	}
 
 	
@@ -226,8 +224,5 @@ public class KingdomKeys {
 		event.addListener(new MagicDataLoader());
 		event.addListener(new LevelingDataLoader());
 		event.addListener(new ShopListDataLoader());
-	}
-
-	public void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {
 	}
 }

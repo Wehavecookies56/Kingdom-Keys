@@ -15,6 +15,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 	int id;
 	private int stopTicks, flatTicks;
 	private float stopDmg;
+	private boolean castleOblivionMarker;
 
 	public SCSyncGlobalCapabilityToAllPacket() {
 	}
@@ -24,6 +25,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		this.stopTicks = capability.getStoppedTicks();
 		this.stopDmg = capability.getDamage();
 		this.flatTicks = capability.getFlatTicks();
+		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -31,6 +33,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		buffer.writeInt(this.stopTicks);
 		buffer.writeFloat(this.stopDmg);
 		buffer.writeInt(this.flatTicks);
+		buffer.writeBoolean(this.castleOblivionMarker);
 	}
 
 	public static SCSyncGlobalCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -39,7 +42,8 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		msg.stopTicks = buffer.readInt();
 		msg.stopDmg = buffer.readFloat();
 		msg.flatTicks = buffer.readInt();
-		
+		msg.castleOblivionMarker = buffer.readBoolean();
+
 		return msg;
 	}
 
@@ -49,9 +53,12 @@ public class SCSyncGlobalCapabilityToAllPacket {
 			
 			if (entity != null) {
 				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
-				globalData.ifPresent(cap -> cap.setStoppedTicks(message.stopTicks));
-				globalData.ifPresent(cap -> cap.setDamage(message.stopDmg));
-				globalData.ifPresent(cap -> cap.setFlatTicks(message.flatTicks));
+				globalData.ifPresent(cap -> {
+					cap.setStoppedTicks(message.stopTicks);
+					cap.setDamage(message.stopDmg);
+					cap.setFlatTicks(message.flatTicks);
+					cap.setCastleOblivionMarker(message.castleOblivionMarker);
+				});
 			}
 		});
 		ctx.get().setPacketHandled(true);

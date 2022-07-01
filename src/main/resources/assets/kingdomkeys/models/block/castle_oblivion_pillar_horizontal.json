@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "kingdomkeys:block/castle_oblivion_pillar_top",
+    "side": "kingdomkeys:block/castle_oblivion_pillar"
+  }
+}

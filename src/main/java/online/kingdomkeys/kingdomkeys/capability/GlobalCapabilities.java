@@ -10,6 +10,7 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		storage.putInt("ticks_stopped", this.getStoppedTicks());
 		storage.putFloat("stop_dmg", this.getDamage());
 		storage.putInt("ticks_flat", this.getFlatTicks());
+		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		return storage;
 	}
 
@@ -19,11 +20,13 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		this.setStoppedTicks(properties.getInt("ticks_stopped"));
 		this.setDamage(properties.getFloat("stop_dmg"));
 		this.setFlatTicks(properties.getInt("ticks_flat"));
+		this.setCastleOblivionMarker(properties.getBoolean("castle_oblivion_marker"));
 	}
 
 	private int timeStopped, flatTicks;
 	float stopDmg;
 	private String stopCaster;
+	private boolean castleOblivionMarker;
 
 	@Override
 	public void setStoppedTicks(int time) {
@@ -79,5 +82,15 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public void subFlatTicks(int time) {
 		this.flatTicks -= time;
+	}
+
+	@Override
+	public boolean getCastleOblivionMarker() {
+		return castleOblivionMarker;
+	}
+
+	@Override
+	public void setCastleOblivionMarker(boolean marker) {
+		this.castleOblivionMarker = marker;
 	}
 }

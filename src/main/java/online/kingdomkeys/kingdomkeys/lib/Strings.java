@@ -19,7 +19,10 @@ public class Strings {
     		twilightTown = "twilight_town",
     		destinyIslands = "destiny_islands",
     		diveToTheHeart = "dive_to_the_heart",
-    		stationOfSorrow = "station_of_sorrow";
+    		stationOfSorrow = "station_of_sorrow",
+			castleOblivion = "castle_oblivion",
+			castleOblivionInterior = "castle_oblivion_interior"
+	;
 
     // Magics
     public static final String
@@ -1149,4 +1152,28 @@ public class Strings {
             SoA_Confirm3 = "soa.confirm.3",
             SoA_Confirm5 = "soa.confirm.5"
     ;
+
+	//Map Cards
+	public static String
+			TranquilDarkness = "tranquil_darkness",
+			TeemingDarkness = "teeming_darkness",
+			FeebleDarkness = "feeble_darkness",
+			AlmightyDarkness = "almighty_darkness",
+			SleepingDarkness = "sleeping_darkness",
+			LoomingDarkness = "looming_darkness",
+			BottomlessDarkness = "bottomless_darkness",
+			MartialWaking = "martial_waking",
+			SorcerousWaking = "sorcerous_waking",
+			AlchemicWaking = "alchemic_waking",
+			StagnantSpace = "stagnant_space",
+			CalmBounty = "calm_bounty",
+			GuardedTrove = "guarded_trove",
+			FalseBounty = "false_bounty",
+			MomentsReprieve = "moments_reprieve",
+			MinglingWorlds = "mingling_worlds",
+			MoogleRoom = "moogle_room",
+			ProsperousRepository = "prosperous_repository",
+			TreacherousRepository = "treacherous_repository",
+			ReposefulGrove = "reposeful_grove",
+			WeightlessSpace = "weightless_space";
 }

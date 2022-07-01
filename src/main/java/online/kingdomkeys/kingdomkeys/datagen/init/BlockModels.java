@@ -49,6 +49,7 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("tranquility_ore");
 		standardCube("twilight_ore");
 		standardCube("twilight_ore_n");
+		standardCube("castle_oblivion_wall");
 
 	}
 

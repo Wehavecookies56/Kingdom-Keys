@@ -55,6 +55,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -366,6 +367,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
+
+	private Floor currentFloor;
 
 	//region Main stats, level, exp, str, mag, ap
 	@Override
@@ -1942,7 +1945,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 		}
 	}
-	
+
+	@Override
+	public void setCurrentFloor(Floor floor) {
+
+	}
+
+	@Override
+	public Floor getCurrentFloor() {
+		return null;
+	}
+
 	public int getSynthExpNeeded(int level, int currentExp) {
 		if (level > 7)
 			return 0;

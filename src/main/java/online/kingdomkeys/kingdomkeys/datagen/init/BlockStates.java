@@ -12,21 +12,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
-import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
-import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.block.MoogleProjectorBlock;
-import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
-import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.PedestalBlock;
-import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
-import online.kingdomkeys.kingdomkeys.block.SoADoorBlock;
-import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
-import online.kingdomkeys.kingdomkeys.block.SoRCore;
+import online.kingdomkeys.kingdomkeys.block.*;
 
 public class BlockStates extends BlockStateProvider {
 
@@ -96,6 +82,16 @@ public class BlockStates extends BlockStateProvider {
 			} else if (block instanceof MosaicStainedGlassBlock) {
 				// skip
 			} else if (block instanceof DataPortalBlock) {
+
+			} else if (block instanceof CastleOblivionPillarBlock) {
+
+			} else if (block instanceof CastleOblivionSlabBlock) {
+
+			} else if (block instanceof CastleOblivionStairBlock) {
+
+			} else if (block instanceof StructureWallBlock) {
+
+			} else if (block instanceof CardDoorBlock) {
 
 			} else {
 				simpleBlock(itemRegistryObject);

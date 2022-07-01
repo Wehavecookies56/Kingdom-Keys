@@ -22,5 +22,7 @@ public interface IGlobalCapabilities extends INBTSerializable<CompoundTag> {
 	void setFlatTicks(int time);
 	void subFlatTicks(int time);
 
-	
+	//Castle Oblivion
+	boolean getCastleOblivionMarker();
+	void setCastleOblivionMarker(boolean marker);
 }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "kingdomkeys:block/castle_oblivion_slab"
+    },
+    "type=double": {
+      "model": "kingdomkeys:block/castle_oblivion_wall"
+    },
+    "type=top": {
+      "model": "kingdomkeys:block/castle_oblivion_slab_top"
+    }
+  }
+}
