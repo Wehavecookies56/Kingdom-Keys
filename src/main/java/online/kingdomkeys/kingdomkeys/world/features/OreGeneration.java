@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.world.features;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.BiomeDictionary;
@@ -11,7 +10,6 @@ import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
-import java.util.List;
 import java.util.Set;
 
 public class OreGeneration {
@@ -29,6 +27,7 @@ public class OreGeneration {
 		if (event.getName() != null) {
 			if (BiomeDictionary.hasAnyType(ResourceKey.create(Registry.BIOME_REGISTRY, event.getName()))) {
 				Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(ResourceKey.create(Registry.BIOME_REGISTRY, event.getName()));
+
 				//Nether
 				if (types.contains(BiomeDictionary.Type.NETHER)) {
 					if (ModConfigs.oreGen) {
@@ -118,7 +117,6 @@ public class OreGeneration {
 								addOre(ModFeatures.BLAZING_ORE_WARM);
 							if (ModFeatures.BLAZING_ORE_DEEPSLATE_CONFIG.values.enabled())
 								addOre(ModFeatures.BLAZING_ORE_DEEPSLATE);
-
 						}
 						if (types.contains(BiomeDictionary.Type.COLD)) {
 							if (ModFeatures.FROST_ORE_COLD_CONFIG.values.enabled())
@@ -127,21 +125,21 @@ public class OreGeneration {
 								addOre(ModFeatures.FROST_ORE_DEEPSLATE);
 							if (ModFeatures.PULSING_ORE_COLD_CONFIG.values.enabled())
 								addOre(ModFeatures.PULSING_ORE_COLD);
-						}
-						if (types.contains(BiomeDictionary.Type.SNOWY)) {
-							if (ModFeatures.FROST_ORE_COLDER_CONFIG.values.enabled())
-								addOre(ModFeatures.FROST_ORE_COLDER);
-						}
 
-						if (types.contains(BiomeDictionary.Type.WET)) {
-							if (ModFeatures.PULSING_ORE_WET_CONFIG.values.enabled())
-								addOre(ModFeatures.PULSING_ORE_WET);
-							if (ModFeatures.PULSING_ORE_DEEPSLATE_CONFIG.values.enabled())
-								addOre(ModFeatures.PULSING_ORE_DEEPSLATE);
+							if (types.contains(BiomeDictionary.Type.SNOWY)) {
+								if (ModFeatures.FROST_ORE_COLDER_CONFIG.values.enabled())
+									addOre(ModFeatures.FROST_ORE_COLDER);
+							}
 
-							if (ModFeatures.STORMY_ORE_WET_CONFIG.values.enabled())
-								addOre(ModFeatures.STORMY_ORE_WET);
+							if (types.contains(BiomeDictionary.Type.WET)) {
+								if (ModFeatures.PULSING_ORE_WET_CONFIG.values.enabled())
+									addOre(ModFeatures.PULSING_ORE_WET);
+								if (ModFeatures.PULSING_ORE_DEEPSLATE_CONFIG.values.enabled())
+									addOre(ModFeatures.PULSING_ORE_DEEPSLATE);
 
+								if (ModFeatures.STORMY_ORE_WET_CONFIG.values.enabled())
+									addOre(ModFeatures.STORMY_ORE_WET);
+							}
 						}
 					}
 				}

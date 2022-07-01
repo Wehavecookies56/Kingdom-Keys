@@ -11,7 +11,7 @@ public class ClientConfig {
     public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
     
     public ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
-    public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSubXOffset;
+    public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
     
     public ForgeConfigSpec.BooleanValue hpShowHearts;
     public ForgeConfigSpec.IntValue hpXPos, hpYPos;
@@ -22,7 +22,7 @@ public class ClientConfig {
     
     public ForgeConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
     
-    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnHpPerBar;
+    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
     
     public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
     
@@ -66,8 +66,13 @@ public class ClientConfig {
 	        
 	        cmXPos = builder
 	                .comment("Command Menu X Pos")
-	                .translation(KingdomKeys.MODID + ".config.cm_x_scale")
+	                .translation(KingdomKeys.MODID + ".config.cm_x_pos")
 	                .defineInRange("cmXPos", 0, -1000, 1000);
+	        
+	        cmSelectedXOffset = builder
+	                .comment("Command Menu Selected X Offset")
+	                .translation(KingdomKeys.MODID + ".config.cm_selected_x_offset")
+	                .defineInRange("cmSelectedXOffset", 5, -1000, 1000);
 	        
 	        cmSubXOffset = builder
 	                .comment("Command Menu Submenu X Offset %")
@@ -158,6 +163,11 @@ public class ClientConfig {
 	                .comment("Lock On Icon Scale")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_scale")
 	                .defineInRange("lockOnIconScale", 75, -1000, 1000);
+	        
+	        lockOnIconRotation = builder
+	                .comment("Lock On Icon Rotation Speed")
+	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_rotation")
+	                .defineInRange("lockOnIconRotation", 16, -1000, 1000);
 	        
 	        lockOnHpPerBar = builder
 	                .comment("Lock On HP per bar")

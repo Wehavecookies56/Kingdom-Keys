@@ -55,11 +55,6 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 			ShopItem shopItem = list.get(i);
 			nbt.put("shop_item_"+i, shopItem.serializeNBT());
 		}
-		/*nbt.putString("result", result.getRegistryName().toString());
-		nbt.putInt("amount", amount);
-		nbt.putInt("cost", cost);
-		nbt.putInt("tier", tier);*/
-		//nbt.putString("type", getType());
 		return nbt;
 	}
 
@@ -70,12 +65,7 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 			ShopItem shopItem = new ShopItem();
 			shopItem.deserializeNBT(nbt.getCompound("shop_item_"+i)); 
 			this.list.add(shopItem);
-			System.out.println("Adding to shoplist");
-		}/*
-		this.setResult(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("result"))), nbt.getInt("amount"));
-		//this.setType(nbt.getString("type"));
-		this.setCost(nbt.getInt("cost"));
-		this.setTier(nbt.getInt("tier"));*/
+		}
 		this.setRegistryName(nbt.getString("regname"));
 	}
 

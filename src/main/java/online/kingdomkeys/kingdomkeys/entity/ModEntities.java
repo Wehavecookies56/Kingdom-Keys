@@ -512,7 +512,7 @@ public class ModEntities {
 				}
 			}
 		} else {
-			System.out.println("No spawning, config is not adding up to 100 percent");
+			KingdomKeys.LOGGER.error("No spawning, config is not adding up to 100 percent");
 		}
     	
 		return mobs.get(world.random.nextInt(mobs.size()));		 

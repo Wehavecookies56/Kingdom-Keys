@@ -216,7 +216,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 			} else { // Form keyblade abilities
 				if (ModDriveForms.registry.get().containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm())).hasKeychain()) {
-					System.out.println(!ItemStack.matches(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY));
+					//System.out.println(!ItemStack.matches(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY));
 					if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(new ResourceLocation(playerData.getActiveDriveForm())) && !ItemStack.matches(playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm())), ItemStack.EMPTY)) {
 						ItemStack itemStack = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
 						List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
@@ -377,9 +377,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
-		float tooltipPosX = width * 0.22F;
-		float tooltipPosY = height * 0.77F;
-		ClientUtils.drawSplitString(font, new TranslatableComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + 15, (int) (width * 0.6F), 0x00FFFF);
+		ClientUtils.drawSplitString(font, new TranslatableComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
 	private void drawAP(PoseStack matrixStack) {

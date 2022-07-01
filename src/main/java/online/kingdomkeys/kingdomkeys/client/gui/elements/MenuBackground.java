@@ -124,7 +124,10 @@ public class MenuBackground extends Screen {
 	
 	public boolean drawPlayerInfo;
 
-	MenuBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
+	public MenuBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
+	public static float tooltipPosX;
+	public static float tooltipPosY;
+
 
 	protected float topBarHeight = (float)height * 0.17F;
 	protected float bottomBarHeight;
@@ -224,7 +227,7 @@ public class MenuBackground extends Screen {
 			matrixStack.scale(1.05F, 1.05F, 1F);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			int y = (int) (topBarHeight + middleHeight +1);
-			drawString(matrixStack,minecraft.font, Utils.translateToLocal("Synthesis Tier") + ": "+ Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xFFFF00);
+			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier) + ": "+ Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xFFFF00);
 			y+= minecraft.font.lineHeight;
 			drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, y, 0xF66627);
 			y+= minecraft.font.lineHeight;
@@ -266,10 +269,7 @@ public class MenuBackground extends Screen {
 		if(tip != null) {
 			matrixStack.pushPose();
 			{
-				matrixStack.scale(1.1F, 1.1F, 1F);
-				matrixStack.translate(0, -5, 0);
-				//minecraft.fontRenderer.drawSplitString(keyblade.getDescription(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int) (parent.width * 0.46875F), 0x43B5E9);
-				ClientUtils.drawSplitString(minecraft.font, Utils.translateToLocal(tip), (int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) (width * 0.5F), 0xFF9900);
+				ClientUtils.drawSplitString(font, Utils.translateToLocal(tip), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0xFF9900);
 			}
 			matrixStack.popPose();
 		}
@@ -310,6 +310,9 @@ public class MenuBackground extends Screen {
 		buttonPosX = (float) width * 0.03F;
 	    buttonPosY = (int)topBarHeight+5;
 	    buttonWidth = ((float)width * 0.1744F)-22;
+	    
+	    tooltipPosX = bottomRightBar.getPosX() + 15;
+		tooltipPosY = bottomRightBar.getPosY() + 15;
 	}
 
 	protected void drawBackground(int screenWidth, int screenHeight, boolean drawPlayer) {

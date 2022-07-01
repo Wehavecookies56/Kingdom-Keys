@@ -40,7 +40,7 @@ public class ModConfigs {
     }
 
     public static boolean cmHeaderTextVisible;
-    public static int cmTextXOffset, cmXScale, cmXPos, cmSubXOffset;
+    public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
 
     public static boolean hpShowHearts;
     public static int hpXPos, hpYPos;
@@ -51,7 +51,7 @@ public class ModConfigs {
 
     public static int playerSkinXPos, playerSkinYPos;
 
-    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnHpPerBar;
+    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
 
     public static int partyXPos, partyYPos, partyYDistance;
 
@@ -90,6 +90,11 @@ public class ModConfigs {
 
     public static void setCmXPos(int value) {
         CLIENT.cmXPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setCmSelectedXOffset(int value) {
+        CLIENT.cmSelectedXOffset.set(value);
         bakeClient();
     }
 
@@ -167,6 +172,11 @@ public class ModConfigs {
         CLIENT.lockOnIconScale.set(value);
         bakeClient();
     }
+    
+    public static void setLockOnIconRotation(int value) {
+        CLIENT.lockOnIconRotation.set(value);
+        bakeClient();
+    }
 
     public static void setLockOnHpPerBar(int value) {
         CLIENT.lockOnHpPerBar.set(Math.max(10, value));
@@ -210,6 +220,7 @@ public class ModConfigs {
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmXScale = CLIENT.cmXScale.get();
         cmXPos = CLIENT.cmXPos.get();
+        cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
 
         hpXPos = CLIENT.hpXPos.get();
@@ -229,6 +240,7 @@ public class ModConfigs {
         lockOnYPos = CLIENT.lockOnYPos.get();
         lockOnHPScale = CLIENT.lockOnHPScale.get();
         lockOnIconScale = CLIENT.lockOnIconScale.get();
+        lockOnIconRotation = CLIENT.lockOnIconRotation.get();
         lockOnHpPerBar = CLIENT.lockOnHpPerBar.get();
 
         partyXPos = CLIENT.partyXPos.get();
@@ -410,6 +422,7 @@ public class ModConfigs {
     public static int limitLaserDomeCost;
     public static int limitArrowRainCost;
     public static List<Integer> statsMultiplier;
+    public static boolean projectorHasShop;
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
@@ -425,6 +438,8 @@ public class ModConfigs {
         limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
         limitArrowRainCost = SERVER.limitArrowRainCost.get();
         statsMultiplier = (List<Integer>) SERVER.statsMultiplier.get();
+        projectorHasShop = SERVER.projectorHasShop.get();
+
     }
 
 

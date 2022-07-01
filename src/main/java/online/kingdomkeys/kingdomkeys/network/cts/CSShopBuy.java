@@ -62,10 +62,17 @@ public class CSShopBuy {
 				List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(message.inv).getList();
 				ShopItem item = null;
 				for(ShopItem shopItem : list) {
-					if(ItemStack.isSame(new ItemStack(shopItem.getResult(),shopItem.getAmount()), message.itemStack)) {
+					Item it = shopItem.getResult();
+
+					if(it instanceof KeychainItem) {
+						it = ((KeychainItem)it).getKeyblade();
+					}
+					
+					if(ItemStack.isSame(new ItemStack(it,shopItem.getAmount()), message.itemStack)) {
 						item = shopItem;
 						break;
 					}
+					
 				}
 				boolean enoughMunny = playerData.getMunny() >= item.getCost();
 				boolean enoughTier = ModConfigs.requireSynthTier ? playerData.getSynthLevel() >= item.getTier() : true;

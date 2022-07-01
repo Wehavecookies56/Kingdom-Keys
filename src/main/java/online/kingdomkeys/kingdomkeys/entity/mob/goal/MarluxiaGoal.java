@@ -45,7 +45,7 @@ public class MarluxiaGoal extends TargetGoal {
 
 	@Override
 	public boolean canContinueToUse() {
-		System.out.println(mob.tickCount);
+		//System.out.println(mob.tickCount);
 		if(mob.tickCount < 100) {
 			mob.setDeltaMovement(0,0,0);
 			mob.setInvulnerable(true);

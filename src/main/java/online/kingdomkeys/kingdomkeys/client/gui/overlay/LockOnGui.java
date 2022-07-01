@@ -85,7 +85,7 @@ public class LockOnGui extends OverlayBase {
 
 					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 					poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
-					poseStack.mulPose(Vector3f.ZP.rotation((player.tickCount % 360) * 0.2F));
+					poseStack.mulPose(Vector3f.ZP.rotation((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F));
 					poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
 					this.blit(poseStack, 0, 0, 0, 0, guiWidth, guiHeight);
 				}

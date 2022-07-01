@@ -46,6 +46,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Button_Journal + ".desc", "");
         add(Gui_Menu_Main_Button_Config, "Config");
         add(Gui_Menu_Main_Button_Config + ".desc", "Configure various graphical aspects of the HUD.");
+        add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Hearts, "Hearts");
         add(Gui_Menu_Main_Time, "World Time");
@@ -107,6 +108,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".focus", "Focus Bar");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
         add(Gui_Menu_Config + ".x_pos", "X Position");
+        add(Gui_Menu_Config + ".selected_x_pos", "Selected X Offset");
         add(Gui_Menu_Config + ".y_pos", "Y Position");
         add(Gui_Menu_Config + ".y_dist", "Y Distance");
         add(Gui_Menu_Config + ".sub_x_offset", "Submenu X Offset");
@@ -114,8 +116,12 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".text_x_offset", "Text X Offset");
         add(Gui_Menu_Config + ".hp_scale", "HP Bar Scale");
         add(Gui_Menu_Config + ".icon_scale", "Lock On Icon Scale");
+        add(Gui_Menu_Config + ".icon_rotation", "Lock On Icon Rotation Speed");
         add(Gui_Menu_Config + ".hp_per_bar", "HP Per Bar");
         add(Gui_Menu_Config + ".show_hearts", "Show hearts on HUD");
+        add(Gui_Menu_Config + ".impexp", "Import/Export");
+        add(Gui_Menu_Config + ".impexp.import", "Import");
+        add(Gui_Menu_Config + ".impexp.export", "Export to clipboard");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
@@ -193,24 +199,33 @@ public class LanguageENUS extends KKLanguageProvider {
         //Ores
         addBlock(ModBlocks.blazingOre, "Blazing Ore");
         addBlock(ModBlocks.blazingOreN, "Blazing Ore");
+        addBlock(ModBlocks.blazingOreD, "Blazing Ore");
         addBlock(ModBlocks.soothingOre, "Soothing Ore");
+        addBlock(ModBlocks.soothingOreD, "Soothing Ore");
         addBlock(ModBlocks.writhingOre, "Writhing Ore");
         addBlock(ModBlocks.writhingOreN, "Writhing Ore");
         addBlock(ModBlocks.writhingOreE, "Writhing Ore");
+        addBlock(ModBlocks.writhingOreD, "Writhing Ore");
         addBlock(ModBlocks.betwixtOre, "Betwixt Ore");
+        addBlock(ModBlocks.betwixtOreD, "Betwixt Ore");
         addBlock(ModBlocks.wellspringOre, "Wellspring Ore");
         addBlock(ModBlocks.wellspringOreN, "Wellspring Ore");
         addBlock(ModBlocks.frostOre, "Frost Ore");
+        addBlock(ModBlocks.frostOreD, "Frost Ore");
         addBlock(ModBlocks.lucidOre, "Lucid Ore");
         addBlock(ModBlocks.lightningOre, "Lightning Ore");
         addBlock(ModBlocks.pulsingOre, "Pulsing Ore");
+        addBlock(ModBlocks.pulsingOreD, "Pulsing Ore");
         addBlock(ModBlocks.pulsingOreE, "Pulsing Ore");
         addBlock(ModBlocks.remembranceOre, "Remembrance Ore");
         addBlock(ModBlocks.hungryOre, "Hungry Ore");
         addBlock(ModBlocks.sinisterOre, "Sinister Ore");
+        addBlock(ModBlocks.sinisterOreD, "Sinister Ore");
         addBlock(ModBlocks.stormyOre, "Stormy Ore");
+        addBlock(ModBlocks.stormyOreD, "Stormy Ore");
         addBlock(ModBlocks.tranquilityOre, "Tranquility Ore");
         addBlock(ModBlocks.twilightOre, "Twilight Ore");
+        addBlock(ModBlocks.twilightOreD, "Twilight Ore");
         addBlock(ModBlocks.twilightOreN, "Twilight Ore");
 
         //Other
@@ -273,6 +288,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.CRITICAL_BOOST, "Critical Boost", "Increases damage dealt by critical hits by 10%. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.JACKPOT, "Jackpot", "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.LUCKY_LUCKY, "Lucky Strike", "Brings luck, fortune and looting to the wearer, increasing the drop rate of items. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to cast get the Firaza reaction command. Stack the ability to increase the chance.");
+        addAbilityWithDesc(ModAbilities.BLIZZAZA, "Blizzaza", "Allows the user to get the Blizzaza reaction command. Stack the ability to increase the chance.");
+        addAbilityWithDesc(ModAbilities.WATERZA, "Waterza", "Allows the user to cast get the Waterza reaction command. Stack the ability to increase the chance.");
+        addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to cast get the Thundaza reaction command. Stack the ability to increase the chance.");
 
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
@@ -1123,11 +1142,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.magicBoost, "Magic Boost");
         addItem(ModItems.defenseBoost, "Defense Boost");
 
-        add("potion.desc.hp", "§aHP§r");
-        add("potion.desc.mp", "§9MP§r");
-        add("potion.desc.hpmp", "§aHP§r and §9MP§r");
-        add("potion.desc.drive", "§eDrive§r");
-        add("potion.desc.focus", "§6Focus§r");
+        add("potion.desc.hp", "\u00A7aHP\u00A7r");
+        add("potion.desc.mp", "\u00A79MP\u00A7r");
+        add("potion.desc.hpmp", "\u00A7aHP\u00A7r and \u00A79MP\u00A7r");
+        add("potion.desc.drive", "\u00A7eDrive\u00A7r");
+        add("potion.desc.focus", "\u00A76Focus\u00A7r");
         add("potion.desc.beginning", "Will restore %s%s %s ");
         add("potion.desc.toall", "to all your party members in range");
         add("potion.desc.toone", "to the chosen party member");

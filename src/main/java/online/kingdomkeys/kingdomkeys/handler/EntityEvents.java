@@ -709,7 +709,7 @@ public class EntityEvents {
 					dmg = DamageCalculation.getOrgStrengthDamage(player, weapon);
 				}
 				
-				if(player.fallDistance > 0.0F && !player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger()) {
+				if(player.fallDistance > 0.0F && !player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger()) { //Crit attack formula
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
@@ -1130,6 +1130,9 @@ public class EntityEvents {
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
 		newPlayerData.setShortcutsMap(oldPlayerData.getShortcutsMap());
+		
+		newPlayerData.setSynthLevel(oldPlayerData.getSynthLevel());
+		newPlayerData.setSynthExperience(oldPlayerData.getSynthExperience());
 		Utils.RefreshAbilityAttributes(nPlayer, newPlayerData);
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level)), (ServerPlayer)nPlayer);

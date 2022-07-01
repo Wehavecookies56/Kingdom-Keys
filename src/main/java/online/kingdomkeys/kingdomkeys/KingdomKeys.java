@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys;
 
 import com.google.common.base.Suppliers;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.command.*;
+import online.kingdomkeys.kingdomkeys.command.ModCommands;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
@@ -83,7 +86,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1.2.0";
+	public static final String MODVER = "2.1.3.1";
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
@@ -161,6 +164,8 @@ public class KingdomKeys {
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
 		MinecraftForge.EVENT_BUS.register(new ModCapabilities());
+
+
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
@@ -179,6 +184,15 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("jeresources")) {
 			KKJERPlugin.setup();
 		}
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
+			@Override
+			public void run() {
+				if (ModList.get().isLoaded("epicfight")) {
+					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+				}
+			}
+		});
+
 	}
 
 	public void addMoogleHouse() {
