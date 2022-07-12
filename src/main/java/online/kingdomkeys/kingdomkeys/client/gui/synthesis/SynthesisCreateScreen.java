@@ -188,10 +188,12 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			boolean enoughMats = true;
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
+			boolean enoughSpace = false;
 			if (RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
+				enoughSpace = Utils.getFreeSlotsForPlayer(minecraft.player) >= Utils.stacksForItemAmount(new ItemStack(recipe.getResult()), recipe.getAmount());
 				enoughMunny = playerData.getMunny() >= recipe.getCost();
-				enoughTier = ModConfigs.requireSynthTier ? playerData.getSynthLevel() >= recipe.getTier() : true;
+				enoughTier = !ModConfigs.requireSynthTier || playerData.getSynthLevel() >= recipe.getTier();
 				create.visible = true;
 				Iterator<Entry<Material, Integer>> materials = recipe.getMaterials().entrySet().iterator();// item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				while (materials.hasNext()) {
@@ -200,12 +202,14 @@ public class SynthesisCreateScreen extends MenuFilterable {
 						enoughMats = false;
 					}
 				}
+
 			}
 
-			create.active = enoughMats && enoughMunny && enoughTier;
-			if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
-				create.active = false;
-				create.setMessage(new TranslatableComponent("No empty slot"));
+			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
+			if(!enoughSpace) { //TODO somehow make this detect in singleplayer the inventory changes
+				create.setMessage(new TranslatableComponent("Not enough space"));
+			} else {
+				create.setMessage(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
 			}
 			create.visible = RecipeRegistry.getInstance().containsKey(selectedRL);
 		} else {

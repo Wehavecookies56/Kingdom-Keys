@@ -736,6 +736,20 @@ public class Utils {
 		default -> "Unknown: "+tier;
 		};
 	}
+
+	public static int getFreeSlotsForPlayer(Player player) {
+		int free = 0;
+		for (ItemStack stack : player.getInventory().items) {
+			if (ItemStack.matches(ItemStack.EMPTY, stack)) {
+				free++;
+			}
+		}
+		return free;
+	}
+
+	public static int stacksForItemAmount(ItemStack item, int amount) {
+		return (int) Math.round(Math.ceil((double)amount / (double)item.getMaxStackSize()));
+	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
 	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
