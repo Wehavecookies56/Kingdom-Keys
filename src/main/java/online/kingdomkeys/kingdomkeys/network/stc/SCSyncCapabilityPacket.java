@@ -115,6 +115,7 @@ public class SCSyncCapabilityPacket {
 		this.keychains = capability.getEquippedKeychains();
 		this.items = capability.getEquippedItems();
 		this.accessories = capability.getEquippedAccessories();
+		this.accessories = capability.getEquippedArmors();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();

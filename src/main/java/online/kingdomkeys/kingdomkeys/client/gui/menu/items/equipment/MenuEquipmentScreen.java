@@ -79,6 +79,8 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
         Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
 
+        Map<Integer, ItemStack> armor = playerData.getEquippedArmors();
+
         AtomicInteger offset = new AtomicInteger();
         AtomicInteger hidden = new AtomicInteger(0);
         
@@ -161,8 +163,21 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
                totalButtons.add(accessorySlot);
                addRenderableWidget(accessorySlot);
             });
-       }
-        
+        }
+        if(armor != null){
+            armor.entrySet().stream().forEachOrdered((entry)->{
+                int slot = entry.getKey();
+                ItemStack item = entry.getValue();
+                MenuEquipmentButton armorSlot;
+                if(slot == 0) {
+                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(255, 247, 0), 0x44AA00), ItemCategory.EQUIPMENT, this, Utils.translateToLocal("Equipment"), 0x42ceff);
+                } else {
+                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(255, 247, 0), 0x44AA00), ItemCategory.EQUIPMENT, this);
+                }
+                totalButtons.add(armorSlot);
+                addRenderableWidget(armorSlot);
+            });
+        }
         if(items != null) {
         	 items.entrySet().stream().forEachOrdered((entry) -> {
                 int slot = entry.getKey();

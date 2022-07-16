@@ -164,6 +164,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.serializeNBT()));
 		storage.put("accessories", accessories);
 
+		CompoundTag armors = new CompoundTag();
+		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.serializeNBT()));
+		storage.put("armor", armors);
+
+
 		storage.putInt("hearts", this.getHearts());
 		storage.putInt("org_alignment", this.getAlignmentIndex());
 		storage.put("org_equipped_weapon", this.getEquippedWeapon().serializeNBT());
@@ -368,6 +373,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
+	private Map<Integer, ItemStack> equippedArmor = new HashMap<>();
 
 	private Floor currentFloor;
 
@@ -1240,6 +1246,49 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
+	@Override
+	public Map<Integer, ItemStack> getEquippedArmors() {
+		return equippedArmor;
+	}
+	@Override
+	public ItemStack getEquippedArmor(int slot) {
+		if (equippedArmor.containsKey(slot)) {
+			return equippedArmor.get(slot);
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack equipArmor(int slot, ItemStack stack) {
+		//Item can be empty stack to unequip
+		if (canEquipAccessory(slot, stack)) {
+			ItemStack previous = getEquippedAccessory(slot);
+			equippedArmor.put(slot, stack);
+			return previous;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean canEquipArmor(int slot, ItemStack stack) {
+		if (getEquippedAccessory(slot) != null) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
+				//If there is more than 1 item in the stack don't handle it
+				if (stack.getCount() <= 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void equipAllArmors(Map<Integer, ItemStack> armors, boolean force) {
+		//Any Accessories that cannot be equipped will be removed
+		if(!force)
+			armors.replaceAll((k,v) -> canEquipArmor(k,v) ? v : ItemStack.EMPTY);
+		equippedArmor = armors;
+	}
 	//endregion
 
 	//region Organization

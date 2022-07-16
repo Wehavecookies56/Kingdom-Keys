@@ -1011,6 +1011,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.executiveRing, "Executive Ring");
         addItem(ModItems.starCharm, "Star Charm");
         addItem(ModItems.luckyRing, "Lucky Ring");
+        addItem(ModItems.fireBangle, "Fire Bangle");
 
         //Spawn Eggs
         addItem(ModEntities.MOOGLE_EGG, "Spawn Moogle");

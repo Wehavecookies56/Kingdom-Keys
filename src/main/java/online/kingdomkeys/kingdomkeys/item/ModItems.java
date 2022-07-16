@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import net.minecraft.world.entity.EquipmentSlot;
@@ -802,9 +805,14 @@ public class ModItems {
 			shadowArchive = createNewItem(Strings.shadowArchive, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 0, 3, null)),
 			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 0, 3, new String[] {Strings.mpRage})),
     		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.treasureMagnet})),
-    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.luckyLucky})),
+    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.luckyRing})),
     		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 2, 2, null)),
 
+			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(
+					new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, (HashMap)Map.of(KKResistanceType.fire, 20))),
+
+
+			// card declaration
 			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),
 			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS),
 			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS),
@@ -828,7 +836,7 @@ public class ModItems {
 			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new);
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
-	;
+
 
 
 	//Helper method to create item with the properties and registry name

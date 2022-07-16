@@ -198,6 +198,15 @@ public class EntityEvents {
 					}
 					playerData.equipAllAccessories(map, true);
 				}
+
+				// TODO (done) Fix for retrocompatibility, move above in a few versions
+				if(playerData.getEquippedArmors().size() == 0) {
+					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
+					for(int i = 0 ; i < 3; i++) {
+						map.put(i,ItemStack.EMPTY);
+					}
+					playerData.equipAllArmors(map, true);
+				}
 				
 				//Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
@@ -1125,6 +1134,7 @@ public class EntityEvents {
 		newPlayerData.setShotlockList(oldPlayerData.getShotlockList());
 		newPlayerData.equipAllItems(oldPlayerData.getEquippedItems(), true);
 		newPlayerData.equipAllAccessories(oldPlayerData.getEquippedAccessories(), true);
+		newPlayerData.equipAllArmors(oldPlayerData.getEquippedArmors(), true);
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());

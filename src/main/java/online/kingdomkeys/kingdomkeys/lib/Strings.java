@@ -121,7 +121,7 @@ public class Strings {
 		    blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
 		    waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",
 		    thundaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"thundaza";
-    		;
+
     
     // Synthesis Materials
     public static final String
@@ -523,7 +523,8 @@ public class Strings {
 		shadowArchivePlus = "shadow_archive_plus",
 		drawRing = "draw_ring",
 		luckyRing = "lucky_ring",
-		starCharm = "star_charm";
+		starCharm = "star_charm",
+		fireBangle = "fire_bangle";
     	
     
     // Music Discs

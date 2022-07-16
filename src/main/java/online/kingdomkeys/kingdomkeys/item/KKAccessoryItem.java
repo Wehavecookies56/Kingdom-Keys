@@ -23,13 +23,11 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KKAccessoryItem extends Item implements IItemCategory {
-	
-	
 
 	int ap,str,mag;
 	String[] abilities;
 	
-    public KKAccessoryItem(Item.Properties properties, int AP, int str, int mag, String[] abilities) {
+    public KKAccessoryItem(Properties properties, int AP, int str, int mag, String[] abilities) {
         super(properties);
 		this.ap = AP;
 		this.str = str;

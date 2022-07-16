@@ -50,6 +50,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -463,7 +465,38 @@ public class Utils {
 		}
 		return res;
 	}
-	
+
+	public static int getArmorsStat(IPlayerCapabilities playerData, String type) {
+		int res = 0;
+		for(Entry<Integer, ItemStack> entry : playerData.getEquippedArmors().entrySet()) {
+			if(!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
+				KKArmorItem kkArmorItem = (KKArmorItem) entry.getValue().getItem();
+				switch(type) {
+					case "def":
+						res += kkArmorItem.getDefence();
+						break;
+					case "dark":
+						if(kkArmorItem.CheckKey(KKResistanceType.darkness))
+							res+= kkArmorItem.GetResValue(KKResistanceType.darkness);
+						break;
+					case "ice":
+						if(kkArmorItem.CheckKey(KKResistanceType.ice))
+							res+= kkArmorItem.GetResValue(KKResistanceType.ice);
+						break;
+
+					case "lightning":
+						if(kkArmorItem.CheckKey(KKResistanceType.lightning))
+							res+= kkArmorItem.GetResValue(KKResistanceType.lightning);
+						break;
+					case "fire":
+						if(kkArmorItem.CheckKey(KKResistanceType.fire))
+							res+= kkArmorItem.GetResValue(KKResistanceType.fire);
+						break;
+				}
+			}
+		}
+		return res;
+	}
 	public static int getConsumedAP(IPlayerCapabilities playerData) {
 		int ap = 0;
 		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
