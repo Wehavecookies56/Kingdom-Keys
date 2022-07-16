@@ -24,10 +24,12 @@ public class ShadowRenderer<Type extends ShadowEntity> extends MobRenderer<Type,
     @Override
     public void render(Type entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         matrixStackIn.pushPose();
-        {	       
-	    	if (EntityHelper.getState(entityIn) == 1) {
+        {	      
+            matrixStackIn.scale(0.8F, 0.8F, 0.8F);
+
+	    	/*if (EntityHelper.getState(entityIn) == 1) {
 	            matrixStackIn.scale(1.5F, 0.01F, 1.5F);
-	        }
+	        }*/
 	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     	}
     	matrixStackIn.popPose();

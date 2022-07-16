@@ -18,9 +18,10 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.AssassinEntity;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 
 /**
  * Assassin - Abelatox
@@ -98,11 +99,8 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
         this.skirtBack = bodyBot.getChild("skirtBack");
         this.skirtTop = skirtBack.getChild("skirtTop");
 
-        ModelAnimation leftLegTopAnim = new ModelAnimation(leftLegTop, -35, -55, -15, 0, true, rightLegTop);
-        //ModelAnimation rightLegTopAnim = new ModelAnimation(rightLegTop, -35, -45, -25, 0, false);
-
+        ModelAnimation leftLegTopAnim = new ModelAnimation(leftLegTop, -35, -55, -15, 0, true, Angle.X, rightLegTop);
         animation.add(leftLegTopAnim);
-        //animation.add(rightLegTopAnim);
     }
 
     List<ModelAnimation> animation = new ArrayList<ModelAnimation>();
@@ -187,7 +185,7 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
                 ModelAnimation m = animation.get(i);
 
                 if(m != null && m.model != null) {
-                    if(m.increasing) { //animnation increase
+                    if(m.increasing) { //animation increase
                         m.actVal += 2;
                         if(m.actVal >= m.maxVal) {
                             m.increasing = false;

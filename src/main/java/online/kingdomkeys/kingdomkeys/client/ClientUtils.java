@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -39,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
@@ -358,6 +360,10 @@ public class ClientUtils {
         };
     }
 
+    public enum Angle{
+    	X,Y,Z
+    }
+    
     public static class ModelAnimation {
         public ModelPart model;
         public ModelPart modelCounterpart;
@@ -365,15 +371,17 @@ public class ClientUtils {
         public float minVal;
         public float maxVal;
         public float actVal;
+        public Angle angle;
         public boolean increasing;
 
-        public ModelAnimation(ModelPart model, float defVal, float minVal, float maxVal, float actVal, boolean increasing, @Nullable ModelPart counterpart) {
+        public ModelAnimation(ModelPart model, float defVal, float minVal, float maxVal, float actVal, boolean increasing, Angle angle, @Nullable ModelPart counterpart) {
             this.model = model;
             this.defVal = defVal;
             this.minVal = minVal;
             this.maxVal = maxVal;
             this.actVal = actVal;
             this.increasing = increasing;
+            this.angle = angle;
             this.modelCounterpart = counterpart;
         }
 
@@ -381,7 +389,71 @@ public class ClientUtils {
         public String toString() {
             return defVal + ": " + actVal + " " + increasing;
         }
+
+		public void animate() {
+            if(model != null) {
+                if(increasing) { //animnation increase
+                    actVal += 2;
+                    if(actVal >= maxVal) {
+                        increasing = false;
+                    }
+                } else { //Animation decrease
+                    actVal -= 2;
+                    if(actVal <= minVal) {
+                        increasing = true;
+                    }
+                }
+                switch(angle) {
+                case X:
+                    model.xRot = (float) Math.toRadians(actVal);
+                    if(modelCounterpart != null) {
+                        modelCounterpart.xRot = (float) Math.toRadians(defVal*2-actVal);
+                    }
+                	break;
+                case Y:
+                    model.yRot = (float) Math.toRadians(actVal);
+                    if(modelCounterpart != null) {
+                        modelCounterpart.yRot = (float) Math.toRadians(defVal*2-actVal);
+                    }
+                	break;
+                case Z:
+                    model.zRot = (float) Math.toRadians(actVal);
+                    if(modelCounterpart != null) {
+                        modelCounterpart.zRot = (float) Math.toRadians(defVal*2-actVal);
+                    }
+                	break;
+                }
+			}
+            
+		}
+		
+		public void setDefault() {
+            if(model != null) {
+                
+                switch(angle) {
+                case X:
+                    model.xRot = (float) Math.toRadians(defVal);
+                    if(modelCounterpart != null) {
+                        modelCounterpart.xRot = (float) Math.toRadians(defVal);
+                    }
+                	break;
+                case Y:
+                    model.yRot = (float) Math.toRadians(defVal);
+                    if(modelCounterpart != null) {
+                        modelCounterpart.yRot = (float) Math.toRadians(defVal);
+                    }
+                	break;
+                case Z:
+                    model.zRot = (float) Math.toRadians(defVal);
+                    if(modelCounterpart != null) {
+                        modelCounterpart.zRot = (float) Math.toRadians(defVal);
+                    }
+                	break;
+                }
+			}
+		}
     }
+    
 
     @OnlyIn(Dist.CLIENT)
     public static void blitScaled(PoseStack matrixStack, GuiComponent gui, float x, float y, int u, int v, int width, int height, float scaleX, float scaleY) {
@@ -447,4 +519,5 @@ public class ClientUtils {
         RenderSystem.applyModelViewMatrix();
     }
 
+	
 }

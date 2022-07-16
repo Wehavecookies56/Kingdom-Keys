@@ -12,10 +12,13 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Supplier;
 
 import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -53,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.NobodyCreeperModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowGlobModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.SoldierModel;
 import online.kingdomkeys.kingdomkeys.client.render.block.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.MoogleProjectorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
@@ -76,6 +80,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.OrgPortalEntityRender
 import online.kingdomkeys.kingdomkeys.client.render.entity.SeedBulletRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowGlobRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.SoldierRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.SpawningOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.FocusOrbRenderer;
@@ -94,7 +99,18 @@ import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRende
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
-import online.kingdomkeys.kingdomkeys.entity.block.*;
+import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MoogleProjectorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
@@ -134,6 +150,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.RedNocturneEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SkaterBombEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.SoldierEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.StormBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
@@ -244,6 +261,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<SpawningOrbEntity>> TYPE_SPAWNING_ORB = createEntityType(SpawningOrbEntity::new, SpawningOrbEntity::new, MobCategory.MONSTER, "spawning_orb", 1.5F,  1.5F);
 
     public static final RegistryObject<EntityType<MarluxiaEntity>> TYPE_MARLUXIA = createEntityTypeImmuneToFire(MarluxiaEntity::new, MarluxiaEntity::new, MobCategory.MONSTER, "marluxia", 1F, 2F);
+    public static final RegistryObject<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityTypeImmuneToFire(SoldierEntity::new, SoldierEntity::new, MobCategory.MONSTER, "soldier", 1F, 2F);
 
     //TODO update textures to work with newer model, make magic for
     /*
@@ -382,6 +400,8 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_DUSK.get(), DuskRenderer::new);
         event.registerEntityRenderer(TYPE_ASSASSIN.get(), AssassinRenderer::new);
         event.registerEntityRenderer(TYPE_DIRE_PLANT.get(), DirePlantRenderer::new);
+        event.registerEntityRenderer(TYPE_SOLDIER.get(), SoldierRenderer::new);
+
 
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
@@ -421,6 +441,7 @@ public class ModEntities {
         event.registerLayerDefinition(CubeModel.LAYER_LOCATION, CubeModel::createBodyLayer);
         event.registerLayerDefinition(DarkballModel.LAYER_LOCATION, DarkballModel::createBodyLayer);
         event.registerLayerDefinition(DirePlantModel.LAYER_LOCATION, DirePlantModel::createBodyLayer);
+        event.registerLayerDefinition(SoldierModel.LAYER_LOCATION, SoldierModel::createBodyLayer);
         event.registerLayerDefinition(DuskModel.LAYER_LOCATION, DuskModel::createBodyLayer);
         event.registerLayerDefinition(ElementalMusicalHeartlessModel.LAYER_LOCATION, ElementalMusicalHeartlessModel::createBodyLayer);
         event.registerLayerDefinition(LargeBodyModel.LAYER_LOCATION, LargeBodyModel::createBodyLayer);
@@ -458,6 +479,7 @@ public class ModEntities {
         event.put(TYPE_SKATER_BOMB.get(), SkaterBombEntity.registerAttributes().build());
         event.put(TYPE_STORM_BOMB.get(), StormBombEntity.registerAttributes().build());
         event.put(TYPE_YELLOW_OPERA.get(), YellowOperaEntity.registerAttributes().build());
+        event.put(TYPE_SOLDIER.get(), SoldierEntity.registerAttributes().build());
         
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
         event.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().build());
@@ -483,6 +505,7 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_GREEN_REQUIEM.get(), 6);
         addToGroup(HEARTLESS_EMBLEM, TYPE_LARGE_BODY.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
         addToGroup(NOBODY, TYPE_NOBODY_CREEPER.get(), 4);
         addToGroup(NOBODY, TYPE_DUSK.get(), 0);
         addToGroup(NOBODY, TYPE_ASSASSIN.get(), 15);
@@ -539,6 +562,7 @@ public class ModEntities {
         SpawnPlacements.register(TYPE_STORM_BOMB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_YELLOW_OPERA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_SPAWNING_ORB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(TYPE_SOLDIER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         
         SpawnPlacements.register(TYPE_MARLUXIA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }

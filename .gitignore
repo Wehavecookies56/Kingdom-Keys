@@ -31,3 +31,10 @@ README.md
 README.txt
 logs/latest.log
 logs/debug.log
+src/main/resources/data/kingdomkeys/structures/castle_oblivion/castle_oblivion_0.nbt
+src/main/resources/data/kingdomkeys/structures/castle_oblivion/castle_oblivion_1.nbt
+src/main/resources/data/kingdomkeys/structures/castle_oblivion/castle_oblivion_2.nbt
+src/main/resources/data/kingdomkeys/structures/castle_oblivion/castle_oblivion_3.nbt
+src/main/resources/data/kingdomkeys/structures/castle_oblivion/castle_oblivion_4.nbt
+src/main/resources/data/kingdomkeys/structures/castle_oblivion/castle_oblivion_5.nbt
+src/main/resources/data/kingdomkeys/structures/castle_oblivion/castle_oblivion_6.nbt
