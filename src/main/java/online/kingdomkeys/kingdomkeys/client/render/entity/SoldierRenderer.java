@@ -24,7 +24,7 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 	public void render(Type entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		matrixStackIn.pushPose();
 		{
-			matrixStackIn.scale(0.7F, 0.7F, 0.7F);
+			//matrixStackIn.scale(0.7F, 0.7F, 0.7F);
 			/*if (EntityHelper.getState(entityIn) == 1) {
 				matrixStackIn.translate(0, 0.4, 0);
 			} else if(EntityHelper.getState(entityIn) == 3) {
@@ -37,7 +37,7 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 	
 	@Override
 	protected void scale(Type entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
-		matrixStackIn.scale(1, 1, 1);
+		matrixStackIn.scale(0.6F, 0.6F, 0.6F);
 		super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
 	}
 

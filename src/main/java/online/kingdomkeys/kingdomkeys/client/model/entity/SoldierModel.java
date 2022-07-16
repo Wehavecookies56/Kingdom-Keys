@@ -40,12 +40,12 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
 	private final ModelPart head;
 
 	public SoldierModel(ModelPart root) {
-		this.right_leg = root.getChild("right_leg");
-		this.left_leg = root.getChild("left_leg");
+		this.right_leg = root.getChild("body").getChild("right_leg");
+		this.left_leg = root.getChild("body").getChild("left_leg");
 		this.body = root.getChild("body");
-		this.left_arm = root.getChild("left_arm");
-		this.right_arm = root.getChild("right_arm");
-		this.head = root.getChild("head");
+		this.left_arm = root.getChild("body").getChild("left_arm");
+		this.right_arm = root.getChild("body").getChild("right_arm");
+		this.head = root.getChild("body").getChild("head");
 		
         ModelAnimation leftLegTopAnim = new ModelAnimation(left_leg, 0, -40, 40, 0, true, Angle.X, right_leg);
         ModelAnimation headAnim = new ModelAnimation(head, 0, -30, 30, 0, true, Angle.Z, null);
@@ -60,22 +60,6 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(17, 51).addBox(-1.0F, 9.5F, -5.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(80, 18).addBox(-1.5F, 9.5F, -4.5F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(25, 72).addBox(-2.0F, 9.5F, -2.5F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(76, 29).addBox(-1.5F, 8.5F, -2.5F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(80, 13).addBox(-1.5F, 6.5F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(50, 0).addBox(-1.5F, 9.5F, 1.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(63, 10).addBox(-2.0F, -1.5F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.5F, 12.5F, 0.5F));
-
-		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(30, 19).addBox(-1.0F, 9.5F, -5.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(26, 79).addBox(-1.5F, 9.5F, -4.5F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(68, 71).addBox(-2.0F, 9.5F, -2.5F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(52, 19).addBox(-1.5F, 8.5F, -2.5F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 79).addBox(-1.5F, 6.5F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(28, 55).addBox(-1.5F, 9.5F, 1.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(54, 55).addBox(-2.0F, -1.5F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(2.5F, 12.5F, 0.5F));
-
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(30, 11).addBox(-5.0F, 5.0F, -3.0F, 10.0F, 1.0F, 6.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 17).addBox(-5.5F, 6.0F, -3.5F, 11.0F, 2.0F, 7.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 27).addBox(-5.0F, -5.0F, -2.5F, 10.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
@@ -89,7 +73,23 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
 		.texOffs(26, 0).addBox(-4.5F, 2.0F, -2.5F, 9.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
 		.texOffs(34, 38).addBox(-4.0F, 3.0F, -2.5F, 8.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 5.0F, 0.5F));
 
-		PartDefinition left_arm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(52, 76).addBox(-1.2067F, 0.0F, -1.3846F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
+		PartDefinition right_leg = body.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(17, 51).addBox(-1.0F, 9.5F, -5.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(80, 18).addBox(-1.5F, 9.5F, -4.5F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(25, 72).addBox(-2.0F, 9.5F, -2.5F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(76, 29).addBox(-1.5F, 8.5F, -2.5F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(80, 13).addBox(-1.5F, 6.5F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(50, 0).addBox(-1.5F, 9.5F, 1.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(63, 10).addBox(-2.0F, -1.5F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.5F, 12.5F, 0.5F));
+
+		PartDefinition left_leg = body.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(30, 19).addBox(-1.0F, 9.5F, -5.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(26, 79).addBox(-1.5F, 9.5F, -4.5F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(68, 71).addBox(-2.0F, 9.5F, -2.5F, 4.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(52, 19).addBox(-1.5F, 8.5F, -2.5F, 3.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 79).addBox(-1.5F, 6.5F, -1.0F, 3.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(28, 55).addBox(-1.5F, 9.5F, 1.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(54, 55).addBox(-2.0F, -1.5F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(2.5F, 12.5F, 0.5F));
+
+		PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(52, 76).addBox(-1.2067F, 0.0F, -1.3846F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
 		.texOffs(74, 60).addBox(-1.2067F, 6.0F, -1.8846F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(55, 0).addBox(-2.2067F, -2.0F, -2.3846F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(7.2067F, 1.0F, 0.3846F));
 
@@ -107,7 +107,7 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
 		.texOffs(57, 14).addBox(-0.5F, 1.5F, 3.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 62).addBox(-0.5F, 1.5F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.0914F, -8.3446F, -1.5F, 0.0F, 0.0F, 1.2217F));
 
-		PartDefinition right_arm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(39, 76).addBox(-1.7933F, 0.0F, -1.3846F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
+		PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(39, 76).addBox(-1.7933F, 0.0F, -1.3846F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
 		.texOffs(11, 75).addBox(-2.7933F, 6.1F, -1.8846F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(12, 55).addBox(-2.7933F, -2.0F, -2.3846F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(-7.2067F, 1.0F, 0.3846F));
 
@@ -125,7 +125,7 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
 		.texOffs(38, 72).addBox(-0.5F, -1.0F, 1.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
 		.texOffs(43, 72).addBox(-0.5F, -1.0F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0745F, 0.0305F, 1.1014F, 0.0F, 0.0F, -0.6109F));
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 71).addBox(-2.0F, -3.0F, -1.46F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
+		PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 71).addBox(-2.0F, -3.0F, -1.46F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 0).addBox(-4.5F, -12.0F, -2.46F, 9.0F, 9.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.0F, 0.46F));
 
 		PartDefinition hat = head.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(71, 23).addBox(-3.5F, -30.0F, -6.0F, 7.0F, 3.0F, 2.0F, new CubeDeformation(0.0F))
@@ -156,39 +156,59 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     	//animation.set(1,new ModelAnimation(head, 0, -20, 20, 0, true, Angle.Z, null));
+    	this.left_arm.y = -3;
+    	this.right_arm.y = -3;
+    	this.left_leg.y = 8;
+    	this.right_leg.y = 8;
+    	this.head.y = -4;
+    	
         if(!Minecraft.getInstance().isPaused()) {
-        	if(EntityHelper.getState(entity) == 1) {
+        	if(EntityHelper.getState(entity) == 0) { //Normal, arms in front
+        		this.head.zRot = 0;
+        		this.head.yRot = 0;
+        		this.body.yRot = 0;
+
+        		this.right_arm.xRot = (float) Math.toRadians(-90);
+        		this.left_arm.xRot = (float) Math.toRadians(-90);
+        		
+        		//this.right_arm.zRot = (float) Math.toRadians(90);
+        		//this.left_arm.zRot = (float) Math.toRadians(-90);
+        	} else if(EntityHelper.getState(entity) == 1) {
+        		this.head.zRot = 0;
+        		this.body.yRot = (entity.tickCount)%360;
+        		this.right_arm.xRot = 0;//(float) Math.toRadians(90);
+        		this.left_arm.xRot = 0;//(float) Math.toRadians(-90);
+
         		this.right_arm.zRot = (float) Math.toRadians(90);
         		this.left_arm.zRot = (float) Math.toRadians(-90);
-        		entity.yBodyRot = (entity.tickCount/10)%360;
-        	} else {
-        		/*this.right_arm.x = (float) Math.toRadians(90);
-        		this.left_arm.x = (float) Math.toRadians(90);*/
 
-	        	if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
-	        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-	                    ModelAnimation m = animation.get(i);
-	                    m.animate();
-	                }
-	        	} else {
-	        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-	                    ModelAnimation m = animation.get(i);
-	                    m.setDefault();
-	                }
-	        		this.right_arm.z = 0;
-	        		this.left_arm.z = 0;
-	        	}
-	        }
+        		return;
+        	}
+
+        	if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
+        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
+                    ModelAnimation m = animation.get(i);
+                    m.animate();
+                }
+        	} else {
+        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
+                    ModelAnimation m = animation.get(i);
+                    m.setDefault();
+                }
+        		//this.right_arm.zRot = 0;
+        		//this.left_arm.zRot = 0;
+        	}
+	        
         }	
     }
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-		this.head.render(poseStack, buffer, packedLight, packedOverlay);
+		//this.head.render(poseStack, buffer, packedLight, packedOverlay);
 		this.body.render(poseStack, buffer, packedLight, packedOverlay);
-		this.right_arm.render(poseStack, buffer, packedLight, packedOverlay);
+		/*this.right_arm.render(poseStack, buffer, packedLight, packedOverlay);
 		this.right_leg.render(poseStack, buffer, packedLight, packedOverlay);
 		this.left_arm.render(poseStack, buffer, packedLight, packedOverlay);
-		this.left_leg.render(poseStack, buffer, packedLight, packedOverlay);
+		this.left_leg.render(poseStack, buffer, packedLight, packedOverlay);*/
 	}
 }

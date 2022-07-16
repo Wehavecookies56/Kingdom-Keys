@@ -20,7 +20,7 @@ import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.SoldierGoal;
 
 public class SoldierEntity extends BaseKHEntity {
 
@@ -47,7 +47,7 @@ public class SoldierEntity extends BaseKHEntity {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
        // this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
-       // this.targetSelector.addGoal(4, new ShadowGoal(this));
+        this.targetSelector.addGoal(4, new SoldierGoal(this));
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
