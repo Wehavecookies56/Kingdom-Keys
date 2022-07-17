@@ -74,9 +74,9 @@ public class GuiOverlay extends OverlayBase {
 				showDriveLevelUp(poseStack);
 			}
 
-				/*if(teleport != null) {
-					showTeleport();
-				}*/
+			/*if(teleport != null) {
+				showTeleport();
+			}*/
 		}
 	}
 

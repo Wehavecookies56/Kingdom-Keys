@@ -1,5 +1,13 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableMap;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
@@ -12,17 +20,11 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.lwjgl.system.CallbackI;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class KKArmorItem extends Item implements IItemCategory {
     private final int defence;
-    private final HashMap<KKResistanceType, Integer> resList;
-    public KKArmorItem(Properties properties, int defense, HashMap resList ) {
+    private final ImmutableMap<KKResistanceType, Integer> resList;
+    public KKArmorItem(Properties properties, int defense, ImmutableMap<KKResistanceType, Integer> resList ) {
         super(properties);
         this.defence = defense;
         this.resList =  resList;
@@ -69,7 +71,7 @@ public class KKArmorItem extends Item implements IItemCategory {
         return resList.get(kkResistanceType);
     }
 
-    public HashMap<KKResistanceType, Integer> getResList() {
+    public ImmutableMap<KKResistanceType, Integer> getResList() {
         return resList;
     }
 

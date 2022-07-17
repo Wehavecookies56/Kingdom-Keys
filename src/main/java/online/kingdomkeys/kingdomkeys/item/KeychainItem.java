@@ -92,7 +92,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 		if (getKeyblade() != null && getKeyblade().data != null) {
 			if(getKeyblade().getKeybladeLevel(stack) > 0)
 				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
-			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", (int)(getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
 			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));
 		}

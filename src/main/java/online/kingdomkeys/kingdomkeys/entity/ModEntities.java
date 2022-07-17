@@ -490,13 +490,14 @@ public class ModEntities {
     }
     
     public static Monster getRandomEnemy(int level, Level world) {
-        //Add to groups here so not null
         addToGroup(MobType.NPC, TYPE_MOOGLE.get(), 0);
+        
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_SHADOW.get(), 0);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_MEGA_SHADOW.get(), 10);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_GIGA_SHADOW.get(), 20);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_DARKBALL.get(), 15);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_SHADOW_GLOB.get(), 5);
+        
         addToGroup(HEARTLESS_EMBLEM, TYPE_MINUTE_BOMB.get(), 4);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SKATER_BOMB.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_STORM_BOMB.get(), 12);
@@ -508,6 +509,7 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_LARGE_BODY.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
+        
         addToGroup(NOBODY, TYPE_NOBODY_CREEPER.get(), 4);
         addToGroup(NOBODY, TYPE_DUSK.get(), 0);
         addToGroup(NOBODY, TYPE_ASSASSIN.get(), 15);

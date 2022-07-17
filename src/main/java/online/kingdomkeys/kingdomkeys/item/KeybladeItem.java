@@ -192,30 +192,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		/*if(world.isRemote) {
-		try {
-			FileWriter fw = new FileWriter(new File("keyblades.txt"));
-			for(int i=0; i< Lists.keybladeRecipes.size(); i++) {
-				ResourceLocation name = Lists.keybladeRecipes.get(i);
-				fw.write(""
-						+ "\n[custom_weaponry.keyblade"+i+"]\n"
-						+ "\tarmor_ignorance = 1.25\n"
-						+ "\thit_at_once = 2\n"
-						+ "\timpact = 1.0\n"
-						+ "\t#Allowed Values: AXE, FIST, HOE, PICKAXE, SHOVEL, SWORD, SPEAR, GREATSWORD, KATANA, TACHI, LONGSWORD, DAGGER, BOW, CROSSBOW, TRIDENT\n"
-						+ "\tweapon_type = \"SWORD\"\n"
-						+ "\tregistry_name = \""+name.toString()+"\"\n"
-						+ "");
-			}
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}*/
-		
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {	
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) {
 			HitResult rtr;
@@ -281,7 +258,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		if (data != null) {
 			if(getKeybladeLevel(stack) > 0)
 				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
-			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack)+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", (int)(getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDesc()));
 			if(recipe != null) {

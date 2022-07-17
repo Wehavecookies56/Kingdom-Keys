@@ -58,16 +58,18 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 		setTarget(targetIDS.substring(1));
 		this.targetList = targets;
 		this.dmg = dmg;
+        player.startAutoSpinAttack(20 * targets.size());
+
 	}
 
 	@Override
 	public void tick() {
-		if(tickCount % 8 == 0) {
-			System.out.println(getTarget());
+		if(tickCount % 8 == 1) {
+			//System.out.println(getTarget());
 			if (getCaster() != null && getTarget() != null) {
 				BlockPos pos = getTarget().blockPosition();
 				float speedFactor = 0.5F;
-				//getCaster().setDeltaMovement((pos.getX() - getCaster().getX()) * speedFactor, (pos.getY() - getCaster().getY())  * speedFactor, (pos.getZ() - getCaster().getZ()) * speedFactor);
+				getCaster().setDeltaMovement((pos.getX() - getCaster().getX()) * speedFactor, (pos.getY() - getCaster().getY()) * speedFactor, (pos.getZ() - getCaster().getZ()) * speedFactor);
 	
 				if (level.isClientSide) {
 					getCaster().hurtMarked = true;
@@ -92,7 +94,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	            getCaster().yRotO += getCaster().getYRot() - f1;*/
 	            Player player = getCaster();
 	            
-                float f7 = rPitch;
+                /*float f7 = rPitch;
                 float f = rYaw;
                 float f1 = -Mth.sin(f7 * ((float)Math.PI / 180F)) * Mth.cos(f * ((float)Math.PI / 180F));
                 float f2 = -Mth.sin(f * ((float)Math.PI / 180F));
@@ -102,8 +104,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
                 f1 *= f5 / f4;
                 f2 *= f5 / f4;
                 f3 *= f5 / f4;
-                player.push((double)f1, (double)f2, (double)f3);
-                player.startAutoSpinAttack(20);
+                player.push((double)f1, (double)f2, (double)f3);*/
                 /*if (player.isOnGround()) { //Leap
                    float f6 = 1.1999999F;
                    player.move(MoverType.SELF, new Vec3(0.0D, f6, 0.0D));
@@ -140,7 +141,6 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
             for(LivingEntity enemy : list) {
 				enemy.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
 			}
-            setActualTargetIndex(getActualTargetIndex()+1);
 
 		}
 		
@@ -194,7 +194,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	}
 	
 	private Entity getTarget() {
-		System.out.println(getTargets().size() +" "+ getActualTargetIndex());
+		//System.out.println(getTargets().size() +" "+ getActualTargetIndex());
 		if(getTargets().size() <= getActualTargetIndex())
 			return null;
 		return getTargets().get(getActualTargetIndex());

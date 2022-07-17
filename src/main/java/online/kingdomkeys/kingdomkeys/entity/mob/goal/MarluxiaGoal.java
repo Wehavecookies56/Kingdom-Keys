@@ -52,7 +52,7 @@ public class MarluxiaGoal extends TargetGoal {
 			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0);
 		}
 
-		if(mob.tickCount == 100) {
+		if(mob.tickCount >= 100 && mob.tickCount <= 101) {
 			mob.setInvulnerable(false);
 			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(11);
 		}
@@ -63,7 +63,7 @@ public class MarluxiaGoal extends TargetGoal {
 				int n = mob.level.random.nextInt()*100;
 				if(n < 50) { // Armored?
 					if(mob.getHealth() < mob.getMaxHealth() * 0.80 && !isArmored()) {
-						useArmor((MarluxiaEntity) mob);
+						useArmor((MarluxiaEntity) mob, false);
 						ticksToChooseAI = 200;
 					} else {
 						ticksToChooseAI = 100; //If can't use the armor wait 100 ticks
@@ -108,7 +108,7 @@ public class MarluxiaGoal extends TargetGoal {
 
 	private void teleportAI() {
 		mob.setNoGravity(true);
-		if(tpTicks % 10 == 0) {
+		if(tpTicks % 20 == 0) {
 			attackWithTP();
 		}
 		if(tpTicks > MAX_TP_TICKS) {
@@ -193,9 +193,9 @@ public class MarluxiaGoal extends TargetGoal {
 	            	enemy.hurt(DamageSource.MAGIC, 3);
 				}						
 			}
-		} else if(chasingTicks > 300) {
+		} else if(chasingTicks >= 300) {
 			mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(11);
-			useArmor((MarluxiaEntity) mob);
+			useArmor((MarluxiaEntity) mob, true);
 		}
 		chasingTicks+=2;
 	}
@@ -217,12 +217,13 @@ public class MarluxiaGoal extends TargetGoal {
 		}
 	}
 
-	public void useArmor(MarluxiaEntity entity) {
-		if(armorUses < MAX_ARMOR_USES) {
+	public void useArmor(MarluxiaEntity entity, boolean ignoreRestriction) {
+		//System.out.println(armorUses);
+		if(armorUses < MAX_ARMOR_USES || ignoreRestriction) {
 			armorTicks = 0;
 			EntityHelper.setState(entity, 1);
 			entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 2000, 200));
-			armorUses+=2;
+			armorUses++;
 		}
 	}
 

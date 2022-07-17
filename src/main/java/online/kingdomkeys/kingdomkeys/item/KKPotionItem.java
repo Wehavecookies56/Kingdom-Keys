@@ -22,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -78,11 +79,12 @@ public class KKPotionItem extends Item implements IItemCategory {
     }*/
     
     public void potionEffect (Player player) {
-    	IPlayerCapabilities playerData;
+    	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		switch(type) {
     	case HP:
         	float hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
-    		player.heal(hpAmount);
+        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+        	player.heal(hpAmount);
     		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
@@ -94,6 +96,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     						Player target = player.level.getPlayerByUUID(m.getUUID());
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
+	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    						target.heal(hpAmount);
 	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
@@ -103,8 +106,8 @@ public class KKPotionItem extends Item implements IItemCategory {
     		}
     		break;
     	case MP:
-        	playerData = ModCapabilities.getPlayer(player);
-    		float mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
+        	float mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
+    		mpAmount += mpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
     		playerData.addMP(mpAmount);
     		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
@@ -118,6 +121,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
+	    			    		mpAmount += mpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    			        	targetData.addMP(mpAmount);
 	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
@@ -126,12 +130,13 @@ public class KKPotionItem extends Item implements IItemCategory {
     				}
     			}
     		}
-    		PacketHandler.syncToAllAround(player, playerData);
     		break;
     	case HPMP:
-    		playerData = ModCapabilities.getPlayer(player);
     		mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
+    		mpAmount += mpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+        	
     		playerData.addMP(mpAmount);
     		player.heal(hpAmount);
     		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
@@ -147,6 +152,9 @@ public class KKPotionItem extends Item implements IItemCategory {
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
+	    			    		mpAmount += mpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+
 	    			        	targetData.addMP(mpAmount);
 	    						target.heal(hpAmount);
 	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
@@ -156,11 +164,11 @@ public class KKPotionItem extends Item implements IItemCategory {
     				}
     			}
     		}
-    		PacketHandler.syncToAllAround(player, playerData);
     		break;
     	case DRIVE:
-    		playerData = ModCapabilities.getPlayer(player);
     		float dpAmount = (float) (percentage ? playerData.getMaxDP() * amount / 100 : amount);
+    		dpAmount += dpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+
     		playerData.addDP(dpAmount);
     		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
@@ -174,6 +182,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
+	    			    		dpAmount += dpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    			        	targetData.addDP(dpAmount);
 	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
@@ -182,11 +191,10 @@ public class KKPotionItem extends Item implements IItemCategory {
     				}
     			}
     		}
-    		PacketHandler.syncToAllAround(player, playerData);
     		break;
     	case FOCUS:
-    		playerData = ModCapabilities.getPlayer(player);
     		float focusAmount = (float) (percentage ? playerData.getMaxFocus() * amount / 100 : amount);
+    		focusAmount += focusAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
     		playerData.addFocus(focusAmount);
     		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
@@ -200,6 +208,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
+	    			    		focusAmount += focusAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    			        	targetData.addFocus(focusAmount);
 	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
@@ -208,10 +217,10 @@ public class KKPotionItem extends Item implements IItemCategory {
     				}
     			}
     		}
-    		PacketHandler.syncToAllAround(player, playerData);
-
     		break;
     	}
+		PacketHandler.syncToAllAround(player, playerData);
+
     }
 
     @OnlyIn(Dist.CLIENT)

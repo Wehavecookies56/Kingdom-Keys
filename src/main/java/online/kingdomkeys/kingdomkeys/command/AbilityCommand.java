@@ -68,7 +68,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 	}
 
 	private static int addAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String abilityName = StringArgumentType.getString(context, "ability");
 
 		for (ServerPlayer player : players) {

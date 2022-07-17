@@ -56,6 +56,7 @@ public class ModAbilities {
 			THUNDER_BOOST = createAbility(Strings.thunderBoost, 5, AbilityType.SUPPORT),
 			EXPERIENCE_BOOST = createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
 			CRITICAL_BOOST = createAbility(Strings.criticalBoost, 3, AbilityType.SUPPORT),
+			ITEM_BOOST = createAbility(Strings.itemBoost, 2, AbilityType.SUPPORT),
 			TREASURE_MAGNET = createAbility(Strings.treasureMagnet, 3, AbilityType.SUPPORT),
 			SECOND_CHANCE = createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
 			WIZARDS_RUSE = createAbility(Strings.wizardsRuse, 4, AbilityType.SUPPORT),

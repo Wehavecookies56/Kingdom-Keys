@@ -115,6 +115,7 @@ public class Strings {
     		focusConverter = KingdomKeys.MODID+":"+Strings.AB_Prefix +"focus_converter",
     		mpThrift = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_thrift",
     		criticalBoost = KingdomKeys.MODID+":"+Strings.AB_Prefix +"critical_boost",
+    		itemBoost = KingdomKeys.MODID+":"+Strings.AB_Prefix +"item_boost",
     		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot",
     		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky",
     		
