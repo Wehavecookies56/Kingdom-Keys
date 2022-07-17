@@ -477,7 +477,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getDefense(boolean combined) {
-		return combined ? (defense + boostDef) * ModConfigs.statsMultiplier.get(2) / 100 : defense * ModConfigs.statsMultiplier.get(2) / 100;
+		return combined ? (defense + boostDef + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense * ModConfigs.statsMultiplier.get(2) / 100;
 	}
 
 	@Override
