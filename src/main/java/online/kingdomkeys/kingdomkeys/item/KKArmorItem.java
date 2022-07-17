@@ -30,14 +30,14 @@ public class KKArmorItem extends Item implements IItemCategory {
         this.resList =  resList;
     }
 
-    public int getDefence() {
+    public int getDefense() {
         return defence;
     }
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        if(getDefence() != 0) {
-            tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+getDefence()));
+        if(getDefense() != 0) {
+            tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+getDefense()));
         }
         for(Map.Entry<KKResistanceType, Integer> resistanceType : resList.entrySet()) {
             switch (resistanceType.getKey()) {

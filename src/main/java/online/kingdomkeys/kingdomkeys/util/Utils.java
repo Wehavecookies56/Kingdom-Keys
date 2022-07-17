@@ -473,7 +473,7 @@ public class Utils {
 				KKArmorItem kkArmorItem = (KKArmorItem) entry.getValue().getItem();
 				switch(type) {
 					case "def":
-						res += kkArmorItem.getDefence();
+						res += kkArmorItem.getDefense();
 						break;
 					case "dark":
 						if(kkArmorItem.CheckKey(KKResistanceType.darkness))

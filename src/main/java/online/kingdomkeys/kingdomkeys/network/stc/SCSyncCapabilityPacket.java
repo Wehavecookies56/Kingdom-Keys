@@ -227,6 +227,10 @@ public class SCSyncCapabilityPacket {
 		CompoundTag accessories = new CompoundTag();
 		this.accessories.forEach((key, value) -> accessories.put(key.toString(), value.serializeNBT()));
 		buffer.writeNbt(accessories);
+		
+		CompoundTag armors = new CompoundTag();
+		this.armors.forEach((key, value) -> armors.put(key.toString(), value.serializeNBT()));
+		buffer.writeNbt(armors);
 
 		buffer.writeInt(partyList.size());
 		for(int i=0;i<partyList.size();i++) {
@@ -368,6 +372,9 @@ public class SCSyncCapabilityPacket {
 		
 		CompoundTag accessoriesNBT = buffer.readNbt();
 		accessoriesNBT.getAllKeys().forEach(key -> msg.accessories.put(Integer.parseInt(key), ItemStack.of((CompoundTag) accessoriesNBT.get(key))));
+		
+		CompoundTag armorsNBT = buffer.readNbt();
+		armorsNBT.getAllKeys().forEach(key -> msg.armors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) armorsNBT.get(key))));
 		
 		int amount = buffer.readInt();
 		msg.partyList = new ArrayList<String>();

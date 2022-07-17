@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -31,7 +32,9 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -207,6 +210,8 @@ public class MenuEquipmentButton extends Button {
 					int strength = 0;
 					int magic = 0;
 					int ap = 0;
+					ImmutableMap<KKResistanceType, Integer> resistances = null;
+
 					List<String> abilities = new ArrayList<String>();
 					boolean showData = true;
 					if (stack.getItem() instanceof IKeychain) {
@@ -223,10 +228,10 @@ public class MenuEquipmentButton extends Button {
                         final IOrgWeapon orgWeapon = (IOrgWeapon) stack.getItem();
                         strength = orgWeapon.getStrength();
 						magic = orgWeapon.getMagic();
-                    } else if (stack.getItem() instanceof ArmorItem) {
-                        //ArmorItem armour = (ArmorItem) stack.getItem();
-                        //int armourAmount = armour.getArmorMaterial().getDamageReductionAmount(armour.get)
-                    	showData = false;
+                    } else if (stack.getItem() instanceof KKArmorItem) {
+                    	KKArmorItem armorItem = (KKArmorItem) stack.getItem();
+                        resistances = armorItem.getResList();
+                    	showData = true;
                     } else if (stack.getItem() instanceof KKPotionItem) {
                      	showData = true;
                     } else if (stack.getItem() instanceof KKAccessoryItem) {
@@ -238,7 +243,7 @@ public class MenuEquipmentButton extends Button {
                     	showData = false;
                     }
                     if(showData) {
-                    	boolean showStr = true, showMag= true, showAP=true;
+                    	boolean showStr = true, showMag= true, showAP=true, showResistances = false;
                     	abilities.remove(null);
 	                    String strengthStr = String.valueOf(strength);
 	                    String magicStr = String.valueOf(magic);
@@ -269,6 +274,11 @@ public class MenuEquipmentButton extends Button {
 	                    	showAP = true;
 	                    	showStr = strength != 0;
 	                    	showMag = magic != 0;
+	                    } else if(stack.getItem() instanceof KKArmorItem) {
+	                    	showAP = false;
+	                    	showStr = false;
+	                    	showMag = false;
+	                    	showResistances = true;
 	                    } else {
 	                    	showAP = false;
 	                    	showStr = true;
@@ -306,6 +316,29 @@ public class MenuEquipmentButton extends Button {
 							drawString(matrixStack, fr, playerData.getMagic(true)+"", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
 							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket) + fr.width(totalMagicStr), (int) posY, 0xBF6004);
 							posY+=10;
+	                    }
+	                    
+	                    if(showResistances && resistances != null) {
+	                    	int pos = 0;
+	                    	drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, ((KKArmorItem) stack.getItem()).getDefense()+"", (int) strNumPosX, (int) posY+ 20*pos++, 0xFFFFFF);
+	                    	
+							if(resistances.containsKey(KKResistanceType.fire)) {
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_FireRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
+								drawString(matrixStack, fr, resistances.get(KKResistanceType.fire)+"%", (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+							}
+							if(resistances.containsKey(KKResistanceType.ice)) {
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_BlizzardRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
+								drawString(matrixStack, fr, resistances.get(KKResistanceType.ice)+"%", (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+							}
+							if(resistances.containsKey(KKResistanceType.lightning)) {
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_ThunderRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
+								drawString(matrixStack, fr, resistances.get(KKResistanceType.lightning)+"%", (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+							}
+							if(resistances.containsKey(KKResistanceType.darkness)) {
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_DarkRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
+								drawString(matrixStack, fr, resistances.get(KKResistanceType.darkness)+"%", (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+							}
 	                    }
 	                    
 						if(abilities.size() > 0) {

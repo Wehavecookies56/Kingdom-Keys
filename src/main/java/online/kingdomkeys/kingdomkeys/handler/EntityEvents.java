@@ -194,6 +194,14 @@ public class EntityEvents {
 					}
 					playerData.equipAllAccessories(map, true);
 				}
+				
+				if(playerData.getEquippedArmors().size() == 0) {
+					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
+					for(int i = 0 ; i < 3; i++) {
+						map.put(i,ItemStack.EMPTY);
+					}
+					playerData.equipAllArmors(map, true);
+				}
 
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
 				if(playerData.getEquippedArmors().size() == 0) {
