@@ -256,6 +256,7 @@ public class EntityEvents {
 			/*playerData.setSacrifice(SoAState.MYSTIC);
 			playerData.setChoice(SoAState.GUARDIAN);
 			playerData.setSoAState(SoAState.COMPLETE);*/
+			//playerData.addShotlockToList(KingdomKeys.MODID+":"+Strings.SonicBlade, false);
 
 			if (playerData != null) {
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));

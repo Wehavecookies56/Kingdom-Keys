@@ -808,7 +808,7 @@ public class ModItems {
     		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.luckyRing})),
     		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 2, 2, null)),
 
-			//fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, (HashMap)Map.of(KKResistanceType.fire, 20))),
+			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, (HashMap)Map.of(KKResistanceType.fire, 20))),
 
 
 			// card declaration
