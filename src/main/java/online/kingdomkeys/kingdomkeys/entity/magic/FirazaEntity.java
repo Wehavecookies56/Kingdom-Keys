@@ -19,6 +19,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -104,7 +105,7 @@ public class FirazaEntity extends ThrowableProjectile {
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setSecondsOnFire(30);
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) : 2;
-						target.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+						target.hurt(FireDamageSource.getFireDamage(this.getOwner()), dmg * dmgMult);
 					}
 				}
 			}
@@ -121,7 +122,7 @@ public class FirazaEntity extends ThrowableProjectile {
 						if (e instanceof LivingEntity) {
 							e.setSecondsOnFire(25);
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 2;
-							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							e.hurt(FireDamageSource.getFireDamage(this.getOwner()), dmg * dmgMult);
 						}
 					}
 				}

@@ -54,6 +54,10 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
@@ -84,6 +88,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
@@ -764,13 +769,27 @@ public class EntityEvents {
 			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
-			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense(true))));
+			float damage = (float) Math.round((event.getAmount() * 100 / (200 + playerData.getDefense(true))));
 			if(playerData.getAeroTicks() > 0) {
 				float resistMultiplier = playerData.getAeroLevel() == 0 ? 0.3F : playerData.getAeroLevel() == 1 ? 0.35F : playerData.getAeroLevel() == 2 ? 0.4F : 0;
 				
 				playerData.remAeroTicks((int) damage * 2);
 				damage -= (damage * resistMultiplier);
 			}
+			
+			/*System.out.println(event.getSource());
+			System.out.println(damage);*/
+			
+			if(event.getSource() instanceof FireDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.fire.toString())) / 100F;
+			} else if (event.getSource() instanceof IceDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.ice.toString())) / 100F;
+			} else if (event.getSource() instanceof LightningDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString())) / 100F;
+			} else if (event.getSource() instanceof DarknessDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString())) / 100F;	
+			}
+			//System.out.println(damage);
 			
 			//Damage Control
 			if(Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
