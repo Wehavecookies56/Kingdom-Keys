@@ -40,24 +40,15 @@ public class KKArmorItem extends Item implements IItemCategory {
             tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+getDefence()));
         }
         for(Map.Entry<KKResistanceType, Integer> resistanceType : resList.entrySet()) {
-            switch (resistanceType.getKey())
-            {
-                case fire:
-                    tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                            Strings.Gui_Menu_Status_FireRes + ": "+ resistanceType.getValue())));
-                    break;
-                case ice:
-                    tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                            Strings.Gui_Menu_Status_BlizzardRes + ": "+ resistanceType.getValue())));
-                    break;
-                case lightning:
-                    tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                            Strings.Gui_Menu_Status_ThunderRes + ": "+ resistanceType.getValue())));
-                    break;
-                case darkness:
-                    tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                            Strings.Gui_Menu_Status_DarkRes + ": "+ resistanceType.getValue())));
-                    break;
+            switch (resistanceType.getKey()) {
+                case fire -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
+                        Strings.Gui_Menu_Status_FireRes + ": " + resistanceType.getValue())));
+                case ice -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
+                        Strings.Gui_Menu_Status_BlizzardRes + ": " + resistanceType.getValue())));
+                case lightning -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
+                        Strings.Gui_Menu_Status_ThunderRes + ": " + resistanceType.getValue())));
+                case darkness -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
+                        Strings.Gui_Menu_Status_DarkRes + ": " + resistanceType.getValue())));
             }
         }
         super.appendHoverText(stack, worldIn, tooltip, flagIn);

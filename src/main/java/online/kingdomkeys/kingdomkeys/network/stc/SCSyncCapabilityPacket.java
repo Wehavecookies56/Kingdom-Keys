@@ -62,7 +62,7 @@ public class SCSyncCapabilityPacket {
 	public Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
 	public Map<Integer, ItemStack> items = new HashMap<>();
 	public Map<Integer, ItemStack> accessories = new HashMap<>();
-
+	public Map<Integer, ItemStack> armors = new HashMap<>();
 	public SoAState soAstate, choice, sacrifice;
 	public BlockPos choicePedestal, sacrificePedestal;
 	public Vec3 returnPos;
@@ -115,7 +115,7 @@ public class SCSyncCapabilityPacket {
 		this.keychains = capability.getEquippedKeychains();
 		this.items = capability.getEquippedItems();
 		this.accessories = capability.getEquippedAccessories();
-		this.accessories = capability.getEquippedArmors();
+		this.armors = capability.getEquippedArmors();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();

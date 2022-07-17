@@ -37,6 +37,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -299,6 +300,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag accessoriesNBT = storage.getCompound("accessories");
 		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.of(accessoriesNBT.getCompound(slot))));
+
+		CompoundTag armorsNBT = storage.getCompound("armors");
+		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.of(armorsNBT.getCompound(slot))));
 
 		this.setHearts(storage.getInt("hearts"));
 		this.setAlignment(storage.getInt("org_alignment"));
@@ -1261,8 +1265,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public ItemStack equipArmor(int slot, ItemStack stack) {
 		//Item can be empty stack to unequip
-		if (canEquipAccessory(slot, stack)) {
-			ItemStack previous = getEquippedAccessory(slot);
+		if (canEquipArmor(slot, stack)) {
+			ItemStack previous = getEquippedArmor(slot);
 			equippedArmor.put(slot, stack);
 			return previous;
 		}
@@ -1271,8 +1275,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public boolean canEquipArmor(int slot, ItemStack stack) {
-		if (getEquippedAccessory(slot) != null) {
-			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
+		if (getEquippedArmor(slot) != null) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKArmorItem) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
@@ -1288,6 +1292,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		if(!force)
 			armors.replaceAll((k,v) -> canEquipArmor(k,v) ? v : ItemStack.EMPTY);
 		equippedArmor = armors;
+	}
+
+	@Override
+	public void setNewArmor(int slot, ItemStack stack) {
+		if (!equippedArmor.containsKey(slot)) {
+			equippedArmor.put(slot, stack);
+		}
 	}
 	//endregion
 
