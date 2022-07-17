@@ -200,6 +200,7 @@ public class EntityEvents {
 					playerData.equipAllAccessories(map, true);
 				}
 				
+				System.out.println(playerData.getEquippedArmors());
 				if(playerData.getEquippedArmors().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
 					for(int i = 0 ; i < 3; i++) {
@@ -208,15 +209,6 @@ public class EntityEvents {
 					playerData.equipAllArmors(map, true);
 				}
 
-				// TODO (done) Fix for retrocompatibility, move above in a few versions
-				if(playerData.getEquippedArmors().size() == 0) {
-					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
-					for(int i = 0 ; i < 3; i++) {
-						map.put(i,ItemStack.EMPTY);
-					}
-					playerData.equipAllArmors(map, true);
-				}
-				
 				//Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
 					//Make sure the form exists
@@ -237,7 +229,7 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayer) player);
 	    		PacketHandler.syncToAllAround(player, playerData);
 
-
+	    		//Sync all registries, important
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayer)player);
 				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), (ServerPlayer)player);
@@ -796,6 +788,7 @@ public class EntityEvents {
 				damage /= (1+playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 			}
 			
+			//Has to evaluate last
 			//Second chance (will save the player from a damage that would've killed him  as long as he had 2 hp or more
 			if(playerData.isAbilityEquipped(Strings.secondChance)) {
 				if(damage >= player.getHealth() && player.getHealth() > 1) {

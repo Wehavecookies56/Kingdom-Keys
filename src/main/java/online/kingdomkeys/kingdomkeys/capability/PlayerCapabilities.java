@@ -377,7 +377,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
-	private Map<Integer, ItemStack> equippedArmor = new HashMap<>();
+	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
 
 	private Floor currentFloor;
 
@@ -1256,12 +1256,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public Map<Integer, ItemStack> getEquippedArmors() {
-		return equippedArmor;
+		return equippedArmors;
 	}
 	@Override
 	public ItemStack getEquippedArmor(int slot) {
-		if (equippedArmor.containsKey(slot)) {
-			return equippedArmor.get(slot);
+		if (equippedArmors.containsKey(slot)) {
+			return equippedArmors.get(slot);
 		}
 		return null;
 	}
@@ -1271,7 +1271,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		//Item can be empty stack to unequip
 		if (canEquipArmor(slot, stack)) {
 			ItemStack previous = getEquippedArmor(slot);
-			equippedArmor.put(slot, stack);
+			equippedArmors.put(slot, stack);
 			return previous;
 		}
 		return null;
@@ -1292,16 +1292,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void equipAllArmors(Map<Integer, ItemStack> armors, boolean force) {
-		//Any Accessories that cannot be equipped will be removed
+		//Any Armors that cannot be equipped will be removed
 		if(!force)
 			armors.replaceAll((k,v) -> canEquipArmor(k,v) ? v : ItemStack.EMPTY);
-		equippedArmor = armors;
+		equippedArmors = armors;
 	}
 
 	@Override
 	public void setNewArmor(int slot, ItemStack stack) {
-		if (!equippedArmor.containsKey(slot)) {
-			equippedArmor.put(slot, stack);
+		if (!equippedArmors.containsKey(slot)) {
+			equippedArmors.put(slot, stack);
 		}
 	}
 	//endregion

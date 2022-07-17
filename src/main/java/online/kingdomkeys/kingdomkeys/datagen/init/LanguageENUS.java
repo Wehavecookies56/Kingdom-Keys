@@ -92,6 +92,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_BlizzardRes, "Blizzard Resistance");
         add(Gui_Menu_Status_ThunderRes, "Thunder Resistance");
         add(Gui_Menu_Status_DarkRes, "Dark Resistance");
+        add(Gui_Menu_Status_FireResShort, "Fire Res.");
+        add(Gui_Menu_Status_BlizzardResShort, "Blizzard Res.");
+        add(Gui_Menu_Status_ThunderResShort, "Thunder Res.");
+        add(Gui_Menu_Status_DarkResShort, "Dark Res.");
         add(Gui_Menu_Status_FormLevel, "Form Level");
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
         add(Gui_Menu_Status_Abilities, "Abilities");

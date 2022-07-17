@@ -139,11 +139,9 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 					Lighting.setupForFlatItems();
 					matrixStack.pushPose();
                     {
-                        
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
                         ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0,16);
-
                     }
                     matrixStack.popPose();
                     float strPosX = parent.width * 0.57F;
@@ -205,11 +203,18 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    int totalStrength = playerData.getStrength(true) + strength;
 	                    int totalMagic = playerData.getMagic(true) + magic;
 	                    int totalAP =  playerData.getMaxAP(true) + ap;
+
 	                    String openBracket = " [ ";
 	                   
 	                    String totalStrengthStr = String.valueOf(totalStrength);
 	                    String totalMagicStr = String.valueOf(totalMagic);
 	                    String totalAPStr = String.valueOf(totalAP);
+	                    
+	                    String totalFireResStr = String.valueOf(resistances.get(KKResistanceType.fire));
+	                    String totalIceResStr = String.valueOf(resistances.get(KKResistanceType.ice));
+	                    String totalLightningResStr = String.valueOf(resistances.get(KKResistanceType.lightning));
+	                    String totalDarknessResStr = String.valueOf(resistances.get(KKResistanceType.darkness));
+
 	                    
 	                    if (totalStrengthStr.length() == 1) {
 	                        openBracket += " ";
@@ -266,24 +271,45 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    
 	                    if(showResistances && resistances != null) {
 	                    	int pos = 0;
-	                    	drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY, 0xEE8603);
-							drawString(matrixStack, fr, armor.getDefense()+"", (int) strNumPosX, (int) posY+ 20*pos++, 0xFFFFFF);
-	                    	
+	                    	{
+		                    	String resVal = ((KKArmorItem) stack.getItem()).getDefense()+"";
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								drawString(matrixStack, fr, (playerData.getDefense(true) + ((KKArmorItem) stack.getItem()).getDefense()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
+	                    	}
 							if(resistances.containsKey(KKResistanceType.fire)) {
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_FireRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
-								drawString(matrixStack, fr, resistances.get(KKResistanceType.fire).toString(), (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+								String resVal = resistances.get(KKResistanceType.fire).toString();
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, KKResistanceType.fire.toString()) + resistances.get(KKResistanceType.fire))+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.ice)) {
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_BlizzardRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
-								drawString(matrixStack, fr, resistances.get(KKResistanceType.ice).toString(), (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+								String resVal = resistances.get(KKResistanceType.ice).toString();
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, KKResistanceType.ice.toString()) + resistances.get(KKResistanceType.ice))+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalIceResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.lightning)) {
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_ThunderRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
-								drawString(matrixStack, fr, resistances.get(KKResistanceType.lightning).toString(), (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+								String resVal = resistances.get(KKResistanceType.lightning).toString();
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString()) + resistances.get(KKResistanceType.lightning))+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.darkness)) {
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_DarkRes).getString(), (int) strPosX, (int) posY+ 10*pos, 0xEE8603);
-								drawString(matrixStack, fr, resistances.get(KKResistanceType.darkness).toString(), (int) strNumPosX, (int) posY+ 10*pos++, 0xFFFFFF);
+								String resVal = resistances.get(KKResistanceType.darkness).toString();
+								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString()) + resistances.get(KKResistanceType.darkness))+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDarknessResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 	                    }
                     }
