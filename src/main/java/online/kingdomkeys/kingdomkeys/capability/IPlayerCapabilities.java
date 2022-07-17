@@ -167,7 +167,7 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	LinkedHashMap<String, int[]> getMagicsMap();
 	void setMagicsMap(LinkedHashMap<String,int[]> map);
 	int getMagicLevel(String name);
-	void setMagicLevel(String name, int level);
+	void setMagicLevel(String name, int level, boolean notification);
 	int getMagicUses(String name);
 	void setMagicUses(String name, int uses);
 	void addMagicUses(String name, int uses);

@@ -15,12 +15,13 @@ public class LevelingData {
 	int[] maxmp = new int[101];
 	String[][] abilities = new String[101][5];
 	String[][] shotlocks = new String[101][5];
+	String[][] spells = new String[101][5];
 
 	public LevelingData() {
 
 	}
 
-	public LevelingData(int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks) {
+	public LevelingData(int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks, List<String> spells) {
 		this.mag[level] = mag;
 		this.def[level] = def;
 		this.str[level] = str;
@@ -29,6 +30,7 @@ public class LevelingData {
 		this.maxmp[level] = maxmp;
 		this.abilities[level] = (String[]) abilities.toArray();
 		this.shotlocks[level] = (String[]) shotlocks.toArray();
+		this.spells[level] = (String[]) spells.toArray();
 	}
 
 	public int getStr(int lvl) {
@@ -93,6 +95,14 @@ public class LevelingData {
 
 	public void setShotlocks(int lvl, String[] shotlocks) {
 		this.shotlocks[lvl] = shotlocks;
+	}
+	
+	public String[] getSpells(int lvl) {
+		return spells[lvl];
+	}
+	
+	public void setSpells(int lvl, String[] spells) {
+		this.spells[lvl] = spells;
 	}
 
 }

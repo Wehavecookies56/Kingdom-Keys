@@ -2,10 +2,8 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
@@ -49,7 +47,6 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -72,6 +69,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FirazaEntity;
@@ -94,9 +92,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -734,7 +730,7 @@ public class EntityEvents {
 		
 		LivingEntity target = event.getEntityLiving();
 		
-		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity) {
+		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity) {
 			target.invulnerableTime = 0;
 		}
 

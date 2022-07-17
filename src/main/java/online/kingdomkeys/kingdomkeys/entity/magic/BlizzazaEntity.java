@@ -117,7 +117,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
 							p = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
 						}
 						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.2F : 2;
+							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
 							target.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 						}
 					}
@@ -157,7 +157,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
 						if (e.isOnFire()) {
 							e.clearFire();
 						} else {
-							float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.2F;
+							float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
 							float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
 							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
 						}

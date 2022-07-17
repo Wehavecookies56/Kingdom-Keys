@@ -69,7 +69,15 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 					}
 					out.setShotlocks(level, shotlocksArray.toArray(new String[0]));
 					break;
-				
+				case "spells":
+					JsonArray spells = entry2.getValue().getAsJsonArray();
+					List<String> spellsArray = new ArrayList<String>();
+					
+					for(int i= 0; i < spells.size(); i++) {
+						spellsArray.add(spells.get(i).getAsString());
+					}
+					out.setSpells(level, spellsArray.toArray(new String[0]));
+					break;
 				}
 			});
 

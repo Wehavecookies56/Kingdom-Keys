@@ -190,6 +190,13 @@ public class GuiOverlay extends OverlayBase {
 					x += 13;
 				}
 				
+				if(message.startsWith("M_")) {
+					RenderSystem.setShaderTexture(0, menuTexture);
+					blit(matrixStack, (int)x, (int)y-2, 87, 115, 12, 12);
+					message = message.replace("M_", "");
+					x += 13;
+				}
+				
 				showText(matrixStack, Utils.translateToLocal(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);

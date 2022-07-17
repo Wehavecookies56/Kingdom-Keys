@@ -1004,7 +1004,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void setMagicLevel(String name, int level) {
+	public void setMagicLevel(String name, int level, boolean notification) {
 		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
 		if(level == -1) {
 			magicList.remove(name);
@@ -1012,6 +1012,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			if(level <= magic.getMaxLevel()) {
 				int uses = magicList.containsKey(name) ? getMagicUses(name) : 0;
 				magicList.put(name, new int[] {level, uses});
+				
+				if(notification) {
+					messages.add("M_"+magic.getTranslationKey(level));
+				}
 			}
 		}
 	}

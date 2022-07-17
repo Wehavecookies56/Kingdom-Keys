@@ -69,5 +69,9 @@ public class Level extends ForgeRegistryEntry<Level> {
 	public String[] getShotlocks(int level) {
 		return data.getShotlocks(level);
 	}
+	
+	public String[] getSpells(int level) {
+		return data.getSpells(level);
+	}
 
 }

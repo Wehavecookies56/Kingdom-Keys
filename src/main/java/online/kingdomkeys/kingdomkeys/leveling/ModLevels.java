@@ -22,7 +22,6 @@ public class ModLevels {
 
 		@SubscribeEvent
 		public static void registerDriveForms(RegistryEvent.Register<Level> event) {
-			//int order = 0;
 			event.getRegistry().registerAll(
 				new Level(KingdomKeys.MODID + ":" + "warrior"),
 				new Level(KingdomKeys.MODID + ":" + "mystic"),

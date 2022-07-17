@@ -200,7 +200,10 @@
    },
    "39":{
       "str":1,
-      "ap":1
+      "ap":1,
+	  "abilities":[
+         "kingdomkeys:ability_item_boost"
+      ]
    },
    "40":{
       "mag":1,

@@ -269,6 +269,8 @@
 	"ability.ability_jackpot.desc": "Incrementa el valor de los premios de VT, PM y Platines. Cuantas más activas, mayor efecto.",
 	"ability.ability_lucky_lucky.name": "Buena Suerte",
 	"ability.ability_lucky_lucky.desc": "Trae suerte, fortuna y saqueo al portador, aumentando la cantidad de objetos recolectados. Cuantas más activas, mayor efecto.",
+	"ability.ability_item_boost.name": "Extraobjetos",
+	"ability.ability_item_boost.desc": "Aumenta el efecto de los objetos de cura en la batalla en un 50%. Cuantos más activas, mayor efecto.",
 	"ability.ability_firaza.name": "Piro+++",
 	"ability.ability_firaza.desc": "Permite al usuario obtener el comando de reacción Piro+++. Cuantas más activas, más posibilidades de obtenerlo.",
 	"ability.ability_blizzaza.name": "Hielo+++",
