@@ -475,7 +475,7 @@ public class Utils {
 					case "def":
 						res += kkArmorItem.getDefense();
 						break;
-					case "dark":
+					case "darkness":
 						if(kkArmorItem.CheckKey(KKResistanceType.darkness))
 							res+= kkArmorItem.GetResValue(KKResistanceType.darkness);
 						break;

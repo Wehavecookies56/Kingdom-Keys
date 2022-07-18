@@ -39,18 +39,14 @@ public class KKArmorItem extends Item implements IItemCategory {
         if(getDefense() != 0) {
             tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+getDefense()));
         }
-        for(Map.Entry<KKResistanceType, Integer> resistanceType : resList.entrySet()) {
-            switch (resistanceType.getKey()) {
-                case fire -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                        Strings.Gui_Menu_Status_FireRes + ": " + resistanceType.getValue())));
-                case ice -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                        Strings.Gui_Menu_Status_BlizzardRes + ": " + resistanceType.getValue())));
-                case lightning -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                        Strings.Gui_Menu_Status_ThunderRes + ": " + resistanceType.getValue())));
-                case darkness -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(
-                        Strings.Gui_Menu_Status_DarkRes + ": " + resistanceType.getValue())));
-            }
-        }
+		for (Map.Entry<KKResistanceType, Integer> resistanceType : resList.entrySet()) {
+			switch (resistanceType.getKey()) {
+			case fire -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_FireRes) + ": " + resistanceType.getValue()+"%"));
+			case ice -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardRes) + ": " + resistanceType.getValue()+"%"));
+			case lightning -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderRes) + ": " + resistanceType.getValue()+"%"));
+			case darkness -> tooltip.add(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Status_DarkRes) + ": " + resistanceType.getValue()+"%"));
+			}
+		}
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 

@@ -807,8 +807,12 @@ public class ModItems {
     		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.luckyRing})),
     		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 2, 2, null)),
 
-			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, ImmutableMap.of(KKResistanceType.fire, 20))),
-
+			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
+			blizzardArmlet = createNewItem(Strings.blizzardArmlet, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.ice, 20))),
+			thunderTrinket = createNewItem(Strings.thunderTrinket, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.lightning, 20))),
+			petiteRibbon = createNewItem(Strings.petiteRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 10, KKResistanceType.ice, 10, KKResistanceType.lightning, 10, KKResistanceType.darkness, 10))),
+			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
+			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25))),
 
 			// card declaration
 			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),

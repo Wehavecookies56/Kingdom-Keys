@@ -2,5 +2,11 @@
     {"item": "kingdomkeys:potion", "amount":1, "tier":1, "cost": 200},
 	{"item": "kingdomkeys:hi_potion", "amount":1, "tier":2, "cost": 400},
 	{"item": "kingdomkeys:ether", "amount":1, "tier":1, "cost": 160},
-    {"item": "kingdomkeys:hi_ether", "amount":1, "tier":2, "cost": 250}
+    {"item": "kingdomkeys:hi_ether", "amount":1, "tier":2, "cost": 250},
+	{"item": "kingdomkeys:fire_bangle", "amount":1, "tier":1, "cost": 6000},
+	{"item": "kingdomkeys:blizzard_armlet", "amount":1, "tier":1, "cost": 6000},
+	{"item": "kingdomkeys:thunder_trinket", "amount":1, "tier":1, "cost": 6000},
+	{"item": "kingdomkeys:petite_ribbon", "amount":1, "tier":2, "cost": 7000},
+	{"item": "kingdomkeys:ribbon", "amount":1, "tier":3, "cost": 8000},
+	{"item": "kingdomkeys:grand_ribbon", "amount":1, "tier":5, "cost": 9001}
 ]

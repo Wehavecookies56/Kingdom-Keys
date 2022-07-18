@@ -530,7 +530,12 @@ public class Strings {
 		drawRing = "draw_ring",
 		luckyRing = "lucky_ring",
 		starCharm = "star_charm",
-		fireBangle = "fire_bangle";
+		fireBangle = "fire_bangle",
+	    blizzardArmlet = "blizzard_armlet",
+	    thunderTrinket = "thunder_trinket",
+    	petiteRibbon = "petite_ribbon",
+    	ribbon = "ribbon",
+    	grandRibbon = "grand_ribbon";
     	
     
     // Music Discs

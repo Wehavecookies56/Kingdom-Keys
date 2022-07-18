@@ -1,19 +1,26 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
+
+import com.google.common.collect.ImmutableMap;
 
 public class LanguageENUS extends KKLanguageProvider {
 
@@ -1017,6 +1024,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.starCharm, "Star Charm");
         addItem(ModItems.luckyRing, "Lucky Ring");
         addItem(ModItems.fireBangle, "Fire Bangle");
+        addItem(ModItems.blizzardArmlet, "Blizzard Armlet");
+        addItem(ModItems.thunderTrinket, "Thunder Trinket");
+        addItem(ModItems.petiteRibbon, "Petite Ribbon");
+        addItem(ModItems.ribbon, "Ribbon");
+        addItem(ModItems.grandRibbon, "Grand Ribbon");
 
         //Spawn Eggs
         addItem(ModEntities.MOOGLE_EGG, "Spawn Moogle");
