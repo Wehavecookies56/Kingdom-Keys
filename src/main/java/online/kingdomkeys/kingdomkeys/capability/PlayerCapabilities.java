@@ -167,7 +167,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag armors = new CompoundTag();
 		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.serializeNBT()));
-		storage.put("armor", armors);
+		storage.put("armors", armors);
 
 
 		storage.putInt("hearts", this.getHearts());
