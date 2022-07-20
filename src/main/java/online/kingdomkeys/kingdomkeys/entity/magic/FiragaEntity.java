@@ -105,7 +105,7 @@ public class FiragaEntity extends ThrowableProjectile {
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setSecondsOnFire(15);
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.4F : 2;
-						target.hurt(FireDamageSource.getFireDamage(this.getOwner()), dmg * dmgMult);
+						target.hurt(FireDamageSource.getFireDamage(this, this.getOwner()), dmg * dmgMult);
 					}
 				}
 			}
@@ -131,7 +131,7 @@ public class FiragaEntity extends ThrowableProjectile {
 						e.setSecondsOnFire(15);
 						float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
 						float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-						e.hurt(FireDamageSource.getFireDamage(this.getOwner()), dmg);
+						e.hurt(FireDamageSource.getFireDamage(this, this.getOwner()), dmg);
 					}
 				}
 			}

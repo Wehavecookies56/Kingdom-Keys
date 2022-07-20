@@ -116,7 +116,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 
 				for (LivingEntity entity : list) {
 					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.02F : 2;
-					entity.hurt(LightningDamageSource.getLightningDamage(this.getOwner()), dmg * dmgMult);
+					entity.hurt(LightningDamageSource.getLightningDamage(this, this.getOwner()), dmg * dmgMult);
 
 					if (entity instanceof Pig) {
 						if (level.getDifficulty() != Difficulty.PEACEFUL) {

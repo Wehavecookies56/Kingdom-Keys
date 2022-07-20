@@ -92,7 +92,7 @@ public class FireEntity extends ThrowableProjectile {
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setSecondsOnFire(5);
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.2F : 2;
-						target.hurt(FireDamageSource.getFireDamage(this.getOwner()), dmg * dmgMult);
+						target.hurt(FireDamageSource.getFireDamage(this, this.getOwner()), dmg * dmgMult);
 					}
 				}
 			}
