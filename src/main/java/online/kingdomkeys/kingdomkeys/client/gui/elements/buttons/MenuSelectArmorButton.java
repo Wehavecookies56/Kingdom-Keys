@@ -220,6 +220,8 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    String totalMagicStr = String.valueOf(totalMagic);
 	                    String totalAPStr = String.valueOf(totalAP);
 	                    
+	                    String totalDefResStr = String.valueOf(playerData.getDefense(true) + armor.getDefense());
+
 	                    String totalFireResStr = String.valueOf(resistances.get(KKResistanceType.fire));
 	                    String totalIceResStr = String.valueOf(resistances.get(KKResistanceType.ice));
 	                    String totalLightningResStr = String.valueOf(resistances.get(KKResistanceType.lightning));
@@ -287,43 +289,51 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, (playerData.getDefense(true) + ((KKArmorItem) stack.getItem()).getDefense() - oldDefense) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDefResStr), (int) posY + 10 * pos++, 0xBF6004);
 	                    	}
-							if(resistances.containsKey(KKResistanceType.fire)) {
-								KKResistanceType type = KKResistanceType.fire;
+	                    	
+							KKResistanceType type = KKResistanceType.fire;
+							if(resistances.containsKey(type)) {
+								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
 								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldResistances.get(type)+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
-							if(resistances.containsKey(KKResistanceType.ice)) {
-								KKResistanceType type = KKResistanceType.ice;
+							
+							type = KKResistanceType.ice;
+							if(resistances.containsKey(type)) {
+								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
 								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldResistances.get(type)+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalIceResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
-							if(resistances.containsKey(KKResistanceType.lightning)) {
-								KKResistanceType type = KKResistanceType.lightning;
+							
+							type = KKResistanceType.lightning;
+							if(resistances.containsKey(type)) {
+								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
 								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldResistances.get(type)+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
-							if(resistances.containsKey(KKResistanceType.darkness)) {
-								KKResistanceType type = KKResistanceType.darkness;
+
+							type = KKResistanceType.darkness;
+							if(resistances.containsKey(type)) {
+								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
 								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldResistances.get(type)+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
+								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDarknessResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 	                    }
                     }

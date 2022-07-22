@@ -7,12 +7,12 @@ import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
 public class FireDamageSource extends MagicDamageSource{
 
-    public FireDamageSource(String damageTypeIn, Entity damageSourceEntityIn) {
-        super(damageTypeIn, damageSourceEntityIn);
+    public FireDamageSource(String damageTypeIn, Entity damageSourceEntityIn, Entity trueEntity) {
+        super(damageTypeIn, damageSourceEntityIn, trueEntity);
     }
 
-    public static DamageSource getFireDamage(Entity entity) {
-        return new FireDamageSource(KKResistanceType.fire.toString(), entity);
+    public static DamageSource getFireDamage(Entity directEntity, Entity indirectEntity) {
+        return new FireDamageSource(KKResistanceType.fire.toString(), directEntity, indirectEntity);
     }
 
 }

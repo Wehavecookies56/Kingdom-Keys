@@ -47,6 +47,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
@@ -532,6 +533,9 @@ public class Utils {
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
+		if(!ModConfigs.orgEnabled)
+			return false;
+		
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);

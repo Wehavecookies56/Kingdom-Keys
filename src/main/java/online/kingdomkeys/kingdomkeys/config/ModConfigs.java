@@ -423,6 +423,7 @@ public class ModConfigs {
     public static int limitArrowRainCost;
     public static List<Integer> statsMultiplier;
     public static boolean projectorHasShop;
+    public static boolean orgEnabled;
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
@@ -439,7 +440,7 @@ public class ModConfigs {
         limitArrowRainCost = SERVER.limitArrowRainCost.get();
         statsMultiplier = (List<Integer>) SERVER.statsMultiplier.get();
         projectorHasShop = SERVER.projectorHasShop.get();
-
+        orgEnabled = SERVER.orgEnabled.get();
     }
 
 

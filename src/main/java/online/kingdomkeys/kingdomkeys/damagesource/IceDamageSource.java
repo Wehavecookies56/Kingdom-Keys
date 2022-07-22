@@ -7,12 +7,12 @@ import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
 public class IceDamageSource extends MagicDamageSource{
 
-    public IceDamageSource(String damageTypeIn, Entity damageSourceEntityIn) {
-        super(damageTypeIn, damageSourceEntityIn);
+    public IceDamageSource(String damageTypeIn, Entity damageSourceEntityIn, Entity trueEntity) {
+        super(damageTypeIn, damageSourceEntityIn, trueEntity);
     }
 
-    public static DamageSource getIceDamage(Entity entity) {
-        return new IceDamageSource(KKResistanceType.ice.toString(), entity);
+    public static DamageSource getIceDamage(Entity directEntity, Entity indirectEntity) {
+        return new IceDamageSource(KKResistanceType.ice.toString(), directEntity, indirectEntity);
     }
-
+    
 }
