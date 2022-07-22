@@ -75,6 +75,9 @@ public class WaterEntity extends ThrowableProjectile {
 			}
 		}	
 		
+		if(player == null) 
+			return;
+		
 		if (this.tickCount > maxTicks || player == null) {
 			this.remove(RemovalReason.KILLED);
 		}
