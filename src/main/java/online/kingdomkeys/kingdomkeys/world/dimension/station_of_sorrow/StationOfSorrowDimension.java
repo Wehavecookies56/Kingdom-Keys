@@ -3,12 +3,14 @@ package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -56,8 +58,8 @@ public class StationOfSorrowDimension{
     public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
         if (!event.getPlayer().isCreative()) {
             if (event.getWorld().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
-                if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.pedestal.get()) {
-                    if (event.getPlayer().isShiftKeyDown()) {
+                if (event.getWorld().getBlockEntity(event.getPos()) != null) { //If is a TE
+                    if (event.getPlayer().isShiftKeyDown()) { //If the player is shifting cancel it (places blocks)
                         event.setCanceled(true);
                     }
                 } else {

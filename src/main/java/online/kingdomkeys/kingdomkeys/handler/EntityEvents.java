@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -53,6 +55,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
@@ -119,6 +122,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class EntityEvents {
 
@@ -724,6 +728,7 @@ public class EntityEvents {
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
+				
 				event.setAmount(dmg);
 			}
 			
@@ -864,7 +869,6 @@ public class EntityEvents {
 							playerData.setReflectActive(true);
 						event.setCanceled(true);
 					}
-	
 				}
 	
 				IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
@@ -1054,6 +1058,14 @@ public class EntityEvents {
 
 					}
 				}
+			}
+			if(event.getEntityLiving() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().getLevel().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
+				Player player = (Player) event.getSource().getEntity();
+				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntityLiving().getDisplayName().getString());
+				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
+				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
+				//player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+				//TODO a
 			}
 		}
 	}
