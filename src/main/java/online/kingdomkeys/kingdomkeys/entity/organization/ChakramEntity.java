@@ -76,9 +76,6 @@ public class ChakramEntity extends ThrowableProjectile{
 			setReturn();
 		}
 
-		if (tickCount > 2)
-			level.addParticle(ParticleTypes.FLAME, getX(), getY()+0.25, getZ(), 0, 0, 0);
-
 		if (returning) {
 			List entityTagetList = this.level.getEntitiesOfClass(Entity.class, this.getBoundingBox().inflate(1.0D, 1.0D, 1.0D));
 			for (int i = 0; i < entityTagetList.size(); i++) {
