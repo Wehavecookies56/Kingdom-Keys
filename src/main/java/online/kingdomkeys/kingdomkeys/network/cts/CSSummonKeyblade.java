@@ -328,30 +328,29 @@ public class CSSummonKeyblade {
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
 			Player player = event.getPlayer();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData == null)
-				return;
-			
-			if (droppedItem != null) {
-				if (playerData.getEquippedWeapon() != null) {
-					if ((droppedItem.getItem() instanceof IOrgWeapon || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE) || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
-						if(droppedItem.getItem() instanceof IOrgWeapon || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE)) { //If weapon is org weapon || a keyblade && org member
-							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
-							for(ItemStack weapon : weapons) {
-								if(ItemStack.isSame(weapon, droppedItem)) {
-									weapon.setTag(droppedItem.getTag());
-									break;
+			if(playerData != null) {
+				if (droppedItem != null) {
+					if (playerData.getEquippedWeapon() != null) {
+						if ((droppedItem.getItem() instanceof IOrgWeapon || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE) || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
+							if(droppedItem.getItem() instanceof IOrgWeapon || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE)) { //If weapon is org weapon || a keyblade && org member
+								Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
+								for(ItemStack weapon : weapons) {
+									if(ItemStack.isSame(weapon, droppedItem)) {
+										weapon.setTag(droppedItem.getTag());
+										break;
+									}
 								}
+								playerData.setWeaponsUnlocked(weapons);
 							}
-							playerData.setWeaponsUnlocked(weapons);
+							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							event.setCanceled(true);
+							return;
 						}
+					}
+					if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem)) {
 						player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						event.setCanceled(true);
-						return;
 					}
-				}
-				if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem)) {
-					player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-					event.setCanceled(true);
 				}
 			}
 		}

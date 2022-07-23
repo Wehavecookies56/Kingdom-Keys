@@ -62,7 +62,8 @@ public class ModSounds {
             Record_Sinister_Sundown = registerSound("records/sinister_sundown"),
             Record_The_13th_Anthology = registerSound("records/the_13th_anthology"),
 
-			Music_Dive_Into_The_Heart_Destati = registerSound("music/dive_into_the_heart_destati");
+			Music_Dive_Into_The_Heart_Destati = registerSound("music/dive_into_the_heart_destati"),
+    		Music_Lord_Of_The_Castle = registerSound("music/lord_of_the_castle");
 
            /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),

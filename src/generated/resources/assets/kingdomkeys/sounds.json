@@ -275,5 +275,13 @@
         "stream": true
       }
     ]
+  },
+  "music/lord_of_the_castle": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/lord_of_the_castle",
+        "stream": true
+      }
+    ]
   }
 }
