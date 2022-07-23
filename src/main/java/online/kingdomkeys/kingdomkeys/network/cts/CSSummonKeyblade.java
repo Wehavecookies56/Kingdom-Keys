@@ -328,6 +328,9 @@ public class CSSummonKeyblade {
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
 			Player player = event.getPlayer();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(playerData == null)
+				return;
+			
 			if (droppedItem != null) {
 				if (playerData.getEquippedWeapon() != null) {
 					if ((droppedItem.getItem() instanceof IOrgWeapon || (droppedItem.getItem() instanceof KeybladeItem && playerData.getAlignment() != OrgMember.NONE) || (playerData.getEquippedWeapon().getItem() == droppedItem.getItem()))) {
