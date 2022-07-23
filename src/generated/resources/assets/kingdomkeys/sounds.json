@@ -124,6 +124,31 @@
       "kingdomkeys:laser"
     ]
   },
+  "blizzard": {
+    "sounds": [
+      "kingdomkeys:blizzard"
+    ]
+  },
+  "cure": {
+    "sounds": [
+      "kingdomkeys:cure"
+    ]
+  },
+  "magnet1": {
+    "sounds": [
+      "kingdomkeys:magnet1"
+    ]
+  },
+  "magnet2": {
+    "sounds": [
+      "kingdomkeys:magnet2"
+    ]
+  },
+  "gravity": {
+    "sounds": [
+      "kingdomkeys:gravity"
+    ]
+  },
   "reflect1": {
     "sounds": [
       "kingdomkeys:reflect1"

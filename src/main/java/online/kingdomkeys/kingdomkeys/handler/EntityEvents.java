@@ -606,7 +606,7 @@ public class EntityEvents {
 			if (playerData.getAeroTicks() > 0) {
 				playerData.remAeroTicks(1);
 
-				if(player.tickCount % 5 == 0) {
+				/*if(player.tickCount % 5 == 0) {
 					// Spawn particles
 					float radius = 1F;
 					double X = event.getEntityLiving().getX();
@@ -621,7 +621,7 @@ public class EntityEvents {
 							event.getEntityLiving().level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 						}
 					}
-				}
+				}*/
 				if(playerData.getAeroLevel() == 1) {
 					if(player.tickCount % 20 == 0) {
 						float radius = 0.4F;
@@ -1064,8 +1064,7 @@ public class EntityEvents {
 				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntityLiving().getDisplayName().getString());
 				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
-				//player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-				//TODO a
+				player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			}
 		}
 	}

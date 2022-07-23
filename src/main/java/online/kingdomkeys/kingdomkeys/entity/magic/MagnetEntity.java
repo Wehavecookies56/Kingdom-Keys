@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,6 +22,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -74,6 +76,12 @@ public class MagnetEntity extends ThrowableProjectile {
 
 		if (tickCount >= 3 && tickCount % 2 == 0) {
 			float radius = 2F;
+			if(tickCount < 20) {
+				radius = tickCount / 10F;
+			}
+			if(tickCount > maxTicks - 20) {
+				radius = (maxTicks - tickCount) / 10F;
+			}
 			double X = getX();
 			double Y = getY();
 			double Z = getZ();
@@ -115,6 +123,10 @@ public class MagnetEntity extends ThrowableProjectile {
 					}
 				}
 			}
+		}
+		
+		if(tickCount == maxTicks-20) {
+			getCaster().level.playSound(null, getCaster().blockPosition(), ModSounds.magnet2.get(), SoundSource.PLAYERS, 1F, 1.1F);
 		}
 
 		super.tick();

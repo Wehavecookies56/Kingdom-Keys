@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -22,6 +23,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -30,7 +32,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnegaEntity extends ThrowableProjectile {
 
-	int maxTicks = 200;
+	int maxTicks = 160;
 	float dmgMult = 1;
 	
 	public MagnegaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -77,6 +79,12 @@ public class MagnegaEntity extends ThrowableProjectile {
 
 		if (tickCount >= 5) {
 			float radius = 3F;
+			if(tickCount < 30) {
+				radius = tickCount / 10F;
+			}
+			if(tickCount > maxTicks - 30) {
+				radius = (maxTicks - tickCount) / 10F;
+			}
 			double X = getX();
 			double Y = getY();
 			double Z = getZ();
@@ -127,6 +135,10 @@ public class MagnegaEntity extends ThrowableProjectile {
 					}
 				}
 			}
+		}
+		
+		if(tickCount == maxTicks-30) {
+			getCaster().level.playSound(null, getCaster().blockPosition(), ModSounds.magnet2.get(), SoundSource.PLAYERS, 1F, 0.7F);
 		}
 
 		super.tick();

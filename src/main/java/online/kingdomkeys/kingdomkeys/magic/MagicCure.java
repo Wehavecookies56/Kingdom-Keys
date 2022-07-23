@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -29,6 +30,7 @@ public class MagicCure extends Magic {
 		((ServerLevel) player.level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY()+2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+		player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 
 		float amount;
 		switch(level) {
@@ -49,11 +51,12 @@ public class MagicCure extends Magic {
 		                Entity e = (Entity) list.get(i);
 		                if (e instanceof LivingEntity && Utils.isEntityInParty(party, e) && e != player) {
 		                	((LivingEntity) e).heal(amount / 2);
+		            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+
 		                }
 		            }
 		        }
 			}
-			player.level.playSound(null, player.blockPosition(), SoundEvents.GHAST_SHOOT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 2:
 			amount = playerData.getMaxHP() * getDamageMult(level);
@@ -67,6 +70,7 @@ public class MagicCure extends Magic {
 		                Entity e = (Entity) list.get(i);
 		                if (e instanceof LivingEntity && Utils.isEntityInParty(party, e) && e != player) {
 		                	((LivingEntity) e).heal(amount / 2);
+		            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
 		        }

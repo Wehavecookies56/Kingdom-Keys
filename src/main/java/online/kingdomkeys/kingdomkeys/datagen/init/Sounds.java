@@ -45,6 +45,11 @@ public class Sounds extends SoundDefinitionsProvider {
         add(unsummon);
         add(portal);
         add(laser);
+        add(blizzard);
+        add(cure);
+        add(magnet1);
+        add(magnet2);
+        add(gravity);
         add(reflect1);
         add(reflect2);
         add(invincible_hit);

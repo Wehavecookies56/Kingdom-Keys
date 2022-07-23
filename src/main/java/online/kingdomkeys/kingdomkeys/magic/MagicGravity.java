@@ -1,9 +1,12 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravigaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GraviraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
@@ -19,7 +22,8 @@ public class MagicGravity extends Magic {
 	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
 		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
 		dmg *= fullMPBlastMult;
-		
+		player.level.playSound(null, player.blockPosition(), ModSounds.gravity.get(), SoundSource.PLAYERS, 1F, 1F);
+
 		switch(level) {
 		case 0:
 			ThrowableProjectile gravity = new GravityEntity(player.level, player, dmg);
