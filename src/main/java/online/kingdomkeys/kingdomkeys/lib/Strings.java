@@ -19,9 +19,7 @@ public class Strings {
     		twilightTown = "twilight_town",
     		destinyIslands = "destiny_islands",
     		diveToTheHeart = "dive_to_the_heart",
-    		stationOfSorrow = "station_of_sorrow",
-			castleOblivion = "castle_oblivion",
-			castleOblivionInterior = "castle_oblivion_interior"
+    		stationOfSorrow = "station_of_sorrow"
 	;
 
     // Magics
@@ -281,6 +279,7 @@ public class Strings {
             nightmareVentus = "nightmareventus",
             eraqus = "eraqus",
             vanitas = "vanitas",
+            vanitasRemnant = "vanitas_remnant",
             aced = "aced",
             ava = "ava",
             gula = "gula",
@@ -381,6 +380,8 @@ public class Strings {
             
             Gui_Menu_Items_Equipment_Weapon = Gui_Menu_Items_Equipment + ".weapon",
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
+            Gui_Menu_Items_Equipment_Accessories = Gui_Menu_Items_Equipment + ".accessories",
+            Gui_Menu_Items_Equipment_Armor = Gui_Menu_Items_Equipment + ".armor",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
             
             Gui_Menu_Items_Equipment_Weapon_Keyblades = Gui_Menu_Items_Equipment_Weapon + ".keyblades",
