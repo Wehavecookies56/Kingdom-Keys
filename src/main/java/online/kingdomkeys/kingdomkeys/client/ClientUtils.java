@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.client;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -40,7 +39,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;

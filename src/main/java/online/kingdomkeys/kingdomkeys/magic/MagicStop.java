@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import java.util.List;
 
+import net.minecraft.client.resources.sounds.MinecartSoundInstance;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -47,10 +49,9 @@ public class MagicStop extends Magic {
 			}
 		}
 
-		player.level.playSound(null, player.blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.PLAYERS, 1F, 1F);
-
+		player.level.playSound(null, player.blockPosition(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
 		if (!list.isEmpty()) {
-			player.level.playSound(null, player.blockPosition(), SoundEvents.BELL_RESONATE, SoundSource.PLAYERS, 1F, 1F);
+			//player.level.playSound(null, player.blockPosition(), SoundEvents.BELL_RESONATE, SoundSource.PLAYERS, 1F, 1F);
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);
 				if (e instanceof LivingEntity) {

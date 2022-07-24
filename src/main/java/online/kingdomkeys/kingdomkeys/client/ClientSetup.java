@@ -42,6 +42,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
+import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
@@ -50,7 +51,6 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionRenderInfo;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartRenderInfo;
 import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationOfSorrowRenderInfo;
 
@@ -157,8 +157,13 @@ public class ClientSetup {
 	public static void addLayers(EntityRenderersEvent.AddLayers event) {
 		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+		renderer.addLayer(new AeroLayerRenderer<>(renderer,event.getEntityModels()));
+
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+		renderer.addLayer(new AeroLayerRenderer<>(renderer,event.getEntityModels()));
+
+
 	}
 
     @OnlyIn(Dist.CLIENT)
@@ -183,7 +188,6 @@ public class ClientSetup {
 		//Could probably use one for all void style dimensions
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
-		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.castleOblivion), new CastleOblivionRenderInfo());
 		
 		//Overlay setup
 
@@ -223,9 +227,7 @@ public class ClientSetup {
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.orgPortal.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.pedestal.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.translucent());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.structureWall.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.castleOblivionWall.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.castleOblivionPillar.get(), RenderType.cutout());
+			
         });
     }
 

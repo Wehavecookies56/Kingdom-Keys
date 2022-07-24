@@ -124,6 +124,11 @@
       "kingdomkeys:laser"
     ]
   },
+  "fire": {
+    "sounds": [
+      "kingdomkeys:fire"
+    ]
+  },
   "blizzard": {
     "sounds": [
       "kingdomkeys:blizzard"
@@ -149,6 +154,16 @@
       "kingdomkeys:gravity"
     ]
   },
+  "aero1": {
+    "sounds": [
+      "kingdomkeys:aero1"
+    ]
+  },
+  "aero2": {
+    "sounds": [
+      "kingdomkeys:aero2"
+    ]
+  },
   "reflect1": {
     "sounds": [
       "kingdomkeys:reflect1"
@@ -157,6 +172,21 @@
   "reflect2": {
     "sounds": [
       "kingdomkeys:reflect2"
+    ]
+  },
+  "stop": {
+    "sounds": [
+      "kingdomkeys:stop"
+    ]
+  },
+  "player_death": {
+    "sounds": [
+      "kingdomkeys:player_death"
+    ]
+  },
+  "player_death_2": {
+    "sounds": [
+      "kingdomkeys:player_death_2"
     ]
   },
   "invincible_hit": {

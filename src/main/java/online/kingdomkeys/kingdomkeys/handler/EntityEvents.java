@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.lwjgl.glfw.GLFW;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -766,9 +763,10 @@ public class EntityEvents {
 		
 		//This is outside as it should apply the formula if you have been hit by non player too		
 		if(event.getEntityLiving() instanceof Player) { 
+
 			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			
+
 			float damage = (float) Math.round((event.getAmount() * 100 / (200 + playerData.getDefense(true))));
 			if(playerData.getAeroTicks() > 0) {
 				float resistMultiplier = playerData.getAeroLevel() == 0 ? 0.3F : playerData.getAeroLevel() == 1 ? 0.35F : playerData.getAeroLevel() == 2 ? 0.4F : 0;
@@ -915,6 +913,14 @@ public class EntityEvents {
 			for(Player p : entity.level.players()) {
 				entity.level.addFreshEntity(new ItemEntity(entity.level, p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
 			}
+		}
+		
+		if(event.getEntityLiving() instanceof Player) {
+			Player player = (Player) event.getEntityLiving();
+			if(player.level.getLevelData().isHardcore())
+				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
+			else
+				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
 		}
 
 		if (!event.getEntity().level.isClientSide) {
@@ -1221,6 +1227,18 @@ public class EntityEvents {
 			Player targetPlayer = (Player) e.getTarget();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, playerData);
+			
+			/*if (!targetPlayer.level.isClientSide) {
+				if (targetPlayer instanceof Player) {
+					System.out.println(e.getPlayer().getDisplayName().getString()+" approached "+targetPlayer.getDisplayName().getString());
+					//SCAddWorldSoundsPacket.syncClients(targetPlayer.getUUID());
+					PacketHandler.sendTo(new SCAddWorldSoundsPacket(e.getPlayer().getUUID()), (ServerPlayer)targetPlayer);
+					PacketHandler.sendTo(new SCAddWorldSoundsPacket(targetPlayer.getUUID()), (ServerPlayer)e.getPlayer());
+
+					//PacketHandler.sendToServer(new SCAddWorldSoundsPacket(player.getUUID()));
+					// PacketHandler.sendToAllPlayers(new PacketAddWorldSounds(player));
+				}
+			}*/
 		}
 	}
 

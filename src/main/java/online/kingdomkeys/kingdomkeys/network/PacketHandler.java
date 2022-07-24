@@ -17,7 +17,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipAccessories;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipArmor;
-import online.kingdomkeys.kingdomkeys.network.cts.CSEquipArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShotlock;
