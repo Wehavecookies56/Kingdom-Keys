@@ -43,6 +43,8 @@ public class ModConfigs {
     public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
 
     public static boolean hpShowHearts;
+    public static boolean hpAlarm;
+    
     public static int hpXPos, hpYPos;
 
     public static int mpXPos, mpYPos;
@@ -116,6 +118,11 @@ public class ModConfigs {
 
     public static void setShowHearts(boolean value) {
         CLIENT.hpShowHearts.set(value);
+        bakeClient();
+    }
+    
+    public static void setHPAlarm(boolean value) {
+        CLIENT.hpAlarm.set(value);
         bakeClient();
     }
 
@@ -226,6 +233,7 @@ public class ModConfigs {
         hpXPos = CLIENT.hpXPos.get();
         hpYPos = CLIENT.hpYPos.get();
         hpShowHearts = CLIENT.hpShowHearts.get();
+        hpAlarm = CLIENT.hpAlarm.get();
 
         mpXPos = CLIENT.mpXPos.get();
         mpYPos = CLIENT.mpYPos.get();

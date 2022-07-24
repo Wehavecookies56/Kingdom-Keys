@@ -17,11 +17,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 @OnlyIn(Dist.CLIENT)
 public class WaterEntityRenderer extends EntityRenderer<WaterEntity> {
 
-	BlizzardModel shot;
-
 	public WaterEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shot = new BlizzardModel(context.bakeLayer(BlizzardModel.LAYER_LOCATION));
 		this.shadowRadius = 0.25F;
 	}
 

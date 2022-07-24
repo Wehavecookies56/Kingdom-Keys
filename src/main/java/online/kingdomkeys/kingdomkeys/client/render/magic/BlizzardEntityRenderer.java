@@ -17,11 +17,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 @OnlyIn(Dist.CLIENT)
 public class BlizzardEntityRenderer extends EntityRenderer<BlizzardEntity> {
 
-	BlizzardModel shot;
-
 	public BlizzardEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shot = new BlizzardModel(context.bakeLayer(BlizzardModel.LAYER_LOCATION));
 		this.shadowRadius = 0.25F;
 	}
 

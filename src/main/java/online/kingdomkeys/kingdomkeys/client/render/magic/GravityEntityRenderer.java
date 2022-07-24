@@ -22,11 +22,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 @OnlyIn(Dist.CLIENT)
 public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 
-	BlizzardModel shot;
-
 	public GravityEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shot = new BlizzardModel(context.bakeLayer(BlizzardModel.LAYER_LOCATION));
 		this.shadowRadius = 0.25F;
 	}
 

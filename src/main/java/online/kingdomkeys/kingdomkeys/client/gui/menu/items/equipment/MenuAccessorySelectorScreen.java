@@ -36,7 +36,7 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 	public Map<KKAccessoryItem,Integer> addedAccessoriesList = new HashMap<KKAccessoryItem, Integer>();
 	
 	public MenuAccessorySelectorScreen(int slot, Color colour, int buttonColour) {
-		super(Strings.Gui_Menu_Items_Equipment_Weapon, new Color(0,0,255));
+		super(Strings.Gui_Menu_Items_Equipment_Accessories, new Color(0,0,255));
 		drawSeparately = true;
 		minecraft = Minecraft.getInstance();
 		this.slot = slot;

@@ -13,8 +13,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.item.card.MinglingWorldsMapCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.item.organization.AxeSwordItem;
 import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
@@ -28,8 +26,6 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
 
 public class ModItems {
 
@@ -627,6 +623,11 @@ public class ModItems {
 			vanitas_Leggings = createArmorItem(Strings.vanitas+"_"+Strings.leggings, KKArmorMaterial.VANITAS, EquipmentSlot.LEGS, Strings.vanitas),
 			vanitas_Boots = createArmorItem(Strings.vanitas+"_"+Strings.boots, KKArmorMaterial.VANITAS, EquipmentSlot.FEET, Strings.vanitas),
 
+			vanitas_Remnant_Helmet = createArmorItem(Strings.vanitasRemnant+"_"+Strings.helmet, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.HEAD, Strings.vanitasRemnant),
+			vanitas_Remnant_Chestplate = createArmorItem(Strings.vanitasRemnant+"_"+Strings.chestplate, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.CHEST, Strings.vanitasRemnant),
+			vanitas_Remnant_Leggings = createArmorItem(Strings.vanitasRemnant+"_"+Strings.leggings, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.LEGS, Strings.vanitasRemnant),
+			vanitas_Remnant_Boots = createArmorItem(Strings.vanitasRemnant+"_"+Strings.boots, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.FEET, Strings.vanitasRemnant),
+					
 			nightmareVentus_Helmet = createArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.HEAD, Strings.nightmareVentus),
 			nightmareVentus_Chestplate = createArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.CHEST, Strings.nightmareVentus),
 			nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.LEGS, Strings.nightmareVentus),
@@ -804,7 +805,7 @@ public class ModItems {
 			shadowArchive = createNewItem(Strings.shadowArchive, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 0, 3, null)),
 			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 0, 3, new String[] {Strings.mpRage})),
     		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.treasureMagnet})),
-    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.luckyRing})),
+    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.luckyLucky})),
     		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 2, 2, null)),
 
 			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
@@ -812,30 +813,9 @@ public class ModItems {
 			thunderTrinket = createNewItem(Strings.thunderTrinket, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.lightning, 20))),
 			petiteRibbon = createNewItem(Strings.petiteRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 10, KKResistanceType.ice, 10, KKResistanceType.lightning, 10, KKResistanceType.darkness, 10))),
 			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
-			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25))),
+			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25)));
 
-			// card declaration
-			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),
-			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS),
-			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS),
-			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS),
-			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS),
-			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS),
-			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS),
-			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING),
-			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING),
-			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING),
-			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE),
-			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE),
-			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY),
-			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE),
-			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY),
-			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE),
-			moogleRoom = createMapCard(Strings.MoogleRoom, ModRoomTypes.MOOGLE_ROOM),
-			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY),
-			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY),
-			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE),
-			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new);
+			
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 
@@ -858,7 +838,5 @@ public class ModItems {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
 
-	private static RegistryObject<Item> createMapCard(String name, Supplier<RoomType> type) {
-		return ITEMS.register(name, () -> new MapCardItem(type));
-	}
+
 }

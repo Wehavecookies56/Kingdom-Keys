@@ -66,6 +66,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
         add(Gui_Menu_Items_Equipment_Weapon_Keyblades, "Keyblades");
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
+        add(Gui_Menu_Items_Equipment_Accessories, "Accessories");
+        add(Gui_Menu_Items_Equipment_Armor, "Armor");
         add(Gui_Menu_Items_Equipment_Items, "Items");
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
@@ -342,29 +344,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto Final");
 
         /**Items**/
-        //Cards
-        add("item.mapcard.prefix", "(%s) %s");
-        addItem(ModItems.tranquilDarkness, "Tranquil Darkness");
-        addItem(ModItems.teemingDarkness, "Teeming Darkness");
-        addItem(ModItems.feebleDarkness, "Feeble Darkness");
-        addItem(ModItems.almightyDarkness, "Almighty Darkness");
-        addItem(ModItems.sleepingDarkness, "Sleeping Darkness");
-        addItem(ModItems.loomingDarkness, "Looming Darkness");
-        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness");
-        addItem(ModItems.martialWaking, "Martial Waking");
-        addItem(ModItems.sorcerousWaking, "Sorcerous Waking");
-        addItem(ModItems.alchemicWaking, "Alchemic Waking");
-        addItem(ModItems.stagnantSpace, "Stagnant Space");
-        addItem(ModItems.weightlessSpace, "Weightless Space");
-        addItem(ModItems.calmBounty, "Calm Bounty");
-        addItem(ModItems.guardedTrove, "Guarded Trove");
-        addItem(ModItems.falseBounty, "False Bounty");
-        addItem(ModItems.momentsReprieve, "Moment's Reprieve");
-        addItem(ModItems.minglingWorlds, "Mingling Worlds");
-        addItem(ModItems.moogleRoom, "Moogle Room");
-        addItem(ModItems.prosperousRepository, "Prosperous Repository");
-        addItem(ModItems.treacherousRepository, "Treacherous Repository");
-        addItem(ModItems.reposefulGrove, "Reposeful Grove");
+       
 
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
@@ -1049,10 +1029,14 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.GREEN_REQUIEM_EGG, "Spawn Green Requiem");
         addItem(ModEntities.LARGE_BODY_EGG, "Spawn Large Body");
         addItem(ModEntities.DIRE_PLANT_EGG, "Spawn Dire Plant");
+        addItem(ModEntities.SOLDIER_EGG, "Spawn Soldier");
 
         addItem(ModEntities.NOBODY_CREEPER_EGG, "Spawn Creeper (Nobody)");
         addItem(ModEntities.DUSK_EGG, "Spawn Dusk");
         addItem(ModEntities.ASSASSIN_EGG, "Spawn Assassin");
+        addItem(ModEntities.DRAGOON_EGG, "Spawn Dragoon");
+        addItem(ModEntities.MARLUXIA_EGG, "Spawn Marluxia");
+        
 
         //Armour
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
@@ -1084,6 +1068,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");
         addItem(ModItems.vanitas_Leggings, "Vanitas Leggings");
         addItem(ModItems.vanitas_Boots, "Vanitas Boots");
+        
+        addItem(ModItems.vanitas_Remnant_Helmet, "Vanitas Remnant Helmet");
+        addItem(ModItems.vanitas_Remnant_Chestplate, "Vanitas Remnant Chestplate");
+        addItem(ModItems.vanitas_Remnant_Leggings, "Vanitas Remnant Leggings");
+        addItem(ModItems.vanitas_Remnant_Boots, "Vanitas Remnant Boots");
 
         addItem(ModItems.nightmareVentus_Helmet, "Nightmare Ventus Helmet");
         addItem(ModItems.nightmareVentus_Chestplate, "Nightmare Ventus Chestplate");

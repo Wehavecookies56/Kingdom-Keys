@@ -17,11 +17,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 @OnlyIn(Dist.CLIENT)
 public class MagnetEntityRenderer extends EntityRenderer<MagnetEntity> {
 
-	BlizzardModel shot;
-
 	public MagnetEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shot = new BlizzardModel(context.bakeLayer(BlizzardModel.LAYER_LOCATION));
 		this.shadowRadius = 0.25F;
 	}
 

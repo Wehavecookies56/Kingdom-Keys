@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @OnlyIn(Dist.CLIENT)
@@ -53,7 +54,7 @@ public class AlarmSoundInstance extends AbstractTickableSoundInstance {
 	         this.y = (double)((float)this.player.getY());
 	         this.z = (double)((float)this.player.getZ());
 	         this.pitch = 1F;
-	         this.volume = 0.5F;	
+	         this.volume = ModConfigs.hpAlarm ? 0.5F : 0F;	
 	      }
 	   }	   
    }

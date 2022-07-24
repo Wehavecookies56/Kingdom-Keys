@@ -17,11 +17,8 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 @OnlyIn(Dist.CLIENT)
 public class LaserDomeEntityRenderer extends EntityRenderer<LaserDomeCoreEntity> {
 
-	BlizzardModel shot;
-
 	public LaserDomeEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shot = new BlizzardModel(context.bakeLayer(BlizzardModel.LAYER_LOCATION));
 		this.shadowRadius = 0.25F;
 	}
 

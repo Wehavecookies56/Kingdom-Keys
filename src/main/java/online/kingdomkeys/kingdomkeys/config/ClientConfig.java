@@ -14,6 +14,8 @@ public class ClientConfig {
     public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
     
     public ForgeConfigSpec.BooleanValue hpShowHearts;
+    public ForgeConfigSpec.BooleanValue hpAlarm;
+    
     public ForgeConfigSpec.IntValue hpXPos, hpYPos;
     
     public ForgeConfigSpec.IntValue mpXPos, mpYPos;
@@ -97,6 +99,11 @@ public class ClientConfig {
 	        		.comment("Show Hearts")
 	                .translation(KingdomKeys.MODID + ".config.hp_hearts")
 	                .define("hpShowHearts", true);
+	        
+	        hpAlarm = builder
+	        		.comment("Low HP Alarm")
+	                .translation(KingdomKeys.MODID + ".config.hp_alarm")
+	                .define("hpAlarm", true);
 	        
 	        builder.pop();
 	        

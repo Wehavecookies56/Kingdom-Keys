@@ -44,7 +44,8 @@ public class MenuConfigScreen extends MenuBackground {
 	//HP
 	EditBox hpXPosBox, hpYPosBox;
 	Button hpShowHeartsButton;
-	boolean hpShowHearts;
+	Button hpAlarmButton;
+	boolean hpShowHearts, hpAlarm;
 
 	//MP
 	EditBox mpXPosBox, mpYPosBox;
@@ -99,6 +100,12 @@ public class MenuConfigScreen extends MenuBackground {
 			hpShowHearts = !hpShowHearts;
 			hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
 			ModConfigs.setShowHearts(hpShowHearts);
+			break;
+			
+		case "hpAlarm":
+			hpAlarm = !hpAlarm;
+			hpAlarmButton.setMessage(new TranslatableComponent(hpAlarm+""));
+			ModConfigs.setHPAlarm(hpAlarm);
 			break;
 		}
 		
@@ -296,6 +303,8 @@ public class MenuConfigScreen extends MenuBackground {
 
 	private void initHP() {
 		hpShowHearts = ModConfigs.hpShowHearts;
+		hpAlarm = ModConfigs.hpAlarm;
+
 
 		int pos = 0;
 		
@@ -352,15 +361,18 @@ public class MenuConfigScreen extends MenuBackground {
 		});
 		
 		addRenderableWidget(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, new TranslatableComponent(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
+		addRenderableWidget(hpAlarmButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, new TranslatableComponent(hpAlarm+""), (e) -> { action("hpAlarm"); }));
 
 		
 		hpXPosBox.setValue(""+ModConfigs.hpXPos);
 		hpYPosBox.setValue(""+ModConfigs.hpYPos);
 		hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
-		
+		hpAlarmButton.setMessage(new TranslatableComponent(hpAlarm+""));
+
 		hpList.add(hpXPosBox);
 		hpList.add(hpYPosBox);
 		hpList.add(hpShowHeartsButton);
+		hpList.add(hpAlarmButton);
 
 	}
 	
@@ -1009,6 +1021,7 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 
@@ -1132,6 +1145,7 @@ public class MenuConfigScreen extends MenuBackground {
 		options.put('X', Integer.valueOf(partyYDistanceBox.getValue()));
 		options.put('Y', Integer.valueOf(focusXPosBox.getValue()));
 		options.put('Z', Integer.valueOf(focusYPosBox.getValue()));
+		options.put('+', hpShowHearts ? 1 : 0);
 		return options;
 	}
 
@@ -1248,6 +1262,7 @@ public class MenuConfigScreen extends MenuBackground {
 		ModConfigs.setPartyYDistance(0);
 		ModConfigs.setFocusXPos(0);
 		ModConfigs.setFocusYPos(0);
+		ModConfigs.setHPAlarm(false);
 	}
 
 	public boolean isBase36Char(char c) {
@@ -1374,6 +1389,11 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'Z' -> {
 				ModConfigs.setFocusYPos(value);
 				focusYPosBox.setValue(""+value);
+			}
+			case '+' -> {
+				ModConfigs.setHPAlarm(value == 1);
+				hpAlarm = value == 1;
+				hpAlarmButton.setMessage(new TranslatableComponent(hpAlarm+""));
 			}
 		}
 	}

@@ -57,6 +57,8 @@
 	"gui.menu.items.equipment.weapon": "Arma",
 	"gui.menu.items.equipment.weapon.keyblades": "Llaves Espada",
 	"gui.menu.items.equipment.shotlock": "Tiro Certero",
+	"gui.menu.items.equipment.accessories": "Accesorios",
+	"gui.menu.items.equipment.armor": "Armadura",
 	"gui.menu.items.equipment.items": "Objetos",
 	"gui.menu.customize": "Configuración",
 	"gui.menu.customize.shortcut": "Atajo",
@@ -1283,10 +1285,13 @@
 	"item.kingdomkeys.green_requiem_spawn_egg": "Generar Réquiem Verde",
 	"item.kingdomkeys.large_body_spawn_egg": "Generar Grandullón",
 	"item.kingdomkeys.dire_plant_spawn_egg": "Generar Mala Hierba",
+	"item.kingdomkeys.soldier_spawn_egg": "Generar Soldado",
 
 	"item.kingdomkeys.nobody_creeper_spawn_egg": "Generar Trepador",
 	"item.kingdomkeys.dusk_spawn_egg": "Generar Umbrío",
 	"item.kingdomkeys.assassin_spawn_egg": "Generar Asesino",
+	"item.kingdomkeys.dragoon_spawn_egg": "Generar Dragón",
+	"item.kingdomkeys.marluxia_spawn_egg": "Generar Marluxia",
 
 	"_comment": "Messages",
 	"message.magnet_blox.attract": "Modo Atracción",

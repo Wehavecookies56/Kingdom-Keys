@@ -38,7 +38,7 @@ public class MenuArmorSelectorScreen extends MenuBackground {
 	public Map<KKArmorItem,Integer> addedArmorList = new HashMap<KKArmorItem, Integer>();
 	
 	public MenuArmorSelectorScreen(int slot, Color colour, int buttonColour) {
-		super(Strings.Gui_Menu_Items_Equipment_Weapon, new Color(0,0,255));
+		super(Strings.Gui_Menu_Items_Equipment_Armor, new Color(0,0,255));
 		drawSeparately = true;
 		minecraft = Minecraft.getInstance();
 		this.slot = slot;

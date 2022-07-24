@@ -17,11 +17,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 @OnlyIn(Dist.CLIENT)
 public class ThunderBoltEntityRenderer extends EntityRenderer<ThunderBoltEntity> {
 
-	BlizzardModel shot;
-
 	public ThunderBoltEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shot = new BlizzardModel(context.bakeLayer(BlizzardModel.LAYER_LOCATION));
 		this.shadowRadius = 0.25F;
 	}
 
