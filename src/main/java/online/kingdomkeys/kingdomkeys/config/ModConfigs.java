@@ -43,7 +43,7 @@ public class ModConfigs {
     public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
 
     public static boolean hpShowHearts;
-    public static boolean hpAlarm;
+    public static int hpAlarm;
     
     public static int hpXPos, hpYPos;
 
@@ -121,7 +121,7 @@ public class ModConfigs {
         bakeClient();
     }
     
-    public static void setHPAlarm(boolean value) {
+    public static void setHPAlarm(int value) {
         CLIENT.hpAlarm.set(value);
         bakeClient();
     }

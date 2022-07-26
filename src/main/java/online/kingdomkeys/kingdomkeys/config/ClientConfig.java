@@ -14,7 +14,7 @@ public class ClientConfig {
     public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
     
     public ForgeConfigSpec.BooleanValue hpShowHearts;
-    public ForgeConfigSpec.BooleanValue hpAlarm;
+    public ForgeConfigSpec.IntValue hpAlarm;
     
     public ForgeConfigSpec.IntValue hpXPos, hpYPos;
     
@@ -101,9 +101,9 @@ public class ClientConfig {
 	                .define("hpShowHearts", true);
 	        
 	        hpAlarm = builder
-	        		.comment("Low HP Alarm")
+	        		.comment("Low HP Alarm Volume")
 	                .translation(KingdomKeys.MODID + ".config.hp_alarm")
-	                .define("hpAlarm", true);
+	                .defineInRange("hpAlarmVolume", 10, 0, 10);
 	        
 	        builder.pop();
 	        

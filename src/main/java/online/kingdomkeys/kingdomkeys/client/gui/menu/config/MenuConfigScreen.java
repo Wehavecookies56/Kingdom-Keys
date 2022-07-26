@@ -42,10 +42,9 @@ public class MenuConfigScreen extends MenuBackground {
 	boolean cmHeaderTextVisible;
 	
 	//HP
-	EditBox hpXPosBox, hpYPosBox;
+	EditBox hpXPosBox, hpYPosBox, hpAlarmBox;
 	Button hpShowHeartsButton;
-	Button hpAlarmButton;
-	boolean hpShowHearts, hpAlarm;
+	boolean hpShowHearts;
 
 	//MP
 	EditBox mpXPosBox, mpYPosBox;
@@ -100,12 +99,6 @@ public class MenuConfigScreen extends MenuBackground {
 			hpShowHearts = !hpShowHearts;
 			hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
 			ModConfigs.setShowHearts(hpShowHearts);
-			break;
-			
-		case "hpAlarm":
-			hpAlarm = !hpAlarm;
-			hpAlarmButton.setMessage(new TranslatableComponent(hpAlarm+""));
-			ModConfigs.setHPAlarm(hpAlarm);
 			break;
 		}
 		
@@ -303,9 +296,6 @@ public class MenuConfigScreen extends MenuBackground {
 
 	private void initHP() {
 		hpShowHearts = ModConfigs.hpShowHearts;
-		hpAlarm = ModConfigs.hpAlarm;
-
-
 		int pos = 0;
 		
 		addRenderableWidget(hpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
@@ -361,18 +351,42 @@ public class MenuConfigScreen extends MenuBackground {
 		});
 		
 		addRenderableWidget(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, new TranslatableComponent(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
-		addRenderableWidget(hpAlarmButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, new TranslatableComponent(hpAlarm+""), (e) -> { action("hpAlarm"); }));
+		addRenderableWidget(hpAlarmBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) <= 10 && Utils.getInt(text) >= 0) {
+						super.charTyped(c, i);
+						ModConfigs.setHPAlarm(Utils.getInt(getValue()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setHPAlarm(Utils.getInt(getValue()));
+				return true;
+			}
+			
+		});
 
 		
 		hpXPosBox.setValue(""+ModConfigs.hpXPos);
 		hpYPosBox.setValue(""+ModConfigs.hpYPos);
 		hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
-		hpAlarmButton.setMessage(new TranslatableComponent(hpAlarm+""));
+		hpAlarmBox.setValue(""+ModConfigs.hpAlarm);
 
 		hpList.add(hpXPosBox);
 		hpList.add(hpYPosBox);
 		hpList.add(hpShowHeartsButton);
-		hpList.add(hpAlarmButton);
+		hpList.add(hpAlarmBox);
 
 	}
 	
@@ -1262,7 +1276,7 @@ public class MenuConfigScreen extends MenuBackground {
 		ModConfigs.setPartyYDistance(0);
 		ModConfigs.setFocusXPos(0);
 		ModConfigs.setFocusYPos(0);
-		ModConfigs.setHPAlarm(false);
+		ModConfigs.setHPAlarm(0);
 	}
 
 	public boolean isBase36Char(char c) {
@@ -1391,9 +1405,8 @@ public class MenuConfigScreen extends MenuBackground {
 				focusYPosBox.setValue(""+value);
 			}
 			case '+' -> {
-				ModConfigs.setHPAlarm(value == 1);
-				hpAlarm = value == 1;
-				hpAlarmButton.setMessage(new TranslatableComponent(hpAlarm+""));
+				ModConfigs.setHPAlarm(value);
+				hpAlarmBox.setValue(""+value);
 			}
 		}
 	}

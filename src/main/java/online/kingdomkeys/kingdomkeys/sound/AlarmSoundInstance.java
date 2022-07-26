@@ -54,7 +54,7 @@ public class AlarmSoundInstance extends AbstractTickableSoundInstance {
 	         this.y = (double)((float)this.player.getY());
 	         this.z = (double)((float)this.player.getZ());
 	         this.pitch = 1F;
-	         this.volume = ModConfigs.hpAlarm ? 0.5F : 0F;	
+	         this.volume = ModConfigs.hpAlarm/10F;	
 	      }
 	   }	   
    }
