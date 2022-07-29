@@ -94,7 +94,6 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	
     	//if(hasRC()) {// If the magic has a Grand Magic and the timer is not 1 (GM is not disabled in the config)
 		int maxLevel = casterData.getMagicLevel(name);
-		System.out.println(level+" "+maxLevel);
     	if(level > maxLevel){ // Grand Magic, set GM variable to 0 and not consume MP
 			casterData.setMagicUses(name, 0);
 		} else { // If it's not using a grand magic add a point and remove MP
@@ -107,7 +106,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 					if(!(getGMAbility() == null && level == getMaxLevel())) {
 						casterData.addReactionCommand(KingdomKeys.MODID + ":" +getRegistryName().getPath(), caster);
 					} else {
-						System.out.println(level+" "+getMaxLevel()+" disabled RC");
+						//System.out.println(level+" "+getMaxLevel()+" disabled RC");
 					}
 					casterData.setMagicUses(name, 0);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer)caster);
