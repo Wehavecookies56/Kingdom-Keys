@@ -14,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicGravity extends Magic {
 
-	public MagicGravity(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
-		super(registryName, false, maxLevel, hasRC, gmAbility, order);
+	public MagicGravity(String registryName, int maxLevel, String gmAbility, int order) {
+		super(registryName, false, maxLevel, gmAbility, order);
 	}
 
 	@Override
@@ -26,17 +26,17 @@ public class MagicGravity extends Magic {
 
 		switch(level) {
 		case 0:
-			ThrowableProjectile gravity = new GravityEntity(player.level, player, dmg);
+			ThrowableProjectile gravity = new GravityEntity(player.level, player, dmg * 1F);
 			player.level.addFreshEntity(gravity);
 			gravity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			break;
 		case 1:
-			ThrowableProjectile gravira = new GraviraEntity(player.level, player, dmg);
+			ThrowableProjectile gravira = new GraviraEntity(player.level, player, dmg * 1.1F);
 			player.level.addFreshEntity(gravira);
 			gravira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.3F, 0);
 			break;
 		case 2:
-			ThrowableProjectile graviga = new GravigaEntity(player.level, player, dmg);
+			ThrowableProjectile graviga = new GravigaEntity(player.level, player, dmg * 1.2F);
 			player.level.addFreshEntity(graviga);
 			graviga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.6F, 0);
 			break;

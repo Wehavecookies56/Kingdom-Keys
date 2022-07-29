@@ -184,10 +184,15 @@
 
 	"_comment": "Abilities",
 	"ability.ability_auto_valor.name": "Auto-valentía",
+	"ability.ability_auto_valor.desc": "En casos de emergencia, si la Forma valiente está disponible, el comando de reacción cambia a Valiente.",
 	"ability.ability_auto_wisdom.name": "Auto-sabia",
+	"ability.ability_auto_wisdom.desc": "En casos de emergencia, si la Forma sabia está disponible, el comando de reacción cambia a Sabia.",
 	"ability.ability_auto_limit.name": "Auto-suma",
+	"ability.ability_auto_limit.desc": "En casos de emergencia, si la Forma suma está disponible, el comando de reacción cambia a Suma.",
 	"ability.ability_auto_master.name": "Auto-maestra",
+	"ability.ability_auto_master.desc": "En casos de emergencia, si la Forma maestra está disponible, el comando de reacción cambia a Maestra.",
 	"ability.ability_auto_final.name": "Auto-final",
+	"ability.ability_auto_final.desc": "En casos de emergencia, si la Forma final está disponible, el comando de reacción cambia a Final.",
 
 	"ability.ability_high_jump_1.name": "Salto de altura 1",
 	"ability.ability_high_jump_2.name": "Salto de altura 2",
@@ -278,13 +283,15 @@
 	"ability.ability_item_boost.name": "Extraobjetos",
 	"ability.ability_item_boost.desc": "Aumenta el efecto de los objetos de cura en la batalla en un 50%. Cuantos más activas, mayor efecto.",
 	"ability.ability_firaza.name": "Piro+++",
-	"ability.ability_firaza.desc": "Permite al usuario obtener el comando de reacción Piro+++. Cuantas más activas, más posibilidades de obtenerlo.",
+	"ability.ability_firaza.desc": "Permite al usuario obtener el comando de reacción Piro+++.",
 	"ability.ability_blizzaza.name": "Hielo+++",
-	"ability.ability_blizzaza.desc": "Permite al usuario obtener el comando de reacción Hielo+++. Cuantas más activas, más posibilidades de obtenerlo.",
+	"ability.ability_blizzaza.desc": "Permite al usuario obtener el comando de reacción Hielo+++.",
 	"ability.ability_waterza.name": "Aqua+++",
-	"ability.ability_waterza.desc": "Permite al usuario obtener el comando de reacción Aqua+++. Cuantas más activas, más posibilidades de obtenerlo.",
+	"ability.ability_waterza.desc": "Permite al usuario obtener el comando de reacción Aqua+++.",
 	"ability.ability_thundaza.name": "Electro+++",
-	"ability.ability_thundaza.desc": "Permite al usuario obtener el comando de reacción Electro+++. Cuantas más activas, más posibilidades de obtenerlo.",
+	"ability.ability_thundaza.desc": "Permite al usuario obtener el comando de reacción Electro+++.",
+	"ability.ability_grand_magic_haste.name": "Gran Prisa Mágica",
+	"ability.ability_grand_magic_haste.desc": "Otorga al usuario una probabilidad más alta para invocar una magia mejorada. Cuantas más activas, mayor efecto.",
 
 
 	"_comment": "Limits",
@@ -1241,6 +1248,8 @@
 	"entities.kingdomkeys.entity_mp_orb": "Orbe de MP",
 	"entities.kingdomkeys.entity_drive_orb": "Orbe de DP",
 	"entities.kingdomkeys.entity_munny": "Platines",
+	
+	"entity.kingdomkeys.spawning_orb": "Orbe Generador",
 
 	"entity.kingdomkeys.moogle": "Moguri",
 	"entity.kingdomkeys.shadow": "Sombra",
@@ -1260,6 +1269,7 @@
 	"entity.kingdomkeys.green_requiem": "Réquiem Verde",
 	"entity.kingdomkeys.large_body": "Grandullón",
 	"entity.kingdomkeys.dire_plant": "Mala Hierba",
+	"entity.kingdomkeys.soldier": "Soldado",
 
 	"entity.kingdomkeys.nobody_creeper": "Trepador",
 	"entity.kingdomkeys.dusk": "Umbrío",

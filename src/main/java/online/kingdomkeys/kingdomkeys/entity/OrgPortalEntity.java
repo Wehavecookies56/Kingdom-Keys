@@ -65,7 +65,6 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		List<Entity> tempList = level.getEntities(this, getBoundingBox().inflate(radius, radius, radius));
 		for (Entity t : tempList) {
 			if(shouldTeleport && !(t instanceof OrgPortalEntity)) {
-				
 		        if(!this.isAlive())
 		            return;
 		        if(t != null){

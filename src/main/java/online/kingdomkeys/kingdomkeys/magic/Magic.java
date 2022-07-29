@@ -24,17 +24,15 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     int order;
     int maxLevel;
     String translationKey;
-    boolean rc;
     String gmAbility;
     
 	private MagicData data;	
 
-    public Magic(String registryName, boolean hasToSelect, int maxLevel, boolean hasRC, String gmAbility, int order) {
+    public Magic(String registryName, boolean hasToSelect, int maxLevel, String gmAbility, int order) {
     	this.name = registryName;
     	this.hasTargetSelector = hasToSelect;
     	this.order = order;
     	this.maxLevel = maxLevel - 1;
-    	this.rc = hasRC;
     	this.gmAbility = gmAbility;
         translationKey = "magic." + new ResourceLocation(registryName).getPath() + ".name";
     }
@@ -67,11 +65,9 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	return hasTargetSelector;
     }
     
-    public boolean hasRC() {
-    	return rc;
-    }
-    
     public Ability getGMAbility() {
+    	if(gmAbility == null)
+    		return null;
     	return ModAbilities.registry.get().getValue(new ResourceLocation(gmAbility));
     }
     
@@ -96,28 +92,29 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	
-    	if(hasRC() /*&& ModConfigs.magicUsesTimer != 1*/) {// If the magic has a Grand Magic and the timer is not 1 (GM is not disabled in the config)
-			int maxLevel = casterData.getMagicLevel(name);
-	    	if(level > maxLevel){ // If it's using a grand magic set GM variable to 0 and not consume MP
-				casterData.setMagicUses(name, 0);
-			} else { // If it's not using a grand magic add a point and remove MP
-				casterData.addMagicUses(name, 1);
-				casterData.remMP(getCost(level, player));
-				
-				//Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name)); //Get the magic instance of it
-
-				if(getMagicData() != null) { //If the magic exists and has data and has Grand Magic
-					if(getGMProb(casterData)) {// If the actual uses is equals or above the required
-						casterData.addReactionCommand(KingdomKeys.MODID + ":" +getRegistryName().getPath(), caster);
-						casterData.setMagicUses(name, 0);
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer)caster);
-					}
-				}
-				
-			}
-    	} else {
+    	//if(hasRC()) {// If the magic has a Grand Magic and the timer is not 1 (GM is not disabled in the config)
+		int maxLevel = casterData.getMagicLevel(name);
+		System.out.println(level+" "+maxLevel);
+    	if(level > maxLevel){ // Grand Magic, set GM variable to 0 and not consume MP
+			casterData.setMagicUses(name, 0);
+		} else { // If it's not using a grand magic add a point and remove MP
+			casterData.addMagicUses(name, 1);
 			casterData.remMP(getCost(level, player));
-    	}
+
+			if(getMagicData() != null) { //If the magic exists and has data and has Grand Magic
+				if(getRCProb(casterData)) {// If the actual uses is equals or above the required
+					//If player has max level magic (and doesnt have GM) don't give RC
+					if(!(getGMAbility() == null && level == getMaxLevel())) {
+						casterData.addReactionCommand(KingdomKeys.MODID + ":" +getRegistryName().getPath(), caster);
+					} else {
+						System.out.println(level+" "+getMaxLevel()+" disabled RC");
+					}
+					casterData.setMagicUses(name, 0);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer)caster);
+				}				
+			}			
+		}
+    	
 		casterData.setMagicCooldownTicks(data.getCooldown(level));
 		
 		if(casterData.isAbilityEquipped(Strings.wizardsRuse)) { //Wizard's Ruse has a chance to heal the player based on the amount of stacked abilities and amount healed based on the cost of the ability
@@ -132,14 +129,9 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer) caster);
     }
 
-	private boolean getGMProb(IPlayerCapabilities casterData) {
-		int prob = 0;
-		//System.out.println("Q: "+casterData.getNumberOfAbilitiesEquipped(gmAbility));
-		if(casterData.isAbilityEquipped(gmAbility)) {
-			prob = casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
-			prob += (casterData.getMagicUses(name)-1)*5;
-		}
-		
+	private boolean getRCProb(IPlayerCapabilities casterData) {
+		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
+		prob += (casterData.getMagicUses(name)-1)*5;
 		double num = Math.random()*100;
 		return num <= prob;
 	}

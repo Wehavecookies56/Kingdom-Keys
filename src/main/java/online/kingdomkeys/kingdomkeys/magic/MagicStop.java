@@ -24,8 +24,8 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicStop extends Magic {
 
-	public MagicStop(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
-		super(registryName, false, maxLevel, hasRC, gmAbility, order);
+	public MagicStop(String registryName, int maxLevel, String gmAbility, int order) {
+		super(registryName, false, maxLevel,  gmAbility, order);
 	}
 
 	@Override

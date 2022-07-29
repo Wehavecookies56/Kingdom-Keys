@@ -54,7 +54,7 @@ public class DragoonEntity extends BaseKHEntity {
         return Mob.createLivingAttributes()
             .add(Attributes.FOLLOW_RANGE, 30.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.28D)
-            .add(Attributes.MAX_HEALTH, 100.0D)
+            .add(Attributes.MAX_HEALTH, 90.0D)
             .add(Attributes.ATTACK_DAMAGE, 5.0D)
 			.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 

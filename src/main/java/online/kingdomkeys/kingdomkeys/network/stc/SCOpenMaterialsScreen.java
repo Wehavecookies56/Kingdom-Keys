@@ -13,7 +13,9 @@ import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScre
 public class SCOpenMaterialsScreen {
 	String inv;
 	
-    public SCOpenMaterialsScreen() {}
+    public SCOpenMaterialsScreen() {
+    	this.inv = "default";
+    }
 
 	public SCOpenMaterialsScreen(String inv) {
 		this.inv = inv;

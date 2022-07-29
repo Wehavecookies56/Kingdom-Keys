@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 
 public class MagicAero extends Magic {
 
-	public MagicAero(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
-		super(registryName, true, maxLevel, hasRC, gmAbility, order);
+	public MagicAero(String registryName, int maxLevel, String gmAbility, int order) {
+		super(registryName, true, maxLevel, gmAbility, order);
 	}
 
 	@Override

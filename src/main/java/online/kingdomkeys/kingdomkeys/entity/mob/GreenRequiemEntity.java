@@ -36,7 +36,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return BaseElementalMusicalHeartlessEntity.registerAttributes()
-        		.add(Attributes.MAX_HEALTH, 40.0D)
+        		.add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 
@@ -53,13 +53,13 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        float multiplier = 1;
+        //float multiplier = 1;
         //TODO elemental weakness, ? not sure yet
         //if(!this.world.isRemote) {
         //    if(source.getImmediateSource() instanceof FireEntity)
         //        multiplier = 2;
         //}
-        return super.hurt(source, amount * multiplier);
+        return super.hurt(source, amount);
     }
 
     class GreenRequiemGoal extends TargetGoal {

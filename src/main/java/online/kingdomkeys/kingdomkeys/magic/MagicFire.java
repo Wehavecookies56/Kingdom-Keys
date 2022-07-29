@@ -16,8 +16,8 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicFire extends Magic {
 
-	public MagicFire(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
-		super(registryName, false, maxLevel, hasRC, gmAbility, order);
+	public MagicFire(String registryName, int maxLevel, String gmAbility, int order) {
+		super(registryName, false, maxLevel, gmAbility, order);
 	}
 
 	@Override

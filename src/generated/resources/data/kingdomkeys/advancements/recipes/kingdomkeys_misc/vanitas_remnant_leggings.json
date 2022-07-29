@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:vanitas_remnant_leggings"
+    ]
+  },
+  "criteria": {
+    "vanitas_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "kingdomkeys:vanitas_leggings"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:vanitas_remnant_leggings"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "vanitas_leggings",
+      "has_the_recipe"
+    ]
+  ]
+}

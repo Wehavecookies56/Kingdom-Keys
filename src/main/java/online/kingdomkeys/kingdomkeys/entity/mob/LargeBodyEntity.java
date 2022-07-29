@@ -76,7 +76,7 @@ public class LargeBodyEntity extends BaseKHEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.MAX_HEALTH, 80.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.15D)
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
                 .add(Attributes.ATTACK_DAMAGE, 5.0D)

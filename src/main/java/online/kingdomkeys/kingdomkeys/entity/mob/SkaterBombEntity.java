@@ -28,7 +28,7 @@ public class SkaterBombEntity extends BaseBombEntity {
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
-        return BaseBombEntity.registerAttributes().add(Attributes.MAX_HEALTH, 32.0D);
+        return BaseBombEntity.registerAttributes().add(Attributes.MAX_HEALTH, 28.0D);
     }
 
 

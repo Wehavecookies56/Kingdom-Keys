@@ -113,7 +113,8 @@ public class GravityEntity extends ThrowableProjectile {
 							globalData.setFlatTicks(100);
 							
 							if(Utils.isHostile(e)) {
-								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.2F : 2;
+								float dmg = this.getOwner() instanceof Player ? ((LivingEntity)e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
+								dmg = Math.min(dmg, 99);
 								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 							}
 							if (e instanceof LivingEntity)

@@ -41,7 +41,7 @@ public class ShadowGlobEntity extends BaseKHEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 16.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
                 .add(Attributes.FOLLOW_RANGE, 0.0D)

@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicWater extends Magic {
 
-	public MagicWater(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
-		super(registryName, false, maxLevel, hasRC, gmAbility, order);
+	public MagicWater(String registryName, int maxLevel, String gmAbility, int order) {
+		super(registryName, false, maxLevel, gmAbility, order);
 	}
 
 	@Override

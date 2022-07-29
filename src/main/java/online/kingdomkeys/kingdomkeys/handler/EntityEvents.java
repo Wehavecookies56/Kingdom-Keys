@@ -204,7 +204,7 @@ public class EntityEvents {
 					playerData.equipAllAccessories(map, true);
 				}
 				
-				System.out.println(playerData.getEquippedArmors());
+				//System.out.println(playerData.getEquippedArmors());
 				if(playerData.getEquippedArmors().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
 					for(int i = 0 ; i < 3; i++) {
@@ -712,6 +712,7 @@ public class EntityEvents {
 	
 	@SubscribeEvent
 	public void hitEntity(LivingHurtEvent event) {
+		//System.out.println(event.getSource());
 		if (event.getSource().getEntity() instanceof Player) {
 			Player player = (Player) event.getSource().getEntity();
 			
@@ -729,6 +730,7 @@ public class EntityEvents {
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
 				
+				//System.out.println("event dmg: "+dmg);
 				event.setAmount(dmg);
 			}
 			
@@ -774,10 +776,7 @@ public class EntityEvents {
 				playerData.remAeroTicks((int) damage * 2);
 				damage -= (damage * resistMultiplier);
 			}
-			
-			/*System.out.println(event.getSource());
-			System.out.println(damage);*/
-			
+						
 			if(event.getSource() instanceof FireDamageSource) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.fire.toString())) / 100F;
 			} else if (event.getSource() instanceof IceDamageSource) {
@@ -814,8 +813,8 @@ public class EntityEvents {
 		if (event.getEntityLiving() instanceof BaseKHEntity) {
 			float damage = event.getAmount();
 			int defense = ((BaseKHEntity)event.getEntityLiving()).getDefense();
-			damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
-
+			if(defense > 0)
+				damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
 			if (event.getEntityLiving() instanceof MarluxiaEntity) {
 				MarluxiaEntity mar = (MarluxiaEntity) event.getEntityLiving();
 				if(EntityHelper.getState(event.getEntityLiving()) != 3) {

@@ -29,7 +29,7 @@ public class DetonatorEntity extends BaseBombEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return BaseElementalMusicalHeartlessEntity.registerAttributes()
-        		.add(Attributes.MAX_HEALTH, 60.0D)
+        		.add(Attributes.MAX_HEALTH, 50.0D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 

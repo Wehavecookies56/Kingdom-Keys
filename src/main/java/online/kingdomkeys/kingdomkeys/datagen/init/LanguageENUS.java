@@ -256,11 +256,11 @@ public class LanguageENUS extends KKLanguageProvider {
 
         /**KK stuff**/
         //Abilities
-        addAbility(ModAbilities.AUTO_VALOR, "Auto Valor");
-        addAbility(ModAbilities.AUTO_WISDOM, "Auto Wisdom");
-        addAbility(ModAbilities.AUTO_LIMIT, "Auto Limit");
-        addAbility(ModAbilities.AUTO_MASTER, "Auto Master");
-        addAbility(ModAbilities.AUTO_FINAL, "Auto Final");
+        addAbilityWithDesc(ModAbilities.AUTO_VALOR, "Auto Valor", "Automatically sets the Reaction Command to Valor in a pinch, if Valor Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_WISDOM, "Auto Wisdom", "Automatically sets the Reaction Command to Wisdom in a pinch, if Wisdom Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_LIMIT, "Auto Limit", "Automatically sets the Reaction Command to Limit in a pinch, if Limit Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto Master", "Automatically sets the Reaction Command to Master in a pinch, if Master Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
         addAbilityDesc(ModAbilities.HIGH_JUMP, "Now you can jump really high!");
@@ -301,12 +301,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.CRITICAL_BOOST, "Critical Boost", "Increases damage dealt by critical hits by 10%. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.JACKPOT, "Jackpot", "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.LUCKY_LUCKY, "Lucky Strike", "Brings luck, fortune and looting to the wearer, increasing the drop rate of items. Stack the ability to increase the effect.");
-        addAbilityWithDesc(ModAbilities.ITEM_BOOST, "Item Boost", "Increases effect done with healin gitems on the field by 50%. Equip more to increase the effect.");
-        addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to cast get the Firaza reaction command. Stack the ability to increase the chance.");
-        addAbilityWithDesc(ModAbilities.BLIZZAZA, "Blizzaza", "Allows the user to get the Blizzaza reaction command. Stack the ability to increase the chance.");
-        addAbilityWithDesc(ModAbilities.WATERZA, "Waterza", "Allows the user to cast get the Waterza reaction command. Stack the ability to increase the chance.");
-        addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to cast get the Thundaza reaction command. Stack the ability to increase the chance.");
-
+        addAbilityWithDesc(ModAbilities.ITEM_BOOST, "Item Boost", "Increases effect done with healing items on the field by 50%. Equip more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to cast get the Firaza reaction command.");
+        addAbilityWithDesc(ModAbilities.BLIZZAZA, "Blizzaza", "Allows the user to get the Blizzaza reaction command.");
+        addAbilityWithDesc(ModAbilities.WATERZA, "Waterza", "Allows the user to cast get the Waterza reaction command.");
+        addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to cast get the Thundaza reaction command.");
+        addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
+        
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
         addLimit(ModLimits.LASER_DOME, "Laser Dome");
@@ -1207,6 +1208,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_MPORB, "MP Orb");
         addEntityType(ModEntities.TYPE_DRIVEORB, "DP Orb");
         addEntityType(ModEntities.TYPE_MUNNY, "Munny");
+        
+        addEntityType(ModEntities.TYPE_SPAWNING_ORB, "Spawning Orb");
 
         addEntityType(ModEntities.TYPE_MOOGLE, "Moogle");
         addEntityType(ModEntities.TYPE_SHADOW, "Shadow");
@@ -1226,6 +1229,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_GREEN_REQUIEM, "Green Requiem");
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Large Body");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
+        addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
 
         addEntityType(ModEntities.TYPE_NOBODY_CREEPER, "Creeper (Nobody)");
         addEntityType(ModEntities.TYPE_DUSK, "Dusk");
