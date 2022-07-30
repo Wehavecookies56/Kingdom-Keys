@@ -152,7 +152,10 @@
       "mag":1,
       "def":1,
       "maxhp":5,
-      "ap":1
+      "ap":1,
+	  "abilities":[
+         "kingdomkeys:ability_curaza"
+      ]
    },
    "31":{
       "str":1,
@@ -178,7 +181,10 @@
    },
    "35":{
       "str":1,
-      "maxhp":5
+      "maxhp":5,
+	  "abilities":[
+         "kingdomkeys:ability_grand_magic_haste"
+      ]
    },
    "36":{
       "mag":1,

@@ -105,7 +105,10 @@
    },
    "21":{
       "str":1,
-      "ap":1
+      "ap":1,
+	  "abilities":[
+         "kingdomkeys:ability_curaza"
+      ]
    },
    "22":{
       "mag":1,
@@ -142,7 +145,10 @@
    "27":{
       "str":1,
       "mag":1,
-      "ap":1
+      "ap":1,
+	  "abilities":[
+         "kingdomkeys:ability_grand_magic_haste"
+      ]
    },
    "28":{
       "mag":1,
