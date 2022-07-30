@@ -77,7 +77,7 @@ public class MagneraEntity extends ThrowableProjectile {
 		
 		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
-		if (tickCount >= 3 && tickCount % 2 == 0) {
+		if (tickCount >= 3) {
 			float radius = 2.5F;
 			if(tickCount < 25) {
 				radius = tickCount / 10F;
@@ -102,35 +102,24 @@ public class MagneraEntity extends ThrowableProjectile {
 			this.hurtMarked = true;
 			
 			
-			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
-			Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getCaster().getUUID());
-
-			if(casterParty != null && !casterParty.getFriendlyFire()) { //Exclude members from AOE
-				for(Member m : casterParty.getMembers()) {
-					list.remove(level.getPlayerByUUID(m.getUUID()));
-				}
-			} else {
-				list.remove(getOwner());
-			}
+			List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), this, radius,radius*2,radius);
 			
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
-					Entity e = (Entity) list.get(i);
-					if (e instanceof LivingEntity) {
-						double d = e.getX() - getX();
-						double d1 = e.getZ() - getZ();
-											
-						((LivingEntity) e).knockback(1, d, d1);
-						if (e.getY() < this.getY() - 0.5) {
-							e.setDeltaMovement(e.getDeltaMovement().x, 0.5F, e.getDeltaMovement().z);
+					LivingEntity e = list.get(i);
+					double d = e.getX() - getX();
+					double d1 = e.getZ() - getZ();
+					if (e.getY() < this.getY() - 0.5) {
+						e.setDeltaMovement(0, 0.5F, 0);
+					}
+					e.setDeltaMovement(d*-0.1, e.getDeltaMovement().y, d1*-0.1);
+					
+					if(tickCount + 2 > maxTicks) {
+						if(Utils.isHostile(e)) {
+							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
+							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 						}
-						if(tickCount + 2 > maxTicks) {
-							if(Utils.isHostile(e)) {
-								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
-								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
-							}
-							remove(RemovalReason.KILLED);
-						}
+						remove(RemovalReason.KILLED);
 					}
 				}
 			}

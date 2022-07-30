@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnetEntity extends ThrowableProjectile {
 
@@ -71,10 +72,9 @@ public class MagnetEntity extends ThrowableProjectile {
 		if(level == null || ModCapabilities.getWorld(level) == null || getCaster() == null)
 			return;
 		
-		
 		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
-		if (tickCount >= 3 && tickCount % 2 == 0) {
+		if (tickCount >= 3) {
 			float radius = 2F;
 			if(tickCount < 20) {
 				radius = tickCount / 10F;
@@ -99,27 +99,19 @@ public class MagnetEntity extends ThrowableProjectile {
 			this.hurtMarked = true;
 			
 			
-			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
-			Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getCaster().getUUID());
-
-			if(casterParty != null && !casterParty.getFriendlyFire()) { //Exclude members from AOE
-				for(Member m : casterParty.getMembers()) {
-					list.remove(level.getPlayerByUUID(m.getUUID()));
-				}
-			} else {
-				list.remove(getOwner());
-			}
+			List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), this, radius,radius*2,radius);
 			
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
-					Entity e = (Entity) list.get(i);
+					LivingEntity e = list.get(i);
 					if (e instanceof LivingEntity) {
+						System.out.println(tickCount);
 						double d = e.getX() - getX();
 						double d1 = e.getZ() - getZ();
-						((LivingEntity) e).knockback(1, d, d1);
 						if (e.getY() < this.getY() - 0.5) {
-							e.setDeltaMovement(e.getDeltaMovement().x, 0.5F, e.getDeltaMovement().z);
+							e.setDeltaMovement(0, 0.5F, 0);
 						}
+						e.setDeltaMovement(d*-0.1, e.getDeltaMovement().y, d1*-0.1);
 					}
 				}
 			}

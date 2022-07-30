@@ -358,6 +358,30 @@ public class Utils {
 
 		return elList;
 	}
+	
+	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
+		List<Entity> list = player.level.getEntities(player, entity.getBoundingBox().inflate(radiusX,radiusY,radiusZ), Entity::isAlive);
+		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+
+		if (casterParty != null && !casterParty.getFriendlyFire()) {
+			for (Member m : casterParty.getMembers()) {
+				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+			}
+		} else {
+			list.remove(player);
+		}
+		
+		list.remove(entity);
+		
+		List<LivingEntity> elList = new ArrayList<LivingEntity>();
+		for (Entity e : list) {
+			if (e instanceof LivingEntity) {
+				elList.add((LivingEntity) e);
+			}
+		}
+
+		return elList;
+	}
 
 	public static String getResourceName(String text) {
 		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
