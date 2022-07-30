@@ -121,7 +121,8 @@ public class Strings {
     		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
 		    blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
 		    waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",
-		    thundaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"thundaza";
+		    thundaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"thundaza",
+   			curaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"curaza";
 
     
     // Synthesis Materials

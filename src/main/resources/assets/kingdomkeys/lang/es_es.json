@@ -290,6 +290,8 @@
 	"ability.ability_waterza.desc": "Permite al usuario obtener el comando de reacción Aqua+++.",
 	"ability.ability_thundaza.name": "Electro+++",
 	"ability.ability_thundaza.desc": "Permite al usuario obtener el comando de reacción Electro+++.",
+	"ability.ability_curaza.name": "Cura+++",
+	"ability.ability_curaza.desc": "Permite al usuario obtener el comando de reacción Cura+++.",
 	"ability.ability_grand_magic_haste.name": "Gran Prisa Mágica",
 	"ability.ability_grand_magic_haste.desc": "Otorga al usuario una probabilidad más alta para invocar una magia mejorada. Cuantas más activas, mayor efecto.",
 
@@ -378,6 +380,7 @@
 	"magic.magic_cure0.name": "Cura",
 	"magic.magic_cure1.name": "Cura+",
 	"magic.magic_cure2.name": "Cura++",
+	"magic.magic_cure3.name": "Cura+++",
 	"magic.magic_aero0.name": "Aero",
 	"magic.magic_aero1.name": "Aero+",
 	"magic.magic_aero2.name": "Aero++",

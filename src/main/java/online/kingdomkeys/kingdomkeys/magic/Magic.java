@@ -57,10 +57,6 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     	return data.getDmgMult(lvl);
     }
     
-	public int getUsesToGM(int lvl) {
-		return data.getUsesToGM(lvl);
-	}
-    
     public boolean getHasToSelect() {
     	return hasTargetSelector;
     }

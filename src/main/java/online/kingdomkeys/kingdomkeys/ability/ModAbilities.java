@@ -69,7 +69,8 @@ public class ModAbilities {
 			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),
 			BLIZZAZA = createAbility(Strings.blizzaza,3,AbilityType.SUPPORT),
 			WATERZA = createAbility(Strings.waterza,3,AbilityType.SUPPORT),
-			THUNDAZA = createAbility(Strings.thundaza,3,AbilityType.SUPPORT);
+			THUNDAZA = createAbility(Strings.thundaza,3,AbilityType.SUPPORT),
+			CURAZA = createAbility(Strings.curaza,3,AbilityType.SUPPORT);
 		
 
 

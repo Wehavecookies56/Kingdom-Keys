@@ -21,7 +21,7 @@ public class ModReactionCommands {
 
 	public static DeferredRegister<ReactionCommand> REACTION_COMMANDS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "reactioncommands"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<ReactionCommand>> registry = REACTION_COMMANDS.makeRegistry(ReactionCommand.class, RegistryBuilder::new);;
+	public static Supplier<IForgeRegistry<ReactionCommand>> registry = REACTION_COMMANDS.makeRegistry(ReactionCommand.class, RegistryBuilder::new);
 
 	public static final RegistryObject<ReactionCommand>
 		AUTO_VALOR = REACTION_COMMANDS.register(Strings.autoValorRC, () -> new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoValorRC, Strings.autoValor, Strings.Form_Valor)),

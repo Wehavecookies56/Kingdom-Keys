@@ -57,7 +57,7 @@ public class CommandMenuGui extends OverlayBase {
 	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6, SUB_LIMIT = 7;
 
 	public static final int NONE = 0;
-	public static int selected = ATTACK, targetSelected = 0;;
+	public static int selected = ATTACK, targetSelected = 0;
 	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0, limitSelected = 0, itemSelected = 0, reactionSelected = 0;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");

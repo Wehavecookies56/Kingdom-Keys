@@ -302,10 +302,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.JACKPOT, "Jackpot", "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.LUCKY_LUCKY, "Lucky Strike", "Brings luck, fortune and looting to the wearer, increasing the drop rate of items. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.ITEM_BOOST, "Item Boost", "Increases effect done with healing items on the field by 50%. Equip more to increase the effect.");
-        addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to cast get the Firaza reaction command.");
+        addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to get the Firaza reaction command.");
         addAbilityWithDesc(ModAbilities.BLIZZAZA, "Blizzaza", "Allows the user to get the Blizzaza reaction command.");
-        addAbilityWithDesc(ModAbilities.WATERZA, "Waterza", "Allows the user to cast get the Waterza reaction command.");
-        addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to cast get the Thundaza reaction command.");
+        addAbilityWithDesc(ModAbilities.WATERZA, "Waterza", "Allows the user to get the Waterza reaction command.");
+        addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
+        addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
         
         //Limits
@@ -323,7 +324,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.BLIZZARD, "Blizzard", "Blizzara", "Blizzaga", "Blizzaza");
         addMagic(ModMagic.WATER, "Water", "Watera", "Waterga", "Waterza");
         addMagic(ModMagic.THUNDER, "Thunder", "Thundara", "Thundaga", "Thundaza");
-        addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga");
+        addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga", "Curaza");
         addMagic(ModMagic.AERO, "Aero", "Aerora", "Aeroga");
         addMagic(ModMagic.MAGNET, "Magnet", "Magnera", "Magnega");
         addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
