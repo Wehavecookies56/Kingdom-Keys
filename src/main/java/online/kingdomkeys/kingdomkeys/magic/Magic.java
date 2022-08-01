@@ -126,7 +126,12 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 
 	private boolean getRCProb(IPlayerCapabilities casterData) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
+
+		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName().toString()) == getMaxLevel()) {
+			prob += casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
+		}
 		prob += (casterData.getMagicUses(name)-1)*5;
+		System.out.println(prob);
 		double num = Math.random()*100;
 		return num <= prob;
 	}
