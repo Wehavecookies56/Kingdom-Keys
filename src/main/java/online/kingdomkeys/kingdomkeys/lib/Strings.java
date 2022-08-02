@@ -8,7 +8,6 @@ public class Strings {
             keybladesGroup = "kingdomkeys_keyblades",
             organizationGroup = "kingdomkeys_org_weapons",
             miscGroup = "kingdomkeys_misc";
-    
     // Records
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
@@ -19,8 +18,9 @@ public class Strings {
     		twilightTown = "twilight_town",
     		destinyIslands = "destiny_islands",
     		diveToTheHeart = "dive_to_the_heart",
-    		stationOfSorrow = "station_of_sorrow"
-	;
+    		stationOfSorrow = "station_of_sorrow",
+			castleOblivionInterior = "castle_oblivion_interior",
+			castleOblivion = "castle_oblivion";
 
     // Magics
     public static final String
