@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
@@ -12,7 +13,8 @@ import yesman.epicfight.gameasset.Models;
 public class KKAnimations {
     public static StaticAnimation CHAKRAM_AUTO_1;
 
-    public static void registerAnimations(AnimationRegistryEvent event) {
+    @SubscribeEvent
+    public static void register(AnimationRegistryEvent event) {
         event.getRegistryMap().put(KingdomKeys.MODID, KKAnimations::build);
 
     }

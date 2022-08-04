@@ -154,9 +154,12 @@ public class KingdomKeys {
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
-		modEventBus.addListener(KKAnimations::registerAnimations);
+
 		if (ModList.get().isLoaded("epicfight"))
+		{
+			modEventBus.addListener(KKAnimations::register);
 			modEventBus.addListener(EpicKKWeapons::register);
+		}
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
 		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());
