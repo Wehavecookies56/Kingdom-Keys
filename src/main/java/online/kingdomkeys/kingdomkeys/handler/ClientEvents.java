@@ -3,6 +3,13 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.event.ColorHandlerEvent;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -451,6 +458,23 @@ public class ClientEvents {
 				event.setCanceled(true);
 			}
 		}	
+	}
+
+	@SubscribeEvent
+	public void colourTint(ColorHandlerEvent.Block event) {
+		BlockColors colours = event.getBlockColors();
+		colours.register(ClientEvents::getStructureWallColour, ModBlocks.structureWall.get());
+	}
+
+	public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
+		Color colour = Color.BLACK;
+		CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
+		if (cap != null) {
+			if (cap.getRoomAtPos(pos) != null) {
+				colour = cap.getRoomAtPos(pos).getType().getProperties().getColour();
+			}
+		}
+		return colour.getRGB();
 	}
 
 }
