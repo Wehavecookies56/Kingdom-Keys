@@ -88,10 +88,9 @@ public class CastleOblivionHandler {
                                 if (floor.getGeneratedRooms().size() == 1) {
                                     RoomData data = floor.getRoom(new RoomUtils.RoomPos(0, 1));
                                     Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.TRANQUIL_DARKNESS.get(), event.player, currentRoom, RoomUtils.Direction.NORTH, false);
-                                    data.setGenerated(newRoom);
                                 }
                                 Room firstRoom = floor.getRoom(new RoomUtils.RoomPos(0, 1)).getGenerated();
-                                BlockPos newPos = firstRoom.doorPositions.get(RoomUtils.Direction.SOUTH);
+                                BlockPos newPos = firstRoom.doorPositions.get(RoomUtils.Direction.NORTH);
                                 event.player.moveTo(new Vec3(newPos.getX(), newPos.getY(), newPos.getZ()+1));
                             }
                         }

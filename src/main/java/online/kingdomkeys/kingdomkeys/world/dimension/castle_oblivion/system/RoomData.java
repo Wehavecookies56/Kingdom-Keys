@@ -1,16 +1,19 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.INBTSerializable;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class RoomData implements INBTSerializable<CompoundTag> {
 
     public Map<RoomUtils.Direction, DoorData> doors;
     RoomUtils.RoomPos pos;
-    Floor parent;
+    UUID parent;
     Room generatedRoom;
 
     public RoomData(RoomUtils.RoomPos pos) {
@@ -18,8 +21,12 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         doors = new HashMap<>();
     }
 
+    public Floor getParentFloor(Level level) {
+        return ModCapabilities.getCastleOblivionInterior(level).getFloorByID(parent);
+    }
+
     public void setParent(Floor parent) {
-        this.parent = parent;
+        this.parent = parent.getFloorID();
     }
 
     public void setDoor(DoorData door, RoomUtils.Direction direction) {
@@ -69,12 +76,12 @@ public class RoomData implements INBTSerializable<CompoundTag> {
             doors.put(RoomUtils.Direction.values()[dir], DoorData.deserialize(tag));
         }
         if (tag.getBoolean("generated")) {
-            generatedRoom = Room.deserialize(tag);
+            generatedRoom = Room.deserialize(tag.getCompound("generated_room"));
         }
     }
 
-    public static RoomData deserialize(CompoundTag tag, RoomUtils.RoomPos pos) {
-        RoomData room = new RoomData(pos);
+    public static RoomData deserialize(CompoundTag tag) {
+        RoomData room = new RoomData(RoomUtils.RoomPos.deserialize(tag.getCompound("roompos")));
         room.deserializeNBT(tag);
         return room;
     }

@@ -126,7 +126,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     }
 
     public static Room deserialize(CompoundTag tag) {
-        Room room = new Room(null);
+        Room room = new Room(tag.getUUID("parent"));
         room.deserializeNBT(tag);
         return room;
     }

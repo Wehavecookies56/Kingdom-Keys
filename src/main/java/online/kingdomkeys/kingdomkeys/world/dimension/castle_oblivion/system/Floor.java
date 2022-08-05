@@ -178,7 +178,6 @@ public class Floor implements INBTSerializable<CompoundTag> {
         CompoundTag roomsTag = new CompoundTag();
         for (int i = 0; i < rooms.size(); i++) {
             List<RoomData> roomList = rooms.values().stream().toList();
-            roomsTag.put("rooms_pos_" + i, RoomUtils.RoomPos.serialize(roomList.get(i).pos));
             roomsTag.put("rooms_roomdata_" + i, roomList.get(i).serializeNBT());
         }
         tag.put("rooms", roomsTag);
@@ -197,8 +196,8 @@ public class Floor implements INBTSerializable<CompoundTag> {
         int roomssize = tag.getInt("rooms_size");
         CompoundTag roomsTag = tag.getCompound("rooms");
         for (int i = 0; i < roomssize; i++) {
-            RoomUtils.RoomPos pos = RoomUtils.RoomPos.deserialize(roomsTag.getCompound("rooms_pos_" + i));
-            rooms.put(pos, RoomData.deserialize(roomsTag, pos));
+            RoomData data = RoomData.deserialize(roomsTag);
+            rooms.put(data.pos, data);
         }
     }
 

@@ -18,6 +18,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
 
 import javax.annotation.Nullable;
 
@@ -50,26 +53,40 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (state.getValue(GENERATED)) {
-            if (state.getValue(TYPE)) {
-                //world card selection gui
-                //set world for floor
-                //create first room from lobby
-                //transport into room
-            } else {
-                //open room synthesis gui
-                //create room
-                //transport to room
-                CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
-                if (cap != null) {
-
+        if (!level.isClientSide) {
+            if (state.getValue(GENERATED)) {
+                if (state.getValue(TYPE)) {
+                    //world card selection gui
+                    //set world for floor
+                    //create first room from lobby
+                    //transport into room
+                } else {
+                    //open room synthesis gui
+                    //create room
+                    //transport to room
+                    CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
+                    if (cap != null) {
+                        CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
+                        if (te != null) {
+                            if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
+                                RoomType type = card.getRoomType();
+                                Room currentRoom = cap.getRoomAtPos(pos);
+                                RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), RoomUtils.Direction.opposite(te.getDirection())).getFirst();
+                                //generate
+                                RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, RoomUtils.Direction.opposite(te.getDirection()), false);
+                                //set door here destination to new door
+                                //set new door destination to door here
+                                //transport
+                            }
+                        }
+                    }
                 }
+            } else {
+                //open card gui
+                //set card?
+                //transport to door with same card?
+                //maybe just link 2 doors together somehow
             }
-        } else {
-            //open card gui
-            //set card?
-            //transport to door with same card?
-            //maybe just link 2 doors together somehow
         }
         return super.use(state, level, pos, player, hand, hit);
     }
