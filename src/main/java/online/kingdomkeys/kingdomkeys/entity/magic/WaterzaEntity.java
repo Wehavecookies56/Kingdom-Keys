@@ -75,7 +75,10 @@ public class WaterzaEntity extends ThrowableProjectile {
 				player = playerFromList;
 				break;
 			}
-		}	
+		}
+		
+		if(player == null) 
+			return;
 		
 		if (this.tickCount > maxTicks || player == null) {
 			this.remove(RemovalReason.KILLED);

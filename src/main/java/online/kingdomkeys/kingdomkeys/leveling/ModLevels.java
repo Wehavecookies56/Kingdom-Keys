@@ -15,14 +15,13 @@ public class ModLevels {
 
 	public static DeferredRegister<Level> LEVELS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "levels"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Level>> registry = LEVELS.makeRegistry(Level.class, RegistryBuilder::new);;
+	public static Supplier<IForgeRegistry<Level>> registry = LEVELS.makeRegistry(Level.class, RegistryBuilder::new);
 
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registry {
 
 		@SubscribeEvent
 		public static void registerDriveForms(RegistryEvent.Register<Level> event) {
-			//int order = 0;
 			event.getRegistry().registerAll(
 				new Level(KingdomKeys.MODID + ":" + "warrior"),
 				new Level(KingdomKeys.MODID + ":" + "mystic"),

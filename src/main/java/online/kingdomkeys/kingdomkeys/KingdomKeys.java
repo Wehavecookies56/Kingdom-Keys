@@ -6,6 +6,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.command.ModCommands;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicKKWeapons;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.KKAnimations;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
@@ -86,7 +88,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1.3.1";
+	public static final String MODVER = "2.1.4.0";
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
@@ -153,6 +155,11 @@ public class KingdomKeys {
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
 
+		if (ModList.get().isLoaded("epicfight"))
+		{
+			modEventBus.addListener(KKAnimations::register);
+			modEventBus.addListener(EpicKKWeapons::register);
+		}
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
 		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());

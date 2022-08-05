@@ -19,20 +19,20 @@ public class ModMagic {
 
 	public static DeferredRegister<Magic> MAGIC = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "magics"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Magic>> registry = MAGIC.makeRegistry(Magic.class, RegistryBuilder::new);;
+	public static Supplier<IForgeRegistry<Magic>> registry = MAGIC.makeRegistry(Magic.class, RegistryBuilder::new);
 
 	static int order = 0;
 
 	public static final RegistryObject<Magic>
-		FIRE = MAGIC.register(new ResourceLocation(Strings.Magic_Fire).getPath(), () -> new MagicFire(Strings.Magic_Fire, 3, true, Strings.firaza, order++)),
-		BLIZZARD = MAGIC.register(new ResourceLocation(Strings.Magic_Blizzard).getPath(), () -> new MagicBlizzard(Strings.Magic_Blizzard, 3, true, Strings.blizzaza, order++)),
-		WATER = MAGIC.register(new ResourceLocation(Strings.Magic_Water).getPath(), () -> new MagicWater(Strings.Magic_Water, 3, true, Strings.waterza, order++)),
-		THUNDER = MAGIC.register(new ResourceLocation(Strings.Magic_Thunder).getPath(), () -> new MagicThunder(Strings.Magic_Thunder, 3, true, Strings.thundaza, order++)),
-		CURE = MAGIC.register(new ResourceLocation(Strings.Magic_Cure).getPath(), () -> new MagicCure(Strings.Magic_Cure, 3, false, null, order++)),
-		AERO = MAGIC.register(new ResourceLocation(Strings.Magic_Aero).getPath(), () -> new MagicAero(Strings.Magic_Aero, 3, false, null, order++)),
-		MAGNET = MAGIC.register(new ResourceLocation(Strings.Magic_Magnet).getPath(), () -> new MagicMagnet(Strings.Magic_Magnet, 3, false, null, order++)),
-		REFLECT = MAGIC.register(new ResourceLocation(Strings.Magic_Reflect).getPath(), () -> new MagicReflect(Strings.Magic_Reflect, 3, false, null, order++)),
-		GRAVITY = MAGIC.register(new ResourceLocation(Strings.Magic_Gravity).getPath(), () -> new MagicGravity(Strings.Magic_Gravity, 3, false, null, order++)),
-		STOP = MAGIC.register(new ResourceLocation(Strings.Magic_Stop).getPath(), () -> new MagicStop(Strings.Magic_Stop, 3, false, null, order++))
+		FIRE = MAGIC.register(new ResourceLocation(Strings.Magic_Fire).getPath(), () -> new MagicFire(Strings.Magic_Fire, 3, Strings.firaza, order++)),
+		BLIZZARD = MAGIC.register(new ResourceLocation(Strings.Magic_Blizzard).getPath(), () -> new MagicBlizzard(Strings.Magic_Blizzard, 3, Strings.blizzaza, order++)),
+		WATER = MAGIC.register(new ResourceLocation(Strings.Magic_Water).getPath(), () -> new MagicWater(Strings.Magic_Water, 3, Strings.waterza, order++)),
+		THUNDER = MAGIC.register(new ResourceLocation(Strings.Magic_Thunder).getPath(), () -> new MagicThunder(Strings.Magic_Thunder, 3, Strings.thundaza, order++)),
+		CURE = MAGIC.register(new ResourceLocation(Strings.Magic_Cure).getPath(), () -> new MagicCure(Strings.Magic_Cure, 3, Strings.curaza, order++)),
+		AERO = MAGIC.register(new ResourceLocation(Strings.Magic_Aero).getPath(), () -> new MagicAero(Strings.Magic_Aero, 3, null, order++)),
+		MAGNET = MAGIC.register(new ResourceLocation(Strings.Magic_Magnet).getPath(), () -> new MagicMagnet(Strings.Magic_Magnet, 3, null, order++)),
+		REFLECT = MAGIC.register(new ResourceLocation(Strings.Magic_Reflect).getPath(), () -> new MagicReflect(Strings.Magic_Reflect, 3, null, order++)),
+		GRAVITY = MAGIC.register(new ResourceLocation(Strings.Magic_Gravity).getPath(), () -> new MagicGravity(Strings.Magic_Gravity, 3, null, order++)),
+		STOP = MAGIC.register(new ResourceLocation(Strings.Magic_Stop).getPath(), () -> new MagicStop(Strings.Magic_Stop, 3, null, order++))
 	;
 }

@@ -14,14 +14,17 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagicCure extends Magic {
 
-	public MagicCure(String registryName, int maxLevel, boolean hasRC, String gmAbility, int order) {
-		super(registryName, true, maxLevel, hasRC, gmAbility, order);
+	public MagicCure(String registryName, int maxLevel, String gmAbility, int order) {
+		super(registryName, true, maxLevel, gmAbility, order);
 	}
 
 	@Override
@@ -30,46 +33,69 @@ public class MagicCure extends Magic {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 
-		float amount;
+		float amount = playerData.getMaxHP() * getDamageMult(level);
 		switch(level) {
 		case 0:
-			amount = playerData.getMaxHP()/3 * getDamageMult(level);
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 			break;
 		case 1:
-			amount = playerData.getMaxHP()/2 * getDamageMult(level);
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUUID()) != null) {
 				//heal everyone including user
 				Party party = worldData.getPartyFromMember(player.getUUID());
-				List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(3,3,3));
+				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 3); 
 		        if (!list.isEmpty()) {
 		            for (int i = 0; i < list.size(); i++) {
-		                Entity e = (Entity) list.get(i);
-		                if (e instanceof LivingEntity && Utils.isEntityInParty(party, e) && e != player) {
-		                	((LivingEntity) e).heal(amount / 2);
+		                LivingEntity e = list.get(i);
+		                if (Utils.isEntityInParty(party, e) && e != player) {
+		                	e.heal(amount / 2);
+		            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
 		        }
 			}
-			player.level.playSound(null, player.blockPosition(), SoundEvents.GHAST_SHOOT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 2:
-			amount = playerData.getMaxHP() * getDamageMult(level);
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUUID()) != null) {
 				Party party = worldData.getPartyFromMember(player.getUUID());
-				List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(4.0D, 4.0D, 4.0D));
+				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 5); 
 		        if (!list.isEmpty()) {
 		            for (int i = 0; i < list.size(); i++) {
-		                Entity e = (Entity) list.get(i);
-		                if (e instanceof LivingEntity && Utils.isEntityInParty(party, e) && e != player) {
-		                	((LivingEntity) e).heal(amount / 2);
+		                LivingEntity e = list.get(i);
+		                if (Utils.isEntityInParty(party, e) && e != player) {
+		                	e.heal(amount / 2);
+		            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
 		        }
+
+			}
+			break;
+		case 3:
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
+			player.heal(amount);
+
+			if(worldData.getPartyFromMember(player.getUUID()) != null) {
+				Party party = worldData.getPartyFromMember(player.getUUID());
+				List<Member> list = party.getMembers();
+		        if (!list.isEmpty()) { //Heal everyone in the party within reach
+		            for (int i = 0; i < list.size(); i++) {
+		            	if(player.level.getPlayerByUUID(list.get(i).getUUID()) != null && player.distanceTo(player.level.getPlayerByUUID(list.get(i).getUUID())) < ModConfigs.partyRangeLimit) {
+			                LivingEntity e = player.level.getPlayerByUUID(list.get(i).getUUID());
+			                if (e != null && Utils.isEntityInParty(party, e) && e != player) {
+			                	e.heal(amount);
+			            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
+			                }
+		            	}
+		            }
+		        }
+
 			}
 			break;
 		}

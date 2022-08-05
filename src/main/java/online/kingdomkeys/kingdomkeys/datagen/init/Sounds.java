@@ -45,8 +45,19 @@ public class Sounds extends SoundDefinitionsProvider {
         add(unsummon);
         add(portal);
         add(laser);
+        add(fire);
+        add(blizzard);
+        add(cure);
+        add(magnet1);
+        add(magnet2);
+        add(gravity);
+        add(aero1);
+        add(aero2);
         add(reflect1);
         add(reflect2);
+        add(stop);
+        add(playerDeath);
+        add(playerDeathHardcore);
         add(invincible_hit);
         add(shotlock_lockon_start);
         add(shotlock_lockon_idle);
@@ -71,6 +82,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(Record_The_13th_Anthology, true);
         //BGM
         add(Music_Dive_Into_The_Heart_Destati, true);
+        add(Music_Lord_Of_The_Castle, true);
     }
 
     public void add(Supplier<SoundEvent> sound) {

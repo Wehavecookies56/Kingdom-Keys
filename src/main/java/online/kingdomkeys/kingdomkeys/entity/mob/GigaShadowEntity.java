@@ -54,7 +54,7 @@ public class GigaShadowEntity extends BaseKHEntity {
         return Mob.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28D)
-                .add(Attributes.MAX_HEALTH, 140.0D)
+                .add(Attributes.MAX_HEALTH, 110.0D)
                 .add(Attributes.ATTACK_DAMAGE, 6.0D)
 				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 

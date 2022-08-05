@@ -597,6 +597,34 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
+        ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Helmet.get())
+		        .requires(ModItems.vanitas_Helmet.get())
+		        .requires(Tags.Items.DYES_WHITE)
+		        .group("kingdomkeys")
+		        .unlockedBy("vanitas_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Helmet.get()))
+		        .save(consumer);
+		
+		ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Chestplate.get())
+		        .requires(ModItems.vanitas_Chestplate.get())
+		        .requires(Tags.Items.DYES_WHITE)
+		        .group("kingdomkeys")
+		        .unlockedBy("vanitas_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Chestplate.get()))
+		        .save(consumer);
+		
+		ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Leggings.get())
+		        .requires(ModItems.vanitas_Leggings.get())
+		        .requires(Tags.Items.DYES_WHITE)
+		        .group("kingdomkeys")
+		        .unlockedBy("vanitas_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Leggings.get()))
+		        .save(consumer);
+		
+		ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Boots.get())
+		        .requires(ModItems.vanitas_Boots.get())
+		        .requires(Tags.Items.DYES_WHITE)
+		        .group("kingdomkeys")
+		        .unlockedBy("vanitas_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Boots.get()))
+		        .save(consumer);
+        
         ShapedRecipeBuilder.shaped(ModItems.aced_Helmet.get())
                 .pattern("LBL")
                 .pattern("EAE")

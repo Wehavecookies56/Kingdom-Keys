@@ -74,7 +74,7 @@ public class MagicLevelCommand extends BaseCommand{
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
-				playerData.setMagicLevel(magic, level);
+				playerData.setMagicLevel(magic, level, false);
 			} else {
 				context.getSource().sendSuccess(new TranslatableComponent("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;

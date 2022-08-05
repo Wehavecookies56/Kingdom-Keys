@@ -86,34 +86,4 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 		return 1;
 	}
 	
-
-	private static int addValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
-		int value = IntegerArgumentType.getInteger(context, "value");
-		
-		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.setMunny(playerData.getMunny() + value);
-			context.getSource().sendSuccess(new TranslatableComponent("Added "+value+" munny to "+player.getDisplayName().getString()), true);
-			
-			player.sendMessage(new TranslatableComponent("Your munny has been increased by "+value),Util.NIL_UUID);	
-		}
-		return 1;
-	}
-	
-	
-	private static int removeValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
-		int value = IntegerArgumentType.getInteger(context, "value");
-		
-		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.setMunny(playerData.getMunny() - value);
-			context.getSource().sendSuccess(new TranslatableComponent("Taken "+value+" munny from "+player.getDisplayName().getString()), true);
-			
-			player.sendMessage(new TranslatableComponent("Your munny has been decreased by "+value),Util.NIL_UUID);
-		}
-		return 1;
-	}
-	
 }

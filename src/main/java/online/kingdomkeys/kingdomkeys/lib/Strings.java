@@ -8,7 +8,6 @@ public class Strings {
             keybladesGroup = "kingdomkeys_keyblades",
             organizationGroup = "kingdomkeys_org_weapons",
             miscGroup = "kingdomkeys_misc";
-    
     // Records
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
@@ -20,9 +19,8 @@ public class Strings {
     		destinyIslands = "destiny_islands",
     		diveToTheHeart = "dive_to_the_heart",
     		stationOfSorrow = "station_of_sorrow",
-			castleOblivion = "castle_oblivion",
-			castleOblivionInterior = "castle_oblivion_interior"
-	;
+			castleOblivionInterior = "castle_oblivion_interior",
+			castleOblivion = "castle_oblivion";
 
     // Magics
     public static final String
@@ -59,6 +57,7 @@ public class Strings {
        public static final String
        		DarkVolley = "dark_volley",
        		Ragnarok = "circular_shotlock",
+       		SonicBlade = "sonic_blade",
        		PrismRain = "prism_rain";       
     
     // Reaction Commands
@@ -114,13 +113,16 @@ public class Strings {
     		focusConverter = KingdomKeys.MODID+":"+Strings.AB_Prefix +"focus_converter",
     		mpThrift = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_thrift",
     		criticalBoost = KingdomKeys.MODID+":"+Strings.AB_Prefix +"critical_boost",
+    		itemBoost = KingdomKeys.MODID+":"+Strings.AB_Prefix +"item_boost",
     		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot",
     		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky",
+    		grandMagicHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"grand_magic_haste",
     		
     		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
-		    blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
-		    waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",
-		    thundaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"thundaza";
+    		blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
+    		waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",
+    		thundaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"thundaza",
+   			curaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"curaza";
 
     
     // Synthesis Materials
@@ -279,6 +281,7 @@ public class Strings {
             nightmareVentus = "nightmareventus",
             eraqus = "eraqus",
             vanitas = "vanitas",
+            vanitasRemnant = "vanitas_remnant",
             aced = "aced",
             ava = "ava",
             gula = "gula",
@@ -379,6 +382,8 @@ public class Strings {
             
             Gui_Menu_Items_Equipment_Weapon = Gui_Menu_Items_Equipment + ".weapon",
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
+            Gui_Menu_Items_Equipment_Accessories = Gui_Menu_Items_Equipment + ".accessories",
+            Gui_Menu_Items_Equipment_Armor = Gui_Menu_Items_Equipment + ".armor",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
             
             Gui_Menu_Items_Equipment_Weapon_Keyblades = Gui_Menu_Items_Equipment_Weapon + ".keyblades",
@@ -415,6 +420,10 @@ public class Strings {
 			Gui_Menu_Status_BlizzardRes = Gui_Menu_Status + ".blizzardres",
 			Gui_Menu_Status_ThunderRes = Gui_Menu_Status + ".thunderres",
 			Gui_Menu_Status_DarkRes = Gui_Menu_Status + ".darkres",
+			Gui_Menu_Status_FireResShort = Gui_Menu_Status + ".fireresshort",
+			Gui_Menu_Status_BlizzardResShort = Gui_Menu_Status + ".blizzardresshort",
+			Gui_Menu_Status_ThunderResShort = Gui_Menu_Status + ".thunderresshort",
+			Gui_Menu_Status_DarkResShort = Gui_Menu_Status + ".darkresshort",
 			Gui_Menu_Status_FormLevel = Gui_Menu_Status + ".formlevel",
 			Gui_Menu_Status_FormGauge = Gui_Menu_Status + ".formgauge",
 			Gui_Menu_Status_Abilities = Gui_Menu_Status + ".abilities",
@@ -524,7 +533,12 @@ public class Strings {
 		drawRing = "draw_ring",
 		luckyRing = "lucky_ring",
 		starCharm = "star_charm",
-		fireBangle = "fire_bangle";
+		fireBangle = "fire_bangle",
+	    blizzardArmlet = "blizzard_armlet",
+	    thunderTrinket = "thunder_trinket",
+    	petiteRibbon = "petite_ribbon",
+    	ribbon = "ribbon",
+    	grandRibbon = "grand_ribbon";
     	
     
     // Music Discs

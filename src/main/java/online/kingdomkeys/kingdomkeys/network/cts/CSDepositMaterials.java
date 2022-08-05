@@ -22,7 +22,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 public class CSDepositMaterials {
 	
-	
 	public CSDepositMaterials() {}
 	
 	public void encode(FriendlyByteBuf buffer) {

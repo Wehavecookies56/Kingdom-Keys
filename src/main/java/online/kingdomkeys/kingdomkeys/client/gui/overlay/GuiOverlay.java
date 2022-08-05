@@ -74,9 +74,9 @@ public class GuiOverlay extends OverlayBase {
 				showDriveLevelUp(poseStack);
 			}
 
-				/*if(teleport != null) {
-					showTeleport();
-				}*/
+			/*if(teleport != null) {
+				showTeleport();
+			}*/
 		}
 	}
 
@@ -187,6 +187,13 @@ public class GuiOverlay extends OverlayBase {
 					RenderSystem.setShaderTexture(0, menuTexture);
 					blit(matrixStack, (int)x, (int)y-2, 100, 102, 12, 12);
 					message = message.replace("S_", "");
+					x += 13;
+				}
+				
+				if(message.startsWith("M_")) {
+					RenderSystem.setShaderTexture(0, menuTexture);
+					blit(matrixStack, (int)x, (int)y-2, 87, 115, 12, 12);
+					message = message.replace("M_", "");
 					x += 13;
 				}
 				

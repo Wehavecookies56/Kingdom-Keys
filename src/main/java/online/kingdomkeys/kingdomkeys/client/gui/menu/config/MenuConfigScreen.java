@@ -42,7 +42,7 @@ public class MenuConfigScreen extends MenuBackground {
 	boolean cmHeaderTextVisible;
 	
 	//HP
-	EditBox hpXPosBox, hpYPosBox;
+	EditBox hpXPosBox, hpYPosBox, hpAlarmBox;
 	Button hpShowHeartsButton;
 	boolean hpShowHearts;
 
@@ -296,7 +296,6 @@ public class MenuConfigScreen extends MenuBackground {
 
 	private void initHP() {
 		hpShowHearts = ModConfigs.hpShowHearts;
-
 		int pos = 0;
 		
 		addRenderableWidget(hpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
@@ -352,15 +351,42 @@ public class MenuConfigScreen extends MenuBackground {
 		});
 		
 		addRenderableWidget(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, new TranslatableComponent(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
+		addRenderableWidget(hpAlarmBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) <= 10 && Utils.getInt(text) >= 0) {
+						super.charTyped(c, i);
+						ModConfigs.setHPAlarm(Utils.getInt(getValue()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setHPAlarm(Utils.getInt(getValue()));
+				return true;
+			}
+			
+		});
 
 		
 		hpXPosBox.setValue(""+ModConfigs.hpXPos);
 		hpYPosBox.setValue(""+ModConfigs.hpYPos);
 		hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
-		
+		hpAlarmBox.setValue(""+ModConfigs.hpAlarm);
+
 		hpList.add(hpXPosBox);
 		hpList.add(hpYPosBox);
 		hpList.add(hpShowHeartsButton);
+		hpList.add(hpAlarmBox);
 
 	}
 	
@@ -1009,6 +1035,7 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 
@@ -1132,6 +1159,7 @@ public class MenuConfigScreen extends MenuBackground {
 		options.put('X', Integer.valueOf(partyYDistanceBox.getValue()));
 		options.put('Y', Integer.valueOf(focusXPosBox.getValue()));
 		options.put('Z', Integer.valueOf(focusYPosBox.getValue()));
+		options.put('+', hpShowHearts ? 1 : 0);
 		return options;
 	}
 
@@ -1248,6 +1276,7 @@ public class MenuConfigScreen extends MenuBackground {
 		ModConfigs.setPartyYDistance(0);
 		ModConfigs.setFocusXPos(0);
 		ModConfigs.setFocusYPos(0);
+		ModConfigs.setHPAlarm(0);
 	}
 
 	public boolean isBase36Char(char c) {
@@ -1374,6 +1403,10 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'Z' -> {
 				ModConfigs.setFocusYPos(value);
 				focusYPosBox.setValue(""+value);
+			}
+			case '+' -> {
+				ModConfigs.setHPAlarm(value);
+				hpAlarmBox.setValue(""+value);
 			}
 		}
 	}

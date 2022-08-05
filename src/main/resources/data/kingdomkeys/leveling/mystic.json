@@ -10,7 +10,7 @@
    "4":{
       "def":1,
       "maxmp":8
-   },
+  },
    "5":{
       "str":1,
       "maxhp":5
@@ -93,7 +93,10 @@
       ]
    },
    "19":{
-      "str":1
+      "str":1,
+	  "abilities":[
+         "kingdomkeys:ability_grand_magic_haste"
+      ]
    },
    "20":{
       "mag":1,
@@ -105,7 +108,10 @@
    },
    "21":{
       "str":1,
-      "ap":1
+      "ap":1,
+	  "abilities":[
+         "kingdomkeys:ability_curaza"
+      ]
    },
    "22":{
       "mag":1,
@@ -137,7 +143,10 @@
    },
    "26":{
       "mag":1,
-      "def":1
+      "def":1,
+	  "abilities":[
+         "kingdomkeys:ability_item_boost"
+      ]
    },
    "27":{
       "str":1,

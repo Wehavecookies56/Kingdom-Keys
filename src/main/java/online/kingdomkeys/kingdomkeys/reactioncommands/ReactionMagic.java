@@ -30,17 +30,39 @@ public class ReactionMagic extends ReactionCommand {
 	@Override
 	public String getTranslationKey() {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
-		int level = playerData.getMagicLevel(magic) +1;
+		int level = playerData.getMagicLevel(magic);
+		Magic mag = ModMagic.registry.get().getValue(new ResourceLocation(getMagicName()));
+		if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
+			level = mag.getMaxLevel();
+		} else { //If magic level is not max increment it one level
+			level++;
+		}
+		
+		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+			level = mag.getMaxLevel()+1;
+		}
+		
+		
         return "magic." + magic.replace(KingdomKeys.MODID+":", "") + level+".name";
 	}
 
 	
 	@Override
 	public void onUse(Player player, LivingEntity target) {
-		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(getMagicName()));
+		Magic mag = ModMagic.registry.get().getValue(new ResourceLocation(getMagicName()));
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		int level = playerData.getMagicLevel(getMagicName());
-		magic.onUse(player, player, level+1);
+		if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
+			level = mag.getMaxLevel();
+		} else { //If magic level is not max increment it one level
+			level++;
+		}
+		
+		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+			level = mag.getMaxLevel()+1;
+		}
+		
+		mag.onUse(player, player, level);
 		playerData.removeReactionCommand(getRegistryName().toString());
 	}
 

@@ -55,7 +55,7 @@ public class DuskEntity extends BaseKHEntity {
 		return Mob.createLivingAttributes()
 				.add(Attributes.FOLLOW_RANGE, 35.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.2D)
-				.add(Attributes.MAX_HEALTH, 50.0D)
+				.add(Attributes.MAX_HEALTH, 40.0D)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
 				.add(Attributes.ATTACK_DAMAGE, 4.0D)
 				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)

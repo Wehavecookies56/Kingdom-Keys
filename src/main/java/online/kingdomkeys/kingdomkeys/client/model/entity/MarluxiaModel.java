@@ -142,18 +142,6 @@ public class MarluxiaModel<T extends LivingEntity> extends HumanoidModel<T> {
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-
-    @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		/*this.head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-		this.hat.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-		this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-		this.rightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);*/
-    	
-		
-		super.renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-	}
-
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     	super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);

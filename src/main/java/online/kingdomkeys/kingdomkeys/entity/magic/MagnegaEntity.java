@@ -11,10 +11,12 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -22,6 +24,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -30,7 +33,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnegaEntity extends ThrowableProjectile {
 
-	int maxTicks = 200;
+	int maxTicks = 160;
 	float dmgMult = 1;
 	
 	public MagnegaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -77,6 +80,12 @@ public class MagnegaEntity extends ThrowableProjectile {
 
 		if (tickCount >= 5) {
 			float radius = 3F;
+			if(tickCount < 30) {
+				radius = tickCount / 10F;
+			}
+			if(tickCount > maxTicks - 30) {
+				radius = (maxTicks - tickCount) / 10F;
+			}
 			double X = getX();
 			double Y = getY();
 			double Z = getZ();
@@ -94,39 +103,31 @@ public class MagnegaEntity extends ThrowableProjectile {
 			this.hurtMarked = true;
 			
 			
-			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
-			Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getCaster().getUUID());
-
-			if(casterParty != null && !casterParty.getFriendlyFire()) { //Exclude members from AOE
-				for(Member m : casterParty.getMembers()) {
-					list.remove(level.getPlayerByUUID(m.getUUID()));
-				}
-			} else {
-				list.remove(getOwner());
-			}
+			List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), this, radius,radius*2,radius);
 			
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
-					Entity e = (Entity) list.get(i);
-					if (e instanceof LivingEntity) {
-						double d = e.getX() - getX();
-						double d1 = e.getZ() - getZ();
-						
-						((LivingEntity) e).knockback(1, d, d1);
-						if (e.getY() < this.getY() - 0.5) {
-							e.setDeltaMovement(e.getDeltaMovement().x, 0.5F, e.getDeltaMovement().z);
+					LivingEntity e = list.get(i);
+					double d = e.getX() - getX();
+					double d1 = e.getZ() - getZ();
+					if (e.getY() < this.getY() - 0.5) {
+						e.setDeltaMovement(0, 0.5F, 0);
+					}
+					e.setDeltaMovement(d*-0.1, e.getDeltaMovement().y, d1*-0.1);
+					
+					if(tickCount + 2 > maxTicks) {
+						if(Utils.isHostile(e)) {
+							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
+							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 						}
-						
-						if(tickCount + 1 > maxTicks) {
-							if(Utils.isHostile(e)) {
-								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.5F : 2;
-								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
-							}
-							remove(RemovalReason.KILLED);
-						}
+						remove(RemovalReason.KILLED);
 					}
 				}
 			}
+		}
+		
+		if(tickCount == maxTicks-30) {
+			getCaster().level.playSound(null, getCaster().blockPosition(), ModSounds.magnet2.get(), SoundSource.PLAYERS, 1F, 0.7F);
 		}
 
 		super.tick();

@@ -43,6 +43,8 @@ public class ModConfigs {
     public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
 
     public static boolean hpShowHearts;
+    public static int hpAlarm;
+    
     public static int hpXPos, hpYPos;
 
     public static int mpXPos, mpYPos;
@@ -116,6 +118,11 @@ public class ModConfigs {
 
     public static void setShowHearts(boolean value) {
         CLIENT.hpShowHearts.set(value);
+        bakeClient();
+    }
+    
+    public static void setHPAlarm(int value) {
+        CLIENT.hpAlarm.set(value);
         bakeClient();
     }
 
@@ -226,6 +233,7 @@ public class ModConfigs {
         hpXPos = CLIENT.hpXPos.get();
         hpYPos = CLIENT.hpYPos.get();
         hpShowHearts = CLIENT.hpShowHearts.get();
+        hpAlarm = CLIENT.hpAlarm.get();
 
         mpXPos = CLIENT.mpXPos.get();
         mpYPos = CLIENT.mpYPos.get();
@@ -423,6 +431,7 @@ public class ModConfigs {
     public static int limitArrowRainCost;
     public static List<Integer> statsMultiplier;
     public static boolean projectorHasShop;
+    public static boolean orgEnabled;
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
@@ -439,7 +448,7 @@ public class ModConfigs {
         limitArrowRainCost = SERVER.limitArrowRainCost.get();
         statsMultiplier = (List<Integer>) SERVER.statsMultiplier.get();
         projectorHasShop = SERVER.projectorHasShop.get();
-
+        orgEnabled = SERVER.orgEnabled.get();
     }
 
 

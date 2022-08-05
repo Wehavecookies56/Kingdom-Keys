@@ -3,20 +3,6 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.gui.OverlayRegistry;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.block.StructureWallBlock;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.client.ClientSetup;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -30,6 +16,8 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -43,16 +31,21 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.gui.OverlayRegistry;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
+import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -60,10 +53,25 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
+import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ClientEvents {
 
+	@SubscribeEvent
+	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
+		if(e.getEntity() instanceof Player) {
+			Player player = (Player) e.getEntity();
+			System.out.println(player.getDisplayName().getString()+" spawned");
+			if(e.getEntity().getLevel().isClientSide) {
+				if(e.getEntity() == Minecraft.getInstance().player) {
+					Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
+				}
+				Minecraft.getInstance().getSoundManager().play(new AeroSoundInstance(player));
+			}
+		}
+	}
 	@SubscribeEvent
 	public void onRenderTick(RenderTickEvent event) { //Lock on
 		Player player = Minecraft.getInstance().player;
@@ -119,20 +127,18 @@ public class ClientEvents {
 
 		}
 	}
-	
-	float yaw = 0, pitch = 0;
 
+	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
 		if (globalData != null) {
 			if (globalData.getStoppedTicks() > 0) {
-				event.getEntityLiving().setXRot(pitch);
-				event.getEntityLiving().setYRot(yaw);
+				if(event.getEntityLiving().getLevel().isClientSide) {
+					if(Minecraft.getInstance().screen == null)
+						Minecraft.getInstance().setScreen(new StopGui());
+				}
 				event.setCanceled(true);
-			} else {
-				yaw = event.getEntityLiving().getYRot();
-				pitch = event.getEntityLiving().getXRot();
 			}
 		}
 		
@@ -141,7 +147,6 @@ public class ClientEvents {
 				InputHandler.qrCooldown -= 1;
 			}
 		}
-		
 	}
 	
 	@SubscribeEvent
@@ -448,20 +453,4 @@ public class ClientEvents {
 		}	
 	}
 
-	@SubscribeEvent
-	public void colourTint(ColorHandlerEvent.Block event) {
-		BlockColors colours = event.getBlockColors();
-		colours.register(ClientEvents::getStructureWallColour, ModBlocks.structureWall.get());
-	}
-
-	public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
-		Color colour = Color.BLACK;
-		CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
-		if (cap != null) {
-			if (cap.getRoomAtPos(pos) != null) {
-				colour = cap.getRoomAtPos(pos).getType().getProperties().getColour();
-			}
-		}
-		return colour.getRGB();
-	}
 }

@@ -8,17 +8,15 @@ public class MagicData {
     float[] dmgMult = new float[4];
     int[] cost = new int[4];
     int[] cd = new int[4];
-    int[] usesToGM = new int[4];
     
     public MagicData() {
 
     }
 
-    public MagicData(int level, int cost, int cd, float dmgMult, float magMult, int usesToGM) {
+    public MagicData(int level, int cost, int cd, float dmgMult, float magMult) {
     	this.cost[level] = cost;
     	this.cd[level] = cd;
 		this.dmgMult[level] = dmgMult;
-		this.usesToGM[level] = usesToGM;
 	}
 
     public int getCost(int lvl) {
@@ -44,13 +42,4 @@ public class MagicData {
 	public void setDmgMult(int lvl, float dmgMult) {
 		this.dmgMult[lvl] = dmgMult;
 	}
-
-	public int getUsesToGM(int lvl) {
-		return usesToGM[lvl];
-	}
-	
-	public void setUsesToGM(int lvl, int uses) {
-		this.usesToGM[lvl] = uses;
-	}
-
 }

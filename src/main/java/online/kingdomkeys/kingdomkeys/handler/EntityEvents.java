@@ -2,16 +2,16 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -49,14 +49,18 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
@@ -72,6 +76,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FirazaEntity;
@@ -86,6 +91,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
@@ -94,9 +100,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -118,6 +122,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class EntityEvents {
 
@@ -198,8 +203,8 @@ public class EntityEvents {
 					}
 					playerData.equipAllAccessories(map, true);
 				}
-
-				// TODO (done) Fix for retrocompatibility, move above in a few versions
+				
+				//System.out.println(playerData.getEquippedArmors());
 				if(playerData.getEquippedArmors().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
 					for(int i = 0 ; i < 3; i++) {
@@ -207,7 +212,7 @@ public class EntityEvents {
 					}
 					playerData.equipAllArmors(map, true);
 				}
-				
+
 				//Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
 					//Make sure the form exists
@@ -228,7 +233,7 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncWorldCapability(worldData), (ServerPlayer) player);
 	    		PacketHandler.syncToAllAround(player, playerData);
 
-
+	    		//Sync all registries, important
 				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayer)player);
 				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), (ServerPlayer)player);
@@ -256,6 +261,7 @@ public class EntityEvents {
 			/*playerData.setSacrifice(SoAState.MYSTIC);
 			playerData.setChoice(SoAState.GUARDIAN);
 			playerData.setSoAState(SoAState.COMPLETE);*/
+			//playerData.addShotlockToList(KingdomKeys.MODID+":"+Strings.SonicBlade, false);
 
 			if (playerData != null) {
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
@@ -600,7 +606,7 @@ public class EntityEvents {
 			if (playerData.getAeroTicks() > 0) {
 				playerData.remAeroTicks(1);
 
-				if(player.tickCount % 5 == 0) {
+				/*if(player.tickCount % 5 == 0) {
 					// Spawn particles
 					float radius = 1F;
 					double X = event.getEntityLiving().getX();
@@ -615,7 +621,7 @@ public class EntityEvents {
 							event.getEntityLiving().level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 						}
 					}
-				}
+				}*/
 				if(playerData.getAeroLevel() == 1) {
 					if(player.tickCount % 20 == 0) {
 						float radius = 0.4F;
@@ -706,6 +712,7 @@ public class EntityEvents {
 	
 	@SubscribeEvent
 	public void hitEntity(LivingHurtEvent event) {
+		//System.out.println(event.getSource());
 		if (event.getSource().getEntity() instanceof Player) {
 			Player player = (Player) event.getSource().getEntity();
 			
@@ -722,6 +729,8 @@ public class EntityEvents {
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
+				
+				//System.out.println("event dmg: "+dmg);
 				event.setAmount(dmg);
 			}
 			
@@ -733,7 +742,7 @@ public class EntityEvents {
 		
 		LivingEntity target = event.getEntityLiving();
 		
-		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity) {
+		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity) {
 			target.invulnerableTime = 0;
 		}
 
@@ -756,22 +765,35 @@ public class EntityEvents {
 		
 		//This is outside as it should apply the formula if you have been hit by non player too		
 		if(event.getEntityLiving() instanceof Player) { 
+
 			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			
-			float damage = (float) Math.round((event.getAmount() * 100 / ((100 + (playerData.getLevel() * 2)) + playerData.getDefense(true))));
+
+			float damage = (float) Math.round((event.getAmount() * 100 / (200 + playerData.getDefense(true))));
 			if(playerData.getAeroTicks() > 0) {
 				float resistMultiplier = playerData.getAeroLevel() == 0 ? 0.3F : playerData.getAeroLevel() == 1 ? 0.35F : playerData.getAeroLevel() == 2 ? 0.4F : 0;
 				
 				playerData.remAeroTicks((int) damage * 2);
 				damage -= (damage * resistMultiplier);
 			}
+						
+			if(event.getSource() instanceof FireDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.fire.toString())) / 100F;
+			} else if (event.getSource() instanceof IceDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.ice.toString())) / 100F;
+			} else if (event.getSource() instanceof LightningDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString())) / 100F;
+			} else if (event.getSource() instanceof DarknessDamageSource) {
+				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString())) / 100F;	
+			}
+			//System.out.println(damage);
 			
 			//Damage Control
 			if(Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
 				damage /= (1+playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 			}
 			
+			//Has to evaluate last
 			//Second chance (will save the player from a damage that would've killed him  as long as he had 2 hp or more
 			if(playerData.isAbilityEquipped(Strings.secondChance)) {
 				if(damage >= player.getHealth() && player.getHealth() > 1) {
@@ -791,8 +813,8 @@ public class EntityEvents {
 		if (event.getEntityLiving() instanceof BaseKHEntity) {
 			float damage = event.getAmount();
 			int defense = ((BaseKHEntity)event.getEntityLiving()).getDefense();
-			damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
-
+			if(defense > 0)
+				damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
 			if (event.getEntityLiving() instanceof MarluxiaEntity) {
 				MarluxiaEntity mar = (MarluxiaEntity) event.getEntityLiving();
 				if(EntityHelper.getState(event.getEntityLiving()) != 3) {
@@ -847,7 +869,6 @@ public class EntityEvents {
 							playerData.setReflectActive(true);
 						event.setCanceled(true);
 					}
-	
 				}
 	
 				IGlobalCapabilities globalData = ModCapabilities.getGlobal(target);
@@ -891,6 +912,14 @@ public class EntityEvents {
 			for(Player p : entity.level.players()) {
 				entity.level.addFreshEntity(new ItemEntity(entity.level, p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
 			}
+		}
+		
+		if(event.getEntityLiving() instanceof Player) {
+			Player player = (Player) event.getEntityLiving();
+			if(player.level.getLevelData().isHardcore())
+				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
+			else
+				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
 		}
 
 		if (!event.getEntity().level.isClientSide) {
@@ -1037,6 +1066,13 @@ public class EntityEvents {
 
 					}
 				}
+			}
+			if(event.getEntityLiving() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().getLevel().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
+				Player player = (Player) event.getSource().getEntity();
+				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntityLiving().getDisplayName().getString());
+				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
+				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
+				player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			}
 		}
 	}
@@ -1190,6 +1226,18 @@ public class EntityEvents {
 			Player targetPlayer = (Player) e.getTarget();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, playerData);
+			
+			/*if (!targetPlayer.level.isClientSide) {
+				if (targetPlayer instanceof Player) {
+					System.out.println(e.getPlayer().getDisplayName().getString()+" approached "+targetPlayer.getDisplayName().getString());
+					//SCAddWorldSoundsPacket.syncClients(targetPlayer.getUUID());
+					PacketHandler.sendTo(new SCAddWorldSoundsPacket(e.getPlayer().getUUID()), (ServerPlayer)targetPlayer);
+					PacketHandler.sendTo(new SCAddWorldSoundsPacket(targetPlayer.getUUID()), (ServerPlayer)e.getPlayer());
+
+					//PacketHandler.sendToServer(new SCAddWorldSoundsPacket(player.getUUID()));
+					// PacketHandler.sendToAllPlayers(new PacketAddWorldSounds(player));
+				}
+			}*/
 		}
 	}
 

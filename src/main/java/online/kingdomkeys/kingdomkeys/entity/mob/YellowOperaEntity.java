@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
@@ -37,7 +38,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return BaseElementalMusicalHeartlessEntity.registerAttributes()
-        		.add(Attributes.MAX_HEALTH, 40.0D)
+        		.add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D);
         		
     }
@@ -55,14 +56,11 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-    	float multiplier = 1;
         if(!this.level.isClientSide) {
-            //if(source.getImmediateSource() instanceof BlizzardEntity)
-              //  multiplier = 2;
-            if(source.getDirectEntity() instanceof ThunderBoltEntity)
+            if(source instanceof LightningDamageSource)
             	return false;
         }
-        return super.hurt(source, amount * multiplier);
+        return super.hurt(source, amount);
     }
 
     class YellowOperaGoal extends TargetGoal {

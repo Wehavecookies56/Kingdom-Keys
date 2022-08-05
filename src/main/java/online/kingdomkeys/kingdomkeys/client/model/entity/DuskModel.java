@@ -168,30 +168,24 @@ public class DuskModel<T extends Entity> extends EntityModel<T> {
         if(!Minecraft.getInstance().isPaused()) {
             //if(EntityHelper.getState(ent) == 0)
             //{
-            if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
-                this.Body1.xRot = Mth.cos(limbSwing * 0.8662F) * 0.2F * limbSwingAmount;
+			if (entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
+				this.Body1.xRot = Mth.cos(limbSwing * 0.8662F) * 0.2F * limbSwingAmount;
 
-                this.RightArmShoulder.xRot = Mth.cos(limbSwing * 0.8662F) * 0.5F * limbSwingAmount;
-                this.RightHandUpper.xRot = Mth.cos(limbSwing * 0.8662F) * 0.8F * limbSwingAmount;
+				this.RightArmShoulder.xRot = Mth.cos(limbSwing * 0.8662F) * 0.5F * limbSwingAmount;
+				this.RightHandUpper.xRot = Mth.cos(limbSwing * 0.8662F) * 0.8F * limbSwingAmount;
 
-                this.RightLegUpper.xRot = Mth.cos(limbSwing * 0.5F) * 2.0F * limbSwingAmount;//degToRad(walkingUpperLegAnimation[cycleIndex]);
+				this.RightLegUpper.xRot = Mth.cos(limbSwing * 0.5F) * 2.0F * limbSwingAmount;// degToRad(walkingUpperLegAnimation[cycleIndex]);
 
-                this.LeftArmShoulder.xRot = Mth.cos(limbSwing * 0.8662F + (float) Math.PI) * 0.5F * limbSwingAmount;
-                this.LeftHandUpper.xRot = Mth.cos(limbSwing * 0.8662F + (float) Math.PI) * 0.8F * limbSwingAmount;
+				this.LeftArmShoulder.xRot = Mth.cos(limbSwing * 0.8662F + (float) Math.PI) * 0.5F * limbSwingAmount;
+				this.LeftHandUpper.xRot = Mth.cos(limbSwing * 0.8662F + (float) Math.PI) * 0.8F * limbSwingAmount;
 
-                this.LeftLegUpper.xRot = Mth.cos(limbSwing * 0.5F + (float) Math.PI) * 2.0F * limbSwingAmount;
-            }
-            else {
-                this.LeftLegUpper.xRot = degToRad(-7);
-                this.RightLegMiddle.xRot = degToRad(-7);
-                this.RightLegLower.xRot = degToRad(99);
-                this.RightLegUpper.xRot = degToRad(-7);
-            }
-            //}
-            //else
-            //{
-
-            //}
+				this.LeftLegUpper.xRot = Mth.cos(limbSwing * 0.5F + (float) Math.PI) * 2.0F * limbSwingAmount;
+			} else {
+				this.LeftLegUpper.xRot = degToRad(-7);
+				this.RightLegMiddle.xRot = degToRad(-7);
+				this.RightLegLower.xRot = degToRad(99);
+				this.RightLegUpper.xRot = degToRad(-7);
+			}
         }
     }
 

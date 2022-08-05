@@ -1,19 +1,26 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
+
+import com.google.common.collect.ImmutableMap;
 
 public class LanguageENUS extends KKLanguageProvider {
 
@@ -59,6 +66,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
         add(Gui_Menu_Items_Equipment_Weapon_Keyblades, "Keyblades");
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
+        add(Gui_Menu_Items_Equipment_Accessories, "Accessories");
+        add(Gui_Menu_Items_Equipment_Armor, "Armor");
         add(Gui_Menu_Items_Equipment_Items, "Items");
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
@@ -92,6 +101,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_BlizzardRes, "Blizzard Resistance");
         add(Gui_Menu_Status_ThunderRes, "Thunder Resistance");
         add(Gui_Menu_Status_DarkRes, "Dark Resistance");
+        add(Gui_Menu_Status_FireResShort, "Fire Res.");
+        add(Gui_Menu_Status_BlizzardResShort, "Blizzard Res.");
+        add(Gui_Menu_Status_ThunderResShort, "Thunder Res.");
+        add(Gui_Menu_Status_DarkResShort, "Dark Res.");
         add(Gui_Menu_Status_FormLevel, "Form Level");
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
         add(Gui_Menu_Status_Abilities, "Abilities");
@@ -243,11 +256,11 @@ public class LanguageENUS extends KKLanguageProvider {
 
         /**KK stuff**/
         //Abilities
-        addAbility(ModAbilities.AUTO_VALOR, "Auto Valor");
-        addAbility(ModAbilities.AUTO_WISDOM, "Auto Wisdom");
-        addAbility(ModAbilities.AUTO_LIMIT, "Auto Limit");
-        addAbility(ModAbilities.AUTO_MASTER, "Auto Master");
-        addAbility(ModAbilities.AUTO_FINAL, "Auto Final");
+        addAbilityWithDesc(ModAbilities.AUTO_VALOR, "Auto Valor", "Automatically sets the Reaction Command to Valor in a pinch, if Valor Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_WISDOM, "Auto Wisdom", "Automatically sets the Reaction Command to Wisdom in a pinch, if Wisdom Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_LIMIT, "Auto Limit", "Automatically sets the Reaction Command to Limit in a pinch, if Limit Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto Master", "Automatically sets the Reaction Command to Master in a pinch, if Master Form is usable.");
+        addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
         addAbilityDesc(ModAbilities.HIGH_JUMP, "Now you can jump really high!");
@@ -288,11 +301,14 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.CRITICAL_BOOST, "Critical Boost", "Increases damage dealt by critical hits by 10%. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.JACKPOT, "Jackpot", "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.LUCKY_LUCKY, "Lucky Strike", "Brings luck, fortune and looting to the wearer, increasing the drop rate of items. Stack the ability to increase the effect.");
-        addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to cast get the Firaza reaction command. Stack the ability to increase the chance.");
-        addAbilityWithDesc(ModAbilities.BLIZZAZA, "Blizzaza", "Allows the user to get the Blizzaza reaction command. Stack the ability to increase the chance.");
-        addAbilityWithDesc(ModAbilities.WATERZA, "Waterza", "Allows the user to cast get the Waterza reaction command. Stack the ability to increase the chance.");
-        addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to cast get the Thundaza reaction command. Stack the ability to increase the chance.");
-
+        addAbilityWithDesc(ModAbilities.ITEM_BOOST, "Item Boost", "Increases effect done with healing items on the field by 50%. Equip more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to get the Firaza reaction command.");
+        addAbilityWithDesc(ModAbilities.BLIZZAZA, "Blizzaza", "Allows the user to get the Blizzaza reaction command.");
+        addAbilityWithDesc(ModAbilities.WATERZA, "Waterza", "Allows the user to get the Waterza reaction command.");
+        addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
+        addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
+        addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
+        
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
         addLimit(ModLimits.LASER_DOME, "Laser Dome");
@@ -308,7 +324,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.BLIZZARD, "Blizzard", "Blizzara", "Blizzaga", "Blizzaza");
         addMagic(ModMagic.WATER, "Water", "Watera", "Waterga", "Waterza");
         addMagic(ModMagic.THUNDER, "Thunder", "Thundara", "Thundaga", "Thundaza");
-        addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga");
+        addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga", "Curaza");
         addMagic(ModMagic.AERO, "Aero", "Aerora", "Aeroga");
         addMagic(ModMagic.MAGNET, "Magnet", "Magnera", "Magnega");
         addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
@@ -330,29 +346,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto Final");
 
         /**Items**/
-        //Cards
-        add("item.mapcard.prefix", "(%s) %s");
-        addItem(ModItems.tranquilDarkness, "Tranquil Darkness");
-        addItem(ModItems.teemingDarkness, "Teeming Darkness");
-        addItem(ModItems.feebleDarkness, "Feeble Darkness");
-        addItem(ModItems.almightyDarkness, "Almighty Darkness");
-        addItem(ModItems.sleepingDarkness, "Sleeping Darkness");
-        addItem(ModItems.loomingDarkness, "Looming Darkness");
-        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness");
-        addItem(ModItems.martialWaking, "Martial Waking");
-        addItem(ModItems.sorcerousWaking, "Sorcerous Waking");
-        addItem(ModItems.alchemicWaking, "Alchemic Waking");
-        addItem(ModItems.stagnantSpace, "Stagnant Space");
-        addItem(ModItems.weightlessSpace, "Weightless Space");
-        addItem(ModItems.calmBounty, "Calm Bounty");
-        addItem(ModItems.guardedTrove, "Guarded Trove");
-        addItem(ModItems.falseBounty, "False Bounty");
-        addItem(ModItems.momentsReprieve, "Moment's Reprieve");
-        addItem(ModItems.minglingWorlds, "Mingling Worlds");
-        addItem(ModItems.moogleRoom, "Moogle Room");
-        addItem(ModItems.prosperousRepository, "Prosperous Repository");
-        addItem(ModItems.treacherousRepository, "Treacherous Repository");
-        addItem(ModItems.reposefulGrove, "Reposeful Grove");
+       
 
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
@@ -1012,6 +1006,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.starCharm, "Star Charm");
         addItem(ModItems.luckyRing, "Lucky Ring");
         addItem(ModItems.fireBangle, "Fire Bangle");
+        addItem(ModItems.blizzardArmlet, "Blizzard Armlet");
+        addItem(ModItems.thunderTrinket, "Thunder Trinket");
+        addItem(ModItems.petiteRibbon, "Petite Ribbon");
+        addItem(ModItems.ribbon, "Ribbon");
+        addItem(ModItems.grandRibbon, "Grand Ribbon");
 
         //Spawn Eggs
         addItem(ModEntities.MOOGLE_EGG, "Spawn Moogle");
@@ -1032,10 +1031,14 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.GREEN_REQUIEM_EGG, "Spawn Green Requiem");
         addItem(ModEntities.LARGE_BODY_EGG, "Spawn Large Body");
         addItem(ModEntities.DIRE_PLANT_EGG, "Spawn Dire Plant");
+        addItem(ModEntities.SOLDIER_EGG, "Spawn Soldier");
 
         addItem(ModEntities.NOBODY_CREEPER_EGG, "Spawn Creeper (Nobody)");
         addItem(ModEntities.DUSK_EGG, "Spawn Dusk");
         addItem(ModEntities.ASSASSIN_EGG, "Spawn Assassin");
+        addItem(ModEntities.DRAGOON_EGG, "Spawn Dragoon");
+        addItem(ModEntities.MARLUXIA_EGG, "Spawn Marluxia");
+        
 
         //Armour
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
@@ -1067,6 +1070,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");
         addItem(ModItems.vanitas_Leggings, "Vanitas Leggings");
         addItem(ModItems.vanitas_Boots, "Vanitas Boots");
+        
+        addItem(ModItems.vanitas_Remnant_Helmet, "Vanitas Remnant Helmet");
+        addItem(ModItems.vanitas_Remnant_Chestplate, "Vanitas Remnant Chestplate");
+        addItem(ModItems.vanitas_Remnant_Leggings, "Vanitas Remnant Leggings");
+        addItem(ModItems.vanitas_Remnant_Boots, "Vanitas Remnant Boots");
 
         addItem(ModItems.nightmareVentus_Helmet, "Nightmare Ventus Helmet");
         addItem(ModItems.nightmareVentus_Chestplate, "Nightmare Ventus Chestplate");
@@ -1201,6 +1209,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_MPORB, "MP Orb");
         addEntityType(ModEntities.TYPE_DRIVEORB, "DP Orb");
         addEntityType(ModEntities.TYPE_MUNNY, "Munny");
+        
+        addEntityType(ModEntities.TYPE_SPAWNING_ORB, "Spawning Orb");
 
         addEntityType(ModEntities.TYPE_MOOGLE, "Moogle");
         addEntityType(ModEntities.TYPE_SHADOW, "Shadow");
@@ -1220,6 +1230,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_GREEN_REQUIEM, "Green Requiem");
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Large Body");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
+        addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
 
         addEntityType(ModEntities.TYPE_NOBODY_CREEPER, "Creeper (Nobody)");
         addEntityType(ModEntities.TYPE_DUSK, "Dusk");

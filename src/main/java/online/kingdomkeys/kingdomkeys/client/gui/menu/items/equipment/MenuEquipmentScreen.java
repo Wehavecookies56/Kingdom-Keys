@@ -156,7 +156,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
                ItemStack item = entry.getValue();
                MenuEquipmentButton accessorySlot;
                if(slot == 0) {
-            	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this, Utils.translateToLocal("Accessories"), 0x42ceff);
+            	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Accessories), 0x42ceff);
                } else {
             	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this);
                }
@@ -170,9 +170,9 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
                 ItemStack item = entry.getValue();
                 MenuEquipmentButton armorSlot;
                 if(slot == 0) {
-                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(255, 247, 0), 0x44AA00), ItemCategory.EQUIPMENT, this, Utils.translateToLocal("Equipment"), 0x42ceff);
+                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xAAAA00, new MenuArmorSelectorScreen(slot, new Color(255, 247, 0), 0x444400), ItemCategory.EQUIPMENT, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Armor), 0xFFFF00);
                 } else {
-                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(255, 247, 0), 0x44AA00), ItemCategory.EQUIPMENT, this);
+                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xAAAA00, new MenuArmorSelectorScreen(slot, new Color(255, 247, 0), 0x444400), ItemCategory.EQUIPMENT, this);
                 }
                 totalButtons.add(armorSlot);
                 addRenderableWidget(armorSlot);

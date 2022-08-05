@@ -39,14 +39,26 @@ public class ModSounds {
             unsummon = registerSound("unsummon"),
 			portal = registerSound("portal"),
 	        laser = registerSound("laser"),
-	        reflect1 = registerSound("reflect1"),
+	        fire = registerSound("fire"),
+			blizzard = registerSound("blizzard"),
+			cure = registerSound("cure"),
+			magnet1 = registerSound("magnet1"),
+			magnet2 = registerSound("magnet2"),
+			aero1 = registerSound("aero1"),
+			aero2 = registerSound("aero2"),
+			gravity = registerSound("gravity"),
+			reflect1 = registerSound("reflect1"),
 	        reflect2 = registerSound("reflect2"),
+	        stop = registerSound("stop"),
+			playerDeath = registerSound("player_death"),
+			playerDeathHardcore = registerSound("player_death_2"),
 		    invincible_hit = registerSound("invincible_hit"),
 			shotlock_lockon_start = registerSound("shotlock_lockon_start"),
 			shotlock_lockon_idle = registerSound("shotlock_lockon_idle"),
 			shotlock_lockon = registerSound("shotlock_lockon"),
 			shotlock_lockon_all = registerSound("shotlock_lockon_all"),
 			shotlock_shot = registerSound("shotlock_shot"),
+			
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),
             Record_Darkness_of_the_Unknown = registerSound("records/darkness_of_the_unknown"),
@@ -62,7 +74,8 @@ public class ModSounds {
             Record_Sinister_Sundown = registerSound("records/sinister_sundown"),
             Record_The_13th_Anthology = registerSound("records/the_13th_anthology"),
 
-			Music_Dive_Into_The_Heart_Destati = registerSound("music/dive_into_the_heart_destati");
+			Music_Dive_Into_The_Heart_Destati = registerSound("music/dive_into_the_heart_destati"),
+    		Music_Lord_Of_The_Castle = registerSound("music/lord_of_the_castle");
 
            /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),

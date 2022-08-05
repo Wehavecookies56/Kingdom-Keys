@@ -28,6 +28,7 @@ public class ServerConfig {
     public ForgeConfigSpec.IntValue limitArrowRainCost;
     
     public ForgeConfigSpec.BooleanValue projectorHasShop;
+    public ForgeConfigSpec.BooleanValue orgEnabled;
 
     ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -41,12 +42,7 @@ public class ServerConfig {
                 .comment("Party range limit")
                 .translation(KingdomKeys.MODID + ".config.party_range_limit")
                 .defineInRange("partyRangeLimit", 50, 1, 150);
-        
-        /*magicUsesTimer = builder
-                .comment("Magic uses timer in ticks (1 second = 20 ticks) 0 = magic uses won't decrease, 1 = disable grand magic. Used for grand magic so bigger number the longer it will take to substract an use so it will be easier to activate it")
-                .translation(KingdomKeys.MODID + ".config.magic_uses_timer")
-                .defineInRange("magicUsesTimer", 100, 0, 1200);*/
-        
+               
         requireSynthTier = builder
                 .comment("If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier")
                 .translation(KingdomKeys.MODID + ".config.require_synth_tier")
@@ -56,7 +52,11 @@ public class ServerConfig {
                 .comment("If true moogle projectors will have the default shop available, if false only the moogles will")
                 .translation(KingdomKeys.MODID + ".config.projector_has_shop")
                 .define("projectorHasShop", false);
-
+        
+        orgEnabled = builder
+                .comment("If true the organization system will be enabled, if false will be disabled")
+                .translation(KingdomKeys.MODID + ".config.org_enabled")
+                .define("orgEnabled", true);
 
         builder.pop();
 
@@ -73,7 +73,6 @@ public class ServerConfig {
                 .defineInRange("heartMultiplier", 1F, 0, 1000);
         
         partyXPShare = builder
-              //  .comment("XP Share in party (value used here will be used if the party size is 2, will be downscaled the bigger the party is)")
         		.comment("XP Share in party (killer gets 100%, the rest of party members the % specified here)")
                 .translation(KingdomKeys.MODID + ".config.party_xp_share")
                 .defineInRange("partyXPShare", 0F, 0, 100);

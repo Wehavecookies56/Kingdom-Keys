@@ -37,6 +37,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -166,7 +167,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag armors = new CompoundTag();
 		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.serializeNBT()));
-		storage.put("armor", armors);
+		storage.put("armors", armors);
 
 
 		storage.putInt("hearts", this.getHearts());
@@ -300,6 +301,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag accessoriesNBT = storage.getCompound("accessories");
 		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.of(accessoriesNBT.getCompound(slot))));
 
+		CompoundTag armorsNBT = storage.getCompound("armors");
+		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.of(armorsNBT.getCompound(slot))));
+
 		this.setHearts(storage.getInt("hearts"));
 		this.setAlignment(storage.getInt("org_alignment"));
 		this.equipWeapon(ItemStack.of(storage.getCompound("org_equipped_weapon")));
@@ -373,7 +377,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<ResourceLocation, ItemStack> equippedKeychains = new HashMap<>();
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
-	private Map<Integer, ItemStack> equippedArmor = new HashMap<>();
+	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
 
 	private Floor currentFloor;
 
@@ -473,7 +477,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getDefense(boolean combined) {
-		return combined ? (defense + boostDef) * ModConfigs.statsMultiplier.get(2) / 100 : defense * ModConfigs.statsMultiplier.get(2) / 100;
+		return combined ? (defense + boostDef + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense * ModConfigs.statsMultiplier.get(2) / 100;
 	}
 
 	@Override
@@ -1000,7 +1004,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void setMagicLevel(String name, int level) {
+	public void setMagicLevel(String name, int level, boolean notification) {
 		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
 		if(level == -1) {
 			magicList.remove(name);
@@ -1008,6 +1012,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			if(level <= magic.getMaxLevel()) {
 				int uses = magicList.containsKey(name) ? getMagicUses(name) : 0;
 				magicList.put(name, new int[] {level, uses});
+				
+				if(notification) {
+					messages.add("M_"+magic.getTranslationKey(level));
+				}
 			}
 		}
 	}
@@ -1248,12 +1256,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public Map<Integer, ItemStack> getEquippedArmors() {
-		return equippedArmor;
+		return equippedArmors;
 	}
 	@Override
 	public ItemStack getEquippedArmor(int slot) {
-		if (equippedArmor.containsKey(slot)) {
-			return equippedArmor.get(slot);
+		if (equippedArmors.containsKey(slot)) {
+			return equippedArmors.get(slot);
 		}
 		return null;
 	}
@@ -1261,9 +1269,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public ItemStack equipArmor(int slot, ItemStack stack) {
 		//Item can be empty stack to unequip
-		if (canEquipAccessory(slot, stack)) {
-			ItemStack previous = getEquippedAccessory(slot);
-			equippedArmor.put(slot, stack);
+		if (canEquipArmor(slot, stack)) {
+			ItemStack previous = getEquippedArmor(slot);
+			equippedArmors.put(slot, stack);
 			return previous;
 		}
 		return null;
@@ -1271,8 +1279,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public boolean canEquipArmor(int slot, ItemStack stack) {
-		if (getEquippedAccessory(slot) != null) {
-			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
+		if (getEquippedArmor(slot) != null) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKArmorItem) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
@@ -1284,10 +1292,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void equipAllArmors(Map<Integer, ItemStack> armors, boolean force) {
-		//Any Accessories that cannot be equipped will be removed
+		//Any Armors that cannot be equipped will be removed
 		if(!force)
 			armors.replaceAll((k,v) -> canEquipArmor(k,v) ? v : ItemStack.EMPTY);
-		equippedArmor = armors;
+		equippedArmors = armors;
+	}
+
+	@Override
+	public void setNewArmor(int slot, ItemStack stack) {
+		if (!equippedArmors.containsKey(slot)) {
+			equippedArmors.put(slot, stack);
+		}
 	}
 	//endregion
 

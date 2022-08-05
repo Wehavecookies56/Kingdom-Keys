@@ -28,7 +28,7 @@ public class MinuteBombEntity extends BaseBombEntity {
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
-        return BaseBombEntity.registerAttributes().add(Attributes.MAX_HEALTH, 20.0D);
+        return BaseBombEntity.registerAttributes().add(Attributes.MAX_HEALTH, 15.0D);
     }
 
     @Override

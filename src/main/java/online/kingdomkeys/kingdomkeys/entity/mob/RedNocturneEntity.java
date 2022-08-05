@@ -14,6 +14,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
@@ -37,7 +39,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return BaseElementalMusicalHeartlessEntity.registerAttributes()
-        		.add(Attributes.MAX_HEALTH, 40.0D)
+        		.add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 
@@ -56,9 +58,9 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
     public boolean hurt(DamageSource source, float amount) {
         float multiplier = 1;
         if(!this.level.isClientSide) {
-            if(source.getDirectEntity() instanceof BlizzardEntity)
+            if(source instanceof IceDamageSource)
                 multiplier = 2;
-            if(source.getDirectEntity() instanceof FireEntity)
+            if(source instanceof FireDamageSource)
             	return false;
         }
         return super.hurt(source, amount * multiplier);
@@ -124,20 +126,19 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
                         FireEntity esfb = new FireEntity(this.mob.level, this.mob, (float) this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue());
                         esfb.shoot(d1, d2, d3, 1, 0);
                         esfb.setPos(esfb.getX(), this.mob.getY() + (double) (this.mob.getBbHeight() / 2.0F) + 0.5D, esfb.getZ());
-                        this.mob.level.addFreshEntity(esfb);
-                    }
-                    else {
-                        if (mob.distanceTo(mob.getTarget()) < 8) {
-                            EntityHelper.setState(this.mob, 2);
+						this.mob.level.addFreshEntity(esfb);
+					} else {
+						if (mob.distanceTo(mob.getTarget()) < 8) {
+							EntityHelper.setState(this.mob, 2);
 
-                            this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
+							this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
-                            for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.mob, 4))
-                                enemy.hurt(DamageSource.mobAttack(this.mob), 4);
-                        }
-                        else
-                            return;
-                    }
+							for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.mob, 4))
+								enemy.hurt(DamageSource.mobAttack(this.mob), 4);
+						} else {
+							return;
+						}
+					}
 
                 }
 

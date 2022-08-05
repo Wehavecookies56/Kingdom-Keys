@@ -28,7 +28,7 @@ public class StormBombEntity extends BaseBombEntity {
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
-        return BaseBombEntity.registerAttributes().add(Attributes.MAX_HEALTH, 46.0D);
+        return BaseBombEntity.registerAttributes().add(Attributes.MAX_HEALTH, 35.0D);
     }
 
     @Override

@@ -47,6 +47,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
@@ -357,6 +358,30 @@ public class Utils {
 
 		return elList;
 	}
+	
+	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
+		List<Entity> list = player.level.getEntities(player, entity.getBoundingBox().inflate(radiusX,radiusY,radiusZ), Entity::isAlive);
+		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+
+		if (casterParty != null && !casterParty.getFriendlyFire()) {
+			for (Member m : casterParty.getMembers()) {
+				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+			}
+		} else {
+			list.remove(player);
+		}
+		
+		list.remove(entity);
+		
+		List<LivingEntity> elList = new ArrayList<LivingEntity>();
+		for (Entity e : list) {
+			if (e instanceof LivingEntity) {
+				elList.add((LivingEntity) e);
+			}
+		}
+
+		return elList;
+	}
 
 	public static String getResourceName(String text) {
 		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
@@ -473,9 +498,9 @@ public class Utils {
 				KKArmorItem kkArmorItem = (KKArmorItem) entry.getValue().getItem();
 				switch(type) {
 					case "def":
-						res += kkArmorItem.getDefence();
+						res += kkArmorItem.getDefense();
 						break;
-					case "dark":
+					case "darkness":
 						if(kkArmorItem.CheckKey(KKResistanceType.darkness))
 							res+= kkArmorItem.GetResValue(KKResistanceType.darkness);
 						break;
@@ -532,6 +557,9 @@ public class Utils {
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
+		if(!ModConfigs.orgEnabled)
+			return false;
+		
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);

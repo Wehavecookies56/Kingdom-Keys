@@ -25,6 +25,9 @@ public class DamageCalculation {
     public static float getMagicDamage(Player player, ItemStack stack) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	if(playerData == null)
+            	return 0;
+
         	float damage = 0;
 
             KeybladeItem keyblade = null;
@@ -52,6 +55,9 @@ public class DamageCalculation {
     public static float getOrgMagicDamage(Player player, IOrgWeapon weapon) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	if(playerData == null)
+            	return 0;
+
             float damage = (float) (weapon.getMagic() + playerData.getMagic(true));
             return damage;
         } else {
@@ -64,9 +70,11 @@ public class DamageCalculation {
     public static float getMagicDamage(Player player) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
+        	if(playerData == null)
+            	return 0;
+        	
             float finalDamage = 0;
-
+            
             if (player.getItemInHand(InteractionHand.MAIN_HAND) != null && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
             	if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem) {
                     finalDamage = getMagicDamage(player, player.getMainHandItem());
@@ -89,6 +97,9 @@ public class DamageCalculation {
     public static float getKBStrengthDamage(Player player, ItemStack stack) {
         if (player != null) {
         	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	if(playerData == null)
+            	return 0;
+
             float damage = 0;
             float finalDamage = 0;
 
