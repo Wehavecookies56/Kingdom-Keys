@@ -14,7 +14,5 @@ public class ModBiomes {
 	static {
 		BIOMES.register(Strings.diveToTheHeart, OverworldBiomes::theVoid);
 		BIOMES.register(Strings.stationOfSorrow, OverworldBiomes::theVoid);
-		BIOMES.register(Strings.castleOblivion, OverworldBiomes::theVoid);
-		BIOMES.register(Strings.castleOblivionInterior, OverworldBiomes::theVoid);
 	}
 }

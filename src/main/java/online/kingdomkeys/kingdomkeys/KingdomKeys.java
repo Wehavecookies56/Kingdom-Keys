@@ -11,10 +11,6 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicKKWeapons;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.KKAnimations;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
-import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -137,8 +133,6 @@ public class KingdomKeys {
 		ModShotlocks.SHOTLOCKS.register(modEventBus);
 		ModReactionCommands.REACTION_COMMANDS.register(modEventBus);
 		ModMaterials.MATERIALS.register(modEventBus);
-		ModRoomTypes.ROOM_TYPES.register(modEventBus);
-		ModRoomStructures.ROOM_STRUCTURES.register(modEventBus);
 		ModBlocks.BLOCKS.register(modEventBus);
 		ModItems.ITEMS.register(modEventBus);
 		ModSounds.SOUNDS.register(modEventBus);
@@ -148,28 +142,19 @@ public class KingdomKeys {
 
         ModEntities.ENTITIES.register(modEventBus);
 
-		ModStructures.STRUCTURES.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
 		ModBiomes.BIOMES.register(modEventBus);
 		//ModParticles.PARTICLES.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
-			@Override
-			public void run() {
-				if (ModList.get().isLoaded("epicfight")) {
-					modEventBus.addListener(ClientEvents::colourTint);
-				}
-			}
-		});
+
 		if (ModList.get().isLoaded("epicfight")) {
 			modEventBus.addListener(KKAnimations::register);
 			modEventBus.addListener(EpicKKWeapons::register);
 		}
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
-		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);

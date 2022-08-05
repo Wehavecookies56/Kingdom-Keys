@@ -51,7 +51,6 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionRenderInfo;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartRenderInfo;
 import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationOfSorrowRenderInfo;
 
@@ -194,7 +193,6 @@ public class ClientSetup {
 		//Could probably use one for all void style dimensions
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
-		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.castleOblivion), new CastleOblivionRenderInfo());
 
 		//Overlay setup
 
@@ -234,9 +232,6 @@ public class ClientSetup {
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.orgPortal.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.pedestal.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.translucent());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.structureWall.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.castleOblivionWall.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.castleOblivionPillar.get(), RenderType.cutout());
         });
     }
 

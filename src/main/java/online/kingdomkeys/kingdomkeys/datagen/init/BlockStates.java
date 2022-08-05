@@ -83,16 +83,6 @@ public class BlockStates extends BlockStateProvider {
 				// skip
 			} else if (block instanceof DataPortalBlock) {
 
-			} else if (block instanceof CastleOblivionPillarBlock) {
-
-			} else if (block instanceof CastleOblivionSlabBlock) {
-
-			} else if (block instanceof CastleOblivionStairBlock) {
-
-			} else if (block instanceof StructureWallBlock) {
-
-			} else if (block instanceof CardDoorBlock) {
-
 			} else {
 				simpleBlock(itemRegistryObject);
 			}

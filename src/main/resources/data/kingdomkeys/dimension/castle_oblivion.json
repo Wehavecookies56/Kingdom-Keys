@@ -1,9 +1,0 @@
-{
-  "type": "kingdomkeys:castle_oblivion",
-  "generator": {
-    "biome_source": {
-      "type": "kingdomkeys:castle_oblivion_biome_source"
-    },
-    "type": "kingdomkeys:castle_oblivion_generator"
-  }
-}

@@ -57,9 +57,6 @@ public class DimensionCommand extends BaseCommand {
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			if (dimension == ModDimensions.CASTLE_OBLIVION) {
-				//face north
-			}
 			context.getSource().sendSuccess(new TranslatableComponent("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
 			player.sendMessage(new TranslatableComponent("You have been teleported to " + dimension.location().toString()), Util.NIL_UUID);
 		}
@@ -75,9 +72,6 @@ public class DimensionCommand extends BaseCommand {
 		}
 		if (dimension == ModDimensions.STATION_OF_SORROW) {
 			return new BlockPos(0, 26, 0);
-		}
-		if (dimension == ModDimensions.CASTLE_OBLIVION) {
-			return new BlockPos(172, 90, 308);
 		}
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (dimension == playerData.getReturnDimension()) {

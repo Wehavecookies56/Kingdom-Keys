@@ -14,7 +14,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
 
 import java.util.*;
 
@@ -297,8 +296,4 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getSynthExperience();
 	void setSynthExperience(int exp);
 	void addSynthExperience(int exp);
-
-	//Castle Oblivion
-	void setCurrentFloor(Floor floor);
-	Floor getCurrentFloor();
 }
