@@ -5,6 +5,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.command.ModCommands;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicKKWeapons;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.KKAnimations;
@@ -154,9 +155,15 @@ public class KingdomKeys {
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
-
-		if (ModList.get().isLoaded("epicfight"))
-		{
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
+			@Override
+			public void run() {
+				if (ModList.get().isLoaded("epicfight")) {
+					modEventBus.addListener(ClientEvents::colourTint);
+				}
+			}
+		});
+		if (ModList.get().isLoaded("epicfight")) {
 			modEventBus.addListener(KKAnimations::register);
 			modEventBus.addListener(EpicKKWeapons::register);
 		}
@@ -171,8 +178,6 @@ public class KingdomKeys {
 		// Server
 		MinecraftForge.EVENT_BUS.register(new EntityEvents());
 		MinecraftForge.EVENT_BUS.register(new ModCapabilities());
-
-
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
