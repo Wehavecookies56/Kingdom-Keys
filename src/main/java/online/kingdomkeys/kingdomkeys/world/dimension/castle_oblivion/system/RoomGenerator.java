@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -98,12 +99,15 @@ public class RoomGenerator {
                                 room.doorPositions.put(RoomUtils.Direction.SOUTH, blockpos.immutable());
                                 facing = RoomUtils.Direction.SOUTH;
                             }
-                            if (ModCapabilities.getCastleOblivionInterior(player.level).getFloorByID(currentRoom.parentFloor).getAdjacentRoom(data, RoomUtils.Direction.opposite(facing)) != null) {
-                                level.setBlock(blockpos, cardDoorState, 2);
-                                CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
-                                cardDoorTileEntity.setParent(data);
-                                cardDoorTileEntity.setDirection(facing);
-                                level.setBlockEntity(cardDoorTileEntity);
+                            Pair<RoomData, RoomUtils.Direction> adjacentRoom = ModCapabilities.getCastleOblivionInterior(player.level).getFloorByID(currentRoom.parentFloor).getAdjacentRoom(data, facing.opposite());
+                            if (adjacentRoom != null) {
+                                if (adjacentRoom.getFirst().doors.get(adjacentRoom.getSecond().opposite()) != null){
+                                    level.setBlock(blockpos, cardDoorState, 2);
+                                    CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
+                                    cardDoorTileEntity.setParent(data);
+                                    cardDoorTileEntity.setDirection(facing);
+                                    level.setBlockEntity(cardDoorTileEntity);
+                                }
                             }
                         }
                     }

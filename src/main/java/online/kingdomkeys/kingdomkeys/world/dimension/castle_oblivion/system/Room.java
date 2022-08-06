@@ -43,7 +43,7 @@ public class Room implements INBTSerializable<CompoundTag> {
             clearRoom(level);
         }
         Direction dir = doorDirection.toMCDirection();
-        position = currentRoom.position.relative(dir, 256);
+        position = currentRoom.position.relative(dir, 128);
     }
 
     //Used for the first lobby that generates when the dimension is created

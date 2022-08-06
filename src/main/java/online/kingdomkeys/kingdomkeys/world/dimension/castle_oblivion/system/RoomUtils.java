@@ -98,8 +98,8 @@ public class RoomUtils {
             this.yDir = yDir;
         }
 
-        public static Direction opposite(Direction direction) {
-            return switch (direction) {
+        public Direction opposite() {
+            return switch (this) {
                 case EAST -> WEST;
                 case WEST -> EAST;
                 case NORTH -> SOUTH;

@@ -470,16 +470,20 @@ public class ClientEvents {
 
 	public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
 		Color colour = Color.BLACK;
-		CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
-		if (cap != null) {
-			if (!cap.getFloors().isEmpty()) {
-				Room room = cap.getRoomAtPos(pos);
-				if (room != null) {
-					if (room.getType().getProperties().getColour() != null) {
-						colour = room.getType().getProperties().getColour();
-					} else {
-						Floor floor = room.getParent(Minecraft.getInstance().level);
-						colour = floor.getType().floorColour;
+		if (Minecraft.getInstance().level.dimension().location().getPath().contains("castle_oblivion_")) {
+			CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
+			if (cap != null) {
+				if (!cap.getFloors().isEmpty()) {
+					Room room = cap.getRoomAtPos(pos);
+					if (room != null) {
+						if (room.getType().getProperties().getColour() != null) {
+							colour = room.getType().getProperties().getColour();
+						} else {
+							Floor floor = room.getParent(Minecraft.getInstance().level);
+							if (floor != null) {
+								colour = floor.getType().floorColour;
+							}
+						}
 					}
 				}
 			}

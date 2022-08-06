@@ -5,7 +5,9 @@ import net.minecraftforge.common.util.Size2i;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 //metadata for each nbt file for rooms
 public class RoomStructure implements IForgeRegistryEntry<RoomStructure> {
@@ -25,14 +27,22 @@ public class RoomStructure implements IForgeRegistryEntry<RoomStructure> {
     //structure x and z dimensions ignoring y
     Size2i physicalSize;
 
+    //whitelist specific rooms if empty no whitelist
+    List<Supplier<RoomType>> roomWhitelist;
+
     ResourceLocation registryName;
 
-    public RoomStructure(String path, FloorType floor, RoomProperties.RoomSize size, List<RoomProperties.RoomCategory> categories, Size2i physicalSize) {
+    public RoomStructure(String path, FloorType floor, RoomProperties.RoomSize size, List<RoomProperties.RoomCategory> categories, Size2i physicalSize, Supplier<RoomType>... roomWhitelist) {
         this.path = path;
         this.size = size;
         this.categories = categories;
         this.floor = floor;
         this.physicalSize = physicalSize;
+        this.roomWhitelist = Arrays.stream(roomWhitelist).toList();
+    }
+
+    public List<RoomType> getRoomWhitelist() {
+        return roomWhitelist.stream().map(Supplier::get).toList();
     }
 
     @Override

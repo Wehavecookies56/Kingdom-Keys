@@ -35,7 +35,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
 
     public static RoomData inDirection(RoomData prevRoom, RoomUtils.Direction direction) {
         RoomData newRoom = new RoomData(RoomUtils.RoomPos.inDirection(prevRoom.pos, direction));
-        newRoom.setDoor(new DoorData(DoorData.Type.NORMAL), RoomUtils.Direction.opposite(direction));
+        newRoom.setDoor(new DoorData(DoorData.Type.NORMAL), direction.opposite());
         return newRoom;
     }
 
@@ -50,6 +50,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
+        tag.putUUID("parent", parent);
         tag.putInt("door_count", doors.size());
         CompoundTag doorDataTag = new CompoundTag();
         int i = 0;
@@ -69,11 +70,12 @@ public class RoomData implements INBTSerializable<CompoundTag> {
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
+        parent = tag.getUUID("parent");
         int doorCount = tag.getInt("door_count");
         doors.clear();
         for (int i = 0; i < doorCount; i++) {
             int dir = tag.getInt("door_direction_" + i);
-            doors.put(RoomUtils.Direction.values()[dir], DoorData.deserialize(tag));
+            doors.put(RoomUtils.Direction.values()[dir], DoorData.deserialize(tag.getCompound("door_data_" + i)));
         }
         if (tag.getBoolean("generated")) {
             generatedRoom = Room.deserialize(tag.getCompound("generated_room"));

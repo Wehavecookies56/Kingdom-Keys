@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -71,9 +72,11 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                             if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
                                 RoomType type = card.getRoomType();
                                 Room currentRoom = cap.getRoomAtPos(pos);
-                                RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), RoomUtils.Direction.opposite(te.getDirection())).getFirst();
+                                RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
                                 //generate
-                                RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, RoomUtils.Direction.opposite(te.getDirection()), false);
+                                Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
+                                BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+                                player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
                                 //set door here destination to new door
                                 //set new door destination to door here
                                 //transport

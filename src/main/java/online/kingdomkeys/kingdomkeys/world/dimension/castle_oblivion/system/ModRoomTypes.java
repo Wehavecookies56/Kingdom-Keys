@@ -23,6 +23,7 @@ public class ModRoomTypes {
     public static final RegistryObject<RoomType>
         //Special
         LOBBY = createRoomType("lobby", new RoomProperties.Builder(RoomSize.SPECIAL, RoomProperties.RoomCategory.SPECIAL, new Size2i(33, 69)).isLobby()),
+
         //Enemy
         TRANQUIL_DARKNESS = createRoomType("tranquil_darkness", RoomProperties.enemy(RoomSize.M).enemies(RoomEnemies.S)),
         TEEMING_DARKNESS = createRoomType("teeming_darkness", RoomProperties.enemy(RoomSize.L).enemies(RoomEnemies.L)),
