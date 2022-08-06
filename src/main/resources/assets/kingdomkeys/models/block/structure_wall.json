@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "block/cube",
+	"ambientocclusion": false,
 	"textures": {
 		"0": "kingdomkeys:block/structure_wall",
 		"particle": "kingdomkeys:block/structure_wall"
@@ -9,6 +9,7 @@
 		{
 			"from": [0, 0, 0],
 			"to": [16, 16, 0],
+			"shade": false,
 			"faces": {
 				"north": {"uv": [0, 0, 16, 8], "texture": "#0", "tintindex": 0},
 				"east": {"uv": [0, 0, 0, 16], "texture": "#0", "tintindex": 0},

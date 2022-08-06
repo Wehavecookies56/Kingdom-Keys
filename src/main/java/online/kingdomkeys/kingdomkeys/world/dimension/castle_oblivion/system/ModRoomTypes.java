@@ -24,7 +24,7 @@ public class ModRoomTypes {
         //Special
         LOBBY = createRoomType("lobby", new RoomProperties.Builder(RoomSize.SPECIAL, RoomProperties.RoomCategory.SPECIAL, new Size2i(33, 69)).isLobby()),
         //Enemy
-        TRANQUIL_DARKNESS = createRoomType("tranquil_darkness", RoomProperties.enemy(RoomSize.M).enemies(RoomEnemies.S).colour(new Color(0, 0, 255))),
+        TRANQUIL_DARKNESS = createRoomType("tranquil_darkness", RoomProperties.enemy(RoomSize.M).enemies(RoomEnemies.S)),
         TEEMING_DARKNESS = createRoomType("teeming_darkness", RoomProperties.enemy(RoomSize.L).enemies(RoomEnemies.L)),
         FEEBLE_DARKNESS = createRoomType("feeble_darkness", RoomProperties.enemy(RoomSize.M).enemies(RoomEnemies.S)), //add weakness modifier
         ALMIGHTY_DARKNESS = createRoomType("almighty_darkness", RoomProperties.enemy(RoomSize.M).enemies(RoomEnemies.M)), //strength modifier

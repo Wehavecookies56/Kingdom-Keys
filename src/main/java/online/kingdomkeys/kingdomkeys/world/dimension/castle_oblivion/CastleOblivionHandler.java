@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +20,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
@@ -86,6 +90,7 @@ public class CastleOblivionHandler {
                             if (floor != null) {
                                 //if size is 1 only the lobby room exists
                                 if (floor.getGeneratedRooms().size() == 1) {
+                                    floor.setWorldCard((WorldCardItem) ModItems.plainsCard.get());
                                     RoomData data = floor.getRoom(new RoomUtils.RoomPos(0, 1));
                                     Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.TRANQUIL_DARKNESS.get(), event.player, currentRoom, RoomUtils.Direction.NORTH, false);
                                 }
@@ -104,14 +109,13 @@ public class CastleOblivionHandler {
     public void changeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getFrom().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")))) {
             if (event.getTo().location().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
+                SCSyncCastleOblivionInteriorCapability.syncClients(event.getPlayer().level);
                 ServerLevel level = event.getPlayer().level.getServer().getLevel(event.getTo());
                 CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
                 if (cap.getFloors().isEmpty()) {
                     Floor startFloor = new Floor();
                     Room lobby = new Room(startFloor.getFloorID());
                     Room.createDefaultLobby(lobby);
-                    startFloor.setWorldCardProps(7, 0);
-                    startFloor.generateLayout();
                     startFloor.getRoom(new RoomUtils.RoomPos(0, 0)).setGenerated(lobby);
                     startFloor.createLobby(lobby.position);
                     cap.addFloor(startFloor);

@@ -104,17 +104,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
-import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
@@ -242,6 +232,9 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), (ServerPlayer) player);
 
 				Utils.RefreshAbilityAttributes(player, playerData);
+				if (player.level.dimension().location().getPath().contains("castle_oblivion_interior")) {
+					SCSyncCastleOblivionInteriorCapability.syncClients(player.level);
+				}
 			}
 
 			PacketHandler.syncToAllAround(player, playerData);

@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -468,19 +470,21 @@ public class ClientEvents {
 
 	public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
 		Color colour = Color.BLACK;
-		//TODO needs sync cause client
-		/*CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
+		CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
 		if (cap != null) {
-			if (cap.getRoomAtPos(pos) != null) {
-				colour = cap.getRoomAtPos(pos).getType().getProperties().getColour();
+			if (!cap.getFloors().isEmpty()) {
+				Room room = cap.getRoomAtPos(pos);
+				if (room != null) {
+					if (room.getType().getProperties().getColour() != null) {
+						colour = room.getType().getProperties().getColour();
+					} else {
+						Floor floor = room.getParent(Minecraft.getInstance().level);
+						colour = floor.getType().floorColour;
+					}
+				}
 			}
 		}
-		*/
-		int r = Utils.randomWithRange(0, 255);
-		int g = Utils.randomWithRange(0, 255);
-		int b = Utils.randomWithRange(0, 255);
-		//temp colour
-		return new Color(r, g, b).getRGB();//new Color(135, 206, 235).getRGB();
+		return colour.getRGB();
 	}
 
 }

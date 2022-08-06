@@ -19,15 +19,15 @@ public class RoomStructure implements IForgeRegistryEntry<RoomStructure> {
     //categories compatible with
     List<RoomProperties.RoomCategory> categories;
 
-    //floor compatible with "all" for any floor
-    String floor;
+    //floor compatible with, null if any
+    FloorType floor;
 
     //structure x and z dimensions ignoring y
     Size2i physicalSize;
 
     ResourceLocation registryName;
 
-    public RoomStructure(String path, String floor, RoomProperties.RoomSize size, List<RoomProperties.RoomCategory> categories, Size2i physicalSize) {
+    public RoomStructure(String path, FloorType floor, RoomProperties.RoomSize size, List<RoomProperties.RoomCategory> categories, Size2i physicalSize) {
         this.path = path;
         this.size = size;
         this.categories = categories;

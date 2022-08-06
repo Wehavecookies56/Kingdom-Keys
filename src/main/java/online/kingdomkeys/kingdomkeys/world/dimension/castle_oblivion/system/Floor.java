@@ -17,7 +17,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
 
 
     BlockPos lobbyPosition;
-    WorldCardItem card;
+    FloorType type = ModFloorTypes.NONE.get();
     Map<UUID, RoomUtils.RoomPos> players;
     Map<RoomUtils.RoomPos, RoomData> rooms;
     UUID floorID;
@@ -26,6 +26,11 @@ public class Floor implements INBTSerializable<CompoundTag> {
         rooms = new HashMap<>();
         players = new HashMap<>();
         floorID = UUID.randomUUID();
+        RoomData lobby = new RoomData(new RoomUtils.RoomPos(0, 0));
+        lobby.setDoor(new DoorData(DoorData.Type.EXIT), RoomUtils.Direction.SOUTH);
+        lobby.setDoor(new DoorData(DoorData.Type.NORMAL), RoomUtils.Direction.NORTH);
+        lobby.setParent(this);
+        rooms.put(lobby.pos, lobby);
     }
 
     public void setFloorID(UUID id) {
@@ -41,7 +46,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
     }
 
     public boolean hasWorldCard() {
-        return card != null;
+        return type != ModFloorTypes.NONE.get();
     }
 
     public void floorEntered(Player player) {
@@ -57,28 +62,21 @@ public class Floor implements INBTSerializable<CompoundTag> {
     }
 
     public void setWorldCard(WorldCardItem card) {
-        this.card = card;
+        type = card.getFloorType();
+        generateLayout();
     }
 
-    //temp remove when world card items are made as it will crash otherwise
-    public void setWorldCardProps(int critPathLength, int bonusRooms) {
-        card = new WorldCardItem("");
-        card.critPathLength = critPathLength;
-        card.bonusRoomCount = bonusRooms;
+    public FloorType getType() {
+        return type;
     }
 
     public void generateLayout() {
-        RoomData lobby = new RoomData(new RoomUtils.RoomPos(0, 0));
-        lobby.setDoor(new DoorData(DoorData.Type.EXIT), RoomUtils.Direction.SOUTH);
-        lobby.setDoor(new DoorData(DoorData.Type.NORMAL), RoomUtils.Direction.NORTH);
-        lobby.setParent(this);
         RoomData entrance = new RoomData(new RoomUtils.RoomPos(0, 1));
         entrance.setDoor(new DoorData(DoorData.Type.NORMAL), RoomUtils.Direction.SOUTH);
         entrance.setParent(this);
         RoomData currentRoom = entrance;
-        rooms.put(lobby.pos, lobby);
         rooms.put(entrance.pos, entrance);
-        for (int i = 0; i < card.critPathLength; i++) {
+        for (int i = 0; i < type.critPathLength; i++) {
             Map<RoomData, RoomUtils.Direction> adjRooms = getAdjacentRooms(currentRoom);
             List<RoomUtils.Direction> directions = new ArrayList<>(List.of(RoomUtils.Direction.values()));
             //prevent rooms going further south
@@ -106,7 +104,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
                 currentRoom.setDoor(new DoorData(DoorData.Type.NORMAL), nextDir);
                 //create next room in direction with door at opposite direction
                 currentRoom = RoomData.inDirection(currentRoom, nextDir);
-                if (i == card.critPathLength - 1) {
+                if (i == type.critPathLength - 1) {
                     //final room needs extra door
                     currentRoom.setDoor(new DoorData(DoorData.Type.EXIT), nextDir);
                 }
@@ -115,7 +113,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
             rooms.put(currentRoom.pos, currentRoom);
         }
         //todo bonus rooms
-        for (int i = 0; i < card.bonusRoomCount; i++) {
+        for (int i = 0; i < type.bonusRoomCount; i++) {
 
         }
     }
@@ -164,7 +162,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
         CompoundTag tag = new CompoundTag();
         tag.putUUID("id", floorID);
         tag.put("lobby_pos", NbtUtils.writeBlockPos(lobbyPosition));
-        //todo world card item
+        tag.putString("floor_type", type.getRegistryName().toString());
         tag.putInt("players_size", players.size());
         CompoundTag playersTag = new CompoundTag();
         for (int i = 0; i < players.size(); i++) {
@@ -188,6 +186,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
     public void deserializeNBT(CompoundTag tag) {
         floorID = tag.getUUID("id");
         lobbyPosition = NbtUtils.readBlockPos(tag.getCompound("lobby_pos"));
+        type = ModFloorTypes.registry.get().getValue(new ResourceLocation(tag.getString("floor_type")));
         players.clear();
         int playerssize = tag.getInt("players_size");
         CompoundTag playersTag = tag.getCompound("players");
@@ -196,7 +195,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
         int roomssize = tag.getInt("rooms_size");
         CompoundTag roomsTag = tag.getCompound("rooms");
         for (int i = 0; i < roomssize; i++) {
-            RoomData data = RoomData.deserialize(roomsTag);
+            RoomData data = RoomData.deserialize(roomsTag.getCompound("rooms_roomdata_" + i));
             rooms.put(data.pos, data);
         }
     }

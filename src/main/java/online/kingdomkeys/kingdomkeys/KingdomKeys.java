@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.KKAnimations;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
@@ -137,6 +138,7 @@ public class KingdomKeys {
 		ModShotlocks.SHOTLOCKS.register(modEventBus);
 		ModReactionCommands.REACTION_COMMANDS.register(modEventBus);
 		ModMaterials.MATERIALS.register(modEventBus);
+		ModFloorTypes.FLOOR_TYPES.register(modEventBus);
 		ModRoomTypes.ROOM_TYPES.register(modEventBus);
 		ModRoomStructures.ROOM_STRUCTURES.register(modEventBus);
 		ModBlocks.BLOCKS.register(modEventBus);
@@ -158,9 +160,7 @@ public class KingdomKeys {
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
 			@Override
 			public void run() {
-				if (ModList.get().isLoaded("epicfight")) {
-					modEventBus.addListener(ClientEvents::colourTint);
-				}
+				modEventBus.addListener(ClientEvents::colourTint);
 			}
 		});
 		if (ModList.get().isLoaded("epicfight")) {
@@ -182,10 +182,6 @@ public class KingdomKeys {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		ModFeatures.registerConfiguredFeatures();
-
-		// Run setup on proxies
-		//ModBiomes.init();
-		//ModDimensions.init();
 		event.enqueueWork(PacketHandler::register);
 		event.enqueueWork(ModEntities::registerPlacements);
 		event.enqueueWork(ModDimensions::setupDimension);

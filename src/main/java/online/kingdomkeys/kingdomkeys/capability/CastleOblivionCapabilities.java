@@ -79,7 +79,7 @@ public class CastleOblivionCapabilities {
 
         @Override
         public Floor getFloorByID(UUID id) {
-            List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID() == id).toList();
+            List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID().equals(id)).toList();
             return f.size() > 0 ? f.get(0) : null;
         }
 

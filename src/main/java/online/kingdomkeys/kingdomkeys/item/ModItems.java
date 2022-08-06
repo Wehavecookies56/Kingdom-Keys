@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.item.card.MinglingWorldsMapCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.item.organization.AxeSwordItem;
 import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
@@ -28,6 +29,8 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
 
@@ -819,6 +822,7 @@ public class ModItems {
 			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
 			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25))),
 
+			//map cards
 			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),
 			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS),
 			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS),
@@ -839,7 +843,10 @@ public class ModItems {
 			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY),
 			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY),
 			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE),
-			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new);
+			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
+
+			//floor cards
+			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS);
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 
@@ -864,6 +871,10 @@ public class ModItems {
 
 	private static RegistryObject<Item> createMapCard(String name, Supplier<RoomType> type) {
 		return ITEMS.register(name, () -> new MapCardItem(type));
+	}
+
+	private static RegistryObject<Item> createWorldCard(String name, Supplier<FloorType> type) {
+		return ITEMS.register(name, () -> new WorldCardItem(type));
 	}
 
 }

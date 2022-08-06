@@ -16,7 +16,7 @@ public class RoomProperties {
     private Size2i dimensions;
     private Color colour;
     private List<RoomModifier> modifiers;
-    private List<String> compatibleFloors;
+    private List<FloorType> compatibleFloors;
     private RoomStructure fixedRoom;
     private RoomProperties(Builder builder) {
         this.lobby = builder.lobby;
@@ -62,7 +62,7 @@ public class RoomProperties {
         return fixedRoom;
     }
 
-    public boolean isFloorCompatible(String floor) {
+    public boolean isFloorCompatible(FloorType floor) {
         if (compatibleFloors.isEmpty()) {
             return true;
         } else {
@@ -100,7 +100,7 @@ public class RoomProperties {
         private final Size2i dimensions;
         private boolean lobby;
         private final List<RoomModifier> modifiers;
-        private final List<String> compatibleFloors;
+        private final List<FloorType> compatibleFloors;
         private Color colour = null;
         private RoomEnemies enemies = RoomEnemies.NONE;
         private RoomStructure fixedRoom;
@@ -130,12 +130,12 @@ public class RoomProperties {
             return this;
         }
 
-        public Builder floor(String floor) {
+        public Builder floor(FloorType floor) {
             this.compatibleFloors.add(floor);
             return this;
         }
 
-        public Builder floors(List<String> floors) {
+        public Builder floors(List<FloorType> floors) {
             this.compatibleFloors.addAll(floors);
             return this;
         }

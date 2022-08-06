@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 
@@ -48,7 +49,8 @@ public class RoomGenerator {
                 throw new IOException(String.format("No compatible room structure files found for %s", type.registryName));
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
-            Resource resource = level.getServer().getResourceManager().getResource(new ResourceLocation(KingdomKeys.MODID, "structures/castle_oblivion/rooms/" + structureToGenerate.floor + "/" + structureToGenerate.path + ".nbt"));
+            String floorFolder = structureToGenerate.floor == null ? "all" : structureToGenerate.floor.name;
+            Resource resource = level.getServer().getResourceManager().getResource(new ResourceLocation(KingdomKeys.MODID, "structures/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.path + ".nbt"));
             CompoundTag main = NbtIo.readCompressed(resource.getInputStream());
 
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);
@@ -110,6 +112,7 @@ public class RoomGenerator {
                 }
             }
             data.setGenerated(room);
+            SCSyncCastleOblivionInteriorCapability.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", type.registryName.toString(), pos);
             return room;
         } catch (IOException e){

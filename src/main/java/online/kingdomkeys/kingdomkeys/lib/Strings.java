@@ -1192,4 +1192,8 @@ public class Strings {
 			TreacherousRepository = "treacherous_repository",
 			ReposefulGrove = "reposeful_grove",
 			WeightlessSpace = "weightless_space";
+
+	//World Cards
+	public static String
+			PlainsCard = "plains_card";
 }

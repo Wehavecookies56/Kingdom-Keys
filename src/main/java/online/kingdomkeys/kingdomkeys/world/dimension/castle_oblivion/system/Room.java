@@ -26,7 +26,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     public BlockPos position;
     int mobsRemaining;
     public Map<RoomUtils.Direction, BlockPos> doorPositions;
-    UUID parentFloor;
+    public UUID parentFloor;
 
     //If the structure has been generated in the world
     boolean generated;

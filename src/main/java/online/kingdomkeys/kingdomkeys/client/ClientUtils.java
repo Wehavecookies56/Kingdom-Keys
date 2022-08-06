@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 
 import javax.annotation.Nullable;
 
+import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.JsonParseException;
@@ -55,17 +57,6 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -244,6 +235,17 @@ public class ClientUtils {
                 Level world = Minecraft.getInstance().level;
                 IWorldCapabilities worldData = ModCapabilities.getWorld(world);
                 worldData.read(message.data);
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable syncCastleOblivionInterior(SCSyncCastleOblivionInteriorCapability message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Level world = Minecraft.getInstance().level;
+                CastleOblivionCapabilities.ICastleOblivionInteriorCapability worldData = ModCapabilities.getCastleOblivionInterior(world);
+                worldData.deserializeNBT(message.data);
             }
         };
     }

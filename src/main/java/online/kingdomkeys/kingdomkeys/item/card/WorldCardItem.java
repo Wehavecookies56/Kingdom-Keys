@@ -2,21 +2,20 @@ package online.kingdomkeys.kingdomkeys.item.card;
 
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.FloorType;
 
-public class WorldCardItem /* extends Item */ {
+import java.util.function.Supplier;
 
-    private final String floorType;
-    public int critPathLength;
-    public int bonusRoomCount;
-    public int branchCount;
-    public int bonusRoomChance;
+public class WorldCardItem extends Item {
 
-    public WorldCardItem(String floorType) {
-        //super(new Properties().tab(KingdomKeys.miscGroup));
+    private final Supplier<FloorType> floorType;
+
+    public WorldCardItem(Supplier<FloorType> floorType) {
+        super(new Properties().tab(KingdomKeys.miscGroup));
         this.floorType = floorType;
     }
 
-    public String getFloorType() {
-        return floorType;
+    public FloorType getFloorType() {
+        return floorType.get();
     }
 }
