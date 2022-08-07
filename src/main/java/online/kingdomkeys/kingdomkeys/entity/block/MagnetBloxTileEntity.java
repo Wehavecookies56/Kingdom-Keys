@@ -93,20 +93,9 @@ public class MagnetBloxTileEntity extends BlockEntity {
 				if (!entities.isEmpty()) {
 					double strength = 0.75;
 					for (Entity e : entities) {
-						Vec3 ePos = e.position();
-						Vec3 blockPos;
-						if (e instanceof LivingEntity) {
-							blockPos = new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-						} else {
-							blockPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-						}
-
 						Vec3 pushDir = TE.toVector3f(facing);
-						if (attract) {
-							e.setDeltaMovement(pushDir.normalize().multiply(-strength, -strength, -strength));
-						} else {
-							e.setDeltaMovement(pushDir.normalize().multiply(strength, strength, strength));
-						}
+						strength = attract ? -strength : strength;
+						e.setDeltaMovement(pushDir.normalize().multiply(strength, strength, strength));
 					}
 				}
 			}
