@@ -18,3 +18,9 @@ A mod inspired by Kingdom Hearts adding various elements from the games.
     versionRange="[9.7,)"
     ordering="BEFORE"
     side="BOTH"
+[[dependencies.kingdomkeys]]
+    modId="epicfight"
+    mandatory=false
+    versionRange="[18.2,)"
+    ordering="AFTER"
+    side="BOTH"
