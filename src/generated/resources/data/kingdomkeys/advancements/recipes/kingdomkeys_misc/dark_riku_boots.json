@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:dark_riku_boots"
+    ]
+  },
+  "criteria": {
+    "phantom_membrane": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:phantom_membrane"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "kingdomkeys:dark_riku_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "phantom_membrane",
+      "has_the_recipe"
+    ]
+  ]
+}

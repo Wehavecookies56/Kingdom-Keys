@@ -644,7 +644,6 @@ public class Recipes extends RecipeProvider {
 		        .define('B', Tags.Items.DYES_BLACK)
 		        .define('P', Items.PHANTOM_MEMBRANE)
 		        .define('C', Blocks.CRYING_OBSIDIAN)
-		        .define('D', Tags.Items.DYES_BLUE)
 		        .group("kingdomkeys")
 		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
 		        .save(consumer);
@@ -652,10 +651,8 @@ public class Recipes extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(ModItems.dark_Riku_Boots.get())
 				.pattern("P P")
 		        .pattern("C C")
-		        .define('B', Tags.Items.DYES_BLACK)
 		        .define('P', Items.PHANTOM_MEMBRANE)
 		        .define('C', Blocks.CRYING_OBSIDIAN)
-		        .define('D', Tags.Items.DYES_BLUE)
 		        .group("kingdomkeys")
 		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
 		        .save(consumer);
