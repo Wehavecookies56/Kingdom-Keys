@@ -15,6 +15,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -66,12 +68,12 @@ public class GuiOverlay extends OverlayBase {
 
 			// Level Up
 			if (showLevelUp) {
-				showLevelUp(poseStack);
+				showLevelUp(poseStack, partialTick);
 			}
 
 			// Drive form level up
 			if (showDriveLevelUp) {
-				showDriveLevelUp(poseStack);
+				showDriveLevelUp(poseStack, partialTick);
 			}
 
 			/*if(teleport != null) {
@@ -119,9 +121,15 @@ public class GuiOverlay extends OverlayBase {
 			showMunny = false;
 	}
 
-	private void showLevelUp(PoseStack matrixStack) {
+	private void showLevelUp(PoseStack matrixStack, float partialTick) {
 		matrixStack.pushPose();
 		{
+			float notifXPos = prevNotifTicks + (notifTicks - prevNotifTicks) * partialTick;
+			if(notifXPos <= -155)
+				notifXPos = -155;
+			
+			matrixStack.translate(notifXPos + 155, 4, 0);
+
 			int height = (int)(minecraft.font.lineHeight * 1.2f) * (playerData.getMessages().size());
 			RenderSystem.enableBlend();
 			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
@@ -207,7 +215,7 @@ public class GuiOverlay extends OverlayBase {
 			showLevelUp = false;
 	}
 
-	private void showDriveLevelUp(PoseStack matrixStack) {
+	private void showDriveLevelUp(PoseStack matrixStack, float partialTick) {
 		if(playerData == null || driveForm == null)
 			return;
 
@@ -216,6 +224,11 @@ public class GuiOverlay extends OverlayBase {
 
 		matrixStack.pushPose();
 		{
+			float driveNotifXPos = prevDriveNotifTicks + (driveNotifTicks - prevDriveNotifTicks) * partialTick;
+			if(driveNotifXPos > 155)
+				driveNotifXPos = 155;
+			
+			matrixStack.translate(driveNotifXPos - 155, 4, 0);
 			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * (playerData.getMessages().size());
 			int heightDF = (int) (minecraft.font.lineHeight * 1.1F) * playerData.getDFMessages().size();
 			RenderSystem.enableBlend();
@@ -383,5 +396,38 @@ public class GuiOverlay extends OverlayBase {
 			drawString(matrixStack, minecraft.font, text, 0, 0, color);
 		}
 		matrixStack.popPose();
+	}
+	
+	public static float notifTicks = 0;
+	public static float prevNotifTicks = 0;
+	
+	public static float driveNotifTicks = 0;
+	public static float prevDriveNotifTicks = 0;
+	
+	@SubscribeEvent
+	public void ClientTick(TickEvent.ClientTickEvent event) {
+		if(event.phase != Phase.END || Minecraft.getInstance().isPaused()) {
+			return;
+		}
+		
+		if(showLevelUp) {
+			prevNotifTicks = notifTicks;
+			notifTicks -= 50;
+		} else {
+			if (notifTicks <= -150) {
+				prevNotifTicks = 0;
+				notifTicks = 0;
+			}
+		}
+		
+		if(showDriveLevelUp) {
+			prevDriveNotifTicks = driveNotifTicks;
+			driveNotifTicks += 50;
+		} else {
+			if (driveNotifTicks > 150) {
+				prevDriveNotifTicks = 0;
+				driveNotifTicks = 0;
+			}
+		}
 	}
 }

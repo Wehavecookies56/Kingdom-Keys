@@ -62,6 +62,10 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 
 	@Override
 	public void tick() {
+		if(getCaster() == null) {
+			this.remove(RemovalReason.KILLED);
+			return;
+		}
 		getCaster().startAutoSpinAttack(10);
 
 		if(tickCount % 8 == 1) {

@@ -742,7 +742,7 @@ public class Utils {
 		return abilities;
 	}
 
-	public static void restartLevel(IPlayerCapabilities playerData, Player player) {
+	public static void restartLevel(IPlayerCapabilities playerData, Player player) { //sets player level to base
 		playerData.setLevel(1);
 		playerData.setExperience(0);
 		playerData.setMaxHP(20);
@@ -764,7 +764,7 @@ public class Utils {
         playerData.addAbility(Strings.zeroExp, false);
 	}
 	
-	public static void restartLevel2(IPlayerCapabilities playerData, Player player) {
+	public static void restartLevel2(IPlayerCapabilities playerData, Player player) { //calculates drive forms
 		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
 		while(it.hasNext()) {

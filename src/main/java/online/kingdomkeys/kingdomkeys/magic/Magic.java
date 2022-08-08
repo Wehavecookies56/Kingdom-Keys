@@ -131,7 +131,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 			prob += casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
 		}
 		prob += (casterData.getMagicUses(name)-1)*5;
-		System.out.println(prob);
+		//System.out.println(prob);
 		double num = Math.random()*100;
 		return num <= prob;
 	}

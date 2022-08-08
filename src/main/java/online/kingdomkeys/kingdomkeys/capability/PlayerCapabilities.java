@@ -646,9 +646,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 
 		player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
-		// TODO Actually add abilities and then syncing
-		//addAbility(bfAbility);
-		// PacketDispatcher.sendTo(new SyncDriveData(player.getCapability(ModCapabilities.DRIVE_STATE, null)), (EntityPlayerMP) player);
 
 		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayer) player);
 	}

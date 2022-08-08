@@ -38,7 +38,8 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SynthesisForgeScreen extends MenuFilterable {
-
+ 
+	int ticks=0;
 	// MenuFilterBar filterBar;
 	MenuScrollBar scrollBar;
 	MenuBox boxL, boxM, boxR;
@@ -101,7 +102,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			}
 			
 			if(hasMaterials) { //If the player has the materials substract them and give the item
-			Iterator<Entry<Material, Integer>> ite = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
+				Iterator<Entry<Material, Integer>> ite = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
 				while(ite.hasNext()) {
 					Entry<Material, Integer> m = ite.next();
 					playerData.removeMaterial(m.getKey(), m.getValue());
@@ -118,7 +119,14 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	}
 	
 	@Override
-	public void init() {
+	public void tick() {
+		super.tick();
+		ticks++;
+	}
+	
+	@Override
+	public void init() {	
+		ticks = 0;
 		float boxPosX = (float) width * 0.1437F;
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
@@ -218,10 +226,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 							enoughMats = false;
 						}
 					}
+					
 				}
 			}
 			
-			upgrade.active = enoughMats;
+			upgrade.active = enoughMats && ticks > 10;
 			upgrade.visible = recipe != null;
 		} else {
 			upgrade.visible = false;

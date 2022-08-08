@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -10,6 +11,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.CandleCakeBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -109,6 +115,14 @@ public class BlizzardEntity extends ThrowableProjectile {
 						}
 					}
 				}
+			}
+			
+			if (brtResult != null) {
+				BlockPos blockpos = brtResult.getBlockPos();
+				BlockState blockstate = level.getBlockState(blockpos);
+				if(blockstate.hasProperty(BlockStateProperties.LIT))
+					level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+
 			}
 			remove(RemovalReason.KILLED);
 		}
