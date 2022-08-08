@@ -633,6 +633,10 @@ public class ModItems {
 			nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.LEGS, Strings.nightmareVentus),
 			nightmareVentus_Boots = createArmorItem(Strings.nightmareVentus+"_"+Strings.boots, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.FEET, Strings.nightmareVentus),
 			
+			dark_Riku_Chestplate = createArmorItem(Strings.darkRiku+"_"+Strings.chestplate, KKArmorMaterial.DARKRIKU, EquipmentSlot.CHEST, Strings.darkRiku),
+			dark_Riku_Leggings = createArmorItem(Strings.darkRiku+"_"+Strings.leggings, KKArmorMaterial.DARKRIKU, EquipmentSlot.LEGS, Strings.darkRiku),
+			dark_Riku_Boots = createArmorItem(Strings.darkRiku+"_"+Strings.boots, KKArmorMaterial.DARKRIKU, EquipmentSlot.FEET, Strings.darkRiku),
+			
 			aced_Helmet = createArmorItem(Strings.aced+"_"+Strings.helmet, KKArmorMaterial.ACED, EquipmentSlot.HEAD, Strings.aced),
 			aced_Chestplate = createArmorItem(Strings.aced+"_"+Strings.chestplate, KKArmorMaterial.ACED, EquipmentSlot.CHEST, Strings.aced),
 			aced_Leggings = createArmorItem(Strings.aced+"_"+Strings.leggings, KKArmorMaterial.ACED, EquipmentSlot.LEGS, Strings.aced),

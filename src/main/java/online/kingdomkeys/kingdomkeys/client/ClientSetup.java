@@ -121,6 +121,11 @@ public class ClientSetup {
 		armorModels.put(ModItems.vanitas_Remnant_Chestplate.get(), top);
 		armorModels.put(ModItems.vanitas_Remnant_Leggings.get(), bot);
 		armorModels.put(ModItems.vanitas_Remnant_Boots.get(), top);
+		
+		armorModels.put(ModItems.dark_Riku_Chestplate.get(), top);
+		armorModels.put(ModItems.dark_Riku_Leggings.get(), bot);
+		armorModels.put(ModItems.dark_Riku_Boots.get(), top);
+
 
 		armorModels.put(ModItems.antiCoat_Helmet.get(), top);
 		armorModels.put(ModItems.antiCoat_Chestplate.get(), top);

@@ -532,7 +532,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("LDL")
                 .pattern("DAD")
                 .pattern("O O")
-                .define('L', Items.LAVA_BUCKET)
+                .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
                 .define('A', Items.DIAMOND_LEGGINGS)
                 .define('D', Items.DRAGON_BREATH)
                 .define('O', Tags.Items.OBSIDIAN)
@@ -624,7 +624,43 @@ public class Recipes extends RecipeProvider {
 		        .group("kingdomkeys")
 		        .unlockedBy("vanitas_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Boots.get()))
 		        .save(consumer);
-        
+        		
+		ShapedRecipeBuilder.shaped(ModItems.dark_Riku_Chestplate.get())
+		        .pattern("P P")
+		        .pattern("BCB")
+		        .pattern("PDP")
+		        .define('B', Tags.Items.DYES_BLACK)
+		        .define('P', Items.PHANTOM_MEMBRANE)
+		        .define('C', Blocks.CRYING_OBSIDIAN)
+		        .define('D', Tags.Items.DYES_BLUE)
+		        .group("kingdomkeys")
+		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
+		        .save(consumer);
+		
+		ShapedRecipeBuilder.shaped(ModItems.dark_Riku_Leggings.get())
+				.pattern("PBP")
+		        .pattern("P P")
+		        .pattern("C C")
+		        .define('B', Tags.Items.DYES_BLACK)
+		        .define('P', Items.PHANTOM_MEMBRANE)
+		        .define('C', Blocks.CRYING_OBSIDIAN)
+		        .define('D', Tags.Items.DYES_BLUE)
+		        .group("kingdomkeys")
+		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
+		        .save(consumer);
+		
+		ShapedRecipeBuilder.shaped(ModItems.dark_Riku_Boots.get())
+				.pattern("P P")
+		        .pattern("C C")
+		        .define('B', Tags.Items.DYES_BLACK)
+		        .define('P', Items.PHANTOM_MEMBRANE)
+		        .define('C', Blocks.CRYING_OBSIDIAN)
+		        .define('D', Tags.Items.DYES_BLUE)
+		        .group("kingdomkeys")
+		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
+		        .save(consumer);
+
+		
         ShapedRecipeBuilder.shaped(ModItems.aced_Helmet.get())
                 .pattern("LBL")
                 .pattern("EAE")

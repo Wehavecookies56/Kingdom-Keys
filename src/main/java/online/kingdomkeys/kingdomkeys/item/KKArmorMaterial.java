@@ -43,6 +43,9 @@ public enum KKArmorMaterial implements ArmorMaterial {
 	VANITASREMNANT(KingdomKeys.MODID + ":vanitas_remnant", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
+	DARKRIKU(KingdomKeys.MODID + ":dark_riku", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
+	}),
 	ACED(KingdomKeys.MODID + ":aced", 5, new int[] { 2, 5, 7, 3 }, 420, SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),

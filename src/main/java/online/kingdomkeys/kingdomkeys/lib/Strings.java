@@ -282,6 +282,7 @@ public class Strings {
             eraqus = "eraqus",
             vanitas = "vanitas",
             vanitasRemnant = "vanitas_remnant",
+            darkRiku = "dark_riku",
             aced = "aced",
             ava = "ava",
             gula = "gula",
