@@ -1120,18 +1120,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add("disc.duration.desc", "Duration");
         add("disc.durationunits.desc", "(mins:secs)");
         addMusicDisc(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future, "Yoko Shimomura & Kaoru Wada - Birth by Sleep -A Link to the Future-");
-        addMusicDisc(ModItems.disc_Darkness_of_the_Unknown, "Yoko Shimomura - Darkness of the Unknown");
-        addMusicDisc(ModItems.disc_Dearly_Beloved_Symphony_Version, "Yoko Shimomura, Jonne Valtonen & Roger Wanamo - Dearly Beloved -Symphony Version-");
         addMusicDisc(ModItems.disc_Dream_Drop_Distance_The_Next_Awakening, "Yoko Shimomura & Kaoru Wada - Dream Drop Distance -The Next Awakening-");
         addMusicDisc(ModItems.disc_Hikari_KINGDOM_Instrumental_Version, "Yoko Shimomura & Kaoru Wada - Hikari -KINGDOM Instrumental Version-");
         addMusicDisc(ModItems.disc_L_Oscurita_Dell_Ignoto, "Yoko Shimomura - L'Oscurita Dell'Ignoto");
         addMusicDisc(ModItems.disc_Musique_pour_la_tristesse_de_Xion, "Yoko Shimomura - Musique pour la tristesse de Xion");
         addMusicDisc(ModItems.disc_No_More_Bugs_Bug_Version, "Yoko Shimomura & Hirosato Noda - No More Bugs!! -Bug Version-");
         addMusicDisc(ModItems.disc_Organization_XIII, "Yoko Shimomura - Organization XIII");
-        addMusicDisc(ModItems.disc_Sanctuary, "Hikaru Utada - Sanctuary");
-        addMusicDisc(ModItems.disc_Simple_And_Clean_PLANITb_Remix, "Hikaru Utada - Simple And Clean -PLANITb Remix-");
-        addMusicDisc(ModItems.disc_Sinister_Sundown, "Yoko Shimomura - Sinister Sundown");
-        addMusicDisc(ModItems.disc_The_13th_Anthology, "Yoko Shimomura - The 13th Anthology");
+        addMusicDisc(ModItems.disc_Dearly_Beloved_UX, "Yoko Shimomura - Dearly Beloved -Union \\u03c7 Credits Version-");
+        addMusicDisc(ModItems.disc_Passion_Instrumental, "Yoko Shimomura - Passion -Kingdom Orchestra Instrumental Version-");
+        addMusicDisc(ModItems.disc_Rage_Awakened, "Yoko Shimomura - Rage Awakened");
+        addMusicDisc(ModItems.disc_The_Other_Promise, "Yoko Shimomura - The Other Promise");
+        addMusicDisc(ModItems.disc_13th_Struggle_Luxord, "Yuko Komiyama - 13th Struggle -Luxord-");
+        addMusicDisc(ModItems.disc_13th_Dilemma_Saix, "Yuki Kishida - 13th Dilemma -Saix-");
+        addMusicDisc(ModItems.disc_13th_Reflection, "Yoko Shimomura - 13th Reflection");
+        addMusicDisc(ModItems.disc_Another_Side_Battle_Ver, "Yoko Shimomura - Another Side -Battle Ver-");
+        addMusicDisc(ModItems.disc_Cavern_Of_Remembrance_Days, "Yoko Shimomura - Cavern of Remembrance -Days Version-");
+        addMusicDisc(ModItems.disc_Forgotten_Challenge_Recoded, "Yoko Shimomura - Forgotten Challenge -Re:Coded Version-");
+        addMusicDisc(ModItems.disc_Anger_Unchained, "Takeharu Ishimoto - Anger Unchained");
+        addMusicDisc(ModItems.disc_Hunter_Of_The_Dark, "Yoko Shimomura - Hunter of the Dark");
+        addMusicDisc(ModItems.disc_Destati, "Yoko Shimomura - Destati");        
 
         //Command Menu Items
         addItem(ModItems.potion, "Potion");

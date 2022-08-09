@@ -545,18 +545,25 @@ public class Strings {
     // Music Discs
     public static final String
 	    Disc_Birth_by_Sleep_A_Link_to_the_Future = "disc_0",
-	    Disc_Darkness_of_the_Unknown = "disc_1",
-	    Disc_Dearly_Beloved_Symphony_Version = "disc_2",
+	    Disc_Dearly_Beloved_UX = "disc_1",
+	    Disc_Passion_Instrumental = "disc_2",
 	    Disc_Dream_Drop_Distance_The_Next_Awakening = "disc_3",
 	    Disc_Hikari_KINGDOM_Instrumental_Version = "disc_4",
 	    Disc_L_Oscurita_Dell_Ignoto = "disc_5",
 	    Disc_Musique_pour_la_tristesse_de_Xion = "disc_6",
 	    Disc_No_More_Bugs_Bug_Version = "disc_7",
 	    Disc_Organization_XIII = "disc_8",
-	    Disc_Sanctuary = "disc_9",
-	    Disc_Simple_And_Clean_PLANITb_Remix = "disc_10",
-	    Disc_Sinister_Sundown = "disc_11",
-	    Disc_The_13th_Anthology = "disc_12"
+	    Disc_Rage_Awakened = "disc_9",
+	    Disc_The_Other_Promise = "disc_10",
+	    Disc_13th_Struggle_Luxord = "disc_11",
+	    Disc_13th_Dilemma_Saix = "disc_12",
+	    Disc_13th_Reflection = "disc_13",
+		Disc_Another_Side_Battle_Ver = "disc_14",
+		Disc_Cavern_Of_Remembrance_Days = "disc_15",
+		Disc_Forgotten_Challenge_Recoded = "disc_16",
+		Disc_Anger_Unchained = "disc_17",
+		Disc_Hunter_Of_The_Dark = "disc_18",
+		Disc_Destati = "disc_19"		
     ;
 
     //Keyblades
