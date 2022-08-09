@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -211,7 +212,11 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
     
-    public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
+   // public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
+    public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = ENTITIES.register("entity_chakram",
+    		() -> EntityType.Builder.<ChakramEntity>of((e,w)->new ChakramEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
+                    .build("entity_chakram"));
+
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
     
     public static final RegistryObject<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
@@ -407,7 +412,9 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
 
-        event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
+        //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
+        EntityRenderers.register(ModEntities.TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_LANCE.get(), LanceEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);

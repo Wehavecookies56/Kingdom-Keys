@@ -5,26 +5,27 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.EmptyModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 
 @OnlyIn(Dist.CLIENT)
 public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
+    public final ItemRenderer itemRenderer;
 
 	Random rand = new Random();
 	float rotation = 0;
@@ -32,67 +33,42 @@ public class ChakramEntityRenderer extends EntityRenderer<ChakramEntity> {
 	public ChakramEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 		this.shadowRadius = 0.25F;
+		this.itemRenderer = context.getItemRenderer();
+        this.shadowStrength = 0.5F;
 	}
 
 	@Override
-	public void render(ChakramEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
-		matrixStackIn.pushPose();
-		{
-			String name = entity.getModel();
-			
-			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-			BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "item/"+name));
-
-			float scale = 0.03F; // (1.0f + poweringState) + (0.6f + poweringState) * progress0;
-
-			matrixStackIn.pushPose();
-			{
-				matrixStackIn.scale(scale, scale, scale);
-				matrixStackIn.translate(0, 10, 0);
-
-				float a = 1;// MathHelper.clamp(1 - progress1, 0, 1);
-				float rgb = 1;// MathHelper.clamp(progress1, 0, 1);
-				
-				if(entity.getRotationPoint() == 0) {
-					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
-					matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90));
-					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
-					matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotation));
-				}
-				
-				if(entity.getRotationPoint() == 1) {
-					
-				}
-				
-				if(entity.getRotationPoint() == 2) {
-					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
-					matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(90));
-					matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
-					matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(rotation));
-				}
-
-				
-				rotation+=20;
-
-				if(entity.tickCount > 1) {
-					for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
-						buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
-					}
-				}
-
-				matrixStackIn.popPose();
-			}
-
+	public void render(ChakramEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
+		poseStack.pushPose();
+        ItemStack itemstack = entityIn.getItem();
+        BakedModel model = this.itemRenderer.getModel(itemstack, entityIn.level, null, 1);
+        poseStack.translate(0, 0.4, 0);
+        poseStack.scale(0.05f, 0.05f, 0.05f);        
+        
+        if(entityIn.getRotationPoint() == 0) {
+        	poseStack.mulPose(Vector3f.ZP.rotationDegrees(90F));
+            poseStack.mulPose(Vector3f.XN.rotation((entityIn.tickCount + partialTicks) * 0.9f));
 		}
-		matrixStackIn.popPose();
-		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+		
+		if(entityIn.getRotationPoint() == 1) {
+			
+		}
+		
+		if(entityIn.getRotationPoint() == 2) {
+        	poseStack.mulPose(Vector3f.XP.rotationDegrees(90F));
+            poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 0.9f));
+		}
+        
+        itemRenderer.render(itemstack, itemstack.getItem() instanceof ChakramItem ? ItemTransforms.TransformType.NONE : ItemTransforms.TransformType.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);
+    
+        poseStack.popPose();
+    
+        super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
 	}
 
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ChakramEntity entity) {
-		String name = entity.getModel().substring(entity.getModel().indexOf(KingdomKeys.MODID+".")+ KingdomKeys.MODID.length()+1);
-		
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/"+name+".png");
+        return TextureAtlas.LOCATION_BLOCKS;
 	}
 }

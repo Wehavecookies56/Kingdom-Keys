@@ -16,6 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -44,6 +46,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -89,6 +92,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
@@ -1238,6 +1242,40 @@ public class EntityEvents {
 					// PacketHandler.sendToAllPlayers(new PacketAddWorldSounds(player));
 				}
 			}*/
+		}
+	}
+
+	@SubscribeEvent
+	public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+		if (event.getEntityLiving() instanceof Player player) {
+			ItemStack stack = event.getItemStack();
+			Level level = player.level;
+			int slot = event.getHand() == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
+			if (!level.isClientSide && stack != null) {
+				player.setItemInHand(event.getHand(), ItemStack.EMPTY);
+				ChakramEntity entity = new ChakramEntity(level);
+				
+				switch (stack.getItem().getRegistryName().getPath()) {
+				case Strings.eternalFlames:
+				case Strings.prometheus:
+				case Strings.volcanics:
+					entity.setRotationPoint(0);
+					break;
+				default:
+					entity.setRotationPoint(2);
+				}
+				
+				entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
+				entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
+
+				entity.getEntityData().set(ChakramEntity.ITEMSTACK, stack);
+
+				entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 0F);
+				level.addFreshEntity(entity);
+			}
+			player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+			player.swing(slot == 40 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+
 		}
 	}
 
