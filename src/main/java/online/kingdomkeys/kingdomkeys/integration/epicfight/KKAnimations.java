@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
@@ -12,6 +11,10 @@ import yesman.epicfight.gameasset.Models;
 
 public class KKAnimations {
     public static StaticAnimation CHAKRAM_AUTO_1;
+    public static StaticAnimation ROXAS_AUTO_1;
+    private KKAnimations(){
+
+    }
 
     public static void register(AnimationRegistryEvent event) {
         event.getRegistryMap().put(KingdomKeys.MODID, KKAnimations::build);
@@ -20,5 +23,9 @@ public class KKAnimations {
     private static void build() {
         Models<?> models = FMLEnvironment.dist == Dist.CLIENT ? ClientModels.LOGICAL_CLIENT : Models.LOGICAL_SERVER;
         CHAKRAM_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/chakram_auto_1",  models.biped);
+        ROXAS_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/roxas_auto_1",  models.biped);
+
+
+
     }
 }
