@@ -21,7 +21,7 @@ public class KKRecordItem extends RecordItem implements IItemCategory {
 	float length;
 	
 	protected KKRecordItem(int comparatorValueIn, Supplier<SoundEvent> soundIn, Properties builder, float length) {
-		super(comparatorValueIn, soundIn, builder);
+		super(comparatorValueIn, soundIn, builder.stacksTo(1));
 		this.length = length;
 	}
 	
