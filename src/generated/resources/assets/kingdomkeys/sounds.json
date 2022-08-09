@@ -227,22 +227,6 @@
       }
     ]
   },
-  "records/darkness_of_the_unknown": {
-    "sounds": [
-      {
-        "name": "kingdomkeys:records/darkness_of_the_unknown",
-        "stream": true
-      }
-    ]
-  },
-  "records/dearly_beloved_symphony_version": {
-    "sounds": [
-      {
-        "name": "kingdomkeys:records/dearly_beloved_symphony_version",
-        "stream": true
-      }
-    ]
-  },
   "records/dream_drop_distance_the_next_awakening": {
     "sounds": [
       {
@@ -291,34 +275,106 @@
       }
     ]
   },
-  "records/sanctuary": {
+  "records/dearly_beloved_ux": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/sanctuary",
+        "name": "kingdomkeys:records/dearly_beloved_ux",
         "stream": true
       }
     ]
   },
-  "records/simple_and_clean_planitb_remix": {
+  "records/passion_instrumental": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/simple_and_clean_planitb_remix",
+        "name": "kingdomkeys:records/passion_instrumental",
         "stream": true
       }
     ]
   },
-  "records/sinister_sundown": {
+  "records/rage_awakened": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/sinister_sundown",
+        "name": "kingdomkeys:records/rage_awakened",
         "stream": true
       }
     ]
   },
-  "records/the_13th_anthology": {
+  "records/the_other_promise": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/the_13th_anthology",
+        "name": "kingdomkeys:records/the_other_promise",
+        "stream": true
+      }
+    ]
+  },
+  "records/13th_struggle_luxord": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/13th_struggle_luxord",
+        "stream": true
+      }
+    ]
+  },
+  "records/13th_dilemma_saix": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/13th_dilemma_saix",
+        "stream": true
+      }
+    ]
+  },
+  "records/13th_reflection": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/13th_reflection",
+        "stream": true
+      }
+    ]
+  },
+  "records/another_side_battle_ver": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/another_side_battle_ver",
+        "stream": true
+      }
+    ]
+  },
+  "records/cavern_of_remembrance_days": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/cavern_of_remembrance_days",
+        "stream": true
+      }
+    ]
+  },
+  "records/forgotten_challenge_recoded": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/forgotten_challenge_recoded",
+        "stream": true
+      }
+    ]
+  },
+  "records/anger_unchained": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/anger_unchained",
+        "stream": true
+      }
+    ]
+  },
+  "records/hunter_of_the_dark": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/hunter_of_the_dark",
+        "stream": true
+      }
+    ]
+  },
+  "records/destati": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/destati",
         "stream": true
       }
     ]

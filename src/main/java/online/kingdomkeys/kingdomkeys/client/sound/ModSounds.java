@@ -82,7 +82,7 @@ public class ModSounds {
 			Record_13th_Reflection = registerSound("records/13th_reflection"),
 			Record_Another_Side_Battle_Ver = registerSound("records/another_side_battle_ver"),
 			Record_Cavern_Of_Remembrance_Days = registerSound("records/cavern_of_remembrance_days"),
-			Record_Forgotten_Challenge_Recoded = registerSound("records/forgotten_challenge"),
+			Record_Forgotten_Challenge_Recoded = registerSound("records/forgotten_challenge_recoded"),
 			Record_Anger_Unchained = registerSound("records/anger_unchained"),
 			Record_Hunter_Of_The_Dark = registerSound("records/hunter_of_the_dark"),
             Record_Destati = registerSound("records/destati"),
