@@ -1126,7 +1126,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addMusicDisc(ModItems.disc_Musique_pour_la_tristesse_de_Xion, "Yoko Shimomura - Musique pour la tristesse de Xion");
         addMusicDisc(ModItems.disc_No_More_Bugs_Bug_Version, "Yoko Shimomura & Hirosato Noda - No More Bugs!! -Bug Version-");
         addMusicDisc(ModItems.disc_Organization_XIII, "Yoko Shimomura - Organization XIII");
-        addMusicDisc(ModItems.disc_Dearly_Beloved_UX, "Yoko Shimomura - Dearly Beloved -Union \\u03c7 Credits Version-");
+        addMusicDisc(ModItems.disc_Dearly_Beloved_UX, "Yoko Shimomura - Dearly Beloved -Union \u03c7 Credits Version-");
         addMusicDisc(ModItems.disc_Passion_Instrumental, "Yoko Shimomura - Passion -Kingdom Orchestra Instrumental Version-");
         addMusicDisc(ModItems.disc_Rage_Awakened, "Yoko Shimomura - Rage Awakened");
         addMusicDisc(ModItems.disc_The_Other_Promise, "Yoko Shimomura - The Other Promise");
@@ -1242,6 +1242,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_NOBODY_CREEPER, "Creeper (Nobody)");
         addEntityType(ModEntities.TYPE_DUSK, "Dusk");
         addEntityType(ModEntities.TYPE_ASSASSIN, "Assassin");
+        addEntityType(ModEntities.TYPE_DRAGOON, "Dragoon");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
         /**Biomes**/
