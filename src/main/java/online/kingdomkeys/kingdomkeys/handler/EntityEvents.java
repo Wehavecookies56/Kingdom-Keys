@@ -92,13 +92,14 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -1252,29 +1253,44 @@ public class EntityEvents {
 			Level level = player.level;
 			int slot = event.getHand() == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 			if (!level.isClientSide && stack != null) {
-				player.setItemInHand(event.getHand(), ItemStack.EMPTY);
-				ChakramEntity entity = new ChakramEntity(level);
-				
-				switch (stack.getItem().getRegistryName().getPath()) {
-				case Strings.eternalFlames:
-				case Strings.prometheus:
-				case Strings.volcanics:
-					entity.setRotationPoint(0);
-					break;
-				default:
-					entity.setRotationPoint(2);
+				if(stack.getItem() instanceof ChakramItem) {
+					player.setItemInHand(event.getHand(), ItemStack.EMPTY);
+					KKThrowableEntity entity = new KKThrowableEntity(level);
+					
+					switch (stack.getItem().getRegistryName().getPath()) {
+					case Strings.eternalFlames:
+					case Strings.prometheus:
+					case Strings.volcanics:
+						entity.setRotationPoint(0);
+						break;
+					default:
+						entity.setRotationPoint(2);
+					}
+					
+					entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
+					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
+
+					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);
+
+					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
+					level.addFreshEntity(entity);
+					
+				} else if(stack.getItem() instanceof KeybladeItem) {
+					KKThrowableEntity entity = new KKThrowableEntity(level);
+					
+					entity.setData(DamageCalculation.getKBStrengthDamage(player, stack), player.getUUID(), slot, stack);
+					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
+
+					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);
+					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
+					level.addFreshEntity(entity);
 				}
-				
-				entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
-				entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
-
-				entity.getEntityData().set(ChakramEntity.ITEMSTACK, stack);
-
-				entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 0F);
-				level.addFreshEntity(entity);
 			}
-			player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-			player.swing(slot == 40 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+			if(level.isClientSide()) {
+				if(stack.getItem() instanceof ChakramItem || stack.getItem() instanceof KeybladeItem) {
+					player.swing(slot == 40 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+				}
+			}
 
 		}
 	}

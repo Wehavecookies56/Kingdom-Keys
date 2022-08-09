@@ -94,7 +94,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.InvisibleEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ArrowRainCoreEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.org.ChakramEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.KKThrowableEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserCircleEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
@@ -149,7 +149,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.StormBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowRainCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
@@ -213,8 +213,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
     
    // public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
-    public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = ENTITIES.register("entity_chakram",
-    		() -> EntityType.Builder.<ChakramEntity>of((e,w)->new ChakramEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
+    public static final RegistryObject<EntityType<KKThrowableEntity>> TYPE_CHAKRAM = ENTITIES.register("entity_chakram",
+    		() -> EntityType.Builder.<KKThrowableEntity>of((e,w)->new KKThrowableEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
                     .build("entity_chakram"));
 
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
@@ -413,7 +413,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
 
         //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
-        EntityRenderers.register(ModEntities.TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
+        EntityRenderers.register(ModEntities.TYPE_CHAKRAM.get(), KKThrowableEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_LANCE.get(), LanceEntityRenderer::new);
 

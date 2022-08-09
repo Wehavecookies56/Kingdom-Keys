@@ -21,16 +21,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
-public class ChakramEntity extends ThrowableItemProjectile {
-	public static final EntityDataAccessor<ItemStack> ITEMSTACK = SynchedEntityData.defineId(ChakramEntity.class, EntityDataSerializers.ITEM_STACK);
-	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(ChakramEntity.class, EntityDataSerializers.INT);
+public class KKThrowableEntity extends ThrowableItemProjectile {
+	public static final EntityDataAccessor<ItemStack> ITEMSTACK = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.INT);
 
 	public ItemStack originalItem;
 	public int slot;
@@ -42,11 +40,11 @@ public class ChakramEntity extends ThrowableItemProjectile {
 	Player owner;
 	int rotationPoint;
 
-	public ChakramEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
+	public KKThrowableEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_CHAKRAM.get(), world);
 	}
 
-	public ChakramEntity(Level world) {
+	public KKThrowableEntity(Level world) {
 		super(ModEntities.TYPE_CHAKRAM.get(), world);
 		this.blocksBuilding = true;
 	}
@@ -106,8 +104,12 @@ public class ChakramEntity extends ThrowableItemProjectile {
 						Player owner = (Player) entityTarget;
 						if (owner == getProjOwner()) {
 							this.remove(RemovalReason.KILLED);
-							((Player) getProjOwner()).getInventory().add(slot, originalItem);
-							((Player) getProjOwner()).getCooldowns().addCooldown(originalItem.getItem(), 20);
+							if(!ItemStack.isSame(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
+								owner.addItem(originalItem);
+							} else {
+								owner.getInventory().add(slot, originalItem);
+							}
+							owner.getCooldowns().addCooldown(originalItem.getItem(), 20);
 						}
 					}
 				}
@@ -116,9 +118,14 @@ public class ChakramEntity extends ThrowableItemProjectile {
 	}
 
 	public void setReturn() {
-		returning = true;
-		if (getProjOwner() != null)
-			shoot(this.getProjOwner().getX() - this.getX(), this.getProjOwner().getY() - this.getY() + 1.25, this.getProjOwner().getZ() - this.getZ(), 2f, 0);
+		if(originalItem.getItem() instanceof KeybladeItem) {
+			this.remove(RemovalReason.KILLED);
+			return;
+		} else {
+			returning = true;
+			if (getProjOwner() != null)
+				shoot(this.getProjOwner().getX() - this.getX(), this.getProjOwner().getY() - this.getY() + 1.25, this.getProjOwner().getZ() - this.getZ(), 2f, 0);
+		}
 	}
 
 	@Override
