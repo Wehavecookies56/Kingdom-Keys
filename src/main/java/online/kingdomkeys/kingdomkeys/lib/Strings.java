@@ -78,6 +78,7 @@ public class Strings {
     		autoLimit = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_limit",
     		autoMaster = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_master",
     		autoFinal = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_final",
+    		strikeRaid = KingdomKeys.MODID+":"+Strings.AB_Prefix +"strike_raid",
     		
     		//Growth
     		highJump = KingdomKeys.MODID+":"+Strings.AB_Prefix +"high_jump",

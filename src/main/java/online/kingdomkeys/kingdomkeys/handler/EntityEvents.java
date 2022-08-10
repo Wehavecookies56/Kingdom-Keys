@@ -1227,22 +1227,9 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void playerStartedTracking(PlayerEvent.StartTracking e) {
 		if (e.getTarget() instanceof Player) {
-			
 			Player targetPlayer = (Player) e.getTarget();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, playerData);
-			
-			/*if (!targetPlayer.level.isClientSide) {
-				if (targetPlayer instanceof Player) {
-					System.out.println(e.getPlayer().getDisplayName().getString()+" approached "+targetPlayer.getDisplayName().getString());
-					//SCAddWorldSoundsPacket.syncClients(targetPlayer.getUUID());
-					PacketHandler.sendTo(new SCAddWorldSoundsPacket(e.getPlayer().getUUID()), (ServerPlayer)targetPlayer);
-					PacketHandler.sendTo(new SCAddWorldSoundsPacket(targetPlayer.getUUID()), (ServerPlayer)e.getPlayer());
-
-					//PacketHandler.sendToServer(new SCAddWorldSoundsPacket(player.getUUID()));
-					// PacketHandler.sendToAllPlayers(new PacketAddWorldSounds(player));
-				}
-			}*/
 		}
 	}
 

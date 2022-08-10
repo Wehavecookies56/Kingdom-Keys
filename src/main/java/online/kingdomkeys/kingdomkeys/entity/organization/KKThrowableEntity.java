@@ -104,10 +104,12 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 						Player owner = (Player) entityTarget;
 						if (owner == getProjOwner()) {
 							this.remove(RemovalReason.KILLED);
-							if(!ItemStack.isSame(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
-								owner.addItem(originalItem);
-							} else {
-								owner.getInventory().add(slot, originalItem);
+							if(!ItemStack.isSame(owner.getInventory().getItem(slot),originalItem)) {
+								if(!ItemStack.isSame(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
+									owner.addItem(originalItem);
+								} else {
+									owner.getInventory().add(slot, originalItem);
+								}
 							}
 							owner.getCooldowns().addCooldown(originalItem.getItem(), 20);
 						}

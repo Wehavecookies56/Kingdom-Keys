@@ -197,18 +197,18 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		Level level = player.level;
-		if (player.isCrouching()) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+
+		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) {
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 			if (itemstack != null && !playerData.getRecharge()) {
-				playerData.remMP(20);
+				playerData.remMP(10);
+				level.playSound(player, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
+
 				if (!level.isClientSide) {
-					System.out.println(playerData.getMP());
-
 					KKThrowableEntity entity = new KKThrowableEntity(level);
-
-					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack), player.getUUID(), slot, itemstack);
+					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack)*0.7F, player.getUUID(), slot, itemstack);
 					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
 
 					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, itemstack);
