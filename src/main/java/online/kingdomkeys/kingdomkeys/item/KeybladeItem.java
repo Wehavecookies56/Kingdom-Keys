@@ -47,7 +47,9 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -192,34 +194,64 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {	
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
-		if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) {
-			HitResult rtr;
-			if(player.getOffhandItem().getItem() instanceof IExtendedReach) {
-				float reach = ((IExtendedReach) player.getOffhandItem().getItem()).getReach();
-				rtr = InputHandler.getMouseOverExtended(Math.max(5,reach));
-			} else {
-				rtr = Minecraft.getInstance().hitResult;
-			}
-			if (rtr != null) {
-				player.swing(InteractionHand.OFF_HAND);
+		Level level = player.level;
+		if (player.isCrouching()) {
+			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
-				if (rtr.getType() == Type.ENTITY) {
-					EntityHitResult ertr = (EntityHitResult) rtr;
-					if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
-						if (ertr.getEntity() != null) {
-							PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getId()));
-							return InteractionResultHolder.success(itemstack);
+			if (itemstack != null && !playerData.getRecharge()) {
+				playerData.remMP(20);
+				if (!level.isClientSide) {
+					System.out.println(playerData.getMP());
+
+					KKThrowableEntity entity = new KKThrowableEntity(level);
+
+					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack), player.getUUID(), slot, itemstack);
+					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
+
+					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, itemstack);
+					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
+					level.addFreshEntity(entity);
+					player.getCooldowns().addCooldown(itemstack.getItem(), 20);
+				} else {
+					player.swing(slot == 40 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+				}
+				return InteractionResultHolder.success(itemstack);
+
+			}
+			return super.use(world, player, hand);
+		} else {
+			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
+				if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
+					HitResult rtr;
+					if (player.getOffhandItem().getItem() instanceof IExtendedReach) {
+						float reach = ((IExtendedReach) player.getOffhandItem().getItem()).getReach();
+						rtr = InputHandler.getMouseOverExtended(Math.max(5, reach));
+					} else {
+						rtr = Minecraft.getInstance().hitResult;
+					}
+					if (rtr != null) {
+						player.swing(InteractionHand.OFF_HAND);
+
+						if (rtr.getType() == Type.ENTITY) {
+							EntityHitResult ertr = (EntityHitResult) rtr;
+							if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
+								if (ertr.getEntity() != null) {
+									PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getId()));
+									return InteractionResultHolder.success(itemstack);
+								}
+								return InteractionResultHolder.fail(itemstack);
+							}
 						}
-						return InteractionResultHolder.fail(itemstack);
 					}
 				}
 			}
+			return super.use(world, player, hand);
 		}
-		return super.use(world, player, hand);
 	}
-	
+
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		if(ModConfigs.keybladeOpenDoors) {

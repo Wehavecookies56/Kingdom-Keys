@@ -1246,54 +1246,6 @@ public class EntityEvents {
 		}
 	}
 
-	@SubscribeEvent
-	public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-		if (event.getEntityLiving() instanceof Player player) {
-			ItemStack stack = event.getItemStack();
-			Level level = player.level;
-			int slot = event.getHand() == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
-			if (!level.isClientSide && stack != null) {
-				if(stack.getItem() instanceof ChakramItem) {
-					player.setItemInHand(event.getHand(), ItemStack.EMPTY);
-					KKThrowableEntity entity = new KKThrowableEntity(level);
-					
-					switch (stack.getItem().getRegistryName().getPath()) {
-					case Strings.eternalFlames:
-					case Strings.prometheus:
-					case Strings.volcanics:
-						entity.setRotationPoint(0);
-						break;
-					default:
-						entity.setRotationPoint(2);
-					}
-					
-					entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
-					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
-
-					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);
-
-					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
-					level.addFreshEntity(entity);
-					
-				} else if(stack.getItem() instanceof KeybladeItem) {
-					KKThrowableEntity entity = new KKThrowableEntity(level);
-					
-					entity.setData(DamageCalculation.getKBStrengthDamage(player, stack), player.getUUID(), slot, stack);
-					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
-
-					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);
-					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
-					level.addFreshEntity(entity);
-				}
-			}
-			if(level.isClientSide()) {
-				if(stack.getItem() instanceof ChakramItem || stack.getItem() instanceof KeybladeItem) {
-					player.swing(slot == 40 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-				}
-			}
-
-		}
-	}
 
 	@SubscribeEvent
 	public void looting(LootingLevelEvent event) {
