@@ -113,7 +113,8 @@ public class MagneraEntity extends ThrowableProjectile {
 						e.setDeltaMovement(0, 0.5F, 0);
 					}
 					e.setDeltaMovement(d*-0.1, e.getDeltaMovement().y, d1*-0.1);
-					
+					e.hurt(DamageSource.thrown(this, this.getOwner()), 1);
+
 					if(tickCount + 2 > maxTicks) {
 						if(Utils.isHostile(e)) {
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
