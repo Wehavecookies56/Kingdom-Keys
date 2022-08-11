@@ -662,7 +662,8 @@ public class ModItems {
 			ira_Leggings = createArmorItem(Strings.ira+"_"+Strings.leggings, KKArmorMaterial.IRA, EquipmentSlot.LEGS, Strings.ira),
 			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, KKArmorMaterial.IRA, EquipmentSlot.FEET, Strings.ira),
 
-			iceCream = createNewItem(Strings.iceCream, new Item.Properties().tab(KingdomKeys.miscGroup).food(new FoodProperties.Builder().fast().saturationMod(2.0f).nutrition(2).build())),
+			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().tab(KingdomKeys.miscGroup).food(new FoodProperties.Builder().fast().saturationMod(2.0f).nutrition(2).alwaysEat().build()))),
+			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties().tab(KingdomKeys.miscGroup))),
 
 			disc_Birth_by_Sleep_A_Link_to_the_Future = createNewItem(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future, () -> new KKRecordItem(1, ModSounds.Record_Birth_by_Sleep_A_Link_to_the_Future, new Item.Properties().tab(KingdomKeys.miscGroup), 7.29F)),
 			disc_Dream_Drop_Distance_The_Next_Awakening = createNewItem(Strings.Disc_Dream_Drop_Distance_The_Next_Awakening, () -> new KKRecordItem(1, ModSounds.Record_Dream_Drop_Distance_The_Next_Awakening, new Item.Properties().tab(KingdomKeys.miscGroup), 8.56F)),

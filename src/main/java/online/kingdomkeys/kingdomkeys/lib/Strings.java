@@ -484,6 +484,7 @@ public class Strings {
 
     public static final String
         iceCream = "ice_cream",
+        winnerStick = "winner_stick",
         emptyBottle = "empty_bottle",
         potion = "potion",
         hiPotion = "hi_potion",

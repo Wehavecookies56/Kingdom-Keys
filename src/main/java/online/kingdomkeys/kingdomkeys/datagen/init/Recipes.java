@@ -156,7 +156,7 @@ public class Recipes extends RecipeProvider {
         .unlockedBy("recipe_ss", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeSS.get()))
         .save(consumer);
         
-        ShapelessRecipeBuilder.shapeless(ModItems.iceCream.get())
+        ShapelessRecipeBuilder.shapeless(ModItems.iceCream.get(), 3)
                 .requires(Tags.Items.RODS_WOODEN)
                 .requires(Items.SUGAR)
                 .requires(Items.WATER_BUCKET)

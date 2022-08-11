@@ -19,9 +19,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.Tags.Items;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 
 @OnlyIn(Dist.CLIENT)
@@ -47,11 +49,15 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
         poseStack.mulPose(Vector3f.YP.rotationDegrees(90+ entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
 
         if(itemstack.getItem() instanceof ChakramItem) {
-            poseStack.scale(0.05f, 0.05f, 0.05f);        
+        	float rotation = (entityIn.tickCount + partialTicks) * 1.5f;
+        	if(itemstack.getItem() == ModItems.pizzaCut.get())
+        		poseStack.scale(1,1,1);
+        	else
+        		poseStack.scale(0.04f, 0.04f, 0.04f);        
 
 	        if(entityIn.getRotationPoint() == 0) {
 	        	poseStack.mulPose(Vector3f.ZP.rotationDegrees(90F));
-	            poseStack.mulPose(Vector3f.XN.rotation((entityIn.tickCount + partialTicks) * 0.9f));
+	            poseStack.mulPose(Vector3f.XN.rotation(rotation));
 			}
 			
 			if(entityIn.getRotationPoint() == 1) {
@@ -60,13 +66,11 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 			
 			if(entityIn.getRotationPoint() == 2) {
 	        	poseStack.mulPose(Vector3f.XP.rotationDegrees(90F));
-	            poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 0.9f));
+	            poseStack.mulPose(Vector3f.ZP.rotation(rotation));
 			}
         } else if(itemstack.getItem() instanceof KeybladeItem) {
-            poseStack.scale(2,2,2f);        
-
+            poseStack.scale(2,2,2);
         	poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
-
         }
         
         itemRenderer.render(itemstack, itemstack.getItem() instanceof ChakramItem ? ItemTransforms.TransformType.NONE : ItemTransforms.TransformType.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);

@@ -261,6 +261,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_LIMIT, "Auto Limit", "Automatically sets the Reaction Command to Limit in a pinch, if Limit Form is usable.");
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto Master", "Automatically sets the Reaction Command to Master in a pinch, if Master Form is usable.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
+        addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Strike Raid", "Right click while crouching to throw your keyblade, uses 10MP.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
         addAbilityDesc(ModAbilities.HIGH_JUMP, "Now you can jump really high!");
@@ -1195,6 +1196,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.recipeSS, "Tier SS Recipe");
         addItem(ModItems.recipeSSS, "Tier SSS Recipe");
         addItem(ModItems.iceCream, "Sea Salt Ice Cream");
+        addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
 
