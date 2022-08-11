@@ -511,6 +511,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.monochrome, "Monochrome");
         addItem(ModItems.moogleOGlory, "Moogle O' Glory");
         addItem(ModItems.mysteriousAbyss, "Mysterious Abyss");
+        addItem(ModItems.nanoGear, "Nano Gear");
         addItem(ModItems.nightmaresEnd, "Nightmare's End");
         addItem(ModItems.nightmaresEndAndMirageSplit, "Combined Keyblade");
         addItem(ModItems.noName, "No Name");
@@ -642,6 +643,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.monochromeChain, "Monochrome Chain");
         addItem(ModItems.moogleOGloryChain, "Moogle O' Glory Chain");
         addItem(ModItems.mysteriousAbyssChain, "Mysterious Abyss Chain");
+        addItem(ModItems.nanoGearChain, "Nano Gear Chain");
         addItem(ModItems.nightmaresEndChain, "Nightmare's End Chain");
         addItem(ModItems.nightmaresEndAndMirageSplitChain, "Combined Keyblade Chain");
         addItem(ModItems.noNameChain, "No Name Chain");
