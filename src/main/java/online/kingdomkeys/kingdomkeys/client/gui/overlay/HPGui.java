@@ -43,7 +43,7 @@ public class HPGui extends OverlayBase {
 				scale = 0.85F;
 				break;
 		}
-		float scaleFactor = 1.5F;
+		float scaleFactor = 1.5F * ModConfigs.hpXScale/100F;
 
 		hpBarWidth = (player.getHealth() * scaleFactor);
 		int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
@@ -66,6 +66,8 @@ public class HPGui extends OverlayBase {
 
 		poseStack.pushPose();
 		{
+//			poseStack.scale(scale, 1, 1);
+
 			RenderSystem.enableBlend();
 			poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
 			poseStack.pushPose();

@@ -29,6 +29,11 @@
       "kingdomkeys:itemget"
     ]
   },
+  "strike_raid": {
+    "sounds": [
+      "kingdomkeys:strike_raid"
+    ]
+  },
   "kupo": {
     "sounds": [
       "kingdomkeys:kupo"

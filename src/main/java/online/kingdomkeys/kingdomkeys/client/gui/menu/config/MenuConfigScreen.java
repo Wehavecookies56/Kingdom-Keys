@@ -42,12 +42,12 @@ public class MenuConfigScreen extends MenuBackground {
 	boolean cmHeaderTextVisible;
 	
 	//HP
-	EditBox hpXPosBox, hpYPosBox, hpAlarmBox;
+	EditBox hpXPosBox, hpYPosBox, hpAlarmBox, hpXScaleBox;
 	Button hpShowHeartsButton;
 	boolean hpShowHearts;
 
 	//MP
-	EditBox mpXPosBox, mpYPosBox;
+	EditBox mpXPosBox, mpYPosBox, mpXScaleBox;
 
 	//DP
 	EditBox dpXPosBox, dpYPosBox;
@@ -376,17 +376,47 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			
 		});
+		
+		addRenderableWidget(hpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setHPXScale(Utils.getInt(getValue()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setHPXScale(Utils.getInt(getValue()));
+				return true;
+			}
+			
+		});
 
 		
 		hpXPosBox.setValue(""+ModConfigs.hpXPos);
 		hpYPosBox.setValue(""+ModConfigs.hpYPos);
 		hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
 		hpAlarmBox.setValue(""+ModConfigs.hpAlarm);
+		hpXScaleBox.setValue(""+ModConfigs.hpXScale);
+
 
 		hpList.add(hpXPosBox);
 		hpList.add(hpYPosBox);
 		hpList.add(hpShowHeartsButton);
 		hpList.add(hpAlarmBox);
+		hpList.add(hpXScaleBox);
+
 
 	}
 	
@@ -445,13 +475,41 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-
+		addRenderableWidget(mpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
+						super.charTyped(c, i);
+						ModConfigs.setMPXScale(Utils.getInt(getValue()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				ModConfigs.setMPXScale(Utils.getInt(getValue()));
+				return true;
+			}
+			
+		});
+		
 		
 		mpXPosBox.setValue(""+ModConfigs.mpXPos);
 		mpYPosBox.setValue(""+ModConfigs.mpYPos);
+		mpXScaleBox.setValue(""+ModConfigs.mpXScale);
+
 		
 		mpList.add(mpXPosBox);
 		mpList.add(mpYPosBox);
+		mpList.add(mpXScaleBox);
 
 	}
 	
@@ -1036,6 +1094,7 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 
@@ -1048,6 +1107,8 @@ public class MenuConfigScreen extends MenuBackground {
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.mp"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
+
 
 				break;
 
@@ -1160,6 +1221,8 @@ public class MenuConfigScreen extends MenuBackground {
 		options.put('Y', Integer.valueOf(focusXPosBox.getValue()));
 		options.put('Z', Integer.valueOf(focusYPosBox.getValue()));
 		options.put('+', hpShowHearts ? 1 : 0);
+		options.put(':', Integer.valueOf(hpXScaleBox.getValue()));
+		options.put('_', Integer.valueOf(mpXScaleBox.getValue()));
 		return options;
 	}
 
@@ -1277,6 +1340,8 @@ public class MenuConfigScreen extends MenuBackground {
 		ModConfigs.setFocusXPos(0);
 		ModConfigs.setFocusYPos(0);
 		ModConfigs.setHPAlarm(0);
+		ModConfigs.setHPXScale(0);
+		ModConfigs.setMPXScale(0);
 	}
 
 	public boolean isBase36Char(char c) {
@@ -1407,6 +1472,14 @@ public class MenuConfigScreen extends MenuBackground {
 			case '+' -> {
 				ModConfigs.setHPAlarm(value);
 				hpAlarmBox.setValue(""+value);
+			}
+			case ':' -> {
+				ModConfigs.setHPXScale(value);
+				hpXScaleBox.setValue(""+value);
+			}
+			case '_' -> {
+				ModConfigs.setMPXScale(value);
+				mpXScaleBox.setValue(""+value);
 			}
 		}
 	}

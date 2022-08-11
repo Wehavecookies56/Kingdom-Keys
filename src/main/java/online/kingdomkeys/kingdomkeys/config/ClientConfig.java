@@ -16,9 +16,9 @@ public class ClientConfig {
     public ForgeConfigSpec.BooleanValue hpShowHearts;
     public ForgeConfigSpec.IntValue hpAlarm;
     
-    public ForgeConfigSpec.IntValue hpXPos, hpYPos;
+    public ForgeConfigSpec.IntValue hpXPos, hpYPos, hpXScale;
     
-    public ForgeConfigSpec.IntValue mpXPos, mpYPos;
+    public ForgeConfigSpec.IntValue mpXPos, mpYPos, mpXScale;
     
     public ForgeConfigSpec.IntValue dpXPos, dpYPos;
     
@@ -105,6 +105,11 @@ public class ClientConfig {
 	                .translation(KingdomKeys.MODID + ".config.hp_alarm")
 	                .defineInRange("hpAlarmVolume", 10, 0, 10);
 	        
+	        hpXScale = builder
+	                .comment("Health Bar X Scale")
+	                .translation(KingdomKeys.MODID + ".config.hp_x_scale")
+	                .defineInRange("hpXScale", 100, -1000, 1000);
+	        
 	        builder.pop();
 	        
 	        builder.push("mp_bar");
@@ -118,6 +123,11 @@ public class ClientConfig {
 	                .comment("Magic Bar Y Pos")
 	                .translation(KingdomKeys.MODID + ".config.mp_y_pos")
 	                .defineInRange("mpYPos", 0, -1000, 1000);
+	        
+	        mpXScale = builder
+	                .comment("Magic Bar X Scale")
+	                .translation(KingdomKeys.MODID + ".config.mp_x_scale")
+	                .defineInRange("mpXScale", 100, -1000, 1000);
 	        
 	        builder.pop();
 	        

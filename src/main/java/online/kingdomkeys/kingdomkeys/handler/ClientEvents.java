@@ -116,18 +116,16 @@ public class ClientEvents {
             float f = player.getXRot();
             float f1 = player.getYRot();
             
-            player.setYRot((float)((double)player.getYRot() + (double)rYaw * 0.15D));
-            player.setXRot((float)((double)player.getXRot() - (double)-(rPitch - player.getXRot()) * 0.15D));
+            player.setYRot((float)(player.getYRot() + rYaw * 0.15D));
+            player.setXRot((float)(player.getXRot() - -(rPitch - player.getXRot()) * 0.15D));
             player.xRotO = player.getXRot() - f;
             player.yRotO += player.getYRot() - f1;
 
             if (player.getVehicle() != null) {
                 player.getVehicle().onPassengerTurned(player);
             }
-
 		}
 	}
-
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {

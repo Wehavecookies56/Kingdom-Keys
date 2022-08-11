@@ -118,7 +118,10 @@
       ]
    },
    "23":{
-      "str":1
+      "str":1,
+	  "abilities":[
+         "kingdomkeys:ability_strike_raid"
+      ]
    },
    "24":{
       "mag":1,

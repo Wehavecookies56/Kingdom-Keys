@@ -45,7 +45,7 @@ public class MPGui extends OverlayBase {
 				scale = 0.85F;
 				break;
 		}
-		float scaleactor = 1F;
+		float scaleactor = 1F * ModConfigs.mpXScale/100F;
 		playerData = ModCapabilities.getPlayer(player);
 		if(playerData == null || playerData.getMaxMP() <= 0)
 			return;

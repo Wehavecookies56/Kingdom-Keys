@@ -204,9 +204,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 			if (itemstack != null && !playerData.getRecharge()) {
 				playerData.remMP(10);
-				level.playSound(player, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
 
 				if (!level.isClientSide) {
+					level.playSound(null, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
+
 					KKThrowableEntity entity = new KKThrowableEntity(level);
 					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack)*0.7F, player.getUUID(), slot, itemstack);
 					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
@@ -214,7 +215,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, itemstack);
 					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
 					level.addFreshEntity(entity);
-					player.getCooldowns().addCooldown(itemstack.getItem(), 20);
+					player.getCooldowns().addCooldown(itemstack.getItem(), 15);
 				} else {
 					player.swing(slot == 40 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
 				}

@@ -64,6 +64,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(shotlock_lockon);
         add(shotlock_lockon_all);
         add(shotlock_shot);
+        add(strike_raid);
 
         //Music
         //Records

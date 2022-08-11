@@ -132,6 +132,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".icon_rotation", "Lock On Icon Rotation Speed");
         add(Gui_Menu_Config + ".hp_per_bar", "HP Per Bar");
         add(Gui_Menu_Config + ".show_hearts", "Show hearts on HUD");
+        add(Gui_Menu_Config + ".hp_alarm", "Low HP Alarm volume");
         add(Gui_Menu_Config + ".impexp", "Import/Export");
         add(Gui_Menu_Config + ".impexp.import", "Import");
         add(Gui_Menu_Config + ".impexp.export", "Export to clipboard");

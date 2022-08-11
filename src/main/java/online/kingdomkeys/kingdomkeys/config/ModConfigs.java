@@ -45,9 +45,9 @@ public class ModConfigs {
     public static boolean hpShowHearts;
     public static int hpAlarm;
     
-    public static int hpXPos, hpYPos;
+    public static int hpXPos, hpYPos, hpXScale;
 
-    public static int mpXPos, mpYPos;
+    public static int mpXPos, mpYPos, mpXScale;
 
     public static int dpXPos, dpYPos;
 
@@ -125,6 +125,11 @@ public class ModConfigs {
         CLIENT.hpAlarm.set(value);
         bakeClient();
     }
+    
+    public static void setHPXScale(int value) {
+        CLIENT.hpXScale.set(value);
+        bakeClient();
+    }
 
     //MP
     public static void setMpXPos(int value) {
@@ -134,6 +139,11 @@ public class ModConfigs {
 
     public static void setMpYPos(int value) {
         CLIENT.mpYPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setMPXScale(int value) {
+        CLIENT.mpXScale.set(value);
         bakeClient();
     }
 
@@ -234,9 +244,11 @@ public class ModConfigs {
         hpYPos = CLIENT.hpYPos.get();
         hpShowHearts = CLIENT.hpShowHearts.get();
         hpAlarm = CLIENT.hpAlarm.get();
-
+        hpXScale = CLIENT.hpXScale.get();
+        
         mpXPos = CLIENT.mpXPos.get();
         mpYPos = CLIENT.mpYPos.get();
+        mpXScale = CLIENT.mpXScale.get();
 
         dpXPos = CLIENT.dpXPos.get();
         dpYPos = CLIENT.dpYPos.get();
