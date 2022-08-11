@@ -19,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
@@ -189,6 +190,9 @@ public class WaterzaEntity extends ThrowableProjectile {
 							BlockState blockstate = level.getBlockState(blockpos);
 							if(blockstate.hasProperty(BlockStateProperties.LIT))
 								level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+							if(blockstate.getBlock() == Blocks.FIRE) {
+								level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+							}
 						}
 					}
 				}
