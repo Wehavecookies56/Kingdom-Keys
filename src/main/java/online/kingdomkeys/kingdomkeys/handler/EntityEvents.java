@@ -269,7 +269,6 @@ public class EntityEvents {
 			//playerData.addShotlockToList(KingdomKeys.MODID+":"+Strings.SonicBlade, false);
 
 			if (playerData != null) {
-				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				
@@ -333,6 +332,8 @@ public class EntityEvents {
 						playerData.setRecharge(false);
 						playerData.setMP(playerData.getMaxMP());
 					} else { //Still recharging
+						if(playerData.getMP() < 0)
+							playerData.setMP(0);
 						playerData.addMP(playerData.getMaxMP()/500 * ((Utils.getMPHasteValue(playerData)/10) + 2));
 					}
 					

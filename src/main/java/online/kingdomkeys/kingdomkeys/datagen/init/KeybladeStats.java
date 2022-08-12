@@ -851,7 +851,7 @@ public class KeybladeStats extends KeybladeProvider {
 						.addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WrithingCrystal, 1)).build())
 				.desc("Increases strength during MP Charge and allows unlimited chaining of combos.");
 
-		getBuilder(Strings.favoriteDeputy).keychain(Strings.davoriteDeputyChain).baseStats(5, 3).ability("kingdomkeys:ability_fire_boost").reach(5.0F)
+		getBuilder(Strings.favoriteDeputy).keychain(Strings.favoriteDeputyChain).baseStats(5, 3).ability("").reach(5.0F)
 		        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(5, 4).withMaterials(new Recipe()
 		            .addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2)).build())
 		        .level(new KeybladeLevel.KeybladeLevelBuilder().withStats(6, 4).withMaterials(new Recipe()
