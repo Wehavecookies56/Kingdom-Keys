@@ -447,6 +447,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.abaddonPlasma, "Abaddon Plasma");
         addItem(ModItems.abyssalTide, "Abyssal Tide");
         addItem(ModItems.acedsKeyblade, "Aced's Keyblade");
+        addItem(ModItems.adventRed, "Advent Red");
         addItem(ModItems.allForOne, "All For One");
         addItem(ModItems.astralBlast, "Astral Blast");
         addItem(ModItems.aubade, "Aubade");
@@ -464,6 +465,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.crystalSnow, "Crystal Snow");
         addItem(ModItems.darkerThanDark, "Darker Than Dark");
         addItem(ModItems.darkgnaw, "Darkgnaw");
+        addItem(ModItems.dawnTillDusk, "Dawn Till Dusk");
         addItem(ModItems.decisivePumpkin, "Decisive Pumpkin");
         addItem(ModItems.destinysEmbrace, "Destiny's Embrace");
         addItem(ModItems.diamondDust, "Diamond Dust");
@@ -471,9 +473,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.divineRose, "Divine Rose");
         addItem(ModItems.dualDisc, "Dual Disc");
         addItem(ModItems.earthshaker, "Earthshaker");
+        addItem(ModItems.elementalEncoder, "Elemental Encoder");
         addItem(ModItems.endOfPain, "End Of Pain");
         addItem(ModItems.endsOfTheEarth, "Ends Of The Earth");
-        addItem(ModItems.evenAfter, "Even After");
+        addItem(ModItems.everAfter, "Ever After");
         addItem(ModItems.fairyHarp, "Fairy Harp");
         addItem(ModItems.fairyStars, "Fairy Stars");
         addItem(ModItems.fatalCrest, "Fatal Crest");
@@ -512,6 +515,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.mastersDefender, "Master's Defender");
         addItem(ModItems.maverickFlare, "Maverick Flare");
         addItem(ModItems.metalChocobo, "Metal Chocobo");
+        addItem(ModItems.midnightBlue, "Midnight Blue");
         addItem(ModItems.midnightRoar, "Midnight Roar");
         addItem(ModItems.mirageSplit, "Mirage Split");
         addItem(ModItems.missingAche, "Missing Ache");
@@ -531,6 +535,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.ominousBlight, "Ominous Blight");
         addItem(ModItems.oneWingedAngel, "One Winged Angel");
         addItem(ModItems.painOfSolitude, "Pain Of Solitude");
+        addItem(ModItems.phantomGreen, "Phantom Green");
         addItem(ModItems.photonDebugger, "Photon Debugger");
         addItem(ModItems.pixiePetal, "Pixie Petal");
         addItem(ModItems.pumpkinhead, "Pumpkinhead");
@@ -587,6 +592,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.abaddonPlasmaChain, "Abaddon Plasma Chain");
         addItem(ModItems.abyssalTideChain, "Abyssal Tide Chain");
         addItem(ModItems.acedsKeybladeChain, "Aced's Keyblade Chain");
+        addItem(ModItems.adventRedChain, "Advent Red Chain");
         addItem(ModItems.allForOneChain, "All For One Chain");
         addItem(ModItems.astralBlastChain, "Astral Blast Chain");
         addItem(ModItems.aubadeChain, "Aubade Chain");
@@ -604,6 +610,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.crystalSnowChain, "Crystal Snow Chain");
         addItem(ModItems.darkerThanDarkChain, "Darker Than Dark Chain");
         addItem(ModItems.darkgnawChain, "Darkgnaw Chain");
+        addItem(ModItems.dawnTillDuskChain, "Dawn Till Dusk Chain");
         addItem(ModItems.decisivePumpkinChain, "Decisive Pumpkin Chain");
         addItem(ModItems.destinysEmbraceChain, "Destinys Embrace Chain");
         addItem(ModItems.diamondDustChain, "Diamond Dust Chain");
@@ -611,9 +618,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.divineRoseChain, "Divine Rose Chain");
         addItem(ModItems.dualDiscChain, "Dual Disc Chain");
         addItem(ModItems.earthshakerChain, "Earthshaker Chain");
+        addItem(ModItems.elementalEncoderChain, "Elemental Encoder Chain");
         addItem(ModItems.endOfPainChain, "End Of Pain Chain");
         addItem(ModItems.endsOfTheEarthChain, "Ends Of The Earth Chain");
-        addItem(ModItems.evenAfterChain, "Even After Chain");
+        addItem(ModItems.everAfterChain, "Ever After Chain");
         addItem(ModItems.fairyHarpChain, "Fairy Harp Chain");
         addItem(ModItems.fairyStarsChain, "Fairy Stars Chain");
         addItem(ModItems.fatalCrestChain, "Fatal Crest Chain");
@@ -630,7 +638,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.gullWingChain, "Gull Wing Chain");
         addItem(ModItems.happyGearChain, "Happy Gear Chain");
         addItem(ModItems.herosCrestChain, "Hero's Crest Chain");
-        addItem(ModItems.herosOriginChain, "Hero's Origin");
+        addItem(ModItems.herosOriginChain, "Hero's Origin Chain");
         addItem(ModItems.hiddenDragonChain, "Hidden Dragon Chain");
         addItem(ModItems.hunnySpoutChain, "Hunny Spout Chain");
         addItem(ModItems.hyperdriveChain, "Hyperdrive Chain");
@@ -652,6 +660,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.mastersDefenderChain, "Master's Defender Chain");
         addItem(ModItems.maverickFlareChain, "Maverick Flare Chain");
         addItem(ModItems.metalChocoboChain, "Metal Chocobo Chain");
+        addItem(ModItems.midnightBlueChain, "Midnight Blue Chain");
         addItem(ModItems.midnightRoarChain, "Midnight Roar Chain");
         addItem(ModItems.mirageSplitChain, "Mirage Split Chain");
         addItem(ModItems.missingAcheChain, "Missing Ache Chain");
@@ -671,6 +680,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.ominousBlightChain, "Ominous Blight Chain");
         addItem(ModItems.oneWingedAngelChain, "One Winged Angel Chain");
         addItem(ModItems.painOfSolitudeChain, "Pain Of Solitude Chain");
+        addItem(ModItems.phantomGreenChain, "Phantom Green Chain");
         addItem(ModItems.photonDebuggerChain, "Photon Debugger Chain");
         addItem(ModItems.pixiePetalChain, "Pixie Petal Chain");
         addItem(ModItems.pumpkinheadChain, "Pumpkinhead Chain");
@@ -711,7 +721,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.voidGearRemnantChain, "Void Gear Remnant Chain");
         addItem(ModItems.waytotheDawnChain, "Way to the Dawn Chain");
         addItem(ModItems.waywardWindChain, "Wayward Wind Chain");
-        addItem(ModItems.wheelOfFateChain, "Wheel of FateChain");
+        addItem(ModItems.wheelOfFateChain, "Wheel of Fate Chain");
         addItem(ModItems.winnersProofChain, "Winner's Proof Chain");
         addItem(ModItems.wishingLampChain, "Wishing Lamp Chain");
         addItem(ModItems.wishingStarChain, "Wishing Star Chain");
