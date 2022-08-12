@@ -473,7 +473,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.earthshaker, "Earthshaker");
         addItem(ModItems.endOfPain, "End Of Pain");
         addItem(ModItems.endsOfTheEarth, "Ends Of The Earth");
-        addItem(ModItems.evenAter, "Even After");
+        addItem(ModItems.evenAfter, "Even After");
         addItem(ModItems.fairyHarp, "Fairy Harp");
         addItem(ModItems.fairyStars, "Fairy Stars");
         addItem(ModItems.fatalCrest, "Fatal Crest");
