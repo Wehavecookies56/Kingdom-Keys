@@ -1,5 +1,5 @@
 {
-  "ability": "kingdomkeys:ability_thunder_boost",
+  "ability": "net.minecraftforge.registries.RegistryObject@d08c5754",
   "reach": 5.0,
   "keychain": "kingdomkeys:photon_debugger_chain",
   "base_stats": {
@@ -104,15 +104,15 @@
       "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_writhing_gem",
-          "quantity": 1
-        },
-        {
           "material": "kingdomkeys:mat_adamantite",
           "quantity": 1
         },
         {
           "material": "kingdomkeys:mat_wellspring_gem",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 1
         }
       ]
@@ -130,7 +130,7 @@
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:mat_writhing_stone",
+          "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 2
         }
       ]
@@ -148,7 +148,7 @@
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:mat_writhing_stone",
+          "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 2
         }
       ]
@@ -158,11 +158,11 @@
       "mag": 8,
       "recipe": [
         {
-          "material": "kingdomkeys:mat_wellspring_crystal",
+          "material": "kingdomkeys:mat_electrum",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:mat_electrum",
+          "material": "kingdomkeys:mat_wellspring_crystal",
           "quantity": 1
         },
         {

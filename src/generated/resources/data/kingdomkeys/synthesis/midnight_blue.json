@@ -1,0 +1,19 @@
+{
+  "cost": 0,
+  "tier": 0,
+  "output": {
+    "item": "kingdomkeys:midnight_blue_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_frost_crystal",
+      "quantity": "1"
+    }
+  ]
+}

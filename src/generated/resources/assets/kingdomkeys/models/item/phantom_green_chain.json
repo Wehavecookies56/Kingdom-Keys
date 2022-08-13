@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/keychains/phantom_green_chain"
+  }
+}

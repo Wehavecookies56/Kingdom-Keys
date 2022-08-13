@@ -1,0 +1,23 @@
+{
+  "cost": 0,
+  "tier": 1,
+  "output": {
+    "item": "kingdomkeys:heros_origin_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_stone",
+      "quantity": "2"
+    }
+  ]
+}

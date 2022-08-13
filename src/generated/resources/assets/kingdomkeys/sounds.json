@@ -29,11 +29,6 @@
       "kingdomkeys:itemget"
     ]
   },
-  "strike_raid": {
-    "sounds": [
-      "kingdomkeys:strike_raid"
-    ]
-  },
   "kupo": {
     "sounds": [
       "kingdomkeys:kupo"
@@ -222,6 +217,11 @@
   "shotlock_shot": {
     "sounds": [
       "kingdomkeys:shotlock_shot"
+    ]
+  },
+  "strike_raid": {
+    "sounds": [
+      "kingdomkeys:strike_raid"
     ]
   },
   "records/birth_by_sleep_a_link_to_the_future": {

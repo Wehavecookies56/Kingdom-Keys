@@ -1,0 +1,23 @@
+{
+  "cost": 0,
+  "tier": 4,
+  "output": {
+    "item": "kingdomkeys:classic_tone_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_soothing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_sinister_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_gem",
+      "quantity": "3"
+    }
+  ]
+}

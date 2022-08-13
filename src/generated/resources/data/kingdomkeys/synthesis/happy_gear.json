@@ -1,0 +1,23 @@
+{
+  "cost": 0,
+  "tier": 2,
+  "output": {
+    "item": "kingdomkeys:happy_gear_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_sinister_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_sinister_shard",
+      "quantity": "4"
+    }
+  ]
+}

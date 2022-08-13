@@ -51,4 +51,8 @@ public class Ability extends ForgeRegistryEntry<Ability> {
 		return type;
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
 }

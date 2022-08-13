@@ -1,0 +1,23 @@
+{
+  "cost": 0,
+  "tier": 4,
+  "output": {
+    "item": "kingdomkeys:wheel_of_fate_chain",
+    "quantity": 1,
+    "type": "keyblade"
+  },
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_stormy_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_gem",
+      "quantity": "2"
+    }
+  ]
+}

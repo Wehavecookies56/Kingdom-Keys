@@ -8,10 +8,6 @@
   },
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_blazing_stone",
-      "quantity": "1"
-    },
-    {
       "material": "kingdomkeys:mat_blazing_shard",
       "quantity": "4"
     },
