@@ -68,8 +68,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setDP(value);
-		
-			context.getSource().sendSuccess(new TranslatableComponent("Set "+player.getDisplayName().getString()+" dp to "+value), true);
+		context.getSource().sendSuccess(new TranslatableComponent("Set "+player.getDisplayName().getString()+" dp to "+value), true);
 		
 		player.sendMessage(new TranslatableComponent("Your dp has been set to "+value),Util.NIL_UUID);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
@@ -88,8 +87,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addDP(value);
-		
-			context.getSource().sendSuccess(new TranslatableComponent("Added "+value+" dp to "+player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(new TranslatableComponent("Added "+value+" dp to "+player.getDisplayName().getString()), true);
 		
 		player.sendMessage(new TranslatableComponent("Your dp has been increased by "+value),Util.NIL_UUID);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
