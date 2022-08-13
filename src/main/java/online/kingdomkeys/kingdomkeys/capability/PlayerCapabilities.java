@@ -665,7 +665,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addDP(double dp) {
-		this.dp = Math.min(this.dp + dp, this.maxDP);
+		this.dp = Utils.clamp(this.dp + dp, 0, this.maxDP);
 	}
 
 	@Override
@@ -811,7 +811,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addMP(double mp) {
-		this.mp = Math.min(this.mp + mp, this.maxMP);
+		this.mp = Utils.clamp(this.mp + mp, 0, this.maxMP);
 	}
 
 	@Override

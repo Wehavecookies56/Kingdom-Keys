@@ -112,6 +112,19 @@ public class Utils {
 			return 0;
 		}
 	}
+	
+	public static int clamp(int value, int min, int max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
+	public static float clamp(float value, float min, float max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
+	public static double clamp(double value, double min, double max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
 
 	/**
 	 * Method for generating random integer between the 2 parameters, The order of

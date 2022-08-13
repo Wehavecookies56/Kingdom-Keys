@@ -332,7 +332,7 @@ public class EntityEvents {
 						playerData.setRecharge(false);
 						playerData.setMP(playerData.getMaxMP());
 					} else { //Still recharging
-						if(playerData.getMP() < 0)
+						if(playerData.getMP() < 0) //Somehow people was getting negative MP so this should hopefully fix it
 							playerData.setMP(0);
 						playerData.addMP(playerData.getMaxMP()/500 * ((Utils.getMPHasteValue(playerData)/10) + 2));
 					}
