@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@f4af6ad8",
+  "ability": "kingdomkeys:ability_full_mp_blast",
   "reach": 6.0,
   "keychain": "kingdomkeys:brightcrest_chain",
   "base_stats": {

@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@7f05d7b0",
+  "ability": "kingdomkeys:ability_fire_boost",
   "reach": 5.0,
   "keychain": "kingdomkeys:bond_of_flame_chain",
   "base_stats": {

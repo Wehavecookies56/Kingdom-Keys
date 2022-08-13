@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@704e4f75",
+  "ability": "kingdomkeys:ability_mp_rage",
   "reach": 5.0,
   "keychain": "kingdomkeys:hidden_dragon_chain",
   "base_stats": {

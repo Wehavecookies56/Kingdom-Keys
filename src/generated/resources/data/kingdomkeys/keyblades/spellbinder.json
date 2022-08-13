@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@f4af6ad8",
+  "ability": "kingdomkeys:ability_full_mp_blast",
   "reach": 5.0,
   "keychain": "kingdomkeys:spellbinder_chain",
   "base_stats": {

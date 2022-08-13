@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@ec04c3d9",
+  "ability": "kingdomkeys:ability_critical_boost",
   "reach": 6.0,
   "keychain": "kingdomkeys:pumpkinhead_chain",
   "base_stats": {

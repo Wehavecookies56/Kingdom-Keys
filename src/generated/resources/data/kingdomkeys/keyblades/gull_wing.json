@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@e792c824",
+  "ability": "kingdomkeys:ability_experience_boost",
   "reach": 5.0,
   "keychain": "kingdomkeys:gull_wing_chain",
   "base_stats": {

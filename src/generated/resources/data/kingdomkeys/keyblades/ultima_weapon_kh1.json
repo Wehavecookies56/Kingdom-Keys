@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@283eb55f",
+  "ability": "kingdomkeys:ability_mp_hastega",
   "reach": 5.0,
   "keychain": "kingdomkeys:ultima_weapon_kh1_chain",
   "base_stats": {

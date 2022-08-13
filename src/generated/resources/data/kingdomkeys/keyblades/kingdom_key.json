@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@b910f163",
+  "ability": "kingdomkeys:ability_damage_control",
   "reach": 5.0,
   "keychain": "kingdomkeys:kingdom_key_chain",
   "base_stats": {

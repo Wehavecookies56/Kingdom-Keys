@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@b2eea714",
+  "ability": "kingdomkeys:ability_light_and_darkness",
   "reach": 5.0,
   "keychain": "kingdomkeys:two_become_one_chain",
   "base_stats": {

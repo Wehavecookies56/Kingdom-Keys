@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@d08c5754",
+  "ability": "kingdomkeys:ability_thunder_boost",
   "reach": 5.0,
   "keychain": "kingdomkeys:photon_debugger_chain",
   "base_stats": {

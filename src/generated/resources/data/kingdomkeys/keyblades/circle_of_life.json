@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@70bb3185",
+  "ability": "kingdomkeys:ability_mp_haste",
   "reach": 5.0,
   "keychain": "kingdomkeys:circle_of_life_chain",
   "base_stats": {

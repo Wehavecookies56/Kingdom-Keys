@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@8d68ae3a",
+  "ability": "kingdomkeys:ability_drive_boost",
   "reach": 5.0,
   "keychain": "kingdomkeys:oblivion_chain",
   "base_stats": {

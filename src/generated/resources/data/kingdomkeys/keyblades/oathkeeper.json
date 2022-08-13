@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@9fd24bbe",
+  "ability": "kingdomkeys:ability_form_boost",
   "reach": 5.0,
   "keychain": "kingdomkeys:oathkeeper_chain",
   "base_stats": {

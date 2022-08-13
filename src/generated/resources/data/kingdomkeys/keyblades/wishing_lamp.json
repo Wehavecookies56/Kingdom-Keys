@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@b8385522",
+  "ability": "kingdomkeys:ability_jackpot",
   "reach": 5.0,
   "keychain": "kingdomkeys:wishing_lamp_chain",
   "base_stats": {

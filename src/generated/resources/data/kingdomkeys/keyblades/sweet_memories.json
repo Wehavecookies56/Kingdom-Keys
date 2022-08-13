@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@43af285d",
+  "ability": "kingdomkeys:ability_lucky_lucky",
   "reach": 5.0,
   "keychain": "kingdomkeys:sweet_memories_chain",
   "base_stats": {

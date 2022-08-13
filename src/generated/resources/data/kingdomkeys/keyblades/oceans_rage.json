@@ -1,5 +1,5 @@
 {
-  "ability": "net.minecraftforge.registries.RegistryObject@3f8ac98e",
+  "ability": "kingdomkeys:ability_blizzard_boost",
   "reach": 5.0,
   "keychain": "kingdomkeys:oceans_rage_chain",
   "base_stats": {
