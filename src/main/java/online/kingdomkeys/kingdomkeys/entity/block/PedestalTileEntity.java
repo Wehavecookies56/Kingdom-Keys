@@ -56,7 +56,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 
 	private float baseHeight = 1.25F;
 
-	private static boolean pause = false;
+	private boolean pause = false;
 	private boolean flipped = false;
 
 	//only changed on the client so it will not hide for other players
@@ -240,9 +240,11 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	}
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		if (!pause) {
-			previousTicks = ticksExisted;
-			ticksExisted++;
+		if (level.getBlockEntity(pos) instanceof PedestalTileEntity ped) {
+			if(ped.isPaused()) {
+				previousTicks = ticksExisted;
+				ticksExisted++;
+			}
 		}
 	}
 
