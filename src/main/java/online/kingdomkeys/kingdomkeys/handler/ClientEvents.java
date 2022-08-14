@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -15,6 +16,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.GameRenderer;
@@ -175,6 +177,17 @@ public class ClientEvents {
 	int cooldownTicks = 0;
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
+		if (event.phase == Phase.START) {
+			for (KeyMapping key : Minecraft.getInstance().options.keyHotbarSlots) {
+				if (KeyboardHelper.isScrollActivatorDown()) {
+					key.setKey(InputConstants.getKey(InputConstants.KEY_F25,InputConstants.KEY_F25));
+				} else {
+					key.setToDefault();
+				}
+			}
+
+		}
+		
 		if (event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
 			if (event.player == mc.player && cooldownTicks <= 0) { // Only run this for the local client player

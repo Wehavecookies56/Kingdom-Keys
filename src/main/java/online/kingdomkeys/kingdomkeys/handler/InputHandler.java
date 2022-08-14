@@ -688,6 +688,7 @@ public class InputHandler {
 			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
 				PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49));
 			}
+			return;
 		}
 		
 		if (key != null) {
@@ -872,8 +873,9 @@ public class InputHandler {
         return null;
     }
 
+	
     @SubscribeEvent
-    public void handleKeyInputEvent(InputEvent.RawMouseEvent event) {
+    public void handleMouseInputEvent(InputEvent.RawMouseEvent event) {
         /*
          * if (player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive()) {
          * if (player.getCapability(ModCapabilities.DRIVE_STATE,
