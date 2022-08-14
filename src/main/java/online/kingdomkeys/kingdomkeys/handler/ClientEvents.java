@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraftforge.event.TickEvent;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -168,26 +169,32 @@ public class ClientEvents {
 			}
 		}
 	}
-	
+
+	@SubscribeEvent
+	public void clientTick(TickEvent.ClientTickEvent event) {
+		if (Minecraft.getInstance().level != null) {
+			if (event.phase == Phase.START) {
+				for (KeyMapping key : Minecraft.getInstance().options.keyHotbarSlots) {
+					if (KeyboardHelper.isScrollActivatorDown()) {
+						key.setKey(InputConstants.getKey(InputConstants.KEY_F25,InputConstants.KEY_F25));
+					} else {
+						if (!key.matches(key.getDefaultKey().getValue(), key.getKey().getValue())) {
+							key.setToDefault();
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public static boolean focusing = false;
 	int focusingTicks = 0;
 	public static double focusGaugeTemp = 100;
 	double cost = 0;
-	
+
 	int cooldownTicks = 0;
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
-		if (event.phase == Phase.START) {
-			for (KeyMapping key : Minecraft.getInstance().options.keyHotbarSlots) {
-				if (KeyboardHelper.isScrollActivatorDown()) {
-					key.setKey(InputConstants.getKey(InputConstants.KEY_F25,InputConstants.KEY_F25));
-				} else {
-					key.setToDefault();
-				}
-			}
-
-		}
-		
 		if (event.phase == Phase.END) {
 			Minecraft mc = Minecraft.getInstance();
 			if (event.player == mc.player && cooldownTicks <= 0) { // Only run this for the local client player

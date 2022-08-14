@@ -676,130 +676,132 @@ public class InputHandler {
         Level world = mc.level;
 
 		Keybinds key = getPressedKey();
-		if(KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-				PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
-			}
-		}
-		
-		if(KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-				PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49));
-			}
-			return;
-		}
-		
-		if (key != null) {
-			switch (key) {
-			case OPENMENU:
-				PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-				if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
-					if (player.level.dimension() != ModDimensions.DIVE_TO_THE_HEART) {
-						mc.setScreen(new NoChoiceMenuPopup());
-					}
-				} else {
-					GuiHelper.openMenu();
-				}
-				//GuiHelper.openMenu();
-				break;
+        if (player != null) {
+            if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
+                IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
+                }
+            }
 
+            if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
+                IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49));
+                }
+                return;
+            }
 
-			case SHOW_GUI:
-                ModConfigs.toggleGui();
-                player.displayClientMessage(new TranslatableComponent("message.kingdomkeys.gui_toggle", ModConfigs.showGuiToggle.toString()), true);
-                switch (ModConfigs.showGuiToggle) {
-                    case HIDE, WEAPON:
-                        OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
-                        OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-                        OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
-                        OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
-                        OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
-                        OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
+            if (key != null) {
+                switch (key) {
+                    case OPENMENU:
+                        PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
+                        if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
+                            if (player.level.dimension() != ModDimensions.DIVE_TO_THE_HEART) {
+                                mc.setScreen(new NoChoiceMenuPopup());
+                            }
+                        } else {
+                            GuiHelper.openMenu();
+                        }
+                        //GuiHelper.openMenu();
                         break;
-                    case SHOW:
-                        OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
-                        OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-                        OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
-                        OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
-                        OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
-                        OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
+
+
+                    case SHOW_GUI:
+                        ModConfigs.toggleGui();
+                        player.displayClientMessage(new TranslatableComponent("message.kingdomkeys.gui_toggle", ModConfigs.showGuiToggle.toString()), true);
+                        switch (ModConfigs.showGuiToggle) {
+                            case HIDE, WEAPON:
+                                OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
+                                OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
+                                OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
+                                OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
+                                OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
+                                OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
+                                break;
+                            case SHOW:
+                                OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
+                                OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
+                                OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
+                                OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
+                                OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
+                                OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
+                                break;
+                        }
+                        break;
+
+                    case SCROLL_UP:
+                        // if (!MainConfig.displayGUI())
+                        // break;
+                        if (mc.screen == null)
+                            commandUp();
+                        break;
+
+                    case SCROLL_DOWN:
+                        // if (!MainConfig.displayGUI())
+                        // break;
+                        if (mc.screen == null)
+                            commandDown();
+                        break;
+
+                    case ENTER:
+                        /*
+                         * if (!MainConfig.displayGUI()) break;
+                         */
+                        if (mc.screen == null)
+                            commandEnter();
+
+                        break;
+
+                    case BACK:
+                        // if (!MainConfig.displayGUI())
+                        // break;
+                        if (mc.screen == null)
+                            commandBack();
+
+                        break;
+
+                    case SUMMON_KEYBLADE:
+                        if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        } else {
+                            PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
+                        }
+                        break;/*
+                         * case SCROLL_ACTIVATOR: break;
+                         */
+                    case ACTION:
+                        commandAction();
+                        break;
+
+                    case LOCK_ON:
+                        if (lockOn == null) {
+                            int reach = 35;
+                            HitResult rtr = getMouseOverExtended(reach);
+                            if (rtr != null && rtr instanceof EntityHitResult) {
+                                EntityHitResult ertr = (EntityHitResult) rtr;
+                                if (ertr.getEntity() != null) {
+                                    double distance = player.distanceTo(ertr.getEntity());
+
+                                    if (reach >= distance) {
+                                        if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
+                                            lockOn = (LivingEntity) ertr.getEntity();
+                                            player.level.playSound((Player) player, player.blockPosition(), ModSounds.lockon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            lockOn = null;
+                        }
+                        break;
+
+                    case REACTION_COMMAND:
+                        reactionCommand();
                         break;
                 }
-                break;
-
-			case SCROLL_UP:
-				// if (!MainConfig.displayGUI())
-				// break;
-				if (mc.screen == null)
-					commandUp();
-				break;
-
-			case SCROLL_DOWN:
-				// if (!MainConfig.displayGUI())
-				// break;
-				if (mc.screen == null)
-					commandDown();
-				break;
-
-			case ENTER:
-				/*
-				 * if (!MainConfig.displayGUI()) break;
-				 */
-				if (mc.screen == null)
-					commandEnter();
-
-				break;
-
-			case BACK:
-				// if (!MainConfig.displayGUI())
-				// break;
-				if (mc.screen == null)
-					commandBack();
-
-				break;
-
-			case SUMMON_KEYBLADE:
-				if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-					PacketHandler.sendToServer(new CSSummonKeyblade());
-				} else {
-					PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
-				}
-				break;/*
-						 * case SCROLL_ACTIVATOR: break;
-						 */
-			case ACTION:
-				commandAction();
-				break;
-
-			case LOCK_ON:
-				if (lockOn == null) {
-					int reach = 35;
-					HitResult rtr = getMouseOverExtended(reach);
-					if (rtr != null && rtr instanceof EntityHitResult) {
-						EntityHitResult ertr = (EntityHitResult) rtr;
-						if (ertr.getEntity() != null) {
-							double distance = player.distanceTo(ertr.getEntity());
-							
-							if (reach >= distance) {
-								if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
-									lockOn = (LivingEntity) ertr.getEntity();
-									player.level.playSound((Player) player, player.blockPosition(), ModSounds.lockon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-								}
-							}
-						}
-					}
-				} else {
-					lockOn = null;
-				}
-				break;
-
-			case REACTION_COMMAND:
-				reactionCommand();
-				break;
-			}
-		}
+            }
+        }
 	}
 
 	private void commandAction() {

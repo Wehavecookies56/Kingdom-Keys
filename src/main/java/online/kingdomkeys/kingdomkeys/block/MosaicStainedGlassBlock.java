@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.StainedGlassBlock;
@@ -62,4 +63,9 @@ public class MosaicStainedGlassBlock extends StainedGlassBlock {
         }
     }
 
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+
+        return super.getLightEmission(state, level, pos);
+    }
 }
