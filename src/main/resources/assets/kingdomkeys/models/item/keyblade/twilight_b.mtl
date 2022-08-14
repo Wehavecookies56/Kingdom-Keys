@@ -1,11 +1,11 @@
 # Created by Metasequoia
 
 newmtl mat1
-Ka 1.00000 1.00000 1.00000
+Ka 0.000000 0.000000 0.000000
 Kd 1.00000 1.00000 1.00000
 map_Kd kingdomkeys:item/models/keyblades/twilightb1
 
 newmtl mat2
-Ka 1.00000 1.00000 1.00000
+Ka 0.000000 0.000000 0.000000
 Kd 1.00000 1.00000 1.00000
 map_Kd kingdomkeys:item/models/keyblades/twilightb2

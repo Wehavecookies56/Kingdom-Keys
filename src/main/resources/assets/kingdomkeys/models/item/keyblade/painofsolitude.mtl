@@ -1,6 +1,6 @@
 # Created by Metasequoia
 
 newmtl mat2
-Ka 0.38353 0.38353 0.38353
+Ka 0.000000 0.000000 0.000000
 Kd 0.51137 0.51137 0.51137
 map_Kd kingdomkeys:item/models/keyblades/painofsolitude

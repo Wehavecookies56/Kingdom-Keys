@@ -11,6 +11,8 @@ import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
@@ -31,17 +33,17 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 	    if (!tileEntityIn.isStationOfAwakeningMarker()) {
 			tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iih -> {
 				if (!iih.getStackInSlot(0).isEmpty()) {
-					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) iih.getStackInSlot(0).getItem()).getKeyblade()) : iih.getStackInSlot(0));
+					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) iih.getStackInSlot(0).getItem()).getKeyblade()) : iih.getStackInSlot(0), combinedLightIn);
 				}
 			});
 		} else {
 	    	if (!tileEntityIn.hide) {
-				renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack());
+				renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack(), combinedLightIn);
 			}
 		}
 	}
 
-	private void renderItem(PedestalTileEntity tileEntity, PoseStack matrixStack, MultiBufferSource buffer, float partialTicks, ItemStack toRender) {
+	private void renderItem(PedestalTileEntity tileEntity, PoseStack matrixStack, MultiBufferSource buffer, float partialTicks, ItemStack toRender, int combinedLightIn) {
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -64,7 +66,8 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 				matrixStack.translate(0, -0.6F, 0);
 
 			}
-			renderItem.renderStatic(toRender, TransformType.FIXED, 100, 655360, matrixStack, buffer, 0);
+			BakedModel model = renderItem.getModel(toRender, tileEntity.getLevel(), null, 1);
+			renderItem.render(toRender, TransformType.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
 		}
 		matrixStack.popPose();
 	}

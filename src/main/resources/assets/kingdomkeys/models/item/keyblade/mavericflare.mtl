@@ -1,6 +1,6 @@
 # Created by Metasequoia
 
 newmtl mat1
-Ka 0.48000 0.48000 0.48000
+Ka 0.000000 0.000000 0.000000
 Kd 0.64000 0.64000 0.64000
 map_Kd kingdomkeys:item/models/keyblades/mavericflare
