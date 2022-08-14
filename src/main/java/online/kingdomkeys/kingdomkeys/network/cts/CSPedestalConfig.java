@@ -12,11 +12,11 @@ public class CSPedestalConfig {
 
     private BlockPos tileEntityPos;
     private float rotationSpeed, bobSpeed, savedRotation, savedHeight, baseHeight, scale;
-    private boolean pause;
+    private boolean pause, flipped;
 
     public CSPedestalConfig() {}
 
-    public CSPedestalConfig(BlockPos tileEntityPos, float rotationSpeed, float bobSpeed, float savedRotation, float savedHeight, float baseHeight, float scale, boolean pause) {
+    public CSPedestalConfig(BlockPos tileEntityPos, float rotationSpeed, float bobSpeed, float savedRotation, float savedHeight, float baseHeight, float scale, boolean pause, boolean flipped) {
         this.tileEntityPos = tileEntityPos;
         this.rotationSpeed = rotationSpeed;
         this.bobSpeed = bobSpeed;
@@ -25,6 +25,7 @@ public class CSPedestalConfig {
         this.baseHeight = baseHeight;
         this.scale = scale;
         this.pause = pause;
+        this.flipped = flipped;
     }
 
     public void encode(FriendlyByteBuf buffer) {
@@ -36,6 +37,7 @@ public class CSPedestalConfig {
         buffer.writeFloat(this.baseHeight);
         buffer.writeFloat(this.scale);
         buffer.writeBoolean(this.pause);
+        buffer.writeBoolean(this.flipped);
     }
 
     public static CSPedestalConfig decode(FriendlyByteBuf buffer) {
@@ -48,6 +50,7 @@ public class CSPedestalConfig {
         msg.baseHeight = buffer.readFloat();
         msg.scale = buffer.readFloat();
         msg.pause = buffer.readBoolean();
+        msg.flipped = buffer.readBoolean();
         return msg;
     }
 
@@ -59,6 +62,7 @@ public class CSPedestalConfig {
             tileEntity.saveTransforms(message.savedRotation, message.savedHeight);
             tileEntity.setScale(message.scale);
             tileEntity.setPause(message.pause);
+            tileEntity.setFlipped(message.flipped);
             tileEntity.setBaseHeight(message.baseHeight);
             world.sendBlockUpdated(message.tileEntityPos, world.getBlockState(message.tileEntityPos), world.getBlockState(message.tileEntityPos), 2);
         });

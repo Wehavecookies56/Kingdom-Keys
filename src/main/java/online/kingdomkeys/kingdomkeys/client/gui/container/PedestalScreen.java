@@ -32,9 +32,9 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     final float rotationSpeedMax = 5.0F;
     final float bobSpeedMax = 0.5F;
     final float scaleMax = 2.0F;
-    final float heightMax = 2.0F;
+    final float heightMax = 3.0F;
     Slider rotationSpeedSlider, bobSpeedSlider, scaleSlider, heightSlider;
-    CheckboxButton pauseCheckbox;
+    CheckboxButton pauseCheckbox, flippedCheckbox;
     ExtendedButton reset;
 
 
@@ -47,6 +47,7 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
         addRenderableWidget(rotationSpeedSlider = new Slider(leftPos + 8, topPos + 54, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), true, false, h -> { }));
         addRenderableWidget(bobSpeedSlider = new Slider(leftPos + 8, topPos + 66, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), true, false, h -> {}));
         addRenderableWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
+        addRenderableWidget(flippedCheckbox = new CheckboxButton(leftPos + 60, topPos + 18, "Flip", menu.TE.isFlipped()));
         addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, new TranslatableComponent("Reset"), p -> {
             menu.TE.setPause(false);
             menu.TE.setCurrentTransforms(PedestalTileEntity.DEFAULT_ROTATION, PedestalTileEntity.DEFAULT_HEIGHT);
@@ -58,14 +59,16 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
             scaleSlider.setValue(PedestalTileEntity.DEFAULT_SCALE);
             heightSlider.setValue(PedestalTileEntity.DEFAULT_HEIGHT);
             pauseCheckbox.setChecked(false);
-            PacketHandler.sendToServer(new CSPedestalConfig(menu.TE.getBlockPos(), menu.TE.getRotationSpeed(), menu.TE.getBobSpeed(), menu.TE.getSavedRotation(), menu.TE.getSavedHeight(), menu.TE.getBaseHeight(), menu.TE.getScale(), menu.TE.isPaused()));
+            flippedCheckbox.setChecked(false);
+            PacketHandler.sendToServer(new CSPedestalConfig(menu.TE.getBlockPos(), menu.TE.getRotationSpeed(), menu.TE.getBobSpeed(), menu.TE.getSavedRotation(), menu.TE.getSavedHeight(), menu.TE.getBaseHeight(), menu.TE.getScale(), menu.TE.isPaused(), menu.TE.isFlipped()));
         }));
     }
 
     @Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
         if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
-            PacketHandler.sendToServer(new CSPedestalConfig(menu.TE.getBlockPos(), menu.TE.getRotationSpeed(), menu.TE.getBobSpeed(), menu.TE.getSavedRotation(), menu.TE.getSavedHeight(), menu.TE.getBaseHeight(), menu.TE.getScale(), menu.TE.isPaused()));
+
+        	PacketHandler.sendToServer(new CSPedestalConfig(menu.TE.getBlockPos(), menu.TE.getRotationSpeed(), menu.TE.getBobSpeed(), menu.TE.getSavedRotation(), menu.TE.getSavedHeight(), menu.TE.getBaseHeight(), menu.TE.getScale(), menu.TE.isPaused(), menu.TE.isFlipped()));
         }
         return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
     }
@@ -74,6 +77,7 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     protected void containerTick() {
         menu.TE.setSpeed((float) rotationSpeedSlider.getValue(), (float) bobSpeedSlider.getValue());
         menu.TE.setPause(pauseCheckbox.isChecked());
+        menu.TE.setFlipped(flippedCheckbox.isChecked());
         menu.TE.setScale((float) scaleSlider.getValue());
         menu.TE.setBaseHeight((float) heightSlider.getValue());
         if (pauseCheckbox.isChecked())

@@ -57,6 +57,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	private float baseHeight = 1.25F;
 
 	private static boolean pause = false;
+	private boolean flipped = false;
 
 	//only changed on the client so it will not hide for other players
 	public boolean hide = false;
@@ -92,6 +93,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		scale = transformations.getFloat("scale");
 		baseHeight = transformations.getFloat("baseheight");
 		pause = transformations.getBoolean("pause");
+		flipped = transformations.getBoolean("flipped");
 		stationOfAwakeningMarker = compound.getBoolean("soa_marker");
 		displayStack = ItemStack.of(compound.getCompound("display_stack"));
 	}
@@ -111,6 +113,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		transformations.putFloat("scale", scale);
 		transformations.putFloat("baseheight", baseHeight);
 		transformations.putBoolean("pause", pause);
+		transformations.putBoolean("flipped", flipped);
 		compound.put("transforms", transformations);
 		compound.putBoolean("soa_marker", stationOfAwakeningMarker);
 		compound.put("display_stack", displayStack.serializeNBT());
@@ -173,6 +176,10 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	public boolean isPaused() {
 		return pause;
 	}
+	
+	public boolean isFlipped() {
+		return flipped;
+	}
 
 	public void setSpeed(float rotationSpeed, float bobSpeed) {
 		this.rotationSpeed = rotationSpeed;
@@ -188,6 +195,11 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 
 	public void setPause(boolean pause) {
 		this.pause = pause;
+		setChanged();
+	}
+	
+	public void setFlipped(boolean flipped) {
+		this.flipped = flipped;
 		setChanged();
 	}
 
