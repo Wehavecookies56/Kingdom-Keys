@@ -69,7 +69,7 @@ public class ModBlocks {
     		magicalChest = createNewBlock("magical_chest", () -> new MagicalChestBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
     		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
     		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
-    		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new MosaicStainedGlassBlock(Block.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
+    		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new MosaicStainedGlassBlock(Block.Properties.of(Material.GLASS).lightLevel(state -> state.getValue(MosaicStainedGlassBlock.STRUCTURE) ? 15 : 0).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
        		//mosaic_stained_glass = createNewBlock("mosaic_stained_glass", Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F)),
        		//mosaic_stained_glass = createNewBlock("mosaircfdxc_stained_glass", () -> new KKGlassBlock(Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F))),
 
