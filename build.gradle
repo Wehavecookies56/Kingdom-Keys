@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 def mcver = "1.18.2"
-version = mcver + '-2.1.5.0'
+version = mcver + '-2.1.6.0'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
 
@@ -103,7 +103,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     implementation fg.deobf("curse.maven:jer-240630:3760449")
-    implementation fg.deobf("epicfight:epicfight:18.2.6")
+    implementation fg.deobf("curse.maven:epicfight-405076:3932437")
 }
 
 jar {
