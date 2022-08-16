@@ -170,6 +170,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
 					((ServerLevel) level).sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ()+i, 3, 0,0,0, 0.2);
 				}
 
+				Party casterParty = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
 
 				if (!list.isEmpty()) {
 					for (int i = 0; i < list.size(); i++) {
@@ -177,9 +178,11 @@ public class BlizzazaEntity extends ThrowableProjectile {
 						if (e.isOnFire()) {
 							e.clearFire();
 						} else {
-							float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
-							float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-							e.hurt(IceDamageSource.getIceDamage(this, this.getOwner()), dmg);
+							if(!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
+								float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
+								float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
+								e.hurt(IceDamageSource.getIceDamage(this, this.getOwner()), dmg);
+							}
 						}
 					}
 				}

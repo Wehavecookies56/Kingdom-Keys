@@ -214,15 +214,17 @@ public class WateraEntity extends ThrowableProjectile {
 					}
 				}
 
+				Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						LivingEntity e = list.get(i);
+					for (LivingEntity e : list) {
 						if (e.isOnFire()) {
 							e.clearFire();
 						} else {
-							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.35F : 2;
-							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							if(!Utils.isEntityInParty(casterParty, e) && e != player) {
+								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.35F : 2;
+								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							}
 						}
 					}
 				}

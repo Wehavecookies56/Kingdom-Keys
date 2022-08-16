@@ -349,6 +349,19 @@ public class Utils {
 
 		return elList;
 	}
+	
+	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list){
+		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+
+		if(casterParty != null && !casterParty.getFriendlyFire()) {
+			for(Member m : casterParty.getMembers()) {
+				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+			}
+		} else {
+			list.remove(player);
+		}
+		return list;
+	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, float radius) {
 		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
@@ -712,6 +725,8 @@ public class Utils {
 	}*/
 
 	public static boolean isEntityInParty(Party party, Entity e) {
+		if(party == null)
+			return false;
 		List<Member> list = party.getMembers();
 		for(Member m : list) {
 			if(m.getUUID().equals(e.getUUID())) {

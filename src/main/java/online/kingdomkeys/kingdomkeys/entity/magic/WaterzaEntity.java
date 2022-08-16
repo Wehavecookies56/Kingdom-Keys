@@ -212,16 +212,18 @@ public class WaterzaEntity extends ThrowableProjectile {
 					}
 				}
 
+				Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						LivingEntity e = list.get(i);
+					for (LivingEntity e : list) {
 						if (e.isOnFire()) {
 							e.clearFire();
 						} else {
-							float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.2F;
-							float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							if(!Utils.isEntityInParty(casterParty, e) && e != player) {
+								float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.2F;
+								float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
+								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							}
 						}
 					}
 				}

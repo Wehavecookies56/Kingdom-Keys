@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class FiragaEntity extends ThrowableProjectile {
 
@@ -142,16 +143,8 @@ public class FiragaEntity extends ThrowableProjectile {
 			}
 			
 			List<Entity> list = level.getEntities(getOwner(), getBoundingBox().inflate(radius));
-			Party casterParty = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
-
-			if(casterParty != null && !casterParty.getFriendlyFire()) {
-				for(Member m : casterParty.getMembers()) {
-					list.remove(level.getPlayerByUUID(m.getUUID()));
-				}
-			} else {
-				list.remove(getOwner());
-			}
-
+			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
+			
 			((ServerLevel)level).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			
 			if (!list.isEmpty()) {
