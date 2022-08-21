@@ -1016,8 +1016,8 @@ public class EntityEvents {
 					}
 					
 					int num = Utils.randomWithRange(0,99);
-
-					if(num < ModConfigs.recipeDropChance) {
+					if(num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
+						System.out.println("Bingo");
 						ItemEntity ie = new ItemEntity(player.level, x, y, z, new ItemStack(ModItems.recipeD.get()));
 						player.level.addFreshEntity(ie);
 					}

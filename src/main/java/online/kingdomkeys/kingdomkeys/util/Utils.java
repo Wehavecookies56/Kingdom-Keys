@@ -11,13 +11,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -34,9 +31,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -838,6 +835,18 @@ public class Utils {
 
 	public static int stacksForItemAmount(ItemStack item, int amount) {
 		return (int) Math.round(Math.ceil((double)amount / (double)item.getMaxStackSize()));
+	}
+
+	public static int getLootingLevel(Player player) {
+		int lvl = 0;
+		if(!ItemStack.isSame(player.getMainHandItem(),ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()){
+            lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
+		}
+		if(!ItemStack.isSame(player.getOffhandItem(),ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()){
+            lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
+		}
+		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+		return lvl;
 	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
