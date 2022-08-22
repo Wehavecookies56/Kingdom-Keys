@@ -858,8 +858,8 @@ public class ModItems {
 			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
 			blizzardArmlet = createNewItem(Strings.blizzardArmlet, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.ice, 20))),
 			thunderTrinket = createNewItem(Strings.thunderTrinket, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.lightning, 20))),
-			petiteRibbon = createNewItem(Strings.petiteRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 10, KKResistanceType.ice, 10, KKResistanceType.lightning, 10, KKResistanceType.darkness, 10))),
-			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
+			petiteRibbon = createNewItem(Strings.petiteRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 2, ImmutableMap.of(KKResistanceType.fire, 10, KKResistanceType.ice, 10, KKResistanceType.lightning, 10, KKResistanceType.darkness, 10))),
+			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 3, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
 			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25)));
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));

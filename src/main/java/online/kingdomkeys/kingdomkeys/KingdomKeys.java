@@ -62,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
@@ -235,5 +236,6 @@ public class KingdomKeys {
 		event.addListener(new MagicDataLoader());
 		event.addListener(new LevelingDataLoader());
 		event.addListener(new ShopListDataLoader());
+		event.addListener(new LimitDataLoader());
 	}
 }

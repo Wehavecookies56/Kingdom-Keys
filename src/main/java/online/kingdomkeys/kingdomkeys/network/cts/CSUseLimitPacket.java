@@ -48,11 +48,11 @@ public class CSUseLimitPacket {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				Limit limit = Utils.getPlayerLimitAttacks(player).get(message.index);
+				Limit limit = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(player)).get(message.index);
 				int cost = limit.getCost();
 				if (playerData.getDP() >= cost) {
 					playerData.remDP(cost);
-					playerData.setLimitCooldownTicks(600);
+					playerData.setLimitCooldownTicks(limit.getCooldown());
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 					if(message.targetID > -1) {
 						limit.onUse(player, (LivingEntity) player.level.getEntity(message.targetID));

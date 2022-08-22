@@ -3,52 +3,53 @@ package online.kingdomkeys.kingdomkeys.entity.organization;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 
-public class ArrowRainCoreEntity extends ThrowableProjectile {
+public class ThunderTrailCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 240;
 	float dmg;
+	
+	BlockPos ogPos;
 
-	float radius;
-	float space;
-
-	public ArrowRainCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
+	public ThunderTrailCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
 
-	public ArrowRainCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_ARROW_RAIN.get(), world);
+	public ThunderTrailCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
+		super(ModEntities.TYPE_THUNDER_TRAIL.get(), world);
 	}
 
-	public ArrowRainCoreEntity(Level world) {
-		super(ModEntities.TYPE_ARROW_RAIN.get(), world);
+	public ThunderTrailCoreEntity(Level world) {
+		super(ModEntities.TYPE_THUNDER_TRAIL.get(), world);
 		this.blocksBuilding = true;
 	}
 
-	public ArrowRainCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
-		super(ModEntities.TYPE_ARROW_RAIN.get(), player, world);
+	public ThunderTrailCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
+		super(ModEntities.TYPE_THUNDER_TRAIL.get(), player, world);
 		setCaster(player.getUUID());
 		setTarget(target.getUUID());
 		this.dmg = dmg;
+		setOgPos(player.blockPosition());
 	}
 
 	@Override
@@ -63,42 +64,24 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks || getCaster() == null) {
+		if(getOgPos() == null) {
+			return;
+		}
+		if (this.tickCount > maxTicks || getCaster() == null || this.distanceToSqr(getOgPos().getX(),getOgPos().getY(),getOgPos().getZ()) > 30*30) {
 			this.remove(RemovalReason.KILLED);
 		}
 		
-		this.setDeltaMovement(0, 0, 0);
-		this.hurtMarked = true;
-
-		//level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
-
-		double X = getX();
-		double Y = getY();
-		double Z = getZ();
-
 		if (getCaster() != null) {
-			if (tickCount == 1) {
-				LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
-				bullet.setPos(X, Y, Z);
-				bullet.setMaxTicks(30);
-				bullet.shoot(0, 255, 0, 1f, 0);
-				level.addFreshEntity(bullet);
-				level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 0.6F);
+			if(tickCount % 3 == 0) {
+				ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level, getCaster(), getX(), getY()-1, getZ(), dmg);
+				shot.setCaster(getCaster().getUUID());
+				level.addFreshEntity(shot);
 
-			} else if (tickCount > 40 && tickCount % 2 == 0) { // Get all targets right before starting to shoot
-				radius = Math.min((tickCount-34) / 10F, 20);
-				space = 20 + 6 - radius;
-				for (int s = 1; s < 360; s += space) {
-					double x = X + (radius * Math.cos(Math.toRadians(s)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
-					bullet.setPos(X, Y + 27, Z);
-					bullet.setMaxTicks(20);
-					bullet.shoot(x - bullet.getX(), this.getY() - bullet.getY()+1, z - bullet.getZ(), 2.5f, 0);
-					//list.add(bullet);
-					level.addFreshEntity(bullet);
-				}
-				level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);	
+				LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level);
+				lightningBoltEntity.setVisualOnly(true);
+				lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(blockPosition().below()));
+				lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
+				this.level.addFreshEntity(lightningBoltEntity);
 			}
 		}
 		super.tick();
@@ -106,7 +89,7 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		remove(RemovalReason.KILLED);
+		//remove(RemovalReason.KILLED);
 	}
 
 	public int getMaxTicks() {
@@ -123,6 +106,8 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 		if (this.entityData.get(OWNER) != null) {
 			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 			compound.putString("TargetUUID", this.entityData.get(TARGET).get().toString());
+			int[] intArray = new int[] {this.entityData.get(OGPOS).getX(),this.entityData.get(OGPOS).getY(),this.entityData.get(OGPOS).getZ()};
+			compound.putIntArray("OgPos", intArray);
 		}
 	}
 
@@ -131,10 +116,14 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 		super.readAdditionalSaveData(compound);
 		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 		this.entityData.set(TARGET, Optional.of(UUID.fromString(compound.getString("TargetUUID"))));
+		int[] coords = compound.getIntArray("OgPos");
+		BlockPos blockpos = new BlockPos(coords[0],coords[1],coords[2]);
+		this.entityData.set(OGPOS, blockpos);
 	}
 
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(ArrowRainCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(ArrowRainCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(ThunderTrailCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(ThunderTrailCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<BlockPos> OGPOS = SynchedEntityData.defineId(ThunderTrailCoreEntity.class, EntityDataSerializers.BLOCK_POS);
 
 	public Player getCaster() {
 		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
@@ -144,6 +133,14 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
+	public BlockPos getOgPos() {
+		return this.getEntityData().get(OGPOS);
+	}
+
+	public void setOgPos(BlockPos blockpos) {
+		this.entityData.set(OGPOS, blockpos);
+	}
+	
 	public Player getTarget() {
 		return this.getEntityData().get(TARGET).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
 	}
@@ -156,5 +153,6 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 	protected void defineSynchedData() {
 		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
 		this.entityData.define(TARGET, Optional.of(new UUID(0L, 0L)));
+		this.entityData.define(OGPOS, new BlockPos(0,0,0));
 	}
 }

@@ -52,6 +52,9 @@ import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
+import online.kingdomkeys.kingdomkeys.limit.Limit;
+import online.kingdomkeys.kingdomkeys.limit.LimitData;
+import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -60,6 +63,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
@@ -322,10 +326,36 @@ public class ClientUtils {
                         result = SCSyncMagicData.GSON_BUILDER.fromJson(br, MagicData.class);
 
                     } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
+                        KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", message.names.get(i), e);
                         continue;
                     }
                     magic.setMagicData(result);
+                    IOUtils.closeQuietly(br);
+                }
+            }
+        };
+    }
+    
+    public static DistExecutor.SafeRunnable syncLimitData(SCSyncLimitData message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Player player = Minecraft.getInstance().player;
+
+                for (int i = 0; i < message.names.size(); i++) {
+                    Limit limit = ModLimits.registry.get().getValue(new ResourceLocation(message.names.get(i)));
+                    String d = message.data.get(i);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
+
+                    LimitData result;
+                    try {
+                        result = SCSyncLimitData.GSON_BUILDER.fromJson(br, LimitData.class);
+
+                    } catch (JsonParseException e) {
+                        KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", message.names.get(i), e);
+                        continue;
+                    }
+                    limit.setLimitData(result);
                     IOUtils.closeQuietly(br);
                 }
             }

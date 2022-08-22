@@ -23,8 +23,10 @@ public class ModLimits {
 	static int order = 0;
 
 	public static final RegistryObject<Limit>
-		LASER_CIRCLE = LIMITS.register(Strings.LaserCircle, () -> new LimitLaserCircle(KingdomKeys.MODID + ":" + Strings.LaserCircle, order++, 100, 200, OrgMember.XEMNAS)),
-		LASER_DOME = LIMITS.register(Strings.LaserDome, () -> new LimitLaserDome(KingdomKeys.MODID + ":" + Strings.LaserDome, order++, 400, 600, OrgMember.XEMNAS)),
-		ARROW_RAIN = LIMITS.register(Strings.ArrowRain, () -> new LimitArrowRain(KingdomKeys.MODID + ":" + Strings.ArrowRain, order++, 300, 600, OrgMember.XIGBAR))
+		LASER_CIRCLE = LIMITS.register(Strings.LaserCircle, () -> new LimitLaserCircle(KingdomKeys.MODID + ":" + Strings.LaserCircle, order++, OrgMember.XEMNAS)),
+		LASER_DOME = LIMITS.register(Strings.LaserDome, () -> new LimitLaserDome(KingdomKeys.MODID + ":" + Strings.LaserDome, order++, OrgMember.XEMNAS)),
+		ARROW_RAIN = LIMITS.register(Strings.ArrowRain, () -> new LimitArrowRain(KingdomKeys.MODID + ":" + Strings.ArrowRain, order++, OrgMember.XIGBAR)),
+		SLOW_THUNDER_TRAIL = LIMITS.register(Strings.SlowThunderTrail, () -> new LimitThunderTrail(KingdomKeys.MODID + ":" + Strings.SlowThunderTrail, order++, OrgMember.LARXENE, 0.5F)),
+		FAST_THUNDER_TRAIL = LIMITS.register(Strings.FastThunderTrail, () -> new LimitThunderTrail(KingdomKeys.MODID + ":" + Strings.FastThunderTrail, order++, OrgMember.LARXENE, 1))
 	;
 }

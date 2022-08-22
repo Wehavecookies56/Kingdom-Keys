@@ -289,6 +289,26 @@ public class Utils {
 
 		return map;
 	}
+	
+	public static List<Limit> getPlayerLimitAttacks(Player player) {
+//		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		List<Limit> limits = new ArrayList<Limit>();
+		limits.addAll(ModLimits.registry.get().getValues());
+		//TODO change when we have more member limits
+       /* for(Limit val : ModLimits.registry.getValues()) {
+        	System.out.println(val.getName());
+        	if(val.getOwner() == playerData.getAlignment()) {
+        		limits.add(val);
+        		break;
+        	}
+        }*/
+        return limits;
+	}
+	
+	public static List<Limit> getSortedLimits(List<Limit> list) {
+		Collections.sort(list, Comparator.comparingInt(Limit::getOrder));
+		return list;
+	}
 
 	public static List<String> getSortedShotlocks(List<String> list) {
 		Collections.sort(list, (Comparator.comparingInt(a -> ModShotlocks.registry.get().getValue(new ResourceLocation(a)).getOrder())));
@@ -645,21 +665,6 @@ public class Utils {
         double d1 = target.getZ() - entity.getZ();
         return (float)-(Mth.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
     }
-
-	public static List<Limit> getPlayerLimitAttacks(Player player) {
-//		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		List<Limit> limits = new ArrayList<Limit>();
-		limits.addAll(ModLimits.registry.get().getValues());
-		//TODO change when we have more member limits
-       /* for(Limit val : ModLimits.registry.getValues()) {
-        	System.out.println(val.getName());
-        	if(val.getOwner() == playerData.getAlignment()) {
-        		limits.add(val);
-        		break;
-        	}
-        }*/
-        return limits;
-	}
 	
 	public static Shotlock getPlayerShotlock(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);

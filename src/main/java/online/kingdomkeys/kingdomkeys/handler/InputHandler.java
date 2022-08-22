@@ -1061,7 +1061,8 @@ public class InputHandler {
 	        this.driveFormsMap.remove(DriveForm.SYNCH_BLADE.toString());
 	        this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
 	        this.portalCommands = worldData.getAllPortalsFromOwnerID(mc.player.getUUID());
-			this.limitsList = Utils.getPlayerLimitAttacks(mc.player);
+			this.limitsList = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(mc.player));
+			
 	        if(ModCapabilities.getWorld(mc.level).getPartyFromMember(mc.player.getUUID()) != null) {
 	        	this.targetsList = ModCapabilities.getWorld(mc.level).getPartyFromMember(mc.player.getUUID()).getMembers();
 	        }

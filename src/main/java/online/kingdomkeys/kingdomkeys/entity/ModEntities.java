@@ -154,6 +154,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ThunderTrailCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.PrismRainCoreEntity;
@@ -294,6 +295,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, LaserDomeCoreEntity::new, MobCategory.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, MobCategory.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createEntityType(ArrowRainCoreEntity::new, ArrowRainCoreEntity::new, MobCategory.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ThunderTrailCoreEntity>> TYPE_THUNDER_TRAIL = createEntityType(ThunderTrailCoreEntity::new, ThunderTrailCoreEntity::new, MobCategory.MISC,"entity_thunder_trail_core", 0.5F, 0.5F);
     
 	public static final RegistryObject<EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, DarkVolleyCoreEntity::new, MobCategory.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
 	public static final RegistryObject<EntityType<RagnarokCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokCoreEntity::new, RagnarokCoreEntity::new, MobCategory.MISC, "entity_shotlock_circular_core", 0.5F, 0.5F);
@@ -424,6 +426,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer::new);
         event.registerEntityRenderer(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_THUNDER_TRAIL.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_CIRCULAR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_SONIC_BLADE.get(), InvisibleEntityRenderer::new);

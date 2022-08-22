@@ -18,15 +18,10 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class LimitLaserDome extends Limit {
 
-	public LimitLaserDome(String registryName, int order, int cost, int cooldown, OrgMember owner) {
-		super(registryName, order, cost, cooldown, owner);
+	public LimitLaserDome(String registryName, int order, OrgMember owner) {
+		super(registryName, order, owner);
 	}
 
-	@Override
-	public int getCost() {
-		return ModConfigs.limitLaserDomeCost;
-	}
-	
 	@Override
 	public void onUse(Player player, LivingEntity target) {
 		ItemStack stack = player.getMainHandItem();
@@ -38,6 +33,8 @@ public class LimitLaserDome extends Limit {
 		} else {
 			damage = (playerData.getStrength(true) + playerData.getMagic(true)) / 2F;
 		}
+
+		damage *= getLimitData().getDmgMult();
 
 		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.level, player, target, damage);
 		dome.setPos(target.getX(), target.getY(), target.getZ());

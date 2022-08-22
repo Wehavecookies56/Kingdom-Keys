@@ -51,7 +51,9 @@ public class Strings {
        public static final String
 			LaserCircle = "laser_circle",
        		LaserDome = "laser_dome",
-       		ArrowRain = "arrow_rain";
+       		ArrowRain = "arrow_rain",
+			SlowThunderTrail = "slow_thunder_trail",
+			FastThunderTrail = "fast_thunder_trail";
        
     // Shotlocks
        public static final String

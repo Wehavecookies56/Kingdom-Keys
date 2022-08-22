@@ -4,30 +4,29 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public abstract class Limit extends ForgeRegistryEntry<Limit> {
 
 	String name;
 	int order;
-	int cost;
-	int cooldown;
 
 	String translationKey;
 
 	OrgMember owner;
+	private LimitData data;	
 
-	public Limit(ResourceLocation registryName, int order, int cost, int cooldown, OrgMember owner) {
+
+	public Limit(ResourceLocation registryName, int order, OrgMember owner) {
 		this.name = registryName.toString();
-		this.cost = cost;
-		this.cooldown = cooldown;
 		this.order = order;
 		this.owner = owner;
 		translationKey = "limit." + registryName.getPath() + ".name";
 	}
 
-	public Limit(String registryName, int order, int cost, int cooldown, OrgMember owner) {
-		this(new ResourceLocation(registryName), order, cost, cooldown, owner);
+	public Limit(String registryName, int order, OrgMember owner) {
+		this(new ResourceLocation(registryName), order, owner);
 	}
 
 	public String getName() {
@@ -39,11 +38,11 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 	}
 
 	public int getCost() {
-		return cost;
+		return data.getCost();
 	}
 	
 	public int getCooldown() {
-		return cooldown;
+		return data.getCooldown();
 	}
 	
 	public int getOrder() {
@@ -55,5 +54,13 @@ public abstract class Limit extends ForgeRegistryEntry<Limit> {
 	}
 
 	public abstract void onUse(Player player, LivingEntity target);
+	
+	public LimitData getLimitData() {
+		return data;
+	}
+
+	public void setLimitData(LimitData data) {
+		this.data = data;
+	}
 
 }

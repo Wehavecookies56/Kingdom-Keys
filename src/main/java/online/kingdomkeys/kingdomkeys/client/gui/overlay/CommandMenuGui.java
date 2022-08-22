@@ -615,7 +615,9 @@ public class CommandMenuGui extends OverlayBase {
 	private void drawSubLimits(PoseStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		List<Limit> limits = Utils.getPlayerLimitAttacks(minecraft.player);
+		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+
+		List<Limit> limits = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(minecraft.player));
 		
 		if (playerData != null && limits != null && !limits.isEmpty()) {
 			// Limit TOP

@@ -72,10 +72,6 @@ public class CommonConfig {
     public ForgeConfigSpec.DoubleValue drivePointsMultiplier;
     public ForgeConfigSpec.DoubleValue focusPointsMultiplier;
 
-    public ForgeConfigSpec.DoubleValue limitLaserCircleMult;
-    public ForgeConfigSpec.DoubleValue limitLaserDomeMult;
-    public ForgeConfigSpec.DoubleValue limitArrowRainMult;
-
     public ForgeConfigSpec.IntValue hpDropProbability;
     public ForgeConfigSpec.IntValue mpDropProbability;
     public ForgeConfigSpec.IntValue munnyDropProbability;
@@ -418,25 +414,6 @@ public class CommonConfig {
                 .comment("Focus Drops Probability")
                 .translation(KingdomKeys.MODID + ".config.focus_drop_probability")
                 .defineInRange("focusDropProbability",80,0,100);
-
-        builder.pop();
-
-        builder.push("limits");
-
-        limitLaserCircleMult = builder
-                .comment("Laser Circle Damage Multiplier ((strength + magic) / 2 * multiplier)")
-                .translation(KingdomKeys.MODID + ".config.laser_circle_mult")
-                .defineInRange("laserCircleMult",2.0,0,100);
-
-        limitLaserDomeMult = builder
-                .comment("Laser Dome Damage Multiplier ((strength + magic) / 2 * multiplier)")
-                .translation(KingdomKeys.MODID + ".config.laser_dome_mult")
-                .defineInRange("laserDomeMult",0.3,0,100);
-
-        limitArrowRainMult = builder
-                .comment("Arrow Rain Damage Multiplier ((strength + magic) / 2 * multiplier)")
-                .translation(KingdomKeys.MODID + ".config.arrow_rain_mult")
-                .defineInRange("arrowRainMult",2.0,0,100);
 
         builder.pop();
 

@@ -337,9 +337,6 @@ public class ModConfigs {
     public static int driveDropProbability;
     public static int focusDropProbability;
 
-    public static double limitLaserCircleMult;
-    public static double limitLaserDomeMult;
-    public static double limitArrowRainMult;
     public static double shotlockMult;
     public static double critMult;
 
@@ -410,9 +407,6 @@ public class ModConfigs {
         drivePointsMultiplier = COMMON.drivePointsMultiplier.get();
         focusPointsMultiplier = COMMON.focusPointsMultiplier.get();
 
-        limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
-        limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
-        limitArrowRainMult = COMMON.limitArrowRainMult.get();
         playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
         playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
         shotlockMult = COMMON.shotlockMult.get();
@@ -438,9 +432,6 @@ public class ModConfigs {
     //public static int magicUsesTimer;
     public static boolean requireSynthTier;
 
-    public static int limitLaserCircleCost;
-    public static int limitLaserDomeCost;
-    public static int limitArrowRainCost;
     public static List<Integer> statsMultiplier;
     public static boolean projectorHasShop;
     public static boolean orgEnabled;
@@ -452,12 +443,7 @@ public class ModConfigs {
         xpMultiplier = SERVER.xpMultiplier.get();
         heartMultiplier = SERVER.heartMultiplier.get();
         partyXPShare = SERVER.partyXPShare.get();
-        //magicUsesTimer = SERVER.magicUsesTimer.get();
         requireSynthTier = SERVER.requireSynthTier.get();
-
-        limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
-        limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
-        limitArrowRainCost = SERVER.limitArrowRainCost.get();
         statsMultiplier = (List<Integer>) SERVER.statsMultiplier.get();
         projectorHasShop = SERVER.projectorHasShop.get();
         orgEnabled = SERVER.orgEnabled.get();

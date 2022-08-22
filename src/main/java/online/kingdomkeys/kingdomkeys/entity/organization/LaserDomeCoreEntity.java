@@ -40,7 +40,6 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 	Set<Integer> usedIndexes = new HashSet<Integer>();
 	float dmg;
 
-	double dmgMult;
 	float radius = 15;
 	int space = 12;
 	int shotsPerTick = 3;
@@ -82,11 +81,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		this.dmgMult = ModConfigs.limitLaserDomeMult;
-
-		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
-		// getPosZ(), 1, 1, 0);
-		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
+		//level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		double X = getX();
 		double Y = getY();
@@ -99,7 +94,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = Y + (radius * Math.cos(Math.toRadians(t)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg * dmgMult);
+					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
 					bullet.setPos(x, y, z);
 					bullet.setMaxTicks(maxTicks - 20);
 					bullet.shoot(this.getX() - bullet.getX(), this.getY() - bullet.getY(), this.getZ() - bullet.getZ(), 0.001f, 0);
