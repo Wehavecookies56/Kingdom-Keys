@@ -5,5 +5,7 @@
 	"mag_mult":1.3,
 	"speed_mult":1.3,
 	"level_up":[ 0, 20, 80, 152, 242, 350, 500 ],
-	"abilities":[ "kingdomkeys:ability_synch_blade", "kingdomkeys:ability_mp_haste" ]
+	"abilities":[ "kingdomkeys:ability_synch_blade", "kingdomkeys:ability_mp_haste" ],
+	"base_levelup_abilities":[ "", "kingdomkeys:ability_auto_final", "kingdomkeys:ability_glide", "kingdomkeys:ability_form_boost", "kingdomkeys:ability_glide", "kingdomkeys:ability_form_boost", "kingdomkeys:ability_glide" ],
+	"driveform_levelup_abilities":[ "kingdomkeys:ability_glide", "", "kingdomkeys:ability_glide", "","kingdomkeys:ability_glide","","kingdomkeys:ability_glide" ]
 }

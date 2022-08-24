@@ -73,7 +73,7 @@ public class DriveFormDataLoader extends SimpleJsonResourceReloadListener {
                     result = GSON_BUILDER.fromJson(br2, DriveFormData.class);
                     names.add(driveFormName.toString());
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).getLocation().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing driveform json file {}: {}", manager.getResource(file).getLocation().toString(), e);
                     continue;
                 }
                 driveform.setDriveFormData(result);

@@ -25,49 +25,7 @@ public class DriveFormValor extends DriveForm {
 		this.color = new float[] { 1F, 0F, 0F };
 		this.skinRL = skinRL;
 	}
-	
-	@Override
-	public String getBaseAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return "";
-		case 2:
-			return Strings.autoValor;
-		case 3:
-			return Strings.highJump;
-		case 4:
-			return "";
-		case 5:
-			return Strings.highJump;
-		case 6:
-			return "";
-		case 7:
-			return Strings.highJump;
-		}
-		return null;	
-	}
 
-	@Override
-	public String getDFAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return Strings.highJump;
-		case 2:
-			return "";
-		case 3:
-			return Strings.highJump;
-		case 4:
-			return "";
-		case 5:
-			return Strings.highJump;
-		case 6:
-			return "";
-		case 7:
-			return Strings.highJump;
-		}
-		return null;
-	}
-	
 	@SubscribeEvent
 	public static void getValorFormXP(LivingAttackEvent event) {
 		if (!event.getEntity().level.isClientSide && event.getEntityLiving() instanceof Monster) {

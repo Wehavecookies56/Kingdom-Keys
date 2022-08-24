@@ -98,10 +98,18 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		return skinRL;
 	}
 
-	public abstract String getBaseAbilityForLevel(int driveFormLevel);
+	public String getBaseAbilityForLevel(int driveFormLevel) {
+		if(driveFormLevel < 1)
+			return "";
+		return data.getBaseAbilityForLevel(driveFormLevel-1); //-1 so we don't have empty "" at the beginning of the file
+	}
 
-	public abstract String getDFAbilityForLevel(int driveFormLevel); // TODO make the ability registry
-
+	public String getDFAbilityForLevel(int driveFormLevel) {
+		if(driveFormLevel < 1)
+			return "";
+		return data.getDFAbilityForLevel(driveFormLevel-1);
+	}
+	
 	public int getLevelUpCost(int level) {
 		if (getLevelUpCosts() != null)
 			return getLevelUpCosts()[level - 1];

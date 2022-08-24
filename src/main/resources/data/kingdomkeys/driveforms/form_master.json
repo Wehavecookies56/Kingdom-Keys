@@ -5,5 +5,7 @@
 	"mag_mult":1.2,
 	"speed_mult":1.3,
 	"level_up":[ 0, 60, 240, 456, 726, 1050, 1500 ],
-	"abilities":[ "kingdomkeys:ability_synch_blade", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_mp_hastera" ]
+	"abilities":[ "kingdomkeys:ability_synch_blade", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_mp_hastera" ],
+	"base_levelup_abilities":[ "", "kingdomkeys:ability_auto_master", "kingdomkeys:ability_aerial_dodge", "", "kingdomkeys:ability_aerial_dodge", "", "kingdomkeys:ability_aerial_dodge" ],
+	"driveform_levelup_abilities":[ "kingdomkeys:ability_aerial_dodge", "", "kingdomkeys:ability_aerial_dodge", "","kingdomkeys:ability_aerial_dodge","","kingdomkeys:ability_aerial_dodge" ]
 }

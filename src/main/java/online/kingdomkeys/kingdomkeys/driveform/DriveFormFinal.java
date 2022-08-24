@@ -33,48 +33,6 @@ public class DriveFormFinal extends DriveForm {
 		this.skinRL = skinRL;
 	}
 
-	@Override
-	public String getBaseAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return "";
-		case 2:
-			return Strings.autoFinal;
-		case 3:
-			return Strings.glide;
-		case 4:
-			return Strings.formBoost;
-		case 5:
-			return Strings.glide;
-		case 6:
-			return Strings.formBoost;
-		case 7:
-			return Strings.glide;
-		}
-		return null;
-	}
-
-	@Override
-	public String getDFAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return Strings.glide;
-		case 2:
-			return "";
-		case 3:
-			return Strings.glide;
-		case 4:
-			return "";
-		case 5:
-			return Strings.glide;
-		case 6:
-			return "";
-		case 7:
-			return Strings.glide;
-		}
-		return null;
-	}
-
 	@SubscribeEvent
 	public static void getFinalFormXP(LivingDeathEvent event) {
 		if (!event.getEntity().level.isClientSide && (event.getEntity() instanceof EnderMan) || event.getEntity() instanceof IKHMob && ((IKHMob)event.getEntity()).getKHMobType() == MobType.NOBODY) {

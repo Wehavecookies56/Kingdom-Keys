@@ -25,48 +25,6 @@ public class DriveFormWisdom extends DriveForm {
 		this.skinRL = skinRL;
 	}
 
-	@Override
-	public String getBaseAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return "";
-		case 2:
-			return Strings.autoWisdom;
-		case 3:
-			return Strings.quickRun;
-		case 4:
-			return Strings.mpRage;
-		case 5:
-			return Strings.quickRun;
-		case 6:
-			return Strings.mpHaste;
-		case 7:
-			return Strings.quickRun;
-		}
-		return null;	
-	}
-
-	@Override
-	public String getDFAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return Strings.quickRun;
-		case 2:
-			return "";
-		case 3:
-			return Strings.quickRun;
-		case 4:
-			return "";
-		case 5:
-			return Strings.quickRun;
-		case 6:
-			return "";
-		case 7:
-			return Strings.quickRun;
-		}
-		return null;
-	}
-
 	@SubscribeEvent
 	public static void getWisdomFormXP(LivingDeathEvent event) { // Check if it's a heartless
 		if (!event.getEntity().level.isClientSide && event.getEntity() instanceof IKHMob) {

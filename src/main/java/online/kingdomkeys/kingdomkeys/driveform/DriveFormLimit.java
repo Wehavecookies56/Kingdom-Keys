@@ -24,48 +24,6 @@ public class DriveFormLimit extends DriveForm {
 		this.skinRL = skinRL;
 	}
 	
-	@Override
-	public String getBaseAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return "";
-		case 2:
-			return Strings.autoLimit;
-		case 3:
-			return Strings.dodgeRoll;
-		case 4:
-			return Strings.treasureMagnet;
-		case 5:
-			return Strings.dodgeRoll;
-		case 6:
-			return "";
-		case 7:
-			return Strings.dodgeRoll;
-		}
-		return null;	
-	}
-
-	@Override
-	public String getDFAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return Strings.dodgeRoll;
-		case 2:
-			return "";
-		case 3:
-			return Strings.dodgeRoll;
-		case 4:
-			return "";
-		case 5:
-			return Strings.dodgeRoll;
-		case 6:
-			return "";
-		case 7:
-			return Strings.dodgeRoll;
-		}
-		return null;
-	}
-	
 	@SubscribeEvent
 	public static void getLimitFormXP(LivingAttackEvent event) {
 		if (!event.getEntity().level.isClientSide && event.getEntityLiving() instanceof Monster) {
