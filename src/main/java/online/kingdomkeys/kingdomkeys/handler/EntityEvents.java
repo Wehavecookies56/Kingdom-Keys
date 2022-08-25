@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -38,6 +39,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -122,6 +124,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
+import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
+import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -134,6 +138,23 @@ public class EntityEvents {
 	public static boolean isBoss = false;
 	public static boolean isHostiles = false;
 	public int ticks;
+	
+	@SubscribeEvent
+	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
+		if(e.getEntity() instanceof LivingEntity mob) {
+			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
+			if(mobData.getLevel() > 0) {
+				int level = mobData.getLevel();
+
+				if(!mob.hasCustomName()) {
+					mob.setCustomName(new TranslatableComponent(mob.getDisplayName().getString()+" Lv."+level));
+					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
+					mob.heal(mob.getMaxHealth());
+				}
+			}
+		}
+	}
 	
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
@@ -479,13 +500,13 @@ public class EntityEvents {
                 	}
 					
 					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
-					if (globalData.getDamage() > 0 && globalData.getStopCaster() != null) {
-						event.getEntityLiving().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level, globalData.getStopCaster())), globalData.getDamage()/2);
+					if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
+						event.getEntityLiving().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level, globalData.getStopCaster())), globalData.getStopDamage()/2);
 					}
 					
 					if (event.getEntityLiving() instanceof ServerPlayer) // Packet to unfreeze client
 						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) event.getEntityLiving());
-					globalData.setDamage(0);
+					globalData.setStopDamage(0);
 					globalData.setStopCaster(null);
 				}
 			}

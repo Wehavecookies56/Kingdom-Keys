@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
-	private int stoppedTicks, flatTicks;
+	private int stoppedTicks, flatTicks, level;
 	private float stopDmg;
 	private boolean castleOblivionMarker;
 
@@ -20,9 +20,10 @@ public class SCSyncGlobalCapabilityPacket {
 
 	public SCSyncGlobalCapabilityPacket(IGlobalCapabilities capability) {
 		this.stoppedTicks = capability.getStoppedTicks();
-		this.stopDmg = capability.getDamage();
+		this.stopDmg = capability.getStopDamage();
 		this.flatTicks = capability.getFlatTicks();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
+		this.level = capability.getLevel();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -30,6 +31,7 @@ public class SCSyncGlobalCapabilityPacket {
 		buffer.writeFloat(this.stopDmg);
 		buffer.writeInt(this.flatTicks);
 		buffer.writeBoolean(this.castleOblivionMarker);
+		buffer.writeInt(this.level);
 	}
 
 	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -38,6 +40,7 @@ public class SCSyncGlobalCapabilityPacket {
 		msg.stopDmg = buffer.readFloat();
 		msg.flatTicks = buffer.readInt();
 		msg.castleOblivionMarker = buffer.readBoolean();
+		msg.level = buffer.readInt();
 		return msg;
 	}
 
@@ -46,9 +49,10 @@ public class SCSyncGlobalCapabilityPacket {
 			LazyOptional<IGlobalCapabilities> globalData = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 			globalData.ifPresent(cap -> {
 				cap.setStoppedTicks(message.stoppedTicks);
-				cap.setDamage(message.stopDmg);
+				cap.setStopDamage(message.stopDmg);
 				cap.setFlatTicks(message.flatTicks);
 				cap.setCastleOblivionMarker(message.castleOblivionMarker);
+				cap.setLevel(message.level);
 			});
 		});
 		ctx.get().setPacketHandled(true);

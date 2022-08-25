@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 
 @OnlyIn(Dist.CLIENT)
 public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity> {
@@ -68,9 +69,24 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	        	poseStack.mulPose(Vector3f.XP.rotationDegrees(90F));
 	            poseStack.mulPose(Vector3f.ZP.rotation(rotation));
 			}
-        } else if(itemstack.getItem() instanceof KeybladeItem) {
-            poseStack.scale(2,2,2);
-        	poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+		} else if (itemstack.getItem() instanceof KeybladeItem) {
+			poseStack.scale(2, 2, 2);
+			poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+			
+		} else if (itemstack.getItem() instanceof ScytheItem) {
+	        if(entityIn.getRotationPoint() == 0) {
+				poseStack.scale(10, 10, 10);
+
+				poseStack.mulPose(Vector3f.YP.rotationDegrees(-90F));
+				poseStack.mulPose(Vector3f.XP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+	        }
+	        
+	        if(entityIn.getRotationPoint() == 1) {
+				poseStack.scale(2,2,2);
+
+				poseStack.mulPose(Vector3f.YP.rotationDegrees(0F));
+				poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+	        }
         }
         
         itemRenderer.render(itemstack, itemstack.getItem() instanceof ChakramItem ? ItemTransforms.TransformType.NONE : ItemTransforms.TransformType.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);

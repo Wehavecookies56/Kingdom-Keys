@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 public class SCSyncGlobalCapabilityToAllPacket {
 	//Send packet to everyone to render gravity flat for example
 	int id;
-	private int stopTicks, flatTicks;
+	private int stopTicks, flatTicks, level;
 	private float stopDmg;
 	private boolean castleOblivionMarker;
 
@@ -23,9 +23,10 @@ public class SCSyncGlobalCapabilityToAllPacket {
 	public SCSyncGlobalCapabilityToAllPacket(int id, IGlobalCapabilities capability) {
 		this.id = id;
 		this.stopTicks = capability.getStoppedTicks();
-		this.stopDmg = capability.getDamage();
+		this.stopDmg = capability.getStopDamage();
 		this.flatTicks = capability.getFlatTicks();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
+		this.level = capability.getLevel();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -34,6 +35,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		buffer.writeFloat(this.stopDmg);
 		buffer.writeInt(this.flatTicks);
 		buffer.writeBoolean(this.castleOblivionMarker);
+		buffer.writeInt(this.level);
 	}
 
 	public static SCSyncGlobalCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -43,7 +45,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		msg.stopDmg = buffer.readFloat();
 		msg.flatTicks = buffer.readInt();
 		msg.castleOblivionMarker = buffer.readBoolean();
-
+		msg.level = buffer.readInt();
 		return msg;
 	}
 
@@ -55,9 +57,10 @@ public class SCSyncGlobalCapabilityToAllPacket {
 				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 				globalData.ifPresent(cap -> {
 					cap.setStoppedTicks(message.stopTicks);
-					cap.setDamage(message.stopDmg);
+					cap.setStopDamage(message.stopDmg);
 					cap.setFlatTicks(message.flatTicks);
 					cap.setCastleOblivionMarker(message.castleOblivionMarker);
+					cap.setLevel(message.level);
 				});
 			}
 		});

@@ -62,42 +62,4 @@ public class ChakramItem extends OrgSwordItem implements IOrgWeapon {
 		
 		return InteractionResultHolder.consume(stack);
 	}
-
-
-	/*@Override
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player player, InteractionHand handIn) {
-		ItemStack itemstack = player.getItemInHand(handIn);
-		player.startUsingItem(handIn);
-		return InteractionResultHolder.consume(itemstack);
-	}
-
-	public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
-		if (entityLiving instanceof Player) {
-			int ticks = getUseDuration(stack) - timeLeft;
-			if (ticks >= 10) {
-				Player player = (Player) entityLiving;
-				float dmgMult = Math.min(ticks, 30) / 20F;
-				ChakramEntity entity = new ChakramEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgStrengthDamage(player, stack) * dmgMult);
-				switch (this.getRegistryName().getPath()) {
-				case Strings.eternalFlames:
-				case Strings.prometheus:
-				case Strings.volcanics:
-					entity.setRotationPoint(0);
-					break;
-				default:
-					entity.setRotationPoint(2);
-				}
-				player.level.addFreshEntity(entity);
-				player.level.playSound(player, player.blockPosition(), SoundEvents.GHAST_SHOOT, SoundSource.PLAYERS, 1F, 1F);
-				entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, (1F + (dmgMult * 2)), 0);
-
-				if (player.getMainHandItem() != null && player.getMainHandItem().getItem() == this) {
-					player.swing(InteractionHand.MAIN_HAND);
-				} else if (player.getOffhandItem() != null && player.getOffhandItem().getItem() == this) {
-					player.swing(InteractionHand.OFF_HAND);
-				}
-			}
-		}
-	}*/
-
 }

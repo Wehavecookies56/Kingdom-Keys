@@ -68,7 +68,9 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 		return name;
 	}
 
-	public String getTranslationKey() { return translationKey; }
+	public String getTranslationKey() {
+		return translationKey;
+	}
 
 	public int getDriveCost() {
 		return data.getCost();

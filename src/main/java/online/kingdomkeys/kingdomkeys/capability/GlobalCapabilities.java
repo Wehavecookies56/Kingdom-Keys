@@ -8,9 +8,10 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	public CompoundTag serializeNBT() {
 		CompoundTag storage = new CompoundTag();
 		storage.putInt("ticks_stopped", this.getStoppedTicks());
-		storage.putFloat("stop_dmg", this.getDamage());
+		storage.putFloat("stop_dmg", this.getStopDamage());
 		storage.putInt("ticks_flat", this.getFlatTicks());
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
+		storage.putInt("level", this.getLevel());
 		return storage;
 	}
 
@@ -18,16 +19,27 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	public void deserializeNBT(CompoundTag nbt) {
 		CompoundTag properties = (CompoundTag) nbt;
 		this.setStoppedTicks(properties.getInt("ticks_stopped"));
-		this.setDamage(properties.getFloat("stop_dmg"));
+		this.setStopDamage(properties.getFloat("stop_dmg"));
 		this.setFlatTicks(properties.getInt("ticks_flat"));
 		this.setCastleOblivionMarker(properties.getBoolean("castle_oblivion_marker"));
+		this.setLevel(properties.getInt("level"));
 	}
 
-	private int timeStopped, flatTicks;
+	private int timeStopped, flatTicks, level;
 	float stopDmg;
 	private String stopCaster;
 	private boolean castleOblivionMarker;
 
+	@Override
+	public void setLevel(int lvl) {
+		this.level = lvl;
+	}
+
+	@Override
+	public int getLevel() {
+		return level;
+	}
+	
 	@Override
 	public void setStoppedTicks(int time) {
 		this.timeStopped = time;
@@ -44,12 +56,12 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	}
 
 	@Override
-	public float getDamage() {
+	public float getStopDamage() {
 		return stopDmg;
 	}
 
 	@Override
-	public void setDamage(float dmg) {
+	public void setStopDamage(float dmg) {
 		this.stopDmg = dmg;
 	}
 

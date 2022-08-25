@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -20,12 +21,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SpawningOrbEntity extends Monster {
@@ -58,10 +61,16 @@ public class SpawningOrbEntity extends Monster {
 				}
 				
 				int level = avgLevel - this.level.random.nextInt(6) + 2;
-				level = Math.max(1, Math.min(100, level));
-				this.mob.setCustomName(new TranslatableComponent(this.mob.getDisplayName().getString()+" Lv."+level));
+				level = Utils.clamp(level, 1, 100);
+				
+				IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
+				if(mobData != null) {
+					mobData.setLevel(level);
+					PacketHandler.syncToAllAround((LivingEntity) mob, mobData);
+				}
+				/*this.mob.setCustomName(new TranslatableComponent(this.mob.getDisplayName().getString()+" Lv."+level));
 				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), this.mob.getMaxHealth()));
+				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), this.mob.getMaxHealth()));*/
 			}
 		}
 	}

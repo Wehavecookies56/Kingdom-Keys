@@ -25,6 +25,8 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 
 public class KKThrowableEntity extends ThrowableItemProjectile {
 	public static final EntityDataAccessor<ItemStack> ITEMSTACK = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.ITEM_STACK);
@@ -54,6 +56,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 		this.originalItem = stack;
 		this.slot = slot;
 		this.dmg = damage;
+
 	}
 
 	public Player getProjOwner() {
@@ -104,13 +107,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 						Player owner = (Player) entityTarget;
 						if (owner == getProjOwner()) {
 							this.remove(RemovalReason.KILLED);
-							if(!ItemStack.isSame(owner.getInventory().getItem(slot),originalItem)) {
-								if(!ItemStack.isSame(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
-									owner.addItem(originalItem);
-								} else {
-									owner.getInventory().add(slot, originalItem);
-								}
-							}
+							returnItemToPlayer();
 							owner.getCooldowns().addCooldown(originalItem.getItem(), 20);
 						}
 					}
@@ -123,11 +120,26 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 		if(originalItem.getItem() instanceof KeybladeItem) {
 			this.remove(RemovalReason.KILLED);
 			return;
-		} else {
+		} else if(originalItem.getItem() instanceof ChakramItem) {
 			returning = true;
 			if (getProjOwner() != null)
 				shoot(this.getProjOwner().getX() - this.getX(), this.getProjOwner().getY() - this.getY() + 1.25, this.getProjOwner().getZ() - this.getZ(), 2f, 0);
+		} else if(originalItem.getItem() instanceof ScytheItem) {
+			this.remove(RemovalReason.KILLED);
+			returnItemToPlayer();
 		}
+	}
+
+	private void returnItemToPlayer() {
+		if(owner == null)
+			return;
+		if(!ItemStack.isSame(owner.getInventory().getItem(slot),originalItem)) {
+			if(!ItemStack.isSame(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
+				owner.addItem(originalItem);
+			} else {
+				owner.getInventory().add(slot, originalItem);
+			}
+		}		
 	}
 
 	@Override
