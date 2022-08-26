@@ -105,7 +105,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 				float radius = 1.0F;
 				List<LivingEntity> list;
 				if(getOwner() instanceof Player player) {
-					list = Utils.getLivingEntitiesInRadiusExcludingParty(player,this, radius,20F,radius);
+					list = Utils.getLivingEntitiesInRadiusExcludingParty(player,this, radius, 10F,radius);
 				} else {
 					list = Utils.getLivingEntitiesInRadius(this, radius);
 				}

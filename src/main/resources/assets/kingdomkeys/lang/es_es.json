@@ -302,6 +302,8 @@
 	"limit.laser_circle.name": "Círculo Láser",
 	"limit.laser_dome.name": "Cúpula Láser", 
 	"limit.arrow_rain.name": "Lluvia Flechada",
+	"limit.slow_thunder_trail.name": "Estela Eléctrica Lenta",
+	"limit.fast_thunder_trail.name": "Estela Eléctrica Veloz",
 
 	"_comment": "Shotlocks",
 	"shotlock.circular_shotlock.name": "Ragnarok",

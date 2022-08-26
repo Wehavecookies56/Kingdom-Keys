@@ -26,7 +26,7 @@ public class ModLimits {
 		LASER_CIRCLE = LIMITS.register(Strings.LaserCircle, () -> new LimitLaserCircle(KingdomKeys.MODID + ":" + Strings.LaserCircle, order++, OrgMember.XEMNAS)),
 		LASER_DOME = LIMITS.register(Strings.LaserDome, () -> new LimitLaserDome(KingdomKeys.MODID + ":" + Strings.LaserDome, order++, OrgMember.XEMNAS)),
 		ARROW_RAIN = LIMITS.register(Strings.ArrowRain, () -> new LimitArrowRain(KingdomKeys.MODID + ":" + Strings.ArrowRain, order++, OrgMember.XIGBAR)),
-		SLOW_THUNDER_TRAIL = LIMITS.register(Strings.SlowThunderTrail, () -> new LimitThunderTrail(KingdomKeys.MODID + ":" + Strings.SlowThunderTrail, order++, OrgMember.LARXENE, 0.5F)),
-		FAST_THUNDER_TRAIL = LIMITS.register(Strings.FastThunderTrail, () -> new LimitThunderTrail(KingdomKeys.MODID + ":" + Strings.FastThunderTrail, order++, OrgMember.LARXENE, 1))
+		SLOW_THUNDER_TRAIL = LIMITS.register(Strings.SlowThunderTrail, () -> new LimitThunderTrail(KingdomKeys.MODID + ":" + Strings.SlowThunderTrail, order++, OrgMember.LARXENE, 0.7F)),
+		FAST_THUNDER_TRAIL = LIMITS.register(Strings.FastThunderTrail, () -> new LimitThunderTrail(KingdomKeys.MODID + ":" + Strings.FastThunderTrail, order++, OrgMember.LARXENE, 1.2F))
 	;
 }

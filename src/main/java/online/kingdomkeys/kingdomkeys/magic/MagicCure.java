@@ -80,6 +80,7 @@ public class MagicCure extends Magic {
 		case 3:
 			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			player.heal(amount);
+			player.getFoodData().eat(20, 10);
 
 			if(worldData.getPartyFromMember(player.getUUID()) != null) {
 				Party party = worldData.getPartyFromMember(player.getUUID());
@@ -90,6 +91,8 @@ public class MagicCure extends Magic {
 			                LivingEntity e = player.level.getPlayerByUUID(list.get(i).getUUID());
 			                if (e != null && Utils.isEntityInParty(party, e) && e != player) {
 			                	e.heal(amount);
+			        			if(e instanceof Player targetPlayer)
+			        				targetPlayer.getFoodData().eat(20, 10);
 			            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			                }
 		            	}
