@@ -103,15 +103,11 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 				this.level.setSkyFlashTime(2);
 			} else if (!this.effectOnly) {
 				float radius = 1.0F;
-				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
-				Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getOwner().getUUID());
-
-				if (casterParty != null && !casterParty.getFriendlyFire()) {
-					for (Member m : casterParty.getMembers()) {
-						list.remove(level.getPlayerByUUID(m.getUUID()));
-					}
+				List<LivingEntity> list;
+				if(getOwner() instanceof Player player) {
+					list = Utils.getLivingEntitiesInRadiusExcludingParty(player,this, radius,20F,radius);
 				} else {
-					list.remove(getOwner());
+					list = Utils.getLivingEntitiesInRadius(this, radius);
 				}
 
 				for (LivingEntity entity : list) {

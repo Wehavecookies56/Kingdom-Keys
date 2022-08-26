@@ -5,7 +5,7 @@
 	"mag_mult":1.1,
 	"speed_mult":1.2,
 	"level_up":[ 0, 3, 9, 21, 40, 63, 90 ],
-	"abilities":[ "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_mp_rage", "kingdomkeys:ability_mp_haste" ],
-	"base_levelup_abilities":[ "", "kingdomkeys:ability_auto_limit", "kingdomkeys:ability_dodge_roll", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_dodge_roll", "", "kingdomkeys:ability_dodge_roll" ],
+	"abilities":[ "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_lucky_lucky", "kingdomkeys:ability_mp_rage", "kingdomkeys:ability_mp_haste" ],
+	"base_levelup_abilities":[ "", "kingdomkeys:ability_auto_limit", "kingdomkeys:ability_dodge_roll", "kingdomkeys:ability_treasure_magnet", "kingdomkeys:ability_dodge_roll", "kingdomkeys:ability_lucky_lucky", "kingdomkeys:ability_dodge_roll" ],
 	"driveform_levelup_abilities":[ "kingdomkeys:ability_dodge_roll", "", "kingdomkeys:ability_dodge_roll", "","kingdomkeys:ability_dodge_roll","","kingdomkeys:ability_dodge_roll" ]
 }

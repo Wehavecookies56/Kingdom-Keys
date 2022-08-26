@@ -402,6 +402,15 @@ public class Utils {
 		return elList;
 	}
 	
+	/**
+	 * Gets entities in radius from the entity param
+	 * @param player to ignore from the list
+	 * @param entity where to check with radius
+	 * @param radiusX
+	 * @param radiusY
+	 * @param radiusZ
+	 * @return
+	 */
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
 		List<Entity> list = player.level.getEntities(player, entity.getBoundingBox().inflate(radiusX,radiusY,radiusZ), Entity::isAlive);
 		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());

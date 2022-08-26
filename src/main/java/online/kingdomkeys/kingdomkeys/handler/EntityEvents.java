@@ -80,6 +80,7 @@ import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.entity.XPEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
@@ -1000,7 +1001,10 @@ public class EntityEvents {
 							playerData.addExperience(player, 1500, true, true);
 						}
 						
+						XPEntity xp = new XPEntity(mob.level, player, mob, exp);
+						player.level.addFreshEntity(xp);
 					}
+					
 					LivingEntity entity = event.getEntityLiving();
 					double x = entity.getX();
 					double y = entity.getY();

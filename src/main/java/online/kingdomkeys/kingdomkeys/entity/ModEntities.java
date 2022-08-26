@@ -85,6 +85,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowGlobRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.SoldierRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.SpawningOrbRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.XPEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.FocusOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.HPOrbRenderer;
@@ -221,6 +222,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
     
     public static final RegistryObject<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
+    public static final RegistryObject<EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
 
     //Mobs
     public static final Item.Properties PROPERTIES = new Item.Properties().tab(CreativeModeTab.TAB_MISC);
@@ -413,6 +415,7 @@ public class ModEntities {
 
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
 
         //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
         EntityRenderers.register(ModEntities.TYPE_CHAKRAM.get(), KKThrowableEntityRenderer::new);

@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 @OnlyIn(Dist.CLIENT)
 public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity> {
@@ -36,9 +37,9 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	
 	public KKThrowableEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shadowRadius = 0.25F;
+		this.shadowRadius = 0.15F;
 		this.itemRenderer = context.getItemRenderer();
-        this.shadowStrength = 0.5F;
+        this.shadowStrength = 0.2F;
 	}
 
 	@Override
@@ -86,6 +87,15 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 
 				poseStack.mulPose(Vector3f.YP.rotationDegrees(0F));
 				poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+	        }
+	        
+	        switch(entityIn.getItem().getItem().getRegistryName().getPath()) {
+	    	case Strings.quietBelladonna:
+			case Strings.loftyGerbera:
+			case Strings.solemnMagnolia:
+			case Strings.hallowedLotus:
+				poseStack.scale(0.1F,0.1F,0.1F);
+				break;
 	        }
         }
         
