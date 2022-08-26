@@ -54,7 +54,7 @@ public class EpicKKWeapons {
                     .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).specialAttack(CapabilityItem.Styles.ONE_HAND, Skills.EVISCERATE).specialAttack(CapabilityItem.Styles.TWO_HAND, Skills.BLADE_RUSH);
 
     public static void register(WeaponCapabilityPresetRegistryEvent event) {
-        event.getTypeEntry().put("chakram", CHAKRAM);
+        event.getTypeEntry().put(EpicKKWeaponEnum.CHAKRAM.toString().toLowerCase(), CHAKRAM);
         event.getTypeEntry().put(EpicKKWeaponEnum.KEYBLADE_ROXAS.toString().toLowerCase(), KEYBLADE_ROXAS);
     }
 }
