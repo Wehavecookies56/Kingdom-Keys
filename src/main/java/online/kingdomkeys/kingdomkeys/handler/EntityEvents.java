@@ -629,10 +629,10 @@ public class EntityEvents {
 			}
 			
 			//Aero
-			if (playerData.getAeroTicks() > 0) {
-				playerData.remAeroTicks(1);
+			if (globalData.getAeroTicks() > 0) {
+				globalData.remAeroTicks(1);
 
-				if(playerData.getAeroLevel() == 1) {
+				if(globalData.getAeroLevel() == 1) {
 					if(player.tickCount % 20 == 0) {
 						float radius = 0.4F;
 						List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
@@ -642,7 +642,7 @@ public class EntityEvents {
 							}
 						}
 					}
-				} else if(playerData.getAeroLevel() == 2) {
+				} else if(globalData.getAeroLevel() == 2) {
 					if(player.tickCount % 10 == 0) {
 						float radius = 0.6F;
 						List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
@@ -772,12 +772,13 @@ public class EntityEvents {
 
 			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 
 			float damage = (float) Math.round((event.getAmount() * 100 / (200 + playerData.getDefense(true))));
-			if(playerData.getAeroTicks() > 0) {
-				float resistMultiplier = playerData.getAeroLevel() == 0 ? 0.3F : playerData.getAeroLevel() == 1 ? 0.35F : playerData.getAeroLevel() == 2 ? 0.4F : 0;
+			if(globalData.getAeroTicks() > 0) {
+				float resistMultiplier = globalData.getAeroLevel() == 0 ? 0.3F : globalData.getAeroLevel() == 1 ? 0.35F : globalData.getAeroLevel() == 2 ? 0.4F : 0;
 				
-				playerData.remAeroTicks((int) damage * 2);
+				globalData.remAeroTicks((int) damage * 2);
 				damage -= (damage * resistMultiplier);
 			}
 						
@@ -810,6 +811,7 @@ public class EntityEvents {
 			}
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) player);
 			
 			event.setAmount(damage <= 0 ? 1 : damage);
 		}

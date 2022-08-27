@@ -172,8 +172,6 @@ public class ClientSetup {
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer,event.getEntityModels()));
-
-
 	}
 
     @OnlyIn(Dist.CLIENT)

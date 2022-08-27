@@ -85,8 +85,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putDouble("fp", this.getFP());
 		storage.putString("drive_form", this.getActiveDriveForm());
 		storage.putInt("anti_points", this.getAntiPoints());
-		storage.putInt("aero_ticks", this.getAeroTicks());
-		storage.putInt("aero_level", this.getAeroLevel());
 		storage.putInt("reflect_ticks", this.getReflectTicks());
 		storage.putInt("reflect_level", this.getReflectLevel());
 		storage.putBoolean("reflect_active", this.getReflectActive());
@@ -233,7 +231,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setFP(storage.getDouble("fp"));
 		this.setActiveDriveForm(storage.getString("drive_form"));
 		this.setAntiPoints(storage.getInt("anti_points"));
-		this.setAeroTicks(storage.getInt("aero_ticks"), storage.getInt("aero_level"));
 		this.setReflectTicks(storage.getInt("reflect_ticks"), storage.getInt("reflect_level"));
 		this.setReflectActive(storage.getBoolean("reflect_active"));
 		this.setMunny(storage.getInt("munny"));
@@ -917,32 +914,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean getRecharge() {
 		return this.recharge;
-	}
-	
-	@Override
-	public int getAeroLevel() {
-		return aeroLevel;
-	}
-
-	@Override
-	public void setAeroLevel(int level) {
-		this.aeroLevel = level;
-	}
-	
-	@Override
-	public int getAeroTicks() {
-		return aeroTicks;
-	}
-
-	@Override
-	public void setAeroTicks(int i, int level) {
-		aeroTicks = i;
-		aeroLevel = level;
-	}
-	
-	@Override
-	public void remAeroTicks(int ticks) {
-		aeroTicks -= ticks;
 	}
 	
 	@Override

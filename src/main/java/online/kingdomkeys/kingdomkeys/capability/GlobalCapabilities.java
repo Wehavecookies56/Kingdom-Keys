@@ -10,6 +10,8 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		storage.putInt("ticks_stopped", this.getStoppedTicks());
 		storage.putFloat("stop_dmg", this.getStopDamage());
 		storage.putInt("ticks_flat", this.getFlatTicks());
+		storage.putInt("aero_ticks", this.getAeroTicks());
+		storage.putInt("aero_level", this.getAeroLevel());
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		storage.putInt("level", this.getLevel());
 		return storage;
@@ -21,11 +23,12 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		this.setStoppedTicks(properties.getInt("ticks_stopped"));
 		this.setStopDamage(properties.getFloat("stop_dmg"));
 		this.setFlatTicks(properties.getInt("ticks_flat"));
+		this.setAeroTicks(properties.getInt("aero_ticks"), properties.getInt("aero_level"));
 		this.setCastleOblivionMarker(properties.getBoolean("castle_oblivion_marker"));
 		this.setLevel(properties.getInt("level"));
 	}
 
-	private int timeStopped, flatTicks, level;
+	private int timeStopped, flatTicks, aeroTicks, aeroLevel, level;
 	float stopDmg;
 	private String stopCaster;
 	private boolean castleOblivionMarker;
@@ -94,6 +97,32 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public void subFlatTicks(int time) {
 		this.flatTicks -= time;
+	}
+	
+	@Override
+	public int getAeroLevel() {
+		return aeroLevel;
+	}
+
+	@Override
+	public void setAeroLevel(int level) {
+		this.aeroLevel = level;
+	}
+	
+	@Override
+	public int getAeroTicks() {
+		return aeroTicks;
+	}
+
+	@Override
+	public void setAeroTicks(int i, int level) {
+		aeroTicks = i;
+		aeroLevel = level;
+	}
+	
+	@Override
+	public void remAeroTicks(int ticks) {
+		aeroTicks -= ticks;
 	}
 
 	@Override

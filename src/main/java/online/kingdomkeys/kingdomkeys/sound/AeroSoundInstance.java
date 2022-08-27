@@ -47,8 +47,8 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
 	   if(player.isRemoved()) {
 		   this.stop();
 	   } else {
-	      if (ModCapabilities.getPlayer(player) != null) {
-	    	  if(ModCapabilities.getPlayer(player).getAeroTicks() <= 0) {
+	      if (ModCapabilities.getGlobal(player) != null) {
+	    	  if(ModCapabilities.getGlobal(player).getAeroTicks() <= 0) {
 	    		  this.volume = 0;
 		      } else {
 		         this.x = (double)((float)this.player.getX());

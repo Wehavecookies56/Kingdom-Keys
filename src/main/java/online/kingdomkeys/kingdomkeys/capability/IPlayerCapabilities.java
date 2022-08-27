@@ -95,12 +95,6 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setActiveDriveForm(String form);
 	String getActiveDriveForm();
 	
-	int getAeroLevel();
-	void setAeroLevel(int level);
-	int getAeroTicks();
-	void setAeroTicks(int i, int level);
-	void remAeroTicks(int ticks);
-
 	void setMagicCooldownTicks(int ticks);
 	void remMagicCooldownTicks(int ticks);
 	int getMagicCooldownTicks();
