@@ -125,8 +125,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
-import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
-import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -634,45 +632,23 @@ public class EntityEvents {
 			if (playerData.getAeroTicks() > 0) {
 				playerData.remAeroTicks(1);
 
-				/*if(player.tickCount % 5 == 0) {
-					// Spawn particles
-					float radius = 1F;
-					double X = event.getEntityLiving().getX();
-					double Y = event.getEntityLiving().getY();
-					double Z = event.getEntityLiving().getZ();
-
-					for (int t = 1; t < 360; t += 30) {
-						for (int s = 1; s < 360; s += 30) {
-							double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t))/2);
-							double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t))/2);
-							double y = Y + (radius * Math.cos(Math.toRadians(t)));
-							event.getEntityLiving().level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
-						}
-					}
-				}*/
 				if(playerData.getAeroLevel() == 1) {
 					if(player.tickCount % 20 == 0) {
 						float radius = 0.4F;
-						List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
+						List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
 						if(!list.isEmpty()) {
-							list = Utils.removeFriendlyEntities(list);
 							for(Entity e : list) {
-								if(e instanceof LivingEntity) {
-									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.05F);
-								}
+								e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.033F);
 							}
 						}
 					}
 				} else if(playerData.getAeroLevel() == 2) {
 					if(player.tickCount % 10 == 0) {
 						float radius = 0.6F;
-						List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
+						List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
 						if(!list.isEmpty()) {
-							list = Utils.removeFriendlyEntities(list);
 							for(Entity e : list) {
-								if(e instanceof LivingEntity) {
-									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.1F);
-								}
+								e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.066F);
 							}
 						}
 					}
@@ -822,7 +798,7 @@ public class EntityEvents {
 			}
 			
 			//Has to evaluate last
-			//Second chance (will save the player from a damage that would've killed him  as long as he had 2 hp or more
+			//Second chance (will save the player from a damage that would've killed him as long as he had 2 hp or more
 			if(playerData.isAbilityEquipped(Strings.secondChance)) {
 				if(damage >= player.getHealth() && player.getHealth() > 1) {
 					if(player.hasEffect(MobEffects.REGENERATION)) {
@@ -842,7 +818,9 @@ public class EntityEvents {
 			float damage = event.getAmount();
 			int defense = ((BaseKHEntity)event.getEntityLiving()).getDefense();
 			if(defense > 0)
-				damage = (float) Math.round((damage * 100 / ((100 + (100 * 2)) + defense)));
+				damage = (float) Math.round((damage * 100 / (300 + defense)));
+			
+			//Marluxia's final attack
 			if (event.getEntityLiving() instanceof MarluxiaEntity) {
 				MarluxiaEntity mar = (MarluxiaEntity) event.getEntityLiving();
 				if(EntityHelper.getState(event.getEntityLiving()) != 3) {
@@ -856,10 +834,10 @@ public class EntityEvents {
 						}
 					}
 				}
+				
 				if (EntityHelper.getState(event.getEntityLiving()) == 1) { // If marly is armored
 					damage = event.getAmount() * 0.1F;
-					Entity ent = event.getSource().getDirectEntity();
-					if (ent instanceof FireEntity || ent instanceof FiraEntity || ent instanceof FiragaEntity || ent instanceof FirazaEntity) {
+					if (event.getSource() instanceof FireDamageSource) {
 						mar.marluxiaGoal.removeArmor(mar);
 					}
 				} else if (EntityHelper.getState(event.getEntityLiving()) == 2) {

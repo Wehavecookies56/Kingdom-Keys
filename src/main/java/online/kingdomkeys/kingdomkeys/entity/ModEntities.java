@@ -261,7 +261,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<GummiShipEntity>> TYPE_GUMMI_SHIP = createEntityType(GummiShipEntity::new, GummiShipEntity::new, MobCategory.MISC, "gummi_ship", 5.0F, 5.0F);
     public static final RegistryObject<EntityType<SpawningOrbEntity>> TYPE_SPAWNING_ORB = createEntityType(SpawningOrbEntity::new, SpawningOrbEntity::new, MobCategory.MONSTER, "spawning_orb", 1.5F,  1.5F);
 
-    public static final RegistryObject<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityType(SoldierEntity::new, SoldierEntity::new, MobCategory.MONSTER, "soldier", 1F, 2F);
+    public static final RegistryObject<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityType(SoldierEntity::new, SoldierEntity::new, MobCategory.MONSTER, "soldier", 0.8F, 1.6F);
     public static final RegistryObject<Item> SOLDIER_EGG = ModItems.ITEMS.register("soldier_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_SOLDIER, Color.BLUE.getRGB(), Color.RED.getRGB(), PROPERTIES));
 
     //TODO update textures to work with newer model, make magic for

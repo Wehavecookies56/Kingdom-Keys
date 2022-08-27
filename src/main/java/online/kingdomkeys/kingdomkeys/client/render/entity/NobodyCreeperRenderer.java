@@ -123,6 +123,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
         }
 
         matrixStackIn.popPose();
+        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override
