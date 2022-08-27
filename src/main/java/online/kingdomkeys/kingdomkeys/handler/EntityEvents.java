@@ -1001,8 +1001,10 @@ public class EntityEvents {
 							playerData.addExperience(player, 1500, true, true);
 						}
 						
-						XPEntity xp = new XPEntity(mob.level, player, mob, exp);
-						player.level.addFreshEntity(xp);
+						if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
+							XPEntity xp = new XPEntity(mob.level, player, mob, exp);
+							player.level.addFreshEntity(xp);
+						}
 					}
 					
 					LivingEntity entity = event.getEntityLiving();
