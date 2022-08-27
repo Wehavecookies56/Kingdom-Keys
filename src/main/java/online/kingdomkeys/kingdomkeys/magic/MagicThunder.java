@@ -18,27 +18,27 @@ public class MagicThunder extends Magic {
 
 	@Override
 	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
-		float dmg = ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.thunderBoost) ? getDamageMult(level) * 1.2F : getDamageMult(level);
-		dmg *= fullMPBlastMult;
+		float dmgMult = getDamageMult(level) + ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.thunderBoost) * 0.2F;
+		dmgMult *= fullMPBlastMult;
 
 		switch(level) {
 		case 0:
-			ThunderEntity thunderController = new ThunderEntity(player.level, player, dmg);
+			ThunderEntity thunderController = new ThunderEntity(player.level, player, dmgMult);
 			thunderController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thunderController);
 			break;
 		case 1:
-			ThundaraEntity thundaraController = new ThundaraEntity(player.level, player, dmg);
+			ThundaraEntity thundaraController = new ThundaraEntity(player.level, player, dmgMult);
 			thundaraController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thundaraController);
 			break;
 		case 2:
-			ThundagaEntity thundagaController = new ThundagaEntity(player.level, player, dmg);
+			ThundagaEntity thundagaController = new ThundagaEntity(player.level, player, dmgMult);
 			thundagaController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thundagaController);
 			break;
 		case 3:
-			ThundazaEntity thundazaController = new ThundazaEntity(player.level, player, dmg);
+			ThundazaEntity thundazaController = new ThundazaEntity(player.level, player, dmgMult);
 			thundazaController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thundazaController);
 			break;

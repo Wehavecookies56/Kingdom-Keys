@@ -20,19 +20,19 @@ public class MagicBlizzard extends Magic {
 
 	@Override
 	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
-		float dmg = ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.blizzardBoost) ? getDamageMult(level) * 1.2F : getDamageMult(level);
-		dmg *= fullMPBlastMult;
+		float dmgMult = getDamageMult(level) + ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
+		dmgMult *= fullMPBlastMult;
 		
 		switch(level) {
 		case 0:
-			ThrowableProjectile blizzard = new BlizzardEntity(player.level, player, dmg);
+			ThrowableProjectile blizzard = new BlizzardEntity(player.level, player, dmgMult);
 			player.level.addFreshEntity(blizzard);
 			blizzard.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			player.level.playSound(null, player.blockPosition(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 1://-ra and -ga are dmg boosted here
 			for(int i = -1; i < 2; i++) {
-				ThrowableProjectile blizzara = new BlizzardEntity(player.level, player, dmg* 0.9F);
+				ThrowableProjectile blizzara = new BlizzardEntity(player.level, player, dmgMult* 0.9F);
 				player.level.addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i*6, 0, 2F, 0);
 				player.level.playSound(null, player.blockPosition(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -40,20 +40,20 @@ public class MagicBlizzard extends Magic {
 			break;
 		case 2:
 			for(int i = -1; i < 2; i++) {
-				ThrowableProjectile blizzara = new BlizzardEntity(player.level, player, dmg*0.85F);
+				ThrowableProjectile blizzara = new BlizzardEntity(player.level, player, dmgMult*0.85F);
 				player.level.addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i*6, 0, 2F, 0);
 				player.level.playSound(null, player.blockPosition(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
 			}
 			for(int i = -1; i < 1; i++) {
-				ThrowableProjectile blizzara = new BlizzardEntity(player.level, player, dmg*0.85F);
+				ThrowableProjectile blizzara = new BlizzardEntity(player.level, player, dmgMult*0.85F);
 				player.level.addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot()-6, player.getYRot() + i*6+3, 0, 2F, 0);
 				player.level.playSound(null, player.blockPosition(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
 			}
 			break;
 		case 3:
-			BlizzazaEntity blizzaza = new BlizzazaEntity(player.level, player, dmg);
+			BlizzazaEntity blizzaza = new BlizzazaEntity(player.level, player, dmgMult);
 			player.level.addFreshEntity(blizzaza);
 			blizzaza.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			player.level.playSound(null, player.blockPosition(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);

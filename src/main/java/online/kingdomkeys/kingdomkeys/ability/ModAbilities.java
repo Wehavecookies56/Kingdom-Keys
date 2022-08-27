@@ -54,6 +54,7 @@ public class ModAbilities {
 			JACKPOT = createAbility(Strings.jackpot, 4, AbilityType.SUPPORT),
 			FIRE_BOOST = createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
 			BLIZZARD_BOOST = createAbility(Strings.blizzardBoost, 4, AbilityType.SUPPORT),
+			WATER_BOOST = createAbility(Strings.waterBoost, 4, AbilityType.SUPPORT),
 			THUNDER_BOOST = createAbility(Strings.thunderBoost, 5, AbilityType.SUPPORT),
 			EXPERIENCE_BOOST = createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
 			CRITICAL_BOOST = createAbility(Strings.criticalBoost, 3, AbilityType.SUPPORT),
