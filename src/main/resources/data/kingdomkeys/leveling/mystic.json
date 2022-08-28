@@ -1,7 +1,7 @@
 {
 	"1":{
 		"mag":1,
-		"abilities":[ "kingdomkeys:ability_mp_haste" ]
+		"abilities":[ "kingdomkeys:ability_zero_exp" ]
    },
    "2":{
       "def":1,

@@ -1067,6 +1067,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.BLUE_RHAPSODY_EGG, "Spawn Blue Rhapsody");
         addItem(ModEntities.YELLOW_OPERA_EGG, "Spawn Yellow Opera");
         addItem(ModEntities.GREEN_REQUIEM_EGG, "Spawn Green Requiem");
+        addItem(ModEntities.EMERALD_BLUES_EGG, "Spawn Emerald Blues");
         addItem(ModEntities.LARGE_BODY_EGG, "Spawn Large Body");
         addItem(ModEntities.DIRE_PLANT_EGG, "Spawn Dire Plant");
         addItem(ModEntities.SOLDIER_EGG, "Spawn Soldier");
@@ -1274,6 +1275,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_BLUE_RHAPSODY, "Blue Rhapsody");
         addEntityType(ModEntities.TYPE_YELLOW_OPERA, "Yellow Opera");
         addEntityType(ModEntities.TYPE_GREEN_REQUIEM, "Green Requiem");
+        addEntityType(ModEntities.TYPE_EMERALD_BLUES, "Emerald Blues");
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Large Body");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");

@@ -1,7 +1,7 @@
 {
    "1":{
 	  "def":1,
-      "abilities":[ "kingdomkeys:ability_strike_raid" ]
+		"abilities":[ "kingdomkeys:ability_zero_exp" ]
    },
     "2":{
       "def":1,

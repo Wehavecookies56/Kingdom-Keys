@@ -1307,6 +1307,7 @@
 	"entity.kingdomkeys.blue_rhapsody": "Rapsodia Azul",
 	"entity.kingdomkeys.yellow_opera": "Ópera Amarilla",
 	"entity.kingdomkeys.green_requiem": "Réquiem Verde",
+	"entity.kingdomkeys.emerald_blues": "Blues Esmeralda",
 	"entity.kingdomkeys.large_body": "Grandullón",
 	"entity.kingdomkeys.dire_plant": "Mala Hierba",
 	"entity.kingdomkeys.soldier": "Soldado",
@@ -1333,6 +1334,8 @@
 	"item.kingdomkeys.blue_rhapsody_spawn_egg": "Generar Rapsodia Azul",
 	"item.kingdomkeys.yellow_opera_spawn_egg": "Generar Ópera Amarilla",
 	"item.kingdomkeys.green_requiem_spawn_egg": "Generar Réquiem Verde",
+	"item.kingdomkeys.emerald_blues_spawn_egg": "Generar Blues Esmeralda",
+
 	"item.kingdomkeys.large_body_spawn_egg": "Generar Grandullón",
 	"item.kingdomkeys.dire_plant_spawn_egg": "Generar Mala Hierba",
 	"item.kingdomkeys.soldier_spawn_egg": "Generar Soldado",
