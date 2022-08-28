@@ -1448,7 +1448,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	public void removeAbility(String ability) {
 		if(abilityMap.containsKey(ability)) {
-			abilityMap.put(ability, new int[] { abilityMap.get(ability)[0] - 1, 0 });
+			if(abilityMap.get(ability)[0] <= 1)
+				abilityMap.remove(ability);
+			else
+				abilityMap.put(ability, new int[] { abilityMap.get(ability)[0] - 1, 0 });
 		}
 	}
 

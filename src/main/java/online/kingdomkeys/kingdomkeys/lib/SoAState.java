@@ -40,14 +40,12 @@ public enum SoAState {
     public static void applyStatsForChoices(Player player, IPlayerCapabilities playerData, boolean remove) {
         if (playerData.getSoAState() == COMPLETE) {
             SoAState choice = !remove ? playerData.getChosen() : playerData.getSacrificed();
-            SoAState sacrifice = !remove ? playerData.getSacrificed() : playerData.getChosen();
+            SoAState sacrifice = !remove ? playerData.getSacrificed() : playerData.getChosen(); //If removing sacrifice is the old choice
             
             if (remove) {
-    			System.out.println("Removing old choice? "+playerData.getChosen());
-    			playerData = removeNonStatsData(ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID+":"+ playerData.getChosen().toString().toLowerCase())), playerData);
-
+    			System.out.println("Removing old choice? "+sacrifice);
+    			removeNonStatsData(ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID+":"+ sacrifice.toString().toLowerCase())), playerData);
         		System.out.println(playerData.getAbilityMap());
-
             	
                 playerData.setSoAState(NONE);
             } else {
@@ -134,13 +132,13 @@ public enum SoAState {
         }
     }
     
-    public static IPlayerCapabilities removeNonStatsData(Level levelData, IPlayerCapabilities playerData) {
+    public static void removeNonStatsData(Level levelData, IPlayerCapabilities playerData) {
     	if (levelData.getAbilities(1).length > 0) {
 			for (String ability : levelData.getAbilities(1)) {
 				if (ability != null) {
 					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
-					System.out.println(ability);
-					if (a != null && playerData.getAbilityQuantity(ability) > 0) {
+					System.out.println("  Found ability "+ability);
+					if (a != null) {
 						playerData.removeAbility(ability);
 					}
 				}
@@ -171,6 +169,5 @@ public enum SoAState {
 			}
 		}
 		
-		return playerData;
     }
 }

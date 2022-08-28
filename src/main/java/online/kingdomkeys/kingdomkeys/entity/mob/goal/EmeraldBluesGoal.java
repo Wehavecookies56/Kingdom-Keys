@@ -77,7 +77,6 @@ public class EmeraldBluesGoal extends TargetGoal {
 				}
 				break;
 			}
-			
 		}
 	
 		public void setAero(Mob mob) {
