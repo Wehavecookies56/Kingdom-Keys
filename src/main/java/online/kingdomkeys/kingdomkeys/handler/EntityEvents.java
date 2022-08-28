@@ -180,8 +180,6 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.mythril_gem.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
 					
-					playerData.addAbility(Strings.zeroExp, false);
-
 					playerData.addKnownRecipe(ModItems.potion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.hiPotion.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.megaPotion.get().getRegistryName());

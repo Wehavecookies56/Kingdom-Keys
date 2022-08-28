@@ -1,4 +1,8 @@
 {
+	"1":{
+		"mag":1,
+		"abilities":[ "kingdomkeys:ability_mp_haste" ]
+   },
    "2":{
       "def":1,
       "abilities":[ "kingdomkeys:ability_scan" ]
@@ -10,7 +14,7 @@
    "4":{
       "def":1,
       "maxmp":8
-  },
+	},
    "5":{
       "str":1,
       "maxhp":5

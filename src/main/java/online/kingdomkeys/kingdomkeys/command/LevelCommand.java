@@ -68,6 +68,7 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             Utils.restartLevel(playerData, player);
 			
+            // Set the level
 			if(playerData.getSoAState() == SoAState.COMPLETE) {
 				while (playerData.getLevel() < level) {
 					playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false, false);

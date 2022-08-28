@@ -74,14 +74,14 @@ public class ChoiceCommand extends BaseCommand {
                         if (targetData.getChosen() == chosen && targetData.getSacrificed() == sacrificed) {
                             noChange = true;
                         } else {
-                            SoAState.applyStatsForChoices(targetData, true);
+                            SoAState.applyStatsForChoices(target, targetData, true);
                         }
                     }
                     if (!noChange) {
                         targetData.setSoAState(SoAState.COMPLETE);
                         targetData.setSacrifice(sacrificed);
                         targetData.setChoice(chosen);
-                        SoAState.applyStatsForChoices(targetData, false);
+                        SoAState.applyStatsForChoices(target, targetData, false);
                     }
                     context.getSource().sendSuccess(new TranslatableComponent("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
                     target.sendMessage(new TranslatableComponent("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr), Util.NIL_UUID);

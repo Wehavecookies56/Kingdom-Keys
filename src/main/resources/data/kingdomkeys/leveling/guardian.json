@@ -1,5 +1,9 @@
 {
-   "2":{
+   "1":{
+	  "def":1,
+      "abilities":[ "kingdomkeys:ability_strike_raid" ]
+   },
+    "2":{
       "def":1,
       "abilities":[ "kingdomkeys:ability_scan" ]
    },

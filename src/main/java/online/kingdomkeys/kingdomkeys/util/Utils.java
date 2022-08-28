@@ -781,6 +781,11 @@ public class Utils {
 		return abilities;
 	}
 
+	/**
+	 * Set to level 1 
+	 * @param playerData
+	 * @param player
+	 */
 	public static void restartLevel(IPlayerCapabilities playerData, Player player) { //sets player level to base
 		playerData.setLevel(1);
 		playerData.setExperience(0);
@@ -794,15 +799,21 @@ public class Utils {
         playerData.setStrength(1);
         playerData.setMagic(1);
         playerData.setDefense(1);
-		SoAState.applyStatsForChoices(playerData, false);
+
+        playerData.clearAbilities();
+		SoAState.applyStatsForChoices(player, playerData, false);
 
 		playerData.setEquippedShotlock("");
 		playerData.getShotlockList().clear();
 		
-		playerData.clearAbilities();
-        playerData.addAbility(Strings.zeroExp, false);
+       // playerData.addAbility(Strings.zeroExp, false);
 	}
 	
+	/**
+	 * Recalculate drive form levels
+	 * @param playerData
+	 * @param player
+	 */
 	public static void restartLevel2(IPlayerCapabilities playerData, Player player) { //calculates drive forms
 		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();

@@ -1,4 +1,8 @@
 {
+	"1":{
+		"str":1,
+		"abilities":[ "kingdomkeys:ability_zero_exp" ]
+	  },
    "2":{
       "def":1,
       "abilities":[ "kingdomkeys:ability_scan" ]
