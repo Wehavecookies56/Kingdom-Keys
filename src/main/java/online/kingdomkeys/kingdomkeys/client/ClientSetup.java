@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -9,9 +10,12 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -165,19 +169,25 @@ public class ClientSetup {
 
 	@SubscribeEvent
 	public static void addLayers(EntityRenderersEvent.AddLayers event) {
+		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
+			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
+				renderer.addLayer(new AeroLayerRenderer(renderer, event.getEntityModels()));
+			}
+		}
+		
 		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
-		renderer.addLayer(new AeroLayerRenderer<>(renderer,event.getEntityModels()));
+		renderer.addLayer(new AeroLayerRenderer(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
-		renderer.addLayer(new AeroLayerRenderer<>(renderer,event.getEntityModels()));
+		renderer.addLayer(new AeroLayerRenderer(renderer, event.getEntityModels()));
 	}
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-        for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
+    	for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
             ClientRegistry.registerKeyBinding(key.getKeybind());
 
 		MinecraftForge.EVENT_BUS.register(new GuiOverlay());

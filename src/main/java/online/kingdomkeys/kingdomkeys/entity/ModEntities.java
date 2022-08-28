@@ -270,8 +270,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SILVER_ROCK = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "silver_rock", 1.0F, 1.0F);
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_CRIMSON_JAZZ = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "crimson_jazz", 1.0F, 1.0F);
     */
-   // public static final RegistryObject<EntityType<EmeraldBluesEntity>> TYPE_EMERALD_BLUES = createEntityType(EmeraldBluesEntity::new, EmeraldBluesEntity::new, MobCategory.MONSTER, "emerald_blues", 0.8F, 1.6F);
-  //  public static final RegistryObject<Item> EMERALD_BLUES_EGG = ModItems.ITEMS.register("emerald_blues_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_EMERALD_BLUES, Color.CYAN.getRGB(), Color.GREEN.getRGB(), PROPERTIES));
+    public static final RegistryObject<EntityType<EmeraldBluesEntity>> TYPE_EMERALD_BLUES = createEntityType(EmeraldBluesEntity::new, EmeraldBluesEntity::new, MobCategory.MONSTER, "emerald_blues", 0.8F, 1.6F);
+    public static final RegistryObject<Item> EMERALD_BLUES_EGG = ModItems.ITEMS.register("emerald_blues_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_EMERALD_BLUES, Color.CYAN.getRGB(), Color.GREEN.getRGB(), PROPERTIES));
 
 
     public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, MobCategory.MONSTER, "large_body", 1.3F, 1.6F);
@@ -409,7 +409,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_BLUE_RHAPSODY.get(), ElementalMusicalHeartlessRenderer::new);
         event.registerEntityRenderer(TYPE_YELLOW_OPERA.get(), ElementalMusicalHeartlessRenderer::new);
         event.registerEntityRenderer(TYPE_GREEN_REQUIEM.get(), ElementalMusicalHeartlessRenderer::new);
-       // event.registerEntityRenderer(TYPE_EMERALD_BLUES.get(), ElementalMusicalHeartlessRenderer::new);
+        event.registerEntityRenderer(TYPE_EMERALD_BLUES.get(), ElementalMusicalHeartlessRenderer::new);
         event.registerEntityRenderer(TYPE_DUSK.get(), DuskRenderer::new);
         event.registerEntityRenderer(TYPE_ASSASSIN.get(), AssassinRenderer::new);
         event.registerEntityRenderer(TYPE_DIRE_PLANT.get(), DirePlantRenderer::new);
@@ -487,7 +487,7 @@ public class ModEntities {
         event.put(TYPE_DUSK.get(), DuskEntity.registerAttributes().build());
         event.put(TYPE_GIGA_SHADOW.get(), GigaShadowEntity.registerAttributes().build());
         event.put(TYPE_GREEN_REQUIEM.get(), GreenRequiemEntity.registerAttributes().build());
-       // event.put(TYPE_EMERALD_BLUES.get(), EmeraldBluesEntity.registerAttributes().build());
+        event.put(TYPE_EMERALD_BLUES.get(), EmeraldBluesEntity.registerAttributes().build());
         event.put(TYPE_LARGE_BODY.get(), LargeBodyEntity.registerAttributes().build());
         event.put(TYPE_MEGA_SHADOW.get(), MegaShadowEntity.registerAttributes().build());
         event.put(TYPE_MINUTE_BOMB.get(), MinuteBombEntity.registerAttributes().build());
@@ -525,7 +525,7 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_BLUE_RHAPSODY.get(), 6);
         addToGroup(HEARTLESS_EMBLEM, TYPE_YELLOW_OPERA.get(), 6);
         addToGroup(HEARTLESS_EMBLEM, TYPE_GREEN_REQUIEM.get(), 6);
-   //     addToGroup(HEARTLESS_EMBLEM, TYPE_EMERALD_BLUES.get(), 8);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_EMERALD_BLUES.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_LARGE_BODY.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
@@ -575,7 +575,7 @@ public class ModEntities {
         SpawnPlacements.register(TYPE_DUSK.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
         SpawnPlacements.register(TYPE_GIGA_SHADOW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_GREEN_REQUIEM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
-   //    SpawnPlacements.register(TYPE_EMERALD_BLUES.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(TYPE_EMERALD_BLUES.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_LARGE_BODY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_MEGA_SHADOW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_MINUTE_BOMB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);

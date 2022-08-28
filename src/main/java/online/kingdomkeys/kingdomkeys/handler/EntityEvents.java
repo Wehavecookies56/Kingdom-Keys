@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,8 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -27,6 +24,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -48,7 +46,6 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -83,10 +80,6 @@ import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.XPEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FirazaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
@@ -95,14 +88,12 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
-import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -535,13 +526,42 @@ public class EntityEvents {
 					
 				}
 			} else {
-				if(event.getEntityLiving() instanceof Player) {
-					Player pl = (Player) event.getEntityLiving();
+				if(event.getEntityLiving() instanceof Player pl) {
 					if(pl.getForcedPose() != null && !ModCapabilities.getPlayer(pl).getIsGliding()){
 						pl.setForcedPose(null);
 					}					
 				}
 			}
+			
+			//Aero
+			if (globalData.getAeroTicks() > 0) {
+				globalData.remAeroTicks(1);
+
+				if(globalData.getAeroLevel() == 1) {
+					if(event.getEntityLiving().tickCount % 20 == 0) {
+						float radius = 0.4F;
+						List<LivingEntity> list = Utils.getLivingEntitiesInRadius(event.getEntityLiving(), radius);
+						if(!list.isEmpty()) {
+							for(Entity e : list) {
+								if(event.getEntityLiving() instanceof Player)
+									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.033F);
+							}
+						}
+					}
+				} else if(globalData.getAeroLevel() == 2) {
+					if(event.getEntityLiving().tickCount % 10 == 0) {
+						float radius = 0.6F;
+						List<LivingEntity> list = Utils.getLivingEntitiesInRadius(event.getEntityLiving(), radius);
+						if(!list.isEmpty()) {
+							for(Entity e : list) {
+								if(event.getEntityLiving() instanceof Player)
+									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.066F);
+							}
+						}
+					}
+				}
+
+			} 
 		}
 
 		if (playerData != null) {
@@ -624,36 +644,7 @@ public class EntityEvents {
 					}
 					playerData.setReflectActive(false); // Restart reflect
 				}
-			}
-			
-			//Aero
-			if (globalData.getAeroTicks() > 0) {
-				globalData.remAeroTicks(1);
-
-				if(globalData.getAeroLevel() == 1) {
-					if(player.tickCount % 20 == 0) {
-						float radius = 0.4F;
-						List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
-						if(!list.isEmpty()) {
-							for(Entity e : list) {
-								e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.033F);
-							}
-						}
-					}
-				} else if(globalData.getAeroLevel() == 2) {
-					if(player.tickCount % 10 == 0) {
-						float radius = 0.6F;
-						List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
-						if(!list.isEmpty()) {
-							for(Entity e : list) {
-								e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.066F);
-							}
-						}
-					}
-				}
-
-			} 
-			
+			}				
 		}
 	}
 		
@@ -766,8 +757,7 @@ public class EntityEvents {
 		
 		
 		//This is outside as it should apply the formula if you have been hit by non player too		
-		if(event.getEntityLiving() instanceof Player) { 
-
+		if(event.getEntityLiving() instanceof Player) {
 			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
@@ -819,6 +809,13 @@ public class EntityEvents {
 			int defense = ((BaseKHEntity)event.getEntityLiving()).getDefense();
 			if(defense > 0)
 				damage = (float) Math.round((damage * 100 / (300 + defense)));
+			
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
+			if(globalData.getAeroTicks() > 0) {
+				float resistMultiplier = globalData.getAeroLevel() == 0 ? 0.3F : globalData.getAeroLevel() == 1 ? 0.35F : globalData.getAeroLevel() == 2 ? 0.4F : 0;
+				globalData.remAeroTicks((int) damage * 2);
+				damage -= (damage * resistMultiplier);
+			}
 			
 			//Marluxia's final attack
 			if (event.getEntityLiving() instanceof MarluxiaEntity) {

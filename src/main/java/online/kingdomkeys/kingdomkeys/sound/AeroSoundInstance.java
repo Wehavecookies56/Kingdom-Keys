@@ -1,13 +1,9 @@
 package online.kingdomkeys.kingdomkeys.sound;
 
-import java.util.HashMap;
-
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -20,18 +16,18 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
    private static final float PITCH_MIN = 0.0F;
    private static final float PITCH_MAX = 1.0F;
    private static final float PITCH_DELTA = 0.0025F;
-   private final Player player;
+   private final LivingEntity ent;
    private float pitch = 0.0F;
   
-   public AeroSoundInstance(Player player) {
+   public AeroSoundInstance(LivingEntity ent) {
       super(ModSounds.aero2.get(), SoundSource.PLAYERS);
-      this.player = player;
+      this.ent = ent;
       this.looping = true;
       this.delay = 0;
       this.volume = 0.0F;
-      this.x = (double)((float)player.getX());
-      this.y = (double)((float)player.getY());
-      this.z = (double)((float)player.getZ());
+      this.x = (double)((float)ent.getX());
+      this.y = (double)((float)ent.getY());
+      this.z = (double)((float)ent.getZ());
    }
    
 	public boolean canPlaySound() {
@@ -44,16 +40,16 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
 
    @Override
    public void tick() {
-	   if(player.isRemoved()) {
+	   if(ent.isRemoved()) {
 		   this.stop();
 	   } else {
-	      if (ModCapabilities.getGlobal(player) != null) {
-	    	  if(ModCapabilities.getGlobal(player).getAeroTicks() <= 0) {
+	      if (ModCapabilities.getGlobal(ent) != null) {
+	    	  if(ModCapabilities.getGlobal(ent).getAeroTicks() <= 0) {
 	    		  this.volume = 0;
 		      } else {
-		         this.x = (double)((float)this.player.getX());
-		         this.y = (double)((float)this.player.getY());
-		         this.z = (double)((float)this.player.getZ());
+		         this.x = (double)((float)this.ent.getX());
+		         this.y = (double)((float)this.ent.getY());
+		         this.z = (double)((float)this.ent.getZ());
 		         this.pitch = 1F;
 		         this.volume = 1F;
 		         /*float f = (float)this.player.getDeltaMovement().horizontalDistance();

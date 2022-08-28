@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -48,26 +49,39 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 		            float scale = 1;
 		            switch(globalData.getAeroLevel()) {
 		            case 0:
-		            	scale = 0.75F*i;
-			            matrixStackIn.scale(scale,scale*1.2F,scale);
-			            matrixStackIn.translate(0.0D, (double)(-0.4F + 0.8F * (float)i), 0.0D);
+			            if(entitylivingbaseIn instanceof Player) {
+			            	scale = 0.75F*i;
+				            matrixStackIn.scale(scale,scale*1.2F,scale);
+				            matrixStackIn.translate(0.0D, (double)(-0.4F + 0.8F * (float)i), 0.0D);
+		            	} else {
+			            	scale = 0.35F*i;
+		            		matrixStackIn.scale(scale,scale,scale);
 
+		            	}
 		            	break;
 		            case 1:
-		            	scale = 0.85F*i;
-			            matrixStackIn.scale(scale,scale*1F,scale);
-			            matrixStackIn.translate(0.0D, (double)(-0.8F + 0.8F * (float)i), 0.0D);
+		            	if(entitylivingbaseIn instanceof Player) {
+			            	scale = 0.85F*i;
+		            		matrixStackIn.scale(scale,scale*1F,scale);
+			            	matrixStackIn.translate(0.0D, (double)(-0.8F + 0.8F * (float)i), 0.0D);
+		            	} else {
+			            	scale = 0.45F*i;
+		            		matrixStackIn.scale(scale,scale,scale);
+		            	}
 
 		            	break;
 		            case 2:
-		            	scale = 0.7F*i;
-			            matrixStackIn.scale(scale,scale*0.6F,scale);
-			            matrixStackIn.translate(0.0D, (double)(-1.2F + 0.6F * (float)i), 0.0D);
-
+			            if(entitylivingbaseIn instanceof Player) {
+			            	scale = 0.7F*i;
+				            matrixStackIn.scale(scale,scale*0.6F,scale);
+				            matrixStackIn.translate(0.0D, (double)(-1.2F + 0.6F * (float)i), 0.0D);
+		            	} else {
+			            	scale = 0.55F*i;
+		            		matrixStackIn.scale(scale,scale*0.6F,scale);
+		            	}
 		            	break;
 		            	
 		            }
-		            
 		            this.box.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY);
 		            matrixStackIn.popPose();
 		         }

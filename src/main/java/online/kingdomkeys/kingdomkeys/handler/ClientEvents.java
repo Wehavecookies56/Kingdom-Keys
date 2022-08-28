@@ -64,14 +64,14 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
-		if(e.getEntity() instanceof Player) {
-			Player player = (Player) e.getEntity();
-
+		if(e.getEntity() instanceof LivingEntity ent) {
 			if(e.getEntity().getLevel().isClientSide) {
-				if(e.getEntity() == Minecraft.getInstance().player) {
-					Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
+				if(ent instanceof Player player) {
+					if(e.getEntity() == Minecraft.getInstance().player) {
+						Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
+					}
 				}
-				Minecraft.getInstance().getSoundManager().play(new AeroSoundInstance(player)); //TODO Change if we add aero on non-player entities
+				Minecraft.getInstance().getSoundManager().play(new AeroSoundInstance(ent));
 			}
 		}
 	}

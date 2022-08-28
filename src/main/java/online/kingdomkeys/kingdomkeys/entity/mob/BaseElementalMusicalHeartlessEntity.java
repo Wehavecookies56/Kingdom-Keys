@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -52,6 +53,7 @@ public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, goalToUse());
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.5D, true));
         this.goalSelector.addGoal(1, new MoveTowardsRestrictionGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -62,11 +64,11 @@ public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
-                .add(Attributes.FOLLOW_RANGE, 35.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.2D)
-                .add(Attributes.ATTACK_DAMAGE, 0.0D)
-				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-                ;
+            .add(Attributes.FOLLOW_RANGE, 35.0D)
+            .add(Attributes.MOVEMENT_SPEED, 0.2D)
+            .add(Attributes.ATTACK_DAMAGE, 0.0D)
+			.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
+            ;
     }
 
     @Override

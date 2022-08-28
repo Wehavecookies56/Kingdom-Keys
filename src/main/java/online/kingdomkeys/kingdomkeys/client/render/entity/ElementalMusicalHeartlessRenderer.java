@@ -31,6 +31,9 @@ public class ElementalMusicalHeartlessRenderer extends MobRenderer<BaseElemental
         } else {
         	matrixStackIn.translate(0, (MAX - entitylivingbaseIn.tickCount % MAX) / (MAX / 2D) * 0.6, 0);
         }
+        if(entitylivingbaseIn instanceof BaseElementalMusicalHeartlessEntity) {
+            matrixStackIn.scale(1.2F, 1.2F, 1.2F);
+        }
         super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
 

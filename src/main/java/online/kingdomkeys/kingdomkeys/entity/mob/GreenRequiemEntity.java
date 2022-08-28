@@ -39,7 +39,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
     public static AttributeSupplier.Builder registerAttributes() {
         return BaseElementalMusicalHeartlessEntity.registerAttributes()
         		.add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.ATTACK_DAMAGE, 2.0D);
+                .add(Attributes.ATTACK_DAMAGE, 1.0D);
     }
 
     @Override
