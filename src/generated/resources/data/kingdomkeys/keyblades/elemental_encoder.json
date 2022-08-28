@@ -1,5 +1,5 @@
 {
-  "ability": "",
+  "ability": "kingdomkeys:ability_grand_magic_haste",
   "reach": 5.0,
   "keychain": "kingdomkeys:elemental_encoder_chain",
   "base_stats": {
