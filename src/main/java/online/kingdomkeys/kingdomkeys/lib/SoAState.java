@@ -124,7 +124,7 @@ public enum SoAState {
     
     public static void removeNonStatsData(Level levelData, IPlayerCapabilities playerData) {
 		if (levelData.getAbilities(0).length > 0) {
-			for (String ability : levelData.getAbilities(1)) {
+			for (String ability : levelData.getAbilities(0)) {
 				if (ability != null) {
 					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
 					if (a != null) {
@@ -134,7 +134,7 @@ public enum SoAState {
 			}
 		}
 		if (levelData.getShotlocks(0).length > 0) {
-			for (String shotlock : levelData.getShotlocks(1)) {
+			for (String shotlock : levelData.getShotlocks(0)) {
 				if (shotlock != null) {
 					Shotlock a = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
 					if (a != null) {
@@ -144,7 +144,7 @@ public enum SoAState {
 			}
 		}
 		if (levelData.getSpells(0).length > 0) {
-			for (String magic : levelData.getSpells(1)) {
+			for (String magic : levelData.getSpells(0)) {
 				if (magic != null) {
 					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 					if (magicInstance != null) {
