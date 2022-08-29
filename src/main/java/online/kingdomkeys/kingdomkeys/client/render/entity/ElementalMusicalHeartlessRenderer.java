@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ElementalMusicalHeartlessModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseElementalMusicalHeartlessEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.EmeraldBluesEntity;
 
 public class ElementalMusicalHeartlessRenderer extends MobRenderer<BaseElementalMusicalHeartlessEntity, ElementalMusicalHeartlessModel<BaseElementalMusicalHeartlessEntity>> { //my god that's a long one
 
@@ -31,8 +32,8 @@ public class ElementalMusicalHeartlessRenderer extends MobRenderer<BaseElemental
         } else {
         	matrixStackIn.translate(0, (MAX - entitylivingbaseIn.tickCount % MAX) / (MAX / 2D) * 0.6, 0);
         }
-        if(entitylivingbaseIn instanceof BaseElementalMusicalHeartlessEntity) {
-            matrixStackIn.scale(1.2F, 1.2F, 1.2F);
+        if(entitylivingbaseIn instanceof EmeraldBluesEntity) {
+            matrixStackIn.scale(1.1F, 1.1F, 1.1F);
         }
         super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
