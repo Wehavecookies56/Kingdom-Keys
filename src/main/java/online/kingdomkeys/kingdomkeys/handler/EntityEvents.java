@@ -99,6 +99,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -202,8 +203,46 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
-				}				
-				
+				}
+
+				//Old worlds stat conversion
+				if (playerData.getSoAState() == SoAState.COMPLETE) {
+					switch(playerData.getChosen()) {
+						case WARRIOR -> {
+							if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setStrength(playerData.getStrength(false) - 1);
+							}
+						}
+						case GUARDIAN -> {
+							if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
+								playerData.setDefense(playerData.getDefense(false) - 1);
+							}
+						}
+						case MYSTIC -> {
+							if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setMagic(playerData.getMagic(false) - 1);
+							}
+						}
+					}
+					switch(playerData.getSacrificed()) {
+						case WARRIOR -> {
+							if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setStrength(playerData.getStrength(false) + 1);
+							}
+						}
+						case GUARDIAN -> {
+							if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
+								playerData.setDefense(playerData.getDefense(false) + 1);
+							}
+						}
+						case MYSTIC -> {
+							if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setMagic(playerData.getMagic(false) + 1);
+							}
+						}
+					}
+				}
+
 				//Added for old world retrocompatibility
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.SYNCH_BLADE.toString())) { 
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
@@ -1127,11 +1166,8 @@ public class EntityEvents {
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
 		newPlayerData.setStrength(oldPlayerData.getStrength(false));
-		newPlayerData.setBoostStrength(oldPlayerData.getBoostStrength());
 		newPlayerData.setMagic(oldPlayerData.getMagic(false));
-		newPlayerData.setBoostMagic(oldPlayerData.getBoostMagic());
 		newPlayerData.setDefense(oldPlayerData.getDefense(false));
-		newPlayerData.setBoostDefense(oldPlayerData.getBoostDefense());
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
 		newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());

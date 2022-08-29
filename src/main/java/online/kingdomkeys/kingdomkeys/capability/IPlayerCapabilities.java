@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.INBTSerializable;
+import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -31,15 +32,21 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getStrength(boolean combined);
 	void setStrength(int str);
 	void addStrength(int str);
+	Stat getStrengthStat();
+	void setStrengthStat(Stat stat);
 	
 	int getMagic(boolean combined);
 	void setMagic(int mag);
 	void addMagic(int mag);
-	
+	Stat getMagicStat();
+	void setMagicStat(Stat stat);
+
 	int getDefense(boolean combined);
 	void setDefense(int def);
 	void addDefense(int def);
-	
+	Stat getDefenseStat();
+	void setDefenseStat(Stat stat);
+
 	int getMaxHP();
 	void setMaxHP(int hp);
 	void addMaxHP(int hp);
@@ -274,13 +281,7 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setShortcutsMap(LinkedHashMap<Integer,String> map);
 	void changeShortcut(int position, String name, int level);
 	void removeShortcut(int position);
-	
-	int getBoostStrength();
-	void setBoostStrength(int str);
-	int getBoostMagic();
-	void setBoostMagic(int str);
-	int getBoostDefense();
-	void setBoostDefense(int str);
+
 	int getBoostMaxAP();
 	void setBoostMaxAP(int str);
 	

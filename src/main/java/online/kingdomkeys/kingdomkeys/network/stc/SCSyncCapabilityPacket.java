@@ -28,18 +28,18 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.checkerframework.checker.units.qual.C;
 
 public class SCSyncCapabilityPacket {
 
 	public int level = 0;
 	public int exp = 0;
 	public int expGiven = 0;
-	public int strength = 0, boostStr = 0;
-	public int magic = 0, boostMag = 0;
-	public int defense = 0, boostDef = 0;
-	public int maxHp, maxAP=0, boostMaxAP = 0;
+	public Stat strength, magic, defense;
+	public int maxHp, maxAP = 0, boostMaxAP = 0;
 	public int munny = 0;
 	public int antipoints = 0;
 
@@ -87,9 +87,9 @@ public class SCSyncCapabilityPacket {
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
 		this.expGiven = capability.getExperienceGiven();
-		this.strength = capability.getStrength(false);
-		this.magic = capability.getMagic(false);
-		this.defense = capability.getDefense(false);
+		this.strength = capability.getStrengthStat();
+		this.magic = capability.getMagicStat();
+		this.defense = capability.getDefenseStat();
 		
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
@@ -138,10 +138,7 @@ public class SCSyncCapabilityPacket {
 		this.reactionList = capability.getReactionCommands();
 		
 		this.shortcutsMap = capability.getShortcutsMap();
-		
-		this.boostStr = capability.getBoostStrength();
-		this.boostMag = capability.getBoostMagic();
-		this.boostDef = capability.getBoostDefense();
+
 		this.boostMaxAP = capability.getBoostMaxAP();
 		
 		this.synthLevel = capability.getSynthLevel();
@@ -152,13 +149,9 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.exp);
 		buffer.writeInt(this.expGiven);
-		buffer.writeInt(this.strength);
-		buffer.writeInt(this.magic);
-		buffer.writeInt(this.defense);
-		
-		buffer.writeInt(this.boostStr);
-		buffer.writeInt(this.boostMag);
-		buffer.writeInt(this.boostDef);
+		buffer.writeNbt(this.strength.serialize(new CompoundTag()));
+		buffer.writeNbt(this.magic.serialize(new CompoundTag()));
+		buffer.writeNbt(this.defense.serialize(new CompoundTag()));
 		
 		buffer.writeDouble(this.MP);
 		buffer.writeDouble(this.maxMP);
@@ -305,12 +298,9 @@ public class SCSyncCapabilityPacket {
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
 		msg.expGiven = buffer.readInt();
-		msg.strength = buffer.readInt();
-		msg.magic = buffer.readInt();
-		msg.defense = buffer.readInt();
-		msg.boostStr = buffer.readInt();
-		msg.boostMag = buffer.readInt();
-		msg.boostDef = buffer.readInt();
+		msg.strength = Stat.deserializeNBT("strength", buffer.readNbt());
+		msg.magic = Stat.deserializeNBT("magic", buffer.readNbt());
+		msg.defense = Stat.deserializeNBT("defense", buffer.readNbt());
 
 		msg.MP = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();

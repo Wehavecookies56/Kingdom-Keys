@@ -40,15 +40,15 @@ public class StatUpgradeItem extends Item implements IItemCategory {
 				
 				switch (boost) {
 				case Strings.powerBoost:
-					playerData.setBoostStrength(playerData.getBoostStrength()+1);
+					playerData.getStrengthStat().addModifier("boost", 1, true);
 					player.displayClientMessage(new TranslatableComponent("Increased Strength by 1, it is now "+playerData.getStrength(true)), true);
 					break;
 				case Strings.magicBoost:
-					playerData.setBoostMagic(playerData.getBoostMagic()+1);
+					playerData.getMagicStat().addModifier("boost", 1, true);
 					player.displayClientMessage(new TranslatableComponent("Increased Magic by 1, it is now "+playerData.getMagic(true)), true);
 					break;
 				case Strings.defenseBoost:
-					playerData.setBoostDefense(playerData.getBoostDefense()+1);
+					playerData.getDefenseStat().addModifier("boost", 1, true);
 					player.displayClientMessage(new TranslatableComponent("Increased Defense by 1, it is now "+playerData.getDefense(true)), true);
 					break;
 				case Strings.apBoost:

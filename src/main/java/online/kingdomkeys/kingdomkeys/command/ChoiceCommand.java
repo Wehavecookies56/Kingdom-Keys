@@ -19,6 +19,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,7 +47,10 @@ public class ChoiceCommand extends BaseCommand {
                 .then(Commands.argument("targets", EntityArgument.players())
                         .executes(ChoiceCommand::makeChoice))
                 .executes(ChoiceCommand::makeChoice)));
-
+        builder.then(Commands.literal("_reset")
+                .then(Commands.argument("targets", EntityArgument.players())
+                    .executes(ChoiceCommand::resetChoice))
+                .executes(ChoiceCommand::resetChoice));
         KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
         return builder;
     }
@@ -57,6 +62,26 @@ public class ChoiceCommand extends BaseCommand {
             case "MYSTIC" -> SoAState.MYSTIC;
             default -> SoAState.NONE;
         };
+    }
+
+    private static int resetChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        Collection<ServerPlayer> players = getPlayers(context, 3);
+        for (ServerPlayer target : players) {
+            IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+            if (targetData.getSoAState() == SoAState.COMPLETE) {
+                SoAState.applyStatsForChoices(target, targetData, true);
+            }
+            targetData.setSoAState(SoAState.NONE);
+            targetData.setChoice(SoAState.NONE);
+            targetData.setSacrifice(SoAState.NONE);
+            PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
+            if (players.size() > 1) {
+                context.getSource().sendSuccess(new TranslatableComponent("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
+            }
+            target.sendMessage(new TranslatableComponent("Your Station of Awakening choice has been reset"), Util.NIL_UUID);
+
+        }
+        return 1;
     }
 
     private static int makeChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -83,7 +108,10 @@ public class ChoiceCommand extends BaseCommand {
                         targetData.setChoice(chosen);
                         SoAState.applyStatsForChoices(target, targetData, false);
                     }
-                    context.getSource().sendSuccess(new TranslatableComponent("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
+                    PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
+                    if (players.size() > 1) {
+                        context.getSource().sendSuccess(new TranslatableComponent("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
+                    }
                     target.sendMessage(new TranslatableComponent("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr), Util.NIL_UUID);
                 }
             } else {

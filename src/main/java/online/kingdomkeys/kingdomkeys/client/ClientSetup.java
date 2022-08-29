@@ -171,17 +171,17 @@ public class ClientSetup {
 	public static void addLayers(EntityRenderersEvent.AddLayers event) {
 		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
-				renderer.addLayer(new AeroLayerRenderer(renderer, event.getEntityModels()));
+				renderer.addLayer(new AeroLayerRenderer<LivingEntity>(renderer, event.getEntityModels()));
 			}
 		}
 		
 		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
-		renderer.addLayer(new AeroLayerRenderer(renderer, event.getEntityModels()));
+		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
-		renderer.addLayer(new AeroLayerRenderer(renderer, event.getEntityModels()));
+		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 
     @OnlyIn(Dist.CLIENT)

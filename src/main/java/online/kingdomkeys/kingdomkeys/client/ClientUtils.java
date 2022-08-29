@@ -152,12 +152,9 @@ public class ClientUtils {
                 playerData.setLevel(message.level);
                 playerData.setExperience(message.exp);
                 playerData.setExperienceGiven(message.expGiven);
-                playerData.setStrength(message.strength);
-                playerData.setMagic(message.magic);
-                playerData.setDefense(message.defense);
-                playerData.setBoostStrength(message.boostStr);
-                playerData.setBoostMagic(message.boostMag);
-                playerData.setBoostDefense(message.boostDef);
+                playerData.setStrengthStat(message.strength);
+                playerData.setMagicStat(message.magic);
+                playerData.setDefenseStat(message.defense);
                 playerData.setMP(message.MP);
                 playerData.setMaxMP(message.maxMP);
                 playerData.setRecharge(message.recharge);

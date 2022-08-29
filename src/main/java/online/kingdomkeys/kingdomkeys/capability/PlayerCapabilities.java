@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -66,12 +67,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putInt("level", this.getLevel());
 		storage.putInt("experience", this.getExperience());
 		storage.putInt("experience_given", this.getExperienceGiven());
-		storage.putInt("strength", this.getStrength(false));
-		storage.putInt("boost_strength", this.getBoostStrength());
-		storage.putInt("magic", this.getMagic(false));
-		storage.putInt("boost_magic", this.getBoostMagic());
-		storage.putInt("defense", this.getDefense(false));
-		storage.putInt("boost_defense", this.getBoostDefense());
+		strength.serialize(storage);
+		magic.serialize(storage);
+		defense.serialize(storage);
 		storage.putInt("max_hp", this.getMaxHP());
 		storage.putInt("max_ap", this.getMaxAP(false));
 		storage.putInt("boost_max_ap", this.getBoostMaxAP());
@@ -119,10 +117,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.put("recipes", recipes);
 
 		CompoundTag magics = new CompoundTag();
-		Iterator<Entry<String, int[]>> magicsIt = this.getMagicsMap().entrySet().iterator();
-		while (magicsIt.hasNext()) {
-			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
-			magics.putIntArray(pair.getKey().toString(), pair.getValue());
+		for (Entry<String, int[]> pair : this.getMagicsMap().entrySet()) {
+			magics.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("magics", magics);
 
@@ -135,18 +131,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putString("equipped_shotlock", this.getEquippedShotlock());
 
 		CompoundTag forms = new CompoundTag();
-		Iterator<Map.Entry<String, int[]>> driveFormsIt = this.getDriveFormMap().entrySet().iterator();
-		while (driveFormsIt.hasNext()) {
-			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
-			forms.putIntArray(pair.getKey().toString(), pair.getValue());
+		for (Entry<String, int[]> pair : this.getDriveFormMap().entrySet()) {
+			forms.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("drive_forms", forms);
 
 		CompoundTag abilities = new CompoundTag();
-		Iterator<Map.Entry<String, int[]>> abilitiesIt = this.getAbilityMap().entrySet().iterator();
-		while (abilitiesIt.hasNext()) {
-			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
-			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
+		for (Entry<String, int[]> pair : this.getAbilityMap().entrySet()) {
+			abilities.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("abilities", abilities);
 
@@ -182,20 +174,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.put("parties", parties);
 
 		CompoundTag mats = new CompoundTag();
-		Iterator<Map.Entry<String, Integer>> materialsIt = this.getMaterialMap().entrySet().iterator();
-		while (materialsIt.hasNext()) {
-			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
-			mats.putInt(pair.getKey().toString(), pair.getValue());
-			if(mats.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
-				mats.remove(pair.getKey().toString());
+		for (Entry<String, Integer> pair : this.getMaterialMap().entrySet()) {
+			mats.putInt(pair.getKey(), pair.getValue());
+			if (mats.getInt(pair.getKey()) == 0 && pair.getKey() != null)
+				mats.remove(pair.getKey());
 		}
 		storage.put("materials", mats);
 		storage.putInt("limitCooldownTicks", this.getLimitCooldownTicks());
 
 		CompoundTag shortcuts = new CompoundTag();
-		Iterator<Map.Entry<Integer, String>> shortcutsIt = this.getShortcutsMap().entrySet().iterator();
-		while (shortcutsIt.hasNext()) {
-			Map.Entry<Integer, String> pair = (Map.Entry<Integer, String>) shortcutsIt.next();
+		for (Entry<Integer, String> pair : this.getShortcutsMap().entrySet()) {
 			shortcuts.putString(pair.getKey().toString(), pair.getValue());
 		}
 		storage.put("shortcuts", shortcuts);
@@ -208,129 +196,125 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
-		CompoundTag storage = (CompoundTag) nbt;
-		this.setLevel(storage.getInt("level"));
-		this.setExperience(storage.getInt("experience"));
-		this.setExperienceGiven(storage.getInt("experience_given"));
-		this.setStrength(storage.getInt("strength"));
-		this.setBoostStrength(storage.getInt("boost_strength"));
-		this.setMagic(storage.getInt("magic"));
-		this.setBoostMagic(storage.getInt("boost_magic"));
-		this.setDefense(storage.getInt("defense"));
-		this.setBoostDefense(storage.getInt("boost_defense"));
-		this.setMaxHP(storage.getInt("max_hp"));
-		this.setMaxAP(storage.getInt("max_ap"));
-		this.setBoostMaxAP(storage.getInt("boost_max_ap"));
-		this.setMP(storage.getDouble("mp"));
-		this.setMaxMP(storage.getDouble("max_mp"));
-		this.setFocus(storage.getDouble("focus"));
-		this.setMaxFocus(storage.getDouble("max_focus"));
-		this.setRecharge(storage.getBoolean("recharge"));
-		this.setDP(storage.getDouble("dp"));
-		this.setMaxDP(storage.getDouble("max_dp"));
-		this.setFP(storage.getDouble("fp"));
-		this.setActiveDriveForm(storage.getString("drive_form"));
-		this.setAntiPoints(storage.getInt("anti_points"));
-		this.setReflectTicks(storage.getInt("reflect_ticks"), storage.getInt("reflect_level"));
-		this.setReflectActive(storage.getBoolean("reflect_active"));
-		this.setMunny(storage.getInt("munny"));
-		this.setSoAState(SoAState.fromByte(storage.getByte("soa_state")));
-		this.setChoice(SoAState.fromByte(storage.getByte("soa_choice")));
-		this.setSacrifice(SoAState.fromByte(storage.getByte("soa_sacrifice")));
-		CompoundTag returnCompound = storage.getCompound("soa_return_pos");
+		this.setLevel(nbt.getInt("level"));
+		this.setExperience(nbt.getInt("experience"));
+		this.setExperienceGiven(nbt.getInt("experience_given"));
+		strength = Stat.deserializeNBT("strength", nbt);
+		if (nbt.contains("boost_strength")) {
+			int boost = nbt.getInt("boost_strength");
+			nbt.remove("boost_strength");
+			strength.addModifier("legacy_boosts", boost, false);
+		}
+		magic = Stat.deserializeNBT("magic", nbt);
+		if (nbt.contains("boost_magic")) {
+			int boost = nbt.getInt("boost_magic");
+			nbt.remove("boost_magic");
+			magic.addModifier("legacy_boosts", boost, false);
+		}
+		defense = Stat.deserializeNBT("defense", nbt);
+		if (nbt.contains("boost_defense")) {
+			int boost = nbt.getInt("boost_defense");
+			nbt.remove("boost_defense");
+			defense.addModifier("legacy_boosts", boost, false);
+		}
+		this.setMaxHP(nbt.getInt("max_hp"));
+		this.setMaxAP(nbt.getInt("max_ap"));
+		this.setBoostMaxAP(nbt.getInt("boost_max_ap"));
+		this.setMP(nbt.getDouble("mp"));
+		this.setMaxMP(nbt.getDouble("max_mp"));
+		this.setFocus(nbt.getDouble("focus"));
+		this.setMaxFocus(nbt.getDouble("max_focus"));
+		this.setRecharge(nbt.getBoolean("recharge"));
+		this.setDP(nbt.getDouble("dp"));
+		this.setMaxDP(nbt.getDouble("max_dp"));
+		this.setFP(nbt.getDouble("fp"));
+		this.setActiveDriveForm(nbt.getString("drive_form"));
+		this.setAntiPoints(nbt.getInt("anti_points"));
+		this.setReflectTicks(nbt.getInt("reflect_ticks"), ((CompoundTag) nbt).getInt("reflect_level"));
+		this.setReflectActive(nbt.getBoolean("reflect_active"));
+		this.setMunny(nbt.getInt("munny"));
+		this.setSoAState(SoAState.fromByte(nbt.getByte("soa_state")));
+		this.setChoice(SoAState.fromByte(nbt.getByte("soa_choice")));
+		this.setSacrifice(SoAState.fromByte(nbt.getByte("soa_sacrifice")));
+		CompoundTag returnCompound = nbt.getCompound("soa_return_pos");
 		this.setReturnLocation(new Vec3(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
-		this.setReturnDimension(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(storage.getString("soa_return_dim"))));
-		CompoundTag choicePedestal = storage.getCompound("soa_choice_pedestal");
+		this.setReturnDimension(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(nbt.getString("soa_return_dim"))));
+		CompoundTag choicePedestal = nbt.getCompound("soa_choice_pedestal");
 		this.setChoicePedestal(new BlockPos(choicePedestal.getInt("x"), choicePedestal.getInt("y"), choicePedestal.getInt("z")));
-		CompoundTag sacrificePedestal = storage.getCompound("soa_sacrifice_pedestal");
+		CompoundTag sacrificePedestal = nbt.getCompound("soa_sacrifice_pedestal");
 		this.setSacrificePedestal(new BlockPos(sacrificePedestal.getInt("x"), sacrificePedestal.getInt("y"), sacrificePedestal.getInt("z")));
 
-		Iterator<String> recipesIt = storage.getCompound("recipes").getAllKeys().iterator();
-		while (recipesIt.hasNext()) {
-			String key = (String) recipesIt.next();
+		for (String key : nbt.getCompound("recipes").getAllKeys()) {
 			this.getKnownRecipeList().add(new ResourceLocation(key));
 		}
 
-		Iterator<String> magicsIt = storage.getCompound("magics").getAllKeys().iterator();
-		while (magicsIt.hasNext()) {
-			String magicName = (String) magicsIt.next();
-
+		for (String magicName : nbt.getCompound("magics").getAllKeys()) {
 			int[] array;
-			if(storage.getCompound("magics").contains(magicName,99)) {
-				KingdomKeys.LOGGER.info("Converting "+magicName+" data");
-				array = new int[] { storage.getCompound("magics").getInt(magicName), 0 };
+			if (nbt.getCompound("magics").contains(magicName, 99)) {
+				KingdomKeys.LOGGER.info("Converting " + magicName + " data");
+				array = new int[]{nbt.getCompound("magics").getInt(magicName), 0};
 			} else {
-				array = storage.getCompound("magics").getIntArray(magicName);
+				array = nbt.getCompound("magics").getIntArray(magicName);
 			}
-			this.getMagicsMap().put(magicName.toString(), array);
+			this.getMagicsMap().put(magicName, array);
 		}
 
-		Iterator<String> shotlockIt = storage.getCompound("shotlocks").getAllKeys().iterator();
-		while (shotlockIt.hasNext()) {
-			String key = (String) shotlockIt.next();
-
-			this.getShotlockList().add(key.toString());
+		for (String key : nbt.getCompound("shotlocks").getAllKeys()) {
+			this.getShotlockList().add(key);
 		}
 
-		this.setEquippedShotlock(storage.getString("equipped_shotlock"));
+		this.setEquippedShotlock(nbt.getString("equipped_shotlock"));
 
-		Iterator<String> driveFormsIt = storage.getCompound("drive_forms").getAllKeys().iterator();
-		while (driveFormsIt.hasNext()) {
-			String driveFormName = (String) driveFormsIt.next();
-
-			this.getDriveFormMap().put(driveFormName.toString(), storage.getCompound("drive_forms").getIntArray(driveFormName));
+		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
+			this.getDriveFormMap().put(driveFormName, nbt.getCompound("drive_forms").getIntArray(driveFormName));
 		}
 
-		Iterator<String> abilitiesIt = storage.getCompound("abilities").getAllKeys().iterator();
-		while (abilitiesIt.hasNext()) {
-			String abilityName = (String) abilitiesIt.next();
-
-			this.getAbilityMap().put(abilityName.toString(), storage.getCompound("abilities").getIntArray(abilityName));
+		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
+			this.getAbilityMap().put(abilityName, nbt.getCompound("abilities").getIntArray(abilityName));
 		}
 
-		CompoundTag keychainsNBT = storage.getCompound("keychains");
+		CompoundTag keychainsNBT = nbt.getCompound("keychains");
 		keychainsNBT.getAllKeys().forEach((chain) -> this.setNewKeychain(new ResourceLocation(chain), ItemStack.of(keychainsNBT.getCompound(chain))));
 
-		CompoundTag itemsNBT = storage.getCompound("items");
+		CompoundTag itemsNBT = nbt.getCompound("items");
 		itemsNBT.getAllKeys().forEach((slot) -> this.setNewItem(Integer.parseInt(slot), ItemStack.of(itemsNBT.getCompound(slot))));
 
-		CompoundTag accessoriesNBT = storage.getCompound("accessories");
+		CompoundTag accessoriesNBT = nbt.getCompound("accessories");
 		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.of(accessoriesNBT.getCompound(slot))));
 
-		CompoundTag armorsNBT = storage.getCompound("armors");
+		CompoundTag armorsNBT = nbt.getCompound("armors");
 		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.of(armorsNBT.getCompound(slot))));
 
-		this.setHearts(storage.getInt("hearts"));
-		this.setAlignment(storage.getInt("org_alignment"));
-		this.equipWeapon(ItemStack.of(storage.getCompound("org_equipped_weapon")));
-		CompoundTag unlocksCompound = storage.getCompound("org_weapons_unlocked");
+		this.setHearts(nbt.getInt("hearts"));
+		this.setAlignment(nbt.getInt("org_alignment"));
+		this.equipWeapon(ItemStack.of(nbt.getCompound("org_equipped_weapon")));
+		CompoundTag unlocksCompound = nbt.getCompound("org_weapons_unlocked");
 		unlocksCompound.getAllKeys().forEach(key -> this.unlockWeapon(ItemStack.of(unlocksCompound.getCompound(key))));
 
-		Iterator<String> partyIt = storage.getCompound("parties").getAllKeys().iterator();
-		while (partyIt.hasNext()) {
-			String key = (String) partyIt.next();
-			this.getPartiesInvited().add(key.toString());
+		for (String key : nbt.getCompound("parties").getAllKeys()) {
+			this.getPartiesInvited().add(key);
 		}
 
-		Iterator<String> materialsIt = storage.getCompound("materials").getAllKeys().iterator();
-		while (materialsIt.hasNext()) {
-			String mat = (String) materialsIt.next();
-			this.getMaterialMap().put(mat.toString(), storage.getCompound("materials").getInt(mat));
+		for (String mat : nbt.getCompound("materials").getAllKeys()) {
+			this.getMaterialMap().put(mat, nbt.getCompound("materials").getInt(mat));
 		}
 
-		this.setLimitCooldownTicks(storage.getInt("limitCooldownTicks"));
+		this.setLimitCooldownTicks(nbt.getInt("limitCooldownTicks"));
 
-		Iterator<String> shortcutsIt = storage.getCompound("shortcuts").getAllKeys().iterator();
-		while (shortcutsIt.hasNext()) {
-			int shortcutPos = Integer.parseInt(shortcutsIt.next());
-			this.getShortcutsMap().put(shortcutPos, storage.getCompound("shortcuts").getString(shortcutPos+""));
+		for (String s : nbt.getCompound("shortcuts").getAllKeys()) {
+			int shortcutPos = Integer.parseInt(s);
+			this.getShortcutsMap().put(shortcutPos, nbt.getCompound("shortcuts").getString(shortcutPos + ""));
 		}
 		
-		this.setSynthLevel(storage.getInt("synth_level"));
-		this.setSynthExperience(storage.getInt("synth_exp"));
+		this.setSynthLevel(nbt.getInt("synth_level"));
+		this.setSynthExperience(nbt.getInt("synth_exp"));
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, strength = 1, boostStr = 0, magic = 1, boostMag = 0, defense = 1, boostDef = 0, maxHp = 20, remainingExp = 0, maxAP = 10, boostMaxAP = 0, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
+	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, maxAP = 10, boostMaxAP = 0, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
+
+	Stat strength = new Stat("strength", 1);
+	Stat magic = new Stat("magic",1);
+	Stat defense = new Stat("defense", 1);
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -451,32 +435,32 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getStrength(boolean combined) {
-		return combined ? (strength + boostStr + Utils.getAccessoriesStat(this, "str")) * ModConfigs.statsMultiplier.get(0) / 100 : strength * ModConfigs.statsMultiplier.get(0) / 100;
+		return combined ? (strength.getStat() + Utils.getAccessoriesStat(this, "str")) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
 	}
 
 	@Override
 	public void setStrength(int level) {
-		this.strength = level;
+		this.strength.set(level);
 	}
 
 	@Override
 	public int getMagic(boolean combined) {
-		return combined ? (magic + boostMag + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100: magic * ModConfigs.statsMultiplier.get(1) / 100;
+		return combined ? (magic.getStat() + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100 : magic.get();
 	}
 
 	@Override
 	public void setMagic(int level) {
-		this.magic = level;
+		this.magic.set(level);
 	}
 
 	@Override
 	public int getDefense(boolean combined) {
-		return combined ? (defense + boostDef + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense * ModConfigs.statsMultiplier.get(2) / 100;
+		return combined ? (defense.getStat() + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense.get();
 	}
 
 	@Override
 	public void setDefense(int level) {
-		this.defense = level;
+		this.defense.set(level);
 	}
 
 	@Override
@@ -484,27 +468,56 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		if (level == 100)
 			return 0;
 		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25));
-		int needed = ((int) nextLevel - currentExp);
-		this.remainingExp = needed;
+		this.remainingExp = ((int) nextLevel - currentExp);
 		return remainingExp;
 	}
 
 	@Override
 	public void addStrength(int str) {
-		this.strength += str;
+		this.strength.add(str);
 		messages.add(Strings.Stats_LevelUp_Str);
 	}
 
 	@Override
+	public Stat getStrengthStat() {
+		return strength;
+	}
+
+	@Override
+	public void setStrengthStat(Stat stat) {
+		this.strength = stat;
+	}
+
+	@Override
 	public void addMagic(int mag) {
-		this.magic += mag;
+		this.magic.add(mag);
 		messages.add(Strings.Stats_LevelUp_Magic);
 	}
 
 	@Override
+	public Stat getMagicStat() {
+		return magic;
+	}
+
+	@Override
+	public void setMagicStat(Stat stat) {
+		this.magic = stat;
+	}
+
+	@Override
 	public void addDefense(int def) {
-		this.defense += def;
+		this.defense.add(def);
 		messages.add(Strings.Stats_LevelUp_Def);
+	}
+
+	@Override
+	public Stat getDefenseStat() {
+		return defense;
+	}
+
+	@Override
+	public void setDefenseStat(Stat stat) {
+		this.defense = stat;
 	}
 
 	@Override
@@ -1905,36 +1918,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void removeShortcut(int position) {
 		this.shortcutsMap.remove(position);
 		
-	}
-
-	@Override
-	public int getBoostStrength() {
-		return boostStr;
-	}
-
-	@Override
-	public void setBoostStrength(int str) {
-		boostStr = str;
-	}
-
-	@Override
-	public int getBoostMagic() {
-		return boostMag;
-	}
-
-	@Override
-	public void setBoostMagic(int mag) {
-		boostMag = mag;
-	}
-
-	@Override
-	public int getBoostDefense() {
-		return boostDef;
-	}
-
-	@Override
-	public void setBoostDefense(int def) {
-		boostDef = def;
 	}
 
 	@Override
