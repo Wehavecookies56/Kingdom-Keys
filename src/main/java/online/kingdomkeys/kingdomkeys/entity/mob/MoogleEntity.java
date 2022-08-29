@@ -87,7 +87,13 @@ public class MoogleEntity extends PathfinderMob {
 	        }
 	        return super.interactAt(player, vec, hand);
         }
-		return InteractionResult.SUCCESS;
+    	ItemStack itemstack = player.getItemInHand(hand);
+    	if(!ItemStack.isSame(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
+    		return InteractionResult.SUCCESS;
+    	} else {
+	        return super.interactAt(player, vec, hand);
+    	}
+
     }
 
     @Override

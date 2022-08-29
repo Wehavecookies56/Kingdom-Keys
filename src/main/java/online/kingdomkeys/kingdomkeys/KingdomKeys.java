@@ -86,7 +86,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1.6.3";
+	public static final String MODVER = "2.1.6.4";
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
@@ -145,7 +145,6 @@ public class KingdomKeys {
 
 		ModFeatures.FEATURES.register(modEventBus);
 		ModBiomes.BIOMES.register(modEventBus);
-		//ModParticles.PARTICLES.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
