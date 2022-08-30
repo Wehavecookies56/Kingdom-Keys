@@ -37,7 +37,6 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
     		matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
     		if(entity.getDeltaMovement().equals(new Vec3(0,0,0))) {
     			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
-
     		} else {
     			matrixStackIn.scale(0.2F, 0.2F, 0.8F);
     		}

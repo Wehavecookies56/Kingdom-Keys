@@ -14,6 +14,11 @@
       "kingdomkeys:drive"
     ]
   },
+  "wisdom_shot": {
+    "sounds": [
+      "kingdomkeys:wisdom_shot"
+    ]
+  },
   "error": {
     "sounds": [
       "kingdomkeys:error"

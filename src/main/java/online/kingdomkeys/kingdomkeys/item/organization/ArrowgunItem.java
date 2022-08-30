@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -33,7 +34,7 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 		if (!player.isShiftKeyDown()) {
 			if (player.getItemInHand(hand).getTag() != null && player.getItemInHand(hand).getTag().getInt("ammo") > 0) {
 				world.playSound(player, player.blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);
-				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
+				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player, DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3);
 				bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
 				world.addFreshEntity(bullet);
 

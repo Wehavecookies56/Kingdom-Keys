@@ -23,6 +23,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -47,7 +48,10 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -199,7 +203,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		Level level = player.level;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
-		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) {
+		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 
 			if (itemstack != null && !playerData.getRecharge()) {
@@ -223,7 +227,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 			}
 			return super.use(world, player, hand);
-		} else {
+		} else { //Attack offhand and wisdom attack
 			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
 				if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
 					HitResult rtr;
@@ -246,6 +250,19 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								return InteractionResultHolder.fail(itemstack);
 							}
 						}
+					}
+				}
+			} else { //Wisdom attack
+				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+					player.swing(hand);
+					if(!world.isClientSide) {
+						System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
+						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level, player, DamageCalculation.getMagicDamage(player) * 0.1F);
+						shot.setShotType(1);
+						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
+						world.addFreshEntity(shot);
+						player.level.playSound(null, player.blockPosition(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
+
 					}
 				}
 			}
