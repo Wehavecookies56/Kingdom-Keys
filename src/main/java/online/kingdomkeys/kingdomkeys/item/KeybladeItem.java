@@ -322,6 +322,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		return data.getReach();
 	}
 
+	@Override
+	public boolean isEnchantable(ItemStack pStack) {
+		return true;
+	}
+	
 	@Mod.EventBusSubscriber
 	public static class Events {
 

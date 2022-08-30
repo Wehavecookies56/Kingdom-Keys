@@ -73,6 +73,11 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     public int getMagic() {
         return data.getMagic();
     }
+    
+	@Override
+	public boolean isEnchantable(ItemStack pStack) {
+		return true;
+	}
 
     @OnlyIn(Dist.CLIENT)
     @Override

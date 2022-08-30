@@ -75,6 +75,11 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
         return data.getMagic();
     }
     
+	@Override
+	public boolean isEnchantable(ItemStack pStack) {
+		return true;
+	}
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
