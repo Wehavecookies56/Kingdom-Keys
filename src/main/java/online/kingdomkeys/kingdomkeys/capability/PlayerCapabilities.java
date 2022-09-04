@@ -70,9 +70,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		strength.serialize(storage);
 		magic.serialize(storage);
 		defense.serialize(storage);
+		maxAP.serialize(storage);
 		storage.putInt("max_hp", this.getMaxHP());
 		storage.putInt("max_ap", this.getMaxAP(false));
-		storage.putInt("boost_max_ap", this.getBoostMaxAP());
 		storage.putDouble("mp", this.getMP());
 		storage.putDouble("max_mp", this.getMaxMP());
 		storage.putDouble("focus", this.getFocus());
@@ -217,9 +217,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			nbt.remove("boost_defense");
 			defense.addModifier("legacy_boosts", boost, false);
 		}
+		maxAP = Stat.deserializeNBT("max_ap", nbt);
+		if (nbt.contains("boost_max_ap")) {
+			int boost = nbt.getInt("boost_max_ap");
+			nbt.remove("boost_max_ap");
+			maxAP.addModifier("legacy_boosts", boost, false);
+		}
 		this.setMaxHP(nbt.getInt("max_hp"));
-		this.setMaxAP(nbt.getInt("max_ap"));
-		this.setBoostMaxAP(nbt.getInt("boost_max_ap"));
 		this.setMP(nbt.getDouble("mp"));
 		this.setMaxMP(nbt.getDouble("max_mp"));
 		this.setFocus(nbt.getDouble("focus"));
@@ -310,11 +314,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setSynthExperience(nbt.getInt("synth_exp"));
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, maxAP = 10, boostMaxAP = 0, aeroTicks = 0, aeroLevel = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
+	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
 
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
 	Stat defense = new Stat("defense", 1);
+	Stat maxAP = new Stat("max_ap", 10);
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
@@ -538,7 +543,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getMaxAP(boolean combined) {
-		return combined ? maxAP + boostMaxAP + getAccessoriesAP("ap") : maxAP;
+		return combined ? (maxAP.getStat() + getAccessoriesAP("ap")) : maxAP.get();
+	}
+	
+	@Override
+	public Stat getMaxAPStat() {
+		return maxAP;
+	}
+
+	@Override
+	public void setMaxAPStat(Stat stat) {
+		this.maxAP = stat;
 	}
 
 	private int getAccessoriesAP(String type) {
@@ -567,12 +582,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setMaxAP(int ap) {
-		this.maxAP = ap;
+		this.maxAP.set(ap);
 	}
 
 	@Override
 	public void addMaxAP(int ap) {
-		this.maxAP += ap;
+		this.maxAP.add(ap);
 		messages.add(Strings.Stats_LevelUp_AP);
 	}
 
@@ -1918,16 +1933,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void removeShortcut(int position) {
 		this.shortcutsMap.remove(position);
 		
-	}
-
-	@Override
-	public int getBoostMaxAP() {
-		return boostMaxAP;
-	}
-
-	@Override
-	public void setBoostMaxAP(int ap) {
-		boostMaxAP = ap;
 	}
 
 	@Override

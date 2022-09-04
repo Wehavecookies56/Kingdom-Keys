@@ -155,12 +155,11 @@ public class ClientUtils {
                 playerData.setStrengthStat(message.strength);
                 playerData.setMagicStat(message.magic);
                 playerData.setDefenseStat(message.defense);
+                playerData.setMaxAPStat(message.maxAP);
                 playerData.setMP(message.MP);
                 playerData.setMaxMP(message.maxMP);
                 playerData.setRecharge(message.recharge);
                 playerData.setMaxHP(message.maxHp);
-                playerData.setMaxAP(message.maxAP);
-                playerData.setBoostMaxAP(message.boostMaxAP);
                 playerData.setDP(message.dp);
                 playerData.setFP(message.fp);
                 playerData.setMaxDP(message.maxDP);

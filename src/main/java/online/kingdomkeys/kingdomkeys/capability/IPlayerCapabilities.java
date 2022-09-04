@@ -91,6 +91,9 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getMaxAP(boolean combined);
 	void setMaxAP(int ap);
 	void addMaxAP(int ap);
+	Stat getMaxAPStat();
+	void setMaxAPStat(Stat stat);
+
 	
     void levelUpStatsAndDisplayMessage(Player player, boolean sound);
     void clearMessages();
@@ -281,9 +284,6 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setShortcutsMap(LinkedHashMap<Integer,String> map);
 	void changeShortcut(int position, String name, int level);
 	void removeShortcut(int position);
-
-	int getBoostMaxAP();
-	void setBoostMaxAP(int str);
 	
 	int getSynthLevel();
 	void setSynthLevel(int level);

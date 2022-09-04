@@ -52,7 +52,7 @@ public class StatUpgradeItem extends Item implements IItemCategory {
 					player.displayClientMessage(new TranslatableComponent("Increased Defense by 1, it is now "+playerData.getDefense(true)), true);
 					break;
 				case Strings.apBoost:
-					playerData.setBoostMaxAP(playerData.getBoostMaxAP()+1);
+					playerData.getMaxAPStat().addModifier("boost", 1, true);
 					player.displayClientMessage(new TranslatableComponent("Increased Max AP by 1, it is now "+playerData.getMaxAP(true)), true);
 					break;
 				}

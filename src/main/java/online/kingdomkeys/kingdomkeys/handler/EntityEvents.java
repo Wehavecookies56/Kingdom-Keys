@@ -249,6 +249,7 @@ public class EntityEvents {
 							}
 						}
 					}
+					
 				}
 
 				//Added for old world retrocompatibility
@@ -1184,7 +1185,6 @@ public class EntityEvents {
 		newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
 		newPlayerData.setMaxAP(oldPlayerData.getMaxAP(false));
-		newPlayerData.setBoostMaxAP(oldPlayerData.getBoostMaxAP());
 		newPlayerData.setFocus(oldPlayerData.getFocus());
 		newPlayerData.setMaxFocus(oldPlayerData.getMaxFocus());
 		

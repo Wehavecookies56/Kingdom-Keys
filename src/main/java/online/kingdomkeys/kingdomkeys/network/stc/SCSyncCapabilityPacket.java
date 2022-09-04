@@ -38,8 +38,8 @@ public class SCSyncCapabilityPacket {
 	public int level = 0;
 	public int exp = 0;
 	public int expGiven = 0;
-	public Stat strength, magic, defense;
-	public int maxHp, maxAP = 0, boostMaxAP = 0;
+	public Stat strength, magic, defense, maxAP;
+	public int maxHp;
 	public int munny = 0;
 	public int antipoints = 0;
 
@@ -90,12 +90,12 @@ public class SCSyncCapabilityPacket {
 		this.strength = capability.getStrengthStat();
 		this.magic = capability.getMagicStat();
 		this.defense = capability.getDefenseStat();
-		
+		this.maxAP = capability.getMaxAPStat();
+
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		this.recharge = capability.getRecharge();
 		this.maxHp = capability.getMaxHP();
-		this.maxAP = capability.getMaxAP(false);
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
 		this.fp = capability.getFP();
@@ -138,8 +138,6 @@ public class SCSyncCapabilityPacket {
 		this.reactionList = capability.getReactionCommands();
 		
 		this.shortcutsMap = capability.getShortcutsMap();
-
-		this.boostMaxAP = capability.getBoostMaxAP();
 		
 		this.synthLevel = capability.getSynthLevel();
 		this.synthExp = capability.getSynthExperience();
@@ -152,13 +150,12 @@ public class SCSyncCapabilityPacket {
 		buffer.writeNbt(this.strength.serialize(new CompoundTag()));
 		buffer.writeNbt(this.magic.serialize(new CompoundTag()));
 		buffer.writeNbt(this.defense.serialize(new CompoundTag()));
+		buffer.writeNbt(this.maxAP.serialize(new CompoundTag()));
 		
 		buffer.writeDouble(this.MP);
 		buffer.writeDouble(this.maxMP);
 		buffer.writeBoolean(this.recharge);
 		buffer.writeInt(this.maxHp);
-		buffer.writeInt(this.maxAP);
-		buffer.writeInt(this.boostMaxAP);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.maxDP);
 		buffer.writeDouble(this.fp);
@@ -301,14 +298,12 @@ public class SCSyncCapabilityPacket {
 		msg.strength = Stat.deserializeNBT("strength", buffer.readNbt());
 		msg.magic = Stat.deserializeNBT("magic", buffer.readNbt());
 		msg.defense = Stat.deserializeNBT("defense", buffer.readNbt());
+		msg.maxAP = Stat.deserializeNBT("max_ap", buffer.readNbt());
 
 		msg.MP = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();
 		msg.recharge = buffer.readBoolean();
 		msg.maxHp = buffer.readInt();
-		// msg.choice1 = buffer.readString(40);
-		msg.maxAP = buffer.readInt();
-		msg.boostMaxAP = buffer.readInt();
 		msg.dp = buffer.readDouble();
 		msg.maxDP = buffer.readDouble();
 		msg.fp = buffer.readDouble();
