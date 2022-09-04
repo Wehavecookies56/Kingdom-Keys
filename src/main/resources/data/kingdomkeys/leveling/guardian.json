@@ -4,7 +4,8 @@
     },
     "1":{
         "def":1,
-        "abilities":[ "kingdomkeys:ability_zero_exp" ]
+        "abilities":[ "kingdomkeys:ability_zero_exp" ],
+        "ap":10
     },
     "2":{
         "def":1,

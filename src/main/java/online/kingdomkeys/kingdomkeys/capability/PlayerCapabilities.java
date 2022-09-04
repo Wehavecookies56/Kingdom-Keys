@@ -319,7 +319,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
 	Stat defense = new Stat("defense", 1);
-	Stat maxAP = new Stat("max_ap", 10);
+	Stat maxAP = new Stat("max_ap", 0);
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}

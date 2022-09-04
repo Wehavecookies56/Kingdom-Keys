@@ -48,9 +48,12 @@ public enum SoAState {
 				playerData.getStrengthStat().removeModifier("choice");
 				playerData.getMagicStat().removeModifier("choice");
 				playerData.getDefenseStat().removeModifier("choice");
+				playerData.getMaxAPStat().removeModifier("choice");
+
 				playerData.getStrengthStat().removeModifier("sacrifice");
 				playerData.getMagicStat().removeModifier("sacrifice");
 				playerData.getDefenseStat().removeModifier("sacrifice");
+				playerData.getMaxAPStat().removeModifier("sacrifice");
 				playerData.setSoAState(NONE);
 			} else {
 				Level choiceData = ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + choice.toString().toLowerCase()));
@@ -76,7 +79,7 @@ public enum SoAState {
 			playerData.getDefenseStat().addModifier(modifier, choice.getDef(choiceLevel), false);
 		}
 		if (choice.getAP(choiceLevel) > 0) {
-			playerData.addMaxAP(choice.getAP(choiceLevel));
+			playerData.getMaxAPStat().addModifier(modifier, choice.getAP(choiceLevel), false);
 		}
 		if (choice.getMaxHp(choiceLevel) > 0) {
 			playerData.addMaxHP(choice.getMaxHp(choiceLevel));

@@ -794,11 +794,11 @@ public class Utils {
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
         playerData.setMaxMP(0);
         playerData.setMP(playerData.getMaxMP());
-        playerData.setMaxAP(10);
         
         playerData.setStrength(1);
         playerData.setMagic(1);
         playerData.setDefense(1);
+        playerData.setMaxAP(0);
 
         playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
