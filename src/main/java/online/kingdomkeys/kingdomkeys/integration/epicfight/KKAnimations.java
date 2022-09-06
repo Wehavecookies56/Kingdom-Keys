@@ -10,7 +10,11 @@ import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.gameasset.Models;
 
 public class KKAnimations {
-    public static StaticAnimation CHAKRAM_AUTO_1, ROXAS_AUTO_1, ROXAS_IDLE, ROXAS_RUN, KK_SHIELD_AUTO_1, KK_SHIELD_AUTO_2, KK_SHIELD_AUTO_3;
+    public static StaticAnimation TEST, CHAKRAM_AUTO_1, ROXAS_AUTO_1, ROXAS_IDLE, ROXAS_RUN,
+            KK_SHIELD_AUTO_1, KK_SHIELD_AUTO_2, KK_SHIELD_AUTO_3, KH1_SORA_AUTO_1;
+
+
+
     private KKAnimations(){
 
     }
@@ -21,18 +25,20 @@ public class KKAnimations {
     }
     private static void build() {
         Models<?> models = FMLEnvironment.dist == Dist.CLIENT ? ClientModels.LOGICAL_CLIENT : Models.LOGICAL_SERVER;
-        CHAKRAM_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/chakram_auto_1",  models.biped);
 
 
         ROXAS_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/roxas_auto_1",  models.biped);
         ROXAS_IDLE = new StaticAnimation(true,"biped/living/roxas_idle",  models.biped);
         ROXAS_RUN = new StaticAnimation(true,"biped/living/roxas_run",  models.biped);
 
+        KH1_SORA_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/kh1_sora_auto_1",  models.biped);
+
         KK_SHIELD_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/kk_shield_auto_1",  models.biped);
         KK_SHIELD_AUTO_2 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/kk_shield_auto_2",  models.biped);
         KK_SHIELD_AUTO_3 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/kk_shield_auto_3",  models.biped);
 
+        CHAKRAM_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/chakram_auto_1",  models.biped);
 
-
+        TEST = new StaticAnimation(true,"biped/living/test",  models.biped);
     }
 }
