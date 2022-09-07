@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -51,7 +51,7 @@ public class EpicKKWeapons {
                 .category(EpicKKWeaponEnum.KEYBLADE_SORA_KH1)
                 .styleProvider(playerpatch -> {
 
-                    if (Minecraft.getInstance().player != null && ModCapabilities.getPlayer(Minecraft.getInstance().player).getActiveDriveForm().equals(Strings.Form_Valor))
+                    if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
                         return KKStyles.VALOR;
                     else
                         return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE_SORA_KH1 ||
