@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraftforge.event.RegisterCommandsEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -209,8 +210,8 @@ public class KingdomKeys {
 
 	
 	@SubscribeEvent
-	public void serverStarting(ServerStartingEvent event) {
-		CommandDispatcher<CommandSourceStack> dispatcher = event.getServer().getCommands().getDispatcher();
+	public void registerCommands(RegisterCommandsEvent event) {
+		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 		ModCommands.register(dispatcher);
 	}
 
