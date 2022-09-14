@@ -78,8 +78,8 @@ public enum SoAState {
 		if (choice.getDef(choiceLevel) != 0) {
 			playerData.getDefenseStat().addModifier(modifier, choice.getDef(choiceLevel), false);
 		}
-		if (choice.getAP(choiceLevel) > 0) {
-			playerData.getMaxAPStat().addModifier(modifier, choice.getAP(choiceLevel), false);
+		if (choice.getMaxAP(choiceLevel) != 0) {
+			playerData.getMaxAPStat().addModifier(modifier, choice.getMaxAP(choiceLevel), false);
 		}
 		if (choice.getMaxHp(choiceLevel) > 0) {
 			playerData.addMaxHP(choice.getMaxHp(choiceLevel));

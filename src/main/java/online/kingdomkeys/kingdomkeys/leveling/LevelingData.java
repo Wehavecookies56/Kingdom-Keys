@@ -57,7 +57,7 @@ public class LevelingData {
 		this.def[lvl] = amount;
 	}
 
-	public int getAP(int lvl) {
+	public int getMaxAP(int lvl) {
 		return ap[lvl];
 	}
 

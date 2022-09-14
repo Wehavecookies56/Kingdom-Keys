@@ -17,7 +17,6 @@ public class Level extends ForgeRegistryEntry<Level> {
 		this.name = registryName.toString();
 		this.maxLevel = 100;
 		setRegistryName(registryName);
-		// translationKey = "level." + getRegistryName().getPath() + ".name";
 	}
 
 	public Level(String registryName) {
@@ -36,8 +35,6 @@ public class Level extends ForgeRegistryEntry<Level> {
 		return name;
 	}
 
-	// public String getTranslationKey() { return translationKey; }
-
 	public int getStr(int level) {
 		return data.getStr(level);
 	}
@@ -50,8 +47,8 @@ public class Level extends ForgeRegistryEntry<Level> {
 		return data.getDef(level);
 	}
 
-	public int getAP(int level) {
-		return data.getAP(level);
+	public int getMaxAP(int level) {
+		return data.getMaxAP(level);
 	}
 
 	public int getMaxHp(int level) {

@@ -673,7 +673,6 @@ public class InputHandler {
     public void handleKeyInputEvent(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
-        Level world = mc.level;
 
 		Keybinds key = getPressedKey();
         if (player != null) {
@@ -703,9 +702,7 @@ public class InputHandler {
                         } else {
                             GuiHelper.openMenu();
                         }
-                        //GuiHelper.openMenu();
                         break;
-
 
                     case SHOW_GUI:
                         ModConfigs.toggleGui();

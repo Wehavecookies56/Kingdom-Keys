@@ -40,8 +40,8 @@ public class LevelStats {
 			cap.addDefense(levelData.getDef(level));
 		}
 		
-		if (levelData.getAP(level) > 0) {
-			cap.addMaxAP(levelData.getAP(level));
+		if (levelData.getMaxAP(level) > 0) {
+			cap.addMaxAP(levelData.getMaxAP(level));
 		}
 		
 		if (levelData.getMaxHp(level) > 0) {
