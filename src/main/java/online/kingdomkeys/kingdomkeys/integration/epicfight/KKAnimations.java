@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import org.lwjgl.system.CallbackI;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.model.ClientModels;
@@ -11,7 +12,8 @@ import yesman.epicfight.gameasset.Models;
 
 public class KKAnimations {
     public static StaticAnimation TEST, CHAKRAM_AUTO_1, ROXAS_AUTO_1, ROXAS_IDLE, ROXAS_RUN,
-            KK_SHIELD_AUTO_1, KK_SHIELD_AUTO_2, KK_SHIELD_AUTO_3, KH1_SORA_AUTO_1;
+            KK_SHIELD_AUTO_1, KK_SHIELD_AUTO_2, KK_SHIELD_AUTO_3, KH1_SORA_AUTO_1, VALOR_IDLE, VALOR_AUTO_1, VALOR_AUTO_2,
+            VALOR_AUTO_3;
 
 
 
@@ -26,6 +28,7 @@ public class KKAnimations {
     private static void build() {
         Models<?> models = FMLEnvironment.dist == Dist.CLIENT ? ClientModels.LOGICAL_CLIENT : Models.LOGICAL_SERVER;
 
+        VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", models.biped);
 
         ROXAS_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/roxas_auto_1",  models.biped);
         ROXAS_IDLE = new StaticAnimation(true,"biped/living/roxas_idle",  models.biped);
