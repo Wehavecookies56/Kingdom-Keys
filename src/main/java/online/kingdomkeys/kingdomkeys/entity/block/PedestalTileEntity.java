@@ -241,7 +241,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 		if (level.getBlockEntity(pos) instanceof PedestalTileEntity ped) {
-			if(ped.isPaused()) {
+			if(!ped.isPaused()) {
 				previousTicks = ticksExisted;
 				ticksExisted++;
 			}
