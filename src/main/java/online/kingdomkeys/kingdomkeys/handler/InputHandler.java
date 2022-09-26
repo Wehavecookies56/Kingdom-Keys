@@ -894,7 +894,6 @@ public class InputHandler {
 						ItemStack itemstack = thePlayer.getMainHandItem();
 						if (itemstack != null) {
 							IExtendedReach ieri = itemstack.getItem() instanceof IExtendedReach ? (IExtendedReach) itemstack.getItem() : null; 
-							
 							if (ieri != null) {
 								float reach = ieri.getReach();
 								HitResult rtr = getMouseOverExtended(reach);
@@ -903,7 +902,9 @@ public class InputHandler {
 										EntityHitResult ertr = (EntityHitResult) rtr;
 										if (ertr.getEntity() != null && ertr.getEntity().invulnerableTime == 0) {
 											if (ertr.getEntity() != thePlayer) {
-												PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getId()));
+												if(!ertr.getEntity().getPassengers().contains(thePlayer)) {
+													PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getId()));
+												}
 											}
 										}
 									}
