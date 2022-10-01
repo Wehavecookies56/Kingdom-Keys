@@ -52,7 +52,7 @@ public class CastleOblivionHandler {
             if (event.player.level.dimension().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")))) {
                 BlockPos pos = event.player.blockPosition();
                 //Enter interior
-                if (pos.getZ() == 132 && pos.getX() >= 145 && pos.getX() <= 154 && pos.getY() == 87) {
+                if (pos.getZ() == 11 && pos.getX() >= -10 && pos.getX() <= -1 && pos.getY() >= 87 && pos.getY() <= 100) {
                     if (event.player.level.getServer() != null) {
                         ResourceLocation dimName = new ResourceLocation(KingdomKeys.MODID, "castle_oblivion_interior_" + event.player.getStringUUID());
                         ModCapabilities.getCastleOblivionExterior(event.player.level).addInterior(event.player.getUUID(), dimName);
@@ -74,7 +74,7 @@ public class CastleOblivionHandler {
                 //Exit from first floor lobby
                 if (pos.getZ() == 1 && pos.getX() >= 13 && pos.getX() <= 19 && pos.getY() >= 60 && pos.getY() <= 70) {
                     if (event.player.level.getServer() != null) {
-                        event.player.changeDimension(event.player.level.getServer().getLevel(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion"))), new BaseTeleporter(150, 90, 134));
+                        event.player.changeDimension(event.player.level.getServer().getLevel(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion"))), new BaseTeleporter(-5, 90, 6));
                     }
                 }
                 //Set world card for first room and enter

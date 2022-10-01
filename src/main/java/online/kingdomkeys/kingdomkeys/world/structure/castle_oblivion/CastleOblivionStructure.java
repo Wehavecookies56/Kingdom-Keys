@@ -43,22 +43,22 @@ public class CastleOblivionStructure extends StructureFeature<JigsawConfiguratio
             return context.chunkPos().equals(new ChunkPos(0, 0));
         }
         if (context.config().startPool().value().getName().getPath().contains("_1")) {
-            return context.chunkPos().equals(new ChunkPos(0, 9));
+            return context.chunkPos().equals(new ChunkPos(0, -9));
         }
         if (context.config().startPool().value().getName().getPath().contains("_2")) {
-            return context.chunkPos().equals(new ChunkPos(0, 18));
+            return context.chunkPos().equals(new ChunkPos(0, -18));
         }
         if (context.config().startPool().value().getName().getPath().contains("_3")) {
-            return context.chunkPos().equals(new ChunkPos(9, 0));
+            return context.chunkPos().equals(new ChunkPos(-9, 0));
         }
         if (context.config().startPool().value().getName().getPath().contains("_4")) {
-            return context.chunkPos().equals(new ChunkPos(9, 9));
+            return context.chunkPos().equals(new ChunkPos(-9, -9));
         }
         if (context.config().startPool().value().getName().getPath().contains("_5")) {
-            return context.chunkPos().equals(new ChunkPos(9, 18));
+            return context.chunkPos().equals(new ChunkPos(-9, -18));
         }
         if (context.config().startPool().value().getName().getPath().contains("_6")) {
-            return context.chunkPos().equals(new ChunkPos(18, 0));
+            return context.chunkPos().equals(new ChunkPos(-18, 0));
         }
         return false;
     }
