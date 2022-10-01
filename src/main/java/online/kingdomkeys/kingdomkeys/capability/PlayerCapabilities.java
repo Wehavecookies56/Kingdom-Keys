@@ -72,7 +72,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		defense.serialize(storage);
 		maxAP.serialize(storage);
 		storage.putInt("max_hp", this.getMaxHP());
-		storage.putInt("max_ap", this.getMaxAP(false));
 		storage.putDouble("mp", this.getMP());
 		storage.putDouble("max_mp", this.getMaxMP());
 		storage.putDouble("focus", this.getFocus());

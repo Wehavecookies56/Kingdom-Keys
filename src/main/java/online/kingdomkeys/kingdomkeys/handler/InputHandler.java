@@ -875,13 +875,6 @@ public class InputHandler {
 	
     @SubscribeEvent
     public void handleMouseInputEvent(InputEvent.RawMouseEvent event) {
-        /*
-         * if (player.getCapability(ModCapabilities.DRIVE_STATE, null).getInDrive()) {
-         * if (player.getCapability(ModCapabilities.DRIVE_STATE,
-         * null).getActiveDriveName().equals(Strings.Form_Wisdom)) {
-         * event.setCanceled(true); } else { event.setCanceled(false); } }
-         */
-
     	Minecraft mc = Minecraft.getInstance();
     	if(mc.level != null){
 	        if (event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
