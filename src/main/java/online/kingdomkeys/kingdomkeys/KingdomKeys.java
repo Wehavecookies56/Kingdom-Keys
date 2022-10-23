@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import net.minecraftforge.event.RegisterCommandsEvent;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.KKLivingMotionsEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -127,6 +128,7 @@ public class KingdomKeys {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		KKLivingMotionsEnum spell = KKLivingMotionsEnum.SPELL; // initialization
 		ModMagic.MAGIC.register(modEventBus);
 		ModDriveForms.DRIVE_FORMS.register(modEventBus);
 		ModAbilities.ABILITIES.register(modEventBus);

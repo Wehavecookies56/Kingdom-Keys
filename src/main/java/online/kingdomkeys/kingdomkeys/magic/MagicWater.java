@@ -3,14 +3,17 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterzaEntity;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.KKLivingMotionsEnum;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
+import yesman.epicfight.api.client.forgeevent.UpdatePlayerMotionEvent;
 
 public class MagicWater extends Magic {
 
