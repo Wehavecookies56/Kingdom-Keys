@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,6 +16,8 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
+
+import java.util.List;
 
 public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData {
 

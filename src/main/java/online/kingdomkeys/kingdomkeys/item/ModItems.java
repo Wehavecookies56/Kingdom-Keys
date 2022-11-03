@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.function.Supplier;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -13,19 +10,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
-import online.kingdomkeys.kingdomkeys.item.organization.AxeSwordItem;
-import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
-import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
-import online.kingdomkeys.kingdomkeys.item.organization.ClaymoreItem;
-import online.kingdomkeys.kingdomkeys.item.organization.EtherealBladeItem;
-import online.kingdomkeys.kingdomkeys.item.organization.KnifeItem;
-import online.kingdomkeys.kingdomkeys.item.organization.LanceItem;
-import online.kingdomkeys.kingdomkeys.item.organization.LexiconItem;
-import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
-import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
-import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
+import online.kingdomkeys.kingdomkeys.item.organization.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.function.Supplier;
 
 public class ModItems {
 

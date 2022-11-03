@@ -1,10 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import net.minecraft.Util;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -17,7 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class XPEntity extends Entity {
 

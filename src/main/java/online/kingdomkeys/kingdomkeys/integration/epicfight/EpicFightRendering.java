@@ -4,8 +4,6 @@ import net.minecraft.world.entity.EntityType;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import yesman.epicfight.api.client.forgeevent.PatchedRenderersEvent;
 import yesman.epicfight.client.ClientEngine;
-import yesman.epicfight.client.events.engine.RenderEngine;
-import yesman.epicfight.client.renderer.FirstPersonRenderer;
 import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRenderer;
 
 public class EpicFightRendering {

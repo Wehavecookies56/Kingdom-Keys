@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.Objects;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
@@ -10,9 +8,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.KKOreBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+
+import java.util.Objects;
 
 public class BlockTagsGen extends BlockTagsProvider {
 	public BlockTagsGen(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {

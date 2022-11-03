@@ -1,16 +1,11 @@
 package online.kingdomkeys.kingdomkeys.command;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -27,6 +22,10 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <recipe/all> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> {

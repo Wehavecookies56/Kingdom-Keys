@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -13,9 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.CandleBlock;
-import net.minecraft.world.level.block.CandleCakeBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
@@ -28,8 +24,9 @@ import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
 
 public class FiragaEntity extends ThrowableProjectile {
 
@@ -115,16 +112,7 @@ public class FiragaEntity extends ThrowableProjectile {
 					}
 				}
 			}
-			
-			if (brtResult != null) {
-				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level.getBlockState(blockpos);
-				
-				if(blockstate.hasProperty(BlockStateProperties.LIT))
-					level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
-				
-			}
-			
+
 			float radius = 2F;
 			
 			if (brtResult != null) {
@@ -135,6 +123,9 @@ public class FiragaEntity extends ThrowableProjectile {
 						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
 							BlockPos blockpos = new BlockPos(x,y,z);
 							BlockState blockstate = level.getBlockState(blockpos);
+							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
+								level.setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
+							}
 							if(blockstate.hasProperty(BlockStateProperties.LIT))
 								level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
 						}

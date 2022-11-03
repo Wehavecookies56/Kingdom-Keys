@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import org.lwjgl.system.CallbackI;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;

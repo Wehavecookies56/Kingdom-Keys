@@ -7,9 +7,9 @@ import net.minecraftforge.common.data.SoundDefinition;
 import net.minecraftforge.common.data.SoundDefinitionsProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.*;
-
 import java.util.function.Supplier;
+
+import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.*;
 
 public class Sounds extends SoundDefinitionsProvider {
 

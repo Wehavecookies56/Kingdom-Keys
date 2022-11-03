@@ -1,11 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.magic;
 
-import java.util.Base64;
-
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,6 +14,9 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
+
+import javax.annotation.Nullable;
+import java.util.Base64;
 
 @OnlyIn(Dist.CLIENT)
 public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {

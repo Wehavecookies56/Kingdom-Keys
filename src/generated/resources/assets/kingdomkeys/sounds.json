@@ -14,11 +14,6 @@
       "kingdomkeys:drive"
     ]
   },
-  "wisdom_shot": {
-    "sounds": [
-      "kingdomkeys:wisdom_shot"
-    ]
-  },
   "error": {
     "sounds": [
       "kingdomkeys:error"
@@ -227,6 +222,11 @@
   "strike_raid": {
     "sounds": [
       "kingdomkeys:strike_raid"
+    ]
+  },
+  "wisdom_shot": {
+    "sounds": [
+      "kingdomkeys:wisdom_shot"
     ]
   },
   "records/birth_by_sleep_a_link_to_the_future": {

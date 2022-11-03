@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
 import yesman.epicfight.world.capabilities.item.Style;
-import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 public enum KKStyles implements Style {
     VALOR(true), WISDOM(false), MASTER(true), FINAL(true);

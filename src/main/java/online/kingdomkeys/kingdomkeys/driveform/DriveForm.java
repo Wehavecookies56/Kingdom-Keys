@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
-import java.util.List;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +13,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+
+import java.util.List;
 
 public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 

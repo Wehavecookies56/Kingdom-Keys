@@ -1,32 +1,15 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ShieldItem;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
-import online.kingdomkeys.kingdomkeys.block.SoADoorBlock;
-import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
-import online.kingdomkeys.kingdomkeys.block.SoRCore;
-import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKRecordItem;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
+import online.kingdomkeys.kingdomkeys.block.*;
+import online.kingdomkeys.kingdomkeys.item.*;
 
 public class ItemModels extends ItemModelProvider {
 

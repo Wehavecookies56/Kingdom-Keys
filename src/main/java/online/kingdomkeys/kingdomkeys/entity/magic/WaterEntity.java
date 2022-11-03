@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -31,6 +29,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+
+import java.util.List;
 
 public class WaterEntity extends ThrowableProjectile {
 
@@ -186,9 +186,12 @@ public class WaterEntity extends ThrowableProjectile {
 				if(blockstate.getBlock() == Blocks.FIRE) {
 					level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
 				}
-				if(blockstate.hasProperty(BlockStateProperties.LIT))
+				if(blockstate.hasProperty(BlockStateProperties.LIT)) {
 					level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
-
+				}
+				if(blockstate.getBlock() == Blocks.SPONGE) {
+					level.setBlockAndUpdate(blockpos, Blocks.WET_SPONGE.defaultBlockState());
+				}
 			}
 		}
 

@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -24,6 +22,8 @@ import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+
+import java.util.List;
 
 public class SynthesisBagItem extends Item implements IItemCategory {
 

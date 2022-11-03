@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.Random;
 
 public class KKOreBlock extends BaseBlock {
 

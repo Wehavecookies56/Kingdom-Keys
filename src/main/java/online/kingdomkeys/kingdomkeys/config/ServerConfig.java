@@ -1,11 +1,10 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.List;
 
 public class ServerConfig {
 

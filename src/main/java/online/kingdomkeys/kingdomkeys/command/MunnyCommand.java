@@ -1,13 +1,10 @@
 package online.kingdomkeys.kingdomkeys.command;
 
-import java.util.Collection;
-
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -17,6 +14,8 @@ import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+
+import java.util.Collection;
 
 public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {

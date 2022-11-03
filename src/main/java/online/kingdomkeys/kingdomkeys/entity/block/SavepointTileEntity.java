@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;

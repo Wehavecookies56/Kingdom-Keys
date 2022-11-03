@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.container;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +11,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SynthesisBagInventory implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 

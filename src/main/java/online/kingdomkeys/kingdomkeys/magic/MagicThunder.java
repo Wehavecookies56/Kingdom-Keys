@@ -1,14 +1,12 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundaraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
 public class MagicThunder extends Magic {
 

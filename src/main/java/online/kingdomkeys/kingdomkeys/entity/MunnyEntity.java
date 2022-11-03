@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import java.util.List;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +12,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
+
+import java.util.List;
 
 public class MunnyEntity extends ItemDropEntity {
 

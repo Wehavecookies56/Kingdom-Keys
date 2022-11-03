@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -20,6 +17,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
 
 public class GuiMenu_Party_Create extends MenuBackground {
 

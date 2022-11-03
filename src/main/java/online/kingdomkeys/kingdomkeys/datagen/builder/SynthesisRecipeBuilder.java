@@ -1,17 +1,16 @@
 package online.kingdomkeys.kingdomkeys.datagen.builder;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends ModelFile {
 

@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.function.Consumer;
-
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -16,6 +14,8 @@ import net.minecraftforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import java.util.function.Consumer;
 
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;

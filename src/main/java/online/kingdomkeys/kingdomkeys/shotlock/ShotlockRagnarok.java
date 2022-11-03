@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.shotlock;
 
-import java.util.List;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +12,8 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ShotlockRagnarok extends Shotlock {

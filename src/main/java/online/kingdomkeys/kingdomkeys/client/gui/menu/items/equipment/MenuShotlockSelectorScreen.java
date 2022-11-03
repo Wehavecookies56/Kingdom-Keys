@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -21,6 +18,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
 

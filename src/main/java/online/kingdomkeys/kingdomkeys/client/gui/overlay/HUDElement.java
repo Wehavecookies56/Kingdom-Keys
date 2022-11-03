@@ -1,16 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+
+import java.awt.*;
 
 /**
  * Widget Class for elements to display on the HUD e.g. Command Menu, HP bar, etc.

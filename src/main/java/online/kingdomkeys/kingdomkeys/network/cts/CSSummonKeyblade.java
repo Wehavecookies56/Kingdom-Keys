@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.Set;
-import java.util.function.Supplier;
-
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -30,6 +27,9 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+
+import java.util.Set;
+import java.util.function.Supplier;
 
 public class CSSummonKeyblade {
 

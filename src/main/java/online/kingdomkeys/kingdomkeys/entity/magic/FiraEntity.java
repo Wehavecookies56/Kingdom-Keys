@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
@@ -115,7 +116,10 @@ public class FiraEntity extends ThrowableProjectile {
 			if (brtResult != null) {
 				BlockPos blockpos = brtResult.getBlockPos();
 				BlockState blockstate = level.getBlockState(blockpos);
-				
+
+				if(blockstate.getBlock() == Blocks.WET_SPONGE) {
+					level.setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
+				}
 				if (CampfireBlock.canLight(blockstate) || CandleBlock.canLight(blockstate) || CandleCakeBlock.canLight(blockstate)) {
 					level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
 				}

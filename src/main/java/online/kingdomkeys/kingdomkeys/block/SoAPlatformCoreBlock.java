@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,6 +16,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock {
 

@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import net.minecraft.Util;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +12,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -27,9 +22,11 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class MagnegaEntity extends ThrowableProjectile {
 
@@ -101,13 +98,14 @@ public class MagnegaEntity extends ThrowableProjectile {
 
 			this.setDeltaMovement(0, 0, 0);
 			this.hurtMarked = true;
-			
-			
-			List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), this, radius,radius*2,radius);
-			
+
+
+			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
+			list = Utils.removePartyMembersFromList(getCaster(), list);
+
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
-					LivingEntity e = list.get(i);
+					Entity e = list.get(i);
 					double d = e.getX() - getX();
 					double d1 = e.getZ() - getZ();
 					if (e.getY() < this.getY() - 0.5) {

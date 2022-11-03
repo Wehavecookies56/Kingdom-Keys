@@ -1,10 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import java.util.List;
-import java.util.Random;
-
 import com.mojang.math.Vector3f;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +20,9 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
+
+import java.util.List;
+import java.util.Random;
 
 public class MarluxiaGoal extends TargetGoal {
 	// 0-Normal, 1-Armor (weak to fire), 2-Teleporting, 3-Chasing (finish)

@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -18,6 +14,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExtendedReach{
     OrganizationData data = new OrganizationData();

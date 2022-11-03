@@ -1,10 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -26,6 +21,10 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
 
 public class KeychainItem extends SwordItem implements IKeychain, IItemCategory {
 

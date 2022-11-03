@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.reactioncommands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +13,9 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ReactionAutoForm extends ReactionCommand {

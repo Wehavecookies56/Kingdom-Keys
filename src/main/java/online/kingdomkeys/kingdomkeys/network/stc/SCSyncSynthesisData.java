@@ -1,19 +1,16 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Supplier;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class SCSyncSynthesisData {
 

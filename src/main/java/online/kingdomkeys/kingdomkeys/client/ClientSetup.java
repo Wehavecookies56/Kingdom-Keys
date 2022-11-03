@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
@@ -34,16 +30,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.DriveGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.HPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.LockOnGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.MPGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.PartyHUDGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.PlayerPortraitGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
@@ -57,6 +44,10 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartRenderInfo;
 import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationOfSorrowRenderInfo;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetup {

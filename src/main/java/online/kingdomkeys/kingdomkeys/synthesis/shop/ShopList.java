@@ -1,13 +1,12 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
+
+import javax.annotation.Nullable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ShopList implements INBTSerializable<CompoundTag>{
     @Nullable List<ShopItem> list = new LinkedList<ShopItem>();
