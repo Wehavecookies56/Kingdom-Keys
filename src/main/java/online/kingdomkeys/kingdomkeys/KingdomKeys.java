@@ -84,7 +84,7 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1.6.6";
+	public static final String MODVER = "2.1.6.7";
 	public static final String MCVER = "1.18.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
@@ -124,7 +124,7 @@ public class KingdomKeys {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		KKLivingMotionsEnum spell = KKLivingMotionsEnum.SPELL; // initialization
+		//KKLivingMotionsEnum spell = KKLivingMotionsEnum.SPELL; // initialization
 		ModMagic.MAGIC.register(modEventBus);
 		ModDriveForms.DRIVE_FORMS.register(modEventBus);
 		ModAbilities.ABILITIES.register(modEventBus);
@@ -188,7 +188,6 @@ public class KingdomKeys {
 				}
 			}
 		});
-
 	}
 
 	public void addMoogleHouse() {
