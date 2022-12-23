@@ -74,6 +74,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                         CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
                         if (te != null) {
                         	if(!te.isOpen()) {
+                        		//open gui
 	                        	System.out.println(te.getNumber());
 	                           // if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
 	                            	if(level.isClientSide)
@@ -90,17 +91,23 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 	                                //transport
 	                            //}
 							} else {
-								if (!level.isClientSide) {
-									if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
-										RoomType type = card.getRoomType();
-										Room currentRoom = cap.getRoomAtPos(pos);
-										RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-										// generate
-										Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
-										BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
-									}
-                            	}
+								if(player.isCrouching()) {
+	                            	if(level.isClientSide) {
+	                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
+	                            	}
+								} else {
+									if (!level.isClientSide) { //TODO fix the teleporter to prevent room generation if it's already created
+										if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
+											RoomType type = card.getRoomType();
+											Room currentRoom = cap.getRoomAtPos(pos);
+											RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
+											// generate should go on the GUI packet
+											Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
+											BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+											player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+										}
+	                            	}
+								}
                         	}
                         }
                     }

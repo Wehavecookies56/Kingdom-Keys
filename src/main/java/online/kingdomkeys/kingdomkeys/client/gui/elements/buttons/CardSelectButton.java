@@ -86,7 +86,7 @@ public class CardSelectButton extends MenuButtonBase {
 					color = 0xAAAAAA;
 				}
 	    		matrixStack.scale(0.7F,0.7F, 1);
-				drawString(matrixStack, minecraft.font,""+card.getCardValue(stack), 0, 0, color);
+	    		minecraft.font.draw(matrixStack, ""+card.getCardValue(stack), 0, 0, color);
 			}
 		}
 		matrixStack.popPose();
@@ -103,7 +103,7 @@ public class CardSelectButton extends MenuButtonBase {
 	    		matrixStack.scale(0.7F,0.7F, 1);
 				matrixStack.translate(13, 14, 150);
 
-				drawString(matrixStack, minecraft.font,""+card.getCardValue(stack), 0, 0, 0xFFFF00);
+				minecraft.font.draw(matrixStack,""+card.getCardValue(stack), 0, 0, 0xFFFF00);
 
 	        	matrixStack.translate(-10, 9.5, 150);
 	        	matrixStack.scale(0.3F,0.3F, 1);
