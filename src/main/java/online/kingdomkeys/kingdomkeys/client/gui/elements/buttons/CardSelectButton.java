@@ -51,7 +51,6 @@ public class CardSelectButton extends MenuButtonBase {
 	
 	public CardSelectButton(int x, int y, int widthIn, int heightIn, ItemStack stack, CardSelectionScreen cardSelectionScreen, Button.OnPress onPress) {
 		super(x, y, widthIn, heightIn, Utils.translateToLocal(""), onPress);
-		System.out.println(x);
 		minecraft = Minecraft.getInstance();
 		this.stack = stack;
 		card = (MapCardItem)stack.getItem();
@@ -62,7 +61,8 @@ public class CardSelectButton extends MenuButtonBase {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//if(!isSelected())
-			isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
+		isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
+		active = card.getCardValue(stack) >= parent.te.getNumber();
 		
 		if(isHovered()) {
 			selected = false;
@@ -72,7 +72,7 @@ public class CardSelectButton extends MenuButtonBase {
 		{
 			if(visible) {
 	        	matrixStack.translate(x, y, 0);
-	        	if(isHovered) {
+	        	if(isHovered && active) {
 	        		matrixStack.scale(4,4, 1);
 	            	matrixStack.translate(-2,-2, 20);
 	        	} else {
@@ -82,7 +82,7 @@ public class CardSelectButton extends MenuButtonBase {
 				ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0, 16);
 				matrixStack.translate(9, 10, 150);
 				int color = 0xFFFF00;
-				if(card.getCardValue(stack) < parent.te.getNumber()) {
+				if(!active) {
 					color = 0xAAAAAA;
 				}
 	    		matrixStack.scale(0.7F,0.7F, 1);
@@ -93,20 +93,23 @@ public class CardSelectButton extends MenuButtonBase {
 		
 		matrixStack.pushPose();
 		{
-			if(isHovered) {
+			if(isHovered && active) {
 	        	matrixStack.translate(30, 100, 0);
 				drawCenteredString(matrixStack, minecraft.font,Utils.translateToLocal(stack.getItem().getName(stack).getString()), 26, -20, 0xFFFFFF);
 
 	        	matrixStack.scale(5,5, 1);
 	            matrixStack.translate(-2.5F,-2.5F, 20);
 				ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0, 16);
-	        	matrixStack.translate(2, 16.5, 150);
-	        	matrixStack.scale(0.2F,0.2F, 1);
-				drawString(matrixStack, minecraft.font,"Value: "+card.getCardValue(stack), 0, 0, 0xFFFFFF);
+	    		matrixStack.scale(0.7F,0.7F, 1);
+				matrixStack.translate(13, 14, 150);
+
+				drawString(matrixStack, minecraft.font,""+card.getCardValue(stack), 0, 0, 0xFFFF00);
+
+	        	matrixStack.translate(-10, 9.5, 150);
+	        	matrixStack.scale(0.3F,0.3F, 1);
+	        	drawString(matrixStack, minecraft.font,"Category: "+card.getRoomType().getProperties().getCategory(), 0, 0, 0xFFFFFF);
 				drawString(matrixStack, minecraft.font,"Room size: "+card.getRoomType().getProperties().getSize(), 0, 10, 0xFFFFFF);
 				drawString(matrixStack, minecraft.font,"Enemies: "+card.getRoomType().getProperties().getEnemies(), 0, 20, 0xFFFFFF);
-				drawString(matrixStack, minecraft.font,"Category: "+card.getRoomType().getProperties().getCategory(), 0, 30, 0xFFFFFF);
-				
 			}
 		}
 		matrixStack.popPose();

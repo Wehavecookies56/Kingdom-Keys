@@ -151,8 +151,7 @@ public class MenuBackground extends Screen {
 	public void drawMenuBackground(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawBars(matrixStack);
 		drawMunnyTime(matrixStack);
-		if(drawBiome)
-			drawBiomeDim(matrixStack);
+		drawBiomeDim(matrixStack);
 		drawTip(matrixStack);
 		//RenderHelper.disableStandardItemLighting();
 		//drawBackground(width, height, drawPlayerInfo);
@@ -177,8 +176,7 @@ public class MenuBackground extends Screen {
 			if(btn instanceof MenuButtonBase) {
 				((MenuButtonBase) btn).setSelected(false);
 			}
-		}
-			
+		}		
 	}
 
 	public void drawBars(PoseStack matrixStack) {
@@ -209,6 +207,10 @@ public class MenuBackground extends Screen {
 		matrixStack.pushPose();
 		{
 			String dimension = minecraft.player.level.dimension().location().getPath().toUpperCase().replaceAll("_", " ");
+			String check = "INTERIOR";
+			if(dimension.contains(check)) {
+				dimension = dimension.substring(0,dimension.indexOf(check)+check.length());
+			}
 			ResourceLocation biomeLoc = new ResourceLocation(printBiome(this.minecraft.level.getBiome(minecraft.player.blockPosition())));
 
 			String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();

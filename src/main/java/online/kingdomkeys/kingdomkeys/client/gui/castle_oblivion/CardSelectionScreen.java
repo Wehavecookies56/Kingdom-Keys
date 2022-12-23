@@ -19,7 +19,7 @@ public class CardSelectionScreen extends MenuBackground {
 	private List<CardSelectButton> cards = new ArrayList<>();
 	
 	public CardSelectionScreen(CardDoorTileEntity te) {
-		super("Card Selection", new Color(80,80,80));
+		super("Card Selection", new Color(100,100,100));
 		drawBiome = false;
 		this.te = te;
 		this.minecraft = Minecraft.getInstance();
@@ -33,16 +33,10 @@ public class CardSelectionScreen extends MenuBackground {
 			ItemStack stack = minecraft.player.getInventory().getItem(i);
 				if(!ItemStack.isSame(stack, ItemStack.EMPTY) && stack.getItem() instanceof MapCardItem card) {
 					CardSelectButton c = new CardSelectButton((3+x++) * 42, y * 50, 42, 42, stack, this, (e) -> {
-						//action(ability, 0);
+						System.out.println(((MapCardItem)stack.getItem()).getCardValue(stack));
 					});
 					c.visible = true;
 					cards.add(c);
-					
-		        	/*matrixStack.translate(120+(x++*40), y, 0);
-		        	matrixStack.scale(3,3, 1);
-					ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0, 16);
-					drawString(matrixStack, minecraft.font,""+card.getCardValue(stack), 0, 0, 0xFFFFFF);*/
-					//drawString(matrixStack, minecraft.font,""+card.getRoomType().getProperties().getSize().ordinal(), 0, 0, 0xFFFFFF);
 				}
 				if(x == 6) {
 					x = 0;
@@ -65,32 +59,5 @@ public class CardSelectionScreen extends MenuBackground {
 			cards.get(i).visible = true;
 			cards.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 		}
-		
-		/*int x = 0;
-		int y = 120;
-		for(int i = 0; i< minecraft.player.getInventory().getContainerSize();i++) {
-			ItemStack stack = minecraft.player.getInventory().getItem(i);
-	        matrixStack.pushPose();
-	        {
-				if(!ItemStack.isSame(stack, ItemStack.EMPTY) && stack.getItem() instanceof MapCardItem card) {
-		        	matrixStack.translate(120+(x++*40), y, 0);
-		        	matrixStack.scale(3,3, 1);
-					ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0, 16);
-		        	matrixStack.translate(10,11, 150);
-		        	matrixStack.scale(0.6F,0.6F, 1);
-					drawString(matrixStack, minecraft.font,""+card.getCardValue(stack), 0, 0, 0xFFFFFF);
-					//drawString(matrixStack, minecraft.font,""+card.getRoomType().getProperties().getSize().ordinal(), 0, 0, 0xFFFFFF);
-				}
-				if(x == 5) {
-					x = 0;
-					y += 50;
-				}
-	        }
-	        matrixStack.popPose();
-
-		}*/
-		
-
 	}
-
 }

@@ -70,7 +70,7 @@ public class CardDoorTileEntity extends BlockEntity {
         direction = RoomUtils.Direction.values()[pTag.getInt("direction")];
         number = pTag.getInt("number");
         open = pTag.getBoolean("open");
-        if (open) {
+        if (open && pTag.getCompound("destination") != null) {
             destination = NbtUtils.readBlockPos(pTag.getCompound("destination"));
         } else {
             destination = null;
@@ -86,7 +86,7 @@ public class CardDoorTileEntity extends BlockEntity {
         }
         pTag.putInt("number", number);
         pTag.putBoolean("open", open);
-        if (open) {
+        if (open && destination != null) {
            pTag.put("destination", NbtUtils.writeBlockPos(destination));
         }
     }

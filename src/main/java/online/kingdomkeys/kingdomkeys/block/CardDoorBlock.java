@@ -24,6 +24,10 @@ import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionSc
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
 
 public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
@@ -69,20 +73,35 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                     if (cap != null) {
                         CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
                         if (te != null) {
-                           // if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
-                            	if(level.isClientSide)
-                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
-                                /*RoomType type = card.getRoomType();
-                                Room currentRoom = cap.getRoomAtPos(pos);
-                                RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-                                //generate
-                                Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
-                                BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-                                player.teleportTo(destination.getX(), destination.getY(), destination.getZ());*/
-                                //set door here destination to new door
-                                //set new door destination to door here
-                                //transport
-                            //}
+                        	if(!te.isOpen()) {
+	                        	System.out.println(te.getNumber());
+	                           // if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
+	                            	if(level.isClientSide)
+	                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
+	                                /*RoomType type = card.getRoomType();
+	                                Room currentRoom = cap.getRoomAtPos(pos);
+	                                RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
+	                                //generate
+	                                Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
+	                                BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+	                                player.teleportTo(destination.getX(), destination.getY(), destination.getZ());*/
+	                                //set door here destination to new door
+	                                //set new door destination to door here
+	                                //transport
+	                            //}
+							} else {
+								if (!level.isClientSide) {
+									if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
+										RoomType type = card.getRoomType();
+										Room currentRoom = cap.getRoomAtPos(pos);
+										RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
+										// generate
+										Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
+										BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+									}
+                            	}
+                        	}
                         }
                     }
                 }

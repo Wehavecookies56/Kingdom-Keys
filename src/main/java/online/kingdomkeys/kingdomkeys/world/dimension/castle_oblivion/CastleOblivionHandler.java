@@ -20,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
@@ -96,6 +97,9 @@ public class CastleOblivionHandler {
                                 }
                                 Room firstRoom = floor.getRoom(new RoomUtils.RoomPos(0, 1)).getGenerated();
                                 BlockPos newPos = firstRoom.doorPositions.get(RoomUtils.Direction.NORTH);
+                                CardDoorTileEntity te = (CardDoorTileEntity) event.player.level.getBlockEntity(newPos);
+                                System.out.println(te.getNumber());
+                                te.openDoor(null, currentRoom, null);
                                 event.player.moveTo(new Vec3(newPos.getX(), newPos.getY(), newPos.getZ()+1));
                             }
                         }
