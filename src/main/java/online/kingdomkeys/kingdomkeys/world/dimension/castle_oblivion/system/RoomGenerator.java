@@ -106,6 +106,7 @@ public class RoomGenerator {
                                     CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
                                     cardDoorTileEntity.setParent(data);
                                     cardDoorTileEntity.setDirection(facing);
+                                    cardDoorTileEntity.setNumber(Utils.randomWithRange(0, 9));
                                     level.setBlockEntity(cardDoorTileEntity);
                                 }
                             }

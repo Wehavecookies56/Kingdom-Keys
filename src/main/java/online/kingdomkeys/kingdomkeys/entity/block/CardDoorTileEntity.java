@@ -27,11 +27,16 @@ public class CardDoorTileEntity extends BlockEntity {
     BlockPos destination;
     RoomData parent;
     RoomUtils.Direction direction;
+    int number;
 
     public void openDoor(MapCardItem card, Room roomDest, RoomUtils.Direction directionFrom) {
-
+    	open = true;
     }
-
+    
+    public boolean isOpen() {
+    	return open;
+    }
+    
     public void setParent(RoomData room) {
         parent = room;
     }
@@ -47,6 +52,14 @@ public class CardDoorTileEntity extends BlockEntity {
     public RoomUtils.Direction getDirection() {
         return direction;
     }
+    
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getNumber() {
+        return number;
+    }
 
     @Override
     public void load(CompoundTag pTag) {
@@ -55,6 +68,7 @@ public class CardDoorTileEntity extends BlockEntity {
             parent = RoomData.deserialize(pTag.getCompound("parent"));
         }
         direction = RoomUtils.Direction.values()[pTag.getInt("direction")];
+        number = pTag.getInt("number");
         open = pTag.getBoolean("open");
         if (open) {
             destination = NbtUtils.readBlockPos(pTag.getCompound("destination"));
@@ -70,6 +84,7 @@ public class CardDoorTileEntity extends BlockEntity {
             pTag.put("parent", parent.serializeNBT());
             pTag.putInt("direction", direction.ordinal());
         }
+        pTag.putInt("number", number);
         pTag.putBoolean("open", open);
         if (open) {
            pTag.put("destination", NbtUtils.writeBlockPos(destination));

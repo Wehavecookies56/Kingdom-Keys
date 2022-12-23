@@ -140,6 +140,7 @@ public class MenuBackground extends Screen {
 	protected float middleHeight;
 
 	public boolean drawSeparately = false;
+	public boolean drawBiome = true;
 	
 	//GUIs variables
 	protected float buttonPosX;
@@ -150,7 +151,8 @@ public class MenuBackground extends Screen {
 	public void drawMenuBackground(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawBars(matrixStack);
 		drawMunnyTime(matrixStack);
-		drawBiomeDim(matrixStack);
+		if(drawBiome)
+			drawBiomeDim(matrixStack);
 		drawTip(matrixStack);
 		//RenderHelper.disableStandardItemLighting();
 		//drawBackground(width, height, drawPlayerInfo);

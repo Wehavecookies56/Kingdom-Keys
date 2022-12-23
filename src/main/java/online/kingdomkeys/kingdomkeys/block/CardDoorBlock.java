@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -15,15 +18,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
-
-import javax.annotation.Nullable;
 
 public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
@@ -54,7 +54,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide) {
+       // if (!level.isClientSide) {
             if (state.getValue(GENERATED)) {
                 if (state.getValue(TYPE)) {
                     //world card selection gui
@@ -69,18 +69,20 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                     if (cap != null) {
                         CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
                         if (te != null) {
-                            if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
-                                RoomType type = card.getRoomType();
+                           // if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
+                            	if(level.isClientSide)
+                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
+                                /*RoomType type = card.getRoomType();
                                 Room currentRoom = cap.getRoomAtPos(pos);
                                 RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
                                 //generate
                                 Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
                                 BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-                                player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+                                player.teleportTo(destination.getX(), destination.getY(), destination.getZ());*/
                                 //set door here destination to new door
                                 //set new door destination to door here
                                 //transport
-                            }
+                            //}
                         }
                     }
                 }
@@ -90,7 +92,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                 //transport to door with same card?
                 //maybe just link 2 doors together somehow
             }
-        }
+        //}
         return super.use(state, level, pos, player, hand, hit);
     }
 
