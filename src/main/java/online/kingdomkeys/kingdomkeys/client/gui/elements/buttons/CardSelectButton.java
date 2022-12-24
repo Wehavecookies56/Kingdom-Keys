@@ -81,12 +81,14 @@ public class CardSelectButton extends MenuButtonBase {
 	
 				ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0, 16);
 				matrixStack.translate(9, 10, 150);
-				int color = 0xFFFF00;
+				int color = 0xFFDD00;
 				if(!active) {
 					color = 0xAAAAAA;
 				}
 	    		matrixStack.scale(0.7F,0.7F, 1);
 	    		minecraft.font.draw(matrixStack, ""+card.getCardValue(stack), 0, 0, color);
+	    		matrixStack.scale(0.4F,0.4F, 1);
+	    		minecraft.font.draw(matrixStack, "x"+stack.getCount(), -21, 11, 0xFFFFFF);
 			}
 		}
 		matrixStack.popPose();
@@ -103,7 +105,7 @@ public class CardSelectButton extends MenuButtonBase {
 	    		matrixStack.scale(0.7F,0.7F, 1);
 				matrixStack.translate(13, 14, 150);
 
-				minecraft.font.draw(matrixStack,""+card.getCardValue(stack), 0, 0, 0xFFFF00);
+				minecraft.font.draw(matrixStack,""+card.getCardValue(stack), 0, 0, 0xFFDD00);
 
 	        	matrixStack.translate(-10, 9.5, 150);
 	        	matrixStack.scale(0.3F,0.3F, 1);

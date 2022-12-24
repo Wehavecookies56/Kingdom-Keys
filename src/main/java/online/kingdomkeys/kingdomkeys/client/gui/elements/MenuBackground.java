@@ -140,7 +140,6 @@ public class MenuBackground extends Screen {
 	protected float middleHeight;
 
 	public boolean drawSeparately = false;
-	public boolean drawBiome = true;
 	
 	//GUIs variables
 	protected float buttonPosX;

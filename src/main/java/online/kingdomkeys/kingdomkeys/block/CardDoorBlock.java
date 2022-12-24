@@ -73,7 +73,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                     if (cap != null) {
                         CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
                         if (te != null) {
-                        	if(!te.isOpen()) {
+                        	if(!te.isOpen()) { //If it's closed always open gui
                         		//open gui
 	                        	System.out.println(te.getNumber());
 	                           // if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
@@ -90,22 +90,26 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 	                                //set new door destination to door here
 	                                //transport
 	                            //}
-							} else {
+							} else { //If open only show gui when crouching
 								if(player.isCrouching()) {
 	                            	if(level.isClientSide) {
 	                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
 	                            	}
 								} else {
 									if (!level.isClientSide) { //TODO fix the teleporter to prevent room generation if it's already created
-										if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
+										//TELEPORT PLAYER
+										/*if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
 											RoomType type = card.getRoomType();
 											Room currentRoom = cap.getRoomAtPos(pos);
 											RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
 											// generate should go on the GUI packet
 											Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
 											BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+			                                CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
+			                                System.out.println(destTe.getNumber());
+			                                destTe.openDoor(null, currentRoom, null);
 											player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
-										}
+										}*/
 	                            	}
 								}
                         	}

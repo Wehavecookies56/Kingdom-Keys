@@ -98,7 +98,6 @@ public class CastleOblivionHandler {
                                 Room firstRoom = floor.getRoom(new RoomUtils.RoomPos(0, 1)).getGenerated();
                                 BlockPos newPos = firstRoom.doorPositions.get(RoomUtils.Direction.NORTH);
                                 CardDoorTileEntity te = (CardDoorTileEntity) event.player.level.getBlockEntity(newPos);
-                                System.out.println(te.getNumber());
                                 te.openDoor(null, currentRoom, null);
                                 event.player.moveTo(new Vec3(newPos.getX(), newPos.getY(), newPos.getZ()+1));
                             }

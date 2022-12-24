@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShotlock;
 import online.kingdomkeys.kingdomkeys.network.cts.CSExtendedReach;
+import online.kingdomkeys.kingdomkeys.network.cts.CSGenerateRoom;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
@@ -130,6 +131,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSUseShortcutPacket.class, CSUseShortcutPacket::encode, CSUseShortcutPacket::decode, CSUseShortcutPacket::handle);
 		HANDLER.registerMessage(packetID++, CSExtendedReach.class, CSExtendedReach::encode, CSExtendedReach::decode, CSExtendedReach::handle);
 		HANDLER.registerMessage(packetID++, CSShopBuy.class, CSShopBuy::encode, CSShopBuy::decode, CSShopBuy::handle);
+		HANDLER.registerMessage(packetID++, CSGenerateRoom.class, CSGenerateRoom::encode, CSGenerateRoom::decode, CSGenerateRoom::handle);
 
 	}
 
