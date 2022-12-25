@@ -7,7 +7,11 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -20,6 +24,10 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSGenerateRoom;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
 
 public class CardSelectionScreen extends MenuBackground {
 
@@ -59,6 +67,15 @@ public class CardSelectionScreen extends MenuBackground {
 		
 		addRenderableWidget(createBtn = new MenuButton((int) (width - buttonWidth)-50, bottomRightBar.getPosY() - 30, (int) buttonWidth, Utils.translateToLocal("create"), ButtonType.BUTTON, (e) -> { 
 			PacketHandler.sendToServer(new CSGenerateRoom(selectedCard,te.getBlockPos()));
+			
+			Level level = minecraft.level;
+            CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
+			
+			Room currentRoom = cap.getRoomAtPos(te.getBlockPos());
+			// generate should go on the GUI packet
+            te.openDoor(null, currentRoom, null);
+           // System.out.println(te.getNumber());
+
 		}));
 		createBtn.visible = false;
 
