@@ -73,23 +73,12 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                     if (cap != null) {
                         CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
                         if (te != null) {
+                        	System.out.println("Client? "+level.isClientSide+": Num:"+te.getNumber() + " Open? " + te.isOpen());
                         	if(!te.isOpen()) { //If it's closed always open gui
                         		//open gui
 	                        	System.out.println(te.getNumber());
-	                           // if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
-	                            	if(level.isClientSide)
-	                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
-	                                /*RoomType type = card.getRoomType();
-	                                Room currentRoom = cap.getRoomAtPos(pos);
-	                                RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-	                                //generate
-	                                Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
-	                                BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-	                                player.teleportTo(destination.getX(), destination.getY(), destination.getZ());*/
-	                                //set door here destination to new door
-	                                //set new door destination to door here
-	                                //transport
-	                            //}
+                            	if(level.isClientSide)
+                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));	                            	
 							} else { //If open only show gui when crouching
 								if(player.isCrouching()) {
 	                            	if(level.isClientSide) {
@@ -98,18 +87,12 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 								} else {
 									if (!level.isClientSide) { //TODO fix the teleporter to prevent room generation if it's already created
 										//TELEPORT PLAYER
-										/*if (player.getMainHandItem().getItem() instanceof MapCardItem card) {
-											RoomType type = card.getRoomType();
-											Room currentRoom = cap.getRoomAtPos(pos);
-											RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-											// generate should go on the GUI packet
-											Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
+										RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
+										Room newRoom = data.getGenerated();
+										if(newRoom != null) {
 											BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-			                                CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
-			                                System.out.println(destTe.getNumber());
-			                                destTe.openDoor(null, currentRoom, null);
 											player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
-										}*/
+										}
 	                            	}
 								}
                         	}

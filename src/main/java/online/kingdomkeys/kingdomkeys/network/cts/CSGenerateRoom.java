@@ -57,9 +57,11 @@ public class CSGenerateRoom {
 			Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
 			BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
             CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
-            System.out.println(destTe.getNumber());
+            te.openDoor(null, currentRoom, null);
+            System.out.println(te.getNumber());
             destTe.openDoor(null, currentRoom, null);
-			player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+            System.out.println(destTe.getNumber());
+		//	player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 		});
 		ctx.get().setPacketHandled(true);
 	}
