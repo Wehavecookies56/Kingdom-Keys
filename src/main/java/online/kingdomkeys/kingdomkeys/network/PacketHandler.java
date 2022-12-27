@@ -88,7 +88,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncShopData.class, SCSyncShopData::encode, SCSyncShopData::decode, SCSyncShopData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncDimensionLists.class, SCSyncDimensionLists::encode, SCSyncDimensionLists::decode, SCSyncDimensionLists::handle);
 		HANDLER.registerMessage(packetID++, SCSyncCastleOblivionInteriorCapability.class, SCSyncCastleOblivionInteriorCapability::encode, SCSyncCastleOblivionInteriorCapability::decode, SCSyncCastleOblivionInteriorCapability::handle);
-
+		HANDLER.registerMessage(packetID++, SCOpenCODoorGui.class, SCOpenCODoorGui::encode, SCOpenCODoorGui::decode, SCOpenCODoorGui::handle);
+		
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
 		HANDLER.registerMessage(packetID++, CSUseMagicPacket.class, CSUseMagicPacket::encode, CSUseMagicPacket::decode, CSUseMagicPacket::handle);

@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
@@ -51,6 +52,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
@@ -116,6 +118,15 @@ public class ClientUtils {
             	else
             		Minecraft.getInstance().setScreen(new SynthesisScreen());
                 Minecraft.getInstance().level.playSound(Minecraft.getInstance().player, Minecraft.getInstance().player.blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable openCODoorGui(SCOpenCODoorGui message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Minecraft.getInstance().setScreen(new CardSelectionScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos)));
             }
         };
     }

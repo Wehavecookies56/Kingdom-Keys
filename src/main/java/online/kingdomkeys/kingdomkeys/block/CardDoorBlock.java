@@ -2,8 +2,8 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -20,14 +20,13 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
-import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomGenerator;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
 
 public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
@@ -58,7 +57,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-       // if (!level.isClientSide) {
+    	if (!level.isClientSide) {
             if (state.getValue(GENERATED)) {
                 if (state.getValue(TYPE)) {
                     //world card selection gui
@@ -73,17 +72,20 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                     if (cap != null) {
                         CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
                         if (te != null) {
-                        	System.out.println("Client? "+level.isClientSide+": Num:"+te.getNumber() + " Open? " + te.isOpen());
+                        	System.out.println((level.isClientSide ? "Client" : "Server")+": Num:"+te.getNumber() + " Open? " + te.isOpen());
                         	if(!te.isOpen()) { //If it's closed always open gui
                         		//open gui
 	                        	System.out.println(te.getNumber());
-                            	if(level.isClientSide)
-                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));	                            	
+	                    		PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer)player);
+	                    		
+                            	//if(level.isClientSide)
+                            	//	Minecraft.getInstance().setScreen(new CardSelectionScreen(te));	                            	
 							} else { //If open only show gui when crouching
 								if(player.isCrouching()) {
-	                            	if(level.isClientSide) {
-	                            		Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
-	                            	}
+	                            	//if(level.isClientSide) {
+	                            	//	Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
+	                            	//}
+		                    		PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer)player);
 								} else {
 									if (!level.isClientSide) { //TODO fix the teleporter to prevent room generation if it's already created
 										//TELEPORT PLAYER
@@ -105,7 +107,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                 //transport to door with same card?
                 //maybe just link 2 doors together somehow
             }
-        //}
+        }
         return super.use(state, level, pos, player, hand, hit);
     }
 

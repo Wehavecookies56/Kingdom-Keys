@@ -21,23 +21,27 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Roo
 public class CSGenerateRoom {
 	
 	ItemStack stack;
+	int slot;
 	BlockPos pos;
 	
 	public CSGenerateRoom() {}
 	
-	public CSGenerateRoom(Item item, BlockPos pos) {
-		this.stack = new ItemStack(item);
+	public CSGenerateRoom(ItemStack stack, int slot, BlockPos pos) {
+		this.stack = stack;
+		this.slot = slot;
 		this.pos = pos;
 	}
 	
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeItem(stack);
+		buffer.writeInt(slot);
 		buffer.writeBlockPos(pos);
 	}
 
 	public static CSGenerateRoom decode(FriendlyByteBuf buffer) {
 		CSGenerateRoom msg = new CSGenerateRoom();
 		msg.stack = buffer.readItem();
+		msg.slot = buffer.readInt();
 		msg.pos = buffer.readBlockPos();
 		return msg;
 	}
@@ -46,21 +50,25 @@ public class CSGenerateRoom {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			Level level = player.level;
+
             CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
-            MapCardItem card = (MapCardItem)message.stack.getItem();
             CardDoorTileEntity te = (CardDoorTileEntity) player.level.getBlockEntity(message.pos);
 			
-			RoomType type = card.getRoomType();
+			RoomType type = ((MapCardItem)message.stack.getItem()).getRoomType();
 			Room currentRoom = cap.getRoomAtPos(message.pos);
 			RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-			// generate should go on the GUI packet
 			Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
 			BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
             CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
             te.openDoor(null, currentRoom, null);
             System.out.println(te.getNumber());
             destTe.openDoor(null, currentRoom, null);
+            destTe.setNumber(te.getNumber());
             System.out.println(destTe.getNumber());
+            
+            //TODO remove slot
+            player.getInventory().getItem(message.slot).shrink(1);
+
 		//	player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 		});
 		ctx.get().setPacketHandled(true);

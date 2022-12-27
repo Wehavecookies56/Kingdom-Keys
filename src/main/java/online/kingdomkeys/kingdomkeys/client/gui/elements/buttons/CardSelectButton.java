@@ -81,10 +81,8 @@ public class CardSelectButton extends MenuButtonBase {
 	
 				ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0, 16);
 				matrixStack.translate(9, 10, 150);
-				int color = 0xFFDD00;
-				if(!active) {
-					color = 0xAAAAAA;
-				}
+				int color = active ? 0xFFDD00 : 0xAAAAAA;
+				
 	    		matrixStack.scale(0.7F,0.7F, 1);
 	    		minecraft.font.draw(matrixStack, ""+card.getCardValue(stack), 0, 0, color);
 	    		matrixStack.scale(0.4F,0.4F, 1);

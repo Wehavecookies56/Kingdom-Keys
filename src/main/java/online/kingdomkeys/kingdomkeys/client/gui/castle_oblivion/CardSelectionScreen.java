@@ -33,7 +33,7 @@ public class CardSelectionScreen extends MenuBackground {
 
 	public CardDoorTileEntity te;
 	private List<CardSelectButton> cards = new ArrayList<>();
-	private MapCardItem selectedCard;
+	private ItemStack selectedCardStack;
 	private MenuButton createBtn;
 	
 	
@@ -52,7 +52,7 @@ public class CardSelectionScreen extends MenuBackground {
 			if (!ItemStack.isSame(stack, ItemStack.EMPTY) && stack.getItem() instanceof MapCardItem card) {
 				CardSelectButton c = new CardSelectButton((3 + x++) * 42, y * 50, 42, 42, stack, this, (e) -> {
 					System.out.println(((MapCardItem) stack.getItem()).getCardValue(stack));
-					selectedCard = (MapCardItem) stack.getItem();
+					selectedCardStack = stack;
 				});
 				cards.add(c);
 			}
@@ -65,17 +65,23 @@ public class CardSelectionScreen extends MenuBackground {
 		
 		super.init();
 		
-		addRenderableWidget(createBtn = new MenuButton((int) (width - buttonWidth)-50, bottomRightBar.getPosY() - 30, (int) buttonWidth, Utils.translateToLocal("create"), ButtonType.BUTTON, (e) -> { 
-			PacketHandler.sendToServer(new CSGenerateRoom(selectedCard,te.getBlockPos()));
+		addRenderableWidget(createBtn = new MenuButton((int) (width - buttonWidth)-50, bottomRightBar.getPosY() - 30, (int) buttonWidth, Utils.translateToLocal("create"), ButtonType.BUTTON, (e) -> {
+			int slot = -1;
+			for(int i=0; i< minecraft.player.getInventory().getContainerSize();i++) {
+				ItemStack stack = minecraft.player.getInventory().getItem(i);
+				if(ItemStack.isSame(stack, selectedCardStack)) {
+					slot = i;
+					break;
+				}
+			}
+			PacketHandler.sendToServer(new CSGenerateRoom(selectedCardStack, slot, te.getBlockPos()));
+			selectedCardStack.shrink(1);
 			
 			Level level = minecraft.level;
             CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
-			
 			Room currentRoom = cap.getRoomAtPos(te.getBlockPos());
-			// generate should go on the GUI packet
             te.openDoor(null, currentRoom, null);
-           // System.out.println(te.getNumber());
-
+            minecraft.setScreen(null);
 		}));
 		createBtn.visible = false;
 
@@ -91,18 +97,17 @@ public class CardSelectionScreen extends MenuBackground {
 			cards.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 		}
 		
-		if(selectedCard != null) {
+		if(selectedCardStack != null) {
 			matrixStack.pushPose();
 			{
 	        	matrixStack.translate(width-100,100, 0);
-            	ItemStack stack = new ItemStack(selectedCard);
 
-				drawCenteredString(matrixStack, minecraft.font,Utils.translateToLocal(stack.getItem().getName(stack).getString()), 26, -20, 0xFFFFFF);
+				drawCenteredString(matrixStack, minecraft.font,Utils.translateToLocal(selectedCardStack.getItem().getName(selectedCardStack).getString()), 26, -20, 0xFFFFFF);
 
         		matrixStack.scale(5,5, 1);
             	matrixStack.translate(-2.5,-2.5, 20);
 
-				ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0, 16);
+				ClientUtils.drawItemAsIcon(selectedCardStack, matrixStack, 0,0, 16);
 	    	}
 			matrixStack.popPose();
 			createBtn.active = true;
