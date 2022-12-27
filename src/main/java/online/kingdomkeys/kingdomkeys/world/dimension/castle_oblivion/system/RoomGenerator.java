@@ -79,36 +79,35 @@ public class RoomGenerator {
                         //Replace data mode structure blocks with card doors
                         StructureBlockEntity be = new StructureBlockEntity(blockpos, state);
                         be.load(block.getCompound("nbt"));
-                        if (be.getMetaData().contains("kingdomkeys:card_door_")) {
-                            RoomUtils.Direction facing = RoomUtils.Direction.NORTH;
-                            BlockState cardDoorState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.TYPE, false);
-                            if (be.getMetaData().contains("north")) {
-                                cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.NORTH.getOpposite());
-                                room.doorPositions.put(RoomUtils.Direction.NORTH, blockpos.immutable());
-                                facing = RoomUtils.Direction.NORTH;
-                            } else if (be.getMetaData().contains("west")) {
-                                cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.WEST.getOpposite());
-                                room.doorPositions.put(RoomUtils.Direction.WEST, blockpos.immutable());
-                                facing = RoomUtils.Direction.WEST;
-                            } else if (be.getMetaData().contains("east")) {
-                                cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.EAST.getOpposite());
-                                room.doorPositions.put(RoomUtils.Direction.EAST, blockpos.immutable());
-                                facing = RoomUtils.Direction.EAST;
-                            } else if (be.getMetaData().contains("south")) {
-                                cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.SOUTH.getOpposite());
-                                room.doorPositions.put(RoomUtils.Direction.SOUTH, blockpos.immutable());
-                                facing = RoomUtils.Direction.SOUTH;
-                            }
-                            Pair<RoomData, RoomUtils.Direction> adjacentRoom = ModCapabilities.getCastleOblivionInterior(player.level).getFloorByID(currentRoom.parentFloor).getAdjacentRoom(data, facing.opposite());
-                            if (adjacentRoom != null) {
-                                if (adjacentRoom.getFirst().doors.get(adjacentRoom.getSecond().opposite()) != null){
-                                    level.setBlock(blockpos, cardDoorState, 2);
-                                    CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
-                                    cardDoorTileEntity.setParent(data);
-                                    cardDoorTileEntity.setDirection(facing);
-                                    cardDoorTileEntity.setNumber(Utils.randomWithRange(0, 9));
-                                    level.setBlockEntity(cardDoorTileEntity);
-                                }
+
+                        RoomUtils.Direction facing = RoomUtils.Direction.NORTH;
+                        BlockState cardDoorState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.TYPE, false);
+                        if (be.getMetaData().contains("north")) {
+                            cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.NORTH.getOpposite());
+                            room.doorPositions.put(RoomUtils.Direction.NORTH, blockpos.immutable());
+                            facing = RoomUtils.Direction.NORTH;
+                        } else if (be.getMetaData().contains("west")) {
+                            cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.WEST.getOpposite());
+                            room.doorPositions.put(RoomUtils.Direction.WEST, blockpos.immutable());
+                            facing = RoomUtils.Direction.WEST;
+                        } else if (be.getMetaData().contains("east")) {
+                            cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.EAST.getOpposite());
+                            room.doorPositions.put(RoomUtils.Direction.EAST, blockpos.immutable());
+                            facing = RoomUtils.Direction.EAST;
+                        } else if (be.getMetaData().contains("south")) {
+                            cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.SOUTH.getOpposite());
+                            room.doorPositions.put(RoomUtils.Direction.SOUTH, blockpos.immutable());
+                            facing = RoomUtils.Direction.SOUTH;
+                        }
+                        Pair<RoomData, RoomUtils.Direction> adjacentRoom = ModCapabilities.getCastleOblivionInterior(player.level).getFloorByID(currentRoom.parentFloor).getAdjacentRoom(data, facing.opposite());
+                        if (adjacentRoom != null) {
+                            if (adjacentRoom.getFirst().doors.get(adjacentRoom.getSecond().opposite()) != null){
+                                level.setBlock(blockpos, cardDoorState, 2);
+                                CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
+                                cardDoorTileEntity.setParent(data);
+                                cardDoorTileEntity.setDirection(facing);
+                                cardDoorTileEntity.setNumber(Utils.randomWithRange(0, 9));
+                                level.setBlockEntity(cardDoorTileEntity);
                             }
                         }
                     }

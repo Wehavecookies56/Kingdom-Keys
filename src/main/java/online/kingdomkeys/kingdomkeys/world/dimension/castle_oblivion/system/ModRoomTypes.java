@@ -31,7 +31,7 @@ public class ModRoomTypes {
         ALMIGHTY_DARKNESS = createRoomType("almighty_darkness", RoomProperties.enemy(RoomSize.M).enemies(RoomEnemies.M)), //strength modifier
         SLEEPING_DARKNESS = createRoomType("sleeping_darkness", RoomProperties.enemy(RoomSize.S).enemies(RoomEnemies.S)), //stop modifier
         LOOMING_DARKNESS = createRoomType("looming_darkness", RoomProperties.enemy(RoomSize.L).enemies(RoomEnemies.M)), //speed modifier
-        BOTTOMLESS_DARKNESS = createRoomType("bottomless_darkness", RoomProperties.enemy(RoomSize.L).enemies(RoomEnemies.L).colour(Color.BLACK)), //blindness modifier
+        BOTTOMLESS_DARKNESS = createRoomType("bottomless_darkness", RoomProperties.enemy(RoomSize.L).enemies(RoomEnemies.L).colour(Color.CYAN)), //blindness modifier
 
         //Status
         MARTIAL_WAKING = createRoomType("martial_waking", RoomProperties.status(RoomSize.M).enemies(RoomEnemies.M)), //player strength modifier
