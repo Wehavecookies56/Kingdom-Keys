@@ -20,28 +20,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class CardSelectButton extends MenuButtonBase {
 
 	private ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	/*private int endWidth = 11;
-
-	private int bLeftU = 0, bMiddleU = 12, bRightU = 14;
-	private int bVPos = 0;
-	private int bSelectedVPos = 20;
-
-	private int sbLeftU = 22, sbMiddleU = 34, sbRightU = 36;
-	private int sbVPos = 118;
-	private int sbSelectedVPos = 138;
-
-	private int middleWidth;
-
-	private String data, tip;
-	
-	public enum ButtonType {
-		BUTTON, SUBBUTTON
-	}
-
-	AbilityType abilityType;
-
-	ButtonType type;
-	private boolean selected;*/
 	
 	ItemStack stack;
 	MapCardItem card;
@@ -61,6 +39,7 @@ public class CardSelectButton extends MenuButtonBase {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//if(!isSelected())
+		//System.out.println(mouseX+" "+mouseY);
 		isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
 		active = card.getCardValue(stack) >= parent.te.getNumber();
 		

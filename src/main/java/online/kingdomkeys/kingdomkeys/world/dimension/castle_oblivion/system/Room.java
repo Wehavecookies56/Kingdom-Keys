@@ -50,8 +50,8 @@ public class Room implements INBTSerializable<CompoundTag> {
     public static void createDefaultLobby(Room room) {
         room.type = ModRoomTypes.LOBBY.get();
         room.position = new BlockPos(0, 59, 0);
-        room.doorPositions.put(RoomUtils.Direction.SOUTH, new BlockPos(16, 60, 1));
-        room.doorPositions.put(RoomUtils.Direction.NORTH, new BlockPos(16, 63, 67));
+        room.doorPositions.put(RoomUtils.Direction.SOUTH, new BlockPos(16, 63, 65));
+        room.doorPositions.put(RoomUtils.Direction.NORTH, new BlockPos(16, 60, 1));
     }
 
     public RoomType getType() {

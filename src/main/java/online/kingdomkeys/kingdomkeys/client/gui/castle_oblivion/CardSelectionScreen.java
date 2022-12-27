@@ -46,11 +46,13 @@ public class CardSelectionScreen extends MenuBackground {
 	@Override
 	public void init() {
 		int x = 0;
-		int y = 2;
+		int y = 0;
+		cards.clear();
+		
 		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 			ItemStack stack = minecraft.player.getInventory().getItem(i);
 			if (!ItemStack.isSame(stack, ItemStack.EMPTY) && stack.getItem() instanceof MapCardItem card) {
-				CardSelectButton c = new CardSelectButton((3 + x++) * 42, y * 50, 42, 42, stack, this, (e) -> {
+				CardSelectButton c = new CardSelectButton((int)(width * 0.25F+(x++ * 42)), (int)(height * 0.5F + y * 50), 42, 50, stack, this, (e) -> {
 					System.out.println(((MapCardItem) stack.getItem()).getCardValue(stack));
 					selectedCardStack = stack;
 				});
@@ -65,7 +67,7 @@ public class CardSelectionScreen extends MenuBackground {
 		
 		super.init();
 		
-		addRenderableWidget(createBtn = new MenuButton((int) (width - buttonWidth)-50, bottomRightBar.getPosY() - 30, (int) buttonWidth, Utils.translateToLocal("create"), ButtonType.BUTTON, (e) -> {
+		addRenderableWidget(createBtn = new MenuButton((int) (width*0.79), (int)(height * 0.6), (int) buttonWidth, Utils.translateToLocal("create"), ButtonType.BUTTON, (e) -> {
 			int slot = -1;
 			for(int i=0; i< minecraft.player.getInventory().getContainerSize();i++) {
 				ItemStack stack = minecraft.player.getInventory().getItem(i);
@@ -100,7 +102,7 @@ public class CardSelectionScreen extends MenuBackground {
 		if(selectedCardStack != null) {
 			matrixStack.pushPose();
 			{
-	        	matrixStack.translate(width-100,100, 0);
+	        	matrixStack.translate(width*0.83,height * 0.3, 0);
 
 				drawCenteredString(matrixStack, minecraft.font,Utils.translateToLocal(selectedCardStack.getItem().getName(selectedCardStack).getString()), 26, -20, 0xFFFFFF);
 

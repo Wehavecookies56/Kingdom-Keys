@@ -12,7 +12,7 @@ import java.util.UUID;
 public class RoomData implements INBTSerializable<CompoundTag> {
 
     public Map<RoomUtils.Direction, DoorData> doors;
-    RoomUtils.RoomPos pos;
+    public final RoomUtils.RoomPos pos;
     UUID parent;
     Room generatedRoom;
 

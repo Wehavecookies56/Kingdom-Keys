@@ -17,9 +17,12 @@ public class ModRoomStructures {
 
     public static Supplier<IForgeRegistry<RoomStructure>> registry = ROOM_STRUCTURES.makeRegistry(RoomStructure.class, RegistryBuilder::new);
 
-    public static final RegistryObject<RoomStructure>
+    @SuppressWarnings("unchecked")
+	public static final RegistryObject<RoomStructure>
         LOBBY = ROOM_STRUCTURES.register("lobby", () -> new RoomStructure("lobby", null, RoomProperties.RoomSize.SPECIAL, List.of(RoomProperties.RoomCategory.SPECIAL), new Size2i(33, 69))),
         TEST_ROOM = ROOM_STRUCTURES.register("test_room", () -> new RoomStructure("test_room", null, RoomProperties.RoomSize.M, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32))),
+        PLAINS_S_1 = ROOM_STRUCTURES.register("plains_s_1", () -> new RoomStructure("plains_s_1", ModFloorTypes.PLAINS.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32))),
+        PLAINS_S_2 = ROOM_STRUCTURES.register("plains_s_2", () -> new RoomStructure("plains_s_2", ModFloorTypes.PLAINS.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32))),
         BOTTOMLESS_DARKNESS = ROOM_STRUCTURES.register("bottomless_darkness", () -> new RoomStructure("bottomless_darkness", null, RoomProperties.RoomSize.L, List.of(RoomProperties.RoomCategory.ENEMY), new Size2i(64, 64), ModRoomTypes.BOTTOMLESS_DARKNESS))
     ;
 

@@ -237,6 +237,7 @@ public class ClientSetup {
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.structureWall.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.castleOblivionWall.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.castleOblivionPillar.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(ModBlocks.cardDoor.get(), RenderType.cutout());
         });
     }
 
