@@ -65,9 +65,6 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                     //create first room from lobby
                     //transport into room
                 } else {
-                    //open room synthesis gui
-                    //create room
-                    //transport to room
                     CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
                     if (cap != null) {
                         CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
@@ -77,25 +74,17 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
                         		//open gui
 	                        	System.out.println(te.getNumber());
 	                    		PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer)player);
-	                    		
-                            	//if(level.isClientSide)
-                            	//	Minecraft.getInstance().setScreen(new CardSelectionScreen(te));	                            	
-							} else { //If open only show gui when crouching
+	                    	} else { //If open only show gui when crouching
 								if(player.isCrouching()) {
-	                            	//if(level.isClientSide) {
-	                            	//	Minecraft.getInstance().setScreen(new CardSelectionScreen(te));
-	                            	//}
 		                    		PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer)player);
 								} else {
-									if (!level.isClientSide) { //TODO fix the teleporter to prevent room generation if it's already created
-										//TELEPORT PLAYER
-										RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-										Room newRoom = data.getGenerated();
-										if(newRoom != null) {
-											BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-											player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
-										}
-	                            	}
+									//TELEPORT PLAYER
+									RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
+									Room newRoom = data.getGenerated();
+									if(newRoom != null) {
+										BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+									}
 								}
                         	}
                         }

@@ -63,7 +63,7 @@ public class CastleOblivionInteriorChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+   // @OnlyIn(Dist.CLIENT)
     public ChunkGenerator withSeed(long seed) {
         return new CastleOblivionInteriorChunkGenerator(getStructureSetRegistry(), getBiomeRegistry());
     }

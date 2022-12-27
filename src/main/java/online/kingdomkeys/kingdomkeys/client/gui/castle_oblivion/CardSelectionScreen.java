@@ -69,7 +69,7 @@ public class CardSelectionScreen extends MenuBackground {
 			int slot = -1;
 			for(int i=0; i< minecraft.player.getInventory().getContainerSize();i++) {
 				ItemStack stack = minecraft.player.getInventory().getItem(i);
-				if(ItemStack.isSame(stack, selectedCardStack)) {
+				if(stack == selectedCardStack) {
 					slot = i;
 					break;
 				}

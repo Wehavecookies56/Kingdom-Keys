@@ -66,7 +66,6 @@ public class CSGenerateRoom {
             destTe.setNumber(te.getNumber());
             System.out.println(destTe.getNumber());
             
-            //TODO remove slot
             player.getInventory().getItem(message.slot).shrink(1);
 
 		//	player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
