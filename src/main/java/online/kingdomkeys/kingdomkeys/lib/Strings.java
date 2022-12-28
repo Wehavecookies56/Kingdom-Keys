@@ -1195,5 +1195,6 @@ public class Strings {
 
 	//World Cards
 	public static String
-			PlainsCard = "plains_card";
+			PlainsCard = "plains_card",
+			NetherCard = "nether_card";
 }

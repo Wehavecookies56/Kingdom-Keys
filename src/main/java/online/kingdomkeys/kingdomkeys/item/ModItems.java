@@ -846,7 +846,8 @@ public class ModItems {
 			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
 
 			//floor cards
-			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS);
+			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS),
+    		netherCard = createWorldCard(Strings.NetherCard, ModFloorTypes.NETHER);
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 

@@ -85,7 +85,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {
-							System.out.println(te.getParentRoom().getParentFloor(level).getRooms().size());
+							System.out.println("Size: "+te.getParentRoom().getParentFloor(level).getRooms().size());
 							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getNumber() + " Open? " + te.isOpen());
 							PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer) player);
 						}

@@ -91,9 +91,9 @@ public class CastleOblivionHandler {
                             if (floor != null) {
                                 //if size is 1 only the lobby room exists
                                 if (floor.getGeneratedRooms().size() == 1) {
-                                    floor.setWorldCard((WorldCardItem) ModItems.plainsCard.get());
+                                    floor.setWorldCard((WorldCardItem) ModItems.netherCard.get());
                                     RoomData data = floor.getRoom(new RoomUtils.RoomPos(0, 1));
-                                    Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.TRANQUIL_DARKNESS.get(), event.player, currentRoom, RoomUtils.Direction.NORTH, false);
+                                    Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.SLEEPING_DARKNESS.get(), event.player, currentRoom, RoomUtils.Direction.NORTH, false);
                                 }
                                 Room firstRoom = floor.getRoom(new RoomUtils.RoomPos(0, 1)).getGenerated();
                                 BlockPos newPos = firstRoom.doorPositions.get(RoomUtils.Direction.NORTH);

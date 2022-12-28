@@ -18,7 +18,8 @@ public class ModFloorTypes {
 
     public static RegistryObject<FloorType>
         NONE = FLOOR_TYPES.register("none", () -> new FloorType("none", 0, 0, 0, 0, Color.BLACK)),
-        PLAINS = FLOOR_TYPES.register("plains", () -> new FloorType("plains", 7, 0, 0, 0, new Color(123, 169, 255)));
+        PLAINS = FLOOR_TYPES.register("plains", () -> new FloorType("plains", 7, 0, 0, 0, new Color(123, 169, 255))),
+        NETHER = FLOOR_TYPES.register("nether", () -> new FloorType("nether", 7, 0, 0, 0, new Color(35, 5, 6)));
 
     public static boolean isFloorCompatible(FloorType floor, RoomType room) {
         return !floor.roomBlacklist.contains(room) && room.getProperties().isFloorCompatible(floor);
