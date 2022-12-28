@@ -61,10 +61,10 @@ public class CSGenerateRoom {
 			BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
             CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
             te.openDoor(null, currentRoom, null);
-            System.out.println(te.getNumber());
+           // System.out.println(te.getNumber());
             destTe.openDoor(null, currentRoom, null);
             destTe.setNumber(te.getNumber());
-            System.out.println(destTe.getNumber());
+           // System.out.println(destTe.getNumber());
             
             player.getInventory().getItem(message.slot).shrink(1);
 

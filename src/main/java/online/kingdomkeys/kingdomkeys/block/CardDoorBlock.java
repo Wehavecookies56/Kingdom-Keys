@@ -85,6 +85,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {
+							System.out.println(te.getParentRoom().getParentFloor(level).getRooms().size());
 							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getNumber() + " Open? " + te.isOpen());
 							PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer) player);
 						}
@@ -138,6 +139,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 	}
 
 	@Deprecated
+	@Override
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
 	}
@@ -153,13 +155,8 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 			return collisionShapeS;
 		case WEST:
 			return collisionShapeW;
+		default:
+			return collisionShapeS;
 		}
-		return collisionShapeE;
-
-		/*if (state.getValue(FACING) == Direction.NORTH || state.getValue(FACING) == Direction.SOUTH) {
-			return collisionShapeNS;
-		} else {
-			return collisionShapeEW;
-		}*/
 	}
 }
