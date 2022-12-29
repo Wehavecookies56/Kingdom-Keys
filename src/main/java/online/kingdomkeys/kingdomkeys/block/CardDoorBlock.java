@@ -53,7 +53,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
 	public CardDoorBlock(Properties properties) {
 		super(properties);
-		registerDefaultState(this.defaultBlockState().setValue(GENERATED, false));
+		registerDefaultState(this.defaultBlockState().setValue(GENERATED, false).setValue(OPEN, false));
 	}
 
 	@Nullable
@@ -73,7 +73,10 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    	//state.setValue(OPEN, true);
+    	//System.out.println("OPEN? "+state.getValue(OPEN));
 		if (!level.isClientSide) {
+
 			if (state.getValue(GENERATED)) {
 				if (state.getValue(TYPE)) {
 					// world card selection gui

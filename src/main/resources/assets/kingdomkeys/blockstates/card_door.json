@@ -1,8 +1,12 @@
 {
 	"variants": {
-		"facing=north": { "model": "kingdomkeys:block/card_door","y":0, "uvlock": true},
-		"facing=east": { "model": "kingdomkeys:block/card_door","y":90, "uvlock": true},
-		"facing=south": { "model": "kingdomkeys:block/card_door","y":180, "uvlock": true},
-		"facing=west": { "model": "kingdomkeys:block/card_door","y":270, "uvlock": true}
+		"facing=north,open=false": { "model": "kingdomkeys:block/card_door","y":270, "uvlock": true},
+		"facing=east,open=false": { "model": "kingdomkeys:block/card_door","y":0, "uvlock": true},
+		"facing=south,open=false": { "model": "kingdomkeys:block/card_door","y":90, "uvlock": true},
+		"facing=west,open=false": { "model": "kingdomkeys:block/card_door","y":180, "uvlock": true},
+		"facing=north,open=true": { "model": "kingdomkeys:block/card_door_open","y":270, "uvlock": true},
+		"facing=east,open=true": { "model": "kingdomkeys:block/card_door_open","y":0, "uvlock": true},
+		"facing=south,open=true": { "model": "kingdomkeys:block/card_door_open","y":90, "uvlock": true},
+		"facing=west,open=true": { "model": "kingdomkeys:block/card_door_open","y":180, "uvlock": true}
 	}
 }

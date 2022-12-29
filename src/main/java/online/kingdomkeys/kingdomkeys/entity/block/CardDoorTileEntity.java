@@ -31,6 +31,7 @@ public class CardDoorTileEntity extends BlockEntity {
 
     public void openDoor(MapCardItem card, Room roomDest, RoomUtils.Direction directionFrom) {
     	open = true;
+    	level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, true), 2);
     }
     
     public boolean isOpen() {

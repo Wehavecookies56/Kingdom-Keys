@@ -7,10 +7,5 @@
 		"scale": [ 1.0, 1.0, 1.0 ]
 	},
 	"textures": {
-	},
-	"visibility": {
-	  "object_1": "hide",
-	  "object_2": "default",
-	  "object_3": "show"
 	}
 }
