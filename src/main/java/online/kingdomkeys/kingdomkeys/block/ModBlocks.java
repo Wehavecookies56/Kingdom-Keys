@@ -80,15 +80,15 @@ public class ModBlocks {
             sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
             dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))),
 
-            cardDoor = createNewBlock("card_door", () -> new CardDoorBlock(BlockBehaviour.Properties.of(Material.METAL).strength(2.0F, 1.0F))),
+            cardDoor = createNewBlock("card_door", () -> new CardDoorBlock(BlockBehaviour.Properties.of(Material.METAL).strength(-1.0F, 3600000.0F))),
             structureWall = createNewBlock("structure_wall", () -> new StructureWallBlock(BlockBehaviour.Properties.of(Material.BARRIER).noOcclusion().strength(-1.0F, 3600000.0F).noDrops().isValidSpawn((p1, p2, p3, p4) -> false))),
-            castleOblivionWall = createNewBlock("castle_oblivion_wall", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(2.0F, 1.0F))),
-            castleOblivionWallChiseled = createNewBlock("castle_oblivion_wall_chiseled", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(2.0F, 1.0F))),
-            castleOblivionWall2 = createNewBlock("castle_oblivion_wall2", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(2.0F, 1.0F))),
-            castleOblivionWall3 = createNewBlock("castle_oblivion_wall3", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(2.0F, 1.0F))),
-            castleOblivionPillar = createNewBlock("castle_oblivion_pillar", () -> new CastleOblivionPillarBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(2.0F, 1.0F))),
-            castleOblivionStairs = createNewBlock("castle_oblivion_stairs", () -> new CastleOblivionStairBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(2.0F, 1.0F))),
-            castleOblivionSlab = createNewBlock("castle_oblivion_slab", () -> new CastleOblivionSlabBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(2.0F, 1.0F)))
+            castleOblivionWall = createNewBlock("castle_oblivion_wall", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionWallChiseled = createNewBlock("castle_oblivion_wall_chiseled", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionWall2 = createNewBlock("castle_oblivion_wall2", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionWall3 = createNewBlock("castle_oblivion_wall3", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionPillar = createNewBlock("castle_oblivion_pillar", () -> new CastleOblivionPillarBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionStairs = createNewBlock("castle_oblivion_stairs", () -> new CastleOblivionStairBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionSlab = createNewBlock("castle_oblivion_slab", () -> new CastleOblivionSlabBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F)))
     ;
 
     /**

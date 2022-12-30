@@ -73,9 +73,11 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         parent = tag.getUUID("parent");
         int doorCount = tag.getInt("door_count");
         doors.clear();
+        CompoundTag doorDataTag = tag.getCompound("doors");
+        
         for (int i = 0; i < doorCount; i++) {
-            int dir = tag.getInt("door_direction_" + i);
-            doors.put(RoomUtils.Direction.values()[dir], DoorData.deserialize(tag.getCompound("door_data_" + i)));
+            int dir = doorDataTag.getInt("door_direction_" + i);
+            doors.put(RoomUtils.Direction.values()[dir], DoorData.deserialize(doorDataTag.getCompound("door_data_" + i)));
         }
         if (tag.getBoolean("generated")) {
             generatedRoom = Room.deserialize(tag.getCompound("generated_room"));
