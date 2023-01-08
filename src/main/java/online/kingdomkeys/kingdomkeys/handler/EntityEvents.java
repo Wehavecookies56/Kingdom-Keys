@@ -285,6 +285,8 @@ public class EntityEvents {
 			//playerData.addShotlockToList(KingdomKeys.MODID+":"+Strings.SonicBlade, false);
 
 			if (playerData != null) {
+				//System.out.println(event.player.level.isClientSide+": "+playerData.getStrength(false)+" "+playerData.getStrength(true));
+
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				
@@ -1138,16 +1140,20 @@ public class EntityEvents {
 		newPlayerData.setLevel(oldPlayerData.getLevel());
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
-		newPlayerData.setStrength(oldPlayerData.getStrength(false));
-		newPlayerData.setMagic(oldPlayerData.getMagic(false));
-		newPlayerData.setDefense(oldPlayerData.getDefense(false));
+		newPlayerData.setStrengthStat(oldPlayerData.getStrengthStat());
+		newPlayerData.setMagicStat(oldPlayerData.getMagicStat());
+		newPlayerData.setDefenseStat(oldPlayerData.getDefenseStat());
+		//newPlayerData.setStrength(oldPlayerData.getStrength(false));
+		//newPlayerData.setMagic(oldPlayerData.getMagic(false));
+		//newPlayerData.setDefense(oldPlayerData.getDefense(false));
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
 		newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
 		newPlayerData.setDP(oldPlayerData.getDP());
 		newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
-		newPlayerData.setMaxAP(oldPlayerData.getMaxAP(false));
+		newPlayerData.setMaxAPStat(oldPlayerData.getMaxAPStat());
+		//newPlayerData.setMaxAP(oldPlayerData.getMaxAP(false));
 		newPlayerData.setFocus(oldPlayerData.getFocus());
 		newPlayerData.setMaxFocus(oldPlayerData.getMaxFocus());
 		
