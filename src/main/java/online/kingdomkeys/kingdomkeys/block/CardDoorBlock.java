@@ -113,21 +113,25 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-		if (state.getValue(GENERATED)) {
-			if (entity instanceof Player player) {
-				CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
-				if (cap != null) {
-					CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
-					if (te != null) {
-						System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getNumber() + " Open? " + te.isOpen());
-						if (te.isOpen()) { // If it's closed always open gui
-							// TELEPORT PLAYER
-							RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-							Room newRoom = data.getGenerated();
-							if (newRoom != null) {
-								BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-								destination = destination.offset(te.getDirection().opposite().toMCDirection().getNormal().multiply(2));
-								player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+		if(!level.isClientSide) {
+			if (state.getValue(GENERATED)) {
+				if (entity instanceof Player player) {
+					CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
+					if (cap != null) {
+						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
+						if (te != null) {
+							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getNumber() + " Open? " + te.isOpen());
+							if (te.isOpen()) { // If it's closed always open gui
+								// TELEPORT PLAYER
+								RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
+								Room newRoom = data.getGenerated();
+								if (newRoom != null) {
+									BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+									destination = destination.offset(te.getDirection().opposite().toMCDirection().getNormal().multiply(2));
+									//player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+	                                player.moveTo(destination.getX(), destination.getY(), destination.getZ());                                
+	
+								}
 							}
 						}
 					}
