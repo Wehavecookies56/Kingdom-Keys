@@ -279,14 +279,8 @@ public class EntityEvents {
 			}
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
-			/*playerData.setSacrifice(SoAState.MYSTIC);
-			playerData.setChoice(SoAState.GUARDIAN);
-			playerData.setSoAState(SoAState.COMPLETE);*/
-			//playerData.addShotlockToList(KingdomKeys.MODID+":"+Strings.SonicBlade, false);
 
 			if (playerData != null) {
-				//System.out.println(event.player.level.isClientSide+": "+playerData.getStrength(false)+" "+playerData.getStrength(true));
-
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				
@@ -315,6 +309,7 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)event.player);
 				}
 				
+				//Anti form FP code done here
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 					if (playerData.getFP() > 0) {
 						playerData.setFP(playerData.getFP() - 0.3);

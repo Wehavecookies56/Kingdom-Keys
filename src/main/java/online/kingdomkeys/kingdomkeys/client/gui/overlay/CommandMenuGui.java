@@ -164,9 +164,10 @@ public class CommandMenuGui extends OverlayBase {
 	private void drawHeader(PoseStack matrixStack, String text, int subMenu) {
 		matrixStack.pushPose();
 		{
-
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, 0, 0, 0, 30, TOP_WIDTH, TOP_HEIGHT);
 		}
 		matrixStack.popPose();
 		
@@ -181,6 +182,9 @@ public class CommandMenuGui extends OverlayBase {
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, MENU_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT+30, TOP_WIDTH, MENU_HEIGHT);
+
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
@@ -192,6 +196,9 @@ public class CommandMenuGui extends OverlayBase {
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, 0 + MENU_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, 0, 0, TOP_WIDTH, 30, TOP_WIDTH, 0 + MENU_HEIGHT);
+
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
@@ -205,6 +212,10 @@ public class CommandMenuGui extends OverlayBase {
 			RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, alpha);
 		}
 		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+		RenderSystem.setShaderColor(1,1,1, alpha);
+		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18 + 30, iconWidth, iconWidth);
+
+
 		RenderSystem.disableBlend();
 
 	}
@@ -560,7 +571,7 @@ public class CommandMenuGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(matrixStack, driveMenuColor, alpha);
-							RenderSystem.setShaderTexture(0, texture);
+				RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Drive_Title, SUB_DRIVE);
