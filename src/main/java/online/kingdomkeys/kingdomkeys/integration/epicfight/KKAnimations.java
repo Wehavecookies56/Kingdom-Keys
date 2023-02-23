@@ -45,6 +45,6 @@ public class KKAnimations {
         CHAKRAM_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,"Tool_R","biped/combat/chakram_auto_1",  models.biped);
 
         TEST = new StaticAnimation(true,"biped/living/test",  models.biped);
-        TEST2 = new StaticAnimation(true,"biped/living/test2",  models.biped).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.0F);
+        TEST2 = new StaticAnimation(true,"biped/living/dual_shield_block",  models.biped).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 2.0F);
     }
 }
