@@ -16,7 +16,12 @@ public class KKWeaponCapabilities extends WeaponCapability {
 
     protected KKWeaponCapabilities(CapabilityItem.Builder builder) {
         super(builder);
-        guardMap.put(this.getWeaponCategory().toString()+ Styles.TWO_HAND, new GuardObject(Animations.GREATSWORD_GUARD_HIT, Animations.GREATSWORD_GUARD_BREAK, Animations.GREATSWORD_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ KKStyles.VALOR, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.CHAKRAM.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.CHAKRAM.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_GUARD_HIT));
+
 
     }
 
