@@ -1347,8 +1347,8 @@ public class MenuConfigScreen extends MenuBackground {
 		options.put('+', hpShowHearts ? 1 : 0);
 		options.put(':', Integer.valueOf(hpXScaleBox.getValue()));
 		options.put('_', Integer.valueOf(mpXScaleBox.getValue()));
-		options.put('ç', Integer.valueOf(dpXScaleBox.getValue()));
-		options.put('Ç', Integer.valueOf(dpYScaleBox.getValue()));
+		options.put('<', Integer.valueOf(dpXScaleBox.getValue()));
+		options.put('>', Integer.valueOf(dpYScaleBox.getValue()));
 		options.put('(', Integer.valueOf(focusXScaleBox.getValue()));
 		options.put(')', Integer.valueOf(focusYScaleBox.getValue()));
 		return options;
@@ -1613,11 +1613,11 @@ public class MenuConfigScreen extends MenuBackground {
 				ModConfigs.setMPXScale(value);
 				mpXScaleBox.setValue(""+value);
 			}
-			case 'ç' -> {
+			case '<' -> {
 				ModConfigs.setDpXScale(value);
 				dpXScaleBox.setValue(""+value);
 			}
-			case 'Ç' -> {
+			case '>' -> {
 				ModConfigs.setDpYScale(value);
 				dpYScaleBox.setValue(""+value);
 			}
