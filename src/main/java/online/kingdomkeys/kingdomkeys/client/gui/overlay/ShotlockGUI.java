@@ -38,47 +38,49 @@ public class ShotlockGUI extends OverlayBase {
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-		float scale = 1f;
+		float rawScale = 1f;
 		switch (minecraft.options.guiScale) {
 			case Constants.SCALE_AUTO:
-				scale = 0.85F;
+				rawScale = 0.85F;
 				break;
 		}
-		float scaleFactor = 1F;
+		float scaleX = rawScale * ModConfigs.focusXScale/100F;
+		float scaleY = rawScale * ModConfigs.focusYScale/100F;
+		
 		playerData = ModCapabilities.getPlayer(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)
 			return;
 
-		focusBarWidth = (int) (playerData.getFocus() * scaleFactor);
+		focusBarWidth = (int) (playerData.getFocus());
 		poseStack.pushPose();
 		{
 			poseStack.pushPose();
 			{
 
 				RenderSystem.enableBlend();
-				poseStack.translate(ModConfigs.focusXPos + 30, ModConfigs.focusYPos - 16, 0);
+				poseStack.translate(ModConfigs.focusXPos + 17, ModConfigs.focusYPos - 25, 0);
 
 				poseStack.pushPose();// Focus Background
 				{
-					poseStack.translate((screenWidth - guiWidth * scale) - 20*scale, (screenHeight - guiHeight * scale) - 7 * scale, 0);
-					poseStack.scale(scale, scale, scale);
-					drawFocusBarBack(poseStack, 0, 0, guiWidth, scale);
+					poseStack.translate((screenWidth - guiWidth * scaleX) - 20 * scaleX, (screenHeight - guiHeight * scaleY) - 7 * scaleY, 0);
+					poseStack.scale(scaleX, scaleY, 1);
+					drawFocusBarBack(poseStack, 0, 0, guiWidth, 1);
 				}
 				poseStack.popPose();
 
 				poseStack.pushPose();// Focus Cost Bar
 				{
-					poseStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
-					poseStack.scale(scale, scale, scale);
-					drawFocusCostBarTop(poseStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), playerData.getFocus(), scale);
+					poseStack.translate((screenWidth - guiWidth * scaleX) - 19 * scaleX, (screenHeight - (guiHeight) * scaleY) - 8 * scaleY, 0);
+					poseStack.scale(scaleX, scaleY, 1);
+					drawFocusCostBarTop(poseStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), playerData.getFocus(), 1);
 				}
 				poseStack.popPose();
 
 				poseStack.pushPose();// Focus Bar
 				{
-					poseStack.translate((screenWidth - guiWidth * scale) - 19 * scale, (screenHeight - (guiHeight) * scale) - 8 * scale, 0);
-					poseStack.scale(scale, scale, scale);
-					drawFocusBarTop(poseStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), scale);
+					poseStack.translate((screenWidth - guiWidth * scaleX) - 19 * scaleX, (screenHeight - (guiHeight) * scaleY) - 8 * scaleY, 0);
+					poseStack.scale(scaleX, scaleY, 1);
+					drawFocusBarTop(poseStack, 0, 0, (float)(ClientEvents.focusGaugeTemp), 1);
 				}
 				poseStack.popPose();
 			}

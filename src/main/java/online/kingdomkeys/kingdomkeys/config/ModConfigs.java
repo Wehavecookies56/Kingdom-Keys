@@ -48,7 +48,7 @@ public class ModConfigs {
 
     public static int mpXPos, mpYPos, mpXScale;
 
-    public static int dpXPos, dpYPos;
+    public static int dpXPos, dpYPos, dpXScale, dpYScale;
 
     public static int playerSkinXPos, playerSkinYPos;
 
@@ -56,7 +56,7 @@ public class ModConfigs {
 
     public static int partyXPos, partyYPos, partyYDistance;
 
-    public static int focusXPos, focusYPos;
+    public static int focusXPos, focusYPos, focusXScale, focusYScale;
 
 	public static boolean showDriveForms;
 
@@ -156,6 +156,16 @@ public class ModConfigs {
         CLIENT.dpYPos.set(value);
         bakeClient();
     }
+    
+    public static void setDpXScale(int value) {
+        CLIENT.dpXScale.set(value);
+        bakeClient();
+    }
+    
+    public static void setDpYScale(int value) {
+        CLIENT.dpYScale.set(value);
+        bakeClient();
+    }
 
   //Player Skin
     public static void setPlayerSkinXPos(int value) {
@@ -225,6 +235,16 @@ public class ModConfigs {
         CLIENT.focusYPos.set(value);
         bakeClient();
     }
+    
+    public static void setFocusXScale(int value) {
+        CLIENT.focusXScale.set(value);
+        bakeClient();
+    }
+    
+    public static void setFocusYScale(int value) {
+        CLIENT.focusYScale.set(value);
+        bakeClient();
+    }
 
     public static void setShowDriveForms(boolean val) {
         CLIENT.showDriveForms.set(val);
@@ -251,6 +271,8 @@ public class ModConfigs {
 
         dpXPos = CLIENT.dpXPos.get();
         dpYPos = CLIENT.dpYPos.get();
+        dpXScale = CLIENT.dpXScale.get();
+        dpYScale = CLIENT.dpYScale.get();
 
         playerSkinXPos = CLIENT.playerSkinXPos.get();
         playerSkinYPos = CLIENT.playerSkinYPos.get();
@@ -268,6 +290,8 @@ public class ModConfigs {
 
         focusXPos = CLIENT.focusXPos.get();
         focusYPos = CLIENT.focusYPos.get();
+        focusXScale = CLIENT.focusXScale.get();
+        focusYScale = CLIENT.focusYScale.get();
 
         showDriveForms = CLIENT.showDriveForms.get();
 

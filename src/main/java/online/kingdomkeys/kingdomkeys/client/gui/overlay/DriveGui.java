@@ -86,32 +86,23 @@ public class DriveGui extends OverlayBase {
 
 			RenderSystem.setShaderTexture(0, texture);
 
-			float scale = 0.65f;
-			switch (minecraft.options.guiScale) {
-				case Constants.SCALE_AUTO:
-					scale = 0.85f;
-					break;
-				case Constants.SCALE_NORMAL:
-					scale = 0.85f;
-					break;
-				default:
-					scale = 0.65f;
-					break;
-			}
-			float posX = 52 * scale;
-			float posY = 20 * scale + 2;
+			float rawScale = 0.85f;
+			float scaleX = rawScale * ModConfigs.dpXScale/100F;
+			float scaleY = rawScale * ModConfigs.dpYScale/100F;
+			float posX = 52 * scaleX;
+			float posY = 20 * scaleY + 2;
 
 			poseStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				RenderSystem.enableBlend();
-				poseStack.translate(-20.3F + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
+				poseStack.translate(-27 + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
 
 				// Background
 				poseStack.pushPose();
 				{
-					poseStack.translate((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
-					poseStack.scale(scale, scale, scale);
+					poseStack.translate((screenWidth - guiWidth * scaleX) - posX, (screenHeight - guiHeight * scaleY) - posY, 0);
+					poseStack.scale(scaleX, scaleY, 1);
 
 					if(playerData.getAlignment() == OrgMember.NONE) {
 						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
@@ -128,8 +119,8 @@ public class DriveGui extends OverlayBase {
 				poseStack.pushPose();
 				{
 					// Yellow meter
-					poseStack.translate((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
-					poseStack.scale(scale, scale, scale);
+					poseStack.translate((screenWidth - guiWidth * scaleX) + (guiWidth - guiBarWidth) * scaleX + (24 * scaleX) - posX, (screenHeight - guiHeight * scaleY) - (2 * scaleY) - posY, 0);
+					poseStack.scale(scaleX, scaleY, 1);
 					if(playerData.getAlignment() == OrgMember.NONE) {
 						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 							this.blit(poseStack, 14, 6, 0, 18, (int) currDrive, guiHeight);
@@ -145,8 +136,8 @@ public class DriveGui extends OverlayBase {
 					// Level Number
 					poseStack.pushPose();
 					{
-						poseStack.translate((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
-						poseStack.scale(scale, scale, scale);
+						poseStack.translate((screenWidth - guiWidth * scaleX) + (85 * scaleX) - posX, (screenHeight - guiHeight * scaleY) - (2 * scaleY) - posY, 0);
+						poseStack.scale(scaleX, scaleY, 1);
 
 						int numPos = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? getCurrBar(dp == 1000 ? 900 : dp, (int) playerData.getMaxDP() / 100) * 10 : 100 + getCurrBar(fp, Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2) * 10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
 						// int numPos = getCurrBar(dp, 9) * 10;
@@ -169,8 +160,8 @@ public class DriveGui extends OverlayBase {
 							Color c = Color.getHSBColor(decimalColor, 1F, 1F);
 							RenderSystem.setShaderColor(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F, 1);
 
-							poseStack.translate(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (10 * scale)), 0);
-							poseStack.scale(scale, scale, scale);
+							poseStack.translate(((screenWidth - guiWidth * scaleX) + (10 * scaleX)), ((screenHeight - guiHeight * scaleY) - (10 * scaleY)), 0);
+							poseStack.scale(scaleX, scaleY, 1);
 							blit(poseStack, 0, -3, 0, 57, 30, guiHeight);
 							RenderSystem.setShaderColor(1, 1, 1, 1);
 						}

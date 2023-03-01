@@ -49,7 +49,7 @@ public class MPGui extends OverlayBase {
 		poseStack.pushPose();// MP Background
 		{
 			RenderSystem.enableBlend();
-			poseStack.translate(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
+			poseStack.translate(ModConfigs.mpXPos-7, ModConfigs.mpYPos, 0);
 
 			poseStack.pushPose();// MP Background
 			{
